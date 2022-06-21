@@ -1,6 +1,4 @@
-import { parseTheme } from "../utils/parseTheme";
-
-export const theme = parseTheme({
+export const theme = {
   colors: {
     AccentBabyblue: "#4faff8",
     AccentBabyblueLight: "rgba(79,175,248, 0.20)",
@@ -121,4 +119,4 @@ export const theme = parseTheme({
     xxl: "32px",
     xxxl: "36px",
   },
-});
+};

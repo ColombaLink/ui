@@ -25,7 +25,9 @@ const parseHex = (nakedHex) => {
 };
 
 export function toRGBA(color) {
-  if (color[0] === "#") {
+  if (Array.isArray(color)) {
+    return color;
+  } else if (color[0] === "#") {
     // convert hex to rgba
     return parseHex(color.slice(1));
   } else if (color[0] === "v") {

@@ -1,9 +1,9 @@
 import React from "react";
 import * as icons from "../icons";
-import "~";
+import { Provider } from "~";
 
 export const Overview = () => (
-  <div style={{ display: "flex", flexWrap: "wrap" }}>
+  <Provider style={{ display: "flex", flexWrap: "wrap" }}>
     {Object.keys(icons).map((name, index) => (
       <div style={{ margin: 16 }} key={index}>
         {React.createElement(icons[name])}
@@ -16,7 +16,5 @@ export const Overview = () => (
         </div>
       </div>
     ))}
-    {/* <ModelIcon />
-    <UsersIcon /> */}
-  </div>
+  </Provider>
 );

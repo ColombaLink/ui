@@ -1,12 +1,20 @@
-import { createContext } from "react";
-import { theme as light } from "~/themes/light";
-import { theme as dark } from "~/themes/dark";
+import React, { createContext, FC } from "react";
+import { color } from "~/utils";
 
 export const Context = createContext({
-  theme: {
-    light,
-    dark,
-  },
+  theme: {},
 });
 
-export const Provider = Context.Provider;
+export const Provider: FC = ({ children, style }) => {
+  return (
+    <div
+      style={{
+        backgroundColor: color("Background1dp"),
+        color: color("TextPrimary"),
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+};

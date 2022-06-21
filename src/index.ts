@@ -1,6 +1,8 @@
 import "../assets/global.css";
 import "../assets/fonts.css";
 
+import "./themes";
+
 export * from "./components/Button";
 export * from "./components/Menu";
 export * from "./components/Provider";

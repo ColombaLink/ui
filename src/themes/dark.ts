@@ -1,6 +1,4 @@
-import { parseTheme } from "../utils/parseTheme";
-
-export const theme = parseTheme({
+export const theme = {
   colors: {
     Blue500: "#3D53E7",
     Blue200: "#8391ED",
@@ -121,4 +119,4 @@ export const theme = parseTheme({
     xxl: "32px",
     xxxl: "36px",
   },
-});
+};
