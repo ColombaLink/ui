@@ -31,10 +31,14 @@ import { ExpandIcon } from "./ExpandIcon";
 import { ExpandRightIcon } from "./ExpandRightIcon";
 import { ExternalLinkIcon } from "./ExternalLinkIcon";
 import { FileIcon } from "./FileIcon";
+import { GeoMarkerIcon } from "./GeoMarkerIcon";
+import { GithubIcon } from "./GithubIcon";
+import { GoogleIcon } from "./GoogleIcon";
 import { GraphIcon } from "./GraphIcon";
 import { GridIcon } from "./GridIcon";
 import { LayersIcon } from "./LayersIcon";
 import { LightModeIcon } from "./LightModeIcon";
+import { ListIcon } from "./ListIcon";
 import { LoadingIcon } from "./LoadingIcon";
 import { MarkDownIcon } from "./MarkDownIcon";
 import { MinusIcon } from "./MinusIcon";
@@ -44,12 +48,14 @@ import { PercentageIcon } from "./PercentageIcon";
 import { RedoIcon } from "./RedoIcon";
 import { ReferenceIcon } from "./ReferenceIcon";
 import { ScheduleIcon } from "./ScheduleIcon";
+import { ScreensIcon } from "./ScreensIcon";
 import { SearchIcon } from "./SearchIcon";
 import { SettingsIcon } from "./SettingsIcon";
 import { SortIcon } from "./SortIcon";
 import { StackIcon } from "./StackIcon";
 import { TargetIcon } from "./TargetIcon";
 import { TextIcon } from "./TextIcon";
+import { ToggleIcon } from "./ToggleIcon";
 import { TwentyThreeIcon } from "./TwentyThreeIcon";
 import { UploadCloudIcon } from "./UploadCloudIcon";
 import { UploadIcon } from "./UploadIcon";
@@ -91,10 +97,14 @@ export {
   ExpandRightIcon,
   ExternalLinkIcon,
   FileIcon,
+  GeoMarkerIcon,
+  GithubIcon,
+  GoogleIcon,
   GraphIcon,
   GridIcon,
   LayersIcon,
   LightModeIcon,
+  ListIcon,
   LoadingIcon,
   MarkDownIcon,
   MinusIcon,
@@ -104,12 +114,14 @@ export {
   RedoIcon,
   ReferenceIcon,
   ScheduleIcon,
+  ScreensIcon,
   SearchIcon,
   SettingsIcon,
   SortIcon,
   StackIcon,
   TargetIcon,
   TextIcon,
+  ToggleIcon,
   TwentyThreeIcon,
   UploadCloudIcon,
   UploadIcon,
