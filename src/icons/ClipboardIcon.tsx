@@ -1,6 +1,6 @@
 import React from "react";
 
-type ClipboardIconProps = {
+type ClipboardIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

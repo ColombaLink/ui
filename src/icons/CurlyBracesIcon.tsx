@@ -1,6 +1,6 @@
 import React from "react";
 
-type CurlyBracesIconProps = {
+type CurlyBracesIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

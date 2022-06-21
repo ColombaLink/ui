@@ -1,6 +1,6 @@
 import React from "react";
 
-type CloseCircleIconProps = {
+type CloseCircleIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

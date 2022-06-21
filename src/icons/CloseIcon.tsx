@@ -1,6 +1,6 @@
 import React from "react";
 
-type CloseIconProps = {
+type CloseIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

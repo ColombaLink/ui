@@ -1,6 +1,6 @@
 import React from "react";
 
-type CubeIconProps = {
+type CubeIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

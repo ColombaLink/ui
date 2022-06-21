@@ -1,6 +1,6 @@
 import React from "react";
 
-type CheckSquareIconProps = {
+type CheckSquareIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

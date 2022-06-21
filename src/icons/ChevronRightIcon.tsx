@@ -1,6 +1,6 @@
 import React from "react";
 
-type ChevronRightIconProps = {
+type ChevronRightIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

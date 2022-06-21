@@ -1,6 +1,6 @@
 import React from "react";
 
-type CopyIconProps = {
+type CopyIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

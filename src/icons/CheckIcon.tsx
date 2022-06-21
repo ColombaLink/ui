@@ -1,6 +1,6 @@
 import React from "react";
 
-type CheckIconProps = {
+type CheckIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };

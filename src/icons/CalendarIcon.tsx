@@ -1,6 +1,6 @@
 import React from "react";
 
-type CalendarIconProps = {
+type CalendarIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string;
   size?: number;
 };
