@@ -1,0 +1,20 @@
+{
+  "name": "ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ladle serve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "youzi",
+  "license": "ISC",
+  "sideEffects": false,
+  "dependencies": {
+    "@ladle/react": "^1.1.1",
+    "inlines": "^0.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "wouter": "^2.8.0-alpha.2"
+  }
+}
