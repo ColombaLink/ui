@@ -4,6 +4,9 @@ import { Provider } from "~";
 
 export const Overview = () => (
   <Provider style={{ display: "block", flexWrap: "wrap" }}>
+    <icons.AddIcon size={16} color={"red"} />
+    <icons.AlignCenterIcon size={16} color={"purple"} />
+
     {Object.keys(icons).map((name, index) => (
       <div
         style={{
