@@ -97,30 +97,43 @@ export const Button: FC = ({
         border: `1px solid ${borderColor ? c(borderColor) : "transparent"}`,
         borderRadius: 4,
         opacity: disabled ? 0.6 : 1,
-        display: "flex",
-        alignItems: "center",
+        position: "relative",
         "&:hover": {
           backgroundColor: c(hoverBg),
         },
         ...style,
       }}
     >
-      {loading ? (
-        <LoadingIcon />
-      ) : (
-        <>
-          {iconLeft &&
-            createElement(iconLeft, {
-              size: 16,
-              style: children || iconRight ? { marginRight: 8 } : null,
-            })}
-          {children}
-          {iconRight &&
-            createElement(iconRight, {
-              size: 16,
-              style: children || iconLeft ? { marginLeft: 8 } : null,
-            })}
-        </>
+      <div
+        style={{
+          visibility: loading ? "hidden" : null,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        {iconLeft &&
+          createElement(iconLeft, {
+            size: 16,
+            style: children || iconRight ? { marginRight: 8 } : null,
+          })}
+        {children}
+        {iconRight &&
+          createElement(iconRight, {
+            size: 16,
+            style: children || iconLeft ? { marginLeft: 8 } : null,
+          })}
+      </div>
+      {loading && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate3d(-50%,-50%,0)",
+          }}
+        >
+          <LoadingIcon />
+        </div>
       )}
     </styled.button>
   );

@@ -1,7 +1,11 @@
 import React from "react";
 import { styled } from "inlines";
 
-export const LoadingIcon = ({ color = "currentColor", style, ...props }) => {
+export const LoadingIcon = ({
+  color = "currentColor",
+  style = null,
+  ...props
+}) => {
   return (
     <styled.svg
       width="20"
