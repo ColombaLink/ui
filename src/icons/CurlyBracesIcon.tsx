@@ -1,8 +1,17 @@
 import React from "react";
 
-export const CurlyBracesIcon = ({ color = "currentColor", ...props }) => {
+type CurlyBracesIconProps = {
+  color?: string;
+  size?: number;
+};
+
+export const CurlyBracesIcon = ({
+  color = "currentColor",
+  size = 20,
+  ...props
+}: CurlyBracesIconProps) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+    <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <path
         d="M7.47701 18.381H8.01017V17.0142H7.62242C6.25559 17.0142 5.70304 16.3841 5.70304 14.8331V12.0703C5.70304 10.6744 5.00508 9.9474 3.58009 9.80199V9.56934C5.00508 9.42393 5.70304 8.69689 5.70304 7.30098V4.54794C5.70304 2.99693 6.25559 2.36683 7.62242 2.36683H8.01017V1H7.47701C5.15049 1 4.11325 2.07601 4.11325 4.33467V6.69997C4.11325 8.25098 3.58009 8.76475 2 8.76475V10.6066C3.58009 10.6066 4.11325 11.1203 4.11325 12.6714V15.0463C4.11325 17.305 5.18927 18.381 7.47701 18.381Z"
         fill={color}
