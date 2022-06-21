@@ -1,8 +1,8 @@
 import React from "react";
 
-export const TargetIcon = ({ color = "currentColor" }) => {
+export const TargetIcon = ({ color = "currentColor", ...props }) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
       <path
         d="M9.99984 18.3332C14.6022 18.3332 18.3332 14.6022 18.3332 9.99984C18.3332 5.39746 14.6022 1.6665 9.99984 1.6665C5.39746 1.6665 1.6665 5.39746 1.6665 9.99984C1.6665 14.6022 5.39746 18.3332 9.99984 18.3332Z"
         stroke={color}
