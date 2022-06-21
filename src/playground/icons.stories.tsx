@@ -3,13 +3,20 @@ import * as icons from "../icons";
 import { Provider } from "~";
 
 export const Overview = () => (
-  <Provider style={{ display: "flex", flexWrap: "wrap" }}>
+  <Provider style={{ display: "block", flexWrap: "wrap" }}>
     {Object.keys(icons).map((name, index) => (
-      <div style={{ margin: 16 }} key={index}>
+      <div
+        style={{
+          margin: 12,
+          display: "flex",
+          alignItems: "center",
+        }}
+        key={index}
+      >
         {React.createElement(icons[name])}
         <div
           style={{
-            marginTop: 8,
+            marginLeft: 16,
           }}
         >
           {name}
