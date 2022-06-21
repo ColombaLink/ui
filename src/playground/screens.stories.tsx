@@ -9,10 +9,11 @@ import {
   AttachmentIcon,
   ModelIcon,
   UsersIcon,
+  Provider,
 } from "..";
 
 export const Members = () => (
-  <div
+  <Provider
     style={{
       height: "100%",
       display: "flex",
@@ -57,7 +58,7 @@ export const Members = () => (
         }}
       />
     </div>
-  </div>
+  </Provider>
 );
 
 const Edit = ({ id, data }) => {
@@ -65,7 +66,7 @@ const Edit = ({ id, data }) => {
 };
 
 export const Assets = () => (
-  <div
+  <Provider
     style={{
       height: "100%",
       display: "flex",
@@ -110,5 +111,5 @@ export const Assets = () => (
         }}
       />
     </div>
-  </div>
+  </Provider>
 );

@@ -1,8 +1,8 @@
 import React from "react";
 
-export const EmailIcon = ({ color = "currentColor", ...props }) => {
+export const EmailIcon = ({ color = "currentColor" }) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
