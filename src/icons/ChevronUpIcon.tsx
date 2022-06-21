@@ -15,7 +15,7 @@ export const ChevronUpIcon = ({
       <path
         d="M17.5 13.75L10 6.25L2.5 13.75"
         stroke={color}
-        stroke-width="1.66667"
+        strokeWidth="1.66667"
       />
     </svg>
   );

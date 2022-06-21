@@ -1,22 +1,31 @@
 import React from "react";
 
-export const ScheduleIcon = ({ color = "currentColor", ...props }) => {
+type ScheduleIconProps = React.SVGProps<SVGSVGElement> & {
+  color?: string;
+  size?: number;
+};
+
+export const ScheduleIcon = ({
+  color = "currentColor",
+  size = 20,
+  ...props
+}: ScheduleIconProps) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" {...props}>
       <path
         d="M7.5 2.5H2.5V5.83333H7.5V2.5Z"
         stroke={color}
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
       <path
         d="M9.16667 14.1665H2.5V17.4998H9.16667V14.1665Z"
         stroke={color}
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
       <path
         d="M17.5002 8.3335H5.8335V11.6668H17.5002V8.3335Z"
         stroke={color}
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
     </svg>
   );

@@ -18,7 +18,6 @@ import { ClipboardIcon } from "./ClipboardIcon";
 import { CloseCircleIcon } from "./CloseCircleIcon";
 import { CloseIcon } from "./CloseIcon";
 import { CopyIcon } from "./CopyIcon";
-import { CubeIcon } from "./CubeIcon";
 import { CurlyBracesIcon } from "./CurlyBracesIcon";
 import { DarkModeIcon } from "./DarkModeIcon";
 import { DatePickerIcon } from "./DatePickerIcon";
@@ -84,7 +83,6 @@ export {
   CloseCircleIcon,
   CloseIcon,
   CopyIcon,
-  CubeIcon,
   CurlyBracesIcon,
   DarkModeIcon,
   DatePickerIcon,
