@@ -8,6 +8,7 @@ import { ChevronRightIcon } from "./ChevronRightIcon";
 import { ChevronUpIcon } from "./ChevronUpIcon";
 import { ClipboardIcon } from "./ClipboardIcon";
 import { CloseIcon } from "./CloseIcon";
+import { CopyIcon } from "./CopyIcon";
 import { CubeIcon } from "./CubeIcon";
 import { EditIcon } from "./EditIcon";
 import { EmailIcon } from "./EmailIcon";
@@ -21,6 +22,7 @@ import { ModelIcon } from "./ModelIcon";
 import { MoreIcon } from "./MoreIcon";
 import { SortIcon } from "./SortIcon";
 import { TargetIcon } from "./TargetIcon";
+import { UploadIcon } from "./UploadIcon";
 import { UsersIcon } from "./UsersIcon";
 
 export {
@@ -34,6 +36,7 @@ export {
   ChevronUpIcon,
   ClipboardIcon,
   CloseIcon,
+  CopyIcon,
   CubeIcon,
   EditIcon,
   EmailIcon,
@@ -47,5 +50,6 @@ export {
   MoreIcon,
   SortIcon,
   TargetIcon,
+  UploadIcon,
   UsersIcon,
 };
