@@ -5,6 +5,7 @@ import { AlignLeftIcon } from "./AlignLeftIcon";
 import { AlignRightIcon } from "./AlignRightIcon";
 import { ApertureIcon } from "./ApertureIcon";
 import { AttachmentIcon } from "./AttachmentIcon";
+import { CheckCircleIcon } from "./CheckCircleIcon";
 import { CheckIcon } from "./CheckIcon";
 import { ChevronDownIcon } from "./ChevronDownIcon";
 import { ChevronLeftIcon } from "./ChevronLeftIcon";
@@ -17,10 +18,13 @@ import { CopyIcon } from "./CopyIcon";
 import { CubeIcon } from "./CubeIcon";
 import { DarkModeIcon } from "./DarkModeIcon";
 import { DeleteIcon } from "./DeleteIcon";
+import { DragDropIcon } from "./DragDropIcon";
 import { EditIcon } from "./EditIcon";
 import { EmailIcon } from "./EmailIcon";
 import { ExpandIcon } from "./ExpandIcon";
 import { ExpandRightIcon } from "./ExpandRightIcon";
+import { ExternalLinkIcon } from "./ExternalLinkIcon";
+import { FileIcon } from "./FileIcon";
 import { GraphIcon } from "./GraphIcon";
 import { GridIcon } from "./GridIcon";
 import { LayersIcon } from "./LayersIcon";
@@ -48,6 +52,7 @@ export {
   AlignRightIcon,
   ApertureIcon,
   AttachmentIcon,
+  CheckCircleIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -60,10 +65,13 @@ export {
   CubeIcon,
   DarkModeIcon,
   DeleteIcon,
+  DragDropIcon,
   EditIcon,
   EmailIcon,
   ExpandIcon,
   ExpandRightIcon,
+  ExternalLinkIcon,
+  FileIcon,
   GraphIcon,
   GridIcon,
   LayersIcon,
