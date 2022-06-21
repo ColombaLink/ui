@@ -1,8 +1,8 @@
 import React from "react";
 
-export const AddIcon = ({ color = "currentColor", ...props }) => {
+export const AddIcon = ({ color = "currentColor", size = 20, ...props }) => {
   return (
-    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" {...props}>
+    <svg width={size} height={size} viewBox="0 0 21 21" fill="none" {...props}>
       <path
         fill-rule="evenodd"
         clip-rule="evenodd"
