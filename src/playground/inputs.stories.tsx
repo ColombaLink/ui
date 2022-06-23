@@ -27,6 +27,7 @@ export const Text = () => {
         iconLeft={CheckIcon}
       />
       <Input style={{ marginBottom: 8 }} label="Multiline" multiline />
+      <Input style={{ marginBottom: 8 }} label="With Background" bg />
     </>
   )
 }
