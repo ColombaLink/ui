@@ -1,19 +1,28 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, FocusEventHandler } from 'react'
 
-export const useFocus = (initialState = false) => {
-  const [focus, setFocus] = useState(initialState)
-  const ref = useRef()
+type FocusState = {
+  focus: boolean
+  listeners: {
+    onFocus: FocusEventHandler
+    onBlur: FocusEventHandler
+  }
+}
 
-  if (!ref.current) {
+export const useFocus = () => {
+  const [focus, setFocus] = useState<boolean>()
+  const ref = useRef<FocusState>()
+
+  if (ref.current) {
+    ref.current.focus = focus
+  } else {
     ref.current = {
+      focus,
       listeners: {
         onFocus: () => setFocus(true),
         onBlur: () => setFocus(false),
       },
     }
   }
-
-  ref.current.focus = focus
 
   return ref.current
 }

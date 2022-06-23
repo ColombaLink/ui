@@ -1,19 +1,37 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, MouseEventHandler } from 'react'
 
-export const useHover = (initialState = false) => {
-  const [hover, setHover] = useState(initialState)
-  const ref = useRef()
+type HoverState = {
+  hover: boolean
+  active: boolean
+  listeners: {
+    onMouseEnter: MouseEventHandler
+    onMouseDown: MouseEventHandler
+    onMouseUp: MouseEventHandler
+    onMouseLeave: MouseEventHandler
+  }
+}
+
+export const useHover = (): HoverState => {
+  const [, update] = useState()
+  const ref = useRef<HoverState>()
 
   if (!ref.current) {
+    const handler = (e, active, hover) => {
+      ref.current.active = active
+      ref.current.hover = hover
+      update(e)
+    }
     ref.current = {
+      active: false,
+      hover: false,
       listeners: {
-        onMouseEnter: () => setHover(true),
-        onMouseLeave: () => setHover(false),
+        onMouseEnter: (e) => handler(e, false, true),
+        onMouseDown: (e) => handler(e, true, false),
+        onMouseUp: (e) => handler(e, false, true),
+        onMouseLeave: (e) => handler(e, true, false),
       },
     }
   }
 
-  ref.current.hover = hover
-
-  return ref.current
+  return ref.current as HoverState
 }

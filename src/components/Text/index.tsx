@@ -2,23 +2,23 @@ import React, { FC, CSSProperties } from 'react'
 import { Size, Color } from '~/types'
 import { font } from '~/utils'
 
-export const Text: FC = ({
-  style,
-  size = 'md',
+export const Text: FC<{
+  color: Color
+  italic: boolean
+  selectable: boolean
+  size: Size
+  style
+  weight: number
+  wrap: boolean
+}> = ({
   color: colorProp = 'TextPrimary',
-  weight = 400,
   italic = false,
   selectable = false,
+  size = 'md',
+  style,
+  weight = 400,
   wrap = false,
   ...props
-}: {
-  size?: Size
-  color?: Color
-  weight?: number
-  style?: CSSProperties
-  italic?: boolean
-  selectable?: boolean
-  wrap?: boolean
 }) => {
   const s = font(size, colorProp, weight) as CSSProperties
 

@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@saulx/prettier-config": "^1.0.0",
+    "@types/react": "^18.0.14",
     "prettier": "^2.7.1"
   }
 }

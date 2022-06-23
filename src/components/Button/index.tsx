@@ -1,21 +1,43 @@
-import React, { createElement, FC, useState } from 'react'
+import React, {
+  createElement,
+  FC,
+  useState,
+  ReactNode,
+  FunctionComponent,
+  MouseEventHandler,
+  CSSProperties,
+  ComponentProps,
+} from 'react'
 import { color as c } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 
-export const Button: FC = ({
-  children,
+export const Button: FC<{
+  action: boolean
+  children: ReactNode
+  disabled: boolean
+  error: boolean
+  ghost: boolean
+  iconLeft: FunctionComponent<any>
+  iconRight: FunctionComponent<any>
+  light: boolean
+  loading: boolean
+  onClick: MouseEventHandler
+  outline: boolean
+  style: CSSProperties
+}> = ({
   action = false,
+  children,
+  disabled = false,
   error = false,
   ghost = false,
-  outline = false,
-  light = false,
-  disabled = false,
-  loading = false,
   iconLeft,
   iconRight,
+  light = false,
+  loading = false,
   onClick,
+  outline = false,
   style,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
