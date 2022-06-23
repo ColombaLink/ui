@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox as _Checkbox, Input } from '~'
+import { Checkbox as _Checkbox, CheckIcon, Input } from '~'
 
 export const Checkbox = () => {
   return (
@@ -19,8 +19,14 @@ export const Checkbox = () => {
 export const Text = () => {
   return (
     <>
-      <Input />
-      <Input>With Label</Input>
+      <Input style={{ marginBottom: 8 }} label="String" />
+      <Input style={{ marginBottom: 8 }} label="Number" type="number" />
+      <Input
+        style={{ marginBottom: 8 }}
+        label="With Icon Left"
+        iconLeft={CheckIcon}
+      />
+      <Input style={{ marginBottom: 8 }} label="Multiline" multiline />
     </>
   )
 }
