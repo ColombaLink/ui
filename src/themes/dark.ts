@@ -93,8 +93,8 @@ export const theme = {
     sm: '14px',
     md: '15px',
     lg: '18px',
-    xl: '24px',
-    xxl: '32px',
+    xl: '20px',
+    xxl: '24px',
     xxxl: '32px',
   },
   lineHeights: {
@@ -103,9 +103,9 @@ export const theme = {
     xs: '16px',
     sm: '16px',
     md: '24px',
-    lg: '24px',
+    lg: '32px',
     xl: '24px',
-    xxl: '32px',
+    xxl: '24px',
     xxxl: '32px',
   },
   space: {
