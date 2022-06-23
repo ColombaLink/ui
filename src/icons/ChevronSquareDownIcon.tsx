@@ -1,15 +1,15 @@
 import React from 'react'
 
-type CheckSquareIconProps = React.SVGProps<SVGSVGElement> & {
+type ChevronSquareDownIconProps = React.SVGProps<SVGSVGElement> & {
   color?: string
   size?: number
 }
 
-export const CheckSquareIcon = ({
+export const ChevronSquareDownIcon = ({
   color = 'currentColor',
   size = 20,
   ...props
-}: CheckSquareIconProps) => {
+}: ChevronSquareDownIconProps) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <path

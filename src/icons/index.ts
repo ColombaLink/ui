@@ -9,7 +9,7 @@ import { AttachmentIcon } from './AttachmentIcon'
 import { CalendarIcon } from './CalendarIcon'
 import { CheckCircleIcon } from './CheckCircleIcon'
 import { CheckIcon } from './CheckIcon'
-import { CheckSquareIcon } from './CheckSquareIcon'
+import { ChevronSquareDownIcon } from './ChevronSquareDownIcon'
 import { ChevronDownIcon } from './ChevronDownIcon'
 import { ChevronLeftIcon } from './ChevronLeftIcon'
 import { ChevronRightIcon } from './ChevronRightIcon'
@@ -74,7 +74,7 @@ export {
   CalendarIcon,
   CheckCircleIcon,
   CheckIcon,
-  CheckSquareIcon,
+  ChevronSquareDownIcon,
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
