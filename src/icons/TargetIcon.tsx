@@ -2,17 +2,11 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-type TargetIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
-
 export const TargetIcon = ({
   color: colorProp = 'currentColor',
   size = 20,
   ...props
-}: TargetIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" {...props}>
       <path

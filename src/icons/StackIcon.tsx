@@ -2,17 +2,11 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-type StackIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
-
 export const StackIcon = ({
   color: colorProp = 'currentColor',
   size = 20,
   ...props
-}: StackIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" {...props}>
       <path

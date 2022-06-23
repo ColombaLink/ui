@@ -2,13 +2,11 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-type GraphIconProps = Icon
-
 export const GraphIcon = ({
   color: colorProp = 'currentColor',
   size = 20,
   ...props
-}: GraphIconProps) => {
+}: Icon) => {
   return (
     <svg
       width={size}

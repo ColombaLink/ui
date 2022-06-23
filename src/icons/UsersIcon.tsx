@@ -2,13 +2,11 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-type UsersIconProps = Icon
-
 export const UsersIcon = ({
   color: colorProp = 'currentColor',
   size = 20,
   ...props
-}: UsersIconProps) => {
+}: Icon) => {
   return (
     <svg
       width={size}

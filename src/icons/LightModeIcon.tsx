@@ -2,17 +2,11 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-type LightModeIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
-
 export const LightModeIcon = ({
   color: colorProp = 'currentColor',
   size = 20,
   ...props
-}: LightModeIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" {...props}>
       <path
