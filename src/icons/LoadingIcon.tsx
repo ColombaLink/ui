@@ -5,7 +5,7 @@ import { color } from '~/utils'
 import { styled } from 'inlines'
 
 type LoadingIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color | string
+  color?: Color
 
   size?: number
 }

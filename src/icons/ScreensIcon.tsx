@@ -3,7 +3,7 @@ import { Color } from '~/types'
 import { color } from '~/utils'
 
 type ScreensIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color | string
+  color?: Color
 
   size?: number
 }

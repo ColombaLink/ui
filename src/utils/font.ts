@@ -3,7 +3,7 @@ import { color } from './color'
 
 export const font = (
   size: Size = 'md',
-  colorProp: Color | string = 'TextPrimary',
+  colorProp: Color = 'TextPrimary',
   weight = 500
 ) => {
   return {
