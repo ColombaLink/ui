@@ -1,18 +1,10 @@
-import React, { FC, ReactNode, CSSProperties, EventHandler } from 'react'
+import React, { FC } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 
-export type CheckboxProps = {
-  children?: ReactNode
-  checked?: boolean
-  style?: CSSProperties
-  onChange?: (boolean) => void
-  label?: ReactNode
-}
-
-export const Checkbox: FC<CheckboxProps> = ({
+export const Select: FC = ({
   children,
   checked: checkedProp,
   style,
@@ -22,7 +14,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
 
-  const onClick = () => {
+  listeners.onClick = () => {
     const newChecked = !checked
     setChecked(newChecked)
     onChange?.(newChecked)
@@ -52,7 +44,7 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   if (label && children) {
     return (
-      <button style={style} {...listeners} onClick={onClick}>
+      <button style={style} {...listeners}>
         <Text
           weight={600}
           style={{

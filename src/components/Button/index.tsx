@@ -1,19 +1,18 @@
 import React, {
   createElement,
+  CSSProperties,
   FC,
-  useState,
-  ReactNode,
   FunctionComponent,
   MouseEventHandler,
-  CSSProperties,
-  ComponentProps,
+  ReactNode,
+  useState,
 } from 'react'
 import { color as c } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 
-export const Button: FC<{
+export type ButtonProps = {
   action: boolean
   children: ReactNode
   disabled: boolean
@@ -26,7 +25,9 @@ export const Button: FC<{
   onClick: MouseEventHandler
   outline: boolean
   style: CSSProperties
-}> = ({
+}
+
+export const Button: FC<ButtonProps> = ({
   action = false,
   children,
   disabled = false,
