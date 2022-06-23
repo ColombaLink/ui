@@ -1,15 +1,19 @@
-import React, { FC } from 'react'
+import React, { ChangeEventHandler, FC, FormEvent, ReactNode } from 'react'
 import { styled } from 'inlines'
 
-type FormProps = {
-  children?: React.ReactNode
-  onSubmit?: React.ChangeEventHandler<HTMLInputElement>
+type SubmitResponse = {
+  [key: string]: HTMLInputElement
+}
+
+export type FormProps = {
+  children?: ReactNode
+  onSubmit?: (res: SubmitResponse) => void
 }
 
 export const Form: FC<FormProps> = ({ children, onSubmit, ...props }) => {
   return (
     <styled.form
-      onSubmit={(e: React.FormEvent<HTMLFormElement>): void => {
+      onSubmit={(e) => {
         e.preventDefault()
         onSubmit?.(e.target.elements)
       }}
