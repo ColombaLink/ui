@@ -4,7 +4,15 @@ import { color } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 
-export const Checkbox: FC = ({
+type CheckboxProps = {
+  children?: React.ReactNode
+  checked?: boolean
+  style?: React.CSSProperties
+  onChange?: EventTarget
+  label?: React.ReactNode
+}
+
+export const Checkbox: FC<CheckboxProps> = ({
   children,
   checked: checkedProp,
   style,
