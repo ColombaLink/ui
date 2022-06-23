@@ -21,6 +21,8 @@ export const Buttons = ({ icon }) => {
             {states.map((state) => {
               const disabled = state === "disabled";
               const hover = state === "hover";
+              const error = color === "Error";
+              const action = color === "Action";
               return (
                 <styled.div
                   key={state}
@@ -38,7 +40,8 @@ export const Buttons = ({ icon }) => {
                     iconLeft={icon}
                     disabled={disabled}
                     hover={hover}
-                    color={color}
+                    action={action}
+                    error={error}
                     onClick={loadClick}
                   >
                     {color}
@@ -47,7 +50,8 @@ export const Buttons = ({ icon }) => {
                     iconLeft={icon}
                     disabled={disabled}
                     hover={hover}
-                    color={color}
+                    action={action}
+                    error={error}
                     light
                     onClick={errorClick}
                   >
@@ -57,14 +61,18 @@ export const Buttons = ({ icon }) => {
                     iconLeft={icon}
                     disabled={disabled}
                     hover={hover}
-                    color={color}
+                    action={action}
+                    error={error}
                     ghost
-                  ></Button>
+                  >
+                    {color} Ghost
+                  </Button>
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
                     hover={hover}
-                    color={color}
+                    action={action}
+                    error={error}
                     outline
                   >
                     {color} Outline
@@ -74,7 +82,8 @@ export const Buttons = ({ icon }) => {
                     iconRight={icon}
                     disabled={disabled}
                     hover={hover}
-                    color={color}
+                    action={action}
+                    error={error}
                     outline
                     light
                   >
@@ -85,7 +94,8 @@ export const Buttons = ({ icon }) => {
                     iconRight={icon}
                     disabled={disabled}
                     hover={hover}
-                    color={color}
+                    action={action}
+                    error={error}
                     outline
                     light
                     loading

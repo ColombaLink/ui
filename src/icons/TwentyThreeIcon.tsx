@@ -1,8 +1,17 @@
 import React from "react";
 
-export const TwentyThreeIcon = ({ color = "currentColor", ...props }) => {
+type TwentyThreeIconProps = React.SVGProps<SVGSVGElement> & {
+  color?: string;
+  size?: number;
+};
+
+export const TwentyThreeIcon = ({
+  color = "currentColor",
+  size = 20,
+  ...props
+}: TwentyThreeIconProps) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+    <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <path
         d="M0.105801 15.9341H8.8079V14.2678H2.75081V14.1884L5.6427 11.3494C7.92623 9.09235 8.60511 8.06079 8.60511 6.60604V6.5884C8.60511 4.53411 6.8594 3 4.41717 3C1.93086 3 0 4.64873 0 6.92344V6.97634H1.86914V6.92344C1.88678 5.6362 2.9536 4.63109 4.44362 4.63109C5.73086 4.63109 6.6478 5.49513 6.65662 6.70302V6.72065C6.65662 7.70813 6.2775 8.3782 4.58469 10.071L0.105801 14.5763V15.9341Z"
         fill={color}

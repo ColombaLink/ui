@@ -29,9 +29,9 @@ const TopbarTab: FC = ({ href, children, isActive }) => {
           marginLeft: -12,
           position: "absolute",
           top: 0,
+          borderRadius: 4,
           "&:hover": {
             backgroundColor: color("PrimaryLightHover"),
-            borderRadius: 4,
           },
         }}
       >

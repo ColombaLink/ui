@@ -6,8 +6,9 @@ import { Color } from "~/types";
 import { LoadingIcon } from "~/icons";
 
 export const Button: FC = ({
-  color: colorProp = "Primary",
   children,
+  action = false,
+  error = false,
   ghost = false,
   outline = false,
   light = false,
@@ -20,7 +21,7 @@ export const Button: FC = ({
   style,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const colorBase = slicePascalCase(colorProp, 1);
+  const colorBase = error ? "Error" : action ? "Action" : "Primary";
   let color, bg, borderColor, hoverBg;
 
   if (ghost) {

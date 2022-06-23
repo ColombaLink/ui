@@ -1,8 +1,17 @@
 import React from "react";
 
-export const EditIcon = ({ color = "currentColor", ...props }) => {
+type EditIconProps = React.SVGProps<SVGSVGElement> & {
+  color?: string;
+  size?: number;
+};
+
+export const EditIcon = ({
+  color = "currentColor",
+  size = 20,
+  ...props
+}: EditIconProps) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+    <svg width={size} height={size} viewBox="0 0 20 20" fill="none" {...props}>
       <path
         d="M9.1665 3.3335H3.33317C2.89114 3.3335 2.46722 3.50909 2.15466 3.82165C1.8421 4.13421 1.6665 4.55814 1.6665 5.00016V16.6668C1.6665 17.1089 1.8421 17.5328 2.15466 17.8453C2.46722 18.1579 2.89114 18.3335 3.33317 18.3335H14.9998C15.4419 18.3335 15.8658 18.1579 16.1783 17.8453C16.4909 17.5328 16.6665 17.1089 16.6665 16.6668V10.8335"
         stroke={color}

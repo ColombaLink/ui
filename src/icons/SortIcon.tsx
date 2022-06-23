@@ -1,8 +1,17 @@
 import React from "react";
 
-export const SortIcon = ({ color = "currentColor", ...props }) => {
+type SortIconProps = React.SVGProps<SVGSVGElement> & {
+  color?: string;
+  size?: number;
+};
+
+export const SortIcon = ({
+  color = "currentColor",
+  size = 20,
+  ...props
+}: SortIconProps) => {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" {...props}>
+    <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <rect
         x="2.5"
         y="3.75"
@@ -30,12 +39,12 @@ export const SortIcon = ({ color = "currentColor", ...props }) => {
       <path
         d="M14.8958 15L18.5417 11.3542M14.8958 5.625V15V5.625ZM14.8958 15L11.25 11.3542L14.8958 15Z"
         stroke={color}
-        stroke-width="1.625"
+        strokeWidth="1.625"
       />
       <path
         d="M14.8958 15L18.5417 11.3542M14.8958 5.625V15V5.625ZM14.8958 15L11.25 11.3542L14.8958 15Z"
         stroke={color}
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
     </svg>
   );
