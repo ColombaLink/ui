@@ -2,6 +2,7 @@ import React, { createElement, FC, useState } from 'react'
 import { color as c } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
+import { Text } from '../Text'
 
 export const Button: FC = ({
   children,
@@ -11,7 +12,6 @@ export const Button: FC = ({
   outline = false,
   light = false,
   disabled = false,
-  hover = false,
   loading = false,
   iconLeft,
   iconRight,
@@ -38,10 +38,6 @@ export const Button: FC = ({
     bg = `${colorBase}Main`
     color = `${colorBase}MainContrast`
     hoverBg = `${bg}Hover`
-  }
-
-  if (hover) {
-    bg = hoverBg
   }
 
   if (onClick) {
@@ -113,7 +109,7 @@ export const Button: FC = ({
             size: 16,
             style: children || iconRight ? { marginRight: 8 } : null,
           })}
-        {children}
+        <Text color="inherit">{children}</Text>
         {iconRight &&
           createElement(iconRight, {
             size: 16,

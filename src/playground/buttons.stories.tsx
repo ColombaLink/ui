@@ -14,13 +14,12 @@ export const Buttons = ({ icon }) => {
   return (
     <Provider>
       {colors.map((color) => {
-        const states = [null, 'hover', 'disabled']
+        const states = [null, 'disabled']
         return (
           <div key={color} style={{ marginBottom: 24 }}>
             <Text weight={600}>{color}</Text>
             {states.map((state) => {
               const disabled = state === 'disabled'
-              const hover = state === 'hover'
               const error = color === 'Error'
               const action = color === 'Action'
               return (
@@ -39,7 +38,6 @@ export const Buttons = ({ icon }) => {
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
-                    hover={hover}
                     action={action}
                     error={error}
                     onClick={loadClick}
@@ -49,7 +47,6 @@ export const Buttons = ({ icon }) => {
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
-                    hover={hover}
                     action={action}
                     error={error}
                     light
@@ -60,7 +57,6 @@ export const Buttons = ({ icon }) => {
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
-                    hover={hover}
                     action={action}
                     error={error}
                     ghost
@@ -70,7 +66,6 @@ export const Buttons = ({ icon }) => {
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
-                    hover={hover}
                     action={action}
                     error={error}
                     outline
@@ -81,7 +76,6 @@ export const Buttons = ({ icon }) => {
                     iconLeft={icon}
                     iconRight={icon}
                     disabled={disabled}
-                    hover={hover}
                     action={action}
                     error={error}
                     outline
@@ -93,7 +87,6 @@ export const Buttons = ({ icon }) => {
                     iconLeft={icon}
                     iconRight={icon}
                     disabled={disabled}
-                    hover={hover}
                     action={action}
                     error={error}
                     outline

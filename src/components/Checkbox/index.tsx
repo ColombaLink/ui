@@ -1,23 +1,24 @@
-import React, { useEffect, useState, FC } from 'react'
+import React, { FC } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 
-export const Checkbox: FC = ({ children, value, style, onChange }) => {
-  const [checked, setChecked] = usePropState(value)
+export const Checkbox: FC = ({
+  children,
+  checked: checkedProp,
+  style,
+  onChange,
+}) => {
+  const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
-
-  if (typeof children === 'string') {
-    children = <Text>{children}</Text>
-  }
 
   return (
     <Text
       onClick={() => {
-        const newValue = !checked
-        setChecked(newValue)
-        onChange?.(newValue)
+        const newChecked = !checked
+        setChecked(newChecked)
+        onChange?.(newChecked)
       }}
       style={{
         alignItems: 'center',
@@ -32,7 +33,9 @@ export const Checkbox: FC = ({ children, value, style, onChange }) => {
           backgroundColor: checked
             ? color(hover ? 'PrimaryMainHover' : 'PrimaryMain')
             : null,
-          border: `1px solid ${color('OtherInputBorderDefault')}`,
+          border: `1px solid ${color(
+            hover ? 'OtherInputBorderHover' : 'OtherInputBorderDefault'
+          )}`,
           borderRadius: 4,
           height: 20,
           marginRight: children ? 8 : null,
@@ -40,9 +43,6 @@ export const Checkbox: FC = ({ children, value, style, onChange }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          '&:hover': {
-            border: `1px solid ${color('OtherInputBorderHover')}`,
-          },
         }}
       >
         {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}

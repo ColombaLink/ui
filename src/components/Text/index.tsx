@@ -9,6 +9,7 @@ type TextProps = {
   style?: CSSProperties
   italic?: boolean
   selectable?: boolean
+  wrap?: boolean
 }
 
 export const Text: FC = ({
@@ -18,10 +19,16 @@ export const Text: FC = ({
   weight,
   italic = false,
   selectable = false,
+  wrap = false,
   ...props
 }: TextProps) => {
   const s = font(size, colorProp, weight) as CSSProperties
   s.userSelect = selectable ? 'text' : 'none'
+  if (!wrap) {
+    s.textOverflow = 'ellipsis'
+    s.overflow = 'hidden'
+    s.whiteSpace = 'nowrap'
+  }
   if (italic) {
     s.fontStyle = 'italic'
   }
