@@ -2,6 +2,14 @@ import React, { createElement, FC, CSSProperties, useRef } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
+
+const resize = (target) => {
+  if (target) {
+    target.style.height = 'auto'
+    target.style.height = target.scrollHeight + 8 + 'px'
+  }
+}
+
 export const Input: FC = ({
   style,
   onChange: onChangeProp,
@@ -12,11 +20,11 @@ export const Input: FC = ({
   placeholder = 'Type something here',
   iconLeft,
   multiline,
+  bg = false,
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
-  const ref = useRef()
 
   const onChange = (e) => {
     const newValue = e.target.value
@@ -37,11 +45,14 @@ export const Input: FC = ({
         ? `1px solid ${color('OtherInputBorderHover')}`
         : `1px solid ${color('OtherInputBorderDefault')}`,
       borderRadius: 4,
-      background: 'inherit',
       minHeight: 36,
       paddingLeft: iconLeft ? 36 : 12,
       paddingRight: 12,
       width: '100%',
+      backgroundColor: bg
+        ? color(hover ? 'ActionLightHover' : 'ActionLight')
+        : 'inherit',
+      margin: 0,
     },
     ...focusListeners,
     ...hoverListeners,
@@ -49,24 +60,27 @@ export const Input: FC = ({
 
   if (multiline) {
     Object.assign(inputProps, {
-      ref,
-      onInput: ({ target }) => {
-        target.style.height = 'auto'
-        target.style.height = target.scrollHeight + 8 + 'px'
-      },
+      ref: resize,
+      onInput: ({ target }) => resize(target),
     })
 
     Object.assign(inputProps.style, {
-      paddingTop: 8,
+      display: 'block',
       resize: 'none',
       overflow: 'hidden',
+      paddingTop: 8,
     })
   }
 
   return (
     <div style={style}>
       {label && <Text style={{ marginBottom: 4 }}>{label}</Text>}
-      <div style={{ position: 'relative', color: color('TextPrimary') }}>
+      <div
+        style={{
+          position: 'relative',
+          color: color('TextPrimary'),
+        }}
+      >
         {iconLeft &&
           createElement(iconLeft, {
             size: 16,
