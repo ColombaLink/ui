@@ -1,33 +1,61 @@
 import React from 'react'
-import { Checkbox as _Checkbox, CheckIcon, Input } from '~'
+import {
+  Button,
+  Checkbox as Checkbox,
+  CheckIcon,
+  EditIcon,
+  Form,
+  Input,
+} from '~'
 
-export const Checkbox = () => {
+export const Checkboxes = () => {
   return (
     <>
-      <_Checkbox style={{ marginBottom: 8 }} />
-      <_Checkbox style={{ marginBottom: 8 }}>With Label</_Checkbox>
-      <_Checkbox style={{ marginBottom: 8 }} checked>
-        Selected
-      </_Checkbox>
-      <_Checkbox style={{ marginBottom: 8 }} checked label="With label">
+      <Checkbox />
+      <br />
+      <Checkbox>With Label</Checkbox>
+      <br />
+      <Checkbox checked>Selected</Checkbox>
+      <br />
+      <Checkbox checked label="With label">
         And Description
-      </_Checkbox>
+      </Checkbox>
     </>
   )
 }
 
-export const Text = () => {
+export const Inputs = () => {
   return (
     <>
-      <Input style={{ marginBottom: 8 }} label="String" />
-      <Input style={{ marginBottom: 8 }} label="Number" type="number" />
-      <Input
-        style={{ marginBottom: 8 }}
-        label="With Icon Left"
-        iconLeft={CheckIcon}
-      />
-      <Input style={{ marginBottom: 8 }} label="Multiline" multiline />
-      <Input style={{ marginBottom: 8 }} label="With Background" bg />
+      <Input label="String" />
+      <br />
+      <Input label="Number" type="number" />
+      <br />
+      <Input label="With Icon Left" iconLeft={CheckIcon} />
+      <br />
+      <Input label="With Icon Right" iconRight={EditIcon} />
+      <br />
+      <Input label="Multiline" multiline />
+      <br />
+      <Input label="With Background" bg />
     </>
+  )
+}
+
+export const Forms = () => {
+  return (
+    <Form>
+      <Input label="String" />
+      <br />
+      <Input label="Number" type="number" />
+      <br />
+      <Input label="With Icon Left" iconLeft={CheckIcon} />
+      <br />
+      <Input label="Multiline" multiline />
+      <br />
+      <Input label="With Background" bg />
+      <br />
+      <Button>Submit</Button>
+    </Form>
   )
 }

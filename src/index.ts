@@ -11,5 +11,6 @@ export * from './components/Sidebar'
 export * from './components/Text'
 export * from './components/Topbar'
 export * from './components/Input'
+export * from './components/Form'
 
 export * from './icons'

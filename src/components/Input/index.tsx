@@ -1,4 +1,4 @@
-import React, { createElement, FC, CSSProperties, useRef } from 'react'
+import React, { createElement, FC } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -10,6 +10,26 @@ const resize = (target) => {
   }
 }
 
+const Multi = ({ style, ...props }) => {
+  return (
+    <textarea
+      style={{
+        ...style,
+        display: 'block',
+        resize: 'none',
+        paddingTop: 8,
+      }}
+      ref={resize}
+      onInput={({ target }) => resize(target)}
+      {...props}
+    />
+  )
+}
+
+const Single = (props) => {
+  return <input {...props} />
+}
+
 export const Input: FC = ({
   style,
   onChange: onChangeProp,
@@ -19,6 +39,7 @@ export const Input: FC = ({
   type,
   placeholder = 'Type something here',
   iconLeft,
+  iconRight,
   multiline,
   bg = false,
 }) => {
@@ -32,7 +53,7 @@ export const Input: FC = ({
     onChangeProp?.(newValue)
   }
 
-  const inputProps = {
+  const props = {
     type,
     value,
     defaultValue,
@@ -47,7 +68,7 @@ export const Input: FC = ({
       borderRadius: 4,
       minHeight: 36,
       paddingLeft: iconLeft ? 36 : 12,
-      paddingRight: 12,
+      paddingRight: iconRight ? 36 : 12,
       width: '100%',
       backgroundColor: bg
         ? color(hover ? 'ActionLightHover' : 'ActionLight')
@@ -56,20 +77,6 @@ export const Input: FC = ({
     },
     ...focusListeners,
     ...hoverListeners,
-  }
-
-  if (multiline) {
-    Object.assign(inputProps, {
-      ref: resize,
-      onInput: ({ target }) => resize(target),
-    })
-
-    Object.assign(inputProps.style, {
-      display: 'block',
-      resize: 'none',
-      overflow: 'hidden',
-      paddingTop: 8,
-    })
   }
 
   return (
@@ -92,7 +99,18 @@ export const Input: FC = ({
               pointerEvents: 'none',
             },
           })}
-        {createElement(multiline ? 'textarea' : 'input', inputProps)}
+        {multiline ? <Multi {...props} /> : <Single {...props} />}
+        {iconRight &&
+          createElement(iconRight, {
+            size: 16,
+            style: {
+              position: 'absolute',
+              right: 12,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              pointerEvents: 'none',
+            },
+          })}
       </div>
     </div>
   )
