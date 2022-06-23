@@ -1,5 +1,5 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
 
 type TwentyThreeIconProps = React.SVGProps<SVGSVGElement> & {
@@ -10,7 +10,6 @@ type TwentyThreeIconProps = React.SVGProps<SVGSVGElement> & {
 
 export const TwentyThreeIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
 }: TwentyThreeIconProps) => {

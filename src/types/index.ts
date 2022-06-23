@@ -96,3 +96,8 @@ export type Color =
   | 'AccentPink'
   | 'AccentPinkLight'
   | (string & {})
+
+export type Icon = React.SVGProps<SVGSVGElement> & {
+  color?: Color
+  size?: number
+}

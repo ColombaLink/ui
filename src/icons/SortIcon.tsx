@@ -1,5 +1,5 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
 
 type SortIconProps = React.SVGProps<SVGSVGElement> & {
@@ -10,7 +10,6 @@ type SortIconProps = React.SVGProps<SVGSVGElement> & {
 
 export const SortIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
 }: SortIconProps) => {

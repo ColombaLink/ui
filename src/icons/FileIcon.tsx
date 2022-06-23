@@ -1,5 +1,5 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
 
 type FileIconProps = React.SVGProps<SVGSVGElement> & {
@@ -10,7 +10,6 @@ type FileIconProps = React.SVGProps<SVGSVGElement> & {
 
 export const FileIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
 }: FileIconProps) => {
