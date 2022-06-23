@@ -1,12 +1,16 @@
 import React from 'react'
+import { Color } from '~/types'
+import { color } from '~/utils'
 
 type UsersIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string
+  color?: Color | string
+
   size?: number
 }
 
 export const UsersIcon = ({
-  color = 'currentColor',
+  color: colorProp = 'currentColor',
+
   size = 20,
   ...props
 }: UsersIconProps) => {

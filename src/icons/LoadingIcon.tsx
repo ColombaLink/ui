@@ -1,13 +1,18 @@
 import React from 'react'
+import { Color } from '~/types'
+import { color } from '~/utils'
+
 import { styled } from 'inlines'
 
 type LoadingIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string
+  color?: Color | string
+
   size?: number
 }
 
 export const LoadingIcon = ({
-  color = 'currentColor',
+  color: colorProp = 'currentColor',
+
   size = 20,
   style,
   ...props

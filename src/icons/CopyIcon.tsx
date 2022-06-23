@@ -1,12 +1,16 @@
 import React from 'react'
+import { Color } from '~/types'
+import { color } from '~/utils'
 
 type CopyIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string
+  color?: Color | string
+
   size?: number
 }
 
 export const CopyIcon = ({
-  color = 'currentColor',
+  color: colorProp = 'currentColor',
+
   size = 20,
   ...props
 }: CopyIconProps) => {

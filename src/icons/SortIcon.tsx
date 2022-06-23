@@ -1,12 +1,16 @@
 import React from 'react'
+import { Color } from '~/types'
+import { color } from '~/utils'
 
 type SortIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string
+  color?: Color | string
+
   size?: number
 }
 
 export const SortIcon = ({
-  color = 'currentColor',
+  color: colorProp = 'currentColor',
+
   size = 20,
   ...props
 }: SortIconProps) => {
@@ -18,7 +22,7 @@ export const SortIcon = ({
         width="10"
         height="1.625"
         rx="0.8125"
-        fill={color}
+        fill={color(colorProp)}
       />
       <rect
         x="2.5"
@@ -26,7 +30,7 @@ export const SortIcon = ({
         width="6.25"
         height="1.625"
         rx="0.8125"
-        fill={color}
+        fill={color(colorProp)}
       />
       <rect
         x="2.5"
@@ -34,7 +38,7 @@ export const SortIcon = ({
         width="6.25"
         height="1.625"
         rx="0.8125"
-        fill={color}
+        fill={color(colorProp)}
       />
       <path
         d="M14.8958 15L18.5417 11.3542M14.8958 5.625V15V5.625ZM14.8958 15L11.25 11.3542L14.8958 15Z"

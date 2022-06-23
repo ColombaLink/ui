@@ -1,12 +1,16 @@
 import React from 'react'
+import { Color } from '~/types'
+import { color } from '~/utils'
 
 type EditIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string
+  color?: Color | string
+
   size?: number
 }
 
 export const EditIcon = ({
-  color = 'currentColor',
+  color: colorProp = 'currentColor',
+
   size = 20,
   ...props
 }: EditIconProps) => {
