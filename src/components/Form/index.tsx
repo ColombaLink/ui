@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 
 type FormProps = {
   children?: React.ReactNode
-  onSubmit?: React.ChangeEventHandler<HTMLInputElement>
+  onSubmit?: React.ChangeEventHandler<HTMLFormElement>
 }
 
 export const Form: FC<FormProps> = ({ children, onSubmit, ...props }) => {
