@@ -1,31 +1,40 @@
 import React from 'react'
 import { Provider } from '~'
 import { Text } from '~/components/Text'
+import { styled } from 'inlines'
 
 export const Typography = () => {
   return (
     <Provider>
-      <div
+      <styled.div
         style={{
           display: 'grid',
           gridTemplateColumns: '50% 1fr 1fr 1fr',
+          gridGap: '8px',
+          alignItems: 'center',
+          justifySelf: 'stretch',
           maxWidth: 780,
+          textAlign: 'center',
+          'div > *': {
+            padding: '5px 0px',
+          },
+          '& div': {},
         }}
       >
-        <div>
-          <Text>Token name</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text weight={500}>Token name</Text>
         </div>
         <div>
-          <Text>Font size</Text>
+          <Text weight={500}>Font size</Text>
         </div>
         <div>
-          <Text>Theme-size</Text>
+          <Text weight={500}>Theme-size</Text>
         </div>
         <div>
-          <Text>Lineheight</Text>
+          <Text weight={500}>Lineheight</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="xxxl" weight={700}>
             Typography.title1
           </Text>
@@ -40,7 +49,7 @@ export const Typography = () => {
           <Text>32</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="xxl" weight={600}>
             Typography.title2
           </Text>
@@ -55,8 +64,10 @@ export const Typography = () => {
           <Text>24</Text>
         </div>
 
-        <div>
-          <Text size="xl">Typography.title3</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="xl" weight={600}>
+            Typography.title3
+          </Text>
         </div>
         <div>
           <Text>20px</Text>
@@ -68,7 +79,7 @@ export const Typography = () => {
           <Text>24</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="lg">Typography.subtitle1</Text>
         </div>
         <div>
@@ -81,8 +92,10 @@ export const Typography = () => {
           <Text>32</Text>
         </div>
 
-        <div>
-          <Text size="md">Typography.body-semibold</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="md" weight={600}>
+            Typography.body-semibold
+          </Text>
         </div>
         <div>
           <Text>15px</Text>
@@ -94,8 +107,10 @@ export const Typography = () => {
           <Text>24</Text>
         </div>
 
-        <div>
-          <Text size="md">Typography.body-medium</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="md" weight={500}>
+            Typography.body-medium
+          </Text>
         </div>
         <div>
           <Text>15px</Text>
@@ -107,7 +122,7 @@ export const Typography = () => {
           <Text>24</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="md">Typography.body-regular</Text>
         </div>
         <div>
@@ -120,7 +135,7 @@ export const Typography = () => {
           <Text>24</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="md" italic>
             Typography.body-regular-italic
           </Text>
@@ -135,8 +150,10 @@ export const Typography = () => {
           <Text>24</Text>
         </div>
 
-        <div>
-          <Text size="sm">Typography.caption1</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="sm" weight={500}>
+            Typography.caption1
+          </Text>
         </div>
         <div>
           <Text>14px</Text>
@@ -148,7 +165,7 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="sm">Typography.subtext1</Text>
         </div>
         <div>
@@ -161,8 +178,10 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
-          <Text size="xs">Typography.caption2</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="xs" weight={500}>
+            Typography.caption2
+          </Text>
         </div>
         <div>
           <Text>13px</Text>
@@ -174,7 +193,7 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="xs">Typography.subtext2</Text>
         </div>
         <div>
@@ -187,8 +206,10 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
-          <Text size="xxs">Typography.caption3</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="xxs" weight={500}>
+            Typography.caption3
+          </Text>
         </div>
         <div>
           <Text>12px</Text>
@@ -200,7 +221,7 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="xxs">Typography.subtext3</Text>
         </div>
         <div>
@@ -213,8 +234,10 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
-          <Text size="xxxs">Typography.caption4</Text>
+        <div style={{ textAlign: 'left' }}>
+          <Text size="xxxs" weight={500}>
+            Typography.caption4
+          </Text>
         </div>
         <div>
           <Text>11px</Text>
@@ -226,7 +249,7 @@ export const Typography = () => {
           <Text>16</Text>
         </div>
 
-        <div>
+        <div style={{ textAlign: 'left' }}>
           <Text size="xxxs">Typography.subtext4</Text>
         </div>
         <div>
@@ -240,7 +263,7 @@ export const Typography = () => {
         </div>
 
         {/* ending div */}
-      </div>
+      </styled.div>
     </Provider>
   )
 }
