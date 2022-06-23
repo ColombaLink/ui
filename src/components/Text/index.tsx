@@ -8,6 +8,7 @@ export const Text: FC = ({
   color: colorProp = 'TextPrimary',
   weight,
   italic = false,
+  selectable = false,
   ...props
 }: {
   size?: Size
@@ -15,8 +16,10 @@ export const Text: FC = ({
   weight?: number
   style?: CSSProperties
   italic?: boolean
+  selectable?: boolean
 }) => {
   const s = font(size, colorProp, weight) as CSSProperties
+  s.userSelect = selectable ? 'text' : 'none'
   if (italic) {
     s.fontStyle = 'italic'
   }

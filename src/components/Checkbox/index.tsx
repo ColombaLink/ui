@@ -2,20 +2,18 @@ import React, { useEffect, useState, FC } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { CheckIcon } from '~/icons'
+import { useHover, usePropState } from '~/hooks'
 
 export const Checkbox: FC = ({ children, value, style, onChange }) => {
-  const [checked, setChecked] = useState(value)
-
-  useEffect(() => {
-    setChecked(value)
-  }, [value])
+  const [checked, setChecked] = usePropState(value)
+  const { listeners, hover } = useHover()
 
   if (typeof children === 'string') {
     children = <Text>{children}</Text>
   }
 
   return (
-    <div
+    <Text
       onClick={() => {
         const newValue = !checked
         setChecked(newValue)
@@ -27,10 +25,13 @@ export const Checkbox: FC = ({ children, value, style, onChange }) => {
         display: 'flex',
         ...style,
       }}
+      {...listeners}
     >
       <div
         style={{
-          backgroundColor: checked ? color('PrimaryMain') : null,
+          backgroundColor: checked
+            ? color(hover ? 'PrimaryMainHover' : 'PrimaryMain')
+            : null,
           border: `1px solid ${color('OtherInputBorderDefault')}`,
           borderRadius: 4,
           height: 20,
@@ -47,6 +48,6 @@ export const Checkbox: FC = ({ children, value, style, onChange }) => {
         {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
       </div>
       {children}
-    </div>
+    </Text>
   )
 }
