@@ -67,7 +67,7 @@ export const Button: FC<{
     onClick = async (e) => {
       e.stopPropagation()
       e.preventDefault()
-      const t = e.currentTarget
+      const t = e.currentTarget as HTMLInputElement
       let isSet = false
       const timer = setTimeout(() => {
         if (!isSet) {

@@ -4,15 +4,16 @@ import { font } from '~/utils'
 
 type TextProps = {
   size?: Size
-  color?: Color
+  color?: Color | string
   weight?: number
   style?: CSSProperties
   italic?: boolean
   selectable?: boolean
   wrap?: boolean
+  children?: React.ReactNode
 }
 
-export const Text: FC = ({
+export const Text: FC<TextProps> = ({
   color: colorProp = 'TextPrimary',
   italic = false,
   selectable = false,
@@ -20,8 +21,9 @@ export const Text: FC = ({
   style,
   weight = 400,
   wrap = false,
+  children,
   ...props
-}: TextProps) => {
+}) => {
   const s = font(size, colorProp, weight) as CSSProperties
 
   s.userSelect = selectable ? 'text' : 'none'
@@ -36,5 +38,9 @@ export const Text: FC = ({
   if (style) {
     Object.assign(s, style)
   }
-  return <div style={s} {...props} />
+  return (
+    <div style={s} {...props}>
+      {children}
+    </div>
+  )
 }
