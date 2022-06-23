@@ -9,11 +9,10 @@ import { theme } from '../themes/light'
 import { useHover } from '~/hooks'
 
 const ColorArr = theme.colors
-console.log(ColorArr['AccentYellow'])
 
 const hover = false
 
-function HexCode(color) {
+const HexCode = (color) => {
   const rgba = color.replace(/^rgba?\(|\s+|\)$/g, '').split(',')
   const hex = `#${(
     (1 << 24) +
@@ -62,7 +61,13 @@ export const ThemeColors = () => {
                 flexDirection: 'column',
               }}
             >
-              <div>
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    HexCode('rgba(' + ColorArr[val].join() + ')')
+                  )
+                }}
+              >
                 {hover ? (
                   <Text size="sm">
                     <DuplicateIcon
@@ -78,8 +83,24 @@ export const ThemeColors = () => {
                 )}
               </div>
 
-              <div>
-                <Text>rgba({ColorArr[val].join()})</Text>
+              <div
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    'rgba(' + ColorArr[val].join() + ')'
+                  )
+                }}
+              >
+                {hover ? (
+                  <Text>
+                    <DuplicateIcon
+                      size={16}
+                      style={{ display: 'inline-block' }}
+                    />{' '}
+                    Copy
+                  </Text>
+                ) : (
+                  <Text>rgba({ColorArr[val].join()})</Text>
+                )}
               </div>
             </div>
             <div
