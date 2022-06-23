@@ -1,12 +1,11 @@
 import React, {
   createElement,
+  CSSProperties,
   FC,
-  useState,
-  ReactNode,
   FunctionComponent,
   MouseEventHandler,
-  CSSProperties,
-  ComponentProps,
+  ReactNode,
+  useState,
 } from 'react'
 import { color as c } from '~/utils'
 import { styled } from 'inlines'

@@ -59,3 +59,7 @@ export const Forms = () => {
     </Form>
   )
 }
+
+export const Selects = () => {
+  return <Select />
+}
