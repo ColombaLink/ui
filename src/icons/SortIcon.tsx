@@ -42,12 +42,12 @@ export const SortIcon = ({
       />
       <path
         d="M14.8958 15L18.5417 11.3542M14.8958 5.625V15V5.625ZM14.8958 15L11.25 11.3542L14.8958 15Z"
-        stroke={color}
+        stroke={color(colorProp)}
         strokeWidth="1.625"
       />
       <path
         d="M14.8958 15L18.5417 11.3542M14.8958 5.625V15V5.625ZM14.8958 15L11.25 11.3542L14.8958 15Z"
-        stroke={color}
+        stroke={color(colorProp)}
         strokeWidth="1.5"
       />
     </svg>
