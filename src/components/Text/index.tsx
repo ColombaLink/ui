@@ -7,18 +7,21 @@ export const Text: FC = ({
   size = 'md',
   color: colorProp = 'TextPrimary',
   weight,
+  italic = false,
   ...props
 }: {
-  size: Size
-  color: Color
-  weight: number
+  size?: Size
+  color?: Color
+  weight?: number
   style?: CSSProperties
-}) => (
-  <div
-    style={{
-      ...font(size, colorProp, weight),
-      ...style,
-    }}
-    {...props}
-  />
-)
+  italic?: boolean
+}) => {
+  const s = font(size, colorProp, weight) as CSSProperties
+  if (italic) {
+    s.fontStyle = 'italic'
+  }
+  if (style) {
+    Object.assign(s, style)
+  }
+  return <div style={s} {...props} />
+}
