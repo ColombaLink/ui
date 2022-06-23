@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ExpandIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ExpandIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ExpandIconProps) => {
@@ -17,5 +17,5 @@ export const ExpandIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

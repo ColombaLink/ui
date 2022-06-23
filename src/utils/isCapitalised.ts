@@ -1,1 +1,1 @@
-export const isCapitalised = (string: string) => /^[A-Z]$/.test(string);
+export const isCapitalised = (string: string) => /^[A-Z]$/.test(string)

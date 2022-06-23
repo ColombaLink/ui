@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type EditIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const EditIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: EditIconProps) => {
@@ -23,5 +23,5 @@ export const EditIcon = ({
         strokeWidth="1.66667"
       />
     </svg>
-  );
-};
+  )
+}

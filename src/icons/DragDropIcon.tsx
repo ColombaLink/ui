@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type DragDropIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const DragDropIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: DragDropIconProps) => {
@@ -21,5 +21,5 @@ export const DragDropIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

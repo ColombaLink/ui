@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type CheckIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const CheckIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: CheckIconProps) => {
@@ -17,5 +17,5 @@ export const CheckIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

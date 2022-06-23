@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ReferenceIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ReferenceIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ReferenceIconProps) => {
@@ -21,5 +21,5 @@ export const ReferenceIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

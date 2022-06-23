@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type DeleteIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const DeleteIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: DeleteIconProps) => {
@@ -20,5 +20,5 @@ export const DeleteIcon = ({
       <path d="M11.6665 9.1665V14.1665" stroke={color} strokeWidth="1.5" />
       <path d="M8.3335 9.1665V14.1665" stroke={color} strokeWidth="1.5" />
     </svg>
-  );
-};
+  )
+}

@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type RedoIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const RedoIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: RedoIconProps) => {
@@ -17,5 +17,5 @@ export const RedoIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

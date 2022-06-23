@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type MoreIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const MoreIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: MoreIconProps) => {
@@ -17,5 +17,5 @@ export const MoreIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

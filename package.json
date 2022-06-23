@@ -10,11 +10,19 @@
   "author": "youzi",
   "license": "ISC",
   "sideEffects": false,
+  "prettier": "@saulx/prettier-config",
+  "eslintConfig": {
+    "extends": "@saulx/eslint-config"
+  },
   "dependencies": {
     "@ladle/react": "^1.1.1",
     "inlines": "^0.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "wouter": "^2.8.0-alpha.2"
+  },
+  "devDependencies": {
+    "@saulx/prettier-config": "^1.0.0",
+    "prettier": "^2.7.1"
   }
 }

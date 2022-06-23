@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type DarkModeIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const DarkModeIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: DarkModeIconProps) => {
@@ -18,5 +18,5 @@ export const DarkModeIcon = ({
         strokeWidth="1.5"
       />
     </svg>
-  );
-};
+  )
+}

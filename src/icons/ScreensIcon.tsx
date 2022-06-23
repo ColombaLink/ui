@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ScreensIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ScreensIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ScreensIconProps) => {
@@ -17,5 +17,5 @@ export const ScreensIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

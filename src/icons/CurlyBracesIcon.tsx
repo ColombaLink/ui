@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type CurlyBracesIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const CurlyBracesIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: CurlyBracesIconProps) => {
@@ -21,5 +21,5 @@ export const CurlyBracesIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

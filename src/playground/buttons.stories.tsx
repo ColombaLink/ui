@@ -1,37 +1,37 @@
-import React from "react";
-import { AddIcon, Button, Provider, Text } from "~";
-import { styled } from "inlines";
+import React from 'react'
+import { AddIcon, Button, Provider, Text } from '~'
+import { styled } from 'inlines'
 
 export const Buttons = ({ icon }) => {
-  const colors = ["Primary", "Action", "Error"];
+  const colors = ['Primary', 'Action', 'Error']
   const loadClick = async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1e3));
-  };
+    await new Promise((resolve) => setTimeout(resolve, 1e3))
+  }
   const errorClick = async () => {
-    await loadClick();
-    throw Error("error");
-  };
+    await loadClick()
+    throw Error('error')
+  }
   return (
     <Provider>
       {colors.map((color) => {
-        const states = [null, "hover", "disabled"];
+        const states = [null, 'hover', 'disabled']
         return (
           <div key={color} style={{ marginBottom: 24 }}>
             <Text weight={600}>{color}</Text>
             {states.map((state) => {
-              const disabled = state === "disabled";
-              const hover = state === "hover";
-              const error = color === "Error";
-              const action = color === "Action";
+              const disabled = state === 'disabled'
+              const hover = state === 'hover'
+              const error = color === 'Error'
+              const action = color === 'Action'
               return (
                 <styled.div
                   key={state}
                   style={{
-                    display: "flex",
-                    margin: "0 -8px",
-                    alignItems: "center",
-                    "& > *": {
-                      margin: "8px",
+                    display: 'flex',
+                    margin: '0 -8px',
+                    alignItems: 'center',
+                    '& > *': {
+                      margin: '8px',
                     },
                   }}
                 >
@@ -103,13 +103,13 @@ export const Buttons = ({ icon }) => {
                     {color} Outline Light
                   </Button>
                 </styled.div>
-              );
+              )
             })}
           </div>
-        );
+        )
       })}
     </Provider>
-  );
-};
+  )
+}
 
-export const ButtonsWithIcons = () => <Buttons icon={AddIcon} />;
+export const ButtonsWithIcons = () => <Buttons icon={AddIcon} />

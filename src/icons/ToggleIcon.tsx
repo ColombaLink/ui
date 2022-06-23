@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ToggleIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ToggleIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ToggleIconProps) => {
@@ -17,5 +17,5 @@ export const ToggleIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

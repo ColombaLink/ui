@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ScheduleIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ScheduleIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ScheduleIconProps) => {
@@ -28,5 +28,5 @@ export const ScheduleIcon = ({
         strokeWidth="1.5"
       />
     </svg>
-  );
-};
+  )
+}

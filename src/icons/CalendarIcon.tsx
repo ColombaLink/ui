@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type CalendarIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const CalendarIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: CalendarIconProps) => {
@@ -17,5 +17,5 @@ export const CalendarIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

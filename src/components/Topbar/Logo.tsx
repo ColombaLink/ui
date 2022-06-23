@@ -1,4 +1,4 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties } from 'react'
 
 export const Logo = ({ style }: { style?: CSSProperties }) => (
   <svg
@@ -70,4 +70,4 @@ export const Logo = ({ style }: { style?: CSSProperties }) => (
       </filter>
     </defs>
   </svg>
-);
+)

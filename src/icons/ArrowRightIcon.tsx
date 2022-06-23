@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ArrowRightIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ArrowRightIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ArrowRightIconProps) => {
@@ -17,5 +17,5 @@ export const ArrowRightIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

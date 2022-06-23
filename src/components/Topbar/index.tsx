@@ -1,37 +1,37 @@
-import React, { FC } from "react";
-import { useLocation } from "wouter";
-import { color, font } from "~/utils";
-import { hrefIsActive } from "~/utils/hrefIsActive";
-import { Link } from "../Link";
-import { Text } from "../Text";
-import { Logo } from "./Logo";
+import React, { FC } from 'react'
+import { useLocation } from 'wouter'
+import { color, font } from '~/utils'
+import { hrefIsActive } from '~/utils/hrefIsActive'
+import { Link } from '../Link'
+import { Text } from '../Text'
+import { Logo } from './Logo'
 
 const TopbarTab: FC = ({ href, children, isActive }) => {
-  const marginTop = (66 - 32) / 2;
+  const marginTop = (66 - 32) / 2
   return (
     <div
       style={{
-        position: "relative",
-        height: "100%",
+        position: 'relative',
+        height: '100%',
         marginLeft: 32,
       }}
     >
       {/* this is to create a consistent size between active/inactive */}
-      <Text weight={600} style={{ visibility: "hidden" }}>
+      <Text weight={600} style={{ visibility: 'hidden' }}>
         {children}
       </Text>
       <Link
         href={href}
         style={{
-          padding: "0px 12px",
+          padding: '0px 12px',
           height: 32,
           marginTop,
           marginLeft: -12,
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           borderRadius: 4,
-          "&:hover": {
-            backgroundColor: color("PrimaryLightHover"),
+          '&:hover': {
+            backgroundColor: color('PrimaryLightHover'),
           },
         }}
       >
@@ -39,37 +39,37 @@ const TopbarTab: FC = ({ href, children, isActive }) => {
           style={{
             marginTop: -marginTop,
             height: 66,
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
             borderBottom: `3px solid ${
-              isActive ? color("TextPrimary") : "transparent"
+              isActive ? color('TextPrimary') : 'transparent'
             }`,
             marginBottom: -3,
             ...(isActive
-              ? font("md", "TextPrimary", 600)
-              : font("md", "TextSecondary")),
+              ? font('md', 'TextPrimary', 600)
+              : font('md', 'TextSecondary')),
           }}
         >
           {children}
         </div>
       </Link>
     </div>
-  );
-};
+  )
+}
 
 export const Topbar = ({
   data,
-  prefix = "",
+  prefix = '',
   selected,
 }: {
-  data: object;
-  selected?: string;
-  prefix?: string;
+  data: object
+  selected?: string
+  prefix?: string
 }) => {
-  const [location] = useLocation();
+  const [location] = useLocation()
 
   if (!selected) {
-    selected = location;
+    selected = location
   }
 
   return (
@@ -77,15 +77,15 @@ export const Topbar = ({
       style={{
         height: 66,
         minHeight: 66,
-        display: "flex",
-        borderBottom: `1px solid ${color("OtherDivider")}`,
-        backgroundColor: color("Background1dp"),
-        alignItems: "center",
+        display: 'flex',
+        borderBottom: `1px solid ${color('OtherDivider')}`,
+        backgroundColor: color('Background1dp'),
+        alignItems: 'center',
       }}
     >
       <Logo style={{ marginLeft: 32 }} />
       {Object.keys(data).map((key) => {
-        const href = prefix + data[key];
+        const href = prefix + data[key]
         return (
           <TopbarTab
             key={key}
@@ -94,8 +94,8 @@ export const Topbar = ({
           >
             {key}
           </TopbarTab>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}

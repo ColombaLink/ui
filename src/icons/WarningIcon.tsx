@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type WarningIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const WarningIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: WarningIconProps) => {
@@ -17,5 +17,5 @@ export const WarningIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

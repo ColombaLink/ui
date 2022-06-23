@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type GraphIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const GraphIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: GraphIconProps) => {
@@ -20,5 +20,5 @@ export const GraphIcon = ({
         strokeWidth="1.5"
       />
     </svg>
-  );
-};
+  )
+}

@@ -1,7 +1,7 @@
-import React, { createElement, FC, useState } from "react";
-import { color as c } from "~/utils";
-import { styled } from "inlines";
-import { LoadingIcon } from "~/icons";
+import React, { createElement, FC, useState } from 'react'
+import { color as c } from '~/utils'
+import { styled } from 'inlines'
+import { LoadingIcon } from '~/icons'
 
 export const Button: FC = ({
   children,
@@ -18,70 +18,68 @@ export const Button: FC = ({
   onClick,
   style,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const colorBase = error ? "Error" : action ? "Action" : "Primary";
-  let color, bg, borderColor, hoverBg;
+  const [isLoading, setIsLoading] = useState(false)
+  const colorBase = error ? 'Error' : action ? 'Action' : 'Primary'
+  let color, bg, borderColor, hoverBg
 
   if (ghost) {
-    color = `${colorBase}Main`;
-    hoverBg = `${colorBase}LightHover`;
+    color = `${colorBase}Main`
+    hoverBg = `${colorBase}LightHover`
   } else if (outline) {
-    color = `${colorBase}Main`;
-    borderColor = light
-      ? `${colorBase}LightOutline`
-      : `${colorBase}MainOutline`;
-    bg = `${colorBase}Light`;
-    hoverBg = `${bg}Hover`;
+    color = `${colorBase}Main`
+    borderColor = light ? `${colorBase}LightOutline` : `${colorBase}MainOutline`
+    bg = `${colorBase}Light`
+    hoverBg = `${bg}Hover`
   } else if (light) {
-    bg = `${colorBase}Light`;
-    color = `${bg}Contrast`;
-    hoverBg = `${bg}Hover`;
+    bg = `${colorBase}Light`
+    color = `${bg}Contrast`
+    hoverBg = `${bg}Hover`
   } else {
-    bg = `${colorBase}Main`;
-    color = `${colorBase}MainContrast`;
-    hoverBg = `${bg}Hover`;
+    bg = `${colorBase}Main`
+    color = `${colorBase}MainContrast`
+    hoverBg = `${bg}Hover`
   }
 
   if (hover) {
-    bg = hoverBg;
+    bg = hoverBg
   }
 
   if (onClick) {
-    const onClickOrginal = onClick;
+    const onClickOrginal = onClick
     onClick = async (e) => {
-      e.stopPropagation();
-      e.preventDefault();
-      const t = e.currentTarget;
-      let isSet = false;
+      e.stopPropagation()
+      e.preventDefault()
+      const t = e.currentTarget
+      let isSet = false
       const timer = setTimeout(() => {
         if (!isSet) {
-          setIsLoading(true);
+          setIsLoading(true)
         }
-      }, 100);
+      }, 100)
       try {
-        await onClickOrginal(e);
+        await onClickOrginal(e)
       } catch (e) {
-        console.error(`Unhandled error from async click "${e.message}"`);
-        t.style.transform = "translateX(-10px)";
+        console.error(`Unhandled error from async click "${e.message}"`)
+        t.style.transform = 'translateX(-10px)'
         setTimeout(() => {
-          t.style.transform = "translateX(10px)";
+          t.style.transform = 'translateX(10px)'
           setTimeout(() => {
-            t.style.transform = "translateX(0px)";
-          }, 100);
-        }, 100);
+            t.style.transform = 'translateX(0px)'
+          }, 100)
+        }, 100)
       }
-      isSet = true;
-      setIsLoading(false);
-      clearTimeout(timer);
-    };
+      isSet = true
+      setIsLoading(false)
+      clearTimeout(timer)
+    }
   }
 
   if (isLoading) {
-    loading = true;
+    loading = true
   }
 
   if (loading) {
-    disabled = true;
+    disabled = true
   }
 
   return (
@@ -89,15 +87,15 @@ export const Button: FC = ({
       disabled={disabled}
       onClick={onClick}
       style={{
-        transition: "width 0.15s, transform 0.1s, opacity 0.15s",
-        padding: "4px 8px",
+        transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
+        padding: '4px 8px',
         color: c(color),
         backgroundColor: c(bg),
-        border: `1px solid ${borderColor ? c(borderColor) : "transparent"}`,
+        border: `1px solid ${borderColor ? c(borderColor) : 'transparent'}`,
         borderRadius: 4,
         opacity: disabled ? 0.6 : 1,
-        position: "relative",
-        "&:hover": {
+        position: 'relative',
+        '&:hover': {
           backgroundColor: c(hoverBg),
         },
         ...style,
@@ -105,9 +103,9 @@ export const Button: FC = ({
     >
       <div
         style={{
-          visibility: loading ? "hidden" : null,
-          display: "flex",
-          alignItems: "center",
+          visibility: loading ? 'hidden' : null,
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
         {iconLeft &&
@@ -125,15 +123,15 @@ export const Button: FC = ({
       {loading && (
         <div
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate3d(-50%,-50%,0)",
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate3d(-50%,-50%,0)',
           }}
         >
           <LoadingIcon />
         </div>
       )}
     </styled.button>
-  );
-};
+  )
+}

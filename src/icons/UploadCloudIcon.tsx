@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type UploadIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const UploadCloudIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: UploadIconProps) => {
@@ -23,5 +23,5 @@ export const UploadCloudIcon = ({
         strokeWidth="1.5"
       />
     </svg>
-  );
-};
+  )
+}

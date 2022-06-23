@@ -1,13 +1,13 @@
-import React from "react";
-import { styled } from "inlines";
+import React from 'react'
+import { styled } from 'inlines'
 
 type LoadingIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const LoadingIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   style,
   ...props
@@ -18,13 +18,13 @@ export const LoadingIcon = ({
       height={size}
       viewBox="0 0 20 20"
       style={{
-        "@keyframes": {
-          from: { transform: "rotate(0deg)" },
-          to: { transform: "rotate(360deg)" },
+        '@keyframes': {
+          from: { transform: 'rotate(0deg)' },
+          to: { transform: 'rotate(360deg)' },
         },
-        animationTimingFunction: "linear",
-        animationIterationCount: "infinite",
-        animationDuration: "2s",
+        animationTimingFunction: 'linear',
+        animationIterationCount: 'infinite',
+        animationDuration: '2s',
         ...style,
       }}
       {...props}
@@ -35,5 +35,5 @@ export const LoadingIcon = ({
         strokeWidth="1.5"
       />
     </styled.svg>
-  );
-};
+  )
+}

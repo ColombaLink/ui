@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type GeoMarkerIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const GeoMarkerIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: GeoMarkerIconProps) => {
@@ -17,5 +17,5 @@ export const GeoMarkerIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

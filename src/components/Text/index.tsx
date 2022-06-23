@@ -1,18 +1,18 @@
-import React, { FC, CSSProperties } from "react";
-import { Size, Color } from "~/types";
-import { font } from "~/utils";
+import React, { FC, CSSProperties } from 'react'
+import { Size, Color } from '~/types'
+import { font } from '~/utils'
 
 export const Text: FC = ({
   style,
-  size = "md",
-  color: colorProp = "TextPrimary",
+  size = 'md',
+  color: colorProp = 'TextPrimary',
   weight,
   ...props
 }: {
-  size: Size;
-  color: Color;
-  weight: number;
-  style?: CSSProperties;
+  size: Size
+  color: Color
+  weight: number
+  style?: CSSProperties
 }) => (
   <div
     style={{
@@ -21,4 +21,4 @@ export const Text: FC = ({
     }}
     {...props}
   />
-);
+)

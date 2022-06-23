@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type DuplicateIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const DuplicateIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: DuplicateIconProps) => {
@@ -17,5 +17,5 @@ export const DuplicateIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

@@ -1,9 +1,9 @@
-import type { Color, Size } from "~/types";
-import { color } from "./color";
+import type { Color, Size } from '~/types'
+import { color } from './color'
 
 export const font = (
-  size: Size = "md",
-  colorProp: Color = "TextPrimary",
+  size: Size = 'md',
+  colorProp: Color = 'TextPrimary',
   weight = 500
 ) => {
   return {
@@ -11,5 +11,5 @@ export const font = (
     lineHeight: `var(--line-${size})`,
     fontWeight: weight,
     color: color(colorProp),
-  };
-};
+  }
+}

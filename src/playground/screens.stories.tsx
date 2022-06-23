@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   Topbar,
   Sidebar,
@@ -10,39 +10,39 @@ import {
   ModelIcon,
   UsersIcon,
   Provider,
-} from "..";
+} from '..'
 
 export const Members = () => (
   <Provider
     style={{
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
     }}
   >
     <Topbar
       data={{
-        Projects: "/",
-        Settings: "/settings",
+        Projects: '/',
+        Settings: '/settings',
       }}
     />
-    <div style={{ display: "flex", flexGrow: 1 }}>
+    <div style={{ display: 'flex', flexGrow: 1 }}>
       <Menu
         data={{
-          "Personal settings": {
-            Profile: "/profile",
-            Preferences: "/preferences",
-            Notifications: "/notifications",
-            "Keyboard shortcuts": "/keyboard",
+          'Personal settings': {
+            Profile: '/profile',
+            Preferences: '/preferences',
+            Notifications: '/notifications',
+            'Keyboard shortcuts': '/keyboard',
           },
-          "Product settings": {
-            Integrations: "/integrations",
-            API: "/api",
-            Import: "/import",
+          'Product settings': {
+            Integrations: '/integrations',
+            API: '/api',
+            Import: '/import',
           },
-          "Organization settings": {
-            EBU: "/ebu",
-            Saulx: "/saulx",
+          'Organization settings': {
+            EBU: '/ebu',
+            Saulx: '/saulx',
           },
         }}
       />
@@ -50,66 +50,66 @@ export const Members = () => (
         prefix="/ebu"
         data={{
           EBU: {
-            General: "/general",
-            "Roles & Permissions": "/roles",
-            Members: "/members",
-            Billing: "/billing",
+            General: '/general',
+            'Roles & Permissions': '/roles',
+            Members: '/members',
+            Billing: '/billing',
           },
         }}
       />
     </div>
   </Provider>
-);
+)
 
 const Edit = ({ id, data }) => {
-  return <div>{id}</div>;
-};
+  return <div>{id}</div>
+}
 
 export const Assets = () => (
   <Provider
     style={{
-      height: "100%",
-      display: "flex",
-      flexDirection: "column",
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
     }}
   >
     <Topbar
       data={{
-        Projects: "/",
-        Settings: "/settings",
+        Projects: '/',
+        Settings: '/settings',
       }}
     />
-    <div style={{ display: "flex", flexGrow: 1 }}>
+    <div style={{ display: 'flex', flexGrow: 1 }}>
       <Sidebar
         data={{
-          Overview: ["/", GridIcon],
-          Schema: ["/schema", LayersIcon],
-          Content: ["/content", EditIcon],
-          Files: ["/files", AttachmentIcon],
-          Users: ["/users", UsersIcon],
-          Graphql: ["/graphql", ModelIcon],
+          Overview: ['/', GridIcon],
+          Schema: ['/schema', LayersIcon],
+          Content: ['/content', EditIcon],
+          Files: ['/files', AttachmentIcon],
+          Users: ['/users', UsersIcon],
+          Graphql: ['/graphql', ModelIcon],
         }}
       />
       <Menu
         data={{
-          "Project Settings": "/project",
-          General: "/general",
+          'Project Settings': '/project',
+          General: '/general',
         }}
       />
       <Edit
-        id={"x"}
+        id={'x'}
         data={{
-          "Project details": {
-            "Project name": "name",
-            "Email address": ["email", "Enter Email Address"],
-            "Project picture": ["picture", "Add picture"],
+          'Project details': {
+            'Project name': 'name',
+            'Email address': ['email', 'Enter Email Address'],
+            'Project picture': ['picture', 'Add picture'],
           },
-          "Privacy settings": {
-            "Make project private": ["name", false],
+          'Privacy settings': {
+            'Make project private': ['name', false],
             // 'Allow specific organization members access': []
           },
         }}
       />
     </div>
   </Provider>
-);
+)

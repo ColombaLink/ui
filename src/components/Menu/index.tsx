@@ -1,9 +1,9 @@
-import React, { FC, Fragment } from "react";
-import { useLocation } from "wouter";
-import { color, font } from "~/utils";
-import { hrefIsActive } from "~/utils/hrefIsActive";
-import { Link } from "../Link";
-import { Text } from "../Text";
+import React, { FC, Fragment } from 'react'
+import { useLocation } from 'wouter'
+import { color, font } from '~/utils'
+import { hrefIsActive } from '~/utils/hrefIsActive'
+import { Link } from '../Link'
+import { Text } from '../Text'
 
 const MenuHeader: FC = ({ children, style }) => {
   return (
@@ -16,8 +16,8 @@ const MenuHeader: FC = ({ children, style }) => {
     >
       {children}
     </Text>
-  );
-};
+  )
+}
 
 const MenuItem: FC = ({
   children,
@@ -28,9 +28,9 @@ const MenuItem: FC = ({
 }) => {
   const textColor = isNested
     ? isActive
-      ? "ActionLightContrast"
-      : "TextSecondary"
-    : null;
+      ? 'ActionLightContrast'
+      : 'TextSecondary'
+    : null
 
   return (
     <Text
@@ -44,52 +44,52 @@ const MenuItem: FC = ({
       <Link
         href={href}
         style={{
-          padding: "4px 12px",
-          margin: "-4px -12px",
-          backgroundColor: isActive ? color("PrimaryLightSelected") : null,
-          "&:hover": {
-            backgroundColor: color("PrimaryLightHover"),
+          padding: '4px 12px',
+          margin: '-4px -12px',
+          backgroundColor: isActive ? color('PrimaryLightSelected') : null,
+          '&:hover': {
+            backgroundColor: color('PrimaryLightHover'),
           },
         }}
       >
         {children}
       </Link>
     </Text>
-  );
-};
+  )
+}
 
 export const Menu = ({
   data = {},
   selected,
-  prefix = "",
+  prefix = '',
 }: {
-  data: object;
-  selected?: string;
-  prefix?: string;
+  data: object
+  selected?: string
+  prefix?: string
 }) => {
-  const [location] = useLocation();
+  const [location] = useLocation()
   if (!selected) {
-    selected = location;
+    selected = location
   }
 
   return (
     <div
       style={{
-        backgroundColor: color("Background1dp"),
-        borderRight: `1px solid ${color("OtherDivider")}`,
-        padding: "64px 20px 20px 20px",
+        backgroundColor: color('Background1dp'),
+        borderRight: `1px solid ${color('OtherDivider')}`,
+        padding: '64px 20px 20px 20px',
         width: 224,
         ...font(),
       }}
     >
       {Object.keys(data).map((key, i) => {
-        const value = data[key];
-        if (typeof value === "object") {
+        const value = data[key]
+        if (typeof value === 'object') {
           return (
             <Fragment key={key}>
               <MenuHeader style={{ marginTop: i && 40 }}>{key}</MenuHeader>
               {Object.keys(value).map((key) => {
-                const href = prefix + value[key];
+                const href = prefix + value[key]
                 return (
                   <MenuItem
                     key={key}
@@ -99,12 +99,12 @@ export const Menu = ({
                   >
                     {key}
                   </MenuItem>
-                );
+                )
               })}
             </Fragment>
-          );
+          )
         }
-        const href = prefix + value;
+        const href = prefix + value
         return (
           <MenuItem
             key={key}
@@ -113,8 +113,8 @@ export const Menu = ({
           >
             {key}
           </MenuItem>
-        );
+        )
       })}
     </div>
-  );
-};
+  )
+}

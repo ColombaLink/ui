@@ -1,20 +1,20 @@
 export const hrefIsActive = (href: string, selected: string, data?: object) => {
   if (href === selected) {
-    return true;
+    return true
   }
 
-  if (href === "/") {
+  if (href === '/') {
     if (data) {
       for (const i in data) {
-        const value = data[i];
+        const value = data[i]
         if (value !== href && selected.startsWith(value)) {
-          return false;
+          return false
         }
       }
-      return true;
+      return true
     }
-    return false;
+    return false
   }
 
-  return selected.startsWith(href);
-};
+  return selected.startsWith(href)
+}

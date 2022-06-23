@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type GithubIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const GithubIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: GithubIconProps) => {
@@ -17,5 +17,5 @@ export const GithubIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

@@ -168,7 +168,7 @@ input:focus select:focus {
   outline: none;
 }
 
-input[type="number"] {
+input[type='number'] {
   /* Mozilla shows the spinner UI on number inputs unless we use this: */
   -moz-appearance: textfield;
 }
@@ -176,8 +176,8 @@ input[type="number"] {
 /**
   * Removes the little spinner controls for number type inputs (WebKit browsers/forks only).
   */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   appearance: none;
 }
 

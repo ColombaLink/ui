@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type StackIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const StackIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: StackIconProps) => {
@@ -28,5 +28,5 @@ export const StackIcon = ({
         strokeWidth="1.5"
       />
     </svg>
-  );
-};
+  )
+}

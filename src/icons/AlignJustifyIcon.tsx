@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type AlignJustifyIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const AlignJustifyIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: AlignJustifyIconProps) => {
@@ -17,5 +17,5 @@ export const AlignJustifyIcon = ({
       <path d="M17.5 11.6665H2.5" stroke={color} strokeWidth="1.5" />
       <path d="M17.5 15H2.5" stroke={color} strokeWidth="1.5" />
     </svg>
-  );
-};
+  )
+}

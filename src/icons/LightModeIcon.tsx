@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type LightModeIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const LightModeIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: LightModeIconProps) => {
@@ -30,5 +30,5 @@ export const LightModeIcon = ({
       <path d="M3.5166 16.4834L4.69993 15.3" stroke={color} strokeWidth="1.5" />
       <path d="M15.3 4.69993L16.4834 3.5166" stroke={color} strokeWidth="1.5" />
     </svg>
-  );
-};
+  )
+}

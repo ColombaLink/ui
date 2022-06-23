@@ -1,18 +1,18 @@
-import React from "react";
-import * as icons from "../icons";
-import { Provider } from "~";
-import { Text } from "~/components/Text";
+import React from 'react'
+import * as icons from '../icons'
+import { Provider } from '~'
+import { Text } from '~/components/Text'
 
 const randomColor = (): string =>
-  `#${Math.random().toString(16).slice(2, 8).padEnd(6, "0")}`;
+  `#${Math.random().toString(16).slice(2, 8).padEnd(6, '0')}`
 
 export const Overview = () => (
   <>
     <div
       style={{
         margin: 12,
-        display: "flex",
-        alignItems: "center",
+        display: 'flex',
+        alignItems: 'center',
       }}
     >
       <Text size="xs" style={{ marginRight: 6 }}>
@@ -21,13 +21,13 @@ export const Overview = () => (
       <Text size="xs">20px</Text>
     </div>
 
-    <Provider style={{ display: "block", flexWrap: "wrap" }}>
+    <Provider style={{ display: 'block', flexWrap: 'wrap' }}>
       {Object.keys(icons).map((name, index) => (
         <div
           style={{
             margin: 12,
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
           }}
           key={index}
         >
@@ -49,4 +49,4 @@ export const Overview = () => (
       ))}
     </Provider>
   </>
-);
+)

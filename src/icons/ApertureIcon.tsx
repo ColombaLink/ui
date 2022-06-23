@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ApertureIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ApertureIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ApertureIconProps) => {
@@ -19,5 +19,5 @@ export const ApertureIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

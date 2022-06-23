@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ChevronLeftIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ChevronLeftIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ChevronLeftIconProps) => {
@@ -18,5 +18,5 @@ export const ChevronLeftIcon = ({
         strokeWidth="1.66667"
       />
     </svg>
-  );
-};
+  )
+}

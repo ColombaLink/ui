@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type AlignLeftIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const AlignLeftIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: AlignLeftIconProps) => {
@@ -17,5 +17,5 @@ export const AlignLeftIcon = ({
       <path d="M17.5 11.6665H2.5" stroke={color} strokeWidth="1.5" />
       <path d="M14.1667 15H2.5" stroke={color} strokeWidth="1.5" />
     </svg>
-  );
-};
+  )
+}

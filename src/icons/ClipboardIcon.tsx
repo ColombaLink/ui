@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type ClipboardIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const ClipboardIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: ClipboardIconProps) => {
@@ -19,5 +19,5 @@ export const ClipboardIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

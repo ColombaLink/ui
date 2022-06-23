@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type MarkDownIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const MarkDownIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: MarkDownIconProps) => {
@@ -17,5 +17,5 @@ export const MarkDownIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}

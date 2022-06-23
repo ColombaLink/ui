@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react'
 
 type CheckCircleIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: string;
-  size?: number;
-};
+  color?: string
+  size?: number
+}
 
 export const CheckCircleIcon = ({
-  color = "currentColor",
+  color = 'currentColor',
   size = 20,
   ...props
 }: CheckCircleIconProps) => {
@@ -19,5 +19,5 @@ export const CheckCircleIcon = ({
         fill={color}
       />
     </svg>
-  );
-};
+  )
+}
