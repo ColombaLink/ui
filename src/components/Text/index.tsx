@@ -21,6 +21,7 @@ export const Text: FC = ({
   wrap?: boolean
 }) => {
   const s = font(size, colorProp, weight) as CSSProperties
+
   s.userSelect = selectable ? 'text' : 'none'
   if (!wrap) {
     s.textOverflow = 'ellipsis'
