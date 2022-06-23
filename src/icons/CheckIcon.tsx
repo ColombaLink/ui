@@ -4,13 +4,11 @@ import { color } from '~/utils'
 
 type CheckIconProps = React.SVGProps<SVGSVGElement> & {
   color?: Color | string
-
   size?: number
 }
 
 export const CheckIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
 }: CheckIconProps) => {

@@ -11,7 +11,7 @@ export const Text: FC = ({
   ...props
 }: {
   size?: Size
-  color?: Color
+  color?: Color | string
   weight?: number
   style?: CSSProperties
   italic?: boolean
