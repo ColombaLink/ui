@@ -1,21 +1,26 @@
 import React from 'react'
-import { Checkbox, Provider } from '~'
-import { styled } from 'inlines'
+import { Checkbox as _Checkbox, Input } from '~'
 
-export const Checkboxes = () => {
+export const Checkbox = () => {
   return (
-    <Provider>
-      <Checkbox style={{ marginBottom: 8 }} />
-      <Checkbox style={{ marginBottom: 8 }}>With Label</Checkbox>
-      <Checkbox style={{ marginBottom: 8 }} hover>
-        Hovering
-      </Checkbox>
-      <Checkbox style={{ marginBottom: 8 }} checked>
+    <>
+      <_Checkbox style={{ marginBottom: 8 }} />
+      <_Checkbox style={{ marginBottom: 8 }}>With Label</_Checkbox>
+      <_Checkbox style={{ marginBottom: 8 }} checked>
         Selected
-      </Checkbox>
-      <Checkbox style={{ marginBottom: 8 }} checked hover>
-        Selected and hovering
-      </Checkbox>
-    </Provider>
+      </_Checkbox>
+      <_Checkbox style={{ marginBottom: 8 }} checked label="With label">
+        And Description
+      </_Checkbox>
+    </>
+  )
+}
+
+export const Text = () => {
+  return (
+    <>
+      <Input />
+      <Input>With Label</Input>
+    </>
   )
 }

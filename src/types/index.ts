@@ -95,3 +95,4 @@ export type Color =
   | 'AccentBrightpurpleLight'
   | 'AccentPink'
   | 'AccentPinkLight'
+  | (string & {})

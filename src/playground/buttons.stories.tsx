@@ -1,5 +1,5 @@
 import React from 'react'
-import { AddIcon, Button, Provider, Text } from '~'
+import { AddIcon, Button, Text } from '~'
 import { styled } from 'inlines'
 
 export const Buttons = ({ icon }) => {
@@ -12,7 +12,7 @@ export const Buttons = ({ icon }) => {
     throw Error('error')
   }
   return (
-    <Provider>
+    <>
       {colors.map((color) => {
         const states = [null, 'disabled']
         return (
@@ -101,7 +101,7 @@ export const Buttons = ({ icon }) => {
           </div>
         )
       })}
-    </Provider>
+    </>
   )
 }
 

@@ -3,8 +3,7 @@ import { Color } from '~/types'
 import { color } from '~/utils'
 
 type AddIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color | string
-
+  color?: Color
   size?: number
 }
 

@@ -3,7 +3,7 @@ import { Color } from '~/types'
 import { color } from '~/utils'
 
 type ExpandRightIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color | string
+  color?: Color
 
   size?: number
 }

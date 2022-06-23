@@ -10,5 +10,6 @@ export * from './components/Provider'
 export * from './components/Sidebar'
 export * from './components/Text'
 export * from './components/Topbar'
+export * from './components/Input'
 
 export * from './icons'
