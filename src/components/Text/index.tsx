@@ -2,15 +2,17 @@ import React, { FC, CSSProperties } from 'react'
 import { Size, Color } from '~/types'
 import { font } from '~/utils'
 
-export const Text: FC<{
-  color: Color
-  italic: boolean
-  selectable: boolean
-  size: Size
-  style
-  weight: number
-  wrap: boolean
-}> = ({
+type TextProps = {
+  size?: Size
+  color?: Color
+  weight?: number
+  style?: CSSProperties
+  italic?: boolean
+  selectable?: boolean
+  wrap?: boolean
+}
+
+export const Text: FC = ({
   color: colorProp = 'TextPrimary',
   italic = false,
   selectable = false,
@@ -19,7 +21,7 @@ export const Text: FC<{
   weight = 400,
   wrap = false,
   ...props
-}) => {
+}: TextProps) => {
   const s = font(size, colorProp, weight) as CSSProperties
 
   s.userSelect = selectable ? 'text' : 'none'
