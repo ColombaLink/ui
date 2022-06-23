@@ -6,7 +6,7 @@ export const Text: FC = ({
   style,
   size = 'md',
   color: colorProp = 'TextPrimary',
-  weight,
+  weight = 400,
   italic = false,
   selectable = false,
   wrap = false,
