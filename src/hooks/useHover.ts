@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react'
+import { useRef, useState } from 'react'
 
-export const useHover = () => {
-  const [hover, setHover] = useState(false)
+export const useHover = (initialState = false) => {
+  const [hover, setHover] = useState(initialState)
   const ref = useRef()
 
   if (!ref.current) {
