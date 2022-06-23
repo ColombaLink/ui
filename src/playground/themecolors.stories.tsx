@@ -3,11 +3,15 @@ import { Provider } from '~'
 import { Text } from '~/components/Text'
 import { Color } from '~/types'
 import { color } from '~/utils'
+import { DuplicateIcon } from '../icons/DuplicateIcon'
 
 import { theme } from '../themes/light'
+import { useHover } from '~/hooks'
 
 const ColorArr = theme.colors
 console.log(ColorArr['AccentYellow'])
+
+const hover = false
 
 function HexCode(color) {
   const rgba = color.replace(/^rgba?\(|\s+|\)$/g, '').split(',')
@@ -59,19 +63,43 @@ export const ThemeColors = () => {
               }}
             >
               <div>
-                <Text size="sm">
-                  {HexCode('rgba(' + ColorArr[val].join() + ')')}
-                </Text>
+                {hover ? (
+                  <Text size="sm">
+                    <DuplicateIcon
+                      size={16}
+                      style={{ display: 'inline-block' }}
+                    />{' '}
+                    Copy
+                  </Text>
+                ) : (
+                  <Text size="sm">
+                    {HexCode('rgba(' + ColorArr[val].join() + ')')}
+                  </Text>
+                )}
               </div>
 
               <div>
                 <Text>rgba({ColorArr[val].join()})</Text>
               </div>
             </div>
-            <div>
-              <Text weight={500} size="sm" style={{ margin: 10 }}>
-                {val}
-              </Text>
+            <div
+              onClick={() => {
+                navigator.clipboard.writeText(val)
+              }}
+            >
+              {hover ? (
+                <Text weight={500} size="sm" style={{ margin: 10 }}>
+                  <DuplicateIcon
+                    size={16}
+                    style={{ display: 'inline-block' }}
+                  />{' '}
+                  Copy
+                </Text>
+              ) : (
+                <Text weight={500} size="sm" style={{ margin: 10 }}>
+                  {val}
+                </Text>
+              )}
             </div>
           </div>
         ))}
