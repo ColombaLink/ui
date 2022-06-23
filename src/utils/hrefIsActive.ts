@@ -1,4 +1,4 @@
-export function hrefIsActive(href: string, selected: string, data?: object) {
+export const hrefIsActive = (href: string, selected: string, data?: object) => {
   if (href === selected) {
     return true;
   }
@@ -17,4 +17,4 @@ export function hrefIsActive(href: string, selected: string, data?: object) {
   }
 
   return selected.startsWith(href);
-}
+};

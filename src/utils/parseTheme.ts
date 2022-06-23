@@ -1,6 +1,6 @@
 import { toRGBA } from "./toRGBA";
 
-export function parseTheme(theme) {
+export const parseTheme = (theme) => {
   for (const i in theme.colors) {
     const color = toRGBA(theme.colors[i]);
     theme.colors[i] = color;
@@ -17,4 +17,4 @@ export function parseTheme(theme) {
   }
 
   return theme;
-}
+};

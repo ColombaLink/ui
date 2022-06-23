@@ -1,8 +1,6 @@
 import React, { createElement, FC, useState } from "react";
 import { color as c } from "~/utils";
-import { slicePascalCase } from "~/utils/slicePascalCase";
 import { styled } from "inlines";
-import { Color } from "~/types";
 import { LoadingIcon } from "~/icons";
 
 export const Button: FC = ({

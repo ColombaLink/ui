@@ -1,19 +1,19 @@
 const hexToDecimal = (hex) => parseInt(hex, 16);
 
-const parseHex = (nakedHex) => {
-  const isShort = nakedHex.length === 3 || nakedHex.length === 4;
+const parseHex = (hex) => {
+  const isShort = hex.length === 3 || hex.length === 4;
   let r, g, b, a;
 
   if (isShort) {
-    r = `${nakedHex.slice(0, 1)}${nakedHex.slice(0, 1)}`;
-    g = `${nakedHex.slice(1, 2)}${nakedHex.slice(1, 2)}`;
-    b = `${nakedHex.slice(2, 3)}${nakedHex.slice(2, 3)}`;
-    a = `${nakedHex.slice(3, 4)}${nakedHex.slice(3, 4)}`;
+    r = `${hex.slice(0, 1)}${hex.slice(0, 1)}`;
+    g = `${hex.slice(1, 2)}${hex.slice(1, 2)}`;
+    b = `${hex.slice(2, 3)}${hex.slice(2, 3)}`;
+    a = `${hex.slice(3, 4)}${hex.slice(3, 4)}`;
   } else {
-    r = nakedHex.slice(0, 2);
-    g = nakedHex.slice(2, 4);
-    b = nakedHex.slice(4, 6);
-    a = nakedHex.slice(6, 8);
+    r = hex.slice(0, 2);
+    g = hex.slice(2, 4);
+    b = hex.slice(4, 6);
+    a = hex.slice(6, 8);
   }
 
   return [
@@ -24,7 +24,7 @@ const parseHex = (nakedHex) => {
   ];
 };
 
-export function toRGBA(color) {
+export const toRGBA = (color) => {
   if (Array.isArray(color)) {
     return color;
   } else if (color[0] === "#") {
@@ -49,4 +49,4 @@ export function toRGBA(color) {
 
     return arr;
   }
-}
+};

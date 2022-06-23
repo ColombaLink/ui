@@ -1,8 +1,10 @@
-export function slicePascalCase(string: string, n = 2) {
+import { isCapitalised } from "./isCapitalised";
+
+export const slicePascalCase = (string: string, n = 2) => {
   let result = "";
   let capCnt = 0;
   for (const char of string) {
-    if (/^[A-Z]$/.test(char)) {
+    if (isCapitalised(char)) {
       if (capCnt++ >= n) {
         break;
       }
@@ -10,4 +12,4 @@ export function slicePascalCase(string: string, n = 2) {
     result += char;
   }
   return result;
-}
+};

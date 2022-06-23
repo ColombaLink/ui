@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from "react";
+import React, { FC } from "react";
 import { Link as WLink } from "wouter";
 import { styled } from "inlines";
 
