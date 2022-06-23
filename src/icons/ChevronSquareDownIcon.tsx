@@ -1,18 +1,12 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
-
-type ChevronSquareDownIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
 
 export const ChevronSquareDownIcon = ({
   color: colorProp = 'currentColor',
   size = 20,
   ...props
-}: ChevronSquareDownIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <path

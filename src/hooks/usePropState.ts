@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export const usePropState = (prop) => {
+export const usePropState = (prop: any) => {
   const s = useState(prop)
 
   useEffect(() => {

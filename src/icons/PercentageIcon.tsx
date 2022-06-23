@@ -1,19 +1,12 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
-
-type PercentageIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
 
 export const PercentageIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
-}: PercentageIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <path

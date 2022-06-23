@@ -1,19 +1,12 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
-
-type ScheduleIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
 
 export const ScheduleIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
-}: ScheduleIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" fill="none" {...props}>
       <path

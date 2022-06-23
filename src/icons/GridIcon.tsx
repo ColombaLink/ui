@@ -1,19 +1,12 @@
 import React from 'react'
-import { Color } from '~/types'
+import { Icon } from '~/types'
 import { color } from '~/utils'
-
-type GridIconProps = React.SVGProps<SVGSVGElement> & {
-  color?: Color
-
-  size?: number
-}
 
 export const GridIcon = ({
   color: colorProp = 'currentColor',
-
   size = 20,
   ...props
-}: GridIconProps) => {
+}: Icon) => {
   return (
     <svg width={size} height={size} viewBox="0 0 20 20" {...props}>
       <path

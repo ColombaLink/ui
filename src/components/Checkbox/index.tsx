@@ -13,6 +13,7 @@ export const Checkbox: FC = ({
 }) => {
   const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
+
   listeners.onClick = () => {
     const newChecked = !checked
     setChecked(newChecked)
