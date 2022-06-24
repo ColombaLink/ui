@@ -1,3 +1,5 @@
+import { SVGProps, SyntheticEvent } from 'react'
+
 export type Size =
   | 'xxxs'
   | 'xxs'
@@ -97,7 +99,12 @@ export type Color =
   | 'AccentPinkLight'
   | (string & {})
 
-export type Icon = React.SVGProps<SVGSVGElement> & {
+export type Icon = SVGProps<SVGSVGElement> & {
   color?: Color
   size?: number
 }
+
+export type PropsEventHandler<E = SyntheticEvent, P = any> = (
+  e?: E,
+  props?: P
+) => void | Promise<void> | boolean | Promise<boolean>

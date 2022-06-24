@@ -1,11 +1,20 @@
-import React, { createContext, FC } from 'react'
+import React, {
+  createContext,
+  CSSProperties,
+  FC,
+  PropsWithChildren,
+} from 'react'
 import { color } from '~/utils'
+import { OverlayProvider } from '../Overlay'
 
 export const Context = createContext({
   theme: {},
 })
 
-export const Provider: FC = ({ children, style }) => {
+export const Provider: FC<PropsWithChildren<{ style: CSSProperties }>> = ({
+  children,
+  style,
+}) => {
   return (
     <div
       style={{
@@ -15,6 +24,7 @@ export const Provider: FC = ({ children, style }) => {
       }}
     >
       {children}
+      <OverlayProvider />
     </div>
   )
 }
