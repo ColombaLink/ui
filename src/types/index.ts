@@ -127,6 +127,7 @@ export type Color =
   | 'AccentPink'
   | 'AccentPinkLight'
   | (CSSColorValue & {})
+  | string
 
 export type Icon = SVGProps<SVGSVGElement> & {
   color?: Color

@@ -1,10 +1,16 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { useLocation } from 'wouter'
-import { UnionIcon } from '~'
+
 import { color, font, hrefIsActive } from '~/utils'
 import { Link } from '../Link'
 
-const SidebarItem: FC = ({ href, children, isActive }) => {
+type SidebarItemsProps = {
+  href?: string
+  children?: ReactNode
+  isActive?: boolean
+}
+
+const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
   return (
     <Link
       href={href}
@@ -55,7 +61,7 @@ export const Sidebar = ({
     >
       {Object.keys(data).map((key) => {
         let href = data[key]
-        let children = key[0]
+        let children: ReactNode = key[0]
         if (typeof href === 'object') {
           if (Array.isArray(href)) {
             children = React.createElement(href[1]) || children

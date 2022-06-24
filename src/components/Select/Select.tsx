@@ -36,6 +36,7 @@ export const SelectLabel = ({
   color: colorProp = 'TextPrimary',
   label,
 }) => {
+  console.log(colorProp)
   return (
     <styled.div
       onClick={onClick}
