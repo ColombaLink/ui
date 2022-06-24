@@ -4,7 +4,7 @@ import { color } from './color'
 export const font = (
   size: Size = '15',
   colorProp: Color = 'TextPrimary',
-  weight: Weight
+  weight?: Weight
 ) => {
   const fontSize = Number(size)
   const fontWeight = weight
