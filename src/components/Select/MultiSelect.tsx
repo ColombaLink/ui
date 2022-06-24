@@ -90,7 +90,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
               i >= 0;
               i--
             ) {
-              const child = ref.current.children[0].children[i]
+              const child = ref.current.children[0].children[i] as HTMLElement
               if (!child.getAttribute('data-aviato-select-more')) {
                 targetW -= child.getBoundingClientRect().width + 8
                 if (targetW <= width - 80) {
@@ -103,7 +103,10 @@ export const MultiSelect: FC<MultiSelectProps> = ({
           } else {
             for (let i = 0; i < ref.current.children[0].children.length; i++) {
               const child = ref.current.children[0].children[i] as HTMLElement
-              child.style.opacity = 1
+
+              console.log('child', child)
+              console.log('child style', child.style)
+              child.setAttribute('style', 'opacity: 1')
             }
           }
           if (cnt < 3) {
