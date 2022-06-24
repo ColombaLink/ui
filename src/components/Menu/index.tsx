@@ -5,7 +5,20 @@ import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Link } from '../Link'
 import { Text } from '../Text'
 
-const MenuHeader: FC = ({ children, style }) => {
+type MenuHeaderProps = {
+  children?: React.ReactNode
+  style?: React.CSSProperties
+}
+
+type MenuItemProps = {
+  children?: React.ReactNode
+  style?: React.CSSProperties
+  href?: string
+  isActive?: boolean
+  isNested?: boolean
+}
+
+const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
   return (
     <Text
       weight={600}
@@ -19,7 +32,7 @@ const MenuHeader: FC = ({ children, style }) => {
   )
 }
 
-const MenuItem: FC = ({
+const MenuItem: FC<MenuItemProps> = ({
   children,
   style,
   href,
