@@ -11,6 +11,34 @@ export type Size =
   | 'xxl'
   | 'xxxl'
 
+type nonCapitalisedString = `${
+  | 'a'
+  | 'b'
+  | 'c'
+  | 'd'
+  | 'e'
+  | 'f'
+  | 'g'
+  | 'h'
+  | 'i'
+  | 'j'
+  | 'k'
+  | 'l'
+  | 'm'
+  | 'n'
+  | 'o'
+  | 'p'
+  | 'q'
+  | 'r'
+  | 's'
+  | 't'
+  | 'u'
+  | 'v'
+  | 'w'
+  | 'x'
+  | 'y'
+  | 'z'}${string}`
+
 export type Color =
   | 'Blue500'
   | 'Blue200'
@@ -97,7 +125,7 @@ export type Color =
   | 'AccentBrightpurpleLight'
   | 'AccentPink'
   | 'AccentPinkLight'
-  | (string & {})
+  | (nonCapitalisedString & {})
 
 export type Icon = SVGProps<SVGSVGElement> & {
   color?: Color

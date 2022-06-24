@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import { Text } from '~/components/Text'
 import { Color, Icon, PropsEventHandler } from '~/types'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import { removeOverlay } from '../Overlay'
 import { color } from '~/utils'
 
@@ -28,7 +28,7 @@ const StyledContextItem = styled('div', {
 })
 
 export type ContextItemProps = {
-  style?: CSSProperties
+  style?: Style
   color?: Color
   onClick?: PropsEventHandler
   leftIcon?: FunctionComponent<Icon>

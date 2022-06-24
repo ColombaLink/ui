@@ -9,6 +9,8 @@ import React, {
   SyntheticEvent,
   CSSProperties,
   FunctionComponent,
+  ReactNode,
+  ChangeEventHandler,
 } from 'react'
 import { removeOverlay } from '~/components/Overlay'
 import { Text } from '../Text'
@@ -37,7 +39,7 @@ const FilterInputHolder = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: '1px solid $OtherDivider',
+  borderBottom: `1px solid ${color('OtherDivider')}`,
   width: '100%',
   backgroundColor: color('ActionLightHover'),
 })
@@ -61,21 +63,21 @@ const FilterInput = styled('input', {
 export type Value = string | number | undefined
 
 type onSelect = (
-  e?: React.SyntheticEvent<Element, Event>,
+  e?: SyntheticEvent<Element, Event>,
   opt?: Option
 ) => true | void // (true means dont close)
 
 export type Option =
   | {
       value: Value
-      label?: React.ReactNode | string
+      label?: ReactNode | string
       icon?: FunctionComponent
       divider?: boolean
       onSelect?: onSelect
     }
   | {
       value?: Value
-      label?: React.ReactNode | string
+      label?: ReactNode | string
       icon?: FunctionComponent
       divider?: boolean
       onSelect: onSelect
@@ -102,79 +104,75 @@ export type ContextMultiOptionsProps = {
   onChange: (values: Value[]) => void
 }
 
-export const ContextOptionItem = forwardRef<
-  ElementRef<typeof ContextItem>,
-  {
-    option: Option
-    onChange: (value: Value) => void
-    selected: boolean
-    tabIndex?: number
-    noRemove?: boolean
-    noInset?: boolean
-  }
->(
-  (
-    { option, onChange, selected, tabIndex, noRemove, noInset },
-    forwardedRef
-  ) => {
-    const [isSelected, setIsSelected] = useState(0)
+export const ContextOptionItem = ({
+  option,
+  onChange,
+  selected,
+  tabIndex,
+  noRemove,
+  noInset,
+}: {
+  option: Option
+  onChange: (value: Value) => void
+  selected: boolean
+  tabIndex?: number
+  noRemove?: boolean
+  noInset?: boolean
+}) => {
+  const [isSelected, setIsSelected] = useState(0)
 
-    if (option.value === '$-no-results-aviato') {
-      return (
-        <ContextItem inset={!noInset} noFocus color="TextSecondary">
-          {option.label}
-        </ContextItem>
-      )
-    }
-
+  if (option.value === '$-no-results-aviato') {
     return (
-      <>
-        {option.divider ? <ContextDivider /> : null}
-        <ContextItem
-          inset={!noInset}
-          ref={forwardedRef}
-          tabIndex={tabIndex}
-          style={{
-            backgroundColor:
-              isSelected === 1
-                ? color('ActionLightSelected')
-                : isSelected === 1
-                ? color('ActionLightHover')
-                : null,
-            // TODO export this from 'inlines'
-            // @ts-ignore
-            '&:active': {
-              backgroundColor: '$ActionLightHover',
-            },
-          }}
-          leftIcon={option.icon || (!noInset && selected ? CheckIcon : null)}
-          onClick={(e) => {
-            setIsSelected(1)
-
-            if (option.onSelect) {
-              return option.onSelect(e, option)
-            } else {
-              onChange(option.value)
-              setTimeout(() => {
-                setIsSelected(2)
-                setTimeout(() => {
-                  if (!noRemove) {
-                    removeOverlay()
-                  } else {
-                    setIsSelected(0)
-                  }
-                }, 125)
-              }, 75)
-              return true
-            }
-          }}
-        >
-          {option.label || option.value}
-        </ContextItem>
-      </>
+      <ContextItem inset={!noInset} noFocus color="TextSecondary">
+        {option.label}
+      </ContextItem>
     )
   }
-)
+
+  return (
+    <>
+      {option.divider ? <ContextDivider /> : null}
+      <ContextItem
+        inset={!noInset}
+        tabIndex={tabIndex}
+        style={{
+          backgroundColor:
+            isSelected === 1
+              ? color('ActionLightSelected')
+              : isSelected === 1
+              ? color('ActionLightHover')
+              : null,
+          '&:active': {
+            backgroundColor: color('ActionLightHover'),
+          },
+        }}
+        leftIcon={option.icon || (!noInset && selected ? CheckIcon : null)}
+        onClick={(e) => {
+          setIsSelected(1)
+
+          if (option.onSelect) {
+            return option.onSelect(e, option)
+          } else {
+            onChange(option.value)
+            setTimeout(() => {
+              setIsSelected(2)
+              setTimeout(() => {
+                if (!noRemove) {
+                  removeOverlay()
+                } else {
+                  setIsSelected(0)
+                }
+              }, 125)
+            }, 75)
+            return true
+          }
+        }}
+      >
+        {option.label || option.value}
+      </ContextItem>
+    </>
+  )
+}
 
 const filterItems = (
   items: Option[],
@@ -219,15 +217,12 @@ const FilterableContextOptions: FC<
   ContextOptionsProps & ContextOptionsFilterProps
 > = ({ items, value, onChange, resize, placeholder, filterable }) => {
   const [f, setFilter] = useState('')
-  const onFilter: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      setFilter(e.target.value)
-      if (resize) {
-        resize()
-      }
-    },
-    []
-  )
+  const onFilter: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    setFilter(e.target.value)
+    if (resize) {
+      resize()
+    }
+  }, [])
   let filteredItems = filterItems(items, f)
 
   if (filterable === 'create' && f && !items.find((o) => o.value === f)) {
@@ -246,7 +241,7 @@ const FilterableContextOptions: FC<
     <>
       <FilterInputHolderSticky>
         <FilterInputHolder>
-          <SearchIcon color="TextSecondary" />
+          <SearchIcon color="TextSecondary" size={16} />
           <FilterInput
             data-aviato-context-item
             placeholder={placeholder || 'Filter...'}
@@ -338,11 +333,11 @@ const FilterInputMultiHolder = styled('div', {
   paddingTop: 2,
   borderTopLeftRadius: 3,
   paddingLeft: 4,
-  borderBottom: '1px solid $OtherDivider',
+  borderBottom: `1px solid ${color('OtherDivider')}`,
   borderTopRightRadius: 3,
   display: 'flex',
   width: '100%',
-  backgroundColor: '$ActionLight',
+  backgroundColor: color('ActionLight'),
 })
 
 const FilterMultiInput = styled('input', {
@@ -360,7 +355,7 @@ const FilterMultiInput = styled('input', {
   marginBottom: 4,
   marginTop: 4,
   // fontSize: '$md',
-  color: '$TextPrimary',
+  color: color('TextPrimary'),
   userSelect: 'text',
 })
 
@@ -377,11 +372,11 @@ const StyledFilterSelectedBadge = styled('div', {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  backgroundColor: '$ActionLight',
+  backgroundColor: color('ActionLight'),
 })
 
 export const FilterSelectBadge: FC<{
-  label: string | React.ReactNode
+  label: string | ReactNode
   onClose: () => void
   color?: Color
   style?: CSSProperties
@@ -395,11 +390,14 @@ export const FilterSelectBadge: FC<{
   }
   return (
     <StyledFilterSelectedBadge style={style}>
-      {/* TODO: fix in text that you can pass numbers */}
-      <Text>{String(label)}</Text>
+      <Text>{label}</Text>
       <CloseIcon
-        // color="TextPrimary"
-        onClick={onClose}
+        color="TextPrimary"
+        onClick={(e) => {
+          e.stopPropagation()
+          onClose()
+        }}
+        size={16}
         style={{
           flexShrink: 0,
           marginLeft: 8,
@@ -426,7 +424,8 @@ export const FilterSelectMoreBadge: FC<{
   return (
     <StyledFilterSelectedBadge style={style} data-aviato-select-more>
       <AddIcon
-        // color="$TextPrimary"
+        size={16}
+        color="TextPrimary"
         style={{ marginRight: 8 }}
         onClick={onClick}
       />
@@ -446,15 +445,12 @@ const FilterableContextMultiOptions: FC<
   filterable,
 }) => {
   const [f, setFilter] = useState('')
-  const onFilter: React.ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      setFilter(e.target.value)
-      if (resize) {
-        resize()
-      }
-    },
-    []
-  )
+  const onFilter: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+    setFilter(e.target.value)
+    if (resize) {
+      resize()
+    }
+  }, [])
   const [currentValues, setValue] = useReducer(selectValuesReducer, values)
 
   let filteredItems = filterItems(items, f, currentValues)

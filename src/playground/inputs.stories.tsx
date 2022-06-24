@@ -9,7 +9,7 @@ import {
   Provider,
   AddIcon,
 } from '~'
-import { Select } from '~/components/Select'
+import { MultiSelect, Select } from '~/components/Select'
 import { styled } from 'inlines'
 
 export const Checkboxes = () => {
@@ -157,7 +157,7 @@ export const Selects = () => {
           { value: 'snorkles', label: 'Snorkles' },
         ]}
       />
-      {/* 
+
       <MultiSelect
         style={{ marginBottom: 32 }}
         filterable
@@ -175,7 +175,7 @@ export const Selects = () => {
           { value: 'kakkie', label: 'Kakkie' },
           { value: 'snak', label: 'Snak' },
         ]}
-      /> */}
+      />
     </Provider>
   )
 }
