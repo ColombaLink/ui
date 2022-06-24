@@ -7,6 +7,7 @@ import { PositionProps } from '../Overlay'
 import { Color } from '~/types'
 import { ChevronDownIcon } from '~/icons'
 import { color } from '~/utils'
+import { SelectLabel } from './shared'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
@@ -28,66 +29,6 @@ export const StyledSelect = styled('div', {
     border: `1px solid ${color('OtherInputBorderHover')}`,
   },
 })
-
-export const SelectLabel = ({
-  children,
-  onClick,
-  style,
-  color: colorProp = 'TextPrimary',
-  label,
-}) => {
-  console.log(colorProp)
-  return (
-    <styled.div
-      onClick={onClick}
-      style={{
-        justifyContent: 'space-between',
-        borderRadius: 4,
-        border: `1px solid ${color('OtherDivider')}`,
-        backgroundColor: color('Background1dp'),
-        cursor: 'pointer',
-        userSelect: 'none',
-        height: 38,
-        overflow: 'hidden',
-        display: 'flex',
-        width: '100%',
-        '&:hover': {
-          border: `1px solid ${color('OtherInputBorderHover')}`,
-        },
-        ...style,
-      }}
-    >
-      <Text
-        color={colorProp}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          paddingLeft: 12,
-          paddingRight: 12,
-          backgroundColor: color('ActionLight'),
-          borderRight: `1px solid ${color('OtherDivider')}`,
-          flexShrink: 0,
-        }}
-      >
-        {label}
-      </Text>
-      <Text
-        color={colorProp}
-        style={{
-          flexGrow: 1,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingLeft: 12,
-          paddingRight: 12,
-          borderRight: `1px solid ${color('OtherDivider')}`,
-        }}
-      >
-        {children}
-      </Text>
-    </styled.div>
-  )
-}
 
 export type SelectProps = {
   value?: Value

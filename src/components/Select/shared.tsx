@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Text } from '~/components/Text'
 import { styled } from 'inlines'
 import { color } from '~/utils'
+import { Color } from '~/types'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
@@ -23,8 +24,13 @@ export const StyledSelect = styled('div', {
     border: `1px solid ${color('OtherInputBorderHover')}`,
   },
 })
-
-export const SelectLabel = ({
+export const SelectLabel: FC<{
+  children: ReactNode
+  onClick: any
+  style?: CSSProperties
+  color?: Color
+  label: string
+}> = ({
   children,
   onClick,
   style,

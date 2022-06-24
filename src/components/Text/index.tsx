@@ -1,27 +1,29 @@
 import React, { FC, CSSProperties } from 'react'
-import { Size, Color } from '~/types'
+import { Size, Color, Weight } from '~/types'
 import { font } from '~/utils'
 
 type TextProps = {
   size?: Size
-  color?: Color | string
-  weight?: number
+  color?: Color
+  weight?: Weight
   style?: CSSProperties
   italic?: boolean
   selectable?: boolean
   wrap?: boolean
   children?: React.ReactNode
+  space?: boolean | string | number
 }
 
 export const Text: FC<TextProps> = ({
   color: colorProp = 'TextPrimary',
-  italic = false,
-  selectable = false,
-  size = 'md',
+  italic,
+  selectable,
+  size,
   style,
-  weight = 400,
-  wrap = false,
+  weight,
+  wrap,
   children,
+  space,
   ...props
 }) => {
   const s = font(size, colorProp, weight) as CSSProperties
@@ -34,6 +36,10 @@ export const Text: FC<TextProps> = ({
   }
   if (italic) {
     s.fontStyle = 'italic'
+  }
+  if (space) {
+    // TODO add options
+    s.marginBottom = 24
   }
   if (style) {
     Object.assign(s, style)

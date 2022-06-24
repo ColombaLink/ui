@@ -1,16 +1,7 @@
 import { SVGProps, SyntheticEvent } from 'react'
 
-export type Size =
-  | 'xxxs'
-  | 'xxs'
-  | 'xs'
-  | 'sm'
-  | 'md'
-  | 'lg'
-  | 'xl'
-  | 'xxl'
-  | 'xxxl'
-
+export type Size = '11' | '12' | '13' | '14' | '15' | '18' | '20' | '24' | '32'
+export type Weight = '400' | '500' | '600' | '700'
 type CSSColorValue = `${
   | 'a'
   | 'b'
@@ -127,7 +118,6 @@ export type Color =
   | 'AccentPink'
   | 'AccentPinkLight'
   | (CSSColorValue & {})
-  | string
 
 export type Icon = SVGProps<SVGSVGElement> & {
   color?: Color

@@ -49,6 +49,7 @@ const MenuItem: FC<MenuItemProps> = ({
     <Text
       color={textColor}
       weight={isNested ? 500 : 600}
+      wrap
       style={{
         marginBottom: 8,
         ...style,
@@ -59,6 +60,7 @@ const MenuItem: FC<MenuItemProps> = ({
         style={{
           padding: '4px 12px',
           margin: '-4px -12px',
+          borderRadius: 4,
           backgroundColor: isActive ? color('PrimaryLightSelected') : null,
           '&:hover': {
             backgroundColor: color('PrimaryLightHover'),

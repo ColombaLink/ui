@@ -21,6 +21,9 @@ export const Provider: FC<PropsWithChildren<{ style?: CSSProperties }>> = ({
       style={{
         backgroundColor: color('Background1dp'),
         color: color('TextPrimary'),
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         ...style,
       }}
     >

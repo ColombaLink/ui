@@ -22,25 +22,23 @@ export const Typography = () => {
         }}
       >
         <div style={{ textAlign: 'left' }}>
-          <Text weight={500}>Token name</Text>
+          <Text weight="500">Token name</Text>
         </div>
         <div>
-          <Text weight={500}>Font size</Text>
+          <Text weight="500">Font size</Text>
         </div>
         <div>
-          <Text weight={500}>Theme-size</Text>
+          <Text weight="500">Theme-size</Text>
         </div>
         <div>
-          <Text weight={500}>Lineheight</Text>
+          <Text weight="500">Lineheight</Text>
         </div>
         <div>
-          <Text weight={500}>Weight</Text>
+          <Text weight="500">Weight</Text>
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="xxxl" weight={700}>
-            Typography.title1
-          </Text>
+          <Text weight={700}>Typography.title1</Text>
         </div>
         <div>
           <Text>32px</Text>
