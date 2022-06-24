@@ -1,20 +1,15 @@
 import React, {
-  forwardRef,
-  ElementRef,
   ReactNode,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
   CSSProperties,
+  FunctionComponent,
+  createElement,
+  FC,
 } from 'react'
 import { Text } from '~/components/Text'
-import { Color, PropsEventHandler } from '~/types'
+import { Color, Icon, PropsEventHandler } from '~/types'
 import { styled } from 'inlines'
 import { removeOverlay } from '../Overlay'
 import { color } from '~/utils'
-
-console.log(styled)
 
 const StyledContextItem = styled('div', {
   display: 'flex',
@@ -25,30 +20,19 @@ const StyledContextItem = styled('div', {
   paddingRight: '16px',
   cursor: 'pointer',
   '&:active': {
-    backgroundColor: '$ActionLightSelected',
+    backgroundColor: color('ActionLightSelected'),
   },
   '&:focus': {
-    backgroundColor: '$ActionLightHover',
+    backgroundColor: color('ActionLightHover'),
   },
-})
-
-const LeftWrapper = styled('div', {
-  display: 'flex',
-  alignItems: 'center',
-})
-
-const IconMarginWrapper = styled('div', {
-  marginRight: 16,
-  height: 16,
-  width: 16,
 })
 
 export type ContextItemProps = {
   style?: CSSProperties
   color?: Color
   onClick?: PropsEventHandler
-  leftIcon?: ReactNode
-  rightIcon?: ReactNode
+  leftIcon?: FunctionComponent<Icon>
+  rightIcon?: FunctionComponent<Icon>
   inset?: boolean
   noFocus?: boolean
   tabIndex?: number
@@ -57,26 +41,21 @@ export type ContextItemProps = {
 
 export const ContextDivider = styled('div', {
   marginTop: 4,
-  borderTop: '1px solid $OtherDivider',
+  borderTop: `1px solid ${color('OtherDivider')}`,
   marginBottom: 4,
 })
 
-export const ContextItem = forwardRef<
-  ElementRef<typeof StyledContextItem>,
-  ContextItemProps
->((props, forwardedRef) => {
-  let {
-    onClick,
-    style,
-    color: colorProp = 'TextPrimary',
-    children,
-    leftIcon = null,
-    inset,
-    tabIndex = 0,
-    noFocus,
-    rightIcon = null,
-  } = props
-
+export const ContextItem: FC<ContextItemProps> = ({
+  onClick,
+  style,
+  color,
+  children,
+  leftIcon,
+  inset,
+  tabIndex = 0,
+  noFocus,
+  rightIcon,
+}) => {
   if (onClick) {
     const onClickOriginal = onClick
     // will become a  hook (a useCallback)
@@ -95,61 +74,37 @@ export const ContextItem = forwardRef<
     }
   }
 
-  let child = children
-
-  // // TODO: fix the color stuff everywhere
-  // let child = isText(children) ? (
-  //   <Text css={{ userSelect: 'none' }} color="inherit">
-  //     {children}
-  //   </Text>
-  // ) : (
-  //   children
-  // )
-
-  // if (leftIcon || inset) {
-  //   child = (
-  //     <LeftWrapper>
-  //       <IconMarginWrapper>{leftIcon || null}</IconMarginWrapper>
-  //       {child}
-  //     </LeftWrapper>
-  //   )
-  // }
-
-  if (!style.color) {
-    style.color = color(colorProp)
+  let child
+  if (leftIcon) {
+    child = (
+      <Text color={color} style={{ display: 'flex', alignItems: 'center' }}>
+        {createElement(leftIcon, { size: 16, style: { marginRight: 8 } })}
+        {children}
+      </Text>
+    )
+  } else {
+    child = (
+      <Text color={color} style={inset ? { paddingLeft: 24 } : null}>
+        {children}
+      </Text>
+    )
   }
 
   if (noFocus) {
     return (
-      <StyledContextItem ref={forwardedRef} onClick={onClick} style={style}>
+      <StyledContextItem onClick={onClick} style={style}>
         {child}
         {rightIcon}
       </StyledContextItem>
     )
   }
 
-  const [isHover, setHover] = useState(false)
-
-  const ref = useRef(forwardRef)
-
-  useEffect(() => {
-    if (isHover) {
-      // @ts-ignore - easier to not have to type multi-refs
-      ref.current.focus()
-    } else {
-      // @ts-ignore - easier to not have to type multi-refs
-      ref.current.blur()
-    }
-  }, [isHover, ref])
-
   return (
     <StyledContextItem
       data-aviato-context-item
       tabIndex={tabIndex}
-      // @ts-ignore - easier to not have to type multi-refs
-      ref={ref}
-      onMouseEnter={useCallback(() => setHover(true), [])}
-      onMouseLeave={useCallback(() => setHover(false), [])}
+      onMouseEnter={({ currentTarget }) => currentTarget.focus()}
+      onMouseLeave={({ currentTarget }) => currentTarget.blur()}
       onClick={onClick}
       style={style}
       onKeyDown={
@@ -168,6 +123,4 @@ export const ContextItem = forwardRef<
       {rightIcon}
     </StyledContextItem>
   )
-})
-
-ContextItem.displayName = 'ContextItem'
+}

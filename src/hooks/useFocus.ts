@@ -16,7 +16,7 @@ export const useFocus = () => {
     ref.current.focus = focus
   } else {
     ref.current = {
-      focus,
+      focus: false,
       listeners: {
         onFocus: () => setFocus(true),
         onBlur: () => setFocus(false),

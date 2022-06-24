@@ -29,58 +29,62 @@ export const StyledSelect = styled('div', {
   },
 })
 
-export const StyledSelectLabel = styled('div', {
-  justifyContent: 'space-between',
-  borderRadius: 4,
-  border: `1px solid ${color('OtherDivider')}`,
-  backgroundColor: color('Background1dp'),
-  cursor: 'pointer',
-  userSelect: 'none',
-  height: 38,
-  overflow: 'hidden',
-  display: 'flex',
-  width: '100%',
-  '&:hover': {
-    border: `1px solid ${color('OtherInputBorderHover')}`,
-  },
-})
-
-export const StyledLeftLabel = styled('div', {
-  height: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  paddingLeft: 12,
-  paddingRight: 12,
-  backgroundColor: color('ActionLight'),
-  borderRight: `1px solid ${color('OtherDivider')}`,
-})
-
-export const StyledRightLabel = styled('div', {
-  flexGrow: 1,
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  paddingLeft: 12,
-  paddingRight: 12,
-  borderRight: `1px solid ${color('OtherDivider')}`,
-})
-
 export const SelectLabel = ({
   children,
   onClick,
   style,
-  color = '$TextPrimary',
+  color: colorProp = 'TextPrimary',
   label,
 }) => {
   return (
-    <StyledSelectLabel onClick={onClick} style={{ color, ...style }}>
-      <StyledLeftLabel>
-        <Text>{label}</Text>
-      </StyledLeftLabel>
-      <StyledRightLabel>{children}</StyledRightLabel>
-    </StyledSelectLabel>
+    <styled.div
+      onClick={onClick}
+      style={{
+        justifyContent: 'space-between',
+        borderRadius: 4,
+        border: `1px solid ${color('OtherDivider')}`,
+        backgroundColor: color('Background1dp'),
+        cursor: 'pointer',
+        userSelect: 'none',
+        height: 38,
+        overflow: 'hidden',
+        display: 'flex',
+        width: '100%',
+        '&:hover': {
+          border: `1px solid ${color('OtherInputBorderHover')}`,
+        },
+        ...style,
+      }}
+    >
+      <Text
+        color={colorProp}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          paddingLeft: 12,
+          paddingRight: 12,
+          backgroundColor: color('ActionLight'),
+          borderRight: `1px solid ${color('OtherDivider')}`,
+          flexShrink: 0,
+        }}
+      >
+        {label}
+      </Text>
+      <Text
+        color={colorProp}
+        style={{
+          flexGrow: 1,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingLeft: 12,
+          paddingRight: 12,
+          borderRight: `1px solid ${color('OtherDivider')}`,
+        }}
+      >
+        {children}
+      </Text>
+    </styled.div>
   )
 }
 
@@ -102,7 +106,7 @@ export const Select: FC<SelectProps> = ({
   onChange,
   style,
   filterable,
-  color = '$TextPrimary',
+  color = 'TextPrimary',
   placeholder = 'Select an option',
   overlay,
   label,
@@ -114,14 +118,13 @@ export const Select: FC<SelectProps> = ({
     width: 'target',
     ...overlay,
   })
+  let labelValue: ReactNode = currentValue
 
   useEffect(() => {
     if (currentValue !== value) {
       onChange(currentValue)
     }
   }, [currentValue])
-
-  let labelValue: ReactNode = currentValue
 
   if (currentValue) {
     for (const opt of options) {
@@ -133,22 +136,18 @@ export const Select: FC<SelectProps> = ({
 
   const children = (
     <>
-      <Text color={!currentValue ? 'Secondary' : 'Primary'}>
+      <Text color={currentValue ? 'TextPrimary' : 'TextSecondary'}>
         {labelValue || placeholder}
       </Text>
-      <ChevronDownIcon color={color} />
+      <ChevronDownIcon color={color} size={16} />
     </>
   )
 
-  if (label) {
-    return (
-      <SelectLabel label={label} onClick={open} style={style}>
-        {children}
-      </SelectLabel>
-    )
-  }
-
-  return (
+  return label ? (
+    <SelectLabel label={label} onClick={open} style={style}>
+      {children}
+    </SelectLabel>
+  ) : (
     <StyledSelect onClick={open} style={style}>
       {children}
     </StyledSelect>

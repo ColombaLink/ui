@@ -8,10 +8,11 @@ import React, {
   useReducer,
   SyntheticEvent,
   CSSProperties,
+  FunctionComponent,
 } from 'react'
 import { removeOverlay } from '~/components/Overlay'
 import { Text } from '../Text'
-import { AddIcon, CloseIcon, SearchIcon } from '~/icons'
+import { AddIcon, CheckIcon, CloseIcon, SearchIcon } from '~/icons'
 import { Color } from '~/types'
 import { ContextDivider, ContextItem } from '.'
 import { color } from '~/utils'
@@ -59,16 +60,26 @@ const FilterInput = styled('input', {
 
 export type Value = string | number | undefined
 
-export type Option = {
-  value: Value
-  label?: React.ReactNode | string
-  // icon?: IconName
-  divider?: boolean
-  onSelect?: (
-    e?: React.SyntheticEvent<Element, Event>,
-    opt?: Option
-  ) => true | void // (true means dont close)
-}
+type onSelect = (
+  e?: React.SyntheticEvent<Element, Event>,
+  opt?: Option
+) => true | void // (true means dont close)
+
+export type Option =
+  | {
+      value: Value
+      label?: React.ReactNode | string
+      icon?: FunctionComponent
+      divider?: boolean
+      onSelect?: onSelect
+    }
+  | {
+      value?: Value
+      label?: React.ReactNode | string
+      icon?: FunctionComponent
+      divider?: boolean
+      onSelect: onSelect
+    }
 
 export type ContextOptionsFilterProps = {
   // eslint-disable-next-line
@@ -116,11 +127,6 @@ export const ContextOptionItem = forwardRef<
       )
     }
 
-    // option
-
-    // TODO add icons
-    // const Icon = option.icon ? icons[option.icon] : null
-
     return (
       <>
         {option.divider ? <ContextDivider /> : null}
@@ -141,9 +147,7 @@ export const ContextOptionItem = forwardRef<
               backgroundColor: '$ActionLightHover',
             },
           }}
-          // leftIcon={
-          //   Icon ? <Icon /> : !noInset && selected ? <IconCheck /> : null
-          // }
+          leftIcon={option.icon || (!noInset && selected ? CheckIcon : null)}
           onClick={(e) => {
             setIsSelected(1)
 

@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   Provider,
+  AddIcon,
 } from '~'
 import { Select } from '~/components/Select'
 import { styled } from 'inlines'
@@ -70,11 +71,8 @@ export const Selects = () => {
         style={{
           marginBottom: 32,
         }}
-        // placeholder="Select a thing"
-        // label="This is a label"
-        // description="This is a description"
         onChange={(value) => {
-          log.global.debug('Select change: ', { value })
+          // log.global.debug('Select change: ', { value })
         }}
         options={[
           { value: 'flurpy', label: 'Flurpy' },
@@ -82,7 +80,6 @@ export const Selects = () => {
           { value: 'snorkles', label: 'Snorkles' },
         ]}
       />
-
       <Select
         label="Env"
         style={{
@@ -114,7 +111,7 @@ export const Selects = () => {
           {
             label: 'Add item',
             divider: true,
-            // icon: 'IconPlus',
+            icon: AddIcon,
             onSelect: () => {
               // eslint-disable-next-line
               alert('Add icon')
@@ -179,7 +176,6 @@ export const Selects = () => {
           { value: 'snak', label: 'Snak' },
         ]}
       /> */}
-      <styled.div ref={useRef()} />
     </Provider>
   )
 }

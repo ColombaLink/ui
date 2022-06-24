@@ -189,8 +189,6 @@ type OverlayItemProps = PropsWithChildren<{
 
 const OverlayItemStyled = styled('div', {
   transition: 'opacity 0.15s',
-  // backdropFilter: 'blur(4px)',
-
   width: '100vw',
   position: 'fixed',
   top: 0,
@@ -276,8 +274,6 @@ export const OverlayProvider = () => {
           </OverlayItem>
         )
       })}
-
-      {/* {notifictions} */}
     </div>
   )
 }
