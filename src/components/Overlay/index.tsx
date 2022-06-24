@@ -13,6 +13,7 @@ import React, {
   useCallback,
 } from 'react'
 import { color } from '~/utils'
+import { ScrollArea } from '../ScrollArea'
 
 export type Target = (EventTarget | Element | Node) & {
   rect?: DOMRect
@@ -58,7 +59,7 @@ export const GenericOverlay: FC<OverlayProps> = () => {
 
 export const InnerShared = ({ width, style, children, elementRef }) => {
   return (
-    <div
+    <ScrollArea
       ref={elementRef}
       style={{
         pointerEvents: 'all',
@@ -71,9 +72,8 @@ export const InnerShared = ({ width, style, children, elementRef }) => {
         ...style,
       }}
     >
-      {/* TODO add scrollarea */}
       {children}
-    </div>
+    </ScrollArea>
   )
 }
 
@@ -254,8 +254,6 @@ export const OverlayProvider = () => {
       listeners = listeners.filter((u) => u !== update)
     }
   }, [])
-
-  console.log('!!!', overlays)
 
   return (
     <div

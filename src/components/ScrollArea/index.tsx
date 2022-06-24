@@ -1,6 +1,9 @@
 import { styled } from 'inlines'
 import { color } from '~/utils'
 
+const scrollbarColor = color('TextPrimary', 0.2)
+const transparentAreaColor = color('Background1dp')
+
 export const ScrollArea = styled('div', {
   overflow: 'auto',
   // firefox
@@ -11,18 +14,19 @@ export const ScrollArea = styled('div', {
   // the rest
   '&:hover': {
     // firefox
-    scrollbarColor: `${color('TextPrimary', 0.4)} transparent`,
+    scrollbarColor: `${scrollbarColor} transparent`,
     scrollbarWidth: 'thin',
     // the rest
     '&::-webkit-scrollbar': {
       visibility: 'visible',
       position: 'absolute',
       width: '10px',
+      marginLeft: '-10px',
     },
     '&::-webkit-scrollbar-thumb': {
       minHeight: '32px',
-      backgroundColor: color('TextPrimary', 0.4),
-      border: `2px solid ${color('Background1dp')}`,
+      backgroundColor: scrollbarColor,
+      border: `2px solid ${transparentAreaColor}`,
       borderRadius: '6px',
     },
   },

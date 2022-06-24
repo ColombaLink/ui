@@ -103,10 +103,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
           } else {
             for (let i = 0; i < ref.current.children[0].children.length; i++) {
               const child = ref.current.children[0].children[i] as HTMLElement
-
-              console.log('child', child)
-              console.log('child style', child.style)
-              child.setAttribute('style', 'opacity: 1')
+              child.style.opacity = '1'
             }
           }
           if (cnt < 3) {
