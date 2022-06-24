@@ -107,11 +107,11 @@ export const Dashboard = () => {
     <Provider>
       <Topbar data={{ Projects: '/', Settings: '/settings' }} />
       <Page>
-        <Text size="xl" space>
+        <Text size="20" space>
           Junior Eurovision - France 2022
         </Text>
         <Block>
-          <Text size="xl" weight={700} space>
+          <Text size="20" weight={700} space>
             Start building a project
           </Text>
           <div style={{ display: 'flex' }}>
@@ -158,7 +158,7 @@ export const Dashboard = () => {
             </div>
             <Block>
               <Text>First things first, set up your schema!</Text>
-              <Text color="TextSecondary" space size="sm">
+              <Text color="TextSecondary" space size="14">
                 Define the building blocks of your content.
               </Text>
               <Button>Start your schema</Button>

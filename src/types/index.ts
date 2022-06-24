@@ -22,6 +22,25 @@ export type Size =
 
 export type Weight = '400' | '500' | '600' | '700' | 400 | 500 | 600 | 700
 
+// TODO useful?
+export type Space =
+  | '4'
+  | '8'
+  | '12'
+  | '16'
+  | '20'
+  | '24'
+  | '28'
+  | '32'
+  | 4
+  | 8
+  | 12
+  | 16
+  | 20
+  | 24
+  | 28
+  | 32
+
 type CSSColorValue = `${
   | 'a'
   | 'b'

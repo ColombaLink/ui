@@ -128,114 +128,116 @@ const DoubleOverlayMenu = () => {
 export const ContextMenus = () => {
   return (
     <Provider>
-      <Button
-        style={{ marginBottom: 24 }}
-        onClick={useContextMenu(DoubleOverlayMenu, { flap: 1 })}
-      >
-        Menu (double overlays)
-      </Button>
+      <div>
+        <Button
+          style={{ marginBottom: 24 }}
+          onClick={useContextMenu(DoubleOverlayMenu, { flap: 1 })}
+        >
+          Menu (double overlays)
+        </Button>
 
-      <Button
-        onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (placement: center)
-      </Button>
+        <Button
+          onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (placement: center)
+        </Button>
 
-      {/* make nice with it */}
-      <Button
-        onClick={useContextMenu(SimpleMenu, {}, { placement: 'left' })}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (placement: left)
-      </Button>
+        {/* make nice with it */}
+        <Button
+          onClick={useContextMenu(SimpleMenu, {}, { placement: 'left' })}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (placement: left)
+        </Button>
 
-      <Button
-        onClick={useContextMenu(SimpleMenu, {}, { placement: 'right' })}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (placement: right)
-      </Button>
+        <Button
+          onClick={useContextMenu(SimpleMenu, {}, { placement: 'right' })}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (placement: right)
+        </Button>
 
-      <Button
-        onClick={useContextMenu(SimpleMenu, {}, { position: 'top' })}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (position: top)
-      </Button>
+        <Button
+          onClick={useContextMenu(SimpleMenu, {}, { position: 'top' })}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (position: top)
+        </Button>
 
-      <Button
-        onClick={useContextMenu(SimpleMenu, {}, { position: 'left' })}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (position: left)
-      </Button>
+        <Button
+          onClick={useContextMenu(SimpleMenu, {}, { position: 'left' })}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (position: left)
+        </Button>
 
-      <Button
-        onClick={useContextMenu(SimpleMenu, {}, { position: 'right' })}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (position: right)
-      </Button>
+        <Button
+          onClick={useContextMenu(SimpleMenu, {}, { position: 'right' })}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (position: right)
+        </Button>
 
-      <Button
-        onClick={useContextMenu(
-          SimpleMenu,
-          {},
-          {
-            position: 'left',
-            variant: 'over',
-            style: {
-              border: `3px solid ${color('PrimaryMain')}`,
-              borderRadius: 0,
-            },
-          }
-        )}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (variant: over / position: left) css override
-      </Button>
+        <Button
+          onClick={useContextMenu(
+            SimpleMenu,
+            {},
+            {
+              position: 'left',
+              variant: 'over',
+              style: {
+                border: `3px solid ${color('PrimaryMain')}`,
+                borderRadius: 0,
+              },
+            }
+          )}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (variant: over / position: left) css override
+        </Button>
 
-      <Button
-        onClick={useContextMenu(
-          SimpleMenu,
-          {},
-          { variant: 'over', placement: 'left' }
-        )}
-        style={{
-          marginBottom: 24,
-        }}
-      >
-        Menu (variant: over / placement: left)
-      </Button>
+        <Button
+          onClick={useContextMenu(
+            SimpleMenu,
+            {},
+            { variant: 'over', placement: 'left' }
+          )}
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          Menu (variant: over / placement: left)
+        </Button>
 
-      <Button
-        style={{
-          marginBottom: 24,
-        }}
-        onClick={useContextMenu(LargeMenu)}
-      >
-        Menu (large menu)
-      </Button>
-      <Button
-        onClick={useContextMenu(DoubleOverlayMenu, { props: { flap: 1 } })}
-      >
-        Menu (double overlays)
-      </Button>
+        <Button
+          style={{
+            marginBottom: 24,
+          }}
+          onClick={useContextMenu(LargeMenu)}
+        >
+          Menu (large menu)
+        </Button>
+        <Button
+          onClick={useContextMenu(DoubleOverlayMenu, { props: { flap: 1 } })}
+        >
+          Menu (double overlays)
+        </Button>
+      </div>
     </Provider>
   )
 }
@@ -565,15 +567,17 @@ const CreateSomething = () => {
 export const Selects = () => {
   return (
     <Provider>
-      <SimpleSelect />
-      <LabelSelect />
-      <LabelSelectWithElement />
-      <LabelSelectFilter />
-      <MultiSelect />
-      <MultiSelectFilter />
-      <MultiSelectFilterLabel />
-      <CreateSomething />
-      <LabelSelectFilterCreate />
+      <div>
+        <SimpleSelect />
+        <LabelSelect />
+        <LabelSelectWithElement />
+        <LabelSelectFilter />
+        <MultiSelect />
+        <MultiSelectFilter />
+        <MultiSelectFilterLabel />
+        <CreateSomething />
+        <LabelSelectFilterCreate />
+      </div>
     </Provider>
   )
 }

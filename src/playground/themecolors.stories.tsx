@@ -73,7 +73,7 @@ const ColorBlock = ({ val }) => {
         }}
       >
         <div>
-          <Text size="sm">{HexCode('rgba(' + ColorArr[val].join() + ')')}</Text>
+          <Text size="14">{HexCode('rgba(' + ColorArr[val].join() + ')')}</Text>
         </div>
 
         <div
@@ -100,12 +100,12 @@ const ColorBlock = ({ val }) => {
         {...listeners}
       >
         {hover ? (
-          <Text weight={500} size="sm" style={{ margin: 10 }}>
+          <Text weight={500} size="14" style={{ margin: 10 }}>
             <DuplicateIcon size={16} style={{ display: 'inline-block' }} />
             {copied ? ' Copied' : ' Copy'}
           </Text>
         ) : (
-          <Text weight={500} size="sm" style={{ margin: 10 }}>
+          <Text weight={500} size="14" style={{ margin: 10 }}>
             {val}
           </Text>
         )}
