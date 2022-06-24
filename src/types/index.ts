@@ -1,7 +1,27 @@
 import { SVGProps, SyntheticEvent } from 'react'
 
-export type Size = '11' | '12' | '13' | '14' | '15' | '18' | '20' | '24' | '32'
-export type Weight = '400' | '500' | '600' | '700'
+export type Size =
+  | '11'
+  | '12'
+  | '13'
+  | '14'
+  | '15'
+  | '18'
+  | '20'
+  | '24'
+  | '32'
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 18
+  | 20
+  | 24
+  | 32
+
+export type Weight = '400' | '500' | '600' | '700' | 400 | 500 | 600 | 700
+
 type CSSColorValue = `${
   | 'a'
   | 'b'

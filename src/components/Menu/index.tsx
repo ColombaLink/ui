@@ -21,7 +21,7 @@ type MenuItemProps = {
 const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
   return (
     <Text
-      weight={600}
+      weight="600"
       style={{
         marginBottom: 12,
         ...style,
@@ -94,7 +94,6 @@ export const Menu = ({
         borderRight: `1px solid ${color('OtherDivider')}`,
         padding: '64px 20px 20px 20px',
         width: 224,
-        ...font(),
       }}
     >
       {Object.keys(data).map((key, i) => {
