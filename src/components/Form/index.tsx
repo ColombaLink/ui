@@ -6,7 +6,7 @@ type SubmitResponse = {
 }
 
 export type FormProps = {
-  children?: ReactNode
+  children?: React.ReactNode
   onSubmit?: (res: SubmitResponse) => void
 }
 

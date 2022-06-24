@@ -2,6 +2,7 @@ import React, { createElement, FC } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
+import { Icon } from '~/types'
 
 const resize = (target) => {
   if (target) {
@@ -30,7 +31,21 @@ const Single = (props) => {
   return <input {...props} />
 }
 
-export const Input: FC = ({
+type InputProps = {
+  style?: React.CSSProperties
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  label?: string
+  value?: string | number
+  iconLeft?: React.ComponentType<Icon>
+  iconRight?: React.ComponentType<Icon>
+  defaultValue?: string | number
+  type?: string
+  placeholder?: string
+  multiline?: boolean
+  bg?: boolean
+}
+
+export const Input: FC<InputProps> = ({
   style,
   onChange: onChangeProp,
   label,
