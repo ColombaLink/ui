@@ -4,7 +4,7 @@ import { font } from '~/utils'
 
 type TextProps = {
   size?: Size
-  color?: Color
+  color?: Color | string
   weight?: number
   style?: CSSProperties
   italic?: boolean
