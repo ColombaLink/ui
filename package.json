@@ -19,7 +19,7 @@
     "@ladle/react": "^1.1.1",
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.2.1",
-    "inlines": "^0.2.1",
+    "inlines": "^0.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "wouter": "^2.8.0-alpha.2"
