@@ -102,7 +102,9 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="15">Typography.body-semibold</Text>
+          <Text size="15" weight="600">
+            Typography.body-semibold
+          </Text>
         </div>
         <div>
           <Text>15px</Text>
@@ -134,7 +136,9 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="15">Typography.body-regular</Text>
+          <Text size="15" weight="400">
+            Typography.body-regular
+          </Text>
         </div>
         <div>
           <Text>15px</Text>
@@ -150,7 +154,7 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="15" italic>
+          <Text size="15" weight="400" italic>
             Typography.body-regular-italic
           </Text>
         </div>
@@ -184,7 +188,9 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="14">Typography.subtext1</Text>
+          <Text size="14" weight="400">
+            Typography.subtext1
+          </Text>
         </div>
         <div>
           <Text>14px</Text>
@@ -216,7 +222,9 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="13">Typography.subtext2</Text>
+          <Text size="13" weight="400">
+            Typography.subtext2
+          </Text>
         </div>
         <div>
           <Text>13px</Text>
@@ -248,7 +256,9 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="12">Typography.subtext3</Text>
+          <Text size="12" weight="400">
+            Typography.subtext3
+          </Text>
         </div>
         <div>
           <Text>12px</Text>
@@ -280,7 +290,9 @@ export const Typography = () => {
         </div>
 
         <div style={{ textAlign: 'left' }}>
-          <Text size="11">Typography.subtext4</Text>
+          <Text size="11" weight="400">
+            Typography.subtext4
+          </Text>
         </div>
         <div>
           <Text>11px</Text>
