@@ -1,19 +1,22 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { color } from '~/utils'
+import { Space } from '~/types'
+import { color, spaceToPx } from '~/utils'
 
 type BlockProps = {
   children: ReactNode
+  space?: Space
   style?: CSSProperties
 }
 
-export const Block: FC<BlockProps> = ({ children, style }) => {
+export const Block: FC<BlockProps> = ({ children, style, space }) => {
   return (
     <div
       style={{
-        padding: '24px 24px 36px',
+        padding: 24,
         backgroundColor: color('Background2dp'),
         border: `1px solid ${color('OtherDivider')}`,
         borderRadius: 4,
+        marginBottom: spaceToPx(space),
         ...style,
       }}
     >

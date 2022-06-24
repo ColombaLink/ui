@@ -1,9 +1,10 @@
 import React, { FC, CSSProperties } from 'react'
-import { Size, Color, Weight } from '~/types'
-import { font } from '~/utils'
+import { Size, Color, Weight, Space } from '~/types'
+import { font, spaceToPx } from '~/utils'
 
 type TextProps = {
   size?: Size
+  space?: Space
   color?: Color
   weight?: Weight
   style?: CSSProperties
@@ -11,7 +12,6 @@ type TextProps = {
   selectable?: boolean
   wrap?: boolean
   children?: React.ReactNode
-  space?: boolean | string | number
 }
 
 export const Text: FC<TextProps> = ({
@@ -29,21 +29,25 @@ export const Text: FC<TextProps> = ({
   const s = font(size, colorProp, weight) as CSSProperties
 
   s.userSelect = selectable ? 'text' : 'none'
+
   if (!wrap) {
     s.textOverflow = 'ellipsis'
     s.overflow = 'hidden'
     s.whiteSpace = 'nowrap'
   }
+
   if (italic) {
     s.fontStyle = 'italic'
   }
+
   if (space) {
-    // TODO add options
-    s.marginBottom = 24
+    s.marginBottom = spaceToPx(space)
   }
+
   if (style) {
     Object.assign(s, style)
   }
+
   return (
     <div style={s} {...props}>
       {children}

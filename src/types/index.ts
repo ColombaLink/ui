@@ -40,6 +40,7 @@ export type Space =
   | 24
   | 28
   | 32
+  | true
 
 type CSSColorValue = `${
   | 'a'
