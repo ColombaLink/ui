@@ -5,6 +5,7 @@ import React, {
   PropsWithChildren,
 } from 'react'
 import { color } from '~/utils'
+import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
 
 export const Context = createContext({
@@ -23,8 +24,12 @@ export const Provider: FC<PropsWithChildren<{ style?: CSSProperties }>> = ({
         ...style,
       }}
     >
-      {children}
-      <OverlayProvider />
+      {/* <ToastProvider> */}
+      <DialogProvider>
+        {children}
+        <OverlayProvider />
+      </DialogProvider>
+      {/* </ToastProvider> */}
     </div>
   )
 }

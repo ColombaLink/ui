@@ -4,13 +4,15 @@ import React, {
   FC,
   FunctionComponent,
   MouseEventHandler,
+  PropsWithChildren,
   ReactNode,
   useState,
 } from 'react'
-import { color as c } from '~/utils'
+import { color as c, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
+import { Icon } from '~/types'
 
 export type ButtonProps = {
   action?: boolean
@@ -18,8 +20,8 @@ export type ButtonProps = {
   disabled?: boolean
   error?: boolean
   ghost?: boolean
-  iconLeft?: FunctionComponent<any>
-  iconRight?: FunctionComponent<any>
+  iconLeft?: FC | ReactNode
+  iconRight?: FC | ReactNode
   light?: boolean
   loading?: boolean
   onClick?: MouseEventHandler
@@ -128,13 +130,13 @@ export const Button: FC<ButtonProps> = ({
         }}
       >
         {iconLeft &&
-          createElement(iconLeft, {
+          renderOrCreateElement(iconLeft, {
             size: 16,
             style: children || iconRight ? { marginRight: 8 } : null,
           })}
         <Text color="inherit">{children}</Text>
         {iconRight &&
-          createElement(iconRight, {
+          renderOrCreateElement(iconRight, {
             size: 16,
             style: children || iconLeft ? { marginLeft: 8 } : null,
           })}

@@ -11,7 +11,7 @@ export type Size =
   | 'xxl'
   | 'xxxl'
 
-type nonCapitalisedString = `${
+type CSSColorValue = `${
   | 'a'
   | 'b'
   | 'c'
@@ -37,7 +37,8 @@ type nonCapitalisedString = `${
   | 'w'
   | 'x'
   | 'y'
-  | 'z'}${string}`
+  | 'z'
+  | '#'}${string}`
 
 export type Color =
   | 'Blue500'
@@ -125,7 +126,7 @@ export type Color =
   | 'AccentBrightpurpleLight'
   | 'AccentPink'
   | 'AccentPinkLight'
-  | (nonCapitalisedString & {})
+  | (CSSColorValue & {})
 
 export type Icon = SVGProps<SVGSVGElement> & {
   color?: Color

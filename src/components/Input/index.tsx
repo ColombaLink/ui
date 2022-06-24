@@ -1,8 +1,7 @@
-import React, { createElement, FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { Text } from '../Text'
-import { color } from '~/utils'
+import { color, renderOrCreateElement } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
-import { Icon } from '~/types'
 
 const resize = (target) => {
   if (target) {
@@ -33,16 +32,17 @@ const Single = (props) => {
 
 type InputProps = {
   style?: React.CSSProperties
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (value: string | number) => void
   label?: string
   value?: string | number
-  iconLeft?: React.ComponentType<Icon>
-  iconRight?: React.ComponentType<Icon>
+  iconLeft?: FC | ReactNode
+  iconRight?: FC | ReactNode
   defaultValue?: string | number
   type?: string
   placeholder?: string
   multiline?: boolean
   bg?: boolean
+  autoFocus?: boolean
 }
 
 export const Input: FC<InputProps> = ({
@@ -56,7 +56,8 @@ export const Input: FC<InputProps> = ({
   iconLeft,
   iconRight,
   multiline,
-  bg = false,
+  bg,
+  autoFocus,
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
   const { listeners: focusListeners, focus } = useFocus()
@@ -74,12 +75,15 @@ export const Input: FC<InputProps> = ({
     defaultValue,
     placeholder,
     onChange,
+    autoFocus,
     style: {
+      margin: 0,
       outline: focus
         ? `2px solid ${color('OtherInputBorderActive')}`
         : hover
         ? `1px solid ${color('OtherInputBorderHover')}`
         : `1px solid ${color('OtherInputBorderDefault')}`,
+      outlineOffset: focus ? -2 : -1,
       borderRadius: 4,
       minHeight: 36,
       paddingLeft: iconLeft ? 36 : 12,
@@ -88,7 +92,6 @@ export const Input: FC<InputProps> = ({
       backgroundColor: bg
         ? color(hover ? 'ActionLightHover' : 'ActionLight')
         : 'inherit',
-      margin: 0,
     },
     ...focusListeners,
     ...hoverListeners,
@@ -103,29 +106,27 @@ export const Input: FC<InputProps> = ({
           color: color('TextPrimary'),
         }}
       >
-        {iconLeft &&
-          createElement(iconLeft, {
-            size: 16,
-            style: {
-              position: 'absolute',
-              left: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+        {renderOrCreateElement(iconLeft, {
+          size: 16,
+          style: {
+            position: 'absolute',
+            left: 12,
+            top: '50%',
+            transform: 'translate3d(0,-50%,0)',
+            pointerEvents: 'none',
+          },
+        })}
         {multiline ? <Multi {...props} /> : <Single {...props} />}
-        {iconRight &&
-          createElement(iconRight, {
-            size: 16,
-            style: {
-              position: 'absolute',
-              right: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+        {renderOrCreateElement(iconRight, {
+          size: 16,
+          style: {
+            position: 'absolute',
+            right: 12,
+            top: '50%',
+            transform: 'translate3d(0,-50%,0)',
+            pointerEvents: 'none',
+          },
+        })}
       </div>
     </div>
   )
