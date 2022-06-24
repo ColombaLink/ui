@@ -56,7 +56,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   overlay,
   label,
 }) => {
-  const ref = useRef()
+  const ref = useRef<HTMLInputElement | null>()
   const [displayIndex, setDisplayIndex] = useState(values?.length || 0)
   // if these values update force update on the dropdown
   const [currentValues, open, setValues] = useMultiSelect(options, values, {
@@ -102,7 +102,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
             }
           } else {
             for (let i = 0; i < ref.current.children[0].children.length; i++) {
-              const child = ref.current.children[0].children[i]
+              const child = ref.current.children[0].children[i] as HTMLElement
               child.style.opacity = 1
             }
           }

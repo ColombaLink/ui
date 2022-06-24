@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { useLocation } from 'wouter'
 import { color, font } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
@@ -6,7 +6,13 @@ import { Link } from '../Link'
 import { Text } from '../Text'
 import { Logo } from './Logo'
 
-const TopbarTab: FC = ({ href, children, isActive }) => {
+type TopbarTabProps = {
+  href?: string
+  children?: ReactNode
+  isActive?: boolean
+}
+
+const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
   const marginTop = (66 - 32) / 2
   return (
     <div
