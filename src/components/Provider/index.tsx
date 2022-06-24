@@ -11,7 +11,7 @@ export const Context = createContext({
   theme: {},
 })
 
-export const Provider: FC<PropsWithChildren<{ style: CSSProperties }>> = ({
+export const Provider: FC<PropsWithChildren<{ style?: CSSProperties }>> = ({
   children,
   style,
 }) => {

@@ -13,18 +13,18 @@ import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 
 export type ButtonProps = {
-  action: boolean
-  children: ReactNode
-  disabled: boolean
-  error: boolean
-  ghost: boolean
-  iconLeft: FunctionComponent<any>
-  iconRight: FunctionComponent<any>
-  light: boolean
-  loading: boolean
-  onClick: MouseEventHandler
-  outline: boolean
-  style: CSSProperties
+  action?: boolean
+  children?: React.ReactNode
+  disabled?: boolean
+  error?: boolean
+  ghost?: boolean
+  iconLeft?: FunctionComponent<any>
+  iconRight?: FunctionComponent<any>
+  light?: boolean
+  loading?: boolean
+  onClick?: MouseEventHandler
+  outline?: boolean
+  style?: CSSProperties
 }
 
 export const Button: FC<ButtonProps> = ({
