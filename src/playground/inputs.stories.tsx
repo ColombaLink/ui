@@ -30,7 +30,7 @@ export const Checkboxes = () => {
 export const Inputs = () => {
   return (
     <>
-      <Input label="String" />
+      <Input label="String" type="gender" />
       <br />
       <Input label="Number" type="number" />
       <br />
