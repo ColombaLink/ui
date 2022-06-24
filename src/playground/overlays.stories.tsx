@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react'
+import { styled } from 'inlines'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Button,
   color,
@@ -12,6 +13,8 @@ import {
   useDialog,
   Text,
   Input,
+  useSelect,
+  useMultiSelect,
 } from '~'
 
 const DialogWithMenu = () => {
@@ -386,6 +389,191 @@ export const Dialogs = () => {
         <DialogButtonAndClose />
         <br />
       </div>
+    </Provider>
+  )
+}
+
+const SimpleSelect = () => {
+  const [value, open] = useSelect(['x', 'y', 'z'])
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      Select ({value})
+    </Button>
+  )
+}
+
+const LabelSelect = () => {
+  const [v, update] = useState('y')
+  const opts = [
+    { label: 'my label X', value: 'x' },
+    { label: 'my label Y', value: 'y' },
+    { label: 'my label Z', value: 'z' },
+    { label: 'my label A', value: 'a' },
+    { label: 'my label B', value: 'b' },
+    { label: 'my label C', value: 'c' },
+  ]
+  const [value, open] = useSelect(opts, v)
+  return (
+    <div
+      style={{
+        display: 'flex',
+        borderBottom: '1px solid grey',
+        paddingBottom: 8,
+        marginBottom: 24,
+      }}
+    >
+      <Button style={{ marginRight: 24 }} onClick={open}>
+        Select label ({value})
+      </Button>
+
+      <Button
+        onClick={() => {
+          update(opts[~~(Math.random() * opts.length)].value)
+        }}
+      >
+        Update external
+      </Button>
+    </div>
+  )
+}
+
+const LabelSelectFilter = () => {
+  const x = []
+  for (let i = 0; i < 200; i++) {
+    x.push(i + ' my snur')
+  }
+
+  const [value, open] = useSelect(x, null, {
+    filterable: true,
+    position: 'right',
+    style: {
+      maxHeight: 300,
+    },
+  })
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      Select label filter ({value})
+    </Button>
+  )
+}
+
+const LabelSelectFilterCreate = () => {
+  const x = []
+  for (let i = 0; i < 5; i++) {
+    x.push(i + ' my snur')
+  }
+
+  const [value, open] = useSelect(x, null, {
+    filterable: 'create',
+  })
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      Select label filter + create ({value})
+    </Button>
+  )
+}
+
+const AnimatingLabel = styled('div', {
+  animationName: 'fadeIn',
+  border: '1px solid black',
+  padding: 3,
+  animationIterationCount: 'infinite',
+  '@keyframes fadeIn': {
+    '0%': {
+      opacity: 0,
+    },
+    '100%': {
+      opacity: 1,
+    },
+  },
+})
+
+const LabelSelectWithElement = () => {
+  const [value, open] = useSelect(
+    [
+      { label: <AnimatingLabel>X for you</AnimatingLabel>, value: 'x' },
+      { label: 'my label Y', value: 'y' },
+    ],
+    'y'
+  )
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      Select select with element ({value})
+    </Button>
+  )
+}
+
+const MultiSelect = () => {
+  const [values, open] = useMultiSelect([1, 2, 3, 4], [1, 2])
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      MultiSelect ({values.join(', ')})
+    </Button>
+  )
+}
+
+const MultiSelectFilter = () => {
+  const [values, open] = useMultiSelect([1, 2, 3, 4], [1, 2], {
+    filterable: true,
+    placement: 'right',
+  })
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      MultiSelect + filter ({values.join(', ')})
+    </Button>
+  )
+}
+
+const MultiSelectFilterLabel = () => {
+  const [values, open] = useMultiSelect(
+    [
+      { label: 'Maarten de Winter', value: 1 },
+      { label: 'Jim de Beer', value: 2 },
+      { label: 'Maarten de Winter!', value: 3 },
+      { label: 'Jim de Beer!', value: 4 },
+    ],
+    [1, 2],
+    {
+      filterable: true,
+      placement: 'left',
+    }
+  )
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      MultiSelect + filter ({values.join(', ')})
+    </Button>
+  )
+}
+
+const CreateSomething = () => {
+  const [values, open] = useMultiSelect(
+    ['hello', 'snapje', 'snurx', 'yes'],
+    ['hello'],
+    {
+      // also on single
+      filterable: 'create',
+      placement: 'left',
+    }
+  )
+  return (
+    <Button style={{ marginBottom: 24 }} onClick={open}>
+      MultiSelect + create filter ({values.join(', ')})
+    </Button>
+  )
+}
+
+export const Selects = () => {
+  return (
+    <Provider>
+      <SimpleSelect />
+      <LabelSelect />
+      <LabelSelectWithElement />
+      <LabelSelectFilter />
+      <MultiSelect />
+      <MultiSelectFilter />
+      <MultiSelectFilterLabel />
+      <CreateSomething />
+      <LabelSelectFilterCreate />
     </Provider>
   )
 }

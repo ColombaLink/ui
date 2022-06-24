@@ -1,10 +1,7 @@
 import React, {
-  createElement,
   CSSProperties,
   FC,
-  FunctionComponent,
   MouseEventHandler,
-  PropsWithChildren,
   ReactNode,
   useState,
 } from 'react'
@@ -12,7 +9,6 @@ import { color as c, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Icon } from '~/types'
 
 export type ButtonProps = {
   action?: boolean
