@@ -6,7 +6,7 @@ import { Text } from '..'
 export const Avatars = () => {
   return (
     <Provider>
-      <Avatar space size="32px"></Avatar>
+      <Avatar space size="32px" backgroundColor="AccentTeal" />
       <Avatar space size="40px" />
       <Avatar space size="64px">
         <Text size="18px" color="Background0dp">
