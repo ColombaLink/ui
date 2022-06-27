@@ -9,7 +9,7 @@ export type Weight = WeightInt | `${WeightInt}`
 type SpaceInt = 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32
 export type Space = SpaceInt | `${SpaceInt}px` | true
 
-type AvatarSizeInt = 32 | 40 | 64
+type AvatarSizeInt = 32 | 36 | 40 | 64
 export type AvatarSize = `${AvatarSizeInt}px` | AvatarSizeInt
 
 type CSSColorValue = `${

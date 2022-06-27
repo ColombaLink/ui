@@ -9,6 +9,7 @@ type BadgeProps = {
   iconRight?: FC | ReactNode
   outline?: boolean
   light?: boolean
+  boxed?: boolean
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -18,13 +19,15 @@ export const Badge: FC<BadgeProps> = ({
   style,
   outline,
   light,
+  boxed,
 }) => {
   return (
     <div
       style={{
         padding: '0 8px',
-        borderRadius: 12,
+        borderRadius: boxed ? 4 : 12,
         minHeight: 24,
+        maxWidth: 'fit-content',
         display: 'flex',
         alignItems: 'center',
         border: outline ? `1px solid ${color('OtherDivider')}` : null,
