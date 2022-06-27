@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, ReactNode } from 'react'
 import { BasedIcon, CopyIcon, DotIcon, DuplicateIcon, MoreIcon } from '~/icons'
 import { Avatar } from '../Avatar'
 import { Text } from '../Text'
-import { Space } from '~/types'
+import { Space, Color } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { Badge } from '../Badge'
 
@@ -11,7 +11,11 @@ type CardProps = {
   description?: string
   space?: Space
   style?: CSSProperties
-  icon?: FC | ReactNode
+  iconTopLeft?: FC | ReactNode
+  iconTopRight?: FC | ReactNode
+  badgeBottomRight?: FC | ReactNode
+  badgeBottomLeft?: FC | ReactNode
+  children?: FC | ReactNode
 }
 
 export const Card: FC<CardProps> = ({
@@ -19,7 +23,11 @@ export const Card: FC<CardProps> = ({
   description,
   space,
   style,
-  icon,
+  iconTopLeft,
+  iconTopRight,
+  badgeBottomLeft,
+  badgeBottomRight,
+  children,
 }) => {
   return (
     <div
@@ -34,13 +42,8 @@ export const Card: FC<CardProps> = ({
       }}
     >
       <div style={{ display: 'flex', position: 'relative', marginBottom: 44 }}>
-        <Avatar
-          size="36px"
-          backgroundColor="AccentGreenLight"
-          style={{ marginRight: 12 }}
-        >
-          {renderOrCreateElement(icon, {})}
-        </Avatar>
+        <>{iconTopLeft}</>
+
         <div>
           <Text weight={600}>{title}</Text>
           <Text weight={400} size="13px" color="TextSecondary">
@@ -50,33 +53,17 @@ export const Card: FC<CardProps> = ({
         <div
           style={{ position: 'absolute', right: 0, top: 4, cursor: 'pointer' }}
         >
-          <MoreIcon />
+          <>{iconTopRight}</>
         </div>
       </div>
 
+      <div>
+        <>{children}</>
+      </div>
+
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Badge
-          boxed
-          light
-          iconLeft={<CopyIcon style={{ marginRight: 8 }} />}
-          style={{
-            backgroundColor: color('ActionLight'),
-          }}
-        >
-          <Text color="TextPrimary" size="13px">
-            main
-          </Text>
-        </Badge>
-        <Badge
-          outline
-          iconLeft={
-            <DotIcon color="AccentGreen" size={10} style={{ marginRight: 8 }} />
-          }
-        >
-          <Text color="TextPrimary" size="12px">
-            Healthy
-          </Text>
-        </Badge>
+        <>{badgeBottomLeft}</>
+        <>{badgeBottomRight}</>
       </div>
     </div>
   )

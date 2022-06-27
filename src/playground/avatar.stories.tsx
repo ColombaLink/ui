@@ -2,6 +2,7 @@ import React from 'react'
 import { Avatar } from '~/components/Avatar'
 import { Provider } from '..'
 import { Text } from '..'
+import { BasedIcon } from '~'
 
 export const Avatars = () => {
   return (
@@ -14,6 +15,12 @@ export const Avatars = () => {
           AB
         </Text>
       </Avatar>
+
+      <Avatar
+        icon={<BasedIcon color="AccentBrightpurple" />}
+        backgroundColor="AccentBrightpurpleLight"
+        space
+      />
 
       <Avatar
         space

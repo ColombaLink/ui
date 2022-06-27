@@ -6,7 +6,8 @@ type AvatarProps = {
   size?: AvatarSize
   backgroundColor?: Color
   backgroundImg?: string
-  children?: ReactNode
+  icon?: FC | ReactNode
+  children?: FC | ReactNode
   space?: Space
   style?: CSSProperties
 }
@@ -15,6 +16,7 @@ export const Avatar: FC<AvatarProps> = ({
   size = 32,
   backgroundColor,
   backgroundImg,
+  icon,
   children,
   space,
   style,
@@ -38,7 +40,8 @@ export const Avatar: FC<AvatarProps> = ({
         ...style,
       }}
     >
-      {children}
+      <>{children}</>
+      <>{icon}</>
     </div>
   )
 }
