@@ -85,12 +85,12 @@ const ColorBlock = ({ val }) => {
         {...listeners}
       >
         {hover ? (
-          <Text weight={500} size="14" style={{ margin: 10 }}>
+          <Text weight={500} size="14px" style={{ margin: 10 }}>
             <DuplicateIcon size={16} style={{ display: 'inline-block' }} />
             {copied ? ' Copied' : ' Copy'}
           </Text>
         ) : (
-          <Text weight={500} size="14" style={{ margin: 10 }}>
+          <Text weight={500} size="14px" style={{ margin: 10 }}>
             {val}
           </Text>
         )}

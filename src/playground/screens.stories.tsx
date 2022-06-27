@@ -1,5 +1,7 @@
-import React from 'react'
+import React, { CSSProperties, FC } from 'react'
+import { Link } from '~/components/Link'
 import { Page } from '~/components/Page'
+import { Steps } from '~/components/Steps'
 import {
   Topbar,
   Sidebar,
@@ -15,6 +17,8 @@ import {
   Block,
   color,
   Button,
+  Badge,
+  DotIcon,
 } from '..'
 
 export const Members = () => (
@@ -107,68 +111,47 @@ export const Dashboard = () => {
     <Provider>
       <Topbar data={{ Projects: '/', Settings: '/settings' }} />
       <Page>
-        <Text size="20" space="32">
+        <Text size="20px" space="32px">
           Junior Eurovision - France 2022
         </Text>
         <Block space>
-          <Text size="20" weight={700} space>
+          <Text size="20px" weight={700} space>
             Start building a project
           </Text>
           <div style={{ display: 'flex' }}>
-            <div style={{ marginRight: 24 }}>
-              {[
-                'Set up your schema',
-                'Create content',
-                'Make your API accessible',
-                'Integrate your content with your front-end',
-              ].map((text, index) => {
-                return (
-                  <div
-                    key={index}
-                    style={{
-                      backgroundColor: index
-                        ? null
-                        : color('PrimaryLightSelected'),
-                      display: 'flex',
-                      alignItems: 'center',
-                      height: 48,
-                      padding: '0 16px',
-                      borderRadius: 4,
-                      marginBottom: 8,
-                    }}
-                  >
-                    <Text
-                      color="PrimaryMain"
-                      style={{
-                        width: 26,
-                        height: 26,
-                        borderRadius: 13,
-                        backgroundColor: color('OtherForeground'),
-                        textAlign: 'center',
-                        lineHeight: '26px',
-                        marginRight: 16,
-                      }}
-                    >
-                      {index + 1}
-                    </Text>
-                    <Text>{text}</Text>
-                  </div>
-                )
-              })}
-            </div>
+            <Steps
+              style={{ marginRight: 24 }}
+              data={{
+                'Set up your schema': '/',
+                'Create content': '/create',
+                'Make your API accessible': '/api',
+                'Integrate your content with your front-end': '/integrate',
+              }}
+            />
             <Block>
               <Text>First things first, set up your schema!</Text>
-              <Text color="TextSecondary" space size="15">
+              <Text color="TextSecondary" space size="15px">
                 Define the building blocks of your content.
               </Text>
               <Button>Start your schema</Button>
             </Block>
           </div>
         </Block>
-        <Block style={{ display: 'flex' }}>
-          <Text size="20" weight="700">
+        <Block style={{ display: 'flex' }} space>
+          <Text size="20px" weight="700">
             Project status
           </Text>
+        </Block>
+        <Block style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Text size="20px" weight="700">
+            Changelog
+          </Text>
+          <Badge
+            outline
+            iconLeft={(props) => <DotIcon color="AccentPurple" {...props} />}
+          >
+            Deploying: setting up servers 1/4
+          </Badge>
         </Block>
       </Page>
     </Provider>

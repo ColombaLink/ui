@@ -73,15 +73,12 @@ const MenuItem: FC<MenuItemProps> = ({
   )
 }
 
-export const Menu = ({
-  data = {},
-  selected,
-  prefix = '',
-}: {
+export const Menu: FC<{
   data: object
   selected?: string
   prefix?: string
-}) => {
+  style?: CSSProperties
+}> = ({ data = {}, selected, prefix = '', style }) => {
   const [location] = useLocation()
   if (!selected) {
     selected = location
@@ -94,6 +91,7 @@ export const Menu = ({
         borderRight: `1px solid ${color('OtherDivider')}`,
         padding: '64px 20px 20px 20px',
         width: 224,
+        ...style,
       }}
     >
       {Object.keys(data).map((key, i) => {

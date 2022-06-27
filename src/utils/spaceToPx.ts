@@ -1,7 +1,7 @@
 import type { Space } from '~/types'
 
-export const spaceToPx = (space?: Space) => {
+export const spaceToPx = (space?: Space, defaultValue = 24) => {
   if (space) {
-    return space === true ? 24 : Number(space)
+    return space === true ? defaultValue : Number(space)
   }
 }

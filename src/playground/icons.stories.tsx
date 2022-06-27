@@ -22,10 +22,10 @@ export const Overview = () => (
         alignItems: 'center',
       }}
     >
-      <Text size="13" style={{ marginRight: 32 }}>
+      <Text size="13px" style={{ marginRight: 32 }}>
         16px
       </Text>
-      <Text size="13">20px</Text>
+      <Text size="13px">20px</Text>
     </div>
 
     <Provider style={{ display: 'block', flexWrap: 'wrap' }}>

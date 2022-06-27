@@ -19,6 +19,9 @@ export const Page: FC<PageProps> = ({ children, style }) => {
         style={{
           marginTop: 80,
           width: 800,
+          marginLeft: 24,
+          marginRight: 24,
+          overflow: 'hidden',
         }}
       >
         {children}

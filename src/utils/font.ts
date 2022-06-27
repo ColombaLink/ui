@@ -2,11 +2,11 @@ import type { Color, Size, Weight } from '~/types'
 import { color } from './color'
 
 export const font = (
-  size: Size = '15',
+  size: Size = '15px',
   colorProp: Color = 'TextPrimary',
   weight?: Weight
 ) => {
-  const fontSize = Number(size)
+  const fontSize = parseInt(size as string)
   const fontWeight = weight
     ? Number(weight)
     : fontSize >= 32

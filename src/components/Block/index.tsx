@@ -16,7 +16,7 @@ export const Block: FC<BlockProps> = ({ children, style, space }) => {
         backgroundColor: color('Background2dp'),
         border: `1px solid ${color('OtherDivider')}`,
         borderRadius: 4,
-        marginBottom: spaceToPx(space),
+        marginBottom: spaceToPx(space, 32),
         ...style,
       }}
     >

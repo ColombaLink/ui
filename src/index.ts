@@ -3,6 +3,7 @@ import '../assets/fonts.css'
 
 import './themes'
 
+export * from './components/Badge'
 export * from './components/Block'
 export * from './components/Button'
 export * from './components/Checkbox'
@@ -14,6 +15,7 @@ export * from './components/Menu'
 export * from './components/Page'
 export * from './components/Provider'
 export * from './components/Sidebar'
+export * from './components/Steps'
 export * from './components/Text'
 export * from './components/Topbar'
 
