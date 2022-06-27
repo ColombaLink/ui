@@ -94,7 +94,7 @@ export const Assets = () => (
         }}
       />
       <Table
-        headers={{
+        fields={{
           img: 'Preview',
           updatedAt: 'Updated At',
           createdBy: 'Author',
