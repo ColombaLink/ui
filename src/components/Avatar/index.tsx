@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
-import { Color, Space } from '~/types'
+import { AvatarSize, Color, Space } from '~/types'
 import { color, spaceToPx } from '~/utils'
 
 type AvatarProps = {
-  size?: 32 | 40 | 64 | '32px' | '40px' | '64px'
+  size?: AvatarSize
   backgroundColor?: Color
   backgroundImg?: string
   children?: React.ReactNode

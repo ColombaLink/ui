@@ -8,6 +8,7 @@ export const Avatars = () => {
     <Provider>
       <Avatar space size="32px" backgroundColor="AccentTeal" />
       <Avatar space size="40px" />
+
       <Avatar space size="64px">
         <Text size="18px" color="Background0dp">
           AB
