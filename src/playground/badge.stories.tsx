@@ -11,11 +11,13 @@ export const Badges = () => {
       <Badge iconLeft={AddIcon}>Icon Left</Badge>
       <br />
       <Badge
-        iconLeft={DotIcon({
-          color: 'AccentForestgreen',
-          size: 10,
-          style: { marginRight: 10 },
-        })}
+        iconLeft={
+          <DotIcon
+            color="AccentForestgreen"
+            size={10}
+            style={{ marginRight: 10 }}
+          />
+        }
       >
         Icon Left
       </Badge>
