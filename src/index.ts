@@ -1,7 +1,9 @@
 import '../assets/global.css'
 import '../assets/fonts.css'
 
-import './themes'
+import { themes } from './themes'
+
+themes()
 
 export * from './components/Badge'
 export * from './components/Block'
