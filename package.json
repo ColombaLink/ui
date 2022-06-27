@@ -17,7 +17,6 @@
   ],
   "author": "saulx",
   "license": "ISC",
-  "sideEffects": false,
   "prettier": "@saulx/prettier-config",
   "eslintConfig": {
     "extends": "@saulx/eslint-config"
