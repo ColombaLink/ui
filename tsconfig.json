@@ -22,6 +22,6 @@
       "~/*": ["src/*"]
     }
   },
-  "exclude": ["node_modules", "*.stories.*"],
+  "exclude": ["node_modules", "dist"],
   "types": ["typePatches"]
 }
