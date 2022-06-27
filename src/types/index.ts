@@ -1,46 +1,13 @@
 import { SVGProps, SyntheticEvent } from 'react'
 
-export type Size =
-  | '11px'
-  | '12px'
-  | '13px'
-  | '14px'
-  | '15px'
-  | '18px'
-  | '20px'
-  | '24px'
-  | '32px'
-  | 11
-  | 12
-  | 13
-  | 14
-  | 15
-  | 18
-  | 20
-  | 24
-  | 32
+type SizeInt = 11 | 12 | 13 | 14 | 15 | 18 | 20 | 24 | 32
+export type Size = `${SizeInt}px` | SizeInt
 
-export type Weight = '400' | '500' | '600' | '700' | 400 | 500 | 600 | 700
+type WeightInt = 400 | 500 | 600 | 700
+export type Weight = WeightInt | `${WeightInt}`
 
-// TODO useful?
-export type Space =
-  | '4px'
-  | '8px'
-  | '12px'
-  | '16px'
-  | '20px'
-  | '24px'
-  | '28px'
-  | '32px'
-  | 4
-  | 8
-  | 12
-  | 16
-  | 20
-  | 24
-  | 28
-  | 32
-  | true
+type SpaceInt = 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32
+export type Space = SpaceInt | `${SpaceInt}px` | true
 
 type CSSColorValue = `${
   | 'a'

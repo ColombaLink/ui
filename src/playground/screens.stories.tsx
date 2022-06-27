@@ -157,3 +157,24 @@ export const Dashboard = () => {
     </Provider>
   )
 }
+
+export const Chat = () => {
+  const rooms = [
+    {
+      label: 'Hello',
+      href: '/hello',
+    },
+  ]
+  return (
+    <Provider>
+      <Topbar />
+      <Sidebar
+        data={
+          {
+            // Rooms: rooms,
+          }
+        }
+      />
+    </Provider>
+  )
+}

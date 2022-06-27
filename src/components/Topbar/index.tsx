@@ -64,11 +64,11 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
 }
 
 export const Topbar = ({
-  data,
+  data = {},
   prefix = '',
   selected,
 }: {
-  data: object
+  data?: object
   selected?: string
   prefix?: string
 }) => {
