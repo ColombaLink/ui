@@ -46,6 +46,8 @@ export const Inputs = () => {
       <br />
       <Input label="Multiline" multiline />
       <br />
+      <Input label="Optional Multiline" optional multiline />
+      <br />
       <Input label="With Background" bg />
     </>
   )
