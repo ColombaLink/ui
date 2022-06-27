@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react",
     "target": "es2021",
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "node",
     "sourceMap": true,
     "removeComments": false,
@@ -16,11 +16,12 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "rootDir": "./src",
+    "outDir": "./dist",
     "paths": {
       "~": ["src"],
       "~/*": ["src/*"]
     }
   },
-  "exclude": ["node_modules", "*.stories.*"],
+  "exclude": ["node_modules", "dist"],
   "types": ["typePatches"]
 }

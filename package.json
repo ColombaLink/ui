@@ -1,16 +1,22 @@
 {
-  "name": "ui",
-  "version": "1.0.0",
+  "name": "@based/ui",
+  "version": "3.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
     "lint": "tsc --noEmit",
     "dev": "ladle serve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rm -rf dist && tsc --build tsconfig.build.json && node postbuild"
   },
-  "author": "youzi",
+  "files": [
+    "assets",
+    "dist",
+    "README.md"
+  ],
+  "author": "saulx",
   "license": "ISC",
-  "sideEffects": false,
   "prettier": "@saulx/prettier-config",
   "eslintConfig": {
     "extends": "@saulx/eslint-config"

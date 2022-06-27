@@ -1,7 +1,4 @@
 import React, { CSSProperties, FC, useState } from 'react'
-import { Link } from '~/components/Link'
-import { Page } from '~/components/Page'
-import { Steps } from '~/components/Steps'
 import {
   Topbar,
   Sidebar,
@@ -22,6 +19,9 @@ import {
   AddIcon,
   MenuButton,
   Table,
+  Link,
+  Page,
+  Steps,
 } from '..'
 
 export const Members = () => (
@@ -94,7 +94,7 @@ export const Assets = () => (
         }}
       />
       <Table
-        headers={{
+        fields={{
           img: 'Preview',
           updatedAt: 'Updated At',
           createdBy: 'Author',

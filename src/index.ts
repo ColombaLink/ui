@@ -1,7 +1,9 @@
 import '../assets/global.css'
 import '../assets/fonts.css'
 
-import './themes'
+import { themes } from './themes'
+
+themes()
 
 export * from './components/Badge'
 export * from './components/Block'
@@ -11,6 +13,7 @@ export * from './components/ContextMenu'
 export * from './components/Dialog'
 export * from './components/Form'
 export * from './components/Input'
+export * from './components/Link'
 export * from './components/Menu'
 export * from './components/Page'
 export * from './components/Provider'

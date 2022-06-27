@@ -16,8 +16,6 @@ const Edit = styled(EditIcon, {
   },
 })
 
-type TableProps = {}
-
 const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
 
 const Item = ({ children, longestString }) => {
@@ -75,8 +73,22 @@ const Row = ({ data: { data, fields, longest }, index, style }) => (
   </div>
 )
 
+type TableProps = {
+  fields:
+    | {
+        [field: string]: string
+      }
+    | string[]
+  data: {
+    [field: string]: any
+  }[]
+  itemSize?: number
+  style?: CSSProperties
+}
+
+// TODO handle nested fields
 export const Table: FC<TableProps> = ({
-  headers = [],
+  fields: fieldsProp = [],
   data = [],
   itemSize = 56,
   style,
@@ -86,11 +98,15 @@ export const Table: FC<TableProps> = ({
     const c = document.createElement('canvas')
     ctx.current = c.getContext('2d')
   }
-  const isArray = Array.isArray(headers)
+  const isArray = Array.isArray(fieldsProp)
   const labels = isArray
-    ? headers.map((header) => header.replace(/([a-z])([A-Z])/g, '$1 $2'))
-    : Object.values(headers)
-  const fields = isArray ? headers : Object.keys(headers)
+    ? fieldsProp.map((header) =>
+        header
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/^./, (str) => str.toUpperCase())
+      )
+    : Object.values(fieldsProp)
+  const fields = isArray ? fieldsProp : Object.keys(fieldsProp)
   const textWidths = {}
   const longest = {}
 
