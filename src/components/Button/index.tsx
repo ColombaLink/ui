@@ -5,10 +5,11 @@ import React, {
   ReactNode,
   useState,
 } from 'react'
-import { color as c, renderOrCreateElement } from '~/utils'
+import { color as c, renderOrCreateElement, spaceToPx } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
+import { Space } from '~/types'
 
 export type ButtonProps = {
   action?: boolean
@@ -23,6 +24,7 @@ export type ButtonProps = {
   onClick?: MouseEventHandler
   outline?: boolean
   style?: CSSProperties
+  space?: Space
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -38,6 +40,7 @@ export const Button: FC<ButtonProps> = ({
   onClick,
   outline,
   style,
+  space,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
   const colorBase = error ? 'Error' : action ? 'Action' : 'Primary'
@@ -115,6 +118,11 @@ export const Button: FC<ButtonProps> = ({
         '&:hover': {
           backgroundColor: c(hoverBg),
         },
+        ...(space
+          ? {
+              marginBottom: spaceToPx(space),
+            }
+          : null),
         ...style,
       }}
     >

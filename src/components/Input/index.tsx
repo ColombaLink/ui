@@ -1,7 +1,8 @@
 import React, { FC, ReactNode } from 'react'
 import { Text } from '../Text'
-import { color, renderOrCreateElement } from '~/utils'
+import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
+import { Space } from '~/types'
 
 const resize = (target) => {
   if (target) {
@@ -46,6 +47,7 @@ type InputProps = {
   bg?: boolean
   autoFocus?: boolean
   name?: string
+  space?: Space
 }
 
 export const Input: FC<InputProps> = ({
@@ -63,7 +65,8 @@ export const Input: FC<InputProps> = ({
   multiline,
   bg,
   autoFocus,
-  name
+  name,
+  space,
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
   const { listeners: focusListeners, focus } = useFocus()
@@ -105,7 +108,16 @@ export const Input: FC<InputProps> = ({
   }
 
   return (
-    <div style={style}>
+    <div
+      style={{
+        ...(space
+          ? {
+              marginBottom: spaceToPx(space),
+            }
+          : null),
+        ...style,
+      }}
+    >
       {label && (
         <Text style={{ marginBottom: 4 }}>
           {label}
