@@ -1,13 +1,14 @@
-import React, { FC } from 'react'
-import { Color, Space } from '~/types'
+import React, { CSSProperties, FC, ReactNode } from 'react'
+import { AvatarSize, Color, Space } from '~/types'
 import { color, spaceToPx } from '~/utils'
 
 type AvatarProps = {
-  size?: 32 | 40 | 64 | '32px' | '40px' | '64px'
+  size?: AvatarSize
   backgroundColor?: Color
   backgroundImg?: string
-  children?: React.ReactNode
+  children?: ReactNode
   space?: Space
+  style?: CSSProperties
 }
 
 export const Avatar: FC<AvatarProps> = ({
@@ -16,6 +17,7 @@ export const Avatar: FC<AvatarProps> = ({
   backgroundImg,
   children,
   space,
+  style,
 }) => {
   return (
     <div
@@ -33,6 +35,7 @@ export const Avatar: FC<AvatarProps> = ({
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         marginBottom: spaceToPx(space),
+        ...style,
       }}
     >
       {children}
