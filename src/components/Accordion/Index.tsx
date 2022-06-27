@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { Text } from '../Text'
 import { color, spaceToPx } from '~/utils'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '~/icons'
@@ -9,16 +9,20 @@ type AccordionItemProps = {
   children?: ReactNode
   space?: Space
   checked?: boolean
+  style?: CSSProperties
 }
 
 type AccordionProps = {
   children?: ReactNode
   space?: Space
+  style?: CSSProperties
 }
 
-export const Accordion: FC<AccordionProps> = ({ children, space }) => {
+export const Accordion: FC<AccordionProps> = ({ children, space, style }) => {
   space = 32
-  return <div style={{ marginBottom: spaceToPx(space) }}>{children}</div>
+  return (
+    <div style={{ marginBottom: spaceToPx(space), ...style }}>{children}</div>
+  )
 }
 
 export const AccordionItem: FC<AccordionItemProps> = ({
@@ -26,6 +30,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   children,
   checked,
   space = 12,
+  style,
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -45,6 +50,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           borderRadius: 4,
           height: 56,
           cursor: 'pointer',
+          ...style,
         }}
         onClick={() => setOpen(!open)}
       >
