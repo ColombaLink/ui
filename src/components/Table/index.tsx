@@ -73,18 +73,28 @@ const Row = ({ data: { data, fields, longest }, index, style }) => (
   </div>
 )
 
+type Fields =
+  | {
+      [field: string]: string
+    }
+  | string[]
+
+type Data = {
+  [field: string]: any
+}[]
+
 type TableProps = {
-  fields:
-    | {
-        [field: string]: string
-      }
-    | string[]
-  data: {
-    [field: string]: any
-  }[]
+  fields: Fields
+  data: Data
   itemSize?: number
   style?: CSSProperties
 }
+//  | {
+//   fields: Fields
+//   query: object
+//   itemSize?: number
+//   style?: CSSProperties
+// }
 
 // TODO handle nested fields
 export const Table: FC<TableProps> = ({
