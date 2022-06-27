@@ -34,6 +34,7 @@ type InputProps = {
   style?: React.CSSProperties
   onChange?: (value: string | number) => void
   label?: string
+  description?: string
   value?: string | number
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
@@ -49,6 +50,7 @@ export const Input: FC<InputProps> = ({
   style,
   onChange: onChangeProp,
   label,
+  description,
   value: valueProp,
   defaultValue,
   type,
@@ -100,6 +102,15 @@ export const Input: FC<InputProps> = ({
   return (
     <div style={style}>
       {label && <Text style={{ marginBottom: 4 }}>{label}</Text>}
+      {description && (
+        <Text
+          weight={400}
+          style={{ marginBottom: 12, marginTop: -2 }}
+          color="TextSecondary"
+        >
+          {description}
+        </Text>
+      )}
       <div
         style={{
           position: 'relative',

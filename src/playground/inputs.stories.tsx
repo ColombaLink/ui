@@ -39,6 +39,11 @@ export const Inputs = () => {
       <br />
       <Input label="With Icon Right" iconRight={EditIcon} />
       <br />
+      <Input
+        label="With Description"
+        description="More information about this field."
+      />
+      <br />
       <Input label="Multiline" multiline />
       <br />
       <Input label="With Background" bg />

@@ -5,7 +5,7 @@ import { Provider, Block, Input, Text, Button } from '~'
 export const Accordions = () => {
   return (
     <Provider>
-      <Block>
+      <Block style={{ maxWidth: 760 }}>
         <Accordion>
           <Text space size="15px" weight={600} color="TextPrimary">
             Reference
