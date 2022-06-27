@@ -40,17 +40,15 @@ export const Overview = () => (
         >
           <div style={{ marginRight: 16 }}>
             {React.createElement(icons[name], {
-              size: 16,
               color: randomColor(),
             })}
           </div>
           <div style={{ marginRight: 16 }}>
             {React.createElement(icons[name], {
-              size: 16,
               color: randomColorFromObj(ColorArr),
             })}
           </div>
-          {React.createElement(icons[name])}
+          {React.createElement(icons[name], { size: 20 })}
           <div
             style={{
               marginLeft: 16,

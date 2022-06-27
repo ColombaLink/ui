@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 import { Link } from '~/components/Link'
 import { Page } from '~/components/Page'
 import { Steps } from '~/components/Steps'
@@ -19,6 +19,9 @@ import {
   Button,
   Badge,
   DotIcon,
+  AddIcon,
+  MenuButton,
+  Table,
 } from '..'
 
 export const Members = () => (
@@ -90,25 +93,22 @@ export const Assets = () => (
           Graphql: ['/graphql', ModelIcon],
         }}
       />
-      <Menu
-        data={{
-          'Project Settings': '/project',
-          General: '/general',
+      <Table
+        headers={{
+          img: 'Preview',
+          updatedAt: 'Updated At',
+          createdBy: 'Author',
+          handle: 'Handle',
+          title: 'File Name',
         }}
-      />
-      <Edit
-        id={'x'}
-        data={{
-          'Project details': {
-            'Project name': 'name',
-            'Email address': ['email', 'Enter Email Address'],
-            'Project picture': ['picture', 'Add picture'],
-          },
-          'Privacy settings': {
-            'Make project private': ['name', false],
-            // 'Allow specific organization members access': []
-          },
-        }}
+        data={Array.from(Array(1000)).map((_, i) => {
+          return {
+            title: 'Title ' + i,
+            createdBy: 'Blur ' + ~~(Math.random() * 1e4),
+            updatedAt: Date.now(),
+            img: 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+          }
+        })}
       />
     </div>
   </Provider>
@@ -167,22 +167,39 @@ export const Dashboard = () => {
 }
 
 export const Chat = () => {
-  const rooms = [
+  const [rooms, setRooms] = useState([
     {
-      label: 'Hello',
-      href: '/hello',
+      label: 'Room 1',
+      href: '/room1',
     },
-  ]
+    {
+      label: 'Room 2',
+      href: '/room2',
+    },
+  ])
   return (
     <Provider>
       <Topbar />
-      <Sidebar
-        data={
-          {
-            // Rooms: rooms,
-          }
-        }
-      />
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Menu data={{ Rooms: rooms }}>
+          <MenuButton
+            ghost
+            iconLeft={AddIcon}
+            onClick={() => {
+              const n = rooms.length + 1
+              setRooms([
+                ...rooms,
+                {
+                  label: 'Room ' + n,
+                  href: '/room' + n,
+                },
+              ])
+            }}
+          >
+            New room
+          </MenuButton>
+        </Menu>
+      </div>
     </Provider>
   )
 }

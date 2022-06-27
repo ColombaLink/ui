@@ -1,6 +1,5 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { Space } from '~/types'
-import { color, renderOrCreateElement, spaceToPx } from '~/utils'
+import { color, renderOrCreateElement } from '~/utils'
 import { Text } from '../Text'
 
 type BadgeProps = {

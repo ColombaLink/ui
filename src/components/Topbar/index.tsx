@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useState } from 'react'
-import { useLocation } from 'wouter'
+import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color, font } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'

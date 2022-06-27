@@ -127,13 +127,11 @@ export const Button: FC<ButtonProps> = ({
       >
         {iconLeft &&
           renderOrCreateElement(iconLeft, {
-            size: 16,
             style: children || iconRight ? { marginRight: 8 } : null,
           })}
         <Text color="inherit">{children}</Text>
         {iconRight &&
           renderOrCreateElement(iconRight, {
-            size: 16,
             style: children || iconLeft ? { marginLeft: 8 } : null,
           })}
       </div>
