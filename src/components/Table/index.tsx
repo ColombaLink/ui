@@ -9,6 +9,12 @@ import { Checkbox } from '../Checkbox'
 import { EditIcon } from '~/icons'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
+const Edit = styled(EditIcon, {
+  cursor: 'pointer',
+  '&:hover': {
+    opacity: 0.6,
+  },
+})
 
 type TableProps = {}
 
@@ -41,7 +47,7 @@ const Row = ({ data: { data, fields, longest }, index, style }) => (
       }}
     >
       <Checkbox style={{ marginLeft: 32 }} />
-      <EditIcon style={{ marginLeft: 20 }} color="PrimaryMain" />
+      <Edit style={{ marginLeft: 20 }} color="PrimaryMain" />
     </div>
     {fields.map((field) => {
       const value = data[index][field]
@@ -80,7 +86,11 @@ export const Table: FC<TableProps> = ({
     const c = document.createElement('canvas')
     ctx.current = c.getContext('2d')
   }
-  const fields = Array.isArray(headers) ? headers : Object.keys(headers)
+  const isArray = Array.isArray(headers)
+  const labels = isArray
+    ? headers.map((header) => header.replace(/([a-z])([A-Z])/g, '$1 $2'))
+    : Object.values(headers)
+  const fields = isArray ? headers : Object.keys(headers)
   const textWidths = {}
   const longest = {}
 
@@ -91,9 +101,9 @@ export const Table: FC<TableProps> = ({
     longest[field] = value
   }
 
-  for (const field of fields) {
-    measure(field, field)
-  }
+  fields.forEach((field, i) => {
+    measure(field, labels[i])
+  })
 
   const parsed = data.map((item) => {
     const obj = {}
@@ -129,15 +139,15 @@ export const Table: FC<TableProps> = ({
           paddingLeft: 128,
         }}
       >
-        {fields.map((field) => (
+        {labels.map((label, i) => (
           <Item
-            key={field}
-            longestString={longest[field]}
+            key={label}
+            longestString={longest[fields[i]]}
             style={{
               padding: '8px 0',
             }}
           >
-            {field}
+            {label}
           </Item>
         ))}
       </div>
