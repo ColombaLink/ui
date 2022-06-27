@@ -1,5 +1,5 @@
 import React, { FC, ReactNode } from 'react'
-import { useLocation } from 'wouter'
+import { useLocation } from '~/hooks'
 
 import { color, font, hrefIsActive } from '~/utils'
 import { Link } from '../Link'
@@ -64,10 +64,10 @@ export const Sidebar = ({
         let children: ReactNode = key[0]
         if (typeof href === 'object') {
           if (Array.isArray(href)) {
-            children = React.createElement(href[1]) || children
+            children = React.createElement(href[1], { size: 20 }) || children
             href = href[0]
           } else {
-            children = React.createElement(href.icon) || children
+            children = React.createElement(href.icon, { size: 20 }) || children
             href = href.href
           }
         }

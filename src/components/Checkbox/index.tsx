@@ -77,6 +77,7 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   return (
     <button
+      onClick={onClick}
       style={{
         alignItems: 'center',
         display: 'flex',

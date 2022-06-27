@@ -107,7 +107,6 @@ export const Input: FC<InputProps> = ({
         }}
       >
         {renderOrCreateElement(iconLeft, {
-          size: 16,
           style: {
             position: 'absolute',
             left: 12,
@@ -118,7 +117,6 @@ export const Input: FC<InputProps> = ({
         })}
         {multiline ? <Multi {...props} /> : <Single {...props} />}
         {renderOrCreateElement(iconRight, {
-          size: 16,
           style: {
             position: 'absolute',
             right: 12,

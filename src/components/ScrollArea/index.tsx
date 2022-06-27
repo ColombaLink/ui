@@ -4,8 +4,7 @@ import { color } from '~/utils'
 const scrollbarColor = color('TextPrimary', 0.2)
 const transparentAreaColor = color('Background1dp')
 
-export const ScrollArea = styled('div', {
-  overflow: 'auto',
+export const scrollAreaStyle = {
   // firefox
   scrollbarColor: 'transparent transparent',
   '&::-webkit-scrollbar': {
@@ -30,4 +29,9 @@ export const ScrollArea = styled('div', {
       borderRadius: '6px',
     },
   },
+}
+
+export const ScrollArea = styled('div', {
+  overflow: 'auto',
+  ...scrollAreaStyle,
 })

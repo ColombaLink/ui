@@ -16,6 +16,7 @@ export * from './components/Page'
 export * from './components/Provider'
 export * from './components/Sidebar'
 export * from './components/Steps'
+export * from './components/Table'
 export * from './components/Text'
 export * from './components/Topbar'
 

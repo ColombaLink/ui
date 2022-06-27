@@ -1,7 +1,8 @@
 import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
-import { useLocation } from 'wouter'
+import { useLocation } from '~/hooks'
 import { color, font } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
+import { Button, ButtonProps } from '../Button'
 import { Link } from '../Link'
 import { Text } from '../Text'
 
@@ -32,7 +33,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
   )
 }
 
-const MenuItem: FC<MenuItemProps> = ({
+export const MenuItem: FC<MenuItemProps> = ({
   children,
   style,
   href,
@@ -73,12 +74,26 @@ const MenuItem: FC<MenuItemProps> = ({
   )
 }
 
+export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
+  return (
+    <Button
+      {...props}
+      style={{
+        padding: '4px 12px',
+        margin: '-4px -12px',
+        ...style,
+      }}
+    />
+  )
+}
+
 export const Menu: FC<{
   data: object
   selected?: string
   prefix?: string
   style?: CSSProperties
-}> = ({ data = {}, selected, prefix = '', style }) => {
+  children?: ReactNode
+}> = Object.assign(({ data = {}, selected, prefix = '', style, children }) => {
   const [location] = useLocation()
   if (!selected) {
     selected = location
@@ -95,21 +110,28 @@ export const Menu: FC<{
       }}
     >
       {Object.keys(data).map((key, i) => {
-        const value = data[key]
+        let value = data[key]
         if (typeof value === 'object') {
+          if (!Array.isArray(value)) {
+            value = Object.keys(value).map((key) => ({
+              label: key,
+              href: value[key],
+            }))
+          }
+
           return (
             <Fragment key={key}>
               <MenuHeader style={{ marginTop: i && 40 }}>{key}</MenuHeader>
-              {Object.keys(value).map((key) => {
-                const href = prefix + value[key]
+              {value.map(({ href, label }, index) => {
+                href = prefix + href
                 return (
                   <MenuItem
-                    key={key}
+                    key={index}
                     href={href}
                     isActive={hrefIsActive(href, selected)}
                     isNested
                   >
-                    {key}
+                    {label}
                   </MenuItem>
                 )
               })}
@@ -127,6 +149,7 @@ export const Menu: FC<{
           </MenuItem>
         )
       })}
+      {children}
     </div>
   )
-}
+})

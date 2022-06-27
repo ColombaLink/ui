@@ -4,7 +4,7 @@ import { color } from '~/utils'
 
 export const DotIcon = ({
   color: colorProp = 'currentColor',
-  size = 20,
+  size = 16,
   style,
   ...props
 }: {

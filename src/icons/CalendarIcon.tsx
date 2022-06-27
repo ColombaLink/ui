@@ -4,7 +4,7 @@ import { color } from '~/utils'
 
 export const CalendarIcon = ({
   color: colorProp = 'currentColor',
-  size = 20,
+  size = 16,
   ...props
 }: Icon) => {
   return (

@@ -10,7 +10,7 @@ type LinkProps = {
 
 export const Link: FC<LinkProps> = styled(
   ({ href = '/', ...props }: { href: string }) => (
-    <WLink href={href}>
+    <WLink href={href + location.search}>
       <a {...props}></a>
     </WLink>
   ),

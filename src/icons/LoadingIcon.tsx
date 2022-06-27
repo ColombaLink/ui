@@ -5,7 +5,7 @@ import { styled } from 'inlines'
 
 export const LoadingIcon = ({
   color: colorProp = 'currentColor',
-  size = 20,
+  size = 16,
   style,
   ...props
 }: Icon) => {
