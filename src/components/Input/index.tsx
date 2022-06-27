@@ -45,6 +45,7 @@ type InputProps = {
   multiline?: boolean
   bg?: boolean
   autoFocus?: boolean
+  name?: string
 }
 
 export const Input: FC<InputProps> = ({
@@ -62,6 +63,7 @@ export const Input: FC<InputProps> = ({
   multiline,
   bg,
   autoFocus,
+  name
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
   const { listeners: focusListeners, focus } = useFocus()
@@ -74,6 +76,7 @@ export const Input: FC<InputProps> = ({
   }
 
   const props = {
+    name,
     type,
     value,
     defaultValue,
