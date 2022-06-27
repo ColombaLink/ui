@@ -18,7 +18,8 @@ export const Avatars = () => {
       <Avatar
         space
         size={64}
-        backgroundImg="https://images.unsplash.com/photo-1656306431834-20de73164135?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
+        backgroundColor="AccentRed"
+        backgroundImg="https://robohash.org/JBS.png?set=set2&size=150x150"
       />
     </Provider>
   )
