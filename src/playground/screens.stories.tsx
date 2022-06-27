@@ -70,7 +70,15 @@ const Edit = ({ id, data }) => {
 
 export const Assets = () => (
   <Provider>
-    <Topbar data={{ Projects: '/', Settings: '/settings' }} />
+    <Topbar
+      data={{ Projects: '/', Settings: '/settings' }}
+      onFilter={(e) => {
+        console.log(e.target.value)
+      }}
+      onProfile={() => {
+        console.log('clicked')
+      }}
+    />
     <div style={{ display: 'flex', flexGrow: 1 }}>
       <Sidebar
         data={{
