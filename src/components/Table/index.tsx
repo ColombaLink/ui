@@ -20,9 +20,9 @@ type TableProps = {}
 
 const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
 
-const Item = ({ children, longestString, style }) => {
+const Item = ({ children, longestString }) => {
   return (
-    <Text weight="400" style={{ marginRight: 32, minWidth: 56, ...style }}>
+    <Text weight="400" style={{ marginRight: 32, minWidth: 56 }}>
       <div style={{ height: 0, visibility: 'hidden' }}>{longestString}</div>
       {children}
     </Text>
@@ -130,23 +130,30 @@ export const Table: FC<TableProps> = ({
     return obj
   })
 
+  // const onChecked = (index, checked) => {
+  //   parsed[index]._checked = checked
+  // }
+
   return (
     <div style={{ width: '100%', ...style }}>
       <div
         style={{
           display: 'flex',
           borderBottom: `1px solid ${color('OtherDivider')}`,
-          paddingLeft: 128,
+          height: 40,
+          alignItems: 'center',
         }}
       >
-        {labels.map((label, i) => (
-          <Item
-            key={label}
-            longestString={longest[fields[i]]}
-            style={{
-              padding: '8px 0',
+        <div style={{ width: 128 }}>
+          <Checkbox
+            style={{ marginLeft: 32 }}
+            onChange={(checked) => {
+              // for (const item of )
             }}
-          >
+          />
+        </div>
+        {labels.map((label, i) => (
+          <Item key={label} longestString={longest[fields[i]]}>
             {label}
           </Item>
         ))}

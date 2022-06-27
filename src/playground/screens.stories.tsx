@@ -1,5 +1,4 @@
 import React, { CSSProperties, FC, useState } from 'react'
-import { AutoSizer } from '~/components/AutoSizer'
 import { Link } from '~/components/Link'
 import { Page } from '~/components/Page'
 import { Steps } from '~/components/Steps'
