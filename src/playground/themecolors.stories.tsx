@@ -10,20 +10,6 @@ import { useHover } from '~/hooks'
 
 const ColorArr = theme.colors
 
-const HexCode = (color) => {
-  const rgba = color.replace(/^rgba?\(|\s+|\)$/g, '').split(',')
-  const hex = `#${(
-    (1 << 24) +
-    (parseInt(rgba[0]) << 16) +
-    (parseInt(rgba[1]) << 8) +
-    parseInt(rgba[2])
-  )
-    .toString(16)
-    .slice(1)}`
-
-  return hex
-}
-
 export const ThemeColors = () => {
   return (
     <Provider>
@@ -33,24 +19,26 @@ export const ThemeColors = () => {
           textAlign: 'center',
           flexWrap: 'wrap',
           maxWidth: 1080,
-          alignContent: 'space-between',
+          // alignContent: 'space-between',
         }}
       >
-        {Object.keys(ColorArr).map((val, idx) => (
-          <div
-            key={idx}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 200,
-              marginBottom: 20,
-            }}
-          >
-            <ColorBlock val={val} />
-          </div>
-        ))}
+        {Object.keys(ColorArr)
+          .reverse()
+          .map((val, idx) => (
+            <div
+              key={idx}
+              style={{
+                display: 'flex',
+                width: '100%',
+                //  justifyContent: 'center',
+                alignItems: 'center',
+                maxWidth: 800,
+                marginBottom: 8,
+              }}
+            >
+              <ColorBlock val={val} />
+            </div>
+          ))}
       </div>
     </Provider>
   )
@@ -63,8 +51,8 @@ const ColorBlock = ({ val }) => {
     <>
       <div
         style={{
-          width: 200,
-          height: 100,
+          width: 220,
+          height: 60,
           backgroundColor: color(val),
           display: 'flex',
           justifyContent: 'center',
@@ -72,10 +60,6 @@ const ColorBlock = ({ val }) => {
           flexDirection: 'column',
         }}
       >
-        <div>
-          <Text size="14">{HexCode('rgba(' + ColorArr[val].join() + ')')}</Text>
-        </div>
-
         <div
           onClick={() => {
             navigator.clipboard.writeText('rgba(' + ColorArr[val].join() + ')')
@@ -87,9 +71,10 @@ const ColorBlock = ({ val }) => {
       <div
         style={{
           width: '100%',
-          display: 'block',
-          boxSizing: 'border-box',
-          height: 32,
+          display: 'flex',
+          alignItems: 'center',
+          height: 60,
+          paddingLeft: 8,
           overflow: 'hidden',
           cursor: 'pointer',
         }}
