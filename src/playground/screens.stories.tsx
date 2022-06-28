@@ -73,7 +73,12 @@ const Edit = ({ id, data }) => {
 }
 
 export const Assets = () => (
-  <Provider client={client}>
+  <Provider
+    client={client}
+    style={{
+      height: '100vh',
+    }}
+  >
     <Topbar
       data={{ Projects: '/', Settings: '/settings' }}
       onFilter={(e) => {
@@ -95,16 +100,12 @@ export const Assets = () => (
         }}
       />
       <Table
-        // fields={['id']}
-        query={(offset, limit) => ({
+        query={(offset, limit, $field, $order) => ({
           $all: true,
           $list: {
+            $sort: { $field, $order },
             $offset: offset,
             $limit: limit,
-            // $sort: {
-            //   $field: 'index',
-            //   $order: 'asc',
-            // },
             $find: {
               $traverse: 'descendants',
               $filter: {

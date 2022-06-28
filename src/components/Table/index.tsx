@@ -3,16 +3,17 @@ import { Size, Color, Weight, Space } from '~/types'
 import { color, font, spaceToPx } from '~/utils'
 import { FixedSizeList } from 'react-window'
 import { styled } from 'inlines'
-import { scrollAreaStyle } from '../ScrollArea'
+import { ScrollArea, scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import { EditIcon } from '~/icons'
-import { InfiniteList, InfiniteListQuery } from '../InfiniteList'
+import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
+import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { useCallback } from 'react'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
+const IList = styled(InfiniteList, scrollAreaStyle)
 const Edit = styled(EditIcon, {
   cursor: 'pointer',
   '&:hover': {
@@ -21,98 +22,111 @@ const Edit = styled(EditIcon, {
 })
 
 const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
-const ITEM_WIDTH = 56
-const ITEM_MARGIN = 32
+const ITEM_WIDTH = 96
+const ITEM_HEIGHT = 56
 const ACTIONS_WIDTH = 128
 const Item: FC<{
   color?: Color
   children: ReactNode
   longestString: ReactNode
   index: number
-  isImage?: boolean
-}> = ({ color, children, longestString, index, isImage }) => {
+  height?: number
+  onClick?: () => void
+  icon?: ReactNode
+}> = ({
+  color: colorProp,
+  children,
+  longestString,
+  index,
+  height = ITEM_HEIGHT,
+  onClick,
+  icon,
+}) => {
+  const left = 8
+  const right = 24
   return (
-    <div
+    <styled.div
+      onClick={onClick}
       style={{
-        marginRight: ITEM_MARGIN,
         minWidth: ITEM_WIDTH,
         flexShrink: index,
+        height: height,
         position: 'relative',
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: color('ActionLightHover'),
+        },
       }}
     >
-      {isImage ? (
-        <>
-          <Text style={{ visibility: 'hidden', height: 0 }}>
-            {longestString}
-          </Text>
-          {children}
-        </>
-      ) : (
-        <>
-          <Text style={{ visibility: 'hidden' }}>{longestString}</Text>
-          <Text
-            color={color}
-            style={{
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              bottom: 0,
-              top: 0,
-            }}
-          >
-            {children}
-          </Text>
-        </>
-      )}
-    </div>
+      <Text style={{ visibility: 'hidden', paddingRight: left + right }}>
+        {longestString}
+      </Text>
+      <Text
+        color={colorProp}
+        style={{
+          lineHeight: `${height}px`,
+          position: 'absolute',
+          left: 8,
+          right: 24,
+          bottom: 0,
+          top: 0,
+        }}
+      >
+        {children}
+      </Text>
+      {icon}
+    </styled.div>
   )
 }
 
-const Row = ({ data: { data, fields, longest }, index, style }) => (
-  <div
-    style={{
-      display: 'flex',
-      alignItems: 'center',
-      borderBottom: `1px solid ${color('OtherDivider')}`,
-      ...style,
-    }}
-  >
+const Row = ({ data: { data, fields, longest }, index, style }) => {
+  return (
     <div
       style={{
-        width: ACTIONS_WIDTH,
         display: 'flex',
         alignItems: 'center',
-        flexShrink: 0,
+        borderBottom: `1px solid ${color('OtherDivider')}`,
+        ...style,
       }}
     >
-      <Checkbox style={{ marginLeft: ITEM_MARGIN }} />
-      <Edit style={{ marginLeft: 20 }} color="PrimaryMain" />
-    </div>
-    {fields.map((field, i) => {
-      const value = data[index]?.[field]
-      if (isImage.test(value)) {
+      <div
+        style={{
+          width: ACTIONS_WIDTH,
+          display: 'flex',
+          alignItems: 'center',
+          flexShrink: 0,
+        }}
+      >
+        <Checkbox style={{ marginLeft: 24 }} />
+        <Edit style={{ marginLeft: 20 }} color="PrimaryMain" />
+      </div>
+      {fields.map((field, i) => {
+        const value = data[index]?.[field]
+        if (isImage.test(value)) {
+          return (
+            <Item key={field} longestString={longest[field]} index={i}>
+              <div
+                style={{
+                  width: ITEM_HEIGHT,
+                  height: ITEM_HEIGHT,
+                  backgroundImage: `url(${value})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+            </Item>
+          )
+        }
+
         return (
-          <Item key={field} longestString={longest[field]} index={i} isImage>
-            <div
-              style={{
-                width: ITEM_WIDTH,
-                height: ITEM_WIDTH,
-                backgroundImage: `url(${value})`,
-                backgroundSize: 'cover',
-              }}
-            />
+          <Item key={field} longestString={longest[field]} index={i}>
+            {isDate(value) ? toDateString(value) : value}
           </Item>
         )
-      }
-
-      return (
-        <Item key={field} longestString={longest[field]} index={i}>
-          {value}
-        </Item>
-      )
-    })}
-  </div>
-)
+      })}
+    </div>
+  )
+}
 
 type Fields =
   | {
@@ -120,151 +134,80 @@ type Fields =
     }
   | string[]
 
-type Data = {
-  [field: string]: any
-}[]
-
-// type TableProps = {
-//   fields: Fields
-//   data: Data
-//   itemSize?: number
-//   style?: CSSProperties
-// }
-// //  | {
-// //   fields: Fields
-// //   query: object
-// //   itemSize?: number
-// //   style?: CSSProperties
-// // }
-
-// // TODO handle nested fields
-// export const Table: FC<TableProps> = ({
-//   fields: fieldsProp = [],
-//   data = [],
-//   itemSize = ITEM_WIDTH,
-//   style,
-// }) => {
-//   const ctx = useRef<CanvasRenderingContext2D>()
-//   if (!ctx.current) {
-//     const c = document.createElement('canvas')
-//     ctx.current = c.getContext('2d')
-//   }
-//   const isArray = Array.isArray(fieldsProp)
-//   const labels = isArray
-//     ? fieldsProp.map((header) =>
-//         header
-//           .replace(/([A-Z])/g, ' $1')
-//           .replace(/^./, (str) => str.toUpperCase())
-//       )
-//     : Object.values(fieldsProp)
-//   const fields = isArray ? fieldsProp : Object.keys(fieldsProp)
-//   const textWidths = {}
-//   const longest = {}
-
-//   const measure = (field, value) => {
-//     const { width } = ctx.current.measureText(value)
-//     if (textWidths[field] >= width) return
-//     textWidths[field] = width
-//     longest[field] = value
-//   }
-
-//   fields.forEach((field, i) => {
-//     measure(field, labels[i])
-//   })
-
-//   const parsed = data.map((item) => {
-//     const obj = {}
-//     for (const field of fields) {
-//       let value = item[field]
-//       if (isImage.test(value)) {
-//         obj[field] = value
-//       } else {
-//         if (typeof value === 'number') {
-//           if (value >= 946681200000) {
-//             value = new Date(value).toLocaleString('local', {
-//               day: 'numeric',
-//               month: 'long',
-//               year: 'numeric',
-//               hour: 'numeric',
-//               minute: 'numeric',
-//             })
-//           }
-//         }
-//         measure(field, value)
-//         obj[field] = value
-//       }
-//     }
-//     return obj
-//   })
-
-//   return (
-//     <div style={{ width: '100%', ...style }}>
-//       <div
-//         style={{
-//           display: 'flex',
-//           borderBottom: `1px solid ${color('OtherDivider')}`,
-//           height: 40,
-//           alignItems: 'center',
-//         }}
-//       >
-//         <div style={{ width: ACTIONS_WIDTH }}>
-//           <Checkbox
-//             style={{ marginLeft: ITEM_MARGIN }}
-//             onChange={(checked) => {
-//               // for (const item of )
-//             }}
-//           />
-//         </div>
-//         {labels.map((label, i) => (
-//           <Item key={label} longestString={longest[fields[i]]}>
-//             {label}
-//           </Item>
-//         ))}
-//       </div>
-//       <List
-//         height={400}
-//         itemCount={data.length}
-//         itemSize={itemSize}
-//         itemData={{ fields, data: parsed, longest }}
-//         width="100%"
-//       >
-//         {Row}
-//       </List>
-//     </div>
-//   )
-// }
-
 type TableProps = {
-  fields: Fields
-  query: InfiniteListQuery
+  fields?: Fields
+  query?: (
+    offset: number,
+    limit: number,
+    sortField: string,
+    sortOrder: string
+  ) => InfiniteListQueryResponse
+  data?: object[]
   itemSize?: number
   style?: CSSProperties
   width?: number
   height?: number
 }
 
+const toDateString = (ms) =>
+  new Date(ms).toLocaleString('local', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+  })
+
+const isDate = (n) => typeof n === 'number' && n > 9466812e5
+
+const SortIcon = ({ order }) => {
+  return (
+    <Text
+      color="TextSecondary"
+      style={{
+        position: 'absolute',
+        right: 4,
+        top: '50%',
+        transform: 'translate3d(0,-50%,0)',
+      }}
+    >
+      {order === 'asc' ? (
+        <ChevronUpIcon size={12} strokeWidth={3} />
+      ) : (
+        <ChevronDownIcon size={12} strokeWidth={3} />
+      )}
+    </Text>
+  )
+}
 // TODO handle nested fields
 const TableInner: FC<TableProps> = ({
   fields: fieldsProp,
   query,
-  style,
+  data,
   width,
   height,
 }) => {
   const [init, setInit] = useState<boolean>()
   const isObject = fieldsProp && !Array.isArray(fieldsProp)
   // @ts-ignore
-  const [fields, setFields] = useState<string[]>(() =>
+  let [fields, setFields] = useState<string[]>(() =>
     isObject ? Object.keys(fieldsProp) : fieldsProp
   )
   const { current: longest } = useRef({})
   const { current: textWidths } = useRef({})
+  const [[sortField, sortOrder], setSort] = useState<string[]>([
+    'createdAt',
+    'desc',
+  ])
   const ctx = useRef<CanvasRenderingContext2D>()
 
   let labels
 
   const measure = (field, value) => {
     if (!isImage.test(value)) {
+      if (isDate(value)) {
+        value = toDateString(value)
+      }
       const { width } = ctx.current.measureText(value)
       if (textWidths[field] >= width) return
       textWidths[field] = width
@@ -278,6 +221,27 @@ const TableInner: FC<TableProps> = ({
     ctx.current.font = '500 15px Font'
   }
 
+  if (data) {
+    if (fields) {
+      for (const item of data) {
+        for (const field of fields) {
+          if (field in item) {
+            measure(field, item[field])
+          }
+        }
+      }
+    } else {
+      const set = new Set()
+      for (const item of data) {
+        for (const key in item) {
+          set.add(key)
+          measure(key, item[key])
+        }
+      }
+      fields = Array.from(set) as string[]
+    }
+  }
+
   if (fields) {
     labels = isObject
       ? Object.values(fieldsProp)
@@ -289,133 +253,132 @@ const TableInner: FC<TableProps> = ({
     fields.forEach((field, i) => {
       measure(field, labels[i])
     })
-    const minWidth = fields.length * (ITEM_WIDTH + ITEM_MARGIN) + ACTIONS_WIDTH
+    const minWidth = fields.length * ITEM_WIDTH + ACTIONS_WIDTH // TODO find out why we need this mystery 5px
+    console.log({ minWidth, width })
     if (minWidth > width) {
-      width = minWidth
+      width = minWidth //
     }
   }
 
-  // const parsed = data.map((item) => {
-  //   const obj = {}
-  //   for (const field of fields) {
-  //     let value = item[field]
-  //     if (isImage.test(value)) {
-  //       obj[field] = value
-  //     } else {
-  //       if (typeof value === 'number') {
-  //         if (value >= 946681200000) {
-  //           value = new Date(value).toLocaleString('local', {
-  //             day: 'numeric',
-  //             month: 'long',
-  //             year: 'numeric',
-  //             hour: 'numeric',
-  //             minute: 'numeric',
-  //           })
-  //         }
-  //       }
-  //       measure(field, value)
-  //       obj[field] = value
-  //     }
-  //   }
-  //   return obj
-  // })
-
-  console.log({ width, height })
-
   return (
-    <>
+    <div style={{ width }}>
       <div
         style={{
-          width,
+          width: '100%',
           display: 'flex',
           borderBottom: `1px solid ${color('OtherDivider')}`,
           height: 40,
           alignItems: 'center',
+          overflowY: 'auto',
+          overflowX: 'hidden',
+          scrollbarGutter: 'stable',
         }}
       >
         <div style={{ width: ACTIONS_WIDTH, flexShrink: 0 }}>
           <Checkbox
-            style={{ marginLeft: ITEM_MARGIN }}
+            style={{ marginLeft: 24 }}
             onChange={(checked) => {
               // for (const item of )
             }}
           />
         </div>
         {labels?.map((label, i) => {
+          const field = fields[i]
+          const selected = sortField === field
           return (
             <Item
               key={label}
               color="TextSecondary"
               longestString={longest[fields[i]]}
               index={i}
+              height={39}
+              icon={selected ? <SortIcon order={sortOrder} /> : null}
+              onClick={() => {
+                if (selected) {
+                  setSort([field, sortOrder === 'asc' ? 'desc' : 'asc'])
+                } else {
+                  setSort([field, 'asc'])
+                }
+              }}
             >
               {label}
             </Item>
           )
         })}
       </div>
-      <InfiniteList
-        height={height - 40}
-        query={query}
-        itemData={(items) => {
-          if (fields) {
-            if (init) {
-              return { data: items, longest, fields }
-            }
-            for (const item of items) {
-              for (const field of fields) {
-                if (field in item) {
-                  measure(field, item[field])
+      {data ? (
+        <List
+          height={400}
+          itemCount={data.length}
+          itemSize={ITEM_WIDTH}
+          itemData={{ fields, data, longest }}
+          width={width}
+        >
+          {Row}
+        </List>
+      ) : (
+        <IList
+          height={height - 40}
+          query={(offset, limit) => query(offset, limit, sortField, sortOrder)}
+          itemData={(items) => {
+            if (fields) {
+              if (init) {
+                return { data: items, longest, fields }
+              }
+              for (const item of items) {
+                for (const field of fields) {
+                  if (field in item) {
+                    measure(field, item[field])
+                  }
                 }
               }
+              setTimeout(() => setInit(true))
+              return { data: items, longest, fields }
             }
-            setTimeout(() => setInit(true))
-            return { data: items, longest, fields }
-          }
 
-          const set = new Set()
-          for (const item of items) {
-            for (const key in item) {
-              set.add(key)
-              measure(key, item[key])
+            const set = new Set()
+            for (const item of items) {
+              for (const key in item) {
+                set.add(key)
+                measure(key, item[key])
+              }
             }
-          }
 
-          const newFields = Array.from(set) as string[]
+            const newFields = Array.from(set) as string[]
 
-          setTimeout(() => {
-            setFields(newFields)
-            setInit(true)
-          })
+            setTimeout(() => {
+              setFields(newFields)
+              setInit(true)
+            })
 
-          return { data: items, longest, fields: newFields }
-        }}
-        // itemCount={data.length}
-        itemSize={ITEM_WIDTH}
-        // itemData={{ fields, data: parsed, longest }}
-        width={width}
-      >
-        {Row}
-      </InfiniteList>
-    </>
+            return { data: items, longest, fields: newFields }
+          }}
+          itemSize={ITEM_HEIGHT}
+          width={width}
+        >
+          {Row}
+        </IList>
+      )}
+    </div>
   )
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
   return (
-    <div
+    <styled.div
       style={{
         flexGrow: 1,
         overflowX: 'auto',
         overflowY: 'hidden',
+        ...scrollAreaStyle,
         ...style,
       }}
     >
       <AutoSizer>
-        {({ width, height }) => (
-          <TableInner width={width} height={height} {...props} />
-        )}
+        {({ width, height }) => {
+          return <TableInner width={width} height={height} {...props} />
+        }}
       </AutoSizer>
-    </div>
+    </styled.div>
   )
 }

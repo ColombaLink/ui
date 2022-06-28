@@ -24,7 +24,7 @@ const addScrollSub = (client, subId, payload, offset, current, setChecksum) => {
   return subscriberId
 }
 
-type InfiniteListQueryResponse = {
+export type InfiniteListQueryResponse = {
   [key: string]: any
   $list: {
     $find: object

@@ -5,12 +5,22 @@ const scrollbarColor = color('TextPrimary', 0.2)
 const transparentAreaColor = color('Background1dp')
 
 export const scrollAreaStyle = {
+  scrollbarGutter: 'stable',
   // firefox
   scrollbarColor: 'transparent transparent',
   '&::-webkit-scrollbar': {
     visibility: 'hidden',
+    position: 'absolute',
   },
   // the rest
+  '&::-webkit-scrollbar:vertical': {
+    width: '10px',
+    marginLeft: '-10px',
+  },
+  '&::-webkit-scrollbar:horizontal': {
+    height: '10px',
+    marginTop: '-10px',
+  },
   '&:hover': {
     // firefox
     scrollbarColor: `${scrollbarColor} transparent`,
@@ -18,16 +28,8 @@ export const scrollAreaStyle = {
     // the rest
     '&::-webkit-scrollbar': {
       visibility: 'visible',
-      position: 'absolute',
     },
-    '&::-webkit-scrollbar:vertical': {
-      width: '10px',
-      marginLeft: '-10px',
-    },
-    '&::-webkit-scrollbar:horizontal': {
-      height: '10px',
-      // marginTop: '-10px',
-    },
+
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: scrollbarColor,
       border: `2px solid ${transparentAreaColor}`,

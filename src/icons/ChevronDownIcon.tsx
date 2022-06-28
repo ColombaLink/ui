@@ -4,6 +4,7 @@ import { color } from '~/utils'
 
 export const ChevronDownIcon = ({
   color: colorProp = 'currentColor',
+  strokeWidth = 1.66667,
   size = 16,
   ...props
 }: Icon) => {
@@ -12,7 +13,7 @@ export const ChevronDownIcon = ({
       <path
         d="M2.5 6.25L10 13.75L17.5 6.25"
         stroke={color(colorProp)}
-        strokeWidth="1.66667"
+        strokeWidth={strokeWidth}
       />
     </svg>
   )
