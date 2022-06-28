@@ -5,15 +5,19 @@ import { AttachmentIcon, MarkDownIcon, TextIcon } from '~/icons'
 export const Thumbnails = () => {
   return (
     <div>
-      <Thumbnail size="32px" space="12px">
-        <TextIcon size={12} color="AccentPurple" />
-      </Thumbnail>
-      <Thumbnail size="40px" backgroundColor="AccentYellowLight" space="12px">
-        <MarkDownIcon size={20} color="AccentYellow" />
-      </Thumbnail>
-      <Thumbnail size="40px" backgroundColor="AccentOrangeLight">
-        <AttachmentIcon size={20} color="AccentOrange" />
-      </Thumbnail>
+      <Thumbnail
+        size="32px"
+        space="12px"
+        color="AccentPurple"
+        icon={TextIcon({ size: 12 })}
+      />
+      <Thumbnail space="12px" icon={MarkDownIcon} color="AccentYellow" />
+      <Thumbnail color="AccentOrange" icon={AttachmentIcon} space />
+      <Thumbnail
+        backgroundImg="https://robohash.org/ZCP.png?set=set1&size=150x150"
+        backgroundColor="ErrorLightContrast"
+        size={64}
+      />
     </div>
   )
 }
