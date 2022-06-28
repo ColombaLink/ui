@@ -19,14 +19,22 @@ export const scrollAreaStyle = {
     '&::-webkit-scrollbar': {
       visibility: 'visible',
       position: 'absolute',
+    },
+    '&::-webkit-scrollbar:vertical': {
       width: '10px',
       marginLeft: '-10px',
     },
+    '&::-webkit-scrollbar:horizontal': {
+      height: '10px',
+      // marginTop: '-10px',
+    },
     '&::-webkit-scrollbar-thumb': {
-      minHeight: '32px',
       backgroundColor: scrollbarColor,
       border: `2px solid ${transparentAreaColor}`,
       borderRadius: '6px',
+    },
+    '&::-webkit-scrollbar-thumb:vertical': {
+      minHeight: '32px',
     },
   },
 }

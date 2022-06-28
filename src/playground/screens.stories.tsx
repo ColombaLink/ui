@@ -23,6 +23,7 @@ import {
   Page,
   Steps,
 } from '..'
+import { client } from './shared'
 
 export const Members = () => (
   <Provider>
@@ -72,7 +73,7 @@ const Edit = ({ id, data }) => {
 }
 
 export const Assets = () => (
-  <Provider>
+  <Provider client={client}>
     <Topbar
       data={{ Projects: '/', Settings: '/settings' }}
       onFilter={(e) => {
@@ -94,6 +95,28 @@ export const Assets = () => (
         }}
       />
       <Table
+        // fields={['id']}
+        query={(offset, limit) => ({
+          $all: true,
+          $list: {
+            $offset: offset,
+            $limit: limit,
+            // $sort: {
+            //   $field: 'index',
+            //   $order: 'asc',
+            // },
+            $find: {
+              $traverse: 'descendants',
+              $filter: {
+                $field: 'type',
+                $operator: '=',
+                $value: 'file',
+              },
+            },
+          },
+        })}
+      />
+      {/* <Table
         fields={{
           img: 'Preview',
           updatedAt: 'Updated At',
@@ -109,7 +132,7 @@ export const Assets = () => (
             img: 'https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
           }
         })}
-      />
+      /> */}
     </div>
   </Provider>
 )
