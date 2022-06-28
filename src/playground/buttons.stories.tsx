@@ -103,6 +103,7 @@ export const Buttons = ({ icon }) => {
       })}
       <div>
         <Button
+          action
           space
           textAlign="center"
           style={{ width: 250, justifyContent: 'center' }}
@@ -116,7 +117,7 @@ export const Buttons = ({ icon }) => {
         >
           textAlign 'right'
         </Button>
-        <Button space style={{ width: 250, justifyContent: 'center' }}>
+        <Button error space style={{ width: 250, justifyContent: 'center' }}>
           Custom width
         </Button>
       </div>

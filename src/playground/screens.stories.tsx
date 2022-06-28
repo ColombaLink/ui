@@ -168,21 +168,25 @@ export const Dashboard = () => {
             </Block>
           </div>
         </Block>
-        <Block style={{ display: 'flex' }} space>
+        <Block
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+          space
+        >
           <Text size="20px" weight="700">
             Project status
           </Text>
+          <Badge
+            outline
+            ghost
+            iconLeft={(props) => <DotIcon color="AccentPurple" {...props} />}
+          >
+            Deploying: setting up servers 1/4
+          </Badge>
         </Block>
         <Block style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Text size="20px" weight="700">
             Changelog
           </Text>
-          <Badge
-            outline
-            iconLeft={(props) => <DotIcon color="AccentPurple" {...props} />}
-          >
-            Deploying: setting up servers 1/4
-          </Badge>
         </Block>
       </Page>
     </Provider>
