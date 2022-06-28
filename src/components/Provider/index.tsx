@@ -3,19 +3,25 @@ import React, {
   CSSProperties,
   FC,
   PropsWithChildren,
+  ReactNode,
 } from 'react'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
+import { Provider as BasedProvider } from '@based/react'
+import { Based } from '@based/client'
 
 export const Context = createContext({
   theme: {},
 })
 
-export const Provider: FC<PropsWithChildren<{ style?: CSSProperties }>> = ({
-  children,
-  style,
-}) => {
+type ProviderProps = {
+  children?: ReactNode
+  style?: CSSProperties
+  client?: Based
+}
+
+export const Provider: FC<ProviderProps> = ({ children, style, client }) => {
   return (
     <div
       style={{
@@ -27,12 +33,14 @@ export const Provider: FC<PropsWithChildren<{ style?: CSSProperties }>> = ({
         ...style,
       }}
     >
-      {/* <ToastProvider> */}
-      <DialogProvider>
-        {children}
-        <OverlayProvider />
-      </DialogProvider>
-      {/* </ToastProvider> */}
+      <BasedProvider client={client}>
+        {/* <ToastProvider> */}
+        <DialogProvider>
+          {children}
+          <OverlayProvider />
+        </DialogProvider>
+        {/* </ToastProvider> */}
+      </BasedProvider>
     </div>
   )
 }
