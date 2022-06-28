@@ -1,4 +1,5 @@
 import React, { CSSProperties, FC, useState } from 'react'
+import { RightSidebar } from '~/components/RightSidebar'
 import {
   Topbar,
   Sidebar,
@@ -207,7 +208,13 @@ export const Chat = () => {
   return (
     <Provider>
       <Topbar />
-      <div style={{ display: 'flex', flexGrow: 1 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexGrow: 1,
+          justifyContent: 'space-between',
+        }}
+      >
         <Menu data={{ Rooms: rooms }}>
           <MenuButton
             ghost
@@ -226,6 +233,59 @@ export const Chat = () => {
             New room
           </MenuButton>
         </Menu>
+      </div>
+    </Provider>
+  )
+}
+
+export const ContentArticle = () => {
+  return (
+    <Provider>
+      <Topbar
+        data={{ Projects: '/', Settings: '/settings' }}
+        onFilter={(e) => {
+          console.log(e.target.value)
+        }}
+        onProfile={() => {
+          console.log('clicked')
+        }}
+      />
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Sidebar
+          data={{
+            Overview: ['/', GridIcon],
+            Schema: ['/schema', LayersIcon],
+            Content: ['/content', EditIcon],
+            Files: ['/files', AttachmentIcon],
+            Users: ['/users', UsersIcon],
+            Graphql: ['/graphql', ModelIcon],
+          }}
+        />
+
+        <RightSidebar>
+          <Text space size="20px" weight={700}>
+            Fields
+          </Text>
+          <Button
+            iconLeft={AddIcon}
+            style={{ width: '100%' }}
+            textAlign="center"
+            space
+          >
+            Add field
+          </Button>
+          <Text space="20px">Documentation</Text>
+          <Text
+            space
+            size="13px"
+            color="TextSecondary"
+            wrap
+            style={{ lineHeight: '20px' }}
+          >
+            Read more about schema types in our{' '}
+            <a href="#">guide to schema editing</a>
+          </Text>
+        </RightSidebar>
       </div>
     </Provider>
   )
