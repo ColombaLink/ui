@@ -1,4 +1,5 @@
 import React, { CSSProperties, FC, useState } from 'react'
+import { RightSidebar } from '~/components/RightSidebar'
 import {
   Topbar,
   Sidebar,
@@ -142,7 +143,7 @@ export const Dashboard = () => {
   return (
     <Provider>
       <Topbar data={{ Projects: '/', Settings: '/settings' }} />
-      <Page>
+      <Page style={{ marginTop: 80 }}>
         <Text size="20px" space="32px">
           Junior Eurovision - France 2022
         </Text>
@@ -169,21 +170,25 @@ export const Dashboard = () => {
             </Block>
           </div>
         </Block>
-        <Block style={{ display: 'flex' }} space>
+        <Block
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+          space
+        >
           <Text size="20px" weight="700">
             Project status
           </Text>
+          <Badge
+            outline
+            ghost
+            iconLeft={(props) => <DotIcon color="AccentPurple" {...props} />}
+          >
+            Deploying: setting up servers 1/4
+          </Badge>
         </Block>
         <Block style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Text size="20px" weight="700">
             Changelog
           </Text>
-          <Badge
-            outline
-            iconLeft={(props) => <DotIcon color="AccentPurple" {...props} />}
-          >
-            Deploying: setting up servers 1/4
-          </Badge>
         </Block>
       </Page>
     </Provider>
@@ -204,7 +209,13 @@ export const Chat = () => {
   return (
     <Provider>
       <Topbar />
-      <div style={{ display: 'flex', flexGrow: 1 }}>
+      <div
+        style={{
+          display: 'flex',
+          flexGrow: 1,
+          justifyContent: 'space-between',
+        }}
+      >
         <Menu data={{ Rooms: rooms }}>
           <MenuButton
             ghost
@@ -223,6 +234,89 @@ export const Chat = () => {
             New room
           </MenuButton>
         </Menu>
+      </div>
+    </Provider>
+  )
+}
+
+export const ContentArticle = () => {
+  return (
+    <Provider>
+      <Topbar
+        data={{ Projects: '/', Settings: '/settings' }}
+        onFilter={(e) => {
+          console.log(e.target.value)
+        }}
+        onProfile={() => {
+          console.log('clicked')
+        }}
+      />
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Sidebar
+          data={{
+            Overview: ['/', GridIcon],
+            Schema: ['/schema', LayersIcon],
+            Content: ['/content', EditIcon],
+            Files: ['/files', AttachmentIcon],
+            Users: ['/users', UsersIcon],
+            Graphql: ['/graphql', ModelIcon],
+          }}
+        />
+        <Menu
+          data={{
+            'Personal settings': {
+              Profile: '/profile',
+              Preferences: '/preferences',
+              Notifications: '/notifications',
+              'Keyboard shortcuts': '/keyboard',
+            },
+            'Product settings': {
+              Integrations: '/integrations',
+              API: '/api',
+              Import: '/import',
+            },
+            'Organization settings': {
+              EBU: '/ebu',
+              Saulx: '/saulx',
+            },
+          }}
+        />
+
+        <Page>
+          <Text size="20px" weight={700} space="4px">
+            Article
+          </Text>
+          <Text weight={400} italic color="TextSecondary">
+            A post or blog that will be published on Eurovision website
+          </Text>
+        </Page>
+
+        <RightSidebar>
+          <Text space size="20px" weight={700}>
+            Fields
+          </Text>
+          <Button
+            iconLeft={AddIcon}
+            style={{ width: '100%' }}
+            textAlign="center"
+            space
+          >
+            Add field
+          </Button>
+          <Text space="20px">Documentation</Text>
+          <Text
+            space
+            size="13px"
+            color="TextSecondary"
+            wrap
+            style={{ lineHeight: '20px' }}
+          >
+            Read more about schema types in our{' '}
+            <a href="#" style={{ color: color('PrimaryMain') }}>
+              guide to schema editing
+            </a>
+          </Text>
+        </RightSidebar>
       </div>
     </Provider>
   )

@@ -1,10 +1,12 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { AvatarSize, Color, Space } from '~/types'
-import { color, spaceToPx } from '~/utils'
+import { color, spaceToPx, renderOrCreateElement } from '~/utils'
+import { isCapitalised } from '~/utils/isCapitalised'
 
 type AvatarProps = {
   size?: AvatarSize
   backgroundColor?: Color
+  color?: Color
   backgroundImg?: string
   icon?: FC | ReactNode
   children?: FC | ReactNode
@@ -14,6 +16,7 @@ type AvatarProps = {
 
 export const Avatar: FC<AvatarProps> = ({
   size = 32,
+  color: colorProp,
   backgroundColor,
   backgroundImg,
   icon,
@@ -21,6 +24,13 @@ export const Avatar: FC<AvatarProps> = ({
   space,
   style,
 }) => {
+  if (!backgroundColor) {
+    if (colorProp && isCapitalised(colorProp)) {
+      backgroundColor = `${colorProp}Light` as Color
+    } else {
+      backgroundColor = 'PrimaryMain'
+    }
+  }
   return (
     <div
       style={{
@@ -30,18 +40,17 @@ export const Avatar: FC<AvatarProps> = ({
         width: size,
         height: size,
         borderRadius: '50%',
-        backgroundColor: backgroundColor
-          ? color(backgroundColor)
-          : color('PrimaryMain'),
+        backgroundColor: color(backgroundColor),
         backgroundImage: backgroundImg ? `url(${backgroundImg})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         marginBottom: spaceToPx(space),
+        color: color(colorProp),
         ...style,
       }}
     >
       <>{children}</>
-      <>{icon}</>
+      <>{renderOrCreateElement(icon)}</>
     </div>
   )
 }

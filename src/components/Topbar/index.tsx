@@ -73,6 +73,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
         placeholder="Search and discover"
         iconLeft={SearchIcon}
         onChange={(e) => console.log(e)}
+        style={{ marginLeft: 12 }}
       />
     </>
   )
@@ -109,6 +110,7 @@ export const Topbar = ({
         backgroundColor: color('Background1dp'),
         alignItems: 'center',
         justifyContent: 'space-between',
+        paddingRight: 30,
       }}
     >
       <div
@@ -119,7 +121,7 @@ export const Topbar = ({
           minHeight: 66,
         }}
       >
-        <Logo style={{ marginLeft: 32 }} />
+        <Logo style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }} />
         {Object.keys(data).map((key) => {
           const href = prefix + data[key]
           return (

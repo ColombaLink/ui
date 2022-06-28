@@ -52,11 +52,14 @@ export const Badge: FC<BadgeProps> = ({
     >
       {iconLeft && (
         <div style={{ marginRight: 8 }}>
-          {renderOrCreateElement(iconLeft, { size: 10 })}
+          {renderOrCreateElement(iconLeft, {
+            size: 10,
+            color: color('AccentForestgreen'),
+          })}
         </div>
       )}
       <Text
-        size="11px"
+        size="12px"
         color={
           outline || ghost || (action && light)
             ? null

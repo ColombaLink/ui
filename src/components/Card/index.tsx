@@ -11,11 +11,12 @@ type CardProps = {
   description?: string
   space?: Space
   style?: CSSProperties
-  iconTopLeft?: FC | ReactNode
-  iconTopRight?: FC | ReactNode
-  badgeBottomRight?: FC | ReactNode
-  badgeBottomLeft?: FC | ReactNode
+  topLeft?: FC | ReactNode
+  topRight?: FC | ReactNode
+  bottomRight?: FC | ReactNode
+  bottomLeft?: FC | ReactNode
   children?: FC | ReactNode
+  small?: boolean
 }
 
 export const Card: FC<CardProps> = ({
@@ -23,11 +24,12 @@ export const Card: FC<CardProps> = ({
   description,
   space,
   style,
-  iconTopLeft,
-  iconTopRight,
-  badgeBottomLeft,
-  badgeBottomRight,
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
   children,
+  small,
 }) => {
   return (
     <div
@@ -36,13 +38,23 @@ export const Card: FC<CardProps> = ({
         padding: 16,
         backgroundColor: color('Background2dp'),
         border: `1px solid ${color('OtherDivider')}`,
-        maxWidth: 302,
+        maxWidth: small ? 280 : 302,
         marginBottom: spaceToPx(space),
         ...style,
       }}
     >
-      <div style={{ display: 'flex', position: 'relative', marginBottom: 44 }}>
-        <>{iconTopLeft}</>
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+          marginBottom: small ? null : 44,
+        }}
+      >
+        {topLeft && (
+          <div style={{ marginRight: 12 }}>
+            {renderOrCreateElement(topLeft, { size: 10 })}
+          </div>
+        )}
 
         <div>
           <Text weight={600}>{title}</Text>
@@ -53,7 +65,7 @@ export const Card: FC<CardProps> = ({
         <div
           style={{ position: 'absolute', right: 0, top: 4, cursor: 'pointer' }}
         >
-          <>{iconTopRight}</>
+          <>{topRight}</>
         </div>
       </div>
 
@@ -62,8 +74,8 @@ export const Card: FC<CardProps> = ({
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <>{badgeBottomLeft}</>
-        <>{badgeBottomRight}</>
+        <>{bottomLeft}</>
+        <>{bottomRight}</>
       </div>
     </div>
   )
