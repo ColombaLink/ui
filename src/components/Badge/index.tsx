@@ -56,7 +56,7 @@ export const Badge: FC<BadgeProps> = ({
         </div>
       )}
       <Text
-        size="11px"
+        size="12px"
         color={
           outline || ghost || (action && light)
             ? null

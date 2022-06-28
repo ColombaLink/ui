@@ -16,11 +16,7 @@ export const Avatars = () => {
         </Text>
       </Avatar>
 
-      <Avatar
-        icon={<BasedIcon color="AccentBrightpurple" />}
-        backgroundColor="AccentBrightpurpleLight"
-        space
-      />
+      <Avatar icon={BasedIcon} color="AccentBrightpurple" space />
 
       <Avatar
         space

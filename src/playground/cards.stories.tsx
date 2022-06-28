@@ -13,35 +13,18 @@ export const Cards = () => {
       <Card
         title="Junior Eurovision 20222"
         description="Updated 30 minutes ago"
-        iconTopLeft={
-          <Avatar
-            icon={<BasedIcon color="AccentBrightpurple" />}
-            backgroundColor="AccentBrightpurpleLight"
-            style={{ marginRight: 12 }}
-          />
-        }
-        iconTopRight={<MoreIcon />}
-        badgeBottomLeft={
-          <Badge
-            iconLeft={<CopyIcon style={{ marginRight: 10 }} />}
-            boxed
-            style={{
-              backgroundColor: color('ActionLight'),
-            }}
-          >
-            <Text size="12px">main</Text>
+        TopLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
+        TopRight={<MoreIcon />}
+        BottomLeft={
+          <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+            main
           </Badge>
         }
-        badgeBottomRight={
+        BottomRight={
           <Badge
             outline
-            iconLeft={
-              <DotIcon
-                color="AccentGreen"
-                size={10}
-                style={{ marginRight: 10 }}
-              />
-            }
+            ghost
+            iconLeft={<DotIcon color="AccentGreen" size={10} />}
           >
             Healthy
           </Badge>
@@ -52,35 +35,18 @@ export const Cards = () => {
       <Card
         title="Tally "
         description="Updated 6 days ago"
-        iconTopLeft={
-          <Avatar
-            icon={<BasedIcon color="AccentGreen" />}
-            backgroundColor="AccentGreenLight"
-            style={{ marginRight: 12 }}
-          />
-        }
-        iconTopRight={<MoreIcon />}
-        badgeBottomLeft={
-          <Badge
-            iconLeft={<CopyIcon style={{ marginRight: 10 }} />}
-            boxed
-            style={{
-              backgroundColor: color('ActionLight'),
-            }}
-          >
-            <Text size="12px">main</Text>
+        TopLeft={<Avatar color="AccentGreen" icon={BasedIcon} />}
+        TopRight={<MoreIcon />}
+        BottomLeft={
+          <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+            main
           </Badge>
         }
-        badgeBottomRight={
+        BottomRight={
           <Badge
             outline
-            iconLeft={
-              <DotIcon
-                color="AccentDarkpurple"
-                size={10}
-                style={{ marginRight: 10 }}
-              />
-            }
+            ghost
+            iconLeft={DotIcon({ size: 10, color: 'AccentDarkpurple' })}
           >
             Deploying
           </Badge>

@@ -11,10 +11,10 @@ type CardProps = {
   description?: string
   space?: Space
   style?: CSSProperties
-  iconTopLeft?: FC | ReactNode
-  iconTopRight?: FC | ReactNode
-  badgeBottomRight?: FC | ReactNode
-  badgeBottomLeft?: FC | ReactNode
+  TopLeft?: FC | ReactNode
+  TopRight?: FC | ReactNode
+  BottomRight?: FC | ReactNode
+  BottomLeft?: FC | ReactNode
   children?: FC | ReactNode
 }
 
@@ -23,10 +23,10 @@ export const Card: FC<CardProps> = ({
   description,
   space,
   style,
-  iconTopLeft,
-  iconTopRight,
-  badgeBottomLeft,
-  badgeBottomRight,
+  TopLeft,
+  TopRight,
+  BottomLeft,
+  BottomRight,
   children,
 }) => {
   return (
@@ -42,7 +42,11 @@ export const Card: FC<CardProps> = ({
       }}
     >
       <div style={{ display: 'flex', position: 'relative', marginBottom: 44 }}>
-        <>{iconTopLeft}</>
+        {TopLeft && (
+          <div style={{ marginRight: 12 }}>
+            {renderOrCreateElement(TopLeft, { size: 10 })}
+          </div>
+        )}
 
         <div>
           <Text weight={600}>{title}</Text>
@@ -53,7 +57,7 @@ export const Card: FC<CardProps> = ({
         <div
           style={{ position: 'absolute', right: 0, top: 4, cursor: 'pointer' }}
         >
-          <>{iconTopRight}</>
+          <>{TopRight}</>
         </div>
       </div>
 
@@ -62,8 +66,8 @@ export const Card: FC<CardProps> = ({
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <>{badgeBottomLeft}</>
-        <>{badgeBottomRight}</>
+        <>{BottomLeft}</>
+        <>{BottomRight}</>
       </div>
     </div>
   )
