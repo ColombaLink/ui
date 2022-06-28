@@ -10,6 +10,8 @@ type BadgeProps = {
   outline?: boolean
   light?: boolean
   boxed?: boolean
+  ghost?: boolean
+  action?: boolean
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -20,6 +22,8 @@ export const Badge: FC<BadgeProps> = ({
   outline,
   light,
   boxed,
+  ghost,
+  action,
 }) => {
   return (
     <div
@@ -31,22 +35,30 @@ export const Badge: FC<BadgeProps> = ({
         display: 'flex',
         alignItems: 'center',
         border: outline ? `1px solid ${color('OtherDivider')}` : null,
-        backgroundColor: outline
+        backgroundColor: ghost
           ? null
-          : color(light ? 'PrimaryLight' : 'PrimaryMain'),
+          : color(
+              action && light
+                ? 'ActionLight'
+                : action
+                ? 'ActionMain'
+                : light
+                ? 'PrimaryLight'
+                : 'PrimaryMain'
+            ),
+
         ...style,
       }}
     >
-      {renderOrCreateElement(iconLeft, {
-        size: 10,
-        style: {
-          marginRight: 8,
-        },
-      })}
+      {iconLeft && (
+        <div style={{ marginRight: 8 }}>
+          {renderOrCreateElement(iconLeft, { size: 10 })}
+        </div>
+      )}
       <Text
         size="11px"
         color={
-          outline
+          outline || ghost || (action && light)
             ? null
             : light
             ? 'PrimaryLightContrast'
@@ -55,12 +67,11 @@ export const Badge: FC<BadgeProps> = ({
       >
         {children}
       </Text>
-      {renderOrCreateElement(iconRight, {
-        size: 10,
-        style: {
-          marginLeft: 8,
-        },
-      })}
+      {iconRight && (
+        <div style={{ marginLeft: 8 }}>
+          {renderOrCreateElement(iconRight, { size: 10 })}
+        </div>
+      )}
     </div>
   )
 }
