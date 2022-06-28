@@ -17,7 +17,7 @@ export const Page: FC<PageProps> = ({ children, style }) => {
     >
       <div
         style={{
-          marginTop: 80,
+          marginTop: 24,
           width: 800,
           marginLeft: 24,
           marginRight: 24,

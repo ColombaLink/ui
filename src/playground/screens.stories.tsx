@@ -142,7 +142,7 @@ export const Dashboard = () => {
   return (
     <Provider>
       <Topbar data={{ Projects: '/', Settings: '/settings' }} />
-      <Page>
+      <Page style={{ marginTop: 80 }}>
         <Text size="20px" space="32px">
           Junior Eurovision - France 2022
         </Text>
@@ -261,6 +261,34 @@ export const ContentArticle = () => {
             Graphql: ['/graphql', ModelIcon],
           }}
         />
+        <Menu
+          data={{
+            'Personal settings': {
+              Profile: '/profile',
+              Preferences: '/preferences',
+              Notifications: '/notifications',
+              'Keyboard shortcuts': '/keyboard',
+            },
+            'Product settings': {
+              Integrations: '/integrations',
+              API: '/api',
+              Import: '/import',
+            },
+            'Organization settings': {
+              EBU: '/ebu',
+              Saulx: '/saulx',
+            },
+          }}
+        />
+
+        <Page>
+          <Text size="20px" weight={700} space="4px">
+            Article
+          </Text>
+          <Text weight={400} italic color="TextSecondary">
+            A post or blog that will be published on Eurovision website
+          </Text>
+        </Page>
 
         <RightSidebar>
           <Text space size="20px" weight={700}>
@@ -283,7 +311,9 @@ export const ContentArticle = () => {
             style={{ lineHeight: '20px' }}
           >
             Read more about schema types in our{' '}
-            <a href="#">guide to schema editing</a>
+            <a href="#" style={{ color: color('PrimaryMain') }}>
+              guide to schema editing
+            </a>
           </Text>
         </RightSidebar>
       </div>
