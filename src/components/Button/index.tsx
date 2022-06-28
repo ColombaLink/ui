@@ -25,6 +25,7 @@ export type ButtonProps = {
   outline?: boolean
   style?: CSSProperties
   space?: Space
+  textAlign?: 'center' | 'right'
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -41,6 +42,7 @@ export const Button: FC<ButtonProps> = ({
   outline,
   style,
   space,
+  textAlign,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
   const colorBase = error ? 'Error' : action ? 'Action' : 'Primary'
@@ -131,6 +133,12 @@ export const Button: FC<ButtonProps> = ({
           visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
+          justifyContent:
+            textAlign === 'center'
+              ? 'center'
+              : textAlign === 'right'
+              ? 'flex-end'
+              : 'flex-start',
         }}
       >
         {iconLeft &&

@@ -101,6 +101,25 @@ export const Buttons = ({ icon }) => {
           </div>
         )
       })}
+      <div>
+        <Button
+          space
+          textAlign="center"
+          style={{ width: 250, justifyContent: 'center' }}
+        >
+          textAlign 'center'
+        </Button>
+        <Button
+          textAlign="right"
+          space
+          style={{ width: 250, justifyContent: 'center' }}
+        >
+          textAlign 'right'
+        </Button>
+        <Button space style={{ width: 250, justifyContent: 'center' }}>
+          Custom width
+        </Button>
+      </div>
     </>
   )
 }
