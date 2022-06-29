@@ -162,7 +162,7 @@ const Cancel = ({ children = 'Cancel', onCancel = null, ...props }) => {
   useHotkeys([['escape', onClick]])
 
   return (
-    <Button onClick={onClick} action outline light {...props}>
+    <Button onClick={onClick} outline light {...props}>
       {children}
     </Button>
   )
