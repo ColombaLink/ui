@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, KeyboardEventHandler, ReactNode } from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -11,7 +11,8 @@ const resize = (target) => {
   }
 }
 
-const Multi = ({ style, ...props }) => {
+const Multi = ({ style, inputRef, ...props }) => {
+  if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
   return (
     <textarea
       style={{
@@ -28,7 +29,8 @@ const Multi = ({ style, ...props }) => {
 }
 
 const Single = (props) => {
-  return <input {...props} />
+  const { inputRef: ref, ...otherProps } = props
+  return <input {...(ref ? { ref } : null)} {...otherProps} />
 }
 
 type InputProps = {
@@ -48,9 +50,12 @@ type InputProps = {
   autoFocus?: boolean
   name?: string
   space?: Space
+  inputRef?: React.RefObject<HTMLDivElement>
 }
 
-export const Input: FC<InputProps> = ({
+export const Input: FC<
+  InputProps & Omit<React.HTMLProps<HTMLInputElement>, keyof InputProps>
+> = ({
   style,
   onChange: onChangeProp,
   label,
@@ -67,6 +72,8 @@ export const Input: FC<InputProps> = ({
   autoFocus,
   name,
   space,
+  inputRef,
+  ...otherProps
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
   const { listeners: focusListeners, focus } = useFocus()
@@ -105,6 +112,8 @@ export const Input: FC<InputProps> = ({
     },
     ...focusListeners,
     ...hoverListeners,
+    inputRef,
+    ...otherProps,
   }
 
   return (
