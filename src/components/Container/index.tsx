@@ -33,6 +33,7 @@ export const Container: FC<ContainerProps> = ({
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          marginBottom: topLeft || topRight ? 24 : 0,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

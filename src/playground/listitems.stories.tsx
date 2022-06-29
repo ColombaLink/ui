@@ -85,7 +85,7 @@ export const ListItems = () => {
         <Container
           style={{ maxWidth: 767 }}
           space="32px"
-          topLeft={<Text space>Draggable ListItems</Text>}
+          topLeft={<Text>Draggable ListItems</Text>}
         >
           <DraggableListWrapper>
             <ListItem
@@ -140,7 +140,7 @@ export const ListItems = () => {
         <Container
           style={{ maxWidth: 767 }}
           space
-          topLeft={<Text space>Stacked ListItems</Text>}
+          topLeft={<Text>Stacked ListItems</Text>}
         >
           <StackedListItemsWrapper
             topLeft={
