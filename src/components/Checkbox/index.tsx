@@ -39,7 +39,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         )}`,
         borderRadius: 4,
         height: 20,
-        marginRight: children ? 8 : null,
+        marginRight: children ? 12 : null,
         width: 20,
         display: 'flex',
         alignItems: 'center',
@@ -52,25 +52,24 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   if (label && children) {
     return (
-      <button style={style} {...listeners} onClick={onClick}>
-        <Text
-          weight={600}
-          style={{
-            alignItems: 'center',
-            display: 'flex',
-          }}
-        >
-          {checkbox}
-          {label}
-        </Text>
-        <Text
-          wrap
-          style={{
-            marginLeft: 28,
-          }}
-        >
-          {children}
-        </Text>
+      <button
+        style={{ display: 'flex', alignItems: 'center', ...style }}
+        {...listeners}
+        onClick={onClick}
+      >
+        <div>{checkbox}</div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Text
+            weight={600}
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+            }}
+          >
+            {label}
+          </Text>
+          <Text wrap>{children}</Text>
+        </div>
       </button>
     )
   }

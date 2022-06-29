@@ -12,10 +12,9 @@ import { Text } from '../Text'
 import { Space } from '~/types'
 
 export type ButtonProps = {
-  action?: boolean
   children?: ReactNode
   disabled?: boolean
-  error?: boolean
+
   ghost?: boolean
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
@@ -29,10 +28,9 @@ export type ButtonProps = {
 }
 
 export const Button: FC<ButtonProps> = ({
-  action,
   children,
   disabled,
-  error,
+
   ghost,
   iconLeft,
   iconRight,
@@ -45,7 +43,7 @@ export const Button: FC<ButtonProps> = ({
   textAlign,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const colorBase = error ? 'Error' : action ? 'Action' : 'Primary'
+  const colorBase = 'Primary'
   let color, bg, borderColor, hoverBg
 
   if (ghost) {

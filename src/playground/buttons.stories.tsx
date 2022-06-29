@@ -3,7 +3,7 @@ import { AddIcon, Button, Text } from '~'
 import { styled } from 'inlines'
 
 export const Buttons = ({ icon }) => {
-  const colors = ['Primary', 'Action', 'Error']
+  const colors = ['Primary']
   const loadClick = async () => {
     await new Promise((resolve) => setTimeout(resolve, 1e3))
   }
@@ -20,8 +20,7 @@ export const Buttons = ({ icon }) => {
             <Text weight={600}>{color}</Text>
             {states.map((state) => {
               const disabled = state === 'disabled'
-              const error = color === 'Error'
-              const action = color === 'Action'
+
               return (
                 <styled.div
                   key={state}
@@ -38,8 +37,6 @@ export const Buttons = ({ icon }) => {
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
-                    action={action}
-                    error={error}
                     onClick={loadClick}
                   >
                     {color}
@@ -47,37 +44,21 @@ export const Buttons = ({ icon }) => {
                   <Button
                     iconLeft={icon}
                     disabled={disabled}
-                    action={action}
-                    error={error}
                     light
                     onClick={errorClick}
                   >
                     {color} Light
                   </Button>
-                  <Button
-                    iconLeft={icon}
-                    disabled={disabled}
-                    action={action}
-                    error={error}
-                    ghost
-                  >
+                  <Button iconLeft={icon} disabled={disabled} ghost>
                     {color} Ghost
                   </Button>
-                  <Button
-                    iconLeft={icon}
-                    disabled={disabled}
-                    action={action}
-                    error={error}
-                    outline
-                  >
+                  <Button iconLeft={icon} disabled={disabled} outline>
                     {color} Outline
                   </Button>
                   <Button
                     iconLeft={icon}
                     iconRight={icon}
                     disabled={disabled}
-                    action={action}
-                    error={error}
                     outline
                     light
                   >
@@ -87,8 +68,6 @@ export const Buttons = ({ icon }) => {
                     iconLeft={icon}
                     iconRight={icon}
                     disabled={disabled}
-                    action={action}
-                    error={error}
                     outline
                     light
                     loading
