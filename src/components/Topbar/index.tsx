@@ -145,7 +145,7 @@ export const Topbar = ({
               height: 42,
               borderRadius: '50%',
               border: activeProfile
-                ? `3px solid ${color('AccentDarkpurple')}`
+                ? `3px solid ${color('PrimaryMain')}`
                 : 'none',
               display: 'flex',
               marginLeft: 24,

@@ -43,12 +43,10 @@ export const ListItems = () => {
                 <Thumbnail
                   size={36}
                   icon={TextIcon({ size: 16 })}
-                  color="AccentDarkpurple"
+                  color="Darkpurple"
                 />
                 <Text weight={600}>Title</Text>
-                <Badge action light>
-                  string
-                </Badge>
+                <Badge light>string</Badge>
               </>
             }
             right={
@@ -65,12 +63,10 @@ export const ListItems = () => {
                 <Thumbnail
                   size={36}
                   icon={EditIcon({ size: 16 })}
-                  color="AccentBabyblue"
+                  color="Babyblue"
                 />
                 <Text weight={600}>Content</Text>
-                <Badge action light>
-                  Rich Text
-                </Badge>
+                <Badge light>Rich Text</Badge>
               </>
             }
             right={
@@ -95,17 +91,15 @@ export const ListItems = () => {
                   <Thumbnail
                     size={36}
                     backgroundImg="https://robohash.org/S4J.png?set=set4&size=150x150"
-                    backgroundColor="AccentGreen"
+                    color="Green"
                   />
                   <Text weight={600}>Drag & Drop</Text>
-                  <Badge action light>
-                    Drop it
-                  </Badge>
+                  <Badge light>Drop it</Badge>
                 </>
               }
               right={
                 <>
-                  <Badge action>Drag it</Badge>
+                  <Badge>Drag it</Badge>
                   <MoreIcon />
                 </>
               }
@@ -117,12 +111,10 @@ export const ListItems = () => {
                   <Thumbnail
                     size={36}
                     icon={ApertureIcon({ size: 16 })}
-                    color="AccentPink"
+                    color="Pink"
                   />
                   <Text weight={600}>Drag & Drop</Text>
-                  <Badge action light>
-                    Drop it
-                  </Badge>
+                  <Badge light>Drop it</Badge>
                 </>
               }
               right={
@@ -146,7 +138,7 @@ export const ListItems = () => {
             topLeft={
               <>
                 <Text color="TextSecondary">Keep</Text>
-                <Text color="AccentDarkpurple">Trucking</Text>
+                <Text color="Darkpurple">Trucking</Text>
               </>
             }
             topRight={<Avatar />}
@@ -168,11 +160,7 @@ export const ListItems = () => {
                 </>
               }
             >
-              <Avatar
-                size={40}
-                icon={CheckIcon({ size: 16 })}
-                color="AccentGreen"
-              />
+              <Avatar size={40} icon={CheckIcon({ size: 16 })} color="Green" />
               <div>
                 <Text weight={600}>Header</Text>
                 <Text color="TextSecondary">
@@ -181,11 +169,7 @@ export const ListItems = () => {
               </div>
             </StackedListItems>
             <StackedListItems childrenRight={<MoreIcon />}>
-              <Avatar
-                size={40}
-                icon={EditIcon({ size: 16 })}
-                color="AccentMustard"
-              />
+              <Avatar size={40} icon={EditIcon({ size: 16 })} color="Mustard" />
               <div>
                 <Text weight={600}>Developer</Text>
                 <Text color="TextSecondary">

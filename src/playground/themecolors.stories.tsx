@@ -16,24 +16,23 @@ export const ThemeColors = () => {
       <div
         style={{
           display: 'flex',
-          textAlign: 'center',
+
           flexWrap: 'wrap',
-          maxWidth: 1080,
+
+          gap: 10,
+          //width: 300,
           // alignContent: 'space-between',
         }}
       >
         {Object.keys(ColorArr)
-          .reverse()
+          // .reverse()
           .map((val, idx) => (
             <div
               key={idx}
               style={{
                 display: 'flex',
-                width: '100%',
-                //  justifyContent: 'center',
+                flexDirection: 'column',
                 alignItems: 'center',
-                maxWidth: 800,
-                marginBottom: 8,
               }}
             >
               <ColorBlock val={val} />
@@ -51,8 +50,9 @@ const ColorBlock = ({ val }) => {
     <>
       <div
         style={{
-          width: 220,
+          width: 200,
           height: 60,
+          borderRadius: 4,
           backgroundColor: color(val),
           display: 'flex',
           justifyContent: 'center',
@@ -73,7 +73,8 @@ const ColorBlock = ({ val }) => {
           width: '100%',
           display: 'flex',
           alignItems: 'center',
-          height: 60,
+          height: 32,
+          justifyContent: 'center',
           paddingLeft: 8,
           overflow: 'hidden',
           cursor: 'pointer',

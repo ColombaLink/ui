@@ -24,7 +24,23 @@ export const GridOverview = () => {
         <Card
           title="Junior Eurovision 2022"
           description="Updated 30 minutes ago"
-          topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
+          topLeft={<Avatar icon={BasedIcon} color="Brightpurple" />}
+          topRight={<MoreIcon />}
+          bottomLeft={
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
+              main
+            </Badge>
+          }
+          bottomRight={
+            <Badge outline ghost iconLeft={<DotIcon color="Green" size={10} />}>
+              Healthy
+            </Badge>
+          }
+        ></Card>
+        <Card
+          title="Junior Eurovision 2022"
+          description="Updated 30 minutes ago"
+          topLeft={<Avatar icon={BasedIcon} color="Sailorblue" />}
           topRight={<MoreIcon />}
           bottomLeft={
             <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -35,7 +51,7 @@ export const GridOverview = () => {
             <Badge
               outline
               ghost
-              iconLeft={<DotIcon color="AccentGreen" size={10} />}
+              iconLeft={<DotIcon color="Babyblue" size={10} />}
             >
               Healthy
             </Badge>
@@ -44,7 +60,7 @@ export const GridOverview = () => {
         <Card
           title="Junior Eurovision 2022"
           description="Updated 30 minutes ago"
-          topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
+          topLeft={<Avatar icon={BasedIcon} color="Mustard" />}
           topRight={<MoreIcon />}
           bottomLeft={
             <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -55,27 +71,7 @@ export const GridOverview = () => {
             <Badge
               outline
               ghost
-              iconLeft={<DotIcon color="AccentGreen" size={10} />}
-            >
-              Healthy
-            </Badge>
-          }
-        ></Card>
-        <Card
-          title="Junior Eurovision 2022"
-          description="Updated 30 minutes ago"
-          topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
-          topRight={<MoreIcon />}
-          bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
-              main
-            </Badge>
-          }
-          bottomRight={
-            <Badge
-              outline
-              ghost
-              iconLeft={<DotIcon color="AccentGreen" size={10} />}
+              iconLeft={<DotIcon color="Orange" size={10} />}
             >
               Healthy
             </Badge>

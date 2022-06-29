@@ -15,10 +15,9 @@ export const Accordions = () => {
             <Thumbnail
               style={{ marginRight: 10 }}
               size="32px"
-              backgroundColor="AccentTealLight"
-            >
-              <ReferenceIcon color="AccentTeal" />
-            </Thumbnail>
+              color="Teal"
+              icon={<ReferenceIcon />}
+            />
             <Text size="15px" weight={600} color="TextPrimary">
               Reference
             </Text>

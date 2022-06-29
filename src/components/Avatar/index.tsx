@@ -26,7 +26,7 @@ export const Avatar: FC<AvatarProps> = ({
 }) => {
   if (!backgroundColor) {
     if (colorProp && isCapitalised(colorProp)) {
-      backgroundColor = `${colorProp}Light` as Color
+      backgroundColor = `${colorProp}Accent` as Color
     } else {
       backgroundColor = 'PrimaryMain'
     }

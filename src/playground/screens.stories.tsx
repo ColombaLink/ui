@@ -177,11 +177,7 @@ export const Dashboard = () => {
           <Text size="20px" weight="700">
             Project status
           </Text>
-          <Badge
-            outline
-            ghost
-            iconLeft={(props) => <DotIcon color="AccentPurple" {...props} />}
-          >
+          <Badge outline ghost iconLeft={<DotIcon size={10} color="Purple" />}>
             Deploying: setting up servers 1/4
           </Badge>
         </Container>

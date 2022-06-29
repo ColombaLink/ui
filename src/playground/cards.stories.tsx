@@ -21,7 +21,7 @@ export const Cards = () => {
       <Card
         title="Junior Eurovision 20222"
         description="Updated 30 minutes ago"
-        topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
+        topLeft={<Avatar icon={BasedIcon} color="Brightpurple" />}
         topRight={<MoreIcon />}
         bottomLeft={
           <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -29,11 +29,7 @@ export const Cards = () => {
           </Badge>
         }
         bottomRight={
-          <Badge
-            outline
-            ghost
-            iconLeft={<DotIcon color="AccentGreen" size={10} />}
-          >
+          <Badge outline ghost iconLeft={<DotIcon color="Green" size={10} />}>
             Healthy
           </Badge>
         }
@@ -43,7 +39,7 @@ export const Cards = () => {
       <Card
         title="Tally "
         description="Updated 6 days ago"
-        topLeft={<Avatar color="AccentGreen" icon={BasedIcon} />}
+        topLeft={<Avatar color="Green" icon={BasedIcon} />}
         topRight={<MoreIcon />}
         bottomLeft={
           <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -54,7 +50,7 @@ export const Cards = () => {
           <Badge
             outline
             ghost
-            iconLeft={DotIcon({ size: 10, color: 'AccentDarkpurple' })}
+            iconLeft={DotIcon({ size: 10, color: 'Darkpurple' })}
           >
             Deploying
           </Badge>
@@ -66,7 +62,7 @@ export const Cards = () => {
         small
         title="Card small"
         description="With description and topLeft"
-        topLeft={<Thumbnail color="AccentDarkpurple" icon={StackIcon} />}
+        topLeft={<Thumbnail color="Darkpurple" icon={StackIcon} />}
         space
       ></Card>
 
@@ -74,7 +70,7 @@ export const Cards = () => {
         small
         title="Date time"
         description="Date with time"
-        topLeft={<Thumbnail color="AccentPink" icon={CalendarIcon} />}
+        topLeft={<Thumbnail color="Pink" icon={CalendarIcon} />}
       ></Card>
     </Provider>
   )

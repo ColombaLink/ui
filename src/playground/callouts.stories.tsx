@@ -11,11 +11,7 @@ export const Callouts = () => {
       <Callout space outline style={{ maxWidth: 540 }}>
         Warning: This component has an outline. and max width
       </Callout>
-      <Callout
-        space
-        outline
-        iconLeft={ErrorIcon({ color: 'AccentBrightpurple' })}
-      >
+      <Callout space outline iconLeft={ErrorIcon({ color: 'Brightpurple' })}>
         Warning: This component has an iconLeft.
       </Callout>
 
@@ -29,7 +25,7 @@ export const Callouts = () => {
         space
         ghost
         outline
-        iconLeft={<CheckCircleIcon color="AccentForestgreen" />}
+        iconLeft={<CheckCircleIcon color="Forestgreen" />}
       >
         Ghost Message transparent background and outline
       </Callout>
@@ -42,14 +38,7 @@ export const Callouts = () => {
       >
         Message textAlign center
       </Callout>
-      <Callout
-        space
-        iconRight={ArrowRightIcon}
-        textAlign="right"
-        style={{
-          backgroundColor: 'rgba(277,183,81,0.2)',
-        }}
-      >
+      <Callout space iconRight={ArrowRightIcon} textAlign="right">
         Message textAlign right
       </Callout>
     </Provider>

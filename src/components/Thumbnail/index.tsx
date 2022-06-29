@@ -26,7 +26,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
 }) => {
   if (!backgroundColor) {
     if (colorProp && isCapitalised(colorProp)) {
-      backgroundColor = `${colorProp}Light` as Color
+      backgroundColor = `${colorProp}Accent` as Color
     } else {
       backgroundColor = 'PrimaryMain'
     }
@@ -37,7 +37,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
       style={{
         backgroundColor: backgroundColor
           ? color(backgroundColor)
-          : color('AccentPurpleLight'),
+          : color('BabyblueAccent'),
         borderRadius: 4,
         color: color(colorProp),
         display: 'flex',

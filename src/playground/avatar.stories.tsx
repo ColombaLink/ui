@@ -7,21 +7,20 @@ import { BasedIcon } from '~'
 export const Avatars = () => {
   return (
     <Provider>
-      <Avatar space size="32px" backgroundColor="AccentTeal" />
-      <Avatar space size="40px" />
-
-      <Avatar space size="64px">
-        <Text size="18px" color="Background0dp">
+      <Avatar space size="32px" color="Teal" />
+      <Avatar space size="40px" icon={BasedIcon} color="Red" />
+      <Avatar space size="64px" color="Orange">
+        <Text size="18px" color="Red">
           AB
         </Text>
       </Avatar>
 
-      <Avatar icon={BasedIcon} color="AccentBrightpurple" space />
+      <Avatar icon={BasedIcon} color="Purple" space />
 
       <Avatar
         space
         size={64}
-        backgroundColor="AccentRed"
+        backgroundColor="Red"
         backgroundImg="https://robohash.org/JBS.png?set=set2&size=150x150"
       />
     </Provider>
