@@ -13,7 +13,7 @@ const transform = async (path, replace) => {
   try {
     const content = (await readFile(path)).toString()
     if (/ from '~\//.test(content)) {
-      const transformed = content.replace(/ from '~\//g, ` from '${replace}/`)
+      const transformed = content.replace(/ from '~/g, ` from '${replace}`)
       await writeFile(path, transformed)
     }
   } catch (e) {
