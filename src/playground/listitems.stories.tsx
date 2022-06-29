@@ -1,5 +1,9 @@
 import React from 'react'
-import { ListItem, StackedListItems } from '~/components/ListItems'
+import {
+  ListItem,
+  StackedListItems,
+  StackedListItemsWrapper,
+} from '~/components/ListItems'
 import { Badge } from '~/components/Badge'
 import { Block } from '~/components/Block'
 import { Provider } from '~'
@@ -58,78 +62,60 @@ export const ListItems = () => {
       <Block style={{ maxWidth: 767 }}>
         <Text space>Stacked ListItems</Text>
 
-        <StackedListItems
+        <StackedListItemsWrapper
           header={<Text color="TextSecondary">Role</Text>}
-          childrenRight={
-            <>
-              <Badge action light>
-                Rich Text
-              </Badge>
-              <MoreIcon />
-            </>
-          }
-        >
-          <Avatar
-            size={40}
-            icon={CheckIcon({ size: 16 })}
-            color="AccentGreen"
-          />
-          <div>
-            <Text weight={600}>Header</Text>
-            <Text color="TextSecondary">
-              Header enabled on this StackedListItems.
-            </Text>
-          </div>
-        </StackedListItems>
-        <StackedListItems
-          childrenRight={
-            <>
-              <Badge action light>
-                Rich Text
-              </Badge>
-              <MoreIcon />
-            </>
-          }
-        >
-          <Avatar
-            size={40}
-            icon={EditIcon({ size: 16 })}
-            color="AccentMustard"
-          />
-          <div>
-            <Text weight={600}>Developer</Text>
-            <Text color="TextSecondary">
-              Can create, update and delete models and content.
-            </Text>
-          </div>
-        </StackedListItems>
-        <StackedListItems
           footer={
             <Button iconLeft={AddIcon} ghost>
               One button
             </Button>
           }
           space
-          childrenRight={
-            <>
-              <Badge action light>
-                Rich Text
-              </Badge>
-              <MoreIcon />
-            </>
-          }
         >
-          <Avatar
-            size={40}
-            backgroundImg="https://robohash.org/4P5.png?set=set4&size=150x150"
-          />
-          <div>
-            <Text weight={600}>Footer</Text>
-            <Text color="TextSecondary">
-              Footer + space enabled on this StackedListItems.
-            </Text>
-          </div>
-        </StackedListItems>
+          <StackedListItems
+            childrenRight={
+              <>
+                <MoreIcon />
+              </>
+            }
+          >
+            <Avatar
+              size={40}
+              icon={CheckIcon({ size: 16 })}
+              color="AccentGreen"
+            />
+            <div>
+              <Text weight={600}>Header</Text>
+              <Text color="TextSecondary">
+                Header enabled on this StackedListItems.
+              </Text>
+            </div>
+          </StackedListItems>
+          <StackedListItems childrenRight={<MoreIcon />}>
+            <Avatar
+              size={40}
+              icon={EditIcon({ size: 16 })}
+              color="AccentMustard"
+            />
+            <div>
+              <Text weight={600}>Developer</Text>
+              <Text color="TextSecondary">
+                Can create, update and delete models and content.
+              </Text>
+            </div>
+          </StackedListItems>
+          <StackedListItems childrenRight={<MoreIcon />}>
+            <Avatar
+              size={40}
+              backgroundImg="https://robohash.org/4P5.png?set=set4&size=150x150"
+            />
+            <div>
+              <Text weight={600}>Footer</Text>
+              <Text color="TextSecondary">
+                Footer + space enabled on this StackedListItemsWrapper.
+              </Text>
+            </div>
+          </StackedListItems>
+        </StackedListItemsWrapper>
       </Block>
     </Provider>
   )

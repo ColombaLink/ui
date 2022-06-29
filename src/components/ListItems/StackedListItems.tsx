@@ -4,18 +4,23 @@ import { Space } from '~/types'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '../Text'
 
+type StackedListItemsWrapperProps = {
+  children?: FC | ReactNode
+  style?: CSSProperties
+  header?: FC | ReactNode
+  footer?: FC | ReactNode
+  space?: Space
+}
+
 type StackedListItemProps = {
   children?: FC | ReactNode
   childrenRight?: FC | ReactNode
   style?: CSSProperties
   space?: Space
-  header?: FC | ReactNode
-  footer?: FC | ReactNode
 }
 
-export const StackedListItems: FC<StackedListItemProps> = ({
+export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
   children,
-  childrenRight,
   style,
   header,
   footer,
@@ -38,6 +43,36 @@ export const StackedListItems: FC<StackedListItemProps> = ({
           {header}
         </div>
       )}
+
+      <div>{children}</div>
+
+      {footer && (
+        <div
+          style={{
+            display: 'flex',
+            padding: '12px 16px',
+            backgroundColor: color('Background2dp'),
+            border: `1px solid ${color('OtherDivider')}`,
+            borderBottomLeftRadius: 4,
+            borderBottomRightRadius: 4,
+            marginBottom: spaceToPx(space, 32),
+          }}
+        >
+          {footer}
+        </div>
+      )}
+    </>
+  )
+}
+
+export const StackedListItems: FC<StackedListItemProps> = ({
+  children,
+  childrenRight,
+  style,
+  space,
+}) => {
+  return (
+    <>
       <div
         style={{
           display: 'flex',
@@ -63,21 +98,6 @@ export const StackedListItems: FC<StackedListItemProps> = ({
           {childrenRight}
         </div>
       </div>
-      {footer && (
-        <div
-          style={{
-            display: 'flex',
-            padding: '12px 16px',
-            backgroundColor: color('Background2dp'),
-            border: `1px solid ${color('OtherDivider')}`,
-            borderBottomLeftRadius: 4,
-            borderBottomRightRadius: 4,
-            marginBottom: spaceToPx(space, 32),
-          }}
-        >
-          {footer}
-        </div>
-      )}
     </>
   )
 }
