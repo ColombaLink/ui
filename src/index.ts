@@ -6,7 +6,7 @@ import { themes } from './themes'
 themes()
 
 export * from './components/Badge'
-export * from './components/Block'
+export * from './components/Container'
 export * from './components/Button'
 export * from './components/Checkbox'
 export * from './components/ContextMenu'

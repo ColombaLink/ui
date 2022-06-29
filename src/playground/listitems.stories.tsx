@@ -6,7 +6,7 @@ import {
   StackedListItemsWrapper,
 } from '~/components/ListItems'
 import { Badge } from '~/components/Badge'
-import { Block } from '~/components/Block'
+import { Container } from '~/components/Container'
 import { Provider } from '~'
 import { Text } from '~/components/Text'
 import { Button } from '~/components/Button'
@@ -25,72 +25,101 @@ export const ListItems = () => {
   return (
     <Provider>
       <div style={{ paddingBottom: 64 }}>
-        <Block style={{ maxWidth: 767 }} space="32px">
-          <Text space>ListItem</Text>
+        <Container
+          topLeft={<Text>ListItem</Text>}
+          topRight={MoreIcon}
+          style={{ maxWidth: 767 }}
+          space="32px"
+        >
           <ListItem
-            childrenRight={
+            left={
+              <>
+                <Thumbnail
+                  size={36}
+                  icon={TextIcon({ size: 16 })}
+                  color="AccentDarkpurple"
+                />
+                <Text weight={600}>Title</Text>
+                <Badge action light>
+                  string
+                </Badge>
+              </>
+            }
+            right={
               <>
                 <Badge>Published</Badge>
                 <MoreIcon />
               </>
             }
-          >
-            <Thumbnail
-              size={36}
-              icon={TextIcon({ size: 16 })}
-              color="AccentDarkpurple"
-            />
-            <Text weight={600}>Title</Text>
-            <Badge action light>
-              string
-            </Badge>
-          </ListItem>
+          ></ListItem>
 
           <ListItem
-            childrenRight={
+            left={
+              <>
+                <Thumbnail
+                  size={36}
+                  icon={EditIcon({ size: 16 })}
+                  color="AccentBabyblue"
+                />
+                <Text weight={600}>Content</Text>
+                <Badge action light>
+                  Rich Text
+                </Badge>
+              </>
+            }
+            right={
               <>
                 <Badge>Published</Badge>
                 <MoreIcon />
               </>
             }
-          >
-            <Thumbnail
-              size={36}
-              icon={EditIcon({ size: 16 })}
-              color="AccentBabyblue"
-            />
-            <Text weight={600}>Content</Text>
-            <Badge action light>
-              Rich Text
-            </Badge>
-          </ListItem>
-        </Block>
+          ></ListItem>
+        </Container>
 
-        <Block style={{ maxWidth: 767 }} space="32px">
-          <Text space>Draggable ListItems</Text>
+        <Container
+          style={{ maxWidth: 767 }}
+          space="32px"
+          topLeft={<Text space>Draggable ListItems</Text>}
+        >
           <DraggableListWrapper>
             <ListItem
               draggable
-              childrenRight={
+              left={
+                <>
+                  <Thumbnail
+                    size={36}
+                    backgroundImg="https://robohash.org/S4J.png?set=set4&size=150x150"
+                    backgroundColor="AccentGreen"
+                  />
+                  <Text weight={600}>Drag & Drop</Text>
+                  <Badge action light>
+                    Drop it
+                  </Badge>
+                </>
+              }
+              right={
                 <>
                   <Badge action>Drag it</Badge>
                   <MoreIcon />
                 </>
               }
-            >
-              <Thumbnail
-                size={36}
-                backgroundImg="https://robohash.org/S4J.png?set=set4&size=150x150"
-                backgroundColor="AccentGreen"
-              />
-              <Text weight={600}>Drag & Drop</Text>
-              <Badge action light>
-                Drop it
-              </Badge>
-            </ListItem>
+            ></ListItem>
             <ListItem
               draggable
-              childrenRight={
+              left={
+                <>
+                  <Thumbnail
+                    size={36}
+                    icon={ApertureIcon({ size: 16 })}
+                    color="AccentPink"
+                  />
+                  <Text weight={600}>Drag & Drop</Text>
+                  <Badge action light>
+                    Drop it
+                  </Badge>
+                </>
+              }
+              right={
                 <>
                   <Badge outline ghost>
                     Drop it
@@ -98,23 +127,15 @@ export const ListItems = () => {
                   <MoreIcon />
                 </>
               }
-            >
-              <Thumbnail
-                size={36}
-                icon={ApertureIcon({ size: 16 })}
-                color="AccentPink"
-              />
-              <Text weight={600}>Drag & Drop</Text>
-              <Badge action light>
-                Drop it
-              </Badge>
-            </ListItem>
+            ></ListItem>
           </DraggableListWrapper>
-        </Block>
+        </Container>
 
-        <Block style={{ maxWidth: 767 }} space>
-          <Text space>Stacked ListItems</Text>
-
+        <Container
+          style={{ maxWidth: 767 }}
+          space
+          topLeft={<Text space>Stacked ListItems</Text>}
+        >
           <StackedListItemsWrapper
             header={<Text color="TextSecondary">Role</Text>}
             footer={
@@ -169,7 +190,7 @@ export const ListItems = () => {
               </div>
             </StackedListItems>
           </StackedListItemsWrapper>
-        </Block>
+        </Container>
       </div>
     </Provider>
   )

@@ -12,7 +12,7 @@ import {
   UsersIcon,
   Provider,
   Text,
-  Block,
+  Container,
   color,
   Button,
   Badge,
@@ -147,7 +147,7 @@ export const Dashboard = () => {
         <Text size="20px" space="32px">
           Junior Eurovision - France 2022
         </Text>
-        <Block space>
+        <Container space>
           <Text size="20px" weight={700} space>
             Start building a project
           </Text>
@@ -161,16 +161,16 @@ export const Dashboard = () => {
                 'Integrate your content with your front-end': '/integrate',
               }}
             />
-            <Block>
+            <Container>
               <Text>First things first, set up your schema!</Text>
               <Text color="TextSecondary" space size="15px">
                 Define the building blocks of your content.
               </Text>
               <Button>Start your schema</Button>
-            </Block>
+            </Container>
           </div>
-        </Block>
-        <Block
+        </Container>
+        <Container
           style={{ display: 'flex', justifyContent: 'space-between' }}
           space
         >
@@ -184,12 +184,12 @@ export const Dashboard = () => {
           >
             Deploying: setting up servers 1/4
           </Badge>
-        </Block>
-        <Block style={{ display: 'flex', justifyContent: 'space-between' }}>
+        </Container>
+        <Container style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Text size="20px" weight="700">
             Changelog
           </Text>
-        </Block>
+        </Container>
       </Page>
     </Provider>
   )

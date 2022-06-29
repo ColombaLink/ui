@@ -4,16 +4,16 @@ import { Space } from '~/types'
 import { color, spaceToPx } from '~/utils'
 
 type ListItemProps = {
-  children?: FC | ReactNode
-  childrenRight?: FC | ReactNode
+  left?: FC | ReactNode
+  right?: FC | ReactNode
   style?: CSSProperties
   space?: Space
   draggable?: boolean
 }
 
 export const ListItem: FC<ListItemProps> = ({
-  children,
-  childrenRight,
+  left,
+  right,
   style,
   draggable,
   space = 12,
@@ -40,10 +40,10 @@ export const ListItem: FC<ListItemProps> = ({
         }}
       >
         {draggable && <DragDropIcon style={{ cursor: 'pointer' }} />}
-        {children}
+        {left}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        {childrenRight}
+        {right}
       </div>
     </div>
   )

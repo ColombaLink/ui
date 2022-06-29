@@ -1,11 +1,11 @@
 import React from 'react'
-import { Block } from '~/components/Block'
+import { Container } from '~/components/Container'
 import { Steps } from '~/components/Steps'
 
 export const Step = () => {
   return (
     <div>
-      <Block style={{ maxWidth: 442 }}>
+      <Container style={{ maxWidth: 442 }}>
         <Steps
           data={{
             'Set up your schema': '/',
@@ -14,7 +14,7 @@ export const Step = () => {
             'Integrate your content with your front-end': '/integrate',
           }}
         />
-      </Block>
+      </Container>
     </div>
   )
 }
