@@ -15,7 +15,10 @@ export const font = (
     ? 600
     : 500
 
-  const lineHeight = `${fontSize >= 24 ? fontSize : fontSize >= 15 ? 24 : 16}px`
+  const lineHeight =
+    fontSize === 32
+      ? '38px'
+      : `${fontSize >= 24 ? fontSize : fontSize >= 15 ? 24 : 16}px`
   return {
     fontSize,
     lineHeight,
