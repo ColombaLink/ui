@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { FC, ReactNode } from 'react'
 
-type GridProps = {}
+type GridProps = {
+  children?: FC | ReactNode
+  width?: number | string
+  gap?: number
+}
 
-export const Grid = ({}) => {
-  return <div></div>
+export const Grid: FC<GridProps> = ({ width, gap, children }) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        maxWidth: width,
+        width: '100%',
+        gap: gap,
+        flexWrap: 'wrap',
+        alignContent: 'stretch',
+      }}
+    >
+      {children}
+    </div>
+  )
 }

@@ -47,12 +47,21 @@ export const Card: FC<CardProps> = ({
         style={{
           display: 'flex',
           position: 'relative',
+
+          justifyContent: 'space-between',
           marginBottom: small ? null : 44,
         }}
       >
         {topLeft && (
-          <div style={{ marginRight: 12 }}>
-            {renderOrCreateElement(topLeft, { size: 10 })}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginRight: 12,
+            }}
+          >
+            {renderOrCreateElement(topLeft, {})}
           </div>
         )}
 
@@ -63,9 +72,14 @@ export const Card: FC<CardProps> = ({
           </Text>
         </div>
         <div
-          style={{ position: 'absolute', right: 0, top: 4, cursor: 'pointer' }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            marginLeft: 12,
+          }}
         >
-          <>{topRight}</>
+          {renderOrCreateElement(topRight, {})}
         </div>
       </div>
 
