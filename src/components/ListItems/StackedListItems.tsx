@@ -1,13 +1,16 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { DragDropIcon } from '~/icons'
 import { Space } from '~/types'
-import { color, spaceToPx } from '~/utils'
+import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { Text } from '../Text'
 
 type StackedListItemsWrapperProps = {
   children?: FC | ReactNode
   style?: CSSProperties
-  header?: FC | ReactNode
+  topLeft?: FC | ReactNode
+  topRight?: FC | ReactNode
+  bottomLeft?: FC | ReactNode
+  bottomRight?: FC | ReactNode
   footer?: FC | ReactNode
   space?: Space
 }
@@ -22,16 +25,20 @@ type StackedListItemProps = {
 export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
   children,
   style,
-  header,
-  footer,
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
   space,
 }) => {
   return (
     <>
-      {header && (
+      {(topLeft || topRight) && (
         <div
           style={{
             display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             padding: '12px 16px',
             backgroundColor: color('ActionLight'),
             border: `1px solid ${color('OtherDivider')}`,
@@ -41,17 +48,24 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             ...style,
           }}
         >
-          {header}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {renderOrCreateElement(topLeft, {})}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {renderOrCreateElement(topRight, {})}
+          </div>
         </div>
       )}
 
       <div>{children}</div>
 
-      {footer && (
+      {(bottomLeft || bottomRight) && (
         <div
           style={{
             display: 'flex',
             padding: '12px 16px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             backgroundColor: color('Background2dp'),
             border: `1px solid ${color('OtherDivider')}`,
             borderBottomLeftRadius: 4,
@@ -59,7 +73,12 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             marginBottom: spaceToPx(space, 32),
           }}
         >
-          {footer}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {renderOrCreateElement(bottomLeft, {})}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            {renderOrCreateElement(bottomRight, {})}
+          </div>
         </div>
       )}
     </>

@@ -1,13 +1,13 @@
 import React from 'react'
 import { Accordion, AccordionItem } from '~/components/Accordion/Index'
-import { Provider, Block, Input, Text, Button } from '~'
+import { Provider, Container, Input, Text, Button } from '~'
 import { Thumbnail } from '~/components/Thumbnail'
 import { ReferenceIcon } from '~/icons'
 
 export const Accordions = () => {
   return (
     <Provider>
-      <Block style={{ maxWidth: 760 }}>
+      <Container style={{ maxWidth: 760 }}>
         <Accordion>
           <div
             style={{ display: 'flex', alignItems: 'center', marginBottom: 24 }}
@@ -35,7 +35,7 @@ export const Accordions = () => {
         <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Button>Enter</Button>
         </div>
-      </Block>
+      </Container>
     </Provider>
   )
 }

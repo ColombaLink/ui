@@ -35,20 +35,10 @@ export const Container: FC<ContainerProps> = ({
           alignItems: 'center',
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           {renderOrCreateElement(topLeft, {})}
         </div>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           {renderOrCreateElement(topRight, {})}
         </div>
       </div>

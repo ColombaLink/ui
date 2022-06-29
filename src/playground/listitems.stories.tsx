@@ -18,6 +18,7 @@ import {
   CheckIcon,
   AddIcon,
   ApertureIcon,
+  ListIcon,
 } from '~'
 import { Avatar } from '~/components/Avatar'
 
@@ -26,7 +27,12 @@ export const ListItems = () => {
     <Provider>
       <div style={{ paddingBottom: 64 }}>
         <Container
-          topLeft={<Text>ListItem</Text>}
+          topLeft={
+            <>
+              <ListIcon />
+              <Text>ListItem</Text>
+            </>
+          }
           topRight={MoreIcon}
           style={{ maxWidth: 767 }}
           space="32px"
@@ -137,12 +143,22 @@ export const ListItems = () => {
           topLeft={<Text space>Stacked ListItems</Text>}
         >
           <StackedListItemsWrapper
-            header={<Text color="TextSecondary">Role</Text>}
-            footer={
-              <Button iconLeft={AddIcon} ghost>
-                One button
-              </Button>
+            topLeft={
+              <>
+                <Text color="TextSecondary">Keep</Text>
+                <Text color="AccentDarkpurple">Trucking</Text>
+              </>
             }
+            topRight={<Avatar />}
+            bottomLeft={
+              <>
+                <Button iconLeft={AddIcon} ghost>
+                  One
+                </Button>
+                <Button>Two</Button>
+              </>
+            }
+            bottomRight={CheckIcon}
             space
           >
             <StackedListItems
