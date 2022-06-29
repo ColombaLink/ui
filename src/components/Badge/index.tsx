@@ -11,7 +11,6 @@ type BadgeProps = {
   light?: boolean
   boxed?: boolean
   ghost?: boolean
-  action?: boolean
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -23,7 +22,6 @@ export const Badge: FC<BadgeProps> = ({
   light,
   boxed,
   ghost,
-  action,
 }) => {
   return (
     <div
@@ -37,15 +35,7 @@ export const Badge: FC<BadgeProps> = ({
         border: outline ? `1px solid ${color('OtherDivider')}` : null,
         backgroundColor: ghost
           ? null
-          : color(
-              action && light
-                ? 'ActionLight'
-                : action
-                ? 'ActionMain'
-                : light
-                ? 'PrimaryLight'
-                : 'PrimaryMain'
-            ),
+          : color(light ? 'PrimaryLight' : 'PrimaryMain'),
 
         ...style,
       }}
@@ -61,7 +51,7 @@ export const Badge: FC<BadgeProps> = ({
       <Text
         size="12px"
         color={
-          outline || ghost || (action && light)
+          outline || ghost
             ? null
             : light
             ? 'PrimaryLightContrast'

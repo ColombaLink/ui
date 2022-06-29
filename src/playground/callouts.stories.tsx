@@ -7,13 +7,15 @@ export const Callouts = () => {
   return (
     <Provider>
       <Callout space>Normal regular callout</Callout>
-      <Callout space error>
-        Warning: This action is not reversible. Please be certain.
-      </Callout>
-      <Callout space error outline style={{ maxWidth: 540 }}>
+
+      <Callout space outline style={{ maxWidth: 540 }}>
         Warning: This component has an outline. and max width
       </Callout>
-      <Callout space error outline iconLeft={ErrorIcon}>
+      <Callout
+        space
+        outline
+        iconLeft={ErrorIcon({ color: 'AccentBrightpurple' })}
+      >
         Warning: This component has an iconLeft.
       </Callout>
 

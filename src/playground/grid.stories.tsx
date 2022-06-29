@@ -27,7 +27,7 @@ export const GridOverview = () => {
           topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
           topRight={<MoreIcon />}
           bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
               main
             </Badge>
           }
@@ -47,7 +47,7 @@ export const GridOverview = () => {
           topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
           topRight={<MoreIcon />}
           bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
               main
             </Badge>
           }
@@ -67,7 +67,7 @@ export const GridOverview = () => {
           topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
           topRight={<MoreIcon />}
           bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
               main
             </Badge>
           }

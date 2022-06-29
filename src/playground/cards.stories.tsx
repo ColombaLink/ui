@@ -24,7 +24,7 @@ export const Cards = () => {
         topLeft={<Avatar icon={BasedIcon} color="AccentBrightpurple" />}
         topRight={<MoreIcon />}
         bottomLeft={
-          <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+          <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
             main
           </Badge>
         }
@@ -46,7 +46,7 @@ export const Cards = () => {
         topLeft={<Avatar color="AccentGreen" icon={BasedIcon} />}
         topRight={<MoreIcon />}
         bottomLeft={
-          <Badge iconLeft={CopyIcon({ size: 14 })} boxed action light>
+          <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
             main
           </Badge>
         }

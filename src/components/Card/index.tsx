@@ -52,7 +52,7 @@ export const Card: FC<CardProps> = ({
           marginBottom: small ? null : 44,
         }}
       >
-        {topLeft && (
+        {(topLeft || title || description) && (
           <div
             style={{
               display: 'flex',
@@ -62,15 +62,16 @@ export const Card: FC<CardProps> = ({
             }}
           >
             {renderOrCreateElement(topLeft, {})}
+
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Text weight={600}>{title}</Text>
+              <Text weight={400} size="13px" color="TextSecondary">
+                {description}
+              </Text>
+            </div>
           </div>
         )}
 
-        <div>
-          <Text weight={600}>{title}</Text>
-          <Text weight={400} size="13px" color="TextSecondary">
-            {description}
-          </Text>
-        </div>
         <div
           style={{
             display: 'flex',
