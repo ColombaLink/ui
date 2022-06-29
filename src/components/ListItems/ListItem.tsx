@@ -39,7 +39,7 @@ export const ListItem: FC<ListItemProps> = ({
           gap: '16px',
         }}
       >
-        {draggable && <DragDropIcon />}
+        {draggable && <DragDropIcon style={{ cursor: 'pointer' }} />}
         {children}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

@@ -38,6 +38,7 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             borderTopLeftRadius: 4,
             borderTopRightRadius: 4,
             marginBottom: -1,
+            ...style,
           }}
         >
           {header}
