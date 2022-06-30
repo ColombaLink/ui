@@ -9,7 +9,7 @@ export const Thumbnails = () => {
       <Thumbnail
         size="32px"
         space="12px"
-        color="Babyblue"
+        color="BlueBaby"
         icon={TextIcon({ size: 12 })}
       />
       <Thumbnail space="12px" icon={MarkDownIcon} color="Pink" />

@@ -43,7 +43,7 @@ export const ListItems = () => {
                 <Thumbnail
                   size={36}
                   icon={TextIcon({ size: 16 })}
-                  color="Darkpurple"
+                  color="PurpleDark"
                 />
                 <Text weight={600}>Title</Text>
                 <Badge light>string</Badge>
@@ -63,7 +63,7 @@ export const ListItems = () => {
                 <Thumbnail
                   size={36}
                   icon={EditIcon({ size: 16 })}
-                  color="Babyblue"
+                  color="BlueBaby"
                 />
                 <Text weight={600}>Content</Text>
                 <Badge light>Rich Text</Badge>
@@ -138,7 +138,7 @@ export const ListItems = () => {
             topLeft={
               <>
                 <Text color="TextSecondary">Keep</Text>
-                <Text color="Darkpurple">Trucking</Text>
+                <Text color="PurpleDark">Trucking</Text>
               </>
             }
             topRight={<Avatar />}

@@ -24,7 +24,7 @@ export const GridOverview = () => {
         <Card
           title="Junior Eurovision 2022"
           description="Updated 30 minutes ago"
-          topLeft={<Avatar icon={BasedIcon} color="Brightpurple" />}
+          topLeft={<Avatar icon={BasedIcon} color="PurpleBright" />}
           topRight={<MoreIcon />}
           bottomLeft={
             <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -40,7 +40,7 @@ export const GridOverview = () => {
         <Card
           title="Junior Eurovision 2022"
           description="Updated 30 minutes ago"
-          topLeft={<Avatar icon={BasedIcon} color="Sailorblue" />}
+          topLeft={<Avatar icon={BasedIcon} color="BlueSailor" />}
           topRight={<MoreIcon />}
           bottomLeft={
             <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -51,7 +51,7 @@ export const GridOverview = () => {
             <Badge
               outline
               ghost
-              iconLeft={<DotIcon color="Babyblue" size={10} />}
+              iconLeft={<DotIcon color="Mustard" size={10} />}
             >
               Healthy
             </Badge>

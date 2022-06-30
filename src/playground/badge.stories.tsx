@@ -17,7 +17,7 @@ export const Badges = () => {
       </Badge>
       <br />
 
-      <Badge iconLeft={<DotIcon color="AccentForestgreen" size={10} />}>
+      <Badge iconLeft={<DotIcon color="AccentGreenForest" size={10} />}>
         Icon Left
       </Badge>
       <br />
@@ -40,7 +40,7 @@ export const Badges = () => {
         boxed
         outline
         ghost
-        iconRight={<DotIcon size={10} color="AccentBrightpurple" />}
+        iconRight={<DotIcon size={10} color="AccentPurpleBright" />}
       >
         Boxed
       </Badge>

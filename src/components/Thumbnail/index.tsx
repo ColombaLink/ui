@@ -37,7 +37,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
       style={{
         backgroundColor: backgroundColor
           ? color(backgroundColor)
-          : color('BabyblueAccent'),
+          : color('BlueBabyAccent'),
         borderRadius: 4,
         color: color(colorProp),
         display: 'flex',

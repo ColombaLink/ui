@@ -44,7 +44,7 @@ export const Badge: FC<BadgeProps> = ({
         <div style={{ marginRight: 8 }}>
           {renderOrCreateElement(iconLeft, {
             size: 10,
-            color: color('AccentForestgreen'),
+            color: color('GreenForestAccent'),
           })}
         </div>
       )}

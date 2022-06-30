@@ -5,7 +5,7 @@ import { font, spaceToPx } from '~/utils'
 type TextProps = {
   size?: Size
   space?: Space
-  color?: Color
+  color?: Color | string
   weight?: Weight
   style?: CSSProperties
   italic?: boolean

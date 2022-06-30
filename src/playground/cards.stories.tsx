@@ -21,7 +21,7 @@ export const Cards = () => {
       <Card
         title="Junior Eurovision 20222"
         description="Updated 30 minutes ago"
-        topLeft={<Avatar icon={BasedIcon} color="Brightpurple" />}
+        topLeft={<Avatar icon={BasedIcon} color="PurpleBright" />}
         topRight={<MoreIcon />}
         bottomLeft={
           <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
@@ -50,7 +50,7 @@ export const Cards = () => {
           <Badge
             outline
             ghost
-            iconLeft={DotIcon({ size: 10, color: 'Darkpurple' })}
+            iconLeft={DotIcon({ size: 10, color: 'PurpleDark' })}
           >
             Deploying
           </Badge>
@@ -62,7 +62,7 @@ export const Cards = () => {
         small
         title="Card small"
         description="With description and topLeft"
-        topLeft={<Thumbnail color="Darkpurple" icon={StackIcon} />}
+        topLeft={<Thumbnail color="PurpleDark" icon={StackIcon} />}
         space
       ></Card>
 

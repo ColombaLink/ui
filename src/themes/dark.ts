@@ -1,18 +1,18 @@
 export const theme = {
   colors: {
-    //Babyblue
-    Babyblue: '#4faff8',
-    BabyblueHover: 'rgba(79,175,248, 0.9)',
-    BabyblueActive: 'rgba(79,185,248, 1)',
-    BabyblueAccent: 'rgba(79,175,248, 0.20)',
-    BabyblueForeground: 'rgba(15,16,19, 0.87)',
+    //BlueBaby
+    BlueBaby: '#4faff8',
+    BlueBabyHover: 'rgba(79,175,248, 0.9)',
+    BlueBabyActive: 'rgba(79,185,248, 1)',
+    BlueBabyAccent: 'rgba(79,175,248, 0.20)',
+    BlueBabyForeground: 'rgba(15,16,19, 0.87)',
 
-    //Sailorblue
-    Sailorblue: '#5584f7',
-    SailorblueHover: 'rgba(85,132,247, 0.9)',
-    SailorblueActive: 'rgba(85,132,247, 1)',
-    SailorblueAccent: 'rgba(85,132,247, 0.20)',
-    SailorblueForeground: 'rgba(15,16,19, 0.87)',
+    //BlueSailor
+    BlueSailor: '#5584f7',
+    BlueSailorHover: 'rgba(85,132,247, 0.9)',
+    BlueSailorActive: 'rgba(85,132,247, 1)',
+    BlueSailorAccent: 'rgba(85,132,247, 0.20)',
+    BlueSailorForeground: 'rgba(15,16,19, 0.87)',
 
     //Pink
     Pink: '#eb45b5',
@@ -21,12 +21,12 @@ export const theme = {
     PinkAccent: 'rgba(235,69,181, 0.20)',
     PinkForeground: 'rgba(15,16,19, 0.87)',
 
-    //Brightpurple
-    Brightpurple: '#c74af6',
-    BrightpurpleHover: 'rgba(199,74,246, 0.9)',
-    BrightpurpleActive: 'rgba(199,74,246, 1)',
-    BrightpurpleAccent: 'rgba(199,74,246, 0.20)',
-    BrightpurpleForeground: 'rgba(15,16,19, 0.87)',
+    //PurpleBright
+    PurpleBright: '#c74af6',
+    PurpleBrightHover: 'rgba(199,74,246, 0.9)',
+    PurpleBrightActive: 'rgba(199,74,246, 1)',
+    PurpleBrightAccent: 'rgba(199,74,246, 0.20)',
+    PurpleBrightForeground: 'rgba(15,16,19, 0.87)',
 
     //Purple
     Purple: '#9a52f6',
@@ -35,19 +35,19 @@ export const theme = {
     PurpleAccent: 'rgba(154,82,246, 0.20)',
     PurpleForeground: 'rgba(15,16,19, 0.87)',
 
-    //Darkpurple
-    Darkpurple: '#7359f6',
-    DarkpurpleHover: 'rgba(115,89,246, 0.9)',
-    DarkpurpleActive: 'rgba(115,89,246, 1)',
-    DarkpurpleAccent: 'rgba(115,89,246, 0.20)',
-    DarkpurpleForeground: 'rgba(15,16,19, 0.87)',
+    //PurpleDark
+    PurpleDark: '#7359f6',
+    PurpleDarkHover: 'rgba(115,89,246, 0.9)',
+    PurpleDarkActive: 'rgba(115,89,246, 1)',
+    PurpleDarkAccent: 'rgba(115,89,246, 0.20)',
+    PurpleDarkForeground: 'rgba(15,16,19, 0.87)',
 
-    //ForestGreen
-    Forestgreen: '#97c241',
-    ForestgreenHover: 'rgba(151,194,65, 0.9)',
-    ForestgreenActive: 'rgba(151,194,65, 1)',
-    ForestgreenAccent: 'rgba(151,194,65, 0.20)',
-    ForestgreenForeground: 'rgba(15,16,19, 0.87)',
+    //GreenForest
+    GreenForest: '#97c241',
+    GreenForestHover: 'rgba(151,194,65, 0.9)',
+    GreenForestActive: 'rgba(151,194,65, 1)',
+    GreenForestAccent: 'rgba(151,194,65, 0.20)',
+    GreenForestForeground: 'rgba(15,16,19, 0.87)',
 
     //Green
     Green: '#56bb70',
@@ -154,5 +154,6 @@ export const theme = {
     Background2dp: '#1B1B1B',
     Background3dp: '#232323',
     CalloutMain: '#262626',
+    Transparent: 'rgba(0,0,0,0)',
   },
 }
