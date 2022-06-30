@@ -19,6 +19,8 @@ export const Buttons = ({ icon }) => {
       <br />
       <Button ghost>Ghost</Button>
       <br />
+      <Button loading>Loading</Button>
+      <br />
       <Button color="Red">Red</Button>
       <br />
       <Button color="Red" light>
