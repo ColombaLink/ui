@@ -15,6 +15,7 @@ type BadgeProps = {
   backgroundColor?: Color
   foregroundColor?: Color
   outlineColor?: Color
+  hoverColor?: Color
   boxed?: boolean
   ghost?: boolean
 }
@@ -29,6 +30,7 @@ export const Badge: FC<BadgeProps> = ({
   backgroundColor,
   foregroundColor,
   outlineColor,
+  hoverColor,
   boxed,
   ghost,
 }) => {
@@ -56,6 +58,14 @@ export const Badge: FC<BadgeProps> = ({
     }
   }
 
+  if (!hoverColor) {
+    if (colorProp && isCapitalised(colorProp)) {
+      hoverColor = `${colorProp}Hover` as Color
+    } else {
+      hoverColor = `${colorProp}Accent` as Color
+    }
+  }
+
   if (ghost) {
     backgroundColor = 'Transparent'
   }
@@ -72,6 +82,9 @@ export const Badge: FC<BadgeProps> = ({
         position: 'relative',
         border: outline ? `1px solid ${color(outlineColor)}` : null,
         backgroundColor: color(backgroundColor),
+        '&:hover': {
+          backgroundColor: color(hoverColor),
+        },
 
         ...style,
       }}

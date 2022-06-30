@@ -16,9 +16,7 @@ export const ThemeColors = () => {
       <div
         style={{
           display: 'flex',
-
           flexWrap: 'wrap',
-
           gap: 10,
           //width: 300,
           // alignContent: 'space-between',
@@ -65,7 +63,7 @@ const ColorBlock = ({ val }) => {
             navigator.clipboard.writeText('rgba(' + ColorArr[val].join() + ')')
           }}
         >
-          <Text>rgba({ColorArr[val].join()})</Text>
+          <Text size={13}>rgba({ColorArr[val].join()})</Text>
         </div>
       </div>
       <div

@@ -10,7 +10,11 @@ export const Badges = () => {
       <br />
       <Badge color="Orange">Light</Badge>
       <br />
-      <Badge backgroundColor="PurpleDark" foregroundColor="WhiteWhite100">
+      <Badge
+        backgroundColor="PurpleDark"
+        foregroundColor="WhiteWhite100"
+        hoverColor="PurpleBright"
+      >
         Snurpy
       </Badge>
       <br />
@@ -50,12 +54,12 @@ export const Badges = () => {
         Boxed
       </Badge>
       <br />
-      <Badge>Action</Badge>
+      <Badge>Snorker</Badge>
       <br />
-      <Badge color="Pink">Action Light</Badge>
+      <Badge color="Pink">Pink snurp</Badge>
       <br />
-      <Badge boxed outline>
-        Action Light boxed outline
+      <Badge boxed outline hoverColor="Yellow">
+        Snurkles hover me
       </Badge>
       <br />
     </Provider>
