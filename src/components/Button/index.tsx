@@ -15,13 +15,11 @@ import { isCapitalised } from '~/utils/isCapitalised'
 export type ButtonProps = {
   children?: ReactNode
   disabled?: boolean
-
   color?: Color
   backgroundColor?: Color
   foregroundColor?: Color
   outlineColor?: Color
   hoverColor?: Color
-
   ghost?: boolean
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
@@ -37,13 +35,11 @@ export type ButtonProps = {
 export const Button: FC<ButtonProps> = ({
   children,
   disabled,
-
   color: colorProp,
   backgroundColor,
   foregroundColor,
   outlineColor,
   hoverColor,
-
   ghost,
   iconLeft,
   iconRight,
@@ -183,6 +179,7 @@ export const Button: FC<ButtonProps> = ({
         '&:hover': {
           backgroundColor: c(hoverColor),
           color: ghost ? c('TextPrimary') : c(foregroundColor),
+          cursor: disabled ? 'not-allowed' : 'pointer',
         },
         ...(space
           ? {

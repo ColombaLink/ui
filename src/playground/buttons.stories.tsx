@@ -82,6 +82,12 @@ export const Buttons = ({ icon }) => {
       >
         textAlign 'right'
       </Button>
+      <Button disabled space>
+        Disabled
+      </Button>
+      <Button color="Red" disabled>
+        Disabled
+      </Button>
     </>
   )
 }
