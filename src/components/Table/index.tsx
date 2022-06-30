@@ -54,7 +54,7 @@ const Item: FC<{
         position: 'relative',
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: color('ActionLightHover'),
+          backgroundColor: color('GreylightHover'),
         },
       }}
     >

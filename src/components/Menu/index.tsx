@@ -42,7 +42,7 @@ export const MenuItem: FC<MenuItemProps> = ({
 }) => {
   const textColor = isNested
     ? isActive
-      ? 'ActionLightContrast'
+      ? 'GreylightContrast'
       : 'TextSecondary'
     : null
 

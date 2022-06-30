@@ -20,10 +20,10 @@ const StyledContextItem = styled('div', {
   paddingRight: '16px',
   cursor: 'pointer',
   '&:active': {
-    backgroundColor: color('ActionLightSelected'),
+    backgroundColor: color('GreylightActive'),
   },
   '&:focus': {
-    backgroundColor: color('ActionLightHover'),
+    backgroundColor: color('GreylightHover'),
   },
 })
 

@@ -15,7 +15,7 @@ type TabsProps = {
   space?: Space
 }
 
-export const Tabs: FC<TabsProps> = ({ children, style, space = '0px' }) => {
+export const Tabs: FC<TabsProps> = ({ children, style, space = 0 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
 
   const [activeTab, setActiveTab] = useState(0)
@@ -64,6 +64,7 @@ export const Tabs: FC<TabsProps> = ({ children, style, space = '0px' }) => {
               onClick={() => setActiveTab(index)}
               key={index}
             >
+              {/*@ts-ignore */}
               {child.props.title}
             </styled.div>
           ))}

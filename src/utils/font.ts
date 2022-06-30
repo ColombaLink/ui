@@ -3,7 +3,7 @@ import { color } from './color'
 
 export const font = (
   size: Size = '15px',
-  colorProp: Color = 'TextPrimary',
+  colorProp: Color | string = 'TextPrimary',
   weight?: Weight
 ) => {
   const fontSize = parseInt(size as string)
