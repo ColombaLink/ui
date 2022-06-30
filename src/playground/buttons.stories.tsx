@@ -17,6 +17,8 @@ export const Buttons = ({ icon }) => {
       <br />
       <Button light>Light</Button>
       <br />
+      <Button ghost>Ghost</Button>
+      <br />
       <Button color="Red">Red</Button>
       <br />
       <Button color="Red" light>
@@ -31,8 +33,14 @@ export const Buttons = ({ icon }) => {
         Outline light color Red ForegroundColor Red
       </Button>
       <br />
-      <Button ghost outline>
-        Ghost outline
+      <Button
+        backgroundColor="Transparent"
+        hoverColor="Transparent"
+        color="PurpleDark"
+        foregroundColor="PurpleDark"
+        outline
+      >
+        Transparent bg outline
       </Button>
       <br />
       <Button color="Orange" iconLeft={LightModeIcon}>

@@ -94,6 +94,8 @@ export const Button: FC<ButtonProps> = ({
       foregroundColor = `${colorProp}Foreground` as Color
     } else if (colorProp && isCapitalised(colorProp)) {
       foregroundColor = 'Background0dp' as Color
+    } else if (!colorProp && light) {
+      foregroundColor = `PrimaryMain`
     } else {
       foregroundColor = 'Background0dp'
     }
@@ -114,6 +116,8 @@ export const Button: FC<ButtonProps> = ({
       hoverColor = `${colorProp}Hover` as Color
     } else if (colorProp && isCapitalised(colorProp)) {
       hoverColor = `${colorProp}Active` as Color
+    } else if (!colorProp && light) {
+      hoverColor = 'PrimaryLightHover'
     } else {
       hoverColor = 'PrimaryMainHover' as Color
     }
