@@ -64,7 +64,7 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          backgroundColor: color('ActionLight'),
+          backgroundColor: color('Greylight'),
           borderRight: `1px solid ${color('OtherDivider')}`,
           flexShrink: 0,
         }}

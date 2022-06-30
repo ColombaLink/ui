@@ -107,7 +107,7 @@ export const Input: FC<
       paddingRight: iconRight ? 36 : 12,
       width: '100%',
       backgroundColor: bg
-        ? color(hover ? 'ActionLightHover' : 'ActionLight')
+        ? color(hover ? 'GreylightHover' : 'Greylight')
         : 'inherit',
     },
     ...focusListeners,
