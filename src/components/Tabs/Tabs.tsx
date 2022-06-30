@@ -40,7 +40,7 @@ export const Tabs: FC<TabsProps> = ({ children, style, space = '0px' }) => {
             marginBottom: spaceToPx(space),
           }}
         >
-          {arrayChildren.map((child: ReactChild, index) => (
+          {arrayChildren.map((child: JSX.Element, index) => (
             <styled.div
               style={{
                 height: 66,
