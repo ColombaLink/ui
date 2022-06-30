@@ -85,12 +85,14 @@ export const Topbar = ({
   selected,
   onFilter,
   onProfile,
+  breadcrumbs,
 }: {
   data?: object
   selected?: string
   prefix?: string
   onFilter?: (params: any) => any
   onProfile?: () => void
+  breadcrumbs?: FC | ReactNode
 }) => {
   const [location] = useLocation()
 
@@ -122,6 +124,9 @@ export const Topbar = ({
         }}
       >
         <Logo style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }} />
+
+        {breadcrumbs}
+
         {Object.keys(data).map((key) => {
           const href = prefix + data[key]
           return (

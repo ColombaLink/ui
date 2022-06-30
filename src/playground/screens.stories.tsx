@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC, useState } from 'react'
 import { RightSidebar } from '~/components/RightSidebar'
+import { Breadcrumbs } from '~/components/Breadcrumbs/Breadcrumbs'
 import {
   Topbar,
   Sidebar,
@@ -29,10 +30,15 @@ import { client } from './shared'
 export const Members = () => (
   <Provider>
     <Topbar
-      data={{
-        Projects: '/',
-        Settings: '/settings',
-      }}
+      breadcrumbs={
+        <Breadcrumbs
+          data={{
+            'Twister Media': '/',
+            'Eurovision 2022': '/Snurky',
+            'Based ui': '/BasedUI',
+          }}
+        ></Breadcrumbs>
+      }
     />
     <div style={{ display: 'flex', flexGrow: 1 }}>
       <Menu

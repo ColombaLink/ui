@@ -42,7 +42,6 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
                 borderRadius: 4,
                 display: 'flex',
                 height: 32,
-                marginBottom: 8,
               }}
             >
               <Text
