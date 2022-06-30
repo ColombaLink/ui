@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Provider } from '~'
-import { Breadcrumbs } from '~/components/Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
 
 export const BreadcrumbsOverview = () => {
   return (

@@ -91,5 +91,3 @@ export const Buttons = ({ icon }) => {
     </>
   )
 }
-
-export const ButtonsWithIcons = () => <Buttons icon={AddIcon} />

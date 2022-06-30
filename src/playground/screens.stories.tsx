@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useState } from 'react'
 import { RightSidebar } from '~/components/RightSidebar'
-import { Breadcrumbs } from '~/components/Breadcrumbs/Breadcrumbs'
+import { Breadcrumbs } from '~/components/Breadcrumbs'
 import {
   Topbar,
   Sidebar,

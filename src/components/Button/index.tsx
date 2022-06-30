@@ -89,7 +89,7 @@ export const Button: FC<ButtonProps> = ({
     if (colorProp && isCapitalised(colorProp) && light) {
       foregroundColor = `${colorProp}Foreground` as Color
     } else if (colorProp && isCapitalised(colorProp)) {
-      foregroundColor = 'Background0dp' as Color
+      foregroundColor = `${colorProp}Foreground` as Color
     } else if (!colorProp && light) {
       foregroundColor = `PrimaryMain`
     } else {
