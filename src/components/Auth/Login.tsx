@@ -1,7 +1,5 @@
-import { Based } from '@based/client'
 import React, { FC, useRef, useState } from 'react'
-import { EmailIcon, GoogleIcon } from '~/icons'
-import { Size } from '~/types'
+import { EmailIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
@@ -15,16 +13,12 @@ const validEmail = (email: string) => {
 }
 
 type LoginProps = {
-  width?: Size
+  width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegister?: (data: any) => void
 }
 
-export const Login: FC<LoginProps> = ({
-  width = '300px',
-  onLogin,
-  onRegister,
-}) => {
+export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
   const [email, setEmail] = useState<string>()
   const [password, setPassword] = useState<string>()
   const [emailValidationMessage, setEmailValidationMessage] =
@@ -42,7 +36,7 @@ export const Login: FC<LoginProps> = ({
       <Text size="32px" space>
         Sign in
       </Text>
-      <Button
+      {/*<Button
         iconLeft={GoogleIcon}
         textAlign="center"
         style={{
@@ -63,7 +57,7 @@ export const Login: FC<LoginProps> = ({
           marginTop: 16,
           marginBottom: 16,
         }}
-      />
+      />*/}
       <Text>Email</Text>
       <Input
         iconLeft={EmailIcon}
@@ -133,7 +127,7 @@ export const Login: FC<LoginProps> = ({
           style={{
             transition: 'transform 0.15s ease-out',
             transform: passwordExpanded
-              ? `translate(-${width}, 0)`
+              ? `translate(-${width}px, 0)`
               : 'translate(0px, 0)',
             justifyContent: 'flex-end',
             height: 48,
@@ -157,7 +151,7 @@ export const Login: FC<LoginProps> = ({
             transition: 'transform 0.15s ease-out',
             transform: passwordExpanded
               ? 'translate(0px, -48px)'
-              : `translate(${width}, -48px)`,
+              : `translate(${width}px, -48px)`,
             justifyContent: 'flex-end',
             height: 48,
             width,
@@ -168,11 +162,12 @@ export const Login: FC<LoginProps> = ({
       </div>
       {onRegister ? (
         <RegisterButton
-          style={{ marginTop: 32, width: 300 }}
+          style={{ marginTop: 32, width }}
           textAlign="center"
           onRegister={(data) => {
             if (typeof onRegister === 'function') onRegister(data)
           }}
+          width={width}
         >
           Register
         </RegisterButton>

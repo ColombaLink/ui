@@ -1,20 +1,22 @@
-import React, { CSSProperties, FC, useRef, useState } from 'react'
-import { Size } from '~/types'
-import { Form } from '../Form'
+import React, { FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button, ButtonProps } from '../Button'
 import { Text } from '../Text'
 import { Dialog, useDialog } from '~'
+import { useClient } from '@based/react'
 
 type RegisterProps = {
-  width?: Size
+  width?: number
   onRegister?: (data: { email: string; password: string; name: string }) => void
 }
 
-export const Register: FC<RegisterProps> = ({
-  width = '300px',
-  onRegister,
-}) => {
+export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
+  const client = useClient()
+  const [email, setEmail] = useState<string>()
+  const [password, setPassword] = useState<string>()
+  const [name, setName] = useState<string>()
+  const [working, setWorking] = useState(false)
+
   return (
     <div
       style={{
@@ -24,47 +26,84 @@ export const Register: FC<RegisterProps> = ({
       <Text size="32px" space>
         Register
       </Text>
-      <Form
-        onSubmit={(res) => {
-          if (typeof onRegister === 'function') {
-            onRegister({
-              email: res.email.value || null,
-              password: res.password.value || null,
-              name: res.name.value || null,
+      <Input
+        name="email"
+        label="Email"
+        placeholder="Enter your email"
+        onChange={(value) => {
+          setEmail(String(value))
+        }}
+      />
+      <Input
+        name="password"
+        label="Password"
+        type="password"
+        placeholder="Enter your password"
+        onChange={(value) => {
+          setPassword(String(value))
+        }}
+      />
+      <Input
+        name="name"
+        label="Name"
+        placeholder="Enter your name"
+        space
+        onChange={(value) => {
+          setName(String(value))
+        }}
+      />
+      <Button
+        disabled={working}
+        loading={working}
+        textAlign="center"
+        style={{ width }}
+        onClick={async () => {
+          setWorking(true)
+          let result: any
+          try {
+            result = await client.call('registerUser', {
+              email,
+              password,
+              name,
+              redirectUrl: window.location.href,
             })
+          } catch (err) {
+            console.error(err)
           }
+          setWorking(false)
+          if (typeof onRegister === 'function') onRegister(result)
         }}
       >
-        <Input name="email" label="Email" placeholder="Enter your email" />
-        <Input
-          name="password"
-          label="Password"
-          type="password"
-          placeholder="Enter your password"
-        />
-        <Input name="name" label="Name" placeholder="Enter your name" space />
-        <Button>Register</Button>
-      </Form>
+        Register
+      </Button>
     </div>
   )
 }
 
 type RegisterButtonProps = {
   onRegister?: (data: { email: string; password: string; name: string }) => void
+  width?: number
 } & ButtonProps
 
 export const RegisterButton: FC<RegisterButtonProps> = ({
   children,
   onRegister,
+  width,
   ...props
 }) => {
   const dialog = useDialog()
   return (
     <Button
       onClick={() => {
-        dialog.open(
-          <Dialog>
-            <Register onRegister={onRegister} />
+        const id = dialog.open(
+          <Dialog style={{ width: width + 48 }}>
+            <Register
+              onRegister={async (data) => {
+                dialog.close(id)
+                if (typeof onRegister === 'function') onRegister(data)
+              }}
+              width={width}
+            />
           </Dialog>
         )
       }}
