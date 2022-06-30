@@ -9,11 +9,18 @@ import { color as c, renderOrCreateElement, spaceToPx } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space } from '~/types'
+import { Space, Color } from '~/types'
+import { isCapitalised } from '~/utils/isCapitalised'
 
 export type ButtonProps = {
   children?: ReactNode
   disabled?: boolean
+
+  color?: Color
+  backgroundColor?: Color
+  foregroundColor?: Color
+  outlineColor?: Color
+  hoverColor?: Color
 
   ghost?: boolean
   iconLeft?: FC | ReactNode
@@ -31,6 +38,12 @@ export const Button: FC<ButtonProps> = ({
   children,
   disabled,
 
+  color: colorProp,
+  backgroundColor,
+  foregroundColor,
+  outlineColor,
+  hoverColor,
+
   ghost,
   iconLeft,
   iconRight,
@@ -43,25 +56,73 @@ export const Button: FC<ButtonProps> = ({
   textAlign,
 }) => {
   const [isLoading, setIsLoading] = useState(false)
-  const colorBase = 'Primary'
-  let color, bg, borderColor, hoverBg
+  // const colorBase = 'Primary'
+  // let color, bg, borderColor, hoverBg
+
+  // if (ghost) {
+  //   color = `${colorBase}Main`
+  //   hoverBg = `${colorBase}LightHover`
+  // } else if (outline) {
+  //   color = `${colorBase}Main`
+  //   borderColor = light ? `${colorBase}LightOutline` : `${colorBase}MainOutline`
+  //   bg = `${colorBase}Light`
+  //   hoverBg = `${bg}Hover`
+  // } else if (light) {
+  //   bg = `${colorBase}Light`
+  //   color = `${bg}Contrast`
+  //   hoverBg = `${bg}Hover`
+  // } else {
+  //   bg = `${colorBase}Main`
+  //   color = `${colorBase}MainContrast`
+  //   hoverBg = `${bg}Hover`
+  // }
+
+  if (!backgroundColor) {
+    if (colorProp && isCapitalised(colorProp) && light) {
+      backgroundColor = `${colorProp}Accent` as Color
+    } else if (colorProp && isCapitalised(colorProp)) {
+      backgroundColor = `${colorProp}` as Color
+    } else if (!colorProp && light) {
+      backgroundColor = 'PrimaryLightAccent'
+    } else {
+      backgroundColor = 'PrimaryMain'
+    }
+  }
+
+  if (!foregroundColor) {
+    if (colorProp && isCapitalised(colorProp) && light) {
+      foregroundColor = `${colorProp}Foreground` as Color
+    } else if (colorProp && isCapitalised(colorProp)) {
+      foregroundColor = 'Background0dp' as Color
+    } else {
+      foregroundColor = 'Background0dp'
+    }
+  }
+
+  if (!outlineColor) {
+    if (colorProp && isCapitalised(colorProp) && ghost) {
+      outlineColor = 'OtherDivider'
+    } else if (colorProp && isCapitalised(colorProp)) {
+      outlineColor = `${colorProp}` as Color
+    } else {
+      outlineColor = 'OtherDivider'
+    }
+  }
+
+  if (!hoverColor) {
+    if (colorProp && isCapitalised(colorProp) && light) {
+      hoverColor = `${colorProp}Hover` as Color
+    } else if (colorProp && isCapitalised(colorProp)) {
+      hoverColor = `${colorProp}Active` as Color
+    } else {
+      hoverColor = 'PrimaryMainHover' as Color
+    }
+  }
 
   if (ghost) {
-    color = `${colorBase}Main`
-    hoverBg = `${colorBase}LightHover`
-  } else if (outline) {
-    color = `${colorBase}Main`
-    borderColor = light ? `${colorBase}LightOutline` : `${colorBase}MainOutline`
-    bg = `${colorBase}Light`
-    hoverBg = `${bg}Hover`
-  } else if (light) {
-    bg = `${colorBase}Light`
-    color = `${bg}Contrast`
-    hoverBg = `${bg}Hover`
-  } else {
-    bg = `${colorBase}Main`
-    color = `${colorBase}MainContrast`
-    hoverBg = `${bg}Hover`
+    backgroundColor = 'Transparent'
+    foregroundColor = 'TextSecondary' as Color
+    hoverColor = 'Transparent'
   }
 
   if (onClick) {
@@ -109,14 +170,15 @@ export const Button: FC<ButtonProps> = ({
       style={{
         transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
         padding: '4px 8px',
-        color: c(color),
-        backgroundColor: c(bg),
-        border: `1px solid ${borderColor ? c(borderColor) : 'transparent'}`,
+        color: c(foregroundColor),
+        backgroundColor: c(backgroundColor),
+        border: outline ? `1px solid ${c(outlineColor)}` : 'none',
         borderRadius: 4,
         opacity: disabled ? 0.6 : 1,
         position: 'relative',
         '&:hover': {
-          backgroundColor: c(hoverBg),
+          backgroundColor: c(hoverColor),
+          color: ghost ? c('TextPrimary') : c(foregroundColor),
         },
         ...(space
           ? {
@@ -142,11 +204,13 @@ export const Button: FC<ButtonProps> = ({
         {iconLeft &&
           renderOrCreateElement(iconLeft, {
             style: children || iconRight ? { marginRight: 8 } : null,
+            color: c(foregroundColor),
           })}
         <Text color="inherit">{children}</Text>
         {iconRight &&
           renderOrCreateElement(iconRight, {
             style: children || iconLeft ? { marginLeft: 8 } : null,
+            color: c(foregroundColor),
           })}
       </div>
       {loading && (

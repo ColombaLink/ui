@@ -132,7 +132,7 @@ export const theme = {
     PrimaryMainSelected: '#5A6BDF',
     PrimaryMainContrast: 'rgba(15,16,19, 1)',
     PrimaryMainContrastSecondary: 'rgba(15,16,19, 0.60)',
-    PrimaryLight: 'rgba(131,145,237, 0.12)',
+    PrimaryLightAccent: 'rgba(131,145,237, 0.12)',
     PrimaryLightHover: 'rgba(131,145,237, 0.16)',
     PrimaryLightSelected: 'rgba(131,145,237, 0.20)',
     PrimaryLightContrast: '#8391ED',

@@ -42,7 +42,9 @@ export const AccordionItem: FC<AccordionItemProps> = ({
     >
       <div
         style={{
-          backgroundColor: open ? color('PrimaryLight') : color('Greylight'),
+          backgroundColor: open
+            ? color('PrimaryLightAccent')
+            : color('Greylight'),
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',

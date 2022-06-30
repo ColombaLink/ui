@@ -55,7 +55,7 @@ export type Color =
   | 'PrimaryMainSelected'
   | 'PrimaryMainContrast'
   | 'PrimaryMainContrastSecondary'
-  | 'PrimaryLight'
+  | 'PrimaryLightAccent'
   | 'PrimaryLightHover'
   | 'PrimaryLightSelected'
   | 'PrimaryLightContrast'

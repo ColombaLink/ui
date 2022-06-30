@@ -37,7 +37,7 @@ export const Callout: FC<CalloutProps> = ({
     if (colorProp && isCapitalised(colorProp)) {
       backgroundColor = `${colorProp}Accent` as Color
     } else {
-      backgroundColor = 'PrimaryLight'
+      backgroundColor = 'PrimaryLightAccent'
     }
   }
 

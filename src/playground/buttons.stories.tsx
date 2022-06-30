@@ -1,5 +1,5 @@
 import React from 'react'
-import { AddIcon, Button, Text } from '~'
+import { AddIcon, LightModeIcon, DarkModeIcon, Button, Text } from '~'
 import { styled } from 'inlines'
 
 export const Buttons = ({ icon }) => {
@@ -13,93 +13,65 @@ export const Buttons = ({ icon }) => {
   }
   return (
     <>
-      {colors.map((color) => {
-        const states = [null, 'disabled']
-        return (
-          <div key={color} style={{ marginBottom: 24 }}>
-            <Text weight={600}>{color}</Text>
-            {states.map((state) => {
-              const disabled = state === 'disabled'
+      <Button>Primary</Button>
+      <br />
+      <Button light>Light</Button>
+      <br />
+      <Button color="Red">Red</Button>
+      <br />
+      <Button color="Red" light>
+        Red light
+      </Button>
+      <br />
+      <Button color="Green" light outline>
+        Outline light
+      </Button>
+      <br />
+      <Button color="Red" light outline foregroundColor="Red">
+        Outline light color Red ForegroundColor Red
+      </Button>
+      <br />
+      <Button ghost outline>
+        Ghost outline
+      </Button>
+      <br />
+      <Button color="Orange" iconLeft={LightModeIcon}>
+        Orange
+      </Button>
+      <br />
+      <Button color="Greydark" iconRight={DarkModeIcon}>
+        Grey Dark
+      </Button>
+      <br />
+      <Button
+        outline
+        //  color="Greydark"
+        outlineColor="Teal"
+        backgroundColor="MustardAccent"
+        foregroundColor="Red"
+        hoverColor="PurpleDark"
+        iconLeft={AddIcon({ color: 'Blue500', style: { marginRight: 8 } })}
+        iconRight={LightModeIcon}
+      >
+        Custom Colors
+      </Button>
+      <br />
 
-              return (
-                <styled.div
-                  key={state}
-                  style={{
-                    display: 'flex',
-                    margin: '0 -8px',
-                    alignItems: 'center',
-                    '& > *': {
-                      margin: '8px',
-                    },
-                  }}
-                >
-                  <Text style={{ width: 100 }}>{state}</Text>
-                  <Button
-                    iconLeft={icon}
-                    disabled={disabled}
-                    onClick={loadClick}
-                  >
-                    {color}
-                  </Button>
-                  <Button
-                    iconLeft={icon}
-                    disabled={disabled}
-                    light
-                    onClick={errorClick}
-                  >
-                    {color} Light
-                  </Button>
-                  <Button iconLeft={icon} disabled={disabled} ghost>
-                    {color} Ghost
-                  </Button>
-                  <Button iconLeft={icon} disabled={disabled} outline>
-                    {color} Outline
-                  </Button>
-                  <Button
-                    iconLeft={icon}
-                    iconRight={icon}
-                    disabled={disabled}
-                    outline
-                    light
-                  >
-                    {color} Outline Light
-                  </Button>
-                  <Button
-                    iconLeft={icon}
-                    iconRight={icon}
-                    disabled={disabled}
-                    outline
-                    light
-                    loading
-                  >
-                    {color} Outline Light
-                  </Button>
-                </styled.div>
-              )
-            })}
-          </div>
-        )
-      })}
-      <div>
-        <Button
-          action
-          space
-          textAlign="center"
-          style={{ width: 250, justifyContent: 'center' }}
-        >
-          textAlign 'center'
-        </Button>
-        <Button
-          textAlign="right"
-          space
-          style={{ width: 250, justifyContent: 'center' }}
-        >
-          textAlign 'right'
-        </Button>
-        <Button error space style={{ width: 250, justifyContent: 'center' }}>
-          Custom width
-        </Button>
-      </div>
+      <Button
+        color="GreenForest"
+        textAlign="center"
+        style={{ width: 250, justifyContent: 'center' }}
+      >
+        textAlign 'center'
+      </Button>
+      <br />
+      <Button
+        textAlign="right"
+        space
+        style={{ width: 250, justifyContent: 'center' }}
+      >
+        textAlign 'right'
+      </Button>
     </>
   )
 }
