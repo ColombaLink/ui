@@ -64,8 +64,7 @@ export const Callout: FC<CalloutProps> = ({
   return (
     <div
       style={{
-        border:
-          outline || outlineColor ? `1px solid ${color(outlineColor)}` : null,
+        border: outline ? `1px solid ${color(outlineColor)}` : null,
         backgroundColor: color(backgroundColor),
         display: 'flex',
         alignItems: 'center',

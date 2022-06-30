@@ -1,30 +1,40 @@
 import React from 'react'
 import { Provider } from '~'
 import { Badge } from '~/components/Badge'
-import { AddIcon, CloseIcon, DotIcon } from '~/icons'
+import { AddIcon, CheckCircleIcon, CloseIcon, DotIcon } from '~/icons'
 
 export const Badges = () => {
   return (
     <Provider>
       <Badge>Badge</Badge>
       <br />
-      <Badge light>Light</Badge>
+      <Badge color="Orange">Light</Badge>
       <br />
-      <Badge ghost>Ghost</Badge>
+      <Badge backgroundColor="PurpleDark" foregroundColor="WhiteWhite100">
+        Snurpy
+      </Badge>
       <br />
       <Badge ghost outline>
         Ghost Outline
       </Badge>
       <br />
 
-      <Badge iconLeft={<DotIcon color="AccentGreenForest" size={10} />}>
-        Icon Left
+      <Badge iconLeft={DotIcon}>Icon Left</Badge>
+      <br />
+      <Badge color="PurpleDark" iconRight={CloseIcon}>
+        Icon Right
       </Badge>
       <br />
-      <Badge iconRight={<CloseIcon color="Background0dp" />}>Icon Right</Badge>
-      <br />
 
-      <Badge outline>Outline</Badge>
+      <Badge
+        outline
+        outlineColor="Green"
+        color="PurpleBright"
+        foregroundColor="Red"
+        iconRight={CheckCircleIcon({ color: 'Blue500' })}
+      >
+        Outline
+      </Badge>
       <br />
       <Badge boxed>Boxed</Badge>
       <br />
@@ -36,22 +46,15 @@ export const Badges = () => {
         outline ghost iconleft
       </Badge>
       <br />
-      <Badge
-        boxed
-        outline
-        ghost
-        iconRight={<DotIcon size={10} color="AccentPurpleBright" />}
-      >
+      <Badge boxed outline ghost iconRight={CheckCircleIcon}>
         Boxed
       </Badge>
       <br />
-      <Badge action>Action</Badge>
+      <Badge>Action</Badge>
       <br />
-      <Badge action light>
-        Action Light
-      </Badge>
+      <Badge color="Pink">Action Light</Badge>
       <br />
-      <Badge action light boxed outline>
+      <Badge boxed outline>
         Action Light boxed outline
       </Badge>
       <br />

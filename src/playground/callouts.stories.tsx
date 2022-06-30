@@ -30,7 +30,7 @@ export const Callouts = () => {
       <Callout space outline style={{ maxWidth: 540 }}>
         Warning: This component has an outline. and max width
       </Callout>
-      <Callout space outline iconLeft={ErrorIcon({ color: 'PurpleBright' })}>
+      <Callout space iconLeft={ErrorIcon({ color: 'PurpleBright' })}>
         Warning: This component has an iconLeft.
       </Callout>
 

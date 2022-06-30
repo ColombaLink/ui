@@ -1,6 +1,9 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { color, renderOrCreateElement } from '~/utils'
+import { Color } from '~/types'
 import { Text } from '../Text'
+import { isCapitalised } from '~/utils/isCapitalised'
+import { styled } from 'inlines'
 
 type BadgeProps = {
   children: ReactNode
@@ -8,7 +11,10 @@ type BadgeProps = {
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean
-  light?: boolean
+  color?: Color
+  backgroundColor?: Color
+  foregroundColor?: Color
+  outlineColor?: Color
   boxed?: boolean
   ghost?: boolean
 }
@@ -19,12 +25,43 @@ export const Badge: FC<BadgeProps> = ({
   iconRight,
   style,
   outline,
-  light,
+  color: colorProp,
+  backgroundColor,
+  foregroundColor,
+  outlineColor,
   boxed,
   ghost,
 }) => {
+  if (!backgroundColor) {
+    if (colorProp && isCapitalised(colorProp)) {
+      backgroundColor = `${colorProp}Accent` as Color
+    } else {
+      backgroundColor = 'PrimaryLight'
+    }
+  }
+
+  if (!foregroundColor) {
+    if (colorProp && isCapitalised(colorProp)) {
+      foregroundColor = `${colorProp}Foreground` as Color
+    } else {
+      foregroundColor = 'TextPrimary'
+    }
+  }
+
+  if (!outlineColor) {
+    if (colorProp && isCapitalised(colorProp)) {
+      outlineColor = `${colorProp}Active` as Color
+    } else {
+      outlineColor = 'OtherDivider'
+    }
+  }
+
+  if (ghost) {
+    backgroundColor = 'Transparent'
+  }
+
   return (
-    <div
+    <styled.div
       style={{
         padding: '0 8px',
         borderRadius: boxed ? 4 : 12,
@@ -32,10 +69,9 @@ export const Badge: FC<BadgeProps> = ({
         maxWidth: 'fit-content',
         display: 'flex',
         alignItems: 'center',
-        border: outline ? `1px solid ${color('OtherDivider')}` : null,
-        backgroundColor: ghost
-          ? null
-          : color(light ? 'PrimaryLight' : 'PrimaryMain'),
+        position: 'relative',
+        border: outline ? `1px solid ${color(outlineColor)}` : null,
+        backgroundColor: color(backgroundColor),
 
         ...style,
       }}
@@ -44,27 +80,21 @@ export const Badge: FC<BadgeProps> = ({
         <div style={{ marginRight: 8 }}>
           {renderOrCreateElement(iconLeft, {
             size: 10,
-            color: color('GreenForestAccent'),
+            color: color(colorProp),
           })}
         </div>
       )}
-      <Text
-        size="12px"
-        color={
-          outline || ghost
-            ? null
-            : light
-            ? 'PrimaryLightContrast'
-            : 'PrimaryMainContrast'
-        }
-      >
+      <Text size="12px" color={color(foregroundColor)}>
         {children}
       </Text>
       {iconRight && (
         <div style={{ marginLeft: 8 }}>
-          {renderOrCreateElement(iconRight, { size: 10 })}
+          {renderOrCreateElement(iconRight, {
+            size: 10,
+            color: color(colorProp),
+          })}
         </div>
       )}
-    </div>
+    </styled.div>
   )
 }
