@@ -1,16 +1,22 @@
-import React, { FC, ReactNode, CSSProperties, useState } from 'react'
+import React, {
+  FC,
+  ReactNode,
+  CSSProperties,
+  useState,
+  ReactChild,
+} from 'react'
 import { color, spaceToPx, font } from '~/utils'
 import { styled } from 'inlines'
 import { Space } from '~/types'
 
 type TabsProps = {
-  children?: FC | ReactNode
+  children?: FC | ReactNode | ReactChild
   style?: CSSProperties
   space?: Space
 }
 
 export const Tabs: FC<TabsProps> = ({ children, style, space = '0px' }) => {
-  const arrayChildren = React.Children.toArray(children)
+  const arrayChildren: Object[] = React.Children.toArray(children)
 
   const [activeTab, setActiveTab] = useState(0)
 
@@ -34,7 +40,7 @@ export const Tabs: FC<TabsProps> = ({ children, style, space = '0px' }) => {
             marginBottom: spaceToPx(space),
           }}
         >
-          {arrayChildren.map((child, index) => (
+          {arrayChildren.map((child: ReactChild, index) => (
             <styled.div
               style={{
                 height: 66,
