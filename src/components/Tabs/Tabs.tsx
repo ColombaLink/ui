@@ -1,25 +1,18 @@
 import React, { FC, ReactNode, CSSProperties, useState } from 'react'
-import { color, font } from '~/utils'
+import { color, spaceToPx, font } from '~/utils'
 import { styled } from 'inlines'
-import { Text } from '../Text'
+import { Space } from '~/types'
 
 type TabsProps = {
   children?: FC | ReactNode
   style?: CSSProperties
-  isActive?: boolean
+  space?: Space
 }
 
-export const Tabs: FC<TabsProps> = ({ children, style, isActive }) => {
-  const [activeTab, setActiveTab] = useState(null)
-
+export const Tabs: FC<TabsProps> = ({ children, style, space = '0px' }) => {
   const arrayChildren = React.Children.toArray(children)
 
-  console.log(arrayChildren)
-
-  const activeTabHandler = (index: number) => {
-    console.log('On click =>', index)
-    console.log('dat is: ', arrayChildren[index].props.title)
-  }
+  const [activeTab, setActiveTab] = useState(0)
 
   return (
     <>
@@ -27,60 +20,50 @@ export const Tabs: FC<TabsProps> = ({ children, style, isActive }) => {
         style={{
           position: 'relative',
           height: '100%',
-          marginLeft: 32,
+
+          ...style,
         }}
       >
         <div
-          //href={href}
           style={{
             height: 66,
             marginTop: 20,
             alignItems: 'center',
             display: 'flex',
+            borderBottom: `1px solid ${color('OtherDivider')}`,
+            marginBottom: spaceToPx(space),
           }}
         >
           {arrayChildren.map((child, index) => (
             <styled.div
               style={{
                 height: 66,
-                borderRadius: 4,
+                borderTopRightRadius: 4,
+                borderTopLeftRadius: 4,
                 padding: '12px 24px',
                 display: 'flex',
                 alignItems: 'center',
-                backgroundColor: 'yellow',
+
                 '&:hover': {
                   backgroundColor: color('PrimaryLightHover'),
+                  cursor: 'pointer',
                 },
                 borderBottom: `3px solid ${
-                  isActive ? color('TextPrimary') : 'transparent'
+                  index === activeTab ? color('TextPrimary') : 'transparent'
                 }`,
-                ...(isActive
+                ...(index === activeTab
                   ? font(15, 'TextPrimary', 600)
                   : font(15, 'TextSecondary')),
               }}
+              onClick={() => setActiveTab(index)}
+              key={index}
             >
-              <div key={index} onClick={(child) => activeTabHandler(index)}>
-                {child.props.title}
-              </div>
+              {child.props.title}
             </styled.div>
           ))}
         </div>
 
-        <div>
-          {/* filter the active id */}
-          {arrayChildren
-            .filter((child) => child.props.isActive)
-            .map(
-              (filteredTab) => (
-                console.log(filteredTab),
-                (
-                  <div key={filteredTab.props.title}>
-                    {filteredTab.props.children}
-                  </div>
-                )
-              )
-            )}
-        </div>
+        <div>{children[activeTab]}</div>
       </div>
     </>
   )

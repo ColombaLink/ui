@@ -6,7 +6,7 @@ export type Size = `${SizeInt}px` | SizeInt
 type WeightInt = 400 | 500 | 600 | 700
 export type Weight = WeightInt | `${WeightInt}`
 
-type SpaceInt = 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32
+type SpaceInt = 0 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32
 export type Space = SpaceInt | `${SpaceInt}px` | true
 
 type AvatarSizeInt = 32 | 36 | 40 | 64

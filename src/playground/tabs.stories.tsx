@@ -1,15 +1,20 @@
 import React from 'react'
 import { Tabs, Tab } from '~/components/Tabs'
-import { Provider } from '~'
+import { Provider, Container, Text } from '~'
 
 export const TabsOverview = () => {
   return (
     <Provider>
-      <Tabs>
-        <Tab title="Tab 1">Hello</Tab>
-        <Tab title="Tab 2" isActive>
-          Goodbye
+      <Tabs space>
+        <Tab title="Snurky">
+          <Container>
+            <Text>Container Text</Text>
+          </Container>
         </Tab>
+        <Tab title="Snorkles">
+          <Text>Text</Text>
+        </Tab>
+        <Tab title="Snark"></Tab>
       </Tabs>
     </Provider>
   )
