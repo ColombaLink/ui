@@ -7,14 +7,16 @@ export const TabsOverview = () => {
     <Provider>
       <Tabs space>
         <Tab title="Snurky">
+          <Text>Text 1</Text>
+        </Tab>
+        <Tab title="Snorkles">
+          <Text>Text 2</Text>
+        </Tab>
+        <Tab title="Snark">
           <Container>
             <Text>Container Text</Text>
           </Container>
         </Tab>
-        <Tab title="Snorkles">
-          <Text>Text</Text>
-        </Tab>
-        <Tab title="Snark"></Tab>
       </Tabs>
     </Provider>
   )

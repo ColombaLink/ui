@@ -166,7 +166,7 @@ export type Color =
   | (CSSColorValue & {})
 
 export type Icon = SVGProps<SVGSVGElement> & {
-  color?: Color
+  color?: Color | string
   size?: number
 }
 
