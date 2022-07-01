@@ -99,7 +99,7 @@ export const RegisterButton: FC<RegisterButtonProps> = ({
   const dialog = useDialog()
   return (
     <Button
-      ghost
+      textAlign="center"
       onClick={() => {
         const id = dialog.open(
           <Dialog style={{ width: width + 48, padding: 24, paddingTop: 12 }}>

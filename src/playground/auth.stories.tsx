@@ -34,7 +34,7 @@ import { Logo } from '~/components/Topbar/Logo'
 //   )
 // }
 
-export const LoginRegister = () => {
+export const Auth = () => {
   return (
     <Provider client={client}>
       <Container style={{ width: 388 }}>
@@ -46,7 +46,7 @@ export const LoginRegister = () => {
             minWidth: 40,
           }}
         />
-        <Tabs space>
+        <Tabs space small>
           <Tab title="Login">
             <Login />
           </Tab>
@@ -56,17 +56,24 @@ export const LoginRegister = () => {
                 console.log({ data })
               }}
             />
-            <RegisterButton
-              style={{ marginTop: 16, width: 300 }}
-              onRegister={(data) => {
-                console.log({ data })
-              }}
-            >
-              Open in Dialog?
-            </RegisterButton>
           </Tab>
         </Tabs>
       </Container>
+    </Provider>
+  )
+}
+
+export const RegisterEmbedded = () => {
+  return (
+    <Provider client={client}>
+      <RegisterButton
+        style={{ marginTop: 16, width: 164 }}
+        onRegister={(data) => {
+          console.log({ data })
+        }}
+      >
+        Open in Dialog?
+      </RegisterButton>
     </Provider>
   )
 }
