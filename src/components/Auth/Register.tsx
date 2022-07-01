@@ -93,7 +93,7 @@ type RegisterButtonProps = {
 export const RegisterButton: FC<RegisterButtonProps> = ({
   children,
   onRegister,
-  width,
+  width = 300,
   ...props
 }) => {
   const dialog = useDialog()

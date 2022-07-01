@@ -18,6 +18,8 @@ type LoginProps = {
   onRegister?: (data: any) => void
 }
 
+// TODO: make width dynamic.
+// width is needed for button anymation
 export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
   const [email, setEmail] = useState<string>()
   const [password, setPassword] = useState<string>()
