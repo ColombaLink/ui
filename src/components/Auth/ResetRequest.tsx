@@ -4,13 +4,20 @@ import { Button } from '../Button'
 import { Text } from '../Text'
 import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
+import { styled } from 'inlines'
+import { color } from '~/utils'
 
 type ResetRequestProps = {
   onSuccess?: () => void
+  onCancel?: () => void
   style?: CSSProperties
 }
 
-export const ResetRequest: FC<ResetRequestProps> = ({ onSuccess, style }) => {
+export const ResetRequest: FC<ResetRequestProps> = ({
+  onSuccess,
+  onCancel,
+  style,
+}) => {
   const client = useClient()
   const [email, setEmail] = useState<string>()
   const [working, setWorking] = useState(false)
@@ -39,6 +46,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({ onSuccess, style }) => {
             textAlign="center"
             style={{
               width: '100%',
+              height: 48,
             }}
             onClick={async () => {
               setWorking(true)
@@ -58,6 +66,21 @@ export const ResetRequest: FC<ResetRequestProps> = ({ onSuccess, style }) => {
           >
             Request Password Reset
           </Button>
+          {onCancel ? (
+            <div style={{ marginTop: 24, textAlign: 'center' }}>
+              <styled.a
+                style={{
+                  color: color('TextSecondary'),
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  if (typeof onCancel === 'function') onCancel()
+                }}
+              >
+                Cancel
+              </styled.a>
+            </div>
+          ) : null}
         </>
       ) : (
         <>

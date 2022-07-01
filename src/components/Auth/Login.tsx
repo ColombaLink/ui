@@ -176,9 +176,9 @@ export const Login: FC<LoginProps> = ({
         <styled.a
           style={{
             color: color('PrimaryMain'),
+            cursor: 'pointer',
             '&:hover': {
               color: color('PrimaryMainHover'),
-              cursor: 'pointer',
             },
           }}
           onClick={() => {

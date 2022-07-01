@@ -64,6 +64,9 @@ export const Auth: FC<AuthProps> = ({
               setShowResetRequest(false)
               if (typeof onResetRequest === 'function') onResetRequest()
             }}
+            onCancel={() => {
+              setShowResetRequest(false)
+            }}
           />
         )}
       </Container>
