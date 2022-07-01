@@ -1,6 +1,7 @@
 import React from 'react'
 import { AddIcon, LightModeIcon, DarkModeIcon, Button, Text } from '~'
 import { styled } from 'inlines'
+import wait from '~/utils/wait'
 
 export const Buttons = ({ icon }) => {
   const colors = ['Primary']
@@ -19,7 +20,17 @@ export const Buttons = ({ icon }) => {
       <br />
       <Button ghost>Ghost</Button>
       <br />
+      <Button
+        onClick={async () => {
+          await wait(1000)
+          throw new Error('error loading async')
+        }}
+      >
+        Async button
+      </Button>
+      <br />
       <Button loading>Loading</Button>
+
       <br />
       <Button color="Red">Red</Button>
       <br />

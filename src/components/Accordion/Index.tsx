@@ -72,6 +72,8 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           display: open ? 'block' : 'none',
           marginBottom: 24,
           marginTop: 24,
+          paddingLeft: 16,
+          paddingRight: 16,
         }}
       >
         {children}
