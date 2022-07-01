@@ -7,12 +7,12 @@ import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
 import { Logo } from '../Topbar/Logo'
 
-type RequestResetPassword = {
+type RequestResetPasswordProps = {
   width?: number
   onSuccess?: () => void
 }
 
-export const RequestResetPassword: FC<RequestResetPassword> = ({
+export const RequestResetPassword: FC<RequestResetPasswordProps> = ({
   onSuccess,
 }) => {
   const client = useClient()

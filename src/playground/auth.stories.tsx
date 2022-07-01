@@ -1,11 +1,6 @@
 import React from 'react'
 import { Provider } from '~'
-import {
-  Login,
-  Register,
-  RegisterButton,
-  RequestResetPassword as RequestResetPasswordComponent,
-} from '~/components/Auth'
+import { Auth, RegisterButton, RequestResetPassword } from '~/components/Auth'
 import { Tabs, Tab } from '~/components/Tabs'
 import { Container } from '~'
 import { client } from './shared'
@@ -39,7 +34,7 @@ import { Logo } from '~/components/Topbar/Logo'
 //   )
 // }
 
-export const Auth = () => {
+export const AuthEmbedded = () => {
   return (
     <Provider client={client}>
       <Container style={{ width: 388 }}>
@@ -51,18 +46,17 @@ export const Auth = () => {
             minWidth: 40,
           }}
         />
-        <Tabs space small>
-          <Tab title="Login">
-            <Login />
-          </Tab>
-          <Tab title="Register">
-            <Register
-              onRegister={(data) => {
-                console.log({ data })
-              }}
-            />
-          </Tab>
-        </Tabs>
+        <Auth
+          onLogin={(result) => {
+            console.log('Did login', { result })
+          }}
+          onRegister={(result) => {
+            console.log('Did register', { result })
+          }}
+          onRequestResetPassword={() => {
+            console.log('Did register')
+          }}
+        />
       </Container>
     </Provider>
   )
@@ -83,7 +77,7 @@ export const RegisterEmbedded = () => {
   )
 }
 
-export const RequestResetPassword = () => {
+export const RequestResetPasswordEmbedded = () => {
   return (
     <Provider client={client}>
       <Container style={{ width: 388 }}>
@@ -94,7 +88,7 @@ export const RequestResetPassword = () => {
             minWidth: 40,
           }}
         />
-        <RequestResetPasswordComponent />
+        <RequestResetPassword />
       </Container>
     </Provider>
   )
