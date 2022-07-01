@@ -40,7 +40,7 @@ export const Auth = () => {
       <Container style={{ width: 388 }}>
         <Logo
           style={{
-            marginBottom: -20,
+            marginBottom: -12,
             marginLeft: -8,
             minHeight: 40,
             minWidth: 40,
