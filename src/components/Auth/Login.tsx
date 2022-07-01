@@ -85,7 +85,9 @@ export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
           marginBottom: 16,
         }}
       >
-        <Text>{emailValidationMessage}</Text>
+        <Text color="Reddish" size="14px">
+          {emailValidationMessage}
+        </Text>
       </div>
       <div
         style={{
@@ -117,7 +119,7 @@ export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
               setEmailValidationMessage(null)
               setPasswordExpanded(true)
             } else {
-              setEmailValidationMessage('Enter an Email address')
+              setEmailValidationMessage('Enter a valid email address')
             }
           }}
           textAlign="center"
