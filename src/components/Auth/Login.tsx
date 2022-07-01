@@ -1,10 +1,12 @@
 import React, { FC, useRef, useState } from 'react'
 import { EmailIcon } from '~/icons'
-import { Button } from '../Button'
+import { Button, ButtonProps } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
 import { useClient } from '@based/react'
-import { RegisterButton } from '~'
+import { color, Dialog, Link, RegisterButton, useDialog } from '~'
+import { Logo } from '../Topbar/Logo'
+import { styled } from 'inlines'
 
 const validEmail = (email: string) => {
   const re =
@@ -16,11 +18,17 @@ type LoginProps = {
   width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegister?: (data: any) => void
+  onResetRequest?: () => void
 }
 
 // TODO: make width dynamic.
 // width is needed for button anymation
-export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
+export const Login: FC<LoginProps> = ({
+  width = 300,
+  onLogin,
+  onRegister,
+  onResetRequest,
+}) => {
   const [email, setEmail] = useState<string>()
   const [password, setPassword] = useState<string>()
   const [emailValidationMessage, setEmailValidationMessage] =
@@ -113,6 +121,8 @@ export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
       <div
         style={{
           overflow: 'hidden',
+          height: 48,
+          marginBottom: 24,
         }}
       >
         <Button
@@ -161,18 +171,66 @@ export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
           Sign in with your password
         </Button>
       </div>
-      {onRegister ? (
-        <RegisterButton
-          style={{ marginTop: 32, width }}
-          textAlign="center"
-          onRegister={(data) => {
-            if (typeof onRegister === 'function') onRegister(data)
+      <Text>
+        Forgot your password?{' '}
+        <styled.a
+          style={{
+            color: color('PrimaryMain'),
+            '&:hover': {
+              color: color('PrimaryMainHover'),
+              cursor: 'pointer',
+            },
           }}
-          width={width}
+          onClick={() => {
+            if (typeof onResetRequest === 'function') onResetRequest()
+          }}
         >
-          Register
-        </RegisterButton>
-      ) : null}
+          Reset Password
+        </styled.a>
+      </Text>
     </div>
+  )
+}
+
+type LoginButtonProps = {
+  onLogin?: (props: { token: string; refreshToken: string }) => void
+  width?: number
+} & ButtonProps
+
+export const LoginButton: FC<LoginButtonProps> = ({
+  children,
+  onLogin,
+  width = 300,
+  ...props
+}) => {
+  const dialog = useDialog()
+  return (
+    <Button
+      textAlign="center"
+      onClick={() => {
+        const id = dialog.open(
+          <Dialog style={{ width: width + 48, padding: 24, paddingTop: 12 }}>
+            <Logo
+              style={{
+                minHeight: 40,
+                minWidth: 40,
+                marginLeft: -8,
+                marginBottom: 12,
+              }}
+            />
+            <Login
+              onLogin={async (data) => {
+                dialog.close(id)
+                if (typeof onLogin === 'function') onLogin(data)
+              }}
+              width={width}
+            />
+          </Dialog>
+        )
+      }}
+      {...props}
+    >
+      {children}
+    </Button>
   )
 }

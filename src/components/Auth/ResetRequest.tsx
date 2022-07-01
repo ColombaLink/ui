@@ -1,32 +1,29 @@
-import React, { FC, useState } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button, ButtonProps } from '../Button'
 import { Text } from '../Text'
-import { Dialog, useDialog } from '~'
 import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
 import { Logo } from '../Topbar/Logo'
 
-type RequestResetPasswordProps = {
-  width?: number
+type ResetRequestProps = {
   onSuccess?: () => void
+  style?: CSSProperties
 }
 
-export const RequestResetPassword: FC<RequestResetPasswordProps> = ({
-  onSuccess,
-}) => {
+export const ResetRequest: FC<ResetRequestProps> = ({ onSuccess, style }) => {
   const client = useClient()
   const [email, setEmail] = useState<string>()
   const [working, setWorking] = useState(false)
   const [emailSent, setEmailSent] = useState(false)
 
   return (
-    <div>
+    <div style={style}>
       {!emailSent ? (
         <>
           <Text wrap space>
-            If your account exists, will receive an email with a link to reset
-            your password.
+            Request a Password Reset. If your account exists, will receive an
+            email with a link to reset your password.
           </Text>
           <Input
             space="16px"

@@ -1,6 +1,13 @@
 import React from 'react'
 import { Provider } from '~'
-import { Auth, RegisterButton, RequestResetPassword } from '~/components/Auth'
+import {
+  Auth,
+  Login,
+  LoginButton,
+  Register,
+  RegisterButton,
+  ResetRequest,
+} from '~/components/Auth'
 import { Tabs, Tab } from '~/components/Tabs'
 import { Container } from '~'
 import { client } from './shared'
@@ -34,37 +41,49 @@ import { Logo } from '~/components/Topbar/Logo'
 //   )
 // }
 
-export const AuthEmbedded = () => {
+export const AuthComponent = () => {
   return (
     <Provider client={client}>
-      <Container style={{ width: 388 }}>
-        <Logo
-          style={{
-            marginBottom: -12,
-            marginLeft: -8,
-            minHeight: 40,
-            minWidth: 40,
-          }}
-        />
-        <Auth
-          onLogin={(result) => {
-            console.log('Did login', { result })
-          }}
-          onRegister={(result) => {
-            console.log('Did register', { result })
-          }}
-          onRequestResetPassword={() => {
-            console.log('Did register')
-          }}
-        />
-      </Container>
+      <Auth
+        logo
+        onLogin={(result) => {
+          console.log('Did login', { result })
+        }}
+        onRegister={(result) => {
+          console.log('Did register', { result })
+        }}
+        onResetRequest={() => {
+          console.log('Did Request Reset Password')
+        }}
+      />
     </Provider>
   )
 }
 
-export const RegisterEmbedded = () => {
+export const LoginComponent = () => {
   return (
     <Provider client={client}>
+      <Container style={{ width: 388 }}>
+        <Login />
+      </Container>
+      <LoginButton
+        style={{ marginTop: 16, width: 164 }}
+        onLogin={(data) => {
+          console.log({ data })
+        }}
+      >
+        Open in Dialog?
+      </LoginButton>
+    </Provider>
+  )
+}
+
+export const RegisterComponent = () => {
+  return (
+    <Provider client={client}>
+      <Container style={{ width: 388 }}>
+        <Register />
+      </Container>
       <RegisterButton
         style={{ marginTop: 16, width: 164 }}
         onRegister={(data) => {
@@ -77,7 +96,7 @@ export const RegisterEmbedded = () => {
   )
 }
 
-export const RequestResetPasswordEmbedded = () => {
+export const ResetRequestComponent = () => {
   return (
     <Provider client={client}>
       <Container style={{ width: 388 }}>
@@ -88,7 +107,7 @@ export const RequestResetPasswordEmbedded = () => {
             minWidth: 40,
           }}
         />
-        <RequestResetPassword />
+        <ResetRequest />
       </Container>
     </Provider>
   )
