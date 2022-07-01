@@ -1,6 +1,11 @@
 import React from 'react'
 import { Provider } from '~'
-import { Login, Register, RegisterButton } from '~/components/Auth'
+import {
+  Login,
+  Register,
+  RegisterButton,
+  RequestResetPassword as RequestResetPasswordComponent,
+} from '~/components/Auth'
 import { Tabs, Tab } from '~/components/Tabs'
 import { Container } from '~'
 import { client } from './shared'
@@ -66,6 +71,23 @@ export const LoginRegister = () => {
             </RegisterButton>
           </Tab>
         </Tabs>
+      </Container>
+    </Provider>
+  )
+}
+
+export const RequestResetPassword = () => {
+  return (
+    <Provider client={client}>
+      <Container style={{ width: 388 }}>
+        <Logo
+          style={{
+            marginLeft: -8,
+            minHeight: 40,
+            minWidth: 40,
+          }}
+        />
+        <RequestResetPasswordComponent />
       </Container>
     </Provider>
   )

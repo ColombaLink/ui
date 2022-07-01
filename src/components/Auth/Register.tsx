@@ -33,7 +33,6 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         onChange={(value) => {
           setEmail(String(value))
         }}
-        space
       />
       <Input
         space="16px"
@@ -43,7 +42,6 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         onChange={(value) => {
           setPassword(String(value))
         }}
-        space
       />
       <Input
         space="16px"
