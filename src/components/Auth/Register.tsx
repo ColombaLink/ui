@@ -4,6 +4,8 @@ import { Button, ButtonProps } from '../Button'
 import { Text } from '../Text'
 import { Dialog, useDialog } from '~'
 import { useClient } from '@based/react'
+import { EmailIcon } from '~/icons'
+import { Logo } from '../Topbar/Logo'
 
 type RegisterProps = {
   width?: number
@@ -23,20 +25,18 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         width,
       }}
     >
-      <Text size="32px" space>
-        Register
-      </Text>
       <Input
+        space="16px"
+        iconLeft={EmailIcon}
         name="email"
-        label="Email"
-        placeholder="Enter your email"
+        placeholder="Enter your emailaddress..."
         onChange={(value) => {
           setEmail(String(value))
         }}
       />
       <Input
+        space="16px"
         name="password"
-        label="Password"
         type="password"
         placeholder="Enter your password"
         onChange={(value) => {
@@ -44,10 +44,9 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         }}
       />
       <Input
+        space="16px"
         name="name"
-        label="Name"
         placeholder="Enter your name"
-        space
         onChange={(value) => {
           setName(String(value))
         }}
@@ -56,7 +55,13 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         disabled={working}
         loading={working}
         textAlign="center"
-        style={{ width }}
+        style={{
+          transition: 'transform 0.15s ease-out',
+
+          justifyContent: 'flex-end',
+          height: 48,
+          width,
+        }}
         onClick={async () => {
           setWorking(true)
           let result: any
@@ -94,9 +99,18 @@ export const RegisterButton: FC<RegisterButtonProps> = ({
   const dialog = useDialog()
   return (
     <Button
+      ghost
       onClick={() => {
         const id = dialog.open(
-          <Dialog style={{ width: width + 48 }}>
+          <Dialog style={{ width: width + 48, padding: 24, paddingTop: 12 }}>
+            <Logo
+              style={{
+                minHeight: 40,
+                minWidth: 40,
+                marginLeft: -8,
+                marginBottom: 12,
+              }}
+            />
             <Register
               onRegister={async (data) => {
                 dialog.close(id)

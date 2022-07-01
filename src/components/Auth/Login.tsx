@@ -33,9 +33,6 @@ export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
         width,
       }}
     >
-      <Text size="32px" space>
-        Sign in
-      </Text>
       {/*<Button
         iconLeft={GoogleIcon}
         textAlign="center"
@@ -58,7 +55,7 @@ export const Login: FC<LoginProps> = ({ width = 300, onLogin, onRegister }) => {
           marginBottom: 16,
         }}
       />*/}
-      <Text>Email</Text>
+
       <Input
         iconLeft={EmailIcon}
         placeholder="Enter your email address..."

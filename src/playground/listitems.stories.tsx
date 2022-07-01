@@ -46,7 +46,7 @@ export const ListItems = () => {
                   color="PurpleDark"
                 />
                 <Text weight={600}>Title</Text>
-                <Badge light>string</Badge>
+                <Badge>string</Badge>
               </>
             }
             right={
@@ -66,7 +66,7 @@ export const ListItems = () => {
                   color="BlueBaby"
                 />
                 <Text weight={600}>Content</Text>
-                <Badge light>Rich Text</Badge>
+                <Badge>Rich Text</Badge>
               </>
             }
             right={
@@ -94,7 +94,7 @@ export const ListItems = () => {
                     color="Green"
                   />
                   <Text weight={600}>Drag & Drop</Text>
-                  <Badge light>Drop it</Badge>
+                  <Badge>Drop it</Badge>
                 </>
               }
               right={
@@ -114,7 +114,7 @@ export const ListItems = () => {
                     color="Pink"
                   />
                   <Text weight={600}>Drag & Drop</Text>
-                  <Badge light>Drop it</Badge>
+                  <Badge color="Teal">Drop it</Badge>
                 </>
               }
               right={
