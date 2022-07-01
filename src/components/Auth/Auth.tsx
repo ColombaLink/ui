@@ -37,7 +37,7 @@ export const Auth: FC<AuthProps> = ({
     <>
       <Container
         style={{
-          width: 388,
+          width: 350,
         }}
       >
         {ParsedLogo ? <ParsedLogo /> : null}

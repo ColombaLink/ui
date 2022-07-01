@@ -1,10 +1,9 @@
 import React, { CSSProperties, FC, useState } from 'react'
 import { Input } from '../Input'
-import { Button, ButtonProps } from '../Button'
+import { Button } from '../Button'
 import { Text } from '../Text'
 import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
-import { Logo } from '../Topbar/Logo'
 
 type ResetRequestProps = {
   onSuccess?: () => void
@@ -22,8 +21,8 @@ export const ResetRequest: FC<ResetRequestProps> = ({ onSuccess, style }) => {
       {!emailSent ? (
         <>
           <Text wrap space>
-            Request a Password Reset. If your account exists, will receive an
-            email with a link to reset your password.
+            If your account exists, will receive an email with a link to reset
+            your password.
           </Text>
           <Input
             space="16px"
@@ -45,6 +44,11 @@ export const ResetRequest: FC<ResetRequestProps> = ({ onSuccess, style }) => {
               setWorking(true)
               let result: any
               try {
+                result = await client.call('resetRequest', {
+                  email,
+                  redirectUrl: window.location.href,
+                })
+                console.log({ result })
               } catch (err) {
                 console.error(err)
               }
