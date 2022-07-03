@@ -1,7 +1,13 @@
-import React, { FC, useState, ReactChild, ReactNode } from 'react'
+import React, {
+  FC,
+  useState,
+  ReactChild,
+  ReactNode,
+  CSSProperties,
+} from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
-import { Logo } from '../Topbar/Logo'
+import { LargeLogo } from '../Logo'
 
 type AuthProps = {
   onLogin?: (props: { token: string; refreshToken: string }) => void
@@ -9,6 +15,7 @@ type AuthProps = {
   register?: boolean
   onResetRequest?: () => void
   logo?: boolean | FC
+  style?: CSSProperties
 }
 
 // totally different
@@ -19,27 +26,22 @@ export const Auth: FC<AuthProps> = ({
   register,
   onResetRequest,
   logo,
+  style,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const ParsedLogo: FC = !logo
     ? null
     : logo === true
-    ? () => (
-        <Logo
-          style={{
-            marginBottom: -12,
-            marginLeft: -8,
-            minHeight: 40,
-            minWidth: 40,
-          }}
-        />
-      )
+    ? () => <LargeLogo />
     : logo
   return (
     <>
       <Container
         style={{
-          width: 350,
+          padding: 32,
+          maxWidth: '100vw',
+          width: 400,
+          ...style,
         }}
       >
         {ParsedLogo ? <ParsedLogo /> : null}

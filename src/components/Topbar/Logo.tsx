@@ -1,14 +1,7 @@
 import React, { CSSProperties } from 'react'
 
 export const Logo = ({ style }: { style?: CSSProperties }) => (
-  <svg
-    width="56"
-    height="56"
-    viewBox="0 0 56 56"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    style={style}
-  >
+  <svg width="56" height="56" viewBox="0 0 56 56" fill="none" style={style}>
     <g filter="url(#filter0_d_747_19262)">
       <rect x="8" y="6" width="40" height="40" rx="8.59375" fill="#232323" />
       <rect

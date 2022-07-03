@@ -22,6 +22,7 @@ export * from './components/Steps'
 export * from './components/Table'
 export * from './components/Text'
 export * from './components/Topbar'
+export * from './components/Logo'
 export * from './components/Auth'
 
 export * from './icons'

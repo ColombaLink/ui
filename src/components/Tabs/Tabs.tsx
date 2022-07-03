@@ -43,15 +43,18 @@ export const Tabs: FC<TabsProps> = ({ children, style, space = 0, small }) => {
           {arrayChildren.map((child: JSX.Element, index) => (
             <styled.div
               style={{
+                borderTop: '1px solid transparent',
+
                 height: small ? 42 : 66,
-                borderTopRightRadius: 4,
-                borderTopLeftRadius: 4,
+                // borderTopRightRadius: 4,
+                // borderTopLeftRadius: 4,
                 padding: small ? '8px 24px 12px 24px' : '12px 24px',
                 display: 'flex',
                 alignItems: 'center',
 
                 '&:hover': {
-                  backgroundColor: color('PrimaryLightHover'),
+                  borderTop: '1px solid ' + color('OtherInputBorderDefault'),
+                  backgroundColor: color('PrimaryLightHover', 0.1),
                   cursor: 'pointer',
                 },
                 borderBottom: `3px solid ${

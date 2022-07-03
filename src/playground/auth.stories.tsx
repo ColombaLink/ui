@@ -10,7 +10,7 @@ import {
 } from '~/components/Auth'
 import { Container } from '~'
 import { client } from './shared'
-import { Logo } from '~/components/Topbar/Logo'
+import { LargeLogo } from '~/components/Logo'
 
 export const AuthComponent = () => {
   return (
@@ -71,7 +71,7 @@ export const ResetRequestComponent = () => {
   return (
     <Provider client={client}>
       <Container style={{ width: 388 }}>
-        <Logo
+        <LargeLogo
           style={{
             marginLeft: -8,
             minHeight: 40,

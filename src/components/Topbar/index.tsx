@@ -7,7 +7,7 @@ import { Avatar } from '../Avatar'
 import { Input } from '../Input'
 import { Link } from '../Link'
 import { Text } from '../Text'
-import { Logo } from './Logo'
+import { Logo } from '../Logo'
 
 type TopbarTabProps = {
   href?: string

@@ -174,3 +174,12 @@ export type PropsEventHandler<E = SyntheticEvent, P = any> = (
   e?: E,
   props?: P
 ) => void | Promise<void> | boolean | Promise<boolean>
+
+export type Key =
+  | 'Enter'
+  | 'Esc'
+  | 'ArrowUp'
+  | 'ArrowDown'
+  | 'ArrowLeft'
+  | 'ArrowRight'
+  | 'Tab'

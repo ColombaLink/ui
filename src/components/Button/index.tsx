@@ -4,12 +4,14 @@ import React, {
   MouseEventHandler,
   ReactNode,
   useState,
+  useEffect,
+  useRef,
 } from 'react'
 import { color as c, renderOrCreateElement, spaceToPx } from '~/utils'
 import { styled } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space, Color } from '~/types'
+import { Space, Color, Key } from '~/types'
 import { isCapitalised } from '~/utils/isCapitalised'
 
 export type ButtonProps = {
@@ -21,6 +23,8 @@ export type ButtonProps = {
   outlineColor?: Color
   hoverColor?: Color
   ghost?: boolean
+  large?: boolean
+  fill?: boolean // TODO: add this on inputs etc as well
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   light?: boolean
@@ -29,7 +33,8 @@ export type ButtonProps = {
   outline?: boolean
   style?: CSSProperties
   space?: Space
-  textAlign?: 'center' | 'right'
+  textAlign?: 'center' | 'right' | 'left'
+  actionKeys?: Key[]
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -47,9 +52,12 @@ export const Button: FC<ButtonProps> = ({
   loading,
   onClick,
   outline,
+  actionKeys,
   style,
   space,
-  textAlign,
+  large,
+  fill,
+  textAlign = 'left',
 }) => {
   const [isLoading, setIsLoading] = useState(false)
   // const colorBase = 'Primary'
@@ -131,6 +139,7 @@ export const Button: FC<ButtonProps> = ({
       e.stopPropagation()
       e.preventDefault()
       const t = e.currentTarget as HTMLInputElement
+
       let isSet = false
       const timer = setTimeout(() => {
         if (!isSet) {
@@ -140,7 +149,7 @@ export const Button: FC<ButtonProps> = ({
       try {
         await onClickOrginal(e)
       } catch (e) {
-        console.error(`Unhandled error from async click "${e.message}"`)
+        console.error(`Error from async click "${e.message}"`)
         t.style.transform = 'translateX(-10px)'
         setTimeout(() => {
           t.style.transform = 'translateX(10px)'
@@ -153,6 +162,31 @@ export const Button: FC<ButtonProps> = ({
       setIsLoading(false)
       clearTimeout(timer)
     }
+  }
+
+  if (actionKeys && onClick) {
+    ref = useRef()
+    const timeRef = useRef<any>()
+
+    useEffect(() => {
+      return () => {
+        clearTimeout(timeRef.current)
+      }
+    }, [])
+
+    const onKeyUp = useCallback(
+      (event: any) => {
+        if (hover.onMouseDown) {
+          hover.onMouseDown(event)
+          timeRef.current = setTimeout(() => {
+            hover.onMouseUp(event)
+          }, 100)
+        }
+        handler(event)
+      },
+      [handler, timeRef]
+    )
+    useKeyUp(onKeyUp, ref, actionKeys)
   }
 
   if (isLoading) {
@@ -169,11 +203,12 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       style={{
         transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
-        padding: '4px 8px',
+        padding: large ? '4px 16px' : '4px 8px',
         color: c(foregroundColor),
         backgroundColor: c(backgroundColor),
         border: outline ? `1px solid ${c(outlineColor)}` : 'none',
         borderRadius: 4,
+        width: fill ? '100%' : null,
         opacity: disabled ? 0.6 : 1,
         position: 'relative',
         '&:hover': {
@@ -186,6 +221,7 @@ export const Button: FC<ButtonProps> = ({
               marginBottom: spaceToPx(space),
             }
           : null),
+        height: large ? 48 : null,
         ...style,
       }}
     >
@@ -195,7 +231,9 @@ export const Button: FC<ButtonProps> = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent:
-            textAlign === 'center'
+            textAlign === 'left'
+              ? 'flex-start'
+              : textAlign === 'center'
               ? 'center'
               : textAlign === 'right'
               ? 'flex-end'

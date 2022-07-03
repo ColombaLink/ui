@@ -99,6 +99,10 @@ export const Buttons = ({ icon }) => {
       <Button color="Red" disabled>
         Disabled
       </Button>
+
+      <Button style={{ marginTop: 24 }} large>
+        Hello
+      </Button>
     </>
   )
 }

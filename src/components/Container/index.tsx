@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
+import { styled } from 'inlines'
 
 type ContainerProps = {
   children: FC | ReactNode
@@ -18,7 +19,7 @@ export const Container: FC<ContainerProps> = ({
   topRight,
 }) => {
   return (
-    <div
+    <styled.div
       style={{
         padding: 24,
         backgroundColor: color('Background2dp'),
@@ -45,6 +46,6 @@ export const Container: FC<ContainerProps> = ({
       </div>
 
       {children}
-    </div>
+    </styled.div>
   )
 }

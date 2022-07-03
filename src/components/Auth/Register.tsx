@@ -1,18 +1,17 @@
 import React, { FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button, ButtonProps } from '../Button'
-import { Text } from '../Text'
 import { Dialog, useDialog } from '~'
 import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
-import { Logo } from '../Topbar/Logo'
+import { LargeLogo } from '../Logo'
 
 type RegisterProps = {
   width?: number
   onRegister?: (data: { email: string; password: string; name: string }) => void
 }
 
-export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
+export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
   const client = useClient()
   const [email, setEmail] = useState<string>()
   const [password, setPassword] = useState<string>()
@@ -29,7 +28,7 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         space="16px"
         iconLeft={EmailIcon}
         name="email"
-        placeholder="Enter your emailaddress..."
+        placeholder="Enter your email address"
         onChange={(value) => {
           setEmail(String(value))
         }}
@@ -82,48 +81,5 @@ export const Register: FC<RegisterProps> = ({ width = 300, onRegister }) => {
         Register
       </Button>
     </div>
-  )
-}
-
-type RegisterButtonProps = {
-  onRegister?: (data: { email: string; password: string; name: string }) => void
-  width?: number
-} & ButtonProps
-
-export const RegisterButton: FC<RegisterButtonProps> = ({
-  children,
-  onRegister,
-  width = 300,
-  ...props
-}) => {
-  const dialog = useDialog()
-  return (
-    <Button
-      textAlign="center"
-      onClick={() => {
-        const id = dialog.open(
-          <Dialog style={{ width: width + 48, padding: 24, paddingTop: 12 }}>
-            <Logo
-              style={{
-                minHeight: 40,
-                minWidth: 40,
-                marginLeft: -8,
-                marginBottom: 12,
-              }}
-            />
-            <Register
-              onRegister={async (data) => {
-                dialog.close(id)
-                if (typeof onRegister === 'function') onRegister(data)
-              }}
-              width={width}
-            />
-          </Dialog>
-        )
-      }}
-      {...props}
-    >
-      {children}
-    </Button>
   )
 }
