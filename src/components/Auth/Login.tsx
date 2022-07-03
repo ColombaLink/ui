@@ -70,17 +70,6 @@ export const Login: FC<LoginProps> = ({
         onChange={(value: string) => {
           setEmail(value)
         }}
-        onKeyDown={(e) => {
-          if (e.key === 'Tab' || e.key === 'Enter') {
-            e.preventDefault()
-            if (isEmail(email)) {
-              setPasswordExpanded(true)
-              if (passwordRef.current) {
-                passwordRef.current.focus()
-              }
-            }
-          }
-        }}
       />
 
       <div
@@ -116,42 +105,41 @@ export const Login: FC<LoginProps> = ({
           space
         />
       </div>
-      <div
+      <Button
+        large
+        fill
         style={{
-          width: '100%',
-          maxWidth: '100%',
           marginBottom: 24,
         }}
+        actionKeys={passwordExpanded ? ['Enter'] : ['Enter', 'Tab']}
+        disabled={passwordExpanded ? !password : !isEmail(email)}
+        onClick={
+          passwordExpanded
+            ? async () => {
+                const result = await client.login({
+                  email,
+                  password,
+                })
+                const { token, refreshToken } = result
+                if (onLogin) {
+                  onLogin({ token, refreshToken })
+                }
+              }
+            : () => {
+                if (isEmail(email)) {
+                  setEmailValidationMessage(null)
+                  setPasswordExpanded(true)
+                  if (passwordRef.current) {
+                    passwordRef.current.focus()
+                  }
+                } else {
+                  setEmailValidationMessage('Enter a valid email address')
+                }
+              }
+        }
       >
-        <Button
-          large
-          fill
-          disabled={!isEmail(email)}
-          onClick={
-            passwordExpanded
-              ? async () => {
-                  const result = await client.login({
-                    email,
-                    password,
-                  })
-                  const { token, refreshToken } = result
-                  if (onLogin) {
-                    onLogin({ token, refreshToken })
-                  }
-                }
-              : () => {
-                  if (isEmail(email)) {
-                    setEmailValidationMessage(null)
-                    setPasswordExpanded(true)
-                  } else {
-                    setEmailValidationMessage('Enter a valid email address')
-                  }
-                }
-          }
-        >
-          {passwordExpanded ? 'Sign in' : 'Continue with Email'}
-        </Button>
-      </div>
+        {passwordExpanded ? 'Sign in' : 'Continue with Email'}
+      </Button>
       <Text>
         Forgot your password?{' '}
         <styled.a
@@ -174,5 +162,3 @@ export const Login: FC<LoginProps> = ({
     </div>
   )
 }
-
-// fix openDialog

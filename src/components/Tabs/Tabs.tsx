@@ -2,24 +2,49 @@ import React, {
   FC,
   ReactNode,
   CSSProperties,
+  useRef,
+  useEffect,
   useState,
   ReactChild,
+  useCallback,
 } from 'react'
 import { color, spaceToPx, font } from '~/utils'
-import { styled } from 'inlines'
 import { Space } from '~/types'
+import { styled } from 'inlines'
 
 type TabsProps = {
   children?: FC | ReactNode | ReactChild
   style?: CSSProperties
   space?: Space
   small?: boolean
+  activeTab?: number
 }
 
-export const Tabs: FC<TabsProps> = ({ children, style, space = 0, small }) => {
+export const Tabs: FC<TabsProps> = ({
+  children,
+  style,
+  space = 0,
+  small,
+  activeTab = 0,
+}) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
 
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTabState, setActiveTab] = useState(activeTab)
+  const [hoverTab, setHoverTab] = useState(-1)
+  const [lineWidth, setLineWidth] = useState(0)
+  const [x, setX] = useState(0)
+  const elem = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    console.log(activeTabState, hoverTab)
+
+    const t = elem.current.children[hoverTab > -1 ? hoverTab : activeTabState]
+    if (t) {
+      const { width, left } = t.getBoundingClientRect()
+      setLineWidth(width)
+      setX(left - t.parentElement.getBoundingClientRect().left)
+    }
+  }, [activeTabState, hoverTab, elem, children])
 
   return (
     <>
@@ -33,47 +58,63 @@ export const Tabs: FC<TabsProps> = ({ children, style, space = 0, small }) => {
           style={{
             height: small ? 42 : 66,
             marginTop: 20,
-            alignItems: 'center',
-            display: 'flex',
             borderBottom: `1px solid ${color('OtherDivider')}`,
             marginBottom: spaceToPx(space),
             ...style,
           }}
         >
-          {arrayChildren.map((child: JSX.Element, index) => (
-            <styled.div
-              style={{
-                borderTop: '1px solid transparent',
-
-                height: small ? 42 : 66,
-                // borderTopRightRadius: 4,
-                // borderTopLeftRadius: 4,
-                padding: small ? '8px 24px 12px 24px' : '12px 24px',
-                display: 'flex',
-                alignItems: 'center',
-
-                '&:hover': {
-                  borderTop: '1px solid ' + color('OtherInputBorderDefault'),
-                  backgroundColor: color('PrimaryLightHover', 0.1),
+          <styled.div
+            style={{
+              height: small ? 42 - 3 : 66 - 3,
+              alignItems: 'center',
+              display: 'flex',
+              paddingBottom: 3,
+            }}
+            ref={elem}
+          >
+            {arrayChildren.map((child: JSX.Element, index) => (
+              <div
+                style={{
+                  borderTop: '1px solid transparent',
+                  height: small ? 42 - 3 : 66 - 3,
+                  padding: small ? '8px 24px 12px 24px' : '12px 24px',
+                  display: 'flex',
                   cursor: 'pointer',
-                },
-                borderBottom: `3px solid ${
-                  index === activeTab ? color('TextPrimary') : 'transparent'
-                }`,
-                ...(index === activeTab
-                  ? font(15, 'TextPrimary', 600)
-                  : font(15, 'TextSecondary')),
-              }}
-              onClick={() => setActiveTab(index)}
-              key={index}
-            >
-              {/*@ts-ignore */}
-              {child.props.title}
-            </styled.div>
-          ))}
+                  // borderBottom: `3px solid transparent`,
+                  alignItems: 'center',
+                  ...(index === activeTabState
+                    ? font(15, 'TextPrimary', 600)
+                    : font(15, 'TextSecondary')),
+                }}
+                onClick={() => {
+                  setHoverTab(-1)
+                  setActiveTab(index)
+                }}
+                onMouseEnter={useCallback((e) => {
+                  setHoverTab(index)
+                }, [])}
+                onMouseLeave={useCallback((e) => {
+                  setHoverTab(-1)
+                }, [])}
+                key={index}
+              >
+                {/*@ts-ignore */}
+                {child.props.title}
+              </div>
+            ))}
+          </styled.div>
+          <div
+            style={{
+              transition: 'width 0.2s, transform 0.15s',
+              transform: `translate(${x}px, 0px)`,
+              width: lineWidth,
+              backgroundColor: color('TextPrimary'),
+              height: 3,
+            }}
+          ></div>
         </div>
 
-        <div>{children[activeTab]}</div>
+        <div>{children[activeTabState]}</div>
       </div>
     </>
   )

@@ -3,6 +3,7 @@ import React, {
   FC,
   MouseEventHandler,
   ReactNode,
+  useCallback,
   useState,
   useEffect,
   useRef,
@@ -13,6 +14,7 @@ import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 import { Space, Color, Key } from '~/types'
 import { isCapitalised } from '~/utils/isCapitalised'
+import { useKeyUp } from '~'
 
 export type ButtonProps = {
   children?: ReactNode
@@ -60,6 +62,7 @@ export const Button: FC<ButtonProps> = ({
   textAlign = 'left',
 }) => {
   const [isLoading, setIsLoading] = useState(false)
+  const buttonElem = useRef<HTMLElement>(null)
   // const colorBase = 'Primary'
   // let color, bg, borderColor, hoverBg
 
@@ -135,58 +138,51 @@ export const Button: FC<ButtonProps> = ({
 
   if (onClick) {
     const onClickOrginal = onClick
-    onClick = async (e) => {
-      e.stopPropagation()
-      e.preventDefault()
-      const t = e.currentTarget as HTMLInputElement
-
-      let isSet = false
-      const timer = setTimeout(() => {
-        if (!isSet) {
-          setIsLoading(true)
-        }
-      }, 100)
-      try {
-        await onClickOrginal(e)
-      } catch (e) {
-        console.error(`Error from async click "${e.message}"`)
-        t.style.transform = 'translateX(-10px)'
-        setTimeout(() => {
-          t.style.transform = 'translateX(10px)'
-          setTimeout(() => {
-            t.style.transform = 'translateX(0px)'
-          }, 100)
+    onClick = useCallback(
+      async (e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        const t = buttonElem.current
+        let isSet = false
+        const timer = setTimeout(() => {
+          if (!isSet) {
+            setIsLoading(true)
+          }
         }, 100)
-      }
-      isSet = true
-      setIsLoading(false)
-      clearTimeout(timer)
-    }
+        try {
+          await onClickOrginal(e)
+        } catch (e) {
+          console.error(`Error from async click "${e.message}"`)
+          t.style.transform = 'translateX(-10px)'
+          setTimeout(() => {
+            t.style.transform = 'translateX(10px)'
+            setTimeout(() => {
+              t.style.transform = 'translateX(0px)'
+            }, 100)
+          }, 100)
+        }
+        isSet = true
+        setIsLoading(false)
+        clearTimeout(timer)
+      },
+      [onClickOrginal]
+    )
   }
 
   if (actionKeys && onClick) {
-    ref = useRef()
     const timeRef = useRef<any>()
-
     useEffect(() => {
       return () => {
         clearTimeout(timeRef.current)
       }
     }, [])
-
     const onKeyUp = useCallback(
       (event: any) => {
-        if (hover.onMouseDown) {
-          hover.onMouseDown(event)
-          timeRef.current = setTimeout(() => {
-            hover.onMouseUp(event)
-          }, 100)
-        }
-        handler(event)
+        onClick(event)
       },
-      [handler, timeRef]
+      [onClick, timeRef]
     )
-    useKeyUp(onKeyUp, ref, actionKeys)
+    useKeyUp(onKeyUp, buttonElem, actionKeys)
   }
 
   if (isLoading) {
@@ -199,6 +195,7 @@ export const Button: FC<ButtonProps> = ({
 
   return (
     <styled.button
+      ref={buttonElem}
       disabled={disabled}
       onClick={onClick}
       style={{

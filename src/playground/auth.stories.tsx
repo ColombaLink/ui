@@ -1,7 +1,7 @@
 import React from 'react'
 import { Provider } from '~'
 import {
-  Auth,
+  Authorize,
   // Login,
   // LoginButton,
   // Register,
@@ -15,7 +15,7 @@ import { LargeLogo } from '~/components/Logo'
 export const AuthComponent = () => {
   return (
     <Provider client={client}>
-      <Auth
+      <Authorize
         logo
         onLogin={(result) => {
           console.log('Did login', { result })

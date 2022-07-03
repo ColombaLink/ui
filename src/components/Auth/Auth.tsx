@@ -1,9 +1,9 @@
 import React, {
   FC,
   useState,
+  CSSProperties,
   ReactChild,
   ReactNode,
-  CSSProperties,
 } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
@@ -14,26 +14,23 @@ type AuthProps = {
   onRegister?: (data: { email: string; password: string; name: string }) => void
   register?: boolean
   onResetRequest?: () => void
-  logo?: boolean | FC
+  logo?: boolean | ReactChild
   style?: CSSProperties
+  children?: FC | ReactNode | ReactChild
 }
 
-// totally different
-
-export const Auth: FC<AuthProps> = ({
+export const Authorize: FC<AuthProps> = ({
   onLogin,
   onRegister,
   register,
   onResetRequest,
   logo,
   style,
+  children,
 }) => {
+  const arrayChildren: Object[] = React.Children.toArray(children)
+
   const [showResetRequest, setShowResetRequest] = useState(false)
-  const ParsedLogo: FC = !logo
-    ? null
-    : logo === true
-    ? () => <LargeLogo />
-    : logo
   return (
     <>
       <Container
@@ -44,7 +41,7 @@ export const Auth: FC<AuthProps> = ({
           ...style,
         }}
       >
-        {ParsedLogo ? <ParsedLogo /> : null}
+        {!logo ? null : logo === true ? <LargeLogo /> : logo}
         {!showResetRequest ? (
           <Tabs space small>
             <Tab title="Login">
