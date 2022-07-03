@@ -13,7 +13,7 @@ import { LargeLogo } from '~/components/Logo'
 import { useData, useAuth } from '@based/react'
 
 const App = ({ user }: { user: { id: string; token: string } }) => {
-  console.info(user)
+  console.info('USER', user)
 
   // const { data, loading } = useData({
   //   $id: user.id,
@@ -101,19 +101,19 @@ export const AuthComponent = () => {
 //   )
 // }
 
-export const ResetRequestComponent = () => {
-  return (
-    <Provider client={client}>
-      <Container style={{ width: 388 }}>
-        <LargeLogo
-          style={{
-            marginLeft: -8,
-            minHeight: 40,
-            minWidth: 40,
-          }}
-        />
-        <ResetRequest />
-      </Container>
-    </Provider>
-  )
-}
+// export const ResetRequestComponent = () => {
+//   return (
+//     <Provider client={client}>
+//       <Container style={{ width: 388 }}>
+//         <LargeLogo
+//           style={{
+//             marginLeft: -8,
+//             minHeight: 40,
+//             minWidth: 40,
+//           }}
+//         />
+//         <ResetRequest />
+//       </Container>
+//     </Provider>
+//   )
+// }
