@@ -1,5 +1,5 @@
-import '../styles/global.css'
-import '../styles/fonts.css'
+import '../assets/global.css'
+import '../assets/fonts.css'
 // crashes in next...
 
 import { themes } from './themes'
