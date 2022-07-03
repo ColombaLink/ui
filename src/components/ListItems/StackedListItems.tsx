@@ -17,7 +17,7 @@ type StackedListItemsWrapperProps = {
 
 type StackedListItemProps = {
   children?: FC | ReactNode
-  childrenRight?: FC | ReactNode
+  right?: FC | ReactNode
   style?: CSSProperties
   space?: Space
 }
@@ -85,9 +85,9 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
   )
 }
 
-export const StackedListItems: FC<StackedListItemProps> = ({
+export const StackedListItem: FC<StackedListItemProps> = ({
   children,
-  childrenRight,
+  right,
   style,
   space,
 }) => {
@@ -115,7 +115,7 @@ export const StackedListItems: FC<StackedListItemProps> = ({
           {children}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          {childrenRight}
+          {right}
         </div>
       </div>
     </>

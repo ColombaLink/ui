@@ -37,7 +37,7 @@ export const Inputs = () => {
       <br />
       <Input label="With Icon Left" iconLeft={CheckIcon} />
       <br />
-      <Input label="With Icon Right" iconRight={EditIcon} />
+      <Input large label="With Icon Right" iconRight={EditIcon} />
       <br />
       <Input
         label="With Description"

@@ -51,6 +51,7 @@ type InputProps = {
   name?: string
   space?: Space
   inputRef?: React.RefObject<HTMLDivElement>
+  large?: boolean
 }
 
 export const Input: FC<
@@ -73,6 +74,7 @@ export const Input: FC<
   name,
   space,
   inputRef,
+  large,
   ...otherProps
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
@@ -102,7 +104,7 @@ export const Input: FC<
         : `1px solid ${color('OtherInputBorderDefault')}`,
       outlineOffset: focus ? -2 : -1,
       borderRadius: 4,
-      minHeight: 36,
+      minHeight: large ? 48 : 36,
       paddingLeft: iconLeft ? 36 : 12,
       paddingRight: iconRight ? 36 : 12,
       width: '100%',

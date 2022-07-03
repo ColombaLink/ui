@@ -2,7 +2,7 @@ import React from 'react'
 import {
   DraggableListWrapper,
   ListItem,
-  StackedListItems,
+  StackedListItem,
   StackedListItemsWrapper,
 } from '~/components/ListItems'
 import { Badge } from '~/components/Badge'
@@ -15,6 +15,7 @@ import {
   TextIcon,
   MoreIcon,
   EditIcon,
+  Dialog,
   CheckIcon,
   AddIcon,
   ApertureIcon,
@@ -153,8 +154,8 @@ export const ListItems = () => {
             bottomRight={CheckIcon}
             space
           >
-            <StackedListItems
-              childrenRight={
+            <StackedListItem
+              right={
                 <>
                   <MoreIcon />
                 </>
@@ -167,8 +168,8 @@ export const ListItems = () => {
                   Header enabled on this StackedListItems.
                 </Text>
               </div>
-            </StackedListItems>
-            <StackedListItems childrenRight={<MoreIcon />}>
+            </StackedListItem>
+            <StackedListItem right={<MoreIcon />}>
               <Avatar size={40} icon={EditIcon({ size: 16 })} color="Mustard" />
               <div>
                 <Text weight={600}>Developer</Text>
@@ -176,8 +177,8 @@ export const ListItems = () => {
                   Can create, update and delete models and content.
                 </Text>
               </div>
-            </StackedListItems>
-            <StackedListItems childrenRight={<MoreIcon />}>
+            </StackedListItem>
+            <StackedListItem right={<MoreIcon />}>
               <Avatar
                 size={40}
                 backgroundImg="https://robohash.org/4P5.png?set=set4&size=150x150"
@@ -188,7 +189,7 @@ export const ListItems = () => {
                   Footer + space enabled on this StackedListItemsWrapper.
                 </Text>
               </div>
-            </StackedListItems>
+            </StackedListItem>
           </StackedListItemsWrapper>
         </Container>
       </div>
