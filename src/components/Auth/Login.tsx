@@ -119,8 +119,6 @@ export const Login: FC<LoginProps> = ({
                   password,
                 })
 
-                console.log(client.client.tokenToLocalStorage)
-
                 if (onLogin) {
                   // @ts-ignore
                   onLogin(result)

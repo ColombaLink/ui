@@ -25,6 +25,8 @@ export * from './components/Text'
 export * from './components/Topbar'
 export * from './components/Logo'
 export * from './components/Auth'
+export * from './components/Avatar'
+export * from './components/ListItems'
 
 export * from './icons'
 export * from './hooks'

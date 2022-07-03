@@ -13,29 +13,27 @@ import { LargeLogo } from '~/components/Logo'
 import { useData, useAuth } from '@based/react'
 
 const App = ({ user }: { user: { id: string; token: string } }) => {
-  console.info('USER', user)
-
-  // const { data, loading } = useData({
-  //   $id: user.id,
-  //   todos: {
-  //     $list: {
-  //       $sort: {
-  //         $field: 'createdAt',
-  //         $order: 'asc',
-  //       },
-  //       $limit: 100,
-  //       $offset: 0,
-  //       $find: {
-  //         $traverse: 'children',
-  //         $filter: {
-  //           $field: 'type',
-  //           $operator: '=',
-  //           $value: 'thing',
-  //         },
-  //       },
-  //     },
-  //   },
-  // })
+  const { data, loading } = useData({
+    $id: user.id,
+    todos: {
+      $list: {
+        $sort: {
+          $field: 'createdAt',
+          $order: 'asc',
+        },
+        $limit: 100,
+        $offset: 0,
+        $find: {
+          $traverse: 'children',
+          $filter: {
+            $field: 'type',
+            $operator: '=',
+            $value: 'thing',
+          },
+        },
+      },
+    },
+  })
 
   return (
     <>

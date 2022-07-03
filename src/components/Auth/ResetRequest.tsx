@@ -52,7 +52,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
                   email,
                   redirectUrl: window.location.href,
                 })
-                console.log({ result })
+                // console.log({ result })
               } catch (err) {
                 console.error(err)
               }

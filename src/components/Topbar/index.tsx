@@ -8,6 +8,7 @@ import { Input } from '../Input'
 import { Link } from '../Link'
 import { Text } from '../Text'
 import { Logo } from '../Logo'
+import { useData, useAuth } from '@based/react'
 
 type TopbarTabProps = {
   href?: string
@@ -94,6 +95,20 @@ export const Topbar = ({
   onProfile?: () => void
   breadcrumbs?: FC | ReactNode
 }) => {
+  const user = useAuth()
+
+  const {
+    data: { email },
+  } = useData(
+    // @ts-ignore
+    user
+      ? {
+          $id: user.id,
+          email: true,
+        }
+      : null
+  )
+
   const [location] = useLocation()
 
   if (!selected) {
@@ -147,31 +162,7 @@ export const Topbar = ({
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {onFilter && <TopbarSearchbar />}
-        {onProfile && (
-          <div
-            style={{
-              width: 42,
-              height: 42,
-              borderRadius: '50%',
-              border: activeProfile
-                ? `3px solid ${color('PrimaryMain')}`
-                : 'none',
-              display: 'flex',
-              marginLeft: 24,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onClick={() => {
-              setActiveProfile(!activeProfile)
-              onProfile()
-            }}
-          >
-            <Avatar
-              size="32px"
-              backgroundImg="https://robohash.org/BJF.png?set=set4&size=150x150"
-            />
-          </div>
-        )}
+        {onProfile && <Avatar onClick={onProfile} label={email} size={32} />}
       </div>
     </div>
   )

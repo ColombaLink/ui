@@ -1,7 +1,8 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode, SyntheticEvent } from 'react'
 import { AvatarSize, Color, Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { isCapitalised } from '~/utils/isCapitalised'
+import { Text } from '../Text'
 
 type AvatarProps = {
   size?: AvatarSize
@@ -11,6 +12,8 @@ type AvatarProps = {
   icon?: FC | ReactNode
   children?: FC | ReactNode
   space?: Space
+  label?: string
+  onClick?: (e: SyntheticEvent) => void
   style?: CSSProperties
 }
 
@@ -20,8 +23,10 @@ export const Avatar: FC<AvatarProps> = ({
   backgroundColor,
   backgroundImg,
   icon,
+  label,
   children,
   space,
+  onClick,
   style,
 }) => {
   if (!backgroundColor) {
@@ -37,6 +42,7 @@ export const Avatar: FC<AvatarProps> = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        cursor: onClick ? 'pointer' : null,
         width: size,
         height: size,
         borderRadius: '50%',
@@ -48,8 +54,12 @@ export const Avatar: FC<AvatarProps> = ({
         color: color(colorProp),
         ...style,
       }}
+      onClick={onClick}
     >
       <>{children}</>
+      {label ? (
+        <Text color={'Background1dp'}>{label[0].toLocaleUpperCase()}</Text>
+      ) : null}
       <>{renderOrCreateElement(icon)}</>
     </div>
   )

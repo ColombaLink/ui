@@ -145,6 +145,7 @@ export const Register: FC<RegisterProps> = ({
             name,
             redirectUrl: window.location.href,
           })
+          console.info(result)
           if (onRegister) {
             // @ts-ignore
             onRegister(result)

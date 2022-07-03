@@ -82,12 +82,6 @@ export const Authorize: FC<AuthProps> = ({
               <Register
                 email={email}
                 onRegister={(r) => {
-                  // @ts-ignore
-                  setToken(r.token)
-                  // @ts-ignore
-                  setRefreshToken(r.refreshToken)
-                  // @ts-ignore
-                  setUser({ id: r.id, email: r.email })
                   if (onRegister) {
                     onRegister(r)
                   }
@@ -113,7 +107,7 @@ export const Authorize: FC<AuthProps> = ({
 
   if (user) {
     if (app) {
-      return React.createElement(app, user)
+      return React.createElement(app, { user })
     } else {
       return <div>Loggedin!</div>
     }
