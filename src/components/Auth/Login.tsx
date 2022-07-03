@@ -108,7 +108,7 @@ export const Login: FC<LoginProps> = ({
         style={{
           marginBottom: 24,
         }}
-        actionKeys={passwordExpanded ? ['Enter'] : ['Enter', 'Tab']}
+        actionKeys={['Enter']}
         disabled={passwordExpanded ? !password : !isEmail(email)}
         onClick={
           passwordExpanded

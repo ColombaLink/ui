@@ -82,16 +82,17 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
         disabled={!valid}
         fill
         large
+        actionKeys={['Enter']}
         onClick={async () => {
-          let result: any
-          result = await client.register({
+          const result = await client.register({
             email,
             password,
             name,
             redirectUrl: window.location.href,
           })
-
+          console.info(result)
           if (onRegister) {
+            // @ts-ignore
             onRegister(result)
           }
         }}

@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@based/react": "^2.6.1",
-    "@saulx/validators": "^1.1.0",
+    "@saulx/validators": "^1.2.0",
     "@based/use-global-state": "0.3.0",
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.2.1",
