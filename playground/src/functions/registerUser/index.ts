@@ -3,7 +3,6 @@ import { Params } from '@based/server'
 import getService from '@based/get-service'
 import registerEmailHtml from './registerEmailHtml'
 
-// DRY
 const tokenExpiresIn = '30m'
 const refreshTokenExpiresIn = '7d'
 
@@ -70,12 +69,12 @@ export default async ({ based, payload }: Params) => {
     JSON.stringify({ c: confirmToken, r: redirectUrl })
   )}"`
 
-  await based.sendEmail({
-    from: 'no-reply@based.io',
-    to: email,
-    subject: `Based.io email confirmation`,
-    body: registerEmailHtml({ email, actionUrl }),
-  })
+  // await based.sendEmail({
+  //   from: 'no-reply@based.io',
+  //   to: email,
+  //   subject: `Based.io email confirmation`,
+  //   body: registerEmailHtml({ email, actionUrl }),
+  // })
 
   const { project, env } = based.opts
   const privateKey = await based.secret(`users-private-key-${project}-${env}`)
@@ -93,13 +92,13 @@ export default async ({ based, payload }: Params) => {
     { expiresIn: refreshTokenExpiresIn }
   )
 
-  await based.observeUntil(
-    {
-      $id: id,
-      status: true,
-    },
-    (r) => r.status === 'confirmedEmail'
-  )
+  // await based.observeUntil(
+  //   {
+  //     $id: id,
+  //     status: true,
+  //   },
+  //   (r) => r.status === 'confirmedEmail'
+  // )
 
   return { id, token, refreshToken, email }
 }
