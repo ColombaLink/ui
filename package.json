@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@ladle/react": "^1.1.1",
-    "@based/client": "^2.8.0",
+    "@based/client": "^2.10.0",
     "@saulx/prettier-config": "^1.0.0",
     "@types/node": "^18.0.0",
     "@types/react": "17",
