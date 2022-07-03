@@ -50,72 +50,68 @@ export const Tabs: FC<TabsProps> = ({
     <>
       <div
         style={{
-          position: 'relative',
-          height: '100%',
+          height: small ? 42 : 66,
+          marginTop: 24,
+          borderBottom: `1px solid ${color('OtherDivider')}`,
+          marginBottom: spaceToPx(space),
+          ...style,
         }}
       >
+        <styled.div
+          style={{
+            height: small ? 42 - 3 : 66 - 3,
+            alignItems: 'center',
+            display: 'flex',
+            paddingBottom: small ? 8 : 0,
+          }}
+          ref={elem}
+        >
+          {arrayChildren.map((child: JSX.Element, index) => (
+            <div
+              style={{
+                borderTop: '1px solid transparent',
+                height: small ? 42 - 3 : 66 - 3,
+                padding: small ? '8px 8px 12px 8px' : '12px',
+                display: 'flex',
+                marginRight: 16,
+                cursor: 'pointer',
+                // borderBottom: `3px solid transparent`,
+                alignItems: 'center',
+                ...(index === activeTabState
+                  ? font(15, 'TextPrimary', 600)
+                  : font(15, 'TextSecondary')),
+              }}
+              onClick={() => {
+                setHoverTab(-1)
+                setActiveTab(index)
+              }}
+              onMouseEnter={useCallback((e) => {
+                setHoverTab(index)
+              }, [])}
+              onMouseLeave={useCallback((e) => {
+                setHoverTab(-1)
+              }, [])}
+              key={index}
+            >
+              {/*@ts-ignore */}
+              {child.props.title}
+            </div>
+          ))}
+        </styled.div>
         <div
           style={{
-            height: small ? 42 : 66,
-            marginTop: 20,
-            borderBottom: `1px solid ${color('OtherDivider')}`,
-            marginBottom: spaceToPx(space),
-            ...style,
+            transition: small
+              ? 'width 0.2s, transform 0.15s'
+              : 'width 0.25s, transform 0.2s',
+            transform: `translate(${x}px, 0px)`,
+            width: lineWidth,
+            backgroundColor: color('TextPrimary'),
+            height: 3,
           }}
-        >
-          <styled.div
-            style={{
-              height: small ? 42 - 3 : 66 - 3,
-              alignItems: 'center',
-              display: 'flex',
-              paddingBottom: 3,
-            }}
-            ref={elem}
-          >
-            {arrayChildren.map((child: JSX.Element, index) => (
-              <div
-                style={{
-                  borderTop: '1px solid transparent',
-                  height: small ? 42 - 3 : 66 - 3,
-                  padding: small ? '8px 24px 12px 24px' : '12px 24px',
-                  display: 'flex',
-                  cursor: 'pointer',
-                  // borderBottom: `3px solid transparent`,
-                  alignItems: 'center',
-                  ...(index === activeTabState
-                    ? font(15, 'TextPrimary', 600)
-                    : font(15, 'TextSecondary')),
-                }}
-                onClick={() => {
-                  setHoverTab(-1)
-                  setActiveTab(index)
-                }}
-                onMouseEnter={useCallback((e) => {
-                  setHoverTab(index)
-                }, [])}
-                onMouseLeave={useCallback((e) => {
-                  setHoverTab(-1)
-                }, [])}
-                key={index}
-              >
-                {/*@ts-ignore */}
-                {child.props.title}
-              </div>
-            ))}
-          </styled.div>
-          <div
-            style={{
-              transition: 'width 0.2s, transform 0.15s',
-              transform: `translate(${x}px, 0px)`,
-              width: lineWidth,
-              backgroundColor: color('TextPrimary'),
-              height: 3,
-            }}
-          ></div>
-        </div>
-
-        <div>{children[activeTabState]}</div>
+        ></div>
       </div>
+
+      <div>{children[activeTabState]}</div>
     </>
   )
 }
