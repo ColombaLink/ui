@@ -8,6 +8,9 @@ import { color, Dialog, Link, RegisterButton, useDialog } from '~'
 import { Logo } from '../Topbar/Logo'
 import { styled } from 'inlines'
 
+// allow buttons for google etc
+
+// use saulx validator
 const validEmail = (email: string) => {
   const re =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

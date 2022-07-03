@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@based/react": "^2.6.1",
-    "@ladle/react": "^1.1.1",
+    "@saulx/validators": "^1.1.0",
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.2.1",
     "inlines": "^0.2.2",
@@ -35,6 +35,7 @@
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
+    "@ladle/react": "^1.1.1",
     "@based/client": "^2.8.0",
     "@saulx/prettier-config": "^1.0.0",
     "@types/node": "^18.0.0",

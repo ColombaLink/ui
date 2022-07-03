@@ -11,6 +11,8 @@ type AuthProps = {
   logo?: boolean | FC
 }
 
+// totally different
+
 export const Auth: FC<AuthProps> = ({
   onLogin,
   onRegister,
