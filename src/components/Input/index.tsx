@@ -51,6 +51,7 @@ type InputPropsBaseLine = {
   placeholder?: string
   multiline?: boolean
   bg?: boolean
+  ghost?: boolean
   autoFocus?: boolean
   name?: string
   space?: Space
@@ -87,6 +88,7 @@ export const Input: FC<
   label,
   description,
   optional,
+  ghost,
   value: valueProp,
   defaultValue,
   type,
@@ -124,17 +126,21 @@ export const Input: FC<
     autoFocus,
     style: {
       margin: 0,
-      outline: focus
+      outline: ghost
+        ? null
+        : focus
         ? `2px solid ${color('OtherInputBorderActive')}`
         : hover
         ? `1px solid ${color('OtherInputBorderHover')}`
         : `1px solid ${color('OtherInputBorderDefault')}`,
-      outlineOffset: focus ? -2 : -1,
+      outlineOffset: ghost ? null : focus ? -2 : -1,
       borderRadius: 4,
       minHeight: large ? 48 : 36,
-      paddingLeft: iconLeft ? 36 : 12,
-      paddingRight: iconRight ? 36 : 12,
+      paddingLeft: ghost ? 0 : iconLeft ? 36 : 12,
+      paddingRight: ghost ? 0 : iconRight ? 36 : 12,
       width: '100%',
+      fontSize: ghost ? 16 : null,
+      fontWeight: ghost ? 500 : null,
       backgroundColor: bg
         ? color(hover ? 'GreylightHover' : 'Greylight')
         : 'inherit',
@@ -148,6 +154,7 @@ export const Input: FC<
   return (
     <div
       style={{
+        width: ghost ? 300 : '100%',
         ...(space
           ? {
               marginBottom: spaceToPx(space),

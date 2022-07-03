@@ -1,29 +1,27 @@
 import { render } from 'react-dom'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Provider,
   Authorize,
   Topbar,
-  ContextDivider,
   LoadingIcon,
   Text,
   useContextMenu,
   StackedListItemsWrapper,
   StackedListItem,
   Avatar,
-  useDialog,
+  UserProfile,
   Button,
-  ContextItem,
   AddIcon,
   EditIcon,
   useSelect,
   MoreIcon,
+  Input,
   CheckIcon,
 } from '../../src'
 import based from '@based/client'
 import { useClient, useData } from '@based/react'
 import { prettyDate } from '@based/pretty-date'
-import getService from '@based/get-service'
 
 export const client = based({
   org: 'saulx',
@@ -33,14 +31,9 @@ export const client = based({
 
 const Todo = ({ id, name, description, createdAt, done }) => {
   const client = useClient()
+  const [internalName, setName] = useState(name)
   return (
-    <StackedListItem
-      right={
-        <>
-          <MoreIcon />
-        </>
-      }
-    >
+    <StackedListItem>
       <Avatar
         size={40}
         icon={done ? CheckIcon({ size: 16 }) : EditIcon({ size: 16 })}
@@ -50,71 +43,20 @@ const Todo = ({ id, name, description, createdAt, done }) => {
         }}
       />
       <div>
-        <Text weight={600}>{name}</Text>
+        <Input
+          value={internalName}
+          ghost
+          onChange={(name) => {
+            setName(name)
+            client.set({ $id: id, name })
+          }}
+          type="text"
+        />
+        {/* <Text weight={600}>{name}</Text> */}
         <Text color="TextSecondary">{description}</Text>
         <Text>{prettyDate(createdAt, 'date-time')}</Text>
       </div>
     </StackedListItem>
-  )
-}
-
-const UserProfile = ({ id }) => {
-  const dialog = useDialog()
-  const client = useClient()
-  return (
-    <>
-      <ContextItem
-        onClick={async () => {
-          const url =
-            (
-              await getService(
-                { ...client.opts, name: '@based/hub' },
-                1,
-                client.opts.cluster
-              )
-            ).url.replace('ws', 'http') +
-            `/get?token=${encodeURIComponent(
-              client.getToken()
-            )}&q=${encodeURIComponent(
-              JSON.stringify({
-                $id: id,
-                email: true,
-                id: true,
-                name: true,
-                descendants: {
-                  $all: true,
-                  $list: true,
-                },
-              })
-            )}`
-          window.open(url)
-        }}
-      >
-        Download user data
-      </ContextItem>
-      <ContextItem
-        onClick={async () => {
-          if (
-            await dialog.confirm(
-              'Are you sure you want to remove your account?'
-            )
-          ) {
-            await client.delete({ $id: id })
-            await client.logout()
-          }
-        }}
-      >
-        Delete account
-      </ContextItem>
-      <ContextDivider />
-      <ContextItem
-        onClick={async () => {
-          await client.logout()
-        }}
-      >
-        Logout
-      </ContextItem>
-    </>
   )
 }
 

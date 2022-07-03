@@ -43,6 +43,7 @@
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
+    "@based/server": "^3.0.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "@saulx/aristotle": "^4.0.14",
