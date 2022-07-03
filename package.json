@@ -28,7 +28,7 @@
     "react-dom": "^17.0.0"
   },
   "dependencies": {
-    "@based/react": "^3.0.0",
+    "@based/react": "^3.0.1",
     "@saulx/validators": "^1.2.0",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",

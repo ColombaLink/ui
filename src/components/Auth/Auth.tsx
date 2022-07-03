@@ -1,4 +1,10 @@
-import React, { FC, useState, CSSProperties, ReactChild } from 'react'
+import React, {
+  FC,
+  useState,
+  CSSProperties,
+  ReactChild,
+  useEffect,
+} from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
@@ -29,6 +35,15 @@ export const Authorize: FC<AuthProps> = ({
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
 
+  const [fadeIn, setFade] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setFade(true), 300)
+    return () => {
+      clearTimeout(t)
+    }
+  }, [])
+
   const user = useAuth()
 
   const [activeTab, setActiveTab] = useState(0)
@@ -39,6 +54,8 @@ export const Authorize: FC<AuthProps> = ({
         padding: 32,
         maxWidth: '100vw',
         width: 400,
+        opacity: fadeIn ? 1 : 0,
+        transition: 'opacity 1s',
         ...style,
       }}
     >
@@ -95,7 +112,6 @@ export const Authorize: FC<AuthProps> = ({
   )
 
   if (user) {
-    console.info(user)
     if (app) {
       return React.createElement(app, user)
     } else {

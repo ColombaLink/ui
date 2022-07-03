@@ -2,6 +2,7 @@ import { render } from 'react-dom'
 import React from 'react'
 import { Provider, Authorize, Topbar, LoadingIcon, Page } from '../../src'
 import based from '@based/client'
+import { useAuth } from '@based/react'
 
 export const client = based({
   org: 'saulx',
@@ -9,7 +10,14 @@ export const client = based({
   env: 'production',
 })
 
+client.observeAuth((t) => {
+  console.log('user', t)
+})
+
 const App = () => {
+  const user = useAuth()
+
+  console.info('user?', user)
   return (
     <>
       <Topbar
@@ -20,9 +28,11 @@ const App = () => {
         }}
       />
       <Page
-        style={{
-          border: '10px solid red',
-        }}
+        style={
+          {
+            //   border: '10px solid red',
+          }
+        }
       >
         {true ? <LoadingIcon /> : null}
       </Page>
