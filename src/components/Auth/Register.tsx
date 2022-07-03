@@ -2,8 +2,11 @@ import React, { FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { useClient } from '@based/react'
-import { EmailIcon, LockIcon, CheckIcon, CloseIcon } from '~/icons'
-import { email as isEmail } from '@saulx/validators'
+import { EmailIcon, LockIcon, CheckIcon, CloseIcon, ErrorIcon } from '~/icons'
+import { Callout } from '../Callout'
+import { email as isEmail, validatePassword } from '@saulx/validators'
+
+console.info(validatePassword)
 
 type RegisterProps = {
   width?: number
@@ -13,11 +16,17 @@ type RegisterProps = {
 export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
   const client = useClient()
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState<string>()
-  const [cpassword, setCPassword] = useState<string>()
+  const [password, setPassword] = useState('')
+  const [cpassword, setCPassword] = useState('')
   const [name, setName] = useState<string>()
-  const passwordIsValid = password && password === cpassword
+
+  const passwordScore = validatePassword(password)
+
+  const passwordIsValid =
+    passwordScore.valid && password && password === cpassword
   const valid = isEmail(email) && passwordIsValid
+  const [passwordValidationMessage, setpasswordValidationMessage] =
+    useState<string>(null)
 
   return (
     <div
@@ -55,7 +64,21 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
       <div
         style={{
           transition: 'max-height 0.4s ease-out',
-          maxHeight: password?.length > 0 ? 248 : 0,
+          maxHeight: passwordValidationMessage ? 248 : 0,
+          overflow: 'hidden',
+          marginTop: 8,
+          marginBottom: 16,
+        }}
+      >
+        <Callout space iconLeft={ErrorIcon({ color: 'PurpleBright' })}>
+          {passwordValidationMessage}
+        </Callout>
+      </div>
+
+      <div
+        style={{
+          transition: 'max-height 0.4s ease-out',
+          maxHeight: passwordScore.valid ? 248 : 0,
           overflow: 'hidden',
         }}
       >
