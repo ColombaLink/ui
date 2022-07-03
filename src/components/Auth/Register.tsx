@@ -5,6 +5,7 @@ import { Dialog, useDialog } from '~'
 import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
 import { LargeLogo } from '../Logo'
+import useGlobalState from '@based/use-global-state'
 
 type RegisterProps = {
   width?: number
@@ -13,7 +14,7 @@ type RegisterProps = {
 
 export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
   const client = useClient()
-  const [email, setEmail] = useState<string>()
+  const [email = '', setEmail] = useGlobalState('email')
   const [password, setPassword] = useState<string>()
   const [name, setName] = useState<string>()
   const [working, setWorking] = useState(false)
@@ -27,6 +28,7 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
       <Input
         space="16px"
         iconLeft={EmailIcon}
+        value={email}
         name="email"
         placeholder="Enter your email address"
         onChange={(value) => {
@@ -56,7 +58,6 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
         textAlign="center"
         style={{
           transition: 'transform 0.15s ease-out',
-
           justifyContent: 'flex-end',
           height: 48,
           width,

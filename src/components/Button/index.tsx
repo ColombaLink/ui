@@ -239,7 +239,8 @@ export const Button: FC<ButtonProps> = ({
       >
         {iconLeft &&
           renderOrCreateElement(iconLeft, {
-            style: children || iconRight ? { marginRight: 8 } : null,
+            style:
+              children || iconRight ? { marginRight: 8, flexShrink: 0 } : null,
             color: c(foregroundColor),
           })}
         <Text color="inherit">{children}</Text>

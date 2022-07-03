@@ -1,6 +1,7 @@
 import React from 'react'
 import { AddIcon, LightModeIcon, DarkModeIcon, Button, Text } from '~'
 import { styled } from 'inlines'
+import { CheckIcon } from '~/icons'
 import wait from '~/utils/wait'
 
 export const Buttons = ({ icon }) => {
@@ -102,6 +103,14 @@ export const Buttons = ({ icon }) => {
 
       <Button style={{ marginTop: 24 }} large>
         Hello
+      </Button>
+
+      <Button iconLeft={<CheckIcon />} style={{ marginTop: 24 }} large>
+        OK
+      </Button>
+
+      <Button iconLeft={<CheckIcon />} style={{ marginTop: 24 }}>
+        OK
       </Button>
     </>
   )

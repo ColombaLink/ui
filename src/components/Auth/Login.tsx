@@ -7,6 +7,7 @@ import { useClient } from '@based/react'
 import { color } from '~'
 import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
+import useGlobalState from '@based/use-global-state'
 
 // allow buttons for google etc
 
@@ -25,7 +26,7 @@ export const Login: FC<LoginProps> = ({
   onRegister,
   onResetRequest,
 }) => {
-  const [email, setEmail] = useState('')
+  const [email = '', setEmail] = useGlobalState('email')
   const [password, setPassword] = useState('')
   const [emailValidationMessage, setEmailValidationMessage] =
     useState<string>(null)
@@ -64,6 +65,7 @@ export const Login: FC<LoginProps> = ({
 
       <Input
         large
+        value={email}
         iconLeft={EmailIcon}
         placeholder="Email address"
         style={{ flexGrow: 1 }}

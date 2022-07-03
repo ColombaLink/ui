@@ -63,7 +63,7 @@ export const Authorize: FC<AuthProps> = ({
             style={{ marginTop: 24 }}
             onSuccess={() => {
               setShowResetRequest(false)
-              if (typeof onResetRequest === 'function') onResetRequest()
+              onResetRequest()
             }}
             onCancel={() => {
               setShowResetRequest(false)

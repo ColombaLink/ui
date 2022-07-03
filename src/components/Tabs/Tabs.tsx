@@ -36,8 +36,6 @@ export const Tabs: FC<TabsProps> = ({
   const elem = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    console.log(activeTabState, hoverTab)
-
     const t = elem.current.children[hoverTab > -1 ? hoverTab : activeTabState]
     if (t) {
       const { width, left } = t.getBoundingClientRect()
