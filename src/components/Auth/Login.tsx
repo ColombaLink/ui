@@ -118,9 +118,9 @@ export const Login: FC<LoginProps> = ({
                   email,
                   password,
                 })
-                const { token, refreshToken } = result
                 if (onLogin) {
-                  onLogin({ token, refreshToken })
+                  // @ts-ignore
+                  onLogin(result)
                 }
               }
             : () => {

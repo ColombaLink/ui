@@ -123,7 +123,11 @@ export const Topbar = ({
           minHeight: 66,
         }}
       >
-        <Logo style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }} />
+        <Logo
+          height={32}
+          width={32}
+          style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+        />
 
         {breadcrumbs}
 

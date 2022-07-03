@@ -4,11 +4,14 @@ import React, {
   CSSProperties,
   ReactChild,
   ReactNode,
+  useEffect,
+  ReactChildren,
 } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
-import useGlobalState from '@based/use-global-state'
+import { useClient } from '@based/react'
+import useLocalStorage from '@based/use-local-storage'
 
 type AuthProps = {
   onLogin?: (props: { token: string; refreshToken: string }) => void
@@ -18,21 +21,63 @@ type AuthProps = {
   logo?: boolean | ReactChild
   overlay?: boolean
   style?: CSSProperties
-  children?: FC | ReactNode | ReactChild
+  app?: FC<any | { user: { id: string; email: string } }>
 }
 
 export const Authorize: FC<AuthProps> = ({
   onLogin,
   onRegister,
-  register,
+  register = true,
+  app,
   onResetRequest,
   overlay = true,
   logo,
   style,
-  children,
 }) => {
-  const arrayChildren: Object[] = React.Children.toArray(children)
   const [showResetRequest, setShowResetRequest] = useState(false)
+
+  // TOKEN SHOULD NOT PUT FALSE ETC
+  // Stores the token and refreshToken in local storage
+  const [token, setToken] = useLocalStorage('token')
+  const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken')
+  const [userId, setUserId] = useLocalStorage('userId')
+  const [userEmail, setUserEmail] = useLocalStorage('userEmail')
+
+  const user = { id: userId || '', email: userEmail || '' }
+
+  const client = useClient()
+
+  const renewHandler = ({ token: newToken }: { token: string }) => {
+    setToken(newToken)
+  }
+
+  useEffect(() => {
+    client.on('renewToken', renewHandler)
+    return () => {
+      client.removeListener('renewToken', renewHandler)
+    }
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      if (token) {
+        const x = await client.auth(token, { refreshToken })
+        if (!x) {
+          console.warn('Invalid token', token)
+          // ls does not allow us to set with boolean false...
+          setToken('')
+          setRefreshToken('')
+        }
+      }
+      // very weirs
+      // else {
+      //   console.warn('No token - reset refresh and ls')
+      //   await client.auth(false)
+      //   setToken('')
+      //   setRefreshToken('')
+      // }
+    })()
+  }, [token])
 
   const auth = (
     <Container
@@ -48,7 +93,20 @@ export const Authorize: FC<AuthProps> = ({
         <Tabs space small>
           <Tab title="Sign in">
             <Login
-              onLogin={onLogin}
+              onLogin={(r) => {
+                console.info('--------->', r)
+                // @ts-ignore
+                setToken(r.token)
+                // @ts-ignore
+                setRefreshToken(r.refreshToken)
+                // @ts-ignore
+                setUserId(r.id)
+                // @ts-ignore
+                setUserEmail(r.email)
+                if (onLogin) {
+                  onLogin(r)
+                }
+              }}
               onResetRequest={() => {
                 setShowResetRequest(true)
               }}
@@ -56,7 +114,19 @@ export const Authorize: FC<AuthProps> = ({
           </Tab>
           {register || onRegister ? (
             <Tab title="Sign up">
-              <Register onRegister={onRegister} />
+              <Register
+                onRegister={(r) => {
+                  // @ts-ignore
+                  setToken(r.token)
+                  // @ts-ignore
+                  setRefreshToken(r.refreshToken)
+                  // @ts-ignore
+                  setUser({ id: r.id, email: r.email })
+                  if (onRegister) {
+                    onRegister(r)
+                  }
+                }}
+              />
             </Tab>
           ) : null}
         </Tabs>
@@ -74,6 +144,15 @@ export const Authorize: FC<AuthProps> = ({
       )}
     </Container>
   )
+
+  if (token) {
+    if (app) {
+      // @ts-ignore
+      return React.createElement(app, { user })
+    } else {
+      return <div>Loggedin!</div>
+    }
+  }
 
   return overlay ? (
     <div

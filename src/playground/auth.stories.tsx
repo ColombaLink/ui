@@ -1,38 +1,51 @@
 import React from 'react'
 import { Provider } from '~'
-import {
-  Authorize,
-  // Login,
-  // LoginButton,
-  // Register,
-  // RegisterButton,
-  ResetRequest,
-} from '~/components/Auth'
-import { Container } from '~'
+import { Container, Page, Topbar, Authorize, ResetRequest } from '~'
 import { client } from './shared'
 import { LargeLogo } from '~/components/Logo'
+import { useData } from '@based/react'
 
-const App = () => {
-  return <div>APP!</div>
+const App = ({ user }: { user: { id: string; email: string } }) => {
+  const { data, loading } = useData({
+    $id: user.id,
+    todos: {
+      $list: {
+        $sort: {
+          $field: 'createdAt',
+          $order: 'asc',
+        },
+        $limit: 100,
+        $offset: 0,
+        $find: {
+          $traverse: 'children',
+          $filter: {
+            $field: 'type',
+            $operator: '=',
+            $value: 'thing',
+          },
+        },
+      },
+    },
+  })
+
+  return (
+    <>
+      <Topbar
+        data={{ Projects: '/', Settings: '/settings' }}
+        onProfile={() => {
+          // add more here
+          console.log('clicked')
+        }}
+      />
+      <Page>???</Page>
+    </>
+  )
 }
 
 export const AuthComponent = () => {
   return (
     <Provider client={client}>
-      <Authorize
-        logo
-        onLogin={(result) => {
-          console.log('Did login', { result })
-        }}
-        onRegister={(result) => {
-          console.log('Did register', { result })
-        }}
-        onResetRequest={() => {
-          console.log('Did Request Reset Password')
-        }}
-      >
-        <App />
-      </Authorize>
+      <Authorize logo app={App} />
     </Provider>
   )
 }
