@@ -10,30 +10,32 @@ import {
 } from '~'
 import { client } from './shared'
 import { LargeLogo } from '~/components/Logo'
-import { useData } from '@based/react'
+import { useData, useAuth } from '@based/react'
 
-const App = ({ user }: { user: { id: string; email: string } }) => {
-  const { data, loading } = useData({
-    $id: user.id,
-    todos: {
-      $list: {
-        $sort: {
-          $field: 'createdAt',
-          $order: 'asc',
-        },
-        $limit: 100,
-        $offset: 0,
-        $find: {
-          $traverse: 'children',
-          $filter: {
-            $field: 'type',
-            $operator: '=',
-            $value: 'thing',
-          },
-        },
-      },
-    },
-  })
+const App = ({ user }: { user: { id: string; token: string } }) => {
+  console.info(user)
+
+  // const { data, loading } = useData({
+  //   $id: user.id,
+  //   todos: {
+  //     $list: {
+  //       $sort: {
+  //         $field: 'createdAt',
+  //         $order: 'asc',
+  //       },
+  //       $limit: 100,
+  //       $offset: 0,
+  //       $find: {
+  //         $traverse: 'children',
+  //         $filter: {
+  //           $field: 'type',
+  //           $operator: '=',
+  //           $value: 'thing',
+  //         },
+  //       },
+  //     },
+  //   },
+  // })
 
   return (
     <>
@@ -49,7 +51,7 @@ const App = ({ user }: { user: { id: string; email: string } }) => {
           border: '10px solid red',
         }}
       >
-        {loading ? <LoadingIcon /> : null}
+        {true ? <LoadingIcon /> : null}
       </Page>
     </>
   )

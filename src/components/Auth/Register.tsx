@@ -9,15 +9,20 @@ import { color } from '~/utils'
 
 type RegisterProps = {
   width?: number
+  email?: string
   onRegister?: (data: { email: string; password: string; name: string }) => void
 }
 
-export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
+export const Register: FC<RegisterProps> = ({
+  email: initialEmail = '',
+  width = '100%',
+  onRegister,
+}) => {
   const client = useClient()
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(initialEmail)
   const [password, setPassword] = useState('')
   const [cpassword, setCPassword] = useState('')
-  const [name, setName] = useState<string>()
+  const [name, setName] = useState('')
 
   const passwordScore = validatePassword(password)
 

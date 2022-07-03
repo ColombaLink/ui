@@ -18,6 +18,7 @@ type TabsProps = {
   space?: Space
   small?: boolean
   activeTab?: number
+  setActiveTab?: (index: number) => void
 }
 
 export const Tabs: FC<TabsProps> = ({
@@ -26,10 +27,16 @@ export const Tabs: FC<TabsProps> = ({
   space = 0,
   small,
   activeTab = 0,
+  setActiveTab,
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
 
-  const [activeTabState, setActiveTab] = useState(activeTab)
+  let activeTabState: number = activeTab
+  let setActiveTabInternal: (index: number) => void = setActiveTab
+
+  if (!setActiveTab) {
+    ;[activeTabState, setActiveTabInternal] = useState(activeTab)
+  }
   const [hoverTab, setHoverTab] = useState(-1)
   const [lineWidth, setLineWidth] = useState(0)
   const [x, setX] = useState(0)

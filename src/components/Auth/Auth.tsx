@@ -10,8 +10,8 @@ import React, {
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
-import { useClient } from '@based/react'
-import useLocalStorage from '@based/use-local-storage'
+import { useAuth, useClient } from '@based/react'
+import useGlobalState from '@based/use-global-state'
 
 type AuthProps = {
   onLogin?: (props: { token: string; refreshToken: string }) => void
@@ -35,49 +35,11 @@ export const Authorize: FC<AuthProps> = ({
   style,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
+  const [email = '', setEmail] = useGlobalState('email')
 
-  // TOKEN SHOULD NOT PUT FALSE ETC
-  // Stores the token and refreshToken in local storage
-  const [token, setToken] = useLocalStorage('token')
-  const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken')
-  const [userId, setUserId] = useLocalStorage('userId')
-  const [userEmail, setUserEmail] = useLocalStorage('userEmail')
+  const user = useAuth()
 
-  const user = { id: userId || '', email: userEmail || '' }
-
-  const client = useClient()
-
-  const renewHandler = ({ token: newToken }: { token: string }) => {
-    setToken(newToken)
-  }
-
-  useEffect(() => {
-    client.on('renewToken', renewHandler)
-    return () => {
-      client.removeListener('renewToken', renewHandler)
-    }
-  }, [])
-
-  useEffect(() => {
-    ;(async () => {
-      if (token) {
-        const x = await client.auth(token, { refreshToken })
-        if (!x) {
-          console.warn('Invalid token', token)
-          // ls does not allow us to set with boolean false...
-          setToken('')
-          setRefreshToken('')
-        }
-      }
-      // very weirs
-      // else {
-      //   console.warn('No token - reset refresh and ls')
-      //   await client.auth(false)
-      //   setToken('')
-      //   setRefreshToken('')
-      // }
-    })()
-  }, [token])
+  const [activeTab, setActiveTab] = useState(0)
 
   const auth = (
     <Container
@@ -90,22 +52,16 @@ export const Authorize: FC<AuthProps> = ({
     >
       {!logo ? null : logo === true ? <LargeLogo /> : logo}
       {!showResetRequest ? (
-        <Tabs space small>
+        <Tabs space small setActiveTab={setActiveTab} activeTab={activeTab}>
           <Tab title="Sign in">
             <Login
               onLogin={(r) => {
-                console.info('--------->', r)
-                // @ts-ignore
-                setToken(r.token)
-                // @ts-ignore
-                setRefreshToken(r.refreshToken)
-                // @ts-ignore
-                setUserId(r.id)
-                // @ts-ignore
-                setUserEmail(r.email)
                 if (onLogin) {
                   onLogin(r)
                 }
+              }}
+              onRegisterRequest={(email) => {
+                setActiveTab(1)
               }}
               onResetRequest={() => {
                 setShowResetRequest(true)
@@ -115,6 +71,7 @@ export const Authorize: FC<AuthProps> = ({
           {register || onRegister ? (
             <Tab title="Sign up">
               <Register
+                email={email}
                 onRegister={(r) => {
                   // @ts-ignore
                   setToken(r.token)
@@ -145,10 +102,10 @@ export const Authorize: FC<AuthProps> = ({
     </Container>
   )
 
-  if (token) {
+  if (user) {
+    console.info(user)
     if (app) {
-      // @ts-ignore
-      return React.createElement(app, { user })
+      return React.createElement(app, user)
     } else {
       return <div>Loggedin!</div>
     }
