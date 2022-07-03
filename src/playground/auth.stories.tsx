@@ -1,6 +1,13 @@
 import React from 'react'
 import { Provider } from '~'
-import { Container, Page, Topbar, Authorize, ResetRequest } from '~'
+import {
+  Container,
+  Page,
+  Topbar,
+  Authorize,
+  ResetRequest,
+  LoadingIcon,
+} from '~'
 import { client } from './shared'
 import { LargeLogo } from '~/components/Logo'
 import { useData } from '@based/react'
@@ -37,7 +44,13 @@ const App = ({ user }: { user: { id: string; email: string } }) => {
           console.log('clicked')
         }}
       />
-      <Page>???</Page>
+      <Page
+        style={{
+          border: '10px solid red',
+        }}
+      >
+        {loading ? <LoadingIcon /> : null}
+      </Page>
     </>
   )
 }

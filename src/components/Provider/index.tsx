@@ -27,7 +27,7 @@ export const Provider: FC<ProviderProps> = ({ children, style, client }) => {
       style={{
         backgroundColor: color('Background1dp'),
         color: color('TextPrimary'),
-        height: '100vh',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         ...style,

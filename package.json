@@ -23,7 +23,7 @@
     "extends": "@saulx/eslint-config"
   },
   "dependencies": {
-    "@based/react": "^2.6.1",
+    "@based/react": "^3.0.0",
     "@saulx/validators": "^1.2.0",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@ladle/react": "^1.1.1",
-    "@based/client": "^2.10.1",
+    "@based/client": "^3.0.0",
     "@saulx/prettier-config": "^1.0.0",
     "@types/node": "^18.0.0",
     "@types/react": "17",
