@@ -35,11 +35,9 @@ export const ResetRequest: FC<ResetRequestProps> = ({
             value={email}
             space="24px"
             iconLeft={EmailIcon}
-            name="email"
+            type="email"
             placeholder="Email address"
-            onChange={(value) => {
-              setEmail(String(value))
-            }}
+            onChange={setEmail}
           />
           <Button
             large

@@ -33,9 +33,8 @@ const Single = (props) => {
   return <input {...(ref ? { ref } : null)} {...otherProps} />
 }
 
-type InputProps = {
+type InputPropsBaseLine = {
   style?: React.CSSProperties
-  onChange?: (value: string | number) => void
   label?: string
   description?: string
   optional?: boolean
@@ -43,7 +42,6 @@ type InputProps = {
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   defaultValue?: string | number
-  type?: string
   placeholder?: string
   multiline?: boolean
   bg?: boolean
@@ -53,6 +51,25 @@ type InputProps = {
   inputRef?: React.RefObject<HTMLDivElement>
   large?: boolean
 }
+
+// to coorece the on change (skips having to make conversions or ts ignores)
+type InputProps =
+  | (InputPropsBaseLine & {
+      type: 'text' | 'password' | 'email' | 'phone' | 'color'
+      onChange?: (value: string) => void
+    })
+  | (InputPropsBaseLine & {
+      name: 'password' | 'email' | 'name'
+      onChange?: (value: string) => void
+    })
+  | (InputPropsBaseLine & {
+      type: 'number' | 'date'
+      onChange?: (value: number) => void
+    })
+  | (InputPropsBaseLine & {
+      type?: string
+      onChange?: (value: string | number) => void
+    })
 
 export const Input: FC<
   InputProps & Omit<React.HTMLProps<HTMLInputElement>, keyof InputProps>
@@ -84,6 +101,8 @@ export const Input: FC<
   const onChange = (e) => {
     const newValue = e.target.value
     setValue(newValue)
+    // ignore so we have to write less code.. TODO: write more stuff for this
+    // @ts-ignore
     onChangeProp?.(newValue)
   }
 

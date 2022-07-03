@@ -8,6 +8,7 @@ import React, {
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
+import { client } from '~/playground/shared'
 
 type AuthProps = {
   onLogin?: (props: { token: string; refreshToken: string }) => void
@@ -18,6 +19,13 @@ type AuthProps = {
   style?: CSSProperties
   children?: FC | ReactNode | ReactChild
 }
+
+/*
+await client.register({
+  email: 'jim@saulx.com',
+  password: '123'
+})
+*/
 
 export const Authorize: FC<AuthProps> = ({
   onLogin,

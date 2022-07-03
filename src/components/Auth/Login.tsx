@@ -66,11 +66,10 @@ export const Login: FC<LoginProps> = ({
       <Input
         large
         value={email}
+        type="email"
         iconLeft={EmailIcon}
         placeholder="Email address"
-        onChange={(value: string) => {
-          setEmail(value)
-        }}
+        onChange={setEmail}
       />
 
       <div
@@ -96,13 +95,10 @@ export const Login: FC<LoginProps> = ({
         <Input
           large
           inputRef={passwordRef}
-          label="Password"
           iconLeft={LockIcon}
           type="password"
           placeholder="Password"
-          onChange={(value: string) => {
-            setPassword(value)
-          }}
+          onChange={setPassword}
           space
         />
       </div>

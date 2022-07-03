@@ -1,9 +1,9 @@
 import React, { FC, useState } from 'react'
 import { Input } from '../Input'
-import { Button, ButtonProps } from '../Button'
-import { Dialog, useDialog } from '~'
+import { Button } from '../Button'
 import { useClient } from '@based/react'
-import { EmailIcon } from '~/icons'
+import { EmailIcon, LockIcon, CheckIcon, CloseIcon } from '~/icons'
+import { email as isEmail } from '@saulx/validators'
 
 type RegisterProps = {
   width?: number
@@ -14,8 +14,10 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
   const client = useClient()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState<string>()
+  const [cpassword, setCPassword] = useState<string>()
   const [name, setName] = useState<string>()
-  const [working, setWorking] = useState(false)
+  const passwordIsValid = password && password === cpassword
+  const valid = isEmail(email) && passwordIsValid
 
   return (
     <div
@@ -26,71 +28,71 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
       <Input
         space="16px"
         large
+        type="text"
         name="name"
         placeholder="Name"
-        onChange={(value) => {
-          setName(String(value))
-        }}
+        onChange={setName}
       />
 
       <Input
+        type="email"
         large
         space="16px"
         iconLeft={EmailIcon}
         value={email}
-        name="email"
         placeholder="Email address"
-        onChange={(value) => {
-          setEmail(String(value))
-        }}
+        onChange={setEmail}
       />
       <Input
         large
         space="16px"
-        name="password"
+        iconLeft={LockIcon}
         type="password"
         placeholder="Password"
-        onChange={(value) => {
-          setPassword(String(value))
-        }}
+        onChange={setPassword}
       />
 
-      <Input
-        large
-        space="16px"
-        name="confirm-password"
-        type="password"
-        placeholder="Confirm password"
-        onChange={(value) => {
-          setPassword(String(value))
+      <div
+        style={{
+          transition: 'max-height 0.4s ease-out',
+          maxHeight: password?.length > 0 ? 248 : 0,
+          overflow: 'hidden',
         }}
-      />
+      >
+        <Input
+          large
+          iconLeft={
+            !cpassword ? (
+              LockIcon
+            ) : passwordIsValid ? (
+              <CheckIcon color="Green" />
+            ) : (
+              <CloseIcon color="Red" />
+            )
+          }
+          space
+          name="confirm-password"
+          type="password"
+          placeholder="Confirm password"
+          onChange={setCPassword}
+        />
+      </div>
 
       <Button
-        disabled={working}
-        loading={working}
-        textAlign="center"
-        style={{
-          transition: 'transform 0.15s ease-out',
-          justifyContent: 'flex-end',
-          height: 48,
-          width,
-        }}
+        disabled={!valid}
+        fill
+        large
         onClick={async () => {
-          setWorking(true)
           let result: any
-          try {
-            result = await client.call('registerUser', {
-              email,
-              password,
-              name,
-              redirectUrl: window.location.href,
-            })
-          } catch (err) {
-            console.error(err)
+          result = await client.call('registerUser', {
+            email,
+            password,
+            name,
+            redirectUrl: window.location.href,
+          })
+          if (onRegister) {
+            onRegister(result)
           }
-          setWorking(false)
-          if (typeof onRegister === 'function') onRegister(result)
         }}
       >
         Register
