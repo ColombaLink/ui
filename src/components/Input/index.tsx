@@ -130,7 +130,7 @@ export const Input: FC<
       }}
     >
       {label && (
-        <Text style={{ marginBottom: 4 }}>
+        <Text style={{ marginBottom: 8 }}>
           {label}
           {optional && (
             <span
