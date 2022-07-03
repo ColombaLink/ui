@@ -84,12 +84,13 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
         large
         onClick={async () => {
           let result: any
-          result = await client.call('registerUser', {
+          result = await client.register({
             email,
             password,
             name,
             redirectUrl: window.location.href,
           })
+
           if (onRegister) {
             onRegister(result)
           }

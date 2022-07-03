@@ -20,13 +20,6 @@ type AuthProps = {
   children?: FC | ReactNode | ReactChild
 }
 
-/*
-await client.register({
-  email: 'jim@saulx.com',
-  password: '123'
-})
-*/
-
 export const Authorize: FC<AuthProps> = ({
   onLogin,
   onRegister,
