@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { EmailIcon } from '~/icons'
+import { EmailIcon, LockIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
@@ -68,7 +68,6 @@ export const Login: FC<LoginProps> = ({
         value={email}
         iconLeft={EmailIcon}
         placeholder="Email address"
-        style={{ flexGrow: 1 }}
         onChange={(value: string) => {
           setEmail(value)
         }}
@@ -98,8 +97,8 @@ export const Login: FC<LoginProps> = ({
           large
           inputRef={passwordRef}
           label="Password"
+          iconLeft={LockIcon}
           type="password"
-          style={{ flexGrow: 1 }}
           placeholder="Password"
           onChange={(value: string) => {
             setPassword(value)

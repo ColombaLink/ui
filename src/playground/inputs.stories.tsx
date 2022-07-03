@@ -5,7 +5,9 @@ import {
   CheckIcon,
   EditIcon,
   Form,
+  LockIcon,
   Input,
+  EmailIcon,
   Provider,
   AddIcon,
 } from '~'
@@ -49,6 +51,23 @@ export const Inputs = () => {
       <Input label="Optional Multiline" optional multiline />
       <br />
       <Input label="With Background" bg />
+      <br />
+      <Input
+        large
+        label="Password"
+        iconLeft={LockIcon}
+        type="password"
+        placeholder="Password"
+      />
+      <br />
+      <Input large iconLeft={EmailIcon} placeholder="Email address" />
+      <br />
+      <Input
+        label="Email"
+        large
+        iconLeft={EmailIcon}
+        placeholder="Email address"
+      />
     </>
   )
 }

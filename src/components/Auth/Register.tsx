@@ -4,8 +4,6 @@ import { Button, ButtonProps } from '../Button'
 import { Dialog, useDialog } from '~'
 import { useClient } from '@based/react'
 import { EmailIcon } from '~/icons'
-import { LargeLogo } from '../Logo'
-import useGlobalState from '@based/use-global-state'
 
 type RegisterProps = {
   width?: number
@@ -14,7 +12,7 @@ type RegisterProps = {
 
 export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
   const client = useClient()
-  const [email = '', setEmail] = useGlobalState('email')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState<string>()
   const [name, setName] = useState<string>()
   const [working, setWorking] = useState(false)
@@ -27,31 +25,47 @@ export const Register: FC<RegisterProps> = ({ width = '100%', onRegister }) => {
     >
       <Input
         space="16px"
+        large
+        name="name"
+        placeholder="Name"
+        onChange={(value) => {
+          setName(String(value))
+        }}
+      />
+
+      <Input
+        large
+        space="16px"
         iconLeft={EmailIcon}
         value={email}
         name="email"
-        placeholder="Enter your email address"
+        placeholder="Email address"
         onChange={(value) => {
           setEmail(String(value))
         }}
       />
       <Input
+        large
         space="16px"
         name="password"
         type="password"
-        placeholder="Enter your password"
+        placeholder="Password"
         onChange={(value) => {
           setPassword(String(value))
         }}
       />
+
       <Input
+        large
         space="16px"
-        name="name"
-        placeholder="Enter your name"
+        name="confirm-password"
+        type="password"
+        placeholder="Confirm password"
         onChange={(value) => {
-          setName(String(value))
+          setPassword(String(value))
         }}
       />
+
       <Button
         disabled={working}
         loading={working}
