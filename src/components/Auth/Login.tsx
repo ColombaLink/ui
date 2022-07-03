@@ -14,7 +14,7 @@ import useGlobalState from '@based/use-global-state'
 type LoginProps = {
   width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
-  onRegister?: (data: any) => void
+  onRegisterRequest?: (email: string) => void
   onResetRequest?: () => void
 }
 
@@ -23,7 +23,7 @@ type LoginProps = {
 export const Login: FC<LoginProps> = ({
   width = '100%',
   onLogin,
-  onRegister,
+  onRegisterRequest,
   onResetRequest,
 }) => {
   const [email = '', setEmail] = useGlobalState('email')
@@ -33,6 +33,7 @@ export const Login: FC<LoginProps> = ({
   const [passwordExpanded, setPasswordExpanded] = useState(false)
   const client = useClient()
   const passwordRef = useRef<HTMLInputElement>(null)
+  const valid = passwordExpanded && password && isEmail(email)
 
   return (
     <div
@@ -109,7 +110,7 @@ export const Login: FC<LoginProps> = ({
           marginBottom: 24,
         }}
         actionKeys={['Enter']}
-        disabled={passwordExpanded ? !password : !isEmail(email)}
+        disabled={!passwordExpanded ? !isEmail(email) : !valid}
         onClick={
           passwordExpanded
             ? async () => {
@@ -137,25 +138,47 @@ export const Login: FC<LoginProps> = ({
       >
         {passwordExpanded ? 'Sign in' : 'Continue with Email'}
       </Button>
-      <Text>
-        Forgot your password?{' '}
-        <styled.a
-          style={{
-            color: color('PrimaryMain'),
-            cursor: 'pointer',
-            '&:hover': {
-              color: color('PrimaryMainHover'),
-            },
-          }}
-          onClick={() => {
-            if (onResetRequest) {
-              onResetRequest()
-            }
-          }}
-        >
-          Reset Password
-        </styled.a>
-      </Text>
+      {valid ? (
+        <Text>
+          Forgot your password?{' '}
+          <styled.a
+            style={{
+              color: color('PrimaryMain'),
+              cursor: 'pointer',
+              '&:hover': {
+                color: color('PrimaryMainHover'),
+              },
+            }}
+            onClick={() => {
+              if (onResetRequest) {
+                onResetRequest()
+              }
+            }}
+          >
+            Reset Password
+          </styled.a>
+        </Text>
+      ) : (
+        <Text>
+          Don't have an account?{' '}
+          <styled.a
+            style={{
+              color: color('PrimaryMain'),
+              cursor: 'pointer',
+              '&:hover': {
+                color: color('PrimaryMainHover'),
+              },
+            }}
+            onClick={() => {
+              if (onRegisterRequest) {
+                onRegisterRequest(email)
+              }
+            }}
+          >
+            Sign up
+          </styled.a>
+        </Text>
+      )}
     </div>
   )
 }

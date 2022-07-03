@@ -1,11 +1,17 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  ReactChild,
+  ReactChildren,
+  ReactNode,
+} from 'react'
 import { Space, Color } from '~/types'
 import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { isCapitalised } from '~/utils/isCapitalised'
 
 type CalloutProps = {
-  children?: string
+  children?: string | ReactChildren | ReactChild
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean
@@ -67,7 +73,7 @@ export const Callout: FC<CalloutProps> = ({
         border: outline ? `1px solid ${color(outlineColor)}` : null,
         backgroundColor: color(backgroundColor),
         display: 'flex',
-        alignItems: 'center',
+        // alignItems: 'center',
         padding: '12px 16px',
         borderRadius: 4,
         marginBottom: spaceToPx(space),
@@ -81,13 +87,15 @@ export const Callout: FC<CalloutProps> = ({
       }}
     >
       {iconLeft && (
-        <div style={{ marginRight: 8 }}>
+        <div style={{ marginRight: 12, flexShrink: 0, paddingTop: 4 }}>
           {renderOrCreateElement(iconLeft, {
             color: color(colorProp),
           })}
         </div>
       )}
-      <Text color={color(foregroundColor)}>{children}</Text>
+      <Text wrap color={color(foregroundColor)}>
+        {children}
+      </Text>
       {iconRight && (
         <div style={{ marginLeft: 8 }}>
           {renderOrCreateElement(iconRight, {

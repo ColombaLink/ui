@@ -12,6 +12,10 @@ import { Container } from '~'
 import { client } from './shared'
 import { LargeLogo } from '~/components/Logo'
 
+const App = () => {
+  return <div>APP!</div>
+}
+
 export const AuthComponent = () => {
   return (
     <Provider client={client}>
@@ -26,7 +30,9 @@ export const AuthComponent = () => {
         onResetRequest={() => {
           console.log('Did Request Reset Password')
         }}
-      />
+      >
+        <App />
+      </Authorize>
     </Provider>
   )
 }
