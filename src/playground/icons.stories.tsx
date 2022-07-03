@@ -2,6 +2,7 @@ import React from 'react'
 import * as icons from '../icons'
 import { Provider } from '~'
 import { Text } from '~/components/Text'
+import './shared'
 
 import { theme } from '../themes/light'
 

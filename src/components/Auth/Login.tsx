@@ -26,7 +26,7 @@ export const Login: FC<LoginProps> = ({
   onRegisterRequest,
   onResetRequest,
 }) => {
-  const [email = '', setEmail] = useGlobalState('email')
+  const [email = '', setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailValidationMessage, setEmailValidationMessage] =
     useState<string>(null)

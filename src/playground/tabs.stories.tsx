@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tabs, Tab } from '~/components/Tabs'
 import { Provider, Container, Text } from '~'
+import './shared'
 
 export const TabsOverview = () => {
   return (

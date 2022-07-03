@@ -2,6 +2,7 @@ import React from 'react'
 import { Callout } from '~/components/Callout'
 import { Provider } from '~'
 import { CheckCircleIcon, ArrowRightIcon, ModelIcon, ErrorIcon } from '~'
+import './shared'
 
 export const Callouts = () => {
   return (

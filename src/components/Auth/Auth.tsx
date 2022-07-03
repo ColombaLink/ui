@@ -1,16 +1,8 @@
-import React, {
-  FC,
-  useState,
-  CSSProperties,
-  ReactChild,
-  ReactNode,
-  useEffect,
-  ReactChildren,
-} from 'react'
+import React, { FC, useState, CSSProperties, ReactChild } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
-import { useAuth, useClient } from '@based/react'
+import { useAuth } from '@based/react'
 import useGlobalState from '@based/use-global-state'
 
 type AuthProps = {

@@ -9,7 +9,8 @@
     "dev": "ladle serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rm -rf dist && tsc --build tsconfig.build.json && node postbuild",
-    "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node postbuild\""
+    "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node postbuild\"",
+    "watchPlayground": "aristotle watch -t playground/src/index.tsx -p 8005"
   },
   "files": [
     "assets",
@@ -22,6 +23,10 @@
   "eslintConfig": {
     "extends": "@saulx/eslint-config"
   },
+  "peerDependencies": {
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0"
+  },
   "dependencies": {
     "@based/react": "^3.0.0",
     "@saulx/validators": "^1.2.0",
@@ -30,13 +35,14 @@
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.2.1",
     "inlines": "^0.2.2",
-    "react": "17",
-    "react-dom": "17",
     "react-virtualized-auto-sizer": "^1.0.6",
     "react-window": "^1.8.7",
     "wouter": "^2.8.0-alpha.2"
   },
   "devDependencies": {
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "@saulx/aristotle": "^4.0.14",
     "@ladle/react": "^1.1.1",
     "@based/client": "^3.0.0",
     "@saulx/prettier-config": "^1.0.0",

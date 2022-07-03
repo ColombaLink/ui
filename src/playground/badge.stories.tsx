@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from '~'
 import { Badge } from '~/components/Badge'
 import { AddIcon, CheckCircleIcon, CloseIcon, DotIcon } from '~/icons'
+import './shared'
 
 export const Badges = () => {
   return (

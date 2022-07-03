@@ -16,6 +16,7 @@ import {
   useSelect,
   useMultiSelect,
 } from '~'
+import './shared'
 
 const DialogWithMenu = () => {
   return (

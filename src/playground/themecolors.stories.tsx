@@ -4,6 +4,7 @@ import { Text } from '~/components/Text'
 import { Color } from '~/types'
 import { color } from '~/utils'
 import { DuplicateIcon } from '../icons/DuplicateIcon'
+import './shared'
 
 import { theme } from '../themes/light'
 import { useHover } from '~/hooks'

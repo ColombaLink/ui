@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from '~'
 import { Grid } from '~/components/Grid/Grid'
 import { Card } from '~/components/Card'
-
+import './shared'
 import { Avatar } from '~/components/Avatar'
 import { Badge } from '~/components/Badge'
 import { Container } from '~/components/Container'
@@ -27,7 +27,7 @@ export const GridOverview = () => {
           topLeft={<Avatar icon={BasedIcon} color="PurpleBright" />}
           topRight={<MoreIcon />}
           bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed>
               main
             </Badge>
           }
@@ -43,7 +43,7 @@ export const GridOverview = () => {
           topLeft={<Avatar icon={BasedIcon} color="BlueSailor" />}
           topRight={<MoreIcon />}
           bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed>
               main
             </Badge>
           }
@@ -63,7 +63,7 @@ export const GridOverview = () => {
           topLeft={<Avatar icon={BasedIcon} color="Mustard" />}
           topRight={<MoreIcon />}
           bottomLeft={
-            <Badge iconLeft={CopyIcon({ size: 14 })} boxed light>
+            <Badge iconLeft={CopyIcon({ size: 14 })} boxed>
               main
             </Badge>
           }

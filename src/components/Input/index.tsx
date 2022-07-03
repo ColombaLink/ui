@@ -1,4 +1,10 @@
-import React, { FC, KeyboardEventHandler, ReactNode } from 'react'
+import React, {
+  Dispatch,
+  FC,
+  KeyboardEventHandler,
+  ReactNode,
+  SetStateAction,
+} from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -56,19 +62,21 @@ type InputPropsBaseLine = {
 type InputProps =
   | (InputPropsBaseLine & {
       type: 'text' | 'password' | 'email' | 'phone' | 'color'
-      onChange?: (value: string) => void
+      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
     })
   | (InputPropsBaseLine & {
       name: 'password' | 'email' | 'name'
-      onChange?: (value: string) => void
+      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
     })
   | (InputPropsBaseLine & {
       type: 'number' | 'date'
-      onChange?: (value: number) => void
+      onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>
     })
   | (InputPropsBaseLine & {
       type?: string
-      onChange?: (value: string | number) => void
+      onChange?:
+        | ((value: string | number) => void)
+        | Dispatch<SetStateAction<string | number>>
     })
 
 export const Input: FC<

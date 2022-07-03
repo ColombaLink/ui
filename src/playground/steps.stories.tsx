@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container } from '~/components/Container'
 import { Steps } from '~/components/Steps'
+import './shared'
 
 export const Step = () => {
   return (

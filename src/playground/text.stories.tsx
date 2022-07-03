@@ -2,6 +2,7 @@ import React from 'react'
 import { Provider } from '~'
 import { Text } from '~/components/Text'
 import { styled } from 'inlines'
+import './shared'
 
 export const Typography = () => {
   return (

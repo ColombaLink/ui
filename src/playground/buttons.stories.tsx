@@ -3,6 +3,7 @@ import { AddIcon, LightModeIcon, DarkModeIcon, Button, Text } from '~'
 import { styled } from 'inlines'
 import { CheckIcon } from '~/icons'
 import wait from '~/utils/wait'
+import './shared'
 
 export const Buttons = ({ icon }) => {
   const colors = ['Primary']

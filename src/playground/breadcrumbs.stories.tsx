@@ -1,4 +1,5 @@
 import React from 'react'
+import './shared'
 
 import { Provider } from '~'
 import { Breadcrumbs } from '~/components/Breadcrumbs'

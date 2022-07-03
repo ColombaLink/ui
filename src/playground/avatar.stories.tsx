@@ -3,6 +3,7 @@ import { Avatar } from '~/components/Avatar'
 import { Provider } from '..'
 import { Text } from '..'
 import { BasedIcon } from '~'
+import './shared'
 
 export const Avatars = () => {
   return (

@@ -2,6 +2,7 @@ import React from 'react'
 import { Thumbnail } from '~/components/Thumbnail'
 import { AttachmentIcon, MarkDownIcon, TextIcon } from '~/icons'
 import { Provider } from '~'
+import './shared'
 
 export const Thumbnails = () => {
   return (

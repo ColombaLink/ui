@@ -13,6 +13,7 @@ import {
 } from '~'
 import { MultiSelect, Select } from '~/components/Select'
 import { styled } from 'inlines'
+import './shared'
 
 export const Checkboxes = () => {
   return (

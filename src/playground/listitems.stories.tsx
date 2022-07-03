@@ -22,6 +22,7 @@ import {
   ListIcon,
 } from '~'
 import { Avatar } from '~/components/Avatar'
+import './shared'
 
 export const ListItems = () => {
   return (

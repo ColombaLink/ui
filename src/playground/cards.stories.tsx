@@ -14,6 +14,7 @@ import {
 import { color } from '~/utils'
 import { Text } from '~/components/Text'
 import { Thumbnail } from '~/components/Thumbnail'
+import './shared'
 
 export const Cards = () => {
   return (

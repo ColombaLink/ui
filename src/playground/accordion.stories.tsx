@@ -3,6 +3,7 @@ import { Accordion, AccordionItem } from '~/components/Accordion/Index'
 import { Provider, Container, Input, Text, Button } from '~'
 import { Thumbnail } from '~/components/Thumbnail'
 import { ReferenceIcon } from '~/icons'
+import './shared'
 
 export const Accordions = () => {
   return (
