@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
 import { useLocation } from '~/hooks'
-import { color, font } from '~/utils'
+import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
 import { Link } from '../Link'

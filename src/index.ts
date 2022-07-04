@@ -6,6 +6,9 @@ import { themes } from './themes'
 
 themes()
 
+// for now use wouter
+export { Route, useLocation, useRoute, useRouter, Switch, Router } from 'wouter'
+
 export * from './components/Badge'
 export * from './components/Container'
 export * from './components/Button'

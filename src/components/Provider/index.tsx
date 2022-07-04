@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  CSSProperties,
-  FC,
-  PropsWithChildren,
-  ReactNode,
-} from 'react'
+import React, { createContext, CSSProperties, FC, ReactNode } from 'react'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
@@ -44,12 +38,10 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        {/* <ToastProvider> */}
         <DialogProvider>
           {children}
           <OverlayProvider />
         </DialogProvider>
-        {/* </ToastProvider> */}
       </BasedProvider>
     </div>
   )
