@@ -36,7 +36,7 @@ export const Provider: FC<ProviderProps> = ({
         height: fill ? '100vh' : '100%',
         width: '100%',
         display: 'flex',
-        flexDirection: fill ? 'row' : 'column',
+        flexDirection: 'column',
         ...style,
       }}
     >

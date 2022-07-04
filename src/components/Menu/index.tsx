@@ -92,8 +92,9 @@ export const Menu: FC<{
   selected?: string
   prefix?: string
   style?: CSSProperties
-  children?: ReactNode
-}> = Object.assign(({ data = {}, selected, prefix = '', style, children }) => {
+  children?: ReactNode | ReactNode[]
+  header?: ReactNode | ReactNode[]
+}> = ({ data = {}, selected, prefix = '', style, children, header }) => {
   const [location] = useLocation()
   if (!selected) {
     selected = location
@@ -109,6 +110,15 @@ export const Menu: FC<{
         ...style,
       }}
     >
+      {header ? (
+        <div
+          style={{
+            marginBottom: 24,
+          }}
+        >
+          {header}
+        </div>
+      ) : null}
       {Object.keys(data).map((key, i) => {
         let value = data[key]
         if (typeof value === 'object') {
@@ -152,4 +162,4 @@ export const Menu: FC<{
       {children}
     </div>
   )
-})
+}

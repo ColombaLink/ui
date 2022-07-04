@@ -34,4 +34,4 @@ export * from './components/ListItems'
 export * from './icons'
 export * from './hooks'
 
-export { color } from './utils'
+export * from './utils'
