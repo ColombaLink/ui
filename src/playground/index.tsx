@@ -13,7 +13,6 @@ export const client = based({
 const PlaygroundMenu = () => {}
 
 const App = () => {
-  // make "page"
   return (
     <>
       <Menu
