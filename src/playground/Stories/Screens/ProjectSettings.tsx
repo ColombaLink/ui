@@ -30,7 +30,15 @@ export const ProjectSettings = () => {
           <Text size="20px" space="32px" weight={700}>
             General
           </Text>
-          <Container style={{ maxWidth: '730px' }} space>
+          <Container
+            style={{ maxWidth: '730px' }}
+            space
+            bottomRight={
+              <Button color="Greylight" light>
+                Save changes
+              </Button>
+            }
+          >
             <Text size="20px" space="24px" weight={700}>
               Project details
             </Text>
@@ -47,11 +55,13 @@ export const ProjectSettings = () => {
             <Text weight={400} color="TextSecondary" space="24px">
               We will email you to verify a change.
             </Text>
-            <Text weight={600} space="8px">
+            <Text weight={600} space="12px">
               Project picture
             </Text>
             <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-              <Avatar size={40}>EU</Avatar>
+              <Avatar size={40} color="Purple">
+                EU
+              </Avatar>
               <Button outline ghost>
                 Upload picture
               </Button>
@@ -98,6 +108,20 @@ export const ProjectSettings = () => {
                 </Text>
               </div>
             </StackedListItem>
+          </Container>
+
+          <Container
+            style={{ maxWidth: '730px' }}
+            space
+            bottomRight={<Button color="Redlight">Delete project</Button>}
+          >
+            <Text size="20px" space="24px" weight={700}>
+              Delete project
+            </Text>
+            <Text size="14px" wrap space="20px">
+              Deleting this project will be irreversable. Make sure you have
+              made a backup if you want to keep your data.
+            </Text>
           </Container>
         </Page>
       </div>
