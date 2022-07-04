@@ -11,7 +11,7 @@ export const client = based({
 
 const PlaygroundMenu = () => {}
 
-const App = ({ user }) => {
+const App = () => {
   // make "page"
   return (
     <div style={{ display: 'flex', flexGrow: 1 }}>
@@ -26,7 +26,7 @@ const App = ({ user }) => {
 
 render(
   <Provider theme="light" client={client}>
-    hello
+    <App />
   </Provider>,
   document.body
 )
