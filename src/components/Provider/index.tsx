@@ -15,6 +15,7 @@ type ProviderProps = {
   style?: CSSProperties
   client?: Based
   theme?: 'dark' | 'light'
+  fill?: boolean
 }
 
 export const Provider: FC<ProviderProps> = ({
@@ -22,6 +23,7 @@ export const Provider: FC<ProviderProps> = ({
   style,
   client,
   theme,
+  fill,
 }) => {
   if (theme) {
     themes(theme)
@@ -31,9 +33,10 @@ export const Provider: FC<ProviderProps> = ({
       style={{
         backgroundColor: color('Background1dp'),
         color: color('TextPrimary'),
-        height: '100%',
+        height: fill ? '100vh' : '100%',
+        width: '100%',
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: fill ? 'row' : 'column',
         ...style,
       }}
     >

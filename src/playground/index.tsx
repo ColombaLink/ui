@@ -14,18 +14,18 @@ const PlaygroundMenu = () => {}
 const App = () => {
   // make "page"
   return (
-    <div style={{ display: 'flex', flexGrow: 1 }}>
+    <>
       <Sidebar
         data={{
           Buttons: ['/', GridIcon],
         }}
       />
-    </div>
+    </>
   )
 }
 
 render(
-  <Provider theme="light" client={client}>
+  <Provider fill theme="light" client={client}>
     <App />
   </Provider>,
   document.body
