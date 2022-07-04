@@ -1,7 +1,8 @@
 import { render } from 'react-dom'
 import React, { useState } from 'react'
-import { Provider, Text, Page, Sidebar, GridIcon } from '..'
+import { Provider, Text, Page, Menu, Route, GridIcon, Switch } from '..'
 import based from '@based/client'
+import { Buttons } from './Stories/Buttons'
 
 export const client = based({
   org: 'saulx',
@@ -15,11 +16,19 @@ const App = () => {
   // make "page"
   return (
     <>
-      <Sidebar
+      <Menu
         data={{
-          Buttons: ['/', GridIcon],
+          Input: {
+            Buttons: '/buttons',
+          },
         }}
       />
+      <Page>
+        <Switch>
+          <Route path="/buttons" component={Buttons} />
+          <Route path="/">Overview...</Route>
+        </Switch>
+      </Page>
     </>
   )
 }

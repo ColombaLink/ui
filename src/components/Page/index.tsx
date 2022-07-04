@@ -10,18 +10,17 @@ export const Page: FC<PageProps> = ({ children, style }) => {
   return (
     <ScrollArea
       style={{
-        display: 'flex',
-        justifyContent: 'center',
+        // display: 'flex',
+        flexGrow: 1,
+        width: '100%',
         ...style,
       }}
     >
       <div
         style={{
-          marginTop: 24,
-          width: 800,
-          marginLeft: 24,
-          marginRight: 24,
-          overflow: 'hidden',
+          width: '100%',
+          padding: 64,
+          // marginBottom: 1000,
         }}
       >
         {children}
