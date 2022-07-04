@@ -9,6 +9,7 @@ import {
   Cards,
   Callouts,
   Checkboxes,
+  ContextMenus,
   Forms,
   InputFields,
   Selects,
@@ -44,6 +45,9 @@ const App = () => {
           Feedback: {
             Callouts: '/callouts',
           },
+          Overlays: {
+            ContextMenus: '/contextmenus',
+          },
         }}
       />
       <Page>
@@ -52,6 +56,7 @@ const App = () => {
           <Route path="/checkboxes" component={Checkboxes} />
           <Route path="/cards" component={Cards} />
           <Route path="/callouts" component={Callouts} />
+          <Route path="/contextmenus" component={ContextMenus} />
           <Route path="/forms" component={Forms} />
           <Route path="/inputfields" component={InputFields} />
           <Route path="/selects" component={Selects} />
