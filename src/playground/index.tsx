@@ -17,6 +17,7 @@ import {
 } from './Stories/index'
 
 import { ProjectSettings } from './Stories/Screens/ProjectSettings'
+import { ProfileSettings } from './Stories/Screens/ProfileSettings'
 
 export const client = based({
   org: 'saulx',
@@ -51,6 +52,7 @@ const App = () => {
             ContextMenus: '/contextmenus',
           },
           Screens: {
+            ProfileSettings: '/profilesettings',
             ProjectSettings: '/projectsettings',
           },
         }}
@@ -69,6 +71,7 @@ const App = () => {
           <Route path="/badges" component={Badges} />
           <Route path="/thumbnails" component={Thumbnails} />
 
+          <Route path="/profilesettings" component={ProfileSettings} />
           <Route path="/projectsettings" component={ProjectSettings} />
 
           <Route path="/">Overview...</Route>

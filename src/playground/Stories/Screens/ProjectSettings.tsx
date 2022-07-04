@@ -12,6 +12,7 @@ import {
   StackedListItemsWrapper,
   StackedListItem,
 } from '~'
+import wait from '~/utils/wait'
 
 export const ProjectSettings = () => {
   return (
@@ -34,8 +35,13 @@ export const ProjectSettings = () => {
             style={{ maxWidth: '730px' }}
             space
             bottomRight={
-              <Button color="Greylight" light>
-                Save changes
+              <Button
+                onClick={async () => {
+                  await wait(1000)
+                  throw new Error('error loading async')
+                }}
+              >
+                Save Changes
               </Button>
             }
           >
