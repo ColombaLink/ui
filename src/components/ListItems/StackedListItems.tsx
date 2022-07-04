@@ -20,6 +20,7 @@ type StackedListItemProps = {
   right?: FC | ReactNode
   style?: CSSProperties
   space?: Space
+  border?: boolean
 }
 
 export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
@@ -90,6 +91,7 @@ export const StackedListItem: FC<StackedListItemProps> = ({
   right,
   style,
   space,
+  border,
 }) => {
   return (
     <>
@@ -99,7 +101,9 @@ export const StackedListItem: FC<StackedListItemProps> = ({
           backgroundColor: color('Background2dp'),
           justifyContent: 'space-between',
           alignItems: 'center',
-          border: `1px solid ${color('OtherDivider')}`,
+          border: border
+            ? `1px solid ${color('BorderColor')}`
+            : `1px solid ${color('Transparent')}`,
           padding: '12px 20px',
           marginBottom: -1,
           ...style,

@@ -16,6 +16,8 @@ import {
   Thumbnails,
 } from './Stories/index'
 
+import { ProjectSettings } from './Stories/Screens/ProjectSettings'
+
 export const client = based({
   org: 'saulx',
   project: 'demo',
@@ -48,6 +50,9 @@ const App = () => {
           Overlays: {
             ContextMenus: '/contextmenus',
           },
+          Screens: {
+            ProjectSettings: '/projectsettings',
+          },
         }}
       />
       <Page>
@@ -63,6 +68,9 @@ const App = () => {
           <Route path="/avatars" component={Avatars} />
           <Route path="/badges" component={Badges} />
           <Route path="/thumbnails" component={Thumbnails} />
+
+          <Route path="/projectsettings" component={ProjectSettings} />
+
           <Route path="/">Overview...</Route>
         </Switch>
       </Page>
