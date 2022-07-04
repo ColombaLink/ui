@@ -54,9 +54,7 @@ export const ProfileSettings = () => {
               Profile picture
             </Text>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              <Avatar size={64} color="Pink">
-                MW
-              </Avatar>
+              <Avatar size={64}>MW</Avatar>
               <Button outline ghost>
                 Upload picture
               </Button>
