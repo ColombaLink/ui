@@ -3,11 +3,16 @@ import React, { useState } from 'react'
 import { Provider, Text, Page, Menu, Route, GridIcon, Switch } from '..'
 import based from '@based/client'
 import {
+  Avatars,
+  Badges,
   Buttons,
+  Cards,
+  Callouts,
   Checkboxes,
   Forms,
   InputFields,
   Selects,
+  Thumbnails,
 } from './Stories/index'
 
 export const client = based({
@@ -30,15 +35,29 @@ const App = () => {
             InputFields: '/inputfields',
             Selects: '/selects',
           },
+          Display: {
+            Avatars: '/avatars',
+            Badges: '/badges',
+            Cards: '/cards',
+            Thumbnails: '/thumbnails',
+          },
+          Feedback: {
+            Callouts: '/callouts',
+          },
         }}
       />
       <Page>
         <Switch>
           <Route path="/buttons" component={Buttons} />
           <Route path="/checkboxes" component={Checkboxes} />
+          <Route path="/cards" component={Cards} />
+          <Route path="/callouts" component={Callouts} />
           <Route path="/forms" component={Forms} />
           <Route path="/inputfields" component={InputFields} />
           <Route path="/selects" component={Selects} />
+          <Route path="/avatars" component={Avatars} />
+          <Route path="/badges" component={Badges} />
+          <Route path="/thumbnails" component={Thumbnails} />
           <Route path="/">Overview...</Route>
         </Switch>
       </Page>
