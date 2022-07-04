@@ -125,7 +125,7 @@ export const Buttons = () => {
         iconLeft={<CheckIcon />}
         style={{ marginTop: 24 }}
       >
-        Error
+        Async load
       </Button>
     </>
   )
