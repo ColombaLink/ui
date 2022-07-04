@@ -131,6 +131,7 @@ export const theme = {
     OtherDisabledContent: 'rgba(15,16,19, 0.26)',
     OtherDisabledOutline: 'rgba(15,16,19, 0.12)',
     OtherDivider: 'rgba(15,16,19, 0.08)',
+    BorderColor: 'rgba(15,16,19, 0.08)',
     OtherForeground: '#ffffff',
     OtherForegroundInverted: '#0f1013',
     OtherInputBorderActive: 'rgba(61,83,231, 1)',
