@@ -2,19 +2,15 @@ import { render } from 'react-dom'
 import React, { FC, useEffect, useState } from 'react'
 import {
   Provider,
-  Text,
   Button,
   Page,
   Menu,
   Route,
-  MenuButton,
-  GridIcon,
-  Switch,
   setLocation,
   useSearchParam,
 } from '../'
 import based from '@based/client'
-import * as stories from './public/index'
+import * as stories from './public'
 
 export const client = based({
   org: 'saulx',
