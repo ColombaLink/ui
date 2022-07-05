@@ -29,13 +29,11 @@ type StoryProps = {
 const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
   const [code, setCode] = useState('')
-
-  console.info(component, `/public/${name}.tsx`)
   useEffect(() => {
     fetch(`/public/${name}.tsx`)
       .then((v) => v.text())
       .then((v) => setCode(v))
-  }, [isCode])
+  }, [isCode, name])
   return <>{isCode ? <pre>{code}</pre> : React.createElement(component)}</>
 }
 
