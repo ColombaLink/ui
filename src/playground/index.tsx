@@ -115,6 +115,9 @@ const App = () => {
             ProfileSettings: '/profilesettings',
             ProjectSettings: '/projectsettings',
           },
+          Themes: {
+            Theming: '/theming',
+          },
         }}
       />
       <Page>
