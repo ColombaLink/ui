@@ -146,7 +146,7 @@ export const Input: FC<
       fontSize: ghost ? 16 : null,
       fontWeight: ghost ? 500 : null,
       backgroundColor: disabled
-        ? color('Greylight')
+        ? color('GreydarkAccent')
         : bg
         ? color(hover ? 'GreylightHover' : 'Greylight')
         : 'inherit',

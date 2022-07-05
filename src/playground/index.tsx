@@ -82,7 +82,7 @@ const App = () => {
 }
 
 render(
-  <Provider fill theme="light" client={client}>
+  <Provider fill theme="dark" client={client}>
     <App />
   </Provider>,
   document.body

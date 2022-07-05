@@ -108,16 +108,16 @@ export const theme = {
     //Greydark
     Greydark: '#323232',
     GreydarkActive: '#000000',
-    GreydarkAccent: 'rgba(15,16,19, 0.04)',
+    GreydarkAccent: 'rgba(255,255,255, 0.04)',
     GreydarkHover: '#212121',
     GreydarkForeground: '#ffffff',
 
     //Greylight
-    Greylight: 'rgba(15,16,19, 0.04)',
-    GreylightActive: 'rgba(15,16,19, 0.10)',
-    GreylightAccent: 'rgba(15,16,19, 0.04)',
-    GreylightHover: 'rgba(15,16,19, 0.06)',
-    GreylightForeground: 'rgba(255,255,255, 0.87)',
+    Greylight: '#f6f6f6',
+    GreylightActive: '#f1f1f1',
+    GreylightAccent: '#f1f1f1',
+    GreylightHover: '#f1f1f1',
+    GreylightForeground: '#323232',
 
     Blue500: '#3D53E7',
     Blue200: '#8391ED',

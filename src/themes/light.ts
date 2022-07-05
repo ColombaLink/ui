@@ -113,11 +113,11 @@ export const theme = {
     GreydarkForeground: '#ffffff',
 
     //Greylight
-    Greylight: 'rgba(15,16,19, 0.04)',
-    GreylightActive: 'rgba(15,16,19, 0.10)',
-    GreylightAccent: 'rgba(15,16,19, 0.04)',
-    GreylightHover: 'rgba(15,16,19, 0.06)',
-    GreylightForeground: 'rgba(15,16,19, 0.87)',
+    Greylight: '#f6f6f6',
+    GreylightActive: '#f1f1f1',
+    GreylightAccent: '#f1f1f1',
+    GreylightHover: '#f1f1f1',
+    GreylightForeground: '#323232',
 
     Background0dp: '#F7F7F8',
     Background1dp: '#FFFFFF',
