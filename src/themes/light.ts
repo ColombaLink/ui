@@ -100,9 +100,9 @@ export const theme = {
 
     //Redlight
     Redlight: 'rgba(244,67,54, 0.16)',
-    RedlightActive: 'rgba(244,67,54, 0.16)',
+    RedlightActive: '#ffe9e7',
     RedlightAccent: 'rgba(244,67,54, 0.08)',
-    RedlightHover: 'rgba(244,67,54, 0.12)',
+    RedlightHover: '#ffe9e7',
     RedlightForeground: 'rgba(15,16,19, 0.87)',
 
     //Greydark
@@ -113,11 +113,11 @@ export const theme = {
     GreydarkForeground: '#ffffff',
 
     //Greylight
-    Greylight: 'rgba(15,16,19, 0.04)',
-    GreylightActive: 'rgba(15,16,19, 0.10)',
-    GreylightAccent: 'rgba(15,16,19, 0.04)',
-    GreylightHover: 'rgba(15,16,19, 0.06)',
-    GreylightForeground: 'rgba(15,16,19, 0.87)',
+    Greylight: '#f6f6f6',
+    GreylightActive: '#f1f1f1',
+    GreylightAccent: '#f1f1f1',
+    GreylightHover: '#f1f1f1',
+    GreylightForeground: '#323232',
 
     Background0dp: '#F7F7F8',
     Background1dp: '#FFFFFF',
@@ -131,6 +131,7 @@ export const theme = {
     OtherDisabledContent: 'rgba(15,16,19, 0.26)',
     OtherDisabledOutline: 'rgba(15,16,19, 0.12)',
     OtherDivider: 'rgba(15,16,19, 0.08)',
+    BorderColor: 'rgba(15,16,19, 0.08)',
     OtherForeground: '#ffffff',
     OtherForegroundInverted: '#0f1013',
     OtherInputBorderActive: 'rgba(61,83,231, 1)',

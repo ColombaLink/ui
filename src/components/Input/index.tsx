@@ -57,6 +57,7 @@ type InputPropsBaseLine = {
   space?: Space
   inputRef?: React.RefObject<HTMLDivElement>
   large?: boolean
+  disabled?: boolean
 }
 
 // to coorece the on change (skips having to make conversions or ts ignores)
@@ -102,6 +103,7 @@ export const Input: FC<
   space,
   inputRef,
   large,
+  disabled,
   ...otherProps
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
@@ -122,6 +124,7 @@ export const Input: FC<
     value,
     defaultValue,
     placeholder,
+    disabled,
     onChange,
     autoFocus,
     style: {
@@ -135,13 +138,16 @@ export const Input: FC<
         : `1px solid ${color('OtherInputBorderDefault')}`,
       outlineOffset: ghost ? null : focus ? -2 : -1,
       borderRadius: 4,
+      cursor: disabled ? 'not-allowed' : 'text',
       minHeight: large ? 48 : 36,
       paddingLeft: ghost ? 0 : iconLeft ? 36 : 12,
       paddingRight: ghost ? 0 : iconRight ? 36 : 12,
       width: '100%',
       fontSize: ghost ? 16 : null,
       fontWeight: ghost ? 500 : null,
-      backgroundColor: bg
+      backgroundColor: disabled
+        ? color('GreydarkAccent')
+        : bg
         ? color(hover ? 'GreylightHover' : 'Greylight')
         : 'inherit',
     },

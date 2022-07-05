@@ -68,6 +68,7 @@ export type Color =
   | 'OtherForeground'
   | 'OtherForegroundInverted'
   | 'OtherDivider'
+  | 'BorderColor'
   | 'OtherOverlay'
   | 'OtherInputBorderDefault'
   | 'OtherInputBorderHover'

@@ -3,6 +3,7 @@ import { Text } from '../Text'
 import { color } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
+import { Space } from '~/types'
 
 export type CheckboxProps = {
   children?: ReactNode
@@ -10,6 +11,7 @@ export type CheckboxProps = {
   style?: CSSProperties
   onChange?: (boolean) => void
   label?: ReactNode
+  space?: Space
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -18,6 +20,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   style,
   onChange,
   label,
+  space,
 }) => {
   const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
@@ -29,31 +32,39 @@ export const Checkbox: FC<CheckboxProps> = ({
   }
 
   const checkbox = (
-    <div
-      style={{
-        backgroundColor: checked
-          ? color(hover ? 'PrimaryMainHover' : 'PrimaryMain')
-          : null,
-        border: `1px solid ${color(
-          hover ? 'OtherInputBorderHover' : 'OtherInputBorderDefault'
-        )}`,
-        borderRadius: 4,
-        height: 20,
-        marginRight: children ? 12 : null,
-        width: 20,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
-    </div>
+    <>
+      <div
+        style={{
+          backgroundColor: checked
+            ? color(hover ? 'PrimaryMainHover' : 'PrimaryMain')
+            : null,
+          border: `1px solid ${color(
+            hover ? 'OtherInputBorderHover' : 'OtherInputBorderDefault'
+          )}`,
+          borderRadius: 4,
+          height: 20,
+          marginRight: children ? 12 : null,
+          width: 20,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
+      </div>
+      <div style={{ height: space ? space : null }}></div>
+    </>
   )
 
   if (label && children) {
     return (
       <button
-        style={{ display: 'flex', alignItems: 'center', ...style }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          ...style,
+          marginBottom: space ? space : null,
+        }}
         {...listeners}
         onClick={onClick}
       >
@@ -81,6 +92,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         alignItems: 'center',
         display: 'flex',
         ...style,
+        marginBottom: space ? space : null,
       }}
       {...listeners}
     >

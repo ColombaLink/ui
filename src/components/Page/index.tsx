@@ -19,7 +19,7 @@ export const Page: FC<PageProps> = ({ children, style }) => {
       <div
         style={{
           width: '100%',
-          padding: 64,
+          padding: 32,
           // marginBottom: 1000,
         }}
       >

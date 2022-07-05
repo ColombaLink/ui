@@ -14,17 +14,13 @@ import {
   useSearchParam,
 } from '../'
 import based from '@based/client'
-import { Buttons } from './static/Buttons'
+import * as stories from './public/index'
 
 export const client = based({
   org: 'saulx',
   project: 'demo',
   env: 'production',
 })
-
-const stories: { [component: string]: FC } = {
-  Buttons: Buttons,
-}
 
 type StoryProps = {
   component: FC
@@ -80,6 +76,26 @@ const App = () => {
         data={{
           Input: {
             Buttons: '/buttons',
+            Checkboxes: '/checkboxes',
+            Forms: '/forms',
+            InputFields: '/inputfields',
+            Selects: '/selects',
+          },
+          Display: {
+            Avatars: '/avatars',
+            Badges: '/badges',
+            Cards: '/cards',
+            Thumbnails: '/thumbnails',
+          },
+          Feedback: {
+            Callouts: '/callouts',
+          },
+          Overlays: {
+            ContextMenus: '/contextmenus',
+          },
+          Screens: {
+            ProfileSettings: '/profilesettings',
+            ProjectSettings: '/projectsettings',
           },
         }}
       />
@@ -91,7 +107,7 @@ const App = () => {
 }
 
 render(
-  <Provider fill theme="light" client={client}>
+  <Provider fill theme="dark" client={client}>
     <App />
   </Provider>,
   document.body
