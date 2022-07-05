@@ -100,10 +100,10 @@ export const theme = {
 
     //Redlight
     Redlight: 'rgba(248, 170, 164, 1)',
-    RedlightActive: 'rgba(244,67,54, 0.16)',
+    RedlightActive: '#f38a84',
     RedlightAccent: 'rgba(244,67,54, 0.08)',
-    RedlightHover: 'rgba(244,67,54, 0.12)',
-    RedlightForeground: 'rgba(255,255,255, 0.87)',
+    RedlightHover: '#f38a84',
+    RedlightForeground: 'rgba(15,16,19, 0.87)',
 
     //Greydark
     Greydark: '#323232',
