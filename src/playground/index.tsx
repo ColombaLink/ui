@@ -14,7 +14,9 @@ import * as stories from './public'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
 
-export const client = based({
+console.log(typeof based)
+
+export const client = based.default({
   org: 'saulx',
   project: 'demo',
   env: 'production',

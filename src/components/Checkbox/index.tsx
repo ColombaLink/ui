@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, CSSProperties, EventHandler } from 'react'
+import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Text } from '../Text'
 import { color, spaceToPx } from '~/utils'
 import { CheckIcon } from '~/icons'

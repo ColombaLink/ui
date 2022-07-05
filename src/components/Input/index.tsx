@@ -6,6 +6,7 @@ import React, {
   SetStateAction,
   CSSProperties,
   RefObject,
+  useState,
 } from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
@@ -36,9 +37,46 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
+const Color = ({ inputRef, style, ...props }) => {
+  const [color, setColor] = useState('#FFFFFF')
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        ...style,
+      }}
+      {...props}
+    >
+      <label
+        style={{
+          backgroundColor: color,
+          height: 24,
+          width: 24,
+        }}
+      >
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+          style={{ visibility: 'hidden' }}
+        />
+      </label>
+      <input
+        type="text"
+        ref={inputRef}
+        value={color}
+        onChange={(e) => setColor(e.target.value)}
+      />
+    </div>
+  )
+}
+
 const Single = (props) => {
-  const { inputRef: ref, ...otherProps } = props
-  return <input {...(ref ? { ref } : null)} {...otherProps} />
+  if (props.type === 'color') {
+    return <Color {...props} />
+  }
+  return <input {...props} ref={props.inputRef} />
 }
 
 type InputPropsBaseLine = {
@@ -135,9 +173,9 @@ export const Input: FC<
         ? null
         : focus
         ? `2px solid ${color('OtherInputBorderActive')}`
-        : hover
-        ? `1px solid ${color('OtherInputBorderHover')}`
-        : `1px solid ${color('OtherInputBorderDefault')}`,
+        : `1px solid ${color(
+            hover ? 'OtherInputBorderHover' : 'OtherInputBorderDefault'
+          )}`,
       outlineOffset: ghost ? null : focus ? -2 : -1,
       borderRadius: 4,
       cursor: disabled ? 'not-allowed' : 'text',
@@ -163,11 +201,7 @@ export const Input: FC<
     <div
       style={{
         width: ghost ? 300 : '100%',
-        ...(space
-          ? {
-              marginBottom: spaceToPx(space),
-            }
-          : null),
+        marginBottom: spaceToPx(space),
         ...style,
       }}
     >
@@ -178,7 +212,7 @@ export const Input: FC<
             <span
               style={{
                 fontWeight: 400,
-                color: `${color('TextSecondary')}`,
+                color: color('TextSecondary'),
               }}
             >
               {' '}
