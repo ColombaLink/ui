@@ -23,6 +23,8 @@ type StoryProps = {
   name: string
 }
 
+console.log(Provider)
+
 const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
   const [code, setCode] = useState('')
@@ -57,6 +59,9 @@ const App = () => {
       <Menu
         header={
           <div>
+            <Button space onClick={() => {}}>
+              Hello
+            </Button>
             <Button
               onClick={() => {
                 setLocation({
@@ -103,7 +108,7 @@ const App = () => {
 }
 
 render(
-  <Provider fill theme="dark" client={client}>
+  <Provider fill theme={'light'} client={client}>
     <App />
   </Provider>,
   document.body

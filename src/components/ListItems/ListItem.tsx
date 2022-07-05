@@ -4,8 +4,8 @@ import { Space } from '~/types'
 import { color, spaceToPx } from '~/utils'
 
 type ListItemProps = {
-  left?: FC | ReactNode
-  right?: FC | ReactNode
+  left?: ReactNode
+  right?: ReactNode
   style?: CSSProperties
   space?: Space
   draggable?: boolean

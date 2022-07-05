@@ -36,7 +36,7 @@ export type ContextItemProps = {
   inset?: boolean
   noFocus?: boolean
   tabIndex?: number
-  children?: ReactNode | string
+  children?: ReactNode
 }
 
 export const ContextDivider = styled('div', {

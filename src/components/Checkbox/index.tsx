@@ -62,8 +62,8 @@ export const Checkbox: FC<CheckboxProps> = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          ...style,
           marginBottom: space ? space : null,
+          ...style,
         }}
         {...listeners}
         onClick={onClick}
@@ -91,8 +91,8 @@ export const Checkbox: FC<CheckboxProps> = ({
       style={{
         alignItems: 'center',
         display: 'flex',
-        ...style,
         marginBottom: space ? space : null,
+        ...style,
       }}
       {...listeners}
     >

@@ -5,7 +5,7 @@ import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { Text } from '../Text'
 
 type StackedListItemsWrapperProps = {
-  children?: FC | ReactNode
+  children?: ReactNode
   style?: CSSProperties
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
@@ -16,7 +16,7 @@ type StackedListItemsWrapperProps = {
 }
 
 type StackedListItemProps = {
-  children?: FC | ReactNode
+  children?: ReactNode
   right?: FC | ReactNode
   style?: CSSProperties
   space?: Space

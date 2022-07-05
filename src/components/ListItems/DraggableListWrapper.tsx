@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 
 type DraggableListWrapperProps = {
-  children?: FC | ReactNode
+  children?: ReactNode
   style?: CSSProperties
 }
 

@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, ReactNode } from 'react'
 import { color } from '~/utils'
 
 type RightSidebarProps = {
-  children?: FC | ReactNode
+  children?: ReactNode
   style?: CSSProperties
 }
 

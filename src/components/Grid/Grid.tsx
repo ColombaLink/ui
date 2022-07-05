@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 
 type GridProps = {
-  children?: FC | ReactNode
+  children?: ReactNode
   width?: number | string
   gap?: number
 }

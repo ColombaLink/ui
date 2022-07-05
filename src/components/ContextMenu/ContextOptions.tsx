@@ -70,14 +70,14 @@ type onSelect = (
 export type Option =
   | {
       value: Value
-      label?: ReactNode | string
+      label?: ReactNode
       icon?: FunctionComponent
       divider?: boolean
       onSelect?: onSelect
     }
   | {
       value?: Value
-      label?: ReactNode | string
+      label?: ReactNode
       icon?: FunctionComponent
       divider?: boolean
       onSelect: onSelect

@@ -11,7 +11,7 @@ import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { isCapitalised } from '~/utils/isCapitalised'
 
 type CalloutProps = {
-  children?: string | ReactChildren | ReactChild
+  children?: ReactNode
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean

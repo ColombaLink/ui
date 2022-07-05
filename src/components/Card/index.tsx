@@ -13,9 +13,9 @@ type CardProps = {
   style?: CSSProperties
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
-  bottomRight?: FC | ReactNode
-  bottomLeft?: FC | ReactNode
-  children?: FC | ReactNode
+  bottomRight?: ReactNode
+  bottomLeft?: ReactNode
+  children?: ReactNode
   small?: boolean
 }
 

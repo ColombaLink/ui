@@ -10,7 +10,7 @@ type AvatarProps = {
   color?: Color
   backgroundImg?: string
   icon?: FC | ReactNode
-  children?: FC | ReactNode
+  children?: ReactNode
   space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void

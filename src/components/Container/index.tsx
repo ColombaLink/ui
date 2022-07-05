@@ -4,7 +4,7 @@ import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 
 type ContainerProps = {
-  children: FC | ReactNode
+  children: ReactNode
   space?: Space
   style?: CSSProperties
   topLeft?: FC | ReactNode

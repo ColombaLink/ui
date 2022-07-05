@@ -93,7 +93,7 @@ export const Topbar = ({
   prefix?: string
   onFilter?: (params: any) => any
   onProfile?: () => void
-  breadcrumbs?: FC | ReactNode
+  breadcrumbs?: ReactNode
 }) => {
   const user = useAuth()
 

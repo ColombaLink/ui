@@ -13,7 +13,7 @@ import { Space } from '~/types'
 import { styled } from 'inlines'
 
 type TabsProps = {
-  children?: FC | ReactNode | ReactChild
+  children?: ReactNode | ReactNode[]
   style?: CSSProperties
   space?: Space
   small?: boolean

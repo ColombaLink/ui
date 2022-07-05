@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC, CSSProperties, ReactNode } from 'react'
 import { Size, Color, Weight, Space } from '~/types'
 import { font, spaceToPx } from '~/utils'
 
@@ -11,7 +11,7 @@ type TextProps = {
   italic?: boolean
   selectable?: boolean
   wrap?: boolean
-  children?: React.ReactNode
+  children?: ReactNode
 }
 
 export const Text: FC<TextProps> = ({

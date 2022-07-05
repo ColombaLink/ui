@@ -4,6 +4,8 @@ import React, {
   KeyboardEventHandler,
   ReactNode,
   SetStateAction,
+  CSSProperties,
+  RefObject,
 } from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
@@ -40,7 +42,7 @@ const Single = (props) => {
 }
 
 type InputPropsBaseLine = {
-  style?: React.CSSProperties
+  style?: CSSProperties
   label?: string
   description?: string
   optional?: boolean
@@ -55,7 +57,7 @@ type InputPropsBaseLine = {
   autoFocus?: boolean
   name?: string
   space?: Space
-  inputRef?: React.RefObject<HTMLDivElement>
+  inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
 }

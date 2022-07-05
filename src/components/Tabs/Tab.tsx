@@ -2,7 +2,7 @@ import React, { FC, ReactNode, CSSProperties } from 'react'
 
 type TabProps = {
   title: string
-  children?: FC | ReactNode
+  children?: ReactNode
   style?: CSSProperties
 }
 
