@@ -7,6 +7,8 @@ import React, {
   CSSProperties,
   RefObject,
   useState,
+  useEffect,
+  useRef,
 } from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
@@ -37,38 +39,74 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-const Color = ({ inputRef, style, ...props }) => {
-  const [color, setColor] = useState('#FFFFFF')
+const Color = ({
+  inputRef,
+  name,
+  placeholder,
+  defaultValue,
+  value = defaultValue,
+  disabled,
+  style,
+  onChange,
+  ...props
+}) => {
+  const [colorState, setColor] = useState(value)
+  const valueRef = useRef<string>()
+  const ref = useRef()
+
+  useEffect(() => {
+    if (onChange && colorState !== value) {
+      const { backgroundColor } = getComputedStyle(ref.current)
+      const [, r, g, b, a] = backgroundColor.split(/,|\(|\)| /)
+      const value = `rgba(${r || 0},${g || 0},${b || 0},${a || 1})`
+      if (valueRef.current !== value) {
+        valueRef.current = value
+        onChange({ target: { value } })
+      }
+    }
+  }, [colorState, onChange])
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        ...style,
-      }}
-      {...props}
-    >
-      <label
+    <>
+      <input
+        {...props}
+        type="text"
+        ref={inputRef}
+        value={colorState}
+        onChange={(e) => setColor(e.target.value)}
+        placeholder={placeholder}
         style={{
-          backgroundColor: color,
-          height: 24,
-          width: 24,
+          ...style,
+          paddingLeft: 36,
+        }}
+      />
+      <label
+        ref={ref}
+        style={{
+          cursor: 'pointer',
+          position: 'absolute',
+          left: 12,
+          top: '50%',
+          transform: 'translate3d(0,-50%,0)',
+          backgroundColor: colorState,
+          height: 20,
+          width: 20,
+          borderRadius: 4,
+          marginRight: 8,
+          marginLeft: -4,
+          border: `1px solid ${color('OtherInputBorderDefault')}`,
         }}
       >
         <input
           type="color"
-          value={color}
+          name={name}
+          disabled={disabled}
+          value={colorState}
           onChange={(e) => setColor(e.target.value)}
           style={{ visibility: 'hidden' }}
         />
       </label>
-      <input
-        type="text"
-        ref={inputRef}
-        value={color}
-        onChange={(e) => setColor(e.target.value)}
-      />
-    </div>
+    </>
   )
 }
 
@@ -191,9 +229,9 @@ export const Input: FC<
         ? color(hover ? 'GreylightHover' : 'Greylight')
         : 'inherit',
     },
+    inputRef,
     ...focusListeners,
     ...hoverListeners,
-    inputRef,
     ...otherProps,
   }
 

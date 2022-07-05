@@ -4,6 +4,7 @@ import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
 import { Link } from '../Link'
+import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 
 type MenuHeaderProps = {
@@ -101,7 +102,7 @@ export const Menu: FC<{
   }
 
   return (
-    <div
+    <ScrollArea
       style={{
         backgroundColor: color('Background1dp'),
         borderRight: `1px solid ${color('OtherDivider')}`,
@@ -160,6 +161,6 @@ export const Menu: FC<{
         )
       })}
       {children}
-    </div>
+    </ScrollArea>
   )
 }
