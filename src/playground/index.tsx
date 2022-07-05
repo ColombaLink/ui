@@ -57,25 +57,25 @@ const App = () => {
 
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
+      <Button
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 12,
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          paddingBottom: 8,
+        }}
+        color="Greylight"
+        iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
+        onClick={() => {
+          setLightDark(!lightDark)
+          themes(lightDark ? 'dark' : 'light')
+        }}
+      ></Button>
       <Menu
         header={
           <div>
-            <Button
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: 12,
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-                paddingBottom: 8,
-              }}
-              color="Greylight"
-              iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
-              onClick={() => {
-                setLightDark(!lightDark)
-                themes(lightDark ? 'dark' : 'light')
-              }}
-            ></Button>
             <Button
               onClick={() => {
                 setLocation({
@@ -104,6 +104,9 @@ const App = () => {
           },
           Feedback: {
             Callouts: '/callouts',
+          },
+          Layout: {
+            Grids: '/grids',
           },
           Overlays: {
             ContextMenus: '/contextmenus',

@@ -11,6 +11,7 @@ type ContainerProps = {
   topRight?: FC | ReactNode
   bottomLeft?: FC | ReactNode
   bottomRight?: FC | ReactNode
+  wrap?: boolean
 }
 
 export const Container: FC<ContainerProps> = ({
@@ -21,6 +22,7 @@ export const Container: FC<ContainerProps> = ({
   topRight,
   bottomLeft,
   bottomRight,
+  wrap,
 }) => {
   return (
     <>
@@ -33,6 +35,7 @@ export const Container: FC<ContainerProps> = ({
           position: 'relative',
           borderRadius: 4,
           marginBottom: spaceToPx(space, 32),
+          width: wrap ? 'fit-content' : '100%',
           ...style,
         }}
       >

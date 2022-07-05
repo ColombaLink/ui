@@ -1,21 +1,31 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, CSSProperties } from 'react'
 
 type GridProps = {
   children?: ReactNode
-  width?: number | string
-  gap?: number
+  columns?: number
+  columnGap?: number
+  rowGap?: number
+  wrap?: boolean
+  style?: CSSProperties
 }
 
-export const Grid: FC<GridProps> = ({ width, gap, children }) => {
+export const Grid: FC<GridProps> = ({
+  columns = 3,
+  columnGap,
+  rowGap,
+  children,
+  wrap,
+  style,
+}) => {
   return (
     <div
       style={{
-        display: 'flex',
-        maxWidth: width,
-        width: '100%',
-        gap: gap,
-        flexWrap: 'wrap',
-        alignContent: 'stretch',
+        display: 'grid',
+        width: wrap ? 'fit-content' : '100%',
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        rowGap: rowGap,
+        columnGap: columnGap,
+        ...style,
       }}
     >
       {children}
