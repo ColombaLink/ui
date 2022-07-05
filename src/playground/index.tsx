@@ -36,7 +36,7 @@ const Story = ({ component, name }: StoryProps) => {
       .then((v) => v.text())
       .then((v) => setCode(v))
   }, [isCode])
-  return <>{isCode ? code : React.createElement(component)}</>
+  return <>{isCode ? <pre>{code}</pre> : React.createElement(component)}</>
 }
 
 const Stories = (params) => {
