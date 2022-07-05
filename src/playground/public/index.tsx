@@ -1,6 +1,6 @@
 export * from './Avatars'
 export * from './Badges'
-export * from './Button'
+export * from './Buttons'
 export * from './Cards'
 export * from './Callouts'
 export * from './Checkboxes'

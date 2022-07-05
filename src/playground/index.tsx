@@ -14,8 +14,7 @@ import * as stories from './public'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
 
-console.log(typeof based)
-
+// @ts-ignore
 export const client = based.default({
   org: 'saulx',
   project: 'demo',
@@ -30,9 +29,10 @@ type StoryProps = {
 const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
   const [code, setCode] = useState('')
-  console.info(component)
+
+  console.info(component, `/public/${name}.tsx`)
   useEffect(() => {
-    fetch(`/static/${name}.tsx`)
+    fetch(`/public/${name}.tsx`)
       .then((v) => v.text())
       .then((v) => setCode(v))
   }, [isCode])
