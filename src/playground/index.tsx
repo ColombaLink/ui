@@ -11,6 +11,8 @@ import {
 } from '../'
 import based from '@based/client'
 import * as stories from './public'
+import { themes } from '~/themes'
+import { DarkModeIcon, LightModeIcon } from '../'
 
 export const client = based({
   org: 'saulx',
@@ -22,8 +24,6 @@ type StoryProps = {
   component: FC
   name: string
 }
-
-console.log(Provider)
 
 const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
@@ -53,15 +53,29 @@ const Stories = (params) => {
 
 const App = () => {
   const isCode = useSearchParam('mode') === 'code'
+  const [lightDark, setLightDark] = useState(true)
 
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
       <Menu
         header={
           <div>
-            <Button space onClick={() => {}}>
-              Hello
-            </Button>
+            <Button
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 12,
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
+                paddingBottom: 8,
+              }}
+              color="Greylight"
+              iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
+              onClick={() => {
+                setLightDark(!lightDark)
+                themes(lightDark ? 'dark' : 'light')
+              }}
+            ></Button>
             <Button
               onClick={() => {
                 setLocation({
@@ -111,7 +125,7 @@ const App = () => {
 }
 
 render(
-  <Provider fill theme={'light'} client={client}>
+  <Provider fill theme="light" client={client}>
     <App />
   </Provider>,
   document.body
