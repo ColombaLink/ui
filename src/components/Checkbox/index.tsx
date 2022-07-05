@@ -52,7 +52,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
       </div>
-      <div style={{ height: space ? spaceToPx(space) : null }}></div>
+      <div style={{ height: spaceToPx(space) }}></div>
     </>
   )
 
@@ -62,7 +62,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          marginBottom: space ? spaceToPx(space) : null,
+          marginBottom: spaceToPx(space),
           ...style,
         }}
         {...listeners}
