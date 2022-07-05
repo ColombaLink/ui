@@ -14,10 +14,10 @@ import {
   InputFields,
   Selects,
   Thumbnails,
-} from './Stories/index'
+} from './Public/index'
 
-import { ProjectSettings } from './Stories/Screens/ProjectSettings'
-import { ProfileSettings } from './Stories/Screens/ProfileSettings'
+import { ProjectSettings } from './Public/Screens/ProjectSettings'
+import { ProfileSettings } from './Public/Screens/ProfileSettings'
 
 export const client = based({
   org: 'saulx',
