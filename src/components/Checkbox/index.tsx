@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, CSSProperties, EventHandler } from 'react'
 import { Text } from '../Text'
-import { color } from '~/utils'
+import { color, spaceToPx } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 import { Space } from '~/types'
@@ -52,7 +52,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
       </div>
-      <div style={{ height: space ? space : null }}></div>
+      <div style={{ height: space ? spaceToPx(space) : null }}></div>
     </>
   )
 
@@ -62,7 +62,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          marginBottom: space ? space : null,
+          marginBottom: space ? spaceToPx(space) : null,
           ...style,
         }}
         {...listeners}
@@ -91,7 +91,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       style={{
         alignItems: 'center',
         display: 'flex',
-        marginBottom: space ? space : null,
+        marginBottom: space ? spaceToPx(space) : null,
         ...style,
       }}
       {...listeners}
