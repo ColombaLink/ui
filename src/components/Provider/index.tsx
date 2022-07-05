@@ -28,6 +28,7 @@ export const Provider: FC<ProviderProps> = ({
   if (theme) {
     themes(theme)
   }
+
   return (
     <div
       style={{
