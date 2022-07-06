@@ -16,7 +16,10 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
     child = prop.type.map((v) => {
       return (
         <>
-          <SingleProp style={{ marginRight: 8 }} prop={{ type: v }} />
+          <SingleProp
+            style={{ margin: 0, marginRight: 8 }}
+            prop={{ type: v }}
+          />
         </>
       )
     })
