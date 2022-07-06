@@ -1,4 +1,5 @@
 import { SVGProps, SyntheticEvent } from 'react'
+import { IconProps } from '../components/Icon'
 
 type SizeInt = 11 | 12 | 13 | 14 | 15 | 18 | 20 | 24 | 32
 export type Size = `${SizeInt}px` | SizeInt
@@ -163,10 +164,7 @@ export type Color =
   | 'Transparent'
   | (CSSColorValue & {})
 
-export type Icon = SVGProps<SVGSVGElement> & {
-  color?: Color | string
-  size?: number
-}
+export type Icon = SVGProps<SVGSVGElement> & IconProps
 
 export type PropsEventHandler<E = SyntheticEvent, P = any> = (
   e?: E,

@@ -6,15 +6,17 @@ import {
   Page,
   Menu,
   Route,
+  Text,
   setLocation,
   Code,
+  CurlyBracesIcon,
   useSearchParam,
 } from '../'
 import based from '@based/client'
 import * as stories from './public'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
-import props from './props.json'
+import { LargeLogo } from '../'
 
 // @ts-ignore
 export const client = based({
@@ -32,11 +34,15 @@ const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
   const [code, setCode] = useState('')
   useEffect(() => {
-    fetch(`/public/${name}.json`)
-      .then((v) => v.json())
+    fetch(
+      `/public/${name}.json?rando=${(~~(Math.random() * 999999)).toString(16)}`
+    )
+      .then((v) => v.text())
       .then((v) => {
         console.info(v)
-        setCode(v.code)
+        try {
+          setCode(JSON.parse(v.split('<script>')[0]).code)
+        } catch (err) {}
       })
   }, [isCode, name])
   return <>{isCode ? <Code>{code}</Code> : React.createElement(component)}</>
@@ -67,21 +73,36 @@ const App = () => {
           minWidth: 300,
         }}
         header={
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            <Button
-              large
-              // color="Greylight"
-              iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
-              onClick={() => {
-                setLightDark(!lightDark)
-                themes(lightDark ? 'dark' : 'light')
+          <>
+            <LargeLogo style={{ marginBottom: 24, marginTop: -12 }} />
+            <div
+              style={{
+                display: 'flex',
               }}
-            ></Button>
-          </div>
+            >
+              <Button
+                ghost
+                style={{
+                  marginLeft: -8,
+                }}
+                iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
+                onClick={() => {
+                  setLightDark(!lightDark)
+                  themes(lightDark ? 'dark' : 'light')
+                }}
+              />
+              <Button
+                ghost
+                iconLeft={<CurlyBracesIcon />}
+                onClick={() => {
+                  setLocation({
+                    merge: true,
+                    params: { mode: isCode ? 'normal' : 'code' },
+                  })
+                }}
+              />
+            </div>
+          </>
         }
         data={{
           Input: {
@@ -96,6 +117,7 @@ const App = () => {
             Badges: '/badges',
             Cards: '/cards',
             Thumbnails: '/thumbnails',
+            Icons: '/icons',
           },
           Feedback: {
             Callouts: '/callouts',
@@ -124,7 +146,7 @@ const App = () => {
           },
         }}
       />
-      <Page>
+      <Page style={{ padding: 32 }}>
         <Route path="/:story">{Stories}</Route>
       </Page>
     </div>

@@ -69,6 +69,8 @@ const getTypes = async (filePath) => {
 
 const genComponentTypes = async (filePath) => {
   const code = (await fs.readFile(filePath)).toString()
+
+  console.log(filePath)
   const ast = babelParser.parse(code, {
     sourceType: 'module',
     plugins: ['jsx', 'typescript'],
@@ -150,8 +152,6 @@ const init = async () => {
   }
 
   const types = await getTypes(join(__dirname, '../src/types/index.ts'))
-
-  console.info(types)
 
   const typesObject = {}
   for (const type of types) {
