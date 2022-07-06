@@ -15,24 +15,20 @@ export const MasonryGrid: FC<MasonryGridProps> = ({
   return (
     <styled.div
       style={{
-        // display: 'grid',
-        // gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        // gridTemplateRows: 'masonry',
-        // gap: '10px',
-        //  columns: `${columns} 200px`,
-        columnCount: 3,
-        columnWidth: '200px',
-        //  columns: '6 200px',
-        columnGap: '10px',
+        display: 'grid',
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gridAutoRows: '250px',
+        gap: '20px',
         ...style,
         '& div': {
-          display: 'inline-block',
-          width: '100%',
-          maxWidth: '200px',
-          // margin: '5px',
+          minWidth: '100%',
+          minHeight: '100%',
         },
-        '& div > img': {
-          width: '100%',
+        '& .short': {
+          gridRow: 'span 1',
+        },
+        '& .tall': {
+          gridRow: 'span 2',
         },
       }}
     >

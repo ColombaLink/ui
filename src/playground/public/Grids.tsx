@@ -54,22 +54,22 @@ export const Grids = () => {
           Masonry Grid
         </Text>
         <MasonryGrid columns={4}>
-          <div>
+          <div className="short">
             <img src="https://picsum.photos/300/300" />
           </div>
-          <div>
-            <img src="https://picsum.photos/600/300" />
+          <div className="tall">
+            <img src="https://picsum.photos/600/900" />
           </div>
-          <div>
+          <div className="short">
             <img src="https://picsum.photos/400/300" />
           </div>
-          <div>
+          <div className="long">
             <img src="https://picsum.photos/500/300" />
           </div>
-          <div>
+          <div className="tall">
             <img src="https://picsum.photos/300/300" />
           </div>
-          <div>
+          <div className="short">
             <img src="https://picsum.photos/400/300" />
           </div>
         </MasonryGrid>
