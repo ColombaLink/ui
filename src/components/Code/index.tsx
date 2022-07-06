@@ -8,12 +8,14 @@ import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-export const Code: FC<{
+export type CodeProps = {
   style?: CSSProperties
   children?: string
   results?: boolean
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-}> = ({ children, style, onChange }) => {
+}
+
+export const Code: FC<CodeProps> = ({ children, style, onChange }) => {
   return (
     <div
       style={{

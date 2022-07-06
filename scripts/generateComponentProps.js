@@ -70,7 +70,6 @@ const getTypes = async (filePath) => {
 const genComponentTypes = async (filePath) => {
   const code = (await fs.readFile(filePath)).toString()
 
-  console.log(filePath)
   const ast = babelParser.parse(code, {
     sourceType: 'module',
     plugins: ['jsx', 'typescript'],
