@@ -8,9 +8,14 @@ import { join } from 'path'
 // })
 
 export default async (path: string) => {
-  console.info(join(__dirname, path))
-
+  //   console.info(join(__dirname, path))
+  try {
+    console.info(join)
+    console.info(join(process.cwd(), path))
+  } catch (err) {
+    console.error(err)
+  }
   //   const file = (await readFile(join(__dirname, path))).toString()
   //   return JSON.stringify({ code: file })
-  return '?>'
+  return '?>' + path
 }
