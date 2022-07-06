@@ -6,15 +6,30 @@ import { LoremIpsum } from 'lorem-ipsum'
 const { Text } = ui
 
 const icons = []
+const iconNames = []
+
+const randomFromArr = (arr) => {
+  return arr[~~(Math.random() * arr.length)]
+}
 
 for (const key in ui) {
   if (key.includes('Icon')) {
+    iconNames.push(key)
     icons.push(ui[key])
   }
 }
 
-const getRandomIcon = () => {
-  return icons[~~(Math.random() * icons.length)]
+export const getRandomIconName = () => {
+  return randomFromArr(iconNames)
+}
+
+export const getRandomIcon = () => {
+  return randomFromArr(icons)
+}
+
+export const getRandomColor = () => {
+  const t = randomFromArr(props.types['Color'].types)
+  return genRandomProps('Color', { type: t.type })
 }
 
 const lorem = new LoremIpsum({
@@ -27,10 +42,6 @@ const lorem = new LoremIpsum({
     min: 4,
   },
 })
-
-const randomFromArr = (arr) => {
-  return arr[~~(Math.random() * arr.length)]
-}
 
 const genRandomWords = (short) => {
   if (!short && Math.random() > 0.7) {

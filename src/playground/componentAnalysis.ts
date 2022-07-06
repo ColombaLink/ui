@@ -7,5 +7,5 @@ export default async (path: string, params: any) => {
   } catch (err) {
     // console.error(err)
   }
-  return '{"code":""}'
+  return '{"code":"x"}'
 }

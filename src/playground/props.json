@@ -755,6 +755,43 @@
       "code": "type GridProps = {\n  children?: ReactNode\n  columns?: number\n  columnGap?: number\n  rowGap?: number\n  wrap?: boolean\n  style?: CSSProperties\n}",
       "file": "/components/Grid/Grid.tsx"
     },
+    "IconProps": {
+      "name": "IconProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": [
+            "Color",
+            "string"
+          ]
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 10
+            },
+            {
+              "value": 12
+            },
+            {
+              "value": 14
+            },
+            {
+              "value": 16
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 32
+            }
+          ]
+        }
+      },
+      "code": "type IconProps = {\n  color?: Color | string\n  size?: 10 | 12 | 14 | 16 | 20 | 32\n}",
+      "file": "/components/Icon/index.tsx"
+    },
     "InfiniteListProps": {
       "name": "InfiniteListProps",
       "props": {
@@ -2366,10 +2403,10 @@
           "type": "SVGProps"
         },
         {
-          "type": "TSTypeLiteral"
+          "type": "IconProps"
         }
       ],
-      "code": "type Icon = SVGProps<SVGSVGElement> & {\n  color?: Color | string\n  size?: number\n}",
+      "code": "type Icon = SVGProps<SVGSVGElement> & IconProps",
       "file": "/types/index.ts"
     },
     "Key": {

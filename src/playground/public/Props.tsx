@@ -74,19 +74,25 @@ export const Props = () => {
               </div>
               <SingleProp prop={v.componentProps[0].props[v.name]} />
 
-              {v.componentProps.map((x) => {
-                return (
-                  <Text
-                    key={x.name}
-                    color={
-                      x.props[v.name].inconsistent ? 'Primary' : 'TextDisabled'
-                    }
-                    size="12px"
-                  >
-                    {x.name}
-                  </Text>
-                )
-              })}
+              {v.componentProps
+                .sort((a, b) => {
+                  return a.name < b.name ? -1 : a.name === b.name ? 0 : 1
+                })
+                .map((x) => {
+                  return (
+                    <Text
+                      key={x.name}
+                      color={
+                        x.props[v.name].inconsistent
+                          ? 'Primary'
+                          : 'TextDisabled'
+                      }
+                      size="12px"
+                    >
+                      {x.name}
+                    </Text>
+                  )
+                })}
             </div>
           )
         })}

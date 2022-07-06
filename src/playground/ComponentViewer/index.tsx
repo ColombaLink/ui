@@ -3,6 +3,7 @@ import * as ui from '../..'
 import props from '../props.json'
 import { genRandomProps } from './genRandomProps'
 import { viewProps } from './viewProps'
+import { Props } from './PropViewer'
 
 const { Text, color, Code, Link, useSearchParam, setLocation } = ui
 
@@ -31,13 +32,13 @@ const Variant: FC<{
     return (
       <div>
         <ui.Text>Wrong props</ui.Text>
-        <Code
+        {/* <Code
           style={{
             marginTop: 24,
           }}
         >
           {viewProps(props)}
-        </Code>
+        </Code> */}
       </div>
     )
   }
@@ -46,7 +47,9 @@ const Variant: FC<{
     <div
       style={{
         borderRadius: 5,
-        margin: 12,
+        marginTop: 12,
+        marginRight: 12,
+        marginBottom: 12,
         padding: 24,
         width,
         maxWidth: '100%',
@@ -55,13 +58,13 @@ const Variant: FC<{
       }}
     >
       <div>{elem}</div>
-      <Code
+      {/* <Code
         style={{
           marginTop: 24,
         }}
       >
         {viewProps(props)}
-      </Code>
+      </Code> */}
     </div>
   )
 }
@@ -69,6 +72,7 @@ const Variant: FC<{
 const ComponentViewer: FC<{
   component: FC
   propsName?: string
+  exampleProps?: any
   nr?: number
   width?: number | '100%' | 'auto'
 }> = ({ component, propsName, width = 'auto', nr = 50 }) => {
@@ -83,51 +87,83 @@ const ComponentViewer: FC<{
     console.warn('Cannot find props', propsName)
     return <div />
   }
-  const expand = useSearchParam('randomize')
+  const fuzz = useSearchParam('randomize')
+  const showType = useSearchParam('type')
 
   const examples = []
 
-  for (let i = 0; i < (expand ? 100 : 0); i++) {
+  for (let i = 0; i < (fuzz ? 300 : 0); i++) {
     examples.push(<Variant p={p} width={width} component={component} key={i} />)
   }
 
   return (
     <div
       style={{
-        marginBottom: 48,
         paddingBottom: 48,
+        marginTop: 0,
+        marginBottom: 48,
+        borderBottom: '1px solid ' + color('OtherDivider'),
       }}
     >
       <Link href={`src${p.file}`}>
-        <Text color="PrimaryMain" size={'18px'} style={{ marginBottom: 24 }}>
+        <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
           {p.file.slice(1).split('/').slice(1, -1)}
         </Text>
       </Link>
-      <Code>{p.code}</Code>
-      <ui.Button
-        outline
-        ghost
-        iconLeft={ui.ModelIcon}
-        style={{ marginTop: 24 }}
-        onClick={() =>
-          setLocation({
-            merge: true,
-            params: { randomize: !expand },
-          })
-        }
-      >
-        {expand ? 'Hide random props' : 'Randomise props'}
-      </ui.Button>
-
-      <div
-        style={{
-          marginTop: 48,
-          display: 'flex',
-          flexWrap: 'wrap',
-        }}
-      >
-        {examples}
+      <div style={{ marginTop: 24 }}>
+        {showType ? (
+          <Code
+            style={{
+              width: 550,
+            }}
+          >
+            {p.code}
+          </Code>
+        ) : (
+          <Props prop={p} />
+        )}
       </div>
+      <div style={{ marginTop: 48, display: 'flex' }}>
+        <ui.Button
+          outline
+          ghost
+          style={{ marginRight: 24 }}
+          iconLeft={ui.ModelIcon}
+          onClick={() =>
+            setLocation({
+              merge: true,
+              params: { randomize: !fuzz },
+            })
+          }
+        >
+          {fuzz ? 'Hide Fuzz' : 'Fuzz'}
+        </ui.Button>
+        <ui.Button
+          outline
+          ghost
+          iconLeft={ui.ModelIcon}
+          onClick={() =>
+            setLocation({
+              merge: true,
+              params: { type: !showType },
+            })
+          }
+        >
+          {showType ? 'Props' : 'Type'}
+        </ui.Button>
+      </div>
+
+      {fuzz ? (
+        <div
+          style={{
+            marginTop: 48,
+            display: 'flex',
+            flexWrap: 'wrap',
+          }}
+        >
+          {examples}
+        </div>
+      ) : null}
     </div>
   )
 }
