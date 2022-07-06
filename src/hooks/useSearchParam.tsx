@@ -7,7 +7,6 @@ export function useSearchParam(param: string): string | number | boolean {
   const [value, setValue] = useState(() => getValue(param))
   useEffect(() => {
     const onChange = () => {
-      console.info('?')
       setValue(getValue(param))
     }
     window.addEventListener('popstate', onChange)
@@ -19,5 +18,14 @@ export function useSearchParam(param: string): string | number | boolean {
       window.removeEventListener('replacestate', onChange)
     }
   }, [param])
+
+  if (value === 'true') {
+    return true
+  }
+
+  if (value === 'false') {
+    return false
+  }
+
   return value
 }

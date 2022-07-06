@@ -2,10 +2,9 @@ import React, { FC, useEffect, useState, useRef } from 'react'
 import * as ui from '../..'
 import props from '../props.json'
 import { genRandomProps } from './genRandomProps'
-import useGlobalState from '@based/use-global-state'
 import { viewProps } from './viewProps'
 
-const { Text, color, Code, Link } = ui
+const { Text, color, Code, Link, useSearchParam, setLocation } = ui
 
 const Variant: FC<{
   p: any
@@ -84,7 +83,7 @@ const ComponentViewer: FC<{
     console.warn('Cannot find props', propsName)
     return <div />
   }
-  const [expand, setExpand] = useGlobalState('expand')
+  const expand = useSearchParam('randomize')
 
   const examples = []
 
@@ -110,7 +109,12 @@ const ComponentViewer: FC<{
         ghost
         iconLeft={ui.ModelIcon}
         style={{ marginTop: 24 }}
-        onClick={() => setExpand(!expand)}
+        onClick={() =>
+          setLocation({
+            merge: true,
+            params: { randomize: !expand },
+          })
+        }
       >
         {expand ? 'Hide random props' : 'Randomise props'}
       </ui.Button>
