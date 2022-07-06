@@ -16,11 +16,13 @@ import {
   StackIcon,
 } from '~'
 
+//gap={16} width={980}
+
 export const GridOverview = () => {
   return (
     <Provider>
       <Text space>Cards in a Grid (gap 16) (width 980px)</Text>
-      <Grid gap={16} width={980}>
+      <Grid>
         <Card
           title="Junior Eurovision 2022"
           description="Updated 30 minutes ago"

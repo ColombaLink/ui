@@ -7,6 +7,7 @@ import {
   Menu,
   Route,
   setLocation,
+  Code,
   useSearchParam,
 } from '../'
 import based from '@based/client'
@@ -34,7 +35,7 @@ const Story = ({ component, name }: StoryProps) => {
       .then((v) => v.text())
       .then((v) => setCode(v))
   }, [isCode, name])
-  return <>{isCode ? <pre>{code}</pre> : React.createElement(component)}</>
+  return <>{isCode ? <Code>{code}</Code> : React.createElement(component)}</>
 }
 
 const Stories = (params) => {
@@ -104,6 +105,9 @@ const App = () => {
           },
           Feedback: {
             Callouts: '/callouts',
+          },
+          Code: {
+            Code: '/code',
           },
           Layout: {
             Grids: '/grids',
