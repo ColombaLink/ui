@@ -128,7 +128,6 @@ const Variant: FC<{
   component: FC
   width: number | '100%' | 'auto'
 }> = ({ component, p, width }) => {
-  const [expand] = useGlobalState('expand')
   const [props, setProps] = useState({})
 
   useEffect(() => {
@@ -172,15 +171,13 @@ const Variant: FC<{
       }}
     >
       <div>{elem}</div>
-      {expand ? (
-        <Code
-          style={{
-            marginTop: 24,
-          }}
-        >
-          {viewProps(props)}
-        </Code>
-      ) : null}
+      <Code
+        style={{
+          marginTop: 24,
+        }}
+      >
+        {viewProps(props)}
+      </Code>
     </div>
   )
 }
@@ -206,7 +203,7 @@ const ComponentViewer: FC<{
 
   const examples = []
 
-  for (let i = 0; i < nr; i++) {
+  for (let i = 0; i < (expand ? 100 : 0); i++) {
     examples.push(<Variant p={p} width={width} component={component} key={i} />)
   }
 
@@ -223,8 +220,14 @@ const ComponentViewer: FC<{
         </Text>
       </Link>
       <Code>{p.code}</Code>
-      <ui.Button style={{ marginTop: 24 }} onClick={() => setExpand(!expand)}>
-        {expand ? '' : 'Randomise props'}
+      <ui.Button
+        outline
+        ghost
+        iconLeft={ui.ModelIcon}
+        style={{ marginTop: 24 }}
+        onClick={() => setExpand(!expand)}
+      >
+        {expand ? 'Hide random props' : 'Randomise props'}
       </ui.Button>
 
       <div
