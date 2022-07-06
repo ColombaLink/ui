@@ -9,6 +9,7 @@ themes()
 // for now use wouter
 export { Route, useLocation, useRoute, useRouter, Switch, Router } from 'wouter'
 
+export * from './components/Code'
 export * from './components/Badge'
 export * from './components/Container'
 export * from './components/Button'
@@ -30,8 +31,6 @@ export * from './components/Logo'
 export * from './components/Auth'
 export * from './components/Avatar'
 export * from './components/ListItems'
-
 export * from './icons'
 export * from './hooks'
-
 export * from './utils'
