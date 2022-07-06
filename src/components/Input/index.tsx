@@ -57,7 +57,7 @@ const Color = ({
   useEffect(() => {
     if (onChange && colorState !== value) {
       const { backgroundColor } = getComputedStyle(ref.current)
-      const [, r, g, b, a] = backgroundColor.split(/,|\(|\)| /)
+      const [, r, g, b, a] = backgroundColor.split(/, |,|\(|\)/)
       const value = `rgba(${r || 0},${g || 0},${b || 0},${a || 1})`
       if (valueRef.current !== value) {
         valueRef.current = value
