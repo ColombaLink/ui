@@ -5,13 +5,14 @@ import { Thumbnail } from '~/components/Thumbnail'
 import { StackIcon, CalendarIcon } from '~/icons'
 import { Container } from '~/components/Container'
 import { Text } from '~/components/Text'
+import { MasonryGrid } from '~/components/MasonryGrid/MasonryGrid'
 
 export const Grids = () => {
   return (
     <>
-      <Container wrap>
+      <Container wrap space>
         <Text space weight={600}>
-          Bonjour
+          Normal Grid
         </Text>
         <Grid rowGap={20} columnGap={20} columns={3} wrap>
           <Card
@@ -46,6 +47,32 @@ export const Grids = () => {
             topLeft={<Thumbnail color="Red" icon={CalendarIcon} />}
           ></Card>
         </Grid>
+      </Container>
+
+      <Container wrap space>
+        <Text space weight={600}>
+          Masonry Grid
+        </Text>
+        <MasonryGrid columns={4}>
+          <div>
+            <img src="https://picsum.photos/300/300" />
+          </div>
+          <div>
+            <img src="https://picsum.photos/600/300" />
+          </div>
+          <div>
+            <img src="https://picsum.photos/400/300" />
+          </div>
+          <div>
+            <img src="https://picsum.photos/500/300" />
+          </div>
+          <div>
+            <img src="https://picsum.photos/300/300" />
+          </div>
+          <div>
+            <img src="https://picsum.photos/400/300" />
+          </div>
+        </MasonryGrid>
       </Container>
     </>
   )
