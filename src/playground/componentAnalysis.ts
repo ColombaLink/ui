@@ -1,41 +1,16 @@
 import { readFile } from 'fs/promises'
-import ts from 'typescript'
+import { join } from 'path'
+// import babelParser from '@babel/parser'
 
-const options = {
-  allowJs: true,
-  jsx: 'preserve',
-}
+// const ast = babelParser.parse(code, {
+//   sourceType: 'module',
+//   plugins: ['jsx'],
+// })
 
-export default (path: string) => {
-  // Create a TypeScript compilation environment.
-  // @ts-ignore
-  const host = ts.createCompilerHost(options)
+export default async (path: string) => {
+  console.info(join(__dirname, path))
 
-  // Parse and analyse our file, along with dependencies.
-  // @ts-ignore
-  const program = ts.createProgram([path], options, host)
-  const sourceFile = program.getSourceFile(path)
-  const checker = program.getTypeChecker()
-
-  const detectedComponents = []
-  for (const statement of sourceFile.statements) {
-    if (ts.isVariableStatement(statement)) {
-      for (const declaration of statement.declarationList.declarations) {
-        // 🚀 This is where the magic happens.
-        const type = checker.getTypeAtLocation(declaration.name)
-
-        // A type that has call signatures is a function type.
-        for (const callSignature of type.getCallSignatures()) {
-          const returnType = callSignature.getReturnType()
-          if (returnType.symbol?.getEscapedName().toString() === 'Element') {
-            // @ts-ignore
-            detectedComponents.push(declaration.name.text)
-          }
-        }
-      }
-    }
-  }
-
-  console.log(detectedComponents)
-  // ["Foo", "Bar"]
+  //   const file = (await readFile(join(__dirname, path))).toString()
+  //   return JSON.stringify({ code: file })
+  return '?>'
 }

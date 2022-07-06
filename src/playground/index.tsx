@@ -11,7 +11,7 @@ import {
   useSearchParam,
 } from '../'
 import based from '@based/client'
-import * as stories from './public'
+import * as stories from './stories'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
 
@@ -31,9 +31,12 @@ const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
   const [code, setCode] = useState('')
   useEffect(() => {
-    fetch(`/public/${name}.tsx`)
-      .then((v) => v.text())
-      .then((v) => setCode(v))
+    fetch(`/stories/${name}.json`)
+      .then((v) => v.json())
+      .then((v) => {
+        console.info(v)
+        setCode(v.code)
+      })
   }, [isCode, name])
   return <>{isCode ? <Code>{code}</Code> : React.createElement(component)}</>
 }
