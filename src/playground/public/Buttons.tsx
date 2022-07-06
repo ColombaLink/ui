@@ -61,7 +61,7 @@ export const Buttons = () => {
         Orange
       </Button>
       <br />
-      <Button color="Orange" iconLeft={LightModeIcon}></Button>
+      <Button color="Orange" large iconLeft={LightModeIcon}></Button>
       <br />
       <Button color="Greydark" iconRight={DarkModeIcon}>
         Grey Dark
