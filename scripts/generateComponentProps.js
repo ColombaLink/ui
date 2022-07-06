@@ -28,6 +28,45 @@ const parseTypeName = (typeAnnotation) => {
   }
 }
 
+const getTypes = async (filePath) => {
+  const code = (await fs.readFile(filePath)).toString()
+  const ast = babelParser.parse(code, {
+    sourceType: 'module',
+    plugins: ['jsx', 'typescript'],
+  })
+  const p = []
+  try {
+    traverse(ast, {
+      TSTypeAliasDeclaration: function (path) {
+        if (path.node.typeAnnotation) {
+          const type = path.node.typeAnnotation
+          if (type.types) {
+            const props = {
+              name: path.node.id.name,
+              types: [],
+              code: code.slice(path.node.start, path.node.end),
+              file: '/' + relative(join(__dirname, '../src'), filePath),
+            }
+            p.push(props)
+            for (const m of type.types) {
+              const memberTypeDef = {
+                optional: m.optional,
+              }
+              props.types.push(memberTypeDef)
+              if (m) {
+                memberTypeDef.type = parseTypeName(m)
+              }
+            }
+          }
+        }
+      },
+    })
+  } catch (err) {
+    console.error(filePath, err)
+  }
+  return p
+}
+
 const genComponentTypes = async (filePath) => {
   const code = (await fs.readFile(filePath)).toString()
   const ast = babelParser.parse(code, {
@@ -110,9 +149,27 @@ const init = async () => {
     }
   }
 
+  const types = await getTypes(join(__dirname, '../src/types/index.ts'))
+
+  console.info(types)
+
+  const typesObject = {}
+  for (const type of types) {
+    if (typesObject[type.name]) {
+      console.error(
+        `Duplicate type objects for ${type.name}`,
+        typesObject[type.name].file,
+        ' ',
+        type.file
+      )
+    } else {
+      typesObject[type.name] = type
+    }
+  }
+
   await fs.writeFile(
     join(__dirname, '../src/playground/props.json'),
-    JSON.stringify(propObject, null, 2)
+    JSON.stringify({ props: propObject, types: typesObject }, null, 2)
   )
 }
 

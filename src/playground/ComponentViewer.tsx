@@ -3,8 +3,9 @@ import * as ui from '../'
 import props from './props.json'
 import { LoremIpsum } from 'lorem-ipsum'
 import useGlobalState from '@based/use-global-state'
+import * as types from '../types'
 
-const { Code, Text, Link, color, light } = ui
+const { Code, Text, Link, color } = ui
 
 const icons = []
 
@@ -42,8 +43,6 @@ const viewProps = (props): string => {
   }
   return JSON.stringify(p, null, 2)
 }
-
-const colorList = Object.keys(light.colors)
 
 const randomFromArr = (arr) => {
   return arr[~~(Math.random() * arr.length)]
@@ -89,8 +88,9 @@ const genRandomProps = (name, prop) => {
     return ~~(Math.random() * 1000)
   }
 
-  if (prop.type === 'Color') {
-    return randomFromArr(colorList)
+  if (Array.isArray(props.types[prop.type])) {
+    const t = randomFromArr(props.types[prop.type])
+    return genRandomProps(name, { type: t })
   }
 
   if (prop.type === 'string' && name !== 'backgroundImg') {
@@ -193,7 +193,7 @@ const ComponentViewer: FC<{
     propsName = component.name + 'Props'
   }
 
-  const p = props[propsName]
+  const p = props.props[propsName]
 
   if (!p) {
     console.warn('Cannot find props', propsName)

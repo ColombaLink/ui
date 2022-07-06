@@ -5,7 +5,7 @@ export default async (path: string, params: any) => {
       code: file,
     })
   } catch (err) {
-    console.error(err)
+    // console.error(err)
   }
   return '{"code":""}'
 }
