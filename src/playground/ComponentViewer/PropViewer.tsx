@@ -28,8 +28,8 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
     <div
       style={{
         marginLeft: -4,
-        marginTop: 8,
-        marginBottom: 24,
+        marginTop: 16,
+        marginBottom: 16,
         display: 'flex',
         flexWrap: 'wrap',
         ...style,

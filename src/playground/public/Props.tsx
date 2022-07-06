@@ -78,7 +78,7 @@ export const Props = () => {
                   <Text
                     key={x.name}
                     color={
-                      x.props[v.name].inconsistent ? 'Red' : 'TextDisabled'
+                      x.props[v.name].inconsistent ? 'Primary' : 'TextDisabled'
                     }
                     size="12px"
                   >
