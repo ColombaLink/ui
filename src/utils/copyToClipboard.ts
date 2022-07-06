@@ -1,11 +1,9 @@
 export const copyToClipboard = (input: string | number) => {
-  const type = 'text/plain'
-  const blob = new Blob([typeof input === 'number' ? String(input) : input], {
-    type,
-  })
-  const data = [new ClipboardItem({ [type]: blob })]
-  navigator.clipboard.write(data).then(
-    () => {},
-    () => {}
-  )
+  const inputElement = document.createElement('input')
+  document.body.appendChild(inputElement)
+  inputElement.value = typeof input === 'number' ? String(input) : input
+  inputElement.select()
+  inputElement.setSelectionRange(0, 99999)
+  document.execCommand('copy')
+  document.body.removeChild(inputElement)
 }
