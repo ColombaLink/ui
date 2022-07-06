@@ -2,6 +2,7 @@ import React from 'react'
 import props from '../props.json'
 import { Text } from '../../'
 import { deepEqual } from '@saulx/utils'
+import { SingleProp } from '../ComponentViewer/PropViewer'
 
 const propsNames: {
   [key: string]: {
@@ -13,14 +14,6 @@ const propsNames: {
 
 for (const p in props.props) {
   for (const k in props.props[p].props) {
-    // if (propsNames[k]) {
-    //   if (!deepEqual(props.props[p].props[k], propsNames[k])) {
-    //     console.warn('props are not equal for', k, p)
-    //   }
-    // }
-
-    // annotate inconsitencies
-
     if (!propsNames[k]) {
       propsNames[k] = {
         name: k,
@@ -76,14 +69,14 @@ export const Props = () => {
                   }}
                 >
                   {v.name}
-                </Text>{' '}
-                {v.inconsitencies > 0 ? (
-                  <Text color={'Red'}>{v.inconsitencies}</Text>
-                ) : null}
+                </Text>
               </div>
+              <SingleProp prop={v.componentProps[0].props[v.name]} />
+
               {v.componentProps.map((x) => {
                 return (
                   <Text
+                    key={x.name}
                     color={
                       x.props[v.name].inconsistent ? 'Red' : 'TextDisabled'
                     }
