@@ -8,7 +8,7 @@ import { join } from 'path'
 // })
 
 export default async (path: string) => {
-  //   console.info(join(__dirname, path))
+  //   console.info(join(__dirname, path))]
   try {
     console.info(join)
     console.info(join(process.cwd(), path))
