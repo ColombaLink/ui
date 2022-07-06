@@ -200,13 +200,14 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       style={{
         transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
-        padding: !children
-          ? '8px'
-          : !children && large
-          ? '16px'
-          : large
-          ? '4px 16px'
-          : '4px 8px',
+        padding:
+          !children && large
+            ? '16px'
+            : !children
+            ? '8px'
+            : large
+            ? '4px 16px'
+            : '4px 8px',
         color: c(foregroundColor),
         backgroundColor: c(backgroundColor),
         border: outline ? `1px solid ${c(outlineColor)}` : 'none',
