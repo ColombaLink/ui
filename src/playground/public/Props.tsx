@@ -57,9 +57,10 @@ export const Props = () => {
             <div key={v.name}>
               <div
                 style={{
+                  width: 350,
                   display: 'flex',
-                  marginTop: 24,
-                  marginRight: 24,
+                  marginTop: 48,
+                  marginRight: 48,
                 }}
               >
                 <Text
