@@ -546,6 +546,32 @@
       "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode\n  space?: Space\n}",
       "file": "/components/Checkbox/index.tsx"
     },
+    "CodeProps": {
+      "name": "CodeProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "children": {
+          "optional": true,
+          "type": "string"
+        },
+        "results": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onChange": {
+          "optional": true,
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
+        }
+      },
+      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
+      "file": "/components/Code/index.tsx"
+    },
     "ContainerProps": {
       "name": "ContainerProps",
       "props": {
