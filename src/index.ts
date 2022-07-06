@@ -6,6 +6,8 @@ import { themes } from './themes'
 
 themes()
 
+export * from './themes'
+
 // for now use wouter
 export { Route, useLocation, useRoute, useRouter, Switch, Router } from 'wouter'
 

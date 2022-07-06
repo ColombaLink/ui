@@ -14,9 +14,10 @@ import based from '@based/client'
 import * as stories from './public'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
+import props from './props.json'
 
 // @ts-ignore
-export const client = based.default({
+export const client = based({
   org: 'saulx',
   project: 'demo',
   env: 'production',
@@ -124,6 +125,9 @@ const App = () => {
           },
           Themes: {
             Theming: '/theming',
+          },
+          Text: {
+            Text: '/text',
           },
         }}
       />

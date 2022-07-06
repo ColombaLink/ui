@@ -1,11 +1,10 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
-import { AvatarSize, Color, Space } from '~/types'
+import { Color, Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { isCapitalised } from '~/utils/isCapitalised'
 
 type ThumbnailProps = {
-  size?: AvatarSize
-  children?: ReactNode
+  size?: 32 | 36 | 40 | 64
   backgroundColor?: Color
   backgroundImg?: string
   icon?: FC | ReactNode
@@ -15,7 +14,6 @@ type ThumbnailProps = {
 }
 
 export const Thumbnail: FC<ThumbnailProps> = ({
-  children,
   size = 40,
   backgroundColor,
   backgroundImg,
@@ -52,7 +50,6 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         ...style,
       }}
     >
-      {children}
       <>{renderOrCreateElement(icon, { size: 20 })}</>
     </div>
   )

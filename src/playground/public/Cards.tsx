@@ -11,10 +11,12 @@ import {
 } from '~'
 import { Badge } from '~'
 import { Thumbnail } from '~/components/Thumbnail'
+import ComponentViewer from '../ComponentViewer'
 
 export const Cards = () => {
   return (
     <>
+      <ComponentViewer component={Card} />
       <Card
         title="Junior Eurovision 20222"
         description="Updated 30 minutes ago"

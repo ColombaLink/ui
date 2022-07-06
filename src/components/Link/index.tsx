@@ -6,6 +6,7 @@ type LinkProps = {
   href?: string
   children?: ReactNode
   style?: Style
+  onClick?: () => {}
 }
 
 export const Link: FC<LinkProps> = styled(
