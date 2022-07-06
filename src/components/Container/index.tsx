@@ -36,6 +36,7 @@ export const Container: FC<ContainerProps> = ({
           borderRadius: 4,
           marginBottom: spaceToPx(space, 32),
           width: wrap ? 'fit-content' : '100%',
+          maxWidth: '100%',
           ...style,
         }}
       >
