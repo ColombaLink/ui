@@ -4,7 +4,7 @@ export default async (params) => {
   const { head, body, url } = params
 
   if (url.pathname.includes('.json')) {
-    return componentAnalysis(url.pathname.replace('.json', '.tsx'))
+    return componentAnalysis(url.pathname.replace('.json', '.tsx'), params)
   }
 
   return `<!DOCTYPE html><html><head><meta charset="UTF-8" />
