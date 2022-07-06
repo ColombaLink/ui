@@ -62,35 +62,25 @@ const App = () => {
 
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
-      <Button
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 12,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          paddingBottom: 8,
-        }}
-        color="Greylight"
-        iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
-        onClick={() => {
-          setLightDark(!lightDark)
-          themes(lightDark ? 'dark' : 'light')
-        }}
-      ></Button>
       <Menu
+        style={{
+          minWidth: 300,
+        }}
         header={
-          <div>
+          <div
+            style={{
+              display: 'flex',
+            }}
+          >
             <Button
+              large
+              // color="Greylight"
+              iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
               onClick={() => {
-                setLocation({
-                  merge: true,
-                  params: { mode: isCode ? 'component' : 'code' },
-                })
+                setLightDark(!lightDark)
+                themes(lightDark ? 'dark' : 'light')
               }}
-            >
-              {isCode ? 'Components' : 'Show code'}
-            </Button>
+            ></Button>
           </div>
         }
         data={{
@@ -128,6 +118,9 @@ const App = () => {
           },
           Text: {
             Text: '/text',
+          },
+          Handbook: {
+            Props: '/props',
           },
         }}
       />
