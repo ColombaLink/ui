@@ -91,7 +91,14 @@ export const Badge: FC<BadgeProps> = ({
       }}
     >
       {iconLeft && (
-        <div style={{ marginRight: 8 }}>
+        <div
+          style={{
+            marginRight: 8,
+            minWidth: 10,
+            maxWidth: '100%',
+            height: 'auto',
+          }}
+        >
           {renderOrCreateElement(iconLeft, {
             size: 10,
             color: color(colorProp),

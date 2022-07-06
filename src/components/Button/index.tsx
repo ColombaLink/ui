@@ -200,7 +200,7 @@ export const Button: FC<ButtonProps> = ({
       onClick={onClick}
       style={{
         transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
-        padding: large ? '4px 16px' : '4px 8px',
+        padding: !children ? '8px' : large ? '4px 16px' : '4px 8px',
         color: c(foregroundColor),
         backgroundColor: c(backgroundColor),
         border: outline ? `1px solid ${c(outlineColor)}` : 'none',
@@ -239,8 +239,7 @@ export const Button: FC<ButtonProps> = ({
       >
         {iconLeft &&
           renderOrCreateElement(iconLeft, {
-            style:
-              children || iconRight ? { marginRight: 8, flexShrink: 0 } : null,
+            style: children || iconRight ? { marginRight: 8 } : null,
             color: c(foregroundColor),
           })}
         <Text color="inherit">{children}</Text>
