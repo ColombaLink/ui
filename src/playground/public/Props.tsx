@@ -38,12 +38,7 @@ for (const p in props.props) {
 export const Props = () => {
   return (
     <>
-      <Text
-        size="24px"
-        style={{
-          marginBottom: 24,
-        }}
-      >
+      <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
         Props
       </Text>
       <div
