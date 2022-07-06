@@ -73,7 +73,7 @@ export const Callout: FC<CalloutProps> = ({
         border: outline ? `1px solid ${color(outlineColor)}` : null,
         backgroundColor: color(backgroundColor),
         display: 'flex',
-        // alignItems: 'center',
+        //   alignItems: 'center',
         padding: '12px 16px',
         borderRadius: 4,
         marginBottom: spaceToPx(space),
