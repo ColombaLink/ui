@@ -8,7 +8,7 @@ import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-const Code: FC<{
+export const Code: FC<{
   style?: CSSProperties
   children?: string
   results?: boolean
@@ -62,5 +62,3 @@ const Code: FC<{
     </div>
   )
 }
-
-export default Code
