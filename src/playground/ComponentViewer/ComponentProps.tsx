@@ -12,11 +12,12 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
   if (typeof prop.type === 'string') {
     child = <Badge>{prop.type}</Badge>
   } else if (Array.isArray(prop.type)) {
-    child = prop.type.map((v) => {
+    child = prop.type.map((v, i) => {
       return (
         <>
           <SingleProp
-            style={{ margin: 0, marginRight: 8 }}
+            key={i}
+            style={{ margin: 0, marginRight: 8, marginBottom: 8 }}
             prop={{ type: v }}
           />
         </>
@@ -51,6 +52,7 @@ export const Props: FC<{ style?: CSSProperties; prop: any }> = ({
   for (const key in prop.props) {
     children.push(
       <div
+        key={key}
         style={{
           display: 'flex',
           marginBottom: 18,

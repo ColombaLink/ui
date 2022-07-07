@@ -9,14 +9,7 @@ export const Variant: FC<{
 }> = ({ component, p, width }) => {
   const [props, setProps] = useState({})
   useEffect(() => {
-    const parsedProps = {}
-    for (const key in p.props) {
-      const rando = genRandomProps(key, p.props[key])
-      if (rando !== undefined) {
-        parsedProps[key] = rando
-      }
-    }
-    setProps(parsedProps)
+    setProps(genRandomProps(p))
   }, [component])
 
   let elem

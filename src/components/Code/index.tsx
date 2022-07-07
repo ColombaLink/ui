@@ -20,9 +20,9 @@ export const Code: FC<CodeProps> = ({ children, style, onChange }) => {
     <div
       style={{
         width: '100%',
-        padding: 24,
+        padding: 16,
         position: 'relative',
-        borderRadius: 8,
+        borderRadius: 4,
         background: color('Background0dp'),
         ...style,
       }}
