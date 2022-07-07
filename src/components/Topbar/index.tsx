@@ -16,6 +16,15 @@ type TopbarTabProps = {
   isActive?: boolean
 }
 
+type TopbarProps = {
+  data?: object
+  selected?: string
+  prefix?: string
+  onFilter?: (params: any) => any
+  onProfile?: () => void
+  breadcrumbs?: ReactNode
+}
+
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
   const marginTop = (66 - 32) / 2
   return (
@@ -74,26 +83,19 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
         placeholder="Search and discover"
         iconLeft={SearchIcon}
         onChange={(e) => console.log(e)}
-        style={{ marginLeft: 12 }}
+        style={{ marginLeft: 12, marginRight: 12 }}
       />
     </>
   )
 }
 
-export const Topbar = ({
+export const Topbar: FC<TopbarProps> = ({
   data = {},
   prefix = '',
   selected,
   onFilter,
   onProfile,
   breadcrumbs,
-}: {
-  data?: object
-  selected?: string
-  prefix?: string
-  onFilter?: (params: any) => any
-  onProfile?: () => void
-  breadcrumbs?: ReactNode
 }) => {
   const user = useAuth()
 
@@ -162,7 +164,9 @@ export const Topbar = ({
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {onFilter && <TopbarSearchbar />}
-        {onProfile && <Avatar onClick={onProfile} label={email} size={32} />}
+        <div>
+          {onProfile && <Avatar onClick={onProfile} label={email} size={32} />}
+        </div>
       </div>
     </div>
   )

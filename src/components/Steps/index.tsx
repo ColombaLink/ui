@@ -5,14 +5,21 @@ import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Link } from '../Link'
 import { Text } from '../Text'
 
-export const Steps: FC<{
+type StepsProps = {
   style?: CSSProperties
   selected?: string
   prefix?: string
   data: {
     [key: string]: string
   }
-}> = ({ style, data, prefix = '', selected }) => {
+}
+
+export const Steps: FC<StepsProps> = ({
+  style,
+  data,
+  prefix = '',
+  selected,
+}) => {
   const [location] = useLocation()
   if (!selected) {
     selected = location

@@ -88,7 +88,7 @@ export const Tabs: FC<TabsProps> = ({
               }}
               onClick={() => {
                 setHoverTab(-1)
-                setActiveTab(index)
+                setActiveTabInternal(index)
               }}
               onMouseEnter={useCallback((e) => {
                 setHoverTab(index)

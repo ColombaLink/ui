@@ -564,6 +564,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
         "onChange": {
           "optional": true,
           "type": [
@@ -572,7 +576,7 @@
           ]
         }
       },
-      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
+      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
       "file": "/components/Code/index.tsx"
     },
     "ContainerProps": {
@@ -1114,6 +1118,31 @@
       "code": "type StackedListItemProps = {\n  children?: ReactNode\n  right?: FC | ReactNode\n  style?: CSSProperties\n  space?: Space\n  border?: boolean\n}",
       "file": "/components/ListItems/StackedListItems.tsx"
     },
+    "MasonryGridProps": {
+      "name": "MasonryGridProps",
+      "props": {
+        "children": {
+          "type": [
+            "ReactNode",
+            "ReactChildren"
+          ]
+        },
+        "columns": {
+          "optional": true,
+          "type": "number"
+        },
+        "gap": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type MasonryGridProps = {\n  children: ReactNode | ReactChildren\n  columns?: number\n  gap?: number\n  style?: CSSProperties\n}",
+      "file": "/components/MasonryGrid/MasonryGrid.tsx"
+    },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",
       "props": {
@@ -1425,6 +1454,28 @@
       "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
+    "StepsProps": {
+      "name": "StepsProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "data": {
+          "type": "TSTypeLiteral"
+        }
+      },
+      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data: {\n    [key: string]: string\n  }\n}",
+      "file": "/components/Steps/index.tsx"
+    },
     "TableProps": {
       "name": "TableProps",
       "props": {
@@ -1626,6 +1677,37 @@
         }
       },
       "code": "type TopbarTabProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
+      "file": "/components/Topbar/index.tsx"
+    },
+    "TopbarProps": {
+      "name": "TopbarProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "TSObjectKeyword"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "onFilter": {
+          "optional": true,
+          "type": "function"
+        },
+        "onProfile": {
+          "optional": true,
+          "type": "function"
+        },
+        "breadcrumbs": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n}",
       "file": "/components/Topbar/index.tsx"
     }
   },

@@ -114,9 +114,9 @@ const App = () => {
             Avatars: '/avatars',
             Badges: '/badges',
             Cards: '/cards',
-            Container: '/Containers',
-            Thumbnails: '/thumbnails',
             Icons: '/icons',
+            Steps: '/step',
+            Thumbnails: '/thumbnails',
           },
           Feedback: {
             Callouts: '/callouts',
@@ -125,7 +125,14 @@ const App = () => {
             Code: '/code',
           },
           Layout: {
+            Accordions: '/accordions',
+            Container: '/Containers',
             Grids: '/grids',
+            Tabs: '/TabsView',
+          },
+          Navigation: {
+            Breadcrumbs: '/breadcrumb',
+            Topbar: '/topbars',
           },
           Overlays: {
             ContextMenus: '/contextmenus',

@@ -2,6 +2,8 @@ import React, { CSSProperties, FC, Dispatch, SetStateAction } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
 import { color, copyToClipboard, CopyIcon } from '../../'
+import { Space } from '~/types'
+import { spaceToPx } from '~/utils'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
@@ -12,10 +14,11 @@ export type CodeProps = {
   style?: CSSProperties
   children?: string
   results?: boolean
+  space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
 }
 
-export const Code: FC<CodeProps> = ({ children, style, onChange }) => {
+export const Code: FC<CodeProps> = ({ children, style, onChange, space }) => {
   return (
     <div
       style={{
@@ -24,6 +27,7 @@ export const Code: FC<CodeProps> = ({ children, style, onChange }) => {
         position: 'relative',
         borderRadius: 4,
         background: color('Background0dp'),
+        marginBottom: spaceToPx(space),
         ...style,
       }}
     >
