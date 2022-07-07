@@ -31,7 +31,7 @@ export type ButtonProps = {
   iconRight?: FC | ReactNode
   light?: boolean
   loading?: boolean
-  onClick?: MouseEventHandler
+  onClick: MouseEventHandler
   outline?: boolean
   style?: CSSProperties
   space?: Space
@@ -136,38 +136,36 @@ export const Button: FC<ButtonProps> = ({
     hoverColor = 'Transparent'
   }
 
-  if (onClick) {
-    const onClickOrginal = onClick
-    onClick = useCallback(
-      async (e) => {
-        e.stopPropagation()
-        e.preventDefault()
-        const t = buttonElem.current
-        let isSet = false
-        const timer = setTimeout(() => {
-          if (!isSet) {
-            setIsLoading(true)
-          }
-        }, 100)
-        try {
-          await onClickOrginal(e)
-        } catch (e) {
-          console.error(`Error from async click "${e.message}"`)
-          t.style.transform = 'translateX(-10px)'
-          setTimeout(() => {
-            t.style.transform = 'translateX(10px)'
-            setTimeout(() => {
-              t.style.transform = 'translateX(0px)'
-            }, 100)
-          }, 100)
+  const onClickOrginal = onClick
+  onClick = useCallback(
+    async (e) => {
+      e.stopPropagation()
+      e.preventDefault()
+      const t = buttonElem.current
+      let isSet = false
+      const timer = setTimeout(() => {
+        if (!isSet) {
+          setIsLoading(true)
         }
-        isSet = true
-        setIsLoading(false)
-        clearTimeout(timer)
-      },
-      [onClickOrginal]
-    )
-  }
+      }, 100)
+      try {
+        await onClickOrginal(e)
+      } catch (e) {
+        console.error(`Error from async click "${e.message}"`)
+        t.style.transform = 'translateX(-10px)'
+        setTimeout(() => {
+          t.style.transform = 'translateX(10px)'
+          setTimeout(() => {
+            t.style.transform = 'translateX(0px)'
+          }, 100)
+        }, 100)
+      }
+      isSet = true
+      setIsLoading(false)
+      clearTimeout(timer)
+    },
+    [onClickOrginal]
+  )
 
   if (actionKeys && onClick) {
     const timeRef = useRef<any>()

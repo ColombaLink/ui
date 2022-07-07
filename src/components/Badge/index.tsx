@@ -1,4 +1,10 @@
-import React, { CSSProperties, FC, ReactNode, MouseEventHandler } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  ReactNode,
+  MouseEventHandler,
+  useCallback,
+} from 'react'
 import { color, renderOrCreateElement } from '~/utils'
 import { Color } from '~/types'
 import { Text } from '../Text'
@@ -72,18 +78,28 @@ export const Badge: FC<BadgeProps> = ({
     backgroundColor = 'Transparent'
   }
 
+  // make this into a hook
   return (
     <styled.div
-      onClick={(e) => {
-        e.currentTarget.style.transform = 'scale(1.)'
-        setTimeout(() => {
-          e.target.style.transform = 'scale(1)'
-        }, 100)
-        onClick(e)
-      }}
+      onClick={
+        onClick
+          ? useCallback(
+              (e) => {
+                const t = e.currentTarget
+                t.style.transform = 'scale(1.15)'
+                setTimeout(() => {
+                  t.style.transform = 'scale(1)'
+                }, 100)
+                onClick(e)
+              },
+              [onClick]
+            )
+          : null
+      }
       style={{
         transition: 'transform 0.15s',
         transform: 'scale(1)',
+        cursor: onClick ? 'pointer' : 'default',
         padding: '0 8px',
         borderRadius: boxed ? 4 : 12,
         minHeight: 24,

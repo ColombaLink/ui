@@ -103,7 +103,12 @@ export const genRandomProp = (name, prop) => {
     return getRandomIcon()
   }
 
-  if (prop.type === 'MouseEventListener') {
+  if (prop.type === 'MouseEventHandler') {
+    return () => alert('Do!')
+  }
+
+  if (prop.type === 'function') {
+    return () => console.log('Snurp')
   }
 
   if (prop.type === 'ReactNode') {
