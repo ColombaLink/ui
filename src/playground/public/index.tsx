@@ -1,3 +1,4 @@
+export * from './Accordions'
 export * from './Avatars'
 export * from './Badges'
 export * from './Buttons'

@@ -124,6 +124,7 @@ const App = () => {
             Code: '/code',
           },
           Layout: {
+            Accordions: '/accordions',
             Container: '/Containers',
             Grids: '/grids',
             Tabs: '/TabsView',
