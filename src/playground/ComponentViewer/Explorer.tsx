@@ -13,6 +13,10 @@ import {
 } from '../../'
 import { genRandomProps } from './genRandomProps'
 
+const checkType = (str: string, type: any): boolean => {
+  return type === str || (Array.isArray(type) && type.includes(str))
+}
+
 export const Explorer: FC<{
   p: any
   component: FC
@@ -23,15 +27,42 @@ export const Explorer: FC<{
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
 
+  if (!exampleProps) {
+    exampleProps = genRandomProps(p)
+  }
+
   if (!exampleCode) {
-    const props = genRandomProps(name)
     const componentName = name.replace('Props', '')
+    const components = [componentName]
+    let propsHeader = []
+    for (const k in exampleProps) {
+      const v = exampleProps[k]
+      const type = p.props[k].type
+      if (typeof v === 'function') {
+        if (checkType('FC', type)) {
+          propsHeader.push(`${k}={${v.name}}`)
+          components.push(v.name)
+        } else {
+          propsHeader.push(`${k}={${v.toString()}}`)
+        }
+      } else if (k === 'children') {
+        // if (typeof props.children === 'object') {
+        exampleProps.children = 'some children...'
+      }
+    }
+    exampleCode = `import { ${components.join(', ')} } from '@based/ui'\n\n`
+    const header = !propsHeader
+      ? `<${componentName}`
+      : `<${componentName} ${propsHeader.join(' ')}`
 
-    console.log('?', props)
-    exampleCode = `<${componentName} />
-
-
+    if (exampleProps.children) {
+      exampleCode += `${header}>
+  ${exampleProps.children}
+</${componentName}>      
 `
+    } else {
+      exampleCode += header + '/>'
+    }
   }
 
   return (
@@ -90,7 +121,6 @@ export const Explorer: FC<{
         >
           <Code
             style={{
-              minHeight: '100%',
               borderTopRightRadius: 0,
               borderBottomRightRadius: 0,
             }}

@@ -103,6 +103,9 @@ export const genRandomProp = (name, prop) => {
     return getRandomIcon()
   }
 
+  if (prop.type === 'MouseEventListener') {
+  }
+
   if (prop.type === 'ReactNode') {
     if (Math.random() > 0.7) {
       return genRandomWords(false)
@@ -125,4 +128,5 @@ export const genRandomProps = (p: any): any => {
       parsedProps[key] = rando
     }
   }
+  return parsedProps
 }
