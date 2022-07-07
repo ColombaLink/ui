@@ -53,24 +53,28 @@ export const Grids = () => {
         <Text space weight={600}>
           Masonry Grid
         </Text>
-        <MasonryGrid columns={4}>
-          <div className="short">
+        <MasonryGrid columns={3}>
+          <div>
             <img src="https://picsum.photos/300/300" />
           </div>
-          <div className="tall">
-            <img src="https://picsum.photos/600/900" />
-          </div>
-          <div className="short">
+
+          <div>
             <img src="https://picsum.photos/400/300" />
           </div>
-          <div className="long">
+          <div>
             <img src="https://picsum.photos/500/300" />
           </div>
-          <div className="tall">
+          <div>
+            <img src="https://picsum.photos/600/900" />
+          </div>
+          <div>
             <img src="https://picsum.photos/300/300" />
           </div>
-          <div className="short">
+          <div>
             <img src="https://picsum.photos/400/300" />
+          </div>
+          <div>
+            <img src="https://picsum.photos/600/300" />
           </div>
         </MasonryGrid>
       </Container>
