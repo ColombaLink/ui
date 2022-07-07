@@ -130,6 +130,10 @@ const App = () => {
             Grids: '/grids',
             Tabs: '/TabsView',
           },
+          Navigation: {
+            Breadcrumbs: '/breadcrumb',
+            Topbar: '/topbars',
+          },
           Overlays: {
             ContextMenus: '/contextmenus',
           },

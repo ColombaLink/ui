@@ -1455,6 +1455,28 @@
       "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
+    "StepsProps": {
+      "name": "StepsProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "data": {
+          "type": "TSTypeLiteral"
+        }
+      },
+      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data: {\n    [key: string]: string\n  }\n}",
+      "file": "/components/Steps/index.tsx"
+    },
     "TableProps": {
       "name": "TableProps",
       "props": {
@@ -1656,6 +1678,37 @@
         }
       },
       "code": "type TopbarTabProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
+      "file": "/components/Topbar/index.tsx"
+    },
+    "TopbarProps": {
+      "name": "TopbarProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "TSObjectKeyword"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "onFilter": {
+          "optional": true,
+          "type": "function"
+        },
+        "onProfile": {
+          "optional": true,
+          "type": "function"
+        },
+        "breadcrumbs": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n}",
       "file": "/components/Topbar/index.tsx"
     }
   },
