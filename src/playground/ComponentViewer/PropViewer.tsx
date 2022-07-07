@@ -5,10 +5,7 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
   prop,
   style,
 }) => {
-  console.log(prop)
-
   let child = null
-
   if (typeof prop.type === 'string') {
     child = <Badge>{prop.type}</Badge>
   } else if (Array.isArray(prop.type)) {
@@ -25,7 +22,6 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
   } else if (typeof prop.type === 'object') {
     child = <Badge color="Green">{prop.type.value}</Badge>
   }
-
   return (
     <div
       style={{
@@ -42,12 +38,12 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
   )
 }
 
+// with value as well
 export const Props: FC<{ style?: CSSProperties; prop: any }> = ({
   prop,
   style,
 }) => {
   const children = []
-
   for (const key in prop.props) {
     children.push(
       <div
@@ -64,6 +60,5 @@ export const Props: FC<{ style?: CSSProperties; prop: any }> = ({
       </div>
     )
   }
-
   return <div style={{ ...style }}>{children}</div>
 }
