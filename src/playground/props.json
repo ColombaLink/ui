@@ -263,9 +263,13 @@
         "ghost": {
           "optional": true,
           "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "MouseEventHandler"
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  boxed?: boolean\n  ghost?: boolean\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BreadcrumbsProps": {

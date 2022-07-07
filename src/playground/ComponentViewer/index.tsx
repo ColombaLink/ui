@@ -1,101 +1,43 @@
-import React, { FC, useEffect, useState, useRef } from 'react'
-import * as ui from '../..'
+import React, { FC } from 'react'
 import props from '../props.json'
-import { genRandomProps } from './genRandomProps'
-import { viewProps } from './viewProps'
-import { Props } from './PropViewer'
-
-const { Text, color, Code, Link, useSearchParam, setLocation } = ui
-
-const Variant: FC<{
-  p: any
-  component: FC
-  width: number | '100%' | 'auto'
-}> = ({ component, p, width }) => {
-  const [props, setProps] = useState({})
-
-  useEffect(() => {
-    const parsedProps = {}
-    for (const key in p.props) {
-      const rando = genRandomProps(key, p.props[key])
-      if (rando !== undefined) {
-        parsedProps[key] = rando
-      }
-    }
-    setProps(parsedProps)
-  }, [component])
-
-  let elem
-  try {
-    elem = React.createElement(component, props)
-  } catch (err) {
-    return (
-      <div>
-        <ui.Text>Wrong props</ui.Text>
-        {/* <Code
-          style={{
-            marginTop: 24,
-          }}
-        >
-          {viewProps(props)}
-        </Code> */}
-      </div>
-    )
-  }
-
-  return (
-    <div
-      style={{
-        borderRadius: 5,
-        marginTop: 12,
-        marginRight: 12,
-        marginBottom: 12,
-        padding: 24,
-        width,
-        maxWidth: '100%',
-        height: 'fit-content',
-        border: '1px solid ' + color('OtherDivider'),
-      }}
-    >
-      <div>{elem}</div>
-      {/* <Code
-        style={{
-          marginTop: 24,
-        }}
-      >
-        {viewProps(props)}
-      </Code> */}
-    </div>
-  )
-}
+import { Variant } from './Variant'
+import { Text, color, Link, useSearchParam } from '../../'
+import { Explorer } from './Explorer'
 
 const ComponentViewer: FC<{
   component: FC
   propsName?: string
   exampleProps?: any
-  nr?: number
-  width?: number | '100%' | 'auto'
-}> = ({ component, propsName, width = 'auto', nr = 50 }) => {
-  console.log(component.name)
+  exampleCode?: string
+  width?: number | '100%' | 'auto' // fuzz width
+}> = ({ component, propsName, width = 'auto', exampleProps, exampleCode }) => {
+  const fuzz = useSearchParam('randomize')
   if (!propsName) {
     propsName = component.name + 'Props'
   }
-
   const p = props.props[propsName]
-
   if (!p) {
-    console.warn('Cannot find props', propsName)
-    return <div />
+    return (
+      <div
+        style={{
+          paddingBottom: 48,
+          marginTop: 0,
+          marginBottom: 48,
+          borderBottom: '1px solid ' + color('OtherDivider'),
+        }}
+      >
+        <Link href={`src${p.file}`}>
+          <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
+            {p.file.slice(1).split('/').slice(1, -1)}
+          </Text>
+        </Link>
+      </div>
+    )
   }
-  const fuzz = useSearchParam('randomize')
-  const showType = useSearchParam('type')
-
   const examples = []
-
   for (let i = 0; i < (fuzz ? 300 : 0); i++) {
     examples.push(<Variant p={p} width={width} component={component} key={i} />)
   }
-
   return (
     <div
       style={{
@@ -105,54 +47,13 @@ const ComponentViewer: FC<{
         borderBottom: '1px solid ' + color('OtherDivider'),
       }}
     >
-      <Link href={`src${p.file}`}>
-        <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
-          {p.file.slice(1).split('/').slice(1, -1)}
-        </Text>
-      </Link>
-      <div style={{ marginTop: 24 }}>
-        {showType ? (
-          <Code
-            style={{
-              width: 550,
-            }}
-          >
-            {p.code}
-          </Code>
-        ) : (
-          <Props prop={p} />
-        )}
-      </div>
-      <div style={{ marginTop: 48, display: 'flex' }}>
-        <ui.Button
-          outline
-          ghost
-          style={{ marginRight: 24 }}
-          iconLeft={ui.ModelIcon}
-          onClick={() =>
-            setLocation({
-              merge: true,
-              params: { randomize: !fuzz },
-            })
-          }
-        >
-          {fuzz ? 'Hide Fuzz' : 'Fuzz'}
-        </ui.Button>
-        <ui.Button
-          outline
-          ghost
-          iconLeft={ui.ModelIcon}
-          onClick={() =>
-            setLocation({
-              merge: true,
-              params: { type: !showType },
-            })
-          }
-        >
-          {showType ? 'Props' : 'Type'}
-        </ui.Button>
-      </div>
-
+      <Explorer
+        exampleProps={exampleProps}
+        exampleCode={exampleCode}
+        name={propsName}
+        p={p}
+        component={component}
+      />
       {fuzz ? (
         <div
           style={{

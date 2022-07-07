@@ -2,7 +2,7 @@ import React from 'react'
 import props from '../props.json'
 import { Text } from '../../'
 import { deepEqual } from '@saulx/utils'
-import { SingleProp } from '../ComponentViewer/PropViewer'
+import { SingleProp } from '../ComponentViewer/ComponentProps'
 
 const propsNames: {
   [key: string]: {
@@ -38,12 +38,7 @@ for (const p in props.props) {
 export const Props = () => {
   return (
     <>
-      <Text
-        size="24px"
-        style={{
-          marginBottom: 24,
-        }}
-      >
+      <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
         Props
       </Text>
       <div

@@ -28,8 +28,8 @@ export const Container: FC<ContainerProps> = ({
     <>
       <styled.div
         style={{
-          padding: 24,
-          paddingBottom: bottomLeft || bottomRight ? 88 : 24,
+          // use shorthand so its easier to strip padding
+          padding: `24px 24px ${bottomLeft || bottomRight ? 88 : 24}px 24px`,
           backgroundColor: color('Background2dp'),
           border: `1px solid ${color('BorderColor')}`,
           position: 'relative',

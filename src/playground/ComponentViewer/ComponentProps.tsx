@@ -1,25 +1,30 @@
 import React, { CSSProperties, FC } from 'react'
-import { Text, Badge } from '../../'
+import { Text, Badge, copyToClipboard } from '../../'
 
 export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
   prop,
   style,
 }) => {
-  console.log(prop)
-
   let child = null
 
   if (typeof prop.type === 'string') {
-    child = <Badge>{prop.type}</Badge>
+    child = (
+      <Badge
+        onClick={() => {
+          copyToClipboard(prop.type)
+        }}
+      >
+        {prop.type}
+      </Badge>
+    )
   } else if (Array.isArray(prop.type)) {
-    child = prop.type.map((v) => {
+    child = prop.type.map((v, i) => {
       return (
-        <>
-          <SingleProp
-            style={{ margin: 0, marginRight: 8 }}
-            prop={{ type: v }}
-          />
-        </>
+        <SingleProp
+          key={i}
+          style={{ margin: 0, marginRight: 8, marginBottom: 8 }}
+          prop={{ type: v }}
+        />
       )
     })
   } else if (typeof prop.type === 'object') {
@@ -51,6 +56,7 @@ export const Props: FC<{ style?: CSSProperties; prop: any }> = ({
   for (const key in prop.props) {
     children.push(
       <div
+        key={key}
         style={{
           display: 'flex',
           marginBottom: 18,

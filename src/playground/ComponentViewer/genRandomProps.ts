@@ -1,35 +1,17 @@
-import React from 'react'
+import React, { FC } from 'react'
 import * as ui from '../..'
+import { IconProps } from '../../'
 import props from '../props.json'
 import { LoremIpsum } from 'lorem-ipsum'
-
 const { Text } = ui
-
-const icons = []
-const iconNames = []
-
-const randomFromArr = (arr) => {
-  return arr[~~(Math.random() * arr.length)]
-}
+const icons: FC[] = []
+const iconNames: string[] = []
 
 for (const key in ui) {
   if (key.includes('Icon')) {
     iconNames.push(key)
     icons.push(ui[key])
   }
-}
-
-export const getRandomIconName = () => {
-  return randomFromArr(iconNames)
-}
-
-export const getRandomIcon = () => {
-  return randomFromArr(icons)
-}
-
-export const getRandomColor = () => {
-  const t = randomFromArr(props.types['Color'].types)
-  return genRandomProps('Color', { type: t.type })
 }
 
 const lorem = new LoremIpsum({
@@ -43,6 +25,23 @@ const lorem = new LoremIpsum({
   },
 })
 
+const randomFromArr = (arr: any[]): any => {
+  return arr[~~(Math.random() * arr.length)]
+}
+
+export const getRandomIconName = (): string => {
+  return randomFromArr(iconNames)
+}
+
+export const getRandomIcon = (): FC<IconProps> => {
+  return randomFromArr(icons)
+}
+
+export const getRandomColor = () => {
+  const t = randomFromArr(props.types['Color'].types)
+  return genRandomProp('Color', { type: t.type })
+}
+
 const genRandomWords = (short) => {
   if (!short && Math.random() > 0.7) {
     return lorem.generateParagraphs(~~(Math.random() * 7) + 1)
@@ -50,9 +49,9 @@ const genRandomWords = (short) => {
   return lorem.generateWords(~~(Math.random() * 2) + 1)
 }
 
-export const genRandomProps = (name, prop) => {
+export const genRandomProp = (name, prop) => {
   if (Array.isArray(prop.type)) {
-    return genRandomProps(name, {
+    return genRandomProp(name, {
       type: randomFromArr(prop.type),
     })
   }
@@ -85,7 +84,7 @@ export const genRandomProps = (name, prop) => {
 
   if (props.types[prop.type]) {
     const t = randomFromArr(props.types[prop.type].types)
-    return genRandomProps(name, { type: t.type })
+    return genRandomProp(name, { type: t.type })
   }
 
   if (prop.type === 'string' && name !== 'backgroundImg') {
@@ -104,6 +103,9 @@ export const genRandomProps = (name, prop) => {
     return getRandomIcon()
   }
 
+  if (prop.type === 'MouseEventListener') {
+  }
+
   if (prop.type === 'ReactNode') {
     if (Math.random() > 0.7) {
       return genRandomWords(false)
@@ -116,4 +118,15 @@ export const genRandomProps = (name, prop) => {
       children: genRandomWords(true),
     })
   }
+}
+
+export const genRandomProps = (p: any): any => {
+  const parsedProps = {}
+  for (const key in p.props) {
+    const rando = genRandomProp(key, p.props[key])
+    if (rando !== undefined) {
+      parsedProps[key] = rando
+    }
+  }
+  return parsedProps
 }

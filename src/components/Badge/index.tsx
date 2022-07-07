@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode, MouseEventHandler } from 'react'
 import { color, renderOrCreateElement } from '~/utils'
 import { Color } from '~/types'
 import { Text } from '../Text'
@@ -18,6 +18,7 @@ type BadgeProps = {
   hoverColor?: Color
   boxed?: boolean
   ghost?: boolean
+  onClick?: MouseEventHandler
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -27,6 +28,7 @@ export const Badge: FC<BadgeProps> = ({
   style,
   outline,
   color: colorProp,
+  onClick,
   backgroundColor,
   foregroundColor,
   outlineColor,
@@ -72,7 +74,16 @@ export const Badge: FC<BadgeProps> = ({
 
   return (
     <styled.div
+      onClick={(e) => {
+        e.currentTarget.style.transform = 'scale(1.)'
+        setTimeout(() => {
+          e.target.style.transform = 'scale(1)'
+        }, 100)
+        onClick(e)
+      }}
       style={{
+        transition: 'transform 0.15s',
+        transform: 'scale(1)',
         padding: '0 8px',
         borderRadius: boxed ? 4 : 12,
         minHeight: 24,

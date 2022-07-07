@@ -6,7 +6,6 @@ import {
   Page,
   Menu,
   Route,
-  Text,
   setLocation,
   Code,
   CurlyBracesIcon,
@@ -39,7 +38,6 @@ const Story = ({ component, name }: StoryProps) => {
     )
       .then((v) => v.text())
       .then((v) => {
-        console.info(v)
         try {
           setCode(JSON.parse(v.split('<script>')[0]).code)
         } catch (err) {}
@@ -49,9 +47,7 @@ const Story = ({ component, name }: StoryProps) => {
 }
 
 const Stories = (params) => {
-  // @ts-ignore
   if (params?.story) {
-    // @ts-ignore
     const name = params.story[0].toUpperCase() + params.story.slice(1)
     const component = stories[name]
     if (!component) {
@@ -118,6 +114,7 @@ const App = () => {
             Avatars: '/avatars',
             Badges: '/badges',
             Cards: '/cards',
+            Container: '/Containers',
             Thumbnails: '/thumbnails',
             Icons: '/icons',
           },
