@@ -565,6 +565,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
         "onChange": {
           "optional": true,
           "type": [
@@ -573,7 +577,7 @@
           ]
         }
       },
-      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
+      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
       "file": "/components/Code/index.tsx"
     },
     "ContainerProps": {
@@ -1509,7 +1513,10 @@
       "props": {
         "children": {
           "optional": true,
-          "type": "ReactElement"
+          "type": [
+            "ReactNode",
+            "TSArrayType"
+          ]
         },
         "style": {
           "optional": true,
@@ -1532,7 +1539,7 @@
           "type": "function"
         }
       },
-      "code": "type TabsProps = {\n  children?: ReactElement<typeof Tab>\n  style?: CSSProperties\n  space?: Space\n  small?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n}",
+      "code": "type TabsProps = {\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  space?: Space\n  small?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n}",
       "file": "/components/Tabs/Tabs.tsx"
     },
     "TextProps": {

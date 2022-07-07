@@ -115,6 +115,7 @@ const App = () => {
             Badges: '/badges',
             Cards: '/cards',
             Icons: '/icons',
+            Steps: '/step',
             Thumbnails: '/thumbnails',
           },
           Feedback: {
