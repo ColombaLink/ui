@@ -1115,6 +1115,31 @@
       "code": "type StackedListItemProps = {\n  children?: ReactNode\n  right?: FC | ReactNode\n  style?: CSSProperties\n  space?: Space\n  border?: boolean\n}",
       "file": "/components/ListItems/StackedListItems.tsx"
     },
+    "MasonryGridProps": {
+      "name": "MasonryGridProps",
+      "props": {
+        "children": {
+          "type": [
+            "ReactNode",
+            "ReactChildren"
+          ]
+        },
+        "columns": {
+          "optional": true,
+          "type": "number"
+        },
+        "gap": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type MasonryGridProps = {\n  children: ReactNode | ReactChildren\n  columns?: number\n  gap?: number\n  style?: CSSProperties\n}",
+      "file": "/components/MasonryGrid/MasonryGrid.tsx"
+    },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",
       "props": {
@@ -1484,10 +1509,7 @@
       "props": {
         "children": {
           "optional": true,
-          "type": [
-            "ReactNode",
-            "TSArrayType"
-          ]
+          "type": "ReactElement"
         },
         "style": {
           "optional": true,
@@ -1510,7 +1532,7 @@
           "type": "function"
         }
       },
-      "code": "type TabsProps = {\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  space?: Space\n  small?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n}",
+      "code": "type TabsProps = {\n  children?: ReactElement<typeof Tab>\n  style?: CSSProperties\n  space?: Space\n  small?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n}",
       "file": "/components/Tabs/Tabs.tsx"
     },
     "TextProps": {
