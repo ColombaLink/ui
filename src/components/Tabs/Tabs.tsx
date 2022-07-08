@@ -3,9 +3,10 @@ import React, {
   ReactNode,
   CSSProperties,
   useRef,
+  Dispatch,
+  SetStateAction,
   useEffect,
   useState,
-  ReactChild,
   useCallback,
 } from 'react'
 import { color, spaceToPx, font } from '~/utils'
@@ -13,29 +14,77 @@ import { Space } from '~/types'
 import { styled } from 'inlines'
 
 type TabsProps = {
-  children?: ReactNode | ReactNode[]
+  children: ReactNode | ReactNode[]
   style?: CSSProperties
   space?: Space
-  small?: boolean
+  large?: boolean
   activeTab?: number
   setActiveTab?: (index: number) => void
+}
+
+const TabWrapper: FC<{
+  children: ReactNode
+  activeTabState: number
+  index: number
+  large: boolean
+  setActiveTabInternal: Dispatch<SetStateAction<number>>
+  setHoverTab: Dispatch<SetStateAction<number>>
+}> = ({
+  large,
+  children,
+  index,
+  activeTabState,
+  setHoverTab,
+  setActiveTabInternal,
+}) => {
+  return (
+    <div
+      style={{
+        borderTop: '1px solid transparent',
+        height: !large ? 42 - 3 : 66 - 3,
+        padding: !large ? '8px 8px 12px 8px' : '12px',
+        display: 'flex',
+        marginRight: 16,
+        cursor: 'pointer',
+        // borderBottom: `3px solid transparent`,
+        alignItems: 'center',
+        ...(index === activeTabState
+          ? font(15, 'TextPrimary', 600)
+          : font(15, 'TextSecondary')),
+      }}
+      onClick={() => {
+        setHoverTab(-1)
+        setActiveTabInternal(index)
+      }}
+      onMouseEnter={useCallback((e) => {
+        setHoverTab(index)
+      }, [])}
+      onMouseLeave={useCallback((e) => {
+        setHoverTab(-1)
+      }, [])}
+      key={index}
+    >
+      {/* @ts-ignore */}
+      {typeof children === 'string' ? children : children.props.title}
+    </div>
+  )
 }
 
 export const Tabs: FC<TabsProps> = ({
   children,
   style,
   space = 0,
-  small,
+  large,
   activeTab = 0,
   setActiveTab,
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
-
   let activeTabState: number = activeTab
   let setActiveTabInternal: (index: number) => void = setActiveTab
-
   if (!setActiveTab) {
     ;[activeTabState, setActiveTabInternal] = useState(activeTab)
+  } else {
+    useState(null)
   }
   const [hoverTab, setHoverTab] = useState(-1)
   const [lineWidth, setLineWidth] = useState(0)
@@ -55,7 +104,7 @@ export const Tabs: FC<TabsProps> = ({
     <>
       <div
         style={{
-          height: small ? 42 : 66,
+          height: !large ? 42 : 66,
           marginTop: 24,
           borderBottom: `1px solid ${color('OtherDivider')}`,
           marginBottom: spaceToPx(space),
@@ -64,48 +113,29 @@ export const Tabs: FC<TabsProps> = ({
       >
         <styled.div
           style={{
-            height: small ? 42 - 3 : 66 - 3,
+            height: !large ? 42 - 3 : 66 - 3,
             alignItems: 'center',
             display: 'flex',
-            paddingBottom: small ? 8 : 0,
+            paddingBottom: !large ? 8 : 0,
           }}
           ref={elem}
         >
-          {arrayChildren.map((child: JSX.Element, index) => (
-            <div
-              style={{
-                borderTop: '1px solid transparent',
-                height: small ? 42 - 3 : 66 - 3,
-                padding: small ? '8px 8px 12px 8px' : '12px',
-                display: 'flex',
-                marginRight: 16,
-                cursor: 'pointer',
-                // borderBottom: `3px solid transparent`,
-                alignItems: 'center',
-                ...(index === activeTabState
-                  ? font(15, 'TextPrimary', 600)
-                  : font(15, 'TextSecondary')),
-              }}
-              onClick={() => {
-                setHoverTab(-1)
-                setActiveTabInternal(index)
-              }}
-              onMouseEnter={useCallback((e) => {
-                setHoverTab(index)
-              }, [])}
-              onMouseLeave={useCallback((e) => {
-                setHoverTab(-1)
-              }, [])}
+          {arrayChildren.map((child, index) => (
+            <TabWrapper
               key={index}
+              large={large}
+              index={index}
+              activeTabState={activeTabState}
+              setHoverTab={setHoverTab}
+              setActiveTabInternal={setActiveTabInternal}
             >
-              {/*@ts-ignore */}
-              {child.props.title}
-            </div>
+              {child}
+            </TabWrapper>
           ))}
         </styled.div>
         <div
           style={{
-            transition: small
+            transition: !large
               ? 'width 0.2s, transform 0.15s'
               : 'width 0.25s, transform 0.2s',
             transform: `translate(${x}px, 0px)`,
@@ -116,7 +146,11 @@ export const Tabs: FC<TabsProps> = ({
         ></div>
       </div>
 
-      <div>{children[activeTabState]}</div>
+      <div>
+        {typeof children !== 'string' && children
+          ? children[activeTabState]
+          : null}
+      </div>
     </>
   )
 }

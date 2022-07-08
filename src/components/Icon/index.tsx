@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 // For the playground
 
 export type IconProps = {
-  color?: Color | string
+  color?: Color
   size?: 10 | 12 | 14 | 16 | 20 | 32
 }
 

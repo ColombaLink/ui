@@ -7,14 +7,10 @@ import React, {
 } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
-import { color } from '../../'
+import { color, renderOrCreateElement } from '../../'
 import { Space } from '~/types'
 import { spaceToPx } from '~/utils'
-import {
-  highlight,
-  renderOrCreateElement,
-  languages,
-} from 'prismjs/components/prism-core'
+import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
@@ -40,7 +36,6 @@ import './syntax.css'
 export type CodeProps = {
   style?: CSSProperties
   children?: string
-  results?: boolean
   space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   topRight?: FC | ReactNode

@@ -19,17 +19,9 @@ export const Variant: FC<{
     return (
       <div>
         <Text>Wrong props</Text>
-        {/* <Code
-          style={{
-            marginTop: 24,
-          }}
-        >
-          {viewProps(props)}
-        </Code> */}
       </div>
     )
   }
-
   return (
     <div
       style={{
@@ -45,13 +37,6 @@ export const Variant: FC<{
       }}
     >
       <div>{elem}</div>
-      {/* <Code
-        style={{
-          marginTop: 24,
-        }}
-      >
-        {viewProps(props)}
-      </Code> */}
     </div>
   )
 }

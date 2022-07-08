@@ -22,13 +22,28 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
       return (
         <SingleProp
           key={i}
-          style={{ margin: 0, marginRight: 8, marginBottom: 8 }}
+          style={{
+            // margin: 0,
+            marginTop: 0,
+            marginLeft: 0,
+            marginRight: 8,
+            marginBottom: 8,
+          }}
           prop={{ type: v }}
         />
       )
     })
   } else if (typeof prop.type === 'object') {
-    child = <Badge color="Green">{prop.type.value}</Badge>
+    child = (
+      <Badge
+        onClick={() => {
+          copyToClipboard(prop.type)
+        }}
+        color="Green"
+      >
+        {prop.type.value}
+      </Badge>
+    )
   }
 
   return (
@@ -54,22 +69,46 @@ export const Props: FC<{ style?: CSSProperties; prop: any }> = ({
   const children = []
 
   for (const key in prop.props) {
-    children.push(
-      <div
-        key={key}
-        style={{
-          display: 'flex',
-          marginBottom: 18,
-          alignItems: 'center',
-        }}
-      >
-        <Text size={'12px'} style={{ width: 150 }}>
-          {key}
-        </Text>
-        <SingleProp style={{ margin: 0 }} prop={prop.props[key]} />
-      </div>
-    )
+    const p = prop.props[key]
+    children.push({
+      child: (
+        <div
+          key={key}
+          style={{
+            display: 'flex',
+            marginBottom: 18,
+            alignItems: 'center',
+          }}
+        >
+          <Text
+            weight={p.optional ? 400 : 700}
+            size={'14px'}
+            style={{ width: 175 }}
+          >
+            {key}
+          </Text>
+          <SingleProp style={{ margin: 0 }} prop={p} />
+        </div>
+      ),
+      key,
+      prop: p,
+    })
   }
 
-  return <div style={{ ...style }}>{children}</div>
+  return (
+    <div style={{ ...style }}>
+      {children
+        .sort((a, b) => {
+          if (a.prop.optional === b.prop.optional) {
+            return a.key.localeCompare(b.key)
+          }
+          if (a.prop.optional && !b.prop.optional) {
+            return 1
+          } else {
+            return -1
+          }
+        })
+        .map((v) => v.child)}
+    </div>
+  )
 }

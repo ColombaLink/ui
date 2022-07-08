@@ -14,6 +14,8 @@ import {
 import * as ui from '../../'
 import { genRandomProps } from './genRandomProps'
 import { Callout } from '~/components/Callout'
+import { transformSync } from '@babel/core'
+import preset from '@babel/preset-react'
 
 const checkType = (str: string, type: any): boolean => {
   return type === str || (Array.isArray(type) && type.includes(str))
@@ -86,13 +88,28 @@ export const Explorer: FC<{
     } else {
       exampleCode += header + `${propsHeader.length > 2 ? '\n' : ''}/>`
     }
-  } else {
-    // babel time! - parse the code
   }
   let child
   try {
+    if (!runCode) {
+      const input = exampleCode
+        .replace('import ', 'const ')
+        .replace("from '@based/ui'", ' = ui;')
+      const x = transformSync(input, {
+        presets: [preset],
+      })
+      runCode = x.code.replace(
+        'React.createElement',
+        'return React.createElement'
+      )
+
+      console.info(runCode)
+    }
+
     const fn = new Function('ui', 'React', 'c', runCode)
     child = fn(ui, React, component)
+
+    console.log(child, '????', fn.toString())
   } catch (err) {
     console.error(err) // hosw
     child = <Callout color={'Red'}>{err.message}</Callout>
@@ -108,7 +125,7 @@ export const Explorer: FC<{
         <div
           style={{
             minWidth: showType ? 550 : 400,
-            marginRight: showType ? 24 : 0,
+            marginRight: 24,
           }}
         >
           {showType ? <Code>{p.code}</Code> : <Props prop={p} />}
