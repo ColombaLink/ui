@@ -2,26 +2,32 @@ import React, { CSSProperties, FC, Dispatch, SetStateAction } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
 import { color, copyToClipboard, CopyIcon } from '../../'
+import { Space } from '~/types'
+import { spaceToPx } from '~/utils'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-export const Code: FC<{
+export type CodeProps = {
   style?: CSSProperties
   children?: string
   results?: boolean
+  space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-}> = ({ children, style, onChange }) => {
+}
+
+export const Code: FC<CodeProps> = ({ children, style, onChange, space }) => {
   return (
     <div
       style={{
         width: '100%',
-        padding: 24,
+        padding: 16,
         position: 'relative',
-        borderRadius: 8,
+        borderRadius: 4,
         background: color('Background0dp'),
+        marginBottom: spaceToPx(space),
         ...style,
       }}
     >

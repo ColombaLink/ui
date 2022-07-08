@@ -1,9 +1,11 @@
 import React from 'react'
 import { Checkbox } from '~'
+import ComponentViewer from '../ComponentViewer'
 
 export const Checkboxes = () => {
   return (
     <>
+      <ComponentViewer component={Checkbox} />
       <Checkbox />
       <br />
       <Checkbox>With Label</Checkbox>

@@ -43,7 +43,9 @@ export const Checkbox: FC<CheckboxProps> = ({
           )}`,
           borderRadius: 4,
           height: 20,
-          marginRight: children ? 12 : null,
+          marginRight: 12,
+          minWidth: 20,
+          minHeight: 20,
           width: 20,
           display: 'flex',
           alignItems: 'center',
@@ -52,52 +54,73 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
       </div>
-      <div style={{ height: spaceToPx(space) }}></div>
     </>
   )
 
   if (label && children) {
     return (
-      <button
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: spaceToPx(space),
-          ...style,
-        }}
-        {...listeners}
-        onClick={onClick}
-      >
-        <div>{checkbox}</div>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <Text
-            weight={600}
+      <>
+        <div>
+          <button
             style={{
-              alignItems: 'center',
               display: 'flex',
+              alignItems: 'center',
+              // marginBottom: spaceToPx(space),
+              maxWidth: '100%',
+              ...style,
             }}
+            {...listeners}
+            onClick={onClick}
           >
-            {label}
-          </Text>
-          <Text wrap>{children}</Text>
+            <div>{checkbox}</div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'baseline',
+              }}
+            >
+              <Text
+                weight={600}
+                style={{
+                  textAlign: 'left',
+                  display: 'flex',
+                }}
+                wrap
+              >
+                {label}
+              </Text>
+              <Text wrap style={{ textAlign: 'left' }}>
+                {children}
+              </Text>
+            </div>
+          </button>
         </div>
-      </button>
+        <div style={{ height: spaceToPx(space) }}></div>
+      </>
     )
   }
 
   return (
-    <button
-      onClick={onClick}
-      style={{
-        alignItems: 'center',
-        display: 'flex',
-        marginBottom: space ? spaceToPx(space) : null,
-        ...style,
-      }}
-      {...listeners}
-    >
-      {checkbox}
-      <Text>{label || children}</Text>
-    </button>
+    <>
+      <div>
+        <button
+          onClick={onClick}
+          style={{
+            alignItems: 'center',
+            display: 'flex',
+            //    marginBottom: space ? spaceToPx(space) : null,
+            ...style,
+          }}
+          {...listeners}
+        >
+          {checkbox}
+          <Text wrap style={{ textAlign: 'left' }}>
+            {label || children}
+          </Text>
+        </button>
+      </div>
+      <div style={{ height: spaceToPx(space) }}></div>
+    </>
   )
 }

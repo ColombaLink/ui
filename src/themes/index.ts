@@ -2,6 +2,8 @@ import { parseTheme } from '../utils/parseTheme'
 import { theme as dark } from './dark'
 import { theme as light } from './light'
 
+export { dark, light }
+
 export const themes = (theme?: 'dark' | 'light') => {
   const themes = {
     light,

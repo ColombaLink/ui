@@ -2,6 +2,7 @@ import React from 'react'
 import { AddIcon, LightModeIcon, DarkModeIcon, Button } from '~'
 import { CheckIcon } from '~/icons'
 import wait from '~/utils/wait'
+import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
   const loadClick = async () => {
@@ -13,6 +14,7 @@ export const Buttons = () => {
   }
   return (
     <>
+      <ComponentViewer component={Button} />
       <Button>Primary</Button>
       <br />
       <Button light>Light</Button>
@@ -59,9 +61,13 @@ export const Buttons = () => {
         Orange
       </Button>
       <br />
+      <Button color="Orange" large iconLeft={LightModeIcon}></Button>
+      <br />
       <Button color="Greydark" iconRight={DarkModeIcon}>
         Grey Dark
       </Button>
+      <br />
+      <Button color="Greydark" iconRight={DarkModeIcon}></Button>
       <br />
       <Button
         outline

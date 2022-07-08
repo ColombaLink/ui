@@ -40,10 +40,16 @@ export const Container: FC<ContainerProps> = ({
     >
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: topLeft || topRight ? 24 : 0,
+          // use shorthand so its easier to strip padding
+          padding: `24px 24px ${bottomLeft || bottomRight ? 88 : 24}px 24px`,
+          backgroundColor: color('Background2dp'),
+          border: `1px solid ${color('BorderColor')}`,
+          position: 'relative',
+          borderRadius: 4,
+          marginBottom: spaceToPx(space, 32),
+          width: wrap ? 'fit-content' : '100%',
+          maxWidth: '100%',
+          ...style,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

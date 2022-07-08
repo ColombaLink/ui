@@ -1,12 +1,14 @@
 import React from 'react'
 import { Thumbnail } from '~/components/Thumbnail'
 import { TextIcon, MarkDownIcon, AttachmentIcon } from '~'
+import ComponentViewer from '../ComponentViewer'
 
 export const Thumbnails = () => {
   return (
     <>
+      <ComponentViewer component={Thumbnail} />
       <Thumbnail
-        size="32px"
+        size={32}
         space="12px"
         color="BlueBaby"
         icon={TextIcon({ size: 12 })}

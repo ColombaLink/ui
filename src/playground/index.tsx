@@ -8,15 +8,18 @@ import {
   Route,
   setLocation,
   Code,
+  CurlyBracesIcon,
   useSearchParam,
 } from '../'
 import based from '@based/client'
-import * as stories from './stories'
+import * as stories from './public'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
 import { toPascalCase } from './utils'
+import { LargeLogo } from '../'
+
 // @ts-ignore
-export const client = based.default({
+export const client = based({
   org: 'saulx',
   project: 'demo',
   env: 'production',
@@ -31,11 +34,14 @@ const Story = ({ component, name }: StoryProps) => {
   const isCode = useSearchParam('mode') === 'code'
   const [code, setCode] = useState('')
   useEffect(() => {
-    fetch(`/stories/${name}.json`)
-      .then((v) => v.json())
+    fetch(
+      `/public/${name}.json?rando=${(~~(Math.random() * 999999)).toString(16)}`
+    )
+      .then((v) => v.text())
       .then((v) => {
-        console.info(v)
-        setCode(v.code)
+        try {
+          setCode(JSON.parse(v.split('<script>')[0]).code)
+        } catch (err) {}
       })
   }, [isCode, name])
 
@@ -43,9 +49,7 @@ const Story = ({ component, name }: StoryProps) => {
 }
 
 const Stories = (params) => {
-  // @ts-ignore
   if (params?.story) {
-    // @ts-ignore
     const name = toPascalCase(params?.story)
     const component = stories[name]
     if (!component) {
@@ -62,36 +66,43 @@ const App = () => {
 
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
-      <Button
-        style={{
-          position: 'absolute',
-          top: 0,
-          right: 12,
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          paddingBottom: 8,
-        }}
-        color="Greylight"
-        iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
-        onClick={() => {
-          setLightDark(!lightDark)
-          themes(lightDark ? 'dark' : 'light')
-        }}
-      ></Button>
       <Menu
+        style={{
+          paddingLeft: 64,
+          minWidth: 350,
+          paddingRight: 64,
+        }}
         header={
-          <div>
-            <Button
-              onClick={() => {
-                setLocation({
-                  merge: true,
-                  params: { mode: isCode ? 'component' : 'code' },
-                })
+          <>
+            <LargeLogo style={{ marginBottom: 24, marginTop: -12 }} />
+            <div
+              style={{
+                display: 'flex',
               }}
             >
-              {isCode ? 'Components' : 'Show code'}
-            </Button>
-          </div>
+              <Button
+                ghost
+                style={{
+                  marginLeft: -8,
+                }}
+                iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
+                onClick={() => {
+                  setLightDark(!lightDark)
+                  themes(lightDark ? 'dark' : 'light')
+                }}
+              />
+              <Button
+                ghost
+                iconLeft={<CurlyBracesIcon />}
+                onClick={() => {
+                  setLocation({
+                    merge: true,
+                    params: { mode: isCode ? 'normal' : 'code' },
+                  })
+                }}
+              />
+            </div>
+          </>
         }
         data={{
           Input: {
@@ -106,6 +117,8 @@ const App = () => {
             Avatars: '/avatars',
             Badges: '/badges',
             Cards: '/cards',
+            Icons: '/icons',
+            Steps: '/step',
             Thumbnails: '/thumbnails',
           },
           Feedback: {
@@ -115,7 +128,14 @@ const App = () => {
             Code: '/code',
           },
           Layout: {
+            Accordions: '/accordions',
+            Container: '/Containers',
             Grids: '/grids',
+            Tabs: '/TabsView',
+          },
+          Navigation: {
+            Breadcrumbs: '/breadcrumb',
+            Topbar: '/topbars',
           },
           Overlays: {
             ContextMenus: '/context-menus',
@@ -127,9 +147,15 @@ const App = () => {
           Themes: {
             Theming: '/theming',
           },
+          Text: {
+            Text: '/text',
+          },
+          Handbook: {
+            Props: '/props',
+          },
         }}
       />
-      <Page>
+      <Page style={{ padding: 32 }}>
         <Route path="/:story">{Stories}</Route>
       </Page>
     </div>

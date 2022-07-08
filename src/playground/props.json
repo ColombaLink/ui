@@ -1,0 +1,2566 @@
+{
+  "props": {
+    "AccordionItemProps": {
+      "name": "AccordionItemProps",
+      "props": {
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "checked": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type AccordionItemProps = {\n  title?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
+      "file": "/components/Accordion/Index.tsx"
+    },
+    "AccordionProps": {
+      "name": "AccordionProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
+      "file": "/components/Accordion/Index.tsx"
+    },
+    "AuthProps": {
+      "name": "AuthProps",
+      "props": {
+        "onLogin": {
+          "optional": true,
+          "type": "function"
+        },
+        "onRegister": {
+          "optional": true,
+          "type": "function"
+        },
+        "register": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onResetRequest": {
+          "optional": true,
+          "type": "function"
+        },
+        "logo": {
+          "optional": true,
+          "type": [
+            "boolean",
+            "ReactChild"
+          ]
+        },
+        "overlay": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "app": {
+          "optional": true,
+          "type": "FC"
+        }
+      },
+      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactChild\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n}",
+      "file": "/components/Auth/Auth.tsx"
+    },
+    "LoginProps": {
+      "name": "LoginProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "onLogin": {
+          "optional": true,
+          "type": "function"
+        },
+        "onRegisterRequest": {
+          "optional": true,
+          "type": "function"
+        },
+        "onResetRequest": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type LoginProps = {\n  width?: number\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegisterRequest?: (email: string) => void\n  onResetRequest?: () => void\n}",
+      "file": "/components/Auth/Login.tsx"
+    },
+    "RegisterProps": {
+      "name": "RegisterProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "email": {
+          "optional": true,
+          "type": "string"
+        },
+        "onRegister": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RegisterProps = {\n  width?: number\n  email?: string\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n}",
+      "file": "/components/Auth/Register.tsx"
+    },
+    "ResetRequestProps": {
+      "name": "ResetRequestProps",
+      "props": {
+        "onSuccess": {
+          "optional": true,
+          "type": "function"
+        },
+        "onCancel": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ResetRequestProps = {\n  onSuccess?: () => void\n  onCancel?: () => void\n  style?: CSSProperties\n}",
+      "file": "/components/Auth/ResetRequest.tsx"
+    },
+    "AvatarProps": {
+      "name": "AvatarProps",
+      "props": {
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 32
+            },
+            {
+              "value": 36
+            },
+            {
+              "value": 40
+            },
+            {
+              "value": 64
+            }
+          ]
+        },
+        "backgroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "backgroundImg": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type AvatarProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  color?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  // children?: ReactNode\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
+      "file": "/components/Avatar/index.tsx"
+    },
+    "BadgeProps": {
+      "name": "BadgeProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "iconLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "iconRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "backgroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "foregroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "outlineColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "hoverColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "boxed": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "MouseEventHandler"
+        }
+      },
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
+      "file": "/components/Badge/index.tsx"
+    },
+    "BreadcrumbsProps": {
+      "name": "BreadcrumbsProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type BreadcrumbsProps = {\n  style?: CSSProperties\n  data?: {\n    [key: string]: string\n  }\n  prefix?: string\n  selected?: string\n}",
+      "file": "/components/Breadcrumbs/index.tsx"
+    },
+    "ButtonProps": {
+      "name": "ButtonProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "backgroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "foregroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "outlineColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "hoverColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "large": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "fill": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "iconLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "iconRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "light": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "loading": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "type": "MouseEventHandler"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "textAlign": {
+          "optional": true,
+          "type": [
+            {
+              "value": "center"
+            },
+            {
+              "value": "right"
+            },
+            {
+              "value": "left"
+            }
+          ]
+        },
+        "actionKeys": {
+          "optional": true,
+          "type": "TSArrayType"
+        }
+      },
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  ghost?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  light?: boolean\n  loading?: boolean\n  onClick: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "file": "/components/Button/index.tsx"
+    },
+    "CalloutProps": {
+      "name": "CalloutProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "iconLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "iconRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "outlineColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "backgroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "foregroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "textAlign": {
+          "optional": true,
+          "type": [
+            {
+              "value": "center"
+            },
+            {
+              "value": "right"
+            }
+          ]
+        }
+      },
+      "code": "type CalloutProps = {\n  children?: ReactNode\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  outlineColor?: Color\n  color?: Color\n  ghost?: boolean\n  backgroundColor?: Color\n  foregroundColor?: Color\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right'\n}",
+      "file": "/components/Callout/index.tsx"
+    },
+    "CardProps": {
+      "name": "CardProps",
+      "props": {
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "topLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "topRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "bottomRight": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "bottomLeft": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "small": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type CardProps = {\n  title?: string\n  description?: string\n  space?: Space\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n}",
+      "file": "/components/Card/index.tsx"
+    },
+    "CheckboxProps": {
+      "name": "CheckboxProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "checked": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode\n  space?: Space\n}",
+      "file": "/components/Checkbox/index.tsx"
+    },
+    "CodeProps": {
+      "name": "CodeProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "children": {
+          "optional": true,
+          "type": "string"
+        },
+        "results": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "onChange": {
+          "optional": true,
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
+        }
+      },
+      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
+      "file": "/components/Code/index.tsx"
+    },
+    "ContainerProps": {
+      "name": "ContainerProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "topLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "topRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "bottomLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "bottomRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "wrap": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ContainerProps = {\n  children: ReactNode\n  space?: Space\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomLeft?: FC | ReactNode\n  bottomRight?: FC | ReactNode\n  wrap?: boolean\n}",
+      "file": "/components/Container/index.tsx"
+    },
+    "ContextItemProps": {
+      "name": "ContextItemProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "PropsEventHandler"
+        },
+        "leftIcon": {
+          "optional": true,
+          "type": "FunctionComponent"
+        },
+        "rightIcon": {
+          "optional": true,
+          "type": "FunctionComponent"
+        },
+        "inset": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "noFocus": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "tabIndex": {
+          "optional": true,
+          "type": "number"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type ContextItemProps = {\n  style?: Style\n  color?: Color\n  onClick?: PropsEventHandler\n  leftIcon?: FunctionComponent<Icon>\n  rightIcon?: FunctionComponent<Icon>\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
+      "file": "/components/ContextMenu/ContextItem.tsx"
+    },
+    "ContextOptionsFilterProps": {
+      "name": "ContextOptionsFilterProps",
+      "props": {
+        "filterable": {
+          "optional": true,
+          "type": [
+            "boolean",
+            {
+              "value": "create"
+            }
+          ]
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "resize": {
+          "optional": true,
+          "type": "function"
+        },
+        "multiSelect": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ContextOptionsFilterProps = {\n  // eslint-disable-next-line\n  filterable?: boolean | 'create'\n  placeholder?: string\n  resize?: () => void\n  // eslint-disable-next-line\n  multiSelect?: boolean\n}",
+      "file": "/components/ContextMenu/ContextOptions.tsx"
+    },
+    "ContextOptionsProps": {
+      "name": "ContextOptionsProps",
+      "props": {
+        "items": {
+          "type": [
+            "TSArrayType",
+            "TSNullKeyword",
+            "TSUndefinedKeyword"
+          ]
+        },
+        "value": {
+          "optional": true,
+          "type": "Value"
+        },
+        "onChange": {
+          "type": "function"
+        }
+      },
+      "code": "type ContextOptionsProps = {\n  items: Option[] | null | undefined\n  value?: Value\n  onChange: (value: Value) => void\n}",
+      "file": "/components/ContextMenu/ContextOptions.tsx"
+    },
+    "ContextMultiOptionsProps": {
+      "name": "ContextMultiOptionsProps",
+      "props": {
+        "items": {
+          "type": [
+            "TSArrayType",
+            "TSNullKeyword",
+            "TSUndefinedKeyword"
+          ]
+        },
+        "values": {
+          "optional": true,
+          "type": "TSArrayType"
+        },
+        "onChange": {
+          "type": "function"
+        }
+      },
+      "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
+      "file": "/components/ContextMenu/ContextOptions.tsx"
+    },
+    "FormProps": {
+      "name": "FormProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "onSubmit": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type FormProps = {\n  children?: ReactNode\n  onSubmit?: (res: SubmitResponse) => void\n}",
+      "file": "/components/Form/index.tsx"
+    },
+    "GridProps": {
+      "name": "GridProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "columns": {
+          "optional": true,
+          "type": "number"
+        },
+        "columnGap": {
+          "optional": true,
+          "type": "number"
+        },
+        "rowGap": {
+          "optional": true,
+          "type": "number"
+        },
+        "wrap": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type GridProps = {\n  children?: ReactNode\n  columns?: number\n  columnGap?: number\n  rowGap?: number\n  wrap?: boolean\n  style?: CSSProperties\n}",
+      "file": "/components/Grid/Grid.tsx"
+    },
+    "IconProps": {
+      "name": "IconProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": [
+            "Color",
+            "string"
+          ]
+        },
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 10
+            },
+            {
+              "value": 12
+            },
+            {
+              "value": 14
+            },
+            {
+              "value": 16
+            },
+            {
+              "value": 20
+            },
+            {
+              "value": 32
+            }
+          ]
+        }
+      },
+      "code": "type IconProps = {\n  color?: Color | string\n  size?: 10 | 12 | 14 | 16 | 20 | 32\n}",
+      "file": "/components/Icon/index.tsx"
+    },
+    "InfiniteListProps": {
+      "name": "InfiniteListProps",
+      "props": {
+        "query": {
+          "type": "InfiniteListQuery"
+        },
+        "delay": {
+          "optional": true,
+          "type": "number"
+        },
+        "itemSize": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "limit": {
+          "optional": true,
+          "type": "number"
+        },
+        "treshold": {
+          "optional": true,
+          "type": "number"
+        },
+        "target": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "itemData": {
+          "optional": true,
+          "type": "function"
+        },
+        "children": {
+          "optional": true,
+          "type": "FC"
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        }
+      },
+      "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: number\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
+      "file": "/components/InfiniteList/index.tsx"
+    },
+    "InputPropsBaseLine": {
+      "name": "InputPropsBaseLine",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "optional": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "value": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "iconLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "iconRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "defaultValue": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "multiline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "bg": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "name": {
+          "optional": true,
+          "type": "string"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "inputRef": {
+          "optional": true,
+          "type": "RefObject"
+        },
+        "large": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type InputPropsBaseLine = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n}",
+      "file": "/components/Input/index.tsx"
+    },
+    "LinkProps": {
+      "name": "LinkProps",
+      "props": {
+        "href": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type LinkProps = {\n  href?: string\n  children?: ReactNode\n  style?: Style\n  onClick?: () => {}\n}",
+      "file": "/components/Link/index.tsx"
+    },
+    "DraggableListWrapperProps": {
+      "name": "DraggableListWrapperProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type DraggableListWrapperProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/ListItems/DraggableListWrapper.tsx"
+    },
+    "ListItemProps": {
+      "name": "ListItemProps",
+      "props": {
+        "left": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "right": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "draggable": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ListItemProps = {\n  left?: ReactNode\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n}",
+      "file": "/components/ListItems/ListItem.tsx"
+    },
+    "StackedListItemsWrapperProps": {
+      "name": "StackedListItemsWrapperProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "topLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "topRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "bottomLeft": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "bottomRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "footer": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type StackedListItemsWrapperProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomLeft?: FC | ReactNode\n  bottomRight?: FC | ReactNode\n  footer?: FC | ReactNode\n  space?: Space\n}",
+      "file": "/components/ListItems/StackedListItems.tsx"
+    },
+    "StackedListItemProps": {
+      "name": "StackedListItemProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "right": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "border": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type StackedListItemProps = {\n  children?: ReactNode\n  right?: FC | ReactNode\n  style?: CSSProperties\n  space?: Space\n  border?: boolean\n}",
+      "file": "/components/ListItems/StackedListItems.tsx"
+    },
+    "MasonryGridProps": {
+      "name": "MasonryGridProps",
+      "props": {
+        "children": {
+          "type": [
+            "ReactNode",
+            "ReactChildren"
+          ]
+        },
+        "columns": {
+          "optional": true,
+          "type": "number"
+        },
+        "gap": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type MasonryGridProps = {\n  children: ReactNode | ReactChildren\n  columns?: number\n  gap?: number\n  style?: CSSProperties\n}",
+      "file": "/components/MasonryGrid/MasonryGrid.tsx"
+    },
+    "MenuHeaderProps": {
+      "name": "MenuHeaderProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Menu/index.tsx"
+    },
+    "MenuItemProps": {
+      "name": "MenuItemProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "href": {
+          "optional": true,
+          "type": "string"
+        },
+        "isActive": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isNested": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n}",
+      "file": "/components/Menu/index.tsx"
+    },
+    "PositionProps": {
+      "name": "PositionProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            {
+              "value": "100%"
+            },
+            {
+              "value": "target"
+            },
+            {
+              "value": "auto"
+            }
+          ]
+        },
+        "position": {
+          "optional": true,
+          "type": [
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            },
+            {
+              "value": "top"
+            },
+            {
+              "value": "bottom"
+            }
+          ]
+        },
+        "placement": {
+          "optional": true,
+          "type": [
+            {
+              "value": "center"
+            },
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            }
+          ]
+        },
+        "variant": {
+          "optional": true,
+          "type": [
+            {
+              "value": "over"
+            },
+            {
+              "value": "detached"
+            }
+          ]
+        },
+        "offset": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "selectTarget": {
+          "optional": true,
+          "type": "SelectTarget"
+        }
+      },
+      "code": "type PositionProps = {\n  width?: number | '100%' | 'target' | 'auto'\n  position?: 'left' | 'right' | 'top' | 'bottom'\n  placement?: 'center' | 'left' | 'right'\n  variant?: 'over' | 'detached'\n  offset?: { x: number; y: number }\n  selectTarget?: SelectTarget\n}",
+      "file": "/components/Overlay/index.tsx"
+    },
+    "OverlayProps": {
+      "name": "OverlayProps",
+      "props": {
+        "Component": {
+          "type": "ComponentType"
+        },
+        "props": {
+          "type": "P"
+        },
+        "target": {
+          "type": "Target"
+        },
+        "positionProps": {
+          "type": "PositionProps"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type OverlayProps<P = any> = {\n  Component: ComponentType<P>\n  props: P\n  target: Target\n  positionProps: PositionProps\n  style?: CSSProperties\n}",
+      "file": "/components/Overlay/index.tsx"
+    },
+    "PageProps": {
+      "name": "PageProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type PageProps = {\n  children: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Page/index.tsx"
+    },
+    "ProviderProps": {
+      "name": "ProviderProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "client": {
+          "optional": true,
+          "type": "Based"
+        },
+        "theme": {
+          "optional": true,
+          "type": [
+            {
+              "value": "dark"
+            },
+            {
+              "value": "light"
+            }
+          ]
+        },
+        "fill": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'dark' | 'light'\n  fill?: boolean\n}",
+      "file": "/components/Provider/index.tsx"
+    },
+    "RightSidebarProps": {
+      "name": "RightSidebarProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type RightSidebarProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/RightSidebar/index.tsx"
+    },
+    "MultiSelectProps": {
+      "name": "MultiSelectProps",
+      "props": {
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "filterable": {
+          "optional": true,
+          "type": [
+            "boolean",
+            {
+              "value": "create"
+            }
+          ]
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "options": {
+          "type": "TSArrayType"
+        },
+        "overlay": {
+          "optional": true,
+          "type": "PositionProps"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "values": {
+          "optional": true,
+          "type": "TSArrayType"
+        }
+      },
+      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: CSSProperties\n  values?: Value[]\n}",
+      "file": "/components/Select/MultiSelect.tsx"
+    },
+    "SelectProps": {
+      "name": "SelectProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "Value"
+        },
+        "options": {
+          "type": "TSArrayType"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "filterable": {
+          "optional": true,
+          "type": [
+            "boolean",
+            {
+              "value": "create"
+            }
+          ]
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "overlay": {
+          "optional": true,
+          "type": "PositionProps"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  color?: Color\n  style?: CSSProperties\n}",
+      "file": "/components/Select/Select.tsx"
+    },
+    "SidebarItemsProps": {
+      "name": "SidebarItemsProps",
+      "props": {
+        "href": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "isActive": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
+      "file": "/components/Sidebar/index.tsx"
+    },
+    "StepsProps": {
+      "name": "StepsProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "data": {
+          "type": "TSTypeLiteral"
+        }
+      },
+      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data: {\n    [key: string]: string\n  }\n}",
+      "file": "/components/Steps/index.tsx"
+    },
+    "TableProps": {
+      "name": "TableProps",
+      "props": {
+        "fields": {
+          "optional": true,
+          "type": "Fields"
+        },
+        "query": {
+          "optional": true,
+          "type": "function"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSArrayType"
+        },
+        "itemSize": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  itemSize?: number\n  style?: CSSProperties\n  width?: number\n  height?: number\n}",
+      "file": "/components/Table/index.tsx"
+    },
+    "TabProps": {
+      "name": "TabProps",
+      "props": {
+        "title": {
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type TabProps = {\n  title: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Tabs/Tab.tsx"
+    },
+    "TabsProps": {
+      "name": "TabsProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            "TSArrayType"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "small": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "activeTab": {
+          "optional": true,
+          "type": "number"
+        },
+        "setActiveTab": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type TabsProps = {\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  space?: Space\n  small?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n}",
+      "file": "/components/Tabs/Tabs.tsx"
+    },
+    "TextProps": {
+      "name": "TextProps",
+      "props": {
+        "size": {
+          "optional": true,
+          "type": "Size"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "color": {
+          "optional": true,
+          "type": [
+            "Color",
+            "string"
+          ]
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "italic": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "selectable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "wrap": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color | string\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  children?: ReactNode\n}",
+      "file": "/components/Text/index.tsx"
+    },
+    "ThumbnailProps": {
+      "name": "ThumbnailProps",
+      "props": {
+        "size": {
+          "optional": true,
+          "type": [
+            {
+              "value": 32
+            },
+            {
+              "value": 36
+            },
+            {
+              "value": 40
+            },
+            {
+              "value": 64
+            }
+          ]
+        },
+        "backgroundColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "backgroundImg": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n}",
+      "file": "/components/Thumbnail/index.tsx"
+    },
+    "TopbarTabProps": {
+      "name": "TopbarTabProps",
+      "props": {
+        "href": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "isActive": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type TopbarTabProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
+      "file": "/components/Topbar/index.tsx"
+    },
+    "TopbarProps": {
+      "name": "TopbarProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "TSObjectKeyword"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "onFilter": {
+          "optional": true,
+          "type": "function"
+        },
+        "onProfile": {
+          "optional": true,
+          "type": "function"
+        },
+        "breadcrumbs": {
+          "optional": true,
+          "type": "ReactNode"
+        }
+      },
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n}",
+      "file": "/components/Topbar/index.tsx"
+    }
+  },
+  "types": {
+    "SizeInt": {
+      "name": "SizeInt",
+      "types": [
+        {
+          "type": {
+            "value": 11
+          }
+        },
+        {
+          "type": {
+            "value": 12
+          }
+        },
+        {
+          "type": {
+            "value": 13
+          }
+        },
+        {
+          "type": {
+            "value": 14
+          }
+        },
+        {
+          "type": {
+            "value": 15
+          }
+        },
+        {
+          "type": {
+            "value": 18
+          }
+        },
+        {
+          "type": {
+            "value": 20
+          }
+        },
+        {
+          "type": {
+            "value": 24
+          }
+        },
+        {
+          "type": {
+            "value": 32
+          }
+        }
+      ],
+      "code": "type SizeInt = 11 | 12 | 13 | 14 | 15 | 18 | 20 | 24 | 32",
+      "file": "/types/index.ts"
+    },
+    "Size": {
+      "name": "Size",
+      "types": [
+        {
+          "type": {}
+        },
+        {
+          "type": "SizeInt"
+        }
+      ],
+      "code": "type Size = `${SizeInt}px` | SizeInt",
+      "file": "/types/index.ts"
+    },
+    "WeightInt": {
+      "name": "WeightInt",
+      "types": [
+        {
+          "type": {
+            "value": 400
+          }
+        },
+        {
+          "type": {
+            "value": 500
+          }
+        },
+        {
+          "type": {
+            "value": 600
+          }
+        },
+        {
+          "type": {
+            "value": 700
+          }
+        }
+      ],
+      "code": "type WeightInt = 400 | 500 | 600 | 700",
+      "file": "/types/index.ts"
+    },
+    "Weight": {
+      "name": "Weight",
+      "types": [
+        {
+          "type": "WeightInt"
+        },
+        {
+          "type": {}
+        }
+      ],
+      "code": "type Weight = WeightInt | `${WeightInt}`",
+      "file": "/types/index.ts"
+    },
+    "SpaceInt": {
+      "name": "SpaceInt",
+      "types": [
+        {
+          "type": {
+            "value": 0
+          }
+        },
+        {
+          "type": {
+            "value": 4
+          }
+        },
+        {
+          "type": {
+            "value": 8
+          }
+        },
+        {
+          "type": {
+            "value": 12
+          }
+        },
+        {
+          "type": {
+            "value": 16
+          }
+        },
+        {
+          "type": {
+            "value": 20
+          }
+        },
+        {
+          "type": {
+            "value": 24
+          }
+        },
+        {
+          "type": {
+            "value": 28
+          }
+        },
+        {
+          "type": {
+            "value": 32
+          }
+        }
+      ],
+      "code": "type SpaceInt = 0 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32",
+      "file": "/types/index.ts"
+    },
+    "Space": {
+      "name": "Space",
+      "types": [
+        {
+          "type": "SpaceInt"
+        },
+        {
+          "type": {}
+        },
+        {
+          "type": {
+            "value": true
+          }
+        }
+      ],
+      "code": "type Space = SpaceInt | `${SpaceInt}px` | true",
+      "file": "/types/index.ts"
+    },
+    "Color": {
+      "name": "Color",
+      "types": [
+        {
+          "type": {
+            "value": "Blue500"
+          }
+        },
+        {
+          "type": {
+            "value": "Blue200"
+          }
+        },
+        {
+          "type": {
+            "value": "WhiteWhite100"
+          }
+        },
+        {
+          "type": {
+            "value": "GreyscaleGrey100"
+          }
+        },
+        {
+          "type": {
+            "value": "TextPrimary"
+          }
+        },
+        {
+          "type": {
+            "value": "TextSecondary"
+          }
+        },
+        {
+          "type": {
+            "value": "TextDisabled"
+          }
+        },
+        {
+          "type": {
+            "value": "TextInverted"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryMain"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryMainHover"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryMainSelected"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryMainContrast"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryMainContrastSecondary"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryLightAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryLightHover"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryLightSelected"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryLightContrast"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryLightContrastSecondary"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryMainOutline"
+          }
+        },
+        {
+          "type": {
+            "value": "PrimaryLightOutline"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherDisabledContent"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherDisabledBackground"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherDisabledOutline"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherForegroundInverted"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherDivider"
+          }
+        },
+        {
+          "type": {
+            "value": "BorderColor"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherOverlay"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherInputBorderDefault"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherInputBorderHover"
+          }
+        },
+        {
+          "type": {
+            "value": "OtherInputBorderActive"
+          }
+        },
+        {
+          "type": {
+            "value": "Background0dp"
+          }
+        },
+        {
+          "type": {
+            "value": "Background1dp"
+          }
+        },
+        {
+          "type": {
+            "value": "Background2dp"
+          }
+        },
+        {
+          "type": {
+            "value": "Background3dp"
+          }
+        },
+        {
+          "type": {
+            "value": "CalloutMain"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueBaby"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueBabyHover"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueBabyActive"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueBabyAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueBabyForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueSailor"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueSailorHover"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueSailorActive"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueSailorAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "BlueSailorForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Pink"
+          }
+        },
+        {
+          "type": {
+            "value": "PinkHover"
+          }
+        },
+        {
+          "type": {
+            "value": "PinkActive"
+          }
+        },
+        {
+          "type": {
+            "value": "PinkAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "PinkForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleBright"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleBrightHover"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleBrightActive"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleBrightAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleBrightForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Purple"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleHover"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleActive"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleDark"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleDarkHover"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleDarkActive"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleDarkAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "PurpleDarkForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenForest"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenForestHover"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenForestActive"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenForestAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenForestForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Green"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenHover"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenActive"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "GreenForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Teal"
+          }
+        },
+        {
+          "type": {
+            "value": "TealHover"
+          }
+        },
+        {
+          "type": {
+            "value": "TealActive"
+          }
+        },
+        {
+          "type": {
+            "value": "TealAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "TealForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Mustard"
+          }
+        },
+        {
+          "type": {
+            "value": "MustardHover"
+          }
+        },
+        {
+          "type": {
+            "value": "MustardActive"
+          }
+        },
+        {
+          "type": {
+            "value": "MustardAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "MustardForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Yellow"
+          }
+        },
+        {
+          "type": {
+            "value": "YellowHover"
+          }
+        },
+        {
+          "type": {
+            "value": "YellowActive"
+          }
+        },
+        {
+          "type": {
+            "value": "YellowAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "YellowForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Orange"
+          }
+        },
+        {
+          "type": {
+            "value": "OrangeHover"
+          }
+        },
+        {
+          "type": {
+            "value": "OrangeActive"
+          }
+        },
+        {
+          "type": {
+            "value": "OrangeAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "OrangeForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Reddish"
+          }
+        },
+        {
+          "type": {
+            "value": "ReddishHover"
+          }
+        },
+        {
+          "type": {
+            "value": "ReddishActive"
+          }
+        },
+        {
+          "type": {
+            "value": "ReddishAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "ReddishForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Red"
+          }
+        },
+        {
+          "type": {
+            "value": "RedHover"
+          }
+        },
+        {
+          "type": {
+            "value": "RedActive"
+          }
+        },
+        {
+          "type": {
+            "value": "RedAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "RedForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Redlight"
+          }
+        },
+        {
+          "type": {
+            "value": "RedlightHover"
+          }
+        },
+        {
+          "type": {
+            "value": "RedlightActive"
+          }
+        },
+        {
+          "type": {
+            "value": "RedlightAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "RedlightForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Greydark"
+          }
+        },
+        {
+          "type": {
+            "value": "GreydarkHover"
+          }
+        },
+        {
+          "type": {
+            "value": "GreydarkActive"
+          }
+        },
+        {
+          "type": {
+            "value": "GreydarkAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "GreydarkForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Greylight"
+          }
+        },
+        {
+          "type": {
+            "value": "GreylightHover"
+          }
+        },
+        {
+          "type": {
+            "value": "GreylightActive"
+          }
+        },
+        {
+          "type": {
+            "value": "GreylightAccent"
+          }
+        },
+        {
+          "type": {
+            "value": "GreylightForeground"
+          }
+        },
+        {
+          "type": {
+            "value": "Transparent"
+          }
+        },
+        {
+          "type": "TSParenthesizedType"
+        }
+      ],
+      "code": "type Color =\n  | 'Blue500'\n  | 'Blue200'\n  | 'WhiteWhite100'\n  | 'GreyscaleGrey100'\n  | 'TextPrimary'\n  | 'TextSecondary'\n  | 'TextDisabled'\n  | 'TextInverted'\n  | 'PrimaryMain'\n  | 'PrimaryMainHover'\n  | 'PrimaryMainSelected'\n  | 'PrimaryMainContrast'\n  | 'PrimaryMainContrastSecondary'\n  | 'PrimaryLightAccent'\n  | 'PrimaryLightHover'\n  | 'PrimaryLightSelected'\n  | 'PrimaryLightContrast'\n  | 'PrimaryLightContrastSecondary'\n  | 'PrimaryMainOutline'\n  | 'PrimaryLightOutline'\n  | 'OtherDisabledContent'\n  | 'OtherDisabledBackground'\n  | 'OtherDisabledOutline'\n  | 'OtherForeground'\n  | 'OtherForegroundInverted'\n  | 'OtherDivider'\n  | 'BorderColor'\n  | 'OtherOverlay'\n  | 'OtherInputBorderDefault'\n  | 'OtherInputBorderHover'\n  | 'OtherInputBorderActive'\n  | 'Background0dp'\n  | 'Background1dp'\n  | 'Background2dp'\n  | 'Background3dp'\n  | 'CalloutMain'\n  | 'BlueBaby'\n  | 'BlueBabyHover'\n  | 'BlueBabyActive'\n  | 'BlueBabyAccent'\n  | 'BlueBabyForeground'\n  | 'BlueSailor'\n  | 'BlueSailorHover'\n  | 'BlueSailorActive'\n  | 'BlueSailorAccent'\n  | 'BlueSailorForeground'\n  | 'Pink'\n  | 'PinkHover'\n  | 'PinkActive'\n  | 'PinkAccent'\n  | 'PinkForeground'\n  | 'PurpleBright'\n  | 'PurpleBrightHover'\n  | 'PurpleBrightActive'\n  | 'PurpleBrightAccent'\n  | 'PurpleBrightForeground'\n  | 'Purple'\n  | 'PurpleHover'\n  | 'PurpleActive'\n  | 'PurpleAccent'\n  | 'PurpleForeground'\n  | 'PurpleDark'\n  | 'PurpleDarkHover'\n  | 'PurpleDarkActive'\n  | 'PurpleDarkAccent'\n  | 'PurpleDarkForeground'\n  | 'GreenForest'\n  | 'GreenForestHover'\n  | 'GreenForestActive'\n  | 'GreenForestAccent'\n  | 'GreenForestForeground'\n  | 'Green'\n  | 'GreenHover'\n  | 'GreenActive'\n  | 'GreenAccent'\n  | 'GreenForeground'\n  | 'Teal'\n  | 'TealHover'\n  | 'TealActive'\n  | 'TealAccent'\n  | 'TealForeground'\n  | 'Mustard'\n  | 'MustardHover'\n  | 'MustardActive'\n  | 'MustardAccent'\n  | 'MustardForeground'\n  | 'Yellow'\n  | 'YellowHover'\n  | 'YellowActive'\n  | 'YellowAccent'\n  | 'YellowForeground'\n  | 'Orange'\n  | 'OrangeHover'\n  | 'OrangeActive'\n  | 'OrangeAccent'\n  | 'OrangeForeground'\n  | 'Reddish'\n  | 'ReddishHover'\n  | 'ReddishActive'\n  | 'ReddishAccent'\n  | 'ReddishForeground'\n  | 'Red'\n  | 'RedHover'\n  | 'RedActive'\n  | 'RedAccent'\n  | 'RedForeground'\n  | 'Redlight'\n  | 'RedlightHover'\n  | 'RedlightActive'\n  | 'RedlightAccent'\n  | 'RedlightForeground'\n  | 'Greydark'\n  | 'GreydarkHover'\n  | 'GreydarkActive'\n  | 'GreydarkAccent'\n  | 'GreydarkForeground'\n  | 'Greylight'\n  | 'GreylightHover'\n  | 'GreylightActive'\n  | 'GreylightAccent'\n  | 'GreylightForeground'\n  | 'Transparent'\n  | (CSSColorValue & {})",
+      "file": "/types/index.ts"
+    },
+    "Icon": {
+      "name": "Icon",
+      "types": [
+        {
+          "type": "SVGProps"
+        },
+        {
+          "type": "IconProps"
+        }
+      ],
+      "code": "type Icon = SVGProps<SVGSVGElement> & IconProps",
+      "file": "/types/index.ts"
+    },
+    "Key": {
+      "name": "Key",
+      "types": [
+        {
+          "type": {
+            "value": "Enter"
+          }
+        },
+        {
+          "type": {
+            "value": "Esc"
+          }
+        },
+        {
+          "type": {
+            "value": "ArrowUp"
+          }
+        },
+        {
+          "type": {
+            "value": "ArrowDown"
+          }
+        },
+        {
+          "type": {
+            "value": "ArrowLeft"
+          }
+        },
+        {
+          "type": {
+            "value": "ArrowRight"
+          }
+        },
+        {
+          "type": {
+            "value": "Tab"
+          }
+        }
+      ],
+      "code": "type Key =\n  | 'Enter'\n  | 'Esc'\n  | 'ArrowUp'\n  | 'ArrowDown'\n  | 'ArrowLeft'\n  | 'ArrowRight'\n  | 'Tab'",
+      "file": "/types/index.ts"
+    }
+  }
+}

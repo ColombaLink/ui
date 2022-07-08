@@ -1,13 +1,13 @@
 import React from 'react'
-import { Code as CodeBox } from '~/components/Code'
-
-const raw = `import React from 'react'
 import { Callout } from '~/components/Callout'
 import { ErrorIcon, ArrowRightIcon, CheckCircleIcon, ModelIcon } from '~/icons'
+import ComponentViewer from '../ComponentViewer'
 
 export const Callouts = () => {
   return (
     <>
+      <ComponentViewer component={Callout} />
+
       <Callout space color="Red" foregroundColor="PurpleDark">
         Normal regular callout
       </Callout>
@@ -63,15 +63,6 @@ export const Callouts = () => {
       <Callout space iconRight={ArrowRightIcon} textAlign="right">
         Message textAlign right
       </Callout>
-    </>
-  )
-}
-`
-
-export const Code = () => {
-  return (
-    <>
-      <CodeBox>{raw}</CodeBox>
     </>
   )
 }
