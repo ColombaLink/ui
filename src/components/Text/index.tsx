@@ -11,7 +11,7 @@ type TextProps = {
   italic?: boolean
   selectable?: boolean
   wrap?: boolean
-  children?: ReactNode
+  children: ReactNode
 }
 
 export const Text: FC<TextProps> = ({

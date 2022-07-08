@@ -49,11 +49,15 @@ const genRandomWords = (short) => {
   return lorem.generateWords(~~(Math.random() * 2) + 1)
 }
 
-export const genRandomProp = (name, prop) => {
+export const genRandomProp = (name, prop, short = false) => {
   if (Array.isArray(prop.type)) {
-    return genRandomProp(name, {
-      type: randomFromArr(prop.type),
-    })
+    return genRandomProp(
+      name,
+      {
+        type: randomFromArr(prop.type),
+      },
+      short
+    )
   }
 
   if (prop.optional) {
@@ -113,7 +117,7 @@ export const genRandomProp = (name, prop) => {
 
   if (prop.type === 'ReactNode') {
     if (Math.random() > 0.7) {
-      return genRandomWords(false)
+      return genRandomWords(short)
     }
     if (Math.random() > 0.65) {
       return React.createElement(getRandomIcon(), { size: 20 })
@@ -125,10 +129,10 @@ export const genRandomProp = (name, prop) => {
   }
 }
 
-export const genRandomProps = (p: any): any => {
+export const genRandomProps = (p: any, short: boolean = false): any => {
   const parsedProps = {}
   for (const key in p.props) {
-    const rando = genRandomProp(key, p.props[key])
+    const rando = genRandomProp(key, p.props[key], short)
     if (rando !== undefined) {
       parsedProps[key] = rando
     }
