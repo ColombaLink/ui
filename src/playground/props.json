@@ -574,9 +574,16 @@
             "TSParenthesizedType",
             "Dispatch"
           ]
+        },
+        "topRight": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         }
       },
-      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n}",
+      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n}",
       "file": "/components/Code/index.tsx"
     },
     "ContainerProps": {

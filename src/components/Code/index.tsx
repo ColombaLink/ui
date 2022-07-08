@@ -1,14 +1,33 @@
-import React, { CSSProperties, FC, Dispatch, SetStateAction } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  Dispatch,
+  SetStateAction,
+  ReactNode,
+} from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
-import { color, copyToClipboard, CopyIcon } from '../../'
+import { color } from '../../'
 import { Space } from '~/types'
 import { spaceToPx } from '~/utils'
-import { highlight, languages } from 'prismjs/components/prism-core'
+import {
+  highlight,
+  renderOrCreateElement,
+  languages,
+} from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
 import './syntax.css'
+
+/*code menu
+<CopyIcon
+   onClick={() => {
+    copyToClipboard(children)
+  }}
+  color={'PrimaryMain'}
+/>`
+*/
 
 export type CodeProps = {
   style?: CSSProperties
@@ -16,9 +35,16 @@ export type CodeProps = {
   results?: boolean
   space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+  topRight?: FC | ReactNode
 }
 
-export const Code: FC<CodeProps> = ({ children, style, onChange, space }) => {
+export const Code: FC<CodeProps> = ({
+  topRight,
+  children,
+  style,
+  onChange,
+  space,
+}) => {
   return (
     <div
       style={{
@@ -31,20 +57,17 @@ export const Code: FC<CodeProps> = ({ children, style, onChange, space }) => {
         ...style,
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          right: 8,
-          top: 8,
-        }}
-      >
-        <CopyIcon
-          onClick={() => {
-            copyToClipboard(children)
+      {topRight ? (
+        <div
+          style={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
           }}
-          color={'PrimaryMain'}
-        />
-      </div>
+        >
+          {renderOrCreateElement(topRight, {})}
+        </div>
+      ) : null}
       <Editor
         value={children}
         onValueChange={(v) => onChange(v)}
