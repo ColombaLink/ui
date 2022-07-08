@@ -8,7 +8,7 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
     <Input
       style={{ flexGrow: 1 }}
       value={`${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase()}
-      suggest={(v) => v.padEnd(6, '0')}
+      suggest={(v) => v.padEnd(6, v.slice(-1) || '0')}
       transform={(v) =>
         v
           .toUpperCase()
@@ -31,7 +31,7 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
   )
 }
 
-const NumberInput = styled(Input, { marginLeft: 8, width: 56, flexShrink: 0 })
+const NumberInput = styled(Input, { marginLeft: 8, width: 52, flexShrink: 0 })
 const max225 = (v) => (v ? Math.round(minmax(0, v, 255)) : v)
 const max100 = (v) => (v ? Math.round(minmax(0, v, 100)) : v)
 
