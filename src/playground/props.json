@@ -67,10 +67,7 @@
         },
         "logo": {
           "optional": true,
-          "type": [
-            "boolean",
-            "ReactChild"
-          ]
+          "type": ["boolean", "ReactChild"]
         },
         "overlay": {
           "optional": true,
@@ -183,10 +180,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "space": {
           "optional": true,
@@ -220,17 +214,11 @@
         },
         "iconLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "outline": {
           "optional": true,
@@ -340,17 +328,11 @@
         },
         "iconLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "light": {
           "optional": true,
@@ -406,17 +388,11 @@
         },
         "iconLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "outline": {
           "optional": true,
@@ -486,17 +462,11 @@
         },
         "topLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "topRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "bottomRight": {
           "optional": true,
@@ -570,17 +540,11 @@
         },
         "onChange": {
           "optional": true,
-          "type": [
-            "TSParenthesizedType",
-            "Dispatch"
-          ]
+          "type": ["TSParenthesizedType", "Dispatch"]
         },
         "topRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         }
       },
       "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  results?: boolean\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n}",
@@ -602,31 +566,19 @@
         },
         "topLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "topRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "bottomLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "bottomRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "wrap": {
           "optional": true,
@@ -711,11 +663,7 @@
       "name": "ContextOptionsProps",
       "props": {
         "items": {
-          "type": [
-            "TSArrayType",
-            "TSNullKeyword",
-            "TSUndefinedKeyword"
-          ]
+          "type": ["TSArrayType", "TSNullKeyword", "TSUndefinedKeyword"]
         },
         "value": {
           "optional": true,
@@ -732,11 +680,7 @@
       "name": "ContextMultiOptionsProps",
       "props": {
         "items": {
-          "type": [
-            "TSArrayType",
-            "TSNullKeyword",
-            "TSUndefinedKeyword"
-          ]
+          "type": ["TSArrayType", "TSNullKeyword", "TSUndefinedKeyword"]
         },
         "values": {
           "optional": true,
@@ -804,10 +748,7 @@
       "props": {
         "color": {
           "optional": true,
-          "type": [
-            "Color",
-            "string"
-          ]
+          "type": ["Color", "string"]
         },
         "size": {
           "optional": true,
@@ -880,10 +821,7 @@
         },
         "width": {
           "optional": true,
-          "type": [
-            "number",
-            "string"
-          ]
+          "type": ["number", "string"]
         }
       },
       "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: number\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
@@ -910,31 +848,19 @@
         },
         "value": {
           "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": ["string", "number"]
         },
         "iconLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "defaultValue": {
           "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": ["string", "number"]
         },
         "placeholder": {
           "optional": true,
@@ -979,27 +905,9 @@
         "suggest": {
           "optional": true,
           "type": "function"
-<<<<<<< HEAD
-        },
-        "transform": {
-          "optional": true,
-          "type": "function"
-        },
-        "forceSuggestion": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "noInterrupt": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type InputPropsBaseLine = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n}",
-=======
         }
       },
       "code": "type InputPropsBaseLine = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string\n}",
->>>>>>> b3a47320d94a0bace380e8d46c72903dde46d01c
       "file": "/components/Input/index.tsx"
     },
     "LinkProps": {
@@ -1080,38 +988,23 @@
         },
         "topLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "topRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "bottomLeft": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "bottomRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "footer": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "space": {
           "optional": true,
@@ -1130,10 +1023,7 @@
         },
         "right": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "style": {
           "optional": true,
@@ -1155,10 +1045,7 @@
       "name": "MasonryGridProps",
       "props": {
         "children": {
-          "type": [
-            "ReactNode",
-            "ReactChildren"
-          ]
+          "type": ["ReactNode", "ReactChildren"]
         },
         "columns": {
           "optional": true,
@@ -1567,10 +1454,7 @@
       "props": {
         "children": {
           "optional": true,
-          "type": [
-            "ReactNode",
-            "TSArrayType"
-          ]
+          "type": ["ReactNode", "TSArrayType"]
         },
         "style": {
           "optional": true,
@@ -1609,10 +1493,7 @@
         },
         "color": {
           "optional": true,
-          "type": [
-            "Color",
-            "string"
-          ]
+          "type": ["Color", "string"]
         },
         "weight": {
           "optional": true,
@@ -1672,10 +1553,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": ["FC", "ReactNode"]
         },
         "color": {
           "optional": true,
