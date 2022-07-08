@@ -47,8 +47,6 @@ export const RgbPicker = ({ hue, rgb, onChange, style }) => {
   const { x, y } = rgbToXY(rgb, hue)
   const xRef = useRef(x)
 
-  console.log('???')
-
   const onDown = (e) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
 
