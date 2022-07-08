@@ -1,3 +1,4 @@
+import { styled } from 'inlines'
 import React, { useEffect, useState } from 'react'
 import { Input } from '~'
 import { minmax, toHex } from './utils'
@@ -5,6 +6,7 @@ import { minmax, toHex } from './utils'
 const HexInput = ({ r, g, b, onRgbChange }) => {
   return (
     <Input
+      style={{ flexGrow: 1 }}
       value={`${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase()}
       suggest={(v) => v.padEnd(6, '0')}
       transform={(v) =>
@@ -29,9 +31,12 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
   )
 }
 
+const NumberInput = styled(Input, { marginLeft: 8, width: 92 })
+const max225 = (v) => minmax(0, v, 255)
+const max1and2decimals = (v) => (v ? ~~(minmax(0, v, 1) * 100) / 100 : v)
+
 export const Inputs = ({ rgb, alpha, onRgbChange, onAlphaChange }) => {
   let [r, g, b] = rgb
-  const margin = { marginLeft: 8 }
 
   r = Math.round(r)
   b = Math.round(b)
@@ -40,29 +45,29 @@ export const Inputs = ({ rgb, alpha, onRgbChange, onAlphaChange }) => {
   return (
     <div style={{ display: 'flex' }}>
       <HexInput r={r} g={g} b={b} onRgbChange={onRgbChange} />
-      <Input
-        style={margin}
+      <NumberInput
         type="number"
         value={r}
         onChange={(r) => onRgbChange([minmax(0, r, 255), g, b])}
+        transform={max225}
       />
-      <Input
-        style={margin}
+      <NumberInput
         type="number"
         value={g}
         onChange={(g) => onRgbChange([r, minmax(0, g, 255), b])}
+        transform={max225}
       />
-      <Input
-        style={margin}
+      <NumberInput
         type="number"
         value={b}
         onChange={(b) => onRgbChange([r, g, minmax(0, b, 255)])}
+        transform={max225}
       />
-      <Input
-        style={margin}
+      <NumberInput
         type="number"
         value={alpha}
         onChange={onAlphaChange}
+        transform={max1and2decimals}
       />
     </div>
   )

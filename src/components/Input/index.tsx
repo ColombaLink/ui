@@ -113,11 +113,7 @@ const Single = ({ type, inputRef, ...props }) => {
   if (type === 'color') {
     return <Color inputRef={inputRef} {...props} />
   }
-  return (
-    <div>
-      <input {...props} ref={inputRef} />
-    </div>
-  )
+  return <input {...props} type={type} ref={inputRef} />
 }
 
 type InputPropsBaseLine = {
@@ -261,6 +257,7 @@ export const Input: FC<
   const onChange = (e) => {
     const newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
+    if (type === 'number' && typeof newValue !== 'number') return
     // ignore so we have to write less code.. TODO: write more stuff for this
     // @ts-ignore
     onChangeProp?.(newValue)
