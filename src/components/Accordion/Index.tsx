@@ -58,9 +58,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           <Text size="15px" weight={600} color="TextPrimary">
             {title}
           </Text>
-          {checked && (
-            <CheckIcon style={{ marginLeft: 10 }} color="PrimaryMain" />
-          )}
+          {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}
         </div>
 
         <div>{open ? <ChevronUpIcon /> : <ChevronDownIcon />}</div>
