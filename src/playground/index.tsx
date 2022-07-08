@@ -123,7 +123,7 @@ const App = () => {
           },
           Feedback: {
             Callouts: '/callouts',
-            Notifications: '/notifications',
+            Toasts: '/toasts',
           },
           Code: {
             Code: '/code',
