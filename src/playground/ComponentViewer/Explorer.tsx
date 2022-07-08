@@ -24,10 +24,10 @@ export const CodeExample: FC<{
   name: string
   exampleCode?: string
   exampleProps?: string
-  isModule?: boolean
+  fromComponent?: FC
   runCode?: string
   index: number
-}> = ({ index, component, name, exampleCode, isModule, exampleProps, p }) => {
+}> = ({ index, component, name, exampleCode, exampleProps, p }) => {
   let runCode = ''
   const [cnt, update] = useState(0)
   let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
@@ -98,7 +98,7 @@ export const Explorer: FC<{
   p: any
   component: FC
   name: string
-  examples?: { code?: string; props?: any; isModule?: boolean }[]
+  examples?: { code?: string; props?: any; component?: FC }[]
 }> = ({ component, p, name, examples = [{}] }) => {
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
@@ -160,9 +160,16 @@ export const Explorer: FC<{
         </div>
         <div style={{ width: '100%' }}>
           {examples.map((v, i) => {
+            if (v.component) {
+              return (
+                <Container key={i} space>
+                  {React.createElement(v.component, {})}
+                </Container>
+              )
+            }
+
             return (
               <CodeExample
-                isModule={v.isModule}
                 key={i}
                 index={i}
                 name={name}

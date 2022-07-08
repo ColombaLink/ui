@@ -46,7 +46,7 @@ const genRandomWords = (short) => {
   if (!short && Math.random() > 0.7) {
     return lorem.generateParagraphs(~~(Math.random() * 7) + 1)
   }
-  return lorem.generateWords(~~(Math.random() * 2) + 1)
+  return lorem.generateWords(~~(Math.random() * 5) + 1)
 }
 
 export const genRandomProp = (name, prop, short = false) => {

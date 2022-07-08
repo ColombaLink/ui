@@ -6,7 +6,7 @@ import { Explorer } from './Explorer'
 const ComponentViewer: FC<{
   component: FC
   propsName?: string
-  examples?: { props?: any; code?: string; isModule?: boolean }[]
+  examples?: { props?: any; code?: string; component?: FC }[]
   width?: number | '100%' | 'auto' // fuzz width
 }> = ({ component, propsName, width = 'auto', examples }) => {
   const fuzz = useSearchParam('randomize')
