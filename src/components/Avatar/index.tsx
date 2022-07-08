@@ -13,7 +13,6 @@ type AvatarProps = {
   color?: Color
   backgroundImg?: string
   icon?: FC | ReactNode
-  // children?: ReactNode
   space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void
@@ -27,7 +26,6 @@ export const Avatar: FC<AvatarProps> = ({
   backgroundImg,
   icon,
   label,
-  // children,
   space,
   onClick,
   style,

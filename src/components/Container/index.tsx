@@ -62,6 +62,8 @@ export const Container: FC<ContainerProps> = ({
             alignItems: 'center',
             minHeight: 68,
             borderTop: `1px solid ${color('BorderColor')}`,
+            borderBottomLeftRadius: 4,
+            borderBottomRightRadius: 4,
             position: 'absolute',
             bottom: 0,
             left: 0,
