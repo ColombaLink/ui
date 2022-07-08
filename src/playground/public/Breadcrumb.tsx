@@ -4,15 +4,15 @@ import ComponentViewer from '../ComponentViewer'
 
 export const Breadcrumb = () => {
   return (
-    <div>
-      <ComponentViewer component={Breadcrumbs} />
-      <Breadcrumbs
-        data={{
+    <ComponentViewer
+      exampleProps={{
+        data: {
           'Twister Media': '/breadcrumb',
           'Eurovision 2022': '/Snurky',
           'Based ui': '/BasedUI',
-        }}
-      ></Breadcrumbs>
-    </div>
+        },
+      }}
+      component={Breadcrumbs}
+    />
   )
 }
