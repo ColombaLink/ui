@@ -79,7 +79,7 @@ export const Code: FC<CodeProps> = ({
         }}
         style={{
           fontSize: 14,
-          color: color('Foreground'),
+          color: color('PrimaryMain'),
           fontFamily: 'Fira Code',
         }}
       />

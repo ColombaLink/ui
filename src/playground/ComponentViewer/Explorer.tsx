@@ -112,22 +112,24 @@ export const Explorer: FC<{
 
         <Container
           style={{
-            padding: 0,
-            marginLeft: 24,
-            width: '100%',
-            flexGrow: 1,
+            // padding: 0,
+            // marginLeft: 24,
+            // width: '100%',
+            // flexGrow: 1,
             display: 'flex',
           }}
         >
           <Code
-            style={{
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
+            style={
+              {
+                // borderTopRightRadius: 0,
+                // borderBottomRightRadius: 0,
+              }
+            }
           >
             {exampleCode}
           </Code>
-          <div
+          {/* <div
             style={{
               borderLeft: '1px solid ' + color('OtherDivider'),
               minHeight: '100%',
@@ -136,7 +138,7 @@ export const Explorer: FC<{
             }}
           >
             <Text weight={'600'}>Props</Text>
-          </div>
+          </div> */}
         </Container>
       </div>
     </>
