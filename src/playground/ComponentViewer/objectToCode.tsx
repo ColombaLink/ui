@@ -47,12 +47,12 @@ export const objectToCode = (obj: Object | any[]): string => {
   }
 
   if (Array.isArray(obj)) {
-    let str = '[\n'
+    let str = '['
     for (const val of obj) {
-      str += `${fieldToCode(val)},\n`
+      str += `${fieldToCode(val)},`
     }
-    str = str.slice(0, -2)
-    str += '\n]'
+    str = str.slice(0, -1)
+    str += ']'
     return str
   }
   let str = '{\n'
@@ -75,18 +75,18 @@ export const toComponent = (
   const header = !propsHeader
     ? `${s}<${componentName}`
     : `${s}<${componentName} ${
-        propsHeader.length > 4
+        propsHeader.length > 3
           ? '\n' + indent + propsHeader.join('\n' + indent)
           : propsHeader.join(' ')
       }`
 
   if (exampleProps.children) {
-    return `${header}${propsHeader.length > 4 ? `\n` : ''}>
+    return `${header}${propsHeader.length > 3 ? `\n` : ''}>
   ${s}${exampleProps.children}
 ${s}</${componentName}>      
   `
   } else {
-    return header + `${propsHeader.length > 4 ? `\n${s}` : ''}/>`
+    return header + `${propsHeader.length > 3 ? `\n${s}` : ''}/>`
   }
 }
 
@@ -209,7 +209,7 @@ export const propsToCode = (
           }
           const oneLine =
             // @ts-ignore
-            nestedPropCode.propsHeader.length < 4 && !v.props.children
+            nestedPropCode.propsHeader.length < 3 && !v.props.children
           const code = toComponent(
             name,
             v.props,
