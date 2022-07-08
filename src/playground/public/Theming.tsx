@@ -54,7 +54,7 @@ const rgbaToArr = (str) => {
   return [~~r, ~~g, ~~b, Number(a) || 1]
 }
 
-const toHex = (n) => Number(n).toString(16).padStart(2, '0').toUpperCase()
+const toHex = (n) => Number(n).toString(16).padStart(2, '0')
 
 const rgbaToHex = (str) => {
   const [r, g, b] = rgbaToArr(str)
@@ -118,11 +118,12 @@ const Row = ({ name, value = 'rgba(0,0,0,1)' }) => {
 }
 
 export const Theming = () => {
+  const [primaryColor, setPrimaryColor] = useState('rgba(0,255,255,1)')
   return (
     <>
       <Input label="Primary" type="color" />
       <br />
-      <ColorPicker />
+      <ColorPicker value={primaryColor} onChange={setPrimaryColor} />
 
       <table style={font()}>
         <thead>

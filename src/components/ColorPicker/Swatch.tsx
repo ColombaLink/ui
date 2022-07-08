@@ -1,7 +1,9 @@
 import React, { CSSProperties } from 'react'
+import { color } from '~/utils'
+import { transparent } from './bg'
 
 export const Swatch = ({
-  color,
+  color: colorProp,
   size = 80,
   style,
 }: {
@@ -12,12 +14,24 @@ export const Swatch = ({
   return (
     <div
       style={{
+        background: transparent,
+
         width: size,
         height: size,
-        background: color,
         borderRadius: 4,
+        overflow: 'hidden',
         ...style,
       }}
-    />
+    >
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          border: `1px solid ${color('OtherDivider')}`,
+          borderRadius: 4,
+          background: colorProp,
+        }}
+      />
+    </div>
   )
 }

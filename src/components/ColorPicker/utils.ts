@@ -24,19 +24,19 @@ export const rgbToHue = (rgb): RGB => {
 
   if (r >= g && r >= b) {
     hr = 255
-  } else if (r < g && r < b) {
+  } else if (r <= g && r <= b) {
     hr = 0
   }
 
   if (g >= r && g >= b) {
     hg = 255
-  } else if (g < r && g < b) {
+  } else if (g <= r && g <= b) {
     hg = 0
   }
 
   if (b >= r && b >= g) {
     hb = 255
-  } else if (b < r && b < g) {
+  } else if (b <= r && b <= g) {
     hb = 0
   }
 
@@ -46,3 +46,8 @@ export const rgbToHue = (rgb): RGB => {
 export const toHex = (n) => Number(n).toString(16).padStart(2, 0)
 
 export const minmax = (min, n, max) => Math.min(max, Math.max(min, n))
+
+export const rgbaToArr = (str) => {
+  const [, r, g, b, a] = str.split(/, |,|\(|\)/)
+  return [~~r, ~~g, ~~b, Number(a || 1)]
+}

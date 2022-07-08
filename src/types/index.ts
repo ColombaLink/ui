@@ -1,7 +1,7 @@
 import { SVGProps, SyntheticEvent } from 'react'
 import { IconProps } from '../components/Icon'
 
-type SizeInt = 11 | 12 | 13 | 14 | 15 | 18 | 20 | 24 | 32
+type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 24 | 32
 export type Size = `${SizeInt}px` | SizeInt
 
 type WeightInt = 400 | 500 | 600 | 700
