@@ -6,6 +6,8 @@ import { StackIcon, CalendarIcon } from '~/icons'
 import { Container } from '~/components/Container'
 import { Text } from '~/components/Text'
 import { MasonryGrid } from '~/components/MasonryGrid/MasonryGrid'
+import { Input } from '~/components/Input'
+import { Callout } from '~/components/Callout'
 
 export const Grids = () => {
   return (
@@ -46,6 +48,83 @@ export const Grids = () => {
             description="Date with time"
             topLeft={<Thumbnail color="Red" icon={CalendarIcon} />}
           ></Card>
+        </Grid>
+      </Container>
+
+      <Container wrap space>
+        <Text space weight={600}>
+          {'Gridprop => columnDistribution'}
+        </Text>
+
+        <Grid
+          space
+          columnDistribution="2fr 2fr 8fr"
+          rowGap={20}
+          wrap
+          style={{ width: 900 }}
+        >
+          <Callout outline>2fr</Callout>
+          <Callout outline>2fr</Callout>
+          <Callout outline>8fr</Callout>
+        </Grid>
+        <Grid
+          space
+          columnDistribution="4 3 2 1"
+          rowGap={20}
+          wrap
+          style={{ width: 900 }}
+        >
+          <Callout outline>4</Callout>
+          <Callout outline>3</Callout>
+          <Callout outline>2</Callout>
+          <Callout outline>1</Callout>
+        </Grid>
+        <Grid
+          space
+          columnDistribution="200px 100px 300px"
+          rowGap={20}
+          wrap
+          style={{ width: 900 }}
+        >
+          <Callout outline>200px</Callout>
+          <Callout outline>100px</Callout>
+          <Callout outline>300px</Callout>
+        </Grid>
+        <Grid
+          space
+          columnDistribution="2 150px 4fr 1fr"
+          rowGap={20}
+          wrap
+          style={{ width: 900 }}
+        >
+          <Callout outline>2</Callout>
+          <Callout outline>150px</Callout>
+          <Callout outline>4fr</Callout>
+          <Callout outline>1fr</Callout>
+        </Grid>
+        <Grid
+          space
+          columnDistribution="8 4 4"
+          rowGap={20}
+          columnGap={20}
+          wrap
+          style={{ width: 900 }}
+        >
+          <Input placeholder="put some text" />
+          <Input placeholder="Min" />
+          <Input placeholder="Max" />
+        </Grid>
+        <Grid
+          space
+          columnDistribution="2 6 2"
+          rowGap={20}
+          columnGap={20}
+          wrap
+          style={{ width: 900 }}
+        >
+          <Input placeholder="put some text" />
+          <Input placeholder="Min" />
+          <Input placeholder="Max" />
         </Grid>
       </Container>
 
