@@ -4,6 +4,7 @@ import { BasedIcon, CheckCircleIcon, CloseIcon, StackIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { Avatar } from '~/components/Avatar'
 import { Container } from '~/components/Container'
+import ComponentViewer from '../ComponentViewer'
 
 const Notification = ({ children }) => {
   const toast = useToast()
@@ -82,6 +83,7 @@ export const Toasts = () => {
 
   return (
     <div>
+      <ComponentViewer component={Toast} />
       <Container space wrap>
         {toasts.map((notification, index) => {
           return <Notification key={index}>{notification}</Notification>
