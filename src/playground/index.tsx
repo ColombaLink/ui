@@ -68,9 +68,9 @@ const App = () => {
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
       <Menu
         style={{
-          paddingLeft: 64,
-          minWidth: 350,
-          paddingRight: 64,
+          paddingLeft: 32,
+          // minWidth: 300,
+          paddingRight: 32,
         }}
         header={
           <>
