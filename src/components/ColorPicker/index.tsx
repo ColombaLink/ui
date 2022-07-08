@@ -37,6 +37,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
 
   useEffect(() => {
     if (onChange && colorValue !== value) {
+      console.log({ colorValue })
       valueRef.current = colorValue
       onChange(colorValue)
     }
