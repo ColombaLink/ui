@@ -361,6 +361,7 @@
           "type": "boolean"
         },
         "onClick": {
+          "optional": true,
           "type": "MouseEventHandler"
         },
         "outline": {
@@ -396,7 +397,7 @@
           }
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  ghost?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  light?: boolean\n  loading?: boolean\n  onClick: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  ghost?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  light?: boolean\n  loading?: boolean\n  onClick?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
