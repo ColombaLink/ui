@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import * as icons from '../../icons'
-import { Text } from '../../'
+import { Text, GridIcon } from '../../'
 import { getRandomIconName } from '../ComponentViewer/genRandomProps'
 import ComponentViewer from '../ComponentViewer'
 import { IconProps } from '~/components/Icon'
@@ -37,9 +37,20 @@ const Icon: FC<IconProps & { name?: string }> = ({ name, ...props }) => {
   )
 }
 
+const codeExample = `import { BasedIcon } from '@based/ui'
+<BasedIcon color="PrimaryMain" size={32}/>`
+
 export const Icons = () => (
   <>
-    <ComponentViewer component={Icon} propsName="IconProps" />
+    <ComponentViewer
+      component={Icon}
+      propsName="IconProps"
+      examples={[
+        {
+          code: codeExample,
+        },
+      ]}
+    />
     <div
       style={{
         display: 'flex',

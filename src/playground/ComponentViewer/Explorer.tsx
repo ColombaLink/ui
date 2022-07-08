@@ -78,9 +78,8 @@ export const CodeExample: FC<{
           borderBottomRightRadius: 0,
         }}
         onChange={(c) => setCode(c)}
-      >
-        {exampleCode}
-      </Code>
+        value={exampleCode}
+      />
       <Container
         style={{
           borderTopLeftRadius: 0,
@@ -157,7 +156,7 @@ export const Explorer: FC<{
             marginRight: 24,
           }}
         >
-          {showType ? <Code>{p.code}</Code> : <Props prop={p} />}
+          {showType ? <Code value={p.code} /> : <Props prop={p} />}
         </div>
         <div style={{ width: '100%' }}>
           {examples.map((v, i) => {

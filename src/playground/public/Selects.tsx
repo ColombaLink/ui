@@ -12,6 +12,16 @@ const ms = `import { MultiSelect } from '@based/ui'
   options={['yes','no','for sure']}
 />`
 
+const ms2 = `import { MultiSelect } from '@based/ui'
+
+<MultiSelect 
+  onChange={() => console.log("Snurp")}
+  placeholder="select something..."
+  label="Something"
+  filterable="create"
+  options={['yes','no','for sure']}
+/>`
+
 export const Selects = () => {
   return (
     <>
@@ -28,6 +38,9 @@ export const Selects = () => {
           },
           {
             code: ms,
+          },
+          {
+            code: ms2,
           },
         ]}
       />

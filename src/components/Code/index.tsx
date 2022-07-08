@@ -35,7 +35,7 @@ import './syntax.css'
 
 export type CodeProps = {
   style?: CSSProperties
-  children?: string
+  value?: string
   space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   topRight?: FC | ReactNode
@@ -43,7 +43,7 @@ export type CodeProps = {
 
 export const Code: FC<CodeProps> = ({
   topRight,
-  children,
+  value,
   style,
   onChange,
   space,
@@ -73,7 +73,7 @@ export const Code: FC<CodeProps> = ({
         </div>
       ) : null}
       <Editor
-        value={children}
+        value={value}
         onValueChange={onChange}
         highlight={(code) => {
           try {

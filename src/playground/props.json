@@ -1541,10 +1541,11 @@
           "type": "string"
         },
         "data": {
+          "optional": true,
           "type": "TSTypeLiteral"
         }
       },
-      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data: {\n    [key: string]: string\n  }\n}",
+      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n}",
       "file": "/components/Steps/index.tsx"
     },
     "TableProps": {

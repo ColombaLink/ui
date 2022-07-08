@@ -6,22 +6,32 @@ import ComponentViewer from '../ComponentViewer'
 export const Thumbnails = () => {
   return (
     <>
-      <ComponentViewer component={Thumbnail} />
-      <Thumbnail
-        size={32}
-        space="12px"
-        color="BlueBaby"
-        icon={TextIcon({ size: 12 })}
-      />
-      <Thumbnail space="12px" label="Apples" color="GreenForest"></Thumbnail>
-      <Thumbnail space="12px" label="Bonjour"></Thumbnail>
-      <Thumbnail space="12px" label="Cyclops" color="Red"></Thumbnail>
-      <Thumbnail space="12px" icon={MarkDownIcon} color="Pink" />
-      <Thumbnail icon={AttachmentIcon} space color="Purple" />
-      <Thumbnail
-        backgroundImg="https://robohash.org/ZCP.png?set=set1&size=150x150"
-        size={64}
-        color="Mustard"
+      <ComponentViewer
+        component={Thumbnail}
+        examples={[
+          {
+            props: {
+              size: 32,
+              color: 'BlueBaby',
+              icon: <TextIcon size={12} />,
+            },
+          },
+          {
+            props: {
+              size: 40,
+              color: 'GreenForest',
+              label: 'Apples',
+            },
+          },
+          {
+            props: {
+              size: 64,
+              color: 'Mustard',
+              backgroundImg:
+                'https://robohash.org/ZCP.png?set=set1&size=150x150',
+            },
+          },
+        ]}
       />
     </>
   )

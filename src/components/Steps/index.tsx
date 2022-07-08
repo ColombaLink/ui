@@ -9,14 +9,14 @@ type StepsProps = {
   style?: CSSProperties
   selected?: string
   prefix?: string
-  data: {
+  data?: {
     [key: string]: string
   }
 }
 
 export const Steps: FC<StepsProps> = ({
   style,
-  data,
+  data = {},
   prefix = '',
   selected,
 }) => {
