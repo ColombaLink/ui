@@ -113,11 +113,7 @@ const Single = ({ type, inputRef, ...props }) => {
   if (type === 'color') {
     return <Color inputRef={inputRef} {...props} />
   }
-  return (
-    <div>
-      <input {...props} ref={inputRef} />
-    </div>
-  )
+  return <input {...props} type={type} ref={inputRef} />
 }
 
 type InputPropsBaseLine = {
@@ -139,7 +135,10 @@ type InputPropsBaseLine = {
   inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
-  suggest?: (str: string) => string
+  suggest?: (str: string) => string // show suggestion => Enter to complete
+  transform?: (str: string) => string // transform string
+  forceSuggestion?: boolean // apply suggestion on blur
+  noInterrupt?: boolean // dont use external state while focused
 }
 
 // to coorece the on change (skips having to make conversions or ts ignores)
@@ -163,6 +162,9 @@ type InputProps =
         | Dispatch<SetStateAction<string | number>>
     })
 
+const MaybeSuggest = (props) =>
+  props.suggest ? <Suggestor {...props} /> : props.children
+
 const Suggestor = ({
   suggest,
   value,
@@ -170,47 +172,52 @@ const Suggestor = ({
   paddingLeft,
   paddingRight,
   onChange,
+  forceSuggestion,
+  focused,
 }) => {
-  if (suggest) {
-    const suggestion = suggest(value)
-    const showSuggestion = value && suggestion && suggestion !== value
-    return (
-      <div
-        style={{
-          position: 'relative',
-        }}
-        onKeyDown={
-          showSuggestion
-            ? (e) => {
-                if (e.key === 'Enter') {
-                  onChange({ target: { value: suggestion } })
-                }
+  const suggestion = suggest(value)
+  const showSuggestion = focused && value && suggestion && suggestion !== value
+
+  return (
+    <div
+      style={{
+        position: 'relative',
+      }}
+      onKeyDown={
+        showSuggestion
+          ? (e) => {
+              if (e.key === 'Enter') {
+                onChange({ target: { value: suggestion } })
               }
-            : null
+            }
+          : null
+      }
+      onBlur={() => {
+        if (forceSuggestion) {
+          onChange({ target: { value: suggestion } })
         }
-      >
-        {showSuggestion ? (
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: paddingLeft,
-              right: paddingRight,
-              bottom: 0,
-              display: 'flex',
-              alignItems: 'center',
-              opacity: 0.4,
-              pointerEvents: 'none',
-            }}
-          >
-            {suggestion}
-          </div>
-        ) : null}
-        {children}
-      </div>
-    )
-  }
-  return children
+      }}
+    >
+      {showSuggestion ? (
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: paddingLeft,
+            right: paddingRight,
+            bottom: 0,
+            display: 'flex',
+            alignItems: 'center',
+            opacity: 0.4,
+            pointerEvents: 'none',
+          }}
+        >
+          {suggestion}
+        </div>
+      ) : null}
+      {children}
+    </div>
+  )
 }
 
 export const Input: FC<
@@ -237,15 +244,20 @@ export const Input: FC<
   large,
   disabled,
   suggest,
+  transform,
+  forceSuggestion,
+  noInterrupt,
   ...otherProps
 }) => {
-  const [value = '', setValue] = usePropState(valueProp)
+  const [focused, setFocused] = useState(false)
+  const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
 
   const onChange = (e) => {
-    const newValue = e.target.value
+    const newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
+    if (type === 'number' && typeof newValue !== 'number') return
     // ignore so we have to write less code.. TODO: write more stuff for this
     // @ts-ignore
     onChangeProp?.(newValue)
@@ -326,6 +338,8 @@ export const Input: FC<
         </Text>
       )}
       <div
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         style={{
           position: 'relative',
           color: color('TextPrimary'),
@@ -343,7 +357,9 @@ export const Input: FC<
         {multiline ? (
           <Multi {...props} />
         ) : (
-          <Suggestor
+          <MaybeSuggest
+            focused={focused}
+            forceSuggestion
             suggest={suggest}
             value={value}
             paddingLeft={paddingLeft}
@@ -351,7 +367,7 @@ export const Input: FC<
             onChange={onChange}
           >
             <Single {...props} />
-          </Suggestor>
+          </MaybeSuggest>
         )}
         {renderOrCreateElement(iconRight, {
           style: {

@@ -82,7 +82,7 @@ export const RgbPicker = ({ hue, rgb, onChange, style }) => {
       style={{
         position: 'relative',
         width: '100%',
-        height: 100,
+        flexGrow: 1,
         background: `rgb(${hue.join(',')})`,
         borderRadius: 4,
         overflow: 'hidden',

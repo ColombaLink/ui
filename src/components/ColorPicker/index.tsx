@@ -8,7 +8,7 @@ import { rgbToXY, xyToRgb, rgbToHue } from './utils'
 import { color } from '~'
 import type { RGB } from './types'
 
-export const ColorPicker = ({ rgba = [255, 0, 0, 1] }) => {
+export const ColorPicker = ({ rgba = [255, 0, 0, 1], style }) => {
   const [rgb, setRgb] = useState(rgba.slice(0, 3) as RGB)
   const [hue, setHue] = useState(rgba.slice(0, 3) as RGB)
   const [alpha, setAlpha] = useState(rgba[3] || 1)
@@ -19,7 +19,12 @@ export const ColorPicker = ({ rgba = [255, 0, 0, 1] }) => {
       style={{
         border: `1px solid ${color('OtherDivider')}`,
         borderRadius: 4,
-        padding: 16,
+        padding: 8,
+        height: 300,
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 250,
+        ...style,
       }}
     >
       <RgbPicker
