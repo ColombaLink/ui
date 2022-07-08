@@ -108,10 +108,10 @@ const App = () => {
           Input: {
             Buttons: '/buttons',
             Checkboxes: '/checkboxes',
+            ColorPicker: '/color-picker',
             Forms: '/forms',
             InputFields: '/input-fields',
             Selects: '/selects',
-            ColorPicker: '/color-picker',
           },
           Display: {
             Avatars: '/avatars',
