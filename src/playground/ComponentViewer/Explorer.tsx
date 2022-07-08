@@ -16,6 +16,7 @@ import { genRandomProps } from './genRandomProps'
 import { Callout } from '~/components/Callout'
 import { transformSync } from '@babel/core'
 import preset from '@babel/preset-react'
+import useLocalStorage from '@based/use-local-storage'
 
 const checkType = (str: string, type: any): boolean => {
   return type === str || (Array.isArray(type) && type.includes(str))
@@ -32,11 +33,18 @@ export const Explorer: FC<{
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
 
-  if (!exampleProps) {
-    exampleProps = genRandomProps(p)
+  let [code, setCode] = useLocalStorage('code-' + name)
+
+  console.log(code)
+
+  if (code) {
+    exampleCode = code
   }
 
   if (!exampleCode) {
+    if (!exampleProps) {
+      exampleProps = genRandomProps(p)
+    }
     const componentName = name.replace('Props', '')
     const components = [componentName]
     let propsHeader = []
@@ -102,14 +110,10 @@ export const Explorer: FC<{
         'React.createElement',
         'return React.createElement'
       )
-
-      console.info(runCode)
     }
 
     const fn = new Function('ui', 'React', 'c', runCode)
     child = fn(ui, React, component)
-
-    console.log(child, '????', fn.toString())
   } catch (err) {
     console.error(err) // hosw
     child = <Callout color={'Red'}>{err.message}</Callout>
@@ -160,7 +164,9 @@ export const Explorer: FC<{
           </div>
         </div>
         <div style={{ width: '100%' }}>
-          <Code space>{exampleCode}</Code>
+          <Code onChange={(c) => setCode(c)} space>
+            {exampleCode}
+          </Code>
           <Container>{child}</Container>
         </div>
       </div>
