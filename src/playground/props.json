@@ -1236,44 +1236,6 @@
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n}",
       "file": "/components/Menu/index.tsx"
     },
-    "NotificationProps": {
-      "name": "NotificationProps",
-      "props": {
-        "title": {
-          "optional": true,
-          "type": "string"
-        },
-        "icon": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "topLeft": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "topRight": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "message": {
-          "optional": true,
-          "type": "string"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type NotificationProps = {\n  title?: string\n  icon?: FC | ReactNode\n  topLeft?: ReactNode\n  topRight?: ReactNode\n  message?: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
-      "file": "/components/Notification/Notification.tsx"
-    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -1760,6 +1722,67 @@
       },
       "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
       "file": "/components/Thumbnail/index.tsx"
+    },
+    "ToastProps": {
+      "name": "ToastProps",
+      "props": {
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "topLeft": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "topRight": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "message": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ToastProps = {\n  title?: string\n  icon?: FC | ReactNode\n  topLeft?: ReactNode\n  topRight?: ReactNode\n  message?: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Toast/Toast.tsx"
+    },
+    "PositionStyleProps": {
+      "name": "PositionStyleProps",
+      "props": {
+        "top": {
+          "optional": true,
+          "type": "number"
+        },
+        "bottom": {
+          "optional": true,
+          "type": "number"
+        },
+        "left": {
+          "optional": true,
+          "type": "number"
+        },
+        "right": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
+      "file": "/components/Toast/ToastProvider.tsx"
     },
     "TopbarTabProps": {
       "name": "TopbarTabProps",

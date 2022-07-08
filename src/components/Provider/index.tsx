@@ -5,6 +5,7 @@ import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider } from '@based/react'
 import { Based } from '@based/client'
 import { themes } from '~/themes'
+import { ToastProvider } from '../Toast/ToastProvider'
 
 export const Context = createContext({
   theme: {},
@@ -42,10 +43,12 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        <DialogProvider>
-          {children}
-          <OverlayProvider />
-        </DialogProvider>
+        <ToastProvider>
+          <DialogProvider>
+            {children}
+            <OverlayProvider />
+          </DialogProvider>
+        </ToastProvider>
       </BasedProvider>
     </div>
   )

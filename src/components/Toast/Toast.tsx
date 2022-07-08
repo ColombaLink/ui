@@ -2,7 +2,7 @@ import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement } from '~/utils'
 
-type NotificationProps = {
+type ToastProps = {
   title?: string
   icon?: FC | ReactNode
   topLeft?: ReactNode
@@ -12,7 +12,7 @@ type NotificationProps = {
   style?: CSSProperties
 }
 
-export const Notification: FC<NotificationProps> = ({
+export const Toast: FC<ToastProps> = ({
   title,
   icon,
   topLeft,
