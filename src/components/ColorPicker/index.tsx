@@ -19,7 +19,11 @@ export const ColorPicker = ({ rgba = [255, 0, 0, 1], style }) => {
       style={{
         border: `1px solid ${color('OtherDivider')}`,
         borderRadius: 4,
-        padding: 16,
+        padding: 8,
+        height: 300,
+        display: 'flex',
+        flexDirection: 'column',
+        minWidth: 250,
         ...style,
       }}
     >
