@@ -41,6 +41,7 @@ export const Slider = ({ max, value, step = 1, onChange, style }) => {
             width: 8,
             height: '100%',
             backgroundColor: 'white',
+            boxShadow: '0px 0px 2px rgba(0,0,0,0.4)',
             borderRadius: 2,
           }}
         />
