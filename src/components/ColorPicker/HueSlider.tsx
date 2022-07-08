@@ -1,14 +1,14 @@
 import React, { CSSProperties } from 'react'
 import { Slider } from './Slider'
-import type { Hue } from './types'
+import type { RGB } from './types'
 
 export const HueSlider = ({
   hue,
   onChange,
   style,
 }: {
-  hue: Hue
-  onChange: (hue: Hue) => void
+  hue: RGB
+  onChange: (hue: RGB) => void
   style?: CSSProperties
 }) => {
   const max = 255 * 6 - 1

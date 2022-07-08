@@ -1,3 +1,5 @@
+import type { RGB } from './types'
+
 export const rgbToXY = (rgb, hue) => {
   const high = hue.findIndex((h) => h === 255)
   const low = hue.findIndex((h) => h === 0)
@@ -9,7 +11,7 @@ export const rgbToXY = (rgb, hue) => {
 export const xyToRgb = (x, y, hue) =>
   hue.map((v) => (v + (255 - v) * (1 - x)) * (1 - y))
 
-export const rgbToHue = (rgb) => {
+export const rgbToHue = (rgb): RGB => {
   const [r, g, b] = rgb
 
   if (r === g && g === b) {
@@ -40,5 +42,7 @@ export const rgbToHue = (rgb) => {
 
   return [hr, hg, hb]
 }
+
+export const toHex = (n) => Number(n).toString(16).padStart(2, 0)
 
 export const minmax = (min, n, max) => Math.min(max, Math.max(min, n))

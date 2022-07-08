@@ -54,7 +54,7 @@ const rgbaToArr = (str) => {
   return [~~r, ~~g, ~~b, Number(a) || 1]
 }
 
-const toHex = (n) => Number(n).toString(16).padStart(2, 0)
+const toHex = (n) => Number(n).toString(16).padStart(2, '0').toUpperCase()
 
 const rgbaToHex = (str) => {
   const [r, g, b] = rgbaToArr(str)

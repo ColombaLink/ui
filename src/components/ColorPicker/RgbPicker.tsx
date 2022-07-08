@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { styled } from 'inlines'
 import { rgbToXY, xyToRgb } from './utils'
 
@@ -19,26 +19,36 @@ const GradientY = styled(Absolute, {
   background: 'linear-gradient(to top, rgb(0, 0, 0), rgba(0, 0, 0, 0))',
 })
 
-const Pointer = ({ hue, rgb }) => {
-  const { x, y } = rgbToXY(rgb, hue)
+const Pointer = ({ x, y }) => {
   return (
     <div
       style={{
-        backgroundColor: 'white',
         position: 'absolute',
-        height: 6,
-        width: 6,
         left: `${x * 100}%`,
         top: `${y * 100}%`,
-        transform: `translate3d(-${x * 100}%,-${y * 100}%,0)`,
+        transform: `translate3d(-50%,-50%,0)`,
       }}
-    />
+    >
+      <div
+        style={{
+          border: '2px solid white',
+          color: 'rgba(0,0,0,0.4)',
+          boxShadow: '0px 0px 2px currentColor, inset 0px 0px 2px currentColor',
+          height: 8,
+          width: 8,
+          borderRadius: 4,
+        }}
+      />
+    </div>
   )
 }
 
-export const RgbPicker = ({ hue, rgb, onChange }) => {
-  const onDown = ({ currentTarget }) => {
-    const { left, top, width, height } = currentTarget.getBoundingClientRect()
+export const RgbPicker = ({ hue, rgb, onChange, style }) => {
+  const { x, y } = rgbToXY(rgb, hue)
+  const xRef = useRef(x)
+
+  const onDown = (e) => {
+    const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
 
     const onMove = ({ clientX, clientY }) => {
       let x = (clientX - left) / width
@@ -50,6 +60,7 @@ export const RgbPicker = ({ hue, rgb, onChange }) => {
       if (y < 0) y = 0
 
       const rgb = xyToRgb(x, y, hue)
+      xRef.current = x
       onChange(rgb)
     }
 
@@ -61,6 +72,8 @@ export const RgbPicker = ({ hue, rgb, onChange }) => {
 
     addEventListener('mousemove', onMove)
     addEventListener('mouseup', onUp)
+
+    onMove(e)
   }
 
   return (
@@ -71,11 +84,15 @@ export const RgbPicker = ({ hue, rgb, onChange }) => {
         width: '100%',
         height: 100,
         background: `rgb(${hue.join(',')})`,
+        borderRadius: 4,
+        overflow: 'hidden',
+        transform: 'translate3d(0,0,0)',
+        ...style,
       }}
     >
       <GradientX>
         <GradientY>
-          <Pointer hue={hue} rgb={rgb} />
+          <Pointer x={y === 1 ? xRef.current : x} y={y} />
         </GradientY>
       </GradientX>
     </div>

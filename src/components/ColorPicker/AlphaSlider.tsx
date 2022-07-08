@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import { Slider } from './Slider'
-
-export const AlphaSlider = ({ rgb, alpha, onChange, style }) => {
+import type { RGB } from './types'
+export const AlphaSlider = ({
+  rgb,
+  alpha,
+  onChange,
+  style,
+}: {
+  rgb: RGB
+  alpha: number
+  onChange: (alpha: number) => void
+  style?: CSSProperties
+}) => {
   const rgbString = rgb.join(',')
   return (
     <div

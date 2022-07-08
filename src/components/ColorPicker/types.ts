@@ -1,1 +1,1 @@
-export type Hue = [number, number, number]
+export type RGB = [number, number, number]

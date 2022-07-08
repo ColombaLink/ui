@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { AlphaSlider } from './AlphaSlider'
 import { HueSlider } from './HueSlider'
-import { RgbaInput } from './RgbaInput'
+import { Inputs } from './Inputs'
 import { RgbPicker } from './RgbPicker'
 import { Swatch } from './Swatch'
 import { rgbToXY, xyToRgb, rgbToHue } from './utils'
 import { color } from '~'
+import type { RGB } from './types'
 
 export const ColorPicker = ({ rgba = [255, 0, 0, 1] }) => {
-  const [rgb, setRgb] = useState(rgba.slice(0, 3))
-  const [hue, setHue] = useState(rgba.slice(0, 3))
+  const [rgb, setRgb] = useState(rgba.slice(0, 3) as RGB)
+  const [hue, setHue] = useState(rgba.slice(0, 3) as RGB)
   const [alpha, setAlpha] = useState(rgba[3] || 1)
   const colorValue = `rgba(${rgb.join(',')},${alpha})`
 
@@ -21,9 +22,16 @@ export const ColorPicker = ({ rgba = [255, 0, 0, 1] }) => {
         padding: 16,
       }}
     >
-      <RgbPicker hue={hue} rgb={rgb} onChange={setRgb} />
-      <div style={{ display: 'flex' }}>
-        <div style={{ flexGrow: 1 }}>
+      <RgbPicker
+        hue={hue}
+        rgb={rgb}
+        onChange={setRgb}
+        style={{
+          marginBottom: 8,
+        }}
+      />
+      <div style={{ display: 'flex', marginBottom: 8 }}>
+        <div style={{ flexGrow: 1, marginRight: 8 }}>
           <HueSlider
             hue={hue}
             onChange={(newHue) => {
@@ -32,12 +40,15 @@ export const ColorPicker = ({ rgba = [255, 0, 0, 1] }) => {
               setRgb(newRgb)
               setHue(newHue)
             }}
+            style={{
+              marginBottom: 8,
+            }}
           />
           <AlphaSlider rgb={rgb} alpha={alpha} onChange={setAlpha} />
         </div>
-        <Swatch color={colorValue} />
+        <Swatch color={colorValue} size={48} />
       </div>
-      <RgbaInput
+      <Inputs
         rgb={rgb}
         alpha={alpha}
         onRgbChange={(newRgb) => {
