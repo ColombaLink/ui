@@ -1,5 +1,41 @@
+export const colors = {
+  'accent-main-active': 'rgba(54,73,203,1)',
+  'accent-main-border': 'rgba(61,83,231,1)',
+  'accent-main-default': 'rgba(61,83,231,1)',
+  'accent-main-hover': 'rgba(56,76,213,1)',
+  'accent-main-contrast': 'rgba(255,255,255,1)',
+
+  'accent-light-active': 'rgba(131,145,237,0.20)',
+  'accent-light-border': 'rgba(131,145,237,0.20)',
+  'accent-light-default': 'rgba(131,145,237,0.12)',
+  'accent-light-hover': 'rgba(131,145,237,0.16)',
+  'accent-light-contrast': 'rgba(131,145,237,1)',
+
+  'bg-1dp-default': 'rgba(247,247,248,1)',
+  'bg-1dp-border': 'rgba(15,16,19,0.08)',
+
+  'bg-2dp-default': 'rgba(255,255,255,1)',
+  'bg-2dp-border': 'rgba(15,16,19,0.08)',
+
+  'bg-3dp-default': 'rgba(255,255,255,1)',
+  'bg-3dp-border': 'rgba(15,16,19,0.08)',
+
+  'bg-4dp-default': 'rgba(255,255,255,1)',
+  'bg-4dp-border': 'rgba(15,16,19,0.08)',
+
+  'text-primary-default': 'rgba(15,16,19, 0.87)',
+  'text-primary-active': 'var(--accent-main-default)',
+  'text-primary-hover': 'var(--accent-main-default)',
+
+  'text-secondary-default': 'rgba(15,16,19, 0.60)',
+  'text-secondary-active': 'var(--accent-main-default)',
+  'text-secondary-hover': 'var(--accent-main-default)',
+}
+
 export const theme = {
   colors: {
+    // new variables
+
     //BlueBaby
     BlueBaby: '#4faff8',
     BlueBabyActive: 'rgba(79,185,248, 1)',

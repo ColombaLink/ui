@@ -3,6 +3,7 @@ import { Thumbnail } from '~/components/Thumbnail'
 import { TextIcon, MarkDownIcon, AttachmentIcon, Input, font } from '~'
 import { styled } from 'inlines'
 import { ColorPicker } from '~'
+import { rgbaToArr } from '~/components/ColorPicker/utils'
 const div = document.createElement('div')
 document.documentElement.appendChild(div)
 
@@ -49,21 +50,8 @@ const hoverColorFor = (str) => {
   return `rgba(${~~hr},${~~hg},${~~hb},${a})`
 }
 
-const rgbaToArr = (str) => {
-  const [, r, g, b, a] = str.split(/, |,|\(|\)/)
-  return [~~r, ~~g, ~~b, Number(a) || 1]
-}
-
-const toHex = (n) => Number(n).toString(16).padStart(2, '0')
-
-const rgbaToHex = (str) => {
-  const [r, g, b] = rgbaToArr(str)
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`
-}
-
 const Row = ({ name, value = 'rgba(0,0,0,1)' }) => {
-  const [rgba, setRGBA] = useState(value)
-  const hoverColor = hoverColorFor(rgba)
+  const hoverColor = hoverColorFor(value)
   const activeColor = hoverColorFor(hoverColor)
   return (
     <tr>
@@ -71,8 +59,8 @@ const Row = ({ name, value = 'rgba(0,0,0,1)' }) => {
       <styled.td
         style={{
           cursor: 'pointer',
-          backgroundColor: rgba,
-          color: textColorFor(rgba),
+          backgroundColor: value,
+          color: textColorFor(value),
           '&:hover': {
             backgroundColor: hoverColor,
             color: textColorFor(hoverColor),
@@ -83,19 +71,7 @@ const Row = ({ name, value = 'rgba(0,0,0,1)' }) => {
           },
         }}
       >
-        <label>
-          <input
-            type="color"
-            style={{ display: 'none' }}
-            value={rgbaToHex(rgba)}
-            onChange={(e) => {
-              div.style.color = e.target.value
-              const [r, g, b, a] = rgbaToArr(getComputedStyle(div).color)
-              setRGBA(`rgba(${r},${g},${b},${a || 1})`)
-            }}
-          />
-          {rgba}
-        </label>
+        {rgbaToArr(value).join(', ')}
       </styled.td>
       <td
         style={{
@@ -103,7 +79,7 @@ const Row = ({ name, value = 'rgba(0,0,0,1)' }) => {
           color: textColorFor(hoverColor),
         }}
       >
-        {hoverColor}
+        {rgbaToArr(hoverColor).join(', ')}
       </td>
       <td
         style={{
@@ -111,21 +87,44 @@ const Row = ({ name, value = 'rgba(0,0,0,1)' }) => {
           color: textColorFor(activeColor),
         }}
       >
-        {activeColor}
+        {rgbaToArr(activeColor).join(', ')}
       </td>
     </tr>
   )
 }
 
 export const Theming = () => {
-  const [primaryColor, setPrimaryColor] = useState('rgba(0,255,255,1)')
+  const [colors, setColors] = useState({
+    Primary: 'rgba(61,83,231,1)',
+    PrimaryLight: 'rgba(131,145,237,0.12)',
+    Text: 'rgba(15,16,19,0.87)',
+    TextSecondary: 'rgba(15,16,19,0.60)',
+    Background0dp: 'rgba(247,247,248,1)',
+    Background1dp: 'rgba(255,255,255,1)',
+    Background2dp: 'rgba(255,255,255,1)',
+    Background3dp: 'rgba(255,255,255,1)',
+    Overlay: 'rgba(15,16,19, 0.24)',
+  })
+
+  const [currentColor, setCurrentColor] = useState('Primary')
+
   return (
     <>
-      <Input label="Primary" type="color" />
-      <br />
-      <ColorPicker value={primaryColor} onChange={setPrimaryColor} />
+      <ColorPicker
+        style={{ marginBottom: 16 }}
+        value={colors[currentColor]}
+        onChange={(color) => {
+          colors[currentColor] = color
+          setColors({ ...colors })
+        }}
+      />
 
-      <table style={font()}>
+      <table
+        style={{
+          width: '100%',
+          ...font(),
+        }}
+      >
         <thead>
           <tr>
             <td>Color</td>
@@ -145,16 +144,9 @@ export const Theming = () => {
             },
           }}
         >
-          <Row name="Primary" value="rgba(61,83,231)" />
-          <Row name="PrimaryLight" value="rgba(131,145,237,0.12)" />
-          <Row name="Text" value="rgba(15,16,19,0.87)" />
-          {/* <Row name="Text" value="rgba(13,14,16,1)" /> */}
-          <Row name="TextLight" value="rgba(15,16,19,0.60)" />
-          <Row name="Background0dp" value="rgba(247,247,248,1)" />
-          <Row name="Background1dp" value="rgba(255,255,255,1)" />
-          <Row name="Background2dp" value="rgba(255,255,255,1)" />
-          <Row name="Background3dp" value="rgba(255,255,255,1)" />
-          <Row name="Overlay" value="rgba(15,16,19, 0.24)" />
+          {Object.keys(colors).map((key) => (
+            <Row key={key} name={key} value={colors[key]} />
+          ))}
         </styled.tbody>
       </table>
     </>
