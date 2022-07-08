@@ -1,18 +1,46 @@
-import React, { useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react'
 import { AlphaSlider } from './AlphaSlider'
 import { HueSlider } from './HueSlider'
 import { Inputs } from './Inputs'
 import { RgbPicker } from './RgbPicker'
 import { Swatch } from './Swatch'
-import { rgbToXY, xyToRgb, rgbToHue } from './utils'
+import { rgbToXY, xyToRgb, rgbToHue, rgbaToArr } from './utils'
 import { color } from '~'
 import type { RGB } from './types'
 
-export const ColorPicker = ({ rgba = [255, 0, 0, 1], style }) => {
+type ColorPickerProps = {
+  value?: string
+  style?: CSSProperties
+  onChange?: (color: string) => void
+}
+
+export const ColorPicker: FC<ColorPickerProps> = ({
+  value = 'rgba(255,0,0,1)',
+  style,
+  onChange,
+}) => {
+  const valueRef = useRef(value)
+  const rgba = rgbaToArr(value)
   const [rgb, setRgb] = useState(rgba.slice(0, 3) as RGB)
-  const [hue, setHue] = useState(rgba.slice(0, 3) as RGB)
-  const [alpha, setAlpha] = useState(rgba[3] || 1)
-  const colorValue = `rgba(${rgb.join(',')},${alpha})`
+  const [hue, setHue] = useState(rgbToHue(rgb))
+  const [alpha, setAlpha] = useState(rgba[3])
+  const colorValue = `rgba(${rgb.map(Math.round).join(',')},${alpha})`
+
+  useEffect(() => {
+    if (value !== valueRef.current) {
+      const rgb = rgba.slice(0, 3) as RGB
+      setRgb(rgb)
+      setHue(rgbToHue(rgb))
+      setAlpha(rgba[3])
+    }
+  }, [value])
+
+  useEffect(() => {
+    if (onChange && colorValue !== value) {
+      valueRef.current = colorValue
+      onChange(colorValue)
+    }
+  }, [onChange, colorValue])
 
   return (
     <div
