@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from 'react'
+import React, { FC, useState } from 'react'
 import { Props } from './ComponentProps'
 import {
   Text,
@@ -13,10 +13,9 @@ import {
 } from '../../'
 import * as ui from '../../'
 import { Callout } from '~/components/Callout'
-import { transformSync } from '@babel/core'
-import preset from '@babel/preset-react'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
+import parseCode from './parseCode'
 
 export const CodeExample: FC<{
   p: any
@@ -28,33 +27,17 @@ export const CodeExample: FC<{
   runCode?: string
   index: number
 }> = ({ index, component, name, exampleCode, exampleProps, p }) => {
-  let runCode = ''
   const [cnt, update] = useState(0)
   let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
-
   if (code) {
     exampleCode = code
   }
-
   if (!exampleCode) {
     exampleCode = generateRandomComponentCode(name, exampleProps, p)
   }
-
   let child
   try {
-    if (!runCode) {
-      const input = exampleCode
-        .replace('import ', 'const ')
-        .replace("from '@based/ui'", ' = ui;')
-      const x = transformSync(input, {
-        presets: [preset],
-      })
-      runCode = x.code.replace(
-        'React.createElement',
-        'return React.createElement'
-      )
-    }
-    const fn = new Function('ui', 'React', 'c', runCode)
+    const fn = new Function('ui', 'React', 'c', parseCode(exampleCode))
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
@@ -158,7 +141,7 @@ export const Explorer: FC<{
         >
           {showType ? <Code value={p.code} /> : <Props prop={p} />}
         </div>
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', maxWidth: '100%' }}>
           {examples.map((v, i) => {
             if (v.component) {
               return (

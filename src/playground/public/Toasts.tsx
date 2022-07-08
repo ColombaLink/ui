@@ -6,20 +6,16 @@ import { Avatar } from '~/components/Avatar'
 import { Container } from '~/components/Container'
 import ComponentViewer from '../ComponentViewer'
 
-const Notification = ({ children }) => {
-  const toast = useToast()
-  return (
-    <div
-      style={{
-        cursor: 'pointer',
-        marginBottom: 16,
-      }}
-      onClick={() => toast.add(children)}
-    >
-      {children}
-    </div>
-  )
+const codeExample = `import { useToast, Toast, Button } from '@based/ui'
+const toast = useToast()
+
+const notify = () => {
+  toast.add(<Toast title="Notify!" message="Account created." />)
 }
+
+<Button onClick={notify}>
+  Notify!
+</Button>`
 
 const CloseAllButton = () => {
   const toast = useToast()
@@ -39,47 +35,6 @@ const CloseAllButton = () => {
 }
 
 export const Toasts = () => {
-  const toasts = [
-    <Toast
-      key={0}
-      title="success"
-      message="Account created."
-      icon={CheckCircleIcon({ color: 'Purple' })}
-    >
-      We’ve created your account for you.
-    </Toast>,
-
-    <Toast
-      key={1}
-      title="error"
-      message="Oops!"
-      icon={CheckCircleIcon({ color: 'Red' })}
-    >
-      Something went wrong.
-    </Toast>,
-
-    <Toast key={2} title="Lil' Message?">
-      Just something to think about.
-    </Toast>,
-
-    <Toast
-      key={3}
-      title="Crazy Toast?"
-      message="Let's see"
-      topLeft={<StackIcon />}
-      topRight={<Avatar label="yo" color="Pink" />}
-      style={{ backgroundColor: 'lightyellow' }}
-    >
-      <Button
-        onClick={() => {
-          console.log('yo')
-        }}
-      >
-        Hello
-      </Button>
-    </Toast>,
-  ]
-
   return (
     <div>
       <ComponentViewer
@@ -93,11 +48,12 @@ export const Toasts = () => {
               children: 'We’ve created your account for you.',
             },
           },
-          // {
-          //   component: () => {
-          //     return <Notification>{toasts}</Notification>
-          //   },
-          // },
+          {
+            code: codeExample,
+            // component: () => {
+            //   return <Notification>{toasts}</Notification>
+            // },
+          },
         ]}
       />
     </div>

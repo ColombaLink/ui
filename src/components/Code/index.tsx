@@ -54,6 +54,7 @@ export const Code: FC<CodeProps> = ({
         width: '100%',
         padding: 16,
         position: 'relative',
+        maxWidth: '100%',
         borderRadius: 4,
         border: '1px solid ' + color('OtherDivider'),
         background: color('Background2dp'),
