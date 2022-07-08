@@ -971,9 +971,13 @@
         "disabled": {
           "optional": true,
           "type": "boolean"
+        },
+        "suggest": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type InputPropsBaseLine = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n}",
+      "code": "type InputPropsBaseLine = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string\n}",
       "file": "/components/Input/index.tsx"
     },
     "LinkProps": {

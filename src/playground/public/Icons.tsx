@@ -1,10 +1,6 @@
 import React, { FC } from 'react'
 import * as icons from '../../icons'
-import { Text } from '~/components/Text'
-import {
-  getRandomColor,
-  getRandomIconName,
-} from '../ComponentViewer/genRandomProps'
+import { getRandomIconName } from '../ComponentViewer/genRandomProps'
 import ComponentViewer from '../ComponentViewer'
 import { IconProps } from '~/components/Icon'
 
@@ -42,7 +38,7 @@ const Icon: FC<IconProps & { name?: string }> = ({ name, ...props }) => {
 
 export const Icons = () => (
   <>
-    <ComponentViewer component={Icon} />
+    <ComponentViewer component={Icon} propsName="IconProps" />
     <div
       style={{
         display: 'flex',

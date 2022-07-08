@@ -11,7 +11,9 @@ import {
   Button,
   ModelIcon,
 } from '../../'
+import * as ui from '../../'
 import { genRandomProps } from './genRandomProps'
+import { Callout } from '~/components/Callout'
 
 const checkType = (str: string, type: any): boolean => {
   return type === str || (Array.isArray(type) && type.includes(str))
@@ -22,8 +24,9 @@ export const Explorer: FC<{
   component: FC
   name: string
   exampleProps?: any
+  runCode?: string
   exampleCode?: string
-}> = ({ component, p, name, exampleProps, exampleCode }) => {
+}> = ({ component, runCode, p, name, exampleProps, exampleCode }) => {
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
 
@@ -35,36 +38,65 @@ export const Explorer: FC<{
     const componentName = name.replace('Props', '')
     const components = [componentName]
     let propsHeader = []
+    let propsStr = '{'
     for (const k in exampleProps) {
       const v = exampleProps[k]
       const type = p.props[k].type
+
       if (typeof v === 'function') {
         if (checkType('FC', type)) {
           propsHeader.push(`${k}={${v.name}}`)
           components.push(v.name)
+          propsStr += `${k}:${v.name},`
         } else {
           propsHeader.push(`${k}={${v.toString()}}`)
+          propsStr += `${k}:${v.toString()},`
         }
       } else if (k === 'children') {
         // if (typeof props.children === 'object') {
         exampleProps.children = 'some children...'
+        propsStr += `${k}:'${exampleProps.children}',`
+      } else if (typeof v === 'string') {
+        propsHeader.push(`${k}="${v}"`)
+        propsStr += `${k}:"${v}",`
+      } else if (typeof v === 'boolean' && v === true) {
+        propsHeader.push(`${k}`)
+        propsStr += `${k}:${v},`
+      } else if (typeof v === 'number') {
+        propsHeader.push(`${k}=${v}`)
+        propsStr += `${k}:${v},`
       }
     }
+    propsStr += '}'
+    runCode = `const { ${components.slice(1).join(', ')} } = ui\n\n`
     exampleCode = `import { ${components.join(', ')} } from '@based/ui'\n\n`
     const header = !propsHeader
       ? `<${componentName}`
-      : `<${componentName} ${propsHeader.join(' ')}`
-
+      : `<${componentName} ${
+          propsHeader.length > 2
+            ? '\n  ' + propsHeader.join('\n  ')
+            : propsHeader.join(' ')
+        }`
+    runCode += `return React.createElement(c, ${propsStr});`
     if (exampleProps.children) {
-      exampleCode += `${header}>
+      exampleCode += `${header}${propsHeader.length > 2 ? '\n' : ''}>
   ${exampleProps.children}
 </${componentName}>      
 `
     } else {
-      exampleCode += header + '/>'
+      exampleCode += header + `${propsHeader.length > 2 ? '\n' : ''}/>`
     }
+  } else {
+    // babel time! - parse the code
   }
-
+  let child
+  try {
+    const fn = new Function('ui', 'React', 'c', runCode)
+    child = fn(ui, React, component)
+  } catch (err) {
+    console.error(err) // hosw
+    child = <Callout color={'Red'}>{err.message}</Callout>
+  }
   return (
     <>
       <Link href={`src${p.file}`}>
@@ -76,6 +108,7 @@ export const Explorer: FC<{
         <div
           style={{
             minWidth: showType ? 550 : 400,
+            marginRight: showType ? 24 : 0,
           }}
         >
           {showType ? <Code>{p.code}</Code> : <Props prop={p} />}
@@ -109,35 +142,10 @@ export const Explorer: FC<{
             </Button>
           </div>
         </div>
-
-        <Container
-          style={{
-            padding: 0,
-            marginLeft: 24,
-            width: '100%',
-            flexGrow: 1,
-            display: 'flex',
-          }}
-        >
-          <Code
-            style={{
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
-          >
-            {exampleCode}
-          </Code>
-          <div
-            style={{
-              borderLeft: '1px solid ' + color('OtherDivider'),
-              minHeight: '100%',
-              padding: 24,
-              // minWidth: 250,
-            }}
-          >
-            <Text weight={'600'}>Props</Text>
-          </div>
-        </Container>
+        <div style={{ width: '100%' }}>
+          <Code space>{exampleCode}</Code>
+          <Container>{child}</Container>
+        </div>
       </div>
     </>
   )

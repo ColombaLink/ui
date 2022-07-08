@@ -15,6 +15,7 @@ const ComponentViewer: FC<{
   if (!propsName) {
     propsName = component.name + 'Props'
   }
+
   const p = props.props[propsName]
   if (!p) {
     return (
@@ -26,11 +27,9 @@ const ComponentViewer: FC<{
           borderBottom: '1px solid ' + color('OtherDivider'),
         }}
       >
-        <Link href={`src${p.file}`}>
-          <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
-            {p.file.slice(1).split('/').slice(1, -1)}
-          </Text>
-        </Link>
+        <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
+          {propsName}
+        </Text>
       </div>
     )
   }
