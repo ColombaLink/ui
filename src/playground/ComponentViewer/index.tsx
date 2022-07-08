@@ -7,10 +7,9 @@ import { Explorer } from './Explorer'
 const ComponentViewer: FC<{
   component: FC
   propsName?: string
-  exampleProps?: any
-  exampleCode?: string
+  examples?: { props?: any; code?: string }[]
   width?: number | '100%' | 'auto' // fuzz width
-}> = ({ component, propsName, width = 'auto', exampleProps, exampleCode }) => {
+}> = ({ component, propsName, width = 'auto', examples }) => {
   const fuzz = useSearchParam('randomize')
   if (!propsName) {
     propsName = component.name + 'Props'
@@ -24,7 +23,6 @@ const ComponentViewer: FC<{
           paddingBottom: 48,
           marginTop: 0,
           marginBottom: 48,
-          borderBottom: '1px solid ' + color('OtherDivider'),
         }}
       >
         <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
@@ -33,9 +31,9 @@ const ComponentViewer: FC<{
       </div>
     )
   }
-  const examples = []
+  const fuzzArr = []
   for (let i = 0; i < (fuzz ? 300 : 0); i++) {
-    examples.push(<Variant p={p} width={width} component={component} key={i} />)
+    fuzzArr.push(<Variant p={p} width={width} component={component} key={i} />)
   }
   return (
     <div
@@ -47,8 +45,7 @@ const ComponentViewer: FC<{
       }}
     >
       <Explorer
-        exampleProps={exampleProps}
-        exampleCode={exampleCode}
+        examples={examples}
         name={propsName}
         p={p}
         component={component}
@@ -61,7 +58,7 @@ const ComponentViewer: FC<{
             flexWrap: 'wrap',
           }}
         >
-          {examples}
+          {fuzzArr}
         </div>
       ) : null}
     </div>
