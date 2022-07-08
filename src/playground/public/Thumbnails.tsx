@@ -13,6 +13,9 @@ export const Thumbnails = () => {
         color="BlueBaby"
         icon={TextIcon({ size: 12 })}
       />
+      <Thumbnail space="12px" label="Apples" color="GreenForest"></Thumbnail>
+      <Thumbnail space="12px" label="Bonjour"></Thumbnail>
+      <Thumbnail space="12px" label="Cyclops" color="Red"></Thumbnail>
       <Thumbnail space="12px" icon={MarkDownIcon} color="Pink" />
       <Thumbnail icon={AttachmentIcon} space color="Purple" />
       <Thumbnail
