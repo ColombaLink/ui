@@ -1,9 +1,9 @@
 import { styled } from 'inlines'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Input } from '~'
 import { minmax, toHex } from './utils'
 
-const hexSuggest = (v) => v.padEnd(6, v.slice(-1) || '0')
+const hexSuggest = (v) => v.padEnd(6, v.slice(-2) || '0')
 const HexInput = ({ r, g, b, onRgbChange }) => {
   return (
     <Input
@@ -24,6 +24,7 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
         const r = parseInt(str.substring(0, 2), 16)
         const g = parseInt(str.substring(2, 4), 16)
         const b = parseInt(str.substring(4, 6), 16)
+        console.log({ r, g, b })
         onRgbChange([r, g, b])
       }}
     />

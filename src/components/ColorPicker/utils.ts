@@ -5,6 +5,7 @@ export const rgbToXY = (rgb, hue) => {
   const low = hue.findIndex((h) => h === 0)
   const y = 1 - rgb[high] / 255 || 0
   const x = 1 - rgb[low] / rgb.reduce((a, b) => Math.max(a, b), 0) || 0
+  console.log('-->', rgb, x)
   return { x, y }
 }
 
