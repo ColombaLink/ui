@@ -391,7 +391,9 @@
         },
         "actionKeys": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "Key"
+          }
         }
       },
       "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  ghost?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  light?: boolean\n  loading?: boolean\n  onClick: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
@@ -727,9 +729,11 @@
       "props": {
         "items": {
           "type": [
-            "TSArrayType",
-            "TSNullKeyword",
-            "TSUndefinedKeyword"
+            {
+              "array": "Option"
+            },
+            "null",
+            "undefined"
           ]
         },
         "value": {
@@ -748,14 +752,18 @@
       "props": {
         "items": {
           "type": [
-            "TSArrayType",
-            "TSNullKeyword",
-            "TSUndefinedKeyword"
+            {
+              "array": "Option"
+            },
+            "null",
+            "undefined"
           ]
         },
         "values": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "Value"
+          }
         },
         "onChange": {
           "type": "function"
@@ -1410,7 +1418,9 @@
           "type": "function"
         },
         "options": {
-          "type": "TSArrayType"
+          "type": {
+            "array": "TSParenthesizedType"
+          }
         },
         "overlay": {
           "optional": true,
@@ -1426,7 +1436,9 @@
         },
         "values": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "Value"
+          }
         }
       },
       "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: CSSProperties\n  values?: Value[]\n}",
@@ -1440,7 +1452,9 @@
           "type": "Value"
         },
         "options": {
-          "type": "TSArrayType"
+          "type": {
+            "array": "TSParenthesizedType"
+          }
         },
         "onChange": {
           "type": "function"
@@ -1532,7 +1546,9 @@
         },
         "data": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "TSObjectKeyword"
+          }
         },
         "itemSize": {
           "optional": true,
@@ -1578,7 +1594,9 @@
         "children": {
           "type": [
             "ReactNode",
-            "TSArrayType"
+            {
+              "array": "ReactNode"
+            }
           ]
         },
         "style": {
@@ -1644,11 +1662,10 @@
           "type": "boolean"
         },
         "children": {
-          "optional": true,
           "type": "ReactNode"
         }
       },
-      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color | string\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  children?: ReactNode\n}",
+      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color | string\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  children: ReactNode\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {

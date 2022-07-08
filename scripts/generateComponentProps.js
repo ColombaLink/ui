@@ -23,6 +23,16 @@ const parseTypeName = (typeAnnotation) => {
     return { value: typeAnnotation.literal.value }
   } else if (type === 'TSFunctionType') {
     return 'function'
+  } else if (type === 'TSNullKeyword') {
+    return 'null'
+  } else if (type === 'TSUndefinedKeyword') {
+    return 'undefined'
+  } else if (type === 'TSArrayType') {
+    return {
+      array: typeAnnotation.elementType
+        ? parseTypeName(typeAnnotation.elementType)
+        : 'any',
+    }
   } else {
     return type
   }

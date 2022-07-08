@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { Text, Badge, copyToClipboard } from '../../'
+import { propsToCode } from './objectToCode'
 
 export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
   prop,
@@ -34,16 +35,28 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
       )
     })
   } else if (typeof prop.type === 'object') {
-    child = (
-      <Badge
-        onClick={() => {
-          copyToClipboard(prop.type.value)
-        }}
-        color="Green"
-      >
-        {prop.type.value}
-      </Badge>
-    )
+    if (prop.type.value) {
+      child = (
+        <Badge
+          onClick={() => {
+            copyToClipboard(prop.type.value)
+          }}
+          color="Green"
+        >
+          {prop.type.value}
+        </Badge>
+      )
+    } else if (prop.type.array) {
+      return (
+        <Badge
+          onClick={() => {
+            copyToClipboard(prop.type.array)
+          }}
+        >
+          {prop.type.array}[]
+        </Badge>
+      )
+    }
   }
 
   return (
