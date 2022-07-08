@@ -26,6 +26,10 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
     selected = location
   }
 
+  if (!data) {
+    return null
+  }
+
   return (
     <>
       <div style={{ display: 'flex', ...style }}>
@@ -46,16 +50,14 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
             >
               <Text
                 style={{ marginLeft: 16 }}
-                color={isActive ? color('TextPrimary') : 'TextSecondary'}
+                color={isActive ? 'TextPrimary' : 'TextSecondary'}
               >
                 {key}
               </Text>
               {Object.keys(data).length - 1 !== index && (
                 <ChevronRightIcon
                   style={{ marginLeft: 16 }}
-                  color={
-                    isActive ? color('TextPrimary') : color('TextSecondary')
-                  }
+                  color={isActive ? 'TextPrimary' : 'TextSecondary'}
                 />
               )}
             </Link>

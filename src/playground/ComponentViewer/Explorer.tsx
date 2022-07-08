@@ -16,6 +16,7 @@ import { genRandomProps } from './genRandomProps'
 import { Callout } from '~/components/Callout'
 import { transformSync } from '@babel/core'
 import preset from '@babel/preset-react'
+import objectToCode from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 
 const checkType = (str: string, type: any): boolean => {
@@ -61,7 +62,7 @@ export const Explorer: FC<{
           propsStr += `${k}:${v.toString()},`
         }
       } else if (k === 'children') {
-        // if (typeof props.children === 'object') {
+        // if (typeof props.children === 'object') // do some more here {
         exampleProps.children = 'some children...'
         propsStr += `${k}:'${exampleProps.children}',`
       } else if (typeof v === 'string') {
@@ -73,9 +74,11 @@ export const Explorer: FC<{
       } else if (typeof v === 'number') {
         propsHeader.push(`${k}={${v}}`)
         propsStr += `${k}:${v},`
+      } else if (typeof v === 'object') {
+        propsHeader.push(`${k}={${objectToCode(v)}}`)
+        propsStr += `${k}:${objectToCode(v)},`
       }
     }
-    console.log(propsStr)
 
     propsStr += '}'
     runCode = `const { ${components.slice(1).join(', ')} } = ui\n\n`
