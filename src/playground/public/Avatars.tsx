@@ -8,17 +8,15 @@ export const Avatars = () => {
     <>
       <ComponentViewer component={Avatar} />
 
-      <Avatar space size={32} color="Teal" />
+      <Avatar space size={32} color="Teal" label="Blah" />
+      <Avatar space size={40} color="GreenForest" label="Yo" />
       <Avatar space size={40} icon={BasedIcon} color="Red" />
-      <Avatar space size={64} color="Orange">
-        <Text size="18px" color="Red">
-          AB
-        </Text>
-      </Avatar>
+      <Avatar space size={64} color="Orange" label="Hello"></Avatar>
       <Avatar icon={BasedIcon} color="Purple" space />
       <Avatar
         space
         size={64}
+        label="Hello"
         backgroundColor="Red"
         backgroundImg="https://robohash.org/JBS.png?set=set2&size=150x150"
       />

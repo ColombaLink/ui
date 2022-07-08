@@ -39,6 +39,7 @@ export const Avatar: FC<AvatarProps> = ({
       backgroundColor = 'PrimaryMain'
     }
   }
+
   return (
     <div
       style={{
@@ -60,8 +61,14 @@ export const Avatar: FC<AvatarProps> = ({
       onClick={onClick}
     >
       {/* <>{children}</> */}
-      {label ? (
-        <Text color={'Background1dp'}>{label[0].toLocaleUpperCase()}</Text>
+      {label && !icon && !backgroundImg ? (
+        <Text
+          color={color(colorProp)}
+          // @ts-ignore
+          size={size / 2}
+        >
+          {label[0].toLocaleUpperCase()}
+        </Text>
       ) : null}
       <>{renderOrCreateElement(icon)}</>
     </div>
