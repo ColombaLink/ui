@@ -26,7 +26,8 @@ export const CodeExample: FC<{
   exampleProps?: string
   runCode?: string
   index: number
-}> = ({ index, component, name, exampleCode, exampleProps, p }) => {
+  isLast: boolean
+}> = ({ index, component, isLast, name, exampleCode, exampleProps, p }) => {
   let runCode = ''
   const [cnt, update] = useState(0)
   let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
@@ -77,7 +78,7 @@ export const CodeExample: FC<{
       >
         {exampleCode}
       </Code>
-      <Container>{child}</Container>
+      <Container space>{child}</Container>
     </>
   )
 }
@@ -140,6 +141,7 @@ export const Explorer: FC<{
           {examples.map((v, i) => {
             return (
               <CodeExample
+                isLast={i === examples.length - 1}
                 key={i}
                 index={i}
                 name={name}
