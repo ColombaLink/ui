@@ -234,7 +234,7 @@ export const generateRandomComponentCode = (
   propDef?: any
 ): string => {
   if (!exampleProps) {
-    exampleProps = genRandomProps(propDef, true)
+    exampleProps = genRandomProps(propDef, false)
   }
 
   console.log(exampleProps, exampleProps.children)

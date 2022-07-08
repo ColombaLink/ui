@@ -44,6 +44,7 @@ export const SelectLabel: FC<{
         justifyContent: 'space-between',
         borderRadius: 4,
         border: `1px solid ${color('OtherDivider')}`,
+
         backgroundColor: color('Background1dp'),
         cursor: 'pointer',
         userSelect: 'none',
