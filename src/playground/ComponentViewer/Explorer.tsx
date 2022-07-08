@@ -18,18 +18,18 @@ import preset from '@babel/preset-react'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 
-export const Explorer: FC<{
+export const CodeExample: FC<{
   p: any
   component: FC
   name: string
-  exampleProps?: any
-  runCode?: string
   exampleCode?: string
-}> = ({ component, runCode, p, name, exampleProps, exampleCode }) => {
-  const showType = useSearchParam('type')
-  const fuzz = useSearchParam('randomize')
+  exampleProps?: string
+  runCode?: string
+  index: number
+}> = ({ index, component, name, exampleCode, exampleProps, p }) => {
+  let runCode = ''
   const [cnt, update] = useState(0)
-  let [code, setCode] = useLocalStorage('code-' + name)
+  let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
 
   if (code) {
     exampleCode = code
@@ -59,6 +59,38 @@ export const Explorer: FC<{
     console.error(err) // hosw
     child = <Callout color={'Red'}>{err.message}</Callout>
   }
+  return (
+    <>
+      <Code
+        topRight={
+          <>
+            <RedoIcon
+              onClick={() => {
+                setCode('')
+                update(cnt + 1)
+              }}
+            />
+          </>
+        }
+        onChange={(c) => setCode(c)}
+        space
+      >
+        {exampleCode}
+      </Code>
+      <Container>{child}</Container>
+    </>
+  )
+}
+
+export const Explorer: FC<{
+  p: any
+  component: FC
+  name: string
+  examples?: { code?: string; props?: any }[]
+}> = ({ component, p, name, examples = [{}] }) => {
+  const showType = useSearchParam('type')
+  const fuzz = useSearchParam('randomize')
+
   return (
     <>
       <Link href={`src${p.file}`}>
@@ -105,23 +137,19 @@ export const Explorer: FC<{
           </div>
         </div>
         <div style={{ width: '100%' }}>
-          <Code
-            topRight={
-              <>
-                <RedoIcon
-                  onClick={() => {
-                    setCode('')
-                    update(cnt + 1)
-                  }}
-                />
-              </>
-            }
-            onChange={(c) => setCode(c)}
-            space
-          >
-            {exampleCode}
-          </Code>
-          <Container>{child}</Container>
+          {examples.map((v, i) => {
+            return (
+              <CodeExample
+                key={i}
+                index={i}
+                name={name}
+                component={component}
+                p={p}
+                exampleCode={v.code}
+                exampleProps={v.props}
+              />
+            )
+          })}
         </div>
       </div>
     </>

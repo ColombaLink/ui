@@ -5,13 +5,26 @@ import ComponentViewer from '../ComponentViewer'
 export const Breadcrumb = () => {
   return (
     <ComponentViewer
-      exampleProps={{
-        data: {
-          'Twister Media': '/breadcrumb',
-          'Eurovision 2022': '/Snurky',
-          'Based ui': '/BasedUI',
+      examples={[
+        {
+          props: {
+            data: {
+              'Twister Media': '/breadcrumb',
+              'Eurovision 2022': '/Snurky',
+              'Based ui': '/BasedUI',
+            },
+          },
         },
-      }}
+        {
+          props: {
+            data: {
+              'Twister Media': '/breadcrumb',
+              'Eurovision 2022': '/Snurky',
+              'Based ui': '/BasedUI',
+            },
+          },
+        },
+      ]}
       component={Breadcrumbs}
     />
   )
