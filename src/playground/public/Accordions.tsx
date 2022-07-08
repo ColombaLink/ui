@@ -1,5 +1,5 @@
 import React from 'react'
-import { Accordion } from '~/components/Accordion/Index'
+import { Accordion } from '../../'
 import ComponentViewer from '../ComponentViewer'
 
 export const Accordions = () => {
