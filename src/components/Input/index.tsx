@@ -109,11 +109,15 @@ const Color = ({
   )
 }
 
-const Single = (props) => {
-  if (props.type === 'color') {
-    return <Color {...props} />
+const Single = ({ type, inputRef, ...props }) => {
+  if (type === 'color') {
+    return <Color inputRef={inputRef} {...props} />
   }
-  return <input {...props} ref={props.inputRef} />
+  return (
+    <div>
+      <input {...props} ref={inputRef} />
+    </div>
+  )
 }
 
 type InputPropsBaseLine = {
@@ -135,6 +139,7 @@ type InputPropsBaseLine = {
   inputRef?: RefObject<HTMLDivElement>
   large?: boolean
   disabled?: boolean
+  suggest?: (str: string) => string
 }
 
 // to coorece the on change (skips having to make conversions or ts ignores)
@@ -157,6 +162,56 @@ type InputProps =
         | ((value: string | number) => void)
         | Dispatch<SetStateAction<string | number>>
     })
+
+const Suggestor = ({
+  suggest,
+  value,
+  children,
+  paddingLeft,
+  paddingRight,
+  onChange,
+}) => {
+  if (suggest) {
+    const suggestion = suggest(value)
+    const showSuggestion = value && suggestion && suggestion !== value
+    return (
+      <div
+        style={{
+          position: 'relative',
+        }}
+        onKeyDown={
+          showSuggestion
+            ? (e) => {
+                if (e.key === 'Enter') {
+                  onChange({ target: { value: suggestion } })
+                }
+              }
+            : null
+        }
+      >
+        {showSuggestion ? (
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: paddingLeft,
+              right: paddingRight,
+              bottom: 0,
+              display: 'flex',
+              alignItems: 'center',
+              opacity: 0.4,
+              pointerEvents: 'none',
+            }}
+          >
+            {suggestion}
+          </div>
+        ) : null}
+        {children}
+      </div>
+    )
+  }
+  return children
+}
 
 export const Input: FC<
   InputProps & Omit<React.HTMLProps<HTMLInputElement>, keyof InputProps>
@@ -181,6 +236,7 @@ export const Input: FC<
   inputRef,
   large,
   disabled,
+  suggest,
   ...otherProps
 }) => {
   const [value = '', setValue] = usePropState(valueProp)
@@ -195,6 +251,8 @@ export const Input: FC<
     onChangeProp?.(newValue)
   }
 
+  const paddingLeft = ghost ? 0 : iconLeft ? 36 : 12
+  const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const props = {
     name,
     type,
@@ -217,8 +275,8 @@ export const Input: FC<
       borderRadius: 4,
       cursor: disabled ? 'not-allowed' : 'text',
       minHeight: large ? 48 : 36,
-      paddingLeft: ghost ? 0 : iconLeft ? 36 : 12,
-      paddingRight: ghost ? 0 : iconRight ? 36 : 12,
+      paddingLeft,
+      paddingRight,
       width: '100%',
       fontSize: ghost ? 16 : null,
       fontWeight: ghost ? 500 : null,
@@ -282,7 +340,19 @@ export const Input: FC<
             pointerEvents: 'none',
           },
         })}
-        {multiline ? <Multi {...props} /> : <Single {...props} />}
+        {multiline ? (
+          <Multi {...props} />
+        ) : (
+          <Suggestor
+            suggest={suggest}
+            value={value}
+            paddingLeft={paddingLeft}
+            paddingRight={paddingRight}
+            onChange={onChange}
+          >
+            <Single {...props} />
+          </Suggestor>
+        )}
         {renderOrCreateElement(iconRight, {
           style: {
             position: 'absolute',
