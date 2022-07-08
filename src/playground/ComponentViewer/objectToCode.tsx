@@ -75,18 +75,18 @@ export const toComponent = (
   const header = !propsHeader
     ? `${s}<${componentName}`
     : `${s}<${componentName} ${
-        propsHeader.length > 2
+        propsHeader.length > 4
           ? '\n' + indent + propsHeader.join('\n' + indent)
           : propsHeader.join(' ')
       }`
 
   if (exampleProps.children) {
-    return `${header}${propsHeader.length > 2 ? `\n` : ''}>
+    return `${header}${propsHeader.length > 4 ? `\n` : ''}>
   ${s}${exampleProps.children}
 ${s}</${componentName}>      
   `
   } else {
-    return header + `${propsHeader.length > 2 ? `\n${s}` : ''}/>`
+    return header + `${propsHeader.length > 4 ? `\n${s}` : ''}/>`
   }
 }
 
@@ -209,7 +209,7 @@ export const propsToCode = (
           }
           const oneLine =
             // @ts-ignore
-            nestedPropCode.propsHeader.length < 2 && !v.props.children
+            nestedPropCode.propsHeader.length < 4 && !v.props.children
           const code = toComponent(
             name,
             v.props,
