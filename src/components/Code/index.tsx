@@ -52,7 +52,8 @@ export const Code: FC<CodeProps> = ({
         padding: 16,
         position: 'relative',
         borderRadius: 4,
-        background: color('Background0dp'),
+        border: '1px solid ' + color('OtherDivider'),
+        background: color('Background2dp'),
         marginBottom: spaceToPx(space),
         ...style,
       }}
