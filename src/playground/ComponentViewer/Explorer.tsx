@@ -27,17 +27,7 @@ export const CodeExample: FC<{
   isModule?: boolean
   runCode?: string
   index: number
-  isLast: boolean
-}> = ({
-  index,
-  component,
-  isLast,
-  name,
-  exampleCode,
-  isModule,
-  exampleProps,
-  p,
-}) => {
+}> = ({ index, component, name, exampleCode, isModule, exampleProps, p }) => {
   let runCode = ''
   const [cnt, update] = useState(0)
   let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
@@ -174,7 +164,6 @@ export const Explorer: FC<{
             return (
               <CodeExample
                 isModule={v.isModule}
-                isLast={i === examples.length - 1}
                 key={i}
                 index={i}
                 name={name}

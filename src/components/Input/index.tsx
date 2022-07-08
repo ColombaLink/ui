@@ -116,7 +116,7 @@ const Single = ({ type, inputRef, ...props }) => {
   return <input {...props} type={type} ref={inputRef} />
 }
 
-type InputPropsBaseLine = {
+type InputProps = {
   style?: CSSProperties
   label?: string
   description?: string
@@ -139,23 +139,26 @@ type InputPropsBaseLine = {
   transform?: (str: string) => string // transform string
   forceSuggestion?: boolean // apply suggestion on blur
   noInterrupt?: boolean // dont use external state while focused
+  onChange?:
+    | ((value: string | number) => void)
+    | Dispatch<SetStateAction<string | number>>
 }
 
 // to coorece the on change (skips having to make conversions or ts ignores)
-type InputProps =
-  | (InputPropsBaseLine & {
+type InputPropsChange =
+  | (InputProps & {
       type: 'text' | 'password' | 'email' | 'phone' | 'color'
       onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
     })
-  | (InputPropsBaseLine & {
+  | (InputProps & {
       name: 'password' | 'email' | 'name'
       onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
     })
-  | (InputPropsBaseLine & {
+  | (InputProps & {
       type: 'number' | 'date'
       onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>
     })
-  | (InputPropsBaseLine & {
+  | (InputProps & {
       type?: string
       onChange?:
         | ((value: string | number) => void)
@@ -221,7 +224,8 @@ const Suggestor = ({
 }
 
 export const Input: FC<
-  InputProps & Omit<React.HTMLProps<HTMLInputElement>, keyof InputProps>
+  InputPropsChange &
+    Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
 > = ({
   style,
   onChange: onChangeProp,

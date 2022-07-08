@@ -75,7 +75,9 @@ export const genRandomProp = (name, prop, short = false) => {
   }
 
   if (typeof prop.type === 'object') {
-    return prop.type.value
+    if (prop.type?.value !== undefined) {
+      return prop.type.value
+    }
   }
 
   if (prop.type === 'boolean') {
@@ -131,11 +133,13 @@ export const genRandomProp = (name, prop, short = false) => {
 
 export const genRandomProps = (p: any, short: boolean = false): any => {
   const parsedProps = {}
+
   for (const key in p.props) {
     const rando = genRandomProp(key, p.props[key], short)
     if (rando !== undefined) {
       parsedProps[key] = rando
     }
   }
+
   return parsedProps
 }

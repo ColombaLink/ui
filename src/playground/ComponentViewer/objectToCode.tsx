@@ -105,10 +105,7 @@ export const propsToCode = (
   for (const k in exampleProps) {
     const v = exampleProps[k]
     const type = propDef?.props?.[k]?.type
-
-    if (typeof v === 'string') {
-      exampleProps.children = v
-    } else if (typeof v === 'function') {
+    if (typeof v === 'function') {
       if (type ? checkType('FC', type) : isCustomComponent(v.name)) {
         propsHeader.push(`${k}={${v.name}}`)
         if (!components.includes(v.name)) {
@@ -165,7 +162,6 @@ export const propsToCode = (
             }
           }
         } else if (name) {
-          console.log('xxx', name)
           const nestedPropCode = propsToCode(
             name,
             undefined,
@@ -240,6 +236,8 @@ export const generateRandomComponentCode = (
   if (!exampleProps) {
     exampleProps = genRandomProps(propDef, true)
   }
+
+  console.log(exampleProps, exampleProps.children)
 
   if (!propDef) {
     propDef = props.props[name]
