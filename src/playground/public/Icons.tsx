@@ -1,5 +1,6 @@
 import React, { FC } from 'react'
 import * as icons from '../../icons'
+import { Text } from '../../'
 import { getRandomIconName } from '../ComponentViewer/genRandomProps'
 import ComponentViewer from '../ComponentViewer'
 import { IconProps } from '~/components/Icon'
@@ -30,7 +31,7 @@ const Icon: FC<IconProps & { name?: string }> = ({ name, ...props }) => {
           marginLeft: 64,
         }}
       >
-        {name}
+        <Text selectable>{name}</Text>
       </div>
     </div>
   )

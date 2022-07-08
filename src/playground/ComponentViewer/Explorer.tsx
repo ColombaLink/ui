@@ -3,7 +3,7 @@ import { Props } from './ComponentProps'
 import {
   Text,
   Container,
-  color,
+  RedoIcon,
   Code,
   Link,
   useSearchParam,
@@ -32,10 +32,8 @@ export const Explorer: FC<{
 }> = ({ component, runCode, p, name, exampleProps, exampleCode }) => {
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
-
+  const [cnt, update] = useState(0)
   let [code, setCode] = useLocalStorage('code-' + name)
-
-  console.log(code)
 
   if (code) {
     exampleCode = code
@@ -73,7 +71,7 @@ export const Explorer: FC<{
         propsHeader.push(`${k}`)
         propsStr += `${k}:${v},`
       } else if (typeof v === 'number') {
-        propsHeader.push(`${k}=${v}`)
+        propsHeader.push(`${k}={${v}}`)
         propsStr += `${k}:${v},`
       }
     }
@@ -164,7 +162,20 @@ export const Explorer: FC<{
           </div>
         </div>
         <div style={{ width: '100%' }}>
-          <Code onChange={(c) => setCode(c)} space>
+          <Code
+            topRight={
+              <>
+                <RedoIcon
+                  onClick={() => {
+                    setCode('')
+                    update(cnt + 1)
+                  }}
+                />
+              </>
+            }
+            onChange={(c) => setCode(c)}
+            space
+          >
             {exampleCode}
           </Code>
           <Container>{child}</Container>
