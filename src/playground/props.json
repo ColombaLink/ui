@@ -391,7 +391,9 @@
         },
         "actionKeys": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "Key"
+          }
         }
       },
       "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  ghost?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  light?: boolean\n  loading?: boolean\n  onClick: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
@@ -727,9 +729,11 @@
       "props": {
         "items": {
           "type": [
-            "TSArrayType",
-            "TSNullKeyword",
-            "TSUndefinedKeyword"
+            {
+              "array": "Option"
+            },
+            "null",
+            "undefined"
           ]
         },
         "value": {
@@ -748,14 +752,18 @@
       "props": {
         "items": {
           "type": [
-            "TSArrayType",
-            "TSNullKeyword",
-            "TSUndefinedKeyword"
+            {
+              "array": "Option"
+            },
+            "null",
+            "undefined"
           ]
         },
         "values": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "Value"
+          }
         },
         "onChange": {
           "type": "function"
@@ -1228,6 +1236,44 @@
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n}",
       "file": "/components/Menu/index.tsx"
     },
+    "NotificationProps": {
+      "name": "NotificationProps",
+      "props": {
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "topLeft": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "topRight": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "message": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type NotificationProps = {\n  title?: string\n  icon?: FC | ReactNode\n  topLeft?: ReactNode\n  topRight?: ReactNode\n  message?: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Notification/Notification.tsx"
+    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -1410,7 +1456,9 @@
           "type": "function"
         },
         "options": {
-          "type": "TSArrayType"
+          "type": {
+            "array": "TSParenthesizedType"
+          }
         },
         "overlay": {
           "optional": true,
@@ -1426,7 +1474,9 @@
         },
         "values": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "Value"
+          }
         }
       },
       "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: CSSProperties\n  values?: Value[]\n}",
@@ -1440,7 +1490,9 @@
           "type": "Value"
         },
         "options": {
-          "type": "TSArrayType"
+          "type": {
+            "array": "TSParenthesizedType"
+          }
         },
         "onChange": {
           "type": "function"
@@ -1532,7 +1584,9 @@
         },
         "data": {
           "optional": true,
-          "type": "TSArrayType"
+          "type": {
+            "array": "TSObjectKeyword"
+          }
         },
         "itemSize": {
           "optional": true,
@@ -1578,7 +1632,9 @@
         "children": {
           "type": [
             "ReactNode",
-            "TSArrayType"
+            {
+              "array": "ReactNode"
+            }
           ]
         },
         "style": {
@@ -1644,11 +1700,10 @@
           "type": "boolean"
         },
         "children": {
-          "optional": true,
           "type": "ReactNode"
         }
       },
-      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color | string\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  children?: ReactNode\n}",
+      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color | string\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  children: ReactNode\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
@@ -1697,9 +1752,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "TopbarTabProps": {

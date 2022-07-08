@@ -9,6 +9,4 @@ export const createNotification = (notification, targetDiv) => {
   setTimeout(() => {
     newDiv.remove()
   }, 3000)
-
-  return <></>
 }
