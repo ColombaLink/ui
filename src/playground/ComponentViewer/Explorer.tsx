@@ -66,7 +66,7 @@ export const Explorer: FC<{
         propsStr += `${k}:'${exampleProps.children}',`
       } else if (typeof v === 'string') {
         propsHeader.push(`${k}="${v}"`)
-        propsStr += `${k}:"${v}",`
+        propsStr += `${k}:\`${v}\`,`
       } else if (typeof v === 'boolean' && v === true) {
         propsHeader.push(`${k}`)
         propsStr += `${k}:${v},`
@@ -75,6 +75,8 @@ export const Explorer: FC<{
         propsStr += `${k}:${v},`
       }
     }
+    console.log(propsStr)
+
     propsStr += '}'
     runCode = `const { ${components.slice(1).join(', ')} } = ui\n\n`
     exampleCode = `import { ${components.join(', ')} } from '@based/ui'\n\n`
@@ -85,7 +87,7 @@ export const Explorer: FC<{
             ? '\n  ' + propsHeader.join('\n  ')
             : propsHeader.join(' ')
         }`
-    runCode += `return React.createElement(c, ${propsStr});`
+    runCode += 'return React.createElement(c, ' + propsStr + ');'
     if (exampleProps.children) {
       exampleCode += `${header}${propsHeader.length > 2 ? '\n' : ''}>
   ${exampleProps.children}
