@@ -12,16 +12,11 @@ import {
   ModelIcon,
 } from '../../'
 import * as ui from '../../'
-import { genRandomProps } from './genRandomProps'
 import { Callout } from '~/components/Callout'
 import { transformSync } from '@babel/core'
 import preset from '@babel/preset-react'
-import objectToCode from './objectToCode'
+import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
-
-const checkType = (str: string, type: any): boolean => {
-  return type === str || (Array.isArray(type) && type.includes(str))
-}
 
 export const Explorer: FC<{
   p: any
@@ -41,65 +36,11 @@ export const Explorer: FC<{
   }
 
   if (!exampleCode) {
-    if (!exampleProps) {
-      exampleProps = genRandomProps(p)
-    }
-    const componentName = name.replace('Props', '')
-    const components = [componentName]
-    let propsHeader = []
-    let propsStr = '{'
-    for (const k in exampleProps) {
-      const v = exampleProps[k]
-      const type = p.props[k].type
-
-      if (typeof v === 'function') {
-        if (checkType('FC', type)) {
-          propsHeader.push(`${k}={${v.name}}`)
-          components.push(v.name)
-          propsStr += `${k}:${v.name},`
-        } else {
-          propsHeader.push(`${k}={${v.toString()}}`)
-          propsStr += `${k}:${v.toString()},`
-        }
-      } else if (k === 'children') {
-        // if (typeof props.children === 'object') // do some more here {
-        exampleProps.children = 'some children...'
-        propsStr += `${k}:'${exampleProps.children}',`
-      } else if (typeof v === 'string') {
-        propsHeader.push(`${k}="${v}"`)
-        propsStr += `${k}:\`${v}\`,`
-      } else if (typeof v === 'boolean' && v === true) {
-        propsHeader.push(`${k}`)
-        propsStr += `${k}:${v},`
-      } else if (typeof v === 'number') {
-        propsHeader.push(`${k}={${v}}`)
-        propsStr += `${k}:${v},`
-      } else if (typeof v === 'object') {
-        propsHeader.push(`${k}={${objectToCode(v)}}`)
-        propsStr += `${k}:${objectToCode(v)},`
-      }
-    }
-
-    propsStr += '}'
-    runCode = `const { ${components.slice(1).join(', ')} } = ui\n\n`
-    exampleCode = `import { ${components.join(', ')} } from '@based/ui'\n\n`
-    const header = !propsHeader
-      ? `<${componentName}`
-      : `<${componentName} ${
-          propsHeader.length > 2
-            ? '\n  ' + propsHeader.join('\n  ')
-            : propsHeader.join(' ')
-        }`
-    runCode += 'return React.createElement(c, ' + propsStr + ');'
-    if (exampleProps.children) {
-      exampleCode += `${header}${propsHeader.length > 2 ? '\n' : ''}>
-  ${exampleProps.children}
-</${componentName}>      
-`
-    } else {
-      exampleCode += header + `${propsHeader.length > 2 ? '\n' : ''}/>`
-    }
+    const r = generateRandomComponentCode(name, exampleProps, p)
+    exampleCode = r.exampleCode
+    runCode = r.runCode
   }
+
   let child
   try {
     if (!runCode) {
@@ -114,7 +55,6 @@ export const Explorer: FC<{
         'return React.createElement'
       )
     }
-
     const fn = new Function('ui', 'React', 'c', runCode)
     child = fn(ui, React, component)
   } catch (err) {
