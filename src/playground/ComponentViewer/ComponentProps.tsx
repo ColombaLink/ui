@@ -37,7 +37,7 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
     child = (
       <Badge
         onClick={() => {
-          copyToClipboard(prop.type)
+          copyToClipboard(prop.type.value)
         }}
         color="Green"
       >

@@ -36,9 +36,7 @@ export const Explorer: FC<{
   }
 
   if (!exampleCode) {
-    const r = generateRandomComponentCode(name, exampleProps, p)
-    exampleCode = r.exampleCode
-    runCode = r.runCode
+    exampleCode = generateRandomComponentCode(name, exampleProps, p)
   }
 
   let child
