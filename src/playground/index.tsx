@@ -14,7 +14,7 @@ import based from '@based/client'
 import * as stories from './stories'
 import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
-
+import { toPascalCase } from './utils'
 // @ts-ignore
 export const client = based.default({
   org: 'saulx',
@@ -38,6 +38,7 @@ const Story = ({ component, name }: StoryProps) => {
         setCode(v.code)
       })
   }, [isCode, name])
+
   return <>{isCode ? <Code>{code}</Code> : React.createElement(component)}</>
 }
 
@@ -45,7 +46,7 @@ const Stories = (params) => {
   // @ts-ignore
   if (params?.story) {
     // @ts-ignore
-    const name = params.story[0].toUpperCase() + params.story.slice(1)
+    const name = toPascalCase(params?.story)
     const component = stories[name]
     if (!component) {
       return <div>empty</div>
@@ -97,8 +98,9 @@ const App = () => {
             Buttons: '/buttons',
             Checkboxes: '/checkboxes',
             Forms: '/forms',
-            InputFields: '/inputfields',
+            InputFields: '/input-fields',
             Selects: '/selects',
+            ColorPicker: '/color-picker',
           },
           Display: {
             Avatars: '/avatars',
@@ -116,11 +118,11 @@ const App = () => {
             Grids: '/grids',
           },
           Overlays: {
-            ContextMenus: '/contextmenus',
+            ContextMenus: '/context-menus',
           },
           Screens: {
-            ProfileSettings: '/profilesettings',
-            ProjectSettings: '/projectsettings',
+            ProfileSettings: '/profile-settings',
+            ProjectSettings: '/project-settings',
           },
           Themes: {
             Theming: '/theming',

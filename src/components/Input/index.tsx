@@ -109,11 +109,11 @@ const Color = ({
   )
 }
 
-const Single = (props) => {
-  if (props.type === 'color') {
-    return <Color {...props} />
+const Single = ({ type, inputRef, ...props }) => {
+  if (type === 'color') {
+    return <Color inputRef={inputRef} {...props} />
   }
-  return <input {...props} ref={props.inputRef} />
+  return <input {...props} ref={inputRef} />
 }
 
 type InputPropsBaseLine = {

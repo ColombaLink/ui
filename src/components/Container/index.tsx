@@ -25,64 +25,60 @@ export const Container: FC<ContainerProps> = ({
   wrap,
 }) => {
   return (
-    <>
-      <styled.div
+    <styled.div
+      style={{
+        padding: 24,
+        paddingBottom: bottomLeft || bottomRight ? 88 : 24,
+        backgroundColor: color('Background2dp'),
+        border: `1px solid ${color('BorderColor')}`,
+        position: 'relative',
+        borderRadius: 4,
+        marginBottom: spaceToPx(space, 32),
+        width: wrap ? 'fit-content' : '100%',
+        ...style,
+      }}
+    >
+      <div
         style={{
-          padding: 24,
-          paddingBottom: bottomLeft || bottomRight ? 88 : 24,
-          backgroundColor: color('Background2dp'),
-          border: `1px solid ${color('BorderColor')}`,
-          position: 'relative',
-          borderRadius: 4,
-          marginBottom: spaceToPx(space, 32),
-          width: wrap ? 'fit-content' : '100%',
-          ...style,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: topLeft || topRight ? 24 : 0,
         }}
       >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {renderOrCreateElement(topLeft, {})}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          {renderOrCreateElement(topRight, {})}
+        </div>
+      </div>
+      {children}
+      {(bottomLeft || bottomRight) && (
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginBottom: topLeft || topRight ? 24 : 0,
+            minHeight: 68,
+            borderTop: `1px solid ${color('BorderColor')}`,
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            paddingLeft: 24,
+            paddingRight: 24,
+            backgroundColor: color('Background3dp'),
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(topLeft, {})}
+            {renderOrCreateElement(bottomLeft, {})}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(topRight, {})}
+            {renderOrCreateElement(bottomRight, {})}
           </div>
         </div>
-
-        {children}
-
-        {(bottomLeft || bottomRight) && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              minHeight: 68,
-              borderTop: `1px solid ${color('BorderColor')}`,
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              paddingLeft: 24,
-              paddingRight: 24,
-              backgroundColor: color('Background3dp'),
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              {renderOrCreateElement(bottomLeft, {})}
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-              {renderOrCreateElement(bottomRight, {})}
-            </div>
-          </div>
-        )}
-      </styled.div>
-    </>
+      )}
+    </styled.div>
   )
 }
