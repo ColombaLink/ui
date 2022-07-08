@@ -132,7 +132,7 @@ const App = () => {
             Accordions: '/accordions',
             Container: '/Containers',
             Grids: '/grids',
-            Tabs: '/TabsView',
+            MasonryGrid: '/masonryGrid',
           },
           Navigation: {
             Breadcrumbs: '/breadcrumb',
