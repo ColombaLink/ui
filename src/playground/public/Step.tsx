@@ -6,7 +6,7 @@ import ComponentViewer from '../ComponentViewer'
 export const Step = () => {
   return (
     <div>
-      <ComponentViewer component={Steps} />
+      {/* <ComponentViewer component={Steps} /> */}
       <Container style={{ maxWidth: 442 }}>
         <Steps
           data={{
