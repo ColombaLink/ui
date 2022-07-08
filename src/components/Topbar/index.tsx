@@ -50,7 +50,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
           top: 0,
           borderRadius: 4,
           '&:hover': {
-            backgroundColor: color('PrimaryLightHover'),
+            backgroundColor: color('accent', 'light', 'hover'),
           },
         }}
       >
@@ -61,7 +61,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             display: 'flex',
             alignItems: 'center',
             borderBottom: `3px solid ${
-              isActive ? color('TextPrimary') : 'transparent'
+              isActive ? color('text') : 'transparent'
             }`,
             marginBottom: -3,
             ...(isActive
@@ -125,8 +125,8 @@ export const Topbar: FC<TopbarProps> = ({
         height: 66,
         minHeight: 66,
         display: 'flex',
-        borderBottom: `1px solid ${color('OtherDivider')}`,
-        backgroundColor: color('Background1dp'),
+        borderBottom: `1px solid ${color('bg', 'border')}`,
+        backgroundColor: color('bg'),
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingRight: 30,

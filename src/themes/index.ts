@@ -1,6 +1,6 @@
 import { parseTheme } from '../utils/parseTheme'
-import { theme as dark } from './dark'
-import { theme as light } from './light'
+import { colors as dark } from './dark'
+import { colors as light } from './light'
 
 export { dark, light }
 

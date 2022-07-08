@@ -42,7 +42,7 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             justifyContent: 'space-between',
             padding: '12px 16px',
             backgroundColor: color('Greylight'),
-            border: `1px solid ${color('OtherDivider')}`,
+            border: `1px solid ${color('bg', 'border')}`,
             borderTopLeftRadius: 4,
             borderTopRightRadius: 4,
             marginBottom: -1,
@@ -67,8 +67,8 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             padding: '12px 16px',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: color('Background2dp'),
-            border: `1px solid ${color('OtherDivider')}`,
+            backgroundColor: color('bg', '2dp'),
+            border: `1px solid ${color('bg', 'border')}`,
             borderBottomLeftRadius: 4,
             borderBottomRightRadius: 4,
             marginBottom: spaceToPx(space, 32),
@@ -98,11 +98,11 @@ export const StackedListItem: FC<StackedListItemProps> = ({
       <div
         style={{
           display: 'flex',
-          backgroundColor: color('Background2dp'),
+          backgroundColor: color('bg', '2dp'),
           justifyContent: 'space-between',
           alignItems: 'center',
           border: border
-            ? `1px solid ${color('BorderColor')}`
+            ? `1px solid ${color('bg', 'border')}`
             : `1px solid ${color('Transparent')}`,
           padding: '12px 20px',
           marginBottom: -1,

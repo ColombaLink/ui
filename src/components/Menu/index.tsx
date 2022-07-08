@@ -65,7 +65,7 @@ export const MenuItem: FC<MenuItemProps> = ({
           borderRadius: 4,
           backgroundColor: isActive ? color('PrimaryLightSelected') : null,
           '&:hover': {
-            backgroundColor: color('PrimaryLightHover'),
+            backgroundColor: color('accent', 'light', 'hover'),
           },
         }}
       >
@@ -104,8 +104,8 @@ export const Menu: FC<{
   return (
     <ScrollArea
       style={{
-        backgroundColor: color('Background1dp'),
-        borderRight: `1px solid ${color('OtherDivider')}`,
+        backgroundColor: color('bg'),
+        borderRight: `1px solid ${color('bg', 'border')}`,
         padding: '64px 20px 20px 20px',
         width: 224,
         ...style,

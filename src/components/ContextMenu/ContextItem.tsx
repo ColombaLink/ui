@@ -41,7 +41,7 @@ export type ContextItemProps = {
 
 export const ContextDivider = styled('div', {
   marginTop: 4,
-  borderTop: `1px solid ${color('OtherDivider')}`,
+  borderTop: `1px solid ${color('bg', 'border')}`,
   marginBottom: 4,
 })
 

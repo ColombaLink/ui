@@ -2,7 +2,7 @@ import { styled } from 'inlines'
 import { color } from '~/utils'
 
 const scrollbarColor = color('TextPrimary', 0.2)
-const transparentAreaColor = color('Background1dp')
+const transparentAreaColor = color('bg')
 
 export const scrollAreaStyle = {
   scrollbarGutter: 'stable',

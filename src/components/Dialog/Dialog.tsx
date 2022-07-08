@@ -23,7 +23,7 @@ const Container = styled('div', {
   flexDirection: 'column',
   borderRadius: 4,
   boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.12)',
-  backgroundColor: color('Background2dp'),
+  backgroundColor: color('bg', '2dp'),
 })
 
 const ScrollBody = styled('div', {
@@ -43,12 +43,12 @@ const StyledButtons = styled('div', {
   alignItems: 'center',
   justifyContent: 'flex-end',
   paddingTop: 'var(--dialogPadding)',
-  backgroundColor: color('Background2dp'),
+  backgroundColor: color('bg', '2dp'),
   paddingBottom: 'var(--dialogPadding)',
 })
 
 const ButtonsWithBorder = styled(StyledButtons, {
-  borderTop: `1px solid ${color('OtherDivider')}`,
+  borderTop: `1px solid ${color('bg', 'border')}`,
   marginTop: 48,
   paddingTop: 20,
   paddingLeft: 24,

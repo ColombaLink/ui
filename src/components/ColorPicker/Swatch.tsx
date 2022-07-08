@@ -27,7 +27,7 @@ export const Swatch = ({
         style={{
           width: '100%',
           height: '100%',
-          border: `1px solid ${color('OtherDivider')}`,
+          border: `1px solid ${color('bg', 'border')}`,
           borderRadius: 4,
           background: colorProp,
         }}

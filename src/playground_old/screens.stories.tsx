@@ -314,7 +314,7 @@ export const ContentArticle = () => {
             style={{ lineHeight: '20px' }}
           >
             Read more about schema types in our{' '}
-            <a href="#" style={{ color: color('PrimaryMain') }}>
+            <a href="#" style={{ color: color('accent') }}>
               guide to schema editing
             </a>
           </Text>

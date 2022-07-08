@@ -35,7 +35,9 @@ export const Steps: FC<StepsProps> = ({
             key={index}
             style={{
               alignItems: 'center',
-              backgroundColor: isActive ? color('PrimaryLightSelected') : null,
+              backgroundColor: isActive
+                ? color('accent', 'light', 'active')
+                : null,
               borderRadius: 4,
               display: 'flex',
               height: 48,
@@ -46,7 +48,7 @@ export const Steps: FC<StepsProps> = ({
             <Text
               color="PrimaryMain"
               style={{
-                backgroundColor: color('OtherForeground'),
+                backgroundColor: color('accent', 'contrast'),
                 borderRadius: 13,
                 height: 26,
                 lineHeight: '26px',

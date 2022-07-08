@@ -24,7 +24,7 @@ const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
         borderRadius: 4,
         backgroundColor: isActive ? color('PrimaryLightSelected') : null,
         '&:hover': {
-          backgroundColor: color('PrimaryLightHover'),
+          backgroundColor: color('accent', 'light', 'hover'),
         },
         ...font(18, 'TextPrimary', 400),
       }}
@@ -50,8 +50,8 @@ export const Sidebar = ({
   return (
     <div
       style={{
-        backgroundColor: color('Background1dp'),
-        borderRight: `1px solid ${color('OtherDivider')}`,
+        backgroundColor: color('bg'),
+        borderRight: `1px solid ${color('bg', 'border')}`,
         width: 56,
         display: 'flex',
         flexDirection: 'column',

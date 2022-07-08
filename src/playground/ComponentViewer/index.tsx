@@ -24,7 +24,7 @@ const ComponentViewer: FC<{
           paddingBottom: 48,
           marginTop: 0,
           marginBottom: 48,
-          borderBottom: '1px solid ' + color('OtherDivider'),
+          borderBottom: '1px solid ' + color('bg', 'border'),
         }}
       >
         <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
@@ -43,7 +43,7 @@ const ComponentViewer: FC<{
         paddingBottom: 48,
         marginTop: 0,
         marginBottom: 48,
-        borderBottom: '1px solid ' + color('OtherDivider'),
+        borderBottom: '1px solid ' + color('bg', 'border'),
       }}
     >
       <Explorer

@@ -85,7 +85,7 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        borderBottom: `1px solid ${color('OtherDivider')}`,
+        borderBottom: `1px solid ${color('bg', 'border')}`,
         ...style,
       }}
     >
@@ -266,7 +266,7 @@ const TableInner: FC<TableProps> = ({
         style={{
           width: '100%',
           display: 'flex',
-          borderBottom: `1px solid ${color('OtherDivider')}`,
+          borderBottom: `1px solid ${color('bg', 'border')}`,
           height: 40,
           alignItems: 'center',
           overflowY: 'auto',

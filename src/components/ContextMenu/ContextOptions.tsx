@@ -25,7 +25,7 @@ const FilterInputHolderSticky = styled('div', {
   borderTopLeftRadius: 4,
   borderTopRightRadius: 4,
   top: 0,
-  backgroundColor: color('Background2dp'),
+  backgroundColor: color('bg', '2dp'),
 })
 
 const FilterInputHolder = styled('div', {
@@ -39,7 +39,7 @@ const FilterInputHolder = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `1px solid ${color('OtherDivider')}`,
+  borderBottom: `1px solid ${color('bg', 'border')}`,
   width: '100%',
   backgroundColor: color('GreylightHover'),
 })
@@ -56,7 +56,7 @@ const FilterInput = styled('input', {
   background: 'transparent',
   // lineHeight: '$md',
   // fontSize: '$md',
-  color: color('TextPrimary'),
+  color: color('text'),
   userSelect: 'text',
 })
 
@@ -333,7 +333,7 @@ const FilterInputMultiHolder = styled('div', {
   paddingTop: 2,
   borderTopLeftRadius: 3,
   paddingLeft: 4,
-  borderBottom: `1px solid ${color('OtherDivider')}`,
+  borderBottom: `1px solid ${color('bg', 'border')}`,
   borderTopRightRadius: 3,
   display: 'flex',
   width: '100%',
@@ -355,7 +355,7 @@ const FilterMultiInput = styled('input', {
   marginBottom: 4,
   marginTop: 4,
   // fontSize: '$md',
-  color: color('TextPrimary'),
+  color: color('text'),
   userSelect: 'text',
 })
 

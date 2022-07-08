@@ -106,7 +106,7 @@ export const Tabs: FC<TabsProps> = ({
         style={{
           height: !large ? 42 : 66,
           marginTop: 24,
-          borderBottom: `1px solid ${color('OtherDivider')}`,
+          borderBottom: `1px solid ${color('bg', 'border')}`,
           marginBottom: spaceToPx(space),
           ...style,
         }}
@@ -140,7 +140,7 @@ export const Tabs: FC<TabsProps> = ({
               : 'width 0.25s, transform 0.2s',
             transform: `translate(${x}px, 0px)`,
             width: lineWidth,
-            backgroundColor: color('TextPrimary'),
+            backgroundColor: color('text'),
             height: 3,
           }}
         ></div>

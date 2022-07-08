@@ -29,8 +29,8 @@ export const Container: FC<ContainerProps> = ({
       style={{
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,
-        backgroundColor: color('Background2dp'),
-        border: `1px solid ${color('BorderColor')}`,
+        backgroundColor: color('bg', '2dp'),
+        border: `1px solid ${color('bg', 'border')}`,
         position: 'relative',
         borderRadius: 4,
         overflow: 'hidden',
@@ -62,7 +62,7 @@ export const Container: FC<ContainerProps> = ({
             justifyContent: 'space-between',
             alignItems: 'center',
             minHeight: 68,
-            borderTop: `1px solid ${color('BorderColor')}`,
+            borderTop: `1px solid ${color('bg', 'border')}`,
             borderBottomLeftRadius: 4,
             borderBottomRightRadius: 4,
             position: 'absolute',
@@ -71,7 +71,7 @@ export const Container: FC<ContainerProps> = ({
             right: 0,
             paddingLeft: 24,
             paddingRight: 24,
-            backgroundColor: color('Background3dp'),
+            backgroundColor: color('bg', '3dp'),
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

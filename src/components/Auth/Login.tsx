@@ -144,10 +144,10 @@ export const Login: FC<LoginProps> = ({
           Forgot your password?{' '}
           <styled.a
             style={{
-              color: color('PrimaryMain'),
+              color: color('accent'),
               cursor: 'pointer',
               '&:hover': {
-                color: color('PrimaryMainHover'),
+                color: color('accent', 'hover'),
               },
             }}
             onClick={() => {
@@ -164,10 +164,10 @@ export const Login: FC<LoginProps> = ({
           Don't have an account?{' '}
           <styled.a
             style={{
-              color: color('PrimaryMain'),
+              color: color('accent'),
               cursor: 'pointer',
               '&:hover': {
-                color: color('PrimaryMainHover'),
+                color: color('accent', 'hover'),
               },
             }}
             onClick={() => {

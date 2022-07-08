@@ -8,8 +8,8 @@ export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
   borderRadius: 4,
   alignItems: 'center',
-  border: `1px solid ${color('OtherDivider')}`,
-  backgroundColor: color('Background1dp'),
+  border: `1px solid ${color('bg', 'border')}`,
+  backgroundColor: color('bg'),
   paddingLeft: 12,
   paddingRight: 12,
   paddingTop: 7,
@@ -43,8 +43,8 @@ export const SelectLabel: FC<{
       style={{
         justifyContent: 'space-between',
         borderRadius: 4,
-        border: `1px solid ${color('OtherDivider')}`,
-        backgroundColor: color('Background1dp'),
+        border: `1px solid ${color('bg', 'border')}`,
+        backgroundColor: color('bg'),
         cursor: 'pointer',
         userSelect: 'none',
         height: 38,
@@ -65,7 +65,7 @@ export const SelectLabel: FC<{
           paddingLeft: 12,
           paddingRight: 12,
           backgroundColor: color('Greylight'),
-          borderRight: `1px solid ${color('OtherDivider')}`,
+          borderRight: `1px solid ${color('bg', 'border')}`,
           flexShrink: 0,
         }}
       >
@@ -80,7 +80,7 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          borderRight: `1px solid ${color('OtherDivider')}`,
+          borderRight: `1px solid ${color('bg', 'border')}`,
         }}
       >
         {children}

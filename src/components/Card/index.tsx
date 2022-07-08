@@ -36,8 +36,8 @@ export const Card: FC<CardProps> = ({
       style={{
         borderRadius: 8,
         padding: 16,
-        backgroundColor: color('Background2dp'),
-        border: `1px solid ${color('OtherDivider')}`,
+        backgroundColor: color('bg', '2dp'),
+        border: `1px solid ${color('bg', 'border')}`,
         maxWidth: small ? 280 : 302,
         marginBottom: spaceToPx(space),
         ...style,

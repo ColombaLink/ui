@@ -200,7 +200,7 @@ export const ContextMenus = () => {
               position: 'left',
               variant: 'over',
               style: {
-                border: `3px solid ${color('PrimaryMain')}`,
+                border: `3px solid ${color('accent')}`,
                 borderRadius: 0,
               },
             }

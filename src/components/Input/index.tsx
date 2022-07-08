@@ -342,7 +342,7 @@ export const Input: FC<
         onBlur={() => setFocused(false)}
         style={{
           position: 'relative',
-          color: color('TextPrimary'),
+          color: color('text'),
         }}
       >
         {renderOrCreateElement(iconLeft, {

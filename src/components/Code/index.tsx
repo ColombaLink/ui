@@ -55,8 +55,8 @@ export const Code: FC<CodeProps> = ({
         padding: 16,
         position: 'relative',
         borderRadius: 4,
-        border: '1px solid ' + color('OtherDivider'),
-        background: color('Background2dp'),
+        border: '1px solid ' + color('bg', 'border'),
+        background: color('bg', '2dp'),
         marginBottom: spaceToPx(space),
         ...style,
       }}
@@ -83,7 +83,7 @@ export const Code: FC<CodeProps> = ({
         }}
         style={{
           fontSize: 14,
-          color: color('PrimaryMain'),
+          color: color('accent'),
           fontFamily: 'Fira Code',
         }}
       />

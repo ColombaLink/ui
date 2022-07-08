@@ -25,7 +25,7 @@ export const Notification: FC<NotificationProps> = ({
     <div
       style={{
         borderRadius: 4,
-        backgroundColor: color('Background1dp'),
+        backgroundColor: color('bg'),
         boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
         cursor: 'pointer',
         padding: '12px 16px',
