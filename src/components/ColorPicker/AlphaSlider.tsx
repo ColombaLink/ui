@@ -1,6 +1,8 @@
 import React, { CSSProperties } from 'react'
 import { Slider } from './Slider'
 import type { RGB } from './types'
+import { transparent } from './bg'
+
 export const AlphaSlider = ({
   rgb,
   alpha,
@@ -16,8 +18,8 @@ export const AlphaSlider = ({
   return (
     <div
       style={{
-        background:
-          'url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAADFJREFUOE9jZGBgEGHAD97gk2YcNYBhmIQBgWSAP52AwoAQwJvQRg1gACckQoC2gQgAIF8IscwEtKYAAAAASUVORK5CYII=") left center',
+        background: transparent,
+        backgroundPosition: '0 -10px',
       }}
     >
       <Slider

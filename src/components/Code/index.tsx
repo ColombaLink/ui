@@ -15,8 +15,16 @@ import {
   renderOrCreateElement,
   languages,
 } from 'prismjs/components/prism-core'
+import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
+import 'prismjs/components/prism-typescript'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-jsx.min'
+import 'prismjs/components/prism-tsx.min'
+
+// import 'prismjs/components/prism-tsx'
+
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
@@ -52,7 +60,8 @@ export const Code: FC<CodeProps> = ({
         padding: 16,
         position: 'relative',
         borderRadius: 4,
-        background: color('Background0dp'),
+        border: '1px solid ' + color('OtherDivider'),
+        background: color('Background2dp'),
         marginBottom: spaceToPx(space),
         ...style,
       }}
@@ -70,7 +79,7 @@ export const Code: FC<CodeProps> = ({
       ) : null}
       <Editor
         value={children}
-        onValueChange={(v) => onChange(v)}
+        onValueChange={onChange}
         highlight={(code) => {
           try {
             const h = highlight(code, languages.js)
@@ -79,7 +88,7 @@ export const Code: FC<CodeProps> = ({
         }}
         style={{
           fontSize: 14,
-          color: color('Foreground'),
+          color: color('PrimaryMain'),
           fontFamily: 'Fira Code',
         }}
       />

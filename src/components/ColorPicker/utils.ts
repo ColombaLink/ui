@@ -24,19 +24,19 @@ export const rgbToHue = (rgb): RGB => {
 
   if (r >= g && r >= b) {
     hr = 255
-  } else if (r < g && r < b) {
+  } else if (r <= g && r <= b) {
     hr = 0
   }
 
   if (g >= r && g >= b) {
     hg = 255
-  } else if (g < r && g < b) {
+  } else if (g <= r && g <= b) {
     hg = 0
   }
 
   if (b >= r && b >= g) {
     hb = 255
-  } else if (b < r && b < g) {
+  } else if (b <= r && b <= g) {
     hb = 0
   }
 
