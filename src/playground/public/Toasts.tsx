@@ -1,16 +1,19 @@
 import React from 'react'
 import { Toast, useToast } from '~/components/Toast'
-import { BasedIcon, CheckCircleIcon, CloseIcon, StackIcon } from '~/icons'
+import { CheckCircleIcon, CloseIcon } from '~/icons'
 import { Button } from '~/components/Button'
-import { Avatar } from '~/components/Avatar'
-import { Container } from '~/components/Container'
 import ComponentViewer from '../ComponentViewer'
 
-const codeExample = `import { useToast, Toast, Button } from '@based/ui'
+const codeExample = `import { CheckCircleIcon, useToast, Toast, Button } from '@based/ui'
+
 const toast = useToast()
 
 const notify = () => {
-  toast.add(<Toast title="Notify!" message="Account created." />)
+  toast.add(<Toast 
+    title="notify"
+    icon={CheckCircleIcon}
+    message="Account created." 
+  />)
 }
 
 <Button onClick={notify}>
