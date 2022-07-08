@@ -66,7 +66,7 @@ export const Explorer: FC<{
       }
     }
     propsStr += '}'
-    runCode = `const { ${components.join(', ')} } = ui\n\n`
+    runCode = `const { ${components.slice(1).join(', ')} } = ui\n\n`
     exampleCode = `import { ${components.join(', ')} } from '@based/ui'\n\n`
     const header = !propsHeader
       ? `<${componentName}`
@@ -76,7 +76,7 @@ export const Explorer: FC<{
             : propsHeader.join(' ')
         }`
 
-    runCode += `return React.createElement(${componentName}, ${propsStr});`
+    runCode += `return React.createElement(c, ${propsStr});`
 
     if (exampleProps.children) {
       exampleCode += `${header}${propsHeader.length > 2 ? '\n' : ''}>
@@ -90,9 +90,9 @@ export const Explorer: FC<{
 
   let child
   try {
-    const fn = new Function('ui', 'React', runCode)
+    const fn = new Function('ui', 'React', 'c', runCode)
     console.info(fn.toString())
-    child = fn(ui, React)
+    child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
     child = <Callout>{err.message}</Callout>
@@ -109,6 +109,7 @@ export const Explorer: FC<{
         <div
           style={{
             minWidth: showType ? 550 : 400,
+            marginRight: showType ? 24 : 0,
           }}
         >
           {showType ? <Code>{p.code}</Code> : <Props prop={p} />}

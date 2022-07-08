@@ -10,6 +10,7 @@ export * from './themes'
 // for now use wouter
 export { Route, useLocation, useRoute, useRouter, Switch, Router } from 'wouter'
 
+export * from './components/Icon'
 export * from './components/Auth'
 export * from './components/Avatar'
 export * from './components/Code'
