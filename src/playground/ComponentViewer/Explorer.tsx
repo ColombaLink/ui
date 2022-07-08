@@ -37,19 +37,12 @@ export const Explorer: FC<{
   if (!exampleCode) {
     const componentName = name.replace('Props', '')
     const components = [componentName]
-
-    /*
-        const code = exampleCode
-      .replace(/import /g, 'const ')
-      .replace("from '@based/ui'", '= ui').replace(`<${componentName}`, '')
-    console.info(code)
-    */
-
     let propsHeader = []
     let propsStr = '{'
     for (const k in exampleProps) {
       const v = exampleProps[k]
       const type = p.props[k].type
+
       if (typeof v === 'function') {
         if (checkType('FC', type)) {
           propsHeader.push(`${k}={${v.name}}`)
@@ -63,6 +56,15 @@ export const Explorer: FC<{
         // if (typeof props.children === 'object') {
         exampleProps.children = 'some children...'
         propsStr += `${k}:'${exampleProps.children}',`
+      } else if (typeof v === 'string') {
+        propsHeader.push(`${k}="${v}"`)
+        propsStr += `${k}:"${v}",`
+      } else if (typeof v === 'boolean' && v === true) {
+        propsHeader.push(`${k}`)
+        propsStr += `${k}:${v},`
+      } else if (typeof v === 'number') {
+        propsHeader.push(`${k}=${v}`)
+        propsStr += `${k}:${v},`
       }
     }
     propsStr += '}'
@@ -75,29 +77,26 @@ export const Explorer: FC<{
             ? '\n  ' + propsHeader.join('\n  ')
             : propsHeader.join(' ')
         }`
-
     runCode += `return React.createElement(c, ${propsStr});`
-
     if (exampleProps.children) {
       exampleCode += `${header}${propsHeader.length > 2 ? '\n' : ''}>
   ${exampleProps.children}
 </${componentName}>      
 `
     } else {
-      exampleCode += header + '/>'
+      exampleCode += header + `${propsHeader.length > 2 ? '\n' : ''}/>`
     }
+  } else {
+    // babel time! - parse the code
   }
-
   let child
   try {
     const fn = new Function('ui', 'React', 'c', runCode)
-    console.info(fn.toString())
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
-    child = <Callout>{err.message}</Callout>
+    child = <Callout color={'Red'}>{err.message}</Callout>
   }
-
   return (
     <>
       <Link href={`src${p.file}`}>
@@ -143,7 +142,6 @@ export const Explorer: FC<{
             </Button>
           </div>
         </div>
-
         <div style={{ width: '100%' }}>
           <Code space>{exampleCode}</Code>
           <Container>{child}</Container>
