@@ -116,11 +116,50 @@ export const Explorer: FC<{
 
   return (
     <>
-      <Link href={`src${p.file}`}>
-        <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
-          {p.file.slice(1).split('/').slice(1, -1)}
-        </Text>
-      </Link>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          marginBottom: 24,
+        }}
+      >
+        <Link href={`src${p.file}`}>
+          <Text weight={700} size={'18px'}>
+            {p.file.slice(1).split('/').slice(1, -1)}
+          </Text>
+        </Link>
+        <div style={{ display: 'flex' }}>
+          <Button
+            outline
+            ghost
+            style={{ marginRight: 24 }}
+            iconLeft={ModelIcon}
+            onClick={() =>
+              setLocation({
+                merge: true,
+                params: { randomize: !fuzz },
+              })
+            }
+          >
+            {fuzz ? 'Examples' : 'Randomize'}
+          </Button>
+          <Button
+            outline
+            ghost
+            iconLeft={ModelIcon}
+            onClick={() =>
+              setLocation({
+                merge: true,
+                params: { type: !showType },
+              })
+            }
+          >
+            {showType ? 'Props' : 'Type'}
+          </Button>
+        </div>
+      </div>
       <div style={{ display: 'flex', marginTop: 24, width: '100%' }}>
         <div
           style={{
@@ -129,35 +168,6 @@ export const Explorer: FC<{
           }}
         >
           {showType ? <Code>{p.code}</Code> : <Props prop={p} />}
-          <div style={{ marginTop: 48, display: 'flex' }}>
-            <Button
-              outline
-              ghost
-              style={{ marginRight: 24 }}
-              iconLeft={ModelIcon}
-              onClick={() =>
-                setLocation({
-                  merge: true,
-                  params: { randomize: !fuzz },
-                })
-              }
-            >
-              {fuzz ? 'Hide Fuzz' : 'Fuzz'}
-            </Button>
-            <Button
-              outline
-              ghost
-              iconLeft={ModelIcon}
-              onClick={() =>
-                setLocation({
-                  merge: true,
-                  params: { type: !showType },
-                })
-              }
-            >
-              {showType ? 'Props' : 'Type'}
-            </Button>
-          </div>
         </div>
         <div style={{ width: '100%' }}>
           {examples.map((v, i) => {

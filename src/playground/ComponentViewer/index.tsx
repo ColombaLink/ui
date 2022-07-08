@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import props from '../props.json'
-import { Text, color, Link, useSearchParam } from '../../'
+import { Text, useSearchParam } from '../../'
 import { Explorer } from './Explorer'
 
 const ComponentViewer: FC<{
@@ -30,26 +30,18 @@ const ComponentViewer: FC<{
       </div>
     )
   }
-  const fuzzArr = examples ? [...examples] : []
+  const fuzzArr = []
 
   for (let i = 0; i < (fuzz ? 50 : 0); i++) {
     fuzzArr.push({})
   }
   return (
-    <div
-      style={{
-        paddingBottom: 48,
-        marginTop: 0,
-        marginBottom: 48,
-      }}
-    >
-      <Explorer
-        examples={fuzz ? fuzzArr : examples}
-        name={propsName}
-        p={p}
-        component={component}
-      />
-    </div>
+    <Explorer
+      examples={fuzz ? fuzzArr : examples}
+      name={propsName}
+      p={p}
+      component={component}
+    />
   )
 }
 

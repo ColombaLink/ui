@@ -2,6 +2,15 @@ import React from 'react'
 import props from '../props.json'
 import { genRandomProps } from './genRandomProps'
 
+const symbols = new Map()
+
+const init = () => {
+  const frag = React.createElement(React.Fragment, {}, [])
+  symbols.set(frag.type, 'fragment')
+}
+
+init()
+
 export const checkType = (str: string, type: any): boolean => {
   return type === str || (Array.isArray(type) && type.includes(str))
 }
@@ -84,17 +93,22 @@ ${s}</${componentName}>
 export const propsToCode = (
   componentName: string,
   propDef?: any,
-  exampleProps?: any
+  exampleProps?: any,
+  indent: string = ''
 ): { propsHeader: string[]; components: string[] } => {
   const components = [componentName]
   if (!propDef) {
     propDef = props.props[componentName]
   }
   let propsHeader = []
+
   for (const k in exampleProps) {
     const v = exampleProps[k]
     const type = propDef?.props?.[k]?.type
-    if (typeof v === 'function') {
+
+    if (typeof v === 'string') {
+      exampleProps.children = v
+    } else if (typeof v === 'function') {
       if (type ? checkType('FC', type) : isCustomComponent(v.name)) {
         propsHeader.push(`${k}={${v.name}}`)
         if (!components.includes(v.name)) {
@@ -104,9 +118,82 @@ export const propsToCode = (
         propsHeader.push(`${k}={${v.toString()}}`)
       }
     } else if (k === 'children') {
-      // if (typeof props.children === 'object') // do some more here {
-      exampleProps.children = 'some children...'
-      // same here!
+      if (React.isValidElement(v)) {
+        exampleProps.children = ''
+        // @ts-ignore
+        let name = v.type.name
+        if (!name) {
+          if (symbols.get(v.type) === 'fragment') {
+            // @ts-ignore
+            if (v.props.children) {
+              // @ts-ignore
+              if (Array.isArray(v.props.children)) {
+                // @ts-ignore
+                for (let i = 0; i < v.props.children.length; i++) {
+                  // @ts-ignore
+                  const c = v.props.children[i]
+                  // @ts-ignore
+                  if (React.isValidElement(c) && c.type.name) {
+                    // @ts-ignore
+                    name = c.type.name
+                    const nestedPropCode = propsToCode(
+                      name,
+                      undefined,
+                      c.props,
+                      '  ' + indent
+                    )
+                    for (const c of nestedPropCode.components) {
+                      if (!components.includes(c)) {
+                        components.push(c)
+                      }
+                    }
+                    const code = toComponent(
+                      name,
+                      c.props,
+                      nestedPropCode.propsHeader,
+                      '  ' + indent
+                    )
+
+                    exampleProps.children += '\n' + (i > 0 ? '  ' : '') + code
+                  } else {
+                    exampleProps.children += ''
+                  }
+                }
+
+                exampleProps.children = exampleProps.children.slice(1)
+              }
+            }
+          }
+        } else if (name) {
+          console.log('xxx', name)
+          const nestedPropCode = propsToCode(
+            name,
+            undefined,
+            v.props,
+            indent + '  '
+          )
+          for (const c of nestedPropCode.components) {
+            if (!components.includes(c)) {
+              components.push(c)
+            }
+          }
+          const code = toComponent(
+            name,
+            v.props,
+            nestedPropCode.propsHeader,
+            indent + '  '
+          )
+          if (code) {
+            exampleProps.children = code
+          } else {
+            exampleProps.children = 'some children...'
+          }
+        } else {
+          exampleProps.children = 'some children...'
+        }
+      } else if (typeof exampleProps.children !== 'string') {
+        exampleProps.children = 'some children...'
+      } // same here!
     } else if (typeof v === 'string') {
       propsHeader.push(`${k}="${v}"`)
     } else if (typeof v === 'boolean' && v === true) {
@@ -118,7 +205,7 @@ export const propsToCode = (
         // @ts-ignore
         const name = v.type.name
         if (name) {
-          const nestedPropCode = propsToCode(name, undefined, v.props)
+          const nestedPropCode = propsToCode(name, undefined, v.props, indent)
           for (const c of nestedPropCode.components) {
             if (!components.includes(c)) {
               components.push(c)
@@ -131,7 +218,7 @@ export const propsToCode = (
             name,
             v.props,
             nestedPropCode.propsHeader,
-            oneLine ? '' : '      '
+            (oneLine ? '' : '      ') + indent
           )
           if (code) {
             propsHeader.push(`${k}={${!oneLine ? '\n' : ''}${code}}`)
