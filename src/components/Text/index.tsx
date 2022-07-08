@@ -17,7 +17,7 @@ type TextProps = {
 }
 
 export const Text: FC<TextProps> = ({
-  color: colorProp = 'text',
+  color = 'text',
   italic,
   selectable,
   size,
@@ -30,7 +30,7 @@ export const Text: FC<TextProps> = ({
   active,
   ...props
 }) => {
-  const s = font(size, colorProp, weight) as CSSProperties
+  const s = font({ size, color, secondary, active, weight }) as CSSProperties
 
   s.userSelect = selectable ? 'text' : 'none'
 

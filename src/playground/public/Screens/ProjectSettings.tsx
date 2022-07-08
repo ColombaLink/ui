@@ -59,7 +59,7 @@ export const ProjectSettings = () => {
               label="Email address"
               space="8px"
             />
-            <Text weight={400} color="TextSecondary" space="24px">
+            <Text weight={400} secondary space="24px">
               We will email you to verify a change.
             </Text>
             <Text weight={600} space="12px">
@@ -95,7 +95,7 @@ export const ProjectSettings = () => {
               />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Text>Maarten de Winter</Text>
-                <Text weight={400} color="TextSecondary">
+                <Text weight={400} secondary>
                   maarten@saulx.com
                 </Text>
               </div>
@@ -110,7 +110,7 @@ export const ProjectSettings = () => {
               />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Text>Youzi</Text>
-                <Text weight={400} color="TextSecondary">
+                <Text weight={400} secondary>
                   youzi@saulx.com
                 </Text>
               </div>

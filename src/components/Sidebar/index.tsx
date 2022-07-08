@@ -26,7 +26,10 @@ const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
         '&:hover': {
           backgroundColor: color('accent', 'light', 'hover'),
         },
-        ...font(18, 'TextPrimary', 400),
+        ...font({
+          size: 18,
+          weight: 400,
+        }),
       }}
     >
       {children}

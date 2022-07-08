@@ -55,7 +55,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         onClick={() => setOpen(!open)}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text size="15px" weight={600} color="TextPrimary">
+          <Text size="15px" weight={600}>
             {title}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}

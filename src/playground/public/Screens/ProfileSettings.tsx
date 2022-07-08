@@ -48,7 +48,7 @@ export const ProfileSettings = () => {
               disabled
               label="Email address"
             />
-            <Text weight={400} color="TextSecondary" space="24px">
+            <Text weight={400} secondary space="24px">
               Email address cannot be changed.
             </Text>
             <Text weight={600} space="12px">

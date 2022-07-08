@@ -65,7 +65,7 @@ export const Card: FC<CardProps> = ({
 
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <Text weight={600}>{title}</Text>
-              <Text weight={400} size="13px" color="TextSecondary">
+              <Text weight={400} size="13px" secondary>
                 {description}
               </Text>
             </div>

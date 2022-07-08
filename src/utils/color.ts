@@ -27,6 +27,7 @@ const colors = {
   accent: new Set(accentVersions),
   bg: new Set(bgVersions),
   text: new Set(textVersions),
+  overlay: new Set(),
 }
 
 const defaultVariant = {
@@ -43,14 +44,20 @@ type ColorFn = {
   (name: 'text', a?: TextVersion, b?: TextState): string
   (name: 'text', a?: TextState, b?: TextVersion): string
   (name: 'overlay', a?: undefined, b?: undefined): string
+  (name: string, a?: undefined, b?: undefined): string
 }
 
 export const color: ColorFn = (name, a, b) => {
-  if (!a) {
-    return `var(--${name}-${defaultVariant[name] || 'default'}-default)`
+  if (name in colors) {
+    if (!a) {
+      return `var(--${name}-${defaultVariant[name] || 'default'}-default)`
+    }
+    if (name in colors && colors[name].has(a)) {
+      return `var(--${name}-${a}-${b || 'default'})`
+    }
+    return `var(--${name}-${b || defaultVariant[name] || 'default'}-${
+      a || 'default'
+    })`
   }
-  if (name in colors && colors[name].has(a)) {
-    return `var(--${name}-${a}-${b || 'default'})`
-  }
-  return `var(--${name}-${b || defaultVariant[name]}-${a})`
+  return name
 }

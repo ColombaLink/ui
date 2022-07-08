@@ -65,8 +65,8 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             }`,
             marginBottom: -3,
             ...(isActive
-              ? font(15, 'TextPrimary', 600)
-              : font(15, 'TextSecondary')),
+              ? font({ size: 15, weight: 600 })
+              : font({ size: 15, secondary: true })),
           }}
         >
           {children}

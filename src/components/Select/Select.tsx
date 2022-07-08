@@ -78,9 +78,7 @@ export const Select: FC<SelectProps> = ({
 
   const children = (
     <>
-      <Text color={currentValue ? 'TextPrimary' : 'TextSecondary'}>
-        {labelValue || placeholder}
-      </Text>
+      <Text secondary={!!currentValue}>{labelValue || placeholder}</Text>
       <ChevronDownIcon color={color} size={16} />
     </>
   )

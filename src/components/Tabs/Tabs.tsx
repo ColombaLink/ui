@@ -49,8 +49,8 @@ const TabWrapper: FC<{
         // borderBottom: `3px solid transparent`,
         alignItems: 'center',
         ...(index === activeTabState
-          ? font(15, 'TextPrimary', 600)
-          : font(15, 'TextSecondary')),
+          ? font({ size: 15, weight: 600 })
+          : font({ size: 15, secondary: true })),
       }}
       onClick={() => {
         setHoverTab(-1)

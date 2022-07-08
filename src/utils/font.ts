@@ -1,11 +1,19 @@
 import type { Color, Size, Weight } from '~/types'
 import { color } from './color'
 
-export const font = (
-  size: Size = '15px',
-  colorProp: string,
+export const font = ({
+  size = '15px',
+  color: colorProp = 'text',
+  weight,
+  secondary,
+  active,
+}: {
+  size: '15px'
+  color: string
+  secondary: boolean
+  active: boolean
   weight?: Weight
-) => {
+}) => {
   const fontSize = parseInt(size as string)
   const fontWeight = weight
     ? Number(weight)
@@ -24,6 +32,10 @@ export const font = (
     fontSize,
     lineHeight,
     fontWeight,
-    color: color(colorProp),
+    color: color(
+      colorProp,
+      secondary ? 'secondary' : null,
+      active ? 'active' : null
+    ),
   }
 }
