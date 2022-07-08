@@ -7,7 +7,12 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
     <Input
       value={`${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase()}
       suggest={(v) => v.padEnd(6, '0')}
-      transform={(v) => v.toUpperCase().replace(/[^A-F0-9]/g, '')}
+      transform={(v) =>
+        v
+          .toUpperCase()
+          .replace(/[^A-F0-9]/g, '')
+          .slice(0, 6)
+      }
       forceSuggestion
       noInterrupt
       onChange={(v) => {
