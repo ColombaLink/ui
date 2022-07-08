@@ -41,15 +41,10 @@ export const MenuItem: FC<MenuItemProps> = ({
   isActive,
   isNested = false,
 }) => {
-  const textColor = isNested
-    ? isActive
-      ? 'GreylightContrast'
-      : 'TextSecondary'
-    : null
-
   return (
     <Text
-      color={textColor}
+      secondary={isNested}
+      active={isActive}
       weight={isNested ? 500 : 600}
       wrap
       style={{

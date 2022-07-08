@@ -10,12 +10,14 @@ type TextProps = {
   style?: CSSProperties
   italic?: boolean
   selectable?: boolean
+  secondary?: boolean
+  active?: boolean
   wrap?: boolean
   children: ReactNode
 }
 
 export const Text: FC<TextProps> = ({
-  color: colorProp = 'TextPrimary',
+  color: colorProp = 'text',
   italic,
   selectable,
   size,
@@ -24,6 +26,8 @@ export const Text: FC<TextProps> = ({
   wrap,
   children,
   space,
+  secondary,
+  active,
   ...props
 }) => {
   const s = font(size, colorProp, weight) as CSSProperties

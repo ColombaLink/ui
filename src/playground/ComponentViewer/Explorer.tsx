@@ -73,12 +73,24 @@ export const CodeExample: FC<{
             />
           </>
         }
+        style={{
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        }}
         onChange={(c) => setCode(c)}
-        space
       >
         {exampleCode}
       </Code>
-      <Container space>{child}</Container>
+      <Container
+        style={{
+          borderTopLeftRadius: 0,
+          borderTopRightRadius: 0,
+          borderTopWidth: 0,
+        }}
+        space
+      >
+        {child}
+      </Container>
     </>
   )
 }
