@@ -2,6 +2,7 @@ import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Color, Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { isCapitalised } from '~/utils/isCapitalised'
+import { Text } from '../Text'
 
 type ThumbnailProps = {
   size?: 32 | 36 | 40 | 64
@@ -11,6 +12,7 @@ type ThumbnailProps = {
   color?: Color
   space?: Space
   style?: CSSProperties
+  label?: string
 }
 
 export const Thumbnail: FC<ThumbnailProps> = ({
@@ -21,6 +23,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   icon,
   space,
   style,
+  label,
 }) => {
   if (!backgroundColor) {
     if (colorProp && isCapitalised(colorProp)) {
@@ -50,6 +53,15 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         ...style,
       }}
     >
+      {label && !icon && !backgroundImg ? (
+        <Text
+          color={color(colorProp)}
+          // @ts-ignore
+          size={size / 2}
+        >
+          {label[0].toLocaleUpperCase()}
+        </Text>
+      ) : null}
       <>{renderOrCreateElement(icon, { size: 20 })}</>
     </div>
   )
