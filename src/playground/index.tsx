@@ -151,6 +151,9 @@ const App = () => {
           Text: {
             Text: '/text',
           },
+          Insights: {
+            LineGraph: '/lineGraph',
+          },
           Handbook: {
             Props: '/props',
           },

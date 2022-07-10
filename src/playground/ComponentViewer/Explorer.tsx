@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useMemo } from 'react'
 import { Props } from './ComponentProps'
 import {
   Text,
@@ -32,12 +32,21 @@ export const CodeExample: FC<{
   if (code) {
     exampleCode = code
   }
-  if (!exampleCode) {
-    exampleCode = generateRandomComponentCode(name, exampleProps, p)
-  }
+  exampleCode = useMemo(() => {
+    if (!exampleCode) {
+      exampleCode = generateRandomComponentCode(name, exampleProps, p)
+    }
+    return exampleCode
+  }, [exampleCode])
+
   let child
   try {
-    const fn = new Function('ui', 'React', 'c', parseCode(exampleCode))
+    const fn = new Function(
+      'ui',
+      'React',
+      'c',
+      useMemo(() => parseCode(exampleCode), [exampleCode])
+    )
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
@@ -135,7 +144,7 @@ export const Explorer: FC<{
       <div style={{ display: 'flex', marginTop: 24, width: '100%' }}>
         <div
           style={{
-            minWidth: showType ? 550 : 400,
+            minWidth: showType ? 550 : 350,
             marginRight: 24,
           }}
         >

@@ -10,6 +10,7 @@ export * from './themes'
 // for now use wouter
 export { Route, useLocation, useRoute, useRouter, Switch, Router } from 'wouter'
 
+export * from './components/LineGraph'
 export * from './components/Grid'
 export * from './components/MasonryGrid'
 export * from './components/Icon'
