@@ -115,6 +115,7 @@ export const Explorer: FC<{
           <Button
             outline
             ghost
+            light
             color="text"
             style={{ marginRight: 24 }}
             iconLeft={ModelIcon}
@@ -130,6 +131,7 @@ export const Explorer: FC<{
           <Button
             outline
             ghost
+            light
             color="text"
             iconLeft={ModelIcon}
             onClick={() =>

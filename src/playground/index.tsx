@@ -93,6 +93,7 @@ const App = () => {
                 }}
               />
               <Button
+                color="text"
                 ghost
                 iconLeft={<CurlyBracesIcon />}
                 onClick={() => {
