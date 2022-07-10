@@ -15,15 +15,6 @@ export const Breadcrumb = () => {
             },
           },
         },
-        {
-          props: {
-            data: {
-              'Twister Media': '/breadcrumb',
-              'Eurovision 2022': '/Snurky',
-              'Based ui': '/BasedUI',
-            },
-          },
-        },
       ]}
       component={Breadcrumbs}
     />

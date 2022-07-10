@@ -51,7 +51,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   onChange,
   style,
   filterable,
-  color = 'TextPrimary',
+  color = 'text',
   placeholder = 'Select options',
   overlay,
   label,

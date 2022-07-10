@@ -48,7 +48,7 @@ export const Select: FC<SelectProps> = ({
   onChange,
   style,
   filterable,
-  color = 'TextPrimary',
+  color = 'text',
   placeholder = 'Select an option',
   overlay,
   label,

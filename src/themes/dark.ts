@@ -11,7 +11,10 @@ export const colors = {
   'accent-light-hover': 'rgba(131,145,237,0.16)',
   'accent-light-contrast': 'rgba(131,145,237,1)',
 
-  'bg-1dp-default': 'rgba(247,247,248,1)',
+  'bg-0dp-default': 'rgba(247,247,248,1)',
+  'bg-0dp-border': 'rgba(15,16,19,0.08)',
+
+  'bg-1dp-default': 'rgba(255,255,255,1)',
   'bg-1dp-border': 'rgba(15,16,19,0.08)',
 
   'bg-2dp-default': 'rgba(255,255,255,1)',
@@ -19,9 +22,6 @@ export const colors = {
 
   'bg-3dp-default': 'rgba(255,255,255,1)',
   'bg-3dp-border': 'rgba(15,16,19,0.08)',
-
-  'bg-4dp-default': 'rgba(255,255,255,1)',
-  'bg-4dp-border': 'rgba(15,16,19,0.08)',
 
   'text-primary-default': 'rgba(15,16,19, 0.87)',
   'text-primary-active': 'var(--accent-main-default)',

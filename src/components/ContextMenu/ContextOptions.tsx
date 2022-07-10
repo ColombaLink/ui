@@ -364,7 +364,6 @@ const StyledFilterSelectedBadge = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-start',
-  color: '$TextPrimary',
   marginBottom: 4,
   userSelect: 'none',
   marginTop: 4,
@@ -392,7 +391,7 @@ export const FilterSelectBadge: FC<{
     <StyledFilterSelectedBadge style={style}>
       <Text>{label}</Text>
       <CloseIcon
-        color="TextPrimary"
+        color="text"
         onClick={(e) => {
           e.stopPropagation()
           onClose()
@@ -425,7 +424,7 @@ export const FilterSelectMoreBadge: FC<{
     <StyledFilterSelectedBadge style={style} data-aviato-select-more>
       <AddIcon
         size={16}
-        color="TextPrimary"
+        color="text"
         style={{ marginRight: 8 }}
         onClick={onClick}
       />

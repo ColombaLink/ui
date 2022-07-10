@@ -31,7 +31,7 @@ export type ButtonProps = {
   iconRight?: FC | ReactNode
   light?: boolean
   loading?: boolean
-  onClick: MouseEventHandler
+  onClick?: MouseEventHandler
   outline?: boolean
   style?: CSSProperties
   space?: Space
@@ -52,7 +52,7 @@ export const Button: FC<ButtonProps> = ({
   iconRight,
   light,
   loading,
-  onClick,
+  onClick = () => {},
   outline,
   actionKeys,
   style,

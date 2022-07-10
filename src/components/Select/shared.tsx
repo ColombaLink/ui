@@ -30,13 +30,7 @@ export const SelectLabel: FC<{
   style?: CSSProperties
   color?: Color
   label: string
-}> = ({
-  children,
-  onClick,
-  style,
-  color: colorProp = 'TextPrimary',
-  label,
-}) => {
+}> = ({ children, onClick, style, color: colorProp, label }) => {
   return (
     <styled.div
       onClick={onClick}
