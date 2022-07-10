@@ -10,6 +10,7 @@ import { useOverlay } from './useOverlay'
 import { useCallback, useState, useEffect, CSSProperties } from 'react'
 import { PropsEventHandler } from '~/types'
 import { hash } from '@saulx/hash'
+import { deepEqual } from '@saulx/utils'
 
 export function useSelect(
   items: (Option | Value)[] = [],
@@ -70,9 +71,13 @@ export function useMultiSelect(
   (value: Value[] | undefined) => void
 ] {
   const [values, setValues] = useState(initialValues)
+
   useEffect(() => {
-    setValues(initialValues)
+    if (!deepEqual(initialValues, values)) {
+      setValues(initialValues)
+    }
   }, [initialValues])
+
   let id: number
   const n = items.map((v) => {
     const opt = typeof v === 'object' ? v : { value: v }
