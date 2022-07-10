@@ -30,6 +30,7 @@ export const Selects = () => {
         examples={[
           {
             props: {
+              value: 'yes',
               onChange: () => console.log('Snurp'),
               placeholder: 'select something...',
               label: 'Something',
