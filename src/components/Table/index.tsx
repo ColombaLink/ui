@@ -54,7 +54,7 @@ const Item: FC<{
         position: 'relative',
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: color('grey:hover', true),
+          backgroundColor: color('lightgrey:hover'),
         },
       }}
     >

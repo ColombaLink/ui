@@ -35,9 +35,7 @@ export const Steps: FC<StepsProps> = ({
             key={index}
             style={{
               alignItems: 'center',
-              backgroundColor: isActive
-                ? color('accent', 'active', true)
-                : null,
+              backgroundColor: isActive ? color('lightaccent:active') : null,
               borderRadius: 4,
               display: 'flex',
               height: 48,

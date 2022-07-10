@@ -294,10 +294,8 @@ export const Input: FC<
       width: '100%',
       fontSize: ghost ? 16 : null,
       fontWeight: ghost ? 500 : null,
-      backgroundColor: disabled
-        ? color('grey', true)
-        : bg
-        ? color(hover ? 'grey:hover' : 'grey', true)
+      backgroundColor: bg
+        ? color(hover && !disabled ? 'lightgrey:hover' : 'lightgrey')
         : 'inherit',
     },
     inputRef,

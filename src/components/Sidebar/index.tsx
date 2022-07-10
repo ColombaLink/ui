@@ -22,9 +22,9 @@ const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
         alignItems: 'center',
         marginBottom: 16,
         borderRadius: 4,
-        backgroundColor: isActive ? color('accent:active', true) : null,
+        backgroundColor: isActive ? color('lightaccent:active') : null,
         '&:hover': {
-          backgroundColor: color('accent:hover', true),
+          backgroundColor: color('lightaccent:hover'),
         },
         ...font({
           size: 18,

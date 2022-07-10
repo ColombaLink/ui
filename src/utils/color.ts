@@ -79,7 +79,7 @@ const systemColors = {
   background2: 'rgba(247,247,248,1)',
   background2dp: 'rgba(255,255,255,1)',
   background3dp: 'rgba(255,255,255,1)',
-  overlay: 'rgba(15,16,19,0.24)',
+  backdrop: 'rgba(15,16,19,0.24)',
   border: 'rgba(15,16,19, 0.08)',
   'border:hover': 'rgba(15,16,19, 0.12)',
   'border:active': 'rgba(61,83,231, 1)',
@@ -122,7 +122,7 @@ for (const name in accentColors) {
 
     lightVersion = `rgba(${r},${g},${b},${a})`
   }
-  accentColors[`l_${name}`] = lightVersion
+  accentColors[`light${name}`] = lightVersion
 }
 
 export const colors = {
@@ -133,9 +133,12 @@ export const colors = {
 type cssColorString = 'inherit' | 'currentColor' | `var(${string})`
 
 export type AccentColor = keyof typeof accentColors
-
-export type Color = keyof typeof systemColors | AccentColor | cssColorString
-
+export type LightColor = `light${AccentColor}`
+export type Color =
+  | keyof typeof systemColors
+  | AccentColor
+  | LightColor
+  | cssColorString
 export type ColorVariant = 'active' | 'border' | 'hover' | 'contrast'
 
 type ColorFn = {
@@ -157,7 +160,9 @@ export const color: ColorFn = (name, variant, light): cssColorString | null => {
         return color(`${name}:${variant}` as Color, null, light)
       }
       const v = name.replace(':', '_')
-      return light ? `var(--l_${v})` : `var(--${v})`
+      return light && !name.startsWith('light')
+        ? `var(--light${v})`
+        : `var(--${v})`
     }
     if (name.includes(':')) {
       return color(name.substring(0, name.indexOf(':')) as Color, null, light)

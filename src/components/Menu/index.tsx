@@ -58,9 +58,9 @@ export const MenuItem: FC<MenuItemProps> = ({
           padding: '4px 12px',
           margin: '-4px -12px',
           borderRadius: 4,
-          backgroundColor: isActive ? color('accent:active', true) : null,
+          backgroundColor: isActive ? color('lightaccent:active') : null,
           '&:hover': {
-            backgroundColor: color('accent:hover', true),
+            backgroundColor: color('lightaccent:hover'),
           },
         }}
       >

@@ -61,7 +61,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
           key={id}
           style={{
             alignItems: 'center',
-            backgroundColor: color('overlay'),
+            backgroundColor: color('backdrop'),
             display: 'flex',
             justifyContent: 'center',
             padding: 20,

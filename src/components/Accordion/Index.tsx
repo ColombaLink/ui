@@ -43,7 +43,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
       <div
         onClick={() => setOpen(!open)}
         style={{
-          backgroundColor: color(open ? 'accent' : 'background2', true),
+          backgroundColor: color(open ? 'lightaccent' : 'background2'),
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',

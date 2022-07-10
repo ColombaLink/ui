@@ -50,7 +50,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
           top: 0,
           borderRadius: 4,
           '&:hover': {
-            backgroundColor: color('accent:hover', true),
+            backgroundColor: color('lightaccent:hover'),
           },
         }}
       >
