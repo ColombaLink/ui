@@ -1,231 +1,156 @@
-// TODO put this somewehere else
-import { rgbaToArr } from '../components/ColorPicker/utils'
-
-const _colors = {
-  // main | active? | hover? | contrast? | border?
-  accent: [
-    [61, 83, 231],
-    [54, 73, 203],
-    [56, 76, 213],
-    [255, 255, 255],
-  ],
-  text: [
-    [15, 16, 19, 0.87],
-    [15, 16, 19, 0.87],
-    [15, 16, 19, 0.87],
-    [255, 255, 255],
-  ],
-  text2: [
-    [15, 16, 19, 0.6],
-    [15, 16, 19, 0.6],
-    [15, 16, 19, 0.6],
-    [255, 255, 255],
-  ],
-  babyblue: [
-    [79, 175, 248],
-    [79, 185, 248],
-    [79, 175, 248, 0.1],
-    [255, 255, 255],
-  ],
-  reddish: [
-    [237, 103, 98],
-    [237, 103, 98],
-    [237, 103, 98, 0.1],
-    [255, 255, 255],
-  ],
-  red: [
-    [244, 67, 54],
-    [205, 56, 45],
-    [215, 59, 48, 0.1],
-    [255, 255, 255],
-  ],
-  yellow: [
-    [227, 183, 81],
-    [227, 183, 81],
-    [227, 183, 81, 0.1],
-    [255, 255, 255],
-  ],
-  green: [
-    [86, 187, 112],
-    [86, 187, 112],
-    [86, 187, 112, 0.1],
-    [255, 255, 255],
-  ],
-  teal: [
-    [89, 196, 197],
-    [89, 196, 197],
-    [89, 196, 197, 0.1],
-    [255, 255, 255],
-  ],
-  purple: [
-    [154, 82, 246],
-    [154, 82, 246],
-    [154, 82, 246, 0.1],
-    [255, 255, 255],
-  ],
-  mustard: [
-    [197, 187, 68],
-    [197, 187, 68],
-    [197, 187, 68, 0.1],
-    [255, 255, 255],
-  ],
-  grey: [
-    [50, 50, 50],
-    [0, 0, 0],
-    [33, 33, 33],
-    [255, 255, 255],
-  ],
-  background: [[255, 255, 255]],
-  background2: [[247, 247, 248]],
-  background2dp: [[255, 255, 255]],
-  background3dp: [[255, 255, 255]],
-  backdrop: [[15, 16, 19, 0.24]],
-  border: [
-    [15, 16, 19, 0.08],
-    [61, 83, 231, 1],
-    [15, 16, 19, 0.12],
-  ],
+const json = {
+  default: {
+    colors: {
+      // main | active? | hover? | contrast? | border?
+      accent: [
+        [61, 83, 231],
+        [54, 73, 203],
+        [56, 76, 213],
+        [255, 255, 255, 0.87],
+      ],
+      text: [
+        [15, 16, 19, 0.87],
+        [15, 16, 19, 0.87],
+        [15, 16, 19, 0.87],
+        [255, 255, 255, 0.87],
+      ],
+      text2: [
+        [15, 16, 19, 0.6],
+        [15, 16, 19, 0.6],
+        [15, 16, 19, 0.6],
+        [255, 255, 255, 0.87],
+      ],
+      babyblue: [
+        [79, 175, 248],
+        [79, 185, 248],
+        [79, 175, 248, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      reddish: [
+        [237, 103, 98],
+        [237, 103, 98],
+        [237, 103, 98, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      red: [
+        [244, 67, 54],
+        [205, 56, 45],
+        [215, 59, 48, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      yellow: [
+        [227, 183, 81],
+        [227, 183, 81],
+        [227, 183, 81, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      green: [
+        [86, 187, 112],
+        [86, 187, 112],
+        [86, 187, 112, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      teal: [
+        [89, 196, 197],
+        [89, 196, 197],
+        [89, 196, 197, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      purple: [
+        [154, 82, 246],
+        [154, 82, 246],
+        [154, 82, 246, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      mustard: [
+        [197, 187, 68],
+        [197, 187, 68],
+        [197, 187, 68, 0.1],
+        [255, 255, 255, 0.87],
+      ],
+      grey: [
+        [50, 50, 50],
+        [0, 0, 0],
+        [33, 33, 33],
+        [255, 255, 255, 0.87],
+      ],
+      background: [[255, 255, 255]],
+      background2: [[247, 247, 248]],
+      background2dp: [[255, 255, 255]],
+      background3dp: [[255, 255, 255]],
+      backdrop: [[15, 16, 19, 0.24]],
+      border: [
+        [15, 16, 19, 0.08],
+        [61, 83, 231, 1],
+        [15, 16, 19, 0.12],
+      ],
+    },
+    light: {
+      accent: [
+        [131, 145, 237, 0.12],
+        [131, 145, 237, 0.2],
+        [131, 145, 237, 0.2],
+        null,
+        [131, 145, 237, 0.16],
+      ],
+      grey: [
+        [246, 246, 246],
+        [241, 241, 241],
+        [241, 241, 241],
+        [50, 50, 50],
+      ],
+    },
+  },
+  dark: {},
 }
 
-const accentColors = {
-  accent: 'rgba(61,83,231,1)',
-  'accent:active': 'rgba(54,73,203,1)',
-  'accent:border': 'rgba(61,83,231,1)',
-  'accent:hover': 'rgba(56,76,213,1)',
-  'accent:contrast': 'rgba(255,255,255,1)',
+// parse theme
+const vars = {}
+export const parse = () => {
+  const { colors, light = {} } = json.default
+  const toRgba = (arr) => (arr.length === 3 ? `rgb(${arr})` : `rgba(${arr})`)
+  const alpha = ([r, g, b], a) => [r, g, b, a]
 
-  text: 'rgba(15,16,19,0.87)',
-  'text:active': 'rgba(15,16,19,0.87)',
-  'text:border': 'rgba(15,16,19,0.87)',
-  'text:hover': 'rgba(15,16,19,0.87)',
-  'text:contrast': 'rgba(255,255,255,1)',
+  for (const name in colors) {
+    const [main, active, hover, contrast, border] = colors[name]
+    const [lMain, lActive, lHover, lContrast, lBorder] = light[name] || []
 
-  text2: 'rgba(15,16,19,0.60)',
-  'text2:active': 'rgba(15,16,19,0.60)',
-  'text2:border': 'rgba(15,16,19,0.60)',
-  'text2:hover': 'rgba(15,16,19,0.60)',
-  'text2:contrast': 'rgba(255,255,255,1)',
+    vars[name] = main
+    vars[`${name}:active`] = active || main
+    vars[`${name}:hover`] = hover || main
+    vars[`${name}:contrast`] = contrast || main
+    vars[`${name}:border`] = border || main
 
-  babyblue: 'rgba(79,175,248,1)',
-  'babyblue:active': 'rgba(79,185,248, 1)',
-  'babyblue:border': 'rgba(79,175,248,1)',
-  'babyblue:hover': 'rgba(79,175,248, 0.10)',
-  'babyblue:contrast': 'rgba(255,255,255,1)',
-
-  reddish: 'rgba(237,103,98,1)',
-  'reddish:active': 'rgba(237,103,98, 1)',
-  'reddish:border': '#ed6762',
-  'reddish:hover': 'rgba(237,103,98, 0.1)',
-  'reddish:contrast': 'rgba(255,255,255,1)',
-
-  red: 'rgba(244,67,54,1)',
-  'red:active': 'rgba(205,56,45,1)',
-  'red:border': 'rgba(244,67,54,1)',
-  'red:hover': 'rgba(215,59,48,0.1)',
-  'red:contrast': 'rgba(255,255,255,1)',
-
-  yellow: 'rgba(227,183,81,1)',
-  'yellow:active': 'rgba(227,183,81, 1)',
-  'yellow:border': 'rgba(227,183,81,1)',
-  'yellow:hover': 'rgba(227,183,81, 0.1)',
-  'yellow:contrast': 'rgba(255,255,255,1)',
-
-  green: 'rgba(86,187,112,1)',
-  'green:active': 'rgba(86,187,112, 1)',
-  'green:border': 'rgba(86,187,112,1)',
-  'green:hover': 'rgba(86,187,112, 0.1)',
-  'green:contrast': 'rgba(255,255,255,1)',
-
-  teal: 'rgba(89,196,197,1)',
-  'teal:active': 'rgba(89,196,197, 1)',
-  'teal:border': 'rgba(89,196,197,1)',
-  'teal:hover': 'rgba(89,196,197, 0.1)',
-  'teal:contrast': 'rgba(255,255,255,1)',
-
-  purple: 'rgba(154,82,246,1)',
-  'purple:active': 'rgba(154,82,246, 1)',
-  'purple:border': 'rgba(154,82,246,1)',
-  'purple:hover': 'rgba(154,82,246, 0.10)',
-  'purple:contrast': 'rgba(255,255,255, 0.87)',
-
-  mustard: 'rgba(197,187,68,1)',
-  'mustard:active': 'rgba(197,187,68, 1)',
-  'mustard:border': 'rgba(197,187,68,1)',
-  'mustard:hover': 'rgba(197,187,68, 0.1)',
-  'mustard:contrast': 'rgba(255,255,255, 0.87)',
-
-  grey: 'rgba(50,50,50,1)',
-  'grey:active': 'rgba(0,0,0,1)',
-  'grey:hover': 'rgba(33,33,33,1)',
-  'grey:contrast': 'rgba(255,255,255,1)',
-}
-
-const systemColors = {
-  background: 'rgba(255,255,255,1)',
-  background2: 'rgba(247,247,248,1)',
-  background2dp: 'rgba(255,255,255,1)',
-  background3dp: 'rgba(255,255,255,1)',
-  backdrop: 'rgba(15,16,19,0.24)',
-  border: 'rgba(15,16,19, 0.08)',
-  'border:hover': 'rgba(15,16,19, 0.12)',
-  'border:active': 'rgba(61,83,231, 1)',
-  'text-disabled': 'rgba(15,16,19, 0.38)',
-}
-
-// add some light version of all accent colors
-const lightColors = {
-  accent: 'rgba(131,145,237,0.12)',
-  'accent:active': 'rgba(131,145,237,0.20)',
-  'accent:border': 'rgba(131,145,237,0.20)',
-  'accent:hover': 'rgba(131,145,237,0.16)',
-  'accent:contrast': 'var(--accent)',
-
-  grey: 'rgba(246,246,246,1)',
-  'grey:active': 'rgba(241,241,241,1)',
-  'grey:hover': 'rgba(241,241,241,1)',
-  'grey:contrast': 'rgba(50,50,50,1)',
-}
-
-// lets add some light colors
-for (const name in accentColors) {
-  let lightVersion
-  if (name in lightColors) {
-    lightVersion = lightColors[name]
-  } else if (name.endsWith(':contrast')) {
-    lightVersion = `var(--${name.substring(0, name.indexOf(':'))})`
-  } else {
-    const [r, g, b] = rgbaToArr(accentColors[name])
-    let a
-    if (name.endsWith(':active')) {
-      a = 0.24
-    } else if (name.endsWith(':border')) {
-      a = 0.24
-    } else if (name.endsWith(':hover')) {
-      a = 0.2
-    } else {
-      a = 0.16
-    }
-
-    lightVersion = `rgba(${r},${g},${b},${a})`
+    const lightName = `light${name}`
+    vars[lightName] = lMain || alpha(main, 0.16)
+    vars[`${lightName}:active`] = lActive || alpha(main, 0.24)
+    vars[`${lightName}:hover`] = lHover || alpha(main, 0.2)
+    vars[`${lightName}:contrast`] = lContrast || main
+    vars[`${lightName}:border`] = lBorder || alpha(main, 0.24)
   }
-  accentColors[`light${name}`] = lightVersion
+
+  for (const name in vars) {
+    const varName = `--${name
+      .replace(/^light/, 'l_')
+      .replace(':active', '_a')
+      .replace(':hover', '_h')
+      .replace(':contrast', '_c')
+      .replace(':border', '_b')}`
+    document.body.style.setProperty(varName, toRgba(vars[name]))
+    vars[name] = `var(${varName})`
+  }
+  return vars
 }
 
-export const colors = {
-  ...accentColors,
-  ...systemColors,
-}
+console.info('init theme')
+parse()
 
-type cssColorString = 'inherit' | 'currentColor' | `var(${string})`
-
-export type AccentColor = keyof typeof accentColors
-export type LightColor = `light${AccentColor}`
-export type Color =
-  | keyof typeof systemColors
-  | AccentColor
-  | LightColor
-  | cssColorString
+export type cssColorString = 'inherit' | 'currentColor' | `var(${string})`
+export type AccentColor = keyof typeof json.default.colors
+export type BaseColor = `light${AccentColor}` | AccentColor
 export type ColorVariant = 'active' | 'border' | 'hover' | 'contrast'
+export type StateColor = `${BaseColor}:${ColorVariant}`
+export type Color = BaseColor | StateColor | cssColorString
 
 type ColorFn = {
   (name: Color, variant?: ColorVariant, light?: boolean): cssColorString | null
@@ -241,14 +166,12 @@ export const color: ColorFn = (name, variant, light): cssColorString | null => {
       variant = null
       light = true
     }
-    if (name in colors) {
+    if (name in vars) {
       if (variant) {
         return color(`${name}:${variant}` as Color, null, light)
       }
-      const v = name.replace(':', '_')
-      return light && !name.startsWith('light')
-        ? `var(--light${v})`
-        : `var(--${v})`
+      const key = light && !name.startsWith('light') ? `light${name}` : name
+      return vars[key]
     }
     if (name.includes(':')) {
       return color(name.substring(0, name.indexOf(':')) as Color, null, light)

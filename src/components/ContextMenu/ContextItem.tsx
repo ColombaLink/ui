@@ -9,7 +9,7 @@ import { Text } from '~/components/Text'
 import { Color, Icon, PropsEventHandler } from '~/types'
 import { Style, styled } from 'inlines'
 import { removeOverlay } from '../Overlay'
-import { color } from '~/utils'
+import { color, renderOrCreateElement } from '~/utils'
 
 const StyledContextItem = styled('div', {
   display: 'flex',
@@ -78,7 +78,10 @@ export const ContextItem: FC<ContextItemProps> = ({
   if (leftIcon) {
     child = (
       <Text color={color} style={{ display: 'flex', alignItems: 'center' }}>
-        {createElement(leftIcon, { size: 16, style: { marginRight: 8 } })}
+        {renderOrCreateElement(leftIcon, {
+          size: 16,
+          style: { marginRight: 8 },
+        })}
         {children}
       </Text>
     )
@@ -94,7 +97,10 @@ export const ContextItem: FC<ContextItemProps> = ({
     return (
       <StyledContextItem onClick={onClick} style={style}>
         {child}
-        {rightIcon}
+        {renderOrCreateElement(leftIcon, {
+          size: 16,
+          style: { marginLeft: 8 },
+        })}
       </StyledContextItem>
     )
   }
@@ -120,7 +126,10 @@ export const ContextItem: FC<ContextItemProps> = ({
       }
     >
       {child}
-      {rightIcon}
+      {renderOrCreateElement(leftIcon, {
+        size: 16,
+        style: { marginLeft: 8 },
+      })}
     </StyledContextItem>
   )
 }

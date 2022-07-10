@@ -1,14 +1,14 @@
-import { parseTheme } from '../utils/parseTheme'
-import { colors as dark } from './dark'
-import { colors as light } from './light'
+import { parse } from '../utils/color'
+// import { colors as dark } from './dark'
+// import { colors as light } from './light'
 
-export { dark, light }
+// export { dark, light }
 
 export const themes = (theme?: 'dark' | 'light') => {
-  const themes = {
-    light,
-    dark,
-  }
+  // const themes = {
+  //   light,
+  //   dark,
+  // }
   if (typeof window !== 'undefined') {
     const colorSchemeMedia = matchMedia('(prefers-color-scheme: dark)')
     let currentTheme
@@ -22,7 +22,8 @@ export const themes = (theme?: 'dark' | 'light') => {
 
       if (newTheme !== currentTheme) {
         currentTheme = newTheme
-        parseTheme(themes[newTheme])
+        // parse(themes[newTheme])
+        parse()
       }
     }
 

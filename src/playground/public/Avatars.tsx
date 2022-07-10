@@ -35,7 +35,7 @@ export const Avatars = () => {
               icon: BasedIcon,
               size: 64,
               label: 'Hello',
-              backgroundColor: 'red',
+              color: 'red',
               img: 'https://robohash.org/JBS.png?set=set2&size=150x150',
             },
           },
