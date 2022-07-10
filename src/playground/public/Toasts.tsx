@@ -1,26 +1,24 @@
 import React from 'react'
 import { Toast, useToast } from '~/components/Toast'
-import { BasedIcon, CheckCircleIcon, CloseIcon, StackIcon } from '~/icons'
+import { CheckCircleIcon, CloseIcon } from '~/icons'
 import { Button } from '~/components/Button'
-import { Avatar } from '~/components/Avatar'
-import { Container } from '~/components/Container'
 import ComponentViewer from '../ComponentViewer'
 
-const Notification = ({ children }) => {
-  const toast = useToast()
+const codeExample = `import { CheckCircleIcon, useToast, Toast, Button } from '@based/ui'
 
-  return (
-    <div
-      style={{
-        cursor: 'pointer',
-        marginBottom: 16,
-      }}
-      onClick={() => toast.add(children)}
-    >
-      {children}
-    </div>
-  )
+const toast = useToast()
+
+const notify = () => {
+  toast.add(<Toast 
+    title="notify"
+    icon={CheckCircleIcon}
+    message="Account created." 
+  />)
 }
+
+<Button onClick={notify}>
+  Notify!
+</Button>`
 
 const CloseAllButton = () => {
   const toast = useToast()
@@ -40,56 +38,27 @@ const CloseAllButton = () => {
 }
 
 export const Toasts = () => {
-  const toasts = [
-    <Toast
-      key={0}
-      title="success"
-      message="Account created."
-      icon={CheckCircleIcon({ color: 'Purple' })}
-    >
-      We’ve created your account for you.
-    </Toast>,
-
-    <Toast
-      key={1}
-      title="error"
-      message="Oops!"
-      icon={CheckCircleIcon({ color: 'Red' })}
-    >
-      Something went wrong.
-    </Toast>,
-
-    <Toast key={2} title="Lil' Message?">
-      Just something to think about.
-    </Toast>,
-
-    <Toast
-      key={3}
-      title="Crazy Toast?"
-      message="Let's see"
-      topLeft={<StackIcon />}
-      topRight={<Avatar label="yo" color="Pink" />}
-      style={{ backgroundColor: 'lightyellow' }}
-    >
-      <Button
-        onClick={() => {
-          console.log('yo')
-        }}
-      >
-        Hello
-      </Button>
-    </Toast>,
-  ]
-
   return (
     <div>
-      <ComponentViewer component={Toast} />
-      <Container space wrap>
-        {toasts.map((notification, index) => {
-          return <Notification key={index}>{notification}</Notification>
-        })}
-        <CloseAllButton />
-      </Container>
+      <ComponentViewer
+        component={Toast}
+        examples={[
+          {
+            props: {
+              title: 'success',
+              message: 'Account created.',
+              icon: <CheckCircleIcon color="accent" />,
+              children: 'We’ve created your account for you.',
+            },
+          },
+          {
+            code: codeExample,
+            // component: () => {
+            //   return <Notification>{toasts}</Notification>
+            // },
+          },
+        ]}
+      />
     </div>
   )
 }

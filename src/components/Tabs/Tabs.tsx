@@ -50,7 +50,7 @@ const TabWrapper: FC<{
         alignItems: 'center',
         ...(index === activeTabState
           ? font({ size: 15, weight: 600 })
-          : font({ size: 15, secondary: true })),
+          : font({ size: 15, color: 'text2' })),
       }}
       onClick={() => {
         setHoverTab(-1)
@@ -106,7 +106,7 @@ export const Tabs: FC<TabsProps> = ({
         style={{
           height: !large ? 42 : 66,
           marginTop: 24,
-          borderBottom: `1px solid ${color('bg', 'border')}`,
+          borderBottom: `1px solid ${color('border')}`,
           marginBottom: spaceToPx(space),
           ...style,
         }}

@@ -25,7 +25,7 @@ const FilterInputHolderSticky = styled('div', {
   borderTopLeftRadius: 4,
   borderTopRightRadius: 4,
   top: 0,
-  backgroundColor: color('bg', '2dp'),
+  backgroundColor: color('background2dp'),
 })
 
 const FilterInputHolder = styled('div', {
@@ -39,9 +39,9 @@ const FilterInputHolder = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `1px solid ${color('bg', 'border')}`,
+  borderBottom: `1px solid ${color('border')}`,
   width: '100%',
-  backgroundColor: color('GreylightHover'),
+  backgroundColor: color('grey:hover', true),
 })
 
 const FilterInput = styled('input', {
@@ -54,8 +54,6 @@ const FilterInput = styled('input', {
   textAlign: 'left',
   paddingLeft: '12px',
   background: 'transparent',
-  // lineHeight: '$md',
-  // fontSize: '$md',
   color: color('text'),
   userSelect: 'text',
 })
@@ -123,7 +121,7 @@ export const ContextOptionItem = ({
 
   if (option.value === '$-no-results-aviato') {
     return (
-      <ContextItem inset={!noInset} noFocus color="TextSecondary">
+      <ContextItem inset={!noInset} noFocus color="text2">
         {option.label}
       </ContextItem>
     )
@@ -136,14 +134,9 @@ export const ContextOptionItem = ({
         inset={!noInset}
         tabIndex={tabIndex}
         style={{
-          backgroundColor:
-            isSelected === 1
-              ? color('GreylightActive')
-              : isSelected === 1
-              ? color('GreylightHover')
-              : null,
+          backgroundColor: isSelected === 1 ? color('grey:active', true) : null,
           '&:active': {
-            backgroundColor: color('GreylightHover'),
+            backgroundColor: color('grey:hover', true),
           },
         }}
         leftIcon={option.icon || (!noInset && selected ? CheckIcon : null)}
@@ -241,7 +234,7 @@ const FilterableContextOptions: FC<
     <>
       <FilterInputHolderSticky>
         <FilterInputHolder>
-          <SearchIcon color="TextSecondary" size={16} />
+          <SearchIcon color="text2" size={16} />
           <FilterInput
             data-aviato-context-item
             placeholder={placeholder || 'Filter...'}
@@ -333,11 +326,11 @@ const FilterInputMultiHolder = styled('div', {
   paddingTop: 2,
   borderTopLeftRadius: 3,
   paddingLeft: 4,
-  borderBottom: `1px solid ${color('bg', 'border')}`,
+  borderBottom: `1px solid ${color('border')}`,
   borderTopRightRadius: 3,
   display: 'flex',
   width: '100%',
-  backgroundColor: color('Greylight'),
+  backgroundColor: color('grey', true),
 })
 
 const FilterMultiInput = styled('input', {
@@ -371,7 +364,7 @@ const StyledFilterSelectedBadge = styled('div', {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  backgroundColor: color('Greylight'),
+  backgroundColor: color('grey', true),
 })
 
 export const FilterSelectBadge: FC<{

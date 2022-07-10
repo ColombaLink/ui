@@ -12,14 +12,14 @@ export const Avatars = () => {
           {
             props: {
               size: 32,
-              color: 'Teal',
+              color: 'teal',
               label: 'blah',
             },
           },
           {
             props: {
               size: 40,
-              color: 'GreenForest',
+              color: 'green',
               label: 'Yo',
             },
           },
@@ -27,7 +27,7 @@ export const Avatars = () => {
             props: {
               icon: BasedIcon,
               size: 40,
-              color: 'Red',
+              color: 'red',
             },
           },
           {
@@ -35,9 +35,8 @@ export const Avatars = () => {
               icon: BasedIcon,
               size: 64,
               label: 'Hello',
-              backgroundColor: 'Red',
-              backgroundImg:
-                'https://robohash.org/JBS.png?set=set2&size=150x150',
+              backgroundColor: 'red',
+              img: 'https://robohash.org/JBS.png?set=set2&size=150x150',
             },
           },
         ]}

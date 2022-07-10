@@ -33,7 +33,7 @@ export const Provider: FC<ProviderProps> = ({
   return (
     <div
       style={{
-        backgroundColor: color('bg'),
+        backgroundColor: color('background'),
         color: color('text'),
         height: fill ? '100vh' : '100%',
         width: '100%',

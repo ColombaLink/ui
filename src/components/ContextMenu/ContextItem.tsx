@@ -20,10 +20,10 @@ const StyledContextItem = styled('div', {
   paddingRight: '16px',
   cursor: 'pointer',
   '&:active': {
-    backgroundColor: color('GreylightActive'),
+    backgroundColor: color('grey:active', true),
   },
   '&:focus': {
-    backgroundColor: color('GreylightHover'),
+    backgroundColor: color('grey:hover', true),
   },
 })
 
@@ -41,7 +41,7 @@ export type ContextItemProps = {
 
 export const ContextDivider = styled('div', {
   marginTop: 4,
-  borderTop: `1px solid ${color('bg', 'border')}`,
+  borderTop: `1px solid ${color('border')}`,
   marginBottom: 4,
 })
 

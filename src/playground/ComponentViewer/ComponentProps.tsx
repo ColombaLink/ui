@@ -41,7 +41,7 @@ export const SingleProp: FC<{ style?: CSSProperties; prop: any }> = ({
           onClick={() => {
             copyToClipboard(prop.type.value)
           }}
-          color="Green"
+          color="green"
         >
           {prop.type.value}
         </Badge>

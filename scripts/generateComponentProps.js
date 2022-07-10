@@ -113,6 +113,15 @@ const genComponentTypes = async (filePath) => {
                 }
               }
             }
+          } else if (type.type === 'TSUnionType') {
+            // console.info('?', path.node, type.types)
+            const props = {
+              name: path.node.id.name,
+              props: {},
+              code: code.slice(path.node.start, path.node.end),
+              file: '/' + relative(join(__dirname, '../src'), filePath),
+            }
+            p.push(props)
           }
         }
       },

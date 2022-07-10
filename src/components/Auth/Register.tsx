@@ -5,7 +5,7 @@ import { useClient } from '@based/react'
 import { EmailIcon, LockIcon, CheckIcon, CloseIcon, ErrorIcon } from '~/icons'
 import { Callout } from '../Callout'
 import { email as isEmail, validatePassword } from '@saulx/validators'
-import { color } from '~/utils'
+import { border, color } from '~/utils'
 
 type RegisterProps = {
   width?: number
@@ -23,23 +23,17 @@ export const Register: FC<RegisterProps> = ({
   const [password, setPassword] = useState('')
   const [cpassword, setCPassword] = useState('')
   const [name, setName] = useState('')
-
   const passwordScore = validatePassword(password)
-
   const passwordIsValid = passwordScore.valid && password === cpassword
-
   const valid = isEmail(email) && passwordIsValid
-
   const passwordValidationMessage = password ? `${passwordScore.info}` : null
-
   const passwordPercentage = Math.min(passwordScore.entropy, 100) + '%'
-
   const passWordColor =
     passwordScore.entropy < 50
-      ? 'Red'
+      ? 'red'
       : passwordScore.entropy < 60
-      ? 'Yellow'
-      : 'Green'
+      ? 'yellow'
+      : 'green'
 
   const PasswordIcon =
     passwordScore.entropy < 60
@@ -94,9 +88,9 @@ export const Register: FC<RegisterProps> = ({
             !cpassword ? (
               LockIcon
             ) : passwordIsValid ? (
-              <CheckIcon color="Green" />
+              <CheckIcon color="green" />
             ) : (
-              <CloseIcon color="Red" />
+              <CloseIcon color="red" />
             )
           }
           space
@@ -118,7 +112,7 @@ export const Register: FC<RegisterProps> = ({
           style={{
             width: passwordPercentage,
             height: 4,
-            border: '1px solid ' + color(passWordColor),
+            border: border(1, passWordColor),
             backgroundColor: color(passWordColor),
             borderRadius: 10,
             marginBottom: 16,

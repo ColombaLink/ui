@@ -59,14 +59,14 @@ export const ProjectSettings = () => {
               label="Email address"
               space="8px"
             />
-            <Text weight={400} secondary space="24px">
+            <Text weight={400} color="text2" space="24px">
               We will email you to verify a change.
             </Text>
             <Text weight={600} space="12px">
               Project picture
             </Text>
             <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
-              <Avatar size={40} color="Purple">
+              <Avatar size={40} color="purple">
                 EU
               </Avatar>
               <Button outline ghost>
@@ -90,12 +90,12 @@ export const ProjectSettings = () => {
               <Checkbox />
               <Avatar
                 size={40}
-                backgroundImg="https://robohash.org/BX4.png?set=set4&size=150x150"
-                color="Red"
+                img="https://robohash.org/BX4.png?set=set4&size=150x150"
+                color="red"
               />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Text>Maarten de Winter</Text>
-                <Text weight={400} secondary>
+                <Text weight={400} color="text2">
                   maarten@saulx.com
                 </Text>
               </div>
@@ -105,12 +105,12 @@ export const ProjectSettings = () => {
               <Checkbox />
               <Avatar
                 size={40}
-                backgroundImg="https://robohash.org/2ZP.png?set=set4&size=150x150"
-                color="Mustard"
+                img="https://robohash.org/2ZP.png?set=set4&size=150x150"
+                color="mustard"
               />
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Text>Youzi</Text>
-                <Text weight={400} secondary>
+                <Text weight={400} color="text2">
                   youzi@saulx.com
                 </Text>
               </div>
@@ -120,7 +120,7 @@ export const ProjectSettings = () => {
           <Container
             style={{ maxWidth: '730px' }}
             space
-            bottomRight={<Button color="Redlight">Delete project</Button>}
+            bottomRight={<Button color="red">Delete project</Button>}
           >
             <Text size="20px" space="24px" weight={700}>
               Delete project

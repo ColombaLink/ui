@@ -13,8 +13,8 @@ export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
   borderRadius: 4,
   alignItems: 'center',
-  border: `1px solid ${color('bg', 'border')}`,
-  backgroundColor: color('bg'),
+  border: `1px solid ${color('border')}`,
+  backgroundColor: color('background'),
   paddingLeft: 12,
   paddingRight: 12,
   paddingTop: 7,
@@ -26,7 +26,7 @@ export const StyledSelect = styled('div', {
   display: 'flex',
   width: '100%',
   '&:hover': {
-    border: `1px solid ${color('OtherInputBorderHover')}`,
+    border: `1px solid ${color('border:hover')}`,
   },
 })
 
@@ -78,7 +78,9 @@ export const Select: FC<SelectProps> = ({
 
   const children = (
     <>
-      <Text secondary={!!currentValue}>{labelValue || placeholder}</Text>
+      <Text color={currentValue ? 'text2' : 'text'}>
+        {labelValue || placeholder}
+      </Text>
       <ChevronDownIcon color={color} size={16} />
     </>
   )

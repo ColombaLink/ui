@@ -43,7 +43,7 @@ export const rgbToHue = (rgb): RGB => {
   return [hr, hg, hb]
 }
 
-export const toHex = (n) => Number(n).toString(16).padStart(2, 0)
+export const toHex = (n) => Number(n).toString(16).padStart(2, '0')
 
 export const minmax = (min, n, max) => Math.min(max, Math.max(min, n))
 

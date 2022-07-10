@@ -43,8 +43,8 @@ export const MenuItem: FC<MenuItemProps> = ({
 }) => {
   return (
     <Text
-      secondary={isNested}
-      active={isActive}
+      color={isNested ? 'text2' : 'text'}
+      variant={isActive ? 'active' : null}
       weight={isNested ? 500 : 600}
       wrap
       style={{
@@ -58,9 +58,9 @@ export const MenuItem: FC<MenuItemProps> = ({
           padding: '4px 12px',
           margin: '-4px -12px',
           borderRadius: 4,
-          backgroundColor: isActive ? color('PrimaryLightSelected') : null,
+          backgroundColor: isActive ? color('accent:active', true) : null,
           '&:hover': {
-            backgroundColor: color('accent', 'light', 'hover'),
+            backgroundColor: color('accent:hover', true),
           },
         }}
       >
@@ -99,8 +99,8 @@ export const Menu: FC<{
   return (
     <ScrollArea
       style={{
-        backgroundColor: color('bg'),
-        borderRight: `1px solid ${color('bg', 'border')}`,
+        backgroundColor: color('background'),
+        borderRight: `1px solid ${color('border')}`,
         padding: '64px 20px 20px 20px',
         width: 224,
         ...style,

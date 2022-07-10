@@ -64,8 +64,8 @@ export const InnerShared = ({ width, style, children, elementRef }) => {
       style={{
         pointerEvents: 'all',
         borderRadius: 4,
-        background: color('bg', '2dp'),
-        border: `1px solid ${color('bg', 'border')}`,
+        background: color('background2dp'),
+        border: `1px solid ${color('border')}`,
         maxHeight: 'calc(100vh - 30px)',
         boxShadow: `0px 3px 16px 1px rgba(0,0,0,0.05)`,
         width: width,

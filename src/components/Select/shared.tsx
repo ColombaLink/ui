@@ -8,8 +8,8 @@ export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
   borderRadius: 4,
   alignItems: 'center',
-  border: `1px solid ${color('bg', 'border')}`,
-  backgroundColor: color('bg'),
+  border: `1px solid ${color('border')}`,
+  backgroundColor: color('background'),
   paddingLeft: 12,
   paddingRight: 12,
   paddingTop: 7,
@@ -21,7 +21,7 @@ export const StyledSelect = styled('div', {
   display: 'flex',
   width: '100%',
   '&:hover': {
-    border: `1px solid ${color('OtherInputBorderHover')}`,
+    border: `1px solid ${color('border:hover')}`,
   },
 })
 export const SelectLabel: FC<{
@@ -37,8 +37,9 @@ export const SelectLabel: FC<{
       style={{
         justifyContent: 'space-between',
         borderRadius: 4,
-        border: `1px solid ${color('bg', 'border')}`,
-        backgroundColor: color('bg'),
+        border: `1px solid ${color('border')}`,
+
+        backgroundColor: color('background'),
         cursor: 'pointer',
         userSelect: 'none',
         height: 38,
@@ -46,7 +47,7 @@ export const SelectLabel: FC<{
         display: 'flex',
         width: '100%',
         '&:hover': {
-          border: `1px solid ${color('OtherInputBorderHover')}`,
+          border: `1px solid ${color('border:hover')}`,
         },
         ...style,
       }}
@@ -58,8 +59,8 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          backgroundColor: color('Greylight'),
-          borderRight: `1px solid ${color('bg', 'border')}`,
+          backgroundColor: color('grey', true),
+          borderRight: `1px solid ${color('border')}`,
           flexShrink: 0,
         }}
       >
@@ -74,7 +75,7 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          borderRight: `1px solid ${color('bg', 'border')}`,
+          borderRight: `1px solid ${color('border')}`,
         }}
       >
         {children}

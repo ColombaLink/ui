@@ -22,10 +22,10 @@ export const ListItem: FC<ListItemProps> = ({
     <div
       style={{
         display: 'flex',
-        backgroundColor: color('bg', '2dp'),
+        backgroundColor: color('background2dp'),
         justifyContent: 'space-between',
         alignItems: 'center',
-        border: `1px solid ${color('bg', 'border')}`,
+        border: `1px solid ${color('border')}`,
         padding: '12px 20px',
         borderRadius: 4,
         marginBottom: spaceToPx(space),

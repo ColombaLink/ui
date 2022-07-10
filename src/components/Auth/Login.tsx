@@ -82,7 +82,7 @@ export const Login: FC<LoginProps> = ({
           marginBottom: 16,
         }}
       >
-        <Text color="Reddish" size="14px">
+        <Text color="reddish" size="14px">
           {emailValidationMessage}
         </Text>
       </div>
@@ -147,7 +147,7 @@ export const Login: FC<LoginProps> = ({
               color: color('accent'),
               cursor: 'pointer',
               '&:hover': {
-                color: color('accent', 'hover'),
+                color: color('accent:hover'),
               },
             }}
             onClick={() => {
@@ -167,7 +167,7 @@ export const Login: FC<LoginProps> = ({
               color: color('accent'),
               cursor: 'pointer',
               '&:hover': {
-                color: color('accent', 'hover'),
+                color: color('accent:hover'),
               },
             }}
             onClick={() => {

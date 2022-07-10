@@ -46,7 +46,7 @@ export const ColorPicker: FC<ColorPickerProps> = ({
   return (
     <div
       style={{
-        border: `1px solid ${color('bg', 'border')}`,
+        border: `1px solid ${color('border')}`,
         borderRadius: 4,
         padding: 8,
         height: 300,

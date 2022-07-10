@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
+import { color, spaceToPx, renderOrCreateElement, border } from '~/utils'
 import { styled } from 'inlines'
 
 type ContainerProps = {
@@ -29,8 +29,8 @@ export const Container: FC<ContainerProps> = ({
       style={{
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,
-        backgroundColor: color('bg', '2dp'),
-        border: `1px solid ${color('bg', 'border')}`,
+        backgroundColor: color('background2dp'),
+        border: border('border'),
         position: 'relative',
         borderRadius: 4,
         overflow: 'hidden',
@@ -62,7 +62,7 @@ export const Container: FC<ContainerProps> = ({
             justifyContent: 'space-between',
             alignItems: 'center',
             minHeight: 68,
-            borderTop: `1px solid ${color('bg', 'border')}`,
+            borderTop: `1px solid ${color('border')}`,
             borderBottomLeftRadius: 4,
             borderBottomRightRadius: 4,
             position: 'absolute',
@@ -71,7 +71,7 @@ export const Container: FC<ContainerProps> = ({
             right: 0,
             paddingLeft: 24,
             paddingRight: 24,
-            backgroundColor: color('bg', '3dp'),
+            backgroundColor: color('background3dp'),
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

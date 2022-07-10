@@ -1,25 +1,15 @@
-import React, {
-  CSSProperties,
-  FC,
-  ReactChild,
-  ReactChildren,
-  ReactNode,
-} from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Space, Color } from '~/types'
 import { Text } from '../Text'
-import { color, renderOrCreateElement, spaceToPx } from '~/utils'
-import { isCapitalised } from '~/utils/isCapitalised'
+import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
 
 type CalloutProps = {
   children?: ReactNode
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean
-  outlineColor?: Color
   color?: Color
   ghost?: boolean
-  backgroundColor?: Color
-  foregroundColor?: Color
   space?: Space
   style?: CSSProperties
   textAlign?: 'center' | 'right'
@@ -30,50 +20,18 @@ export const Callout: FC<CalloutProps> = ({
   iconLeft,
   iconRight,
   outline,
-  outlineColor,
-  color: colorProp,
+  color: colorProp = 'accent',
   ghost,
-  backgroundColor,
-  foregroundColor,
   space,
   style,
   textAlign,
 }) => {
-  if (!backgroundColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      backgroundColor = `${colorProp}Accent` as Color
-    } else {
-      backgroundColor = 'PrimaryLightAccent'
-    }
-  }
-
-  if (!foregroundColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      foregroundColor = `${colorProp}Foreground` as Color
-    } else {
-      foregroundColor = 'TextPrimary'
-    }
-  }
-
-  if (!outlineColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      outlineColor = `${colorProp}Active` as Color
-    } else {
-      outlineColor = 'OtherDivider'
-    }
-  }
-
-  if (ghost) {
-    backgroundColor = 'Transparent'
-  }
-
   return (
     <div
       style={{
-        border: outline ? `1px solid ${color(outlineColor)}` : null,
-        backgroundColor: color(backgroundColor),
+        border: outline ? border(1, colorProp, 'border', true) : null,
+        backgroundColor: ghost ? 'transparent' : color(colorProp, true),
         display: 'flex',
-        //   alignItems: 'center',
         padding: '12px 16px',
         borderRadius: 4,
         marginBottom: spaceToPx(space),
@@ -93,7 +51,7 @@ export const Callout: FC<CalloutProps> = ({
           })}
         </div>
       )}
-      <Text wrap color={color(foregroundColor)}>
+      <Text wrap color={color(colorProp, 'contrast', true)}>
         {children}
       </Text>
       {iconRight && (

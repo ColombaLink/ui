@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export const usePropState = (prop: any, disable) => {
+export const usePropState = (prop: any, disable = false) => {
   const s = useState(prop)
 
   useEffect(() => {

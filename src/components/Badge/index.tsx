@@ -5,10 +5,9 @@ import React, {
   MouseEventHandler,
   useCallback,
 } from 'react'
-import { color, renderOrCreateElement } from '~/utils'
-import { Color } from '~/types'
+import { border, color, renderOrCreateElement } from '~/utils'
+import { AccentColor } from '~/types'
 import { Text } from '../Text'
-import { isCapitalised } from '~/utils/isCapitalised'
 import { styled } from 'inlines'
 
 type BadgeProps = {
@@ -17,11 +16,7 @@ type BadgeProps = {
   iconLeft?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean
-  color?: Color
-  backgroundColor?: Color
-  foregroundColor?: Color
-  outlineColor?: Color
-  hoverColor?: Color
+  color?: AccentColor
   boxed?: boolean
   ghost?: boolean
   onClick?: MouseEventHandler
@@ -33,49 +28,13 @@ export const Badge: FC<BadgeProps> = ({
   iconRight,
   style,
   outline,
-  color: colorProp,
+  color: colorProp = 'accent',
   onClick,
-  backgroundColor,
-  foregroundColor,
-  outlineColor,
-  hoverColor,
   boxed,
   ghost,
 }) => {
-  if (!backgroundColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      backgroundColor = `${colorProp}Accent` as Color
-    } else {
-      backgroundColor = 'PrimaryLightAccent'
-    }
-  }
-
-  if (!foregroundColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      foregroundColor = `${colorProp}Foreground` as Color
-    } else {
-      foregroundColor = 'TextPrimary'
-    }
-  }
-
-  if (!outlineColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      outlineColor = `${colorProp}Active` as Color
-    } else {
-      outlineColor = 'OtherDivider'
-    }
-  }
-
-  if (!hoverColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      hoverColor = `${colorProp}Hover` as Color
-    } else {
-      hoverColor = `${colorProp}Accent` as Color
-    }
-  }
-
   if (ghost) {
-    backgroundColor = 'Transparent'
+    console.warn('badge: implement ghost!')
   }
 
   // make this into a hook
@@ -108,12 +67,12 @@ export const Badge: FC<BadgeProps> = ({
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
-        border: outline ? `1px solid ${color(outlineColor)}` : null,
-        backgroundColor: color(backgroundColor),
+        color: color(colorProp, 'contrast', true),
+        border: border(outline && 1, colorProp, 'border', true),
+        backgroundColor: color(colorProp, true),
         '&:hover': {
-          backgroundColor: color(hoverColor),
+          backgroundColor: color(colorProp, 'hover', true),
         },
-
         ...style,
       }}
     >
@@ -126,21 +85,15 @@ export const Badge: FC<BadgeProps> = ({
             height: 'auto',
           }}
         >
-          {renderOrCreateElement(iconLeft, {
-            size: 10,
-            color: color(colorProp),
-          })}
+          {renderOrCreateElement(iconLeft, { size: 10 })}
         </div>
       )}
-      <Text size="12px" color={color(foregroundColor)}>
+      <Text size="12px" color="inherit">
         {children}
       </Text>
       {iconRight && (
         <div style={{ marginLeft: 8 }}>
-          {renderOrCreateElement(iconRight, {
-            size: 10,
-            color: color(colorProp),
-          })}
+          {renderOrCreateElement(iconRight, { size: 10 })}
         </div>
       )}
     </styled.div>

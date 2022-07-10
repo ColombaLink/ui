@@ -25,7 +25,7 @@ export const Toast: FC<ToastProps> = ({
     <div
       style={{
         borderRadius: 4,
-        backgroundColor: color('bg'),
+        backgroundColor: color('background'),
         boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
         cursor: 'pointer',
         padding: '12px 16px',

@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { DragDropIcon } from '~/icons'
 import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
+import { border, color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { Text } from '../Text'
 
 type StackedListItemsWrapperProps = {
@@ -41,8 +41,8 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '12px 16px',
-            backgroundColor: color('Greylight'),
-            border: `1px solid ${color('bg', 'border')}`,
+            backgroundColor: color('grey', true),
+            border: `1px solid ${color('border')}`,
             borderTopLeftRadius: 4,
             borderTopRightRadius: 4,
             marginBottom: -1,
@@ -67,8 +67,8 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             padding: '12px 16px',
             alignItems: 'center',
             justifyContent: 'space-between',
-            backgroundColor: color('bg', '2dp'),
-            border: `1px solid ${color('bg', 'border')}`,
+            backgroundColor: color('background2dp'),
+            border: border(1, 'border'),
             borderBottomLeftRadius: 4,
             borderBottomRightRadius: 4,
             marginBottom: spaceToPx(space, 32),
@@ -98,12 +98,12 @@ export const StackedListItem: FC<StackedListItemProps> = ({
       <div
         style={{
           display: 'flex',
-          backgroundColor: color('bg', '2dp'),
+          backgroundColor: color('background2dp'),
           justifyContent: 'space-between',
           alignItems: 'center',
           border: border
-            ? `1px solid ${color('bg', 'border')}`
-            : `1px solid ${color('Transparent')}`,
+            ? `1px solid ${color('border')}`
+            : `1px solid transparent`,
           padding: '12px 20px',
           marginBottom: -1,
           ...style,

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Tabs, Tab } from '~/components/Tabs'
+import { Tabs } from '../../'
 import ComponentViewer from '../ComponentViewer'
 
 const codeExample = `import { Tabs, Tab, Page } from '@based/ui'
 
-<Tabs>
+<Tabs activeTab={1}>
   <Tab title="title1">
     <Page>bla</Page>
   </Tab>
@@ -19,9 +19,7 @@ export const TabsView = () => {
       <ComponentViewer
         examples={[
           {
-            props: {
-              code: codeExample,
-            },
+            code: codeExample,
           },
         ]}
         component={Tabs}

@@ -1,10 +1,7 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { BasedIcon, CopyIcon, DotIcon, DuplicateIcon, MoreIcon } from '~/icons'
-import { Avatar } from '../Avatar'
 import { Text } from '../Text'
-import { Space, Color } from '~/types'
+import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { Badge } from '../Badge'
 
 type CardProps = {
   title?: string
@@ -36,8 +33,8 @@ export const Card: FC<CardProps> = ({
       style={{
         borderRadius: 8,
         padding: 16,
-        backgroundColor: color('bg', '2dp'),
-        border: `1px solid ${color('bg', 'border')}`,
+        backgroundColor: color('background2dp'),
+        border: `1px solid ${color('border')}`,
         maxWidth: small ? 280 : 302,
         marginBottom: spaceToPx(space),
         ...style,
@@ -47,7 +44,6 @@ export const Card: FC<CardProps> = ({
         style={{
           display: 'flex',
           position: 'relative',
-
           justifyContent: 'space-between',
           marginBottom: small ? null : 44,
         }}
@@ -62,16 +58,14 @@ export const Card: FC<CardProps> = ({
             }}
           >
             {renderOrCreateElement(topLeft, {})}
-
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <Text weight={600}>{title}</Text>
-              <Text weight={400} size="13px" secondary>
+              <Text weight={400} size="13px" color="text2">
                 {description}
               </Text>
             </div>
           </div>
         )}
-
         <div
           style={{
             display: 'flex',
@@ -83,14 +77,10 @@ export const Card: FC<CardProps> = ({
           {renderOrCreateElement(topRight, {})}
         </div>
       </div>
-
-      <div>
-        <>{children}</>
-      </div>
-
+      <div>{children}</div>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <>{bottomLeft}</>
-        <>{bottomRight}</>
+        {bottomLeft}
+        {bottomRight}
       </div>
     </div>
   )

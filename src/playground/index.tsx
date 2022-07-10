@@ -81,6 +81,7 @@ const App = () => {
               }}
             >
               <Button
+                color="text"
                 ghost
                 style={{
                   marginLeft: -8,
@@ -132,7 +133,7 @@ const App = () => {
             Accordions: '/accordions',
             Container: '/Containers',
             Grids: '/grids',
-            Tabs: '/TabsView',
+            MasonryGrid: '/masonryGrid',
           },
           Navigation: {
             Breadcrumbs: '/breadcrumb',
@@ -150,6 +151,9 @@ const App = () => {
           },
           Text: {
             Text: '/text',
+          },
+          Insights: {
+            LineGraph: '/lineGraph',
           },
           Handbook: {
             Props: '/props',

@@ -1,4 +1,5 @@
 export * from './color'
+export * from './border'
 export * from './font'
 export * from './hrefIsActive'
 export * from './parseTheme'

@@ -93,7 +93,7 @@ const Color = ({
           borderRadius: 4,
           marginRight: 8,
           marginLeft: -4,
-          border: `1px solid ${color('OtherInputBorderDefault')}`,
+          border: `1px solid ${color('border')}`,
         }}
       >
         <input
@@ -116,7 +116,7 @@ const Single = ({ type, inputRef, ...props }) => {
   return <input {...props} type={type} ref={inputRef} />
 }
 
-type InputPropsBaseLine = {
+type InputProps = {
   style?: CSSProperties
   label?: string
   description?: string
@@ -139,23 +139,26 @@ type InputPropsBaseLine = {
   transform?: (str: string) => string // transform string
   forceSuggestion?: boolean // apply suggestion on blur
   noInterrupt?: boolean // dont use external state while focused
+  onChange?:
+    | ((value: string | number) => void)
+    | Dispatch<SetStateAction<string | number>>
 }
 
 // to coorece the on change (skips having to make conversions or ts ignores)
-type InputProps =
-  | (InputPropsBaseLine & {
+type InputPropsChange =
+  | (InputProps & {
       type: 'text' | 'password' | 'email' | 'phone' | 'color'
       onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
     })
-  | (InputPropsBaseLine & {
+  | (InputProps & {
       name: 'password' | 'email' | 'name'
       onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
     })
-  | (InputPropsBaseLine & {
+  | (InputProps & {
       type: 'number' | 'date'
       onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>
     })
-  | (InputPropsBaseLine & {
+  | (InputProps & {
       type?: string
       onChange?:
         | ((value: string | number) => void)
@@ -221,7 +224,8 @@ const Suggestor = ({
 }
 
 export const Input: FC<
-  InputProps & Omit<React.HTMLProps<HTMLInputElement>, keyof InputProps>
+  InputPropsChange &
+    Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
 > = ({
   style,
   onChange: onChangeProp,
@@ -279,10 +283,8 @@ export const Input: FC<
       outline: ghost
         ? null
         : focus
-        ? `2px solid ${color('OtherInputBorderActive')}`
-        : `1px solid ${color(
-            hover ? 'OtherInputBorderHover' : 'OtherInputBorderDefault'
-          )}`,
+        ? `2px solid ${color('border:active')}`
+        : `1px solid ${color(hover ? 'border:hover' : 'border')}`,
       outlineOffset: ghost ? null : focus ? -2 : -1,
       borderRadius: 4,
       cursor: disabled ? 'not-allowed' : 'text',
@@ -293,9 +295,9 @@ export const Input: FC<
       fontSize: ghost ? 16 : null,
       fontWeight: ghost ? 500 : null,
       backgroundColor: disabled
-        ? color('GreydarkAccent')
+        ? color('grey', true)
         : bg
-        ? color(hover ? 'GreylightHover' : 'Greylight')
+        ? color(hover ? 'grey:hover' : 'grey', true)
         : 'inherit',
     },
     inputRef,
@@ -319,7 +321,7 @@ export const Input: FC<
             <span
               style={{
                 fontWeight: 400,
-                color: color('TextSecondary'),
+                color: color('text2'),
               }}
             >
               {' '}
@@ -332,7 +334,7 @@ export const Input: FC<
         <Text
           weight={400}
           style={{ marginBottom: 12, marginTop: -2 }}
-          color="TextSecondary"
+          color="text2"
         >
           {description}
         </Text>

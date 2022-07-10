@@ -46,7 +46,7 @@ const genRandomWords = (short) => {
   if (!short && Math.random() > 0.7) {
     return lorem.generateParagraphs(~~(Math.random() * 7) + 1)
   }
-  return lorem.generateWords(~~(Math.random() * 2) + 1)
+  return lorem.generateWords(~~(Math.random() * 5) + 1)
 }
 
 export const genRandomProp = (name, prop, short = false) => {
@@ -75,7 +75,9 @@ export const genRandomProp = (name, prop, short = false) => {
   }
 
   if (typeof prop.type === 'object') {
-    return prop.type.value
+    if (prop.type?.value !== undefined) {
+      return prop.type.value
+    }
   }
 
   if (prop.type === 'boolean') {
@@ -91,7 +93,7 @@ export const genRandomProp = (name, prop, short = false) => {
     return genRandomProp(name, { type: t.type })
   }
 
-  if (prop.type === 'string' && name !== 'backgroundImg') {
+  if (prop.type === 'string' && name !== 'img') {
     return genRandomWords(true)
   }
 
@@ -131,11 +133,13 @@ export const genRandomProp = (name, prop, short = false) => {
 
 export const genRandomProps = (p: any, short: boolean = false): any => {
   const parsedProps = {}
+
   for (const key in p.props) {
     const rando = genRandomProp(key, p.props[key], short)
     if (rando !== undefined) {
       parsedProps[key] = rando
     }
   }
+
   return parsedProps
 }

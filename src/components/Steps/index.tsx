@@ -9,14 +9,14 @@ type StepsProps = {
   style?: CSSProperties
   selected?: string
   prefix?: string
-  data: {
+  data?: {
     [key: string]: string
   }
 }
 
 export const Steps: FC<StepsProps> = ({
   style,
-  data,
+  data = {},
   prefix = '',
   selected,
 }) => {
@@ -36,7 +36,7 @@ export const Steps: FC<StepsProps> = ({
             style={{
               alignItems: 'center',
               backgroundColor: isActive
-                ? color('accent', 'light', 'active')
+                ? color('accent', 'active', true)
                 : null,
               borderRadius: 4,
               display: 'flex',
@@ -46,9 +46,9 @@ export const Steps: FC<StepsProps> = ({
             }}
           >
             <Text
-              color="PrimaryMain"
+              color="accent"
               style={{
-                backgroundColor: color('accent', 'contrast'),
+                backgroundColor: color('accent:contrast'),
                 borderRadius: 13,
                 height: 26,
                 lineHeight: '26px',

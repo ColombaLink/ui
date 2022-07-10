@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Text } from '../Text'
-import { color, spaceToPx } from '~/utils'
+import { border, color, spaceToPx } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 import { Space } from '~/types'
@@ -36,11 +36,9 @@ export const Checkbox: FC<CheckboxProps> = ({
       <div
         style={{
           backgroundColor: checked
-            ? color(hover ? 'PrimaryMainHover' : 'PrimaryMain')
+            ? color('accent', hover ? 'hover' : null)
             : null,
-          border: `1px solid ${color(
-            hover ? 'OtherInputBorderHover' : 'OtherInputBorderDefault'
-          )}`,
+          border: border(1, 'border', hover ? 'hover' : null),
           borderRadius: 4,
           height: 20,
           marginRight: 12,
@@ -52,7 +50,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           justifyContent: 'center',
         }}
       >
-        {checked ? <CheckIcon size={16} color="PrimaryMainContrast" /> : null}
+        {checked ? <CheckIcon size={16} color="accent:contrast" /> : null}
       </div>
     </>
   )

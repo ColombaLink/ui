@@ -54,7 +54,7 @@ const Item: FC<{
         position: 'relative',
         cursor: 'pointer',
         '&:hover': {
-          backgroundColor: color('GreylightHover'),
+          backgroundColor: color('grey:hover', true),
         },
       }}
     >
@@ -85,7 +85,7 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        borderBottom: `1px solid ${color('bg', 'border')}`,
+        borderBottom: `1px solid ${color('border')}`,
         ...style,
       }}
     >
@@ -98,7 +98,7 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         }}
       >
         <Checkbox style={{ marginLeft: 24 }} />
-        <Edit style={{ marginLeft: 20 }} color="PrimaryMain" />
+        <Edit style={{ marginLeft: 20 }} color="accent" />
       </div>
       {fields.map((field, i) => {
         const value = data[index]?.[field]
@@ -163,7 +163,7 @@ const isDate = (n) => typeof n === 'number' && n > 9466812e5
 const SortIcon = ({ order }) => {
   return (
     <Text
-      color="TextSecondary"
+      color="text2"
       style={{
         position: 'absolute',
         right: 4,
@@ -266,7 +266,7 @@ const TableInner: FC<TableProps> = ({
         style={{
           width: '100%',
           display: 'flex',
-          borderBottom: `1px solid ${color('bg', 'border')}`,
+          borderBottom: `1px solid ${color('border')}`,
           height: 40,
           alignItems: 'center',
           overflowY: 'auto',
@@ -288,7 +288,7 @@ const TableInner: FC<TableProps> = ({
           return (
             <Item
               key={label}
-              color="TextSecondary"
+              color="text2"
               longestString={longest[fields[i]]}
               index={i}
               height={39}

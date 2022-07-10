@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from 'react'
+import React, { FC, useState, useMemo } from 'react'
 import { Props } from './ComponentProps'
 import {
   Text,
@@ -13,10 +13,9 @@ import {
 } from '../../'
 import * as ui from '../../'
 import { Callout } from '~/components/Callout'
-import { transformSync } from '@babel/core'
-import preset from '@babel/preset-react'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
+import parseCode from './parseCode'
 
 export const CodeExample: FC<{
   p: any
@@ -24,51 +23,34 @@ export const CodeExample: FC<{
   name: string
   exampleCode?: string
   exampleProps?: string
-  isModule?: boolean
+  fromComponent?: FC
   runCode?: string
   index: number
-  isLast: boolean
-}> = ({
-  index,
-  component,
-  isLast,
-  name,
-  exampleCode,
-  isModule,
-  exampleProps,
-  p,
-}) => {
-  let runCode = ''
+}> = ({ index, component, name, exampleCode, exampleProps, p }) => {
   const [cnt, update] = useState(0)
   let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
-
   if (code) {
     exampleCode = code
   }
-
-  if (!exampleCode) {
-    exampleCode = generateRandomComponentCode(name, exampleProps, p)
-  }
+  exampleCode = useMemo(() => {
+    if (!exampleCode) {
+      exampleCode = generateRandomComponentCode(name, exampleProps, p)
+    }
+    return exampleCode
+  }, [exampleCode])
 
   let child
   try {
-    if (!runCode) {
-      const input = exampleCode
-        .replace('import ', 'const ')
-        .replace("from '@based/ui'", ' = ui;')
-      const x = transformSync(input, {
-        presets: [preset],
-      })
-      runCode = x.code.replace(
-        'React.createElement',
-        'return React.createElement'
-      )
-    }
-    const fn = new Function('ui', 'React', 'c', runCode)
+    const fn = new Function(
+      'ui',
+      'React',
+      'c',
+      useMemo(() => parseCode(exampleCode), [exampleCode])
+    )
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
-    child = <Callout color={'Red'}>{err.message}</Callout>
+    child = <Callout color={'red'}>{err.message}</Callout>
   }
   return (
     <>
@@ -88,9 +70,8 @@ export const CodeExample: FC<{
           borderBottomRightRadius: 0,
         }}
         onChange={(c) => setCode(c)}
-      >
-        {exampleCode}
-      </Code>
+        value={exampleCode}
+      />
       <Container
         style={{
           borderTopLeftRadius: 0,
@@ -109,62 +90,80 @@ export const Explorer: FC<{
   p: any
   component: FC
   name: string
-  examples?: { code?: string; props?: any; isModule?: boolean }[]
+  examples?: { code?: string; props?: any; component?: FC }[]
 }> = ({ component, p, name, examples = [{}] }) => {
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
 
   return (
     <>
-      <Link href={`src${p.file}`}>
-        <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
-          {p.file.slice(1).split('/').slice(1, -1)}
-        </Text>
-      </Link>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '100%',
+          marginBottom: 24,
+        }}
+      >
+        <Link href={`src${p.file}`}>
+          <Text weight={700} size={'18px'}>
+            {p.file.slice(1).split('/').slice(1, -1)}
+          </Text>
+        </Link>
+        <div style={{ display: 'flex' }}>
+          <Button
+            outline
+            ghost
+            color="text"
+            style={{ marginRight: 24 }}
+            iconLeft={ModelIcon}
+            onClick={() =>
+              setLocation({
+                merge: true,
+                params: { randomize: !fuzz },
+              })
+            }
+          >
+            {fuzz ? 'Examples' : 'Randomize'}
+          </Button>
+          <Button
+            outline
+            ghost
+            color="text"
+            iconLeft={ModelIcon}
+            onClick={() =>
+              setLocation({
+                merge: true,
+                params: { type: !showType },
+              })
+            }
+          >
+            {showType ? 'Props' : 'Type'}
+          </Button>
+        </div>
+      </div>
       <div style={{ display: 'flex', marginTop: 24, width: '100%' }}>
         <div
           style={{
-            minWidth: showType ? 550 : 400,
+            minWidth: showType ? 550 : 350,
             marginRight: 24,
           }}
         >
-          {showType ? <Code>{p.code}</Code> : <Props prop={p} />}
-          <div style={{ marginTop: 48, display: 'flex' }}>
-            <Button
-              outline
-              ghost
-              style={{ marginRight: 24 }}
-              iconLeft={ModelIcon}
-              onClick={() =>
-                setLocation({
-                  merge: true,
-                  params: { randomize: !fuzz },
-                })
-              }
-            >
-              {fuzz ? 'Hide Fuzz' : 'Fuzz'}
-            </Button>
-            <Button
-              outline
-              ghost
-              iconLeft={ModelIcon}
-              onClick={() =>
-                setLocation({
-                  merge: true,
-                  params: { type: !showType },
-                })
-              }
-            >
-              {showType ? 'Props' : 'Type'}
-            </Button>
-          </div>
+          {showType ? <Code value={p.code} /> : <Props prop={p} />}
         </div>
-        <div style={{ width: '100%' }}>
+        <div style={{ width: '100%', maxWidth: '100%' }}>
           {examples.map((v, i) => {
+            if (v.component) {
+              return (
+                <Container key={i} space>
+                  {React.createElement(v.component, {})}
+                </Container>
+              )
+            }
+
             return (
               <CodeExample
-                isModule={v.isModule}
-                isLast={i === examples.length - 1}
                 key={i}
                 index={i}
                 name={name}

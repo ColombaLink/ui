@@ -1,9 +1,10 @@
 import React, { FC } from 'react'
 import * as icons from '../../icons'
-import { Text } from '../../'
+import { Text, copyToClipboard, color } from '../../'
 import { getRandomIconName } from '../ComponentViewer/genRandomProps'
 import ComponentViewer from '../ComponentViewer'
 import { IconProps } from '~/components/Icon'
+import { styled } from 'inlines'
 
 const Icon: FC<IconProps & { name?: string }> = ({ name, ...props }) => {
   if (!name) {
@@ -26,20 +27,39 @@ const Icon: FC<IconProps & { name?: string }> = ({ name, ...props }) => {
         })}
       </div>
       {React.createElement(icons[name], { size: 20, ...props })}
-      <div
+      <styled.div
+        onClick={() => {
+          copyToClipboard(name)
+        }}
         style={{
+          cursor: 'pointer',
           marginLeft: 64,
+          ':hover': {
+            opacity: 0.7,
+            // color: color('babyblue'),
+          },
         }}
       >
-        <Text selectable>{name}</Text>
-      </div>
+        <Text color="inherit">{name}</Text>
+      </styled.div>
     </div>
   )
 }
 
+const codeExample = `import { BasedIcon } from '@based/ui'
+<BasedIcon color="accent" size={32}/>`
+
 export const Icons = () => (
   <>
-    <ComponentViewer component={Icon} propsName="IconProps" />
+    <ComponentViewer
+      component={Icon}
+      propsName="IconProps"
+      examples={[
+        {
+          code: codeExample,
+        },
+      ]}
+    />
     <div
       style={{
         display: 'flex',

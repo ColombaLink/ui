@@ -50,7 +50,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
           top: 0,
           borderRadius: 4,
           '&:hover': {
-            backgroundColor: color('accent', 'light', 'hover'),
+            backgroundColor: color('accent:hover', true),
           },
         }}
       >
@@ -66,7 +66,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             marginBottom: -3,
             ...(isActive
               ? font({ size: 15, weight: 600 })
-              : font({ size: 15, secondary: true })),
+              : font({ size: 15, color: 'text2' })),
           }}
         >
           {children}
@@ -125,8 +125,8 @@ export const Topbar: FC<TopbarProps> = ({
         height: 66,
         minHeight: 66,
         display: 'flex',
-        borderBottom: `1px solid ${color('bg', 'border')}`,
-        backgroundColor: color('bg'),
+        borderBottom: `1px solid ${color('border')}`,
+        backgroundColor: color('background'),
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingRight: 30,

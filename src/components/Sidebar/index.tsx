@@ -22,9 +22,9 @@ const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
         alignItems: 'center',
         marginBottom: 16,
         borderRadius: 4,
-        backgroundColor: isActive ? color('PrimaryLightSelected') : null,
+        backgroundColor: isActive ? color('accent:active', true) : null,
         '&:hover': {
-          backgroundColor: color('accent', 'light', 'hover'),
+          backgroundColor: color('accent:hover', true),
         },
         ...font({
           size: 18,
@@ -53,8 +53,8 @@ export const Sidebar = ({
   return (
     <div
       style={{
-        backgroundColor: color('bg'),
-        borderRight: `1px solid ${color('bg', 'border')}`,
+        backgroundColor: color('background'),
+        borderRight: `1px solid ${color('border')}`,
         width: 56,
         display: 'flex',
         flexDirection: 'column',

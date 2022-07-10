@@ -33,7 +33,7 @@ export const Variant: FC<{
         width,
         maxWidth: '100%',
         height: 'fit-content',
-        border: '1px solid ' + color('bg', 'border'),
+        border: '1px solid ' + color('border'),
       }}
     >
       <div>{elem}</div>

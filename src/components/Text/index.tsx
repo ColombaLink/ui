@@ -1,18 +1,17 @@
 import React, { FC, CSSProperties, ReactNode } from 'react'
-import { Size, Color, Weight, Space } from '~/types'
+import { Size, Color, Weight, Space, ColorVariant } from '~/types'
 import { font, spaceToPx } from '~/utils'
 
 type TextProps = {
   size?: Size
   space?: Space
-  color?: Color | string
+  color?: Color
   weight?: Weight
   style?: CSSProperties
   italic?: boolean
   selectable?: boolean
-  secondary?: boolean
-  active?: boolean
   wrap?: boolean
+  variant?: ColorVariant
   children: ReactNode
 }
 
@@ -26,11 +25,10 @@ export const Text: FC<TextProps> = ({
   wrap,
   children,
   space,
-  secondary,
-  active,
+  variant,
   ...props
 }) => {
-  const s = font({ size, color, secondary, active, weight }) as CSSProperties
+  const s = font({ size, color, variant, weight }) as CSSProperties
 
   s.userSelect = selectable ? 'text' : 'none'
 

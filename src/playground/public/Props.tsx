@@ -79,8 +79,8 @@ export const Props = () => {
                       key={x.name}
                       color={
                         x.props[v.name].inconsistent
-                          ? 'Primary'
-                          : 'TextDisabled'
+                          ? 'accent'
+                          : 'text-disabled'
                       }
                       size="12px"
                     >

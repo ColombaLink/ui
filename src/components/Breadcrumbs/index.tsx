@@ -1,8 +1,7 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
+import React, { FC, CSSProperties } from 'react'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Link } from '../Link'
 import { Text } from '../Text'
-import { color } from '~/utils'
 import { useLocation } from '~/hooks'
 import { ChevronRightIcon } from '~/icons'
 
@@ -50,14 +49,14 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
             >
               <Text
                 style={{ marginLeft: 16 }}
-                color={isActive ? 'TextPrimary' : 'TextSecondary'}
+                color={isActive ? 'text' : 'text2'}
               >
                 {key}
               </Text>
               {Object.keys(data).length - 1 !== index && (
                 <ChevronRightIcon
                   style={{ marginLeft: 16 }}
-                  color={isActive ? 'TextPrimary' : 'TextSecondary'}
+                  color={isActive ? 'text' : 'text2'}
                 />
               )}
             </Link>

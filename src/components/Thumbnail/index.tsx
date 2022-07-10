@@ -1,13 +1,12 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
-import { Color, Space } from '~/types'
+import { Color, Size, Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { isCapitalised } from '~/utils/isCapitalised'
 import { Text } from '../Text'
 
 type ThumbnailProps = {
   size?: 32 | 36 | 40 | 64
-  backgroundColor?: Color
-  backgroundImg?: string
+  img?: string
   icon?: FC | ReactNode
   color?: Color
   space?: Space
@@ -17,34 +16,23 @@ type ThumbnailProps = {
 
 export const Thumbnail: FC<ThumbnailProps> = ({
   size = 40,
-  backgroundColor,
-  backgroundImg,
-  color: colorProp,
+  img,
+  color: colorProp = 'babyblue',
   icon,
   space,
   style,
   label,
 }) => {
-  if (!backgroundColor) {
-    if (colorProp && isCapitalised(colorProp)) {
-      backgroundColor = `${colorProp}Accent` as Color
-    } else {
-      backgroundColor = 'PrimaryMain'
-    }
-  }
-
   return (
     <div
       style={{
-        backgroundColor: backgroundColor
-          ? color(backgroundColor)
-          : color('BlueBabyAccent'),
+        backgroundColor: color(colorProp),
         borderRadius: 4,
-        color: color(colorProp),
+        color: color(colorProp, 'contrast'),
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundImage: backgroundImg ? `url(${backgroundImg})` : 'none',
+        backgroundImage: img ? `url(${img})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         marginBottom: spaceToPx(space),
@@ -53,12 +41,8 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         ...style,
       }}
     >
-      {label && !icon && !backgroundImg ? (
-        <Text
-          color={color(colorProp)}
-          // @ts-ignore
-          size={size / 2}
-        >
+      {label && !icon && !img ? (
+        <Text color="inherit" size={(size / 2) as Size}>
           {label[0].toLocaleUpperCase()}
         </Text>
       ) : null}

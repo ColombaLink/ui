@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
-import { color, renderOrCreateElement } from '../../'
+import { border, color, renderOrCreateElement } from '../../'
 import { Space } from '~/types'
 import { spaceToPx } from '~/utils'
 import { highlight, languages } from 'prismjs/components/prism-core'
@@ -35,7 +35,7 @@ import './syntax.css'
 
 export type CodeProps = {
   style?: CSSProperties
-  children?: string
+  value?: string
   space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   topRight?: FC | ReactNode
@@ -43,7 +43,7 @@ export type CodeProps = {
 
 export const Code: FC<CodeProps> = ({
   topRight,
-  children,
+  value,
   style,
   onChange,
   space,
@@ -54,9 +54,10 @@ export const Code: FC<CodeProps> = ({
         width: '100%',
         padding: 16,
         position: 'relative',
+        maxWidth: '100%',
         borderRadius: 4,
-        border: '1px solid ' + color('bg', 'border'),
-        background: color('bg', '2dp'),
+        border: border(1, 'border'),
+        background: color('background2dp'),
         marginBottom: spaceToPx(space),
         ...style,
       }}
@@ -73,7 +74,7 @@ export const Code: FC<CodeProps> = ({
         </div>
       ) : null}
       <Editor
-        value={children}
+        value={value}
         onValueChange={onChange}
         highlight={(code) => {
           try {

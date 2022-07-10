@@ -123,7 +123,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   let optionsBadges: ReactNode
 
   if (!currentValues?.length) {
-    optionsBadges = <Text secondary>{placeholder}</Text>
+    optionsBadges = <Text color="text2">{placeholder}</Text>
   } else {
     const c = []
     const len = Math.min(displayIndex, currentValues.length)

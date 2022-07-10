@@ -10,12 +10,12 @@ export const RightSidebar: FC<RightSidebarProps> = ({ children, style }) => {
   return (
     <div
       style={{
-        backgroundColor: color('bg', '0dp'),
+        backgroundColor: color('background2'),
         height: 'calc(100vh - 66px)',
         padding: '20px 24px',
         width: 260,
         marginLeft: 'auto',
-        borderLeft: `1px solid ${color('bg', 'border')}`,
+        borderLeft: `1px solid ${color('border')}`,
         ...style,
       }}
     >

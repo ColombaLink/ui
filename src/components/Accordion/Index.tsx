@@ -41,8 +41,9 @@ export const AccordionItem: FC<AccordionItemProps> = ({
       }}
     >
       <div
+        onClick={() => setOpen(!open)}
         style={{
-          backgroundColor: open ? color('accent', 'light') : color('bg', '0dp'),
+          backgroundColor: color(open ? 'accent' : 'background2', true),
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -52,7 +53,6 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           cursor: 'pointer',
           ...style,
         }}
-        onClick={() => setOpen(!open)}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Text size="15px" weight={600}>

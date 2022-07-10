@@ -25,7 +25,7 @@
         }
       },
       "code": "type AccordionItemProps = {\n  title?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
-      "file": "/components/Accordion/Index.tsx"
+      "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
       "name": "AccordionProps",
@@ -44,7 +44,7 @@
         }
       },
       "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
-      "file": "/components/Accordion/Index.tsx"
+      "file": "/components/Accordion/index.tsx"
     },
     "AuthProps": {
       "name": "AuthProps",
@@ -169,15 +169,11 @@
             }
           ]
         },
-        "backgroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
         "color": {
           "optional": true,
-          "type": "Color"
+          "type": "AccentColor"
         },
-        "backgroundImg": {
+        "img": {
           "optional": true,
           "type": "string"
         },
@@ -205,7 +201,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type AvatarProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  color?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
+      "code": "type AvatarProps = {\n  size?: 32 | 36 | 40 | 64\n  color?: AccentColor\n  img?: string\n  icon?: FC | ReactNode\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
       "file": "/components/Avatar/index.tsx"
     },
     "BadgeProps": {
@@ -238,23 +234,7 @@
         },
         "color": {
           "optional": true,
-          "type": "Color"
-        },
-        "backgroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "foregroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "outlineColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "hoverColor": {
-          "optional": true,
-          "type": "Color"
+          "type": "AccentColor"
         },
         "boxed": {
           "optional": true,
@@ -269,7 +249,7 @@
           "type": "MouseEventHandler"
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: AccentColor\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -308,25 +288,13 @@
         },
         "color": {
           "optional": true,
-          "type": "Color"
-        },
-        "backgroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "foregroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "outlineColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "hoverColor": {
-          "optional": true,
-          "type": "Color"
+          "type": "AccentColor"
         },
         "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "light": {
           "optional": true,
           "type": "boolean"
         },
@@ -351,10 +319,6 @@
             "FC",
             "ReactNode"
           ]
-        },
-        "light": {
-          "optional": true,
-          "type": "boolean"
         },
         "loading": {
           "optional": true,
@@ -397,7 +361,7 @@
           }
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  backgroundColor?: Color\n  foregroundColor?: Color\n  outlineColor?: Color\n  hoverColor?: Color\n  ghost?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  light?: boolean\n  loading?: boolean\n  onClick?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: AccentColor\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -425,10 +389,6 @@
           "optional": true,
           "type": "boolean"
         },
-        "outlineColor": {
-          "optional": true,
-          "type": "Color"
-        },
         "color": {
           "optional": true,
           "type": "Color"
@@ -436,14 +396,6 @@
         "ghost": {
           "optional": true,
           "type": "boolean"
-        },
-        "backgroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "foregroundColor": {
-          "optional": true,
-          "type": "Color"
         },
         "space": {
           "optional": true,
@@ -465,7 +417,7 @@
           ]
         }
       },
-      "code": "type CalloutProps = {\n  children?: ReactNode\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  outlineColor?: Color\n  color?: Color\n  ghost?: boolean\n  backgroundColor?: Color\n  foregroundColor?: Color\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right'\n}",
+      "code": "type CalloutProps = {\n  children?: ReactNode\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right'\n}",
       "file": "/components/Callout/index.tsx"
     },
     "CardProps": {
@@ -559,7 +511,7 @@
           "optional": true,
           "type": "CSSProperties"
         },
-        "children": {
+        "value": {
           "optional": true,
           "type": "string"
         },
@@ -582,7 +534,7 @@
           ]
         }
       },
-      "code": "type CodeProps = {\n  style?: CSSProperties\n  children?: string\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n}",
+      "code": "type CodeProps = {\n  style?: CSSProperties\n  value?: string\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n}",
       "file": "/components/Code/index.tsx"
     },
     "ColorPickerProps": {
@@ -825,7 +777,7 @@
         }
       },
       "code": "type GridProps = {\n  children?: ReactNode\n  columns?: number\n  columnDistribution?: string\n  columnGap?: number\n  rowGap?: number\n  wrap?: boolean\n  space?: Space\n  style?: CSSProperties\n}",
-      "file": "/components/Grid/Grid.tsx"
+      "file": "/components/Grid/index.tsx"
     },
     "IconProps": {
       "name": "IconProps",
@@ -914,8 +866,8 @@
       "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: number\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
       "file": "/components/InfiniteList/index.tsx"
     },
-    "InputPropsBaseLine": {
-      "name": "InputPropsBaseLine",
+    "InputProps": {
+      "name": "InputProps",
       "props": {
         "style": {
           "optional": true,
@@ -1016,10 +968,48 @@
         "noInterrupt": {
           "optional": true,
           "type": "boolean"
+        },
+        "onChange": {
+          "optional": true,
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
         }
       },
-      "code": "type InputPropsBaseLine = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
+    },
+    "InputPropsChange": {
+      "name": "InputPropsChange",
+      "props": {},
+      "code": "type InputPropsChange =\n  | (InputProps & {\n      type: 'text' | 'password' | 'email' | 'phone' | 'color'\n      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n    })\n  | (InputProps & {\n      name: 'password' | 'email' | 'name'\n      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n    })\n  | (InputProps & {\n      type: 'number' | 'date'\n      onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>\n    })\n  | (InputProps & {\n      type?: string\n      onChange?:\n        | ((value: string | number) => void)\n        | Dispatch<SetStateAction<string | number>>\n    })",
+      "file": "/components/Input/index.tsx"
+    },
+    "LineGraphProps": {
+      "name": "LineGraphProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": {
+            "array": "number"
+          }
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "large": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type LineGraphProps = {\n  data?: number[]\n  style?: CSSProperties\n  label?: ReactNode\n  large?: boolean\n}",
+      "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
       "name": "LinkProps",
@@ -1193,7 +1183,7 @@
         }
       },
       "code": "type MasonryGridProps = {\n  children: ReactNode | ReactChildren\n  columns?: number\n  gap?: number\n  style?: CSSProperties\n}",
-      "file": "/components/MasonryGrid/MasonryGrid.tsx"
+      "file": "/components/MasonryGrid/index.tsx"
     },
     "MenuHeaderProps": {
       "name": "MenuHeaderProps",
@@ -1528,10 +1518,11 @@
           "type": "string"
         },
         "data": {
+          "optional": true,
           "type": "TSTypeLiteral"
         }
       },
-      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data: {\n    [key: string]: string\n  }\n}",
+      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n}",
       "file": "/components/Steps/index.tsx"
     },
     "TableProps": {
@@ -1637,10 +1628,7 @@
         },
         "color": {
           "optional": true,
-          "type": [
-            "Color",
-            "string"
-          ]
+          "type": "Color"
         },
         "weight": {
           "optional": true,
@@ -1662,11 +1650,15 @@
           "optional": true,
           "type": "boolean"
         },
+        "variant": {
+          "optional": true,
+          "type": "ColorVariant"
+        },
         "children": {
           "type": "ReactNode"
         }
       },
-      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color | string\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  children: ReactNode\n}",
+      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  variant?: ColorVariant\n  children: ReactNode\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
@@ -1689,11 +1681,7 @@
             }
           ]
         },
-        "backgroundColor": {
-          "optional": true,
-          "type": "Color"
-        },
-        "backgroundImg": {
+        "img": {
           "optional": true,
           "type": "string"
         },
@@ -1721,7 +1709,7 @@
           "type": "string"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  backgroundColor?: Color\n  backgroundImg?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
+      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
@@ -2015,626 +2003,6 @@
         }
       ],
       "code": "type Space = SpaceInt | `${SpaceInt}px` | true",
-      "file": "/types/index.ts"
-    },
-    "Color": {
-      "name": "Color",
-      "types": [
-        {
-          "type": {
-            "value": "Blue500"
-          }
-        },
-        {
-          "type": {
-            "value": "Blue200"
-          }
-        },
-        {
-          "type": {
-            "value": "WhiteWhite100"
-          }
-        },
-        {
-          "type": {
-            "value": "GreyscaleGrey100"
-          }
-        },
-        {
-          "type": {
-            "value": "TextPrimary"
-          }
-        },
-        {
-          "type": {
-            "value": "TextSecondary"
-          }
-        },
-        {
-          "type": {
-            "value": "TextDisabled"
-          }
-        },
-        {
-          "type": {
-            "value": "TextInverted"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryMain"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryMainHover"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryMainSelected"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryMainContrast"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryMainContrastSecondary"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryLightAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryLightHover"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryLightSelected"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryLightContrast"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryLightContrastSecondary"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryMainOutline"
-          }
-        },
-        {
-          "type": {
-            "value": "PrimaryLightOutline"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherDisabledContent"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherDisabledBackground"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherDisabledOutline"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherForegroundInverted"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherDivider"
-          }
-        },
-        {
-          "type": {
-            "value": "BorderColor"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherOverlay"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherInputBorderDefault"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherInputBorderHover"
-          }
-        },
-        {
-          "type": {
-            "value": "OtherInputBorderActive"
-          }
-        },
-        {
-          "type": {
-            "value": "Background0dp"
-          }
-        },
-        {
-          "type": {
-            "value": "Background1dp"
-          }
-        },
-        {
-          "type": {
-            "value": "Background2dp"
-          }
-        },
-        {
-          "type": {
-            "value": "Background3dp"
-          }
-        },
-        {
-          "type": {
-            "value": "CalloutMain"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueBaby"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueBabyHover"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueBabyActive"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueBabyAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueBabyForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueSailor"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueSailorHover"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueSailorActive"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueSailorAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "BlueSailorForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Pink"
-          }
-        },
-        {
-          "type": {
-            "value": "PinkHover"
-          }
-        },
-        {
-          "type": {
-            "value": "PinkActive"
-          }
-        },
-        {
-          "type": {
-            "value": "PinkAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "PinkForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleBright"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleBrightHover"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleBrightActive"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleBrightAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleBrightForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Purple"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleHover"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleActive"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleDark"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleDarkHover"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleDarkActive"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleDarkAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "PurpleDarkForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenForest"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenForestHover"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenForestActive"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenForestAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenForestForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Green"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenHover"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenActive"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "GreenForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Teal"
-          }
-        },
-        {
-          "type": {
-            "value": "TealHover"
-          }
-        },
-        {
-          "type": {
-            "value": "TealActive"
-          }
-        },
-        {
-          "type": {
-            "value": "TealAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "TealForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Mustard"
-          }
-        },
-        {
-          "type": {
-            "value": "MustardHover"
-          }
-        },
-        {
-          "type": {
-            "value": "MustardActive"
-          }
-        },
-        {
-          "type": {
-            "value": "MustardAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "MustardForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Yellow"
-          }
-        },
-        {
-          "type": {
-            "value": "YellowHover"
-          }
-        },
-        {
-          "type": {
-            "value": "YellowActive"
-          }
-        },
-        {
-          "type": {
-            "value": "YellowAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "YellowForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Orange"
-          }
-        },
-        {
-          "type": {
-            "value": "OrangeHover"
-          }
-        },
-        {
-          "type": {
-            "value": "OrangeActive"
-          }
-        },
-        {
-          "type": {
-            "value": "OrangeAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "OrangeForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Reddish"
-          }
-        },
-        {
-          "type": {
-            "value": "ReddishHover"
-          }
-        },
-        {
-          "type": {
-            "value": "ReddishActive"
-          }
-        },
-        {
-          "type": {
-            "value": "ReddishAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "ReddishForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Red"
-          }
-        },
-        {
-          "type": {
-            "value": "RedHover"
-          }
-        },
-        {
-          "type": {
-            "value": "RedActive"
-          }
-        },
-        {
-          "type": {
-            "value": "RedAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "RedForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Redlight"
-          }
-        },
-        {
-          "type": {
-            "value": "RedlightHover"
-          }
-        },
-        {
-          "type": {
-            "value": "RedlightActive"
-          }
-        },
-        {
-          "type": {
-            "value": "RedlightAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "RedlightForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Greydark"
-          }
-        },
-        {
-          "type": {
-            "value": "GreydarkHover"
-          }
-        },
-        {
-          "type": {
-            "value": "GreydarkActive"
-          }
-        },
-        {
-          "type": {
-            "value": "GreydarkAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "GreydarkForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Greylight"
-          }
-        },
-        {
-          "type": {
-            "value": "GreylightHover"
-          }
-        },
-        {
-          "type": {
-            "value": "GreylightActive"
-          }
-        },
-        {
-          "type": {
-            "value": "GreylightAccent"
-          }
-        },
-        {
-          "type": {
-            "value": "GreylightForeground"
-          }
-        },
-        {
-          "type": {
-            "value": "Transparent"
-          }
-        },
-        {
-          "type": "TSParenthesizedType"
-        }
-      ],
-      "code": "type Color =\n  | 'Blue500'\n  | 'Blue200'\n  | 'WhiteWhite100'\n  | 'GreyscaleGrey100'\n  | 'TextPrimary'\n  | 'TextSecondary'\n  | 'TextDisabled'\n  | 'TextInverted'\n  | 'PrimaryMain'\n  | 'PrimaryMainHover'\n  | 'PrimaryMainSelected'\n  | 'PrimaryMainContrast'\n  | 'PrimaryMainContrastSecondary'\n  | 'PrimaryLightAccent'\n  | 'PrimaryLightHover'\n  | 'PrimaryLightSelected'\n  | 'PrimaryLightContrast'\n  | 'PrimaryLightContrastSecondary'\n  | 'PrimaryMainOutline'\n  | 'PrimaryLightOutline'\n  | 'OtherDisabledContent'\n  | 'OtherDisabledBackground'\n  | 'OtherDisabledOutline'\n  | 'OtherForeground'\n  | 'OtherForegroundInverted'\n  | 'OtherDivider'\n  | 'BorderColor'\n  | 'OtherOverlay'\n  | 'OtherInputBorderDefault'\n  | 'OtherInputBorderHover'\n  | 'OtherInputBorderActive'\n  | 'Background0dp'\n  | 'Background1dp'\n  | 'Background2dp'\n  | 'Background3dp'\n  | 'CalloutMain'\n  | 'BlueBaby'\n  | 'BlueBabyHover'\n  | 'BlueBabyActive'\n  | 'BlueBabyAccent'\n  | 'BlueBabyForeground'\n  | 'BlueSailor'\n  | 'BlueSailorHover'\n  | 'BlueSailorActive'\n  | 'BlueSailorAccent'\n  | 'BlueSailorForeground'\n  | 'Pink'\n  | 'PinkHover'\n  | 'PinkActive'\n  | 'PinkAccent'\n  | 'PinkForeground'\n  | 'PurpleBright'\n  | 'PurpleBrightHover'\n  | 'PurpleBrightActive'\n  | 'PurpleBrightAccent'\n  | 'PurpleBrightForeground'\n  | 'Purple'\n  | 'PurpleHover'\n  | 'PurpleActive'\n  | 'PurpleAccent'\n  | 'PurpleForeground'\n  | 'PurpleDark'\n  | 'PurpleDarkHover'\n  | 'PurpleDarkActive'\n  | 'PurpleDarkAccent'\n  | 'PurpleDarkForeground'\n  | 'GreenForest'\n  | 'GreenForestHover'\n  | 'GreenForestActive'\n  | 'GreenForestAccent'\n  | 'GreenForestForeground'\n  | 'Green'\n  | 'GreenHover'\n  | 'GreenActive'\n  | 'GreenAccent'\n  | 'GreenForeground'\n  | 'Teal'\n  | 'TealHover'\n  | 'TealActive'\n  | 'TealAccent'\n  | 'TealForeground'\n  | 'Mustard'\n  | 'MustardHover'\n  | 'MustardActive'\n  | 'MustardAccent'\n  | 'MustardForeground'\n  | 'Yellow'\n  | 'YellowHover'\n  | 'YellowActive'\n  | 'YellowAccent'\n  | 'YellowForeground'\n  | 'Orange'\n  | 'OrangeHover'\n  | 'OrangeActive'\n  | 'OrangeAccent'\n  | 'OrangeForeground'\n  | 'Reddish'\n  | 'ReddishHover'\n  | 'ReddishActive'\n  | 'ReddishAccent'\n  | 'ReddishForeground'\n  | 'Red'\n  | 'RedHover'\n  | 'RedActive'\n  | 'RedAccent'\n  | 'RedForeground'\n  | 'Redlight'\n  | 'RedlightHover'\n  | 'RedlightActive'\n  | 'RedlightAccent'\n  | 'RedlightForeground'\n  | 'Greydark'\n  | 'GreydarkHover'\n  | 'GreydarkActive'\n  | 'GreydarkAccent'\n  | 'GreydarkForeground'\n  | 'Greylight'\n  | 'GreylightHover'\n  | 'GreylightActive'\n  | 'GreylightAccent'\n  | 'GreylightForeground'\n  | 'Transparent'\n  | (CSSColorValue & {})",
       "file": "/types/index.ts"
     },
     "Icon": {
