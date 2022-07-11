@@ -1,19 +1,9 @@
 import React from 'react'
-import { Accordion, AccordionItem, Text } from '../../'
+import { Accordion, AccordionItem } from '~/components/Accordion'
 import ComponentViewer from '../ComponentViewer'
+import { Text } from '../..'
 
 export const Accordions = () => {
-  const accordionCodeExample = `import { Accordion, AccordionItem, Text } from '@based/ui
-
-  const Accordion = () => {}
- 
-  <Accordion>   
-    <AccordionItem title="Bonjour"><Text>Bonjour</Text></AccordionItem>
-    <AccordionItem title="Bonsoir"><Text>Bonsoir</Text></AccordionItem>
-    <AccordionItem title="Bonne nuit"><Text>Bonne Nuit</Text></AccordionItem>
-  </Accordion>    
-  `
-
   return (
     <ComponentViewer
       component={Accordion}
@@ -21,15 +11,14 @@ export const Accordions = () => {
         {
           props: {
             children: (
-              <AccordionItem title="Accordion item title">
-                <Text>Bonjour</Text>
-              </AccordionItem>
+              <>
+                <AccordionItem label="Accordion item label">
+                  Bonjour
+                </AccordionItem>
+                <AccordionItem label="Accordion item">Bonsoir</AccordionItem>
+                <AccordionItem label="Accordion item">Bonne nuit</AccordionItem>
+              </>
             ),
-          },
-        },
-        {
-          props: {
-            children: accordionCodeExample,
           },
         },
       ]}

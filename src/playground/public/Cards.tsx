@@ -21,7 +21,7 @@ export const Cards = () => {
         examples={[
           {
             props: {
-              title: 'Junior Eurovision 20222',
+              label: 'Junior Eurovision 20222',
               description: 'Updated 30 minutes ago',
               topLeft: <Avatar icon={BasedIcon} color="red" />,
               topRight: <MoreIcon />,
@@ -44,7 +44,7 @@ export const Cards = () => {
           {
             props: {
               small: true,
-              title: 'Card small',
+              label: 'Card small',
               description: 'With description and topLeft',
               topLeft: <Thumbnail color="babyblue" icon={StackIcon} />,
             },

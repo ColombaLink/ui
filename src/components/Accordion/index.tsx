@@ -5,8 +5,8 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '~/icons'
 import { Space } from '~/types'
 
 type AccordionItemProps = {
-  title?: string
-  children?: ReactNode
+  label?: string
+  children?: FC | ReactNode
   space?: Space
   checked?: boolean
   style?: CSSProperties
@@ -26,7 +26,7 @@ export const Accordion: FC<AccordionProps> = ({ children, space, style }) => {
 }
 
 export const AccordionItem: FC<AccordionItemProps> = ({
-  title,
+  label,
   children,
   checked,
   space = 12,
@@ -56,7 +56,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Text size="15px" weight={600}>
-            {title}
+            {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}
         </div>

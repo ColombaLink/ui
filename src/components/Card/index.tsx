@@ -4,7 +4,7 @@ import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 
 type CardProps = {
-  title?: string
+  label?: string
   description?: string
   space?: Space
   style?: CSSProperties
@@ -17,7 +17,7 @@ type CardProps = {
 }
 
 export const Card: FC<CardProps> = ({
-  title,
+  label,
   description,
   space,
   style,
@@ -48,7 +48,7 @@ export const Card: FC<CardProps> = ({
           marginBottom: small ? null : 44,
         }}
       >
-        {(topLeft || title || description) && (
+        {(topLeft || label || description) && (
           <div
             style={{
               display: 'flex',
@@ -59,7 +59,7 @@ export const Card: FC<CardProps> = ({
           >
             {renderOrCreateElement(topLeft, {})}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Text weight={600}>{title}</Text>
+              <Text weight={600}>{label}</Text>
               <Text weight={400} size="13px" color="text2">
                 {description}
               </Text>

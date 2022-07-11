@@ -8,6 +8,7 @@ import { Space } from '~/types'
 export type CheckboxProps = {
   children?: ReactNode
   checked?: boolean
+  description?: string
   style?: CSSProperties
   onChange?: (boolean) => void
   label?: ReactNode
@@ -17,6 +18,7 @@ export type CheckboxProps = {
 export const Checkbox: FC<CheckboxProps> = ({
   children,
   checked: checkedProp,
+  description,
   style,
   onChange,
   label,
@@ -55,50 +57,6 @@ export const Checkbox: FC<CheckboxProps> = ({
     </>
   )
 
-  if (label && children) {
-    return (
-      <>
-        <div>
-          <button
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              // marginBottom: spaceToPx(space),
-              maxWidth: '100%',
-              ...style,
-            }}
-            {...listeners}
-            onClick={onClick}
-          >
-            <div>{checkbox}</div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'baseline',
-              }}
-            >
-              <Text
-                weight={600}
-                style={{
-                  textAlign: 'left',
-                  display: 'flex',
-                }}
-                wrap
-              >
-                {label}
-              </Text>
-              <Text wrap style={{ textAlign: 'left' }}>
-                {children}
-              </Text>
-            </div>
-          </button>
-        </div>
-        <div style={{ height: spaceToPx(space) }}></div>
-      </>
-    )
-  }
-
   return (
     <>
       <div>
@@ -113,9 +71,24 @@ export const Checkbox: FC<CheckboxProps> = ({
           {...listeners}
         >
           {checkbox}
-          <Text wrap style={{ textAlign: 'left' }}>
-            {label || children}
-          </Text>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'baseline',
+            }}
+          >
+            <Text wrap style={{ textAlign: 'left' }} weight={600}>
+              {label}
+            </Text>
+
+            {description && (
+              <Text wrap style={{ textAlign: 'left' }} weight={400}>
+                {description}
+              </Text>
+            )}
+            <div>{children}</div>
+          </div>
         </button>
       </div>
       <div style={{ height: spaceToPx(space) }}></div>
