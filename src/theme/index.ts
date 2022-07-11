@@ -3,8 +3,8 @@ import { darkTheme } from './darkTheme'
 import { getDarkMode, setDarkMode } from '~/hooks/useDarkMode'
 import { prefersDarkMode } from '~/utils/prefersDarkMode'
 
+const vars = {}
 export const updateTheme = (theme) => {
-  const vars = {}
   const { colors, light = {} } = theme
   const toRgba = (arr) => (arr.length === 3 ? `rgb(${arr})` : `rgba(${arr})`)
   const alpha = ([r, g, b], a) => [r, g, b, a]
@@ -39,14 +39,12 @@ export const updateTheme = (theme) => {
     vars[`${lightName}:border`] = lBorder || alpha(main, 0.24)
   }
 
+  let cnt = 0
   for (const name in vars) {
-    const varName = `--${name
-      .replace(/^light/, 'l_')
-      .replace(':active', '_a')
-      .replace(':hover', '_h')
-      .replace(':contrast', '_c')
-      .replace(':border', '_b')}`
-
+    const varName =
+      process.env.NODE_ENV === 'dev'
+        ? `--${name.replace(':', '_')}`
+        : `--${cnt++}`
     document.body.style.setProperty(varName, toRgba(vars[name]))
     vars[name] = `var(${varName})`
   }
@@ -54,12 +52,10 @@ export const updateTheme = (theme) => {
 }
 
 export const initTheme = () => {
-  const vars = updateTheme(baseTheme)
+  updateTheme(baseTheme)
   const darkMode = getDarkMode()
 
-  if (darkMode === true) {
-    setDarkMode(true, true)
-  } else if (darkMode !== false && prefersDarkMode()) {
+  if (darkMode === true || (darkMode !== false && prefersDarkMode())) {
     setDarkMode(true, true)
   }
 

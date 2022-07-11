@@ -13,6 +13,7 @@ import { Text } from '../Text'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
+import { ColorInput } from './ColorInput'
 
 const resize = (target) => {
   if (target) {
@@ -38,80 +39,10 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-const Color = ({
-  inputRef,
-  name,
-  placeholder,
-  defaultValue,
-  value = defaultValue,
-  disabled,
-  style,
-  onChange,
-  ...props
-}) => {
-  const [colorState, setColor] = useState(value)
-  const valueRef = useRef<string>()
-  const ref = useRef()
-
-  useEffect(() => {
-    if (onChange && colorState !== value) {
-      const { backgroundColor } = getComputedStyle(ref.current)
-      const [, r, g, b, a] = backgroundColor.split(/, |,|\(|\)/)
-      const value = `rgba(${r || 0},${g || 0},${b || 0},${a || 1})`
-      if (valueRef.current !== value) {
-        valueRef.current = value
-        onChange({ target: { value } })
-      }
-    }
-  }, [colorState, onChange])
-
-  return (
-    <>
-      <input
-        {...props}
-        type="text"
-        ref={inputRef}
-        value={colorState}
-        onChange={(e) => setColor(e.target.value)}
-        placeholder={placeholder}
-        style={{
-          ...style,
-          paddingLeft: 36,
-        }}
-      />
-      <label
-        ref={ref}
-        style={{
-          cursor: 'pointer',
-          position: 'absolute',
-          left: 12,
-          top: '50%',
-          transform: 'translate3d(0,-50%,0)',
-          backgroundColor: colorState,
-          height: 20,
-          width: 20,
-          borderRadius: 4,
-          marginRight: 8,
-          marginLeft: -4,
-          border: `1px solid ${color('border')}`,
-        }}
-      >
-        <input
-          type="color"
-          name={name}
-          disabled={disabled}
-          value={colorState}
-          onChange={(e) => setColor(e.target.value)}
-          style={{ visibility: 'hidden' }}
-        />
-      </label>
-    </>
-  )
-}
-
 const Single = ({ type, inputRef, ...props }) => {
   if (type === 'color') {
-    return <Color inputRef={inputRef} {...props} />
+    // @ts-ignore
+    return <ColorInput inputRef={inputRef} {...props} />
   }
   return <input {...props} type={type} ref={inputRef} />
 }
@@ -145,25 +76,26 @@ type InputProps = {
 }
 
 // to coorece the on change (skips having to make conversions or ts ignores)
-type InputPropsChange =
-  | (InputProps & {
-      type: 'text' | 'password' | 'email' | 'phone' | 'color'
-      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-    })
-  | (InputProps & {
-      name: 'password' | 'email' | 'name'
-      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-    })
-  | (InputProps & {
-      type: 'number' | 'date'
-      onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>
-    })
-  | (InputProps & {
-      type?: string
-      onChange?:
-        | ((value: string | number) => void)
-        | Dispatch<SetStateAction<string | number>>
-    })
+type InputTypeString = {
+  type: 'text' | 'password' | 'email' | 'phone' | 'color'
+  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+}
+type InputNameString = {
+  name: 'password' | 'email' | 'name'
+  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
+}
+type InputTypeNumber = {
+  type: 'number' | 'date'
+  onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>
+}
+type InputTypeOther = {
+  type?: string
+  onChange?:
+    | ((value: string | number) => void)
+    | Dispatch<SetStateAction<string | number>>
+}
+type InputPropsChange = InputProps &
+  (InputTypeString | InputNameString | InputTypeNumber | InputTypeOther)
 
 const MaybeSuggest = (props) =>
   props.suggest ? <Suggestor {...props} /> : props.children

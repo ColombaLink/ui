@@ -12,6 +12,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react'
+import { useOverlayPosition } from '~/hooks/useOverlayPosition'
 import { color } from '~/utils'
 import { ScrollArea } from '../ScrollArea'
 
@@ -53,8 +54,31 @@ export type OverlayProps<P = any> = {
   style?: CSSProperties
 }
 
-export const GenericOverlay: FC<OverlayProps> = () => {
-  return <div>'x'</div>
+export const GenericOverlay: FC<OverlayProps> = ({
+  Component,
+  props,
+  positionProps = {},
+  target,
+  style,
+}) => {
+  const [elementRef, position, resize] = useOverlayPosition(
+    target,
+    positionProps
+  )
+
+  if (!positionProps.width) {
+    positionProps.width = 256
+  }
+
+  return (
+    <Overlay style={style} elementRef={elementRef} position={position}>
+      {React.createElement(Component, {
+        resize,
+        position,
+        ...props,
+      })}
+    </Overlay>
+  )
 }
 
 export const InnerShared = ({ width, style, children, elementRef }) => {
