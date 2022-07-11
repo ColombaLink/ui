@@ -10,9 +10,9 @@ const toast = useToast()
 
 const notify = () => {
   toast.add(<Toast 
-    title="notify"
-    icon={CheckCircleIcon}
-    message="Account created." 
+    label="notify"
+    type="success"
+    description="Account created." 
   />)
 }
 
@@ -58,10 +58,17 @@ export const Toasts = () => {
         examples={[
           {
             props: {
-              title: 'success',
-              message: 'Account created.',
-              icon: <CheckCircleIcon color="accent" />,
+              label: 'success',
+              description: 'Account created.',
+              type: 'success',
               children: 'We’ve created your account for you.',
+            },
+          },
+          {
+            props: {
+              label: 'Error',
+              description: 'Oof. 😓',
+              type: 'error',
             },
           },
           {

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Checkbox } from '~'
 import ComponentViewer from '../ComponentViewer'
-import { Text } from '~'
 
 export const Checkboxes = () => {
   return (
@@ -22,8 +21,8 @@ export const Checkboxes = () => {
         {
           props: {
             label: 'Check it out',
+            description: 'Checkbox description',
             checked: true,
-            children: <Text weight={400}>More text content</Text>,
           },
         },
         {

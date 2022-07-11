@@ -34,6 +34,7 @@ export const Badges = () => {
               children: 'boxed',
               color: 'purple',
               boxed: true,
+              outline: true,
             },
           },
         ]}

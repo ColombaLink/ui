@@ -14,27 +14,27 @@ export const Grids = () => {
               children: (
                 <>
                   <Card
-                    title="Card small"
+                    label="Card small"
                     topLeft={<Thumbnail color="purple" icon={StackIcon} />}
                   />
                   <Card
-                    title="Date time"
+                    label="Date time"
                     topLeft={<Thumbnail color="yellow" icon={CalendarIcon} />}
                   />
                   <Card
-                    title="Date time"
+                    label="Date time"
                     topLeft={<Thumbnail color="green" icon={CalendarIcon} />}
                   />
                   <Card
-                    title="Date time"
+                    label="Date time"
                     topLeft={<Thumbnail color="red" icon={CalendarIcon} />}
                   />
                   <Card
-                    title="Date time"
+                    label="Date time"
                     topLeft={<Thumbnail color="accent" icon={CalendarIcon} />}
                   />
                   <Card
-                    title="Date time"
+                    label="Date time"
                     topLeft={
                       <Thumbnail color="lightyellow" icon={CalendarIcon} />
                     }

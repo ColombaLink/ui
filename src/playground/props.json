@@ -3,13 +3,16 @@
     "AccordionItemProps": {
       "name": "AccordionItemProps",
       "props": {
-        "title": {
+        "label": {
           "optional": true,
           "type": "string"
         },
         "children": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "space": {
           "optional": true,
@@ -24,7 +27,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type AccordionItemProps = {\n  title?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
+      "code": "type AccordionItemProps = {\n  label?: string\n  children?: FC | ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
@@ -423,7 +426,7 @@
     "CardProps": {
       "name": "CardProps",
       "props": {
-        "title": {
+        "label": {
           "optional": true,
           "type": "string"
         },
@@ -470,7 +473,7 @@
           "type": "boolean"
         }
       },
-      "code": "type CardProps = {\n  title?: string\n  description?: string\n  space?: Space\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n}",
+      "code": "type CardProps = {\n  label?: string\n  description?: string\n  space?: Space\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n}",
       "file": "/components/Card/index.tsx"
     },
     "CheckboxProps": {
@@ -483,6 +486,10 @@
         "checked": {
           "optional": true,
           "type": "boolean"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
         },
         "style": {
           "optional": true,
@@ -501,7 +508,7 @@
           "type": "Space"
         }
       },
-      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode\n  space?: Space\n}",
+      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode\n  space?: Space\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1703,7 +1710,7 @@
     "ToastProps": {
       "name": "ToastProps",
       "props": {
-        "title": {
+        "label": {
           "optional": true,
           "type": "string"
         },
@@ -1722,7 +1729,7 @@
           "optional": true,
           "type": "ReactNode"
         },
-        "message": {
+        "description": {
           "optional": true,
           "type": "string"
         },
@@ -1733,9 +1740,20 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "type": {
+          "optional": true,
+          "type": [
+            {
+              "value": "success"
+            },
+            {
+              "value": "error"
+            }
+          ]
         }
       },
-      "code": "type ToastProps = {\n  title?: string\n  icon?: FC | ReactNode\n  topLeft?: ReactNode\n  topRight?: ReactNode\n  message?: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type ToastProps = {\n  label?: string\n  icon?: FC | ReactNode\n  topLeft?: ReactNode\n  topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error'\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "PositionStyleProps": {

@@ -23,6 +23,7 @@ type TopbarProps = {
   onFilter?: (params: any) => any
   onProfile?: () => void
   breadcrumbs?: ReactNode
+  logo?: FC | ReactNode
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
@@ -96,6 +97,7 @@ export const Topbar: FC<TopbarProps> = ({
   onFilter,
   onProfile,
   breadcrumbs,
+  logo,
 }) => {
   const user = useAuth()
 
@@ -140,11 +142,15 @@ export const Topbar: FC<TopbarProps> = ({
           minHeight: 66,
         }}
       >
-        <Logo
-          height={32}
-          width={32}
-          style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
-        />
+        {logo ? (
+          <>{logo}</>
+        ) : (
+          <Logo
+            height={32}
+            width={32}
+            style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+          />
+        )}
 
         {breadcrumbs}
 

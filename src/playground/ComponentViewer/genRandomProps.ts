@@ -16,8 +16,8 @@ for (const key in ui) {
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
-    max: 8,
-    min: 4,
+    max: 3,
+    min: 2,
   },
   wordsPerSentence: {
     max: 16,

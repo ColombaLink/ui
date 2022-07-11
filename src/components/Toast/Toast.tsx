@@ -1,25 +1,28 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Text } from '../Text'
 import { color, renderOrCreateElement } from '~/utils'
+import { CheckCircleIcon, CloseCircleIcon } from '~/icons'
 
 type ToastProps = {
-  title?: string
+  label?: string
   icon?: FC | ReactNode
   topLeft?: ReactNode
   topRight?: ReactNode
-  message?: string
+  description?: string
   children?: ReactNode
   style?: CSSProperties
+  type?: 'success' | 'error'
 }
 
 export const Toast: FC<ToastProps> = ({
-  title,
+  label,
   icon,
   topLeft,
   topRight,
-  message,
+  description,
   children,
   style,
+  type,
 }) => {
   return (
     <div
@@ -29,7 +32,7 @@ export const Toast: FC<ToastProps> = ({
         boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
         cursor: 'pointer',
         padding: '12px 16px',
-        paddingBottom: title && !message && !children ? '8px' : '12px',
+        paddingBottom: label && !description && !children ? '8px' : '12px',
         marginBottom: 16,
         width: 400,
         ...style,
@@ -47,15 +50,25 @@ export const Toast: FC<ToastProps> = ({
         }}
       >
         {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>}
-        {icon && (
+        {icon && !type && (
           <div style={{ marginRight: 12 }}>{renderOrCreateElement(icon)}</div>
         )}
-        <Text weight={600}>{title}</Text>
+        {type === 'success' && (
+          <div style={{ marginRight: 12 }}>
+            {CheckCircleIcon({ color: 'accent' })}
+          </div>
+        )}
+        {type === 'error' && (
+          <div style={{ marginRight: 12 }}>
+            {CloseCircleIcon({ color: 'red' })}
+          </div>
+        )}
+        <Text weight={600}>{label}</Text>
         {topRight && <div style={{ marginLeft: 12 }}>{topRight}</div>}
       </div>
-      {message && (
+      {description && (
         <div>
-          <Text weight={400}>{message}</Text>
+          <Text weight={400}>{description}</Text>
         </div>
       )}
       {children && <div style={{ marginTop: 4 }}>{children}</div>}
