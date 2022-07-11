@@ -10,7 +10,6 @@ import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
 import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { useCallback } from 'react'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
 const IList = styled(InfiniteList, scrollAreaStyle)
@@ -187,6 +186,7 @@ const TableInner: FC<TableProps> = ({
   width,
   height,
 }) => {
+  console.log('???')
   const [init, setInit] = useState<boolean>()
   const isObject = fieldsProp && !Array.isArray(fieldsProp)
   // @ts-ignore
@@ -367,6 +367,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
   return (
     <styled.div
       style={{
+        border: '10px solid blue',
         flexGrow: 1,
         overflowX: 'auto',
         overflowY: 'hidden',
@@ -376,6 +377,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
     >
       <AutoSizer>
         {({ width, height }) => {
+          console.log('WTF?????')
           return <TableInner width={width} height={height} {...props} />
         }}
       </AutoSizer>

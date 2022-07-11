@@ -17,6 +17,7 @@ import { DarkModeIcon, LightModeIcon } from '../'
 import { toPascalCase } from './utils'
 import { LargeLogo } from '../'
 import { useDarkMode } from '~/hooks/useDarkMode'
+import useLocalStorage from '@based/use-local-storage'
 
 // @ts-ignore
 export const client = based({
@@ -129,9 +130,12 @@ const App = () => {
   )
 }
 
-render(
-  <Provider fill theme="light" client={client}>
-    <App />
-  </Provider>,
-  document.body
-)
+const Wrapper = () => {
+  const [themes] = useLocalStorage('themes')
+  return (
+    <Provider fill client={client} themes={themes || {}}>
+      <App />
+    </Provider>
+  )
+}
+render(<Wrapper />, document.body)

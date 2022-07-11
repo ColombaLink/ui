@@ -10,7 +10,6 @@ export const Page: FC<PageProps> = ({ children, style }) => {
   return (
     <ScrollArea
       style={{
-        // display: 'flex',
         flexGrow: 1,
         width: '100%',
         ...style,

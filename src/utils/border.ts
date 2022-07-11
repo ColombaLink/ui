@@ -3,7 +3,7 @@ import { color } from './color'
 
 export const border = (
   width,
-  colorProp: Color = 'red',
+  colorProp: Color = 'border',
   variant?: ColorVariant,
   light?: boolean
 ) => (width ? `${width}px solid ${color(colorProp, variant, light)}` : null)

@@ -3,8 +3,11 @@ import { darkTheme } from './darkTheme'
 import { getDarkMode, setDarkMode } from '~/hooks/useDarkMode'
 import { prefersDarkMode } from '~/utils/prefersDarkMode'
 
-const vars = {}
-export const updateTheme = (theme) => {
+export const values = {}
+export const vars = {}
+export let currentTheme
+export const updateTheme = (theme = currentTheme) => {
+  currentTheme = theme
   const { colors, light = {} } = theme
   const toRgba = (arr) => (arr.length === 3 ? `rgb(${arr})` : `rgba(${arr})`)
   const alpha = ([r, g, b], a) => [r, g, b, a]
@@ -25,27 +28,27 @@ export const updateTheme = (theme) => {
       b: lBorder,
     } = light[name] || {}
 
-    vars[name] = main
-    vars[`${name}:active`] = active || main
-    vars[`${name}:hover`] = hover || main
-    vars[`${name}:contrast`] = contrast || main
-    vars[`${name}:border`] = border || main
+    values[name] = main
+    values[`${name}:active`] = active || main
+    values[`${name}:hover`] = hover || main
+    values[`${name}:contrast`] = contrast || main
+    values[`${name}:border`] = border || main
 
     const lightName = `light${name}`
-    vars[lightName] = lMain || alpha(main, 0.16)
-    vars[`${lightName}:active`] = lActive || alpha(main, 0.24)
-    vars[`${lightName}:hover`] = lHover || alpha(main, 0.2)
-    vars[`${lightName}:contrast`] = lContrast || main
-    vars[`${lightName}:border`] = lBorder || alpha(main, 0.24)
+    values[lightName] = lMain || alpha(main, 0.16)
+    values[`${lightName}:active`] = lActive || alpha(main, 0.24)
+    values[`${lightName}:hover`] = lHover || alpha(main, 0.2)
+    values[`${lightName}:contrast`] = lContrast || main
+    values[`${lightName}:border`] = lBorder || alpha(main, 0.24)
   }
 
   let cnt = 0
-  for (const name in vars) {
+  for (const name in values) {
     const varName =
       process.env.NODE_ENV === 'dev'
         ? `--${name.replace(':', '_')}`
         : `--${cnt++}`
-    document.body.style.setProperty(varName, toRgba(vars[name]))
+    document.body.style.setProperty(varName, toRgba(values[name]))
     vars[name] = `var(${varName})`
   }
   return vars
