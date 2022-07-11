@@ -49,5 +49,5 @@ export const minmax = (min, n, max) => Math.min(max, Math.max(min, n))
 
 export const rgbaToArr = (str) => {
   const [, r, g, b, a] = str.split(/, |,|\(|\)/)
-  return [~~r, ~~g, ~~b, Number(a || 1)]
+  return [Math.round(r), Math.round(g), Math.round(b), Number(a || 1)]
 }

@@ -15,7 +15,7 @@ type ColorPickerProps = {
 }
 
 export const ColorPicker: FC<ColorPickerProps> = ({
-  value,
+  value = 'rgba(255,0,0,1)',
   style,
   onChange,
 }) => {
