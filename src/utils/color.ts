@@ -158,7 +158,7 @@ type ColorFn = {
 }
 
 export const color: ColorFn = (name, variant, light): cssColorString | null => {
-  if (name) {
+  if (typeof name === 'string') {
     if (name === 'inherit' || name === 'currentColor' || /^var\(/.test(name)) {
       return name as cssColorString
     }
