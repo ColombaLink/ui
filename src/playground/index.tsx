@@ -87,6 +87,7 @@ const App = () => {
           Feedback: {
             Callouts: '/callouts',
             Toasts: '/toasts',
+            Tooltips: '/tooltips',
           },
           Code: {
             Code: '/code',
