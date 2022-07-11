@@ -69,7 +69,7 @@ export const Badge: FC<BadgeProps> = ({
         position: 'relative',
         color: color(colorProp, 'contrast', true),
         border: border(outline && 1, colorProp, 'border', true),
-        backgroundColor: color(colorProp, true),
+        backgroundColor: ghost ? 'transparent' : color(colorProp, true),
         '&:hover': {
           backgroundColor: color(colorProp, 'hover', true),
         },

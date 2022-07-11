@@ -18,7 +18,20 @@ const notify = () => {
 
 <Button onClick={notify}>
   Notify!
-</Button>`
+</Button>
+`
+
+const closeAllExample = `import { CheckCircleIcon, useToast, Toast, Button, CloseIcon } from '@based/ui'
+
+const toasty = useToast()
+const amount = toasty.useCount()
+
+const closeAll = () => {
+  toasty.close()
+}
+
+<Button onClick={closeAll} disabled={!amount}>Close All Toasties ({amount})</Button>
+`
 
 const CloseAllButton = () => {
   const toast = useToast()
@@ -56,6 +69,9 @@ export const Toasts = () => {
             // component: () => {
             //   return <Notification>{toasts}</Notification>
             // },
+          },
+          {
+            code: closeAllExample,
           },
         ]}
       />

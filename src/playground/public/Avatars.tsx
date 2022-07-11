@@ -32,7 +32,6 @@ export const Avatars = () => {
           },
           {
             props: {
-              icon: BasedIcon,
               size: 64,
               label: 'Hello',
               color: 'red',
