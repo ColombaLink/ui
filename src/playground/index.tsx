@@ -25,29 +25,6 @@ export const client = based({
   env: 'production',
 })
 
-type StoryProps = {
-  component: FC
-  name: string
-}
-
-const Story = ({ component, name }: StoryProps) => {
-  const isCode = useSearchParam('mode') === 'code'
-  const [code, setCode] = useState('')
-  useEffect(() => {
-    fetch(
-      `/public/${name}.json?rando=${(~~(Math.random() * 999999)).toString(16)}`
-    )
-      .then((v) => v.text())
-      .then((v) => {
-        try {
-          setCode(JSON.parse(v.split('<script>')[0]).code)
-        } catch (err) {}
-      })
-  }, [isCode, name])
-
-  return <>{isCode ? <Code>{code}</Code> : React.createElement(component)}</>
-}
-
 const Stories = (params) => {
   if (params?.story) {
     const name = toPascalCase(params?.story)
@@ -55,13 +32,12 @@ const Stories = (params) => {
     if (!component) {
       return <div>empty</div>
     }
-    return <Story component={component} name={name} />
+    return React.createElement(component)
   }
   return 'Overview'
 }
 
 const App = () => {
-  const isCode = useSearchParam('mode') === 'code'
   const [lightDark, setLightDark] = useState(true)
 
   return (
@@ -90,17 +66,6 @@ const App = () => {
                 onClick={() => {
                   setLightDark(!lightDark)
                   themes(lightDark ? 'dark' : 'light')
-                }}
-              />
-              <Button
-                color="text"
-                ghost
-                iconLeft={<CurlyBracesIcon />}
-                onClick={() => {
-                  setLocation({
-                    merge: true,
-                    params: { mode: isCode ? 'normal' : 'code' },
-                  })
                 }}
               />
             </div>

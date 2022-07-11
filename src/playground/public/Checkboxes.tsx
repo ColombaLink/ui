@@ -3,5 +3,16 @@ import { Checkbox } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Checkboxes = () => {
-  return <ComponentViewer component={Checkbox} />
+  return (
+    <ComponentViewer
+      component={Checkbox}
+      examples={[
+        {
+          props: {
+            children: 'Checkbox',
+          },
+        },
+      ]}
+    />
+  )
 }
