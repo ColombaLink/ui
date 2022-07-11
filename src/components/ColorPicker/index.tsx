@@ -15,7 +15,7 @@ type ColorPickerProps = {
 }
 
 export const ColorPicker: FC<ColorPickerProps> = ({
-  value = 'rgba(255,0,0,1)',
+  value,
   style,
   onChange,
 }) => {
@@ -37,7 +37,6 @@ export const ColorPicker: FC<ColorPickerProps> = ({
 
   useEffect(() => {
     if (onChange && colorValue !== value) {
-      console.log({ colorValue })
       valueRef.current = colorValue
       onChange(colorValue)
     }

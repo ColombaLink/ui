@@ -30,13 +30,14 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
   )
 }
 
-const NumberInput = styled(Input, {
+const NumberInput = styled((props) => <Input {...props} />, {
   marginLeft: 8,
   width: 52,
   flexShrink: 0,
   marginBottom: 8,
   flexGrow: 1,
 })
+
 const max225 = (v) => (v ? Math.round(minmax(0, v, 255)) : v)
 const max100 = (v) => (v ? Math.round(minmax(0, v, 100)) : v)
 

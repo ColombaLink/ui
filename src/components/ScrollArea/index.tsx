@@ -5,7 +5,7 @@ const scrollbarColor = color('border')
 const transparentAreaColor = color('background')
 
 export const scrollAreaStyle = {
-  scrollbarGutter: 'stable',
+  // scrollbarGutter: 'stable',
   // firefox
   scrollbarColor: 'transparent transparent',
   '&::-webkit-scrollbar': {
