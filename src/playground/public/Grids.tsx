@@ -10,35 +10,34 @@ export const Grids = () => {
         examples={[
           {
             props: {
-              rowGap: 20,
-              columnGap: 20,
-              columns: 4,
-              wrap: true,
+              gap: 10,
               children: (
                 <>
                   <Card
                     title="Card small"
-                    topLeft={<Thumbnail color="PurpleDark" icon={StackIcon} />}
+                    topLeft={<Thumbnail color="purple" icon={StackIcon} />}
                   />
                   <Card
                     title="Date time"
-                    topLeft={<Thumbnail color="Yellow" icon={CalendarIcon} />}
+                    topLeft={<Thumbnail color="yellow" icon={CalendarIcon} />}
                   />
                   <Card
                     title="Date time"
-                    topLeft={<Thumbnail color="Pink" icon={CalendarIcon} />}
+                    topLeft={<Thumbnail color="green" icon={CalendarIcon} />}
                   />
                   <Card
                     title="Date time"
-                    topLeft={<Thumbnail color="Green" icon={CalendarIcon} />}
+                    topLeft={<Thumbnail color="red" icon={CalendarIcon} />}
                   />
                   <Card
                     title="Date time"
-                    topLeft={<Thumbnail color="Yellow" icon={CalendarIcon} />}
+                    topLeft={<Thumbnail color="accent" icon={CalendarIcon} />}
                   />
                   <Card
                     title="Date time"
-                    topLeft={<Thumbnail color="Pink" icon={CalendarIcon} />}
+                    topLeft={
+                      <Thumbnail color="lightyellow" icon={CalendarIcon} />
+                    }
                   />
                 </>
               ),
@@ -46,12 +45,13 @@ export const Grids = () => {
           },
           {
             props: {
-              rowGap: 20,
-              columnDistribution: '2fr 2fr 8fr',
-              wrap: true,
+              gap: 10,
+              itemWidth: 100,
               children: (
                 <>
-                  <Callout outline>2fr</Callout>
+                  <Callout outline style={{ minWidth: 300 }}>
+                    2fr
+                  </Callout>
                   <Callout outline>2fr</Callout>
                   <Callout outline>8fr</Callout>
                 </>
@@ -60,9 +60,8 @@ export const Grids = () => {
           },
           {
             props: {
-              rowGap: 20,
-              columnDistribution: '4 3 2 1',
-              wrap: true,
+              gap: 6,
+              itemWidth: 200,
               children: (
                 <>
                   <Callout outline>4</Callout>
