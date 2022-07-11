@@ -22,7 +22,9 @@ export const InputFields = () => {
         {
           props: {
             label: 'Multiline',
+            description: 'console logs value',
             multiline: true,
+            onChange: (e) => console.log(e),
           },
         },
       ]}

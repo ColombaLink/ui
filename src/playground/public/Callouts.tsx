@@ -17,7 +17,7 @@ export const Callouts = () => {
           },
           {
             props: {
-              color: 'red',
+              color: 'green',
               outline: true,
               children: 'Normal regular callout',
             },

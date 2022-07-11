@@ -46,7 +46,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
           {label[0].toLocaleUpperCase()}
         </Text>
       ) : null}
-      <>{renderOrCreateElement(icon, { size: 20 })}</>
+      <>{renderOrCreateElement(icon)}</>
     </div>
   )
 }
