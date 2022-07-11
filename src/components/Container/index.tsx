@@ -30,7 +30,7 @@ export const Container: FC<ContainerProps> = ({
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,
         backgroundColor: color('background2dp'),
-        border: border('border'),
+        border: `1px solid ${color('border')}`,
         position: 'relative',
         borderRadius: 4,
         overflow: 'hidden',

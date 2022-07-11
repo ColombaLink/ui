@@ -3,7 +3,7 @@
     "AccordionItemProps": {
       "name": "AccordionItemProps",
       "props": {
-        "title": {
+        "label": {
           "optional": true,
           "type": "string"
         },
@@ -27,7 +27,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type AccordionItemProps = {\n  title?: string\n  children?: FC | ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
+      "code": "type AccordionItemProps = {\n  label?: string\n  children?: FC | ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
