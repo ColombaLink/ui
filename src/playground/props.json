@@ -25,7 +25,7 @@
         }
       },
       "code": "type AccordionItemProps = {\n  title?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
-      "file": "/components/Accordion/Index.tsx"
+      "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
       "name": "AccordionProps",
@@ -44,7 +44,7 @@
         }
       },
       "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
-      "file": "/components/Accordion/Index.tsx"
+      "file": "/components/Accordion/index.tsx"
     },
     "AuthProps": {
       "name": "AuthProps",
