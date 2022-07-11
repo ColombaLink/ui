@@ -2,6 +2,7 @@ import React from 'react'
 import { Callout } from '~/components/Callout'
 import { ErrorIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'
+import { Button } from '~/components/Button'
 
 export const Callouts = () => {
   return (
@@ -12,22 +13,32 @@ export const Callouts = () => {
           {
             props: {
               color: 'red',
-              children: 'Normal regular callout',
+              label: 'Normal regular callout',
             },
           },
           {
             props: {
               color: 'green',
               outline: true,
-              children: 'Normal regular callout',
+              label: 'Hello Label',
+              iconLeft: <ErrorIcon />,
+              iconRight: <ErrorIcon />,
+              description: 'This is a description',
+              children: <Button>Child button</Button>,
             },
           },
           {
             props: {
               style: { maxWidth: 540 },
               outline: true,
-              iconLeft: <ErrorIcon />,
-              children: 'Warning: This component has an outline. and max width',
+              children: 'This component has an outline. and max width',
+            },
+          },
+          {
+            props: {
+              label: 'Hello this is dog',
+              description: 'This is a description',
+              closeable: true,
             },
           },
         ]}
