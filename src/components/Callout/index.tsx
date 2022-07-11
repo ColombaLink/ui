@@ -1,24 +1,29 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { Space, Color } from '~/types'
 import { Text } from '../Text'
 import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
+import { CloseIcon } from '~/icons'
 
 type CalloutProps = {
   children?: ReactNode
   iconLeft?: FC | ReactNode
-  iconRight?: FC | ReactNode
   outline?: boolean
   color?: Color
+  label?: string
+  description?: string
   ghost?: boolean
   space?: Space
   style?: CSSProperties
+  closeable?: boolean
   textAlign?: 'center' | 'right'
 }
 
 export const Callout: FC<CalloutProps> = ({
   children,
+  description,
+  label,
   iconLeft,
-  iconRight,
+  closeable,
   outline,
   color: colorProp = 'accent',
   ghost,
@@ -26,12 +31,21 @@ export const Callout: FC<CalloutProps> = ({
   style,
   textAlign,
 }) => {
+  const [closed, setIsClosed] = useState(false)
+
+  const closeCalloutHandler = () => {
+    console.log('closed')
+    setIsClosed(true)
+  }
+
   return (
     <div
       style={{
         border: outline ? border(1, colorProp, 'border', true) : null,
         backgroundColor: ghost ? 'transparent' : color(colorProp, true),
-        display: 'flex',
+        display: closed ? ' none' : 'flex',
+        flexDirection: 'column',
+        position: 'relative',
         padding: '12px 16px',
         borderRadius: 4,
         marginBottom: spaceToPx(space),
@@ -44,23 +58,47 @@ export const Callout: FC<CalloutProps> = ({
         ...style,
       }}
     >
-      {iconLeft && (
-        <div style={{ marginRight: 12, flexShrink: 0, paddingTop: 4 }}>
-          {renderOrCreateElement(iconLeft, {
-            color: color(colorProp),
-          })}
+      {closeable && (
+        <div
+          style={{
+            position: 'absolute',
+            right: 12,
+            top: 12,
+            cursor: 'pointer',
+          }}
+        >
+          <CloseIcon onClick={closeCalloutHandler} />
         </div>
       )}
-      <Text wrap color={color(colorProp, 'contrast', true)}>
-        {children}
-      </Text>
-      {iconRight && (
-        <div style={{ marginLeft: 8 }}>
-          {renderOrCreateElement(iconRight, {
-            color: color(colorProp),
-          })}
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        {iconLeft && (
+          <div style={{ marginRight: 12, flexShrink: 0, paddingTop: 4 }}>
+            {renderOrCreateElement(iconLeft, {
+              color: color(colorProp),
+            })}
+          </div>
+        )}
+        <div>
+          <Text wrap color={color(colorProp, 'contrast', true)}>
+            {label}
+          </Text>
+        </div>
+      </div>
+
+      {description && (
+        <div>
+          <Text
+            wrap
+            weight={400}
+            color={color(colorProp, 'contrast', true)}
+            space={children ? '8px' : '0px'}
+          >
+            {description}
+          </Text>
         </div>
       )}
+
+      {children && <div>{children}</div>}
     </div>
   )
 }
