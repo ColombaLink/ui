@@ -25,7 +25,7 @@
         }
       },
       "code": "type AccordionItemProps = {\n  title?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
-      "file": "/components/Accordion/index.tsx"
+      "file": "/components/Accordion/Index.tsx"
     },
     "AccordionProps": {
       "name": "AccordionProps",
@@ -44,7 +44,7 @@
         }
       },
       "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
-      "file": "/components/Accordion/index.tsx"
+      "file": "/components/Accordion/Index.tsx"
     },
     "AuthProps": {
       "name": "AuthProps",
@@ -747,25 +747,13 @@
           "optional": true,
           "type": "ReactNode"
         },
-        "columns": {
+        "gap": {
           "optional": true,
           "type": "number"
         },
-        "columnDistribution": {
-          "optional": true,
-          "type": "string"
-        },
-        "columnGap": {
+        "itemWidth": {
           "optional": true,
           "type": "number"
-        },
-        "rowGap": {
-          "optional": true,
-          "type": "number"
-        },
-        "wrap": {
-          "optional": true,
-          "type": "boolean"
         },
         "space": {
           "optional": true,
@@ -776,7 +764,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type GridProps = {\n  children?: ReactNode\n  columns?: number\n  columnDistribution?: string\n  columnGap?: number\n  rowGap?: number\n  wrap?: boolean\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type GridProps = {\n  children?: ReactNode\n  gap?: number\n  itemWidth?: number\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Grid/index.tsx"
     },
     "IconProps": {

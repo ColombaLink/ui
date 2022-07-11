@@ -4,12 +4,7 @@ import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider } from '@based/react'
 import { Based } from '@based/client'
-import { themes } from '~/themes'
 import { ToastProvider } from '../Toast/ToastProvider'
-
-export const Context = createContext({
-  theme: {},
-})
 
 type ProviderProps = {
   children?: ReactNode
@@ -26,10 +21,6 @@ export const Provider: FC<ProviderProps> = ({
   theme,
   fill,
 }) => {
-  if (theme) {
-    themes(theme)
-  }
-
   return (
     <div
       style={{

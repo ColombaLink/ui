@@ -13,10 +13,10 @@ import {
 } from '../'
 import based from '@based/client'
 import * as stories from './public'
-import { themes } from '~/themes'
 import { DarkModeIcon, LightModeIcon } from '../'
 import { toPascalCase } from './utils'
 import { LargeLogo } from '../'
+import { useDarkMode } from '~/hooks/useDarkMode'
 
 // @ts-ignore
 export const client = based({
@@ -38,8 +38,7 @@ const Stories = (params) => {
 }
 
 const App = () => {
-  const [lightDark, setLightDark] = useState(true)
-
+  const [darkMode, setDarkMode] = useDarkMode()
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
       <Menu
@@ -62,11 +61,8 @@ const App = () => {
                 style={{
                   marginLeft: -8,
                 }}
-                iconLeft={lightDark ? <DarkModeIcon /> : <LightModeIcon />}
-                onClick={() => {
-                  setLightDark(!lightDark)
-                  themes(lightDark ? 'dark' : 'light')
-                }}
+                iconLeft={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                onClick={() => setDarkMode(!darkMode)}
               />
             </div>
           </>
