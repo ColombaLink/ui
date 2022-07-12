@@ -88,6 +88,7 @@ const App = () => {
           Feedback: {
             Callouts: '/callouts',
             Toasts: '/toasts',
+            Tooltips: '/tooltips',
           },
           Code: {
             Code: '/code',
@@ -98,6 +99,7 @@ const App = () => {
             Grids: '/grids',
             MasonryGrid: '/masonryGrid',
             Tables: '/tables',
+            Tabs: '/tabsView',
           },
           Navigation: {
             Breadcrumbs: '/breadcrumb',

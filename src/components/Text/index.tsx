@@ -46,6 +46,10 @@ export const Text: FC<TextProps> = ({
     s.marginBottom = spaceToPx(space)
   }
 
+  if (size > 20) {
+    s.lineHeight = Math.floor(+size + +size / 4) + 'px'
+  }
+
   if (style) {
     Object.assign(s, style)
   }

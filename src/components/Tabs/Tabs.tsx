@@ -8,8 +8,9 @@ import React, {
   useEffect,
   useState,
   useCallback,
+  Children,
 } from 'react'
-import { color, spaceToPx, font } from '~/utils'
+import { color, spaceToPx, font, renderOrCreateElement } from '~/utils'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 
@@ -37,6 +38,11 @@ const TabWrapper: FC<{
   setHoverTab,
   setActiveTabInternal,
 }) => {
+  console.log(children)
+
+  /* @ts-ignore */
+  const icon = children.props.icon
+
   return (
     <div
       style={{
@@ -65,7 +71,11 @@ const TabWrapper: FC<{
       key={index}
     >
       {/* @ts-ignore */}
-      {typeof children === 'string' ? children : children.props.title}
+      {children.props.icon && (
+        <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
+      )}
+      {/* @ts-ignore */}
+      {typeof children === 'string' ? children : children.props.label}
     </div>
   )
 }

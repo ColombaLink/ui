@@ -1552,7 +1552,7 @@
     "TabProps": {
       "name": "TabProps",
       "props": {
-        "title": {
+        "label": {
           "type": "string"
         },
         "children": {
@@ -1562,9 +1562,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type TabProps = {\n  title: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type TabProps = {\n  label: string\n  children?: ReactNode\n  style?: CSSProperties\n  icon?: ReactNode\n}",
       "file": "/components/Tabs/Tab.tsx"
     },
     "TabsProps": {
@@ -1770,6 +1774,47 @@
       },
       "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
       "file": "/components/Toast/ToastProvider.tsx"
+    },
+    "TooltipProps": {
+      "name": "TooltipProps",
+      "props": {
+        "children": {
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "label": {
+          "type": "string"
+        },
+        "position": {
+          "optional": true,
+          "type": [
+            {
+              "value": "top"
+            },
+            {
+              "value": "bottom"
+            },
+            {
+              "value": "left"
+            },
+            {
+              "value": "right"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "onClose": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type TooltipProps = {\n  children: FC | ReactNode\n  label: string\n  position?: 'top' | 'bottom' | 'left' | 'right'\n  style?: CSSProperties\n  onClose?: () => void\n}",
+      "file": "/components/Tooltip/index.tsx"
     },
     "TopbarTabProps": {
       "name": "TopbarTabProps",
