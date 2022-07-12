@@ -97,6 +97,7 @@ const App = () => {
             Container: '/Containers',
             Grids: '/grids',
             MasonryGrid: '/masonryGrid',
+            Tables: '/tables',
           },
           Navigation: {
             Breadcrumbs: '/breadcrumb',

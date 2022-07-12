@@ -381,13 +381,6 @@
             "ReactNode"
           ]
         },
-        "iconRight": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
         "outline": {
           "optional": true,
           "type": "boolean"
@@ -395,6 +388,14 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
         },
         "ghost": {
           "optional": true,
@@ -408,6 +409,10 @@
           "optional": true,
           "type": "CSSProperties"
         },
+        "closeable": {
+          "optional": true,
+          "type": "boolean"
+        },
         "textAlign": {
           "optional": true,
           "type": [
@@ -420,7 +425,7 @@
           ]
         }
       },
-      "code": "type CalloutProps = {\n  children?: ReactNode\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right'\n}",
+      "code": "type CalloutProps = {\n  children?: ReactNode\n  iconLeft?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  label?: string\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right'\n}",
       "file": "/components/Callout/index.tsx"
     },
     "CardProps": {
@@ -975,12 +980,6 @@
       "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  iconLeft?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
-    "InputPropsChange": {
-      "name": "InputPropsChange",
-      "props": {},
-      "code": "type InputPropsChange =\n  | (InputProps & {\n      type: 'text' | 'password' | 'email' | 'phone' | 'color'\n      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n    })\n  | (InputProps & {\n      name: 'password' | 'email' | 'name'\n      onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n    })\n  | (InputProps & {\n      type: 'number' | 'date'\n      onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>\n    })\n  | (InputProps & {\n      type?: string\n      onChange?:\n        | ((value: string | number) => void)\n        | Dispatch<SetStateAction<string | number>>\n    })",
-      "file": "/components/Input/index.tsx"
-    },
     "LineGraphProps": {
       "name": "LineGraphProps",
       "props": {
@@ -1346,23 +1345,16 @@
           "optional": true,
           "type": "Based"
         },
-        "theme": {
+        "themes": {
           "optional": true,
-          "type": [
-            {
-              "value": "dark"
-            },
-            {
-              "value": "light"
-            }
-          ]
+          "type": "TSObjectKeyword"
         },
         "fill": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'dark' | 'light'\n  fill?: boolean\n}",
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  themes?: object\n  fill?: boolean\n}",
       "file": "/components/Provider/index.tsx"
     },
     "RightSidebarProps": {
@@ -1824,9 +1816,16 @@
         "breadcrumbs": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "logo": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         }
       },
-      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n}",
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n}",
       "file": "/components/Topbar/index.tsx"
     }
   },

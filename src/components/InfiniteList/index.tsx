@@ -83,16 +83,6 @@ export const InfiniteList: FC<InfiniteListProps> = ({
     timer: null,
     subs: {},
   })
-  const {
-    data: { itemCount },
-  } = useData({
-    itemCount: {
-      $aggregate: {
-        $function: 'count',
-        ...query(0, 0).$list.$find,
-      },
-    },
-  })
 
   useEffect(() => {
     if (client) {
@@ -146,6 +136,20 @@ export const InfiniteList: FC<InfiniteListProps> = ({
     limit,
     treshold,
   ])
+
+  const $find = query(0, 0)?.$list?.$find
+  const {
+    data: { itemCount },
+  } = useData(
+    $find && {
+      itemCount: {
+        $aggregate: {
+          $function: 'count',
+          ...$find,
+        },
+      },
+    }
+  )
 
   if (!itemCount || !current.items.length) {
     return null

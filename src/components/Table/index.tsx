@@ -1,9 +1,9 @@
 import React, { FC, CSSProperties, useRef, useState } from 'react'
-import { Size, Color, Weight, Space } from '~/types'
-import { color, font, spaceToPx } from '~/utils'
+import { Color } from '~/types'
+import { color } from '~/utils'
 import { FixedSizeList } from 'react-window'
 import { styled } from 'inlines'
-import { ScrollArea, scrollAreaStyle } from '../ScrollArea'
+import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
 import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
@@ -24,6 +24,7 @@ const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
 const ITEM_WIDTH = 96
 const ITEM_HEIGHT = 56
 const ACTIONS_WIDTH = 128
+const HEADER_HEIGHT = 40
 const Item: FC<{
   color?: Color
   children: ReactNode
@@ -186,7 +187,6 @@ const TableInner: FC<TableProps> = ({
   width,
   height,
 }) => {
-  console.log('???')
   const [init, setInit] = useState<boolean>()
   const isObject = fieldsProp && !Array.isArray(fieldsProp)
   // @ts-ignore
@@ -254,7 +254,6 @@ const TableInner: FC<TableProps> = ({
       measure(field, labels[i])
     })
     const minWidth = fields.length * ITEM_WIDTH + ACTIONS_WIDTH // TODO find out why we need this mystery 5px
-    console.log({ minWidth, width })
     if (minWidth > width) {
       width = minWidth //
     }
@@ -267,7 +266,7 @@ const TableInner: FC<TableProps> = ({
           width: '100%',
           display: 'flex',
           borderBottom: `1px solid ${color('border')}`,
-          height: 40,
+          height: HEADER_HEIGHT,
           alignItems: 'center',
           overflowY: 'auto',
           overflowX: 'hidden',
@@ -308,9 +307,9 @@ const TableInner: FC<TableProps> = ({
       </div>
       {data ? (
         <List
-          height={400}
+          height={height - HEADER_HEIGHT}
           itemCount={data.length}
-          itemSize={ITEM_WIDTH}
+          itemSize={ITEM_HEIGHT}
           itemData={{ fields, data, longest }}
           width={width}
         >
@@ -318,7 +317,7 @@ const TableInner: FC<TableProps> = ({
         </List>
       ) : (
         <IList
-          height={height - 40}
+          height={height - HEADER_HEIGHT}
           query={(offset, limit) => query(offset, limit, sortField, sortOrder)}
           itemData={(items) => {
             if (fields) {
@@ -367,7 +366,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
   return (
     <styled.div
       style={{
-        border: '10px solid blue',
+        minHeight: HEADER_HEIGHT + ITEM_HEIGHT * 3,
         flexGrow: 1,
         overflowX: 'auto',
         overflowY: 'hidden',
@@ -377,7 +376,6 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
     >
       <AutoSizer>
         {({ width, height }) => {
-          console.log('WTF?????')
           return <TableInner width={width} height={height} {...props} />
         }}
       </AutoSizer>
