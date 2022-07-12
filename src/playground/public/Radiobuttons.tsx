@@ -21,6 +21,7 @@ export const Radiobuttons = () => {
               description: 'More Radio Buttons for you',
               data: ['Coffee', 'Tea', 'Cola'],
               direction: 'horizontal',
+              defaultValue: 'Tea',
             },
           },
         ]}

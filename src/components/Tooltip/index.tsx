@@ -10,6 +10,9 @@ import { addOverlay, removeOverlay } from '../Overlay'
 
 import { useOverlayPosition } from '~/hooks'
 import { Overlay, OverlayProps } from '../Overlay'
+import { useOverlay } from '~/hooks'
+
+import { Text, Button } from '~'
 
 import { border, color } from '~/utils'
 
@@ -38,6 +41,13 @@ export const Tooltip: FC<TooltipProps> = ({
     setChildElHeight(childEl.current.offsetHeight)
     setChildElWidth(childEl.current.offsetWidth)
   }, [childEl])
+
+  // @ts-ignore
+  const { open } = useOverlay()
+
+  const openSimpleOverlay = () => {
+    useOverlay()
+  }
 
   const toolTipLabel = (
     <div
@@ -70,6 +80,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
   return (
     <>
+      <Button onClick={openSimpleOverlay}>Open Simple Overlay</Button>
       <div
         onMouseEnter={(e) => {
           setMouseOver(true)

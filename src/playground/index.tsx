@@ -77,6 +77,7 @@ const App = () => {
             InputFields: '/input-fields',
             Radiobuttons: '/Radiobuttons',
             Selects: '/selects',
+            Togglers: '/togglers',
           },
           Display: {
             Avatars: '/avatars',
