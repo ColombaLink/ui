@@ -98,6 +98,7 @@ const App = () => {
             Container: '/Containers',
             Grids: '/grids',
             MasonryGrid: '/masonryGrid',
+            Tabs: '/tabsView',
           },
           Navigation: {
             Breadcrumbs: '/breadcrumb',

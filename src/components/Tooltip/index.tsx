@@ -80,7 +80,7 @@ export const Tooltip: FC<TooltipProps> = ({
 
             console.log(childEl)
 
-            console.log('X  pos el', childEl.current.clientX)
+            console.log('X  pos el', childEl.current.offsetLeft)
             console.log('Y  pos el', childEl.current.offsetTop)
           }}
           onMouseLeave={() => {

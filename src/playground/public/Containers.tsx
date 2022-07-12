@@ -22,7 +22,7 @@ export const Containers = () => {
                 Container
               </Text>
             ),
-            bottomRight: <Button>Save</Button>,
+            bottomRight: <Button color="lightgrey">Save</Button>,
           },
         },
         {
