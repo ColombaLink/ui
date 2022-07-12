@@ -34,15 +34,8 @@ export type ButtonProps = {
   actionKeys?: Key[]
 }
 
-export const getButtonStyle = (props) => {
-  const {
-    disabled,
-    ghost,
-    color: colorProp = 'accent',
-    outline,
-    light,
-    onClick,
-  } = props
+export const getButtonStyle = (props, isButton = !!props.onClick) => {
+  const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
   const isLight = light || ghost || outline
   const style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
@@ -52,7 +45,7 @@ export const getButtonStyle = (props) => {
     opacity: disabled ? 0.6 : 1,
   } as Style
 
-  if (onClick) {
+  if (isButton) {
     style.cursor = 'pointer'
     style['&:hover'] = {
       backgroundColor: color(colorProp, 'hover', isLight),
@@ -72,7 +65,7 @@ export const Button: FC<ButtonProps> = (props) => {
     iconLeft,
     iconRight,
     loading,
-    onClick = () => {},
+    onClick,
     actionKeys,
     style,
     space,
@@ -80,6 +73,7 @@ export const Button: FC<ButtonProps> = (props) => {
     fill,
     textAlign = 'left',
   } = props
+
   const [isLoading, setIsLoading] = useState(false)
   const buttonElem = useRef<HTMLElement>(null)
   const extendedOnClick = useCallback(
@@ -155,7 +149,7 @@ export const Button: FC<ButtonProps> = (props) => {
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
         height: large ? 48 : null,
-        ...getButtonStyle(props),
+        ...getButtonStyle(props, true),
         ...style,
       }}
     >
