@@ -20,9 +20,13 @@ type AvatarProps = {
 }
 
 export const Avatar: FC<AvatarProps> = (props) => {
+  if (!props.color) {
+    props.color = 'accent'
+  }
+
   const {
     size = 32,
-    color: colorProp = 'accent',
+    color: colorProp,
     img,
     icon,
     label,
@@ -37,16 +41,13 @@ export const Avatar: FC<AvatarProps> = (props) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        // cursor: onClick ? 'pointer' : null,
         width: size,
         height: size,
         borderRadius: '50%',
-        // backgroundColor: color(colorProp),
         backgroundImage: img ? `url(${img})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         marginBottom: spaceToPx(space),
-        // color: color(colorProp, 'contrast'),
         ...getButtonStyle(props),
         ...style,
       }}
