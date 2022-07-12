@@ -1,4 +1,4 @@
-import { useOverlay } from '../useOverlay'
+import { useOverlay } from './useOverlay'
 import { ComponentType, CSSProperties, PropsWithChildren } from 'react'
 import { PositionProps } from '~/components/Overlay'
 import { PropsEventHandler } from '~/types'
