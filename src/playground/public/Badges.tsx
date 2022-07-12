@@ -19,7 +19,7 @@ export const Badges = () => {
               children: 'Another Badge',
               outline: true,
               ghost: true,
-              iconLeft: <DotIcon />,
+              icon: <DotIcon />,
             },
           },
           {

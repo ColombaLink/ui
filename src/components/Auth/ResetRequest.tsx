@@ -34,7 +34,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
             large
             value={email}
             space="24px"
-            iconLeft={EmailIcon}
+            icon={EmailIcon}
             type="email"
             placeholder="Email address"
             onChange={setEmail}
@@ -81,7 +81,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
             Check your email for the reset link.
           </Text>
           <Button
-            iconLeft={<CheckIcon />}
+            icon={<CheckIcon />}
             large
             actionKeys={['Enter']}
             textAlign="center"

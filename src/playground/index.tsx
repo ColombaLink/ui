@@ -62,7 +62,7 @@ const App = () => {
                 style={{
                   marginLeft: -8,
                 }}
-                iconLeft={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+                icon={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
                 onClick={() => setDarkMode(!darkMode)}
               />
             </div>

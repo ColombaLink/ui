@@ -118,7 +118,7 @@ export const Theming = () => {
             {currentThemes ? (
               <Button
                 ghost
-                iconLeft={DeleteIcon}
+                icon={DeleteIcon}
                 onClick={() => {
                   setThemes(null)
                   location.reload()

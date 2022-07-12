@@ -6,7 +6,7 @@ import { CloseIcon } from '~/icons'
 
 type CalloutProps = {
   children?: ReactNode
-  iconLeft?: FC | ReactNode
+  icon?: FC | ReactNode
   outline?: boolean
   color?: Color
   label?: string
@@ -22,7 +22,7 @@ export const Callout: FC<CalloutProps> = ({
   children,
   description,
   label,
-  iconLeft,
+  icon,
   closeable,
   outline,
   color: colorProp = 'accent',
@@ -71,9 +71,9 @@ export const Callout: FC<CalloutProps> = ({
         </div>
       )}
       <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {iconLeft && (
+        {icon && (
           <div style={{ marginRight: 12, flexShrink: 0, paddingTop: 4 }}>
-            {renderOrCreateElement(iconLeft, {
+            {renderOrCreateElement(icon, {
               color: color(colorProp),
             })}
           </div>

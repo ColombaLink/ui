@@ -182,7 +182,7 @@ const SimpleMenu = () => {
         onClick={() => {
           alert('close it')
         }}
-        leftIcon={ScheduleIcon}
+        icon={ScheduleIcon}
         // right icon only show on hover
         // rightOnHover
         rightIcon={() => {

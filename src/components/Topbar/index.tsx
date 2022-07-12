@@ -82,7 +82,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
     <>
       <Input
         placeholder="Search and discover"
-        iconLeft={SearchIcon}
+        icon={SearchIcon}
         onChange={(e) => console.log(e)}
         style={{ marginLeft: 12, marginRight: 12 }}
       />

@@ -21,7 +21,7 @@ export const Callouts = () => {
               color: 'green',
               outline: true,
               label: 'Hello Label',
-              iconLeft: <ErrorIcon />,
+              icon: <ErrorIcon />,
               iconRight: <ErrorIcon />,
               description: 'This is a description',
               children: <Button>Child button</Button>,

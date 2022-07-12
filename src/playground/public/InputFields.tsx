@@ -16,7 +16,7 @@ export const InputFields = () => {
           props: {
             label: 'Input label',
             description: 'this is description',
-            iconLeft: <CheckIcon />,
+            icon: <CheckIcon />,
           },
         },
         {

@@ -31,7 +31,7 @@ export type ContextItemProps = {
   style?: Style
   color?: Color
   onClick?: PropsEventHandler
-  leftIcon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon>
   rightIcon?: FunctionComponent<Icon>
   inset?: boolean
   noFocus?: boolean
@@ -50,7 +50,7 @@ export const ContextItem: FC<ContextItemProps> = ({
   style,
   color,
   children,
-  leftIcon,
+  icon,
   inset,
   tabIndex = 0,
   noFocus,
@@ -75,10 +75,10 @@ export const ContextItem: FC<ContextItemProps> = ({
   }
 
   let child
-  if (leftIcon) {
+  if (icon) {
     child = (
       <Text color={color} style={{ display: 'flex', alignItems: 'center' }}>
-        {renderOrCreateElement(leftIcon, {
+        {renderOrCreateElement(icon, {
           size: 16,
           style: { marginRight: 8 },
         })}
@@ -97,7 +97,7 @@ export const ContextItem: FC<ContextItemProps> = ({
     return (
       <StyledContextItem onClick={onClick} style={style}>
         {child}
-        {renderOrCreateElement(leftIcon, {
+        {renderOrCreateElement(icon, {
           size: 16,
           style: { marginLeft: 8 },
         })}
@@ -126,7 +126,7 @@ export const ContextItem: FC<ContextItemProps> = ({
       }
     >
       {child}
-      {renderOrCreateElement(leftIcon, {
+      {renderOrCreateElement(icon, {
         size: 16,
         style: { marginLeft: 8 },
       })}

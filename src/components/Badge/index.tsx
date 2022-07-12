@@ -13,7 +13,7 @@ import { styled } from 'inlines'
 type BadgeProps = {
   children: ReactNode
   style?: CSSProperties
-  iconLeft?: FC | ReactNode
+  icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean
   color?: AccentColor
@@ -24,7 +24,7 @@ type BadgeProps = {
 
 export const Badge: FC<BadgeProps> = ({
   children,
-  iconLeft,
+  icon,
   iconRight,
   style,
   outline,
@@ -76,7 +76,7 @@ export const Badge: FC<BadgeProps> = ({
         ...style,
       }}
     >
-      {iconLeft && (
+      {icon && (
         <div
           style={{
             marginRight: 8,
@@ -85,7 +85,7 @@ export const Badge: FC<BadgeProps> = ({
             height: 'auto',
           }}
         >
-          {renderOrCreateElement(iconLeft, { size: 10 })}
+          {renderOrCreateElement(icon, { size: 10 })}
         </div>
       )}
       <Text size="12px" color="inherit">

@@ -23,7 +23,7 @@ export type ButtonProps = {
   light?: boolean
   large?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
-  iconLeft?: FC | ReactNode
+  icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler
@@ -62,7 +62,7 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
 export const Button: FC<ButtonProps> = (props) => {
   let {
     children,
-    iconLeft,
+    icon,
     iconRight,
     loading,
     onClick,
@@ -168,14 +168,14 @@ export const Button: FC<ButtonProps> = (props) => {
               : 'flex-start',
         }}
       >
-        {iconLeft &&
-          renderOrCreateElement(iconLeft, {
+        {icon &&
+          renderOrCreateElement(icon, {
             style: children || iconRight ? { marginRight: 8 } : null,
           })}
         <Text color="inherit">{children}</Text>
         {iconRight &&
           renderOrCreateElement(iconRight, {
-            style: children || iconLeft ? { marginLeft: 8 } : null,
+            style: children || icon ? { marginLeft: 8 } : null,
           })}
       </div>
       {loading && (

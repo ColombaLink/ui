@@ -139,7 +139,7 @@ export const ContextOptionItem = ({
             backgroundColor: color('lightgrey:hover'),
           },
         }}
-        leftIcon={option.icon || (!noInset && selected ? CheckIcon : null)}
+        icon={option.icon || (!noInset && selected ? CheckIcon : null)}
         onClick={(e) => {
           setIsSelected(1)
 

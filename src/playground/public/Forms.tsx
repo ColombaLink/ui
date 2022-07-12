@@ -13,7 +13,7 @@ export const Forms = () => {
               <>
                 <Input label="String" space />
                 <Input label="Number" type="number" space />
-                <Input label="With Icon Left" iconLeft={CheckIcon} space />
+                <Input label="With Icon Left" icon={CheckIcon} space />
                 <Input label="Multiline" multiline space />
                 <Input label="With Background" bg space />
                 <Button>Submit</Button>

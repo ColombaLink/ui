@@ -61,7 +61,7 @@ export const Register: FC<RegisterProps> = ({
         type="email"
         large
         space="16px"
-        iconLeft={EmailIcon}
+        icon={EmailIcon}
         value={email}
         placeholder="Email address"
         onChange={setEmail}
@@ -69,7 +69,7 @@ export const Register: FC<RegisterProps> = ({
       <Input
         large
         space="16px"
-        iconLeft={LockIcon}
+        icon={LockIcon}
         type="password"
         placeholder="Password"
         onChange={setPassword}
@@ -84,7 +84,7 @@ export const Register: FC<RegisterProps> = ({
       >
         <Input
           large
-          iconLeft={
+          icon={
             !cpassword ? (
               LockIcon
             ) : passwordIsValid ? (
@@ -120,7 +120,7 @@ export const Register: FC<RegisterProps> = ({
           }}
         />
 
-        <Callout space iconLeft={PasswordIcon({ color: passWordColor })}>
+        <Callout space icon={PasswordIcon({ color: passWordColor })}>
           {passwordScore.entropy < 50
             ? 'Password is too weak, add capitals, symbols or make it longer'
             : passwordValidationMessage}

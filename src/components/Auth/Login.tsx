@@ -42,7 +42,7 @@ export const Login: FC<LoginProps> = ({
       }}
     >
       {/*<Button
-        iconLeft={GoogleIcon}
+        icon={GoogleIcon}
         textAlign="center"
         style={{
           width,
@@ -68,7 +68,7 @@ export const Login: FC<LoginProps> = ({
         large
         value={email}
         type="email"
-        iconLeft={EmailIcon}
+        icon={EmailIcon}
         placeholder="Email address"
         onChange={setEmail}
       />
@@ -96,7 +96,7 @@ export const Login: FC<LoginProps> = ({
         <Input
           large
           inputRef={passwordRef}
-          iconLeft={LockIcon}
+          icon={LockIcon}
           type="password"
           placeholder="Password"
           onChange={setPassword}

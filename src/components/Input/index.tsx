@@ -53,7 +53,7 @@ type InputProps = {
   description?: string
   optional?: boolean
   value?: string | number
-  iconLeft?: FC | ReactNode
+  icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   defaultValue?: string | number
   placeholder?: string
@@ -169,7 +169,7 @@ export const Input: FC<
   defaultValue,
   type,
   placeholder = 'Type something here',
-  iconLeft,
+  icon,
   iconRight,
   multiline,
   bg,
@@ -199,7 +199,7 @@ export const Input: FC<
     onChangeProp?.(newValue)
   }
 
-  const paddingLeft = ghost ? 0 : iconLeft ? 36 : 12
+  const paddingLeft = ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const props = {
     name,
@@ -277,7 +277,7 @@ export const Input: FC<
           color: color('text'),
         }}
       >
-        {renderOrCreateElement(iconLeft, {
+        {renderOrCreateElement(icon, {
           style: {
             position: 'absolute',
             left: 12,

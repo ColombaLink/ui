@@ -118,7 +118,7 @@ export const Explorer: FC<{
             light
             color="text"
             style={{ marginRight: 24 }}
-            iconLeft={ModelIcon}
+            icon={ModelIcon}
             onClick={() =>
               setLocation({
                 merge: true,
@@ -133,7 +133,7 @@ export const Explorer: FC<{
             ghost
             light
             color="text"
-            iconLeft={ModelIcon}
+            icon={ModelIcon}
             onClick={() =>
               setLocation({
                 merge: true,

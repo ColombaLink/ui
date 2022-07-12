@@ -26,16 +26,12 @@ export const Cards = () => {
               topLeft: <Avatar icon={BasedIcon} color="red" />,
               topRight: <MoreIcon />,
               bottomLeft: (
-                <Badge iconLeft={CopyIcon({ size: 14 })} boxed>
+                <Badge icon={CopyIcon({ size: 14 })} boxed>
                   main
                 </Badge>
               ),
               bottomRight: (
-                <Badge
-                  outline
-                  ghost
-                  iconLeft={<DotIcon color="green" size={10} />}
-                >
+                <Badge outline ghost icon={<DotIcon color="green" size={10} />}>
                   Healthy
                 </Badge>
               ),

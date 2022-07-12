@@ -41,7 +41,7 @@ const CloseAllButton = () => {
     <>
       <Button
         disabled={!amount}
-        iconLeft={<CloseIcon />}
+        icon={<CloseIcon />}
         onClick={() => toast.close()}
       >
         Close All Toasts ({amount})
