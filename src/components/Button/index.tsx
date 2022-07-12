@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from 'react'
 import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 import { Space, AccentColor, Key } from '~/types'
@@ -35,22 +35,35 @@ export type ButtonProps = {
 }
 
 export const getButtonStyle = (props) => {
-  const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
+  const {
+    disabled,
+    ghost,
+    color: colorProp = 'accent',
+    outline,
+    light,
+    onClick,
+  } = props
   const isLight = light || ghost || outline
-  return {
+  const style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     backgroundColor: ghost || outline ? null : color(colorProp, null, isLight),
     color: color(colorProp, 'contrast', isLight),
     border: border(outline && 1, colorProp, 'border', light),
     opacity: disabled ? 0.6 : 1,
-    '&:hover': {
+  } as Style
+
+  if (onClick) {
+    style.cursor = 'pointer'
+    style['&:hover'] = {
       backgroundColor: color(colorProp, 'hover', isLight),
       cursor: disabled ? 'not-allowed' : 'pointer',
-    },
-    '&:active': {
+    }
+    style['&:active'] = {
       backgroundColor: color(colorProp, 'active', isLight),
-    },
+    }
   }
+
+  return style
 }
 
 export const Button: FC<ButtonProps> = (props) => {
