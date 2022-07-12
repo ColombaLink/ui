@@ -109,6 +109,7 @@ const App = () => {
             ContextMenus: '/context-menus',
           },
           Screens: {
+            Inbox: '/inbox',
             ProfileSettings: '/profile-settings',
             ProjectSettings: '/project-settings',
           },

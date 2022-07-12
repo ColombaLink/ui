@@ -137,19 +137,16 @@ export const InfiniteList: FC<InfiniteListProps> = ({
     treshold,
   ])
 
-  const $find = query(0, 0)?.$list?.$find
   const {
     data: { itemCount },
-  } = useData(
-    $find && {
-      itemCount: {
-        $aggregate: {
-          $function: 'count',
-          ...$find,
-        },
+  } = useData({
+    itemCount: {
+      $aggregate: {
+        $function: 'count',
+        ...query(0, 0)?.$list?.$find,
       },
-    }
-  )
+    },
+  })
 
   if (!itemCount || !current.items.length) {
     return null

@@ -23,7 +23,7 @@
     "extends": "@saulx/eslint-config"
   },
   "peerDependencies": {
-    "@based/client": "^3.0.0",
+    "@based/client": "^3.0.2",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },

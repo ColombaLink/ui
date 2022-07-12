@@ -36,7 +36,8 @@ export const ProjectSettings = () => {
             space
             bottomRight={
               <Button
-                color="Greylight"
+                outline
+                light
                 onClick={async () => {
                   await wait(1000)
                   throw new Error('error loading async')
