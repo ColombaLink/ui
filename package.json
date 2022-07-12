@@ -1,14 +1,14 @@
 {
   "name": "@based/ui",
-  "version": "4.0.0-alpha.5",
+  "version": "4.0.0-alpha.6",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "lint": "tsc --noEmit",
     "dev": "aristotle watch -t ./src/playground/index.tsx -p 8005",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && npm run genPropsTypes && tsc --build tsconfig.build.json && node postbuild",
-    "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node postbuild\"",
+    "build": "rm -rf dist && npm run genPropsTypes && tsc --build tsconfig.build.json && node scripts/postbuild",
+    "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node scripts/postbuild\"",
     "genPropsTypes": "node ./scripts/generateComponentProps.js"
   },
   "files": [

@@ -119,8 +119,6 @@ export const Topbar: FC<TopbarProps> = ({
     selected = location
   }
 
-  const [activeProfile, setActiveProfile] = useState(false)
-
   return (
     <div
       style={{

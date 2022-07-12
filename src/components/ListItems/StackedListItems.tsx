@@ -41,8 +41,8 @@ export const StackedListItemsWrapper: FC<StackedListItemsWrapperProps> = ({
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '12px 16px',
-            backgroundColor: color('lightgrey'),
-            border: `1px solid ${color('border')}`,
+            backgroundColor: color('border'),
+            // border: `1px solid ${color('border')}`,
             borderTopLeftRadius: 4,
             borderTopRightRadius: 4,
             marginBottom: -1,
@@ -90,7 +90,6 @@ export const StackedListItem: FC<StackedListItemProps> = ({
   children,
   right,
   style,
-  space,
   border,
 }) => {
   return (

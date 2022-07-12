@@ -31,6 +31,7 @@ export const Grid: FC<GridProps> = ({
       }}
     >
       {children &&
+        // @ts-ignore
         children.map((child, idx) => (
           <div style={{ minWidth: itemWidth, margin: gap / 2 }} key={idx}>
             {child}

@@ -1345,16 +1345,27 @@
           "optional": true,
           "type": "Based"
         },
+        "theme": {
+          "optional": true,
+          "type": [
+            {
+              "value": "light"
+            },
+            {
+              "value": "dark"
+            }
+          ]
+        },
         "themes": {
           "optional": true,
-          "type": "TSObjectKeyword"
+          "type": "TSTypeLiteral"
         },
         "fill": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  themes?: object\n  fill?: boolean\n}",
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n}",
       "file": "/components/Provider/index.tsx"
     },
     "RightSidebarProps": {

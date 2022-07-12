@@ -26,7 +26,7 @@ const valueToRgba = (value) => {
   }
 }
 
-export const useColorPicker = (valueProp, onChange) => {
+export const useColorPicker = (valueProp, onChange = null) => {
   const [value, setValue] = useState(valueProp)
   const [rgba, setRgba] = useState(() => valueToRgba(valueProp))
 
@@ -41,7 +41,7 @@ export const useColorPicker = (valueProp, onChange) => {
           (value) => {
             setValue(value)
             setRgba(value)
-            onChange(value)
+            onChange?.(value)
           },
           [onChange]
         ),

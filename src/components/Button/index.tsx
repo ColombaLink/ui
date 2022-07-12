@@ -9,7 +9,7 @@ import React, {
   useRef,
 } from 'react'
 import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 import { Space, AccentColor, Key } from '~/types'
@@ -34,26 +34,38 @@ export type ButtonProps = {
   actionKeys?: Key[]
 }
 
-export const getBtnColors = (props) => {
-  const { ghost, color: colorProp = 'accent', outline, light } = props
+export const getButtonStyle = (props, isButton = !!props.onClick) => {
+  const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
   const isLight = light || ghost || outline
-  return {
-    background: ghost || outline ? null : color(colorProp, null, isLight),
-    contrast: color(colorProp, 'contrast', isLight),
-    hover: color(colorProp, 'hover', isLight),
-    active: color(colorProp, 'active', isLight),
+  const style = {
+    transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
+    backgroundColor: ghost || outline ? null : color(colorProp, null, isLight),
+    color: color(colorProp, 'contrast', isLight),
     border: border(outline && 1, colorProp, 'border', light),
+    opacity: disabled ? 0.6 : 1,
+  } as Style
+
+  if (isButton) {
+    style.cursor = 'pointer'
+    style['&:hover'] = {
+      backgroundColor: color(colorProp, 'hover', isLight),
+      cursor: disabled ? 'not-allowed' : 'pointer',
+    }
+    style['&:active'] = {
+      backgroundColor: color(colorProp, 'active', isLight),
+    }
   }
+
+  return style
 }
 
 export const Button: FC<ButtonProps> = (props) => {
   let {
     children,
-    disabled,
     iconLeft,
     iconRight,
     loading,
-    onClick = () => {},
+    onClick,
     actionKeys,
     style,
     space,
@@ -61,9 +73,9 @@ export const Button: FC<ButtonProps> = (props) => {
     fill,
     textAlign = 'left',
   } = props
+
   const [isLoading, setIsLoading] = useState(false)
   const buttonElem = useRef<HTMLElement>(null)
-  const colors = getBtnColors(props)
   const extendedOnClick = useCallback(
     async (e) => {
       e.stopPropagation()
@@ -115,16 +127,15 @@ export const Button: FC<ButtonProps> = (props) => {
   }
 
   if (loading) {
-    disabled = true
+    props.disabled = true
   }
 
   return (
     <styled.button
       ref={buttonElem}
-      disabled={disabled}
+      disabled={props.disabled}
       onClick={onClick}
       style={{
-        transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
         padding:
           !children && large
             ? '16px'
@@ -133,22 +144,12 @@ export const Button: FC<ButtonProps> = (props) => {
             : large
             ? '4px 16px'
             : '4px 8px',
-        backgroundColor: colors.background,
-        color: colors.contrast,
-        border: colors.border,
         borderRadius: 4,
         width: fill ? '100%' : null,
-        opacity: disabled ? 0.6 : 1,
         position: 'relative',
-        '&:hover': {
-          backgroundColor: colors.hover,
-          cursor: disabled ? 'not-allowed' : 'pointer',
-        },
-        '&:active': {
-          backgroundColor: colors.active,
-        },
         marginBottom: space ? spaceToPx(space) : null,
         height: large ? 48 : null,
+        ...getButtonStyle(props, true),
         ...style,
       }}
     >
