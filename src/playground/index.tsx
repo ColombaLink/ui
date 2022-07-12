@@ -75,6 +75,7 @@ const App = () => {
             ColorPicker: '/color-picker',
             Forms: '/forms',
             InputFields: '/input-fields',
+            Radiobuttons: '/Radiobuttons',
             Selects: '/selects',
           },
           Display: {

@@ -70,34 +70,22 @@ export const Tooltip: FC<TooltipProps> = ({
 
   return (
     <>
-      <div>
-        <div
-          onMouseEnter={(e) => {
-            setMouseOver(true)
-            addOverlay(toolTipLabel, onClose)
-            console.log('X', e.clientX)
-            console.log('Y', e.clientY)
-
-            console.log(childEl)
-
-            console.log('X  pos el', childEl.current.offsetLeft)
-            console.log('Y  pos el', childEl.current.offsetTop)
-          }}
-          onMouseLeave={() => {
-            setMouseOver(true)
-          }}
-          style={{
-            position: 'relative',
-            width: 'fit-content',
-          }}
-          ref={childEl}
-        >
-          {children}
-        </div>
+      <div
+        onMouseEnter={(e) => {
+          setMouseOver(true)
+          addOverlay(toolTipLabel, onClose)
+        }}
+        onMouseLeave={() => {
+          setMouseOver(true)
+        }}
+        style={{
+          position: 'relative',
+          width: 'fit-content',
+        }}
+        ref={childEl}
+      >
+        {children}
       </div>
-      {/* {mouseOver && (
-       
-      )} */}
     </>
   )
 }

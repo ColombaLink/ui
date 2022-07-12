@@ -38,8 +38,6 @@ const TabWrapper: FC<{
   setHoverTab,
   setActiveTabInternal,
 }) => {
-  console.log(children)
-
   /* @ts-ignore */
   const icon = children.props.icon
 
