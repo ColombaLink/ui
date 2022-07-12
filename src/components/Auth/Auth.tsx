@@ -62,7 +62,7 @@ export const Authorize: FC<AuthProps> = ({
       {!logo ? null : logo === true ? <LargeLogo /> : logo}
       {!showResetRequest ? (
         <Tabs space setActiveTab={setActiveTab} activeTab={activeTab}>
-          <Tab title="Sign in">
+          <Tab label="Sign in">
             <Login
               onLogin={(r) => {
                 if (onLogin) {
@@ -78,7 +78,7 @@ export const Authorize: FC<AuthProps> = ({
             />
           </Tab>
           {register || onRegister ? (
-            <Tab title="Sign up">
+            <Tab label="Sign up">
               <Register
                 email={email}
                 onRegister={(r) => {

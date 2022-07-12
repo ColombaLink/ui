@@ -13,6 +13,7 @@ type ProviderProps = {
   children?: ReactNode
   style?: CSSProperties
   client?: Based
+  theme?: 'light' | 'dark'
   themes?: {
     base?: object
     dark?: object
@@ -48,6 +49,7 @@ export const Provider: FC<ProviderProps> = ({
   style,
   client,
   themes,
+  theme,
   fill,
 }) => {
   useEffect(() => {
@@ -58,6 +60,12 @@ export const Provider: FC<ProviderProps> = ({
       updateTheme()
     }
   }, [themes])
+
+  useEffect(() => {
+    if (theme) {
+      updateTheme(theme === 'dark' ? darkTheme : baseTheme)
+    }
+  }, [theme])
 
   return (
     <div
