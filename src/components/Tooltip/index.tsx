@@ -46,7 +46,7 @@ export const Tooltip: FC<TooltipProps> = ({
   const { open } = useOverlay()
 
   const openSimpleOverlay = () => {
-    useOverlay()
+    // useOverlay()
   }
 
   const toolTipLabel = (
