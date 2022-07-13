@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, FC } from 'react'
+import React, { useEffect, useRef, useState, FC } from 'react'
 import ComponentViewer from '../ComponentViewer'
 
 import { useToolTip } from '~/hooks/useToolTip'
@@ -8,7 +8,7 @@ export const Tooltips = () => {
 
   // Use like this
   useEffect(() => {
-    useToolTip(ButtonRef, 'New tooltip')
+    useToolTip(ButtonRef, 'New tooltip', 'right')
   }, [])
 
   return (
@@ -34,13 +34,11 @@ export const Tooltips = () => {
 
       <div
         style={{
-          display: 'block',
           backgroundColor: 'lightblue',
           width: 100,
           height: 50,
         }}
         ref={ButtonRef}
-        // onMouseOver={(e) => tool(e, 'This is tip')}
       >
         Test
       </div>

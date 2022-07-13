@@ -1,4 +1,10 @@
-import React, { useRef, useState, MouseEventHandler, FC } from 'react'
+import React, {
+  useRef,
+  useState,
+  MouseEventHandler,
+  FC,
+  useEffect,
+} from 'react'
 import { addOverlay, removeOverlay } from '~/components/Overlay'
 import { color } from '~/utils'
 
@@ -11,8 +17,7 @@ type useToolTipProps = {
 // new use Tooltip hook
 export const useToolTip = (ref, tip, position = 'right') => {
   let mouseOver
-
-  // the label
+  //the label
   const toolTipLabel = (tip) => {
     return (
       <div
@@ -21,7 +26,8 @@ export const useToolTip = (ref, tip, position = 'right') => {
           borderRadius: 4,
           margin: 5,
           display: 'block',
-          backgroundColor: color('lightgrey'),
+          backgroundColor: color('background'),
+          border: `1px solid ${color('border')}`,
           width: 'min-content',
           position: 'absolute',
           left:
@@ -55,16 +61,22 @@ export const useToolTip = (ref, tip, position = 'right') => {
     )
   }
 
-  ref.current.addEventListener('mouseenter', () => {
-    // console.log('log the ref. clientWidth', ref.current.clientWidth)
-    // console.log('log the ref. clientHeight', ref.current.clientHeight)
-    // console.log(' offsetLeft', ref.current.offsetLeft)
-    // console.log(' offsetTop', ref.current.offsetTop)
-    // console.log('the tooltip', tip)
+  ref.current.addEventListener('mouseenter', (e) => {
+    //   //   // console.log('log the ref. clientWidth', ref.current.clientWidth)
+    //   //   // console.log('log the ref. clientHeight', ref.current.clientHeight)
+    //   //   // console.log(' offsetLeft', ref.current.offsetLeft)
+    //   //   // console.log(' offsetTop', ref.current.offsetTop)
+    //   //   // console.log('the tooltip', tip)
+    console.log(e)
+    mouseOver = true
+    console.log(mouseOver)
 
-    addOverlay(toolTipLabel(tip), () => {})
+    addOverlay(toolTipLabel(tip), () => {}, {})
   })
+
   ref.current.addEventListener('mouseout', () => {
+    mouseOver = false
+    console.log(mouseOver)
     removeOverlay()
   })
 }
