@@ -18,7 +18,6 @@ export const useToolTip = (): ToolTipState => {
       ref.current.active = active
       ref.current.hover = hover
       update(e)
-      console.log('active: ', active, 'hover: ', hover)
     }
     ref.current = {
       active: false,

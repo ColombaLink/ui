@@ -75,7 +75,7 @@ const App = () => {
             ColorPicker: '/color-picker',
             Forms: '/forms',
             InputFields: '/input-fields',
-            Radiobuttons: '/Radiobuttons',
+            Radiobuttons: '/radiobuttons',
             Selects: '/selects',
             Togglers: '/togglers',
           },
@@ -114,6 +114,7 @@ const App = () => {
             Inbox: '/inbox',
             ProfileSettings: '/profile-settings',
             ProjectSettings: '/project-settings',
+            SyncSession: '/sync-session',
           },
           Themes: {
             Theming: '/theming',

@@ -13,7 +13,5 @@ export const DraggableListWrapper: FC<DraggableListWrapperProps> = ({
 
   const [list, setList] = useState(arrayChildren)
 
-  console.log(arrayChildren)
-
   return <div>{children}</div>
 }

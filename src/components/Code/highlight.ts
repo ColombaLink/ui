@@ -92,7 +92,5 @@ export default (code: string, type: 'js' | 'ts' | 'json' = 'js'): string => {
     }
   }
 
-  console.log(string)
-
   return str.join('')
 }
