@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
 import { Dialog } from './Dialog'
 import { Input } from '../Input'
-import { addOverlay, removeOverlay } from '../Overlay'
+import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
 import { color } from '~/utils'
 
 const Prompt = ({ type = 'prompt', onCancel, onConfirm, style, ...props }) => {
@@ -159,7 +159,4 @@ export const DialogProvider = ({ children, fixed = true }) => {
       {children}
     </DialogContext.Provider>
   )
-}
-function removeAllOverlays() {
-  throw new Error('Function not implemented.')
 }
