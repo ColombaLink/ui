@@ -156,7 +156,7 @@ const DoubleOverlayMenu = () => {
         yes + offset
       </ContextItem>
       <ContextItem
-        rightIcon={ScheduleIcon}
+        iconRight={ScheduleIcon}
         onClick={useContextMenu(LargeMenu, {}, { position: 'left' })}
       >
         Click me!
@@ -185,7 +185,7 @@ const SimpleMenu = () => {
         icon={ScheduleIcon}
         // right icon only show on hover
         // rightOnHover
-        rightIcon={() => {
+        iconRight={() => {
           return (
             <MoreIcon
               onClick={() => {

@@ -32,7 +32,7 @@ export type ContextItemProps = {
   color?: Color
   onClick?: PropsEventHandler
   icon?: FunctionComponent<Icon>
-  rightIcon?: FunctionComponent<Icon>
+  iconRight?: FunctionComponent<Icon>
   inset?: boolean
   noFocus?: boolean
   tabIndex?: number
@@ -54,7 +54,7 @@ export const ContextItem: FC<ContextItemProps> = ({
   inset,
   tabIndex = 0,
   noFocus,
-  rightIcon,
+  iconRight,
 }) => {
   if (onClick) {
     const onClickOriginal = onClick
