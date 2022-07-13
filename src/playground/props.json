@@ -841,7 +841,7 @@
         },
         "target": {
           "optional": true,
-          "type": "number"
+          "type": "string"
         },
         "style": {
           "optional": true,
@@ -863,7 +863,7 @@
           ]
         }
       },
-      "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: number\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
+      "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: string\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
       "file": "/components/InfiniteList/index.tsx"
     },
     "InputProps": {
@@ -1824,6 +1824,28 @@
       "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
       "file": "/components/Toast/ToastProvider.tsx"
     },
+    "ToggleGroupProps": {
+      "name": "ToggleGroupProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": [
+            "Array",
+            "Array"
+          ]
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n}",
+      "file": "/components/ToggleGroup/index.tsx"
+    },
     "TogglerProps": {
       "name": "TogglerProps",
       "props": {
@@ -1944,6 +1966,52 @@
       },
       "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n}",
       "file": "/components/Topbar/index.tsx"
+    },
+    "ValueSliderProps": {
+      "name": "ValueSliderProps",
+      "props": {
+        "items": {
+          "optional": true,
+          "type": "Items"
+        },
+        "max": {
+          "optional": true,
+          "type": "number"
+        },
+        "min": {
+          "optional": true,
+          "type": "number"
+        },
+        "alwaysShowLabel": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "Label": {
+          "optional": true,
+          "type": "FC"
+        },
+        "step": {
+          "optional": true,
+          "type": "number"
+        },
+        "onStartSliding": {
+          "optional": true,
+          "type": "function"
+        },
+        "onEndSliding": {
+          "optional": true,
+          "type": "function"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "onValueChange": {
+          "type": "function"
+        }
+      },
+      "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onValueChange: (value: number) => void\n}",
+      "file": "/components/ValueSlider/index.tsx"
     }
   },
   "types": {

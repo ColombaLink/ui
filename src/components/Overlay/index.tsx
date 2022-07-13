@@ -128,6 +128,16 @@ export const addOverlay = (
   listeners.forEach((update) => update())
 }
 
+export const removeAllOverlays = () => {
+  overlays.forEach(([, onClose]) => {
+    if (onClose) {
+      onClose()
+    }
+  })
+  overlays = []
+  listeners.forEach((update) => update())
+}
+
 export const removeOverlay = (overlay?: ReactNode) => {
   if (!overlay) {
     if (overlays.length) {

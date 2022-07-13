@@ -88,7 +88,7 @@ export const Button: FC<ButtonProps> = (props) => {
         }
       }, 100)
       try {
-        await onClick(e)
+        await onClick?.(e)
       } catch (e) {
         console.error(`Error from async click "${e.message}"`)
         t.style.transform = 'translateX(-10px)'
@@ -134,7 +134,7 @@ export const Button: FC<ButtonProps> = (props) => {
     <styled.button
       ref={buttonElem}
       disabled={props.disabled}
-      onClick={onClick}
+      onClick={onClick && extendedOnClick}
       style={{
         padding:
           !children && large

@@ -12,6 +12,11 @@ export const Buttons = () => {
         {
           props: {
             children: 'Button',
+            onClick: () => {
+              return new Promise((resolve) => {
+                setTimeout(resolve, 1e3)
+              })
+            },
           },
         },
         {
