@@ -134,7 +134,7 @@ export const Button: FC<ButtonProps> = (props) => {
     <styled.button
       ref={buttonElem}
       disabled={props.disabled}
-      onClick={extendedOnClick}
+      onClick={onClick && extendedOnClick}
       style={{
         padding:
           !children && large
