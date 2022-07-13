@@ -1,14 +1,19 @@
-import React from 'react'
-import { Tooltip } from '~/components/Tooltip'
-import { Button } from '~/components/Button'
+import React, { useEffect, useRef, FC } from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { Text } from '~'
+
 import { useToolTip } from '~/hooks/useToolTip'
 
 export const Tooltips = () => {
+  const ButtonRef = useRef()
+
+  // Use like this
+  useEffect(() => {
+    useToolTip(ButtonRef, 'New tooltip')
+  }, [])
+
   return (
     <>
-      <ComponentViewer
+      {/* <ComponentViewer
         component={Tooltip}
         examples={[
           {
@@ -25,7 +30,21 @@ export const Tooltips = () => {
             },
           },
         ]}
-      />
+      /> */}
+
+      <div
+        style={{
+          display: 'block',
+          backgroundColor: 'lightblue',
+          width: 100,
+          height: 50,
+        }}
+        ref={ButtonRef}
+        // onMouseOver={(e) => tool(e, 'This is tip')}
+      >
+        Test
+      </div>
+      <br />
     </>
   )
 }

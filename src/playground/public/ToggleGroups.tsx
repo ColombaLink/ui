@@ -1,6 +1,5 @@
 import React from 'react'
 import { ToggleGroup } from '~/components/ToggleGroup'
-import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'
 
 export const ToggleGroups = () => {
