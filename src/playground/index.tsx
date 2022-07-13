@@ -78,7 +78,8 @@ const App = () => {
             Radiobuttons: '/radiobuttons',
             Selects: '/selects',
             Sliders: '/sliders',
-            Togglers: '/togglers',
+            Toggler: '/togglers',
+            ToggleGroups: '/ToggleGroups',
           },
           Display: {
             Avatars: '/avatars',
