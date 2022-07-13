@@ -140,6 +140,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
   const {
     data: { itemCount },
   } = useData({
+    $id: target as string,
     itemCount: {
       $aggregate: {
         $function: 'count',
