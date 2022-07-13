@@ -43,7 +43,7 @@ export type InfiniteListProps = {
   height?: number
   limit?: number
   treshold?: number
-  target?: number
+  target?: string
   style?: CSSProperties
   itemData?: (items: object[]) => any
   children?: FC<{ index: number; style: CSSProperties; data: any }>
