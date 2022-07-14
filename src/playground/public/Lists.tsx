@@ -9,10 +9,23 @@ export const Lists = () => {
   const [list, setList] = useState(listItems)
   const [activeListItem, setActiveListItem] = useState(null)
   const [mouseOverListItem, setMouseOverListItem] = useState(null)
+  const [isMouseDown, setIsMouseDown] = useState(false)
+  const [tempCopy, setTempCopy] = useState(null)
 
   const mouseDownHandler = (e) => {
+    setIsMouseDown(true)
     setActiveListItem(+e.target.id)
-    console.log('on mouse down =>', e.target.id)
+
+    // temp copy shizzle
+    const tempDiv = document.createElement('div')
+    const tempEl = e.target.cloneNode(true)
+    tempDiv.appendChild(tempEl)
+
+    tempDiv.style.position = 'absolute'
+    tempDiv.style.pointerEvents = 'none'
+    tempDiv.style.opacity = '0.75'
+
+    setTempCopy(tempDiv)
   }
 
   const mouseOverHandler = (e) => {
@@ -21,6 +34,11 @@ export const Lists = () => {
   }
 
   const mouseUpHandler = () => {
+    //reset temp copy
+    document.body.removeChild(tempCopy)
+    setTempCopy(null)
+
+    setIsMouseDown(false)
     console.log('Mouse released')
     if (activeListItem === mouseOverListItem) {
       console.log('Test  = Same item, nothing happens')
@@ -28,6 +46,19 @@ export const Lists = () => {
     if (activeListItem !== mouseOverListItem) {
       console.log('Test  = Different item, FIRE')
       arrayMagic(activeListItem, mouseOverListItem, list)
+    }
+  }
+
+  const mouseMoveHandler = (e) => {
+    if (isMouseDown) {
+      console.log('mouse moves')
+
+      const mouseY = e.clientY
+      const mouseX = e.clientX
+
+      document.body.appendChild(tempCopy)
+      tempCopy.style.left = `${mouseX - 16}px`
+      tempCopy.style.top = `${mouseY - 16}px`
     }
   }
 
@@ -67,6 +98,7 @@ export const Lists = () => {
             onMouseDown={(e) => mouseDownHandler(e)}
             onMouseOver={(e) => mouseOverHandler(e)}
             onMouseUp={mouseUpHandler}
+            onMouseMove={mouseMoveHandler}
           >
             <DragDropIcon /> {item}
           </li>
