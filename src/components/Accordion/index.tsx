@@ -6,7 +6,7 @@ import { Space } from '~/types'
 
 type AccordionItemProps = {
   label?: string
-  children?: FC | ReactNode
+  children?: ReactNode
   space?: Space
   checked?: boolean
   style?: CSSProperties

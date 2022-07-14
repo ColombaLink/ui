@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { DraggableListWrapper, ListItem } from '~/components/ListItems'
-import { Thumbnail } from '~/components/Thumbnail'
 import { DragDropIcon } from '~/icons'
+import { Text } from '~/components/Text'
 
 const listItems = ['Apple', 'Banana', 'Citroen', 'Dragonfruit', 'Elderberry']
 
@@ -30,7 +30,6 @@ export const Lists = () => {
 
   const mouseOverHandler = (e) => {
     setMouseOverListItem(+e.target.id)
-    console.log('on mouse OVER =>', e.target.id)
   }
 
   const mouseUpHandler = () => {
@@ -39,12 +38,10 @@ export const Lists = () => {
     setTempCopy(null)
 
     setIsMouseDown(false)
-    console.log('Mouse released')
     if (activeListItem === mouseOverListItem) {
-      console.log('Test  = Same item, nothing happens')
+      // console.log('Test  = Same item, nothing happens')
     }
     if (activeListItem !== mouseOverListItem) {
-      console.log('Test  = Different item, FIRE')
       arrayMagic(activeListItem, mouseOverListItem, list)
     }
   }
@@ -79,31 +76,49 @@ export const Lists = () => {
 
   return (
     <div>
-      <h1>Lists</h1>
+      <Text>Draggable list</Text>
       <br />
 
-      <ul>
-        {list.map((item, index) => (
-          <li
-            key={index}
-            id={`${index}`}
-            style={{
-              width: 300,
-              height: 40,
-              border: '1px solid grey',
-              display: 'flex',
-              alignItems: 'center',
-              marginBottom: '4px',
-            }}
-            onMouseDown={(e) => mouseDownHandler(e)}
-            onMouseOver={(e) => mouseOverHandler(e)}
-            onMouseUp={mouseUpHandler}
-            onMouseMove={mouseMoveHandler}
-          >
-            <DragDropIcon /> {item}
-          </li>
-        ))}
-      </ul>
+      {list.map((item, index) => (
+        <li
+          key={index}
+          id={`${index}`}
+          style={{
+            width: 300,
+            padding: 8,
+            height: 40,
+            border: '1px solid grey',
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '4px',
+          }}
+          onMouseDown={(e) => mouseDownHandler(e)}
+          onMouseOver={(e) => mouseOverHandler(e)}
+          onMouseUp={mouseUpHandler}
+          onMouseMove={mouseMoveHandler}
+        >
+          <DragDropIcon style={{ marginRight: 12, pointerEvents: 'none' }} />
+          {item}
+        </li>
+      ))}
+
+      <br />
+      <Text>Try another one</Text>
+      <br />
+
+      {list.map((item, index) => (
+        <ListItem
+          draggable
+          key={index}
+          id={`${index}`}
+          left={<Text>{item}</Text>}
+          // @ts-ignore
+          onMouseDown={(e) => mouseDownHandler(e)}
+          onMouseOver={(e) => mouseOverHandler(e)}
+          onMouseUp={mouseUpHandler}
+          onMouseMove={mouseMoveHandler}
+        />
+      ))}
     </div>
   )
 }

@@ -9,10 +9,7 @@
         },
         "children": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "ReactNode"
         },
         "space": {
           "optional": true,
@@ -27,7 +24,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type AccordionItemProps = {\n  label?: string\n  children?: FC | ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
+      "code": "type AccordionItemProps = {\n  label?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
@@ -1067,11 +1064,10 @@
           "type": "boolean"
         },
         "id": {
-          "optional": true,
           "type": "string"
         }
       },
-      "code": "type ListItemProps = {\n  left?: ReactNode\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n  id?: string\n}",
+      "code": "type ListItemProps = {\n  left?: ReactNode\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n  id: string\n}",
       "file": "/components/ListItems/ListItem.tsx"
     },
     "StackedListItemsWrapperProps": {

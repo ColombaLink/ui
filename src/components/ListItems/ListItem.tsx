@@ -2,6 +2,7 @@ import React, { CSSProperties, FC, ReactNode } from 'react'
 import { DragDropIcon } from '~/icons'
 import { Space } from '~/types'
 import { color, spaceToPx } from '~/utils'
+import { styled } from 'inlines'
 
 type ListItemProps = {
   left?: ReactNode
@@ -9,7 +10,7 @@ type ListItemProps = {
   style?: CSSProperties
   space?: Space
   draggable?: boolean
-  id?: string
+  id: string
 }
 
 export const ListItem: FC<ListItemProps> = ({
@@ -21,7 +22,7 @@ export const ListItem: FC<ListItemProps> = ({
   space = 4,
 }) => {
   return (
-    <div
+    <styled.li
       id={id}
       style={{
         display: 'flex',
@@ -42,20 +43,12 @@ export const ListItem: FC<ListItemProps> = ({
           gap: '16px',
         }}
       >
-        {draggable && (
-          <DragDropIcon
-            style={{ cursor: 'pointer' }}
-            onMouseDown={(e) => {
-              console.log(e.target.parentNode.parentNode.id)
-              console.log('mouse down')
-            }}
-          />
-        )}
+        {draggable && <DragDropIcon style={{ cursor: 'pointer' }} />}
         {left}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         {right}
       </div>
-    </div>
+    </styled.li>
   )
 }

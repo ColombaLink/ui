@@ -108,6 +108,7 @@ const App = () => {
           },
           Navigation: {
             Breadcrumbs: '/breadcrumb',
+            SideMenu: '/SideMenu',
             Topbar: '/topbars',
           },
           Overlays: {
