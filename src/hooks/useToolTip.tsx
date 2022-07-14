@@ -61,7 +61,7 @@ export const useToolTip = (ref, tip, position = 'right') => {
     )
   }
 
-  ref.current.addEventListener('mouseenter', (e) => {
+  ref.current.addEventListener('mouseover', (e) => {
     //   //   // console.log('log the ref. clientWidth', ref.current.clientWidth)
     //   //   // console.log('log the ref. clientHeight', ref.current.clientHeight)
     //   //   // console.log(' offsetLeft', ref.current.offsetLeft)
@@ -71,10 +71,10 @@ export const useToolTip = (ref, tip, position = 'right') => {
     mouseOver = true
     console.log(mouseOver)
 
-    addOverlay(toolTipLabel(tip), () => {}, {})
+    addOverlay(toolTipLabel(tip), () => {})
   })
 
-  ref.current.addEventListener('mouseout', () => {
+  ref.current.addEventListener('mouseleave', () => {
     mouseOver = false
     console.log(mouseOver)
     removeOverlay()

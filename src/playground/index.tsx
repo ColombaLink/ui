@@ -101,6 +101,7 @@ const App = () => {
             Accordions: '/accordions',
             Container: '/Containers',
             Grids: '/grids',
+            Lists: '/lists',
             MasonryGrid: '/masonryGrid',
             Tables: '/tables',
             Tabs: '/tabsView',

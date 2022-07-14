@@ -637,7 +637,7 @@
           "optional": true,
           "type": "FunctionComponent"
         },
-        "rightIcon": {
+        "iconRight": {
           "optional": true,
           "type": "FunctionComponent"
         },
@@ -658,7 +658,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type ContextItemProps = {\n  style?: Style\n  color?: Color\n  onClick?: PropsEventHandler\n  icon?: FunctionComponent<Icon>\n  rightIcon?: FunctionComponent<Icon>\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
+      "code": "type ContextItemProps = {\n  style?: Style\n  color?: Color\n  onClick?: PropsEventHandler\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
       "file": "/components/ContextMenu/ContextItem.tsx"
     },
     "ContextOptionsFilterProps": {
@@ -1065,9 +1065,13 @@
         "draggable": {
           "optional": true,
           "type": "boolean"
+        },
+        "id": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type ListItemProps = {\n  left?: ReactNode\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n}",
+      "code": "type ListItemProps = {\n  left?: ReactNode\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n  id?: string\n}",
       "file": "/components/ListItems/ListItem.tsx"
     },
     "StackedListItemsWrapperProps": {

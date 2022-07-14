@@ -13,5 +13,12 @@ export const DraggableListWrapper: FC<DraggableListWrapperProps> = ({
 
   const [list, setList] = useState(arrayChildren)
 
+  console.log(list)
+
+  // add keys or ids
+  // setList(list.map((item, index) => (item.props.id = index)))
+
+  console.log(list)
+
   return <div>{children}</div>
 }

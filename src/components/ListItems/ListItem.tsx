@@ -9,17 +9,20 @@ type ListItemProps = {
   style?: CSSProperties
   space?: Space
   draggable?: boolean
+  id?: string
 }
 
 export const ListItem: FC<ListItemProps> = ({
   left,
   right,
   style,
+  id,
   draggable,
-  space = 12,
+  space = 4,
 }) => {
   return (
     <div
+      id={id}
       style={{
         display: 'flex',
         backgroundColor: color('background2dp'),
@@ -39,7 +42,15 @@ export const ListItem: FC<ListItemProps> = ({
           gap: '16px',
         }}
       >
-        {draggable && <DragDropIcon style={{ cursor: 'pointer' }} />}
+        {draggable && (
+          <DragDropIcon
+            style={{ cursor: 'pointer' }}
+            onMouseDown={(e) => {
+              console.log(e.target.parentNode.parentNode.id)
+              console.log('mouse down')
+            }}
+          />
+        )}
         {left}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
