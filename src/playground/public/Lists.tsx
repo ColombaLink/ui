@@ -26,21 +26,24 @@ export const Lists = () => {
       console.log('Test  = Same item, nothing happens')
     }
     if (activeListItem !== mouseOverListItem) {
-      setList(arrayMagic(activeListItem, mouseOverListItem, list))
+      console.log('Test  = Different item, FIRE')
+      arrayMagic(activeListItem, mouseOverListItem, list)
     }
   }
 
   // some array magic slicing etc
   const arrayMagic = (activeItem, mouseOverItem, list) => {
+    // must make copy to trigger re-render
+    const newList = [...list]
     const oldItem = list[activeItem]
 
     //remove the old active item from the list
-    list.splice(activeListItem, 1)
+    newList.splice(activeListItem, 1)
 
     //put old item back in the list
-    list.splice(mouseOverItem, 0, oldItem)
+    newList.splice(mouseOverItem, 0, oldItem)
 
-    return list
+    setList(newList)
   }
 
   return (
