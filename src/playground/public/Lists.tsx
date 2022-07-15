@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { DragDropIcon } from '~/icons'
 import { Text } from '~/components/Text'
+import { ListItem } from '~/components/ListItems'
+import { Avatar } from '~/components/Avatar'
 
 const listItems = ['Apple', 'Banana', 'Citroen', 'Dragonfruit', 'Elderberry']
 
@@ -52,6 +54,9 @@ export const Lists = () => {
           draggable
           key={index}
           id={`${index}`}
+          onDrag={(e) => dragHandler(e)}
+          onDragOver={(e) => dragOverHandler(e)}
+          onDragEnd={(e) => dragEndHandler(e)}
           style={{
             width: 300,
             padding: 8,
@@ -61,9 +66,6 @@ export const Lists = () => {
             alignItems: 'center',
             marginBottom: '4px',
           }}
-          onDrag={(e) => dragHandler(e)}
-          onDragOver={(e) => dragOverHandler(e)}
-          onDragEnd={(e) => dragEndHandler(e)}
         >
           <DragDropIcon style={{ marginRight: 12, pointerEvents: 'none' }} />
           {item}
@@ -71,6 +73,17 @@ export const Lists = () => {
       ))}
 
       <br />
+
+      <ListItem
+        draggable
+        id="1"
+        left={
+          <>
+            <Avatar label="yo" />
+            <Text>Hallo</Text>
+          </>
+        }
+      />
     </div>
   )
 }

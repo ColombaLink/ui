@@ -23,6 +23,7 @@ export const ListItem: FC<ListItemProps> = ({
 }) => {
   return (
     <styled.li
+      draggable={draggable}
       id={id}
       style={{
         display: 'flex',
