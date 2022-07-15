@@ -6,15 +6,22 @@ import { styled } from 'inlines'
 
 type ListItemProps = {
   left?: ReactNode
+  avatar?: Boolean
+  thumbnail?: Boolean
   right?: ReactNode
   style?: CSSProperties
   space?: Space
   draggable?: boolean
   id: string
+  onDrag?: (e: any) => void
+  onDragOver?: (e: any) => void
+  onDragEnd?: (e: any) => void
 }
 
 export const ListItem: FC<ListItemProps> = ({
   left,
+  avatar,
+  thumbnail,
   right,
   style,
   id,

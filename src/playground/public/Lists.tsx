@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { DragDropIcon } from '~/icons'
 import { Text } from '~/components/Text'
-import { ListItem } from '~/components/ListItems'
+import { List, ListItem } from '~/components/ListItems'
 import { Avatar } from '~/components/Avatar'
 
 const listItems = ['Apple', 'Banana', 'Citroen', 'Dragonfruit', 'Elderberry']
+
+const otherListItems = ['Zulu', 'Yankee', 'X-ray', 'Whiskey', 'Victor']
 
 export const Lists = () => {
   const [list, setList] = useState(listItems)
@@ -68,22 +70,15 @@ export const Lists = () => {
           }}
         >
           <DragDropIcon style={{ marginRight: 12, pointerEvents: 'none' }} />
-          {item}
+          <Text>{item}</Text>
         </li>
       ))}
 
       <br />
+      <Text> Nieuwe Lijst Component</Text>
+      <br />
 
-      <ListItem
-        draggable
-        id="1"
-        left={
-          <>
-            <Avatar label="yo" />
-            <Text>Hallo</Text>
-          </>
-        }
-      />
+      <List listItems={otherListItems} draggable avatar thumbnail />
     </div>
   )
 }
