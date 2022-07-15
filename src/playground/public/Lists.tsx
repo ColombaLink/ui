@@ -106,7 +106,7 @@ export const Lists = () => {
       <Text>Try another one</Text>
       <br />
 
-      {list.map((item, index) => (
+      {/* {list.map((item, index) => (
         <ListItem
           draggable
           key={index}
@@ -118,7 +118,7 @@ export const Lists = () => {
           onMouseUp={mouseUpHandler}
           onMouseMove={mouseMoveHandler}
         />
-      ))}
+      ))} */}
     </div>
   )
 }

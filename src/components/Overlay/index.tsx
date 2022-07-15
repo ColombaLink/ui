@@ -247,7 +247,7 @@ const OverlayItem: FunctionComponent<OverlayItemProps> = ({
   return (
     <OverlayItemStyled
       ref={ref}
-      css={{
+      style={{
         opacity: visible ? 1 : 0,
 
         // backgroundColor: hidden || transparent ? undefined : '$Background0dp',

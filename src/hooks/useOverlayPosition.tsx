@@ -55,6 +55,10 @@ const yCalculation: PosCalculation = (
     return y - (rect.height + 10)
   }
 
+  if (position === 'top') {
+    return y - (rect.height * 2 + 10)
+  }
+
   return y
 }
 
@@ -125,9 +129,9 @@ export const useOverlayPosition = (
 ): [RefObject<HTMLDivElement>, Position | undefined, Resize] => {
   const { selectTarget = selectSelf } = positionProps
 
-  if (positionProps.position === 'top') {
-    console.warn('Top position is not supported yet')
-  }
+  // if (positionProps.position === 'top') {
+  //   console.warn('Top position is not supported yet')
+  // }
 
   if (
     (positionProps.position === 'left' || positionProps.position === 'right') &&

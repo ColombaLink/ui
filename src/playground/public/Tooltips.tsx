@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState, FC } from 'react'
+import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-
-import { useToolTip } from '~/hooks/useToolTip'
+import { useToolTips } from '~/hooks/useToolTips'
 
 export const Tooltips = () => {
-  const ButtonRef = useRef()
-
-  // Use like this
-  useEffect(() => {
-    useToolTip(ButtonRef, 'New tooltip', 'right')
-  }, [])
+  const tooltipListeners = useToolTips("I'm a tooltip", 'top')
+  const tooltipListenersSec = useToolTips("I'm another tooltip", 'bottom')
 
   return (
     <>
@@ -37,10 +32,29 @@ export const Tooltips = () => {
           backgroundColor: 'lightblue',
           width: 100,
           height: 50,
+          margin: 50,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
-        ref={ButtonRef}
+        {...tooltipListeners}
       >
-        Test
+        Tooltip Test
+      </div>
+
+      <div
+        style={{
+          backgroundColor: 'lightpink',
+          width: 100,
+          height: 50,
+          margin: 50,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        {...tooltipListenersSec}
+      >
+        Tooltip Test
       </div>
       <br />
     </>
