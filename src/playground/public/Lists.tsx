@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { DraggableListWrapper, ListItem } from '~/components/ListItems'
 import { DragDropIcon } from '~/icons'
 import { Text } from '~/components/Text'
@@ -9,55 +9,35 @@ export const Lists = () => {
   const [list, setList] = useState(listItems)
   const [activeListItem, setActiveListItem] = useState(null)
   const [mouseOverListItem, setMouseOverListItem] = useState(null)
-  const [isMouseDown, setIsMouseDown] = useState(false)
-  const [tempCopy, setTempCopy] = useState(null)
 
-  const mouseDownHandler = (e) => {
-    setIsMouseDown(true)
+  const dragHandler = (e) => {
+    console.log('drag')
+    console.log('Active dragging:', e.target.id)
     setActiveListItem(+e.target.id)
-
-    // temp copy shizzle
-    const tempDiv = document.createElement('div')
-    const tempEl = e.target.cloneNode(true)
-    tempDiv.appendChild(tempEl)
-
-    tempDiv.style.position = 'absolute'
-    tempDiv.style.pointerEvents = 'none'
-    tempDiv.style.opacity = '0.75'
-
-    setTempCopy(tempDiv)
   }
 
-  const mouseOverHandler = (e) => {
+  const dragOverHandler = (e) => {
+    // moet deze zetten zodat ze gedropt kunnen worden (animatie'tje)
+    e.preventDefault()
+    console.log('draggin over:', e.target.id)
     setMouseOverListItem(+e.target.id)
   }
 
-  const mouseUpHandler = () => {
-    //reset temp copy
-    document.body.removeChild(tempCopy)
-    setTempCopy(null)
-
-    setIsMouseDown(false)
+  const dragEndHandler = (e) => {
     if (activeListItem === mouseOverListItem) {
-      // console.log('Test  = Same item, nothing happens')
+      console.log('Test  = Same item, nothing happens')
     }
+
     if (activeListItem !== mouseOverListItem) {
+      e.preventDefault()
+      e.stopPropagation()
       arrayMagic(activeListItem, mouseOverListItem, list)
     }
   }
 
-  const mouseMoveHandler = (e) => {
-    if (isMouseDown) {
-      console.log('mouse moves')
-
-      const mouseY = e.clientY
-      const mouseX = e.clientX
-
-      document.body.appendChild(tempCopy)
-      tempCopy.style.left = `${mouseX - 16}px`
-      tempCopy.style.top = `${mouseY - 16}px`
-    }
-  }
+  // const dropHandler = (e) => {
+  //   console.log('dropped')
+  // }
 
   // some array magic slicing etc
   const arrayMagic = (activeItem, mouseOverItem, list) => {
@@ -81,6 +61,7 @@ export const Lists = () => {
 
       {list.map((item, index) => (
         <li
+          draggable
           key={index}
           id={`${index}`}
           style={{
@@ -92,10 +73,15 @@ export const Lists = () => {
             alignItems: 'center',
             marginBottom: '4px',
           }}
-          onMouseDown={(e) => mouseDownHandler(e)}
-          onMouseOver={(e) => mouseOverHandler(e)}
-          onMouseUp={mouseUpHandler}
-          onMouseMove={mouseMoveHandler}
+          onDrag={(e) => {
+            dragHandler(e)
+          }}
+          onDragOver={(e) => {
+            dragOverHandler(e)
+          }}
+          onDragEnd={(e) => {
+            dragEndHandler(e)
+          }}
         >
           <DragDropIcon style={{ marginRight: 12, pointerEvents: 'none' }} />
           {item}
