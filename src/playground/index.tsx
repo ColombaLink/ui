@@ -37,7 +37,6 @@ const Stories = () => {
     if (!component) {
       return <div>empty</div>
     }
-    console.log({ component })
     return React.createElement(component)
   }
   return <>Overview</>

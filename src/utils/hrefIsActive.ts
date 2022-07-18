@@ -16,5 +16,10 @@ export const hrefIsActive = (href: string, selected: string, data?: object) => {
     return false
   }
 
+  if (href[0] === '?') {
+    // TODO bit of a lazy check, can improve
+    return location.search.indexOf(href.substring(1)) !== -1
+  }
+
   return selected.startsWith(href)
 }
