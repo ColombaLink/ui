@@ -10,6 +10,8 @@ import {
   Code,
   CurlyBracesIcon,
   useSearchParam,
+  useRoute,
+  useLocation,
 } from '../'
 import based from '@based/client'
 import * as stories from './public'
@@ -26,9 +28,11 @@ export const client = based({
   env: 'production',
 })
 
-const Stories = (params) => {
-  if (params?.story) {
-    const name = toPascalCase(params?.story)
+const Stories = () => {
+  useLocation()
+  const story = new URLSearchParams(location.search).get('story')
+  if (story) {
+    const name = toPascalCase(story)
     const component = stories[name]
     if (!component) {
       return <div>empty</div>
@@ -70,72 +74,72 @@ const App = () => {
         }
         data={{
           Input: {
-            Buttons: '/buttons',
-            Checkboxes: '/checkboxes',
-            ColorPicker: '/color-picker',
-            Forms: '/forms',
-            InputFields: '/input-fields',
-            Radiobuttons: '/radiobuttons',
-            Selects: '/selects',
-            Sliders: '/sliders',
-            Toggler: '/togglers',
-            ToggleGroups: '/ToggleGroups',
+            Buttons: '?story=buttons',
+            Checkboxes: '?story=checkboxes',
+            ColorPicker: '?story=color-picker',
+            Forms: '?story=forms',
+            InputFields: '?story=input-fields',
+            Radiobuttons: '?story=radiobuttons',
+            Selects: '?story=selects',
+            Sliders: '?story=sliders',
+            Toggler: '?story=togglers',
+            ToggleGroups: '?story=ToggleGroups',
           },
           Display: {
-            Avatars: '/avatars',
-            Badges: '/badges',
-            Cards: '/cards',
-            Icons: '/icons',
-            Steps: '/step',
-            Thumbnails: '/thumbnails',
+            Avatars: '?story=avatars',
+            Badges: '?story=badges',
+            Cards: '?story=cards',
+            Icons: '?story=icons',
+            Steps: '?story=step',
+            Thumbnails: '?story=thumbnails',
           },
           Feedback: {
-            Callouts: '/callouts',
-            Toasts: '/toasts',
-            Tooltips: '/tooltips',
+            Callouts: '?story=callouts',
+            Toasts: '?story=toasts',
+            Tooltips: '?story=tooltips',
           },
           Code: {
-            Code: '/code',
+            Code: '?story=code',
           },
           Layout: {
-            Accordions: '/accordions',
-            Container: '/Containers',
-            Grids: '/grids',
-            Lists: '/lists',
-            MasonryGrid: '/masonryGrid',
-            Tables: '/tables',
-            Tabs: '/tabsView',
+            Accordions: '?story=accordions',
+            Container: '?story=Containers',
+            Grids: '?story=grids',
+            Lists: '?story=lists',
+            MasonryGrid: '?story=masonryGrid',
+            Tables: '?story=tables',
+            Tabs: '?story=tabsView',
           },
           Navigation: {
-            Breadcrumbs: '/breadcrumb',
-            SideMenu: '/SideMenu',
-            Topbar: '/topbars',
+            Breadcrumbs: '?story=breadcrumb',
+            SideMenu: '?story=SideMenu',
+            Topbar: '?story=topbars',
           },
           Overlays: {
-            ContextMenus: '/context-menus',
+            ContextMenus: '?story=context-menus',
           },
           Screens: {
-            Inbox: '/inbox',
-            ProfileSettings: '/profile-settings',
-            ProjectSettings: '/project-settings',
-            SyncSession: '/sync-session',
+            Inbox: '?story=inbox',
+            ProfileSettings: '?story=profile-settings',
+            ProjectSettings: '?story=project-settings',
+            SyncSession: '?story=sync-session',
           },
           Themes: {
-            Theming: '/theming',
+            Theming: '?story=theming',
           },
           Text: {
-            Text: '/text',
+            Text: '?story=text',
           },
           Insights: {
-            LineGraph: '/lineGraph',
+            LineGraph: '?story=lineGraph',
           },
           Handbook: {
-            Props: '/props',
+            Props: '?story=props',
           },
         }}
       />
       <Page style={{ padding: 32 }}>
-        <Route path="/:story">{Stories}</Route>
+        <Stories />
       </Page>
     </div>
   )

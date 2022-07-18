@@ -34,7 +34,6 @@ export const Authorize: FC<AuthProps> = ({
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
-
   const [fadeIn, setFade] = useState(false)
 
   useEffect(() => {
@@ -45,7 +44,6 @@ export const Authorize: FC<AuthProps> = ({
   }, [])
 
   const user = useAuth()
-
   const [activeTab, setActiveTab] = useState(0)
 
   const auth = (
@@ -59,16 +57,12 @@ export const Authorize: FC<AuthProps> = ({
         ...style,
       }}
     >
-      {!logo ? null : logo === true ? <LargeLogo /> : logo}
+      {logo === true ? <LargeLogo /> : logo}
       {!showResetRequest ? (
         <Tabs space setActiveTab={setActiveTab} activeTab={activeTab}>
           <Tab label="Sign in">
             <Login
-              onLogin={(r) => {
-                if (onLogin) {
-                  onLogin(r)
-                }
-              }}
+              onLogin={onLogin}
               onRegisterRequest={(email) => {
                 setActiveTab(1)
               }}
@@ -79,14 +73,7 @@ export const Authorize: FC<AuthProps> = ({
           </Tab>
           {register || onRegister ? (
             <Tab label="Sign up">
-              <Register
-                email={email}
-                onRegister={(r) => {
-                  if (onRegister) {
-                    onRegister(r)
-                  }
-                }}
-              />
+              <Register email={email} onRegister={onRegister} />
             </Tab>
           ) : null}
         </Tabs>

@@ -129,7 +129,9 @@ export const Menu: FC<{
             <Fragment key={key}>
               <MenuHeader style={{ marginTop: i && 40 }}>{key}</MenuHeader>
               {value.map(({ href, label }, index) => {
-                href = prefix + href
+                if (href[0] !== '?') {
+                  href = prefix + href
+                }
                 return (
                   <MenuItem
                     key={index}

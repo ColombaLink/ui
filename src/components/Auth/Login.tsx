@@ -9,8 +9,6 @@ import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
 import useGlobalState from '@based/use-global-state'
 
-// allow buttons for google etc
-
 type LoginProps = {
   width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
@@ -19,7 +17,7 @@ type LoginProps = {
 }
 
 // TODO: make width dynamic.
-// width is needed for button anymation
+// width is needed for button animation
 export const Login: FC<LoginProps> = ({
   width = '100%',
   onLogin,
