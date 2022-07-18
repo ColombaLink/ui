@@ -33,6 +33,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
     space,
     onClick,
     style,
+    ...rest
   } = props
 
   return (
@@ -52,6 +53,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
         ...style,
       }}
       onClick={onClick}
+      {...rest}
     >
       {/* <>{children}</> */}
       {label && !icon && !img ? (

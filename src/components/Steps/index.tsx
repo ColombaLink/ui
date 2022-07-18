@@ -19,13 +19,14 @@ export const Steps: FC<StepsProps> = ({
   data = {},
   prefix = '',
   selected,
+  ...props
 }) => {
   const [location] = useLocation()
   if (!selected) {
     selected = location
   }
   return (
-    <div style={style}>
+    <div style={style} {...props}>
       {Object.keys(data).map((key, index) => {
         const href = prefix + data[key]
         const isActive = hrefIsActive(href, selected)

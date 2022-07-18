@@ -19,6 +19,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   style,
   prefix = '',
   selected,
+  ...props
 }) => {
   const [location] = useLocation()
   if (!selected) {
@@ -30,7 +31,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   }
 
   return (
-    <div style={{ display: 'flex', ...style }}>
+    <div style={{ display: 'flex', ...style }} {...props}>
       {Object.keys(data).map((key, index) => {
         const href = prefix + data[key]
         const isActive = hrefIsActive(href, selected)

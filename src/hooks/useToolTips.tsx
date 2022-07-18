@@ -1,5 +1,6 @@
 import React, {
   FC,
+  ReactNode,
   MouseEventHandler,
   MouseEvent,
   PropsWithChildren,
@@ -8,7 +9,7 @@ import { removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
 
 type useToolTipsProps = {
-  text?: string | any | PropsWithChildren<any>
+  text?: string | any | ReactNode
   position?: 'top' | 'bottom' | 'left' | 'right'
   onMouseEnter: MouseEvent<Element, MouseEvent>
   onMouseLeave: React.MouseEvent

@@ -22,6 +22,7 @@ export const MasonryGrid: FC<MasonryGridProps> = ({
   columns = 3,
   gap = 10,
   style,
+  ...props
 }) => {
   const styledRef = useRef<HTMLDivElement>(null)
 
@@ -39,6 +40,7 @@ export const MasonryGrid: FC<MasonryGridProps> = ({
     <div
       ref={styledRef}
       style={{ padding: 10, position: 'relative', display: 'block' }}
+      {...props}
     >
       <styled.div
         style={{

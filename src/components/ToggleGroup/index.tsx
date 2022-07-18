@@ -16,7 +16,12 @@ const StyledToggleTab = styled('div', {
   borderRadius: '4px',
 })
 
-export const ToggleGroup: FC<ToggleGroupProps> = ({ data, space, style }) => {
+export const ToggleGroup: FC<ToggleGroupProps> = ({
+  data,
+  space,
+  style,
+  ...props
+}) => {
   const [activeTab, setActiveTab] = useState<number>(0)
 
   return (
@@ -32,6 +37,7 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({ data, space, style }) => {
         cursor: 'pointer',
         ...style,
       }}
+      {...props}
     >
       {data.map((item, idx) => (
         <StyledToggleTab

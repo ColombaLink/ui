@@ -19,13 +19,14 @@ export const RadioButton: FC<RadioButtonProps> = ({
   direction,
   data,
   defaultValue,
+  ...props
 }) => {
   const blah = data.indexOf(defaultValue)
 
   const [checked, setChecked] = useState<number | undefined>(blah)
 
   return (
-    <div>
+    <div {...props}>
       <Text>{label}</Text>
       <Text weight={400}>{description}</Text>
       <div

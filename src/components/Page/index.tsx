@@ -6,7 +6,7 @@ type PageProps = {
   style?: CSSProperties
 }
 
-export const Page: FC<PageProps> = ({ children, style }) => {
+export const Page: FC<PageProps> = ({ children, style, ...props }) => {
   return (
     <ScrollArea
       style={{
@@ -14,6 +14,7 @@ export const Page: FC<PageProps> = ({ children, style }) => {
         width: '100%',
         ...style,
       }}
+      {...props}
     >
       <div
         style={{
