@@ -1,7 +1,6 @@
 import React from 'react'
-import { AddIcon, LightModeIcon, DarkModeIcon, Button } from '~'
-import { CheckIcon } from '~/icons'
-import wait from '~/utils/wait'
+import { Button, CheckIcon } from '~'
+// import { CheckIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
@@ -12,30 +11,24 @@ export const Buttons = () => {
       examples={[
         {
           props: {
-            children: 'Button',
-            onClick: () => {
-              return new Promise((resolve) => {
-                setTimeout(resolve, 1e3)
-              })
-            },
+            children: 'Just a button',
           },
         },
         {
           props: {
-            children: 'Button',
+            children: 'Light button',
             light: true,
           },
         },
-
         {
           props: {
-            children: 'Button',
+            children: 'Ghost button',
             ghost: true,
           },
         },
         {
           props: {
-            children: 'Button',
+            children: 'Button with icon',
             outline: true,
             icon: <CheckIcon />,
             large: true,
@@ -43,7 +36,7 @@ export const Buttons = () => {
         },
         {
           props: {
-            children: 'Button',
+            children: 'Light outline button',
             outline: true,
             light: true,
           },

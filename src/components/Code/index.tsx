@@ -70,7 +70,7 @@ export const Code: FC<CodeProps> = ({
             top: 8,
           }}
         >
-          {renderOrCreateElement(topRight, {})}
+          {renderOrCreateElement(topRight)}
         </div>
       ) : null}
       <Editor

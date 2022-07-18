@@ -35,7 +35,7 @@ const Stories = () => {
     const name = toPascalCase(story)
     const component = stories[name]
     if (!component) {
-      return <div>empty</div>
+      return () => <div>empty</div>
     }
     return React.createElement(component)
   }
