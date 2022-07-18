@@ -154,20 +154,7 @@
       "props": {
         "size": {
           "optional": true,
-          "type": [
-            {
-              "value": 32
-            },
-            {
-              "value": 36
-            },
-            {
-              "value": 40
-            },
-            {
-              "value": 64
-            }
-          ]
+          "type": "AvatarSize"
         },
         "color": {
           "optional": true,
@@ -201,7 +188,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type AvatarProps = {\n  size?: 32 | 36 | 40 | 64\n  color?: AccentColor\n  img?: string\n  icon?: FC | ReactNode\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
+      "code": "type AvatarProps = {\n  size?: AvatarSize\n  color?: AccentColor\n  img?: string\n  icon?: FC | ReactNode\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
       "file": "/components/Avatar/index.tsx"
     },
     "BadgeProps": {
@@ -1040,12 +1027,45 @@
       "code": "type DraggableListWrapperProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/ListItems/DraggableListWrapper.tsx"
     },
+    "ListProps": {
+      "name": "ListProps",
+      "props": {
+        "data": {
+          "type": "Array"
+        },
+        "listComponent": {
+          "optional": true,
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type ListProps = {\n  data: Array<any>\n  listComponent?: FC<any> | ReactNode\n  style?: CSSProperties\n  space?: Space\n\n  // draggable?: boolean\n  // right?: ReactNode\n  // left?: ReactNode\n  // avatar?: Boolean\n  // thumbnail?: Boolean\n}",
+      "file": "/components/ListItems/List.tsx"
+    },
     "ListItemProps": {
       "name": "ListItemProps",
       "props": {
         "left": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "avatar": {
+          "optional": true,
+          "type": "Boolean"
+        },
+        "thumbnail": {
+          "optional": true,
+          "type": "Boolean"
         },
         "right": {
           "optional": true,
@@ -1065,9 +1085,21 @@
         },
         "id": {
           "type": "string"
+        },
+        "onDrag": {
+          "optional": true,
+          "type": "function"
+        },
+        "onDragOver": {
+          "optional": true,
+          "type": "function"
+        },
+        "onDragEnd": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type ListItemProps = {\n  left?: ReactNode\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n  id: string\n}",
+      "code": "type ListItemProps = {\n  left?: ReactNode\n  avatar?: Boolean\n  thumbnail?: Boolean\n  right?: ReactNode\n  style?: CSSProperties\n  space?: Space\n  draggable?: boolean\n  id: string\n  onDrag?: (e: any) => void\n  onDragOver?: (e: any) => void\n  onDragEnd?: (e: any) => void\n}",
       "file": "/components/ListItems/ListItem.tsx"
     },
     "StackedListItemsWrapperProps": {

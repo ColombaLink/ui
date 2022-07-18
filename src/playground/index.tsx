@@ -95,6 +95,7 @@ const App = () => {
           },
           Feedback: {
             Callouts: '?story=callouts',
+            Dialogs: '?story=dialogs',
             Toasts: '?story=toasts',
           },
           Code: {
