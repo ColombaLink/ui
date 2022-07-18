@@ -100,7 +100,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
       return new Promise((resolve) => {
         if (typeof props === 'string') {
           props = {
-            title: props,
+            label: props,
           }
         }
 

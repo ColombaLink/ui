@@ -68,17 +68,13 @@ const BodySpacer = styled('div', {
   },
 })
 
-const Title = (props) => {
+const Label = (props) => {
   return <Text weight={600} {...props} />
 }
 
 const Body = ({ children }) => {
   if (typeof children === 'string') {
-    return (
-      <Text wrap style={{ paddingTop: 8 }}>
-        {children}
-      </Text>
-    )
+    return <div>{children}</div>
   } else if (Array.isArray(children)) {
     return (
       <>
@@ -170,16 +166,16 @@ const Cancel = ({ children = 'Cancel', onCancel = null, ...props }) => {
 
 export interface DialogProps extends ComponentProps<typeof Container> {
   children?: ReactNode
-  title?: string
+  label?: string
   padding?: number
 }
 
 export const Dialog = Object.assign(
   forwardRef<ElementRef<typeof Container>, DialogProps>(
-    ({ children, title, padding = 24, style, ...props }, forwardedRef) => {
+    ({ children, label, padding = 24, style, ...props }, forwardedRef) => {
       if (typeof children === 'string') {
-        if (!title) {
-          title = children
+        if (!label) {
+          label = children
           children = null
         } else {
           children = <Body>{children}</Body>
@@ -213,7 +209,9 @@ export const Dialog = Object.assign(
                 '--dialogPadding': `${padding}px`,
               }}
             >
-              <Dialog.Title>{title}</Dialog.Title>
+              <Text weight={600} space="12px">
+                {label}
+              </Text>
               {children}
             </ScrollBody>
           </ScrollArea>
@@ -222,7 +220,7 @@ export const Dialog = Object.assign(
     }
   ),
   {
-    Title,
+    Label,
     Body,
     Buttons,
     Confirm,
