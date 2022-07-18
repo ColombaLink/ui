@@ -10,7 +10,7 @@
     "build": "rm -rf dist && npm run genPropsTypes && tsc --build tsconfig.build.json && node scripts/postbuild",
     "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node scripts/postbuild\"",
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
-    "build-docs": "aristotle bundle -t ./src/playground/index.tsx -d docs -b /ui -ti 'Based UI'"
+    "build-docs": "aristotle bundle -t ./src/playground/index.tsx -d docs -b /docs -ti 'Based UI' -k=true"
   },
   "files": [
     "assets",

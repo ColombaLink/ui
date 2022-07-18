@@ -57,7 +57,7 @@ export const Card: FC<CardProps> = ({
               marginRight: 12,
             }}
           >
-            {renderOrCreateElement(topLeft, {})}
+            {renderOrCreateElement(topLeft)}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <Text weight={600}>{label}</Text>
               <Text weight={400} size="13px" color="text2">
@@ -74,7 +74,7 @@ export const Card: FC<CardProps> = ({
             marginLeft: 12,
           }}
         >
-          {renderOrCreateElement(topRight, {})}
+          {renderOrCreateElement(topRight)}
         </div>
       </div>
       <div>{children}</div>

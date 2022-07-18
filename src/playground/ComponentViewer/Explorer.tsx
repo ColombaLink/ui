@@ -159,7 +159,7 @@ export const Explorer: FC<{
             if (v.component) {
               return (
                 <Container key={i} space>
-                  {React.createElement(v.component, {})}
+                  {React.createElement(v.component)}
                 </Container>
               )
             }

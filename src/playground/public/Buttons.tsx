@@ -1,7 +1,6 @@
 import React from 'react'
-import { AddIcon, LightModeIcon, DarkModeIcon, Button } from '~'
-import { CheckIcon } from '~/icons'
-import wait from '~/utils/wait'
+import { Button, CheckIcon } from '~'
+// import { CheckIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
@@ -10,29 +9,28 @@ export const Buttons = () => {
       component={Button}
       propsName="ButtonProps"
       examples={[
-        {
-          props: {
-            children: 'Button',
-            onClick: () => {
-              return new Promise((resolve) => {
-                setTimeout(resolve, 1e3)
-              })
-            },
-          },
-        },
-        {
-          props: {
-            children: 'Button',
-            light: true,
-          },
-        },
-
-        {
-          props: {
-            children: 'Button',
-            ghost: true,
-          },
-        },
+        // {
+        //   props: {
+        //     children: 'Button',
+        //     onClick: () => {
+        //       return new Promise((resolve) => {
+        //         setTimeout(resolve, 1e3)
+        //       })
+        //     },
+        //   },
+        // },
+        // {
+        //   props: {
+        //     children: 'Button',
+        //     light: true,
+        //   },
+        // },
+        // {
+        //   props: {
+        //     children: 'Button',
+        //     ghost: true,
+        //   },
+        // },
         {
           props: {
             children: 'Button',
@@ -41,13 +39,13 @@ export const Buttons = () => {
             large: true,
           },
         },
-        {
-          props: {
-            children: 'Button',
-            outline: true,
-            light: true,
-          },
-        },
+        // {
+        //   props: {
+        //     children: 'Button',
+        //     outline: true,
+        //     light: true,
+        //   },
+        // },
       ]}
     />
   )

@@ -48,10 +48,10 @@ export const Container: FC<ContainerProps> = ({
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {renderOrCreateElement(topLeft, {})}
+          {renderOrCreateElement(topLeft)}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {renderOrCreateElement(topRight, {})}
+          {renderOrCreateElement(topRight)}
         </div>
       </div>
       {children}
@@ -75,10 +75,10 @@ export const Container: FC<ContainerProps> = ({
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(bottomLeft, {})}
+            {renderOrCreateElement(bottomLeft)}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(bottomRight, {})}
+            {renderOrCreateElement(bottomRight)}
           </div>
         </div>
       )}

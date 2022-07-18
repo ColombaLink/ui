@@ -109,6 +109,7 @@ export const propsToCode = (
       if (type ? checkType('FC', type) : isCustomComponent(v.name)) {
         propsHeader.push(`${k}={${v.name}}`)
         if (!components.includes(v.name)) {
+          console.log(1, v.name)
           components.push(v.name)
         }
       } else {
@@ -141,6 +142,7 @@ export const propsToCode = (
                     )
                     for (const c of nestedPropCode.components) {
                       if (!components.includes(c)) {
+                        console.log(2, c)
                         components.push(c)
                       }
                     }
@@ -170,6 +172,7 @@ export const propsToCode = (
           )
           for (const c of nestedPropCode.components) {
             if (!components.includes(c)) {
+              console.log(3, c)
               components.push(c)
             }
           }
@@ -204,6 +207,7 @@ export const propsToCode = (
           const nestedPropCode = propsToCode(name, undefined, v.props, indent)
           for (const c of nestedPropCode.components) {
             if (!components.includes(c)) {
+              console.log(4, c, name, v)
               components.push(c)
             }
           }

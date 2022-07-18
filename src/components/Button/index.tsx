@@ -169,14 +169,24 @@ export const Button: FC<ButtonProps> = (props) => {
         }}
       >
         {icon &&
-          renderOrCreateElement(icon, {
-            style: children || iconRight ? { marginRight: 8 } : null,
-          })}
+          renderOrCreateElement(
+            icon,
+            children || iconRight
+              ? {
+                  style: { marginRight: 8 },
+                }
+              : null
+          )}
         <Text color="inherit">{children}</Text>
         {iconRight &&
-          renderOrCreateElement(iconRight, {
-            style: children || icon ? { marginLeft: 8 } : null,
-          })}
+          renderOrCreateElement(
+            iconRight,
+            children || icon
+              ? {
+                  style: { marginLeft: 8 },
+                }
+              : null
+          )}
       </div>
       {loading && (
         <div
