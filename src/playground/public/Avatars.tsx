@@ -12,7 +12,6 @@ export const Avatars = () => {
           {
             props: {
               size: 32,
-              color: 'teal',
               label: 'blah',
             },
           },

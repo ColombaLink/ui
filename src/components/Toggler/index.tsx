@@ -41,11 +41,11 @@ export const Toggler: FC<TogglerProps> = ({
             border: border('1px', 'border'),
             backgroundColor: checkedState
               ? color('accent')
-              : color('lightgrey:active'),
+              : color('lightbackdrop'),
             '&:hover': {
               backgroundColor: checkedState
                 ? color('accent:active')
-                : color('lightaccent'),
+                : color('lightbackdrop'),
             },
             '&:before': {
               content: '" "',
