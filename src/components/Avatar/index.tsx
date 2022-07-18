@@ -9,7 +9,7 @@ type AvatarSizeInt = 32 | 36 | 40 | 64
 export type AvatarSize = `${AvatarSizeInt}px` | AvatarSizeInt
 
 type AvatarProps = {
-  size?: 32 | 36 | 40 | 64
+  size?: AvatarSize
   color?: AccentColor
   img?: string
   icon?: FC | ReactNode

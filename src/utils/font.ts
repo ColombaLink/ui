@@ -22,11 +22,8 @@ export const font = ({
     : fontSize >= 20
     ? 600
     : 500
-
   const lineHeight =
-    fontSize === 32
-      ? '38px'
-      : `${fontSize >= 24 ? fontSize : fontSize >= 15 ? 24 : 16}px`
+    fontSize > 14 ? `${Math.max(24, fontSize * 1.167)}px` : '16px'
 
   return {
     fontSize,

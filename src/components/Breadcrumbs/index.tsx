@@ -30,39 +30,37 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   }
 
   return (
-    <>
-      <div style={{ display: 'flex', ...style }}>
-        {Object.keys(data).map((key, index) => {
-          const href = prefix + data[key]
-          const isActive = hrefIsActive(href, selected)
+    <div style={{ display: 'flex', ...style }}>
+      {Object.keys(data).map((key, index) => {
+        const href = prefix + data[key]
+        const isActive = hrefIsActive(href, selected)
 
-          return (
-            <Link
-              href={href}
-              key={index}
-              style={{
-                alignItems: 'center',
-                borderRadius: 4,
-                display: 'flex',
-                height: 32,
-              }}
+        return (
+          <Link
+            href={href}
+            key={index}
+            style={{
+              alignItems: 'center',
+              borderRadius: 4,
+              display: 'flex',
+              height: 32,
+            }}
+          >
+            <Text
+              style={{ marginLeft: 16 }}
+              color={isActive ? 'text' : 'text2'}
             >
-              <Text
+              {key}
+            </Text>
+            {Object.keys(data).length - 1 !== index && (
+              <ChevronRightIcon
                 style={{ marginLeft: 16 }}
                 color={isActive ? 'text' : 'text2'}
-              >
-                {key}
-              </Text>
-              {Object.keys(data).length - 1 !== index && (
-                <ChevronRightIcon
-                  style={{ marginLeft: 16 }}
-                  color={isActive ? 'text' : 'text2'}
-                />
-              )}
-            </Link>
-          )
-        })}
-      </div>
-    </>
+              />
+            )}
+          </Link>
+        )
+      })}
+    </div>
   )
 }

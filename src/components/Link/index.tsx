@@ -10,11 +10,30 @@ type LinkProps = {
 }
 
 export const Link: FC<LinkProps> = styled(
-  ({ href = '/', ...props }: { href: string }) => (
-    <WLink href={href + location.search}>
-      <a {...props}></a>
-    </WLink>
-  ),
+  ({ href = '/', ...props }: { href: string }) => {
+    const { search } = location
+    if (search) {
+      if (href[0] === '?') {
+        // TODO maybe support multiple keys?
+        const key = href.substring(1, href.indexOf('='))
+        const keyIs = `${key}=`
+        const params = search
+          .split(/\?|\&/g)
+          .filter((v) => v && v !== key && !v.startsWith(keyIs))
+        if (params.length) {
+          href = `?${params.join('&')}&${href.substring(1)}`
+        }
+      } else {
+        href = `${href}${search}`
+      }
+    }
+
+    return (
+      <WLink href={href}>
+        <a {...props}></a>
+      </WLink>
+    )
+  },
   {
     display: 'block',
     color: 'inherit',
