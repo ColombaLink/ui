@@ -9,7 +9,7 @@ export const Breadcrumb = () => {
         {
           props: {
             data: {
-              'Twister Media': '/breadcrumb',
+              'Twister Media': '/',
               'Eurovision 2022': '/Snurky',
               'Based ui': '/BasedUI',
             },

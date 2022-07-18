@@ -3,6 +3,7 @@ import { Code as CodeBox } from '~/components/Code'
 import ComponentViewer from '../ComponentViewer'
 
 export const Code = () => {
+  console.log('hello world')
   return (
     <>
       <ComponentViewer

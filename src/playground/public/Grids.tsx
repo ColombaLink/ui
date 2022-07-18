@@ -50,18 +50,18 @@ export const Grids = () => {
               children: (
                 <>
                   <Callout outline style={{ minWidth: 300 }}>
-                    2fr
+                    300 custom width
                   </Callout>
-                  <Callout outline>2fr</Callout>
-                  <Callout outline>8fr</Callout>
+                  <Callout outline>100</Callout>
+                  <Callout outline>100</Callout>
                 </>
               ),
             },
           },
           {
             props: {
-              gap: 6,
-              itemWidth: 200,
+              gap: 12,
+              itemWidth: 150,
               children: (
                 <>
                   <Callout outline>4</Callout>
