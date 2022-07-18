@@ -59,7 +59,7 @@ export const SelectLabel: FC<{
           alignItems: 'center',
           paddingLeft: 12,
           paddingRight: 12,
-          backgroundColor: color('lightgrey'),
+          backgroundColor: color('lightbackground2:contrast'),
           borderRight: `1px solid ${color('border')}`,
           flexShrink: 0,
         }}

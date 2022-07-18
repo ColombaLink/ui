@@ -227,7 +227,7 @@ export const Input: FC<
       fontSize: ghost ? 16 : null,
       fontWeight: ghost ? 500 : null,
       backgroundColor: bg
-        ? color(hover && !disabled ? 'lightgrey:hover' : 'lightgrey')
+        ? color(hover && !disabled ? 'border' : 'border')
         : 'inherit',
     },
     inputRef,

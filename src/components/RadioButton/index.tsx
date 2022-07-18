@@ -38,6 +38,9 @@ export const RadioButton: FC<RadioButtonProps> = ({
       >
         {data.map((item, index) => (
           <div
+            onClick={() => {
+              setChecked(index)
+            }}
             key={index}
             style={{
               display: 'flex',
@@ -46,6 +49,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
               marginBottom: 4,
               marginTop: 4,
               marginRight: 12,
+              cursor: 'pointer',
             }}
           >
             <styled.input
@@ -77,15 +81,11 @@ export const RadioButton: FC<RadioButtonProps> = ({
                   borderRadius: '5px',
                   content: `''`,
                   display: 'block',
-                  backgroundColor: '#FFF',
+                  backgroundColor: color('background'),
                 },
               }}
             ></styled.input>
-            <div
-              onClick={() => {
-                setChecked(index)
-              }}
-            >
+            <div>
               <Text weight={400}>{item}</Text>
             </div>
           </div>
