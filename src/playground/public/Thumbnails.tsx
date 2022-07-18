@@ -12,8 +12,7 @@ export const Thumbnails = () => {
           {
             props: {
               size: 32,
-              color: 'babyblue',
-              icon: <TextIcon size={12} />,
+              label: 'Snurpy',
             },
           },
           {

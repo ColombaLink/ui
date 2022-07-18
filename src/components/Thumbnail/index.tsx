@@ -17,7 +17,7 @@ type ThumbnailProps = {
 export const Thumbnail: FC<ThumbnailProps> = ({
   size = 40,
   img,
-  color: colorProp = 'babyblue',
+  color: colorProp = 'accent',
   icon,
   space,
   style,

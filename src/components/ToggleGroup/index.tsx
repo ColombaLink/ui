@@ -29,6 +29,7 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({ data, space, style }) => {
         width: 'fit-content',
         height: '32px',
         marginBottom: spaceToPx(space),
+        cursor: 'pointer',
         ...style,
       }}
     >

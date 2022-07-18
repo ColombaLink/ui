@@ -12,8 +12,8 @@ export const Step = () => {
           {
             props: {
               data: {
-                'Set up your schema': '/step',
-                'Create content': '#',
+                'Set up your schema': '/',
+                'Create content': '/snurp',
                 'Make your API accessible': '/api',
                 'Integrate your content with your front-end': '/integrate',
               },

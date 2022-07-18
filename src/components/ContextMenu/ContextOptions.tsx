@@ -134,9 +134,10 @@ export const ContextOptionItem = ({
         inset={!noInset}
         tabIndex={tabIndex}
         style={{
-          backgroundColor: isSelected === 1 ? color('lightgrey:active') : null,
+          backgroundColor:
+            isSelected === 1 ? color('lightbackground2:contrast') : null,
           '&:active': {
-            backgroundColor: color('lightgrey:hover'),
+            backgroundColor: color('lightbackground2:contrast'),
           },
         }}
         icon={option.icon || (!noInset && selected ? CheckIcon : null)}
@@ -330,7 +331,7 @@ const FilterInputMultiHolder = styled('div', {
   borderTopRightRadius: 3,
   display: 'flex',
   width: '100%',
-  backgroundColor: color('lightgrey'),
+  backgroundColor: color('lightbackground2:contrast'),
 })
 
 const FilterMultiInput = styled('input', {
@@ -364,7 +365,7 @@ const StyledFilterSelectedBadge = styled('div', {
   borderRadius: 4,
   paddingLeft: 8,
   paddingRight: 8,
-  backgroundColor: color('lightgrey'),
+  backgroundColor: color('lightbackground2:contrast'),
 })
 
 export const FilterSelectBadge: FC<{

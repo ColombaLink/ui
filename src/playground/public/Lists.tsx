@@ -24,17 +24,20 @@ export const Lists = () => {
   }
 
   const dragEndHandler = (e) => {
+    console.log(list)
     if (activeListItem === mouseOverListItem) {
       console.log('Test  = Same item, nothing happens')
+      setActiveListItem(null)
     }
     if (activeListItem !== mouseOverListItem) {
       arrayMagic(activeListItem, mouseOverListItem, list)
+      setActiveListItem(null)
     }
   }
 
   // some array magic slicing etc
   const arrayMagic = (activeItem, mouseOverItem, list) => {
-    // must make copy to trigger re-render
+    // must make shallow copy to trigger re-render
     const newList = [...list]
     const oldItem = list[activeItem]
 
@@ -56,7 +59,7 @@ export const Lists = () => {
           draggable
           key={index}
           id={`${index}`}
-          onDrag={(e) => dragHandler(e)}
+          onDragStart={(e) => dragHandler(e)}
           onDragOver={(e) => dragOverHandler(e)}
           onDragEnd={(e) => dragEndHandler(e)}
           style={{
@@ -70,7 +73,11 @@ export const Lists = () => {
           }}
         >
           <DragDropIcon style={{ marginRight: 12, pointerEvents: 'none' }} />
-          <Text>{item}</Text>
+          {/* mouse over text of child item fucked up index sometimes
+          set pointerEvents to none */}
+          <Text style={{ pointerEvents: 'none' }}>
+            {item} - {index}
+          </Text>
         </li>
       ))}
 
@@ -78,7 +85,10 @@ export const Lists = () => {
       <Text> Nieuwe Lijst Component</Text>
       <br />
 
-      <List listItems={otherListItems} draggable avatar thumbnail />
+      <List
+        data={otherListItems}
+        //listComponent={<ListItem left>io</ListItem>}
+      />
     </div>
   )
 }
