@@ -18,7 +18,7 @@ export const Dialogs = () => {
 
   return (
     <div>
-      <ComponentViewer
+      {/* <ComponentViewer
         component={Dialog}
         propsName="DialogProps"
         examples={[
@@ -26,21 +26,26 @@ export const Dialogs = () => {
             code: codeExample,
           },
         ]}
-      />
+      /> */}
 
-      <Dialog space label="Create a new organisation">
+      <Dialog
+        space
+        label="Create a new organisation"
+        bottomLeft={'b'}
+        bottomRight={'c'}
+      >
         <Text weight={400} wrap space>
           This is your organization’s name within Based. For example, you can
           use the name of your company or department.
         </Text>
       </Dialog>
       <br />
+
       <Dialog space label="Testing this here" border>
         <Text weight={400} wrap space>
           This is your organization’s name within Based. For example, you can
           use the name of your company or department.
         </Text>
-
         <Dialog.Buttons border>
           <Dialog.Cancel />
           <Dialog.Confirm />
@@ -48,6 +53,22 @@ export const Dialogs = () => {
       </Dialog>
 
       <br />
+      <Button
+        space
+        onClick={async () => {
+          const ok = await open(
+            <Dialog label="Bonjour monsieur">
+              Hello
+              <Dialog.Buttons border>
+                <Dialog.Cancel />
+                <Dialog.Confirm />
+              </Dialog.Buttons>
+            </Dialog>
+          )
+        }}
+      >
+        Open custom dialog
+      </Button>
       <Button
         space
         onClick={async () => {
@@ -71,14 +92,6 @@ export const Dialogs = () => {
         }}
       >
         Alert
-      </Button>
-      <Button
-        space
-        onClick={async () => {
-          const ok = await open(<Dialog label="Bonjour monsieur">Hello</Dialog>)
-        }}
-      >
-        Open
       </Button>
     </div>
   )

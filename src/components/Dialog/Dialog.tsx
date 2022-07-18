@@ -227,5 +227,3 @@ export const Dialog = Object.assign(
     Cancel,
   }
 )
-
-Dialog.displayName = 'Dialog'
