@@ -4,18 +4,16 @@ import ComponentViewer from '../ComponentViewer'
 
 export const Code = () => {
   return (
-    <>
-      <ComponentViewer
-        component={CodeBox}
-        propsName={'CodeProps'}
-        examples={[
-          {
-            props: {
-              value: "console.log('hello world')",
-            },
+    <ComponentViewer
+      component={CodeBox}
+      propsName="CodeProps"
+      examples={[
+        {
+          props: {
+            value: "console.log('hello world')",
           },
-        ]}
-      />
-    </>
+        },
+      ]}
+    />
   )
 }
