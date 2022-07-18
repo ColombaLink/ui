@@ -1,23 +1,10 @@
-import React, {
-  FC,
-  ReactNode,
-  MouseEventHandler,
-  MouseEvent,
-  PropsWithChildren,
-} from 'react'
+import React, { ReactNode } from 'react'
 import { removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
 
-type useToolTipsProps = {
-  text?: string | any | ReactNode
-  position?: 'top' | 'bottom' | 'left' | 'right'
-  onMouseEnter: MouseEvent<Element, MouseEvent>
-  onMouseLeave: React.MouseEvent
-}
-
-export const useToolTips: FC<useToolTipsProps> = (
-  text,
-  position = 'bottom'
+export const useToolTips = (
+  text: string | ReactNode,
+  position: 'top' | 'bottom' | 'left' | 'right' = 'bottom'
 ) => {
   const onMouseEnter = useOverlay(
     () => <>{text}</>,
