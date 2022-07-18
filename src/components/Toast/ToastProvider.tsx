@@ -152,7 +152,7 @@ export const ToastProvider = ({
   }
 
   const toasts = toastsRef.current.map(({ id, children }, index) => {
-    let y = index * 100
+    let y = index * 90
 
     if ('bottom' in positionStyleRef.current) {
       y *= -1

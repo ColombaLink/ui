@@ -72,6 +72,7 @@ export const Button: FC<ButtonProps> = (props) => {
     large,
     fill,
     textAlign = 'left',
+    ...rest
   } = props
 
   const [isLoading, setIsLoading] = useState(false)
@@ -152,6 +153,7 @@ export const Button: FC<ButtonProps> = (props) => {
         ...getButtonStyle(props, true),
         ...style,
       }}
+      {...rest}
     >
       <div
         style={{

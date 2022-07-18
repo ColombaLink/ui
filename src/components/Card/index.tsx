@@ -27,6 +27,7 @@ export const Card: FC<CardProps> = ({
   bottomRight,
   children,
   small,
+  ...props
 }) => {
   return (
     <div
@@ -39,6 +40,7 @@ export const Card: FC<CardProps> = ({
         marginBottom: spaceToPx(space),
         ...style,
       }}
+      {...props}
     >
       <div
         style={{

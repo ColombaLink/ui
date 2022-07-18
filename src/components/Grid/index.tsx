@@ -17,6 +17,7 @@ export const Grid: FC<GridProps> = ({
   gap,
   space,
   style,
+  ...props
 }) => {
   return (
     <styled.div
@@ -29,6 +30,7 @@ export const Grid: FC<GridProps> = ({
         // },
         ...style,
       }}
+      {...props}
     >
       {children &&
         // @ts-ignore

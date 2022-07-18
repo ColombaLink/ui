@@ -23,6 +23,7 @@ export const Toast: FC<ToastProps> = ({
   children,
   style,
   type,
+  ...props
 }) => {
   return (
     <div
@@ -37,6 +38,7 @@ export const Toast: FC<ToastProps> = ({
         width: 400,
         ...style,
       }}
+      {...props}
       onClick={() => {
         console.log('clicked')
       }}

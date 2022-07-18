@@ -85,6 +85,7 @@ export const Tabs: FC<TabsProps> = ({
   large,
   activeTab = 0,
   setActiveTab,
+  ...props
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
   let activeTabState: number = activeTab
@@ -118,6 +119,7 @@ export const Tabs: FC<TabsProps> = ({
           marginBottom: spaceToPx(space),
           ...style,
         }}
+        {...props}
       >
         <styled.div
           style={{

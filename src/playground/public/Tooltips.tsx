@@ -1,10 +1,21 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
 import { useToolTips } from '~/hooks/useToolTips'
+import { Button, Text, Container, Avatar, Callout, Code } from '~'
 
 export const Tooltips = () => {
   const tooltipListeners = useToolTips("I'm a tooltip", 'top')
-  const tooltipListenersSec = useToolTips("I'm another tooltip", 'bottom')
+  const tooltipListenersSec = useToolTips("I'm another tooltip", 'right')
+
+  const codeExample = `
+                                          // "text" , "position"
+      const tooltipListeners = useToolTips("I'm a tooltip", 'top')
+
+      <Text {...tooltipListeners}>Hover me</Text>
+      <Button {...tooltipListeners}>Hover me</Button>
+        
+     
+  `
 
   return (
     <>
@@ -26,37 +37,19 @@ export const Tooltips = () => {
           },
         ]}
       /> */}
+      <Code space value={codeExample} />
 
-      <div
-        style={{
-          backgroundColor: 'lightblue',
-          width: 100,
-          height: 50,
-          margin: 50,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        {...tooltipListeners}
-      >
-        Tooltip Test
-      </div>
+      <Container style={{ width: 'fit-content' }} space>
+        <Text {...tooltipListeners}>hover me</Text>
+      </Container>
 
-      <div
-        style={{
-          backgroundColor: 'lightpink',
-          width: 100,
-          height: 50,
-          margin: 50,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        {...tooltipListenersSec}
-      >
-        Tooltip Test
-      </div>
-      <br />
+      <Container style={{ width: 'fit-content' }} space>
+        <Callout {...tooltipListenersSec}>hover me</Callout>
+      </Container>
+
+      <Container style={{ width: 'fit-content' }}>
+        <Button {...tooltipListenersSec}>hover me</Button>
+      </Container>
     </>
   )
 }

@@ -32,6 +32,7 @@ export const Badge: FC<BadgeProps> = ({
   onClick,
   boxed,
   ghost,
+  ...props
 }) => {
   if (ghost) {
     console.warn('badge: implement ghost!')
@@ -75,6 +76,7 @@ export const Badge: FC<BadgeProps> = ({
         },
         ...style,
       }}
+      {...props}
     >
       {icon && (
         <div

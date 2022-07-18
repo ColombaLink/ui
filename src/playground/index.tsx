@@ -96,7 +96,6 @@ const App = () => {
           Feedback: {
             Callouts: '?story=callouts',
             Toasts: '?story=toasts',
-            Tooltips: '?story=tooltips',
           },
           Code: {
             Code: '?story=code',
@@ -132,6 +131,9 @@ const App = () => {
           },
           Insights: {
             LineGraph: '?story=lineGraph',
+          },
+          Hooks: {
+            Tooltips: '?story=tooltips',
           },
           Handbook: {
             Props: '?story=props',

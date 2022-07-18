@@ -23,6 +23,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   onChange,
   label,
   space,
+  ...props
 }) => {
   const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
@@ -51,6 +52,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           alignItems: 'center',
           justifyContent: 'center',
         }}
+        {...props}
       >
         {checked ? <CheckIcon size={16} color="accent:contrast" /> : null}
       </div>

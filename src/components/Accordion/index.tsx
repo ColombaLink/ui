@@ -31,6 +31,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   checked,
   space = 12,
   style,
+  ...props
 }) => {
   const [open, setOpen] = useState(false)
 
@@ -53,6 +54,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           cursor: 'pointer',
           ...style,
         }}
+        {...props}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Text size="15px" weight={600}>

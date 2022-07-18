@@ -22,6 +22,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   space,
   style,
   label,
+  ...props
 }) => {
   return (
     <div
@@ -40,6 +41,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         height: size,
         ...style,
       }}
+      {...props}
     >
       {label && !icon && !img ? (
         <Text color="inherit" size={(size / 2) as Size}>

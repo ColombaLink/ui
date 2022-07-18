@@ -150,6 +150,7 @@ export const ValueSlider: FC<ValueSliderProps> = ({
   onEndSliding,
   Label,
   onStartSliding,
+  ...props
 }) => {
   if (step && max === undefined) {
     max = 10
@@ -317,6 +318,7 @@ export const ValueSlider: FC<ValueSliderProps> = ({
         position: 'relative',
         marginTop: alwaysShowLabel ? 48 : 0,
       }}
+      {...props}
     >
       <Cursor
         ref={refCursor}

@@ -23,6 +23,7 @@ export const Container: FC<ContainerProps> = ({
   bottomLeft,
   bottomRight,
   wrap,
+  ...props
 }) => {
   return (
     <styled.div
@@ -38,6 +39,7 @@ export const Container: FC<ContainerProps> = ({
         width: wrap ? 'fit-content' : '100%',
         ...style,
       }}
+      {...props}
     >
       <div
         style={{

@@ -30,6 +30,7 @@ export const Callout: FC<CalloutProps> = ({
   space,
   style,
   textAlign,
+  ...props
 }) => {
   const [closed, setIsClosed] = useState(false)
 
@@ -37,6 +38,8 @@ export const Callout: FC<CalloutProps> = ({
     console.log('closed')
     setIsClosed(true)
   }
+
+  console.log(props)
 
   return (
     <div
@@ -57,6 +60,7 @@ export const Callout: FC<CalloutProps> = ({
             : 'flex-start',
         ...style,
       }}
+      {...props}
     >
       {closeable && (
         <div

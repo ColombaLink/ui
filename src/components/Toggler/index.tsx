@@ -15,11 +15,12 @@ export const Toggler: FC<TogglerProps> = ({
   label,
   description,
   text,
+  ...props
 }) => {
   const [checkedState, setCheckedState] = useState(checked)
 
   return (
-    <div>
+    <div {...props}>
       <Text>{label}</Text>
       <Text weight={400}>{description}</Text>
       <div style={{ display: 'flex', marginTop: 8, alignItems: 'center' }}>
