@@ -34,7 +34,7 @@
     "@based/react": "^3.0.2",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",
-    "@saulx/aristotle": "^4.4.0",
+    "@saulx/aristotle": "^4.4.1",
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.2.1",
     "@saulx/validators": "^1.2.0",
