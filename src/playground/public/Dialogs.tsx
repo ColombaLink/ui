@@ -34,6 +34,18 @@ export const Dialogs = () => {
           use the name of your company or department.
         </Text>
       </Dialog>
+      <br />
+      <Dialog space label="Testing this here" border>
+        <Text weight={400} wrap space>
+          This is your organization’s name within Based. For example, you can
+          use the name of your company or department.
+        </Text>
+
+        <Dialog.Buttons border>
+          <Dialog.Cancel />
+          <Dialog.Confirm />
+        </Dialog.Buttons>
+      </Dialog>
 
       <br />
       <Button
