@@ -9,43 +9,38 @@ export const Buttons = () => {
       component={Button}
       propsName="ButtonProps"
       examples={[
-        // {
-        //   props: {
-        //     children: 'Button',
-        //     onClick: () => {
-        //       return new Promise((resolve) => {
-        //         setTimeout(resolve, 1e3)
-        //       })
-        //     },
-        //   },
-        // },
-        // {
-        //   props: {
-        //     children: 'Button',
-        //     light: true,
-        //   },
-        // },
-        // {
-        //   props: {
-        //     children: 'Button',
-        //     ghost: true,
-        //   },
-        // },
         {
           props: {
-            children: 'Button',
+            children: 'Just a button',
+          },
+        },
+        {
+          props: {
+            children: 'Light button',
+            light: true,
+          },
+        },
+        {
+          props: {
+            children: 'Ghost button',
+            ghost: true,
+          },
+        },
+        {
+          props: {
+            children: 'Button with icon',
             outline: true,
             icon: <CheckIcon />,
             large: true,
           },
         },
-        // {
-        //   props: {
-        //     children: 'Button',
-        //     outline: true,
-        //     light: true,
-        //   },
-        // },
+        {
+          props: {
+            children: 'Light outline button',
+            outline: true,
+            light: true,
+          },
+        },
       ]}
     />
   )
