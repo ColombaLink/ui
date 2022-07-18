@@ -8,6 +8,7 @@ export const Thumbnails = () => {
     <>
       <ComponentViewer
         component={Thumbnail}
+        propsName="ThumbnailProps"
         examples={[
           {
             props: {

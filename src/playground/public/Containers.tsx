@@ -8,6 +8,7 @@ export const Containers = () => {
   return (
     <ComponentViewer
       component={Container}
+      propsName="ContainerProps"
       examples={[
         {
           props: {

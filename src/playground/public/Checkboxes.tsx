@@ -7,6 +7,7 @@ export const Checkboxes = () => {
   return (
     <ComponentViewer
       component={Checkbox}
+      propsName="CheckboxProps"
       examples={[
         {
           props: {

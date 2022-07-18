@@ -7,6 +7,7 @@ export const Tables = () => {
     <>
       <ComponentViewer
         component={Table}
+        propsName="TableProps"
         examples={[
           {
             props: {

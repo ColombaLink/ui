@@ -8,6 +8,7 @@ export const Avatars = () => {
     <>
       <ComponentViewer
         component={Avatar}
+        propsName="AvatarProps"
         examples={[
           {
             props: {

@@ -55,6 +55,7 @@ export const Toasts = () => {
     <div>
       <ComponentViewer
         component={Toast}
+        propsName="ToastProps"
         examples={[
           {
             props: {

@@ -5,6 +5,7 @@ import ComponentViewer from '../ComponentViewer'
 export const Breadcrumb = () => {
   return (
     <ComponentViewer
+      propsName="BreadcrumbsProps"
       examples={[
         {
           props: {

@@ -18,6 +18,7 @@ export const Cards = () => {
     <>
       <ComponentViewer
         component={Card}
+        propsName="CardProps"
         examples={[
           {
             props: {

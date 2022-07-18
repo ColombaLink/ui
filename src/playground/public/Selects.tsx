@@ -27,6 +27,7 @@ export const Selects = () => {
     <>
       <ComponentViewer
         component={Select}
+        propsName="SelectProps"
         examples={[
           {
             props: {

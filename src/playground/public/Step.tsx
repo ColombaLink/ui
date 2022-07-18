@@ -8,6 +8,7 @@ export const Step = () => {
     <div>
       <ComponentViewer
         component={Steps}
+        propsName="StepsProps"
         examples={[
           {
             props: {

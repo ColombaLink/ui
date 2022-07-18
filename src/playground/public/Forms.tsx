@@ -6,6 +6,7 @@ export const Forms = () => {
   return (
     <ComponentViewer
       component={Form}
+      propsName="FormProps"
       examples={[
         {
           props: {

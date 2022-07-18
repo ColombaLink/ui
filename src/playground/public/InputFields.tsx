@@ -6,6 +6,7 @@ export const InputFields = () => {
   return (
     <ComponentViewer
       component={Input}
+      propsName="InputProps"
       examples={[
         {
           props: {

@@ -8,6 +8,7 @@ export const Badges = () => {
     <Provider>
       <ComponentViewer
         component={Badge}
+        propsName="BadgeProps"
         examples={[
           {
             props: {

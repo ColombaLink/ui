@@ -7,6 +7,7 @@ export const Grids = () => {
     <>
       <ComponentViewer
         component={Grid}
+        propsName="GridProps"
         examples={[
           {
             props: {

@@ -20,6 +20,7 @@ export const ToggleGroups = () => {
     <div>
       <ComponentViewer
         component={ToggleGroup}
+        propsName="ToggleGroupProps"
         examples={[
           {
             props: {

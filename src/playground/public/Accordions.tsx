@@ -7,6 +7,7 @@ export const Accordions = () => {
   return (
     <ComponentViewer
       component={Accordion}
+      propsName="AccordionProps"
       examples={[
         {
           props: {

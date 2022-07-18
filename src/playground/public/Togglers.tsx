@@ -7,6 +7,7 @@ export const Togglers = () => {
     <div>
       <ComponentViewer
         component={Toggler}
+        propsName="TogglerProps"
         examples={[
           {
             props: {

@@ -7,6 +7,7 @@ export const SideMenu = () => {
     <div>
       <ComponentViewer
         component={Menu}
+        propsName="MenuProps"
         examples={[
           {
             props: {

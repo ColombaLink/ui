@@ -5,7 +5,10 @@ import ComponentViewer from '../ComponentViewer'
 export const ColorPicker = () => {
   return (
     <>
-      <ComponentViewer component={ui.ColorPicker} />
+      <ComponentViewer
+        component={ui.ColorPicker}
+        propsName="ColorPickerProps"
+      />
     </>
   )
 }

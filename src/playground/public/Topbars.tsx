@@ -10,6 +10,7 @@ export const Topbars = () => {
     <div>
       <ComponentViewer
         component={Topbar}
+        propsName="TopbarProps"
         examples={[
           {
             props: {

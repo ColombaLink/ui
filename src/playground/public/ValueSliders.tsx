@@ -14,6 +14,7 @@ export const Sliders = () => {
     <div>
       <ComponentViewer
         component={ValueSlider}
+        propsName="ValueSliderProps"
         examples={[
           {
             props: {

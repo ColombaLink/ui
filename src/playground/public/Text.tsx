@@ -27,6 +27,7 @@ export const Text = () => {
     <>
       <ComponentViewer
         component={TextComponent}
+        propsName="TextProps"
         examples={[
           {
             props: {

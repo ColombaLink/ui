@@ -7,6 +7,7 @@ export const Radiobuttons = () => {
     <div>
       <ComponentViewer
         component={RadioButton}
+        propsName="RadioButtonProps"
         examples={[
           {
             props: {

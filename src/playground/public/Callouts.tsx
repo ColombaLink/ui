@@ -9,6 +9,7 @@ export const Callouts = () => {
     <>
       <ComponentViewer
         component={Callout}
+        propsName="CalloutProps"
         examples={[
           {
             props: {

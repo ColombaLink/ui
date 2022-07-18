@@ -29,6 +29,7 @@ export const TabsView = () => {
   return (
     <>
       <ComponentViewer
+        propsName="TabsProps"
         examples={[
           {
             code: codeExample,
