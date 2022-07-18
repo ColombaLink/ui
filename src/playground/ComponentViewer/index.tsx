@@ -5,15 +5,11 @@ import { Explorer } from './Explorer'
 
 const ComponentViewer: FC<{
   component: FC
-  propsName?: string
+  propsName: string // mandatory otherwise it does not work when minified
   examples?: { props?: any; code?: string; component?: FC }[]
   width?: number | '100%' | 'auto' // fuzz width
 }> = ({ component, propsName, width = 'auto', examples }) => {
   const fuzz = useSearchParam('randomize')
-  if (!propsName) {
-    propsName = component.name + 'Props'
-  }
-
   const p = props.props[propsName]
   if (!p) {
     return (

@@ -39,7 +39,7 @@ const Stories = () => {
     }
     return React.createElement(component)
   }
-  return 'Overview'
+  return <>Overview</>
 }
 
 const App = () => {

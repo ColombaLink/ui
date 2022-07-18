@@ -8,6 +8,7 @@ export const Buttons = () => {
   return (
     <ComponentViewer
       component={Button}
+      propsName="ButtonProps"
       examples={[
         {
           props: {
