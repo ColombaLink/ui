@@ -80,9 +80,11 @@ export const ProjectSettings = () => {
             <Text size="20px" space="24px" weight={700}>
               Privacy settings
             </Text>
-            <Checkbox checked space="24px">
-              Make project private
-            </Checkbox>
+            <Checkbox
+              checked
+              space="24px"
+              label=" Make project private"
+            ></Checkbox>
             <Text weight={600} space="24px">
               Allow specific organisation members access
             </Text>
