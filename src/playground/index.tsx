@@ -123,6 +123,7 @@ const App = () => {
             ProfileSettings: '?story=profile-settings',
             ProjectSettings: '?story=project-settings',
             SyncSession: '?story=sync-session',
+            Auth: '?story=auth',
           },
           Themes: {
             Theming: '?story=theming',

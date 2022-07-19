@@ -31,12 +31,18 @@ export const Authorize: FC<AuthProps> = ({
   overlay = true,
   logo,
   style,
+  children,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
   const [fadeIn, setFade] = useState(false)
 
   useEffect(() => {
+    if (children) {
+      console.warn(
+        "Don't use children with Authorize component. Use app argument instead so unauthorized components don't get rendered"
+      )
+    }
     const t = setTimeout(() => setFade(true), 300)
     return () => {
       clearTimeout(t)
