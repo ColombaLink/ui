@@ -3,7 +3,6 @@ import { Checkbox } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Checkboxes = () => {
-  console.log('WTF')
   return (
     <ComponentViewer
       component={Checkbox}

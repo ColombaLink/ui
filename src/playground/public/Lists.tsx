@@ -24,9 +24,7 @@ export const Lists = () => {
   }
 
   const dragEndHandler = (e) => {
-    console.log(list)
     if (activeListItem === mouseOverListItem) {
-      console.log('Test  = Same item, nothing happens')
       setActiveListItem(null)
     }
     if (activeListItem !== mouseOverListItem) {

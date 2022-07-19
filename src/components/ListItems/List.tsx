@@ -36,7 +36,6 @@ export const List: FC<ListProps> = ({
   const [mouseOverListItem, setMouseOverListItem] = useState(null)
 
   const dragHandler = (e) => {
-    console.log(e)
     setActiveListItem(e.target.id)
   }
 
@@ -65,8 +64,6 @@ export const List: FC<ListProps> = ({
 
     setList(newList)
   }
-
-  console.log(listComponent)
 
   return (
     <div>

@@ -44,7 +44,6 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({
           key={idx}
           onClick={() => {
             setActiveTab(idx)
-            console.log(data[idx])
           }}
           style={{
             backgroundColor:

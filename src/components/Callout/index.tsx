@@ -35,11 +35,8 @@ export const Callout: FC<CalloutProps> = ({
   const [closed, setIsClosed] = useState(false)
 
   const closeCalloutHandler = () => {
-    console.log('closed')
     setIsClosed(true)
   }
-
-  console.log(props)
 
   return (
     <div
