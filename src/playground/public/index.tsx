@@ -1,6 +1,7 @@
 export * from './Accordions'
 export * from './Avatars'
 export * from './Badges'
+export * from './BarGraphs'
 export * from './Breadcrumb'
 export * from './Buttons'
 export * from './Callouts'

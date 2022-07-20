@@ -131,6 +131,7 @@ const App = () => {
             Text: '?story=text',
           },
           Insights: {
+            BarGraphs: '?story=BarGraphs',
             LineGraph: '?story=lineGraph',
           },
           Hooks: {
