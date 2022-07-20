@@ -1,7 +1,8 @@
-import React, { FC } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { color } from '~/utils'
 import { Text } from '~'
 import { useHover } from '~/hooks'
+import { styled } from 'inlines'
 
 type BarGraphProps = {
   data: { value: number | { [key: string]: number }; label: string }[]
@@ -36,10 +37,10 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
       )
     )
 
-    //  console.log('Highest val', highestVal)
+    console.log('Highest val', highestVal)
     console.log('totalPerObject', totalPerObject)
     console.log('normalized Data Per Object', normalizedDataPerObject)
-    //  console.log('normalizedData over alle objecten', normalizedData)
+    console.log('normalizedData over alle objecten', normalizedData)
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -90,25 +91,57 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
                   width: `${normalizedData[idx]}%`,
                   height: 32,
                   borderRadius: 4,
-                  backgroundColor: color('accent'),
+                  backgroundColor:
+                    typeof item.value !== 'object'
+                      ? color('accent')
+                      : 'transparent',
                   display: 'flex',
                   alignItems: 'center',
                   padding: '0 8px',
+                  position: 'relative',
                 }}
               >
                 {typeof item.value !== 'object' && (
                   <Text color="accent:contrast" style={{ marginRight: 4 }}>
-                    {item.value}
+                    {item.value} ({normalizedData[idx].toFixed(1) + '%'})
                   </Text>
                 )}
-                <Text color="accent:contrast">
-                  ({normalizedData[idx].toFixed(1) + '%'})
-                  {/* ({(+item.value / (total / 100)).toFixed(1)}%) */}
-                </Text>
+
+                {typeof item.value === 'object' && (
+                  <div
+                    style={{ position: 'relative', display: 'flex', zIndex: 1 }}
+                  >
+                    <Text color="accent:contrast">
+                      {totalPerObject[idx]} (
+                      {normalizedData[idx].toFixed(1) + '%'})
+                      {/* ({(+item.value / (total / 100)).toFixed(1)}%) */}
+                    </Text>
+                  </div>
+                )}
 
                 {/* // bar segments */}
-                {typeof item.value === 'object' &&
-                  normalizedDataPerObject[idx].map((item) => <div>{item}</div>)}
+                {typeof item.value === 'object' && (
+                  <styled.div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      display: 'flex',
+                      width: '100%',
+                      '& > div:first-child': {
+                        borderTopLeftRadius: '4px',
+                        borderBottomLeftRadius: '4px',
+                      },
+                      '& > div:last-child': {
+                        borderTopRightRadius: '4px',
+                        borderBottomRightRadius: '4px',
+                      },
+                    }}
+                  >
+                    {normalizedDataPerObject[idx].map((item, key) => (
+                      <BarSegment key={key} id={key} width={item} />
+                    ))}
+                  </styled.div>
+                )}
               </div>
             </div>
           </div>
@@ -118,17 +151,33 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
   )
 }
 
-export const barSegment = (width) => {
+type BarSegmentProps = {
+  id: number
+  width: number
+  style?: CSSProperties
+  key?: number
+}
+
+export const BarSegment: FC<BarSegmentProps> = ({ width, key, style, id }) => {
+  {
+    console.log('Key', id)
+  }
   return (
-    <div
+    <styled.div
       style={{
         height: 32,
-        width: width,
-        backgroundColor: 'lightblue',
+        display: 'block',
+        width: width + '%',
+        backgroundColor: color('accent'),
+        opacity: `calc(1 - 0.${id * 2})`,
+        ...style,
+        '&:hover': {
+          opacity: 1,
+        },
       }}
     >
-      Snurp
-    </div>
+      {/* {width} */}
+    </styled.div>
   )
 }
 
