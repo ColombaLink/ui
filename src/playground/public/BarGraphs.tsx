@@ -20,11 +20,11 @@ export const BarGraphs = () => {
 
   const barDataStacked = [
     {
-      label: 'Yes sure if you like ugly shit',
+      label: 'Some countries',
       value: { en: 675, de: 200, nl: 600 },
     },
     {
-      label: 'No sorry',
+      label: 'More data',
       value: { en: 275, de: 2200, nl: 50 },
     },
     {
@@ -35,11 +35,18 @@ export const BarGraphs = () => {
 
   return (
     <div>
-      <Container>
+      <Container space>
         <Text space weight={600}>
           Bar Graph 1
         </Text>
         <BarGraph data={barData} />
+      </Container>
+
+      <Container>
+        <Text space weight={600}>
+          Bar Graph 2
+        </Text>
+        <BarGraph data={barDataStacked} />
       </Container>
     </div>
   )

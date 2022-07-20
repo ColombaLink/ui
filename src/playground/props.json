@@ -239,6 +239,26 @@
       "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: AccentColor\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
       "file": "/components/Badge/index.tsx"
     },
+    "BarGraphProps": {
+      "name": "BarGraphProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type BarGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n}",
+      "file": "/components/BarGraph/index.tsx"
+    },
     "BreadcrumbsProps": {
       "name": "BreadcrumbsProps",
       "props": {
