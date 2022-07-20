@@ -254,9 +254,54 @@
         "value": {
           "optional": true,
           "type": "number"
+        },
+        "legend": {
+          "optional": true,
+          "type": [
+            "TSTypeLiteral",
+            {
+              "array": "string"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
         }
       },
-      "code": "type BarGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n}",
+      "code": "type BarGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n}",
+      "file": "/components/BarGraph/index.tsx"
+    },
+    "BarSegmentProps": {
+      "name": "BarSegmentProps",
+      "props": {
+        "id": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "legend": {
+          "optional": true,
+          "type": [
+            {
+              "array": "string"
+            },
+            "TSTypeLiteral"
+          ]
+        }
+      },
+      "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {

@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { color } from '~/utils'
 import { Text } from '~'
-import { useHover } from '~/hooks'
+import { useToolTips } from '~/hooks'
 import { styled } from 'inlines'
 import { parseNumber } from '~/utils'
 
@@ -9,21 +9,27 @@ type BarGraphProps = {
   data: { value: number | { [key: string]: number }; label: string }[]
   label?: string
   value?: number
+  legend?: { [key: string]: string } | string[]
+  style?: CSSProperties
 }
 
-export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
-  console.log(data)
-
+export const BarGraph: FC<BarGraphProps> = ({
+  data,
+  label,
+  value,
+  legend = null,
+  style,
+}) => {
   let total,
     highestVal,
-    lowestVal,
     normalizedData,
     totalPerObject,
-    normalizedDataPerObject
+    normalizedDataPerObject,
+    subValuesPerObject,
+    legendValues
 
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
-    //  console.log('yes is object', data[0].value)
     // @ts-ignore
     totalPerObject = data.map((item) =>
       Object.values(item.value).reduce((t, value) => t + value, 0)
@@ -38,10 +44,7 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
       )
     )
 
-    console.log('Highest val', highestVal)
-    console.log('totalPerObject', totalPerObject)
-    console.log('normalized Data Per Object', normalizedDataPerObject)
-    console.log('normalizedData over alle objecten', normalizedData)
+    subValuesPerObject = data.map((item) => Object.values(item.value))
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -52,8 +55,14 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
     // @ts-ignore
     highestVal = Math.max(...data.map((item) => item.value))
     // @ts-ignore
-    lowestVal = Math.min(...data.map((item) => item.value))
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
+  }
+
+  // little legend check
+  if (legend && typeof legend === 'object') {
+    legendValues = Object.values(legend)
+  } else if (legend && Array.isArray(legend)) {
+    legendValues = legend
   }
 
   return (
@@ -63,6 +72,7 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
           display: 'flex',
           alignItems: 'center',
           flexDirection: 'column',
+          ...style,
         }}
       >
         {data.map((item, idx) => (
@@ -80,7 +90,7 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
                 width: '100%',
                 height: 32,
                 borderRadius: 4,
-                backgroundColor: color('border'),
+                // backgroundColor: color('border'),
                 position: 'relative',
                 display: 'flex',
                 margin: '4px auto',
@@ -111,7 +121,12 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
 
                 {typeof item.value === 'object' && (
                   <div
-                    style={{ position: 'relative', display: 'flex', zIndex: 1 }}
+                    style={{
+                      position: 'relative',
+                      display: 'flex',
+                      zIndex: 1,
+                      pointerEvents: 'none',
+                    }}
                   >
                     <Text color="accent:contrast">
                       {parseNumber(totalPerObject[idx], 'number-short')} (
@@ -140,7 +155,16 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
                     }}
                   >
                     {normalizedDataPerObject[idx].map((item, key) => (
-                      <BarSegment key={key} id={key} width={item} />
+                      <BarSegment
+                        key={key}
+                        id={key}
+                        width={item}
+                        legend={legendValues[key]}
+                        value={parseNumber(
+                          subValuesPerObject[idx][key],
+                          'number-short'
+                        )}
+                      />
                     ))}
                   </styled.div>
                 )}
@@ -156,14 +180,54 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
 type BarSegmentProps = {
   id: number
   width: number
+  value: string | number
   style?: CSSProperties
-  key?: number
+  legend?: string[] | { [key: string]: string }
 }
 
-export const BarSegment: FC<BarSegmentProps> = ({ width, key, style, id }) => {
-  {
-    console.log('Key', id)
-  }
+export const BarSegment: FC<BarSegmentProps> = ({
+  width,
+  style,
+  value,
+  legend,
+  id,
+  ...props
+}) => {
+  const barGraphToolTip = (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: 164,
+        padding: '8px',
+      }}
+    >
+      {legend && (
+        <div
+          style={{
+            borderBottom: `1px solid ${color('border')}`,
+            marginBottom: 8,
+          }}
+        >
+          <Text space="8px">{legend}</Text>
+        </div>
+      )}
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Text weight={400}>{value}</Text>
+        <Text weight={400} color="accent">
+          {(+width).toFixed(0) + '%'}
+        </Text>
+      </div>
+    </div>
+  )
+  const tooltipListeners = useToolTips(barGraphToolTip, 'bottom')
+
   return (
     <styled.div
       style={{
@@ -175,28 +239,13 @@ export const BarSegment: FC<BarSegmentProps> = ({ width, key, style, id }) => {
         ...style,
         '&:hover': {
           opacity: 1,
+          backgroundColor: color('accent:hover'),
         },
       }}
+      {...props}
+      {...tooltipListeners}
     >
       {/* {width} */}
     </styled.div>
   )
 }
-
-//   // @ts-ignore
-//   const total = Object.values(data).reduce((t, { value }) => t + value, 0)
-//   console.log('total', total)
-
-//   // get highest value
-//   // @ts-ignore
-//   const highestVal = Math.max(...data.map((item) => item.value))
-//   console.log('highest', highestVal)
-
-//   // get lowest value
-//   // @ts-ignore
-//   const lowestVal = Math.min(...data.map((item) => item.value))
-
-//   //normalize data to fit in the graph 100% width is highest value
-//   // @ts-ignore
-//   const normalizedData = data.map((item) => (+item.value / highestVal) * 100)
-//   console.log('normalizedData', normalizedData)

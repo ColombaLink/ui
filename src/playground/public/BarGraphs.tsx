@@ -1,6 +1,7 @@
 import React from 'react'
 import { BarGraph } from '~/components/BarGraph'
 import { Container, Text } from '~'
+import ComponentViewer from '../ComponentViewer'
 
 export const BarGraphs = () => {
   const barData = [
@@ -17,6 +18,14 @@ export const BarGraphs = () => {
       value: 146,
     },
   ]
+
+  const legend = {
+    nl: 'Netherlands',
+    de: 'Germany',
+    en: 'Uk',
+  }
+
+  const legendTwo = ['America', 'Cameroon', 'Netherlands']
 
   const barDataStacked = [
     {
@@ -35,6 +44,24 @@ export const BarGraphs = () => {
 
   return (
     <div>
+      <ComponentViewer
+        component={BarGraph}
+        propsName="BarGraphProps"
+        examples={[
+          {
+            props: {
+              data: barData,
+            },
+          },
+          {
+            props: {
+              data: barDataStacked,
+              legend: legend,
+            },
+          },
+        ]}
+      />
+
       <Container space>
         <Text space weight={600}>
           Bar Graph 1
@@ -46,7 +73,7 @@ export const BarGraphs = () => {
         <Text space weight={600}>
           Bar Graph 2
         </Text>
-        <BarGraph data={barDataStacked} />
+        <BarGraph data={barDataStacked} legend={legend} />
       </Container>
     </div>
   )
