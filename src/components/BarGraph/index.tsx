@@ -3,6 +3,7 @@ import { color } from '~/utils'
 import { Text } from '~'
 import { useHover } from '~/hooks'
 import { styled } from 'inlines'
+import { parseNumber } from '~/utils'
 
 type BarGraphProps = {
   data: { value: number | { [key: string]: number }; label: string }[]
@@ -103,7 +104,8 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
               >
                 {typeof item.value !== 'object' && (
                   <Text color="accent:contrast" style={{ marginRight: 4 }}>
-                    {item.value} ({normalizedData[idx].toFixed(1) + '%'})
+                    {parseNumber(item.value, 'number-short')} (
+                    {normalizedData[idx].toFixed(1) + '%'})
                   </Text>
                 )}
 
@@ -112,7 +114,7 @@ export const BarGraph: FC<BarGraphProps> = ({ data, label, value }) => {
                     style={{ position: 'relative', display: 'flex', zIndex: 1 }}
                   >
                     <Text color="accent:contrast">
-                      {totalPerObject[idx]} (
+                      {parseNumber(totalPerObject[idx], 'number-short')} (
                       {normalizedData[idx].toFixed(1) + '%'})
                       {/* ({(+item.value / (total / 100)).toFixed(1)}%) */}
                     </Text>
