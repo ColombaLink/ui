@@ -20,13 +20,9 @@ import { toPascalCase } from './utils'
 import { LargeLogo } from '../'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
+import basedConfig from './based.json'
 
-// @ts-ignore
-export const client = based({
-  org: 'saulx',
-  project: 'demo',
-  env: 'production',
-})
+export const client = based(basedConfig)
 
 const Stories = () => {
   useLocation()
@@ -92,6 +88,7 @@ const App = () => {
             Icons: '?story=icons',
             Steps: '?story=step',
             Thumbnails: '?story=thumbnails',
+            Separator: '?story=separators',
           },
           Feedback: {
             Callouts: '?story=callouts',

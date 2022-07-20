@@ -1593,6 +1593,21 @@
       "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n}",
       "file": "/components/Steps/index.tsx"
     },
+    "SeparatorProps": {
+      "name": "SeparatorProps",
+      "props": {
+        "children": {
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        }
+      },
+      "code": "type SeparatorProps = {\n  children?: ReactNode\n}",
+      "file": "/components/Separator/index.tsx"
+    },
     "TableProps": {
       "name": "TableProps",
       "props": {
