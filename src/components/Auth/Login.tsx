@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { EmailIcon, LockIcon } from '~/icons'
+import { EmailIcon, GoogleIcon, LockIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
@@ -8,6 +8,42 @@ import { color } from '~'
 import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
 import useGlobalState from '@based/use-global-state'
+
+const Separator: FC = ({ children }) => (
+  <div
+    style={{
+      border: '1ps solid red',
+      display: 'flex',
+      marginBottom: 24,
+    }}
+  >
+    <div
+      style={{
+        borderBottom: '1px solid ' + color('border'),
+        display: 'flex',
+        flexGrow: 1,
+        height: 12,
+        marginRight: 16,
+      }}
+    />
+    <div
+      style={{
+        display: 'flex',
+      }}
+    >
+      {children || 'or'}
+    </div>
+    <div
+      style={{
+        borderBottom: '1px solid ' + color('border'),
+        display: 'flex',
+        flexGrow: 1,
+        height: 12,
+        marginLeft: 16,
+      }}
+    />
+  </div>
+)
 
 type LoginProps = {
   width?: number
@@ -39,7 +75,7 @@ export const Login: FC<LoginProps> = ({
         width,
       }}
     >
-      {/*<Button
+      <Button
         icon={GoogleIcon}
         textAlign="center"
         style={{
@@ -53,14 +89,7 @@ export const Login: FC<LoginProps> = ({
       >
         Continue with Google
       </Button>
-      <div
-        style={{
-          borderTop: '1px solid gray',
-          content: '',
-          marginTop: 16,
-          marginBottom: 16,
-        }}
-      />*/}
+      <Separator />
 
       <Input
         large
