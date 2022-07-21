@@ -16,6 +16,7 @@ export const darkTheme = {
     },
     background: {
       m: [19, 19, 19],
+      h: [255, 255, 255, 0.09],
     },
     background2: {
       m: [0, 0, 0],

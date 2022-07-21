@@ -35,11 +35,11 @@ export const updateTheme = (theme = currentTheme) => {
     values[`${name}:border`] = border || main
 
     const lightName = `light${name}`
-    values[lightName] = lMain || alpha(main, 0.16)
-    values[`${lightName}:active`] = lActive || alpha(main, 0.24)
-    values[`${lightName}:hover`] = lHover || alpha(main, 0.2)
+    values[lightName] = lMain || alpha(main, 0.08)
+    values[`${lightName}:active`] = lActive || alpha(main, 0.16)
+    values[`${lightName}:hover`] = lHover || alpha(main, 0.12)
     values[`${lightName}:contrast`] = lContrast || main
-    values[`${lightName}:border`] = lBorder || alpha(main, 0.24)
+    values[`${lightName}:border`] = lBorder || alpha(main, 0.16)
   }
 
   let cnt = 0
