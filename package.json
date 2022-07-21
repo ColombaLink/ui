@@ -31,6 +31,7 @@
   "dependencies": {
     "@based/get-service": "^2.4.3",
     "@based/pretty-date": "^1.0.4",
+    "@based/pretty-number": "^1.0.3",
     "@based/react": "^3.0.2",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",

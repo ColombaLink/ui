@@ -73,7 +73,7 @@ export const BarGraphs = () => {
         <Text space weight={600}>
           Bar Graph 2
         </Text>
-        <BarGraph data={barDataStacked} legend={legend} />
+        <BarGraph data={barDataStacked} />
       </Container>
     </div>
   )
