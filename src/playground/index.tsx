@@ -134,6 +134,7 @@ const App = () => {
             BarGraphs: '?story=BarGraphs',
             LineGraph: '?story=lineGraph',
             ResultCards: '?story=ResultCards',
+            Scatter: '?story=ScatterResults',
           },
           Hooks: {
             Tooltips: '?story=tooltips',
