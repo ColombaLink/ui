@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
 import { useLocation } from '~/hooks'
+import { Weight } from '~/types'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
@@ -18,6 +19,7 @@ type MenuItemProps = {
   href?: string
   isActive?: boolean
   isNested?: boolean
+  weight?: Weight
 }
 
 const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
@@ -40,12 +42,13 @@ export const MenuItem: FC<MenuItemProps> = ({
   href,
   isActive,
   isNested = false,
+  weight = isNested ? 500 : 600,
 }) => {
   return (
     <Text
-      color={isNested ? 'text2' : 'text'}
-      variant={isActive ? 'active' : null}
-      weight={isNested ? 500 : 600}
+      color={isActive ? 'lightaccent:contrast' : isNested ? 'text2' : 'text'}
+      // variant={isActive ? 'active' : null}
+      weight={isActive ? 600 : weight}
       wrap
       style={{
         marginBottom: 8,
@@ -59,9 +62,12 @@ export const MenuItem: FC<MenuItemProps> = ({
           margin: '-4px -12px',
           borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
-          '&:hover': {
-            backgroundColor: color('lightaccent:hover'),
-          },
+          '&:hover': !isActive
+            ? {
+                backgroundColor: color('background:hover'),
+                color: `${color('text')} !important`,
+              }
+            : null,
         }}
       >
         {children}
@@ -152,6 +158,7 @@ export const Menu: FC<{
             key={key}
             href={href}
             isActive={hrefIsActive(href, selected)}
+            weight={500}
           >
             {key}
           </MenuItem>
