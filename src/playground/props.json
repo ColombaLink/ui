@@ -1313,9 +1313,13 @@
         "isNested": {
           "optional": true,
           "type": "boolean"
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
         }
       },
-      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n}",
+      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
     },
     "PositionProps": {
@@ -1616,6 +1620,12 @@
       "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  color?: Color\n  style?: CSSProperties\n}",
       "file": "/components/Select/Select.tsx"
     },
+    "SeparatorProps": {
+      "name": "SeparatorProps",
+      "props": {},
+      "code": "type SeparatorProps = {}",
+      "file": "/components/Separator/index.tsx"
+    },
     "SidebarItemsProps": {
       "name": "SidebarItemsProps",
       "props": {
@@ -1657,21 +1667,6 @@
       },
       "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n}",
       "file": "/components/Steps/index.tsx"
-    },
-    "SeparatorProps": {
-      "name": "SeparatorProps",
-      "props": {
-        "children": {
-          "type": [
-            "ReactNode",
-            {
-              "array": "ReactNode"
-            }
-          ]
-        }
-      },
-      "code": "type SeparatorProps = {\n  children?: ReactNode\n}",
-      "file": "/components/Separator/index.tsx"
     },
     "TableProps": {
       "name": "TableProps",

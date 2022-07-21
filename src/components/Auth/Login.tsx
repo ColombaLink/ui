@@ -4,46 +4,10 @@ import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
 import { useClient } from '@based/react'
-import { color } from '~'
+import { color, Separator } from '~'
 import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
 import useGlobalState from '@based/use-global-state'
-
-const Separator: FC = ({ children }) => (
-  <div
-    style={{
-      border: '1ps solid red',
-      display: 'flex',
-      marginBottom: 24,
-    }}
-  >
-    <div
-      style={{
-        borderBottom: '1px solid ' + color('border'),
-        display: 'flex',
-        flexGrow: 1,
-        height: 12,
-        marginRight: 16,
-      }}
-    />
-    <div
-      style={{
-        display: 'flex',
-      }}
-    >
-      {children || 'or'}
-    </div>
-    <div
-      style={{
-        borderBottom: '1px solid ' + color('border'),
-        display: 'flex',
-        flexGrow: 1,
-        height: 12,
-        marginLeft: 16,
-      }}
-    />
-  </div>
-)
 
 type LoginProps = {
   width?: number
@@ -81,15 +45,31 @@ export const Login: FC<LoginProps> = ({
         style={{
           width,
           height: 48,
+          marginTop: 28,
         }}
-        onClick={() => {
-          console.log('google')
+        onClick={async () => {
+          const state = {}
+          const { clientId } = await client.call('authGoogle', {
+            getClientId: true,
+          })
+          if (!clientId) {
+            throw new Error(
+              'Cannot get client id from configuration. Google set up correctly?'
+            )
+          }
+          const thirdPartyRedirect = global.location.origin + '/auth-google'
+          const scope =
+            'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
+          const url = `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${scope}&response_type=code&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`
+          global.location.href = `${url}&state=${encodeURIComponent(
+            JSON.stringify(state)
+          )}`
         }}
         space
       >
         Continue with Google
       </Button>
-      <Separator />
+      <Separator>or</Separator>
 
       <Input
         large
