@@ -1317,9 +1317,13 @@
         "isNested": {
           "optional": true,
           "type": "boolean"
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
         }
       },
-      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n}",
+      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
     },
     "PositionProps": {
@@ -1506,6 +1510,36 @@
       },
       "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<string>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
       "file": "/components/RadioButton/index.tsx"
+    },
+    "ResultCardProps": {
+      "name": "ResultCardProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "format": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type ResultCardProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat\n  space?: Space\n}",
+      "file": "/components/ResultCard/index.tsx"
     },
     "RightSidebarProps": {
       "name": "RightSidebarProps",

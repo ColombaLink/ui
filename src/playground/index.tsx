@@ -133,6 +133,7 @@ const App = () => {
           Insights: {
             BarGraphs: '?story=BarGraphs',
             LineGraph: '?story=lineGraph',
+            ResultCards: '?story=ResultCards',
           },
           Hooks: {
             Tooltips: '?story=tooltips',
