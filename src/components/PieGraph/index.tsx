@@ -34,9 +34,21 @@ export const PieGraph: FC<PieGraphProps> = ({
     legendValues,
     legendKeys,
     subLabelsPerObject,
-    percentagePerObject
+    totalPercentagesPerObject,
+    percentagePerObject,
+    totalSubValuesPerObject
 
   let tempCounter = 0
+  let subTempCounter = 0
+  let subPercentages = []
+
+  let themeColorArray = [
+    color('accent'),
+    color('green'),
+    color('red'),
+    color('babyblue'),
+    color('yellow'),
+  ]
 
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
@@ -55,6 +67,30 @@ export const PieGraph: FC<PieGraphProps> = ({
         (+(value / totalPerObject[idx]) * 100).toFixed(1)
       )
     )
+
+    total = totalPerObject.reduce((t, value) => t + value, 0)
+
+    totalPercentagesPerObject = totalPerObject.map(
+      (item, idx) => +((item / total) * 100)
+    )
+
+    for (let i = 0; i < subValuesPerObject.length; i++) {
+      for (let j = 0; j < subValuesPerObject[i].length; j++) {
+        subPercentages.push(+((subValuesPerObject[i][j] / total) * 100))
+      }
+    }
+
+    console.log(subValuesPerObject.length)
+
+    console.log('total', total)
+    console.log('total per object', totalPerObject)
+    console.log('subvaluesperobject', subValuesPerObject)
+    console.log('sub label per object', subLabelsPerObject)
+    console.log('highest val', highestVal)
+    console.log('normalized data', normalizedData)
+    console.log('normalized data per object', normalizedDataPerObject)
+    console.log('supPercentages', subPercentages)
+    console.log('total percentages per object', totalPercentagesPerObject)
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -68,11 +104,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
 
     percentagePerObject = data.map((item, idx) => (item.value / total) * 100)
-
-    // console.log('Total', total)
-    // console.log('Highest', highestVal)
-    // console.log('Normalized', normalizedData)
-    // console.log('percentage per object', percentagePerObject)
   }
 
   // little legend check
@@ -90,41 +121,110 @@ export const PieGraph: FC<PieGraphProps> = ({
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div
-        style={{
-          width: size,
-          height: size,
-          marginBottom: spaceToPx(space),
-        }}
-      >
-        {/* map and reduce  counter for percentage to degrees*/}
-        {data.map((item, idx) => (
-          <Fragment key={idx}>
-            <div
-              key={idx}
-              style={{
-                position: 'absolute',
-                width: size,
-                height: size,
-                borderRadius: size / 2,
-                background: ` conic-gradient(${color(
-                  'accent:hover'
-                )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
-                transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
-                opacity: `calc(1 - 0.${idx * 2})`,
-              }}
-            ></div>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+    >
+      {/* als het geen object is */}
+      {typeof data[0].value !== 'object' && (
+        <div
+          style={{
+            width: size,
+            height: size,
+            marginBottom: spaceToPx(space),
+          }}
+        >
+          {/* map and reduce  counter for percentage to degrees*/}
+          {/* if data value is not another object */}
 
-            <span style={{ display: 'none' }}>
-              {(tempCounter += +percentagePerObject[idx].toFixed())}
-            </span>
-            {console.log(tempCounter)}
-          </Fragment>
-        ))}
-      </div>
+          {data.map((item, idx) => (
+            <Fragment key={idx}>
+              <div
+                key={idx}
+                style={{
+                  position: 'absolute',
+                  width: size,
+                  height: size,
+                  borderRadius: size / 2,
+                  background: ` conic-gradient(${color(
+                    'accent:hover'
+                  )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
+                  transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
+                  opacity: `calc(1 - 0.${idx * 2})`,
+                }}
+              ></div>
 
-      {/* info label legend optional */}
+              <span style={{ display: 'none' }}>
+                {(tempCounter += +percentagePerObject[idx].toFixed())}
+              </span>
+            </Fragment>
+          ))}
+        </div>
+      )}
+
+      {/* als het wel een object is */}
+      {typeof data[0].value === 'object' && (
+        <div
+          style={{
+            width: size,
+            height: size,
+            marginBottom: spaceToPx(space),
+          }}
+        >
+          {/* map and reduce  counter for percentage to degrees*/}
+          {/* if data value is not another object */}
+
+          {data.map((item, index) => (
+            <Fragment key={index}>
+              <div
+                key={index}
+                style={{
+                  position: 'absolute',
+                  width: size,
+                  height: size,
+                  borderRadius: size / 2,
+                  background: ` conic-gradient(${themeColorArray[index]} calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
+                  transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
+                  opacity: `1`,
+                }}
+              ></div>
+
+              <span style={{ display: 'none' }}>
+                {(tempCounter += +totalPercentagesPerObject[index])}
+              </span>
+              {console.log(tempCounter)}
+            </Fragment>
+          ))}
+
+          {/* sub values per object  */}
+          {subPercentages.map((value, idx) => (
+            <Fragment key={idx}>
+              <div
+                key={idx}
+                style={{
+                  position: 'absolute',
+                  width: size,
+                  height: size,
+                  borderRadius: size / 2,
+                  background: ` conic-gradient(${'rgba(255,255,255,0.5)'} calc(${
+                    subPercentages[idx]
+                  }*1%),#0000 0)`,
+                  transform: `rotate(${percentageToDegrees(
+                    subTempCounter
+                  )}deg)`,
+                  opacity: `calc(1 - 0.${idx * 1})`,
+                }}
+              ></div>
+              <span style={{ display: 'none' }}>
+                {(subTempCounter += +subPercentages[idx])}
+              </span>
+              {console.log(subTempCounter)}
+            </Fragment>
+          ))}
+        </div>
+      )}
+
+      {/* legenda if you want */}
+
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {data.map((item, idx) => (
           <div
@@ -135,19 +235,34 @@ export const PieGraph: FC<PieGraphProps> = ({
               style={{
                 width: 12,
                 height: 12,
-                background: color('accent'),
+                background:
+                  typeof data[0].value !== 'object'
+                    ? color('accent')
+                    : themeColorArray[idx],
                 opacity: `calc(1 - 0.${idx * 2})`,
                 marginRight: 12,
-                border: '1px solid black',
+                border: `1px solid ${color('border')}`,
               }}
             ></div>
-            <Text>
-              {item.label} - {prettyNumber(item.value, 'number-short')} (
-              {percentagePerObject[idx].toFixed(0) + '%'})
-            </Text>
+            {typeof data[0].value !== 'object' && (
+              <Text>
+                {item.label} - {prettyNumber(item.value, 'number-short')} (
+                {percentagePerObject[idx].toFixed(0) + '%'})
+              </Text>
+            )}
+            {typeof data[0].value === 'object' && (
+              <Text>
+                {item.label} - (
+                {totalPercentagesPerObject[idx].toFixed(0) + '%'})
+              </Text>
+            )}
           </div>
         ))}
       </div>
     </div>
   )
 }
+
+// const pieSegment = () => {
+//   return <div>blah</div>
+// }

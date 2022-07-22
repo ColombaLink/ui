@@ -18,11 +18,33 @@ export const PieGraphs = () => {
     },
   ]
 
+  const advancedPieData = [
+    {
+      label: 'Some countries',
+      value: { en: 675, de: 200, nl: 600 },
+    },
+    {
+      label: 'More data',
+      value: { en: 275, de: 600, nl: 50 },
+    },
+    {
+      label: 'What logo?',
+      value: { en: 75, de: 201, nl: 30 },
+    },
+    {
+      label: 'more data',
+      value: { en: 70, de: 201, nl: 130 },
+    },
+  ]
+
   return (
     <div>
       <Text space>PieGraphs:</Text>
-      <div style={{ display: 'flex' }}>
+      <div
+        style={{ display: 'flex', width: 700, justifyContent: 'space-between' }}
+      >
         <PieGraph data={pieData} space="32px" size={240} />
+        <PieGraph data={advancedPieData} space="32px" size={240} />
       </div>
     </div>
   )
