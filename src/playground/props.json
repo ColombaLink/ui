@@ -1556,42 +1556,6 @@
       "code": "type RightSidebarProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/RightSidebar/index.tsx"
     },
-    "ScatterProps": {
-      "name": "ScatterProps",
-      "props": {
-        "data": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "xLabel": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "yLabel": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "info": {
-          "optional": true,
-          "type": "TSTypeLiteral"
-        },
-        "xLabelFormat": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "yLabelFormat": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "header": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        }
-      },
-      "code": "type ScatterProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: Color\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: any\n  yLabel?: any\n  info?: {\n    [key: string]: { format: any; label: any }\n  }\n  xLabelFormat?: any\n  yLabelFormat?: any\n  header?: any\n}",
-      "file": "/components/Scatter/index.tsx"
-    },
     "ScatterSliderProps": {
       "name": "ScatterSliderProps",
       "props": {
@@ -1630,6 +1594,42 @@
         }
       },
       "code": "type ScatterInnerProps = {\n  width: number\n  height: number\n}",
+      "file": "/components/Scatter/index.tsx"
+    },
+    "ScatterProps": {
+      "name": "ScatterProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "xLabel": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "yLabel": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "info": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "xLabelFormat": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "yLabelFormat": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "header": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type ScatterProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: Color\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: any\n  yLabel?: any\n  info?: {\n    [key: string]: { format: any; label: any }\n  }\n  xLabelFormat?: any\n  yLabelFormat?: any\n  header?: any\n}",
       "file": "/components/Scatter/index.tsx"
     },
     "MultiSelectProps": {

@@ -5,6 +5,7 @@ import { Text } from '../Text'
 import { Button } from '../Button'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { useToolTips } from '~/hooks/useToolTips'
+import AutoSizer from 'react-virtualized-auto-sizer'
 
 type ScatterSliderProps = {
   data: {
@@ -335,6 +336,10 @@ const ScatterInner: FC<ScatterProps & ScatterInnerProps> = ({
           {points.map((v, i) => {
             const color = v.color
 
+            console.log('test', v)
+
+            console.log(v.info)
+
             const infoContent = []
 
             let tooltipListeners = {}
@@ -344,12 +349,12 @@ const ScatterInner: FC<ScatterProps & ScatterInnerProps> = ({
                 infoContent.push(
                   <div key={key}>
                     {info[key].label}
-                    <Text>
+                    {/* <Text>
                       {{
                         format: info[key].format,
                         value: v.info ? v.info[key] : 0,
                       }}
-                    </Text>
+                    </Text> */}
                   </div>
                 )
               }
@@ -425,15 +430,16 @@ type ScatterProps = {
   xLabelFormat?: any
   yLabelFormat?: any
   header?: any
+  children?: any
 }
 
 export const Scatter: FC<ScatterProps> = (props) => {
   // AUTOSIZER ??? HERE ??? PUT
   return (
-    <div>
+    <AutoSizer>
       {({ height, width }) => {
         return <ScatterInner width={width} height={height} {...props} />
       }}
-    </div>
+    </AutoSizer>
   )
 }
