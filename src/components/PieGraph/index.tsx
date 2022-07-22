@@ -108,6 +108,8 @@ export const PieGraph: FC<PieGraphProps> = ({
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
 
     percentagePerObject = data.map((item, idx) => (item.value / total) * 100)
+
+    console.log('faf', percentagePerObject)
   }
 
   // little legend check
@@ -122,6 +124,21 @@ export const PieGraph: FC<PieGraphProps> = ({
 
   const percentageToDegrees = (percentage: number) => {
     return (percentage * 360) / 100
+  }
+
+  const normalizeRatio = (value, min, max) => (value - min) / (max - min)
+
+  const mousePositionHandler = (e: React.MouseEvent) => {
+    console.log(e)
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = e.pageX - rect.left
+    const y = e.pageY - rect.top
+
+    const normalizedX = normalizeRatio(x, 0, rect.width)
+    const normalizedY = normalizeRatio(y, 0, rect.height)
+
+    console.log('normalizedX', normalizedX)
+    console.log('normalizedY', normalizedY)
   }
 
   return (
@@ -153,6 +170,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                     'accent:hover'
                   )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
+
                   opacity: `calc(1 - 0.${idx * 2})`,
                 }}
               ></div>
@@ -173,6 +191,7 @@ export const PieGraph: FC<PieGraphProps> = ({
             height: size,
             marginBottom: spaceToPx(space),
           }}
+          onPointerMove={(e) => mousePositionHandler(e)}
         >
           {/* map and reduce  counter for percentage to degrees*/}
           {/* if data value is not another object */}
@@ -217,12 +236,11 @@ export const PieGraph: FC<PieGraphProps> = ({
                   )}deg)`,
                   opacity: `calc(1 - 0.${idx * 1})`,
                 }}
-                {...toolTipListeners(subPercentages[idx].toFixed())}
+                // {...toolTipListeners(subPercentages[idx].toFixed())}
               ></div>
               <span style={{ display: 'none' }}>
                 {(subTempCounter += +subPercentages[idx])}
               </span>
-              {console.log(subTempCounter)}
             </Fragment>
           ))}
         </div>
