@@ -50,6 +50,8 @@ export const PieGraph: FC<PieGraphProps> = ({
     color('yellow'),
   ]
 
+  let toolTipListeners
+
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
@@ -79,6 +81,8 @@ export const PieGraph: FC<PieGraphProps> = ({
         subPercentages.push(+((subValuesPerObject[i][j] / total) * 100))
       }
     }
+
+    toolTipListeners = (blah) => useToolTips(<div>yo afe{blah}</div>, 'bottom')
 
     console.log(subValuesPerObject.length)
 
@@ -213,6 +217,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                   )}deg)`,
                   opacity: `calc(1 - 0.${idx * 1})`,
                 }}
+                {...toolTipListeners(subPercentages[idx].toFixed())}
               ></div>
               <span style={{ display: 'none' }}>
                 {(subTempCounter += +subPercentages[idx])}
