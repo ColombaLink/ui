@@ -150,22 +150,26 @@ export const PieGraph: FC<PieGraphProps> = ({
   }
 
   const toConicGradientValues = (arr) => {
-    let str
+    let tempArr = []
 
     for (let i = 0; i < arr.length; i++) {
       if (i === 0) {
-        str = `red ${arr[i].toFixed(2)}deg ,`
+        tempArr.push(`red ${arr[i].toFixed(2)}deg ,`)
       } else if (i === arr.length - 1) {
-        str += `yellow ${arr[i].toFixed(2)}deg`
+        tempArr.push(
+          `yellow  ${arr[i - 1].toFixed(2)}deg ${arr[i].toFixed(2)}deg`
+        )
       } else {
-        str += `${themeColorArray[i]} ${arr[i - 1]}deg ${arr[i]}deg ,`
+        tempArr.push(
+          `${themeColorArray[i]} ${arr[i - 1].toFixed(2)}deg ${arr[i].toFixed(
+            2
+          )}deg ,`
+        )
       }
     }
 
-    return str
+    return tempArr.join('')
   }
-
-  ;`red 36deg, orange 36deg 170deg, yellow 170deg)`
 
   console.log(toConicGradientValues(angleAddedPercentages))
 
@@ -271,7 +275,7 @@ export const PieGraph: FC<PieGraphProps> = ({
               background: `conic-gradient(${toConicGradientValues(
                 angleAddedPercentages
               )})`,
-              //  transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
+
               opacity: `1`,
             }}
           ></div>
