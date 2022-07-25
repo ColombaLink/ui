@@ -27,14 +27,14 @@ export const PieGraphs = () => {
       label: 'More data',
       value: { en: 275, de: 600, nl: 50 },
     },
-    {
-      label: 'What logo?',
-      value: { ax: 75, bc: 201, qr: 30 },
-    },
-    {
-      label: 'more data',
-      value: { en: 70, de: 201, nl: 130 },
-    },
+    // {
+    //   label: 'What logo?',
+    //   value: { ax: 75, bc: 201, qr: 30 },
+    // },
+    // {
+    //   label: 'more data',
+    //   value: { en: 70, de: 201, nl: 130 },
+    // },
   ]
 
   return (

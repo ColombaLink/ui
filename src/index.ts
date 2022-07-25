@@ -37,7 +37,7 @@ export * from './components/PieGraph'
 export * from './components/Provider'
 export * from './components/RadioButton'
 export * from './components/ResultCard'
-export * from './components/Scatter'
+
 export * from './components/Sidebar'
 export * from './components/Steps'
 export * from './components/Select'

@@ -135,7 +135,6 @@ const App = () => {
             LineGraph: '?story=lineGraph',
             PieGraph: '?story=PieGraphs',
             ResultCards: '?story=ResultCards',
-            Scatter: '?story=ScatterResults',
           },
           Hooks: {
             Tooltips: '?story=tooltips',
