@@ -1435,6 +1435,47 @@
       "code": "type PageProps = {\n  children: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Page/index.tsx"
     },
+    "PieGraphProps": {
+      "name": "PieGraphProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "legend": {
+          "optional": true,
+          "type": [
+            "TSTypeLiteral",
+            {
+              "array": "string"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "size": {
+          "optional": true,
+          "type": "number"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type PieGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  size?: number\n  space?: Space\n}",
+      "file": "/components/PieGraph/index.tsx"
+    },
     "ProviderProps": {
       "name": "ProviderProps",
       "props": {
@@ -1627,9 +1668,13 @@
         "header": {
           "optional": true,
           "type": "TSAnyKeyword"
+        },
+        "children": {
+          "optional": true,
+          "type": "TSAnyKeyword"
         }
       },
-      "code": "type ScatterProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: Color\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: any\n  yLabel?: any\n  info?: {\n    [key: string]: { format: any; label: any }\n  }\n  xLabelFormat?: any\n  yLabelFormat?: any\n  header?: any\n}",
+      "code": "type ScatterProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: Color\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: any\n  yLabel?: any\n  info?: {\n    [key: string]: { format: any; label: any }\n  }\n  xLabelFormat?: any\n  yLabelFormat?: any\n  header?: any\n  children?: any\n}",
       "file": "/components/Scatter/index.tsx"
     },
     "MultiSelectProps": {
