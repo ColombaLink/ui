@@ -1,11 +1,11 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { useToolTips } from '~/hooks/useToolTips'
+import { useTooltip } from '~/hooks/useTooltip'
 import { Button, Text, Container, Avatar, Callout, Code } from '~'
 
 export const Tooltips = () => {
-  const tooltipListeners = useToolTips("I'm a tooltip", 'top')
-  const tooltipListenersSec = useToolTips("I'm another tooltip", 'right')
+  const tooltipListeners = useTooltip("I'm a tooltip", 'top')
+  const tooltipListenersSec = useTooltip("I'm another tooltip", 'right')
 
   const codeExample = `
                                           // "text" , "position"

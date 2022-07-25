@@ -1,7 +1,6 @@
 import React from 'react'
 import { PieGraph } from '~/components/PieGraph'
 import { Container, Text } from '~'
-import { styled } from 'inlines'
 
 export const PieGraphs = () => {
   const pieData = [
@@ -30,7 +29,7 @@ export const PieGraphs = () => {
     },
     {
       label: 'What logo?',
-      value: { en: 75, de: 201, nl: 30 },
+      value: { ax: 75, bc: 201, qr: 30 },
     },
     {
       label: 'more data',

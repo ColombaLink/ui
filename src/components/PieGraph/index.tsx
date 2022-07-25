@@ -2,7 +2,6 @@ import React, { FC, CSSProperties, Fragment, useState, useEffect } from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
 import { useToolTips } from '~/hooks'
-import { styled } from 'inlines'
 import { prettyNumber } from '@based/pretty-number'
 import { Space } from '~/types'
 
@@ -54,12 +53,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     color('yellow'),
   ]
 
-  const [toolTipIndex, setToolTipIndex] = useState(0)
-
-  let tooltipListeners
-
-  tooltipListeners = useToolTips(<>{toolTipIndex}</>, 'top')
-
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
@@ -104,21 +97,21 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
 
-    // console.log('total', total)
-    // console.log('total per object', totalPerObject)
-    // console.log('subvaluesperobject', subValuesPerObject)
-    console.log('sub label per object', subLabelsPerObject)
-    console.log('All labels in row', allLabelsInRowArray)
-    // console.log('highest val', highestVal)
-    // console.log('normalized data', normalizedData)
-    // console.log('normalized data per object', normalizedDataPerObject)
-    console.log('supPercentages', subPercentages)
-    console.log('angle percentages', anglePercentages)
+    // // console.log('total', total)
+    // // console.log('total per object', totalPerObject)
+    // // console.log('subvaluesperobject', subValuesPerObject)
+    // console.log('sub label per object', subLabelsPerObject)
+    // console.log('All labels in row', allLabelsInRowArray)
+    // // console.log('highest val', highestVal)
+    // // console.log('normalized data', normalizedData)
+    // // console.log('normalized data per object', normalizedDataPerObject)
+    // console.log('supPercentages', subPercentages)
+    // console.log('angle percentages', anglePercentages)
 
-    //kijk welke angle hier binnen valt
-    console.log('angle added percentages', angleAddedPercentages)
+    // //kijk welke angle hier binnen valt
+    // console.log('angle added percentages', angleAddedPercentages)
 
-    console.log('total percentages per object', totalPercentagesPerObject)
+    // console.log('total percentages per object', totalPercentagesPerObject)
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -132,8 +125,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
 
     percentagePerObject = data.map((item, idx) => (item.value / total) * 100)
-
-    console.log('faf', percentagePerObject)
   }
 
   // little legend check
@@ -162,21 +153,17 @@ export const PieGraph: FC<PieGraphProps> = ({
     const radians = Math.atan2(x - centerPoint, y - centerPoint)
     const flippedAngle = radians * (180 / Math.PI) + 180
     const angle = 360 - flippedAngle
-    console.log('angle', angle)
+    // console.log('angle', angle)
 
-    console.log(
-      'index: ',
-      lastIndex(angleAddedPercentages, (item) => item < angle)
-    )
+    // console.log(
+    //   'index: ',
+    //   lastIndex(angleAddedPercentages, (item) => item < angle)
+    // )
 
     const indexOfAngle = lastIndex(
       angleAddedPercentages,
       (item) => item < angle
     )
-
-    setToolTipIndex(indexOfAngle)
-
-    console.log(toolTipIndex)
 
     console.log(
       allLabelsInRowArray[
@@ -239,7 +226,6 @@ export const PieGraph: FC<PieGraphProps> = ({
             marginBottom: spaceToPx(space),
           }}
           onPointerMove={(e) => mousePositionHandler(e)}
-          {...tooltipListeners}
         >
           {/* /* map and reduce  counter for percentage to degrees* */}
 

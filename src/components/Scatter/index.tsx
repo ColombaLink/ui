@@ -4,7 +4,7 @@ import { Color } from '~/types'
 import { Text } from '../Text'
 import { Button } from '../Button'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { useToolTips } from '~/hooks/useToolTips'
+import { useTooltip } from '~/hooks/useTooltip'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
 type ScatterSliderProps = {
@@ -359,7 +359,7 @@ const ScatterInner: FC<ScatterProps & ScatterInnerProps> = ({
                 )
               }
 
-              tooltipListeners = useToolTips(infoContent, 'top')
+              tooltipListeners = useTooltip(infoContent, 'top')
               //   tooltip = useTooltip(
               //     <div
               //       style={{

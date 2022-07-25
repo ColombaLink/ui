@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC } from 'react'
 import { color } from '~/utils'
 import { Text } from '~'
-import { useToolTips } from '~/hooks'
+import { useTooltip } from '~/hooks'
 import { styled } from 'inlines'
 import { prettyNumber } from '@based/pretty-number'
 
@@ -248,7 +248,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
       </div>
     </div>
   )
-  const tooltipListeners = useToolTips(barGraphToolTip, 'bottom')
+  const tooltipListeners = useTooltip(barGraphToolTip, 'bottom')
 
   return (
     <styled.div
