@@ -48,7 +48,7 @@ export const Login: FC<LoginProps> = ({
           marginTop: 28,
         }}
         onClick={async () => {
-          const state = {}
+          const state = { redirectUrl: window.location.href }
           const { clientId } = await client.call('authGoogle', {
             getClientId: true,
           })
