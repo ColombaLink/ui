@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, Fragment, useState } from 'react'
+import React, { FC, CSSProperties, Fragment, useState, useEffect } from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
 import { useToolTips } from '~/hooks'
@@ -28,8 +28,8 @@ export const PieGraph: FC<PieGraphProps> = ({
   let total,
     highestVal,
     normalizedData,
-    totalPerObject,
     normalizedDataPerObject,
+    totalPerObject,
     subValuesPerObject,
     legendValues,
     legendKeys,
@@ -44,6 +44,7 @@ export const PieGraph: FC<PieGraphProps> = ({
   let subPercentages = []
   let anglePercentageCounter = 0
   let angleAddedPercentages = []
+  let allLabelsInRowArray = []
 
   let themeColorArray = [
     color('accent'),
@@ -53,7 +54,11 @@ export const PieGraph: FC<PieGraphProps> = ({
     color('yellow'),
   ]
 
-  let toolTipListeners
+  const [toolTipIndex, setToolTipIndex] = useState(0)
+
+  let tooltipListeners
+
+  tooltipListeners = useToolTips(<>{toolTipIndex}</>, 'top')
 
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
@@ -92,12 +97,18 @@ export const PieGraph: FC<PieGraphProps> = ({
       angleAddedPercentages.push(anglePercentageCounter)
     }
 
-    toolTipListeners = (blah) => useToolTips(<div>yo afe{blah}</div>, 'bottom')
+    //all labels array
+    for (let i = 0; i < totalPercentagesPerObject.length; i++) {
+      for (let j = 0; j < subLabelsPerObject[i].length; j++) {
+        allLabelsInRowArray.push(subLabelsPerObject[i][j])
+      }
+    }
 
     // console.log('total', total)
     // console.log('total per object', totalPerObject)
     // console.log('subvaluesperobject', subValuesPerObject)
-    // console.log('sub label per object', subLabelsPerObject)
+    console.log('sub label per object', subLabelsPerObject)
+    console.log('All labels in row', allLabelsInRowArray)
     // console.log('highest val', highestVal)
     // console.log('normalized data', normalizedData)
     // console.log('normalized data per object', normalizedDataPerObject)
@@ -141,30 +152,37 @@ export const PieGraph: FC<PieGraphProps> = ({
 
   const lastIndex = (arr, predicate) =>
     arr.map((item) => predicate(item)).lastIndexOf(true) + 1
-  const normalizeRatio = (value, min, max) => (value - min) / (max - min)
 
   const mousePositionHandler = (e: React.MouseEvent) => {
     //console.log(e)
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.pageX - rect.left
     const y = e.pageY - rect.top
-
-    const normalizedX = normalizeRatio(x, 0, rect.width)
-    const normalizedY = normalizeRatio(y, 0, rect.height)
-
     const centerPoint = rect.width / 2
-
     const radians = Math.atan2(x - centerPoint, y - centerPoint)
-    const angle = radians * (180 / Math.PI) + 180
-
-    // console.log('radians', radians)
-    // check if the angle is between the starting and ending angle of a wedge
+    const flippedAngle = radians * (180 / Math.PI) + 180
+    const angle = 360 - flippedAngle
     console.log('angle', angle)
 
-    console.log(lastIndex(angleAddedPercentages, (item) => item < angle))
+    console.log(
+      'index: ',
+      lastIndex(angleAddedPercentages, (item) => item < angle)
+    )
 
-    // console.log('normalizedX', normalizedX)
-    // console.log('normalizedY', normalizedY)
+    const indexOfAngle = lastIndex(
+      angleAddedPercentages,
+      (item) => item < angle
+    )
+
+    setToolTipIndex(indexOfAngle)
+
+    console.log(toolTipIndex)
+
+    console.log(
+      allLabelsInRowArray[
+        lastIndex(angleAddedPercentages, (item) => item < angle)
+      ]
+    )
   }
   return (
     <div
@@ -172,7 +190,6 @@ export const PieGraph: FC<PieGraphProps> = ({
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
-        border: '1px solid black',
       }}
     >
       {/* als het geen object is */}
@@ -220,10 +237,9 @@ export const PieGraph: FC<PieGraphProps> = ({
             width: size,
             height: size,
             marginBottom: spaceToPx(space),
-
-            border: '1px solid green',
           }}
           onPointerMove={(e) => mousePositionHandler(e)}
+          {...tooltipListeners}
         >
           {/* /* map and reduce  counter for percentage to degrees* */}
 
@@ -267,7 +283,6 @@ export const PieGraph: FC<PieGraphProps> = ({
                   )}deg)`,
                   opacity: `calc(1 - 0.${idx * 1})`,
                 }}
-                // {...toolTipListeners(subPercentages[idx].toFixed())}
               ></div>
               <span style={{ display: 'none' }}>
                 {(subTempCounter += +subPercentages[idx])}
