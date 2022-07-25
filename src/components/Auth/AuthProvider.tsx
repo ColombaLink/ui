@@ -16,9 +16,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     if (isGoogleRedirect && window) {
       setShowLoader(true)
-      console.log('wawa')
       const params = new URLSearchParams(window.location.search)
-      console.log('>>>>', Array.from(params.entries()))
       const code = params.get('code')
       const redirect = global.location.origin + '/auth-google'
       let state: any
@@ -34,15 +32,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           state,
         })
         .then(async (response) => {
-          console.log({ response })
-          const { token, refreshToken, email } = response
-          const result = await client.auth(token, { refreshToken })
-          console.log('auth result', { result })
+          const { token, refreshToken, email, id } = response
+          const result = await client.auth(token, { id, refreshToken })
           toast.add(<Toast label={'Signedin as ' + email} type="success" />)
           setShowLoader(false)
-          // if (window && state.redirectUrl) {
-          //   window.location.href = state.redirectUrl
-          // }
+          if (window && state.redirectUrl) {
+            window.location.href = state.redirectUrl
+          }
         })
         .catch((error) => {
           console.error(error)
@@ -50,7 +46,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             <Toast
               label="Authentication Error"
               type="error"
-              description="need to describe this message"
+              description={error.message}
             />
           )
           setShowLoader(false)
