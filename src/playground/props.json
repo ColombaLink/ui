@@ -254,9 +254,58 @@
         "value": {
           "optional": true,
           "type": "number"
+        },
+        "legend": {
+          "optional": true,
+          "type": [
+            "TSTypeLiteral",
+            {
+              "array": "string"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
         }
       },
-      "code": "type BarGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n}",
+      "code": "type BarGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n}",
+      "file": "/components/BarGraph/index.tsx"
+    },
+    "BarSegmentProps": {
+      "name": "BarSegmentProps",
+      "props": {
+        "id": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "value": {
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "label": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "legend": {
+          "optional": true,
+          "type": [
+            {
+              "array": "string"
+            },
+            "TSTypeLiteral"
+          ]
+        }
+      },
+      "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: any\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -1268,9 +1317,13 @@
         "isNested": {
           "optional": true,
           "type": "boolean"
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
         }
       },
-      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n}",
+      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
     },
     "PositionProps": {
@@ -1382,6 +1435,47 @@
       "code": "type PageProps = {\n  children: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Page/index.tsx"
     },
+    "PieGraphProps": {
+      "name": "PieGraphProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "legend": {
+          "optional": true,
+          "type": [
+            "TSTypeLiteral",
+            {
+              "array": "string"
+            }
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "size": {
+          "optional": true,
+          "type": "number"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type PieGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  size?: number\n  space?: Space\n}",
+      "file": "/components/PieGraph/index.tsx"
+    },
     "ProviderProps": {
       "name": "ProviderProps",
       "props": {
@@ -1458,6 +1552,36 @@
       "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<string>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
       "file": "/components/RadioButton/index.tsx"
     },
+    "ResultCardProps": {
+      "name": "ResultCardProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "format": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type ResultCardProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat\n  space?: Space\n}",
+      "file": "/components/ResultCard/index.tsx"
+    },
     "RightSidebarProps": {
       "name": "RightSidebarProps",
       "props": {
@@ -1472,6 +1596,86 @@
       },
       "code": "type RightSidebarProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/RightSidebar/index.tsx"
+    },
+    "ScatterSliderProps": {
+      "name": "ScatterSliderProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "setDragging": {
+          "type": "function"
+        },
+        "isDragging": {
+          "type": "boolean"
+        },
+        "setIndex": {
+          "type": "function"
+        },
+        "index": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        }
+      },
+      "code": "type ScatterSliderProps = {\n  data: {\n    time: number\n    points: { x: number; y: number; label: string; color: Color }[]\n  }[]\n  setDragging: (x: boolean) => void\n  isDragging: boolean\n  setIndex: (x: number) => void\n  index: number\n  width: number\n}",
+      "file": "/components/Scatter/index.tsx"
+    },
+    "ScatterInnerProps": {
+      "name": "ScatterInnerProps",
+      "props": {
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "code": "type ScatterInnerProps = {\n  width: number\n  height: number\n}",
+      "file": "/components/Scatter/index.tsx"
+    },
+    "ScatterProps": {
+      "name": "ScatterProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "xLabel": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "yLabel": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "info": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "xLabelFormat": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "yLabelFormat": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "header": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "children": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type ScatterProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: Color\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: any\n  yLabel?: any\n  info?: {\n    [key: string]: { format: any; label: any }\n  }\n  xLabelFormat?: any\n  yLabelFormat?: any\n  header?: any\n  children?: any\n}",
+      "file": "/components/Scatter/index.tsx"
     },
     "MultiSelectProps": {
       "name": "MultiSelectProps",
