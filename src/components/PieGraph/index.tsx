@@ -36,11 +36,14 @@ export const PieGraph: FC<PieGraphProps> = ({
     subLabelsPerObject,
     totalPercentagesPerObject,
     percentagePerObject,
-    totalSubValuesPerObject
+    totalSubValuesPerObject,
+    anglePercentages
 
   let tempCounter = 0
   let subTempCounter = 0
   let subPercentages = []
+  let anglePercentageCounter = 0
+  let angleAddedPercentages = []
 
   let themeColorArray = [
     color('accent'),
@@ -82,18 +85,28 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
 
+    anglePercentages = subPercentages.map((item, i) => (+item / 100) * 360)
+
+    for (let i = 0; i < anglePercentages.length; i++) {
+      anglePercentageCounter += anglePercentages[i]
+      angleAddedPercentages.push(anglePercentageCounter)
+    }
+
     toolTipListeners = (blah) => useToolTips(<div>yo afe{blah}</div>, 'bottom')
 
-    console.log(subValuesPerObject.length)
-
-    console.log('total', total)
-    console.log('total per object', totalPerObject)
-    console.log('subvaluesperobject', subValuesPerObject)
-    console.log('sub label per object', subLabelsPerObject)
-    console.log('highest val', highestVal)
-    console.log('normalized data', normalizedData)
-    console.log('normalized data per object', normalizedDataPerObject)
+    // console.log('total', total)
+    // console.log('total per object', totalPerObject)
+    // console.log('subvaluesperobject', subValuesPerObject)
+    // console.log('sub label per object', subLabelsPerObject)
+    // console.log('highest val', highestVal)
+    // console.log('normalized data', normalizedData)
+    // console.log('normalized data per object', normalizedDataPerObject)
     console.log('supPercentages', subPercentages)
+    console.log('angle percentages', anglePercentages)
+
+    //kijk welke angle hier binnen valt
+    console.log('angle added percentages', angleAddedPercentages)
+
     console.log('total percentages per object', totalPercentagesPerObject)
   } else if (
     typeof data[0].value === 'number' ||
@@ -126,10 +139,12 @@ export const PieGraph: FC<PieGraphProps> = ({
     return (percentage * 360) / 100
   }
 
+  const lastIndex = (arr, predicate) =>
+    arr.map((item) => predicate(item)).lastIndexOf(true) + 1
   const normalizeRatio = (value, min, max) => (value - min) / (max - min)
 
   const mousePositionHandler = (e: React.MouseEvent) => {
-    console.log(e)
+    //console.log(e)
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.pageX - rect.left
     const y = e.pageY - rect.top
@@ -137,13 +152,28 @@ export const PieGraph: FC<PieGraphProps> = ({
     const normalizedX = normalizeRatio(x, 0, rect.width)
     const normalizedY = normalizeRatio(y, 0, rect.height)
 
-    console.log('normalizedX', normalizedX)
-    console.log('normalizedY', normalizedY)
-  }
+    const centerPoint = rect.width / 2
 
+    const radians = Math.atan2(x - centerPoint, y - centerPoint)
+    const angle = radians * (180 / Math.PI) + 180
+
+    // console.log('radians', radians)
+    // check if the angle is between the starting and ending angle of a wedge
+    console.log('angle', angle)
+
+    console.log(lastIndex(angleAddedPercentages, (item) => item < angle))
+
+    // console.log('normalizedX', normalizedX)
+    // console.log('normalizedY', normalizedY)
+  }
   return (
     <div
-      style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        border: '1px solid black',
+      }}
     >
       {/* als het geen object is */}
       {typeof data[0].value !== 'object' && (
@@ -155,7 +185,6 @@ export const PieGraph: FC<PieGraphProps> = ({
           }}
         >
           {/* map and reduce  counter for percentage to degrees*/}
-          {/* if data value is not another object */}
 
           {data.map((item, idx) => (
             <Fragment key={idx}>
@@ -184,17 +213,19 @@ export const PieGraph: FC<PieGraphProps> = ({
       )}
 
       {/* als het wel een object is */}
+
       {typeof data[0].value === 'object' && (
         <div
           style={{
             width: size,
             height: size,
             marginBottom: spaceToPx(space),
+
+            border: '1px solid green',
           }}
           onPointerMove={(e) => mousePositionHandler(e)}
         >
-          {/* map and reduce  counter for percentage to degrees*/}
-          {/* if data value is not another object */}
+          {/* /* map and reduce  counter for percentage to degrees* */}
 
           {data.map((item, index) => (
             <Fragment key={index}>

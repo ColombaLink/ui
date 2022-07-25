@@ -1,6 +1,7 @@
 import React from 'react'
 import { PieGraph } from '~/components/PieGraph'
 import { Container, Text } from '~'
+import { styled } from 'inlines'
 
 export const PieGraphs = () => {
   const pieData = [
