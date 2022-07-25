@@ -1,7 +1,14 @@
-import React, { FC, CSSProperties, Fragment, useState, useEffect } from 'react'
+import React, {
+  FC,
+  CSSProperties,
+  Fragment,
+  useState,
+  useEffect,
+  useRef,
+} from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
-import { useToolTips } from '~/hooks'
+import { useTooltip } from '~/hooks'
 import { prettyNumber } from '@based/pretty-number'
 import { Space } from '~/types'
 
@@ -52,6 +59,10 @@ export const PieGraph: FC<PieGraphProps> = ({
     color('babyblue'),
     color('yellow'),
   ]
+
+  const [toolTipIndex, setToolTipIndex] = useState(0)
+
+  const mouseLabel = useRef<HTMLDivElement>(null)
 
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
@@ -165,12 +176,18 @@ export const PieGraph: FC<PieGraphProps> = ({
       (item) => item < angle
     )
 
+    setToolTipIndex(indexOfAngle)
+
     console.log(
       allLabelsInRowArray[
         lastIndex(angleAddedPercentages, (item) => item < angle)
       ]
     )
+
+    mouseLabel.current.style.left = `${x + 12}px`
+    mouseLabel.current.style.top = `${y - 24}px`
   }
+
   return (
     <div
       style={{
@@ -275,6 +292,21 @@ export const PieGraph: FC<PieGraphProps> = ({
               </span>
             </Fragment>
           ))}
+          <div
+            ref={mouseLabel}
+            style={{
+              position: 'absolute',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              backgroundColor: '#fff',
+              boxShadow: 'rgb(0 0 0 / 12%) 0px 4px 10px',
+            }}
+          >
+            {allLabelsInRowArray[toolTipIndex] +
+              ' - ' +
+              subPercentages[toolTipIndex].toFixed(1) +
+              '%'}
+          </div>
         </div>
       )}
 
