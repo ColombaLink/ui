@@ -1,9 +1,9 @@
 import React, { CSSProperties, FC } from 'react'
 import { color } from '~/utils'
 import { Text } from '~'
-import { useToolTips } from '~/hooks'
+import { useTooltip } from '~/hooks'
 import { styled } from 'inlines'
-import { parseNumber } from '~/utils'
+import { prettyNumber } from '@based/pretty-number'
 
 type BarGraphProps = {
   data: { value: number | { [key: string]: number }; label: string }[]
@@ -26,10 +26,14 @@ export const BarGraph: FC<BarGraphProps> = ({
     totalPerObject,
     normalizedDataPerObject,
     subValuesPerObject,
-    legendValues
+    legendValues,
+    legendKeys,
+    subLabelsPerObject
 
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
+    subValuesPerObject = data.map((item) => Object.values(item.value))
+    subLabelsPerObject = data.map((item) => Object.keys(item.value))
     // @ts-ignore
     totalPerObject = data.map((item) =>
       Object.values(item.value).reduce((t, value) => t + value, 0)
@@ -43,8 +47,6 @@ export const BarGraph: FC<BarGraphProps> = ({
         (+(value / totalPerObject[idx]) * 100).toFixed(1)
       )
     )
-
-    subValuesPerObject = data.map((item) => Object.values(item.value))
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -61,8 +63,11 @@ export const BarGraph: FC<BarGraphProps> = ({
   // little legend check
   if (legend && typeof legend === 'object') {
     legendValues = Object.values(legend)
+    legendKeys = Object.keys(legend)
   } else if (legend && Array.isArray(legend)) {
     legendValues = legend
+  } else {
+    legendValues = undefined
   }
 
   return (
@@ -114,7 +119,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               >
                 {typeof item.value !== 'object' && (
                   <Text color="accent:contrast" style={{ marginRight: 4 }}>
-                    {parseNumber(item.value, 'number-short')} (
+                    {prettyNumber(item.value, 'number-short')} (
                     {normalizedData[idx].toFixed(1) + '%'})
                   </Text>
                 )}
@@ -129,7 +134,7 @@ export const BarGraph: FC<BarGraphProps> = ({
                     }}
                   >
                     <Text color="accent:contrast">
-                      {parseNumber(totalPerObject[idx], 'number-short')} (
+                      {prettyNumber(totalPerObject[idx], 'number-short')} (
                       {normalizedData[idx].toFixed(1) + '%'})
                       {/* ({(+item.value / (total / 100)).toFixed(1)}%) */}
                     </Text>
@@ -159,11 +164,12 @@ export const BarGraph: FC<BarGraphProps> = ({
                         key={key}
                         id={key}
                         width={item}
-                        legend={legendValues[key]}
-                        value={parseNumber(
+                        legend={legendValues && legendValues[key]}
+                        value={prettyNumber(
                           subValuesPerObject[idx][key],
                           'number-short'
                         )}
+                        label={subLabelsPerObject[idx][key]}
                       />
                     ))}
                   </styled.div>
@@ -182,6 +188,7 @@ type BarSegmentProps = {
   width: number
   value: string | number
   style?: CSSProperties
+  label?: any
   legend?: string[] | { [key: string]: string }
 }
 
@@ -190,6 +197,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
   style,
   value,
   legend,
+  label,
   id,
   ...props
 }) => {
@@ -202,6 +210,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
         padding: '8px',
       }}
     >
+      {/* otherwise div with border doesnt work */}
       {legend && (
         <div
           style={{
@@ -212,6 +221,19 @@ export const BarSegment: FC<BarSegmentProps> = ({
           <Text space="8px">{legend}</Text>
         </div>
       )}
+
+      {!legend && label && (
+        <div
+          style={{
+            borderBottom: `1px solid ${color('border')}`,
+            marginBottom: 8,
+          }}
+        >
+          <Text space="8px">{label}</Text>
+        </div>
+      )}
+      {/* Prettify format issue?? */}
+
       <div
         style={{
           display: 'flex',
@@ -226,7 +248,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
       </div>
     </div>
   )
-  const tooltipListeners = useToolTips(barGraphToolTip, 'bottom')
+  const tooltipListeners = useTooltip(barGraphToolTip, 'bottom')
 
   return (
     <styled.div

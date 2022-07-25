@@ -2,13 +2,13 @@ import React, { ReactNode } from 'react'
 import { removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
 
-export const useToolTips = (
+export const useTooltip = (
   text: string | ReactNode,
   position: 'top' | 'bottom' | 'left' | 'right' = 'bottom'
 ) => {
   const onMouseEnter = useOverlay(
     () => <>{text}</>,
-    { nice: true },
+    null,
     { variant: 'detached', position: position },
 
     undefined,
