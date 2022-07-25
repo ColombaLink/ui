@@ -1,14 +1,7 @@
-import React, {
-  FC,
-  CSSProperties,
-  Fragment,
-  useState,
-  useEffect,
-  useRef,
-} from 'react'
+import React, { FC, CSSProperties, Fragment, useState, useRef } from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
-import { useTooltip } from '~/hooks'
+
 import { prettyNumber } from '@based/pretty-number'
 import { Space } from '~/types'
 
@@ -53,14 +46,23 @@ export const PieGraph: FC<PieGraphProps> = ({
   let allLabelsInRowArray = []
 
   let themeColorArray = [
-    color('accent'),
-    color('green'),
-    color('red'),
-    color('babyblue'),
-    color('yellow'),
+    'pink',
+    'grey',
+    'yellow',
+    'red',
+    'blue',
+    'black',
+    'green',
+    'purple',
+    'orange',
+    'brown',
+    'lightblue',
+    'lightgreen',
+    'lightpurple',
   ]
 
   const [toolTipIndex, setToolTipIndex] = useState(0)
+  const [showMouseLabel, setShowMouseLabel] = useState(false)
 
   const mouseLabel = useRef<HTMLDivElement>(null)
 
@@ -110,19 +112,18 @@ export const PieGraph: FC<PieGraphProps> = ({
 
     // // console.log('total', total)
     // // console.log('total per object', totalPerObject)
-    // // console.log('subvaluesperobject', subValuesPerObject)
+    //  console.log('subvaluesperobject', subValuesPerObject)
     // console.log('sub label per object', subLabelsPerObject)
     // console.log('All labels in row', allLabelsInRowArray)
     // // console.log('highest val', highestVal)
     // // console.log('normalized data', normalizedData)
-    // // console.log('normalized data per object', normalizedDataPerObject)
+    //  console.log('normalized data per object', normalizedDataPerObject)
     // console.log('supPercentages', subPercentages)
-    // console.log('angle percentages', anglePercentages)
+    console.log('total percentages per object', totalPercentagesPerObject)
+    console.log('angle percentages', anglePercentages)
 
     // //kijk welke angle hier binnen valt
-    // console.log('angle added percentages', angleAddedPercentages)
-
-    // console.log('total percentages per object', totalPercentagesPerObject)
+    console.log('angle added percentages', angleAddedPercentages)
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -134,7 +135,7 @@ export const PieGraph: FC<PieGraphProps> = ({
     highestVal = Math.max(...data.map((item) => item.value))
     // @ts-ignore
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
-
+    // @ts-ignore
     percentagePerObject = data.map((item, idx) => (item.value / total) * 100)
   }
 
@@ -148,6 +149,30 @@ export const PieGraph: FC<PieGraphProps> = ({
     legendValues = undefined
   }
 
+  const toConicGradientValues = (arr) => {
+    let tempArr = []
+
+    for (let i = 0; i < arr.length; i++) {
+      if (i === 0) {
+        tempArr.push(`red ${arr[i].toFixed(2)}deg ,`)
+      } else if (i === arr.length - 1) {
+        tempArr.push(
+          `yellow  ${arr[i - 1].toFixed(2)}deg ${arr[i].toFixed(2)}deg`
+        )
+      } else {
+        tempArr.push(
+          `${themeColorArray[i]} ${arr[i - 1].toFixed(2)}deg ${arr[i].toFixed(
+            2
+          )}deg ,`
+        )
+      }
+    }
+
+    return tempArr.join('')
+  }
+
+  console.log(toConicGradientValues(angleAddedPercentages))
+
   const percentageToDegrees = (percentage: number) => {
     return (percentage * 360) / 100
   }
@@ -156,7 +181,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     arr.map((item) => predicate(item)).lastIndexOf(true) + 1
 
   const mousePositionHandler = (e: React.MouseEvent) => {
-    //console.log(e)
     const rect = e.currentTarget.getBoundingClientRect()
     const x = e.pageX - rect.left
     const y = e.pageY - rect.top
@@ -164,12 +188,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     const radians = Math.atan2(x - centerPoint, y - centerPoint)
     const flippedAngle = radians * (180 / Math.PI) + 180
     const angle = 360 - flippedAngle
-    // console.log('angle', angle)
-
-    // console.log(
-    //   'index: ',
-    //   lastIndex(angleAddedPercentages, (item) => item < angle)
-    // )
 
     const indexOfAngle = lastIndex(
       angleAddedPercentages,
@@ -178,14 +196,10 @@ export const PieGraph: FC<PieGraphProps> = ({
 
     setToolTipIndex(indexOfAngle)
 
-    console.log(
-      allLabelsInRowArray[
-        lastIndex(angleAddedPercentages, (item) => item < angle)
-      ]
-    )
-
-    mouseLabel.current.style.left = `${x + 12}px`
-    mouseLabel.current.style.top = `${y - 24}px`
+    if (showMouseLabel) {
+      mouseLabel.current.style.left = `${x + 12}px`
+      mouseLabel.current.style.top = `${y - 24}px`
+    }
   }
 
   return (
@@ -195,6 +209,12 @@ export const PieGraph: FC<PieGraphProps> = ({
         flexDirection: 'column',
         position: 'relative',
       }}
+      onMouseLeave={() => {
+        setShowMouseLabel(false)
+      }}
+      onMouseEnter={() => {
+        setShowMouseLabel(true)
+      }}
     >
       {/* als het geen object is */}
       {typeof data[0].value !== 'object' && (
@@ -203,6 +223,8 @@ export const PieGraph: FC<PieGraphProps> = ({
             width: size,
             height: size,
             marginBottom: spaceToPx(space),
+            borderRadius: '50%',
+            overflow: 'hidden',
           }}
         >
           {/* map and reduce  counter for percentage to degrees*/}
@@ -220,7 +242,6 @@ export const PieGraph: FC<PieGraphProps> = ({
                     'accent:hover'
                   )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
-
                   opacity: `calc(1 - 0.${idx * 2})`,
                 }}
               ></div>
@@ -245,8 +266,21 @@ export const PieGraph: FC<PieGraphProps> = ({
           onPointerMove={(e) => mousePositionHandler(e)}
         >
           {/* /* map and reduce  counter for percentage to degrees* */}
+          <div
+            style={{
+              position: 'absolute',
+              width: size,
+              height: size,
+              borderRadius: size / 2,
+              background: `conic-gradient(${toConicGradientValues(
+                angleAddedPercentages
+              )})`,
 
-          {data.map((item, index) => (
+              opacity: `1`,
+            }}
+          ></div>
+
+          {/* {data.map((item, index) => (
             <Fragment key={index}>
               <div
                 key={index}
@@ -264,12 +298,10 @@ export const PieGraph: FC<PieGraphProps> = ({
               <span style={{ display: 'none' }}>
                 {(tempCounter += +totalPercentagesPerObject[index])}
               </span>
-              {console.log(tempCounter)}
             </Fragment>
-          ))}
-
+          ))} */}
           {/* sub values per object  */}
-          {subPercentages.map((value, idx) => (
+          {/* {subPercentages.map((value, idx) => (
             <Fragment key={idx}>
               <div
                 key={idx}
@@ -278,7 +310,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                   width: size,
                   height: size,
                   borderRadius: size / 2,
-                  background: ` conic-gradient(${'rgba(255,255,255,0.5)'} calc(${
+                  background: `conic-gradient(${'rgba(255,255,255,0.33)'} calc(${
                     subPercentages[idx]
                   }*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(
@@ -291,22 +323,25 @@ export const PieGraph: FC<PieGraphProps> = ({
                 {(subTempCounter += +subPercentages[idx])}
               </span>
             </Fragment>
-          ))}
-          <div
-            ref={mouseLabel}
-            style={{
-              position: 'absolute',
-              padding: '4px 8px',
-              borderRadius: '4px',
-              backgroundColor: '#fff',
-              boxShadow: 'rgb(0 0 0 / 12%) 0px 4px 10px',
-            }}
-          >
-            {allLabelsInRowArray[toolTipIndex] +
-              ' - ' +
-              subPercentages[toolTipIndex].toFixed(1) +
-              '%'}
-          </div>
+          ))} */}
+          {showMouseLabel ? (
+            <div
+              ref={mouseLabel}
+              style={{
+                position: 'absolute',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                backgroundColor: '#fff',
+                boxShadow: 'rgb(0 0 0 / 12%) 0px 4px 10px',
+                border: `1px solid ${color('border')}`,
+              }}
+            >
+              {allLabelsInRowArray[toolTipIndex] +
+                ' - ' +
+                subPercentages[toolTipIndex].toFixed(1) +
+                '%'}
+            </div>
+          ) : null}
         </div>
       )}
 
@@ -326,13 +361,14 @@ export const PieGraph: FC<PieGraphProps> = ({
                   typeof data[0].value !== 'object'
                     ? color('accent')
                     : themeColorArray[idx],
-                opacity: `calc(1 - 0.${idx * 2})`,
+                opacity: `calc(1.2 - 0.${idx * 2})`,
                 marginRight: 12,
                 border: `1px solid ${color('border')}`,
               }}
             ></div>
             {typeof data[0].value !== 'object' && (
               <Text>
+                {/* @ts-ignore */}
                 {item.label} - {prettyNumber(item.value, 'number-short')} (
                 {percentagePerObject[idx].toFixed(0) + '%'})
               </Text>
@@ -349,7 +385,3 @@ export const PieGraph: FC<PieGraphProps> = ({
     </div>
   )
 }
-
-// const pieSegment = () => {
-//   return <div>blah</div>
-// }
