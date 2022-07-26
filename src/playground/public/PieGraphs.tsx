@@ -1,6 +1,7 @@
 import React from 'react'
 import { PieGraph } from '~/components/PieGraph'
 import { Container, Text } from '~'
+import ComponentViewer from '../ComponentViewer'
 
 export const PieGraphs = () => {
   const pieData = [
@@ -15,6 +16,10 @@ export const PieGraphs = () => {
     {
       label: 'What logo?',
       value: 146,
+    },
+    {
+      label: 'Mmm ?',
+      value: 126,
     },
   ]
 
@@ -39,13 +44,24 @@ export const PieGraphs = () => {
 
   return (
     <div>
-      <Text space>PieGraphs:</Text>
-      <div
-        style={{ display: 'flex', width: 700, justifyContent: 'space-between' }}
-      >
-        <PieGraph data={pieData} space="32px" size={240} />
-        <PieGraph data={advancedPieData} space="32px" size={240} />
-      </div>
+      <ComponentViewer
+        component={PieGraph}
+        propsName="PieGraphProps"
+        examples={[
+          {
+            props: {
+              data: pieData,
+              space: '24px',
+            },
+          },
+          {
+            props: {
+              data: advancedPieData,
+              space: '24px',
+            },
+          },
+        ]}
+      />
     </div>
   )
 }

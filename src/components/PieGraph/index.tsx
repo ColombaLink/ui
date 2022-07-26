@@ -1,9 +1,9 @@
 import React, { FC, CSSProperties, Fragment, useState, useRef } from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
-
 import { prettyNumber } from '@based/pretty-number'
 import { Space } from '~/types'
+import { styled } from 'inlines'
 
 type PieGraphProps = {
   data: { value: number | { [key: string]: number }; label: string }[]
@@ -44,21 +44,15 @@ export const PieGraph: FC<PieGraphProps> = ({
   let anglePercentageCounter = 0
   let angleAddedPercentages = []
   let allLabelsInRowArray = []
+  let newColorArr = []
 
   let themeColorArray = [
-    'pink',
-    'grey',
-    'yellow',
-    'red',
-    'blue',
-    'black',
-    'green',
-    'purple',
-    'orange',
-    'brown',
-    'lightblue',
-    'lightgreen',
-    'lightpurple',
+    ['#45004e', '#D08FE3', '#BB49DE', '#563B5E', '#9038AB'],
+    ['orange', '#E3A359', '#DE8014', '#5E4325', '#AD640F'],
+    ['#294D07', '#9CE655', '#6CCC12', '#284F03', '#529C0E'],
+    ['red', '#D5483C', '#CC1100', '#4F0A04', '#9E0D00'],
+    ['#00598C', '#00304D', '#0081CC', '#0089D9', '#0072B3'],
+    ['#8C4400', '#4D2500', '#CC6300', '#D96900', '#B35700'],
   ]
 
   const [toolTipIndex, setToolTipIndex] = useState(0)
@@ -110,20 +104,20 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
 
-    // // console.log('total', total)
-    // // console.log('total per object', totalPerObject)
-    //  console.log('subvaluesperobject', subValuesPerObject)
-    // console.log('sub label per object', subLabelsPerObject)
-    // console.log('All labels in row', allLabelsInRowArray)
-    // // console.log('highest val', highestVal)
-    // // console.log('normalized data', normalizedData)
-    //  console.log('normalized data per object', normalizedDataPerObject)
-    // console.log('supPercentages', subPercentages)
-    console.log('total percentages per object', totalPercentagesPerObject)
-    console.log('angle percentages', anglePercentages)
+    console.log(subValuesPerObject)
 
-    // //kijk welke angle hier binnen valt
-    console.log('angle added percentages', angleAddedPercentages)
+    const newColorArrayFun = () => {
+      for (let i = 0; i < totalPerObject.length; i++) {
+        for (let j = 0; j < subValuesPerObject[0].length; j++) {
+          newColorArr.push(themeColorArray[i][j])
+        }
+      }
+    }
+    newColorArrayFun()
+
+    console.log('new color Arr', newColorArr)
+
+    console.log(totalPerObject.length)
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -149,30 +143,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     legendValues = undefined
   }
 
-  const toConicGradientValues = (arr) => {
-    let tempArr = []
-
-    for (let i = 0; i < arr.length; i++) {
-      if (i === 0) {
-        tempArr.push(`red ${arr[i].toFixed(2)}deg ,`)
-      } else if (i === arr.length - 1) {
-        tempArr.push(
-          `yellow  ${arr[i - 1].toFixed(2)}deg ${arr[i].toFixed(2)}deg`
-        )
-      } else {
-        tempArr.push(
-          `${themeColorArray[i]} ${arr[i - 1].toFixed(2)}deg ${arr[i].toFixed(
-            2
-          )}deg ,`
-        )
-      }
-    }
-
-    return tempArr.join('')
-  }
-
-  console.log(toConicGradientValues(angleAddedPercentages))
-
   const percentageToDegrees = (percentage: number) => {
     return (percentage * 360) / 100
   }
@@ -193,6 +163,8 @@ export const PieGraph: FC<PieGraphProps> = ({
       angleAddedPercentages,
       (item) => item < angle
     )
+
+    console.log(toolTipIndex)
 
     setToolTipIndex(indexOfAngle)
 
@@ -239,7 +211,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                   height: size,
                   borderRadius: size / 2,
                   background: ` conic-gradient(${color(
-                    'accent:hover'
+                    'accent'
                   )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `calc(1 - 0.${idx * 2})`,
@@ -254,7 +226,7 @@ export const PieGraph: FC<PieGraphProps> = ({
         </div>
       )}
 
-      {/* als het wel een object is */}
+      {/****************************  als het wel een object is *****************************/}
 
       {typeof data[0].value === 'object' && (
         <div
@@ -265,22 +237,7 @@ export const PieGraph: FC<PieGraphProps> = ({
           }}
           onPointerMove={(e) => mousePositionHandler(e)}
         >
-          {/* /* map and reduce  counter for percentage to degrees* */}
-          <div
-            style={{
-              position: 'absolute',
-              width: size,
-              height: size,
-              borderRadius: size / 2,
-              background: `conic-gradient(${toConicGradientValues(
-                angleAddedPercentages
-              )})`,
-
-              opacity: `1`,
-            }}
-          ></div>
-
-          {/* {data.map((item, index) => (
+          {data.map((item, index) => (
             <Fragment key={index}>
               <div
                 key={index}
@@ -289,7 +246,8 @@ export const PieGraph: FC<PieGraphProps> = ({
                   width: size,
                   height: size,
                   borderRadius: size / 2,
-                  background: ` conic-gradient(${themeColorArray[index]} calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
+                  // background: ` conic-gradient(${themeColorArray[index]} calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
+                  background: ` conic-gradient(white calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `1`,
                 }}
@@ -299,31 +257,29 @@ export const PieGraph: FC<PieGraphProps> = ({
                 {(tempCounter += +totalPercentagesPerObject[index])}
               </span>
             </Fragment>
-          ))} */}
+          ))}
           {/* sub values per object  */}
-          {/* {subPercentages.map((value, idx) => (
+          {subPercentages.map((value, idx) => (
             <Fragment key={idx}>
-              <div
+              <styled.div
                 key={idx}
                 style={{
                   position: 'absolute',
                   width: size,
                   height: size,
                   borderRadius: size / 2,
-                  background: `conic-gradient(${'rgba(255,255,255,0.33)'} calc(${
-                    subPercentages[idx]
-                  }*1%),#0000 0)`,
+                  background: `conic-gradient(${newColorArr[idx]} calc(${subPercentages[idx]}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(
                     subTempCounter
                   )}deg)`,
-                  opacity: `calc(1 - 0.${idx * 1})`,
+                  opacity: idx === toolTipIndex ? '0.75' : 1,
                 }}
-              ></div>
+              ></styled.div>
               <span style={{ display: 'none' }}>
                 {(subTempCounter += +subPercentages[idx])}
               </span>
             </Fragment>
-          ))} */}
+          ))}
           {showMouseLabel ? (
             <div
               ref={mouseLabel}
@@ -345,7 +301,7 @@ export const PieGraph: FC<PieGraphProps> = ({
         </div>
       )}
 
-      {/* legenda if you want */}
+      {/*************************  legenda if you want **************/}
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {data.map((item, idx) => (
@@ -360,8 +316,11 @@ export const PieGraph: FC<PieGraphProps> = ({
                 background:
                   typeof data[0].value !== 'object'
                     ? color('accent')
-                    : themeColorArray[idx],
-                opacity: `calc(1.2 - 0.${idx * 2})`,
+                    : themeColorArray[idx][0],
+                opacity:
+                  typeof data[0].value !== 'object'
+                    ? `calc(1.2 - 0.${idx * 2})`
+                    : '1',
                 marginRight: 12,
                 border: `1px solid ${color('border')}`,
               }}
