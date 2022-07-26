@@ -14,10 +14,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   const [isGoogleRedirect] = useRoute('/auth-google')
   const [isMicrosoftRedirect] = useRoute('/auth-microsoft')
+  const [isGithubRedirect] = useRoute('/auth-github')
   const thirdPartyRedirect = isGoogleRedirect
     ? 'google'
     : isMicrosoftRedirect
     ? 'microsoft'
+    : isGithubRedirect
+    ? 'github'
     : false
   useEffect(() => {
     if (thirdPartyRedirect && window) {
@@ -31,6 +34,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       } catch (error) {
         console.warn(error)
       }
+      console.log({ params, code })
       const codeVerifier = window.sessionStorage.getItem('code_verifier')
       client
         .call(

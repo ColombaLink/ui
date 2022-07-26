@@ -8,9 +8,11 @@ import {
 
 type MicrosoftButtonProps = {
   width?: number | string
+  label?: string
 }
 export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
   width = '100%',
+  label = 'Continue with Microsoft',
 }) => {
   const client = useClient()
   return (
@@ -45,7 +47,7 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
       }}
       space
     >
-      Signup with Microsoft
+      {label}
     </Button>
   )
 }

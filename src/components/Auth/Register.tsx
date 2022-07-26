@@ -2,25 +2,17 @@ import React, { FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { useClient } from '@based/react'
-import {
-  EmailIcon,
-  LockIcon,
-  CheckIcon,
-  CloseIcon,
-  ErrorIcon,
-  GoogleIcon,
-} from '~/icons'
+import { EmailIcon, LockIcon, CheckIcon, CloseIcon, ErrorIcon } from '~/icons'
 import { Callout } from '../Callout'
 import { email as isEmail, validatePassword } from '@saulx/validators'
 import { border, color } from '~/utils'
 import { Separator } from '../Separator'
-import {
-  generateCodeChallengeFromVerifier,
-  generateCodeVerifier,
-} from './utils'
+import { GoogleButton } from './GoogleButton'
+import { MicrosoftButton } from './MicrosoftButton'
+import { GithubButton } from './GithubButton'
 
 type RegisterProps = {
-  width?: number
+  width?: number | string
   email?: string
   onRegister?: (data: { email: string; password: string; name: string }) => void
 }
@@ -60,69 +52,9 @@ export const Register: FC<RegisterProps> = ({
         width,
       }}
     >
-      <Button
-        icon={GoogleIcon}
-        textAlign="center"
-        style={{
-          width,
-          height: 48,
-          marginTop: 28,
-        }}
-        onClick={async () => {
-          const state = { redirectUrl: window.location.href }
-          const { clientId } = await client.call('authGoogle', {
-            getClientId: true,
-          })
-          if (!clientId) {
-            throw new Error(
-              'Cannot get client id from configuration. Google set up correctly?'
-            )
-          }
-          const thirdPartyRedirect = global.location.origin + '/auth-google'
-          const scope =
-            'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
-          const url = `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${scope}&response_type=code&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`
-          global.location.href = `${url}&state=${encodeURIComponent(
-            JSON.stringify(state)
-          )}`
-        }}
-        space
-      >
-        Signup with Google
-      </Button>
-      <Button
-        textAlign="center"
-        style={{
-          width,
-          height: 48,
-        }}
-        onClick={async () => {
-          const state = { redirectUrl: window.location.href }
-          const codeVerifier = generateCodeVerifier()
-          const codeChallenge = await generateCodeChallengeFromVerifier(
-            codeVerifier
-          )
-          console.log({
-            codeVerifier,
-            codeChallenge,
-            wawa: codeChallenge.length,
-            yeye: codeVerifier.length,
-          })
-          window.sessionStorage.setItem('code_verifier', codeVerifier)
-          const { clientId } = await client.call('authMicrosoft', {
-            getClientId: true,
-          })
-          const thirdPartyRedirect = global.location.origin + '/auth-microsoft'
-          const scope = encodeURI('openid email profile User.Read')
-          const url = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&scope=${scope}&redirect_uri=${thirdPartyRedirect}&response_type=code&code_challenge=${codeChallenge}&code_challenge_method=S256`
-          global.location.href = `${url}&state=${encodeURIComponent(
-            JSON.stringify(state)
-          )}`
-        }}
-        space
-      >
-        Signup with Microsoft
-      </Button>
+      <GoogleButton width={width} label="Signup with Google" />
+      <MicrosoftButton width={width} label="Signup with Microsoft" />
+      <GithubButton width={width} label="Signup with GitHub" />
       <Separator>or</Separator>
       <Input
         space="16px"

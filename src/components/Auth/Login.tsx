@@ -8,6 +8,9 @@ import { color, Separator } from '~'
 import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
 import useGlobalState from '@based/use-global-state'
+import { GoogleButton } from './GoogleButton'
+import { MicrosoftButton } from './MicrosoftButton'
+import { GithubButton } from './GithubButton'
 
 type LoginProps = {
   width?: number
@@ -39,36 +42,9 @@ export const Login: FC<LoginProps> = ({
         width,
       }}
     >
-      <Button
-        icon={GoogleIcon}
-        textAlign="center"
-        style={{
-          width,
-          height: 48,
-          marginTop: 28,
-        }}
-        onClick={async () => {
-          const state = { redirectUrl: window.location.href }
-          const { clientId } = await client.call('authGoogle', {
-            getClientId: true,
-          })
-          if (!clientId) {
-            throw new Error(
-              'Cannot get client id from configuration. Google set up correctly?'
-            )
-          }
-          const thirdPartyRedirect = global.location.origin + '/auth-google'
-          const scope =
-            'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
-          const url = `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${scope}&response_type=code&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`
-          global.location.href = `${url}&state=${encodeURIComponent(
-            JSON.stringify(state)
-          )}`
-        }}
-        space
-      >
-        Continue with Google
-      </Button>
+      <GoogleButton width={width} />
+      <MicrosoftButton width={width} />
+      <GithubButton width={width} />
       <Separator>or</Separator>
 
       <Input

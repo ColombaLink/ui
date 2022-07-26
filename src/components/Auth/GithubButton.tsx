@@ -1,19 +1,18 @@
 import { useClient } from '@based/react'
 import React, { FC } from 'react'
-import { Button, GoogleIcon } from '~'
+import { Button } from '~'
 
-type GoogleButtonProps = {
+type GithubButtonProps = {
   width?: number | string
   label?: string
 }
-export const GoogleButton: FC<GoogleButtonProps> = ({
+export const GithubButton: FC<GithubButtonProps> = ({
   width = '100%',
-  label = 'Continue with Google',
+  label = 'Continue with Github',
 }) => {
   const client = useClient()
   return (
     <Button
-      icon={GoogleIcon}
       textAlign="center"
       style={{
         width,
@@ -22,7 +21,7 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }
-        const { clientId } = await client.call('authGoogle', {
+        const { clientId } = await client.call('authGithub', {
           getClientId: true,
         })
         if (!clientId) {
@@ -30,10 +29,9 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
             'Cannot get client id from configuration. Google set up correctly?'
           )
         }
-        const thirdPartyRedirect = global.location.origin + '/auth-google'
-        const scope =
-          'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
-        const url = `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${scope}&response_type=code&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`
+        const thirdPartyRedirect = global.location.origin + '/auth-github'
+        const scope = encodeURI('user:email')
+        const url = `https://github.com/login/oauth/authorize?scope=${scope}&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`
         global.location.href = `${url}&state=${encodeURIComponent(
           JSON.stringify(state)
         )}`
