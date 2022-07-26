@@ -4,13 +4,33 @@ import { Text, Button, Card } from '~'
 import { color, spaceToPx } from '~/utils'
 import { ExpandRightIcon } from '~'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyDate } from '@based/pretty-date'
+import { useTooltip } from '~'
 
-// type ScatterResultProps = {
-//   data?: {}
-// }
-
+type ScatterResultProps = {
+  data: {
+    time: number
+    points: {
+      x: number
+      y: number
+      label: string
+      color: any
+      info?: { [key: string]: string | number }
+    }[]
+  }[]
+  xLabel?: string | number | NumberFormat
+  yLabel?: string | number | NumberFormat
+  info?: {
+    [key: string]: { format: string; label: string | number }
+  }
+  xLabelFormat?: NumberFormat
+  yLabelFormat?: NumberFormat
+  header?: string
+  width?: number
+  height?: number
+}
 // Scatter word ScatterResult
-export const ScatterResult = (props) => {
+export const ScatterResult: FC<ScatterResultProps> = (props) => {
   console.log(props)
   return (
     <div>
@@ -19,18 +39,10 @@ export const ScatterResult = (props) => {
   )
 }
 
-const ScatterInner = ({
-  data,
-  width,
-  height,
-  header,
-  xLabelFormat,
-  yLabelFormat,
-  info,
-}) => {
+const ScatterInner: FC<
+  ScatterResultProps & { width?: number; height?: number }
+> = ({ data, width, height, header, xLabelFormat, yLabelFormat, info }) => {
   const ref = useRef<number>()
-
-  console.log('from inner', data, width, height, header)
 
   let [index, setIndex] = useState(0)
   const [isDragging, setDragging] = useState(false)
@@ -108,6 +120,7 @@ const ScatterInner = ({
         }}
       >
         <Text>
+          {prettyNumber(spread * i + minX, xLabelFormat || 'number-short')}
           {/* {{ value: spread * i + minX, format: xLabelFormat || 'number-short' }} */}
         </Text>
       </div>
@@ -147,10 +160,11 @@ const ScatterInner = ({
         }}
       >
         <Text>
-          {{
+          {prettyNumber(maxY - spreadY * i, yLabelFormat || 'number-short')}
+          {/* {{
             value: maxY - spreadY * i,
-            // format: yLabelFormat || 'number-short',
-          }}
+             format: yLabelFormat || 'number-short',
+          }} */}
         </Text>
       </div>
     )
@@ -163,7 +177,7 @@ const ScatterInner = ({
         position: 'absolute',
       }}
     >
-      {/* {yLabelsP} */}
+      {yLabelsP}
     </div>
   )
 
@@ -196,6 +210,7 @@ const ScatterInner = ({
             }}
           >
             <Text>
+              {prettyDate(data[index].time, 'date-time-human')}
               {/* {{ value: data[index].time, format: 'date-time-human' }} */}
             </Text>
             <Button
@@ -245,31 +260,36 @@ const ScatterInner = ({
             let tooltip = {}
 
             if (info) {
+              console.log(info)
+
               for (const key in info) {
+                console.log('info key label: ', info[key].label)
+                console.log('v info key', v.info[key])
+                console.log('info key format', info[key].format)
                 infoContent.push(
-                  <Card key={key} label={info[key].label}>
-                    <Text>
-                      {{
-                        //    format: info[key].format,
-                        value: v.info ? v.info[key] : 0,
-                      }}
+                  <div key={key} style={{ marginBottom: 16 }}>
+                    <Text space="4px" weight={600} size="16px">
+                      {info[key].label}
                     </Text>
-                  </Card>
+                    <Text weight={400}>
+                      {/* @ts-ignore   */}
+                      {prettyNumber(v.info ? v.info[key] : 0, info[key].format)}
+                    </Text>
+                  </div>
                 )
               }
-              //   tooltip = useTooltip(
-              //     <div
-              //       style={{
-              //         padding: 24,
-              //       }}
-              //     >
-              //       {infoContent}
-              //     </div>,
-              //     { width: 200 }
-              //   )
+              tooltip = useTooltip(
+                <div
+                  style={{
+                    padding: 16,
+                    paddingBottom: 0,
+                    width: 200,
+                  }}
+                >
+                  {infoContent}
+                </div>
+              )
             }
-
-            console.log('V', v)
 
             return (
               <div
@@ -294,7 +314,7 @@ const ScatterInner = ({
                   background: 'white',
                   boxShadow: '0px 0px 10px rgba(0,0,0,0.1)',
                 }}
-                // {...tooltip}
+                {...tooltip}
               >
                 <Text style={{ color: 'black' }} weight={600}>
                   {v.label}
@@ -310,14 +330,17 @@ const ScatterInner = ({
 }
 
 // ***********   Scatter Slider  **********
-const ScatterSlider = ({
-  width,
-  data,
-  isDragging,
-  setDragging,
-  index,
-  setIndex,
-}) => {
+const ScatterSlider: FC<{
+  data: {
+    time: number
+    points: { x: number; y: number; label: string; color: string | any }[]
+  }[]
+  setDragging: (x: boolean) => void
+  isDragging: boolean
+  setIndex: (x: number) => void
+  index: number
+  width: number
+}> = ({ width, data, isDragging, setDragging, index, setIndex }) => {
   const ref = useRef<{ x: number; index: number }>()
 
   useEffect(() => {
