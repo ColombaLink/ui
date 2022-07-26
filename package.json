@@ -39,6 +39,7 @@
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.2.1",
     "@saulx/validators": "^1.2.0",
+    "crypto-js": "^4.1.1",
     "inlines": "^0.2.2",
     "prismjs": "^1.25.0",
     "react-virtualized-auto-sizer": "^1.0.6",

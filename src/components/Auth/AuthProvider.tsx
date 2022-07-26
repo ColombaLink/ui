@@ -13,6 +13,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const [showLoader, setShowLoader] = useState(false)
 
   const [isGoogleRedirect] = useRoute('/auth-google')
+  const [isMicrosoftRedirect] = useRoute('/auth-microsoft')
   useEffect(() => {
     if (isGoogleRedirect && window) {
       setShowLoader(true)
@@ -51,8 +52,47 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           )
           setShowLoader(false)
         })
+    } else if (isMicrosoftRedirect && window) {
+      setShowLoader(true)
+      const params = new URLSearchParams(window.location.search)
+      const code = params.get('code')
+      const redirect = global.location.origin + '/auth-microsoft'
+      let state: any
+      try {
+        state = JSON.parse(params.get('state'))
+      } catch (error) {
+        console.warn(error)
+      }
+      const codeVerifier = window.sessionStorage.getItem('code_verifier')
+      client
+        .call('authMicrosoft', {
+          code,
+          redirect,
+          state,
+          codeVerifier,
+        })
+        .then(async (response) => {
+          const { token, refreshToken, email, id } = response
+          await client.auth(token, { id, refreshToken })
+          toast.add(<Toast label={'Signedin as ' + email} type="success" />)
+          setShowLoader(false)
+          if (window && state.redirectUrl) {
+            window.location.href = state.redirectUrl
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          toast.add(
+            <Toast
+              label="Authentication Error"
+              type="error"
+              description={error.message}
+            />
+          )
+          setShowLoader(false)
+        })
     }
-  }, [isGoogleRedirect])
+  }, [isGoogleRedirect, isMicrosoftRedirect])
 
   return showLoader ? (
     <div>
