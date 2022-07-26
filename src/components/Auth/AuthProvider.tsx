@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { useClient } from '@based/react'
-import { useLocation, useRoute } from 'wouter'
+import { useRoute } from 'wouter'
 import { LoadingIcon } from '~/icons'
 import { Toast, useToast } from '../Toast'
 
@@ -14,49 +14,17 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
   const [isGoogleRedirect] = useRoute('/auth-google')
   const [isMicrosoftRedirect] = useRoute('/auth-microsoft')
+  const thirdPartyRedirect = isGoogleRedirect
+    ? 'google'
+    : isMicrosoftRedirect
+    ? 'microsoft'
+    : false
   useEffect(() => {
-    if (isGoogleRedirect && window) {
+    if (thirdPartyRedirect && window) {
       setShowLoader(true)
       const params = new URLSearchParams(window.location.search)
       const code = params.get('code')
-      const redirect = global.location.origin + '/auth-google'
-      let state: any
-      try {
-        state = JSON.parse(params.get('state'))
-      } catch (error) {
-        console.warn(error)
-      }
-      client
-        .call('authGoogle', {
-          code,
-          redirect,
-          state,
-        })
-        .then(async (response) => {
-          const { token, refreshToken, email, id } = response
-          const result = await client.auth(token, { id, refreshToken })
-          toast.add(<Toast label={'Signedin as ' + email} type="success" />)
-          setShowLoader(false)
-          if (window && state.redirectUrl) {
-            window.location.href = state.redirectUrl
-          }
-        })
-        .catch((error) => {
-          console.error(error)
-          toast.add(
-            <Toast
-              label="Authentication Error"
-              type="error"
-              description={error.message}
-            />
-          )
-          setShowLoader(false)
-        })
-    } else if (isMicrosoftRedirect && window) {
-      setShowLoader(true)
-      const params = new URLSearchParams(window.location.search)
-      const code = params.get('code')
-      const redirect = global.location.origin + '/auth-microsoft'
+      const redirect = global.location.origin + `/auth-${thirdPartyRedirect}`
       let state: any
       try {
         state = JSON.parse(params.get('state'))
@@ -65,16 +33,23 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       }
       const codeVerifier = window.sessionStorage.getItem('code_verifier')
       client
-        .call('authMicrosoft', {
-          code,
-          redirect,
-          state,
-          codeVerifier,
-        })
+        .call(
+          `auth${
+            thirdPartyRedirect.charAt(0).toUpperCase() +
+            thirdPartyRedirect.slice(1)
+          }`,
+          {
+            code,
+            redirect,
+            state,
+            ...(codeVerifier ? { codeVerifier } : null),
+          }
+        )
         .then(async (response) => {
           const { token, refreshToken, email, id } = response
           await client.auth(token, { id, refreshToken })
           toast.add(<Toast label={'Signedin as ' + email} type="success" />)
+          window.sessionStorage.removeItem('code_verifier')
           setShowLoader(false)
           if (window && state.redirectUrl) {
             window.location.href = state.redirectUrl
