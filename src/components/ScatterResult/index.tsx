@@ -31,7 +31,6 @@ type ScatterResultProps = {
 }
 // Scatter word ScatterResult
 export const ScatterResult: FC<ScatterResultProps> = (props) => {
-  console.log(props)
   return (
     <div>
       <ScatterInner {...props} />
@@ -260,12 +259,7 @@ const ScatterInner: FC<
             let tooltip = {}
 
             if (info) {
-              console.log(info)
-
               for (const key in info) {
-                console.log('info key label: ', info[key].label)
-                console.log('v info key', v.info[key])
-                console.log('info key format', info[key].format)
                 infoContent.push(
                   <div key={key} style={{ marginBottom: 16 }}>
                     <Text space="4px" weight={600} size="16px">

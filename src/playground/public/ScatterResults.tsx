@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScatterResult } from '~/components/ScatterResult'
 import ComponentViewer from '../ComponentViewer'
+import { color, spaceToPx } from '~/utils'
 
 export const ScatterResults = () => {
   const scatterData = []
@@ -21,7 +22,7 @@ export const ScatterResults = () => {
         label: j,
         x: prev.x + 2 * Math.random() * Math.cos(j) * 10,
         y: prev.y + 2 * Math.random() * Math.sin(j) * 10,
-        color: { color: 'background' },
+        color: color('background'),
         info: {
           snurk: Math.random() * 100000,
           flap: Math.random() * 1000000,
