@@ -25,11 +25,6 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
         const { clientId } = await client.call('authGoogle', {
           getClientId: true,
         })
-        if (!clientId) {
-          throw new Error(
-            'Cannot get client id from configuration. Google set up correctly?'
-          )
-        }
         const thirdPartyRedirect = global.location.origin + '/auth-google'
         const scope =
           'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'

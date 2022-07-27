@@ -30,6 +30,7 @@ export const Auth = () => {
       onRegister={() => {
         console.log('onRegister')
       }}
+      thirdPartyProviders={['google', 'microsoft', 'github']}
     />
   )
 }

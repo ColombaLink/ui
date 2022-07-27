@@ -11,12 +11,14 @@ import useGlobalState from '@based/use-global-state'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
+import { ThirdPartyProvider } from './Auth'
 
 type LoginProps = {
   width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegisterRequest?: (email: string) => void
   onResetRequest?: () => void
+  thirdPartyProviders?: ThirdPartyProvider[]
 }
 
 // TODO: make width dynamic.
@@ -26,6 +28,7 @@ export const Login: FC<LoginProps> = ({
   onLogin,
   onRegisterRequest,
   onResetRequest,
+  thirdPartyProviders = [],
 }) => {
   const [email = '', setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -42,10 +45,20 @@ export const Login: FC<LoginProps> = ({
         width,
       }}
     >
-      <GoogleButton width={width} />
-      <MicrosoftButton width={width} />
-      <GithubButton width={width} />
-      <Separator>or</Separator>
+      {thirdPartyProviders.length ? (
+        <>
+          {thirdPartyProviders.includes('google') ? (
+            <GoogleButton width={width} />
+          ) : null}
+          {thirdPartyProviders.includes('microsoft') ? (
+            <MicrosoftButton width={width} />
+          ) : null}
+          {thirdPartyProviders.includes('github') ? (
+            <GithubButton width={width} />
+          ) : null}
+          <Separator>or</Separator>
+        </>
+      ) : null}
 
       <Input
         large

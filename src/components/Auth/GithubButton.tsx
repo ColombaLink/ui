@@ -24,11 +24,6 @@ export const GithubButton: FC<GithubButtonProps> = ({
         const { clientId } = await client.call('authGithub', {
           getClientId: true,
         })
-        if (!clientId) {
-          throw new Error(
-            'Cannot get client id from configuration. Google set up correctly?'
-          )
-        }
         const thirdPartyRedirect = global.location.origin + '/auth-github'
         const scope = encodeURI('user:email')
         const url = `https://github.com/login/oauth/authorize?scope=${scope}&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`

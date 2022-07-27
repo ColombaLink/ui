@@ -10,17 +10,20 @@ import { Separator } from '../Separator'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
+import { ThirdPartyProvider } from './Auth'
 
 type RegisterProps = {
   width?: number | string
   email?: string
   onRegister?: (data: { email: string; password: string; name: string }) => void
+  thirdPartyProviders?: ThirdPartyProvider[]
 }
 
 export const Register: FC<RegisterProps> = ({
   email: initialEmail = '',
   width = '100%',
   onRegister,
+  thirdPartyProviders = [],
 }) => {
   const client = useClient()
   const [email, setEmail] = useState(initialEmail)
@@ -52,10 +55,20 @@ export const Register: FC<RegisterProps> = ({
         width,
       }}
     >
-      <GoogleButton width={width} label="Signup with Google" />
-      <MicrosoftButton width={width} label="Signup with Microsoft" />
-      <GithubButton width={width} label="Signup with GitHub" />
-      <Separator>or</Separator>
+      {thirdPartyProviders.length ? (
+        <>
+          {thirdPartyProviders.includes('google') ? (
+            <GoogleButton width={width} label="Signup with Google" />
+          ) : null}
+          {thirdPartyProviders.includes('microsoft') ? (
+            <MicrosoftButton width={width} label="Signup with Microsoft" />
+          ) : null}
+          {thirdPartyProviders.includes('github') ? (
+            <GithubButton width={width} label="Signup with GitHub" />
+          ) : null}
+          <Separator>or</Separator>
+        </>
+      ) : null}
       <Input
         space="16px"
         large

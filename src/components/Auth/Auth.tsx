@@ -11,6 +11,7 @@ import { LargeLogo } from '../Logo'
 import { useAuth } from '@based/react'
 import useGlobalState from '@based/use-global-state'
 
+export type ThirdPartyProvider = 'google' | 'microsoft' | 'github'
 type AuthProps = {
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegister?: (data: { email: string; password: string; name: string }) => void
@@ -20,6 +21,7 @@ type AuthProps = {
   overlay?: boolean
   style?: CSSProperties
   app?: FC<any | { user: { id: string; email: string } }>
+  thirdPartyProviders?: ThirdPartyProvider[]
 }
 
 export const Authorize: FC<AuthProps> = ({
@@ -32,6 +34,7 @@ export const Authorize: FC<AuthProps> = ({
   logo,
   style,
   children,
+  thirdPartyProviders,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
@@ -75,11 +78,16 @@ export const Authorize: FC<AuthProps> = ({
               onResetRequest={() => {
                 setShowResetRequest(true)
               }}
+              thirdPartyProviders={thirdPartyProviders}
             />
           </Tab>
           {register || onRegister ? (
             <Tab label="Sign up">
-              <Register email={email} onRegister={onRegister} />
+              <Register
+                email={email}
+                onRegister={onRegister}
+                thirdPartyProviders={thirdPartyProviders}
+              />
             </Tab>
           ) : null}
         </Tabs>
