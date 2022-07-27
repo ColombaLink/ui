@@ -18,7 +18,7 @@ export const LineGraph = () => {
       <div
         style={{
           width: '100%',
-          height: 150,
+          marginBottom: 32,
         }}
       >
         <LG
@@ -48,6 +48,9 @@ export const LineGraph = () => {
             ],
           }}
         />
+      </div>
+      <div style={{ width: '100%' }}>
+        <LG data={fraction} />
       </div>
     </>
   )

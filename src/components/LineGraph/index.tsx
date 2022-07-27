@@ -4,7 +4,7 @@ import Graph from './Graph'
 import StackedGraph from './StackedGraph'
 
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { prettyDate } from '@based/pretty-date'
+import { DateFormat, prettyDate } from '@based/pretty-date'
 
 type Data = { x: number; y: number }[]
 
@@ -21,7 +21,7 @@ GraphContext.displayName = 'GraphContext'
 export type LineGraphProps = {
   data: { [key: string]: Data } | Data
   legend?: { [key: string]: string }
-  format?: 'date' | 'number' | 'date-time-human'
+  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat
   valueFormat?: NumberFormat | string
   spread?: boolean
   pure?: boolean

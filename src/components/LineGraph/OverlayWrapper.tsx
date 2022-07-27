@@ -49,17 +49,10 @@ const OverlayNested = ({
               }}
             >
               <Text>
-                {/*************  format pretty string or  number  *******************/}
                 {prettyNumber(
                   selected.segments[selectedKey],
                   valueFormat || 'number-short'
                 )}
-                {
-                  {
-                    //   value: selected.segments[selectedKey],
-                    //   format: valueFormat || 'number-short',
-                  }
-                }
               </Text>
               <Text color={color('accent')}>
                 {Math.round(
@@ -73,6 +66,8 @@ const OverlayNested = ({
       </div>
     )
   }
+
+  console.log(extraInfo)
 
   return (
     <div
@@ -107,7 +102,11 @@ const OverlayNested = ({
           style={{
             position: 'absolute',
             left: isFlippedX ? -110 : 24,
-            padding: 12,
+            padding: 8,
+            backgroundColor: color('background'),
+            border: `1px solid ${color('border')}`,
+            boxShadow: 'rgb(0 0 0 / 12%) 0px 4px 10px',
+            borderRadius: 4,
             width: 'auto',
             top: -30,
             minWidth: isStacked && extraInfo ? 175 : 100,
@@ -125,7 +124,6 @@ const OverlayNested = ({
           >
             <Text wrap>{xInfo}</Text>
             <Text weight={600}>
-              {/*************  format pretty string or  number  *******************/}
               {prettyNumber(selected.y, valueFormat || 'number-short')}
               {/* {{ value: selected.y, format: valueFormat || 'number-short' }} */}
             </Text>
