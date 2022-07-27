@@ -49,7 +49,9 @@ const XAxis = ({ maxX, minX, format, width }) => {
               paddingTop: 15,
             }}
           >
-            <Text>{v}</Text>
+            <Text weight={400} size="13px">
+              {v}
+            </Text>
           </div>
         )
       })}

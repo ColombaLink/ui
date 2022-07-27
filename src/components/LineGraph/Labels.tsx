@@ -27,7 +27,7 @@ export default ({ labels, labelHeight, valueFormat }) => {
             justifyContent: 'flex-end',
           }}
         >
-          <Text wrap>
+          <Text size="13px" weight={400}>
             {prettyNumber(value, valueFormat)}
             {/* {{ value, format: valueFormat }} */}
           </Text>

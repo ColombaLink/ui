@@ -26,6 +26,8 @@ export type LineGraphProps = {
   spread?: boolean
   pure?: boolean
   label?: string
+  width?: number
+  height?: number
 }
 
 // multi line
@@ -38,6 +40,8 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
   valueFormat = 'number-short',
   legend,
   pure,
+  width = 760,
+  height = 340,
 }) => {
   const isStacked = data && typeof data === 'object' && !Array.isArray(data)
 
@@ -53,8 +57,8 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
             label={label}
             legend={legend}
             data={data}
-            height={300}
-            width={900}
+            height={height}
+            width={width}
             valueFormat={valueFormat}
           />
         </GraphContext.Provider>
@@ -64,8 +68,8 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
           spread={spread}
           label={label}
           data={data}
-          height={300}
-          width={900}
+          height={height}
+          width={width}
           valueFormat={valueFormat}
           pure={pure}
         />
