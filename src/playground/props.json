@@ -1597,6 +1597,58 @@
       "code": "type RightSidebarProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/RightSidebar/index.tsx"
     },
+    "ScatterResultProps": {
+      "name": "ScatterResultProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "xLabel": {
+          "optional": true,
+          "type": [
+            "string",
+            "number",
+            "NumberFormat"
+          ]
+        },
+        "yLabel": {
+          "optional": true,
+          "type": [
+            "string",
+            "number",
+            "NumberFormat"
+          ]
+        },
+        "info": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "xLabelFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "yLabelFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "header": {
+          "optional": true,
+          "type": "string"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type ScatterResultProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: any\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: string | number | NumberFormat\n  yLabel?: string | number | NumberFormat\n  info?: {\n    [key: string]: { format: string; label: string | number }\n  }\n  xLabelFormat?: NumberFormat\n  yLabelFormat?: NumberFormat\n  header?: string\n  width?: number\n  height?: number\n}",
+      "file": "/components/ScatterResult/index.tsx"
+    },
     "MultiSelectProps": {
       "name": "MultiSelectProps",
       "props": {
