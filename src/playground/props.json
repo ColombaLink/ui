@@ -1057,7 +1057,9 @@
             },
             {
               "value": "date-time-human"
-            }
+            },
+            "NumberFormat",
+            "DateFormat"
           ]
         },
         "valueFormat": {
@@ -1078,9 +1080,17 @@
         "label": {
           "optional": true,
           "type": "string"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human'\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
