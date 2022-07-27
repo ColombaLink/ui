@@ -73,49 +73,98 @@ export const LineGraph = () => {
 
   return (
     <>
-      <ComponentViewer
-        component={LG}
-        propsName="LineGraphProps"
-        examples={[
-          {
-            props: {
-              data: someData,
-              legend: someLegend,
-              width: 500,
-              height: 180,
-            },
-          },
-        ]}
-      />
-
-      <LG legend={someLegend} data={someData} width={900} height={256} />
-      <br />
-      <LG data={fraction} valueFormat="number-ratio" />
-      <br />
-      <LG valueFormat="number-bytes" data={bytes} />
-      <br />
-      <LG data={[{ x: 10, y: 10 }]} />
-      <br />
-      <LG data={datax} format="date" />
-      <br />
-      <LG data={datax.en} format="date" spread />
-      <br />
-      <LG data={datax} format="date-time-human" spread />
-      <br />
-      <LG data={smallData} spread={false} />
-      <br />
-      <LG
-        label="Cool party"
-        data={[
-          { x: 0, y: 10 },
-          { x: 1, y: 10 },
-          { x: 2, y: 20 },
-          { x: 3, y: 30 },
-          { x: 4, y: 20 },
-          { x: 5, y: 25 },
-        ]}
-        spread={false}
-      />
+      <div
+        style={{
+          width: '100%',
+          height: 360,
+          marginBottom: 32,
+        }}
+      >
+        <LG legend={someLegend} data={someData} />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={fraction} valueFormat="number-ratio" />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 280,
+          marginBottom: 32,
+        }}
+      >
+        <LG valueFormat="number-bytes" data={bytes} />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 200,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={[{ x: 10, y: 10 }]} />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={datax} format="date" />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={datax.en} format="date" spread />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={datax} format="date-time-human" spread />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={smallData} spread={false} />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 360,
+          marginBottom: 32,
+        }}
+      >
+        <LG
+          label="Cool party"
+          data={[
+            { x: 0, y: 10 },
+            { x: 1, y: 10 },
+            { x: 2, y: 20 },
+            { x: 3, y: 30 },
+            { x: 4, y: 20 },
+            { x: 5, y: 25 },
+          ]}
+          spread={false}
+        />
+      </div>
     </>
   )
 }
