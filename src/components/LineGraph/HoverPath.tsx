@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { color } from '~/utils'
 import { GraphContext } from '.'
-import { useThrottledCallback } from '~'
+import useThrottledCallback from '~/hooks/useThrottledCallback'
 
 const HoverPath = ({ amount, i, code, d, legend, points }) => {
   const ctx = useContext(GraphContext)

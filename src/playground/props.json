@@ -1037,25 +1037,50 @@
       "name": "LineGraphProps",
       "props": {
         "data": {
-          "optional": true,
-          "type": {
-            "array": "number"
-          }
+          "type": [
+            "TSTypeLiteral",
+            "Data"
+          ]
         },
-        "style": {
+        "legend": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "TSTypeLiteral"
+        },
+        "format": {
+          "optional": true,
+          "type": [
+            {
+              "value": "date"
+            },
+            {
+              "value": "number"
+            },
+            {
+              "value": "date-time-human"
+            }
+          ]
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
+        },
+        "spread": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "pure": {
+          "optional": true,
+          "type": "boolean"
         },
         "label": {
           "optional": true,
-          "type": "ReactNode"
-        },
-        "large": {
-          "optional": true,
-          "type": "boolean"
+          "type": "string"
         }
       },
-      "code": "type LineGraphProps = {\n  data?: number[]\n  style?: CSSProperties\n  label?: ReactNode\n  large?: boolean\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human'\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {

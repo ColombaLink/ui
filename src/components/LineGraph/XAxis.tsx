@@ -2,6 +2,9 @@ import React from 'react'
 import { Text } from '~'
 import { color } from '~/utils'
 
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyDate } from '@based/pretty-date'
+
 const XAxis = ({ maxX, minX, format, width }) => {
   const d = maxX - minX
   const amount = Math.floor(width / 150)
@@ -16,16 +19,20 @@ const XAxis = ({ maxX, minX, format, width }) => {
     // prevValue = value
 
     if (format === 'date-time-human') {
-      c.push({ value, format: 'date-time-human' })
+      // c.push({ value, format: 'date-time-human' })
+      c.push(prettyDate(value, 'date-time-human'))
     } else if (format === 'date') {
       // (d * i) / amount
       c.push([
-        { value, format: 'time-precise' },
+        prettyDate(value, 'time-precise'),
+        // { value, format: 'time-precise' },
         ' - ',
-        { value, format: 'date' },
+        prettyDate(value, 'date'),
+        // { value, format: 'date' },
       ])
     } else {
-      c.push({ value, format: 'number-short' })
+      c.push(prettyNumber(value, 'number-short'))
+      // c.push({ value, format: 'number-short' })
     }
   }
 

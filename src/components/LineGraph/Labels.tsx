@@ -1,5 +1,7 @@
 import React from 'react'
 import { Text } from '~'
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyDate } from '@based/pretty-date'
 
 export default ({ labels, labelHeight, valueFormat }) => {
   // let prevValue
@@ -25,7 +27,10 @@ export default ({ labels, labelHeight, valueFormat }) => {
             justifyContent: 'flex-end',
           }}
         >
-          <Text wrap>{{ value, format: valueFormat }}</Text>
+          <Text wrap>
+            {prettyNumber(value, valueFormat)}
+            {/* {{ value, format: valueFormat }} */}
+          </Text>
         </div>
       </div>
     )
