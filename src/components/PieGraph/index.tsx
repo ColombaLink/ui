@@ -47,12 +47,17 @@ export const PieGraph: FC<PieGraphProps> = ({
   let newColorArr = []
 
   let themeColorArray = [
-    ['#45004e', '#D08FE3', '#BB49DE', '#563B5E', '#9038AB'],
-    ['orange', '#E3A359', '#DE8014', '#5E4325', '#AD640F'],
-    ['#294D07', '#9CE655', '#6CCC12', '#284F03', '#529C0E'],
-    ['red', '#D5483C', '#CC1100', '#4F0A04', '#9E0D00'],
-    ['#00598C', '#00304D', '#0081CC', '#0089D9', '#0072B3'],
-    ['#8C4400', '#4D2500', '#CC6300', '#D96900', '#B35700'],
+    'rgba(61, 83, 231,1)',
+    'rgba(89,196,197,1)',
+    'rgba(154,82,246,1)',
+    'rgba(244,67,54,1)',
+    'rgba(86,187,112,1)',
+    'rgba(255,0,0,1)',
+    'rgba(0,255,0,1)',
+    'rgba(0,0,255,1)',
+    'rgba(255,255,0,1)',
+    'rgba(255,0,255,1)',
+    'rgba(0,255,255,1)',
   ]
 
   const [toolTipIndex, setToolTipIndex] = useState(0)
@@ -109,7 +114,9 @@ export const PieGraph: FC<PieGraphProps> = ({
     const newColorArrayFun = () => {
       for (let i = 0; i < totalPerObject.length; i++) {
         for (let j = 0; j < subValuesPerObject[0].length; j++) {
-          newColorArr.push(themeColorArray[i][j])
+          newColorArr.push(
+            themeColorArray[i].slice(0, -2).concat(`${1 - 0.1 * j})`)
+          )
         }
       }
     }
@@ -214,7 +221,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                     'accent'
                   )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
-                  opacity: `calc(1 - 0.${idx * 2})`,
+                  opacity: `calc(1 - 0.${idx * 1})`,
                 }}
               ></div>
 
@@ -247,7 +254,8 @@ export const PieGraph: FC<PieGraphProps> = ({
                   height: size,
                   borderRadius: size / 2,
                   // background: ` conic-gradient(${themeColorArray[index]} calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
-                  background: ` conic-gradient(white calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
+                  // background: ` conic-gradient(white calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
+                  background: 'transparent',
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `1`,
                 }}
@@ -272,7 +280,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                   transform: `rotate(${percentageToDegrees(
                     subTempCounter
                   )}deg)`,
-                  opacity: idx === toolTipIndex ? '0.75' : 1,
+                  opacity: idx === toolTipIndex ? '0.75' : '1',
                 }}
               ></styled.div>
               <span style={{ display: 'none' }}>
@@ -316,7 +324,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                 background:
                   typeof data[0].value !== 'object'
                     ? color('accent')
-                    : themeColorArray[idx][0],
+                    : themeColorArray[idx],
                 opacity:
                   typeof data[0].value !== 'object'
                     ? `calc(1.2 - 0.${idx * 2})`

@@ -1037,25 +1037,60 @@
       "name": "LineGraphProps",
       "props": {
         "data": {
-          "optional": true,
-          "type": {
-            "array": "number"
-          }
+          "type": [
+            "TSTypeLiteral",
+            "Data"
+          ]
         },
-        "style": {
+        "legend": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "TSTypeLiteral"
+        },
+        "format": {
+          "optional": true,
+          "type": [
+            {
+              "value": "date"
+            },
+            {
+              "value": "number"
+            },
+            {
+              "value": "date-time-human"
+            },
+            "NumberFormat",
+            "DateFormat"
+          ]
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
+        },
+        "spread": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "pure": {
+          "optional": true,
+          "type": "boolean"
         },
         "label": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "string"
         },
-        "large": {
+        "width": {
           "optional": true,
-          "type": "boolean"
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type LineGraphProps = {\n  data?: number[]\n  style?: CSSProperties\n  label?: ReactNode\n  large?: boolean\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
