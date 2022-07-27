@@ -26,8 +26,6 @@ export type LineGraphProps = {
   spread?: boolean
   pure?: boolean
   label?: string
-  width?: number
-  height?: number
 }
 
 // multi line
@@ -40,43 +38,39 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
   valueFormat = 'number-short',
   legend,
   pure,
-  width = 760,
-  height = 340,
 }) => {
   const isStacked = data && typeof data === 'object' && !Array.isArray(data)
 
   return (
-    <div>
-      {/* <AutoSizer> */}
-      {/* {({ height, width }) => { */}
-      {isStacked ? (
-        <GraphContext.Provider value={{}}>
-          <StackedGraph
+    <AutoSizer>
+      {({ height, width }) => {
+        return isStacked ? (
+          <GraphContext.Provider value={{}}>
+            <StackedGraph
+              format={format}
+              spread={spread}
+              label={label}
+              legend={legend}
+              data={data}
+              height={height}
+              width={width}
+              valueFormat={valueFormat}
+            />
+          </GraphContext.Provider>
+        ) : (
+          <Graph
             format={format}
             spread={spread}
             label={label}
-            legend={legend}
             data={data}
             height={height}
             width={width}
             valueFormat={valueFormat}
+            pure={pure}
           />
-        </GraphContext.Provider>
-      ) : (
-        <Graph
-          format={format}
-          spread={spread}
-          label={label}
-          data={data}
-          height={height}
-          width={width}
-          valueFormat={valueFormat}
-          pure={pure}
-        />
-      )}
-      {/* }} */}
-      {/* </AutoSizer> */}
-    </div>
+        )
+      }}
+    </AutoSizer>
   )
 }
 

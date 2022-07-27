@@ -67,8 +67,6 @@ const OverlayNested = ({
     )
   }
 
-  console.log(extraInfo)
-
   return (
     <div
       style={{

@@ -22,9 +22,6 @@ const StackedGraph = ({
 
   const [xWidth, updateW] = useState(0)
 
-  console.log(data)
-  console.log(legend)
-
   const dataStacked = []
 
   for (const key in data) {
