@@ -28,12 +28,6 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
         const codeChallenge = await generateCodeChallengeFromVerifier(
           codeVerifier
         )
-        console.log({
-          codeVerifier,
-          codeChallenge,
-          wawa: codeChallenge.length,
-          yeye: codeVerifier.length,
-        })
         window.sessionStorage.setItem('code_verifier', codeVerifier)
         const { clientId } = await client.call('authMicrosoft', {
           getClientId: true,
