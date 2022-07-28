@@ -24,6 +24,7 @@ type TopbarProps = {
   onProfile?: () => void
   breadcrumbs?: ReactNode
   logo?: FC | ReactNode
+  children?: ReactNode
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
@@ -97,6 +98,7 @@ export const Topbar: FC<TopbarProps> = ({
   onFilter,
   onProfile,
   breadcrumbs,
+  children,
   logo,
 }) => {
   const user = useAuth()
@@ -164,6 +166,8 @@ export const Topbar: FC<TopbarProps> = ({
             </TopbarTab>
           )
         })}
+
+        {children ? <div style={{ marginLeft: 24 }}>{children}</div> : null}
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>

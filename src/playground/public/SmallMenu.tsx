@@ -1,13 +1,11 @@
 import React from 'react'
 import { Avatar } from '~/components/Avatar'
 import { MenuSmall } from '~/components/MenuSmall'
-import { ScreenIcon, GearsIcon } from '~/icons'
-import { useLocation } from '~/hooks'
-import { hrefIsActive } from '~/utils/hrefIsActive'
+import { ScreenIcon, GearsIcon, SettingsIcon } from '~/icons'
 
 export const SmallMenu = () => {
   const TallyLogoSmall = (
-    <div style={{ maxWidth: 20 }}>
+    <div style={{ maxWidth: 24 }}>
       <svg
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"
@@ -67,6 +65,7 @@ export const SmallMenu = () => {
             icon: <ScreenIcon />,
             label: 'Shows',
             href: '?story=tally-screens',
+            isActive: true,
           },
           {
             icon: <GearsIcon />,
@@ -75,6 +74,23 @@ export const SmallMenu = () => {
           },
         ]}
       />
+
+      {/* <Sidebar
+        data={[
+          {
+            href: '?story=tally-screens',
+            icon: <ScreenIcon />,
+          },
+          {
+            href: '?story=tally-screens',
+            icon: <SettingsIcon />,
+          },
+          {
+            href: '?story=tally-screens',
+            icon: <GearsIcon />,
+          },
+        ]}
+      /> */}
     </div>
   )
 }
