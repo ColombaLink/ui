@@ -27,6 +27,7 @@ export const MenuSmall: FC<MenuSmallProps> = ({
   ...props
 }) => {
   const [location] = useLocation()
+  console.log('locatie', location)
   // @ts-ignore
   if (!data.isActive) {
     // @ts-ignore
@@ -72,7 +73,9 @@ export const MenuSmall: FC<MenuSmallProps> = ({
                 marginRight: 'auto',
                 marginBottom: 8,
                 borderRadius: 4,
-                backgroundColor: item.isActive ? color('border') : null,
+                backgroundColor: hrefIsActive(item.href, location)
+                  ? color('border')
+                  : null,
                 '&:hover': {
                   backgroundColor: color('border'),
                 },

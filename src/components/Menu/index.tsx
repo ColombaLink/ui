@@ -98,6 +98,7 @@ export const Menu: FC<{
   header?: ReactNode | ReactNode[]
 }> = ({ data = {}, selected, prefix = '', style, children, header }) => {
   const [location] = useLocation()
+
   if (!selected) {
     selected = location
   }
