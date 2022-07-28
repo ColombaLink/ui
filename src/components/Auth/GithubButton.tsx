@@ -1,6 +1,6 @@
 import { useClient } from '@based/react'
 import React, { FC } from 'react'
-import { Button } from '~'
+import { Button, GithubIcon } from '~'
 
 type GithubButtonProps = {
   width?: number | string
@@ -13,11 +13,13 @@ export const GithubButton: FC<GithubButtonProps> = ({
   const client = useClient()
   return (
     <Button
+      icon={GithubIcon}
+      color="grey"
       textAlign="center"
       style={{
         width,
         height: 48,
-        marginTop: 28,
+        marginBottom: 8,
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }

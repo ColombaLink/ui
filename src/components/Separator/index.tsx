@@ -1,14 +1,17 @@
-import React, { FC } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { color } from '~'
 
-type SeparatorProps = {}
+type SeparatorProps = {
+  style?: CSSProperties
+}
 
-export const Separator: FC<SeparatorProps> = ({ children }) => {
+export const Separator: FC<SeparatorProps> = ({ children, style }) => {
   return (
     <div
       style={{
         display: 'flex',
         marginBottom: 24,
+        ...style,
       }}
     >
       <div

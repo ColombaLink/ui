@@ -1,6 +1,6 @@
 import { useClient } from '@based/react'
 import React, { FC } from 'react'
-import { Button } from '~'
+import { Button, MicrosoftIcon } from '~'
 import {
   generateCodeChallengeFromVerifier,
   generateCodeVerifier,
@@ -17,10 +17,13 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
   const client = useClient()
   return (
     <Button
+      icon={MicrosoftIcon}
+      color="grey"
       textAlign="center"
       style={{
         width,
         height: 48,
+        marginBottom: 8,
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }

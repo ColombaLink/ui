@@ -56,7 +56,7 @@ export const Login: FC<LoginProps> = ({
           {thirdPartyProviders.includes('github') ? (
             <GithubButton width={width} />
           ) : null}
-          <Separator>or</Separator>
+          <Separator style={{ marginTop: 16 }}>OR</Separator>
         </>
       ) : null}
 
@@ -102,9 +102,11 @@ export const Login: FC<LoginProps> = ({
       <Button
         large
         fill
+        color="text"
         style={{
           marginBottom: 24,
         }}
+        textAlign="center"
         actionKeys={['Enter']}
         disabled={!passwordExpanded ? !isEmail(email) : !valid}
         onClick={

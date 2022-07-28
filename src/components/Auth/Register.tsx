@@ -66,7 +66,7 @@ export const Register: FC<RegisterProps> = ({
           {thirdPartyProviders.includes('github') ? (
             <GithubButton width={width} label="Signup with GitHub" />
           ) : null}
-          <Separator>or</Separator>
+          <Separator style={{ marginTop: 16 }}>OR</Separator>
         </>
       ) : null}
       <Input
@@ -151,6 +151,8 @@ export const Register: FC<RegisterProps> = ({
       <Button
         disabled={!valid}
         fill
+        color="text"
+        textAlign="center"
         large
         actionKeys={['Enter']}
         onClick={async () => {
