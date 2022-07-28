@@ -1,10 +1,10 @@
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, CSSProperties } from 'react'
 import { color } from '~/utils'
 import { Logo } from '~/components/Logo'
 import { Avatar } from '~/components/Avatar'
 import { styled } from 'inlines'
 import { Button } from '../Button'
-import { LightModeIcon } from '~'
+import { Link } from '../Link'
 
 type MenuSmallProps = {
   data: [
@@ -16,13 +16,16 @@ type MenuSmallProps = {
   ]
   logo?: ReactNode
   avatar?: ReactNode
+  style?: CSSProperties
 }
 
-export const MenuSmall: FC<MenuSmallProps> = ({ data, logo, avatar }) => {
-  // icon,
-  // label,
-  // link href
-
+export const MenuSmall: FC<MenuSmallProps> = ({
+  data,
+  logo,
+  avatar,
+  style,
+  ...props
+}) => {
   // tooltip
 
   console.log(data.map((item, idx) => item))
@@ -39,7 +42,9 @@ export const MenuSmall: FC<MenuSmallProps> = ({ data, logo, avatar }) => {
         flexDirection: 'column',
         borderRight: `1px solid ${color('border')}`,
         backgroundColor: color('background2'),
+        ...style,
       }}
+      {...props}
     >
       <div style={{ padding: 8, paddingBottom: 40 }}>
         {logo ? logo : <Logo />}
@@ -47,19 +52,22 @@ export const MenuSmall: FC<MenuSmallProps> = ({ data, logo, avatar }) => {
 
       <div style={{ flexGrow: 1, padding: 8 }}>
         {data.map((item, idx) => (
-          <Button
-            key={idx}
-            color="text"
-            ghost
-            style={{
-              marginLeft: 'auto',
-              marginRight: 'auto',
-              marginBottom: 8,
-            }}
-            icon={item.icon}
-            onClick={() => console.log('clickie' + item.href + item.label)}
-          />
+          <Link key={idx} href={item.href}>
+            <Button
+              color="text"
+              ghost
+              style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginBottom: 8,
+              }}
+              icon={item.icon}
+              onClick={() => console.log('clickie' + item.href + item.label)}
+            />
+          </Link>
         ))}
+
+        <Link href="?story=tally-screens">blha</Link>
       </div>
 
       <styled.div

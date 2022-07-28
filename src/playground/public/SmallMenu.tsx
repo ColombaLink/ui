@@ -1,7 +1,9 @@
 import React from 'react'
 import { Avatar } from '~/components/Avatar'
 import { MenuSmall } from '~/components/MenuSmall'
-import { SettingsIcon, ModelIcon, ScreenIcon, GearsIcon } from '~/icons'
+import { ScreenIcon, GearsIcon } from '~/icons'
+import { useLocation } from '~/hooks'
+import { hrefIsActive } from '~/utils/hrefIsActive'
 
 export const SmallMenu = () => {
   const TallyLogoSmall = (
@@ -64,12 +66,12 @@ export const SmallMenu = () => {
           {
             icon: <ScreenIcon />,
             label: 'Shows',
-            href: '/shows',
+            href: '?story=tally-screens',
           },
           {
             icon: <GearsIcon />,
             label: 'Settings',
-            href: '/settings',
+            href: '?story=tally-screens',
           },
         ]}
       />
