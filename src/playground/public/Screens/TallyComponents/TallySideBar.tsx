@@ -16,7 +16,7 @@ export const TallySideBar = () => {
           {
             icon: <ScreenIcon />,
             label: 'Shows',
-            href: '?story=tally-screens',
+            href: '?story=TallyShows',
           },
           { icon: <GearsIcon />, label: 'Settings', href: '/settings' },
         ]}

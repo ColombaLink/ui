@@ -27,14 +27,12 @@ export const MenuSmall: FC<MenuSmallProps> = ({
   ...props
 }) => {
   const [location] = useLocation()
-  console.log('locatie', location)
+  // console.log('locatie', location)
   // @ts-ignore
   if (!data.isActive) {
     // @ts-ignore
     data.isActive = location
   }
-
-  console.log(data.map((item, idx) => item))
 
   return (
     <div
