@@ -12,6 +12,7 @@ type TextProps = {
   selectable?: boolean
   wrap?: boolean
   variant?: ColorVariant
+  textAlign?: 'center' | 'right' | 'left'
   children: ReactNode
 }
 
@@ -26,6 +27,7 @@ export const Text: FC<TextProps> = ({
   children,
   space,
   variant,
+  textAlign,
   ...props
 }) => {
   const s = font({ size, color, variant, weight }) as CSSProperties
@@ -44,6 +46,10 @@ export const Text: FC<TextProps> = ({
 
   if (space) {
     s.marginBottom = spaceToPx(space)
+  }
+
+  if (textAlign) {
+    s.textAlign = textAlign
   }
 
   if (style) {

@@ -11,6 +11,26 @@ import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
 import { ThirdPartyProvider } from './Auth'
+import { Text } from '../Text'
+
+const WaitingScreen: FC<{ email: string }> = ({ email }) => {
+  return (
+    <div>
+      <Text textAlign="center" size={32} wrap space>
+        Check your email...
+      </Text>
+      <Text textAlign="center" wrap space>
+        This page will update automatically when you open the email link.
+      </Text>
+      <Text textAlign="center" color="text2" wrap>
+        We just sent an email to {email}
+      </Text>
+      <Text textAlign="center" color="text2" wrap>
+        Confirm your email address to continue
+      </Text>
+    </div>
+  )
+}
 
 type RegisterProps = {
   width?: number | string
@@ -30,6 +50,8 @@ export const Register: FC<RegisterProps> = ({
   const [password, setPassword] = useState('')
   const [cpassword, setCPassword] = useState('')
   const [name, setName] = useState('')
+  const [waitingForEmailConfirmation, setWaitingForEmailConfirmation] =
+    useState(false)
   const passwordScore = validatePassword(password)
   const passwordIsValid = passwordScore.valid && password === cpassword
   const valid = isEmail(email) && passwordIsValid
@@ -49,7 +71,9 @@ export const Register: FC<RegisterProps> = ({
       ? CheckIcon
       : () => <div>🏆</div>
 
-  return (
+  return true ? (
+    <WaitingScreen email={email} />
+  ) : (
     <div
       style={{
         width,
@@ -156,16 +180,22 @@ export const Register: FC<RegisterProps> = ({
         large
         actionKeys={['Enter']}
         onClick={async () => {
-          const result = await client.register({
-            email,
-            password,
-            name,
-            redirectUrl: window.location.href,
-          })
-          console.info(result)
-          if (onRegister) {
-            // @ts-ignore
-            onRegister(result)
+          setWaitingForEmailConfirmation(true)
+          try {
+            const result = await client.register({
+              email,
+              password,
+              name,
+              redirectUrl: window.location.href,
+            })
+            console.info(result)
+            if (onRegister) {
+              // @ts-ignore
+              onRegister(result)
+            }
+          } catch (err) {
+            setWaitingForEmailConfirmation(false)
+            console.error(err)
           }
         }}
       >
