@@ -21,7 +21,7 @@ export const TallySideBar = () => {
           { icon: <GearsIcon />, label: 'Settings', href: '/settings' },
         ]}
         logo={<a href="?story=tally-screens">{TallyLogo}</a>}
-        avatar={<Avatar label="Tally" />}
+        avatar={<Avatar size="24px" label="Tally" />}
       />
     </>
   )
@@ -45,11 +45,11 @@ const TallyLogo = (
           y2="233.19"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#57adf5"></stop>
-          <stop offset="0.17" stop-color="#60a4f5"></stop>
-          <stop offset="0.46" stop-color="#788af5"></stop>
-          <stop offset="0.82" stop-color="#9e61f6"></stop>
-          <stop offset="0.97" stop-color="#af4ff6"></stop>
+          <stop offset="0" stopColor="#57adf5"></stop>
+          <stop offset="0.17" stopColor="#60a4f5"></stop>
+          <stop offset="0.46" stopColor="#788af5"></stop>
+          <stop offset="0.82" stopColor="#9e61f6"></stop>
+          <stop offset="0.97" stopColor="#af4ff6"></stop>
         </linearGradient>
         <linearGradient
           id="prefix__b"
@@ -59,11 +59,11 @@ const TallyLogo = (
           y2="108.55"
           gradientUnits="userSpaceOnUse"
         >
-          <stop offset="0" stop-color="#57adf5"></stop>
-          <stop offset="0.18" stop-color="#60a4f5"></stop>
-          <stop offset="0.48" stop-color="#788af5"></stop>
-          <stop offset="0.85" stop-color="#9e61f6"></stop>
-          <stop offset="1" stop-color="#af4ff6"></stop>
+          <stop offset="0" stopColor="#57adf5"></stop>
+          <stop offset="0.18" stopColor="#60a4f5"></stop>
+          <stop offset="0.48" stopColor="#788af5"></stop>
+          <stop offset="0.85" stopColor="#9e61f6"></stop>
+          <stop offset="1" stopColor="#af4ff6"></stop>
         </linearGradient>
       </defs>
       <path
