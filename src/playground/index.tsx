@@ -113,6 +113,7 @@ const App = () => {
           Navigation: {
             Breadcrumbs: '?story=breadcrumb',
             SideMenu: '?story=SideMenu',
+            MenuSmall: '?story=SmallMenu',
             Topbar: '?story=topbars',
           },
           Overlays: {
@@ -123,6 +124,7 @@ const App = () => {
             ProfileSettings: '?story=profile-settings',
             ProjectSettings: '?story=project-settings',
             SyncSession: '?story=sync-session',
+            Tally: '?story=tally-screens',
           },
           Themes: {
             Theming: '?story=theming',

@@ -5,7 +5,7 @@ import { getButtonStyle } from '~'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
-type AvatarSizeInt = 32 | 36 | 40 | 64
+type AvatarSizeInt = 24 | 32 | 36 | 40 | 64
 export type AvatarSize = `${AvatarSizeInt}px` | AvatarSizeInt
 
 type AvatarProps = {
@@ -48,6 +48,8 @@ export const Avatar: FC<AvatarProps> = (props) => {
         backgroundImage: img ? `url(${img})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
+        marginLeft: 'auto',
+        marginRight: 'auto',
         marginBottom: spaceToPx(space),
         ...getButtonStyle(props),
         ...style,
