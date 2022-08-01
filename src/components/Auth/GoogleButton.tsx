@@ -1,16 +1,16 @@
-import { useClient } from '@based/react'
 import React, { FC } from 'react'
 import { Button, GoogleIcon } from '~'
 
 type GoogleButtonProps = {
   width?: number | string
   label?: string
+  clientId: string
 }
 export const GoogleButton: FC<GoogleButtonProps> = ({
   width = '100%',
   label = 'Continue with Google',
+  clientId,
 }) => {
-  const client = useClient()
   return (
     <Button
       icon={GoogleIcon}
@@ -23,10 +23,8 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }
-        const { clientId } = await client.call('authGoogle', {
-          getClientId: true,
-        })
         const thirdPartyRedirect = global.location.origin + '/auth-google'
+        window.sessionStorage.setItem('client_id', clientId)
         const scope =
           'https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email'
         const url = `https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=${scope}&response_type=code&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`

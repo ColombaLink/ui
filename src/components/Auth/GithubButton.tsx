@@ -1,16 +1,16 @@
-import { useClient } from '@based/react'
 import React, { FC } from 'react'
 import { Button, GithubIcon } from '~'
 
 type GithubButtonProps = {
   width?: number | string
   label?: string
+  clientId: string
 }
 export const GithubButton: FC<GithubButtonProps> = ({
   width = '100%',
   label = 'Continue with Github',
+  clientId,
 }) => {
-  const client = useClient()
   return (
     <Button
       icon={GithubIcon}
@@ -23,9 +23,7 @@ export const GithubButton: FC<GithubButtonProps> = ({
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }
-        const { clientId } = await client.call('authGithub', {
-          getClientId: true,
-        })
+        window.sessionStorage.setItem('client_id', clientId)
         const thirdPartyRedirect = global.location.origin + '/auth-github'
         const scope = encodeURI('user:email')
         const url = `https://github.com/login/oauth/authorize?scope=${scope}&client_id=${clientId}&redirect_uri=${thirdPartyRedirect}`

@@ -21,7 +21,9 @@ type AuthProps = {
   overlay?: boolean
   style?: CSSProperties
   app?: FC<any | { user: { id: string; email: string } }>
-  thirdPartyProviders?: ThirdPartyProvider[]
+  googleClientId?: string
+  microsoftClientId?: string
+  githubClientId?: string
 }
 
 export const Authorize: FC<AuthProps> = ({
@@ -34,7 +36,9 @@ export const Authorize: FC<AuthProps> = ({
   logo,
   style,
   children,
-  thirdPartyProviders,
+  googleClientId,
+  microsoftClientId,
+  githubClientId,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
@@ -72,13 +76,15 @@ export const Authorize: FC<AuthProps> = ({
           <Tab label="Sign in">
             <Login
               onLogin={onLogin}
-              onRegisterRequest={(email) => {
+              onRegisterRequest={(_email) => {
                 setActiveTab(1)
               }}
               onResetRequest={() => {
                 setShowResetRequest(true)
               }}
-              thirdPartyProviders={thirdPartyProviders}
+              googleClientId={googleClientId}
+              microsoftClientId={microsoftClientId}
+              githubClientId={githubClientId}
             />
           </Tab>
           {register || onRegister ? (
@@ -86,7 +92,9 @@ export const Authorize: FC<AuthProps> = ({
               <Register
                 email={email}
                 onRegister={onRegister}
-                thirdPartyProviders={thirdPartyProviders}
+                googleClientId={googleClientId}
+                microsoftClientId={microsoftClientId}
+                githubClientId={githubClientId}
               />
             </Tab>
           ) : null}

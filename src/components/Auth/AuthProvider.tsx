@@ -35,6 +35,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         console.warn(error)
       }
       console.log({ params, code })
+      const clientId = window.sessionStorage.getItem('client_id')
       const codeVerifier = window.sessionStorage.getItem('code_verifier')
       client
         .call(
@@ -46,6 +47,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             code,
             redirect,
             state,
+            clientId,
             ...(codeVerifier ? { codeVerifier } : null),
           }
         )
@@ -53,6 +55,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           const { token, refreshToken, email, id } = response
           await client.auth(token, { id, refreshToken })
           toast.add(<Toast label={'Signedin as ' + email} type="success" />)
+          window.sessionStorage.removeItem('client_id')
           window.sessionStorage.removeItem('code_verifier')
           setShowLoader(false)
           if (window && state.redirectUrl) {

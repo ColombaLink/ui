@@ -36,14 +36,18 @@ type RegisterProps = {
   width?: number | string
   email?: string
   onRegister?: (data: { email: string; password: string; name: string }) => void
-  thirdPartyProviders?: ThirdPartyProvider[]
+  googleClientId?: string
+  microsoftClientId?: string
+  githubClientId?: string
 }
 
 export const Register: FC<RegisterProps> = ({
   email: initialEmail = '',
   width = '100%',
   onRegister,
-  thirdPartyProviders = [],
+  googleClientId,
+  microsoftClientId,
+  githubClientId,
 }) => {
   const client = useClient()
   const [email, setEmail] = useState(initialEmail)
@@ -71,7 +75,7 @@ export const Register: FC<RegisterProps> = ({
       ? CheckIcon
       : () => <div>🏆</div>
 
-  return true ? (
+  return waitingForEmailConfirmation ? (
     <WaitingScreen email={email} />
   ) : (
     <div
@@ -79,16 +83,28 @@ export const Register: FC<RegisterProps> = ({
         width,
       }}
     >
-      {thirdPartyProviders.length ? (
+      {googleClientId || microsoftClientId ? (
         <>
-          {thirdPartyProviders.includes('google') ? (
-            <GoogleButton width={width} label="Signup with Google" />
+          {googleClientId ? (
+            <GoogleButton
+              width={width}
+              label="Signup with Google"
+              clientId={googleClientId}
+            />
           ) : null}
-          {thirdPartyProviders.includes('microsoft') ? (
-            <MicrosoftButton width={width} label="Signup with Microsoft" />
+          {microsoftClientId ? (
+            <MicrosoftButton
+              width={width}
+              label="Signup with Microsoft"
+              clientId={microsoftClientId}
+            />
           ) : null}
-          {thirdPartyProviders.includes('github') ? (
-            <GithubButton width={width} label="Signup with GitHub" />
+          {githubClientId ? (
+            <GithubButton
+              width={width}
+              label="Signup with GitHub"
+              clientId={githubClientId}
+            />
           ) : null}
           <Separator style={{ marginTop: 16 }}>OR</Separator>
         </>

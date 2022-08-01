@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { EmailIcon, GoogleIcon, LockIcon } from '~/icons'
+import { EmailIcon, LockIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
@@ -7,18 +7,18 @@ import { useClient } from '@based/react'
 import { color, Separator } from '~'
 import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
-import useGlobalState from '@based/use-global-state'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
-import { ThirdPartyProvider } from './Auth'
 
 type LoginProps = {
   width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegisterRequest?: (email: string) => void
   onResetRequest?: () => void
-  thirdPartyProviders?: ThirdPartyProvider[]
+  googleClientId?: string
+  microsoftClientId?: string
+  githubClientId?: string
 }
 
 // TODO: make width dynamic.
@@ -28,7 +28,9 @@ export const Login: FC<LoginProps> = ({
   onLogin,
   onRegisterRequest,
   onResetRequest,
-  thirdPartyProviders = [],
+  googleClientId,
+  microsoftClientId,
+  githubClientId,
 }) => {
   const [email = '', setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,16 +47,16 @@ export const Login: FC<LoginProps> = ({
         width,
       }}
     >
-      {thirdPartyProviders.length ? (
+      {googleClientId || microsoftClientId ? (
         <>
-          {thirdPartyProviders.includes('google') ? (
-            <GoogleButton width={width} />
+          {googleClientId ? (
+            <GoogleButton width={width} clientId={googleClientId} />
           ) : null}
-          {thirdPartyProviders.includes('microsoft') ? (
-            <MicrosoftButton width={width} />
+          {microsoftClientId ? (
+            <MicrosoftButton width={width} clientId={microsoftClientId} />
           ) : null}
-          {thirdPartyProviders.includes('github') ? (
-            <GithubButton width={width} />
+          {githubClientId ? (
+            <GithubButton width={width} clientId={githubClientId} />
           ) : null}
           <Separator style={{ marginTop: 16 }}>OR</Separator>
         </>
