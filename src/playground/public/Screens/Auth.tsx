@@ -15,6 +15,7 @@ const AuthorizedCompoent: FC = () => {
   return (
     <>
       This is authorized
+      <pre>{JSON.stringify({ user }, null, 2)}</pre>
       <Avatar onClick={onProfile} />
     </>
   )

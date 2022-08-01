@@ -64,11 +64,15 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         })
         .catch((error) => {
           console.error(error)
+          // TODO: get better error messages. Passing a BasedError?
+          const description = error.message.includes('User already registered')
+            ? 'The email is already registered'
+            : error.message
           toast.add(
             <Toast
               label="Authentication Error"
               type="error"
-              description={error.message}
+              description={description}
             />
           )
           setShowLoader(false)

@@ -10,7 +10,6 @@ import { Separator } from '../Separator'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
 import { GithubButton } from './GithubButton'
-import { ThirdPartyProvider } from './Auth'
 import { Text } from '../Text'
 
 const WaitingScreen: FC<{ email: string }> = ({ email }) => {
