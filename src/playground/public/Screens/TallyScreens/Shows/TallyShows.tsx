@@ -11,9 +11,11 @@ import {
   Dialog,
   Input,
   UploadIcon,
+  BasedIcon,
   RadioButton,
   MoreIcon,
   Table,
+  TargetIcon,
 } from '~'
 
 export const TallyShows = () => {
@@ -39,7 +41,8 @@ export const TallyShows = () => {
           <Table
             data={[
               {
-                Name: 'Star Trek',
+                '': <Avatar label="Tally" icon={BasedIcon} color="green" />,
+                Name: "Tally's show",
                 Editions: '21',
                 'Last Modified': '12 days ago',
                 Options: (
@@ -51,6 +54,7 @@ export const TallyShows = () => {
                 ),
               },
               {
+                '': <Avatar label="Tally" icon={TargetIcon} color="red" />,
                 Name: 'show 2',
                 Editions: '43',
                 'Last Modified': '1 month ago',
@@ -68,7 +72,12 @@ const AddShowDialog = () => {
   return (
     <Dialog label="Create a new show">
       <Input space label="Name of show" placeholder="Show name" />
-      <Input space label="Add show image" icon={UploadIcon} />
+      <Input
+        space
+        label="Add show image"
+        icon={UploadIcon}
+        placeholder="Upload file"
+      />
       <RadioButton
         label="Organisations"
         data={[

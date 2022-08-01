@@ -45,12 +45,6 @@ const Item: FC<{
   const left = 8
   const right = 24
 
-  console.log('children', children)
-
-  if (typeof children !== 'string') {
-    console.log('not string', children)
-  }
-
   return (
     <styled.div
       onClick={onClick}
