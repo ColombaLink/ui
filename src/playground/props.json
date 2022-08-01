@@ -2252,9 +2252,13 @@
         "children": {
           "optional": true,
           "type": "ReactNode"
+        },
+        "noLogo": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n}",
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n}",
       "file": "/components/Topbar/index.tsx"
     },
     "ValueSliderProps": {

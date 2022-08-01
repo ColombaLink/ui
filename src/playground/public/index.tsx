@@ -53,6 +53,7 @@ export * from './ValueSliders'
 export * from './Screens/TallyScreens'
 export * from './Screens/TallyScreens/Shows/TallyShows'
 export * from './Screens/TallyScreens/Shows/TallyEdition'
+export * from './Screens/TallyScreens/Shows/Edition/Content'
 
 export * from './Screens/TallyScreens/Settings/TallyUsers'
 export * from './Screens/TallyScreens/Settings/TallyOrganisations'

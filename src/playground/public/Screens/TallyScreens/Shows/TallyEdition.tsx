@@ -11,17 +11,13 @@ import {
   Input,
   UploadIcon,
   BasedIcon,
-  RadioButton,
-  MoreIcon,
   Table,
-  TargetIcon,
 } from '~'
 
 export const TallyEdition = () => {
   const dialog = useDialog()
 
   const addEditionHandler = () => {
-    console.log('click')
     dialog.open(<AddShowDialog />)
   }
 

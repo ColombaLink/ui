@@ -17,7 +17,6 @@ export const TallyOrganisations = () => {
   const dialog = useDialog()
 
   const addOrganisationHandler = () => {
-    console.log('click')
     dialog.open(<AddShowDialog />)
   }
 

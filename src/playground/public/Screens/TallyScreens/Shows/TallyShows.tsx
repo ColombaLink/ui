@@ -47,7 +47,9 @@ export const TallyShows = () => {
                 Editions: '21',
                 'Last Modified': '12 days ago',
                 'Temp button': (
-                  <Link href="?story=TallyEdition">Go to Show</Link>
+                  <Link href="?story=TallyEdition" style={{ color: '#BADA55' }}>
+                    Go to Show
+                  </Link>
                 ),
               },
               {

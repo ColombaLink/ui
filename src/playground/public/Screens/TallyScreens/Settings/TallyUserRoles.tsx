@@ -17,7 +17,6 @@ export const TallyUserRoles = () => {
   const dialog = useDialog()
 
   const userRoleHandler = () => {
-    console.log('click')
     dialog.open(<AddShowDialog />)
   }
 

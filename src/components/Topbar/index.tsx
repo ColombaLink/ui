@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color, font } from '~/utils'
@@ -26,6 +26,7 @@ type TopbarProps = {
   logo?: FC | ReactNode
   children?: ReactNode
   noLogo?: boolean
+  style?: CSSProperties
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
@@ -103,6 +104,7 @@ export const Topbar: FC<TopbarProps> = ({
   children,
   logo,
   noLogo = false,
+  style,
 }) => {
   const user = useAuth()
 
@@ -134,31 +136,25 @@ export const Topbar: FC<TopbarProps> = ({
         backgroundColor: color('background'),
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingRight: 30,
+        paddingRight: 24,
+        ...style,
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 66,
-          minHeight: 66,
-        }}
-      >
-        {noLogo ? (
-          <></>
-        ) : logo ? (
-          <>{logo}</>
-        ) : (
-          <Logo
-            height={32}
-            width={32}
-            style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
-          />
-        )}
+      {noLogo ? (
+        <></>
+      ) : logo ? (
+        <>{logo}</>
+      ) : (
+        <Logo
+          height={32}
+          width={32}
+          style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+        />
+      )}
 
-        {breadcrumbs}
+      {breadcrumbs}
 
+      <div style={{ display: 'flex', alignSelf: 'baseline' }}>
         {Object.keys(data).map((key) => {
           const href = prefix + data[key]
           return (
@@ -171,16 +167,21 @@ export const Topbar: FC<TopbarProps> = ({
             </TopbarTab>
           )
         })}
-
-        {children ? <div style={{ marginLeft: 24 }}>{children}</div> : null}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {onFilter && <TopbarSearchbar />}
-        <div>
-          {onProfile && <Avatar onClick={onProfile} label={email} size={32} />}
-        </div>
-      </div>
+      {children ? <div style={{ marginLeft: 24 }}>{children}</div> : null}
+
+      {onFilter ||
+        (onProfile && (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {onFilter && <TopbarSearchbar />}
+            <div>
+              {onProfile && (
+                <Avatar onClick={onProfile} label={email} size={32} />
+              )}
+            </div>
+          </div>
+        ))}
     </div>
   )
 }
