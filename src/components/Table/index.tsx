@@ -6,10 +6,20 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import { ChevronDownIcon, ChevronUpIcon, EditIcon, MoreIcon } from '~/icons'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DeleteIcon,
+  DuplicateIcon,
+  EditIcon,
+  MoreIcon,
+} from '~/icons'
 import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
+
+import { useContextMenu } from '~/hooks'
+import { ContextItem } from '~'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
 const IList = styled(InfiniteList, scrollAreaStyle)
@@ -141,7 +151,9 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
       })}
 
       <div style={{ flexGrow: 1 }}>
-        <MoreIcon />
+        <MoreIcon
+          onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
+        />
       </div>
     </div>
   )
@@ -399,5 +411,21 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
         }}
       </AutoSizer>
     </styled.div>
+  )
+}
+
+const SimpleMenu = () => {
+  return (
+    <>
+      <ContextItem
+        icon={DuplicateIcon}
+        onClick={() => {
+          console.log('hello')
+        }}
+      >
+        Duplicate
+      </ContextItem>
+      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
+    </>
   )
 }
