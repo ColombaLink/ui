@@ -44,6 +44,13 @@ const Item: FC<{
 }) => {
   const left = 8
   const right = 24
+
+  console.log('children', children)
+
+  if (typeof children !== 'string') {
+    console.log('not string', children)
+  }
+
   return (
     <styled.div
       onClick={onClick}
@@ -53,6 +60,8 @@ const Item: FC<{
         height: height,
         position: 'relative',
         cursor: 'pointer',
+        alignItems: 'center',
+        display: 'flex',
         '&:hover': {
           backgroundColor: color('lightgrey:hover'),
         },
@@ -61,20 +70,32 @@ const Item: FC<{
       <Text style={{ visibility: 'hidden', paddingRight: left + right }}>
         {longestString}
       </Text>
-      <Text
-        color={colorProp}
-        style={{
-          lineHeight: `${height}px`,
-          position: 'absolute',
-          left: 8,
-          right: 24,
-          bottom: 0,
-          top: 0,
-        }}
-      >
-        {children}
-      </Text>
-      {icon}
+      {typeof children === 'string' && (
+        <Text
+          color={colorProp}
+          style={{
+            lineHeight: `${height}px`,
+            position: 'absolute',
+            left: 8,
+            right: 24,
+            bottom: 0,
+            top: 0,
+          }}
+        >
+          {children}
+        </Text>
+      )}
+      {typeof children !== 'string' && (
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+          }}
+        >
+          {children}
+        </div>
+      )}
     </styled.div>
   )
 }

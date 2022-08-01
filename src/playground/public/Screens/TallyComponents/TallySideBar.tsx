@@ -18,7 +18,11 @@ export const TallySideBar = () => {
             label: 'Shows',
             href: '?story=TallyShows',
           },
-          { icon: <GearsIcon />, label: 'Settings', href: '/settings' },
+          {
+            icon: <GearsIcon />,
+            label: 'Settings',
+            href: '?story=tally-screens',
+          },
         ]}
         logo={<a href="?story=tally-screens">{TallyLogo}</a>}
         avatar={<Avatar size="24px" label="Tally" />}

@@ -14,9 +14,10 @@ import {
   RadioButton,
   MoreIcon,
   Table,
+  Menu,
 } from '~'
 
-export const TallyShows = () => {
+export const TallyUsers = () => {
   const dialog = useDialog()
 
   const addShowHandler = () => {
@@ -30,18 +31,31 @@ export const TallyShows = () => {
 
       <Topbar data={{ Shows: '/' }} logo={<></>} onFilter={() => {}}>
         <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
-          Add show
+          Invite User
         </Button>
       </Topbar>
 
       <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Menu
+          prefix="/"
+          data={{
+            'Workspace Settings': {
+              Users: '?story=TallyUsers',
+              Organizations: '/general',
+              'User groups': '/user-groups',
+            },
+          }}
+        />
         <Page>
           <Table
             data={[
               {
-                Name: 'Star Trek',
-                Editions: '21',
-                'Last Modified': '12 days ago',
+                Name: 'Saulx Admin',
+                '': <Avatar label="SA" />,
+                Email: 'admin@saulx.com',
+                'User Role': 'admin',
+                'Admin Organizations': 'Saulx',
+                'Show Access': '',
                 Options: (
                   <MoreIcon
                     onClick={() => {
@@ -51,9 +65,12 @@ export const TallyShows = () => {
                 ),
               },
               {
-                Name: 'show 2',
-                Editions: '43',
-                'Last Modified': '1 month ago',
+                Name: 'Mr Tally',
+                '': <Avatar label="SA" color="babyblue" />,
+                Email: 'info@tally.tv',
+                'User Role': 'admin',
+                'Admin Organizations': 'Radio Bremen, KiKA, digame',
+                'Show Access': 'Eurovision Song Contest',
                 Options: <MoreIcon />,
               },
             ]}

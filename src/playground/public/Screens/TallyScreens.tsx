@@ -20,7 +20,7 @@ export const TallyScreens = () => {
           prefix="/"
           data={{
             'Workspace Settings': {
-              Users: '/project settings',
+              Users: '?story=TallyUsers',
               Organizations: '/general',
               'User groups': '/user-groups',
             },

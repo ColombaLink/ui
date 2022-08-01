@@ -105,6 +105,7 @@ const App = () => {
             Accordions: '?story=accordions',
             Container: '?story=Containers',
             Grids: '?story=grids',
+            InfiniteList: '?story=InfiniteLists',
             Lists: '?story=lists',
             MasonryGrid: '?story=masonryGrid',
             Tables: '?story=tables',
