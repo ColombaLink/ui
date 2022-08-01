@@ -1,6 +1,7 @@
 import React from 'react'
 import { TallySideBar } from '../../TallyComponents/TallySideBar'
 import {
+  Avatar,
   Topbar,
   Button,
   AddIcon,
@@ -8,15 +9,18 @@ import {
   useDialog,
   Dialog,
   Input,
+  UploadIcon,
+  BasedIcon,
+  RadioButton,
   MoreIcon,
   Table,
-  Menu,
+  TargetIcon,
 } from '~'
 
-export const TallyUserRoles = () => {
+export const TallyEdition = () => {
   const dialog = useDialog()
 
-  const userRoleHandler = () => {
+  const addEditionHandler = () => {
     console.log('click')
     dialog.open(<AddShowDialog />)
   }
@@ -25,28 +29,21 @@ export const TallyUserRoles = () => {
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
       <TallySideBar />
 
-      <Topbar data={{ 'User Roles': '/' }} noLogo>
-        <Button icon={AddIcon} ghost color="accent" onClick={userRoleHandler}>
-          Add user role
+      <Topbar data={{ 'Show Name': '/' }} noLogo onFilter={() => {}}>
+        <Button icon={AddIcon} ghost color="accent" onClick={addEditionHandler}>
+          Add Edition
         </Button>
       </Topbar>
 
       <div style={{ display: 'flex', flexGrow: 1 }}>
-        <Menu
-          prefix="/"
-          data={{
-            'Workspace Settings': {
-              Users: '?story=TallyUsers',
-              Organisations: '?story=TallyOrganisations',
-              'User Roles': '?story=TallyUserRoles',
-            },
-          }}
-        />
         <Page>
           <Table
             data={[
               {
-                Name: 'Admins',
+                '': <Avatar label="Tally" icon={BasedIcon} color="green" />,
+                Name: "Tally's show",
+                Sequences: '11',
+                'Last Modified': '4 hours ago',
               },
             ]}
           />
@@ -58,14 +55,17 @@ export const TallyUserRoles = () => {
 
 const AddShowDialog = () => {
   return (
-    <Dialog label="Create a new user role group">
+    <Dialog label="Create a new edition">
+      <Input space label="Name of edition" placeholder="Edition name" />
       <Input
         space
-        label="Name of the user role group"
-        placeholder="User role name..."
+        label="Add edition image"
+        icon={UploadIcon}
+        placeholder="Upload file"
       />
+
       <Dialog.Buttons border>
-        <Button icon={AddIcon}>Add user role</Button>
+        <Button icon={AddIcon}>Add Edition</Button>
       </Dialog.Buttons>
     </Dialog>
   )

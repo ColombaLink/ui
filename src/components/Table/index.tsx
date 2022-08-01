@@ -6,7 +6,7 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
+import { ChevronDownIcon, ChevronUpIcon, EditIcon, MoreIcon } from '~/icons'
 import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -139,6 +139,10 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
           </Item>
         )
       })}
+
+      <div style={{ flexGrow: 1 }}>
+        <MoreIcon />
+      </div>
     </div>
   )
 }

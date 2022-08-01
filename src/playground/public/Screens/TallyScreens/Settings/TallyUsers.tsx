@@ -59,13 +59,6 @@ export const TallyUsers = () => {
                 'User Role': 'admin',
                 'Admin Organizations': 'Saulx',
                 'Show Access': '',
-                Options: (
-                  <MoreIcon
-                    onClick={() => {
-                      console.log('click')
-                    }}
-                  />
-                ),
               },
               {
                 Name: 'Mr Tally',
@@ -74,7 +67,6 @@ export const TallyUsers = () => {
                 'User Role': 'admin',
                 'Admin Organizations': 'Radio Bremen, KiKA, digame',
                 'Show Access': 'Eurovision Song Contest',
-                Options: <MoreIcon />,
               },
             ]}
           />

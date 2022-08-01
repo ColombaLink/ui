@@ -52,17 +52,9 @@ export const TallyOrganisations = () => {
             data={[
               {
                 Name: 'Saulx',
-                Options: (
-                  <MoreIcon
-                    onClick={() => {
-                      console.log('click')
-                    }}
-                  />
-                ),
               },
               {
                 Name: 'Tally',
-                Options: <MoreIcon />,
               },
             ]}
           />

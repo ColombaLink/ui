@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { TallySideBar } from '../../TallyComponents/TallySideBar'
 import {
   Avatar,
@@ -6,7 +7,6 @@ import {
   Button,
   AddIcon,
   Page,
-  Text,
   useDialog,
   Dialog,
   Input,
@@ -15,6 +15,7 @@ import {
   RadioButton,
   MoreIcon,
   Table,
+  Link,
   TargetIcon,
 } from '~'
 
@@ -30,7 +31,7 @@ export const TallyShows = () => {
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
       <TallySideBar />
 
-      <Topbar data={{ Shows: '/' }} logo={<></>} onFilter={() => {}}>
+      <Topbar data={{ Shows: '/' }} noLogo onFilter={() => {}}>
         <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
           Add show
         </Button>
@@ -45,12 +46,8 @@ export const TallyShows = () => {
                 Name: "Tally's show",
                 Editions: '21',
                 'Last Modified': '12 days ago',
-                Options: (
-                  <MoreIcon
-                    onClick={() => {
-                      console.log('click')
-                    }}
-                  />
+                'Temp button': (
+                  <Link href="?story=TallyEdition">Go to Show</Link>
                 ),
               },
               {
@@ -58,7 +55,6 @@ export const TallyShows = () => {
                 Name: 'show 2',
                 Editions: '43',
                 'Last Modified': '1 month ago',
-                Options: <MoreIcon />,
               },
             ]}
           />
