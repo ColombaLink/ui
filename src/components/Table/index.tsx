@@ -29,6 +29,13 @@ const Edit = styled(EditIcon, {
     opacity: 0.6,
   },
 })
+const More = styled(MoreIcon, {
+  cursor: 'pointer',
+  opacity: 0.6,
+  '&:hover': {
+    opacity: 1,
+  },
+})
 
 const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
 const ITEM_WIDTH = 96
@@ -150,11 +157,7 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         )
       })}
 
-      <div style={{ flexGrow: 1 }}>
-        <MoreIcon
-          onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
-        />
-      </div>
+      <More onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })} />
     </div>
   )
 }
