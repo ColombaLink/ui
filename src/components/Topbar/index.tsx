@@ -63,6 +63,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             height: 66,
             display: 'flex',
             alignItems: 'center',
+            width: 'max-content',
             borderBottom: `3px solid ${
               isActive ? color('text') : 'transparent'
             }`,

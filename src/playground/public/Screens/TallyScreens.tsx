@@ -9,11 +9,7 @@ export const TallyScreens = () => {
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
       <TallySideBar />
 
-      <Topbar data={{ Users: '/' }} logo={<></>}>
-        <Button icon={AddIcon} ghost color="accent">
-          Invite User
-        </Button>
-      </Topbar>
+      <Topbar data={{ Tally: '/' }} noLogo></Topbar>
 
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Menu
