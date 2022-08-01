@@ -25,6 +25,7 @@ type TopbarProps = {
   breadcrumbs?: ReactNode
   logo?: FC | ReactNode
   children?: ReactNode
+  noLogo?: boolean
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
@@ -100,6 +101,7 @@ export const Topbar: FC<TopbarProps> = ({
   breadcrumbs,
   children,
   logo,
+  noLogo = false,
 }) => {
   const user = useAuth()
 
@@ -142,7 +144,9 @@ export const Topbar: FC<TopbarProps> = ({
           minHeight: 66,
         }}
       >
-        {logo ? (
+        {noLogo ? (
+          <></>
+        ) : logo ? (
           <>{logo}</>
         ) : (
           <Logo

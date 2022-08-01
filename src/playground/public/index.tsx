@@ -52,4 +52,7 @@ export * from './ValueSliders'
 // Tally
 export * from './Screens/TallyScreens'
 export * from './Screens/TallyScreens/Shows/TallyShows'
+
 export * from './Screens/TallyScreens/Settings/TallyUsers'
+export * from './Screens/TallyScreens/Settings/TallyOrganisations'
+export * from './Screens/TallyScreens/Settings/TallyUserRoles'

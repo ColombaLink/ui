@@ -23,7 +23,7 @@ import {
 export const TallyUsers = () => {
   const dialog = useDialog()
 
-  const addShowHandler = () => {
+  const inviteUserHandler = () => {
     console.log('click')
     dialog.open(<AddShowDialog />)
   }
@@ -32,8 +32,8 @@ export const TallyUsers = () => {
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
       <TallySideBar />
 
-      <Topbar data={{ Shows: '/' }} logo={<></>} onFilter={() => {}}>
-        <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
+      <Topbar data={{ Users: '/' }} noLogo>
+        <Button icon={AddIcon} ghost color="accent" onClick={inviteUserHandler}>
           Invite User
         </Button>
       </Topbar>
@@ -44,8 +44,8 @@ export const TallyUsers = () => {
           data={{
             'Workspace Settings': {
               Users: '?story=TallyUsers',
-              Organizations: '/general',
-              'User groups': '/user-groups',
+              Organisations: '?story=TallyOrganisations',
+              'User Roles': '?story=TallyUserRoles',
             },
           }}
         />
