@@ -83,9 +83,21 @@
         "app": {
           "optional": true,
           "type": "FC"
+        },
+        "googleClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "microsoftClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "githubClientId": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactChild\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n}",
+      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactChild\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
       "file": "/components/Auth/Auth.tsx"
     },
     "AuthProviderProps": {
@@ -97,6 +109,48 @@
       },
       "code": "type AuthProviderProps = {\n  children: ReactNode\n}",
       "file": "/components/Auth/AuthProvider.tsx"
+    },
+    "GithubButtonProps": {
+      "name": "GithubButtonProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        }
+      },
+      "code": "type GithubButtonProps = {\n  width?: number | string\n  label?: string\n  clientId: string\n}",
+      "file": "/components/Auth/GithubButton.tsx"
+    },
+    "GoogleButtonProps": {
+      "name": "GoogleButtonProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        }
+      },
+      "code": "type GoogleButtonProps = {\n  width?: number | string\n  label?: string\n  clientId: string\n}",
+      "file": "/components/Auth/GoogleButton.tsx"
     },
     "LoginProps": {
       "name": "LoginProps",
@@ -116,17 +170,53 @@
         "onResetRequest": {
           "optional": true,
           "type": "function"
+        },
+        "googleClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "microsoftClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "githubClientId": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type LoginProps = {\n  width?: number\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegisterRequest?: (email: string) => void\n  onResetRequest?: () => void\n}",
+      "code": "type LoginProps = {\n  width?: number\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegisterRequest?: (email: string) => void\n  onResetRequest?: () => void\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
       "file": "/components/Auth/Login.tsx"
+    },
+    "MicrosoftButtonProps": {
+      "name": "MicrosoftButtonProps",
+      "props": {
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "clientId": {
+          "type": "string"
+        }
+      },
+      "code": "type MicrosoftButtonProps = {\n  width?: number | string\n  label?: string\n  clientId: string\n}",
+      "file": "/components/Auth/MicrosoftButton.tsx"
     },
     "RegisterProps": {
       "name": "RegisterProps",
       "props": {
         "width": {
           "optional": true,
-          "type": "number"
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "email": {
           "optional": true,
@@ -135,9 +225,21 @@
         "onRegister": {
           "optional": true,
           "type": "function"
+        },
+        "googleClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "microsoftClientId": {
+          "optional": true,
+          "type": "string"
+        },
+        "githubClientId": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type RegisterProps = {\n  width?: number\n  email?: string\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n}",
+      "code": "type RegisterProps = {\n  width?: number | string\n  email?: string\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
       "file": "/components/Auth/Register.tsx"
     },
     "ResetRequestProps": {
@@ -1047,25 +1149,52 @@
       "name": "LineGraphProps",
       "props": {
         "data": {
-          "optional": true,
-          "type": {
-            "array": "number"
-          }
+          "type": [
+            "TSTypeLiteral",
+            "Data"
+          ]
         },
-        "style": {
+        "legend": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "TSTypeLiteral"
+        },
+        "format": {
+          "optional": true,
+          "type": [
+            {
+              "value": "date"
+            },
+            {
+              "value": "number"
+            },
+            {
+              "value": "date-time-human"
+            },
+            "NumberFormat",
+            "DateFormat"
+          ]
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
+        },
+        "spread": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "pure": {
+          "optional": true,
+          "type": "boolean"
         },
         "label": {
           "optional": true,
-          "type": "ReactNode"
-        },
-        "large": {
-          "optional": true,
-          "type": "boolean"
+          "type": "string"
         }
       },
-      "code": "type LineGraphProps = {\n  data?: number[]\n  style?: CSSProperties\n  label?: ReactNode\n  large?: boolean\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
@@ -1607,6 +1736,58 @@
       "code": "type RightSidebarProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/RightSidebar/index.tsx"
     },
+    "ScatterResultProps": {
+      "name": "ScatterResultProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "xLabel": {
+          "optional": true,
+          "type": [
+            "string",
+            "number",
+            "NumberFormat"
+          ]
+        },
+        "yLabel": {
+          "optional": true,
+          "type": [
+            "string",
+            "number",
+            "NumberFormat"
+          ]
+        },
+        "info": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "xLabelFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "yLabelFormat": {
+          "optional": true,
+          "type": "NumberFormat"
+        },
+        "header": {
+          "optional": true,
+          "type": "string"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type ScatterResultProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: any\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: string | number | NumberFormat\n  yLabel?: string | number | NumberFormat\n  info?: {\n    [key: string]: { format: string; label: string | number }\n  }\n  xLabelFormat?: NumberFormat\n  yLabelFormat?: NumberFormat\n  header?: string\n  width?: number\n  height?: number\n}",
+      "file": "/components/ScatterResult/index.tsx"
+    },
     "MultiSelectProps": {
       "name": "MultiSelectProps",
       "props": {
@@ -1707,8 +1888,13 @@
     },
     "SeparatorProps": {
       "name": "SeparatorProps",
-      "props": {},
-      "code": "type SeparatorProps = {}",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type SeparatorProps = {\n  style?: CSSProperties\n}",
       "file": "/components/Separator/index.tsx"
     },
     "SidebarItemsProps": {
@@ -1886,11 +2072,25 @@
           "optional": true,
           "type": "ColorVariant"
         },
+        "textAlign": {
+          "optional": true,
+          "type": [
+            {
+              "value": "center"
+            },
+            {
+              "value": "right"
+            },
+            {
+              "value": "left"
+            }
+          ]
+        },
         "children": {
           "type": "ReactNode"
         }
       },
-      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  variant?: ColorVariant\n  children: ReactNode\n}",
+      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  variant?: ColorVariant\n  textAlign?: 'center' | 'right' | 'left'\n  children: ReactNode\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {

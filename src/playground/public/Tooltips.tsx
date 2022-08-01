@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { useTooltip } from '~/hooks/useToolTip'
+import { useTooltip } from '~'
 import { Button, Text, Container, Avatar, Callout, Code } from '~'
 
 export const Tooltips = () => {
