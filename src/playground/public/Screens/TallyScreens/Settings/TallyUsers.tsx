@@ -5,16 +5,19 @@ import {
   Topbar,
   Button,
   AddIcon,
+  Checkbox,
   Page,
   Text,
   useDialog,
   Dialog,
   Input,
-  UploadIcon,
+  EmailIcon,
   RadioButton,
   MoreIcon,
   Table,
+  Grid,
   Menu,
+  MultiSelect,
 } from '~'
 
 export const TallyUsers = () => {
@@ -83,22 +86,39 @@ export const TallyUsers = () => {
 
 const AddShowDialog = () => {
   return (
-    <Dialog label="Create a new show">
-      <Input space label="Name of show" placeholder="Show name" />
-      <Input space label="Add show image" icon={UploadIcon} />
-      <RadioButton
-        label="Organisations"
-        data={[
-          'Saulx',
-          'Twister Interactive',
-          'Digame',
-          'Sport1',
-          'ARD',
-          'SRF',
-        ]}
+    <Dialog label="Invite a new User">
+      <Input
+        space
+        label="Email"
+        icon={EmailIcon}
+        placeholder="Email adress..."
       />
+      <Text space="12px">User Roles</Text>
+      <Checkbox description="Admin" space />
+
+      <Text space="12px">Administer Organisations</Text>
+      <Grid gap={12} itemWidth={150} space>
+        <Checkbox description="Stadt Krefeld" />
+        <Checkbox description="Saulx" />
+        <Checkbox description="SRF" />
+        <Checkbox description="Sport 1" />
+        <Checkbox description="ARD" />
+        <Checkbox description="Digame" />
+        <Checkbox description="Twister Interactive" />
+        <Checkbox description="RTL Germany" />
+        <Checkbox description="Yle" />
+      </Grid>
+
+      <MultiSelect
+        onChange={() => console.log('Snurp')}
+        placeholder="select something..."
+        label="Show Access"
+        filterable="create"
+        options={['yes', 'no', 'for sure']}
+      />
+
       <Dialog.Buttons border>
-        <Button icon={AddIcon}>Add Show</Button>
+        <Button icon={AddIcon}>Add User</Button>
       </Dialog.Buttons>
     </Dialog>
   )
