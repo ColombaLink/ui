@@ -32,7 +32,7 @@ type DropProps = {
 
 const defValidate = () => true
 
-const useDrop = (
+export const useDrop = (
   onDrop?: DropEventHandler,
   props: DropProps = {}
 ): [DropEvents, boolean, boolean] => {
@@ -161,5 +161,3 @@ const useDrop = (
     isDropLoading,
   ]
 }
-
-export default useDrop
