@@ -2,6 +2,7 @@ import React, { FC, CSSProperties, ReactNode } from 'react'
 import { Text, ExpandIcon, ExpandRightIcon } from '~'
 import { color, renderOrCreateElement } from '~'
 import { Data, Children } from './types'
+import { EditableTitle } from '~/components/Input/EditableTitle'
 
 type HeaderProps = {
   data?: Data<any>
@@ -33,7 +34,7 @@ export const Header: FC<HeaderProps> = ({
   items,
   data,
   style,
-  weight = 'semibold',
+  weight = 600,
   onEditTitle,
   autoFocusTitle,
   paddingLeft,
@@ -121,9 +122,7 @@ export const Header: FC<HeaderProps> = ({
               autoFocus={autoFocusTitle}
             />
           ) : (
-            <Text wrap weight={500}>
-              {label}
-            </Text>
+            <Text weight={500}>{label}</Text>
           )}
         </div>
       </div>

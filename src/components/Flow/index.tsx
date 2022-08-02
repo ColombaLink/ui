@@ -15,9 +15,9 @@ export const Flow: FlowProps = (props) => {
       blah
       <Header
         outline
-        label="yo sequence"
-        indicator="hallo"
-        onExpand={() => {}}
+        label="Editable label"
+        indicator="indicatoro"
+        onEditTitle={() => {}}
       />
     </div>
   )

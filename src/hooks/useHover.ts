@@ -13,6 +13,7 @@ type HoverState = {
 
 export const useHover = (): HoverState => {
   const [, update] = useState()
+
   const ref = useRef<HoverState>()
 
   if (!ref.current) {
