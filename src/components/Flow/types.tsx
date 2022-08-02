@@ -5,6 +5,7 @@ import {
   ReactText,
   PropsWithChildren,
   ReactNode,
+  SyntheticEvent,
 } from 'react'
 
 export type Data<T = {}> = T & {
@@ -36,3 +37,13 @@ export type ExportedData = {
   }
   text?: string
 }
+
+export type DataEventHandler<T = {}> = (
+  e?: Event | SyntheticEvent,
+  data?: Data<T>
+) => void | Promise<void> | boolean | Promise<boolean>
+
+export type MultiDataEventHandler<T = {}> = (
+  e: Event | SyntheticEvent,
+  data?: Data<T>[]
+) => void | Promise<void>

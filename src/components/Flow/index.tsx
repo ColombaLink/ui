@@ -1,5 +1,8 @@
 import React from 'react'
+import { Footer } from './Footer'
 import { Header } from './Header'
+import { wait } from '@saulx/utils'
+import { AddIcon } from '~'
 
 // flow props types
 
@@ -12,12 +15,14 @@ type FlowProps = {}
 export const Flow: FlowProps = (props) => {
   return (
     <div>
-      blah
-      <Header
+      <Header outline label="Editable label" onEditTitle={() => {}} />
+      <Footer
+        label="New Footer seq"
+        onClick={async (e, data) => {
+          await wait(1e3)
+        }}
         outline
-        label="Editable label"
-        indicator="indicatoro"
-        onEditTitle={() => {}}
+        icon={AddIcon}
       />
     </div>
   )
