@@ -5,7 +5,7 @@ import {
   DragEventHandler,
   DragEvent,
 } from 'react'
-import { clearSelection, getSelection } from '../../useSelect'
+import { clearSelection, getSelection } from '~/hooks'
 import readFiles from './readFiles'
 import { Data, File } from '~/types'
 import { deepEqual } from '@saulx/utils'

@@ -8,7 +8,7 @@ import {
 } from '~/components/ContextMenu'
 import { useOverlay } from './useOverlay'
 import { useCallback, useState, useEffect, CSSProperties } from 'react'
-import { PropsEventHandler } from '~/types'
+import { PropsEventHandler, Data } from '~/types'
 import { hash } from '@saulx/hash'
 import { deepEqual } from '@saulx/utils'
 
@@ -116,4 +116,68 @@ export function useMultiSelect(
     ),
     setValues,
   ]
+}
+
+export const selection: Map<Data, any[]> = new Map()
+
+export const getSelection = () => {
+  return [...selection.keys()]
+}
+
+const selectListeners: Set<(selection: any) => void> = new Set()
+
+export const useSelection = () => {
+  const [selection, setSelection] = useState(getSelection())
+
+  useEffect(() => {
+    const listener = (selection) => {
+      setSelection(selection)
+    }
+
+    selectListeners.add(listener)
+
+    return () => {
+      selectListeners.delete(listener)
+    }
+  }, [])
+
+  return selection
+}
+
+export const clearSelection = () => {
+  let doit = false
+
+  selection.forEach((childSelection, data) => {
+    if (childSelection.length > 2) {
+      for (let i = 0; i < childSelection.length - 1; i += 2) {
+        const selectionContext = childSelection[i]
+        const index = childSelection[i + 1]
+        if (selectionContext) {
+          // find with the id
+          selectionContext.selection.delete(data)
+          doit = true
+
+          if (selectionContext.children[index]) {
+            selectionContext.children[index](false)
+          }
+        }
+      }
+    } else {
+      const selectionContext = childSelection[0]
+      const index = childSelection[1]
+      if (selectionContext) {
+        doit = true
+        if (selectionContext.children[index]) {
+          selectionContext.children[index](false)
+        }
+      }
+    }
+
+    selection.delete(data)
+  })
+
+  if (doit) {
+    const targetSelection = getSelection()
+    selectListeners.forEach((fn) => fn(targetSelection))
+  }
 }
