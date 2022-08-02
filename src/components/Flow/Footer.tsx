@@ -12,7 +12,7 @@ import {
   Children,
   MultiDataEventHandler,
   DataEventHandler,
-} from './types'
+} from '~/types'
 import { useFlowHover } from './useFlowHover'
 
 type FooterProps<T = any> = {

@@ -1,7 +1,7 @@
 import React, { FC, CSSProperties, ReactNode } from 'react'
 import { Text, ExpandIcon, ExpandRightIcon } from '~'
 import { color, renderOrCreateElement } from '~'
-import { Data, Children } from './types'
+import { Data, Children } from '~/types'
 import { EditableTitle } from '~/components/Input/EditableTitle'
 
 type HeaderProps = {
