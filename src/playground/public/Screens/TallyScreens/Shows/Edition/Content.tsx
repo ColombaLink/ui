@@ -26,6 +26,7 @@ export const Content = () => {
       <TallySideBar />
 
       <Topbar
+        style={{ justifyContent: 'space-between' }}
         data={{ Content: '/', Design: '/des', Settings: '/set', Layer: '/lay' }}
         logo={<Text style={{ paddingLeft: 24 }}>Show name</Text>}
       >

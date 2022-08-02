@@ -135,7 +135,7 @@ export const Topbar: FC<TopbarProps> = ({
         borderBottom: `1px solid ${color('border')}`,
         backgroundColor: color('background'),
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         paddingRight: 24,
         ...style,
       }}
