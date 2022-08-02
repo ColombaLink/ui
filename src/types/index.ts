@@ -67,6 +67,8 @@ export type ExportedData = {
   text?: string
 }
 
+export type DataPath = (string | number)[]
+
 export type DataEventHandler<T = {}> = (
   e?: Event | SyntheticEvent,
   data?: Data<T>
