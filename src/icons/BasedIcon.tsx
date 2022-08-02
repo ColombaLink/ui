@@ -9,9 +9,9 @@ export const BasedIcon = ({
 }: Icon) => {
   return (
     <svg
-      width={size * 2}
-      height={size * 2}
-      viewBox="0 0 56 50"
+      width={size}
+      height={size}
+      viewBox="14 12 28 24"
       fill="none"
       // style={style}
     >

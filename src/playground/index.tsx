@@ -105,6 +105,7 @@ const App = () => {
             Accordions: '?story=accordions',
             Container: '?story=Containers',
             Grids: '?story=grids',
+            InfiniteList: '?story=InfiniteLists',
             Lists: '?story=lists',
             MasonryGrid: '?story=masonryGrid',
             Tables: '?story=tables',
@@ -113,6 +114,7 @@ const App = () => {
           Navigation: {
             Breadcrumbs: '?story=breadcrumb',
             SideMenu: '?story=SideMenu',
+            MenuSmall: '?story=SmallMenu',
             Topbar: '?story=topbars',
           },
           Overlays: {
@@ -123,6 +125,7 @@ const App = () => {
             ProfileSettings: '?story=profile-settings',
             ProjectSettings: '?story=project-settings',
             SyncSession: '?story=sync-session',
+            Tally: '?story=tally-screens',
           },
           Themes: {
             Theming: '?story=theming',

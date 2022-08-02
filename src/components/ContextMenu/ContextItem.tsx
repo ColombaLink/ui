@@ -126,7 +126,7 @@ export const ContextItem: FC<ContextItemProps> = ({
       }
     >
       {child}
-      {renderOrCreateElement(icon, {
+      {renderOrCreateElement(iconRight, {
         size: 16,
         style: { marginLeft: 8 },
       })}
