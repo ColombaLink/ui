@@ -61,7 +61,7 @@ export const FlowSequences = () => {
   const fd = [...listData]
 
   return (
-    <div style={{ height: 400 }}>
+    <div style={{ height: 676 }}>
       <Flow
         defaultIsExpanded
         expandable

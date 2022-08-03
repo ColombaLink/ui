@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Text } from '../../Text'
 import { useFlowHover } from '../useFlowHover'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
-import { SettingsIcon, DragDropIcon, LoadingIcon } from '~'
+import { SettingsIcon, DragDropIcon, LoadingIcon, MoreIcon } from '~'
 import { color, renderOrCreateElement } from '~/utils'
 import { useDrag } from '~/hooks'
 import { useDrop } from '~/hooks'
@@ -390,8 +390,8 @@ const ListItem = ({
             />
           )}
           {onOptions ? (
-            <OptionsIcon
-              color={{ color: 'foreground', opacity: isHover ? 0.5 : 0 }}
+            <MoreIcon
+              color="text"
               onClick={useCallback(
                 (e) => {
                   e.stopPropagation()
