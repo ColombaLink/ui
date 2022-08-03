@@ -302,7 +302,10 @@ const ListItem = ({
         {img ? (
           <Img src={img} size={24 + (itemProps.info ? 15 : 0)} />
         ) : Icon ? (
-          <Icon {...iconProps} />
+          <>
+            {renderOrCreateElement(Icon)}
+            {/* <Icon {...iconProps} /> */}
+          </>
         ) : null}
         <div
           style={{

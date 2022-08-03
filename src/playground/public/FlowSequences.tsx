@@ -3,6 +3,9 @@ import { Flow } from '~/components/Flow'
 import { wait } from '@saulx/utils'
 import { Button } from '~/components/Button'
 import { useOverlay } from '~/hooks'
+import { color, renderOrCreateElement } from '~/utils'
+import { Toggler } from '~/components/Toggler'
+import { SettingsIcon, CheckCircleIcon } from '~/icons'
 
 export const FlowSequences = () => {
   const profilePic = 'https://scx2.b-cdn.net/gfx/news/hires/2019/2-forest.jpg'
@@ -21,7 +24,7 @@ export const FlowSequences = () => {
       id: i,
       text: 'Item ' + i,
       longtext: 'test',
-      flurpen: 'testicon',
+      flurpen: renderOrCreateElement(SettingsIcon),
       img: i !== 3 ? profilePic : '',
       created: randomDate(),
     })
@@ -58,8 +61,7 @@ export const FlowSequences = () => {
   const fd = [...listData]
 
   return (
-    <div>
-      Flow here
+    <div style={{ height: 400 }}>
       <Flow
         defaultIsExpanded
         expandable
@@ -68,7 +70,7 @@ export const FlowSequences = () => {
           items: {
             props: {
               title: { path: ['text'] },
-              icon: { path: ['flurpen'], framed: true },
+              icon: { path: ['flurpen'] },
               id: ['id'],
             },
             path: ['items'],
@@ -86,8 +88,8 @@ export const FlowSequences = () => {
             items: [
               {
                 flurpen: {
-                  name: 'Logic',
-                  color: { color: 'secondary' },
+                  name: <CheckCircleIcon color="accent" />,
+                  color: color('accent'),
                 },
                 text: 'yesh',
                 id: 1,
@@ -124,10 +126,15 @@ export const FlowSequences = () => {
           }
         }}
         header={{
+          outline: true,
           onEditTitle: () => {},
           children: () => {
             // yes
-            return <>blah</>
+            return (
+              <>
+                <Toggler text="Edit" />
+              </>
+            )
           },
         }}
         onDropSequence={async (e, data) => {
@@ -135,6 +142,7 @@ export const FlowSequences = () => {
           await wait(1e3)
         }}
         footer={{
+          outline: true,
           label: 'New sequence',
           onClick: async (e, data) => {
             await wait(1e3)

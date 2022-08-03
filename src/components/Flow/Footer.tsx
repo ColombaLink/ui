@@ -5,7 +5,7 @@ import React, {
   CSSProperties,
   ReactNode,
 } from 'react'
-import { Text, LoadingIcon } from '~'
+import { Text, LoadingIcon, AddIcon } from '~'
 import { color, renderOrCreateElement } from '~'
 import {
   Data,
@@ -15,7 +15,7 @@ import {
 } from '~/types'
 import { useFlowHover } from './useFlowHover'
 
-type FooterProps<T = any> = {
+export type FooterProps<T = any> = {
   label?: string
   floating?: boolean
   outline?: boolean
@@ -33,7 +33,7 @@ export const Footer: FC<FooterProps> = ({
   width,
   outline,
   paddingRight,
-  icon = 'add',
+  icon = AddIcon,
   data,
   floating,
   paddingLeft,
@@ -42,7 +42,7 @@ export const Footer: FC<FooterProps> = ({
   items,
   style,
 }) => {
-  const Icon = icon ? renderOrCreateElement(icon) : null
+  const Icon = icon ? renderOrCreateElement(AddIcon) : null
   const [hover, isHover, isActive] = useFlowHover()
   const [loading, setLoading] = useState(false)
   return (

@@ -55,7 +55,7 @@ export const Sequence = ({ style, data: { items, context, width }, index }) => {
         }}
       >
         <Footer
-          framed
+          outline
           floating
           items={items}
           data={{ data: { items: items.slice(0, -1) } }}
@@ -208,7 +208,7 @@ export const Sequence = ({ style, data: { items, context, width }, index }) => {
                 // how do i know if something is just created...
                 data={wrappedData}
                 items={items}
-                framed
+                outline
                 indicator={context.indicator ? `${index + 1}.` : ''}
                 label={itemData.name === 'New sequence' ? '' : title}
                 isExpanded={isExpanded}

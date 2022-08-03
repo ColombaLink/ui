@@ -4,7 +4,7 @@ import { color, renderOrCreateElement } from '~'
 import { Data, Children } from '~/types'
 import { EditableTitle } from '~/components/Input/EditableTitle'
 
-type HeaderProps = {
+export type HeaderProps = {
   data?: Data<any>
   autoFocusTitle?: boolean
   indicator?: string
@@ -87,7 +87,7 @@ export const Header: FC<HeaderProps> = ({
               marginRight: 15,
               marginLeft: 1,
               transition: 'transform',
-              transform: `rotate(${isExpanded ? '90deg' : '0deg'})`,
+              transform: `rotate(${isExpanded ? '0deg' : '-90deg'})`,
             }}
           />
         ) : (

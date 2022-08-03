@@ -1,27 +1,63 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, ComponentType } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
-import { Footer } from './Footer'
+import { Footer, FooterProps } from './Footer'
 import { FooterBottom } from './FooterBottom'
 import { Sequence } from './Sequence'
-import { Header } from './Header'
+import { Header, HeaderProps } from './Header'
 import { wait } from '@saulx/utils'
 import { AddIcon } from '~'
 import { getData } from './getData'
 import useDragScroll from '~/hooks/useDragScroll'
+import { DataEventHandler, Data, ExportData, File, Children } from '~/types'
+import { OptionsComponentProps, SequenceitemProps } from './types'
 
 // flow props types
 
-type FlowProps = {}
-
-//header flow component
+type FlowProps = {
+  indicator?: boolean
+  onDropData?: DataEventHandler
+  onDropFile?: DataEventHandler
+  onDrop?: DataEventHandler<
+    | { data: Data[]; targetIndex: number; targetData: Data }
+    | { files: File[]; targetIndex: number; targetData: Data }
+  > // i think this is an order change - if this is not there dont allow order change
+  onDropSequence?: DataEventHandler<
+    | { data: Data[]; targetIndex: number }
+    | { files: File[]; targetIndex: number }
+  > // i think this is an order change - if this is not there dont allow order change
+  paddingRight?: number
+  paddingLeft?: number
+  sequenceSpacing?: number
+  paddingTop?: number
+  expandable?: boolean
+  defaultIsExpanded?: boolean
+  paddingBottom?: number
+  width?: number
+  items: Object[]
+  draggable?: boolean
+  Actions?: ComponentType<OptionsComponentProps>
+  itemProps?: SequenceitemProps
+  onClick?: DataEventHandler
+  actionIcon?: string
+  onAction?: DataEventHandler
+  footer?: FooterProps
+  stepFooter?: FooterProps
+  exportData?: ExportData
+  exportDataSequence?: ExportData
+  onOptions?: DataEventHandler // select options
+  optionsIcon?: string
+  contextualMenu?: boolean
+  children?: Children<OptionsComponentProps>
+  header?: HeaderProps
+}
 
 const defaultItemProps = {
   title: { path: ['title'] },
   items: { path: ['items'] },
 }
 
-export const Flow: FlowProps = (props) => {
+export const Flow = (props: FlowProps) => {
   const { items = [], footer, paddingTop = 0, paddingBottom = 0 } = props
   const autoFocusRef = useRef()
   const itemsWithNew = footer
