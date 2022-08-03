@@ -1465,6 +1465,30 @@
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
     },
+    "MenuSmallProps": {
+      "name": "MenuSmallProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "logo": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "avatar": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type MenuSmallProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/MenuSmall/index.tsx"
+    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -1911,9 +1935,16 @@
         "isActive": {
           "optional": true,
           "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            "string"
+          ]
         }
       },
-      "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
+      "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n  icon?: ReactNode | string\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "StepsProps": {
@@ -2354,9 +2385,21 @@
             "FC",
             "ReactNode"
           ]
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "noLogo": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
         }
       },
-      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n}",
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n}",
       "file": "/components/Topbar/index.tsx"
     },
     "ValueSliderProps": {

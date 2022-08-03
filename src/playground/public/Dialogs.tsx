@@ -2,8 +2,9 @@ import React from 'react'
 import { Dialog, DialogProvider, useDialog } from '~/components/Dialog'
 import { Text, Button } from '~'
 import ComponentViewer from '../ComponentViewer'
+import { Code } from '~'
 
-const codeExample = `<Dialog>
+const codeExample = `<Dialog label="label">
     <Text weight={600} space>
       Create a new organisation
     </Text>
@@ -11,6 +12,10 @@ const codeExample = `<Dialog>
       This is your organization’s name within Based. For example, you can
       use the name of your company or department.
     </Text>
+    <Dialog.Buttons border>
+       <Dialog.Cancel />
+       <Dialog.Confirm />
+    </Dialog.Buttons>
   </Dialog>`
 
 export const Dialogs = () => {
@@ -27,6 +32,8 @@ export const Dialogs = () => {
           },
         ]}
       /> */}
+
+      <Code value={codeExample} space />
 
       <Dialog
         space

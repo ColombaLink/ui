@@ -1,18 +1,6 @@
 import { render } from 'react-dom'
-import React, { FC, useEffect, useState } from 'react'
-import {
-  Provider,
-  Button,
-  Page,
-  Menu,
-  Route,
-  setLocation,
-  Code,
-  CurlyBracesIcon,
-  useSearchParam,
-  useRoute,
-  useLocation,
-} from '../'
+import React, { FC } from 'react'
+import { Provider, Button, Page, Menu, useLocation } from '../'
 import based from '@based/client'
 import * as stories from './public'
 import { DarkModeIcon, LightModeIcon } from '../'
@@ -24,14 +12,14 @@ import basedConfig from './based.json'
 
 export const client = based(basedConfig)
 
-const Stories = () => {
+const Stories: FC = () => {
   useLocation()
   const story = new URLSearchParams(location.search).get('story')
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
     if (!component) {
-      return () => <div>empty</div>
+      return <div>empty</div>
     }
     return React.createElement(component)
   }
@@ -102,6 +90,7 @@ const App = () => {
             Accordions: '?story=accordions',
             Container: '?story=Containers',
             Grids: '?story=grids',
+            InfiniteList: '?story=InfiniteLists',
             Lists: '?story=lists',
             MasonryGrid: '?story=masonryGrid',
             Tables: '?story=tables',
@@ -110,6 +99,7 @@ const App = () => {
           Navigation: {
             Breadcrumbs: '?story=breadcrumb',
             SideMenu: '?story=SideMenu',
+            MenuSmall: '?story=SmallMenu',
             Topbar: '?story=topbars',
           },
           Overlays: {
@@ -121,6 +111,7 @@ const App = () => {
             ProjectSettings: '?story=project-settings',
             SyncSession: '?story=sync-session',
             Auth: '?story=auth',
+            Tally: '?story=tally-screens',
           },
           Themes: {
             Theming: '?story=theming',

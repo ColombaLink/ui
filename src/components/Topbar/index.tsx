@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color, font } from '~/utils'
@@ -24,6 +24,9 @@ type TopbarProps = {
   onProfile?: () => void
   breadcrumbs?: ReactNode
   logo?: FC | ReactNode
+  children?: ReactNode
+  noLogo?: boolean
+  style?: CSSProperties
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
@@ -61,6 +64,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             height: 66,
             display: 'flex',
             alignItems: 'center',
+            width: 'max-content',
             borderBottom: `3px solid ${
               isActive ? color('text') : 'transparent'
             }`,
@@ -97,7 +101,10 @@ export const Topbar: FC<TopbarProps> = ({
   onFilter,
   onProfile,
   breadcrumbs,
+  children,
   logo,
+  noLogo = false,
+  style,
 }) => {
   const user = useAuth()
 
@@ -128,30 +135,26 @@ export const Topbar: FC<TopbarProps> = ({
         borderBottom: `1px solid ${color('border')}`,
         backgroundColor: color('background'),
         alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingRight: 30,
+        justifyContent: 'flex-start',
+        paddingRight: 24,
+        ...style,
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 66,
-          minHeight: 66,
-        }}
-      >
-        {logo ? (
-          <>{logo}</>
-        ) : (
-          <Logo
-            height={32}
-            width={32}
-            style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
-          />
-        )}
+      {noLogo ? (
+        <></>
+      ) : logo ? (
+        <>{logo}</>
+      ) : (
+        <Logo
+          height={32}
+          width={32}
+          style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+        />
+      )}
 
-        {breadcrumbs}
+      {breadcrumbs}
 
+      <div style={{ display: 'flex', alignSelf: 'baseline' }}>
         {Object.keys(data).map((key) => {
           const href = prefix + data[key]
           return (
@@ -166,12 +169,19 @@ export const Topbar: FC<TopbarProps> = ({
         })}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {onFilter && <TopbarSearchbar />}
-        <div>
-          {onProfile && <Avatar onClick={onProfile} label={email} size={32} />}
-        </div>
-      </div>
+      {children ? <div style={{ marginLeft: 24 }}>{children}</div> : null}
+
+      {onFilter ||
+        (onProfile && (
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {onFilter && <TopbarSearchbar />}
+            <div>
+              {onProfile && (
+                <Avatar onClick={onProfile} label={email} size={32} />
+              )}
+            </div>
+          </div>
+        ))}
     </div>
   )
 }

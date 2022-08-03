@@ -203,15 +203,22 @@ export const Dialog = Object.assign(
           ref={forwardedRef}
           {...props}
         >
+          {label && (
+            <div
+              style={{
+                borderBottom: `1px solid ${color('border')}`,
+                padding: '8px 24px',
+              }}
+            >
+              <Text weight={600}>{label}</Text>
+            </div>
+          )}
           <ScrollArea>
             <ScrollBody
               style={{
                 '--dialogPadding': `${padding}px`,
               }}
             >
-              <Text weight={600} space="12px">
-                {label}
-              </Text>
               {children}
             </ScrollBody>
           </ScrollArea>

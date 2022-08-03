@@ -6,10 +6,20 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
+import {
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DeleteIcon,
+  DuplicateIcon,
+  EditIcon,
+  MoreIcon,
+} from '~/icons'
 import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
+
+import { useContextMenu } from '~/hooks'
+import { ContextItem } from '~'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
 const IList = styled(InfiniteList, scrollAreaStyle)
@@ -17,6 +27,13 @@ const Edit = styled(EditIcon, {
   cursor: 'pointer',
   '&:hover': {
     opacity: 0.6,
+  },
+})
+const More = styled(MoreIcon, {
+  cursor: 'pointer',
+  opacity: 0.6,
+  '&:hover': {
+    opacity: 1,
   },
 })
 
@@ -44,6 +61,7 @@ const Item: FC<{
 }) => {
   const left = 8
   const right = 24
+
   return (
     <styled.div
       onClick={onClick}
@@ -53,6 +71,8 @@ const Item: FC<{
         height: height,
         position: 'relative',
         cursor: 'pointer',
+        alignItems: 'center',
+        display: 'flex',
         '&:hover': {
           backgroundColor: color('lightgrey:hover'),
         },
@@ -61,20 +81,32 @@ const Item: FC<{
       <Text style={{ visibility: 'hidden', paddingRight: left + right }}>
         {longestString}
       </Text>
-      <Text
-        color={colorProp}
-        style={{
-          lineHeight: `${height}px`,
-          position: 'absolute',
-          left: 8,
-          right: 24,
-          bottom: 0,
-          top: 0,
-        }}
-      >
-        {children}
-      </Text>
-      {icon}
+      {typeof children === 'string' && (
+        <Text
+          color={colorProp}
+          style={{
+            lineHeight: `${height}px`,
+            position: 'absolute',
+            left: 8,
+            right: 24,
+            bottom: 0,
+            top: 0,
+          }}
+        >
+          {children}
+        </Text>
+      )}
+      {typeof children !== 'string' && (
+        <div
+          style={{
+            position: 'absolute',
+            left: 0,
+            right: 0,
+          }}
+        >
+          {children}
+        </div>
+      )}
     </styled.div>
   )
 }
@@ -124,6 +156,8 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
           </Item>
         )
       })}
+
+      <More onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })} />
     </div>
   )
 }
@@ -380,5 +414,21 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
         }}
       </AutoSizer>
     </styled.div>
+  )
+}
+
+const SimpleMenu = () => {
+  return (
+    <>
+      <ContextItem
+        icon={DuplicateIcon}
+        onClick={() => {
+          console.log('hello')
+        }}
+      >
+        Duplicate
+      </ContextItem>
+      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
+    </>
   )
 }

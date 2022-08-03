@@ -2,12 +2,14 @@ import React, { FC, ReactNode } from 'react'
 import { useLocation } from '~/hooks'
 
 import { color, font, hrefIsActive } from '~/utils'
+
 import { Link } from '../Link'
 
 type SidebarItemsProps = {
   href?: string
   children?: ReactNode
   isActive?: boolean
+  icon?: ReactNode | string
 }
 
 const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
@@ -50,10 +52,12 @@ export const Sidebar = ({
   if (!selected) {
     selected = location
   }
+
+  console.log(data[0].icon)
   return (
     <div
       style={{
-        backgroundColor: color('background'),
+        backgroundColor: color('background2'),
         borderRight: `1px solid ${color('border')}`,
         width: 56,
         display: 'flex',
@@ -64,6 +68,7 @@ export const Sidebar = ({
     >
       {Object.keys(data).map((key) => {
         let href = data[key]
+        let icon = data[key].icon
         let children: ReactNode = key[0]
         if (typeof href === 'object') {
           if (Array.isArray(href)) {
@@ -79,7 +84,9 @@ export const Sidebar = ({
             key={key}
             href={href}
             isActive={hrefIsActive(href, selected)}
+            icon={icon}
           >
+            {icon ? icon : null}
             {children}
           </SidebarItem>
         )
