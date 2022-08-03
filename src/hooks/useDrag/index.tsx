@@ -161,6 +161,7 @@ function useDrag<T>(
           document.body.removeChild(holder)
         })
 
+        console.log(data)
         // allow adding file data for example for images
         e.dataTransfer.setDragImage(cp, 0, 0)
 

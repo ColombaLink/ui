@@ -149,6 +149,8 @@ const ListItem = ({
     iconProps = itemProps.icon
   }
 
+  console.log(iconName)
+
   const isActive = isActiveFn ? isActiveFn(wrappedData) : activeId === id
 
   const [hover, isHover] = useFlowHover()
@@ -213,12 +215,9 @@ const ListItem = ({
     }, [isDragOver, onDrop, isDropLoading])
   }
 
-  const Icon = iconName ? renderOrCreateElement(iconName) : null
-  const OptionsIcon = optionsIcon ? (
-    renderOrCreateElement(optionsIcon)
-  ) : (
-    <SettingsIcon />
-  )
+  const Icon = iconName ? iconName : null
+
+  const OptionsIcon = optionsIcon ? 'options icon' : <MoreIcon />
 
   return (
     <div style={styleOverride || x} {...drop}>
@@ -303,7 +302,8 @@ const ListItem = ({
           <Img src={img} size={24 + (itemProps.info ? 15 : 0)} />
         ) : Icon ? (
           <>
-            {renderOrCreateElement(Icon)}
+            {Icon}
+
             {/* <Icon {...iconProps} /> */}
           </>
         ) : null}

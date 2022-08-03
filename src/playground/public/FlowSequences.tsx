@@ -24,7 +24,7 @@ export const FlowSequences = () => {
       id: i,
       text: 'Item ' + i,
       longtext: 'test',
-      flurpen: renderOrCreateElement(SettingsIcon),
+      flurpen: 'CheckCircleIcon',
       img: i !== 3 ? profilePic : '',
       created: randomDate(),
     })
@@ -35,7 +35,7 @@ export const FlowSequences = () => {
       ({ data }) => {
         console.info(data)
         return (
-          <div>
+          <div style={{ width: 400, height: 200, padding: 30 }}>
             <Button
               onClick={() => {
                 data.text = 'blah'
@@ -88,7 +88,7 @@ export const FlowSequences = () => {
             items: [
               {
                 flurpen: {
-                  name: <CheckCircleIcon color="accent" />,
+                  name: 'CircleCheckIcon',
                   color: color('accent'),
                 },
                 text: 'yesh',
@@ -143,6 +143,7 @@ export const FlowSequences = () => {
         }}
         footer={{
           outline: true,
+          icon: 'SettingsIcon',
           label: 'New sequence',
           onClick: async (e, data) => {
             await wait(1e3)
