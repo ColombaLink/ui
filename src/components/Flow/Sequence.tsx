@@ -8,7 +8,7 @@ import { DragSeqLine } from './DragSeqLine'
 import { LoadingIcon } from '~/icons'
 import { color } from '~'
 import { getData } from './getData'
-import { SelectableCollection } from '~/hooks'
+import { SelectableCollection } from './useFlowSelect'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
 import { ListItem } from './List/ListItem'
 
