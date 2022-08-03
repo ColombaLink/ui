@@ -1,18 +1,6 @@
 import { render } from 'react-dom'
-import React, { FC, useEffect, useState } from 'react'
-import {
-  Provider,
-  Button,
-  Page,
-  Menu,
-  Route,
-  setLocation,
-  Code,
-  CurlyBracesIcon,
-  useSearchParam,
-  useRoute,
-  useLocation,
-} from '../'
+import React, { FC } from 'react'
+import { Provider, Button, Page, Menu, useLocation } from '../'
 import based from '@based/client'
 import * as stories from './public'
 import { DarkModeIcon, LightModeIcon } from '../'
@@ -20,22 +8,18 @@ import { toPascalCase } from './utils'
 import { LargeLogo } from '../'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
+import basedConfig from './based.json'
 
-// @ts-ignore
-export const client = based({
-  org: 'saulx',
-  project: 'demo',
-  env: 'production',
-})
+export const client = based(basedConfig)
 
-const Stories = () => {
+const Stories: FC = () => {
   useLocation()
   const story = new URLSearchParams(location.search).get('story')
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
     if (!component) {
-      return () => <div>empty</div>
+      return <div>empty</div>
     }
     return React.createElement(component)
   }
@@ -92,6 +76,7 @@ const App = () => {
             Icons: '?story=icons',
             Steps: '?story=step',
             Thumbnails: '?story=thumbnails',
+            Separator: '?story=separators',
           },
           Feedback: {
             Callouts: '?story=callouts',
@@ -125,6 +110,7 @@ const App = () => {
             ProfileSettings: '?story=profile-settings',
             ProjectSettings: '?story=project-settings',
             SyncSession: '?story=sync-session',
+            Auth: '?story=auth',
             Tally: '?story=tally-screens',
           },
           Themes: {

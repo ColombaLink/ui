@@ -11,6 +11,7 @@ import { LargeLogo } from '../Logo'
 import { useAuth } from '@based/react'
 import useGlobalState from '@based/use-global-state'
 
+export type ThirdPartyProvider = 'google' | 'microsoft' | 'github'
 type AuthProps = {
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegister?: (data: { email: string; password: string; name: string }) => void
@@ -20,6 +21,9 @@ type AuthProps = {
   overlay?: boolean
   style?: CSSProperties
   app?: FC<any | { user: { id: string; email: string } }>
+  googleClientId?: string
+  microsoftClientId?: string
+  githubClientId?: string
 }
 
 export const Authorize: FC<AuthProps> = ({
@@ -31,12 +35,21 @@ export const Authorize: FC<AuthProps> = ({
   overlay = true,
   logo,
   style,
+  children,
+  googleClientId,
+  microsoftClientId,
+  githubClientId,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   const [email = '', setEmail] = useGlobalState('email')
   const [fadeIn, setFade] = useState(false)
 
   useEffect(() => {
+    if (children) {
+      console.warn(
+        "Don't use children with Authorize component. Use app argument instead so unauthorized components don't get rendered"
+      )
+    }
     const t = setTimeout(() => setFade(true), 300)
     return () => {
       clearTimeout(t)
@@ -63,17 +76,26 @@ export const Authorize: FC<AuthProps> = ({
           <Tab label="Sign in">
             <Login
               onLogin={onLogin}
-              onRegisterRequest={(email) => {
+              onRegisterRequest={(_email) => {
                 setActiveTab(1)
               }}
               onResetRequest={() => {
                 setShowResetRequest(true)
               }}
+              googleClientId={googleClientId}
+              microsoftClientId={microsoftClientId}
+              githubClientId={githubClientId}
             />
           </Tab>
           {register || onRegister ? (
             <Tab label="Sign up">
-              <Register email={email} onRegister={onRegister} />
+              <Register
+                email={email}
+                onRegister={onRegister}
+                googleClientId={googleClientId}
+                microsoftClientId={microsoftClientId}
+                githubClientId={githubClientId}
+              />
             </Tab>
           ) : null}
         </Tabs>

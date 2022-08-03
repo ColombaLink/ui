@@ -4,16 +4,21 @@ import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
 import { useClient } from '@based/react'
-import { color } from '~'
+import { color, Separator } from '~'
 import { styled } from 'inlines'
 import { email as isEmail } from '@saulx/validators'
-import useGlobalState from '@based/use-global-state'
+import { GoogleButton } from './GoogleButton'
+import { MicrosoftButton } from './MicrosoftButton'
+import { GithubButton } from './GithubButton'
 
 type LoginProps = {
   width?: number
   onLogin?: (props: { token: string; refreshToken: string }) => void
   onRegisterRequest?: (email: string) => void
   onResetRequest?: () => void
+  googleClientId?: string
+  microsoftClientId?: string
+  githubClientId?: string
 }
 
 // TODO: make width dynamic.
@@ -23,6 +28,9 @@ export const Login: FC<LoginProps> = ({
   onLogin,
   onRegisterRequest,
   onResetRequest,
+  googleClientId,
+  microsoftClientId,
+  githubClientId,
 }) => {
   const [email = '', setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,28 +47,20 @@ export const Login: FC<LoginProps> = ({
         width,
       }}
     >
-      {/*<Button
-        icon={GoogleIcon}
-        textAlign="center"
-        style={{
-          width,
-          height: 48,
-        }}
-        onClick={() => {
-          console.log('google')
-        }}
-        space
-      >
-        Continue with Google
-      </Button>
-      <div
-        style={{
-          borderTop: '1px solid gray',
-          content: '',
-          marginTop: 16,
-          marginBottom: 16,
-        }}
-      />*/}
+      {googleClientId || microsoftClientId ? (
+        <>
+          {googleClientId ? (
+            <GoogleButton width={width} clientId={googleClientId} />
+          ) : null}
+          {microsoftClientId ? (
+            <MicrosoftButton width={width} clientId={microsoftClientId} />
+          ) : null}
+          {githubClientId ? (
+            <GithubButton width={width} clientId={githubClientId} />
+          ) : null}
+          <Separator style={{ marginTop: 16 }}>OR</Separator>
+        </>
+      ) : null}
 
       <Input
         large
@@ -104,9 +104,11 @@ export const Login: FC<LoginProps> = ({
       <Button
         large
         fill
+        color="text"
         style={{
           marginBottom: 24,
         }}
+        textAlign="center"
         actionKeys={['Enter']}
         disabled={!passwordExpanded ? !isEmail(email) : !valid}
         onClick={
