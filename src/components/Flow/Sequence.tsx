@@ -10,6 +10,7 @@ import { color } from '~'
 import { getData } from './getData'
 import { SelectableCollection } from '~/hooks'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
+import { ListItem } from './List/ListItem'
 
 const defaultItemProps = {
   title: { path: ['title'] },

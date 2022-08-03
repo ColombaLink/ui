@@ -14,12 +14,14 @@ import React, {
   CSSProperties,
   createContext,
   useContext,
+  EventHandler,
+  SyntheticEvent,
 } from 'react'
 import { PropsEventHandler, Data } from '~/types'
 import { hash } from '@saulx/hash'
 import { deepEqual } from '@saulx/utils'
 
-export function useSelect(
+export function useSelect<T = any>(
   items: (Option | Value)[] = [],
   value?: Value,
   position?: PositionProps & {
@@ -27,8 +29,12 @@ export function useSelect(
     placeholder?: string
     style?: CSSProperties
   },
-  handler?: (selection: Event | any) => () => void | undefined
-): [string | number | undefined, PropsEventHandler, (value: Value) => void] {
+  handler?: (selection: Data<T> | Event | any) => () => void | undefined
+): [
+  SelectEvents | boolean | string | number | undefined,
+  PropsEventHandler,
+  (value: Value) => void
+] {
   const [v, setValue] = useState(value)
   useEffect(() => {
     setValue(value)
@@ -216,4 +222,19 @@ export const SelectableCollection = ({ children, items }) => {
       {children}
     </SelectionContext.Provider>
   )
+}
+
+export const useClick = (
+  onClick: EventHandler<SyntheticEvent>,
+  refs: any[] = []
+) => {
+  return useCallback((event) => {
+    if (!event.shiftKey) {
+      onClick(event)
+    }
+  }, refs)
+}
+
+export type SelectEvents = {
+  onMouseDown: EventHandler<SyntheticEvent>
 }

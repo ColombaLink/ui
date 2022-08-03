@@ -1,5 +1,8 @@
 import React from 'react'
+import AutoSizer from 'react-virtualized-auto-sizer'
 import { Footer } from './Footer'
+import { FooterBottom } from './FooterBottom'
+import { Sequence } from './Sequence'
 import { Header } from './Header'
 import { wait } from '@saulx/utils'
 import { AddIcon } from '~'
@@ -14,7 +17,7 @@ type FlowProps = {}
 
 export const Flow: FlowProps = (props) => {
   return (
-    <div>
+    <AutoSizer>
       <Header outline label="Editable label" onEditTitle={() => {}} />
       <Footer
         label="New Footer seq"
@@ -24,6 +27,6 @@ export const Flow: FlowProps = (props) => {
         outline
         icon={AddIcon}
       />
-    </div>
+    </AutoSizer>
   )
 }
