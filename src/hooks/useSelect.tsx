@@ -7,7 +7,14 @@ import {
   ContextMultiOptions,
 } from '~/components/ContextMenu'
 import { useOverlay } from './useOverlay'
-import { useCallback, useState, useEffect, CSSProperties } from 'react'
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  CSSProperties,
+  createContext,
+  useContext,
+} from 'react'
 import { PropsEventHandler, Data } from '~/types'
 import { hash } from '@saulx/hash'
 import { deepEqual } from '@saulx/utils'
@@ -180,4 +187,33 @@ export const clearSelection = () => {
     const targetSelection = getSelection()
     selectListeners.forEach((fn) => fn(targetSelection))
   }
+}
+
+export type SelectableContext<T> = {
+  data: Data<T>[]
+  children: { [key: string]: (...args: any[]) => void }
+  selection: Set<Data<T>>
+}
+
+const defaultContext: SelectableContext<{}> = {
+  data: [],
+  children: {},
+  selection: new Set(),
+}
+
+export const SelectionContext = createContext(defaultContext)
+SelectionContext.displayName = 'SelectionContext'
+
+export const SelectableCollection = ({ children, items }) => {
+  return (
+    <SelectionContext.Provider
+      value={{
+        data: items,
+        children: {},
+        selection: new Set(),
+      }}
+    >
+      {children}
+    </SelectionContext.Provider>
+  )
 }
