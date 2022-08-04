@@ -71,6 +71,13 @@ export const PieGraph: FC<PieGraphProps> = ({
 
   const mouseLabel = useRef<HTMLDivElement>(null)
 
+  const hexToRgba = (hex: string) => {
+    const [r, g, b] = hex.match(/\w\w/g)!.map((x) => parseInt(x, 16))
+    return `rgba(${r}, ${g}, ${b}, 1)`
+  }
+
+  console.log(hexToRgba('#ff0000'))
+
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
@@ -117,6 +124,17 @@ export const PieGraph: FC<PieGraphProps> = ({
 
     console.log(subValuesPerObject)
 
+    // check if there are sub label colors:
+    console.log('data', data)
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].color) {
+        if (data[i].color.includes('#')) {
+          // convert to rgba and then push
+          themeColorArray[i] = hexToRgba(data[i].color)
+        }
+      }
+    }
+
     const newColorArrayFun = () => {
       for (let i = 0; i < totalPerObject.length; i++) {
         for (let j = 0; j < subValuesPerObject[0].length; j++) {
@@ -127,8 +145,6 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
     newColorArrayFun()
-
-    console.log('new color Arr', newColorArr)
 
     console.log(totalPerObject.length)
   } else if (
