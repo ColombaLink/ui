@@ -1,16 +1,21 @@
 import React, { CSSProperties, FC } from 'react'
-import { color } from '~/utils'
+import { Color, color } from '~/utils'
 import { Text } from '~'
 import { useTooltip } from '~/hooks'
 import { styled } from 'inlines'
 import { prettyNumber } from '@based/pretty-number'
 
 type BarGraphProps = {
-  data: { value: number | { [key: string]: number }; label: string }[]
+  data: {
+    value: number | { [key: string]: number }
+    label: string
+    color?: string
+  }[]
   label?: string
   value?: number
   legend?: { [key: string]: string } | string[]
   style?: CSSProperties
+  baseColor?: Color
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
@@ -19,6 +24,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   value,
   legend = null,
   style,
+  baseColor,
 }) => {
   let total,
     highestVal,
@@ -70,6 +76,31 @@ export const BarGraph: FC<BarGraphProps> = ({
     legendValues = undefined
   }
 
+  const themeColorArray = []
+
+  for (let i = 0; i < data.length; i++) {
+    if (baseColor) {
+      themeColorArray.push(color(baseColor))
+    } else {
+      themeColorArray.push(color('accent'))
+    }
+  }
+
+  const hexToRgba = (hex: string) => {
+    const [r, g, b] = hex.match(/\w\w/g)!.map((x) => parseInt(x, 16))
+    return `rgba(${r}, ${g}, ${b}, 1)`
+  }
+
+  // check if there are sub label colors:
+  for (let i = 0; i < data.length; i++) {
+    if (data[i].color) {
+      if (data[i].color.includes('#')) {
+        // convert to rgba and then push
+        themeColorArray[i] = hexToRgba(data[i].color)
+      }
+    }
+  }
+
   return (
     <>
       <div
@@ -109,7 +140,9 @@ export const BarGraph: FC<BarGraphProps> = ({
                   borderRadius: 4,
                   backgroundColor:
                     typeof item.value !== 'object'
-                      ? color('accent')
+                      ? baseColor
+                        ? color(baseColor)
+                        : color('accent')
                       : 'transparent',
                   display: 'flex',
                   alignItems: 'center',
@@ -170,6 +203,7 @@ export const BarGraph: FC<BarGraphProps> = ({
                           'number-short'
                         )}
                         label={subLabelsPerObject[idx][key]}
+                        bgColor={themeColorArray[idx]}
                       />
                     ))}
                   </styled.div>
@@ -189,6 +223,7 @@ type BarSegmentProps = {
   value: string | number
   style?: CSSProperties
   label?: any
+  bgColor?: string
   legend?: string[] | { [key: string]: string }
 }
 
@@ -198,6 +233,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
   value,
   legend,
   label,
+  bgColor,
   id,
   ...props
 }) => {
@@ -256,12 +292,12 @@ export const BarSegment: FC<BarSegmentProps> = ({
         height: 32,
         display: 'block',
         width: width + '%',
-        backgroundColor: color('accent'),
+        backgroundColor: bgColor ? bgColor : color('accent'),
         opacity: `calc(1 - 0.${id * 2})`,
         ...style,
         '&:hover': {
-          opacity: 1,
-          backgroundColor: color('accent:hover'),
+          opacity: 0.5,
+          backgroundColor: bgColor,
         },
       }}
       {...props}

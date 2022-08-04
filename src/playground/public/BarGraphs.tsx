@@ -35,10 +35,17 @@ export const BarGraphs = () => {
     {
       label: 'More data',
       value: { en: 275, de: 2200, nl: 50 },
+      color: '#253659',
+    },
+    {
+      label: 'Snurpy?',
+      value: { en: 45, de: 391, nl: 33 },
+      color: '#04BF9D',
     },
     {
       label: 'What logo?',
       value: { en: 75, de: 201, nl: 30 },
+      color: '#F27457',
     },
   ]
 
@@ -51,6 +58,7 @@ export const BarGraphs = () => {
           {
             props: {
               data: barData,
+              baseColor: 'purple',
             },
           },
           {

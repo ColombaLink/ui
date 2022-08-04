@@ -76,8 +76,6 @@ export const PieGraph: FC<PieGraphProps> = ({
     return `rgba(${r}, ${g}, ${b}, 1)`
   }
 
-  console.log(hexToRgba('#ff0000'))
-
   //test if value is an object or number
   if (typeof data[0].value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
@@ -122,10 +120,7 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
 
-    console.log(subValuesPerObject)
-
     // check if there are sub label colors:
-    console.log('data', data)
     for (let i = 0; i < data.length; i++) {
       if (data[i].color) {
         if (data[i].color.includes('#')) {
@@ -145,8 +140,6 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
     newColorArrayFun()
-
-    console.log(totalPerObject.length)
   } else if (
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
@@ -192,8 +185,6 @@ export const PieGraph: FC<PieGraphProps> = ({
       angleAddedPercentages,
       (item) => item < angle
     )
-
-    console.log(toolTipIndex)
 
     setToolTipIndex(indexOfAngle)
 
