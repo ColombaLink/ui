@@ -23,7 +23,13 @@ export const Toggler: FC<TogglerProps> = ({
     <div {...props}>
       <Text>{label}</Text>
       <Text weight={400}>{description}</Text>
-      <div style={{ display: 'flex', marginTop: 8, alignItems: 'center' }}>
+      <div
+        style={{
+          display: 'flex',
+          marginTop: label || description ? 8 : 0,
+          alignItems: 'center',
+        }}
+      >
         <styled.input
           onChange={() => {
             setCheckedState(!checkedState)

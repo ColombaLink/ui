@@ -1,4 +1,14 @@
-import { SVGProps, SyntheticEvent } from 'react'
+import {
+  ReactChild,
+  ReactChildren,
+  ComponentType,
+  ReactText,
+  PropsWithChildren,
+  ReactNode,
+  SyntheticEvent,
+  SVGProps,
+} from 'react'
+
 import { IconProps } from '../components/Icon'
 export type { Color, ColorVariant, AccentColor } from '../utils/color'
 
@@ -26,3 +36,51 @@ export type Key =
   | 'ArrowLeft'
   | 'ArrowRight'
   | 'Tab'
+
+export type Data<T = {}> = T & {
+  data: any
+  index?: number
+  exportData?: ExportData
+}
+
+export type ExportData<T = any> = (data: Data<T>) => Promise<ExportedData>
+
+export type Children<T = PropsWithChildren<any>> =
+  | ReactChild
+  | ReactChildren
+  | ComponentType<T>
+  | ReactText
+  | ReactText[]
+  | ReactNode
+  | ReactNode[]
+  | number
+  | string
+  | number[]
+  | string[]
+
+export type ExportedData = {
+  file?: {
+    value: any
+    name: string
+    mime: string
+  }
+  text?: string
+}
+
+export type DataPath = (string | number)[]
+
+export type DataEventHandler<T = {}> = (
+  e?: Event | SyntheticEvent,
+  data?: Data<T>
+) => void | Promise<void> | boolean | Promise<boolean>
+
+export type MultiDataEventHandler<T = {}> = (
+  e: Event | SyntheticEvent,
+  data?: Data<T>[]
+) => void | Promise<void>
+
+export type File = {
+  content: any
+  mime: string
+  name: string
+}

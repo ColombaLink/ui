@@ -70,6 +70,9 @@ export const Button: FC<ButtonProps> = (props) => {
     style,
     space,
     large,
+    ghost,
+    light,
+    outline,
     fill,
     textAlign = 'left',
     ...rest

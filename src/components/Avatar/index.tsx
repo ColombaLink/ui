@@ -8,7 +8,7 @@ import { styled } from 'inlines'
 type AvatarSizeInt = 24 | 32 | 36 | 40 | 64
 export type AvatarSize = `${AvatarSizeInt}px` | AvatarSizeInt
 
-type AvatarProps = {
+export type AvatarProps = {
   size?: AvatarSize
   color?: AccentColor
   img?: string

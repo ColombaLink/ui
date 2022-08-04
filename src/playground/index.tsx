@@ -89,6 +89,7 @@ const App = () => {
           Layout: {
             Accordions: '?story=accordions',
             Container: '?story=Containers',
+            Flow: '?story=FlowSequences',
             Grids: '?story=grids',
             InfiniteList: '?story=InfiniteLists',
             Lists: '?story=lists',

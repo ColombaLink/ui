@@ -44,7 +44,10 @@
     "prismjs": "^1.25.0",
     "react-virtualized-auto-sizer": "^1.0.6",
     "react-window": "^1.8.7",
-    "wouter": "^2.8.0-alpha.2"
+    "wouter": "^2.8.0-alpha.2",
+    "csvtojson": "^2.0.10",
+    "tarts": "^1.0.0",
+    "snarkdown": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
