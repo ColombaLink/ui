@@ -2,17 +2,22 @@ import React, { FC, CSSProperties, Fragment, useState, useRef } from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
-import { Space } from '~/types'
+import { Color, Space } from '~/types'
 import { styled } from 'inlines'
 
 type PieGraphProps = {
-  data: { value: number | { [key: string]: number }; label: string }[]
+  data: {
+    value: number | { [key: string]: number }
+    label: string
+    color?: string
+  }[]
   label?: string
   value?: number
   legend?: { [key: string]: string } | string[]
   style?: CSSProperties
   size?: number
   space?: Space
+  baseColor?: Color
 }
 
 export const PieGraph: FC<PieGraphProps> = ({
@@ -21,6 +26,7 @@ export const PieGraph: FC<PieGraphProps> = ({
   value,
   legend = null,
   style,
+  baseColor,
   space,
   size = 280,
 }) => {
@@ -217,9 +223,17 @@ export const PieGraph: FC<PieGraphProps> = ({
                   width: size,
                   height: size,
                   borderRadius: size / 2,
-                  background: ` conic-gradient(${color(
-                    'accent'
-                  )} calc(${percentagePerObject[idx].toFixed()}*1%),#0000 0)`,
+                  background: baseColor
+                    ? `conic-gradient(${color(
+                        baseColor
+                      )} calc(${percentagePerObject[
+                        idx
+                      ].toFixed()}*1%),#0000 0)`
+                    : `conic-gradient(${color(
+                        'accent'
+                      )} calc(${percentagePerObject[
+                        idx
+                      ].toFixed()}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `calc(1 - 0.${idx * 1})`,
                 }}
@@ -323,11 +337,13 @@ export const PieGraph: FC<PieGraphProps> = ({
                 height: 12,
                 background:
                   typeof data[0].value !== 'object'
-                    ? color('accent')
+                    ? baseColor
+                      ? color(baseColor)
+                      : color('accent')
                     : themeColorArray[idx],
                 opacity:
                   typeof data[0].value !== 'object'
-                    ? `calc(1.2 - 0.${idx * 2})`
+                    ? `calc(1 - 0.${idx * 1})`
                     : '1',
                 marginRight: 12,
                 border: `1px solid ${color('border')}`,

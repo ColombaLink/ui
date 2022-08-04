@@ -52,6 +52,7 @@ export const PieGraphs = () => {
             props: {
               data: pieData,
               space: '24px',
+              baseColor: 'green',
             },
           },
           {
