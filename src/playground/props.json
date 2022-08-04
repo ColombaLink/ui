@@ -379,9 +379,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "baseColor": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type BarGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n}",
+      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  baseColor?: Color\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BarSegmentProps": {
@@ -407,6 +411,10 @@
           "optional": true,
           "type": "TSAnyKeyword"
         },
+        "bgColor": {
+          "optional": true,
+          "type": "string"
+        },
         "legend": {
           "optional": true,
           "type": [
@@ -417,7 +425,7 @@
           ]
         }
       },
-      "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: any\n  legend?: string[] | { [key: string]: string }\n}",
+      "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: any\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -1978,9 +1986,13 @@
         "space": {
           "optional": true,
           "type": "Space"
+        },
+        "baseColor": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type PieGraphProps = {\n  data: { value: number | { [key: string]: number }; label: string }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  size?: number\n  space?: Space\n}",
+      "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  size?: number\n  space?: Space\n  baseColor?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "ProviderProps": {
