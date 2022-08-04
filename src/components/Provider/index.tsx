@@ -8,6 +8,7 @@ import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
+import { AuthProvider } from '~'
 
 type ProviderProps = {
   children?: ReactNode
@@ -82,7 +83,7 @@ export const Provider: FC<ProviderProps> = ({
       <BasedProvider client={client}>
         <ToastProvider>
           <DialogProvider>
-            {children}
+            <AuthProvider>{children}</AuthProvider>
             <OverlayProvider />
           </DialogProvider>
         </ToastProvider>
