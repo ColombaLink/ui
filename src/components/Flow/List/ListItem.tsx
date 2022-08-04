@@ -3,7 +3,7 @@ import { Text } from '../../Text'
 import { useFlowHover } from '../useFlowHover'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
 import { SettingsIcon, DragDropIcon, LoadingIcon, MoreIcon } from '~'
-import { color, renderOrCreateElement } from '~/utils'
+import { color, renderOrCreateElement, stringToIcon } from '~/utils'
 import { useDrag } from '~/hooks'
 import { useDrop } from '~/hooks'
 import { useSelect, useClick } from '../useFlowSelect'
@@ -148,8 +148,6 @@ const ListItem = ({
     iconName = iconDef
     iconProps = itemProps.icon
   }
-
-  console.log(iconName)
 
   const isActive = isActiveFn ? isActiveFn(wrappedData) : activeId === id
 
@@ -302,7 +300,7 @@ const ListItem = ({
           <Img src={img} size={24 + (itemProps.info ? 15 : 0)} />
         ) : Icon ? (
           <>
-            {Icon}
+            {stringToIcon(Icon)}
 
             {/* <Icon {...iconProps} /> */}
           </>

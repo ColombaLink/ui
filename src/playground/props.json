@@ -902,6 +902,307 @@
       "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
+    "FooterProps": {
+      "name": "FooterProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "floating": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "data": {
+          "optional": true,
+          "type": "Data"
+        },
+        "paddingRight": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "paddingLeft": {
+          "optional": true,
+          "type": "number"
+        },
+        "items": {
+          "optional": true,
+          "type": {
+            "array": "Object"
+          }
+        },
+        "onClick": {
+          "type": [
+            "MultiDataEventHandler",
+            "DataEventHandler"
+          ]
+        }
+      },
+      "code": "type FooterProps<T = any> = {\n  label?: string\n  floating?: boolean\n  outline?: boolean\n  data?: Data<T>\n  paddingRight?: number\n  style?: CSSProperties\n  width?: number\n  icon?: ReactNode\n  paddingLeft?: number\n  items?: Object[]\n  onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>\n}",
+      "file": "/components/Flow/Footer.tsx"
+    },
+    "FooterBottomProps": {
+      "name": "FooterBottomProps",
+      "props": {
+        "context": {
+          "type": "TSAnyKeyword"
+        },
+        "seqItems": {
+          "type": "TSAnyKeyword"
+        },
+        "isDragOver": {
+          "type": "TSAnyKeyword"
+        },
+        "isDragOverSeq": {
+          "type": "TSAnyKeyword"
+        },
+        "isDropLoading": {
+          "type": "TSAnyKeyword"
+        },
+        "index": {
+          "type": "TSAnyKeyword"
+        },
+        "wrappedData": {
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type FooterBottomProps = {\n  context: any\n  seqItems: any\n  isDragOver: any\n  isDragOverSeq: any\n  isDropLoading: any\n  index: any\n  wrappedData: any\n}",
+      "file": "/components/Flow/FooterBottom.tsx"
+    },
+    "HeaderProps": {
+      "name": "HeaderProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "Data"
+        },
+        "autoFocusTitle": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "indicator": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "onEditTitle": {
+          "optional": true,
+          "type": "function"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "noBorderBottom": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isHover": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "children": {
+          "optional": true,
+          "type": "Children"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "paddingRight": {
+          "optional": true,
+          "type": "number"
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "weight": {
+          "optional": true,
+          "type": [
+            {
+              "value": 400
+            },
+            {
+              "value": 500
+            },
+            {
+              "value": 600
+            }
+          ]
+        },
+        "paddingLeft": {
+          "optional": true,
+          "type": "number"
+        },
+        "items": {
+          "optional": true,
+          "type": {
+            "array": "Object"
+          }
+        },
+        "isExpanded": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onExpand": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type HeaderProps = {\n  data?: Data<any>\n  autoFocusTitle?: boolean\n  indicator?: string\n  style?: CSSProperties\n  onEditTitle?: (value: string, data?: Data<any>) => void\n  label?: string\n  noBorderBottom?: boolean\n  isHover?: boolean\n  children?: Children<{ items?: Object[]; data?: Data<any> }>\n  outline?: boolean\n  paddingRight?: number\n  width?: number | string\n  icon?: ReactNode\n  weight?: 400 | 500 | 600\n  paddingLeft?: number\n  items?: Object[]\n  isExpanded?: boolean\n  onExpand?: () => void\n}",
+      "file": "/components/Flow/Header.tsx"
+    },
+    "FlowProps": {
+      "name": "FlowProps",
+      "props": {
+        "indicator": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onDropData": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "onDropFile": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "onDrop": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "onDropSequence": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "paddingRight": {
+          "optional": true,
+          "type": "number"
+        },
+        "paddingLeft": {
+          "optional": true,
+          "type": "number"
+        },
+        "sequenceSpacing": {
+          "optional": true,
+          "type": "number"
+        },
+        "paddingTop": {
+          "optional": true,
+          "type": "number"
+        },
+        "expandable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "defaultIsExpanded": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "paddingBottom": {
+          "optional": true,
+          "type": "number"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "items": {
+          "type": {
+            "array": "Object"
+          }
+        },
+        "draggable": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "Actions": {
+          "optional": true,
+          "type": "ComponentType"
+        },
+        "itemProps": {
+          "optional": true,
+          "type": "SequenceitemProps"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "actionIcon": {
+          "optional": true,
+          "type": "string"
+        },
+        "onAction": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "footer": {
+          "optional": true,
+          "type": "FooterProps"
+        },
+        "stepFooter": {
+          "optional": true,
+          "type": "FooterProps"
+        },
+        "exportData": {
+          "optional": true,
+          "type": "ExportData"
+        },
+        "exportDataSequence": {
+          "optional": true,
+          "type": "ExportData"
+        },
+        "onOptions": {
+          "optional": true,
+          "type": "DataEventHandler"
+        },
+        "optionsIcon": {
+          "optional": true,
+          "type": "string"
+        },
+        "contextualMenu": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "children": {
+          "optional": true,
+          "type": "Children"
+        },
+        "header": {
+          "optional": true,
+          "type": "HeaderProps"
+        }
+      },
+      "code": "type FlowProps = {\n  indicator?: boolean\n  onDropData?: DataEventHandler\n  onDropFile?: DataEventHandler\n  onDrop?: DataEventHandler<\n    | { data: Data[]; targetIndex: number; targetData: Data }\n    | { files: File[]; targetIndex: number; targetData: Data }\n  > // i think this is an order change - if this is not there dont allow order change\n  onDropSequence?: DataEventHandler<\n    | { data: Data[]; targetIndex: number }\n    | { files: File[]; targetIndex: number }\n  > // i think this is an order change - if this is not there dont allow order change\n  paddingRight?: number\n  paddingLeft?: number\n  sequenceSpacing?: number\n  paddingTop?: number\n  expandable?: boolean\n  defaultIsExpanded?: boolean\n  paddingBottom?: number\n  width?: number\n  items: Object[]\n  draggable?: boolean\n  Actions?: ComponentType<OptionsComponentProps>\n  itemProps?: SequenceitemProps\n  onClick?: DataEventHandler\n  actionIcon?: string\n  onAction?: DataEventHandler\n  footer?: FooterProps\n  stepFooter?: FooterProps\n  exportData?: ExportData\n  exportDataSequence?: ExportData\n  onOptions?: DataEventHandler // select options\n  optionsIcon?: string\n  contextualMenu?: boolean\n  children?: Children<OptionsComponentProps>\n  header?: HeaderProps\n}",
+      "file": "/components/Flow/index.tsx"
+    },
     "FormProps": {
       "name": "FormProps",
       "props": {
@@ -1030,6 +1331,49 @@
       },
       "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: string\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
       "file": "/components/InfiniteList/index.tsx"
+    },
+    "EditableTitleProps": {
+      "name": "EditableTitleProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "identifier": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
+        },
+        "placeholderAsDefault": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "autoFocus": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
+        },
+        "horizontalPaddding": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type EditableTitleProps = {\n  value?: string\n  placeholder?: string\n  identifier?: any\n  onChange?: (value: string) => void\n  onBlur?: (event: React.FormEvent<HTMLDivElement>) => void\n  placeholderAsDefault?: boolean\n  autoFocus?: boolean\n  weight?: Weight\n  horizontalPaddding?: number\n}",
+      "file": "/components/Input/EditableTitle.tsx"
     },
     "InputProps": {
       "name": "InputProps",
@@ -2683,6 +3027,67 @@
         }
       ],
       "code": "type Key =\n  | 'Enter'\n  | 'Esc'\n  | 'ArrowUp'\n  | 'ArrowDown'\n  | 'ArrowLeft'\n  | 'ArrowRight'\n  | 'Tab'",
+      "file": "/types/index.ts"
+    },
+    "Data": {
+      "name": "Data",
+      "types": [
+        {
+          "type": "T"
+        },
+        {
+          "type": "TSTypeLiteral"
+        }
+      ],
+      "code": "type Data<T = {}> = T & {\n  data: any\n  index?: number\n  exportData?: ExportData\n}",
+      "file": "/types/index.ts"
+    },
+    "Children": {
+      "name": "Children",
+      "types": [
+        {
+          "type": "ReactChild"
+        },
+        {
+          "type": "ReactChildren"
+        },
+        {
+          "type": "ComponentType"
+        },
+        {
+          "type": "ReactText"
+        },
+        {
+          "type": {
+            "array": "ReactText"
+          }
+        },
+        {
+          "type": "ReactNode"
+        },
+        {
+          "type": {
+            "array": "ReactNode"
+          }
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": {
+            "array": "number"
+          }
+        },
+        {
+          "type": {
+            "array": "string"
+          }
+        }
+      ],
+      "code": "type Children<T = PropsWithChildren<any>> =\n  | ReactChild\n  | ReactChildren\n  | ComponentType<T>\n  | ReactText\n  | ReactText[]\n  | ReactNode\n  | ReactNode[]\n  | number\n  | string\n  | number[]\n  | string[]",
       "file": "/types/index.ts"
     }
   }

@@ -125,7 +125,7 @@ const App = () => {
             LineGraph: '?story=lineGraph',
             PieGraph: '?story=PieGraphs',
             ResultCards: '?story=ResultCards',
-            ScatterResults: '?story=ScatterResults',
+            // ScatterResults: '?story=ScatterResults',
           },
           Hooks: {
             Tooltips: '?story=tooltips',

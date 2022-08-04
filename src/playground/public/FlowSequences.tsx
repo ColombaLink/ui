@@ -87,12 +87,13 @@ export const FlowSequences = () => {
             id: 1,
             items: [
               {
-                flurpen: {
-                  name: 'CircleCheckIcon',
-                  color: color('accent'),
-                },
+                // flurpen: {
+                //   name: 'CircleCheckIcon',
+                //   color: color('accent'),
+                // },
                 text: 'yesh',
                 id: 1,
+                flurpen: 'StackIcon',
               },
             ],
           },
