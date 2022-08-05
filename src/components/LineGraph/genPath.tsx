@@ -38,8 +38,6 @@ const genPath = (
   let stepSize = width / (data.length - 1)
   const pxValue = ySpread / height
 
-  console.log('base Color?? from genpath:: ', baseColor)
-
   let paths
   const points = []
   // also different for segments
@@ -231,7 +229,7 @@ const genPath = (
 
             // fill with basecolor but opacity 0.08
             // @ts-ignore
-            stroke={color(baseColor)}
+            fill={color(baseColor)}
             fillOpacity={0.08}
             //  fill={'rgba(154,82,246,0.08)'}
           />
@@ -327,7 +325,7 @@ const genPath = (
             d={p + `L${width},${height},L0,${height}`}
             //  fill={useColor({ color: 'primary', opacity: 0.08 })}
             // @ts-ignore
-            stroke={color('border')}
+            fill={color(baseColor)}
             fillOpacity={0.08}
             // fill={'rgba(154,82,246,0.08)'}
           />
