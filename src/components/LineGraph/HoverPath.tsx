@@ -3,7 +3,15 @@ import { color } from '~/utils'
 import { GraphContext } from '.'
 import useThrottledCallback from '~/hooks/useThrottledCallback'
 
-const HoverPath = ({ amount, i, code, d, legend, points }) => {
+const HoverPath = ({
+  amount,
+  i,
+  code,
+  d,
+  legend,
+  points,
+  baseColor = 'accent',
+}) => {
   const ctx = useContext(GraphContext)
   const s = i % 3
 
@@ -30,7 +38,8 @@ const HoverPath = ({ amount, i, code, d, legend, points }) => {
             opacity: '1 !important',
           },
         }}
-        fill={color('accent:active')}
+        // @ts-ignore
+        fill={color(baseColor)}
       />
     </>
   )

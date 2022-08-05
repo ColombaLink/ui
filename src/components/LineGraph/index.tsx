@@ -5,6 +5,7 @@ import StackedGraph from './StackedGraph'
 
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { DateFormat, prettyDate } from '@based/pretty-date'
+import { Color } from '~/types'
 
 type Data = { x: number; y: number }[]
 
@@ -26,6 +27,7 @@ export type LineGraphProps = {
   spread?: boolean
   pure?: boolean
   label?: string
+  baseColor?: Color
 }
 
 // multi line
@@ -38,6 +40,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
   valueFormat = 'number-short',
   legend,
   pure,
+  baseColor,
 }) => {
   const isStacked = data && typeof data === 'object' && !Array.isArray(data)
 
@@ -55,6 +58,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
               height={height}
               width={width}
               valueFormat={valueFormat}
+              baseColor={baseColor}
             />
           </GraphContext.Provider>
         ) : (
@@ -67,6 +71,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
             width={width}
             valueFormat={valueFormat}
             pure={pure}
+            baseColor={baseColor}
           />
         )
       }}
