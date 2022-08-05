@@ -15,6 +15,7 @@ const Graph = ({
   spread,
   valueFormat,
   pure,
+  baseColor,
 }) => {
   const ref = useRef<any>()
   let maxY, minY
@@ -53,7 +54,16 @@ const Graph = ({
   const [paths] = notEnoughData
     ? []
     : xWidth || pure
-    ? genPath(svgWidth, svgHeight, data, minY, ySpread, spread, false)
+    ? genPath(
+        svgWidth,
+        svgHeight,
+        data,
+        minY,
+        ySpread,
+        spread,
+        false,
+        baseColor
+      )
     : [null, []]
 
   if (pure) {

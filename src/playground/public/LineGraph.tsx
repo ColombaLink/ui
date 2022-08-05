@@ -89,7 +89,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={fraction} valueFormat="number-ratio" />
+        <LG data={fraction} valueFormat="number-ratio" color="green" />
       </div>
       <div
         style={{
