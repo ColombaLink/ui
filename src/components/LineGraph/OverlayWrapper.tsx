@@ -17,6 +17,7 @@ const OverlayNested = ({
   legend,
   isStacked,
   valueFormat,
+  baseColor,
 }) => {
   let extraInfo = null
 
@@ -54,7 +55,8 @@ const OverlayNested = ({
                   valueFormat || 'number-short'
                 )}
               </Text>
-              <Text color={color('accent')}>
+              {/* @ts-ignore */}
+              <Text color={color(baseColor)}>
                 {Math.round(
                   (selected.segments[selectedKey] / selected.y) * 100
                 )}
@@ -144,7 +146,8 @@ const getY = (
   format,
   isStacked,
   legend,
-  valueFormat
+  valueFormat,
+  baseColor
 ) => {
   let u = x / width
   const s = Math.floor(u * data.length)
@@ -211,6 +214,7 @@ const getY = (
         xInfo={xInfo}
         selected={selected}
         valueFormat={valueFormat}
+        baseColor={baseColor}
       />
     )
   }
@@ -228,6 +232,7 @@ const Overlay = ({
   isStacked,
   legend,
   valueFormat,
+  baseColor = 'accent',
 }) => {
   return (
     <div
@@ -250,7 +255,8 @@ const Overlay = ({
             format,
             isStacked,
             legend,
-            valueFormat
+            valueFormat,
+            baseColor
           )
         : null}
     </div>
@@ -268,6 +274,7 @@ export default ({
   legend,
   valueFormat,
   format,
+  baseColor,
 }) => {
   // need format
   const [x, setCoord] = useState()
@@ -327,6 +334,7 @@ export default ({
         width={width}
         data={data}
         r={ref}
+        baseColor={baseColor}
       />
     </div>
   )

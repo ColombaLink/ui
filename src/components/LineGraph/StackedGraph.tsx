@@ -146,6 +146,7 @@ const StackedGraph = ({
           isStacked
           legend={legend}
           format={format}
+          baseColor={baseColor}
         >
           {paths}
         </OverlayWrapper>

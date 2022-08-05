@@ -79,6 +79,7 @@ const Graph = ({
         data={data}
         format={format}
         valueFormat={valueFormat}
+        baseColor={baseColor}
       >
         {paths}
       </OverlayWrapper>
@@ -126,6 +127,7 @@ const Graph = ({
           data={data}
           format={format}
           valueFormat={valueFormat}
+          baseColor={baseColor}
         >
           {paths}
         </OverlayWrapper>
