@@ -58,6 +58,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
               height={height}
               width={width}
               valueFormat={valueFormat}
+              baseColor={baseColor}
             />
           </GraphContext.Provider>
         ) : (

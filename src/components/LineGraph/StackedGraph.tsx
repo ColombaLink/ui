@@ -15,6 +15,7 @@ const StackedGraph = ({
   spread,
   legend,
   valueFormat,
+  baseColor,
 }) => {
   const ref = useRef<any>()
   let maxY, minY
@@ -94,6 +95,7 @@ const StackedGraph = ({
           ySpread,
           spread,
           true,
+          baseColor,
           legend
         )
       : [null, []]

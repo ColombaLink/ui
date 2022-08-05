@@ -21,6 +21,8 @@ const Graph = ({
   let maxY, minY
   let maxX, minX
 
+  console.log('BC from Graph.tsx', baseColor)
+
   const [xWidth, updateW] = useState(0)
 
   for (let i = 0; i < data.length; i++) {

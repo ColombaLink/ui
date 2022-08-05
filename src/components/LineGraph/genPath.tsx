@@ -32,13 +32,13 @@ const genPath = (
   ySpread,
   spread,
   segments,
-  legend?: any,
-  baseColor?
+  baseColor = 'accent',
+  legend?: any
 ) => {
   let stepSize = width / (data.length - 1)
   const pxValue = ySpread / height
 
-  console.log('base Color??', baseColor)
+  console.log('base Color?? from genpath:: ', baseColor)
 
   let paths
   const points = []
@@ -165,6 +165,7 @@ const genPath = (
             code={key}
             key={key}
             legend={legend}
+            baseColor={baseColor}
           />
         )
       }
@@ -176,7 +177,8 @@ const genPath = (
           <path
             d={p}
             fill="none"
-            stroke={baseColor ? color(baseColor) : color('accent')}
+            // @ts-ignore
+            stroke={color(baseColor)}
             // @ts-ignore
             data="line"
             strokeWidth={2}
@@ -197,13 +199,15 @@ const genPath = (
             }
             // fill={'rgba(154,82,246,0.08)'}
             //  fill={useColor({ color: 'primary', opacity: 0.08 })}
-            fill={color('mustard')}
+            // @ts-ignore
+            fill={color(baseColor)}
             fillOpacity={0.08}
           />
           <path
             d={p}
             fill="none"
-            stroke={baseColor ? color(baseColor) : color('accent')}
+            // @ts-ignore
+            stroke={color(baseColor)}
             // @ts-ignore
             data="line"
             strokeWidth={2}
@@ -226,7 +230,8 @@ const genPath = (
             // fill={useColor({ color: 'primary', opacity: 0.08 })}
 
             // fill with basecolor but opacity 0.08
-            fill={color('red')}
+            // @ts-ignore
+            stroke={color(baseColor)}
             fillOpacity={0.08}
             //  fill={'rgba(154,82,246,0.08)'}
           />
@@ -235,7 +240,8 @@ const genPath = (
             fill="none"
             // @ts-ignore
             data="line"
-            stroke={baseColor ? color(baseColor) : color('accent')}
+            // @ts-ignore
+            stroke={color(baseColor)}
             strokeWidth={2}
           />
         </>
@@ -290,6 +296,7 @@ const genPath = (
             code={key}
             key={key}
             legend={legend}
+            baseColor={baseColor}
           />
         )
       }
@@ -301,7 +308,8 @@ const genPath = (
           <path
             d={p}
             fill="none"
-            stroke={baseColor ? color(baseColor) : color('accent')}
+            // @ts-ignore
+            stroke={color(baseColor)}
             // @ts-ignore
             data="line"
             strokeWidth={2}
@@ -318,14 +326,16 @@ const genPath = (
           <path
             d={p + `L${width},${height},L0,${height}`}
             //  fill={useColor({ color: 'primary', opacity: 0.08 })}
-            fill={baseColor ? color(baseColor) : color('accent')}
+            // @ts-ignore
+            stroke={color('border')}
             fillOpacity={0.08}
             // fill={'rgba(154,82,246,0.08)'}
           />
           <path
             d={p}
             fill="none"
-            stroke={baseColor ? color(baseColor) : color('accent')}
+            // @ts-ignore
+            stroke={color(baseColor)}
             // @ts-ignore
             data="line"
             strokeWidth={2}

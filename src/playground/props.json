@@ -1544,9 +1544,13 @@
         "label": {
           "optional": true,
           "type": "string"
+        },
+        "baseColor": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  baseColor?: Color\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
