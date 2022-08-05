@@ -6,7 +6,7 @@ import React, {
   ReactNode,
 } from 'react'
 import { Text, LoadingIcon, AddIcon } from '~'
-import { color, renderOrCreateElement } from '~'
+import { color, renderOrCreateElement, stringToIcon } from '~/utils'
 import {
   Data,
   Children,
@@ -33,7 +33,7 @@ export const Footer: FC<FooterProps> = ({
   width,
   outline,
   paddingRight,
-  icon = AddIcon,
+  icon = 'AddIcon',
   data,
   floating,
   paddingLeft,
@@ -42,7 +42,7 @@ export const Footer: FC<FooterProps> = ({
   items,
   style,
 }) => {
-  const Icon = icon ? renderOrCreateElement(icon) : null
+  const Icon = icon ? stringToIcon(icon) : null
   const [hover, isHover, isActive] = useFlowHover()
   const [loading, setLoading] = useState(false)
   return (
