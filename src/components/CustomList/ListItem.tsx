@@ -23,7 +23,7 @@ export const ListItem = ({
         maxHeight: itemSize - spaceToPx(space),
         alignItems: 'center',
         border: `1px solid ${color('border')}`,
-
+        background: color('background2dp'),
         ...style,
       }}
     >

@@ -10,11 +10,11 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 import { Space } from '~/types'
 import { spaceToPx } from '~/utils'
+import { styled } from 'inlines'
 import { DragDropIcon } from '~/icons'
 import { ListItem } from './ListItem'
 
 type CustomListProps = {
-  title?: string
   items?: any[]
   draggable?: boolean
   expandable?: boolean
@@ -25,7 +25,6 @@ type CustomListProps = {
 }
 
 export const CustomList: FC<CustomListProps> = ({
-  title,
   items,
   draggable,
   expandable,
@@ -41,6 +40,14 @@ export const CustomList: FC<CustomListProps> = ({
   const move = (arr: any[], from: number, to: number) => {
     arr.splice(to, 0, arr.splice(from, 1)[0])
   }
+
+  const DragDropper = styled(DragDropIcon, {
+    cursor: 'pointer',
+    opacity: 0.6,
+    '&:hover': {
+      opacity: 1,
+    },
+  })
 
   console.log(data)
   console.log(style)
@@ -68,9 +75,13 @@ export const CustomList: FC<CustomListProps> = ({
                 ref: Ref<any>
               ) => (
                 <div ref={ref}>
-                  <ListItem style={style} itemSize={itemSize} space={itemSpace}>
+                  <ListItem
+                    style={{ paddingLeft: draggable ? 0 : 16, ...style }}
+                    itemSize={itemSize}
+                    space={itemSpace}
+                  >
                     {draggable && (
-                      <DragDropIcon
+                      <DragDropper
                         onMouseDown={onSortMouseDown}
                         style={{ marginLeft: 16, marginRight: 16 }}
                       />
