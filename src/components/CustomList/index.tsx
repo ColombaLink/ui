@@ -1,7 +1,13 @@
-import React, { ReactNode, CSSProperties, FC, useRef, useState } from 'react'
+import React, {
+  ReactNode,
+  CSSProperties,
+  FC,
+  useRef,
+  useState,
+  Ref,
+} from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { VariableSizeList } from 'react-window'
-import { SortableFixedSizeList } from 'react-window-sortable'
+import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 
 type CustomListProps = {
   title?: string
@@ -49,7 +55,19 @@ export const CustomList: FC<CustomListProps> = ({
               move(data, originalIndex, newIndex)
               setData(data.slice(0))
             }}
-          ></SortableFixedSizeList>
+          >
+            {React.forwardRef(
+              (
+                { data, index, style, onSortMouseDown }: ChildrenProps,
+                ref: Ref<any>
+              ) => (
+                <div ref={ref} style={style}>
+                  <button onMouseDown={onSortMouseDown}>drag handle</button>
+                  {data[index]}
+                </div>
+              )
+            )}
+          </SortableFixedSizeList>
         )
       }}
     </AutoSizer>
