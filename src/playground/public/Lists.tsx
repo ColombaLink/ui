@@ -28,17 +28,16 @@ const testingListItems = [
   </>,
 ]
 
+// on more options how to implement?
+
 export const Lists = () => {
   return (
-    <div style={{ height: 360, width: 640 }}>
+    <div style={{ height: 360, width: 676 }}>
       <CustomList
         items={testingListItems}
+        itemSpace={12}
         draggable
-        style={
-          {
-            /* background: 'orange', width: 500,*/
-          }
-        }
+        style={{}}
       />
     </div>
   )

@@ -31,11 +31,12 @@ export const CustomList: FC<CustomListProps> = ({
   draggable,
   expandable,
   children,
-  itemSpace = 12,
+  itemSpace = 0,
   itemSize = 56 + +itemSpace,
   style,
 }) => {
   const [data, setData] = useState(items)
+  const [draggy, setDraggy] = useState(false)
 
   const listRef = useRef<any>()
 
@@ -60,6 +61,36 @@ export const CustomList: FC<CustomListProps> = ({
       opacity: 1,
     },
   })
+
+  const sillyDiv = document.createElement('div')
+  sillyDiv.setAttribute('id', 'sillyDivId')
+  sillyDiv.innerHTML = 'hallo'
+  sillyDiv.style.width = '100px'
+  sillyDiv.style.height = '60px'
+  sillyDiv.style.background = 'red'
+  sillyDiv.style.zIndex = '9999'
+
+  const addDivToCursor = (e) => {
+    console.log(e.target)
+
+    document.addEventListener('mousedown', function () {
+      document.addEventListener('mousemove', movingmouse)
+
+      document.body.appendChild(sillyDiv)
+
+      function movingmouse(e) {
+        sillyDiv.style.position = 'absolute'
+        sillyDiv.style.left = `${e.clientX}px`
+        sillyDiv.style.top = `${e.clientY}px`
+      }
+
+      document.addEventListener('mouseup', function () {
+        document.getElementById('sillyDivId').remove()
+        //    document.body.removeChild(sillyDiv)
+        document.removeEventListener('mousemove', movingmouse)
+      })
+    })
+  }
 
   console.log(data)
   console.log(style)
@@ -94,7 +125,11 @@ export const CustomList: FC<CustomListProps> = ({
                   >
                     {draggable && (
                       <DragDropper
-                        onMouseDown={onSortMouseDown}
+                        onMouseDown={(e) => {
+                          onSortMouseDown(e)
+                          // append a copy to the mouse cursor
+                          addDivToCursor(e)
+                        }}
                         style={{ marginLeft: 16, marginRight: 16 }}
                       />
                     )}
