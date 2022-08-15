@@ -8,6 +8,10 @@ import React, {
 } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
+import { Space } from '~/types'
+import { spaceToPx } from '~/utils'
+import { DragDropIcon } from '~/icons'
+import { ListItem } from './ListItem'
 
 type CustomListProps = {
   title?: string
@@ -15,8 +19,8 @@ type CustomListProps = {
   draggable?: boolean
   expandable?: boolean
   children?: ReactNode
-  width?: number
-  height?: number
+  itemSize?: number
+  itemSpace?: Space
   style?: CSSProperties
 }
 
@@ -26,8 +30,8 @@ export const CustomList: FC<CustomListProps> = ({
   draggable,
   expandable,
   children,
-  width,
-  height = 300,
+  itemSpace = 12,
+  itemSize = 56 + +itemSpace,
   style,
 }) => {
   const [data, setData] = useState(items)
@@ -38,7 +42,8 @@ export const CustomList: FC<CustomListProps> = ({
     arr.splice(to, 0, arr.splice(from, 1)[0])
   }
 
-  console.log(items)
+  console.log(data)
+  console.log(style)
 
   return (
     <AutoSizer>
@@ -49,21 +54,29 @@ export const CustomList: FC<CustomListProps> = ({
             height={height}
             width={width}
             itemCount={data.length}
-            itemSize={40}
+            itemSize={itemSize}
             itemData={data}
             onSortOrderChanged={({ originalIndex, newIndex }) => {
               move(data, originalIndex, newIndex)
               setData(data.slice(0))
             }}
+            style={{ ...style }}
           >
             {React.forwardRef(
               (
                 { data, index, style, onSortMouseDown }: ChildrenProps,
                 ref: Ref<any>
               ) => (
-                <div ref={ref} style={style}>
-                  <button onMouseDown={onSortMouseDown}>drag handle</button>
-                  {data[index]}
+                <div ref={ref}>
+                  <ListItem style={style} itemSize={itemSize} space={itemSpace}>
+                    {draggable && (
+                      <DragDropIcon
+                        onMouseDown={onSortMouseDown}
+                        style={{ marginLeft: 16, marginRight: 16 }}
+                      />
+                    )}
+                    {data[index]}
+                  </ListItem>
                 </div>
               )
             )}

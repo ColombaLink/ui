@@ -10,7 +10,7 @@ import { color } from '~'
 import { getData } from './getData'
 import { SelectableCollection } from './useFlowSelect'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
-import { ListItem } from './List/ListItem'
+import { ListFlowItem } from './List/ListFlowItem'
 
 const defaultItemProps = {
   title: { path: ['title'] },
@@ -255,7 +255,7 @@ export const Sequence = ({ style, data: { items, context, width }, index }) => {
                       position: 'relative',
                     }
                     return (
-                      <ListItem
+                      <ListFlowItem
                         key={index}
                         data={{ items: seqItems, context }}
                         index={index}

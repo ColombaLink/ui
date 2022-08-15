@@ -4,10 +4,39 @@ import { Text } from '~/components/Text'
 import { List, ListItem } from '~/components/ListItems'
 import { Avatar } from '~/components/Avatar'
 import { CustomList } from '~/components/CustomList'
+import { Thumbnail } from '~/components/Thumbnail'
 
-const listItems = ['Apple', 'Banana', 'Citroen', 'Dragonfruit', 'Elderberry']
+const listItems = [
+  'Apple',
+  'Banana',
+  'Citroen',
+  'Dragonfruit',
+  'Elderberry',
+  'Zulu',
+  'Yankee',
+  'X-ray',
+  'Whiskey',
+  'Victor',
+]
 
 const otherListItems = ['Zulu', 'Yankee', 'X-ray', 'Whiskey', 'Victor']
+
+const testingListItems = [
+  <>
+    <Thumbnail label="Zulu" color="green" />
+    <Text style={{ marginLeft: 16 }}>Zulu</Text>
+  </>,
+  <>
+    <Thumbnail color="babyblue" label="Y" />
+    <Text style={{ marginLeft: 16 }}>Yak</Text>
+  </>,
+  <>
+    <Thumbnail label="X" />
+    <Text style={{ marginLeft: 16 }}>Xray</Text>
+  </>,
+]
+
+// make a list with multiple child, components
 
 export const Lists = () => {
   //   const [list, setList] = useState(listItems)
@@ -49,8 +78,16 @@ export const Lists = () => {
   //   }
 
   return (
-    <div style={{ height: 400, background: 'yellow' }}>
-      <CustomList items={listItems} width={400} />
+    <div style={{ height: 360 }}>
+      <CustomList
+        items={testingListItems}
+        draggable
+        style={
+          {
+            /* background: 'orange', width: 500,*/
+          }
+        }
+      />
 
       {/* <Text>Draggable list</Text>
       <br />

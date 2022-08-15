@@ -62,7 +62,7 @@ const defaultitemProps = {
   },
 }
 
-const ListItem = ({
+const ListFlowItem = ({
   index,
   data: { items, context },
   style: itemStyle = undefined,
@@ -422,4 +422,4 @@ const ListItem = ({
   )
 }
 
-export { ListItem }
+export { ListFlowItem }
