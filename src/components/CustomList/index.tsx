@@ -11,8 +11,10 @@ import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 import { Space } from '~/types'
 import { spaceToPx } from '~/utils'
 import { styled } from 'inlines'
-import { DragDropIcon } from '~/icons'
+import { DragDropIcon, MoreIcon, DuplicateIcon, DeleteIcon } from '~/icons'
 import { ListItem } from './ListItem'
+import { useContextMenu } from '~/hooks'
+import { ContextItem } from '~'
 
 type CustomListProps = {
   items?: any[]
@@ -42,6 +44,16 @@ export const CustomList: FC<CustomListProps> = ({
   }
 
   const DragDropper = styled(DragDropIcon, {
+    cursor: 'pointer',
+    opacity: 0.6,
+    '&:hover': {
+      opacity: 1,
+    },
+  })
+
+  const More = styled(MoreIcon, {
+    marginRight: 16,
+    marginLeft: 'auto',
     cursor: 'pointer',
     opacity: 0.6,
     '&:hover': {
@@ -87,6 +99,14 @@ export const CustomList: FC<CustomListProps> = ({
                       />
                     )}
                     {data[index]}
+
+                    <More
+                      onClick={useContextMenu(
+                        SimpleMenu,
+                        {},
+                        { placement: 'center' }
+                      )}
+                    />
                   </ListItem>
                 </div>
               )
@@ -95,5 +115,21 @@ export const CustomList: FC<CustomListProps> = ({
         )
       }}
     </AutoSizer>
+  )
+}
+
+const SimpleMenu = () => {
+  return (
+    <>
+      <ContextItem
+        icon={DuplicateIcon}
+        onClick={() => {
+          console.log('hello')
+        }}
+      >
+        Duplicate
+      </ContextItem>
+      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
+    </>
   )
 }
