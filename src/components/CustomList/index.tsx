@@ -1,11 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  useRef,
-  useState,
-  Ref,
-  useEffect,
-} from 'react'
+import React, { CSSProperties, FC, useRef, useState, Ref } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 import { Space } from '~/types'
@@ -36,10 +29,6 @@ export const CustomList: FC<CustomListProps> = ({
 
   const listRef = useRef<any>()
 
-  const move = (arr: any[], from: number, to: number) => {
-    arr.splice(to, 0, arr.splice(from, 1)[0])
-  }
-
   const DragDropper = styled('div', {
     cursor: 'pointer',
     opacity: 0.6,
@@ -58,44 +47,38 @@ export const CustomList: FC<CustomListProps> = ({
     },
   })
 
-  // Whats going on here ?
+  const move = (arr: any[], from: number, to: number) => {
+    arr.splice(to, 0, arr.splice(from, 1)[0])
+  }
 
+  // copy tempDiv to indicate dragging element
   const addDivToCursor = (e) => {
-    console.log(e)
-    console.log(e.target)
-    console.log(e.target.parentElement)
-    //let sillyDiv = document.createElement('div')
-    let sillyDivTest = e.target.parentNode
+    let parentElWidth = e.target.parentElement.clientWidth
+    let tempDivTest = e.target.parentNode
+    let tempCopiedDiv = tempDivTest.cloneNode(true)
 
-    //makeShallow copy
-    console.log(e.target)
-    let sillyDiv = sillyDivTest.cloneNode(true)
-
-    sillyDiv.setAttribute('id', 'sillyDivId')
-    sillyDiv.style.width = '360px'
+    tempCopiedDiv.setAttribute('id', 'tempCopiedDivId')
+    tempCopiedDiv.style.width = parentElWidth ? parentElWidth + 'px' : '360px'
 
     document.addEventListener('mousedown', () => {
       document.addEventListener('mousemove', movingMouse)
 
       function movingMouse(e) {
-        if (sillyDiv) {
-          document.body.appendChild(sillyDiv)
-          sillyDiv.style.position = 'absolute'
-          sillyDiv.style.left = `${e.clientX}px`
-          sillyDiv.style.top = `${e.clientY}px`
+        if (tempCopiedDiv) {
+          document.body.appendChild(tempCopiedDiv)
+          tempCopiedDiv.style.position = 'absolute'
+          tempCopiedDiv.style.left = `${e.clientX}px`
+          tempCopiedDiv.style.top = `${e.clientY}px`
         }
       }
 
       document.addEventListener('mouseup', () => {
         document.removeEventListener('mousemove', movingMouse)
-        sillyDiv = null
-        document.getElementById('sillyDivId')?.remove()
+        tempCopiedDiv = null
+        document.getElementById('tempCopiedDivId')?.remove()
       })
     })
   }
-
-  console.log(data)
-  console.log(style)
 
   return (
     <AutoSizer>
