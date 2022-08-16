@@ -12,14 +12,13 @@ const iconNames: string[] = []
 
 export const stringToIcon = (element, props = undefined) => {
   // get all icons i guess
-  useEffect(() => {
-    for (const key in ui) {
-      if (key.includes('Icon')) {
-        iconNames.push(key)
-        icons.push(ui[key])
-      }
+
+  for (const key in ui) {
+    if (key.includes('Icon')) {
+      iconNames.push(key)
+      icons.push(ui[key])
     }
-  }, [])
+  }
 
   // console.log('from stron', iconNames.indexOf('AddIcon'))
 

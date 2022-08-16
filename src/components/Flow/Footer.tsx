@@ -42,7 +42,7 @@ export const Footer: FC<FooterProps> = ({
   items,
   style,
 }) => {
-  const Icon = icon ? stringToIcon(icon) : null
+  const Icon = stringToIcon(icon)
   const [hover, isHover, isActive] = useFlowHover()
   const [loading, setLoading] = useState(false)
   return (
