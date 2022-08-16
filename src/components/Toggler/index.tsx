@@ -1,13 +1,14 @@
 import React, { FC, useState } from 'react'
 import { Text } from '~'
 import { styled } from 'inlines'
-import { border, color } from '~/utils'
+import { border, Color, color } from '~/utils'
 
 type TogglerProps = {
   checked?: boolean
   label?: string
   description?: string
   text?: string
+  baseColor?: Color
 }
 
 export const Toggler: FC<TogglerProps> = ({
@@ -15,9 +16,13 @@ export const Toggler: FC<TogglerProps> = ({
   label,
   description,
   text,
+  baseColor = 'accent',
   ...props
 }) => {
   const [checkedState, setCheckedState] = useState(checked)
+
+  const activeColor = baseColor + ':active'
+  console.log(activeColor)
 
   return (
     <div {...props}>
@@ -47,11 +52,12 @@ export const Toggler: FC<TogglerProps> = ({
             cursor: 'pointer',
             border: border('1px', 'border'),
             backgroundColor: checkedState
-              ? color('accent')
+              ? color(baseColor)
               : color('lightbackdrop'),
             '&:hover': {
               backgroundColor: checkedState
-                ? color('accent:active')
+                ? //@ts-ignore
+                  color(activeColor)
                 : color('lightbackdrop'),
             },
             '&:before': {

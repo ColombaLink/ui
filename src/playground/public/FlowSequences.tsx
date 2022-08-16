@@ -134,7 +134,7 @@ export const FlowSequences = () => {
             // yes
             return (
               <>
-                <Toggler text="Edit" />
+                <Toggler baseColor="red" text="Edit" />
               </>
             )
           },
