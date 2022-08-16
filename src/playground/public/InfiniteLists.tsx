@@ -5,7 +5,7 @@ import ComponentViewer from '../ComponentViewer'
 export const InfiniteLists = () => {
   return (
     <>
-      <ComponentViewer component={InfiniteList} propsName="InfiniteListProps" />
+      {/* <ComponentViewer component={InfiniteList} propsName="InfiniteListProps" /> */}
       {/* <InfiniteList query={} /> */}
     </>
   )
