@@ -9,7 +9,15 @@ import { wait } from '@saulx/utils'
 import { AddIcon } from '~'
 import { getData } from './getData'
 import useDragScroll from '~/hooks/useDragScroll'
-import { DataEventHandler, Data, ExportData, File, Children } from '~/types'
+import {
+  DataEventHandler,
+  Data,
+  ExportData,
+  File,
+  Children,
+  Color,
+} from '~/types'
+import { color } from '~'
 import { OptionsComponentProps, SequenceitemProps } from './types'
 
 // flow props types
@@ -50,6 +58,7 @@ type FlowProps = {
   contextualMenu?: boolean
   children?: Children<OptionsComponentProps>
   header?: HeaderProps
+  color?: Color
 }
 
 const defaultItemProps = {
@@ -96,6 +105,7 @@ export const Flow = (props: FlowProps) => {
               paddingTop,
               paddingBottom,
               overflowX: 'hidden',
+              color: color(props.color) || color('text'),
             }}
             itemCount={itemsWithNew.length}
             height={height}

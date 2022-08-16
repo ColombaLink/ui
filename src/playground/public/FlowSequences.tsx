@@ -63,6 +63,7 @@ export const FlowSequences = () => {
   return (
     <div style={{ height: 676 }}>
       <Flow
+        color="accent"
         defaultIsExpanded
         expandable
         itemProps={{
