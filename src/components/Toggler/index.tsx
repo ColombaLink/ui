@@ -22,7 +22,6 @@ export const Toggler: FC<TogglerProps> = ({
   const [checkedState, setCheckedState] = useState(checked)
 
   const activeColor = baseColor + ':active'
-  console.log(activeColor)
 
   return (
     <div {...props}>
