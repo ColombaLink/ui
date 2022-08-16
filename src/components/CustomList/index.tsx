@@ -9,7 +9,6 @@ import React, {
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 import { Space } from '~/types'
-import { spaceToPx } from '~/utils'
 import { styled } from 'inlines'
 import { DragDropIcon, MoreIcon, DuplicateIcon, DeleteIcon } from '~/icons'
 import { ListItem } from './ListItem'
@@ -41,7 +40,7 @@ export const CustomList: FC<CustomListProps> = ({
     arr.splice(to, 0, arr.splice(from, 1)[0])
   }
 
-  const DragDropper = styled(DragDropIcon, {
+  const DragDropper = styled('div', {
     cursor: 'pointer',
     opacity: 0.6,
     '&:hover': {
@@ -61,32 +60,36 @@ export const CustomList: FC<CustomListProps> = ({
 
   // Whats going on here ?
 
-  const sillyDiv = document.createElement('div')
-  sillyDiv.setAttribute('id', 'sillyDivId')
-  sillyDiv.innerHTML = 'hallo'
-  sillyDiv.style.width = '100px'
-  sillyDiv.style.height = '60px'
-  sillyDiv.style.background = 'red'
-
   const addDivToCursor = (e) => {
+    console.log(e)
     console.log(e.target)
+    console.log(e.target.parentElement)
+    //let sillyDiv = document.createElement('div')
+    let sillyDivTest = e.target.parentNode
+
+    //makeShallow copy
+    console.log(e.target)
+    let sillyDiv = sillyDivTest.cloneNode(true)
+
+    sillyDiv.setAttribute('id', 'sillyDivId')
+    sillyDiv.style.width = '360px'
 
     document.addEventListener('mousedown', () => {
       document.addEventListener('mousemove', movingMouse)
 
       function movingMouse(e) {
-        document.body.appendChild(sillyDiv)
-        sillyDiv.style.position = 'absolute'
-        sillyDiv.style.left = `${e.clientX}px`
-        sillyDiv.style.top = `${e.clientY}px`
+        if (sillyDiv) {
+          document.body.appendChild(sillyDiv)
+          sillyDiv.style.position = 'absolute'
+          sillyDiv.style.left = `${e.clientX}px`
+          sillyDiv.style.top = `${e.clientY}px`
+        }
       }
 
       document.addEventListener('mouseup', () => {
-        console.log('mouse is up')
-
         document.removeEventListener('mousemove', movingMouse)
-        document.removeEventListener('mousedown', addDivToCursor)
-        document.getElementById('sillyDivId').remove()
+        sillyDiv = null
+        document.getElementById('sillyDivId')?.remove()
       })
     })
   }
@@ -128,11 +131,10 @@ export const CustomList: FC<CustomListProps> = ({
                           onSortMouseDown(e)
                           addDivToCursor(e)
                         }}
-                        onMouseUp={(e) => {
-                          console.log('mouse up')
-                        }}
                         style={{ marginLeft: 16, marginRight: 16 }}
-                      />
+                      >
+                        <DragDropIcon style={{ pointerEvents: 'none' }} />
+                      </DragDropper>
                     )}
                     {data[index]}
                     <More
