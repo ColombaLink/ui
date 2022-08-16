@@ -1,17 +1,6 @@
 import React from 'react'
 import { Topbar } from '~/components/Topbar'
-import {
-  Page,
-  Text,
-  Container,
-  Button,
-  Menu,
-  Input,
-  Avatar,
-  Checkbox,
-  StackedListItemsWrapper,
-  StackedListItem,
-} from '~'
+import { Page, Text, Container, Button, Menu, Input, Avatar, Checkbox } from '~'
 import wait from '~/utils/wait'
 
 export const ProjectSettings = () => {
@@ -88,36 +77,6 @@ export const ProjectSettings = () => {
             <Text weight={600} space="24px">
               Allow specific organisation members access
             </Text>
-
-            <StackedListItem>
-              <Checkbox />
-              <Avatar
-                size={40}
-                img="https://robohash.org/BX4.png?set=set4&size=150x150"
-                color="red"
-              />
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Text>Maarten de Winter</Text>
-                <Text weight={400} color="text2">
-                  maarten@saulx.com
-                </Text>
-              </div>
-            </StackedListItem>
-
-            <StackedListItem>
-              <Checkbox />
-              <Avatar
-                size={40}
-                img="https://robohash.org/2ZP.png?set=set4&size=150x150"
-                color="mustard"
-              />
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Text>Youzi</Text>
-                <Text weight={400} color="text2">
-                  youzi@saulx.com
-                </Text>
-              </div>
-            </StackedListItem>
           </Container>
 
           <Container
