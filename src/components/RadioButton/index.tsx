@@ -21,9 +21,9 @@ export const RadioButton: FC<RadioButtonProps> = ({
   defaultValue,
   ...props
 }) => {
-  const blah = data.indexOf(defaultValue)
+  const snurp = data?.indexOf(defaultValue)
 
-  const [checked, setChecked] = useState<number | undefined>(blah)
+  const [checked, setChecked] = useState<number | undefined>(snurp)
 
   return (
     <div {...props}>
@@ -37,7 +37,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
           marginTop: 8,
         }}
       >
-        {data.map((item, index) => (
+        {data?.map((item, index) => (
           <div
             onClick={() => {
               setChecked(index)

@@ -5,7 +5,7 @@ import ComponentViewer from '../ComponentViewer'
 
 export const Badges = () => {
   return (
-    <Provider>
+    <>
       <ComponentViewer
         component={Badge}
         propsName="BadgeProps"
@@ -40,6 +40,6 @@ export const Badges = () => {
           },
         ]}
       />
-    </Provider>
+    </>
   )
 }

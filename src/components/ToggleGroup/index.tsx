@@ -39,7 +39,7 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({
       }}
       {...props}
     >
-      {data.map((item, idx) => (
+      {data?.map((item, idx) => (
         <StyledToggleTab
           key={idx}
           onClick={() => {
