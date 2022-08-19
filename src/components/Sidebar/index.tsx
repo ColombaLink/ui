@@ -1,96 +1,105 @@
-import React, { FC, ReactNode } from 'react'
-import { useLocation } from '~/hooks'
-
-import { color, font, hrefIsActive } from '~/utils'
-
+import React, { FC, ReactNode, CSSProperties } from 'react'
+import { color, hrefIsActive } from '~/utils'
+import { Logo } from '~/components/Logo'
+import { Avatar } from '~/components/Avatar'
+import { styled } from 'inlines'
 import { Link } from '../Link'
+import { useLocation } from '~/hooks'
+import { useTooltip } from '~/hooks/useTooltip'
 
-type SidebarItemsProps = {
-  href?: string
-  children?: ReactNode
-  isActive?: boolean
-  icon?: ReactNode | string
+type SidebarProps = {
+  data: {
+    icon: ReactNode
+    label: string
+    href: string
+    isActive?: boolean
+  }[]
+  logo?: ReactNode
+  avatar?: ReactNode
+  style?: CSSProperties
 }
 
-const SidebarItem: FC<SidebarItemsProps> = ({ href, children, isActive }) => {
-  return (
-    <Link
-      href={href}
-      style={{
-        width: 40,
-        height: 40,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 16,
-        borderRadius: 4,
-        backgroundColor: isActive ? color('lightaccent:active') : null,
-        '&:hover': {
-          backgroundColor: color('lightaccent:hover'),
-        },
-        ...font({
-          size: 18,
-          weight: 400,
-        }),
-      }}
-    >
-      {children}
-    </Link>
-  )
-}
-
-export const Sidebar = ({
-  data = {},
-  selected,
-  prefix = '',
-}: {
-  data: object
-  selected?: string
-  prefix?: string
+export const Sidebar: FC<SidebarProps> = ({
+  data,
+  logo,
+  avatar,
+  style,
+  ...props
 }) => {
   const [location] = useLocation()
-  if (!selected) {
-    selected = location
+  // console.log('locatie', location)
+  // @ts-ignore
+  if (!data.isActive) {
+    // @ts-ignore
+    data.isActive = location
   }
 
-  console.log(data[0].icon)
   return (
     <div
       style={{
-        backgroundColor: color('background2'),
-        borderRight: `1px solid ${color('border')}`,
-        width: 56,
+        width: 48,
+        minWidth: 48,
+        height: '100%',
         display: 'flex',
-        flexDirection: 'column',
+        minHeight: 600,
         alignItems: 'center',
-        paddingTop: 40,
+        flexDirection: 'column',
+        borderRight: `1px solid ${color('border')}`,
+        backgroundColor: color('background2'),
+        ...style,
       }}
+      {...props}
     >
-      {Object.keys(data).map((key) => {
-        let href = data[key]
-        let icon = data[key].icon
-        let children: ReactNode = key[0]
-        if (typeof href === 'object') {
-          if (Array.isArray(href)) {
-            children = React.createElement(href[1], { size: 20 }) || children
-            href = href[0]
-          } else {
-            children = React.createElement(href.icon, { size: 20 }) || children
-            href = href.href
-          }
-        }
-        return (
-          <SidebarItem
-            key={key}
-            href={href}
-            isActive={hrefIsActive(href, selected)}
-            icon={icon}
-          >
-            {icon ? icon : null}
-            {children}
-          </SidebarItem>
-        )
-      })}
+      <div style={{ padding: 8, paddingBottom: 40 }}>
+        {logo ? logo : <Logo />}
+      </div>
+
+      <div style={{ flexGrow: 1, padding: 8 }}>
+        {data.map((item, idx) => {
+          const toolTip = useTooltip(item.label, 'right')
+          return (
+            <Link
+              key={idx}
+              href={item.href}
+              style={{
+                width: 40,
+                height: 40,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginBottom: 8,
+                borderRadius: 4,
+                backgroundColor: hrefIsActive(item.href, location)
+                  ? color('border')
+                  : null,
+                '&:hover': {
+                  backgroundColor: color('border'),
+                },
+              }}
+              {...toolTip}
+            >
+              {item.icon}
+            </Link>
+          )
+        })}
+      </div>
+
+      <styled.div
+        style={{
+          flexGrow: 0,
+          marginBottom: 8,
+          width: '100%',
+          padding: '8px ',
+          alignItems: 'center',
+          '&:hover': {
+            backgroundColor: color('border'),
+          },
+        }}
+      >
+        {avatar ? avatar : <Avatar size="24px" label="YB" />}
+      </styled.div>
     </div>
   )
 }

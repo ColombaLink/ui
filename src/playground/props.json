@@ -1573,7 +1573,11 @@
         },
         "description": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number",
+            "ReactNode"
+          ]
         },
         "descriptionColor": {
           "optional": true,
@@ -1596,7 +1600,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string | number | ReactNode\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {
@@ -1748,30 +1752,6 @@
       },
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
-    },
-    "MenuSmallProps": {
-      "name": "MenuSmallProps",
-      "props": {
-        "data": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "logo": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "avatar": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type MenuSmallProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
-      "file": "/components/MenuSmall/index.tsx"
     },
     "PositionProps": {
       "name": "PositionProps",
@@ -2209,30 +2189,28 @@
       "code": "type SeparatorProps = {\n  style?: CSSProperties\n}",
       "file": "/components/Separator/index.tsx"
     },
-    "SidebarItemsProps": {
-      "name": "SidebarItemsProps",
+    "SidebarProps": {
+      "name": "SidebarProps",
       "props": {
-        "href": {
-          "optional": true,
-          "type": "string"
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
         },
-        "children": {
+        "logo": {
           "optional": true,
           "type": "ReactNode"
         },
-        "isActive": {
+        "avatar": {
           "optional": true,
-          "type": "boolean"
+          "type": "ReactNode"
         },
-        "icon": {
+        "style": {
           "optional": true,
-          "type": [
-            "ReactNode",
-            "string"
-          ]
+          "type": "CSSProperties"
         }
       },
-      "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n  icon?: ReactNode | string\n}",
+      "code": "type SidebarProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "StepsProps": {

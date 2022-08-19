@@ -102,7 +102,6 @@ const App = () => {
             Breadcrumbs: '?story=breadcrumb',
             SideMenu: '?story=SideMenu',
             Sidebar: '?story=SideBar',
-            MenuSmall: '?story=SmallMenu',
             Topbar: '?story=topbars',
           },
           Overlays: {

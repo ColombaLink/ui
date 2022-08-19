@@ -1,10 +1,10 @@
 import React from 'react'
-import { MenuSmall, ScreenIcon, GearsIcon, Avatar } from '~'
+import { Sidebar, ScreenIcon, GearsIcon, Avatar } from '~'
 
 export const TallySideBar = () => {
   return (
     <>
-      <MenuSmall
+      <Sidebar
         style={{
           position: 'absolute',
           left: 0,
@@ -33,13 +33,7 @@ export const TallySideBar = () => {
 
 const TallyLogo = (
   <div style={{ maxWidth: 24 }}>
-    <svg
-      data-name="Layer 1"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 260 260"
-      width="100%"
-      height="36px"
-    >
+    <svg data-name="Layer 1" viewBox="0 0 260 260" width="100%" height="36px">
       <defs>
         <linearGradient
           id="prefix__a"

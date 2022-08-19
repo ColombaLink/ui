@@ -30,7 +30,7 @@ export * from './Props'
 export * from './Radiobuttons'
 export * from './ResultCards'
 export * from './ScatterResults'
-export * from './SmallMenu'
+
 export * from './Screens/Inbox'
 export * from './Screens/ProfileSettings'
 export * from './Screens/ProjectSettings'
