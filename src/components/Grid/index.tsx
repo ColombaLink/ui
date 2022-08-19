@@ -37,8 +37,9 @@ export const Grid: FC<GridProps> = ({
         children.map((child, idx) => (
           <div
             style={{
-              minWidth: itemWidth,
+              width: '100%',
               maxWidth: itemWidth,
+              display: 'table',
               margin: gap / 2,
             }}
             key={idx}

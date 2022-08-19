@@ -27,9 +27,12 @@ const Container = styled('div', {
 })
 
 const ScrollBody = styled('div', {
-  paddingTop: 'var(--dialogPadding)',
-  paddingLeft: 'var(--dialogPadding)',
-  paddingRight: 'var(--dialogPadding)',
+  // paddingTop: 'var(--dialogPadding)',
+  // paddingLeft: 'var(--dialogPadding)',
+  // paddingRight: 'var(--dialogPadding)',
+
+  padding: '12px 24px',
+  paddingBottom: '0px',
   width: '100%',
   '&>:last-child': {
     paddingBottom: '24px !important',
@@ -50,7 +53,7 @@ const StyledButtons = styled('div', {
 const ButtonsWithBorder = styled(StyledButtons, {
   borderTop: `1px solid ${color('border')}`,
   marginTop: 48,
-  paddingTop: 20,
+  paddingTop: 24,
   paddingLeft: 24,
   paddingRight: 24,
   marginLeft: 'calc(-1 * var(--dialogPadding))',
@@ -206,8 +209,8 @@ export const Dialog = Object.assign(
           {label && (
             <div
               style={{
-                borderBottom: `1px solid ${color('border')}`,
-                padding: '8px 24px',
+                // borderBottom: `1px solid ${color('border')}`,
+                padding: '20px 24px 8px 24px',
               }}
             >
               <Text weight={600}>{label}</Text>
