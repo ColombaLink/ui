@@ -1,13 +1,13 @@
 import React from 'react'
-import { Toggler } from '~/components/Toggler'
+import { Toggle } from '~/components/Toggle'
 import ComponentViewer from '../ComponentViewer'
 
-export const Togglers = () => {
+export const Toggles = () => {
   return (
     <div>
       <ComponentViewer
-        component={Toggler}
-        propsName="TogglerProps"
+        component={Toggle}
+        propsName="ToggleProps"
         examples={[
           {
             props: {

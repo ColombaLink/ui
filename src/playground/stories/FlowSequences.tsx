@@ -4,7 +4,7 @@ import { wait } from '@saulx/utils'
 import { Button } from '~/components/Button'
 import { useOverlay } from '~/hooks'
 import { color, renderOrCreateElement } from '~/utils'
-import { Toggler } from '~/components/Toggler'
+import { Toggle } from '~/components/Toggle'
 import { SettingsIcon, CheckCircleIcon } from '~/icons'
 
 export const FlowSequences = () => {

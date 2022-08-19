@@ -1553,6 +1553,29 @@
       "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
+    "LabelProps": {
+      "name": "LabelProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type LabelProps = {\n  label?: string\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Label/index.tsx"
+    },
     "LineGraphProps": {
       "name": "LineGraphProps",
       "props": {
@@ -2489,30 +2512,8 @@
       "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
       "file": "/components/Toast/ToastProvider.tsx"
     },
-    "ToggleGroupProps": {
-      "name": "ToggleGroupProps",
-      "props": {
-        "data": {
-          "optional": true,
-          "type": [
-            "Array",
-            "Array"
-          ]
-        },
-        "space": {
-          "optional": true,
-          "type": "Space"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n}",
-      "file": "/components/ToggleGroup/index.tsx"
-    },
-    "TogglerProps": {
-      "name": "TogglerProps",
+    "ToggleProps": {
+      "name": "ToggleProps",
       "props": {
         "checked": {
           "optional": true,
@@ -2535,8 +2536,30 @@
           "type": "Color"
         }
       },
-      "code": "type TogglerProps = {\n  checked?: boolean\n  label?: string\n  description?: string\n  text?: string\n  baseColor?: Color\n}",
-      "file": "/components/Toggler/index.tsx"
+      "code": "type ToggleProps = {\n  checked?: boolean\n  label?: string\n  description?: string\n  text?: string\n  baseColor?: Color\n}",
+      "file": "/components/Toggle/index.tsx"
+    },
+    "ToggleGroupProps": {
+      "name": "ToggleGroupProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": [
+            "Array",
+            "Array"
+          ]
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n}",
+      "file": "/components/ToggleGroup/index.tsx"
     },
     "TooltipProps": {
       "name": "TooltipProps",

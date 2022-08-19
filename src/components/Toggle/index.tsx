@@ -3,7 +3,7 @@ import { Text } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'
 
-type TogglerProps = {
+type ToggleProps = {
   checked?: boolean
   label?: string
   description?: string
@@ -11,7 +11,7 @@ type TogglerProps = {
   baseColor?: Color
 }
 
-export const Toggler: FC<TogglerProps> = ({
+export const Toggle: FC<ToggleProps> = ({
   checked,
   label,
   description,

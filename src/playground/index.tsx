@@ -66,7 +66,7 @@ const App = () => {
             Radiobuttons: '?story=radiobuttons',
             Selects: '?story=selects',
             Sliders: '?story=sliders',
-            Toggler: '?story=togglers',
+            Toggle: '?story=toggles',
             ToggleGroups: '?story=ToggleGroups',
           },
           Display: {
@@ -74,6 +74,7 @@ const App = () => {
             Badges: '?story=badges',
             Cards: '?story=cards',
             Icons: '?story=icons',
+            Label: '?story=labels',
             Steps: '?story=step',
             Thumbnails: '?story=thumbnails',
             Separator: '?story=separators',
