@@ -1,6 +1,6 @@
 import React from 'react'
 import props from '../props.json'
-import { Text } from '../../'
+import { Text } from '../..'
 import { deepEqual } from '@saulx/utils'
 import { SingleProp } from '../ComponentViewer/ComponentProps'
 

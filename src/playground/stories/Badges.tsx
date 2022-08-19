@@ -18,8 +18,8 @@ export const Badges = () => {
           {
             props: {
               children: 'Another Badge',
-              outline: 'true',
-              ghost: 'true',
+              outline: true,
+              ghost: true,
               icon: <DotIcon />,
             },
           },
@@ -34,8 +34,8 @@ export const Badges = () => {
             props: {
               children: 'boxed',
               color: 'purple',
-              boxed: 'true',
-              outline: 'true',
+              boxed: true,
+              outline: true,
             },
           },
         ]}

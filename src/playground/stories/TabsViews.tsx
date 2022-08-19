@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs } from '../../'
+import { Tabs } from '../..'
 import ComponentViewer from '../ComponentViewer'
 import { StackIcon } from '~'
 

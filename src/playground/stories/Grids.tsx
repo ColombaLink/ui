@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, Callout, Card, Thumbnail, StackIcon, CalendarIcon } from '../../'
+import { Grid, Callout, Card, Thumbnail, StackIcon, CalendarIcon } from '../..'
 import ComponentViewer from '../ComponentViewer'
 
 export const Grids = () => {

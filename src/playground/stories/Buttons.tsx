@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button, CheckIcon } from '~'
-// import { CheckIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
@@ -17,19 +16,19 @@ export const Buttons = () => {
         {
           props: {
             children: 'Light button',
-            light: 'true',
+            light: true,
           },
         },
         {
           props: {
             children: 'Ghost button',
-            ghost: 'true',
+            ghost: true,
           },
         },
         {
           props: {
             children: 'Button with icon',
-            outline: 'true',
+            outline: true,
             icon: <CheckIcon />,
             large: true,
           },
@@ -37,8 +36,8 @@ export const Buttons = () => {
         {
           props: {
             children: 'Light outline button',
-            outline: 'true',
-            light: 'true',
+            outline: true,
+            light: true,
           },
         },
       ]}

@@ -34,8 +34,16 @@ export const Checkbox: FC<CheckboxProps> = ({
     onChange?.(newChecked)
   }
 
-  const checkbox = (
-    <>
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: 'flex',
+        marginBottom: space ? spaceToPx(space) : null,
+        ...style,
+      }}
+      {...listeners}
+    >
       <div
         style={{
           backgroundColor: checked
@@ -48,6 +56,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           minWidth: 20,
           minHeight: 20,
           width: 20,
+          marginTop: 2,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -56,44 +65,23 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? <CheckIcon size={16} color="accent:contrast" /> : null}
       </div>
-    </>
-  )
-
-  return (
-    <>
-      <div>
-        <button
-          onClick={onClick}
-          style={{
-            alignItems: 'center',
-            display: 'flex',
-            //    marginBottom: space ? spaceToPx(space) : null,
-            ...style,
-          }}
-          {...listeners}
-        >
-          {checkbox}
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'baseline',
-            }}
-          >
-            <Text wrap style={{ textAlign: 'left' }} weight={600}>
-              {label}
-            </Text>
-
-            {description && (
-              <Text wrap style={{ textAlign: 'left' }} weight={400}>
-                {description}
-              </Text>
-            )}
-            <div>{children}</div>
-          </div>
-        </button>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'baseline',
+        }}
+      >
+        <Text wrap style={{ textAlign: 'left' }} weight={600}>
+          {label}
+        </Text>
+        {description && (
+          <Text wrap style={{ textAlign: 'left' }} weight={400}>
+            {description}
+          </Text>
+        )}
+        <div>{children}</div>
       </div>
-      <div style={{ height: spaceToPx(space) }}></div>
-    </>
+    </button>
   )
 }

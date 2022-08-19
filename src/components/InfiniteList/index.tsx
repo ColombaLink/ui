@@ -154,6 +154,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
   }
 
   return (
+    // @ts-ignore
     <List
       {...props}
       height={height}
