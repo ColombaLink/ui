@@ -2,6 +2,7 @@ import React from 'react'
 import { Avatar } from '~/components/Avatar'
 import { MenuSmall } from '~/components/MenuSmall'
 import { ScreenIcon, GearsIcon, SettingsIcon } from '~/icons'
+import { Sidebar } from '~/components//Sidebar'
 
 export const SmallMenu = () => {
   return (
@@ -22,23 +23,6 @@ export const SmallMenu = () => {
           },
         ]}
       />
-
-      {/* <Sidebar
-        data={[
-          {
-            href: '?story=tally-screens',
-            icon: <ScreenIcon />,
-          },
-          {
-            href: '?story=tally-screens',
-            icon: <SettingsIcon />,
-          },
-          {
-            href: '?story=tally-screens',
-            icon: <GearsIcon />,
-          },
-        ]}
-      /> */}
     </div>
   )
 }

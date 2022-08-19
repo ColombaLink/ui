@@ -101,6 +101,7 @@ const App = () => {
           Navigation: {
             Breadcrumbs: '?story=breadcrumb',
             SideMenu: '?story=SideMenu',
+            Sidebar: '?story=SideBar',
             MenuSmall: '?story=SmallMenu',
             Topbar: '?story=topbars',
           },
@@ -111,7 +112,6 @@ const App = () => {
             Inbox: '?story=inbox',
             ProfileSettings: '?story=profile-settings',
             ProjectSettings: '?story=project-settings',
-            SyncSession: '?story=sync-session',
             Auth: '?story=auth',
             Tally: '?story=tally-screens',
           },
