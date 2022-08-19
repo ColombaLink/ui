@@ -66,7 +66,7 @@ const App = () => {
             Radiobuttons: '?story=radiobuttons',
             Selects: '?story=selects',
             Sliders: '?story=sliders',
-            Toggler: '?story=togglers',
+            Toggle: '?story=toggles',
             ToggleGroups: '?story=ToggleGroups',
           },
           Display: {
@@ -74,6 +74,7 @@ const App = () => {
             Badges: '?story=badges',
             Cards: '?story=cards',
             Icons: '?story=icons',
+            Label: '?story=labels',
             Steps: '?story=step',
             Thumbnails: '?story=thumbnails',
             Separator: '?story=separators',
@@ -100,7 +101,7 @@ const App = () => {
           Navigation: {
             Breadcrumbs: '?story=breadcrumb',
             SideMenu: '?story=SideMenu',
-            MenuSmall: '?story=SmallMenu',
+            Sidebar: '?story=SideBar',
             Topbar: '?story=topbars',
           },
           Overlays: {
@@ -110,7 +111,6 @@ const App = () => {
             Inbox: '?story=inbox',
             ProfileSettings: '?story=profile-settings',
             ProjectSettings: '?story=project-settings',
-            SyncSession: '?story=sync-session',
             Auth: '?story=auth',
             Tally: '?story=tally-screens',
           },

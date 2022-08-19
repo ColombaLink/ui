@@ -679,14 +679,17 @@
         },
         "label": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "ReactNode",
+            "string"
+          ]
         },
         "space": {
           "optional": true,
           "type": "Space"
         }
       },
-      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode\n  space?: Space\n}",
+      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode | string\n  space?: Space\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1553,6 +1556,53 @@
       "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
+    "LabelProps": {
+      "name": "LabelProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": [
+            "string",
+            "number",
+            "ReactNode"
+          ]
+        },
+        "labelColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "description": {
+          "optional": true,
+          "type": [
+            "string",
+            "number",
+            "ReactNode"
+          ]
+        },
+        "descriptionColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "iconColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string | number | ReactNode\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/Label/index.tsx"
+    },
     "LineGraphProps": {
       "name": "LineGraphProps",
       "props": {
@@ -1702,30 +1752,6 @@
       },
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
-    },
-    "MenuSmallProps": {
-      "name": "MenuSmallProps",
-      "props": {
-        "data": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "logo": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "avatar": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type MenuSmallProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
-      "file": "/components/MenuSmall/index.tsx"
     },
     "PositionProps": {
       "name": "PositionProps",
@@ -2163,30 +2189,28 @@
       "code": "type SeparatorProps = {\n  style?: CSSProperties\n}",
       "file": "/components/Separator/index.tsx"
     },
-    "SidebarItemsProps": {
-      "name": "SidebarItemsProps",
+    "SidebarProps": {
+      "name": "SidebarProps",
       "props": {
-        "href": {
-          "optional": true,
-          "type": "string"
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
         },
-        "children": {
+        "logo": {
           "optional": true,
           "type": "ReactNode"
         },
-        "isActive": {
+        "avatar": {
           "optional": true,
-          "type": "boolean"
+          "type": "ReactNode"
         },
-        "icon": {
+        "style": {
           "optional": true,
-          "type": [
-            "ReactNode",
-            "string"
-          ]
+          "type": "CSSProperties"
         }
       },
-      "code": "type SidebarItemsProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n  icon?: ReactNode | string\n}",
+      "code": "type SidebarProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "StepsProps": {
@@ -2489,30 +2513,8 @@
       "code": "type PositionStyleProps = {\n  top?: number\n  bottom?: number\n  left?: number\n  right?: number\n}",
       "file": "/components/Toast/ToastProvider.tsx"
     },
-    "ToggleGroupProps": {
-      "name": "ToggleGroupProps",
-      "props": {
-        "data": {
-          "optional": true,
-          "type": [
-            "Array",
-            "Array"
-          ]
-        },
-        "space": {
-          "optional": true,
-          "type": "Space"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n}",
-      "file": "/components/ToggleGroup/index.tsx"
-    },
-    "TogglerProps": {
-      "name": "TogglerProps",
+    "ToggleProps": {
+      "name": "ToggleProps",
       "props": {
         "checked": {
           "optional": true,
@@ -2535,8 +2537,30 @@
           "type": "Color"
         }
       },
-      "code": "type TogglerProps = {\n  checked?: boolean\n  label?: string\n  description?: string\n  text?: string\n  baseColor?: Color\n}",
-      "file": "/components/Toggler/index.tsx"
+      "code": "type ToggleProps = {\n  checked?: boolean\n  label?: string\n  description?: string\n  text?: string\n  baseColor?: Color\n}",
+      "file": "/components/Toggle/index.tsx"
+    },
+    "ToggleGroupProps": {
+      "name": "ToggleGroupProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": [
+            "Array",
+            "Array"
+          ]
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n}",
+      "file": "/components/ToggleGroup/index.tsx"
     },
     "TooltipProps": {
       "name": "TooltipProps",

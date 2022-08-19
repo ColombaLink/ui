@@ -12,6 +12,7 @@ export const Grids = () => {
           {
             props: {
               gap: 10,
+              itemWidth: 200,
               children: (
                 <>
                   <Card

@@ -10,6 +10,7 @@ import React, {
   useRef,
 } from 'react'
 import { Text } from '../Text'
+import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
@@ -244,31 +245,14 @@ export const Input: FC<
         ...style,
       }}
     >
-      {label && (
-        <Text style={{ marginBottom: 8 }}>
-          {label}
-          {optional && (
-            <span
-              style={{
-                fontWeight: 400,
-                color: color('text2'),
-              }}
-            >
-              {' '}
-              (optional)
-            </span>
-          )}
-        </Text>
-      )}
-      {description && (
-        <Text
-          weight={400}
-          style={{ marginBottom: 12, marginTop: -2 }}
-          color="text2"
-        >
-          {description}
-        </Text>
-      )}
+      {label || description ? (
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 12 }}
+        />
+      ) : null}
+
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

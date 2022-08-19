@@ -1,6 +1,7 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
+import { Label } from '../Label'
 import { border, color } from '~/utils'
 
 type RadioButtonProps = {
@@ -27,8 +28,10 @@ export const RadioButton: FC<RadioButtonProps> = ({
 
   return (
     <div {...props}>
-      <Text>{label}</Text>
-      <Text weight={400}>{description}</Text>
+      {label || description ? (
+        <Label label={label} description={description} />
+      ) : null}
+
       <div
         style={{
           display: 'flex',

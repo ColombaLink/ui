@@ -1,5 +1,6 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Text } from '../Text'
+import { Label } from '../Label'
 import { border, color, spaceToPx } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
@@ -11,7 +12,7 @@ export type CheckboxProps = {
   description?: string
   style?: CSSProperties
   onChange?: (boolean) => void
-  label?: ReactNode
+  label?: ReactNode | string
   space?: Space
 }
 
@@ -65,23 +66,14 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? <CheckIcon size={16} color="accent:contrast" /> : null}
       </div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'baseline',
-        }}
-      >
-        <Text wrap style={{ textAlign: 'left' }} weight={600}>
-          {label}
-        </Text>
-        {description && (
-          <Text wrap style={{ textAlign: 'left' }} weight={400}>
-            {description}
-          </Text>
-        )}
-        <div>{children}</div>
-      </div>
+      {label || description || children ? (
+        <Label
+          label={label}
+          description={description}
+          children={children}
+          style={{ textAlign: 'left' }}
+        />
+      ) : null}
     </button>
   )
 }
