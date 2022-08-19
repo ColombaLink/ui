@@ -16,6 +16,7 @@ import { Callout } from '~/components/Callout'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 import parseCode from './parseCode'
+import { color } from '../../'
 
 export const CodeExample: FC<{
   p: any
@@ -62,12 +63,17 @@ export const CodeExample: FC<{
                 setCode('')
                 update(cnt + 1)
               }}
+              style={{
+                cursor: 'pointer',
+                color: code !== exampleCode ? color('text') : color('accent'),
+              }}
             />
           </>
         }
         style={{
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
+          borderColor: code !== exampleCode ? color('border') : color('accent'),
         }}
         onChange={(c) => setCode(c)}
         value={exampleCode}
