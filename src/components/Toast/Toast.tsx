@@ -1,5 +1,6 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Text } from '../Text'
+import { Label } from '../Label'
 import { color, renderOrCreateElement } from '~/utils'
 import { CheckCircleIcon, CloseCircleIcon } from '~/icons'
 
@@ -52,28 +53,24 @@ export const Toast: FC<ToastProps> = ({
         }}
       >
         {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>}
-        {icon && !type && (
-          <div style={{ marginRight: 12 }}>{renderOrCreateElement(icon)}</div>
-        )}
-        {type === 'success' && (
-          <div style={{ marginRight: 12 }}>
-            {CheckCircleIcon({ color: 'accent' })}
-          </div>
-        )}
-        {type === 'error' && (
-          <div style={{ marginRight: 12 }}>
-            {CloseCircleIcon({ color: 'red' })}
-          </div>
-        )}
-        <Text weight={600}>{label}</Text>
-        {topRight && <div style={{ marginLeft: 12 }}>{topRight}</div>}
+
+        {label || description || children || icon ? (
+          <Label
+            label={label}
+            description={description}
+            icon={
+              icon && !type
+                ? icon
+                : type === 'success'
+                ? CheckCircleIcon
+                : CloseCircleIcon
+            }
+            iconColor={type === 'success' ? 'accent' : 'red'}
+            children={children}
+            //  style={{ marginBottom: 12 }}
+          />
+        ) : null}
       </div>
-      {description && (
-        <div>
-          <Text weight={400}>{description}</Text>
-        </div>
-      )}
-      {children && <div style={{ marginTop: 4 }}>{children}</div>}
     </div>
   )
 }
