@@ -25,7 +25,7 @@ export const Callouts = () => {
               icon: <ErrorIcon />,
               iconRight: <ErrorIcon />,
               description: 'This is a description',
-              children: <Button>Child button</Button>,
+              children: <Button style={{ marginTop: 12 }}>Child button</Button>,
             },
           },
           {

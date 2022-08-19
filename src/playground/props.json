@@ -679,14 +679,17 @@
         },
         "label": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "ReactNode",
+            "string"
+          ]
         },
         "space": {
           "optional": true,
           "type": "Space"
         }
       },
-      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode\n  space?: Space\n}",
+      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode | string\n  space?: Space\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1558,11 +1561,31 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number",
+            "ReactNode"
+          ]
+        },
+        "labelColor": {
+          "optional": true,
+          "type": "Color"
         },
         "description": {
           "optional": true,
           "type": "string"
+        },
+        "descriptionColor": {
+          "optional": true,
+          "type": "Color"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "iconColor": {
+          "optional": true,
+          "type": "Color"
         },
         "children": {
           "optional": true,
@@ -1573,7 +1596,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type LabelProps = {\n  label?: string\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {

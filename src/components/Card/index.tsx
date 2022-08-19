@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Text } from '../Text'
+import { Label } from '../Label'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 
@@ -61,10 +62,24 @@ export const Card: FC<CardProps> = ({
           >
             {renderOrCreateElement(topLeft)}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Text weight={600}>{label}</Text>
-              <Text weight={400} size="13px" color="text2">
-                {description}
-              </Text>
+              {label || description || children ? (
+                <Label
+                  label={label}
+                  description={
+                    <span
+                      style={{
+                        fontSize: 13,
+                        marginTop: -3,
+                        display: 'block',
+                      }}
+                    >
+                      {description}
+                    </span>
+                  }
+                  descriptionColor={color('text2')}
+                  children={children}
+                />
+              ) : null}
             </div>
           </div>
         )}

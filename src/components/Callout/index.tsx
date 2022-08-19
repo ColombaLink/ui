@@ -1,6 +1,7 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { Space, Color } from '~/types'
 import { Text } from '../Text'
+import { Label } from '../Label'
 import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { CloseIcon } from '~/icons'
 
@@ -71,35 +72,19 @@ export const Callout: FC<CalloutProps> = ({
           <CloseIcon onClick={closeCalloutHandler} />
         </div>
       )}
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
-        {icon && (
-          <div style={{ marginRight: 12, flexShrink: 0, paddingTop: 4 }}>
-            {renderOrCreateElement(icon, {
-              color: color(colorProp),
-            })}
-          </div>
-        )}
-        <div>
-          <Text wrap color={color(colorProp, 'contrast', true)}>
-            {label}
-          </Text>
-        </div>
-      </div>
 
-      {description && (
-        <div>
-          <Text
-            wrap
-            weight={400}
-            color={color(colorProp, 'contrast', true)}
-            space={children ? '8px' : '0px'}
-          >
-            {description}
-          </Text>
-        </div>
-      )}
-
-      {children && <div>{children}</div>}
+      {label || description || children || icon ? (
+        <Label
+          label={label}
+          labelColor={color(colorProp, 'contrast', true)}
+          description={description}
+          descriptionColor={color(colorProp, 'contrast', true)}
+          icon={icon}
+          iconColor={color(colorProp, 'contrast', true)}
+          children={children}
+          //  style={{ marginBottom: 12 }}
+        />
+      ) : null}
     </div>
   )
 }
