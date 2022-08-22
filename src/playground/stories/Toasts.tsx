@@ -33,6 +33,23 @@ const closeAll = () => {
 <Button onClick={closeAll} disabled={!amount}>Close All Toasties ({amount})</Button>
 `
 
+const ToastVarSizeExample = `import { CheckCircleIcon, useToast, Toast, Button } from '@based/ui'
+
+const toast = useToast()
+
+const notify = () => {
+  toast.add(<Toast 
+    label="TEST"
+    type="success"
+    description="Account created. hello" 
+  >Bonjour dudes <br/> yo test</Toast>)
+}
+
+<Button onClick={notify}>
+ TEST
+</Button>
+`
+
 const CloseAllButton = () => {
   const toast = useToast()
   const amount = toast.useCount()
@@ -71,6 +88,9 @@ export const Toasts = () => {
               description: 'Oof. 😓',
               type: 'error',
             },
+          },
+          {
+            code: ToastVarSizeExample,
           },
           {
             code: codeExample,

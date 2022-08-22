@@ -31,8 +31,10 @@ export const useToast = ({ attached = false } = {}) => {
       }
 
       extendedToast.add = extendedToast
+
       return extendedToast
     }
+
     return toast
   }
 

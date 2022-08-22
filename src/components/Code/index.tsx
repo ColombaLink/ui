@@ -85,7 +85,7 @@ export const Code: FC<CodeProps> = ({
         style={{
           fontSize: 14,
           color: color('accent'),
-          fontFamily: 'Fira Code',
+          fontFamily: 'Fira Code, monospace, sans-serif',
         }}
       />
     </div>

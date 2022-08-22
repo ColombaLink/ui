@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
+import React, { FC, ReactNode, CSSProperties, useRef } from 'react'
 import { Text } from '../Text'
 import { Label } from '../Label'
 import { color, renderOrCreateElement } from '~/utils'
@@ -26,8 +26,11 @@ export const Toast: FC<ToastProps> = ({
   type,
   ...props
 }) => {
+  const toastRef = useRef<HTMLDivElement>(null)
+
   return (
     <div
+      ref={toastRef}
       style={{
         borderRadius: 4,
         backgroundColor: color('background'),
