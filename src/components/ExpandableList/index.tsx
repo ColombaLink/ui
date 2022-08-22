@@ -11,7 +11,7 @@ const ExpandableListItem = ({ item, index }) => {
 
   const [expanded, setExpanded] = useState(false)
 
-  if (item.items && item.items.length > 0) {
+  if (item.items && item.items.length > 0 && expanded) {
     children = (
       <ul style={{ paddingInlineStart: 40, listStyleType: 'none' }}>
         {item.items.map((child, i) => (
@@ -31,6 +31,8 @@ const ExpandableListItem = ({ item, index }) => {
       onClick={(e) => {
         e.stopPropagation()
         console.log('clicked: ' + index)
+        // damn , this just works !
+        setExpanded(!expanded)
       }}
     >
       <div
