@@ -2213,6 +2213,21 @@
       "code": "type SidebarProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
       "file": "/components/Sidebar/index.tsx"
     },
+    "SpacerProps": {
+      "name": "SpacerProps",
+      "props": {
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type SpacerProps = {\n  space?: Space\n  style?: CSSProperties\n}",
+      "file": "/components/Spacer/index.tsx"
+    },
     "StepsProps": {
       "name": "StepsProps",
       "props": {

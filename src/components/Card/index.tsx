@@ -1,5 +1,6 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Text } from '../Text'
+import { Spacer } from '../Spacer'
 import { Label } from '../Label'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'

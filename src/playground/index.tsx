@@ -78,6 +78,7 @@ const App = () => {
             Steps: '?story=step',
             Thumbnails: '?story=thumbnails',
             Separator: '?story=separators',
+            Spacer: '?story=Spacers',
           },
           Feedback: {
             Callouts: '?story=callouts',

@@ -9,7 +9,7 @@ import {
   CalendarIcon,
   StackIcon,
 } from '~'
-import { Badge } from '~'
+import { Badge, Spacer } from '~'
 import { Thumbnail } from '~/components/Thumbnail'
 import ComponentViewer from '../ComponentViewer'
 
@@ -26,6 +26,7 @@ export const Cards = () => {
               description: 'Updated 30 minutes ago',
               topLeft: <Avatar icon={BasedIcon} color="red" />,
               topRight: <MoreIcon />,
+              children: <Spacer space="28px" />,
               bottomLeft: (
                 <Badge icon={CopyIcon({ size: 14 })} boxed>
                   main
