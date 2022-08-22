@@ -1,6 +1,7 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
-import { ExpandIcon } from '~'
+import { Text, ExpandIcon } from '~'
 import { styled } from 'inlines'
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 type ExpandableListProps = {
   style?: CSSProperties
@@ -13,11 +14,20 @@ type ExpandableListItemProps = {
   item?: any
 }
 
+// must be better way to do this
 const StyledUl = styled('ul', {
   listStyleType: 'none',
   paddingInlineStart: '20px',
-  '& li > div': {
-    backgroundColor: '#f1f1f1',
+  '& > li': {
+    position: 'relative',
+  },
+  '& > li:after': {
+    content: '""',
+    position: 'absolute',
+    top: '0',
+    width: '200%',
+    left: '-100%',
+    borderTop: '1px solid #e0e0e0',
   },
 })
 
@@ -60,17 +70,28 @@ const ExpandableListItem = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: 40,
-          borderBottom: '1px solid #333',
-          ...style,
+          justifyContent: 'space-between',
         }}
       >
-        {item.items && item.items.length ? (
-          <ExpandIcon style={{ marginRight: 8 }} />
-        ) : (
-          <div style={{ width: 32 }}></div>
-        )}
-        {item.title}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            height: 54,
+            ...style,
+          }}
+        >
+          {item.items && item.items.length ? (
+            <ExpandIcon style={{ marginRight: 12 }} />
+          ) : (
+            <div style={{ width: 32 }}></div>
+          )}
+          <Text>{item.title}</Text>
+        </div>
+        <div style={{ paddingRight: 8, display: 'flex' }}>
+          <Text>{item.value} </Text>
+          <Text color="accent">(% van Total)</Text>
+        </div>
       </div>
 
       {children}
@@ -80,8 +101,8 @@ const ExpandableListItem = ({
 
 export const ExpandableList = ({ data }: ExpandableListProps) => {
   return (
-    <div>
-      <StyledUl>
+    <div style={{ overflowX: 'hidden' }}>
+      <StyledUl style={{ paddingInlineStart: '0px' }}>
         {data.map((item, index) => (
           <ExpandableListItem key={index} item={item} index={index} />
         ))}
