@@ -6,19 +6,35 @@ type ExpandableListProps = {
   data?: any
 }
 
-const ExpandableListItem = ({ item, index }) => {
+type ExpandableListItemProps = {
+  style?: CSSProperties
+  index?: number | string
+  item?: any
+}
+
+const ExpandableListItem = ({
+  item,
+  index,
+  style,
+}: ExpandableListItemProps) => {
   let children = null
 
   const [expanded, setExpanded] = useState(false)
 
   if (item.items && item.items.length > 0 && expanded) {
     children = (
-      <ul style={{ paddingInlineStart: 40, listStyleType: 'none' }}>
+      <ul
+        style={{
+          paddingLeft: 34,
+          listStyleType: 'none',
+        }}
+      >
         {item.items.map((child, i) => (
           <ExpandableListItem
             key={`${index}-expandendedItem-${i}`}
             item={child}
             index={`${index}-expandendedItem-${i}`}
+            style={{}}
           />
         ))}
       </ul>
@@ -30,10 +46,10 @@ const ExpandableListItem = ({ item, index }) => {
     <li
       onClick={(e) => {
         e.stopPropagation()
-        console.log('clicked: ' + index)
         // damn , this just works !
         setExpanded(!expanded)
       }}
+      style={{ cursor: 'pointer' }}
     >
       <div
         style={{
@@ -41,9 +57,14 @@ const ExpandableListItem = ({ item, index }) => {
           alignItems: 'center',
           height: 42,
           borderBottom: '1px solid #333',
+          ...style,
         }}
       >
-        <ExpandIcon style={{ marginRight: 8 }} />
+        {item.items && item.items.length ? (
+          <ExpandIcon style={{ marginRight: 8 }} />
+        ) : (
+          <div style={{ width: 32 }}></div>
+        )}
         {item.title}
       </div>
 
