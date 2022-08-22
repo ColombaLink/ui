@@ -48,7 +48,7 @@ export const Card: FC<CardProps> = ({
           display: 'flex',
           position: 'relative',
           justifyContent: 'space-between',
-          marginBottom: small ? null : 44,
+          marginBottom: 12,
         }}
       >
         {(topLeft || label || description) && (
@@ -69,15 +69,15 @@ export const Card: FC<CardProps> = ({
                     <span
                       style={{
                         fontSize: 13,
-                        marginTop: -3,
+                        marginTop: 0,
                         display: 'block',
+                        lineHeight: '1.25',
                       }}
                     >
                       {description}
                     </span>
                   }
                   descriptionColor={color('text2')}
-                  children={children}
                 />
               ) : null}
             </div>
