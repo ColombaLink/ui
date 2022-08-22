@@ -30,7 +30,6 @@ export const Toast: FC<ToastProps> = ({
 
   return (
     <div
-      ref={toastRef}
       style={{
         borderRadius: 4,
         backgroundColor: color('background'),

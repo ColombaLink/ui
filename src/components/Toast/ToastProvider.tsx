@@ -65,6 +65,8 @@ export const ToastProvider = ({
   const positionStyleRef = useRef<PositionStyleProps>()
   const toastsRef = useRef<Toast[]>()
 
+  const toastyRef = useRef(null)
+
   const toastRef = useRef<ToastContextType>()
   if (!toastRef.current) {
     let count = 0
@@ -152,6 +154,8 @@ export const ToastProvider = ({
   }
 
   const toasts = toastsRef.current.map(({ id, children }, index) => {
+    //console.log(id, children, index)
+
     let y = index * 90
 
     if ('bottom' in positionStyleRef.current) {
@@ -161,6 +165,7 @@ export const ToastProvider = ({
     return (
       <div
         key={id}
+        ref={toastyRef}
         style={{
           // TODO FIX THIS
           zIndex: 99999999999,
