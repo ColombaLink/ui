@@ -1,5 +1,6 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { ExpandIcon } from '~'
+import { styled } from 'inlines'
 
 type ExpandableListProps = {
   style?: CSSProperties
@@ -12,6 +13,14 @@ type ExpandableListItemProps = {
   item?: any
 }
 
+const StyledUl = styled('ul', {
+  listStyleType: 'none',
+  paddingInlineStart: '20px',
+  '& li > div': {
+    backgroundColor: '#f1f1f1',
+  },
+})
+
 const ExpandableListItem = ({
   item,
   index,
@@ -23,12 +32,7 @@ const ExpandableListItem = ({
 
   if (item.items && item.items.length > 0 && expanded) {
     children = (
-      <ul
-        style={{
-          paddingLeft: 34,
-          listStyleType: 'none',
-        }}
-      >
+      <StyledUl>
         {item.items.map((child, i) => (
           <ExpandableListItem
             key={`${index}-expandendedItem-${i}`}
@@ -37,11 +41,12 @@ const ExpandableListItem = ({
             style={{}}
           />
         ))}
-      </ul>
+      </StyledUl>
     )
   }
 
   console.log(item)
+
   return (
     <li
       onClick={(e) => {
@@ -55,7 +60,7 @@ const ExpandableListItem = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          height: 42,
+          height: 40,
           borderBottom: '1px solid #333',
           ...style,
         }}
@@ -76,11 +81,11 @@ const ExpandableListItem = ({
 export const ExpandableList = ({ data }: ExpandableListProps) => {
   return (
     <div>
-      <ul style={{ listStyleType: 'none' }}>
+      <StyledUl>
         {data.map((item, index) => (
           <ExpandableListItem key={index} item={item} index={index} />
         ))}
-      </ul>
+      </StyledUl>
     </div>
   )
 }
