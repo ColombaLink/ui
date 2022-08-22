@@ -25,6 +25,35 @@ export const ExpandableLists = () => {
     })
   }
 
+  const otherExample = [
+    {
+      id: 1,
+      title: 'USA',
+      items: [
+        {
+          id: 2,
+          title: 'Chevy',
+          items: [
+            {
+              id: 3,
+              title: 'Suburban',
+            },
+            {
+              id: 4,
+              title: 'Camaro',
+              items: [],
+            },
+          ],
+        },
+        {
+          id: 5,
+          title: 'Ford',
+          items: [],
+        },
+      ],
+    },
+  ]
+
   //     <ResultList
   //     items={drillDownData}
   //     itemProps={{
@@ -36,9 +65,8 @@ export const ExpandableLists = () => {
   //     />
 
   return (
-    <div>
-      blaafeah
-      <ExpandableList />
+    <div style={{ height: 340 }}>
+      <ExpandableList data={drillDownData} />
     </div>
   )
 }
