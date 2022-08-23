@@ -11,6 +11,7 @@ export const WorkspaceMenu = () => {
             Users: '?story=Users',
             Organisations: '?story=Organisations',
             'User Roles': '?story=UserRoles',
+            TEST: '?=Edition',
           },
         }}
       />
