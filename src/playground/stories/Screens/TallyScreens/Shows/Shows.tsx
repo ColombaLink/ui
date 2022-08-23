@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { TallySideBar } from '../../TallyComponents/TallySideBar'
+import { SideBar } from '../../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,
@@ -19,7 +19,7 @@ import {
   TargetIcon,
 } from '~'
 
-export const TallyShows = () => {
+export const Shows = () => {
   const dialog = useDialog()
 
   const addShowHandler = () => {
@@ -29,7 +29,7 @@ export const TallyShows = () => {
 
   return (
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
-      <TallySideBar />
+      <SideBar />
 
       <Topbar data={{ Shows: '/' }} noLogo onFilter={() => {}}>
         <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
@@ -82,7 +82,7 @@ const AddShowDialog = () => {
           'Saulx',
           'Twister Interactive',
           'Digame',
-          'Sport1',
+          'Sport 1',
           'ARD',
           'SRF',
         ]}

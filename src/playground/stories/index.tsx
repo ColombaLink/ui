@@ -57,10 +57,10 @@ export * from './ValueSliders'
 
 // Tally
 export * from './Screens/TallyScreens'
-export * from './Screens/TallyScreens/Shows/TallyShows'
-export * from './Screens/TallyScreens/Shows/TallyEdition'
+export * from './Screens/TallyScreens/Shows/Shows'
+export * from './Screens/TallyScreens/Shows/Edition'
 export * from './Screens/TallyScreens/Shows/Edition/Content'
 
-export * from './Screens/TallyScreens/Settings/TallyUsers'
-export * from './Screens/TallyScreens/Settings/TallyOrganisations'
-export * from './Screens/TallyScreens/Settings/TallyUserRoles'
+export * from './Screens/TallyScreens/Settings/Users'
+export * from './Screens/TallyScreens/Settings/Organisations'
+export * from './Screens/TallyScreens/Settings/UserRoles'

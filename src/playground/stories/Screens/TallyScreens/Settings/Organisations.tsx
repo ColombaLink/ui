@@ -1,5 +1,5 @@
 import React from 'react'
-import { TallySideBar } from '../../TallyComponents/TallySideBar'
+import { SideBar } from '../../TallyComponents/SideBar'
 import {
   Topbar,
   Button,
@@ -12,8 +12,9 @@ import {
   Table,
   Menu,
 } from '~'
+import { WorkspaceMenu } from '../../TallyComponents/WorkspaceMenu'
 
-export const TallyOrganisations = () => {
+export const Organisations = () => {
   const dialog = useDialog()
 
   const addOrganisationHandler = () => {
@@ -22,7 +23,7 @@ export const TallyOrganisations = () => {
 
   return (
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
-      <TallySideBar />
+      <SideBar />
 
       <Topbar data={{ Organisations: '/' }} noLogo>
         <Button
@@ -36,16 +37,7 @@ export const TallyOrganisations = () => {
       </Topbar>
 
       <div style={{ display: 'flex', flexGrow: 1 }}>
-        <Menu
-          prefix="/"
-          data={{
-            'Workspace Settings': {
-              Users: '?story=TallyUsers',
-              Organisations: '?story=TallyOrganisations',
-              'User Roles': '?story=TallyUserRoles',
-            },
-          }}
-        />
+        <WorkspaceMenu />
         <Page>
           <Table
             data={[
