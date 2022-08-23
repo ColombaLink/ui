@@ -93,6 +93,7 @@ const App = () => {
             Container: '?story=Containers',
             Flow: '?story=FlowSequences',
             Grids: '?story=grids',
+            ExpandableList: '?story=ExpandableLists',
             InfiniteList: '?story=InfiniteLists',
             Lists: '?story=lists',
             MasonryGrid: '?story=masonryGrid',
