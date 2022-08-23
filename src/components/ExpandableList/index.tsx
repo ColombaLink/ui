@@ -1,11 +1,16 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import React, { CSSProperties, useEffect, useState, ReactNode, FC } from 'react'
 import { Text, ExpandIcon } from '~'
 import { styled } from 'inlines'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
+import AutoSizer from 'react-virtualized-auto-sizer'
+
 type ExpandableListProps = {
   style?: CSSProperties
   data?: any
+  height?: number
+  topRight?: ReactNode | string
+  topLeft?: ReactNode | string
 }
 
 type ExpandableListItemProps = {
@@ -13,6 +18,7 @@ type ExpandableListItemProps = {
   index?: number | string
   item?: any
   total?: number
+  height?: number
 }
 
 const StyledUl = styled('ul', {
@@ -84,7 +90,12 @@ const ExpandableListItem = ({
           }}
         >
           {item.items && item.items.length ? (
-            <ExpandIcon style={{ marginRight: 12 }} />
+            <ExpandIcon
+              style={{
+                marginRight: 12,
+                transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)',
+              }}
+            />
           ) : (
             <div style={{ width: 32 }}></div>
           )}
@@ -92,11 +103,13 @@ const ExpandableListItem = ({
         </div>
         <div style={{ paddingRight: 8, display: 'flex' }}>
           <Text style={{ marginRight: 4 }}>{item.value}</Text>
-          <span className="percentage-class">
-            <Text color="accent">
-              ({`${((item.value / total) * 100).toFixed(2)}%`})
-            </Text>
-          </span>
+          {typeof item.value === 'number' && (
+            <span className="percentage-class">
+              <Text color="accent">
+                ({`${((item.value / total) * 100).toFixed(2)}%`})
+              </Text>
+            </span>
+          )}
         </div>
       </div>
 
@@ -105,7 +118,12 @@ const ExpandableListItem = ({
   )
 }
 
-export const ExpandableList = ({ data }: ExpandableListProps) => {
+export const ExpandableList: FC<ExpandableListProps> = ({
+  data,
+  height = 240,
+  topLeft,
+  topRight,
+}) => {
   const getTotalFromData = (data) => {
     let total = 0
     for (let i = 0; i < data.length; i++) {
@@ -115,10 +133,30 @@ export const ExpandableList = ({ data }: ExpandableListProps) => {
   }
   const totalValue = getTotalFromData(data)
 
-  console.log(totalValue)
-
   return (
-    <div style={{ overflowX: 'hidden' }}>
+    <div style={{ overflowX: 'hidden', height: height }}>
+      {topRight || topLeft ? (
+        <div
+          style={{
+            display: 'flex',
+            height: 54,
+            padding: '0px 8px 0px 3px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          {typeof topLeft === 'string' ? (
+            <Text weight={600}>{topLeft}</Text>
+          ) : (
+            <div>{topLeft}</div>
+          )}
+          {typeof topRight === 'string' ? (
+            <Text weight={600}>{topRight}</Text>
+          ) : (
+            <div>{topRight}</div>
+          )}
+        </div>
+      ) : null}
       <StyledUl
         style={{
           paddingInlineStart: '0px',

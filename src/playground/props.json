@@ -965,6 +965,69 @@
       "code": "type CustomListProps = {\n  items?: any[]\n  draggable?: boolean\n  expandable?: boolean\n  itemSize?: number\n  itemSpace?: Space\n  style?: CSSProperties\n}",
       "file": "/components/CustomList/index.tsx"
     },
+    "ExpandableListProps": {
+      "name": "ExpandableListProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "topRight": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            "string"
+          ]
+        },
+        "topLeft": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            "string"
+          ]
+        }
+      },
+      "code": "type ExpandableListProps = {\n  style?: CSSProperties\n  data?: any\n  height?: number\n  topRight?: ReactNode | string\n  topLeft?: ReactNode | string\n}",
+      "file": "/components/ExpandableList/index.tsx"
+    },
+    "ExpandableListItemProps": {
+      "name": "ExpandableListItemProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "index": {
+          "optional": true,
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "item": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "total": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type ExpandableListItemProps = {\n  style?: CSSProperties\n  index?: number | string\n  item?: any\n  total?: number\n  height?: number\n}",
+      "file": "/components/ExpandableList/index.tsx"
+    },
     "FooterProps": {
       "name": "FooterProps",
       "props": {
