@@ -82,7 +82,7 @@ const AddShowDialog = () => {
           'Saulx',
           'Twister Interactive',
           'Digame',
-          'Sport1',
+          'Sport 1',
           'ARD',
           'SRF',
         ]}
