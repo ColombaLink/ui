@@ -1,7 +1,7 @@
 import React from 'react'
 import { Sidebar, ScreenIcon, GearsIcon, Avatar } from '~'
 
-export const TallySideBar = () => {
+export const SideBar = () => {
   return (
     <>
       <Sidebar
@@ -16,7 +16,7 @@ export const TallySideBar = () => {
           {
             icon: <ScreenIcon />,
             label: 'Shows',
-            href: '?story=TallyShows',
+            href: '?story=Shows',
           },
           {
             icon: <GearsIcon />,

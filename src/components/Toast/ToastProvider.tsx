@@ -9,6 +9,7 @@ const ToastContainer = ({
   first = false,
 }) => {
   const [fade, setFade] = useState(first)
+
   const close = () => toast.close(id)
 
   useEffect(() => {
@@ -33,8 +34,9 @@ const ToastContainer = ({
         cursor: 'pointer',
       }}
       onTransitionEnd={fade ? close : null}
-      onClick={() => {
+      onClick={(e) => {
         close()
+        console.log(e)
         onClick?.()
       }}
     >
@@ -61,6 +63,8 @@ export const ToastProvider = ({
   fixed = true,
 }) => {
   const [length, setLength] = useState(0)
+  const [toastHeightY, setToastHeightY] = useState(90)
+
   const positionRef = useRef<typeof position>()
   const positionStyleRef = useRef<PositionStyleProps>()
   const toastsRef = useRef<Toast[]>()
@@ -154,9 +158,9 @@ export const ToastProvider = ({
   }
 
   const toasts = toastsRef.current.map(({ id, children }, index) => {
-    //console.log(id, children, index)
+    console.log(id, children, index)
 
-    let y = index * 90
+    let y = index * toastHeightY
 
     if ('bottom' in positionStyleRef.current) {
       y *= -1
@@ -179,6 +183,14 @@ export const ToastProvider = ({
       </div>
     )
   })
+
+  useEffect(() => {
+    // @ts-ignore
+    if (toasts[0]?.ref?.current?.clientHeight) {
+      // @ts-ignore
+      setToastHeightY(toasts[0]?.ref?.current?.clientHeight)
+    }
+  }, [toasts])
 
   return (
     <ToastContext.Provider value={toastRef.current}>

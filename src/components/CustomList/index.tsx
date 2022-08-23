@@ -11,7 +11,6 @@ import { ContextItem } from '~'
 type CustomListProps = {
   items?: any[]
   draggable?: boolean
-  expandable?: boolean
   itemSize?: number
   itemSpace?: Space
   style?: CSSProperties
@@ -20,7 +19,6 @@ type CustomListProps = {
 export const CustomList: FC<CustomListProps> = ({
   items,
   draggable,
-  expandable,
   itemSpace = 0,
   itemSize = 56 + +itemSpace,
   style,

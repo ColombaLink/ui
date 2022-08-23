@@ -1,5 +1,5 @@
 import React from 'react'
-import { TallySideBar } from '../../TallyComponents/TallySideBar'
+import { SideBar } from '../../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,
@@ -14,7 +14,7 @@ import {
   Table,
 } from '~'
 
-export const TallyEdition = () => {
+export const Edition = () => {
   const dialog = useDialog()
 
   const addEditionHandler = () => {
@@ -23,7 +23,7 @@ export const TallyEdition = () => {
 
   return (
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
-      <TallySideBar />
+      <SideBar />
 
       <Topbar data={{ 'Show Name': '/' }} noLogo onFilter={() => {}}>
         <Button icon={AddIcon} ghost color="accent" onClick={addEditionHandler}>

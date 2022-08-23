@@ -1,5 +1,5 @@
 import React from 'react'
-import { TallySideBar } from '../../../TallyComponents/TallySideBar'
+import { SideBar } from '../../../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,
@@ -23,7 +23,7 @@ export const Content = () => {
 
   return (
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
-      <TallySideBar />
+      <SideBar />
 
       <Topbar
         style={{ justifyContent: 'space-between' }}

@@ -4,7 +4,6 @@ import { CustomList } from '~/components/CustomList'
 import { Thumbnail } from '~/components/Thumbnail'
 import { Badge } from '~/components/Badge'
 import { FileIcon } from '~/icons'
-import ComponentViewer from '../ComponentViewer'
 import { Code } from '~'
 
 const codeExample = `
