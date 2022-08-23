@@ -16,12 +16,12 @@ export const SideBar = () => {
           {
             icon: <ScreenIcon />,
             label: 'Shows',
-            href: '?story=Shows',
+            href: '/shows',
           },
           {
             icon: <GearsIcon />,
             label: 'Settings',
-            href: '?story=tally-screens',
+            href: '/settings',
           },
         ]}
         logo={<a href="?story=tally-screens">{TallyLogo}</a>}
