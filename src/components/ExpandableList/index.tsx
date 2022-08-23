@@ -12,12 +12,15 @@ type ExpandableListItemProps = {
   style?: CSSProperties
   index?: number | string
   item?: any
+  total?: number
 }
 
-// must be better way to do this
 const StyledUl = styled('ul', {
   listStyleType: 'none',
   paddingInlineStart: '20px',
+  '& .percentage-class': {
+    display: 'none',
+  },
   '& > li': {
     position: 'relative',
   },
@@ -35,6 +38,7 @@ const ExpandableListItem = ({
   item,
   index,
   style,
+  total,
 }: ExpandableListItemProps) => {
   let children = null
 
@@ -54,8 +58,6 @@ const ExpandableListItem = ({
       </StyledUl>
     )
   }
-
-  console.log(item)
 
   return (
     <li
@@ -89,8 +91,12 @@ const ExpandableListItem = ({
           <Text>{item.title}</Text>
         </div>
         <div style={{ paddingRight: 8, display: 'flex' }}>
-          <Text>{item.value} </Text>
-          <Text color="accent">(% van Total)</Text>
+          <Text style={{ marginRight: 4 }}>{item.value}</Text>
+          <span className="percentage-class">
+            <Text color="accent">
+              ({`${((item.value / total) * 100).toFixed(2)}%`})
+            </Text>
+          </span>
         </div>
       </div>
 
@@ -100,11 +106,34 @@ const ExpandableListItem = ({
 }
 
 export const ExpandableList = ({ data }: ExpandableListProps) => {
+  const getTotalFromData = (data) => {
+    let total = 0
+    for (let i = 0; i < data.length; i++) {
+      total += data[i].value
+    }
+    return total
+  }
+  const totalValue = getTotalFromData(data)
+
+  console.log(totalValue)
+
   return (
     <div style={{ overflowX: 'hidden' }}>
-      <StyledUl style={{ paddingInlineStart: '0px' }}>
+      <StyledUl
+        style={{
+          paddingInlineStart: '0px',
+          '& .percentage-class': {
+            display: 'inline-block',
+          },
+        }}
+      >
         {data.map((item, index) => (
-          <ExpandableListItem key={index} item={item} index={index} />
+          <ExpandableListItem
+            key={index}
+            item={item}
+            index={index}
+            total={totalValue}
+          />
         ))}
       </StyledUl>
     </div>
