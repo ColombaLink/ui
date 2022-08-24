@@ -8,7 +8,7 @@ export const WorkspaceMenu = () => {
         'Workspace Settings': {
           Users: '/users',
           Organisations: '/organisations',
-          'User Roles': '/userRoles',
+          'User Roles': '/user-roles',
         },
       }}
     />

@@ -25,7 +25,7 @@ export const SideBar = () => {
           },
         ]}
         logo={<a href="?story=tally-screens">{TallyLogo}</a>}
-        avatar={<Avatar size="24px" label="Tally" />}
+        avatar={<Avatar size={24} label="Tally" />}
       />
     </>
   )
