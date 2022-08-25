@@ -1,23 +1,48 @@
 import React from 'react'
-import { Topbar } from '~/components/Topbar'
-import { Menu, Page, Button, Text } from '~'
-import { AddIcon } from '~'
-import { SideBar } from '../TallyComponents/SideBar'
-import { WorkspaceMenu } from '../TallyComponents/WorkspaceMenu'
+import { useLocation } from '~'
+import { Shows } from './Shows/Shows'
+import { Users } from './Settings/Users'
+import { WorkspaceSettings } from './Settings/WorkspaceSettings'
+import { Organisations } from './Settings/Organisations'
+import { UserRoles } from './Settings/UserRoles'
+import { Show } from './Show/Show'
+import { Content } from './Edition/Editor/Content/Content'
+import { Design } from './Edition/Editor/Design/Design'
 
 export const TallyScreens = () => {
-  return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
-      <SideBar />
+  const [location] = useLocation()
 
-      <Topbar data={{ Tally: '/' }} noLogo></Topbar>
+  // Shows
+  if (location === '/' || location === '/shows') {
+    return <Shows />
+  }
 
-      <div style={{ display: 'flex', flexGrow: 1 }}>
-        <WorkspaceMenu />
-        <Page>
-          <Text>Tally Screens</Text>
-        </Page>
-      </div>
-    </div>
-  )
+  // Single shows overview
+  if (location === '/shows/1') {
+    // '/shows/:id'
+    // pass data props??
+    return <Show />
+  }
+
+  // Editions / Editor
+  if (location === '/content') {
+    return <Content />
+  }
+  if (location === '/design') {
+    return <Design />
+  }
+
+  // Workspace Settings
+  if (location === '/settings') {
+    return <WorkspaceSettings />
+  }
+  if (location === '/users') {
+    return <Users />
+  }
+  if (location === '/organisations') {
+    return <Organisations />
+  }
+  if (location === '/user-roles') {
+    return <UserRoles />
+  }
 }

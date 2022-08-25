@@ -97,6 +97,7 @@ const App = () => {
             InfiniteList: '?story=InfiniteLists',
             Lists: '?story=lists',
             MasonryGrid: '?story=masonryGrid',
+            Page: '?story=pages',
             Tables: '?story=tables',
             Tabs: '?story=tabsView',
           },

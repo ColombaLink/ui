@@ -9,11 +9,13 @@ import { Link } from '../Link'
 import { Text } from '../Text'
 import { Logo } from '../Logo'
 import { useData, useAuth } from '@based/react'
+import { stringToIcon } from '~/utils/stringToIcon'
 
 type TopbarTabProps = {
   href?: string
   children?: ReactNode
   isActive?: boolean
+  icon?: ReactNode | string[]
 }
 
 type TopbarProps = {
@@ -27,10 +29,12 @@ type TopbarProps = {
   children?: ReactNode
   noLogo?: boolean
   style?: CSSProperties
+  icons?: ReactNode | string
 }
 
-const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
+const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
   const marginTop = (66 - 32) / 2
+
   return (
     <div
       style={{
@@ -48,7 +52,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
         style={{
           padding: '0px 12px',
           height: 32,
-          marginTop,
+          // marginTop,
           marginLeft: -12,
           position: 'absolute',
           top: 0,
@@ -64,9 +68,10 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             height: 66,
             display: 'flex',
             alignItems: 'center',
+            gap: 12,
             width: 'max-content',
             borderBottom: `3px solid ${
-              isActive ? color('text') : 'transparent'
+              isActive ? color('accent') : 'transparent'
             }`,
             marginBottom: -3,
             ...(isActive
@@ -74,7 +79,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
               : font({ size: 15, color: 'text2' })),
           }}
         >
-          {children}
+          {icon && stringToIcon(icon)} {children}
         </div>
       </Link>
     </div>
@@ -96,6 +101,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
 
 export const Topbar: FC<TopbarProps> = ({
   data = {},
+  icons,
   prefix = '',
   selected,
   onFilter,
@@ -135,53 +141,64 @@ export const Topbar: FC<TopbarProps> = ({
         borderBottom: `1px solid ${color('border')}`,
         backgroundColor: color('background'),
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         paddingRight: 24,
         ...style,
       }}
     >
-      {noLogo ? (
-        <></>
-      ) : logo ? (
-        <>{logo}</>
-      ) : (
-        <Logo
-          height={32}
-          width={32}
-          style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
-        />
-      )}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {noLogo ? (
+            <></>
+          ) : logo ? (
+            <>{logo}</>
+          ) : (
+            <Logo
+              height={32}
+              width={32}
+              style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+            />
+          )}
 
-      {breadcrumbs}
+          {breadcrumbs}
 
-      <div style={{ display: 'flex', alignSelf: 'baseline' }}>
-        {Object.keys(data).map((key) => {
-          const href = prefix + data[key]
-          return (
-            <TopbarTab
-              key={key}
-              href={href}
-              isActive={hrefIsActive(href, location, data)}
-            >
-              {key}
-            </TopbarTab>
-          )
-        })}
+          <div
+            style={{
+              display: 'flex',
+              gap: icons ? 12 : 0,
+            }}
+          >
+            {Object.keys(data).map((key, i) => {
+              const href = prefix + data[key]
+              return (
+                <TopbarTab
+                  key={key}
+                  href={href}
+                  isActive={hrefIsActive(href, location, data)}
+                  icon={icons ? icons[i] : null}
+                >
+                  {key}
+                </TopbarTab>
+              )
+            })}
+
+            {children ? (
+              <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
+            ) : null}
+          </div>
+        </div>
       </div>
 
-      {children ? <div style={{ marginLeft: 24 }}>{children}</div> : null}
-
-      {onFilter ||
-        (onProfile && (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {onFilter && <TopbarSearchbar />}
-            <div>
-              {onProfile && (
-                <Avatar onClick={onProfile} label={email} size={32} />
-              )}
-            </div>
+      {onFilter || onProfile ? (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {onFilter && <TopbarSearchbar />}
+          <div>
+            {onProfile && (
+              <Avatar onClick={onProfile} label={email} size={32} />
+            )}
           </div>
-        ))}
+        </div>
+      ) : null}
     </div>
   )
 }

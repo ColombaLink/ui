@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideBar } from '../../TallyComponents/SideBar'
+import { SideBar } from '../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,
@@ -14,19 +14,19 @@ import {
   Table,
 } from '~'
 
-export const Edition = () => {
+export const Show = () => {
   const dialog = useDialog()
 
-  const addEditionHandler = () => {
+  const addShowHandler = () => {
     dialog.open(<AddShowDialog />)
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
       <Topbar data={{ 'Show Name': '/' }} noLogo onFilter={() => {}}>
-        <Button icon={AddIcon} ghost color="accent" onClick={addEditionHandler}>
+        <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
           Add Edition
         </Button>
       </Topbar>
@@ -40,6 +40,7 @@ export const Edition = () => {
                 Name: "Tally's show",
                 Sequences: '11',
                 'Last Modified': '4 hours ago',
+                href: '/content',
               },
             ]}
           />

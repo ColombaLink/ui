@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideBar } from '../../TallyComponents/SideBar'
+import { SideBar } from '../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,
@@ -19,7 +19,7 @@ import {
   Menu,
   MultiSelect,
 } from '~'
-import { WorkspaceMenu } from '../../TallyComponents/WorkspaceMenu'
+import { WorkspaceMenu } from './WorkspaceMenu'
 
 export const Users = () => {
   const dialog = useDialog()
@@ -30,10 +30,10 @@ export const Users = () => {
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ Users: '/' }} noLogo>
+      <Topbar data={{ Users: '/' }} icons={['UsersIcon']} noLogo>
         <Button icon={AddIcon} ghost color="accent" onClick={inviteUserHandler}>
           Invite User
         </Button>

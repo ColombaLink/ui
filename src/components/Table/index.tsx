@@ -17,6 +17,7 @@ import {
 import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { Link } from '~'
 
 import { useContextMenu } from '~/hooks'
 import { ContextItem } from '~'
@@ -130,34 +131,43 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         }}
       >
         <Checkbox style={{ marginLeft: 24 }} />
-        <Edit style={{ marginLeft: 20 }} color="accent" />
+        <Link href={data[index].href ? data[index].href : '#'}>
+          <Edit style={{ marginLeft: 20 }} color="accent" />
+        </Link>
       </div>
-      {fields.map((field, i) => {
-        const value = data[index]?.[field]
-        if (isImage.test(value)) {
+
+      {fields
+        .filter((field) => field !== 'href')
+        .map((field, i) => {
+          const value = data[index]?.[field]
+
+          if (isImage.test(value)) {
+            return (
+              <Item key={field} longestString={longest[field]} index={i}>
+                <div
+                  style={{
+                    width: ITEM_HEIGHT,
+                    height: ITEM_HEIGHT,
+                    backgroundImage: `url(${value})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+              </Item>
+            )
+          }
+
           return (
             <Item key={field} longestString={longest[field]} index={i}>
-              <div
-                style={{
-                  width: ITEM_HEIGHT,
-                  height: ITEM_HEIGHT,
-                  backgroundImage: `url(${value})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
+              {isDate(value) ? toDateString(value) : value}
             </Item>
           )
-        }
+        })}
 
-        return (
-          <Item key={field} longestString={longest[field]} index={i}>
-            {isDate(value) ? toDateString(value) : value}
-          </Item>
-        )
-      })}
-
-      <More onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })} />
+      <More
+        style={{ position: 'absolute', right: 16 }}
+        onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
+      />
     </div>
   )
 }
@@ -177,6 +187,7 @@ type TableProps = {
     sortOrder: string
   ) => InfiniteListQueryResponse
   data?: object[]
+  onEdit?: () => void
   itemSize?: number
   style?: CSSProperties
   width?: number
@@ -279,11 +290,13 @@ const TableInner: FC<TableProps> = ({
   if (fields) {
     labels = isObject
       ? Object.values(fieldsProp)
-      : fields.map((header) =>
-          header
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, (str) => str.toUpperCase())
-        )
+      : fields
+          .filter((field) => field !== 'href')
+          .map((header) =>
+            header
+              .replace(/([A-Z])/g, ' $1')
+              .replace(/^./, (str) => str.toUpperCase())
+          )
     fields.forEach((field, i) => {
       measure(field, labels[i])
     })

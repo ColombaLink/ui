@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideBar } from '../../TallyComponents/SideBar'
+import { SideBar } from '../TallyComponents/SideBar'
 import {
   Topbar,
   Button,
@@ -12,7 +12,7 @@ import {
   Table,
   Menu,
 } from '~'
-import { WorkspaceMenu } from '../../TallyComponents/WorkspaceMenu'
+import { WorkspaceMenu } from './WorkspaceMenu'
 
 export const Organisations = () => {
   const dialog = useDialog()
@@ -25,7 +25,7 @@ export const Organisations = () => {
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ Organisations: '/' }} noLogo>
+      <Topbar data={{ Organisations: '/' }} icons={['StackIcon']} noLogo>
         <Button
           icon={AddIcon}
           ghost

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SideBar } from '../../TallyComponents/SideBar'
+import { SideBar } from '../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,
@@ -28,10 +28,15 @@ export const Shows = () => {
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ Shows: '/' }} noLogo onFilter={() => {}}>
+      <Topbar
+        data={{ Shows: '/' }}
+        noLogo
+        icons={['ScreenIcon']}
+        onFilter={(value) => console.log(value)}
+      >
         <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
           Add show
         </Button>
@@ -46,11 +51,7 @@ export const Shows = () => {
                 Name: "Tally's show",
                 Editions: '21',
                 'Last Modified': '12 days ago',
-                'Temp button': (
-                  <Link href="?story=TallyEdition" style={{ color: '#BADA55' }}>
-                    Go to Show
-                  </Link>
-                ),
+                href: '/shows/1',
               },
               {
                 '': <Avatar label="Tally" icon={TargetIcon} color="red" />,

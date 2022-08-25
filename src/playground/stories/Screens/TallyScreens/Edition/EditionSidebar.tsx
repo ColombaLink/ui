@@ -1,7 +1,14 @@
 import React from 'react'
-import { Sidebar, ScreenIcon, GearsIcon, Avatar } from '~'
+import {
+  Sidebar,
+  ScreenIcon,
+  EditIcon,
+  GraphIcon,
+  UserGroupIcon,
+  Avatar,
+} from '~'
 
-export const SideBar = () => {
+export const EditionSidebar = () => {
   return (
     <>
       <Sidebar
@@ -13,19 +20,25 @@ export const SideBar = () => {
           width: 48,
         }}
         data={[
+          { icon: <EditIcon />, label: 'Editor', href: '/edit' },
           {
             icon: <ScreenIcon />,
-            label: 'Shows',
-            href: '?story=Shows',
+            label: 'Director Mode',
+            href: '/director-mode',
           },
           {
-            icon: <GearsIcon />,
-            label: 'Settings',
-            href: '?story=tally-screens',
+            icon: <GraphIcon />,
+            label: 'Results',
+            href: '/results',
+          },
+          {
+            icon: <UserGroupIcon />,
+            label: 'Analytics',
+            href: '/analytics',
           },
         ]}
         logo={<a href="?story=tally-screens">{TallyLogo}</a>}
-        avatar={<Avatar size="24px" label="Tally" />}
+        avatar={<Avatar size={24} label="Tally" />}
       />
     </>
   )
