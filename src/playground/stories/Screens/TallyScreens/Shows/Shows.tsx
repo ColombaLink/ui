@@ -28,10 +28,15 @@ export const Shows = () => {
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ Shows: '/' }} noLogo onFilter={() => {}}>
+      <Topbar
+        data={{ Shows: '/' }}
+        noLogo
+        icons={['ScreenIcon']}
+        onFilter={() => {}}
+      >
         <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
           Add show
         </Button>

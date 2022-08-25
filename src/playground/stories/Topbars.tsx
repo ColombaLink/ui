@@ -15,6 +15,7 @@ export const Topbars = () => {
           {
             props: {
               data: { Home: '/topbars', About: '/about' },
+              icons: ['ScreenIcon', 'StackIcon'],
             },
           },
           {

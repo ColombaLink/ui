@@ -22,10 +22,10 @@ export const UserRoles = () => {
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ 'User Roles': '/' }} noLogo>
+      <Topbar data={{ 'User Roles': '/' }} icons={['UsersIcon']} noLogo>
         <Button icon={AddIcon} ghost color="accent" onClick={userRoleHandler}>
           Add user role
         </Button>

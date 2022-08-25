@@ -8,7 +8,7 @@ export const WorkspaceSettings = () => {
   return (
     <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
-      <Topbar data={{ Tally: '/' }} noLogo></Topbar>
+      <Topbar data={{ Tally: '/' }} icons={['GearsIcon']} noLogo></Topbar>
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <WorkspaceMenu />
         <Page>

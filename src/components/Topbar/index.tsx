@@ -9,11 +9,13 @@ import { Link } from '../Link'
 import { Text } from '../Text'
 import { Logo } from '../Logo'
 import { useData, useAuth } from '@based/react'
+import { stringToIcon } from '~/utils/stringToIcon'
 
 type TopbarTabProps = {
   href?: string
   children?: ReactNode
   isActive?: boolean
+  icon?: ReactNode | string[]
 }
 
 type TopbarProps = {
@@ -27,10 +29,13 @@ type TopbarProps = {
   children?: ReactNode
   noLogo?: boolean
   style?: CSSProperties
+  icons?: ReactNode | string
 }
 
-const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
+const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
   const marginTop = (66 - 32) / 2
+
+  console.log('icon', icon)
   return (
     <div
       style={{
@@ -64,6 +69,8 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
             height: 66,
             display: 'flex',
             alignItems: 'center',
+
+            gap: 12,
             width: 'max-content',
             borderBottom: `3px solid ${
               isActive ? color('text') : 'transparent'
@@ -74,7 +81,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive }) => {
               : font({ size: 15, color: 'text2' })),
           }}
         >
-          {children}
+          {icon && stringToIcon(icon)} {children}
         </div>
       </Link>
     </div>
@@ -96,6 +103,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
 
 export const Topbar: FC<TopbarProps> = ({
   data = {},
+  icons,
   prefix = '',
   selected,
   onFilter,
@@ -107,6 +115,8 @@ export const Topbar: FC<TopbarProps> = ({
   style,
 }) => {
   const user = useAuth()
+
+  console.log(icons)
 
   const {
     data: { email },
@@ -154,14 +164,17 @@ export const Topbar: FC<TopbarProps> = ({
 
       {breadcrumbs}
 
-      <div style={{ display: 'flex', alignSelf: 'baseline' }}>
-        {Object.keys(data).map((key) => {
+      <div
+        style={{ display: 'flex', alignSelf: 'baseline', gap: icons ? 12 : 0 }}
+      >
+        {Object.keys(data).map((key, i) => {
           const href = prefix + data[key]
           return (
             <TopbarTab
               key={key}
               href={href}
               isActive={hrefIsActive(href, location, data)}
+              icon={icons ? icons[i] : null}
             >
               {key}
             </TopbarTab>
@@ -169,7 +182,9 @@ export const Topbar: FC<TopbarProps> = ({
         })}
       </div>
 
-      {children ? <div style={{ marginLeft: 24 }}>{children}</div> : null}
+      {children ? (
+        <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
+      ) : null}
 
       {onFilter ||
         (onProfile && (

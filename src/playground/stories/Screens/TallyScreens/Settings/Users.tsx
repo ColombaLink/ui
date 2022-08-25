@@ -30,10 +30,10 @@ export const Users = () => {
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ Users: '/' }} noLogo>
+      <Topbar data={{ Users: '/' }} icons={['UsersIcon']} noLogo>
         <Button icon={AddIcon} ghost color="accent" onClick={inviteUserHandler}>
           Invite User
         </Button>

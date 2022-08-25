@@ -22,7 +22,7 @@ export const Edition = () => {
   }
 
   return (
-    <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
+    <div style={{ position: 'relative', paddingLeft: 48 }}>
       <SideBar />
 
       <Topbar data={{ 'Show Name': '/' }} noLogo onFilter={() => {}}>

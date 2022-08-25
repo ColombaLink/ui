@@ -25,7 +25,7 @@ export const Organisations = () => {
     <div style={{ position: 'relative', display: 'block', paddingLeft: 48 }}>
       <SideBar />
 
-      <Topbar data={{ Organisations: '/' }} noLogo>
+      <Topbar data={{ Organisations: '/' }} icons={['StackIcon']} noLogo>
         <Button
           icon={AddIcon}
           ghost
