@@ -51,6 +51,7 @@ const Single = ({ type, inputRef, ...props }) => {
 type InputProps = {
   style?: CSSProperties
   label?: string
+  colorInput?: boolean
   description?: string
   optional?: boolean
   value?: string | number
@@ -163,6 +164,7 @@ export const Input: FC<
   style,
   onChange: onChangeProp,
   label,
+  colorInput,
   description,
   optional,
   ghost,
@@ -190,6 +192,8 @@ export const Input: FC<
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
+
+  const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
 
   const onChange = (e) => {
     const newValue = transform ? transform(e.target.value) : e.target.value
@@ -270,7 +274,13 @@ export const Input: FC<
             pointerEvents: 'none',
           },
         })}
-        {multiline ? (
+        {colorInput ? (
+          <ColorInput
+            onChange={(e) => setColorValue(e.target.value)}
+            value={colorValue}
+            style={{ width: '100%' }}
+          />
+        ) : multiline ? (
           <Multi {...props} />
         ) : (
           <MaybeSuggest

@@ -1,10 +1,20 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, RefObject, CSSProperties } from 'react'
 import { useColorPicker } from '~/hooks/useColorPicker'
 import { color } from '~/utils'
 
+type ColorInputProps = {
+  inputRef?: RefObject<HTMLInputElement>
+  value?: string
+  placeholder?: string
+  defaultValue?: string
+  disabled?: boolean
+  style?: CSSProperties
+  onChange?: (target) => void
+}
+
 export const ColorInput = ({
   inputRef,
-  name,
+  // name,
   placeholder,
   defaultValue,
   value = defaultValue,
@@ -12,7 +22,7 @@ export const ColorInput = ({
   style,
   onChange,
   ...props
-}) => {
+}: ColorInputProps) => {
   const { value: colorState, rgba, onClick, setValue } = useColorPicker(value)
   const rgbaRef = useRef(rgba)
 
@@ -26,7 +36,7 @@ export const ColorInput = ({
   }, [rgba])
 
   return (
-    <>
+    <div style={{ display: 'flex', position: 'relative' }}>
       <input
         {...props}
         type="text"
@@ -37,6 +47,9 @@ export const ColorInput = ({
         style={{
           ...style,
           paddingLeft: 36,
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
+          minHeight: 36,
         }}
       />
       <button
@@ -56,6 +69,6 @@ export const ColorInput = ({
         }}
         onClick={onClick}
       />
-    </>
+    </div>
   )
 }
