@@ -157,7 +157,10 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         )
       })}
 
-      <More onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })} />
+      <More
+        style={{ position: 'absolute', right: 16 }}
+        onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
+      />
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideBar } from '../../TallyComponents/SideBar'
+import { SideBar } from '../TallyComponents/SideBar'
 import {
   Avatar,
   Topbar,

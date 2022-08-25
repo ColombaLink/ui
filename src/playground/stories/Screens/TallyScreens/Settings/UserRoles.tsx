@@ -1,5 +1,5 @@
 import React from 'react'
-import { SideBar } from '../../TallyComponents/SideBar'
+import { SideBar } from '../TallyComponents/SideBar'
 import {
   Topbar,
   Button,
@@ -12,7 +12,7 @@ import {
   Table,
   Menu,
 } from '~'
-import { WorkspaceMenu } from '../../TallyComponents/WorkspaceMenu'
+import { WorkspaceMenu } from '../TallyComponents/WorkspaceMenu'
 
 export const UserRoles = () => {
   const dialog = useDialog()
