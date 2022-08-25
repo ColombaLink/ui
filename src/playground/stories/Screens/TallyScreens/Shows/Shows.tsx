@@ -35,7 +35,7 @@ export const Shows = () => {
         data={{ Shows: '/' }}
         noLogo
         icons={['ScreenIcon']}
-        onFilter={() => {}}
+        onFilter={(value) => console.log(value)}
       >
         <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
           Add show

@@ -53,7 +53,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
         style={{
           padding: '0px 12px',
           height: 32,
-          marginTop,
+          // marginTop,
           marginLeft: -12,
           position: 'absolute',
           top: 0,
@@ -145,58 +145,64 @@ export const Topbar: FC<TopbarProps> = ({
         borderBottom: `1px solid ${color('border')}`,
         backgroundColor: color('background'),
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         paddingRight: 24,
         ...style,
       }}
     >
-      {noLogo ? (
-        <></>
-      ) : logo ? (
-        <>{logo}</>
-      ) : (
-        <Logo
-          height={32}
-          width={32}
-          style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
-        />
-      )}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {noLogo ? (
+            <></>
+          ) : logo ? (
+            <>{logo}</>
+          ) : (
+            <Logo
+              height={32}
+              width={32}
+              style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+            />
+          )}
 
-      {breadcrumbs}
+          {breadcrumbs}
 
-      <div
-        style={{ display: 'flex', alignSelf: 'baseline', gap: icons ? 12 : 0 }}
-      >
-        {Object.keys(data).map((key, i) => {
-          const href = prefix + data[key]
-          return (
-            <TopbarTab
-              key={key}
-              href={href}
-              isActive={hrefIsActive(href, location, data)}
-              icon={icons ? icons[i] : null}
-            >
-              {key}
-            </TopbarTab>
-          )
-        })}
+          <div
+            style={{
+              display: 'flex',
+              gap: icons ? 12 : 0,
+            }}
+          >
+            {Object.keys(data).map((key, i) => {
+              const href = prefix + data[key]
+              return (
+                <TopbarTab
+                  key={key}
+                  href={href}
+                  isActive={hrefIsActive(href, location, data)}
+                  icon={icons ? icons[i] : null}
+                >
+                  {key}
+                </TopbarTab>
+              )
+            })}
+
+            {children ? (
+              <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
+            ) : null}
+          </div>
+        </div>
       </div>
 
-      {children ? (
-        <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
-      ) : null}
-
-      {onFilter ||
-        (onProfile && (
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {onFilter && <TopbarSearchbar />}
-            <div>
-              {onProfile && (
-                <Avatar onClick={onProfile} label={email} size={32} />
-              )}
-            </div>
+      {onFilter || onProfile ? (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {onFilter && <TopbarSearchbar />}
+          <div>
+            {onProfile && (
+              <Avatar onClick={onProfile} label={email} size={32} />
+            )}
           </div>
-        ))}
+        </div>
+      ) : null}
     </div>
   )
 }
