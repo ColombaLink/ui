@@ -35,7 +35,6 @@ type TopbarProps = {
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
   const marginTop = (66 - 32) / 2
 
-  console.log('icon', icon)
   return (
     <div
       style={{
@@ -69,7 +68,6 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
             height: 66,
             display: 'flex',
             alignItems: 'center',
-
             gap: 12,
             width: 'max-content',
             borderBottom: `3px solid ${
@@ -115,8 +113,6 @@ export const Topbar: FC<TopbarProps> = ({
   style,
 }) => {
   const user = useAuth()
-
-  console.log(icons)
 
   const {
     data: { email },

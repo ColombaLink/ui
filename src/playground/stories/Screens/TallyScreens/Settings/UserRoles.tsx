@@ -12,7 +12,7 @@ import {
   Table,
   Menu,
 } from '~'
-import { WorkspaceMenu } from '../TallyComponents/WorkspaceMenu'
+import { WorkspaceMenu } from './WorkspaceMenu'
 
 export const UserRoles = () => {
   const dialog = useDialog()

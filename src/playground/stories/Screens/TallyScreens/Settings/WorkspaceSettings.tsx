@@ -1,7 +1,7 @@
 import React from 'react'
 import { Topbar } from '~/components/Topbar'
 import { SideBar } from '../TallyComponents/SideBar'
-import { WorkspaceMenu } from '../TallyComponents/WorkspaceMenu'
+import { WorkspaceMenu } from './WorkspaceMenu'
 import { Page, Text } from '~'
 
 export const WorkspaceSettings = () => {

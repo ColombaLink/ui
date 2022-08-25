@@ -19,7 +19,7 @@ import {
   Menu,
   MultiSelect,
 } from '~'
-import { WorkspaceMenu } from '../TallyComponents/WorkspaceMenu'
+import { WorkspaceMenu } from './WorkspaceMenu'
 
 export const Users = () => {
   const dialog = useDialog()

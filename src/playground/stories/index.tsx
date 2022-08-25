@@ -59,8 +59,8 @@ export * from './ValueSliders'
 // Tally
 export * from './Screens/TallyScreens'
 export * from './Screens/TallyScreens/Shows/Shows'
-export * from './Screens/TallyScreens/Shows/Edition'
-export * from './Screens/TallyScreens/Shows/Edition/Content'
+export * from './Screens/TallyScreens/Edition/Edition'
+export * from './Screens/TallyScreens/Edition/Content'
 
 export * from './Screens/TallyScreens/Settings/WorkspaceSettings'
 export * from './Screens/TallyScreens/Settings/Users'

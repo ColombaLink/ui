@@ -42,6 +42,10 @@ export const Shows = () => {
         </Button>
       </Topbar>
 
+      {/* onClick={(_, { data }) => {
+                setLocation(`/shows/${data.id}`)
+              }} */}
+
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Page>
           <Table
