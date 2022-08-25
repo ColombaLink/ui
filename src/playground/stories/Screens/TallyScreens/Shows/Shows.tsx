@@ -42,10 +42,6 @@ export const Shows = () => {
         </Button>
       </Topbar>
 
-      {/* onClick={(_, { data }) => {
-                setLocation(`/shows/${data.id}`)
-              }} */}
-
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Page>
           <Table
@@ -55,12 +51,7 @@ export const Shows = () => {
                 Name: "Tally's show",
                 Editions: '21',
                 'Last Modified': '12 days ago',
-                // 'Temp button': (
-                //   <Link href="?story=TallyEdition" style={{ color: '#BADA55' }}>
-                //     Go to Show
-                //   </Link>
-                // ),
-                href: '/settings',
+                href: '/shows/1',
               },
               {
                 '': <Avatar label="Tally" icon={TargetIcon} color="red" />,

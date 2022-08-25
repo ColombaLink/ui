@@ -17,11 +17,10 @@ import {
 import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import { ReactNode } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { Link } from '~'
 
 import { useContextMenu } from '~/hooks'
 import { ContextItem } from '~'
-
-import { useLocation } from '~/hooks/useLocation'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
 const IList = styled(InfiniteList, scrollAreaStyle)
@@ -114,8 +113,6 @@ const Item: FC<{
 }
 
 const Row = ({ data: { data, fields, longest }, index, style }) => {
-  const [, setLocation] = useLocation()
-
   return (
     <div
       style={{
@@ -134,38 +131,40 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         }}
       >
         <Checkbox style={{ marginLeft: 24 }} />
-        <Edit
-          onClick={() => setLocation(data[index].href ? data[index].href : '#')}
-          style={{ marginLeft: 20 }}
-          color="accent"
-        />
+        <Link href={data[index].href ? data[index].href : '#'}>
+          <Edit style={{ marginLeft: 20 }} color="accent" />
+        </Link>
       </div>
 
-      {fields.map((field, i) => {
-        const value = data[index]?.[field]
+      {fields
+        .filter((field) => field !== 'href')
+        .map((field, i) => {
+          const value = data[index]?.[field]
 
-        if (isImage.test(value)) {
+          console.log(field)
+
+          if (isImage.test(value)) {
+            return (
+              <Item key={field} longestString={longest[field]} index={i}>
+                <div
+                  style={{
+                    width: ITEM_HEIGHT,
+                    height: ITEM_HEIGHT,
+                    backgroundImage: `url(${value})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+              </Item>
+            )
+          }
+
           return (
             <Item key={field} longestString={longest[field]} index={i}>
-              <div
-                style={{
-                  width: ITEM_HEIGHT,
-                  height: ITEM_HEIGHT,
-                  backgroundImage: `url(${value})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
+              {isDate(value) ? toDateString(value) : value}
             </Item>
           )
-        }
-
-        return (
-          <Item key={field} longestString={longest[field]} index={i}>
-            {isDate(value) ? toDateString(value) : value}
-          </Item>
-        )
-      })}
+        })}
 
       <More
         style={{ position: 'absolute', right: 16 }}
@@ -293,11 +292,13 @@ const TableInner: FC<TableProps> = ({
   if (fields) {
     labels = isObject
       ? Object.values(fieldsProp)
-      : fields.map((header) =>
-          header
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, (str) => str.toUpperCase())
-        )
+      : fields
+          .filter((field) => field !== 'href')
+          .map((header) =>
+            header
+              .replace(/([A-Z])/g, ' $1')
+              .replace(/^./, (str) => str.toUpperCase())
+          )
     fields.forEach((field, i) => {
       measure(field, labels[i])
     })

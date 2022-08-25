@@ -14,10 +14,10 @@ import {
   Table,
 } from '~'
 
-export const Edition = () => {
+export const Show = () => {
   const dialog = useDialog()
 
-  const addEditionHandler = () => {
+  const addShowHandler = () => {
     dialog.open(<AddShowDialog />)
   }
 
@@ -26,7 +26,7 @@ export const Edition = () => {
       <SideBar />
 
       <Topbar data={{ 'Show Name': '/' }} noLogo onFilter={() => {}}>
-        <Button icon={AddIcon} ghost color="accent" onClick={addEditionHandler}>
+        <Button icon={AddIcon} ghost color="accent" onClick={addShowHandler}>
           Add Edition
         </Button>
       </Topbar>
