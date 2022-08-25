@@ -21,6 +21,8 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { useContextMenu } from '~/hooks'
 import { ContextItem } from '~'
 
+import { useLocation } from '~/hooks/useLocation'
+
 const List = styled(FixedSizeList, scrollAreaStyle)
 const IList = styled(InfiniteList, scrollAreaStyle)
 const Edit = styled(EditIcon, {
@@ -112,6 +114,8 @@ const Item: FC<{
 }
 
 const Row = ({ data: { data, fields, longest }, index, style }) => {
+  const [, setLocation] = useLocation()
+
   return (
     <div
       style={{
@@ -130,10 +134,16 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         }}
       >
         <Checkbox style={{ marginLeft: 24 }} />
-        <Edit style={{ marginLeft: 20 }} color="accent" />
+        <Edit
+          onClick={() => setLocation(data[index].href ? data[index].href : '#')}
+          style={{ marginLeft: 20 }}
+          color="accent"
+        />
       </div>
+
       {fields.map((field, i) => {
         const value = data[index]?.[field]
+
         if (isImage.test(value)) {
           return (
             <Item key={field} longestString={longest[field]} index={i}>
@@ -180,6 +190,7 @@ type TableProps = {
     sortOrder: string
   ) => InfiniteListQueryResponse
   data?: object[]
+  onEdit?: () => void
   itemSize?: number
   style?: CSSProperties
   width?: number
@@ -400,6 +411,7 @@ const TableInner: FC<TableProps> = ({
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
+  console.log(props)
   return (
     <styled.div
       style={{

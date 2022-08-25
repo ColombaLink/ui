@@ -60,6 +60,7 @@ export const Shows = () => {
                 //     Go to Show
                 //   </Link>
                 // ),
+                href: '/settings',
               },
               {
                 '': <Avatar label="Tally" icon={TargetIcon} color="red" />,
