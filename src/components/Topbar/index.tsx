@@ -71,7 +71,7 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
             gap: 12,
             width: 'max-content',
             borderBottom: `3px solid ${
-              isActive ? color('text') : 'transparent'
+              isActive ? color('accent') : 'transparent'
             }`,
             marginBottom: -3,
             ...(isActive

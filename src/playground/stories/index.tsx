@@ -60,7 +60,7 @@ export * from './ValueSliders'
 export * from './Screens/TallyScreens'
 export * from './Screens/TallyScreens/Shows/Shows'
 export * from './Screens/TallyScreens/Show/Show'
-export * from './Screens/TallyScreens/Edition/Content'
+export * from './Screens/TallyScreens/Edition/Editor/Content/Content'
 
 export * from './Screens/TallyScreens/Settings/WorkspaceSettings'
 export * from './Screens/TallyScreens/Settings/Users'
