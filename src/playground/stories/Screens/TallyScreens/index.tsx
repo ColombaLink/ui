@@ -6,6 +6,7 @@ import { WorkspaceSettings } from './Settings/WorkspaceSettings'
 import { Organisations } from './Settings/Organisations'
 import { UserRoles } from './Settings/UserRoles'
 import { Show } from './Show/Show'
+import { Content } from './Edition/Content'
 
 export const TallyScreens = () => {
   const [location] = useLocation()
@@ -14,6 +15,8 @@ export const TallyScreens = () => {
   if (location === '/' || location === '/shows') {
     return <Shows />
   }
+
+  // Single shows overview
   if (location === '/shows/1') {
     // '/shows/:id'
     // pass data props??
@@ -21,6 +24,9 @@ export const TallyScreens = () => {
   }
 
   // Editions / single show
+  if (location === '/shows/1/ed') {
+    return <Content />
+  }
 
   // Workspace Settings
   if (location === '/settings') {

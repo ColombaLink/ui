@@ -141,8 +141,6 @@ const Row = ({ data: { data, fields, longest }, index, style }) => {
         .map((field, i) => {
           const value = data[index]?.[field]
 
-          console.log(field)
-
           if (isImage.test(value)) {
             return (
               <Item key={field} longestString={longest[field]} index={i}>
@@ -412,7 +410,6 @@ const TableInner: FC<TableProps> = ({
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
-  console.log(props)
   return (
     <styled.div
       style={{

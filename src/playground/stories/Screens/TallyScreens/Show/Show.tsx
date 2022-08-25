@@ -40,6 +40,7 @@ export const Show = () => {
                 Name: "Tally's show",
                 Sequences: '11',
                 'Last Modified': '4 hours ago',
+                href: '/shows/1/ed',
               },
             ]}
           />
