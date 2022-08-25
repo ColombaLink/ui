@@ -945,10 +945,6 @@
           "optional": true,
           "type": "boolean"
         },
-        "expandable": {
-          "optional": true,
-          "type": "boolean"
-        },
         "itemSize": {
           "optional": true,
           "type": "number"
@@ -962,7 +958,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type CustomListProps = {\n  items?: any[]\n  draggable?: boolean\n  expandable?: boolean\n  itemSize?: number\n  itemSpace?: Space\n  style?: CSSProperties\n}",
+      "code": "type CustomListProps = {\n  items?: any[]\n  draggable?: boolean\n  itemSize?: number\n  itemSpace?: Space\n  style?: CSSProperties\n}",
       "file": "/components/CustomList/index.tsx"
     },
     "ExpandableListProps": {
@@ -1462,6 +1458,41 @@
       "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: string\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
       "file": "/components/InfiniteList/index.tsx"
     },
+    "ColorInputProps": {
+      "name": "ColorInputProps",
+      "props": {
+        "inputRef": {
+          "optional": true,
+          "type": "RefObject"
+        },
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "defaultValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  placeholder?: string\n  defaultValue?: string\n  disabled?: boolean\n  style?: CSSProperties\n  onChange?: (target) => void\n}",
+      "file": "/components/Input/ColorInput.tsx"
+    },
     "EditableTitleProps": {
       "name": "EditableTitleProps",
       "props": {
@@ -1515,6 +1546,10 @@
         "label": {
           "optional": true,
           "type": "string"
+        },
+        "colorInput": {
+          "optional": true,
+          "type": "boolean"
         },
         "description": {
           "optional": true,
@@ -1616,7 +1651,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2331,6 +2366,10 @@
             "array": "TSObjectKeyword"
           }
         },
+        "onEdit": {
+          "optional": true,
+          "type": "function"
+        },
         "itemSize": {
           "optional": true,
           "type": "number"
@@ -2348,7 +2387,7 @@
           "type": "number"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  itemSize?: number\n  style?: CSSProperties\n  width?: number\n  height?: number\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  onEdit?: () => void\n  itemSize?: number\n  style?: CSSProperties\n  width?: number\n  height?: number\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
@@ -2695,9 +2734,18 @@
         "isActive": {
           "optional": true,
           "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "string"
+            }
+          ]
         }
       },
-      "code": "type TopbarTabProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n}",
+      "code": "type TopbarTabProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n  icon?: ReactNode | string[]\n}",
       "file": "/components/Topbar/index.tsx"
     },
     "TopbarProps": {
@@ -2745,9 +2793,16 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "icons": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            "string"
+          ]
         }
       },
-      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n}",
+      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n  icons?: ReactNode | string\n}",
       "file": "/components/Topbar/index.tsx"
     },
     "ValueSliderProps": {

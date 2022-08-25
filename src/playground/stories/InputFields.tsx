@@ -28,6 +28,12 @@ export const InputFields = () => {
             onChange: (e) => console.log(e),
           },
         },
+        {
+          props: {
+            label: 'Color',
+            colorInput: true,
+          },
+        },
       ]}
     />
   )
