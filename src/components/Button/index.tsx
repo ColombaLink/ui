@@ -8,7 +8,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
+import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
@@ -18,7 +18,7 @@ import { useKeyUp } from '~'
 export type ButtonProps = {
   children?: ReactNode
   disabled?: boolean
-  color?: AccentColor
+  color?: Color
   ghost?: boolean
   light?: boolean
   large?: boolean

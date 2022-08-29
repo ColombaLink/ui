@@ -14,7 +14,7 @@ export const EditorTopBar = () => {
       data={{
         Content: '/content',
         Design: '/design',
-        Settings: '/set',
+        Settings: '/show-settings',
         Layer: '/lay',
       }}
       logo={<Text style={{ paddingLeft: 24 }}>Show name</Text>}

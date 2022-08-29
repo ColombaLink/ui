@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 import { Text } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'
@@ -9,6 +9,7 @@ type ToggleProps = {
   description?: string
   text?: string
   baseColor?: Color
+  style: CSSProperties
 }
 
 export const Toggle: FC<ToggleProps> = ({
@@ -17,6 +18,7 @@ export const Toggle: FC<ToggleProps> = ({
   description,
   text,
   baseColor = 'accent',
+  style,
   ...props
 }) => {
   const [checkedState, setCheckedState] = useState(checked)
@@ -24,7 +26,7 @@ export const Toggle: FC<ToggleProps> = ({
   const activeColor = baseColor + ':active'
 
   return (
-    <div {...props}>
+    <div {...props} style={{ ...style }}>
       <Text>{label}</Text>
       <Text weight={400}>{description}</Text>
       <div
