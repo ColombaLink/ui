@@ -4,7 +4,7 @@ import { EditorTopBar } from '../../EditorTopBar'
 import { useLocation } from '~'
 import { General } from './General'
 import { Sharing } from './Sharing'
-import { Page } from '~'
+import { Page, Spacer } from '~'
 import { SettingsSubmenu } from './SettingsSubmenu'
 
 export const ShowSettings = () => {
@@ -27,6 +27,7 @@ export const ShowSettings = () => {
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Page>
           <SettingsSubmenu />
+          <Spacer space />
 
           {location === 'show-settings/general' ||
             (location === '/show-settings' && <General />)}

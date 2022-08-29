@@ -17,16 +17,16 @@ export const TallyScreens = () => {
 
   console.log(pathArray)
 
-  // Shows
-  if (!pathArray[1] || pathArray[1] === 'shows') {
-    return <Shows />
-  }
-
   // Single shows overview
-  if (location === '/shows/1') {
+  if (pathArray[1] === 'shows' && pathArray[2] === '1') {
     // '/shows/:id'
     // pass data props??
     return <Show />
+  }
+
+  // Shows
+  if (!pathArray[1] || pathArray[1] === 'shows') {
+    return <Shows />
   }
 
   // Editions / Editor
