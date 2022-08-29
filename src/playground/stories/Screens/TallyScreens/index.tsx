@@ -8,12 +8,17 @@ import { UserRoles } from './Settings/UserRoles'
 import { Show } from './Show/Show'
 import { Content } from './Edition/Editor/Content/Content'
 import { Design } from './Edition/Editor/Design/Design'
+import { ShowSettings } from './Edition/Editor/Settings/ShowSettings'
 
 export const TallyScreens = () => {
   const [location] = useLocation()
 
+  const pathArray = location.split('/')
+
+  console.log(pathArray)
+
   // Shows
-  if (location === '/' || location === '/shows') {
+  if (!pathArray[1] || pathArray[1] === 'shows') {
     return <Shows />
   }
 
@@ -32,6 +37,12 @@ export const TallyScreens = () => {
     return <Design />
   }
 
+  console.info(location)
+
+  if (location.startsWith('/show-settings')) {
+    return <ShowSettings />
+  }
+
   // Workspace Settings
   if (location === '/settings') {
     return <WorkspaceSettings />
@@ -45,4 +56,6 @@ export const TallyScreens = () => {
   if (location === '/user-roles') {
     return <UserRoles />
   }
+
+  return null
 }

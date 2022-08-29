@@ -57,6 +57,9 @@ const App = () => {
           </>
         }
         data={{
+          Advanced: {
+            Auth: '?story=auth',
+          },
           Input: {
             Buttons: '?story=buttons',
             Checkboxes: '?story=checkboxes',
@@ -110,13 +113,7 @@ const App = () => {
           Overlays: {
             ContextMenus: '?story=context-menus',
           },
-          Screens: {
-            Inbox: '?story=inbox',
-            ProfileSettings: '?story=profile-settings',
-            ProjectSettings: '?story=project-settings',
-            Auth: '?story=auth',
-            Tally: '?story=tally-screens',
-          },
+
           Themes: {
             Theming: '?story=theming',
           },
@@ -135,6 +132,12 @@ const App = () => {
           },
           Handbook: {
             Props: '?story=props',
+          },
+          Examples: {
+            Inbox: '?story=inbox',
+            ProfileSettings: '?story=profile-settings',
+            ProjectSettings: '?story=project-settings',
+            Tally: '?story=tally-screens',
           },
         }}
       />
