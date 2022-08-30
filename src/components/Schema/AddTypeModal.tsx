@@ -1,15 +1,36 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Dialog, Input, Checkbox, Button, AddIcon } from '~'
+import { useClient } from '@based/react'
 
 export const AddTypeModal = () => {
+  const values = useRef({
+    type: '',
+    prefix: '',
+    createdAt: false,
+    updatedAt: false,
+  })
+
   return (
     <Dialog label="Create a type">
       <Input
         space
         label="Display name"
         description="Name that will be displayed in the interface"
+        onChange={(v) => {
+          if (typeof v === 'string') {
+            values.current.type = v
+          }
+        }}
       />
-      <Input space label="Plural display name" />
+      <Input
+        space
+        label="Plural display name"
+        onChange={(v) => {
+          if (typeof v === 'string') {
+            values.current.prefix = v
+          }
+        }}
+      />
       <Input
         space
         label="Type name"
