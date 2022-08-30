@@ -8,12 +8,14 @@ export const SchemaEditor = () => {
   const data = useData()
   const client = useClient()
 
-  console.log('data --->', data)
+  //   console.log('data --->', data)
   console.log('--->', schema)
   console.log(client)
 
   const menuItems = {}
   const types = []
+
+  let id = ''
 
   if (schema.schema.types) {
     for (const type in schema.schema.types) {
@@ -38,21 +40,22 @@ export const SchemaEditor = () => {
     }
   }
 
-  console.log('types', types)
-
-  const test = { hallo: 'yo', watup: 'watup' }
+  if (client.client.optsId) {
+    id = `${client.client.optsId}`
+  }
+  //   console.log('types', types)
 
   if (types.length > 0) {
-    types.map((v, i) => (menuItems[v.type] = v.type))
+    types.map((v) => (menuItems[v.type] = v.type))
   }
 
-  console.log('menuItems', menuItems)
+  //   console.log('menuItems', menuItems)
 
   return (
     <div style={{ display: 'flex' }}>
-      <SchemaLeftSidebar data={menuItems} />
+      <SchemaLeftSidebar data={menuItems} id={id} />
 
-      <div> yo</div>
+      <div style={{ padding: 32 }}> yo</div>
 
       <SchemRightSidebar />
     </div>
