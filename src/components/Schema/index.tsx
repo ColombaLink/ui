@@ -4,12 +4,18 @@ import { SchemaLeftSidebar } from './SchemaLeftSidebar'
 import { SchemaRightSidebar } from './SchemaRightSidebar'
 import { Landing } from './Landing'
 import { FieldList } from './FieldList'
-import { Text, Button, EditIcon } from '~'
+import { Text, Button, EditIcon, useLocation } from '~'
 
 export const SchemaEditor = () => {
   const schema = useSchema()
   const data = useData()
   const client = useClient()
+
+  const [location] = useLocation()
+
+  const pathArray = location.split('/')
+
+  console.log(pathArray)
 
   console.log('data --->', data)
   console.log('--->', schema.schema)
@@ -53,6 +59,7 @@ export const SchemaEditor = () => {
   }
 
   //   console.log('menuItems', menuItems)
+  const listItems = ['bloweh', 'test']
 
   return (
     <div style={{ display: 'flex' }}>
@@ -67,14 +74,14 @@ export const SchemaEditor = () => {
           }}
         >
           <Text weight={600} size={18}>
-            BLah
+            {pathArray[1]}
           </Text>
           <Button ghost icon={EditIcon}>
             Edit content
           </Button>
         </div>
 
-        <FieldList />
+        <FieldList listItems={listItems} />
       </div>
 
       {types.length < 1 && <Landing />}

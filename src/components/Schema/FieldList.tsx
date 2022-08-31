@@ -2,8 +2,8 @@ import React from 'react'
 import { Checkbox } from '../Checkbox'
 import { CustomList } from '../CustomList'
 
-export const FieldList = () => {
-  let items = ['bah', 'rae']
+export const FieldList = ({ listItems }) => {
+  let items = listItems
 
   return (
     <div style={{ width: '100%' }}>
