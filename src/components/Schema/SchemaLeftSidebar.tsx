@@ -5,14 +5,9 @@ import { AddTypeModal } from './AddTypeModal'
 type SchemaLeftSidebarProps = {
   style?: CSSProperties
   data?: { [key: string]: string }
-  id?: string
 }
 
-export const SchemaLeftSidebar = ({
-  style,
-  data,
-  id,
-}: SchemaLeftSidebarProps) => {
+export const SchemaLeftSidebar = ({ style, data }: SchemaLeftSidebarProps) => {
   const dialog = useDialog()
   //   const { data } = useData()
 
@@ -32,7 +27,7 @@ export const SchemaLeftSidebar = ({
           <Button
             icon={AddIcon}
             onClick={() => {
-              dialog.open(<AddTypeModal id={id} />)
+              dialog.open(<AddTypeModal />)
             }}
           >
             Add

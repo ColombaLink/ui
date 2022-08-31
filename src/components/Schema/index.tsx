@@ -9,8 +9,8 @@ export const SchemaEditor = () => {
   const client = useClient()
 
   //   console.log('data --->', data)
-  console.log('--->', schema)
-  console.log(client)
+  // console.log('--->', schema)
+  // console.log(client)
 
   const menuItems = {}
   const types = []
@@ -53,7 +53,7 @@ export const SchemaEditor = () => {
 
   return (
     <div style={{ display: 'flex' }}>
-      <SchemaLeftSidebar data={menuItems} id={id} />
+      <SchemaLeftSidebar data={menuItems} />
 
       <div style={{ padding: 32 }}> yo</div>
 

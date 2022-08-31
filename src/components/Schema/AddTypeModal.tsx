@@ -4,15 +4,16 @@ import { useObjectState } from '~/hooks'
 import { useEnvSchema } from './useEnvSchema'
 import safeTypeName from './safeTypeName'
 import { generatePlural, setLocation } from '~/utils'
+import { useSchema, useClient, useData } from '@based/react'
 
-export const AddTypeModal = ({ id }) => {
-  console.log('id ', id)
+export const AddTypeModal = () => {
+  const schema = useSchema()
+  const client = useClient()
+  const data = useData()
 
-  // needs id??
-  const envSchema = useEnvSchema(id)
-  const { schema, client, db } = envSchema
-
-  console.log('envSchema: ', envSchema)
+  console.log('---> schema', schema)
+  console.log('---> client', client)
+  console.log('----> data', data)
 
   const [name, setName] = useState('')
   const [pluralName, setPluralName] = useState('')
@@ -98,12 +99,12 @@ export const AddTypeModal = ({ id }) => {
           icon={AddIcon}
           onClick={async () => {
             if (schema) {
-              if (!schema.languages || !schema.languages.length) {
-                schema.languages = ['en']
+              if (!schema.schema.languages || !schema.schema.languages.length) {
+                schema.schema.languages = ['en']
               }
 
-              if (!schema.types) {
-                schema.types = {}
+              if (!schema.schema.types) {
+                schema.schema.types = {}
               }
 
               const parsedName = typeName || safeTypeName(name)
@@ -117,7 +118,7 @@ export const AddTypeModal = ({ id }) => {
                 fields: {},
               }
 
-              schema.types[parsedName] = type
+              schema.schema.types[parsedName] = type
 
               type.fields.name = {
                 type: 'string',
@@ -150,7 +151,7 @@ export const AddTypeModal = ({ id }) => {
                 await client.removeField(parsedName, 'createdAt')
               }
 
-              setLocation(`/dashboard/${id}/schema?type=${parsedName}`)
+              // setLocation(`/dashboard/${id}/schema?type=${parsedName}`)
             }
           }}
         >
