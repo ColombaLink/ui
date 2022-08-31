@@ -5,15 +5,18 @@ import { useEnvSchema } from './useEnvSchema'
 import safeTypeName from './safeTypeName'
 import { generatePlural, setLocation } from '~/utils'
 import { useSchema, useClient, useData } from '@based/react'
+import { removeAllOverlays } from '../Overlay'
 
 export const AddTypeModal = () => {
   const schema = useSchema()
   const client = useClient()
   const data = useData()
 
-  console.log('---> schema', schema)
-  console.log('---> client', client)
-  console.log('----> data', data)
+  const db = 'default'
+
+  // console.log('---> schema', schema)
+  // console.log('---> client', client)
+  // console.log('----> data', data)
 
   const [name, setName] = useState('')
   const [pluralName, setPluralName] = useState('')
@@ -141,7 +144,7 @@ export const AddTypeModal = () => {
                 }
               }
 
-              await client.updateSchema({ schema, db })
+              await client.updateSchema({ schema: schema.schema, db })
 
               if (!opts.updatedAt) {
                 await client.removeField(parsedName, 'updatedAt')
@@ -150,6 +153,8 @@ export const AddTypeModal = () => {
               if (!opts.createdAt) {
                 await client.removeField(parsedName, 'createdAt')
               }
+
+              removeAllOverlays()
 
               // setLocation(`/dashboard/${id}/schema?type=${parsedName}`)
             }

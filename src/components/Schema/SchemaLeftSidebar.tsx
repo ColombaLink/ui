@@ -13,7 +13,7 @@ export const SchemaLeftSidebar = ({ style, data }: SchemaLeftSidebarProps) => {
 
   return (
     <Menu
-      style={{ paddingTop: 32, ...style }}
+      style={{ paddingTop: 32, minWidth: 234, ...style }}
       data={data}
       header={
         <div

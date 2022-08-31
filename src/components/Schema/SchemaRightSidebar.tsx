@@ -2,7 +2,7 @@ import React from 'react'
 import { RightSidebar } from '../RightSidebar'
 import { Button, Text, AddIcon } from '~'
 
-export const SchemRightSidebar = () => {
+export const SchemaRightSidebar = () => {
   return (
     <RightSidebar style={{ minWidth: 210 }}>
       <Text space="24px" size={18} weight={700}>

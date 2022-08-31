@@ -1,16 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useData, useSchema, useClient } from '@based/react'
 import { SchemaLeftSidebar } from './SchemaLeftSidebar'
-import { SchemRightSidebar } from './SchemaRightSidebar'
+import { SchemaRightSidebar } from './SchemaRightSidebar'
+import { Landing } from './Landing'
+import { FieldList } from './FieldList'
+import { Text, Button, EditIcon } from '~'
 
 export const SchemaEditor = () => {
   const schema = useSchema()
   const data = useData()
   const client = useClient()
 
-  //   console.log('data --->', data)
-  // console.log('--->', schema)
-  // console.log(client)
+  console.log('data --->', data)
+  console.log('--->', schema.schema)
+  console.log(client)
 
   const menuItems = {}
   const types = []
@@ -55,9 +58,28 @@ export const SchemaEditor = () => {
     <div style={{ display: 'flex' }}>
       <SchemaLeftSidebar data={menuItems} />
 
-      <div style={{ padding: 32 }}> yo</div>
+      <div style={{ flex: 1, padding: '0 32px', flexDirection: 'column' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '32px 0px',
+          }}
+        >
+          <Text weight={600} size={18}>
+            BLah
+          </Text>
+          <Button ghost icon={EditIcon}>
+            Edit content
+          </Button>
+        </div>
 
-      <SchemRightSidebar />
+        <FieldList />
+      </div>
+
+      {types.length < 1 && <Landing />}
+
+      {types.length > 0 && <SchemaRightSidebar />}
     </div>
   )
 }
