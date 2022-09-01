@@ -27,6 +27,8 @@ const Stories: FC = () => {
 }
 
 const App = () => {
+  console.log(client)
+
   const [darkMode, setDarkMode] = useDarkMode()
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>

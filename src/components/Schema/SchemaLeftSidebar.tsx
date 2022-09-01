@@ -25,6 +25,7 @@ export const SchemaLeftSidebar = ({ style, data }: SchemaLeftSidebarProps) => {
         >
           <Text size={16}>Types</Text>
           <Button
+            ghost
             icon={AddIcon}
             onClick={() => {
               dialog.open(<AddTypeModal />)

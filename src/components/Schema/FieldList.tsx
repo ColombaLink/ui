@@ -7,12 +7,14 @@ export const FieldList = ({ listItemsFields }) => {
   let items = listItemsFields
 
   console.log('Items', items)
-  console.log('Items hal', items[0])
+  console.log('Items hal', items[0].fields.type)
 
   const test = ['2i', 'aefa']
 
   const nameFields = Object.keys(items[0].fields)
-  const badgeTypes = Object.keys(items[0].fields.type)
+  const badgeTypes = Object.values(items[0].fields).map(
+    (value) => value['type']
+  )
 
   console.log('nameFields', nameFields)
   console.log('badgeTypes', badgeTypes)
@@ -20,7 +22,7 @@ export const FieldList = ({ listItemsFields }) => {
   const testFields = []
 
   for (let i = 0; i < nameFields.length; i++) {
-    testFields.push(<ListItem name={nameFields[i]} />)
+    testFields.push(<ListItem name={nameFields[i]} badgeName={badgeTypes[i]} />)
   }
 
   //   useEffect(() => {
