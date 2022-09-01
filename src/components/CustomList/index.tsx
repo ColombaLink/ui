@@ -14,6 +14,7 @@ type CustomListProps = {
   itemSize?: number
   itemSpace?: Space
   style?: CSSProperties
+  autoScrollDistance?: number
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -21,6 +22,7 @@ export const CustomList: FC<CustomListProps> = ({
   draggable,
   itemSpace = 0,
   itemSize = 56 + +itemSpace,
+  autoScrollDistance = 64,
   style,
 }) => {
   const [data, setData] = useState(items)
@@ -83,6 +85,7 @@ export const CustomList: FC<CustomListProps> = ({
       {({ height, width }) => {
         return (
           <SortableFixedSizeList
+            autoScrollWhenDistanceLessThan={autoScrollDistance}
             ref={listRef}
             height={height}
             width={width}

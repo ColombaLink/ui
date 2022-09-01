@@ -10,7 +10,7 @@ const codeExample = `
 import { CustomList } from '~/components/CustomList'
 
 <div style={{ height: 200, width: 600 }}>
-    <CustomList items={testingListItems} itemSpace={12} draggable />
+    <CustomList items={testingListItems} itemSpace={12} autoScrollDistance={64} draggable/>
 </div>
 
 // array with children
@@ -35,10 +35,31 @@ const testingListItems = [
     <Text style={{ marginLeft: 16 }}>Whiskey</Text>
     <Badge style={{ marginLeft: 16 }}>Drink</Badge>
   </>,
+  
 ]
 `
 
 const testingListItems = [
+  <>
+    <Thumbnail label="Zulu" color="green" size={32} />
+    <Text style={{ marginLeft: 16 }}>Zulu</Text>
+    <Badge style={{ marginLeft: 16 }}>String</Badge>
+  </>,
+  <>
+    <Thumbnail color="babyblue" label="Y" size={32} />
+    <Text style={{ marginLeft: 16 }}>Yak</Text>
+    <Badge style={{ marginLeft: 16 }}>File</Badge>
+  </>,
+  <>
+    <Thumbnail label="X" size={32} />
+    <Text style={{ marginLeft: 16 }}>Xray</Text>
+    <Badge style={{ marginLeft: 16 }}>Text</Badge>
+  </>,
+  <>
+    <Thumbnail icon={FileIcon} color="mustard" size={32} />
+    <Text style={{ marginLeft: 16 }}>Whiskey</Text>
+    <Badge style={{ marginLeft: 16 }}>Drink</Badge>
+  </>,
   <>
     <Thumbnail label="Zulu" color="green" size={32} />
     <Text style={{ marginLeft: 16 }}>Zulu</Text>
@@ -66,7 +87,7 @@ export const Lists = () => {
   return (
     <>
       <Code value={codeExample} space />
-      <div style={{ height: 200, width: 600 }}>
+      <div style={{ height: 300, width: 600 }}>
         <CustomList items={testingListItems} itemSpace={12} draggable />
       </div>
     </>
