@@ -12,17 +12,23 @@ export const SchemaEditor = () => {
   const client = useClient()
 
   const [location] = useLocation()
-
   const pathArray = location.split('/')
+  // console.log(pathArray)
 
-  console.log(pathArray)
+  const name = pathArray[1]
 
   console.log('data --->', data)
-  console.log('--->', schema.schema)
-  console.log(client)
+  console.log('schema --->', schema)
+  console.log('schema, schema ->', schema.schema.types?.[name])
+  console.log('client -->', client)
 
   const menuItems = {}
   const types = []
+  let listItemsFields = []
+
+  if (schema.schema.types?.[name]) {
+    listItemsFields.push(schema.schema.types?.[name])
+  }
 
   let id = ''
 
@@ -59,29 +65,34 @@ export const SchemaEditor = () => {
   }
 
   //   console.log('menuItems', menuItems)
-  const listItems = ['bloweh', 'test']
+
+  //map through list items and return <ListItem />
 
   return (
     <div style={{ display: 'flex' }}>
       <SchemaLeftSidebar data={menuItems} />
 
       <div style={{ flex: 1, padding: '0 32px', flexDirection: 'column' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            padding: '32px 0px',
-          }}
-        >
-          <Text weight={600} size={18}>
-            {pathArray[1]}
-          </Text>
-          <Button ghost icon={EditIcon}>
-            Edit content
-          </Button>
-        </div>
+        {listItemsFields?.length > 0 && (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              padding: '32px 0px',
+            }}
+          >
+            <Text weight={600} size={18} wrap>
+              {name}
+            </Text>
+            <Button ghost icon={EditIcon}>
+              Edit content
+            </Button>
+          </div>
+        )}
 
-        <FieldList listItems={listItems} />
+        {listItemsFields?.length > 0 && (
+          <FieldList listItemsFields={listItemsFields} />
+        )}
       </div>
 
       {types.length < 1 && <Landing />}

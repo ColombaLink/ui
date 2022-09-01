@@ -1,13 +1,14 @@
 import React from 'react'
 import { RightSidebar } from '../RightSidebar'
-import { Button, Text, AddIcon } from '~'
+import { Button, Text, AddIcon, Separator } from '~'
 
 export const SchemaRightSidebar = () => {
   return (
     <RightSidebar style={{ minWidth: 210 }}>
-      <Text space="24px" size={18} weight={700}>
+      <Text space="16px" size={18} weight={700}>
         Fields
       </Text>
+      <Separator />
       <Button
         space="24px"
         icon={AddIcon}

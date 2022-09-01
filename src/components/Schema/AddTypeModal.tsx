@@ -95,7 +95,14 @@ export const AddTypeModal = () => {
       />
 
       <Dialog.Buttons border>
-        <Button ghost outline color="text2" onClick={() => {}}>
+        <Button
+          ghost
+          outline
+          color="text2"
+          onClick={() => {
+            removeAllOverlays()
+          }}
+        >
           Cancel
         </Button>
         <Button
