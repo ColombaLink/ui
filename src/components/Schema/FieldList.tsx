@@ -5,22 +5,25 @@ import { ListItem } from './ListItem'
 
 export const FieldList = ({ listItemsFields, maxItemWidth }) => {
   const [testFields, setTestFields] = useState([])
+  const [showSystemFields, setShowSystemFields] = useState(false)
 
-  let items = listItemsFields
-
-  console.log('Items', listItemsFields)
-  console.log('Items hal', listItemsFields[0].fields.type)
+  const SystemFieldNames = ['id', 'type', 'children', 'parents']
 
   let nameFields = Object.keys(listItemsFields[0].fields)
-
   const badgeTypes = Object.values(listItemsFields[0].fields).map(
     (value) => value['type']
   )
 
-  console.log('nameFields', nameFields)
-  console.log('badgeTypes', badgeTypes)
+  if (!showSystemFields) {
+    console.log('lyojmaoemfa')
+    nameFields = Object.keys(listItemsFields[0].fields).filter(
+      (item) => SystemFieldNames.indexOf(item) === -1
+    )
+  }
 
-  console.log('list item fields', listItemsFields)
+  //   console.log('nameFields', nameFields)
+  //   console.log('badgeTypes', badgeTypes)
+  //   console.log('list item fields', listItemsFields)
 
   testFields.splice(0, testFields.length)
 
@@ -29,6 +32,12 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
       <ListItem name={nameFields[i]} badgeName={badgeTypes[i]} />
     )
   }
+
+  //   let tempFiltered = testFields.filter(
+  //     (item) => SystemFieldNames.indexOf(item.props.name) === -1
+  //   )
+  //   console.log('tempfiltered', tempFiltered)
+  //   setFilteredTestFields(tempFiltered)
 
   console.log('Test fields', testFields)
 
@@ -40,7 +49,14 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
       }}
     >
       <div style={{ width: maxItemWidth || '100%', margin: '0 auto' }}>
-        <Checkbox space="16px" description="Show system fields" />
+        <Checkbox
+          space="16px"
+          description="Show system fields"
+          onChange={(v) => {
+            console.log(v)
+            setShowSystemFields(v)
+          }}
+        />
       </div>
 
       <CustomList
