@@ -12,12 +12,12 @@ export const AddFieldModal = ({ fieldData }) => {
     <AddFieldModalReference
       // field={field}
       type={fieldData.type}
-      //   fieldData={fieldData}
+      fieldData={fieldData}
       //  envSchema={envSchema}
     />
   ) : (
     <AddFieldModalGeneral
-      //  fieldData={fieldData}
+      fieldData={fieldData}
       //  envSchema={envSchema}
       //  field={field}
       type={fieldData.type}
