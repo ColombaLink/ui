@@ -68,7 +68,7 @@ const AddFieldsMenu = () => {
             topLeft={<Thumbnail color="lightpurple" icon={field.icon} />}
             onClick={() => {
               console.log('clicked')
-              open(<AddFieldModal type={field.type} />)
+              open(<AddFieldModal fieldData={field} />)
             }}
           />
         ))}
