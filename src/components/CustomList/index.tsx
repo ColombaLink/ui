@@ -15,6 +15,7 @@ type CustomListProps = {
   itemSpace?: Space
   style?: CSSProperties
   autoScrollDistance?: number
+  maxItemWidth?: number
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -23,6 +24,7 @@ export const CustomList: FC<CustomListProps> = ({
   itemSpace = 0,
   itemSize = 56 + +itemSpace,
   autoScrollDistance = 64,
+  maxItemWidth,
   style,
 }) => {
   const [data, setData] = useState(items)
@@ -105,7 +107,14 @@ export const CustomList: FC<CustomListProps> = ({
               ) => (
                 <div ref={ref}>
                   <ListItem
-                    style={{ paddingLeft: draggable ? 0 : 16, ...style }}
+                    style={{
+                      paddingLeft: draggable ? 0 : 16,
+                      maxWidth: maxItemWidth || '100%',
+
+                      transform: maxItemWidth ? 'translateX(-50%)' : 'none',
+                      ...style,
+                      left: maxItemWidth ? '50%' : 0,
+                    }}
                     itemSize={itemSize}
                     space={itemSpace}
                   >

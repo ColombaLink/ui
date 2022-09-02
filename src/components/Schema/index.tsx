@@ -13,18 +13,20 @@ export const SchemaEditor = () => {
 
   const [location] = useLocation()
   const pathArray = location.split('/')
+
   // console.log(pathArray)
 
-  console.log('data --->', data)
-  console.log('schema --->', schema)
-  console.log('schema, schema ->', schema.schema.types)
-  console.log('client -->', client)
+  // console.log('data --->', data)
+  // console.log('schema --->', schema)
+  // console.log('schema, schema ->', schema.schema.types)
+  // console.log('client -->', client)
 
   const name = pathArray[1]
   const description = schema?.schema?.types?.[name]?.meta?.description
 
   const menuItems = {}
   const types = []
+
   let listItemsFields = []
 
   if (schema.schema.types?.[name]) {
@@ -68,13 +70,13 @@ export const SchemaEditor = () => {
     <div style={{ display: 'flex' }}>
       <SchemaLeftSidebar data={menuItems} />
 
-      <div style={{ flex: 1, padding: '0 32px', flexDirection: 'column' }}>
+      <div style={{ flex: 1, flexDirection: 'column' }}>
         {listItemsFields?.length > 0 && (
           <div
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              padding: '32px 0px',
+              padding: '32px',
             }}
           >
             <div>
@@ -98,7 +100,7 @@ export const SchemaEditor = () => {
         )}
 
         {listItemsFields?.length > 0 && (
-          <FieldList listItemsFields={listItemsFields} />
+          <FieldList listItemsFields={listItemsFields} maxItemWidth={600} />
         )}
       </div>
 
