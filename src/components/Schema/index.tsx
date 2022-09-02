@@ -4,7 +4,46 @@ import { SchemaLeftSidebar } from './SchemaLeftSidebar'
 import { SchemaRightSidebar } from './SchemaRightSidebar'
 import { Landing } from './Landing'
 import { FieldList } from './FieldList'
-import { Text, Button, EditIcon, useLocation, Spacer } from '~'
+import {
+  Text,
+  Button,
+  EditIcon,
+  useLocation,
+  Spacer,
+  MoreIcon,
+  DeleteIcon,
+  ArrowRightIcon,
+} from '~'
+import { styled } from 'inlines'
+import { useContextMenu, ContextItem } from '~'
+
+const More = styled(MoreIcon, {
+  marginRight: 16,
+  marginLeft: 4,
+  display: 'inline-block',
+  marginBottom: -3,
+  cursor: 'pointer',
+  opacity: 0.6,
+  '&:hover': {
+    opacity: 1,
+  },
+})
+
+const TypeOptionsMenu = () => {
+  return (
+    <>
+      <ContextItem
+        icon={ArrowRightIcon}
+        onClick={() => {
+          console.log('hello')
+        }}
+      >
+        View Content
+      </ContextItem>
+      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
+    </>
+  )
+}
 
 export const SchemaEditor = () => {
   const schema = useSchema()
@@ -15,7 +54,6 @@ export const SchemaEditor = () => {
   const pathArray = location.split('/')
 
   // console.log(pathArray)
-
   // console.log('data --->', data)
   // console.log('schema --->', schema)
   // console.log('schema, schema ->', schema.schema.types)
@@ -71,33 +109,40 @@ export const SchemaEditor = () => {
       <SchemaLeftSidebar data={menuItems} />
 
       <div style={{ flex: 1, flexDirection: 'column' }}>
-        {listItemsFields?.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              padding: '32px',
-            }}
-          >
-            <div>
-              <Text weight={600} size={18} wrap>
-                {name}
-              </Text>
-              {description && (
-                <>
-                  <Spacer space={4} />
-                  <Text weight={400} size={14} color="text2">
-                    {description}
-                  </Text>
-                </>
-              )}
-            </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            padding: '32px',
+          }}
+        >
+          <div>
+            <Text weight={600} size={18} wrap>
+              {name}{' '}
+              <More
+                onClick={useContextMenu(
+                  TypeOptionsMenu,
+                  {},
+                  { placement: 'left' }
+                )}
+              />
+            </Text>
+            {description && (
+              <>
+                <Spacer space={4} />
+                <Text weight={400} size={14} color="text2">
+                  {description}
+                </Text>
+              </>
+            )}
+          </div>
 
+          {listItemsFields?.length > 0 && (
             <Button ghost icon={EditIcon}>
               Edit content
             </Button>
-          </div>
-        )}
+          )}
+        </div>
 
         {listItemsFields?.length > 0 && (
           <FieldList listItemsFields={listItemsFields} maxItemWidth={600} />
