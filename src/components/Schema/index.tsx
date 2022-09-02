@@ -16,6 +16,7 @@ import {
 } from '~'
 import { styled } from 'inlines'
 import { useContextMenu, ContextItem } from '~'
+import { removeAllOverlays } from '../Overlay'
 
 const More = styled(MoreIcon, {
   marginRight: 16,
@@ -28,22 +29,6 @@ const More = styled(MoreIcon, {
     opacity: 1,
   },
 })
-
-const TypeOptionsMenu = () => {
-  return (
-    <>
-      <ContextItem
-        icon={ArrowRightIcon}
-        onClick={() => {
-          console.log('hello')
-        }}
-      >
-        View Content
-      </ContextItem>
-      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
-    </>
-  )
-}
 
 export const SchemaEditor = () => {
   const schema = useSchema()
@@ -121,7 +106,7 @@ export const SchemaEditor = () => {
               {name}{' '}
               <More
                 onClick={useContextMenu(
-                  TypeOptionsMenu,
+                  () => TypeOptionsMenu(client, schema),
                   {},
                   { placement: 'left' }
                 )}
@@ -153,5 +138,38 @@ export const SchemaEditor = () => {
 
       {types.length > 0 && <SchemaRightSidebar />}
     </div>
+  )
+}
+
+const TypeOptionsMenu = (client, schema) => {
+  const [location, setLocation] = useLocation()
+
+  const pathArray = location.split('/')
+
+  const name = pathArray[1]
+
+  return (
+    <>
+      <ContextItem
+        icon={ArrowRightIcon}
+        onClick={() => {
+          console.log('hello')
+        }}
+      >
+        View Content
+      </ContextItem>
+      <ContextItem
+        icon={DeleteIcon}
+        onClick={async () => {
+          if (await confirm(`Are you sure you want to remove ${name}?`)) {
+            await client.removeType(name)
+            removeAllOverlays()
+            setLocation(`/?story=schema`)
+          }
+        }}
+      >
+        Delete
+      </ContextItem>
+    </>
   )
 }

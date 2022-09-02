@@ -21,10 +21,6 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
     )
   }
 
-  //   console.log('nameFields', nameFields)
-  //   console.log('badgeTypes', badgeTypes)
-  //   console.log('list item fields', listItemsFields)
-
   testFields.splice(0, testFields.length)
 
   for (let i = 0; i < nameFields.length; i++) {
@@ -32,12 +28,6 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
       <ListItem name={nameFields[i]} badgeName={badgeTypes[i]} />
     )
   }
-
-  //   let tempFiltered = testFields.filter(
-  //     (item) => SystemFieldNames.indexOf(item.props.name) === -1
-  //   )
-  //   console.log('tempfiltered', tempFiltered)
-  //   setFilteredTestFields(tempFiltered)
 
   console.log('Test fields', testFields)
 
