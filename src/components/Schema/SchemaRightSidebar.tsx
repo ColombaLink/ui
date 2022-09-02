@@ -11,8 +11,12 @@ import {
   CalendarIcon,
   TextIcon,
   Card,
+  color,
+  useDialog,
+  Dialog,
 } from '~'
 import { fieldDescriptors } from './fields'
+import { AddFieldModal } from './AddFieldModal'
 
 export const SchemaRightSidebar = () => {
   return (
@@ -44,6 +48,8 @@ export const SchemaRightSidebar = () => {
 }
 
 const AddFieldsMenu = () => {
+  const { open } = useDialog()
+
   return (
     <div style={{ padding: '12px 22px' }}>
       <Text weight={600} space="8px" style={{ paddingLeft: 8 }}>
@@ -55,10 +61,15 @@ const AddFieldsMenu = () => {
 
         {fieldDescriptors.map((field, i) => (
           <Card
+            style={{ backgroundColor: color('background'), cursor: 'pointer' }}
             key={i}
             label={field.name}
             description={field.description}
             topLeft={<Thumbnail color="lightpurple" icon={field.icon} />}
+            onClick={() => {
+              console.log('clicked')
+              open(<AddFieldModal type={field.type} />)
+            }}
           />
         ))}
       </Grid>

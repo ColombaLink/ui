@@ -24,7 +24,7 @@ export type FieldData = {
   name: string
   type: string
   description: string
-  icon: string | React.ReactNode
+  icon: string | ReactNode
   id: string
   color?: string
   template?: { [key: string]: any }

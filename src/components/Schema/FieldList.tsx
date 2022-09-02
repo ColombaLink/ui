@@ -15,7 +15,6 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
   )
 
   if (!showSystemFields) {
-    console.log('lyojmaoemfa')
     nameFields = Object.keys(listItemsFields[0].fields).filter(
       (item) => SystemFieldNames.indexOf(item) === -1
     )
@@ -29,8 +28,6 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
     )
   }
 
-  console.log('Test fields', testFields)
-
   return (
     <div
       style={{
@@ -43,7 +40,6 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
           space="16px"
           description="Show system fields"
           onChange={(v) => {
-            console.log(v)
             setShowSystemFields(v)
           }}
         />

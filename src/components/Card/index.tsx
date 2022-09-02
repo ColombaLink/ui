@@ -16,6 +16,7 @@ type CardProps = {
   bottomLeft?: ReactNode
   children?: ReactNode
   small?: boolean
+  onClick?: () => void
 }
 
 export const Card: FC<CardProps> = ({
