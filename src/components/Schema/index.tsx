@@ -105,6 +105,10 @@ export const SchemaEditor = () => {
             <Text weight={600} size={18} wrap>
               {name}{' '}
               <More
+                style={{
+                  display:
+                    listItemsFields?.length > 0 ? 'inline-block' : 'none',
+                }}
                 onClick={useContextMenu(
                   () => TypeOptionsMenu(client, schema),
                   {},

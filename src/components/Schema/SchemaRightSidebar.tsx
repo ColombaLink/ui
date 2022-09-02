@@ -1,6 +1,18 @@
 import React from 'react'
 import { RightSidebar } from '../RightSidebar'
-import { Button, Text, AddIcon, Separator } from '~'
+import {
+  Button,
+  Text,
+  AddIcon,
+  Separator,
+  useContextMenu,
+  Grid,
+  Thumbnail,
+  CalendarIcon,
+  TextIcon,
+  Card,
+} from '~'
+import { fieldDescriptors } from './fields'
 
 export const SchemaRightSidebar = () => {
   return (
@@ -13,7 +25,11 @@ export const SchemaRightSidebar = () => {
         space="24px"
         icon={AddIcon}
         style={{ width: '100%' }}
-        onClick={() => {}}
+        onClick={useContextMenu(
+          AddFieldsMenu,
+          {},
+          { width: 932, placement: 'right' }
+        )}
       >
         Add Field
       </Button>
@@ -24,5 +40,28 @@ export const SchemaRightSidebar = () => {
         Read more about schema types in our guide to schema editing.
       </Text>
     </RightSidebar>
+  )
+}
+
+const AddFieldsMenu = () => {
+  return (
+    <div style={{ padding: '12px 22px' }}>
+      <Text weight={600} space="8px" style={{ paddingLeft: 8 }}>
+        Add field
+      </Text>
+
+      <Grid itemWidth={274} gap={16}>
+        {/* map over the fields and add them as cards */}
+
+        {fieldDescriptors.map((field, i) => (
+          <Card
+            key={i}
+            label={field.name}
+            description={field.description}
+            topLeft={<Thumbnail color="lightpurple" icon={field.icon} />}
+          />
+        ))}
+      </Grid>
+    </div>
   )
 }
