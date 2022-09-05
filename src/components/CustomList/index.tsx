@@ -14,6 +14,10 @@ type CustomListProps = {
   itemSize?: number
   itemSpace?: Space
   style?: CSSProperties
+  autoScrollDistance?: number
+  maxItemWidth?: number
+  onDelete?: (index: number) => void
+  onDuplicate?: (index: number) => void
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -21,6 +25,10 @@ export const CustomList: FC<CustomListProps> = ({
   draggable,
   itemSpace = 0,
   itemSize = 56 + +itemSpace,
+  autoScrollDistance = 64,
+  maxItemWidth,
+  onDelete,
+  onDuplicate,
   style,
 }) => {
   const [data, setData] = useState(items)
@@ -83,6 +91,7 @@ export const CustomList: FC<CustomListProps> = ({
       {({ height, width }) => {
         return (
           <SortableFixedSizeList
+            autoScrollWhenDistanceLessThan={autoScrollDistance}
             ref={listRef}
             height={height}
             width={width}
@@ -102,7 +111,14 @@ export const CustomList: FC<CustomListProps> = ({
               ) => (
                 <div ref={ref}>
                   <ListItem
-                    style={{ paddingLeft: draggable ? 0 : 16, ...style }}
+                    style={{
+                      paddingLeft: draggable ? 0 : 16,
+                      maxWidth: maxItemWidth || '100%',
+
+                      transform: maxItemWidth ? 'translateX(-50%)' : 'none',
+                      ...style,
+                      left: maxItemWidth ? '50%' : 0,
+                    }}
                     itemSize={itemSize}
                     space={itemSpace}
                   >
@@ -118,13 +134,16 @@ export const CustomList: FC<CustomListProps> = ({
                       </DragDropper>
                     )}
                     {data[index]}
-                    <More
-                      onClick={useContextMenu(
-                        SimpleMenu,
-                        {},
-                        { placement: 'center' }
-                      )}
-                    />
+                    {onDuplicate ||
+                      (onDelete && (
+                        <More
+                          onClick={useContextMenu(
+                            () => SimpleMenu(onDuplicate, onDelete),
+                            {},
+                            { placement: 'center' }
+                          )}
+                        />
+                      ))}
                   </ListItem>
                 </div>
               )
@@ -136,18 +155,24 @@ export const CustomList: FC<CustomListProps> = ({
   )
 }
 
-const SimpleMenu = () => {
+const SimpleMenu = (onDuplicate, onDelete) => {
   return (
     <>
-      <ContextItem
-        icon={DuplicateIcon}
-        onClick={() => {
-          console.log('hello')
-        }}
-      >
-        Duplicate
-      </ContextItem>
-      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
+      {onDuplicate && (
+        <ContextItem
+          icon={DuplicateIcon}
+          onClick={() => {
+            console.log('hello')
+          }}
+        >
+          Duplicate
+        </ContextItem>
+      )}
+      {onDelete && (
+        <ContextItem icon={DeleteIcon} onClick={() => console.log('blah')}>
+          Delete
+        </ContextItem>
+      )}
     </>
   )
 }

@@ -32,6 +32,7 @@ export * from './Props'
 export * from './Radiobuttons'
 export * from './ResultCards'
 export * from './ScatterResults'
+export * from './Schema'
 export * from './Spacers'
 
 export * from './Screens/Inbox'

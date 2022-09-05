@@ -2,6 +2,7 @@ import React from 'react'
 import { Menu } from '~/components/Menu'
 import ComponentViewer from '../ComponentViewer'
 import { Code } from '~/components/Code'
+import { Avatar } from '~/components/Avatar'
 
 export const SideMenu = () => {
   const codeExample = `
@@ -9,8 +10,7 @@ export const SideMenu = () => {
   
   
   // logo is an optional prop
-  <Sidebar
-        avatar={<Avatar size={24} color="accent" label="T" />}
+  <Menu
         data={{
           'Project settings': '/project settings',
           General: '/general',

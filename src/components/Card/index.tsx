@@ -16,6 +16,7 @@ type CardProps = {
   bottomLeft?: ReactNode
   children?: ReactNode
   small?: boolean
+  onClick?: () => void
 }
 
 export const Card: FC<CardProps> = ({
@@ -49,7 +50,7 @@ export const Card: FC<CardProps> = ({
           display: 'flex',
           position: 'relative',
           justifyContent: 'space-between',
-          marginBottom: 12,
+          // marginBottom: 12,
         }}
       >
         {(topLeft || label || description) && (

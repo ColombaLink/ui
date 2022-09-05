@@ -48,7 +48,8 @@
     "react-window-sortable": "^1.4.12",
     "snarkdown": "^2.0.0",
     "tarts": "^1.0.0",
-    "wouter": "^2.8.0-alpha.2"
+    "wouter": "^2.8.0-alpha.2",
+    "plur": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

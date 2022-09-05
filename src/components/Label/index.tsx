@@ -35,7 +35,7 @@ export const Label = ({
       <Text
         wrap
         weight={600}
-        color={labelColor ? color(labelColor) : 'inherit'}
+        color={labelColor ? color(labelColor) : color('text')}
       >
         {icon && (
           <div
@@ -56,7 +56,7 @@ export const Label = ({
         <Text
           wrap
           weight={400}
-          color={descriptionColor ? color(descriptionColor) : 'inherit'}
+          color={descriptionColor ? color(descriptionColor) : color('text2')}
         >
           {description}
         </Text>
