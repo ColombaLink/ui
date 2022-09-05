@@ -105,7 +105,7 @@ export const SchemaEditor = () => {
         >
           <div>
             <Text weight={600} size={18} wrap>
-              {menuItems[name]}
+              {menuItems[name] || name}
               <More
                 style={{
                   display:
