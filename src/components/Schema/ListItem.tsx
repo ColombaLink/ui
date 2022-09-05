@@ -25,7 +25,7 @@ import {
   Button,
 } from '~'
 
-export const ListItem = ({ name, badgeName }) => {
+export const ListItem = ({ name, badgeName, systemFields }) => {
   const iconColorMap = {
     text: [TextIcon, 'lightpurple'],
     url: [ExternalLinkIcon, 'lightgreen'],
@@ -33,26 +33,26 @@ export const ListItem = ({ name, badgeName }) => {
     id: [TargetIcon, 'lightyellow'],
     type: [LayersIcon, 'lightred'],
     markdown: [MarkDownIcon, 'lightyellow'],
-    richtext: [EditIcon, ''],
+    richtext: [EditIcon, 'lightred'],
     options: [],
     references: [ReferenceIcon, 'lightteal'],
-    file: [AttachmentIcon, ''],
-    json: [CurlyBracesIcon, ''],
-    object: [ModelIcon, ''],
-    geo: [GeoMarkerIcon, ''],
+    file: [AttachmentIcon, 'lightred'],
+    json: [CurlyBracesIcon, 'lightred'],
+    object: [ModelIcon, 'lightred'],
+    geo: [GeoMarkerIcon, 'lightred'],
     map: [],
     number: [TwentyThreeIcon, 'lightaccent'],
-    array: [ListIcon, ''],
+    array: [ListIcon, 'lightred'],
     integer: [TwentyThreeIcon, 'accent'],
     float: [PercentageIcon, ''],
     boolean: [ToggleIcon, 'lightaccent'],
     string: [TextIcon, 'lightpurple'],
-    set: [ListIcon, 'lightgrey'],
+    set: [ListIcon, 'lightred'],
     timestamp: [CalendarIcon, 'lightbabyblue'],
     createdAt: [CalendarIcon, 'lightbabyblue'],
     updatedAt: [CalendarIcon, 'lightbabyblue'],
-    parents: [ReferenceIcon, ''],
-    children: [ReferenceIcon, ''],
+    parents: [ReferenceIcon, 'lightred'],
+    children: [ReferenceIcon, 'lightred'],
     digest: [LockIcon, 'lightpurple'],
   }
 
@@ -61,6 +61,7 @@ export const ListItem = ({ name, badgeName }) => {
       style={{
         display: 'flex',
         alignItems: 'center',
+        opacity: systemFields.includes(name) ? 0.5 : 1,
       }}
     >
       <Thumbnail

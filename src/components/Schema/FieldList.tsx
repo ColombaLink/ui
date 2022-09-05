@@ -7,25 +7,51 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
   const [testFields, setTestFields] = useState([])
   const [showSystemFields, setShowSystemFields] = useState(false)
 
-  const SystemFieldNames = ['id', 'type', 'children', 'parents']
+  const systemFieldNames = ['id', 'type', 'children', 'parents']
+  const allwaysIgnoreFields = ['descendants', 'ancestors', 'aliases']
+
+  console.log(listItemsFields)
 
   let nameFields = Object.keys(listItemsFields[0].fields)
-  const badgeTypes = Object.values(listItemsFields[0].fields).map(
+
+  const badgeTypesNames = Object.values(listItemsFields[0].fields).map(
     (value) => value['type']
   )
 
-  if (!showSystemFields) {
-    nameFields = Object.keys(listItemsFields[0].fields).filter(
-      (item) => SystemFieldNames.indexOf(item) === -1
-    )
-  }
+  let systemFieldNamesArr = Object.keys(listItemsFields[0].fields).filter(
+    (item) => systemFieldNames.indexOf(item) !== -1
+  )
 
+  //  reset testFields
   testFields.splice(0, testFields.length)
 
   for (let i = 0; i < nameFields.length; i++) {
-    testFields?.push(
-      <ListItem name={nameFields[i]} badgeName={badgeTypes[i]} />
-    )
+    if (
+      !systemFieldNamesArr.includes(nameFields[i]) &&
+      !allwaysIgnoreFields.includes(nameFields[i])
+    ) {
+      testFields?.push(
+        <ListItem
+          name={nameFields[i]}
+          badgeName={badgeTypesNames[i]}
+          systemFields={systemFieldNames}
+        />
+      )
+    }
+  }
+
+  if (showSystemFields) {
+    for (let i = 0; i < nameFields.length; i++) {
+      if (systemFieldNamesArr.includes(nameFields[i])) {
+        testFields?.push(
+          <ListItem
+            name={nameFields[i]}
+            badgeName={badgeTypesNames[i]}
+            systemFields={systemFieldNames}
+          />
+        )
+      }
+    }
   }
 
   return (
