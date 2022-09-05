@@ -169,7 +169,7 @@ const SimpleMenu = (onDuplicate, onDelete) => {
         </ContextItem>
       )}
       {onDelete && (
-        <ContextItem icon={DeleteIcon} onClick={() => console.log('blah')}>
+        <ContextItem icon={DeleteIcon} onClick={onDelete}>
           Delete
         </ContextItem>
       )}

@@ -134,7 +134,13 @@ export const SchemaEditor = () => {
         </div>
 
         {listItemsFields?.length > 0 && (
-          <FieldList listItemsFields={listItemsFields} maxItemWidth={600} />
+          <FieldList
+            listItemsFields={listItemsFields}
+            maxItemWidth={600}
+            schema={schema}
+            client={client}
+            name={name}
+          />
         )}
       </div>
 

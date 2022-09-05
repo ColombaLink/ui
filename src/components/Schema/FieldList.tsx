@@ -3,7 +3,13 @@ import { Checkbox } from '../Checkbox'
 import { CustomList } from '../CustomList'
 import { ListItem } from './ListItem'
 
-export const FieldList = ({ listItemsFields, maxItemWidth }) => {
+export const FieldList = ({
+  listItemsFields,
+  maxItemWidth,
+  schema,
+  client,
+  name,
+}) => {
   const [testFields, setTestFields] = useState([])
   const [showSystemFields, setShowSystemFields] = useState(false)
 
@@ -32,9 +38,13 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
     ) {
       testFields?.push(
         <ListItem
-          name={nameFields[i]}
+          fieldName={nameFields[i]}
           badgeName={badgeTypesNames[i]}
           systemFields={systemFieldNames}
+          onDelete
+          schema={schema}
+          client={client}
+          name={name}
         />
       )
     }
@@ -45,9 +55,13 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
       if (systemFieldNamesArr.includes(nameFields[i])) {
         testFields?.push(
           <ListItem
-            name={nameFields[i]}
+            fieldName={nameFields[i]}
             badgeName={badgeTypesNames[i]}
             systemFields={systemFieldNames}
+            onDelete
+            schema={schema}
+            client={client}
+            name={name}
           />
         )
       }
@@ -76,7 +90,6 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
         itemSpace={12}
         draggable
         maxItemWidth={maxItemWidth}
-        onDelete={() => {}}
       />
     </div>
   )
