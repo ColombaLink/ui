@@ -138,6 +138,7 @@ export const Tabs: FC<TabsProps> = ({
               activeTabState={activeTabState}
               setHoverTab={setHoverTab}
               setActiveTabInternal={setActiveTabInternal}
+              // @ts-ignore
             >
               {child}
             </TabWrapper>
@@ -156,7 +157,7 @@ export const Tabs: FC<TabsProps> = ({
         ></div>
       </div>
 
-      <div>
+      <div style={{ flexGrow: 1, height: '100%' }}>
         {typeof children !== 'string' && children
           ? children[activeTabState]
           : null}
