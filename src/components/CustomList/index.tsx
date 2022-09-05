@@ -16,6 +16,8 @@ type CustomListProps = {
   style?: CSSProperties
   autoScrollDistance?: number
   maxItemWidth?: number
+  onDelete?: (index: number) => void
+  onDuplicate?: (index: number) => void
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -25,6 +27,8 @@ export const CustomList: FC<CustomListProps> = ({
   itemSize = 56 + +itemSpace,
   autoScrollDistance = 64,
   maxItemWidth,
+  onDelete,
+  onDuplicate,
   style,
 }) => {
   const [data, setData] = useState(items)
@@ -130,13 +134,16 @@ export const CustomList: FC<CustomListProps> = ({
                       </DragDropper>
                     )}
                     {data[index]}
-                    <More
-                      onClick={useContextMenu(
-                        SimpleMenu,
-                        {},
-                        { placement: 'center' }
-                      )}
-                    />
+                    {onDuplicate ||
+                      (onDelete && (
+                        <More
+                          onClick={useContextMenu(
+                            () => SimpleMenu(onDuplicate, onDelete),
+                            {},
+                            { placement: 'center' }
+                          )}
+                        />
+                      ))}
                   </ListItem>
                 </div>
               )
@@ -148,18 +155,24 @@ export const CustomList: FC<CustomListProps> = ({
   )
 }
 
-const SimpleMenu = () => {
+const SimpleMenu = (onDuplicate, onDelete) => {
   return (
     <>
-      <ContextItem
-        icon={DuplicateIcon}
-        onClick={() => {
-          console.log('hello')
-        }}
-      >
-        Duplicate
-      </ContextItem>
-      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
+      {onDuplicate && (
+        <ContextItem
+          icon={DuplicateIcon}
+          onClick={() => {
+            console.log('hello')
+          }}
+        >
+          Duplicate
+        </ContextItem>
+      )}
+      {onDelete && (
+        <ContextItem icon={DeleteIcon} onClick={() => console.log('blah')}>
+          Delete
+        </ContextItem>
+      )}
     </>
   )
 }

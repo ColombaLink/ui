@@ -76,6 +76,7 @@ export const FieldList = ({ listItemsFields, maxItemWidth }) => {
         itemSpace={12}
         draggable
         maxItemWidth={maxItemWidth}
+        onDelete={() => {}}
       />
     </div>
   )

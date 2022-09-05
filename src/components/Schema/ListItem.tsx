@@ -70,10 +70,9 @@ export const ListItem = ({ name, badgeName, systemFields }) => {
         color={iconColorMap[`${badgeName}`][1]}
         size={32}
       />
-      <Text style={{ marginLeft: 16 }}>{name}</Text>
-      {/* <Text style={{ marginLeft: 8 }} weight={400} color="text2">
-        name
-      </Text> */}
+      <Text style={{ marginLeft: 16 }} weight={600}>
+        {name[0].toUpperCase() + name.substring(1)}
+      </Text>
       <Badge style={{ marginLeft: 16 }}>{badgeName}</Badge>
 
       <Button style={{ position: 'absolute', right: 40 }} ghost>
