@@ -86,7 +86,7 @@ export const ListItem = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        opacity: systemFields.includes(name) ? 0.5 : 1,
+        opacity: systemFields.includes(fieldName) ? 0.5 : 1,
       }}
     >
       <Thumbnail
@@ -98,7 +98,13 @@ export const ListItem = ({
       <Text style={{ marginLeft: 16 }} weight={600}>
         {fieldName[0].toUpperCase() + fieldName.substring(1)}
       </Text>
-      <Badge style={{ marginLeft: 16 }}>{badgeName}</Badge>
+      <Badge
+        style={{ marginLeft: 16, color: color('text2') }}
+        outline
+        color="border"
+      >
+        {badgeName}
+      </Badge>
 
       <Button style={{ position: 'absolute', right: 40 }} ghost>
         Settings
