@@ -101,6 +101,10 @@ export const CustomList: FC<CustomListProps> = ({
             onSortOrderChanged={({ originalIndex, newIndex }) => {
               move(data, originalIndex, newIndex)
               setData(data.slice(0))
+              console.log(data)
+
+              //set de  upgedate data in de schema ??
+              //  client.updateSchema({})
             }}
             style={{ ...style }}
           >

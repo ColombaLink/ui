@@ -1,13 +1,19 @@
 import React from 'react'
-import { Page } from '~'
+import { Page, color } from '~'
 import { SchemaEditor } from '~/components/Schema'
 
 export const Schema = () => {
   return (
     <div style={{ display: 'flex', flexGrow: 1 }}>
-      <Page>
+      <div
+        style={{
+          width: '100%',
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
+        }}
+      >
         <SchemaEditor />
-      </Page>
+      </div>
     </div>
   )
 }

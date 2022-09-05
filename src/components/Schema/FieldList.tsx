@@ -88,6 +88,9 @@ export const FieldList = ({
         itemSpace={12}
         draggable
         maxItemWidth={maxItemWidth}
+
+        // on reorder
+        //  setTestFields(updatedItems)
       />
     </div>
   )
