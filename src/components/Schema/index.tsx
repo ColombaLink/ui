@@ -86,7 +86,9 @@ export const SchemaEditor = () => {
   }
 
   if (types.length > 0) {
-    types.map((v) => (menuItems[v.type] = v.type))
+    types.map(
+      (v, i) => (menuItems[v.type] = schema.schema.types[v.type]?.meta?.name)
+    )
   }
 
   return (
@@ -103,7 +105,7 @@ export const SchemaEditor = () => {
         >
           <div>
             <Text weight={600} size={18} wrap>
-              {name}{' '}
+              {menuItems[name]}
               <More
                 style={{
                   display:
@@ -144,7 +146,7 @@ export const SchemaEditor = () => {
         )}
       </div>
 
-      {types.length < 1 && <Landing />}
+      {name === '' && <Landing />}
 
       {types.length > 0 && <SchemaRightSidebar />}
     </div>

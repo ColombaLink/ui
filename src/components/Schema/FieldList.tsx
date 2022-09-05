@@ -16,8 +16,6 @@ export const FieldList = ({
   const systemFieldNames = ['id', 'type', 'children', 'parents']
   const allwaysIgnoreFields = ['descendants', 'ancestors', 'aliases']
 
-  console.log(listItemsFields)
-
   let nameFields = Object.keys(listItemsFields[0].fields)
 
   const badgeTypesNames = Object.values(listItemsFields[0].fields).map(
