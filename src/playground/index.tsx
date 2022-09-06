@@ -62,6 +62,7 @@ const App = () => {
           Advanced: {
             Auth: '?story=auth',
             Schema: '?story=schema',
+            ContentEditor: '?story=content-editor',
           },
           Input: {
             Buttons: '?story=buttons',
