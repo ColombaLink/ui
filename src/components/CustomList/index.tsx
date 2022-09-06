@@ -1,4 +1,11 @@
-import React, { CSSProperties, FC, useRef, useState, Ref } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  useRef,
+  useState,
+  Ref,
+  useEffect,
+} from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 import { Space } from '~/types'
@@ -37,6 +44,14 @@ export const CustomList: FC<CustomListProps> = ({
 }) => {
   const [data, setData] = useState(items)
   const [fieldState, setFieldState] = useState(fieldData)
+
+  console.log('data --->', data)
+  console.log('fieldState', fieldState)
+
+  useEffect(() => {
+    setFieldState(fieldData)
+    setData(items)
+  }, [schema])
 
   const listRef = useRef<any>()
 
