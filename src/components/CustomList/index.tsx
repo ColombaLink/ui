@@ -16,8 +16,10 @@ type CustomListProps = {
   style?: CSSProperties
   autoScrollDistance?: number
   maxItemWidth?: number
-  onDelete?: (index: number) => void
-  onDuplicate?: (index: number) => void
+  client?: any
+  schema?: any
+  db?: any
+  name?: string
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -27,11 +29,15 @@ export const CustomList: FC<CustomListProps> = ({
   itemSize = 56 + +itemSpace,
   autoScrollDistance = 64,
   maxItemWidth,
-  onDelete,
-  onDuplicate,
+  client,
+  schema,
+  db,
+  name,
   style,
 }) => {
   const [data, setData] = useState(items)
+
+  console.log('DATA from CustomList', data)
 
   const listRef = useRef<any>()
 
@@ -43,15 +49,14 @@ export const CustomList: FC<CustomListProps> = ({
     },
   })
 
-  const More = styled(MoreIcon, {
-    marginRight: 16,
-    marginLeft: 'auto',
-    cursor: 'pointer',
-    opacity: 0.6,
-    '&:hover': {
-      opacity: 1,
-    },
-  })
+  schema = schema.schema
+  const fields = schema.types?.[name]?.fields
+
+  // console.log('items from custom list', items)
+  // console.log('client from custom list', client)
+  // console.log('schema from custom list', schema)
+  // console.log('db from custom list', db)
+  // console.log('name from custom list', name)
 
   const move = (arr: any[], from: number, to: number) => {
     arr.splice(to, 0, arr.splice(from, 1)[0])
@@ -98,13 +103,23 @@ export const CustomList: FC<CustomListProps> = ({
             itemCount={data.length}
             itemSize={itemSize}
             itemData={data}
+            // @ts-ignore
             onSortOrderChanged={({ originalIndex, newIndex }) => {
               move(data, originalIndex, newIndex)
               setData(data.slice(0))
-              console.log(data)
+              // de data van de lijst items nu ook in schema zetten
+              client
+                .updateSchema({
+                  schema: { types: { [name]: { fields } } },
+                  db,
+                })
+                .catch((e) => console.error('error updating schema', e))
 
-              //set de  upgedate data in de schema ??
-              //  client.updateSchema({})
+              // so this data in this component is in the right order
+
+              console.log('now console.log the data:', data)
+              // seems fine as well??
+              console.log("now console.log the schema's data:", fields)
             }}
             style={{ ...style }}
           >
@@ -138,16 +153,6 @@ export const CustomList: FC<CustomListProps> = ({
                       </DragDropper>
                     )}
                     {data[index]}
-                    {onDuplicate ||
-                      (onDelete && (
-                        <More
-                          onClick={useContextMenu(
-                            () => SimpleMenu(onDuplicate, onDelete),
-                            {},
-                            { placement: 'center' }
-                          )}
-                        />
-                      ))}
                   </ListItem>
                 </div>
               )
@@ -156,27 +161,5 @@ export const CustomList: FC<CustomListProps> = ({
         )
       }}
     </AutoSizer>
-  )
-}
-
-const SimpleMenu = (onDuplicate, onDelete) => {
-  return (
-    <>
-      {onDuplicate && (
-        <ContextItem
-          icon={DuplicateIcon}
-          onClick={() => {
-            console.log('hello')
-          }}
-        >
-          Duplicate
-        </ContextItem>
-      )}
-      {onDelete && (
-        <ContextItem icon={DeleteIcon} onClick={onDelete}>
-          Delete
-        </ContextItem>
-      )}
-    </>
   )
 }

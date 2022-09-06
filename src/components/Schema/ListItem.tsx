@@ -86,7 +86,7 @@ export const ListItem = ({
       style={{
         display: 'flex',
         alignItems: 'center',
-        opacity: systemFields.includes(fieldName) ? 0.5 : 1,
+        opacity: systemFields?.includes(fieldName) ? 0.5 : 1,
       }}
     >
       <Thumbnail

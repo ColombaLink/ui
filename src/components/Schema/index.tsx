@@ -50,13 +50,22 @@ export const SchemaEditor = () => {
   const menuItems = {}
   const types = []
 
+  const allwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
+
   let listItemsFields = []
+
+  // useEffect(() => {
+  //   console.log('shit changed yo from INDEX')
+  //   //  reset listItemsFields
+
+  //   console.log('List Item fields', listItemsFields[0]?.fields)
+  // }, [schema])
+
+  let id = ''
 
   if (schema.schema.types?.[name]) {
     listItemsFields.push(schema.schema.types?.[name])
   }
-
-  let id = ''
 
   if (schema.schema.types) {
     for (const type in schema.schema.types) {
@@ -90,6 +99,41 @@ export const SchemaEditor = () => {
       (v, i) => (menuItems[v.type] = schema.schema.types[v.type]?.meta?.name)
     )
   }
+
+  // sort list items fields
+  const fieldData: [string, any][] = []
+
+  // allwaysIgnore, systemFields
+  for (const f in listItemsFields[0]?.fields) {
+    if (allwaysIgnore.has(f)) {
+      continue
+    }
+
+    // if (!system && systemFields.has(f)) {
+    //   continue;
+    // }
+
+    fieldData.push([f, listItemsFields[0]?.fields[f]])
+  }
+
+  fieldData.sort((a, b) => {
+    if (a[1].meta?.index === undefined) {
+      return 1
+    }
+
+    if (b[1].meta?.index === undefined) {
+      return -1
+    }
+
+    if (a[1].meta.index === b[1].meta.index) {
+      return 0
+    }
+
+    return a[1].meta.index < b[1].meta.index ? -1 : 1
+  })
+
+  // console.log('Sorted field data', fieldData)
+  // console.log('list ITEMS IFELAD', listItemsFields)
 
   return (
     <div style={{ display: 'flex' }}>
@@ -137,7 +181,8 @@ export const SchemaEditor = () => {
 
         {listItemsFields?.length > 0 && (
           <FieldList
-            listItemsFields={listItemsFields}
+            // listItemsFields={listItemsFields}
+            listItemsFields={fieldData}
             maxItemWidth={600}
             schema={schema}
             client={client}

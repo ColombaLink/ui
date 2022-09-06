@@ -13,27 +13,35 @@ export const FieldList = ({
   const [testFields, setTestFields] = useState([])
   const [showSystemFields, setShowSystemFields] = useState(false)
 
+  //if the schema changes, update the testFields
+  // useEffect(() => {
+  //   console.log('Fire FIRE => the schema changed')
+
+  //   console.log('testFields', testFields)
+  // }, [listItemsFields])
+
+  console.log('listItemsFields', listItemsFields)
+
   const systemFieldNames = ['id', 'type', 'children', 'parents']
-  const allwaysIgnoreFields = ['descendants', 'ancestors', 'aliases']
+  // const allwaysIgnoreFields = ['descendants', 'ancestors', 'aliases']
 
-  let nameFields = Object.keys(listItemsFields[0].fields)
+  let nameFields = listItemsFields.map((v) => v[0])
+  const badgeTypesNames = listItemsFields.map((v) => v[1]?.type)
+  const fieldMetaIndexes = listItemsFields.map((v) => v[1]?.meta.index)
 
-  const badgeTypesNames = Object.values(listItemsFields[0].fields).map(
-    (value) => value['type']
-  )
+  console.log('nameFields', nameFields)
+  console.log('badgeTypesNames', badgeTypesNames)
+  console.log('fieldMetaIndexes', fieldMetaIndexes)
 
-  let systemFieldNamesArr = Object.keys(listItemsFields[0].fields).filter(
-    (item) => systemFieldNames.indexOf(item) !== -1
-  )
+  let systemFieldNamesArr = listItemsFields
+    .map((v) => v[0])
+    .filter((item) => systemFieldNames.indexOf(item) !== -1)
 
   //  reset testFields
   testFields.splice(0, testFields.length)
 
   for (let i = 0; i < nameFields.length; i++) {
-    if (
-      !systemFieldNamesArr.includes(nameFields[i]) &&
-      !allwaysIgnoreFields.includes(nameFields[i])
-    ) {
+    if (!systemFieldNamesArr.includes(nameFields[i])) {
       testFields?.push(
         <ListItem
           fieldName={nameFields[i]}
@@ -88,9 +96,13 @@ export const FieldList = ({
         itemSpace={12}
         draggable
         maxItemWidth={maxItemWidth}
+        // pass client, db and schema
+        client={client}
+        schema={schema}
+        db={'default'}
+        name={name}
 
-        // on reorder
-        //  setTestFields(updatedItems)
+        // Als de schema data changed update de testfields en de list dus...
       />
     </div>
   )
