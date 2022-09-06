@@ -26,6 +26,7 @@ export const SchemaRightSidebar = () => {
       </Text>
       <Separator />
       <Button
+        textAlign="center"
         space="24px"
         icon={AddIcon}
         style={{ width: '100%' }}

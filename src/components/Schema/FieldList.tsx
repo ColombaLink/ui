@@ -46,6 +46,7 @@ export const FieldList = ({
         <ListItem
           fieldName={nameFields[i]}
           badgeName={badgeTypesNames[i]}
+          metaIdx={fieldMetaIndexes[i]}
           systemFields={systemFieldNames}
           onDelete
           schema={schema}
@@ -63,6 +64,7 @@ export const FieldList = ({
           <ListItem
             fieldName={nameFields[i]}
             badgeName={badgeTypesNames[i]}
+            metaIdx={fieldMetaIndexes[i]}
             systemFields={systemFieldNames}
             onDelete
             schema={schema}
@@ -73,6 +75,8 @@ export const FieldList = ({
       }
     }
   }
+
+  console.log('THE TEST FIELDS', testFields)
 
   return (
     <div

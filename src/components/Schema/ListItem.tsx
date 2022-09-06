@@ -38,6 +38,7 @@ export const ListItem = ({
   badgeName,
   systemFields,
   onDelete,
+  metaIdx,
 }) => {
   const iconColorMap = {
     text: [TextIcon, 'lightpurple'],
@@ -105,6 +106,7 @@ export const ListItem = ({
       >
         {badgeName}
       </Badge>
+      <Text style={{ color: 'red', marginLeft: 8 }}>{metaIdx}</Text>
 
       <Button style={{ position: 'absolute', right: 40 }} ghost>
         Settings

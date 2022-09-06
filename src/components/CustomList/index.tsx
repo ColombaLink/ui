@@ -3,10 +3,8 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { SortableFixedSizeList, ChildrenProps } from 'react-window-sortable'
 import { Space } from '~/types'
 import { styled } from 'inlines'
-import { DragDropIcon, MoreIcon, DuplicateIcon, DeleteIcon } from '~/icons'
+import { DragDropIcon } from '~/icons'
 import { ListItem } from './ListItem'
-import { useContextMenu } from '~/hooks'
-import { ContextItem } from '~'
 
 type CustomListProps = {
   items?: any[]
@@ -51,6 +49,8 @@ export const CustomList: FC<CustomListProps> = ({
 
   schema = schema.schema
   const fields = schema.types?.[name]?.fields
+
+  console.log('These damn fields', fields)
 
   // console.log('items from custom list', items)
   // console.log('client from custom list', client)
@@ -119,7 +119,7 @@ export const CustomList: FC<CustomListProps> = ({
 
               console.log('now console.log the data:', data)
               // seems fine as well??
-              console.log("now console.log the schema's data:", fields)
+              console.log("now console.log the schema's fields:", fields)
             }}
             style={{ ...style }}
           >
