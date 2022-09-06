@@ -11,7 +11,7 @@ export const FieldList = ({
   name,
 }) => {
   const [testFields, setTestFields] = useState([])
-  const [showSystemFields, setShowSystemFields] = useState(false)
+  // const [showSystemFields, setShowSystemFields] = useState(false)
 
   const systemFieldNames = ['id', 'type', 'children', 'parents']
 
@@ -64,11 +64,12 @@ export const FieldList = ({
       <ListItem
         fieldName={nameFields[i]}
         badgeName={badgeTypesNames[i]}
-        systemFields={systemFieldNames}
+        // systemFields={systemFieldNames}
         onDelete
         schema={schema}
         client={client}
         name={name}
+        isSystemField={systemFieldNamesArr.includes(nameFields[i])}
       />
     )
   }
@@ -80,21 +81,12 @@ export const FieldList = ({
         height: '100%',
       }}
     >
-      <div style={{ width: maxItemWidth || '100%', margin: '0 auto' }}>
-        <Checkbox
-          space="16px"
-          description="Show system fields"
-          onChange={(v) => {
-            setShowSystemFields(v)
-          }}
-        />
-      </div>
-
       <CustomList
         items={testFields}
         itemSpace={12}
         draggable
         maxItemWidth={maxItemWidth}
+        //  showSystemFields={showSystemFields}
         // pass client, db and schema
         client={client}
         schema={schema}

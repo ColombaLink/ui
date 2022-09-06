@@ -12,6 +12,7 @@ import { Space } from '~/types'
 import { styled } from 'inlines'
 import { DragDropIcon } from '~/icons'
 import { ListItem } from './ListItem'
+import { Checkbox } from '../Checkbox'
 
 type CustomListProps = {
   items?: any[]
@@ -26,6 +27,7 @@ type CustomListProps = {
   db?: any
   name?: string
   fieldData?: any
+  showSystemFields?: boolean
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -45,6 +47,9 @@ export const CustomList: FC<CustomListProps> = ({
   const [data, setData] = useState(items)
   const [fieldState, setFieldState] = useState(fieldData)
 
+  const [showSystemFields, setShowSystemFields] = useState(false)
+  const systemFieldNames = ['id', 'type', 'children', 'parents']
+
   console.log('data --->', data)
   console.log('fieldState', fieldState)
 
@@ -52,6 +57,20 @@ export const CustomList: FC<CustomListProps> = ({
     setFieldState(fieldData)
     setData(items)
   }, [schema])
+
+  useEffect(() => {
+    if (!showSystemFields) {
+      setData(
+        items.filter((item) => !systemFieldNames.includes(item.props.fieldName))
+      )
+      setFieldState(
+        fieldData.filter((item) => !systemFieldNames.includes(item[0]))
+      )
+    } else if (showSystemFields) {
+      setData(items)
+      setFieldState(fieldData)
+    }
+  }, [showSystemFields, schema])
 
   const listRef = useRef<any>()
 
@@ -97,74 +116,86 @@ export const CustomList: FC<CustomListProps> = ({
   }
 
   return (
-    <AutoSizer>
-      {({ height, width }) => {
-        return (
-          <SortableFixedSizeList
-            autoScrollWhenDistanceLessThan={autoScrollDistance}
-            ref={listRef}
-            height={height}
-            width={width}
-            itemCount={data.length}
-            itemSize={itemSize}
-            itemData={data}
-            // @ts-ignore
-            onSortOrderChanged={({ originalIndex, newIndex }) => {
-              move(data, originalIndex, newIndex)
-              move(fieldState, originalIndex, newIndex)
-              setData(data.slice(0))
-              setFieldState(fieldData.slice(0))
+    <>
+      <div style={{ width: maxItemWidth || '100%', margin: '0 auto' }}>
+        <Checkbox
+          space="16px"
+          description="Show system fields"
+          onChange={(v) => {
+            setShowSystemFields(v)
+          }}
+        />
+      </div>
+      <AutoSizer>
+        {({ height, width }) => {
+          return (
+            <SortableFixedSizeList
+              autoScrollWhenDistanceLessThan={autoScrollDistance}
+              ref={listRef}
+              height={height}
+              width={width}
+              itemCount={data.length}
+              itemSize={itemSize}
+              itemData={data}
+              // @ts-ignore
+              onSortOrderChanged={({ originalIndex, newIndex }) => {
+                move(data, originalIndex, newIndex)
+                move(fieldState, originalIndex, newIndex)
 
-              for (let i = 0; i < fieldState.length; i++) {
-                fieldState[i][1].meta.index = i
-              }
-              const fieldStateObject = Object.fromEntries(fieldState)
+                setData(data.slice(0))
+                setFieldState(fieldData.slice(0))
 
-              client
-                .updateSchema({
-                  schema: { types: { [name]: { fields: fieldStateObject } } },
-                  db,
-                })
-                .catch((e) => console.error('error updating schema', e))
-            }}
-            style={style}
-          >
-            {React.forwardRef(
-              (
-                { data, index, style, onSortMouseDown }: ChildrenProps,
-                ref: Ref<any>
-              ) => (
-                <div ref={ref}>
-                  <ListItem
-                    style={{
-                      paddingLeft: draggable ? 0 : 16,
-                      maxWidth: maxItemWidth || '100%',
-                      transform: maxItemWidth ? 'translateX(-50%)' : 'none',
-                      ...style,
-                      left: maxItemWidth ? '50%' : 0,
-                    }}
-                    itemSize={itemSize}
-                    space={itemSpace}
-                  >
-                    {draggable && (
-                      <DragDropper
-                        onMouseDown={(e) => {
-                          onSortMouseDown(e)
-                          addDivToCursor(e)
-                        }}
-                        style={{ marginLeft: 16, marginRight: 16 }}
-                      >
-                        <DragDropIcon style={{ pointerEvents: 'none' }} />
-                      </DragDropper>
-                    )}
-                    {data[index]}
-                  </ListItem>
-                </div>
-              )
-            )}
-          </SortableFixedSizeList>
-        )
-      }}
-    </AutoSizer>
+                for (let i = 0; i < fieldState.length; i++) {
+                  fieldState[i][1].meta.index = i
+                }
+                const fieldStateObject = Object.fromEntries(fieldState)
+
+                client
+                  .updateSchema({
+                    schema: { types: { [name]: { fields: fieldStateObject } } },
+                    db,
+                  })
+                  .catch((e) => console.error('error updating schema', e))
+              }}
+              style={style}
+            >
+              {React.forwardRef(
+                (
+                  { data, index, style, onSortMouseDown }: ChildrenProps,
+                  ref: Ref<any>
+                ) => (
+                  <div ref={ref}>
+                    <ListItem
+                      style={{
+                        paddingLeft: draggable ? 0 : 16,
+                        maxWidth: maxItemWidth || '100%',
+                        transform: maxItemWidth ? 'translateX(-50%)' : 'none',
+                        ...style,
+                        left: maxItemWidth ? '50%' : 0,
+                      }}
+                      itemSize={itemSize}
+                      space={itemSpace}
+                    >
+                      {draggable && (
+                        <DragDropper
+                          onMouseDown={(e) => {
+                            onSortMouseDown(e)
+                            addDivToCursor(e)
+                          }}
+                          style={{ marginLeft: 16, marginRight: 16 }}
+                        >
+                          <DragDropIcon style={{ pointerEvents: 'none' }} />
+                        </DragDropper>
+                      )}
+                      {data[index]}
+                    </ListItem>
+                  </div>
+                )
+              )}
+            </SortableFixedSizeList>
+          )
+        }}
+      </AutoSizer>
+    </>
   )
 }
