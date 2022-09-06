@@ -25,6 +25,7 @@ import {
   color,
   Button,
   DeleteIcon,
+  BasedIcon,
 } from '~'
 import { styled } from 'inlines'
 import { useContextMenu } from '~/hooks'
@@ -48,17 +49,18 @@ export const ListItem = ({
     type: [LayersIcon, 'lightred'],
     markdown: [MarkDownIcon, 'lightyellow'],
     richtext: [EditIcon, 'lightred'],
-    options: [],
+    options: [BasedIcon, 'accent'],
+    reference: [ReferenceIcon, 'lightteal'],
     references: [ReferenceIcon, 'lightteal'],
     file: [AttachmentIcon, 'lightred'],
     json: [CurlyBracesIcon, 'lightred'],
     object: [ModelIcon, 'lightred'],
     geo: [GeoMarkerIcon, 'lightred'],
-    map: [],
+    map: [BasedIcon, 'accent'],
     number: [TwentyThreeIcon, 'lightaccent'],
     array: [ListIcon, 'lightred'],
     integer: [TwentyThreeIcon, 'accent'],
-    float: [PercentageIcon, ''],
+    float: [PercentageIcon, 'accent'],
     boolean: [ToggleIcon, 'lightaccent'],
     string: [TextIcon, 'lightpurple'],
     set: [ListIcon, 'lightred'],
@@ -91,9 +93,9 @@ export const ListItem = ({
       }}
     >
       <Thumbnail
-        icon={badgeName && iconColorMap[`${badgeName}`][0]}
+        icon={badgeName ? iconColorMap[`${badgeName}`][0] : ''}
         // @ts-ignore
-        color={badgeName && iconColorMap[`${badgeName}`][1]}
+        color={badgeName ? iconColorMap[`${badgeName}`][1] : ''}
         size={32}
       />
       <Text style={{ marginLeft: 16 }} weight={600}>
