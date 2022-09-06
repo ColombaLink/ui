@@ -90,9 +90,9 @@ export const ListItem = ({
       }}
     >
       <Thumbnail
-        icon={iconColorMap[`${badgeName}`][0]}
+        icon={badgeName && iconColorMap[`${badgeName}`][0]}
         // @ts-ignore
-        color={iconColorMap[`${badgeName}`][1]}
+        color={badgeName && iconColorMap[`${badgeName}`][1]}
         size={32}
       />
       <Text style={{ marginLeft: 16 }} weight={600}>

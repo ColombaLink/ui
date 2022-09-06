@@ -13,7 +13,7 @@ export const FieldList = ({
   const [testFields, setTestFields] = useState([])
   const [showSystemFields, setShowSystemFields] = useState(false)
 
-  console.log('listItemsFields', listItemsFields)
+  // console.log('listItemsFields', listItemsFields)
 
   const systemFieldNames = ['id', 'type', 'children', 'parents']
   // const allwaysIgnoreFields = ['descendants', 'ancestors', 'aliases']
@@ -21,8 +21,8 @@ export const FieldList = ({
   let nameFields = listItemsFields.map((v) => v[0])
   const badgeTypesNames = listItemsFields.map((v) => v[1]?.type)
 
-  console.log('nameFields', nameFields)
-  console.log('badgeTypesNames', badgeTypesNames)
+  // console.log('nameFields', nameFields)
+  // console.log('badgeTypesNames', badgeTypesNames)
 
   let systemFieldNamesArr = listItemsFields
     .map((v) => v[0])
@@ -65,8 +65,6 @@ export const FieldList = ({
     }
   }
 
-  console.log('THE TEST FIELDS', testFields)
-
   return (
     <div
       style={{
@@ -94,6 +92,7 @@ export const FieldList = ({
         schema={schema}
         db={'default'}
         name={name}
+        fieldData={listItemsFields}
 
         // Als de schema data changed update de testfields en de list dus...
       />

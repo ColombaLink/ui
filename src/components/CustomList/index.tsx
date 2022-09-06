@@ -18,6 +18,7 @@ type CustomListProps = {
   schema?: any
   db?: any
   name?: string
+  fieldData?: any
 }
 
 export const CustomList: FC<CustomListProps> = ({
@@ -31,6 +32,7 @@ export const CustomList: FC<CustomListProps> = ({
   schema,
   db,
   name,
+  fieldData,
   style,
 }) => {
   const [data, setData] = useState(items)
@@ -47,16 +49,7 @@ export const CustomList: FC<CustomListProps> = ({
     },
   })
 
-  schema = schema.schema
-  const fields = schema.types?.[name]?.fields
-
-  console.log('FIELDS', fields)
-
-  // console.log('items from custom list', items)
-  // console.log('client from custom list', client)
-  // console.log('schema from custom list', schema)
-  // console.log('db from custom list', db)
-  // console.log('name from custom list', name)
+  console.log('FIELDDATA', fieldData)
 
   // use the meta indexes ??
   const move = (arr: any[], from: number, to: number) => {
@@ -114,11 +107,10 @@ export const CustomList: FC<CustomListProps> = ({
               setData(data.slice(0))
 
               console.log('after order cahnge', data)
-              console.log('the fields on order change', fields)
 
               client
                 .updateSchema({
-                  schema: { types: { [name]: { fields } } },
+                  schema: { types: { [name]: { fieldData } } },
                   db,
                 })
                 .catch((e) => console.error('error updating schema', e))
