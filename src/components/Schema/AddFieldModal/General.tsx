@@ -3,6 +3,7 @@ import { Dialog, Thumbnail, Text, useObjectState, Tabs, Tab, Checkbox } from '~'
 import { FieldInfo } from './FieldInfo'
 import { FieldOptionsState } from './types'
 import addToSchema from './addToSchema'
+import { removeAllOverlays } from '../../Overlay'
 
 import { useSchema, useClient, useData } from '@based/react'
 
@@ -70,6 +71,7 @@ export const AddFieldModalGeneral = ({ type, fieldData }) => {
                 client,
                 field
               )
+              removeAllOverlays()
             } catch (e: any) {
               // toast.add(
               //   <Toast type="error" title={e.message}>

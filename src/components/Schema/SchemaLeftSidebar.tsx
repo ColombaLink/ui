@@ -9,12 +9,23 @@ type SchemaLeftSidebarProps = {
 
 export const SchemaLeftSidebar = ({ style, data }: SchemaLeftSidebarProps) => {
   const dialog = useDialog()
-  //   const { data } = useData()
+
+  // Invert keys and values of an object
+  const invert = (obj) =>
+    Object.keys(obj).reduce((res, k) => Object.assign(res, { [obj[k]]: k }), {})
+
+  for (const [key, value] of Object.entries(data)) {
+    if (value == undefined) {
+      data[key] = key
+    }
+  }
+
+  const menuData = invert(data)
 
   return (
     <Menu
       style={{ paddingTop: 32, minWidth: 234, ...style }}
-      data={data}
+      data={menuData}
       header={
         <div
           style={{

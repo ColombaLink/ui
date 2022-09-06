@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from 'react'
-import { removeOverlay } from '~/components/Overlay'
+import { removeAllOverlays, removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
 import { useLocation } from '~/hooks/useLocation'
 
@@ -23,7 +23,7 @@ export const useTooltip = (
   const location = useLocation()
 
   useEffect(() => {
-    removeOverlay()
+    removeAllOverlays()
   }, [location])
 
   return {

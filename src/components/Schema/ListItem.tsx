@@ -21,11 +21,25 @@ import {
   ModelIcon,
   ListIcon,
   LockIcon,
+  MoreIcon,
   color,
   Button,
+  DeleteIcon,
 } from '~'
+import { styled } from 'inlines'
+import { useContextMenu } from '~/hooks'
+import { ContextItem } from '~'
 
-export const ListItem = ({ name, badgeName, systemFields }) => {
+export const ListItem = ({
+  name,
+  fieldName,
+  schema,
+  client,
+  badgeName,
+
+  onDelete,
+  isSystemField,
+}) => {
   const iconColorMap = {
     text: [TextIcon, 'lightpurple'],
     url: [ExternalLinkIcon, 'lightgreen'],
@@ -56,28 +70,82 @@ export const ListItem = ({ name, badgeName, systemFields }) => {
     digest: [LockIcon, 'lightpurple'],
   }
 
+  const More = styled(MoreIcon, {
+    marginRight: 16,
+    marginLeft: 'auto',
+    cursor: 'pointer',
+    opacity: 0.6,
+    '&:hover': {
+      opacity: 1,
+    },
+    position: 'absolute',
+    right: 0,
+  })
+
   return (
     <div
       style={{
         display: 'flex',
         alignItems: 'center',
-        opacity: systemFields.includes(name) ? 0.5 : 1,
+        opacity: isSystemField ? 0.5 : 1,
       }}
     >
       <Thumbnail
-        icon={iconColorMap[`${badgeName}`][0]}
+        icon={badgeName && iconColorMap[`${badgeName}`][0]}
         // @ts-ignore
-        color={iconColorMap[`${badgeName}`][1]}
+        color={badgeName && iconColorMap[`${badgeName}`][1]}
         size={32}
       />
       <Text style={{ marginLeft: 16 }} weight={600}>
-        {name[0].toUpperCase() + name.substring(1)}
+        {fieldName[0].toUpperCase() + fieldName.substring(1)}
       </Text>
-      <Badge style={{ marginLeft: 16 }}>{badgeName}</Badge>
+      <Badge
+        style={{ marginLeft: 16, color: color('text2') }}
+        outline
+        color="border"
+      >
+        {badgeName}
+      </Badge>
 
       <Button style={{ position: 'absolute', right: 40 }} ghost>
         Settings
       </Button>
+
+      <More
+        onClick={useContextMenu(
+          () => SimpleMenu(onDelete, schema, client, fieldName, name),
+          {},
+          { placement: 'center' }
+        )}
+      />
     </div>
+  )
+}
+
+const SimpleMenu = (onDelete, schema, client, fieldName, name) => {
+  return (
+    <>
+      {onDelete && (
+        <ContextItem
+          icon={DeleteIcon}
+          onClick={async (e) => {
+            // console.log('schema.schema', schema.schema)
+            // console.log('ok envClient', client)
+            // console.log('name ->', name)
+            // console.log('FieldName??? ->', fieldName)
+
+            if (
+              await confirm(
+                `Are you sure you want to remove the field ${fieldName} from ${name}?`
+              )
+            ) {
+              await client.removeField(name, fieldName)
+            }
+          }}
+        >
+          Delete
+        </ContextItem>
+      )}
+    </>
   )
 }
