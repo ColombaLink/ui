@@ -13,13 +13,6 @@ export const FieldList = ({
   const [testFields, setTestFields] = useState([])
   const [showSystemFields, setShowSystemFields] = useState(false)
 
-  //if the schema changes, update the testFields
-  // useEffect(() => {
-  //   console.log('Fire FIRE => the schema changed')
-
-  //   console.log('testFields', testFields)
-  // }, [listItemsFields])
-
   console.log('listItemsFields', listItemsFields)
 
   const systemFieldNames = ['id', 'type', 'children', 'parents']
@@ -27,11 +20,9 @@ export const FieldList = ({
 
   let nameFields = listItemsFields.map((v) => v[0])
   const badgeTypesNames = listItemsFields.map((v) => v[1]?.type)
-  const fieldMetaIndexes = listItemsFields.map((v) => v[1]?.meta.index)
 
   console.log('nameFields', nameFields)
   console.log('badgeTypesNames', badgeTypesNames)
-  console.log('fieldMetaIndexes', fieldMetaIndexes)
 
   let systemFieldNamesArr = listItemsFields
     .map((v) => v[0])
@@ -46,7 +37,6 @@ export const FieldList = ({
         <ListItem
           fieldName={nameFields[i]}
           badgeName={badgeTypesNames[i]}
-          metaIdx={fieldMetaIndexes[i]}
           systemFields={systemFieldNames}
           onDelete
           schema={schema}
@@ -64,7 +54,6 @@ export const FieldList = ({
           <ListItem
             fieldName={nameFields[i]}
             badgeName={badgeTypesNames[i]}
-            metaIdx={fieldMetaIndexes[i]}
             systemFields={systemFieldNames}
             onDelete
             schema={schema}

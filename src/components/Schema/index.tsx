@@ -54,13 +54,6 @@ export const SchemaEditor = () => {
 
   let listItemsFields = []
 
-  // useEffect(() => {
-  //   console.log('shit changed yo from INDEX')
-  //   //  reset listItemsFields
-
-  //   console.log('List Item fields', listItemsFields[0]?.fields)
-  // }, [schema])
-
   let id = ''
 
   if (schema.schema.types?.[name]) {

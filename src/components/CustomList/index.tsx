@@ -50,7 +50,7 @@ export const CustomList: FC<CustomListProps> = ({
   schema = schema.schema
   const fields = schema.types?.[name]?.fields
 
-  console.log('These damn fields', fields)
+  console.log('FIELDS', fields)
 
   // console.log('items from custom list', items)
   // console.log('client from custom list', client)
@@ -58,7 +58,11 @@ export const CustomList: FC<CustomListProps> = ({
   // console.log('db from custom list', db)
   // console.log('name from custom list', name)
 
+  // use the meta indexes ??
   const move = (arr: any[], from: number, to: number) => {
+    console.log('from from', from)
+    console.log('to to', to)
+
     arr.splice(to, 0, arr.splice(from, 1)[0])
   }
 
@@ -106,20 +110,18 @@ export const CustomList: FC<CustomListProps> = ({
             // @ts-ignore
             onSortOrderChanged={({ originalIndex, newIndex }) => {
               move(data, originalIndex, newIndex)
+
               setData(data.slice(0))
-              // de data van de lijst items nu ook in schema zetten
+
+              console.log('after order cahnge', data)
+              console.log('the fields on order change', fields)
+
               client
                 .updateSchema({
                   schema: { types: { [name]: { fields } } },
                   db,
                 })
                 .catch((e) => console.error('error updating schema', e))
-
-              // so this data in this component is in the right order
-
-              console.log('now console.log the data:', data)
-              // seems fine as well??
-              console.log("now console.log the schema's fields:", fields)
             }}
             style={{ ...style }}
           >
