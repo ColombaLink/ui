@@ -36,6 +36,8 @@ export const CustomList: FC<CustomListProps> = ({
   style,
 }) => {
   const [data, setData] = useState(items)
+  const [fieldState, setFieldState] = useState(fieldData)
+  // const [fieldStateObject, setFieldStateObject] = useState({})
 
   console.log('DATA from CustomList', data)
 
@@ -49,7 +51,7 @@ export const CustomList: FC<CustomListProps> = ({
     },
   })
 
-  console.log('FIELDDATA', fieldData)
+  console.log('FIELDDATA', fieldState)
 
   // use the meta indexes ??
   const move = (arr: any[], from: number, to: number) => {
@@ -57,6 +59,9 @@ export const CustomList: FC<CustomListProps> = ({
     console.log('to to', to)
 
     arr.splice(to, 0, arr.splice(from, 1)[0])
+    fieldState.splice(to, 0, fieldState.splice(from, 1)[0])
+
+    setFieldState(fieldData.slice(0))
   }
 
   // copy tempDiv to indicate dragging element
@@ -103,19 +108,25 @@ export const CustomList: FC<CustomListProps> = ({
             // @ts-ignore
             onSortOrderChanged={({ originalIndex, newIndex }) => {
               move(data, originalIndex, newIndex)
-
               setData(data.slice(0))
 
               console.log('after order cahnge', data)
 
+              for (let i = 0; i < fieldState.length; i++) {
+                fieldState[i][1].meta.index = i
+              }
+
+              const fieldStateObject = Object.fromEntries(fieldState)
+              console.log('hjbhb', fieldStateObject)
+
               client
                 .updateSchema({
-                  schema: { types: { [name]: { fieldData } } },
+                  schema: { types: { [name]: { fields: fieldStateObject } } },
                   db,
                 })
                 .catch((e) => console.error('error updating schema', e))
             }}
-            style={{ ...style }}
+            style={style}
           >
             {React.forwardRef(
               (
