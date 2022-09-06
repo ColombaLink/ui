@@ -125,9 +125,6 @@ export const SchemaEditor = () => {
     return a[1].meta.index < b[1].meta.index ? -1 : 1
   })
 
-  // console.log('Sorted field data', fieldData)
-  // console.log('list ITEMS IFELAD', listItemsFields)
-
   return (
     <div style={{ display: 'flex' }}>
       <SchemaLeftSidebar data={menuItems} />
@@ -174,7 +171,6 @@ export const SchemaEditor = () => {
 
         {listItemsFields?.length > 0 && (
           <FieldList
-            // listItemsFields={listItemsFields}
             listItemsFields={fieldData}
             maxItemWidth={600}
             schema={schema}
