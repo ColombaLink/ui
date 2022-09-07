@@ -8,6 +8,6 @@ type TabProps = {
   icon?: ReactNode
 }
 
-export const Tab: FC<TabProps> = ({ children, style, label, icon }) => {
+export const Tab = ({ children, style, label, icon }: TabProps) => {
   return <div style={style}>{children}</div>
 }

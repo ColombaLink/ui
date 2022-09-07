@@ -21,6 +21,7 @@ type TabsProps = {
   large?: boolean
   activeTab?: number
   setActiveTab?: (index: number) => void
+  sameHeight?: boolean
 }
 
 const TabWrapper: FC<{
@@ -30,10 +31,12 @@ const TabWrapper: FC<{
   large: boolean
   setActiveTabInternal: Dispatch<SetStateAction<number>>
   setHoverTab: Dispatch<SetStateAction<number>>
+  sameHeight?: boolean
 }> = ({
   large,
   children,
   index,
+  sameHeight,
   activeTabState,
   setHoverTab,
   setActiveTabInternal,
@@ -85,6 +88,7 @@ export const Tabs: FC<TabsProps> = ({
   large,
   activeTab = 0,
   setActiveTab,
+  sameHeight,
   ...props
 }) => {
   const arrayChildren: Object[] = React.Children.toArray(children)
@@ -108,6 +112,10 @@ export const Tabs: FC<TabsProps> = ({
       setX(left - t.parentElement.getBoundingClientRect().left)
     }
   }, [activeTabState, hoverTab, elem, children])
+
+  // same height tabs options
+  const tabRef = useRef(null)
+  const tabRefHeight = tabRef.current?.clientHeight
 
   return (
     <>
@@ -138,6 +146,7 @@ export const Tabs: FC<TabsProps> = ({
               activeTabState={activeTabState}
               setHoverTab={setHoverTab}
               setActiveTabInternal={setActiveTabInternal}
+              sameHeight={sameHeight}
               // @ts-ignore
             >
               {child}
@@ -157,7 +166,13 @@ export const Tabs: FC<TabsProps> = ({
         ></div>
       </div>
 
-      <div style={{ flexGrow: 1, height: '100%' }}>
+      <div
+        ref={tabRef}
+        style={{
+          flexGrow: 1,
+          height: sameHeight ? tabRefHeight : '100%',
+        }}
+      >
         {typeof children !== 'string' && children
           ? children[activeTabState]
           : null}

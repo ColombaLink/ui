@@ -12,7 +12,7 @@ export const Schema = () => {
           borderRadius: 4,
         }}
       >
-        <SchemaEditor />
+        <SchemaEditor db={'default'} />
       </div>
     </div>
   )

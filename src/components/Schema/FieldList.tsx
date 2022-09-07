@@ -9,6 +9,7 @@ export const FieldList = ({
   schema,
   client,
   name,
+  db,
 }) => {
   const [testFields, setTestFields] = useState([])
   // const [showSystemFields, setShowSystemFields] = useState(false)
@@ -24,40 +25,6 @@ export const FieldList = ({
 
   //  reset testFields
   testFields.splice(0, testFields.length)
-
-  // for (let i = 0; i < nameFields.length; i++) {
-  //   if (!systemFieldNamesArr.includes(nameFields[i])) {
-  //     testFields?.push(
-  //       <ListItem
-  //         fieldName={nameFields[i]}
-  //         badgeName={badgeTypesNames[i]}
-  //         systemFields={systemFieldNames}
-  //         onDelete
-  //         schema={schema}
-  //         client={client}
-  //         name={name}
-  //       />
-  //     )
-  //   }
-  // }
-
-  // if (showSystemFields) {
-  //   for (let i = 0; i < nameFields.length; i++) {
-  //     if (systemFieldNamesArr.includes(nameFields[i])) {
-  //       testFields?.push(
-  //         <ListItem
-  //           fieldName={nameFields[i]}
-  //           badgeName={badgeTypesNames[i]}
-  //           systemFields={systemFieldNames}
-  //           onDelete
-  //           schema={schema}
-  //           client={client}
-  //           name={name}
-  //         />
-  //       )
-  //     }
-  //   }
-  // }
 
   for (let i = 0; i < nameFields.length; i++) {
     testFields?.push(
@@ -90,7 +57,7 @@ export const FieldList = ({
         // pass client, db and schema
         client={client}
         schema={schema}
-        db={'default'}
+        db={db}
         name={name}
         fieldData={listItemsFields}
       />

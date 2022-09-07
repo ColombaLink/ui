@@ -30,7 +30,11 @@ const More = styled(MoreIcon, {
   },
 })
 
-export const SchemaEditor = () => {
+type SchemaEditorProps = {
+  db?: string
+}
+
+export const SchemaEditor = ({ db }: SchemaEditorProps) => {
   const schema = useSchema()
   const data = useData()
   const client = useClient()
@@ -173,6 +177,7 @@ export const SchemaEditor = () => {
           <FieldList
             listItemsFields={fieldData}
             maxItemWidth={600}
+            db={db}
             schema={schema}
             client={client}
             name={name}

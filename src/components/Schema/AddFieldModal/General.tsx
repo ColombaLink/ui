@@ -4,6 +4,7 @@ import { FieldInfo } from './FieldInfo'
 import { FieldOptionsState } from './types'
 import addToSchema from './addToSchema'
 import { removeAllOverlays } from '../../Overlay'
+import { useToast, Toast } from '~'
 
 import { useSchema, useClient, useData } from '@based/react'
 
@@ -15,6 +16,8 @@ export const AddFieldModalGeneral = ({ type, fieldData }) => {
   const schema = useSchema()
   const client = useClient()
   const data = useData()
+
+  const toast = useToast()
 
   console.log('schema', schema)
 
@@ -39,11 +42,11 @@ export const AddFieldModalGeneral = ({ type, fieldData }) => {
 
       {/* @ts-ignore */}
       <div>
-        <Tabs space="20px">
+        <Tabs space="20px" sameHeight>
           <Tab label="General">
             <FieldInfo update={setOptions} options={options} />
           </Tab>
-          <Tab label="Settings" style={{ height: 'inherit' }}>
+          <Tab label="Settings">
             <Checkbox description="Make field required" />
           </Tab>
         </Tabs>
@@ -73,11 +76,13 @@ export const AddFieldModalGeneral = ({ type, fieldData }) => {
               )
               removeAllOverlays()
             } catch (e: any) {
-              // toast.add(
-              //   <Toast type="error" title={e.message}>
-              //     Try updating your settings
-              //   </Toast>
-              // )
+              toast.add(
+                <Toast
+                  type="error"
+                  label={e.message}
+                  description="Try updating your settings"
+                ></Toast>
+              )
               throw e
             }
           }}
