@@ -11,10 +11,15 @@ const boolean = {
   default: Toggle,
 }
 
+const timestamp = {
+  default: (props) => <Input {...props} type="number" />,
+}
+
 const components = {
   boolean,
   string,
   text: string,
+  timestamp,
 }
 
 const EditField = ({ id, meta, type, field, index, language, onChange }) => {
@@ -25,11 +30,7 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
 
   if (Component === undefined) {
     return (
-      <div
-        style={{
-          order: index,
-        }}
-      >
+      <div style={{ order: index }}>
         {label} Missing component for type: {type}
       </div>
     )
@@ -43,7 +44,7 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
       style={{ order: index, marginBottom: 24 }}
       onChange={(value) => {
         console.log(value)
-        // onChange({ $language: language, [field]: value })
+        onChange({ $language: language, [field]: value })
       }}
     />
   )

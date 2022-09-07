@@ -198,10 +198,11 @@ export const Input: FC<
   const onChange = (e) => {
     const newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
-    if (type === 'number' && typeof newValue !== 'number') return
-    // ignore so we have to write less code.. TODO: write more stuff for this
-    // @ts-ignore
-    onChangeProp?.(newValue)
+    if (type === 'number' && typeof newValue !== 'number') {
+      onChangeProp?.(Number(newValue))
+    } else {
+      onChangeProp?.(newValue)
+    }
   }
 
   const paddingLeft = ghost ? 0 : icon ? 36 : 12

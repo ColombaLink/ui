@@ -1,29 +1,29 @@
-import React, { CSSProperties, FC, useState } from 'react'
-import { Text } from '~'
+import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import { Text, usePropState } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'
 
 type ToggleProps = {
-  checked?: boolean
+  value?: boolean
   label?: string
   description?: string
   text?: string
   baseColor?: Color
   style: CSSProperties
+  onChange?: (value: boolean) => void
 }
 
 export const Toggle: FC<ToggleProps> = ({
-  checked,
+  value,
   label,
   description,
   text,
   baseColor = 'accent',
   style,
+  onChange,
   ...props
 }) => {
-  const [checkedState, setCheckedState] = useState(checked)
-
-  const activeColor = baseColor + ':active'
+  const [checked, setChecked] = usePropState(value)
 
   return (
     <div {...props} style={{ ...style }}>
@@ -38,10 +38,12 @@ export const Toggle: FC<ToggleProps> = ({
       >
         <styled.input
           onChange={() => {
-            setCheckedState(!checkedState)
+            const newChecked = !checked
+            setChecked(newChecked)
+            onChange?.(newChecked)
           }}
           type="checkbox"
-          checked={checkedState}
+          checked={checked}
           style={{
             display: 'flex',
             width: 32,
@@ -52,14 +54,9 @@ export const Toggle: FC<ToggleProps> = ({
             position: 'relative',
             cursor: 'pointer',
             border: border('1px', 'border'),
-            backgroundColor: checkedState
-              ? color(baseColor)
-              : color('lightbackdrop'),
+            backgroundColor: color(checked ? baseColor : 'lightbackdrop'),
             '&:hover': {
-              backgroundColor: checkedState
-                ? //@ts-ignore
-                  color(activeColor)
-                : color('lightbackdrop'),
+              backgroundColor: checked ? color(baseColor, 'active') : null,
             },
             '&:before': {
               content: '" "',
@@ -69,8 +66,8 @@ export const Toggle: FC<ToggleProps> = ({
               borderRadius: '8px',
               display: 'block',
               position: 'absolute',
-              left: !checkedState && '2px',
-              right: checkedState && '2px',
+              left: !checked && '2px',
+              right: checked && '2px',
             },
           }}
         ></styled.input>
