@@ -101,11 +101,7 @@ export const ListItem = ({
       <Text style={{ marginLeft: 16 }} weight={600}>
         {fieldName[0].toUpperCase() + fieldName.substring(1)}
       </Text>
-      <Badge
-        style={{ marginLeft: 16, color: color('text2') }}
-        outline
-        color="border"
-      >
+      <Badge style={{ marginLeft: 16, color: color('text2') }} color="border">
         {badgeName}
       </Badge>
 
