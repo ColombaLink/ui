@@ -24,7 +24,7 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
     'November',
     'December',
   ]
-  const currentDayOfWeek = days[dateObj.getDay()]
+
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
   const currentYear = dateObj.getFullYear()
@@ -32,6 +32,8 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
   const [selectedDay, setSelectedDay] = useState(currentDay)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
+
+  const [memorizedDay, setMemorizedDay] = useState()
 
   const [selectedDate, setSelectedDate] = useState(
     new Date(selectedYear, selectedMonth, selectedDay)
@@ -63,6 +65,18 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
     console.log('one month forward', selectedMonth)
   }
 
+  const areMemorizedDayAndSelectedDayEqual = (a, b) => {
+    if (a && b) {
+      if (
+        a['day'] === b['day'] &&
+        a['month'] === b['month'] &&
+        a['year'] === b['year']
+      ) {
+        return true
+      }
+    }
+  }
+
   // if selected month is - 1 , december en jaar terug,
   // if selected month is + 1, januari en jaar vooruit
 
@@ -79,6 +93,8 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
       setSelectedYear(selectedYear + 1)
     }
 
+    console.log('memorized day', memorizedDay)
+
     //empty tempArr
     tempArr.splice(0, tempArr.length)
 
@@ -86,7 +102,7 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
       //   console.log(
       //     days[new Date(selectedYear, selectedMonth, i).getDay()] + ' ' + i
       //   )
-      tempArr.push(i)
+      tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 
     // add some offset for the days layout
@@ -188,8 +204,9 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
           ) : (
             <div
               style={{
-                border:
-                  val === selectedDay ? `1px solid ${color('accent')}` : '',
+                border: areMemorizedDayAndSelectedDayEqual(val, memorizedDay)
+                  ? `1px solid ${color('accent')}`
+                  : '',
                 borderRadius: 4,
                 width: 26,
                 height: 26,
@@ -201,11 +218,12 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
               }}
               key={i}
               onClick={() => {
-                console.log(val)
-                setSelectedDay(val)
+                console.log('val', val)
+                setSelectedDay(val['day'])
+                setMemorizedDay(val)
               }}
             >
-              {val}
+              {val['day']}
             </div>
           )
         )}
