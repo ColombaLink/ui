@@ -10,6 +10,7 @@ export const TimeInput = ({}) => {
     if (time.length === 6) {
       setTime(time.slice(0, -1))
     }
+    console.log('TIJD', time)
   }, [time])
 
   const timeHandler = (e) => {
