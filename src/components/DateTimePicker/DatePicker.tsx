@@ -33,14 +33,15 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
 
-  const [memorizedDay, setMemorizedDay] = useState()
+  const [memorizedDay, setMemorizedDay] = useState({
+    day: currentDay,
+    month: currentMonth,
+    year: currentYear,
+  })
 
   const [selectedDate, setSelectedDate] = useState(
     new Date(selectedYear, selectedMonth, selectedDay)
   )
-
-  console.log('current day', currentDay)
-  console.log('selected day', selectedDay)
 
   const [daysArr, setDaysArr] = useState([])
 
@@ -53,16 +54,15 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
     setSelectedDay(currentDay)
     setSelectedMonth(currentMonth)
     setSelectedYear(currentYear)
+    setMemorizedDay({ day: currentDay, month: currentMonth, year: currentYear })
   }
 
   const oneMonthBack = () => {
     setSelectedMonth(selectedMonth - 1)
-    console.log('one month back', selectedMonth)
   }
 
   const oneMonthForward = () => {
     setSelectedMonth(selectedMonth + 1)
-    console.log('one month forward', selectedMonth)
   }
 
   const areMemorizedDayAndSelectedDayEqual = (a, b) => {
@@ -76,9 +76,6 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
       }
     }
   }
-
-  // if selected month is - 1 , december en jaar terug,
-  // if selected month is + 1, januari en jaar vooruit
 
   const tempArr = []
 
@@ -99,9 +96,6 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
     tempArr.splice(0, tempArr.length)
 
     for (let i = 1; i <= daysInMonth(selectedMonth, selectedYear); i++) {
-      //   console.log(
-      //     days[new Date(selectedYear, selectedMonth, i).getDay()] + ' ' + i
-      //   )
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 

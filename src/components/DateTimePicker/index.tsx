@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Input } from '../Input'
 import { DatePicker } from './DatePicker'
+import { Spacer } from '../Spacer'
 
 export const DateTimePicker = () => {
   let dateObj = new Date()
@@ -52,18 +53,19 @@ export const DateTimePicker = () => {
       Date time picker!!!
       <br />
       Dateobj naar string: {dateObj.toLocaleString()}
-      <div style={{ padding: 12 }}>
+      <Spacer />
+      <div style={{ display: 'flex', gap: 16 }}>
         <Input
           value={value}
-          style={{ maxWidth: 200 }}
+          style={{ maxWidth: 280 }}
           placeholder="2001/01/10"
           onChange={(e) => {
             changeYear(e)
           }}
           disabled={disabledInputYear}
         />
-        <Input space style={{ maxWidth: 200 }} placeholder="00:00" />
-        <Input space style={{ maxWidth: 200 }} placeholder="UTC+02:00" />
+        <Input space style={{ maxWidth: 100 }} placeholder="00:00" />
+        <Input space style={{ maxWidth: 160 }} placeholder="UTC+02:00" />
       </div>
       <DatePicker />
     </div>
