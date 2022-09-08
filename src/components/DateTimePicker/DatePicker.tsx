@@ -45,11 +45,31 @@ export const DatePicker = () => {
     console.log(selectedMonth, months[selectedMonth])
     console.log('Days in this month', daysInMonth(selectedMonth, selectedYear))
 
-    for (let i = 0; i <= daysInMonth(selectedMonth, selectedYear); i++) {
+    for (let i = 1; i <= daysInMonth(selectedMonth, selectedYear); i++) {
       console.log(
         days[new Date(selectedYear, selectedMonth, i).getDay()] + ' ' + i
       )
       tempArr.push(i)
+    }
+
+    // add some offset for the days layout
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Sat') {
+      tempArr.unshift(['x'], ['x'], ['x'], ['x'], ['x'], ['x'])
+    }
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Fri') {
+      tempArr.unshift(['x'], ['x'], ['x'], ['x'], ['x'])
+    }
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Thu') {
+      tempArr.unshift(['x'], ['x'], ['x'], ['x'])
+    }
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Wed') {
+      tempArr.unshift(['x'], ['x'], ['x'])
+    }
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Tue') {
+      tempArr.unshift(['x'], ['x'])
+    }
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Mon') {
+      tempArr.unshift(['x'])
     }
 
     setDaysArr(tempArr)
@@ -95,10 +115,13 @@ export const DatePicker = () => {
           <div
             style={{
               border: '1px solid black',
-              width: 34,
-              height: 34,
-              display: 'inline-block',
+              width: 38,
+              height: 38,
+              // display: 'inline-block',
               textAlign: 'center',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
             key={i}
           >
