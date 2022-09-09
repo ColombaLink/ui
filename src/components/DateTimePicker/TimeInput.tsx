@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Input } from '~'
+import { Input, color } from '~'
 
 export const TimeInput = ({}) => {
   const [time, setTime] = useState('')
+  const [validTimeInput, setValidTimeInput] = useState(false)
 
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
 
@@ -10,18 +11,20 @@ export const TimeInput = ({}) => {
     if (time.length === 6) {
       setTime(time.slice(0, -1))
     }
-    console.log('TIJD', time)
+    //check if regex matches
+    if (timeRegex.test(time) && time.length === 5) {
+      setValidTimeInput(true)
+    } else {
+      setValidTimeInput(false)
+    }
   }, [time])
 
   const timeHandler = (e) => {
     if (e.length === 2) {
-      console.log('length', e)
       setTime(e + ':')
     } else {
       setTime(e)
     }
-
-    console.log('from time handler', e)
   }
 
   const keyPressHandler = (e) => {
@@ -32,7 +35,7 @@ export const TimeInput = ({}) => {
   }
 
   return (
-    <div>
+    <div style={{ position: 'relative' }}>
       <Input
         value={time}
         type="text"
@@ -40,6 +43,21 @@ export const TimeInput = ({}) => {
         onChange={timeHandler}
         placeholder="00:00"
       />
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: 4,
+          border:
+            !validTimeInput && time.length === 5
+              ? `2px solid ${color('red')}`
+              : '',
+          pointerEvents: 'none',
+        }}
+      ></div>
     </div>
   )
 }

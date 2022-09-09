@@ -5,9 +5,10 @@ type DatePickerProps = {
   year?: number
   month?: number
   day?: number
+  onChange?: (year, month, day) => void
 }
 
-export const DatePicker = ({ year, month, day }: DatePickerProps) => {
+export const DatePicker = ({ year, month, day, onChange }: DatePickerProps) => {
   const dateObj = new Date()
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
@@ -25,23 +26,19 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
     'December',
   ]
 
-  const currentDay = dateObj.getDate()
-  const currentMonth = dateObj.getMonth()
-  const currentYear = dateObj.getFullYear()
-
-  const [selectedDay, setSelectedDay] = useState(currentDay)
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth)
-  const [selectedYear, setSelectedYear] = useState(currentYear)
+  const [selectedDay, setSelectedDay] = useState(day)
+  const [selectedMonth, setSelectedMonth] = useState(month)
+  const [selectedYear, setSelectedYear] = useState(year)
 
   const [memorizedDay, setMemorizedDay] = useState({
-    day: currentDay,
-    month: currentMonth,
-    year: currentYear,
+    day: day,
+    month: month,
+    year: year,
   })
 
-  const [selectedDate, setSelectedDate] = useState(
-    new Date(selectedYear, selectedMonth, selectedDay)
-  )
+  useEffect(() => {
+    onChange(selectedYear, selectedMonth + 1, selectedDay)
+  }, [selectedDay, selectedMonth, selectedYear])
 
   const [daysArr, setDaysArr] = useState([])
 
@@ -51,16 +48,19 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
   }
 
   const todayHandler = () => {
-    setSelectedDay(currentDay)
-    setSelectedMonth(currentMonth)
-    setSelectedYear(currentYear)
-    setMemorizedDay({ day: currentDay, month: currentMonth, year: currentYear })
+    setSelectedDay(dateObj.getDate())
+    setSelectedMonth(dateObj.getMonth())
+    setSelectedYear(dateObj.getFullYear())
+    setMemorizedDay({
+      day: dateObj.getDate(),
+      month: dateObj.getMonth(),
+      year: dateObj.getFullYear(),
+    })
   }
 
   const oneMonthBack = () => {
     setSelectedMonth(selectedMonth - 1)
   }
-
   const oneMonthForward = () => {
     setSelectedMonth(selectedMonth + 1)
   }
@@ -215,6 +215,7 @@ export const DatePicker = ({ year, month, day }: DatePickerProps) => {
                 console.log('val', val)
                 setSelectedDay(val['day'])
                 setMemorizedDay(val)
+                onChange(val['year'], val['month'], val['day'])
               }}
             >
               {val['day']}
