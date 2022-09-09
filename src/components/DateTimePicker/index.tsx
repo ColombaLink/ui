@@ -45,8 +45,18 @@ export const DateTimePicker = () => {
   console.log('the input value', inputValue)
 
   const changeHandler = (year, month, day) => {
-    setSelectedDay(day)
-    setSelectedMonth(month)
+    if (day < 10) {
+      day = `0${day}`
+      setSelectedDay(day)
+    } else {
+      setSelectedDay(day)
+    }
+    if (month < 10) {
+      month = `0${month}`
+      setSelectedMonth(month)
+    } else {
+      setSelectedMonth(month)
+    }
     setSelectedYear(year)
 
     setInputValue(`${year}-${month}-${day}`)
