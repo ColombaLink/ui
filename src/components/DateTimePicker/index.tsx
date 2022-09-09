@@ -94,7 +94,8 @@ export const DateTimePicker = () => {
           onChange={(e) => {
             console.log('e from onchange: ', e)
             console.log('value from onchange: ', e.target.value)
-            setInputValue(e.target.value)
+            //  setInputValue(e.target.value)
+            changeHandler(e.target.value.split('-')[0], 3, 12)
           }}
           value={inputValue}
         />
