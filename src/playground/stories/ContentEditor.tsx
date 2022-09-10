@@ -1,7 +1,112 @@
 import { useData, useSchema } from '@based/react'
 import React from 'react'
-import { Page, Input, Toggle } from '~'
+import {
+  Page,
+  Input,
+  Toggle,
+  Text,
+  Label,
+  Badge,
+  border,
+  Button,
+  AddIcon,
+} from '~'
 import { client } from '..'
+
+const useItemSchema = (id) => {
+  const { schema, loading } = useSchema()
+  if (loading) {
+    return { loading }
+  }
+  if (id === 'root') {
+    return { schema, type: 'root', ...schema.rootType }
+  } else {
+    const type = schema.prefixToTypeMapping[id.substring(0, 2)]
+    return { schema, type, ...schema.types[type] }
+  }
+}
+
+const Reference = ({ id }) => {
+  const { type } = useItemSchema(id)
+  return (
+    <div
+      style={{
+        height: 48,
+        border: border(1),
+        color: 'white',
+        borderRadius: 4,
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 16px',
+        marginBottom: 12,
+      }}
+    >
+      <Badge>{type}</Badge>
+      <Text style={{ marginLeft: 8 }}>{id}</Text>
+    </div>
+  )
+}
+
+const References = ({ label, description, value = [], style }) => {
+  return (
+    <div style={style}>
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
+      {value.map((id) => (
+        <Reference key={id} id={id} />
+      ))}
+      <Button light icon={AddIcon}>
+        Add item
+      </Button>
+    </div>
+  )
+}
+
+const SingleReference = ({ label, description, value, style, ...props }) => {
+  return (
+    <div style={style}>
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
+      {value ? <Reference id={value} /> : null}{' '}
+      <Button light icon={AddIcon}>
+        Add {label.toLowerCase()}
+      </Button>
+    </div>
+  )
+}
+
+const Id = ({ value, style }) => {
+  return (
+    <div
+      style={{
+        ...style,
+        order: -1,
+      }}
+    >
+      {value}
+    </div>
+  )
+}
+
+const Type = ({ value, style }) => {
+  return (
+    <div
+      style={{
+        ...style,
+        order: -1,
+        float: 'right',
+      }}
+    >
+      {value}
+    </div>
+  )
+}
 
 const string = {
   default: Input,
@@ -15,8 +120,18 @@ const timestamp = {
   default: (props) => <Input {...props} type="number" />,
 }
 
+const references = {
+  default: References,
+}
+
+const reference = {
+  default: SingleReference,
+}
+
 const components = {
   boolean,
+  reference,
+  references,
   string,
   text: string,
   timestamp,
@@ -36,12 +151,15 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
     )
   }
 
+  const disabled = field === 'createdAt' || field === 'updatedAt'
+
   return (
     <Component
-      label={label}
       description={description}
-      value={data[field]}
+      disabled={disabled}
+      label={label}
       style={{ order: index, marginBottom: 24 }}
+      value={data[field]}
       onChange={(value) => {
         console.log(value)
         onChange({ $language: language, [field]: value })
@@ -51,25 +169,28 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
 }
 
 const Edit = ({ id, onChange }) => {
-  const { schema } = useSchema()
-  const prefix = id.substring(0, 2)
-  const type = schema.prefixToTypeMapping?.[prefix]
+  const { schema, fields, loading, meta } = useItemSchema(id)
 
-  if (!type) {
+  if (loading) {
     return <>loading...</>
   }
 
-  const { fields } = schema.types[type]
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
+      {fields[meta.descriptor] || meta.name}:{id}
       {Object.keys(fields).map((field) => {
         const { type, meta } = fields[field]
-        const index = meta?.index
 
-        if (index === undefined) {
+        if (
+          type === 'id' ||
+          type === 'type' ||
+          meta === undefined ||
+          meta.hidden
+        ) {
           return null
         }
+
+        const index = meta.index
 
         return (
           <EditField

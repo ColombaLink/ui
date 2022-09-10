@@ -161,31 +161,31 @@ export const Input: FC<
   InputPropsChange &
     Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
 > = ({
-  style,
-  onChange: onChangeProp,
-  label,
+  autoFocus,
+  bg,
   colorInput,
-  description,
-  optional,
-  ghost,
-  value: valueProp,
   defaultValue,
-  type,
-  placeholder = 'Type something here',
+  description,
+  disabled,
+  forceSuggestion,
+  ghost,
   icon,
   iconRight,
-  multiline,
-  bg,
-  autoFocus,
-  name,
-  space,
   inputRef,
+  label,
   large,
-  disabled,
+  multiline,
+  name,
+  noInterrupt,
+  onChange: onChangeProp,
+  optional,
+  placeholder = 'Type something here',
+  space,
+  style,
   suggest,
   transform,
-  forceSuggestion,
-  noInterrupt,
+  type,
+  value: valueProp,
   ...otherProps
 }) => {
   const [focused, setFocused] = useState(false)
@@ -250,14 +250,11 @@ export const Input: FC<
         ...style,
       }}
     >
-      {label || description ? (
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 12 }}
-        />
-      ) : null}
-
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}

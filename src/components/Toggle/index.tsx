@@ -14,7 +14,7 @@ type ToggleProps = {
 }
 
 export const Toggle: FC<ToggleProps> = ({
-  value,
+  value = false,
   label,
   description,
   text,

@@ -54,7 +54,7 @@ export const SchemaEditor = ({ db }: SchemaEditorProps) => {
   const menuItems = {}
   const types = []
 
-  const allwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
+  const alwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
 
   let listItemsFields = []
 
@@ -100,9 +100,9 @@ export const SchemaEditor = ({ db }: SchemaEditorProps) => {
   // sort list items fields
   const fieldData: [string, any][] = []
 
-  // allwaysIgnore, systemFields
+  // alwaysIgnore, systemFields
   for (const f in listItemsFields[0]?.fields) {
-    if (allwaysIgnore.has(f)) {
+    if (alwaysIgnore.has(f)) {
       continue
     }
 
@@ -150,7 +150,9 @@ export const SchemaEditor = ({ db }: SchemaEditorProps) => {
                     listItemsFields?.length > 0 ? 'inline-block' : 'none',
                 }}
                 onClick={useContextMenu(
-                  () => TypeOptionsMenu(client, schema),
+                  () => (
+                    <TypeOptionsMenu client={client} />
+                  ),
                   {},
                   { placement: 'left' }
                 )}
@@ -192,7 +194,7 @@ export const SchemaEditor = ({ db }: SchemaEditorProps) => {
   )
 }
 
-const TypeOptionsMenu = (client, schema) => {
+const TypeOptionsMenu = (client) => {
   const [location, setLocation] = useLocation()
 
   const pathArray = location.split('/')

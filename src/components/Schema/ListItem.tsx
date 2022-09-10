@@ -111,7 +111,15 @@ export const ListItem = ({
 
       <More
         onClick={useContextMenu(
-          () => SimpleMenu(onDelete, schema, client, fieldName, name),
+          () => (
+            <SimpleMenu
+              onDelete={onDelete}
+              schema={schema}
+              client={client}
+              fieldName={fieldName}
+              name={name}
+            />
+          ),
           {},
           { placement: 'center' }
         )}
@@ -120,7 +128,7 @@ export const ListItem = ({
   )
 }
 
-const SimpleMenu = (onDelete, schema, client, fieldName, name) => {
+const SimpleMenu = ({ onDelete, schema, client, fieldName, name }) => {
   return (
     <>
       {onDelete && (
