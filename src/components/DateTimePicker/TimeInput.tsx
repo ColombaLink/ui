@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Input, color } from '~'
 
-export const TimeInput = ({}) => {
+export const TimeInput = ({ inputTime, setInputTime }) => {
   const [time, setTime] = useState('')
   const [validTimeInput, setValidTimeInput] = useState(false)
 
@@ -14,6 +14,7 @@ export const TimeInput = ({}) => {
     //check if regex matches
     if (timeRegex.test(time) && time.length === 5) {
       setValidTimeInput(true)
+      setInputTime(time)
     } else {
       setValidTimeInput(false)
     }

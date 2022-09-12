@@ -4,7 +4,7 @@ import { DatePicker } from './DatePicker'
 import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
-import { color } from '~'
+import { color, Select } from '~'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -32,8 +32,9 @@ export const DateTimePicker = () => {
   const formattedDate = formatYmd(currentDate)
 
   const [inputValue, setInputValue] = useState(formattedDate)
+  const [inputTime, setInputTime] = useState('00:00')
 
-  // console.log('the input value', inputValue)
+  const dateAndTime = `${inputValue}T${inputTime}`
 
   /// value
   /// min
@@ -46,8 +47,9 @@ export const DateTimePicker = () => {
   return (
     <div>
       <br />
-      InputValue : {inputValue}
+      Input DATE : {inputValue} | Input Time : {inputTime}
       <br />
+      combined output : {dateAndTime}
       <Spacer />
       <div style={{ display: 'flex', gap: 16 }}>
         <StyledDateInput
@@ -59,24 +61,21 @@ export const DateTimePicker = () => {
             e.preventDefault()
           }}
           onChange={(e) => {
-            console.log('e from onchange: ', e)
-            console.log('value from onchange: ', e.target.value)
             setInputValue(e.target.value)
           }}
           value={inputValue}
         />
 
-        <TimeInput />
-        <Input style={{ maxWidth: 160 }} placeholder="UTC+02:00" />
+        <TimeInput setInputTime={setInputTime} inputTime={inputTime} />
+
+        <Select
+          style={{ maxWidth: 160, fontWeight: 400 }}
+          placeholder="Timezone"
+          options={['UTC+00:00', 'UTC+01:00']}
+          onChange={() => {}}
+        />
       </div>
-      <DatePicker
-        inputValue={inputValue}
-        setInputValue={setInputValue}
-        // year={selectedYear}
-        // month={selectedMonth}
-        // day={selectedDay}
-        // changeHandler={changeHandler}
-      />
+      <DatePicker inputValue={inputValue} setInputValue={setInputValue} />
     </div>
   )
 }
