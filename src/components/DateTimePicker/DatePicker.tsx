@@ -19,7 +19,7 @@ export const DatePicker = ({
 }: // changeHandler,
 DatePickerProps) => {
   const dateObj = new Date()
-  console.log('dateObj', dateObj)
+  // console.log('dateObj', dateObj)
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
     '',
@@ -38,7 +38,7 @@ DatePickerProps) => {
   ]
 
   const formatYmd = (date) => date.toISOString().slice(0, 10)
-  console.log('formatYmd', formatYmd(dateObj))
+  // console.log('formatYmd', formatYmd(dateObj))
 
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
@@ -65,7 +65,7 @@ DatePickerProps) => {
 
     setInputValue(`${year}-${month}-${day}`)
 
-    console.log('--->>', `${year}-${month}-${day}`)
+    //  console.log('--->>', `${year}-${month}-${day}`)
   }
 
   useEffect(() => {
@@ -172,7 +172,7 @@ DatePickerProps) => {
     setDaysArr(tempArr)
   }, [selectedMonth])
 
-  console.log(tempArr)
+  // console.log(tempArr)
 
   return (
     <div
@@ -265,7 +265,7 @@ DatePickerProps) => {
               }}
               key={i}
               onClick={() => {
-                console.log(val['year'])
+                // console.log(val['year'])
                 changeHandler(selectedYear, selectedMonth, val['day'])
               }}
             >

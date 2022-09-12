@@ -35,26 +35,54 @@ export const DateTimePicker = () => {
   const [inputValue, setInputValue] = useState(formattedDate)
   const [inputTime, setInputTime] = useState('00:00')
   const [showDatePicker, setShowDatePicker] = useState(false)
+  const [UTCValue, setUTCValue] = useState(0)
 
   const dateAndTime = `${inputValue}T${inputTime}`
 
-  console.log('input value', typeof inputValue)
+  // console.log('input value', typeof inputValue)
+
+  const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
+  const outputInMsec = dateAndTimeToMiliseconds + UTCValue
 
   // formatted date time to miliseconds
-  const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
-  console.log('to miliseconds ------> ', dateAndTimeToMiliseconds)
+
+  // console.log('to miliseconds ------> ', dateAndTimeToMiliseconds)
+  // console.log('offset time zone', new Date(dateAndTime).getTimezoneOffset())
+
+  // console.log('UTC Offset Value', UTCValue)
+
+  // console.log(
+  //   ' local offset time zone',
+  //   new Date(dateAndTime).getTimezoneOffset() * 60000
+  // )
+
+  //   Note that a negative return value from getTimezoneOffset() indicates that the current location is
+  // ahead of UTC, while a positive value indicates that the location is behind UTC.
+
+  // console.log(
+  //   'milliseconds and offset --> current UTC time in msec',
+  //   dateAndTimeToMiliseconds + new Date(dateAndTime).getTimezoneOffset() * 60000
+  // )
+
+  // const currentTimeWithOffsetMsec =
+  //   dateAndTimeToMiliseconds + new Date(dateAndTime).getTimezoneOffset() * 60000
 
   // miliseconds to date time
-  const milisecondsToDateAndTime = new Date(dateAndTimeToMiliseconds)
-  console.log('to date and time ------> ', milisecondsToDateAndTime)
+  // const milisecondsToDateAndTime = new Date(dateAndTimeToMiliseconds)
+  // console.log('to date and time ------> ', milisecondsToDateAndTime)
+
+  // console.log('blah', new Date(currentTimeWithOffsetMsec).toISOString())
 
   return (
     <div>
-      <br />
-      Input DATE : {inputValue} | Input Time : {inputTime}
-      <br />
-      combined output : {dateAndTime}
-      <Spacer />
+      <div style={{ border: '1px solid red', padding: 12, width: 420 }}>
+        Input DATE : {inputValue} | Input Time : {inputTime}
+        <br />
+        combined output : {dateAndTime}
+        <br />
+        Output in msec: {outputInMsec}
+      </div>
+      <Spacer space="28px" />
       <Text space="8px">Date Time</Text>
       <div style={{ display: 'flex', gap: 16 }}>
         <StyledDateInput
@@ -86,11 +114,47 @@ export const DateTimePicker = () => {
 
         <TimeInput setInputTime={setInputTime} inputTime={inputTime} />
 
+        {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
+
         <Select
           style={{ maxWidth: 160, fontWeight: 400, height: 36 }}
-          placeholder="Timezone"
-          options={['UTC+00:00', 'UTC+01:00']}
-          onChange={() => {}}
+          placeholder="UTC-0"
+          options={[
+            'UTC+0',
+            'UTC+1',
+            'UTC+2',
+            'UTC+3',
+            'UTC+4',
+            'UTC+5',
+            'UTC+6',
+            'UTC+7',
+            'UTC+8',
+            'UTC+9',
+            'UTC+10',
+            'UTC+11',
+            'UTC+12',
+            'UTC-1',
+            'UTC-2',
+            'UTC-3',
+            'UTC-4',
+            'UTC-5',
+            'UTC-6',
+            'UTC-7',
+            'UTC-8',
+            'UTC-9',
+            'UTC-10',
+            'UTC-11',
+            'UTC-12',
+          ]}
+          onChange={(e) => {
+            //  console.log('e', e)
+            // @ts-ignore
+            // so UTC offset is in minutes
+            const tempUTCValMsec = +e.substring(3) * 60 * 60000
+            //   console.log(tempUTCValMsec)
+            // @ts-ignore
+            setUTCValue(tempUTCValMsec)
+          }}
         />
       </div>
       {showDatePicker && (
