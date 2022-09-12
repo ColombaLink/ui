@@ -5,10 +5,17 @@ type DatePickerProps = {
   year?: number
   month?: number
   day?: number
-  onChange?: (year, month, day) => void
+  inputValue?: string
+  changeHandler?: (year, month, day) => void
 }
 
-export const DatePicker = ({ year, month, day, onChange }: DatePickerProps) => {
+export const DatePicker = ({
+  year,
+  month,
+  day,
+  inputValue,
+  changeHandler,
+}: DatePickerProps) => {
   const dateObj = new Date()
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
@@ -30,15 +37,30 @@ export const DatePicker = ({ year, month, day, onChange }: DatePickerProps) => {
   const [selectedMonth, setSelectedMonth] = useState(month)
   const [selectedYear, setSelectedYear] = useState(year)
 
+  //try this
+  inputValue.split('-')
+  console.log('INPUt Value', inputValue)
+
+  useEffect(() => {
+    setMemorizedDay({
+      day: +inputValue.split('-')[2],
+      month: +inputValue.split('-')[1] - 1,
+      year: +inputValue.split('-')[0],
+    })
+    setSelectedDay(+inputValue.split('-')[2])
+    setSelectedMonth(+inputValue.split('-')[1] - 1)
+    setSelectedYear(+inputValue.split('-')[0])
+  }, [inputValue])
+
   const [memorizedDay, setMemorizedDay] = useState({
     day: day,
     month: month,
     year: year,
   })
 
-  useEffect(() => {
-    onChange(selectedYear, selectedMonth + 1, selectedDay)
-  }, [selectedDay, selectedMonth, selectedYear])
+  // useEffect(() => {
+  //   changeHandler(selectedYear, selectedMonth + 1, selectedDay)
+  // }, [selectedDay, selectedMonth, selectedYear])
 
   const [daysArr, setDaysArr] = useState([])
 
@@ -215,7 +237,7 @@ export const DatePicker = ({ year, month, day, onChange }: DatePickerProps) => {
                 console.log('val', val)
                 setSelectedDay(val['day'])
                 setMemorizedDay(val)
-                onChange(val['year'], val['month'], val['day'])
+                changeHandler(val['year'], val['month'], val['day'])
               }}
             >
               {val['day']}

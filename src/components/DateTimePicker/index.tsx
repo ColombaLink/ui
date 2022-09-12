@@ -28,8 +28,6 @@ const StyledDateInput = styled('input', {
 export const DateTimePicker = () => {
   let dateObj = new Date()
 
-  console.log('vandaag', new Date())
-
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
   const currentYear = dateObj.getFullYear()
@@ -60,6 +58,8 @@ export const DateTimePicker = () => {
     setSelectedYear(year)
 
     setInputValue(`${year}-${month}-${day}`)
+
+    console.log(inputValue)
   }
 
   /// value
@@ -94,8 +94,10 @@ export const DateTimePicker = () => {
           onChange={(e) => {
             console.log('e from onchange: ', e)
             console.log('value from onchange: ', e.target.value)
-            //  setInputValue(e.target.value)
-            changeHandler(e.target.value.split('-')[0], 3, 12)
+            setInputValue(e.target.value)
+            // changeHandler(e.target.value)
+
+            console.log('selectedDay: ', selectedDay)
           }}
           value={inputValue}
         />
@@ -104,10 +106,11 @@ export const DateTimePicker = () => {
         <Input style={{ maxWidth: 160 }} placeholder="UTC+02:00" />
       </div>
       <DatePicker
+        inputValue={inputValue}
         year={selectedYear}
         month={selectedMonth}
         day={selectedDay}
-        onChange={changeHandler}
+        changeHandler={changeHandler}
       />
     </div>
   )
