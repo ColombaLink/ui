@@ -13,7 +13,7 @@ export const Schema = () => {
         }}
       >
         <SchemaEditor
-          db={'default'}
+          db="default"
           style={{
             height: 400,
           }}

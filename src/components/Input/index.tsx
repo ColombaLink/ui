@@ -69,6 +69,7 @@ type InputProps = {
   large?: boolean
   disabled?: boolean
   suggest?: (str: string) => string // show suggestion => Enter to complete
+  error?: (str: string) => string // show error
   transform?: (str: string) => string // transform string
   forceSuggestion?: boolean // apply suggestion on blur
   noInterrupt?: boolean // dont use external state while focused
@@ -184,6 +185,7 @@ export const Input: FC<
   style,
   suggest,
   transform,
+  error,
   type,
   value: valueProp,
   ...otherProps
@@ -192,17 +194,21 @@ export const Input: FC<
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
-
+  // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
 
   const onChange = (e) => {
-    const newValue = transform ? transform(e.target.value) : e.target.value
+    let newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
     if (type === 'number' && typeof newValue !== 'number') {
-      onChangeProp?.(Number(newValue))
-    } else {
-      onChangeProp?.(newValue)
+      newValue = Number(newValue)
     }
+
+    onChangeProp?.(newValue)
+    // const msg = error?.(newValue)
+    // if (msg) {
+
+    // }
   }
 
   const paddingLeft = ghost ? 0 : icon ? 36 : 12
@@ -274,7 +280,9 @@ export const Input: FC<
         })}
         {colorInput ? (
           <ColorInput
-            onChange={(e) => setColorValue(e.target.value)}
+            onChange={(e) => {
+              setColorValue(e.target.value)
+            }}
             value={colorValue}
             style={{ width: '100%' }}
           />
@@ -303,6 +311,7 @@ export const Input: FC<
           },
         })}
       </div>
+      {/* <ErrorMessage /> */}
     </div>
   )
 }

@@ -10,7 +10,15 @@
 //   validation?: string // TODO make these typed
 // }
 
-import { AddIcon } from '~/icons'
+import { ReactElement } from 'react'
+import {
+  TextIcon,
+  AddIcon,
+  ExternalLinkIcon,
+  ModelIcon,
+  AttachmentIcon,
+} from '~/icons'
+import { Color } from '~/types'
 
 // export type Field = {
 //   type: string
@@ -23,45 +31,44 @@ import { AddIcon } from '~/icons'
 
 export const systemFields = new Set(['id', 'type', 'children', 'parents'])
 export const alwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
-export const templates = {
+export const templates: {
+  [template: string]: {
+    label: string
+    description: string
+    color: Color
+    icon: any
+  }
+} = {
   // keys have to represent types or formats TODO add ts
   string: {
     label: 'String',
     description: 'String is nice',
-    icon: AddIcon,
-    schema: {
-      type: 'string',
-    },
+    icon: TextIcon,
+    color: 'lightyellow',
+  },
+  object: {
+    label: 'Object',
+    description: 'Objects are sublime',
+    icon: ModelIcon,
+    color: 'lightbabyblue',
   },
   url: {
     label: 'URL',
     description: 'Url is cool',
-    icon: AddIcon,
-    schema: {
-      type: 'string',
-      meta: {
-        format: 'url',
-      },
-    },
+    icon: ExternalLinkIcon,
+    color: 'lightgreen',
   },
   markdown: {
     label: 'Markdown',
     description: 'Markdown is fancy',
     icon: AddIcon,
-    schema: {
-      type: 'string',
-      meta: {
-        format: 'markdown',
-      },
-    },
+    color: 'lightyellow',
   },
   file: {
     label: 'File',
     description: 'Files are handy',
-    icon: AddIcon,
-    schema: {
-      type: 'reference',
-    },
+    icon: AttachmentIcon,
+    color: 'lightred',
   },
 }
 

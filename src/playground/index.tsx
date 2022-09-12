@@ -61,8 +61,11 @@ const App = () => {
         data={{
           Advanced: {
             Auth: '?story=auth',
-            Schema: '?story=schema',
             ContentEditor: '?story=content-editor',
+          },
+          Schema: {
+            Schema: '?story=schema',
+            SchemaModals: '?story=schema-modals',
           },
           Input: {
             Buttons: '?story=buttons',
