@@ -64,6 +64,8 @@ DatePickerProps) => {
     setSelectedYear(year)
 
     setInputValue(`${year}-${month}-${day}`)
+
+    console.log('--->>', `${year}-${month}-${day}`)
   }
 
   useEffect(() => {
@@ -261,7 +263,8 @@ DatePickerProps) => {
               }}
               key={i}
               onClick={() => {
-                changeHandler(val['year'], val['month'], val['day'])
+                console.log(val['year'])
+                changeHandler(selectedYear, selectedMonth, val['day'])
               }}
             >
               {val['day']}

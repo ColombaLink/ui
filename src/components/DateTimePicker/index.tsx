@@ -4,7 +4,7 @@ import { DatePicker } from './DatePicker'
 import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
-import { color, Select } from '~'
+import { color, Select, useOverlay } from '~'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -33,9 +33,15 @@ export const DateTimePicker = () => {
 
   const [inputValue, setInputValue] = useState(formattedDate)
   const [inputTime, setInputTime] = useState('00:00')
+  const [showDatePicker, setShowDatePicker] = useState(false)
 
   const dateAndTime = `${inputValue}T${inputTime}`
 
+  console.log('input value', typeof inputValue)
+
+  // const DatePickerInner = ({ inputValue, setInputValue }) => {
+  //   return <DatePicker inputValue={inputValue} setInputValue={setInputValue} />
+  // }
   /// value
   /// min
   /// max
@@ -59,23 +65,31 @@ export const DateTimePicker = () => {
           onClick={(e) => {
             //hides the calender in firefox
             e.preventDefault()
+            setShowDatePicker(true)
           }}
           onChange={(e) => {
             setInputValue(e.target.value)
           }}
           value={inputValue}
+          // onFocus={useContextMenu(
+          //   DatePicker,
+          //   { inputValue, setInputValue },
+          //   { placement: 'center', width: 280 }
+          // )}
         />
 
         <TimeInput setInputTime={setInputTime} inputTime={inputTime} />
 
         <Select
-          style={{ maxWidth: 160, fontWeight: 400 }}
+          style={{ maxWidth: 160, fontWeight: 400, height: 36 }}
           placeholder="Timezone"
           options={['UTC+00:00', 'UTC+01:00']}
           onChange={() => {}}
         />
       </div>
-      <DatePicker inputValue={inputValue} setInputValue={setInputValue} />
+      {showDatePicker && (
+        <DatePicker inputValue={inputValue} setInputValue={setInputValue} />
+      )}
     </div>
   )
 }
