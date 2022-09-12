@@ -3,17 +3,14 @@ import { ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
 import { styled } from 'inlines'
 
 type DatePickerProps = {
-  // year?: number
-  // month?: number
-  // day?: number
   inputValue?: string
-  // changeHandler?: (year, month, day) => void
   setInputValue?: (value: string) => void
   showDatePicker?: boolean
   setShowDatePicker?: (value: boolean) => void
 }
 
 const StyledDatePickerBox = styled('div', {
+  background: color('background'),
   position: 'relative',
   border: `1px solid ${color('border')}`,
   borderBottomLeftRadius: 4,
@@ -23,15 +20,11 @@ const StyledDatePickerBox = styled('div', {
 })
 
 export const DatePicker = ({
-  // year,
-  // month,
-  // day,
   inputValue,
   setInputValue,
   showDatePicker,
   setShowDatePicker,
-}: // changeHandler,
-DatePickerProps) => {
+}: DatePickerProps) => {
   const dateObj = new Date()
   // console.log('dateObj', dateObj)
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']

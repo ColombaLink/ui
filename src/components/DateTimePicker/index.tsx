@@ -4,14 +4,7 @@ import { DatePicker } from './DatePicker'
 import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
-import {
-  color,
-  Select,
-  useOverlay,
-  Text,
-  useContextMenu,
-  CalendarIcon,
-} from '~'
+import { color, Select, Text, CalendarIcon } from '~'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -33,7 +26,17 @@ const StyledDateInput = styled('input', {
   },
 })
 
-export const DateTimePicker = () => {
+type DateTimePickerProps = {
+  label?: string
+  description?: string
+  onChange?: (value: string) => void
+}
+
+export const DateTimePicker = ({
+  label,
+  description,
+  onChange,
+}: DateTimePickerProps) => {
   const currentDate = new Date()
 
   const formatYmd = (date) => date.toISOString().slice(0, 10)
@@ -58,7 +61,7 @@ export const DateTimePicker = () => {
         Output in msec: {outputInMsec}
       </div>
       <Spacer space="28px" />
-      <Text space="8px">Date Time</Text>
+      {label && <Text space="8px">{label}</Text>}
       <div style={{ display: 'flex', gap: 16 }}>
         <div style={{ position: 'relative' }}>
           <CalendarIcon
@@ -89,11 +92,6 @@ export const DateTimePicker = () => {
             }}
             value={inputValue}
             onBlur={() => {}}
-            // onFocus={useContextMenu(
-            //   () => DatePicker({ inputValue, setInputValue }),
-            //   {},
-            //   { placement: 'center', width: 282 }
-            // )}
           ></StyledDateInput>
         </div>
 
@@ -142,6 +140,14 @@ export const DateTimePicker = () => {
           }}
         />
       </div>
+      {description && (
+        <div style={{ position: 'absolute' }}>
+          <Spacer />
+          <Text color="text2" weight={400} italic>
+            {description}
+          </Text>
+        </div>
+      )}
       {showDatePicker && (
         <DatePicker
           inputValue={inputValue}
