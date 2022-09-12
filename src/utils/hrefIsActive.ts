@@ -21,5 +21,12 @@ export const hrefIsActive = (href: string, selected: string, data?: object) => {
     return location.search.indexOf(href.substring(1)) !== -1
   }
 
-  return selected.startsWith(href)
+  if (selected.startsWith(href)) {
+    const nextChar = selected[href.length]
+    if (nextChar === undefined || nextChar === '/' || nextChar === '?') {
+      return true
+    }
+  }
+
+  return false
 }

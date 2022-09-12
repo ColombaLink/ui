@@ -5,7 +5,7 @@ const scrollbarColor = color('border')
 const transparentAreaColor = color('background')
 
 export const scrollAreaStyle = {
-  // scrollbarGutter: 'stable',
+  scrollbarGutter: 'stable',
   // firefox
   scrollbarColor: 'transparent transparent',
   '&::-webkit-scrollbar': {
@@ -15,7 +15,6 @@ export const scrollAreaStyle = {
   // the rest
   '&::-webkit-scrollbar:vertical': {
     width: '10px',
-    marginLeft: '-10px',
   },
   '&::-webkit-scrollbar:horizontal': {
     height: '10px',
@@ -43,5 +42,6 @@ export const scrollAreaStyle = {
 
 export const ScrollArea = styled('div', {
   overflow: 'auto',
+  overflowY: 'overlay',
   ...scrollAreaStyle,
 })

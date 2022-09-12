@@ -34,10 +34,7 @@ export const Badge: FC<BadgeProps> = ({
   ghost,
   ...props
 }) => {
-  if (ghost) {
-    console.warn('badge: implement ghost!')
-  }
-
+  // TODO implement ghost!
   // make this into a hook
   return (
     <styled.div
