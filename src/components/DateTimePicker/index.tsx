@@ -26,41 +26,14 @@ const StyledDateInput = styled('input', {
 })
 
 export const DateTimePicker = () => {
-  let dateObj = new Date()
+  const currentDate = new Date()
 
-  const currentDay = dateObj.getDate()
-  const currentMonth = dateObj.getMonth()
-  const currentYear = dateObj.getFullYear()
+  const formatYmd = (date) => date.toISOString().slice(0, 10)
+  const formattedDate = formatYmd(currentDate)
 
-  const [selectedDay, setSelectedDay] = useState(currentDay)
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth)
-  const [selectedYear, setSelectedYear] = useState(currentYear)
+  const [inputValue, setInputValue] = useState(formattedDate)
 
-  const [inputValue, setInputValue] = useState(
-    `${currentYear}-${currentMonth}-${currentDay}`
-  )
-
-  console.log('the input value', inputValue)
-
-  const changeHandler = (year, month, day) => {
-    if (day < 10) {
-      day = `0${day}`
-      setSelectedDay(day)
-    } else {
-      setSelectedDay(day)
-    }
-    if (month < 10) {
-      month = `0${month}`
-      setSelectedMonth(month)
-    } else {
-      setSelectedMonth(month)
-    }
-    setSelectedYear(year)
-
-    setInputValue(`${year}-${month}-${day}`)
-
-    console.log(inputValue)
-  }
+  // console.log('the input value', inputValue)
 
   /// value
   /// min
@@ -72,15 +45,9 @@ export const DateTimePicker = () => {
 
   return (
     <div>
-      Dateobj naar string: {dateObj.toLocaleString()}
       <br />
       InputValue : {inputValue}
       <br />
-      SelectedDay: {selectedDay}
-      <br />
-      SelectedMonth: {selectedMonth}
-      <br />
-      SelectedYear: {selectedYear}
       <Spacer />
       <div style={{ display: 'flex', gap: 16 }}>
         <StyledDateInput
@@ -95,9 +62,6 @@ export const DateTimePicker = () => {
             console.log('e from onchange: ', e)
             console.log('value from onchange: ', e.target.value)
             setInputValue(e.target.value)
-            // changeHandler(e.target.value)
-
-            console.log('selectedDay: ', selectedDay)
           }}
           value={inputValue}
         />
@@ -107,10 +71,11 @@ export const DateTimePicker = () => {
       </div>
       <DatePicker
         inputValue={inputValue}
-        year={selectedYear}
-        month={selectedMonth}
-        day={selectedDay}
-        changeHandler={changeHandler}
+        setInputValue={setInputValue}
+        // year={selectedYear}
+        // month={selectedMonth}
+        // day={selectedDay}
+        // changeHandler={changeHandler}
       />
     </div>
   )

@@ -7,6 +7,7 @@ type DatePickerProps = {
   day?: number
   inputValue?: string
   changeHandler?: (year, month, day) => void
+  setInputValue?: (value: string) => void
 }
 
 export const DatePicker = ({
@@ -14,11 +15,14 @@ export const DatePicker = ({
   month,
   day,
   inputValue,
-  changeHandler,
-}: DatePickerProps) => {
+  setInputValue,
+}: // changeHandler,
+DatePickerProps) => {
   const dateObj = new Date()
+  console.log('dateObj', dateObj)
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
+    '',
     'January',
     'February',
     'March',
@@ -33,87 +37,109 @@ export const DatePicker = ({
     'December',
   ]
 
-  const [selectedDay, setSelectedDay] = useState(day)
-  const [selectedMonth, setSelectedMonth] = useState(month)
-  const [selectedYear, setSelectedYear] = useState(year)
+  const formatYmd = (date) => date.toISOString().slice(0, 10)
+  console.log('formatYmd', formatYmd(dateObj))
 
-  //try this
-  inputValue.split('-')
-  console.log('INPUt Value', inputValue)
+  const currentDay = dateObj.getDate()
+  const currentMonth = dateObj.getMonth()
+  const currentYear = dateObj.getFullYear()
+
+  const [selectedDay, setSelectedDay] = useState(currentDay)
+  const [selectedMonth, setSelectedMonth] = useState(currentMonth)
+  const [selectedYear, setSelectedYear] = useState(currentYear)
+
+  const changeHandler = (year, month, day) => {
+    if (day < 10) {
+      day = `0${day}`
+      setSelectedDay(day)
+    } else {
+      setSelectedDay(day)
+    }
+    if (month < 10) {
+      month = `0${month}`
+      setSelectedMonth(month)
+    } else {
+      setSelectedMonth(month)
+    }
+    setSelectedYear(year)
+
+    setInputValue(`${year}-${month}-${day}`)
+  }
 
   useEffect(() => {
-    setMemorizedDay({
-      day: +inputValue.split('-')[2],
-      month: +inputValue.split('-')[1] - 1,
-      year: +inputValue.split('-')[0],
-    })
     setSelectedDay(+inputValue.split('-')[2])
-    setSelectedMonth(+inputValue.split('-')[1] - 1)
+    setSelectedMonth(+inputValue.split('-')[1])
     setSelectedYear(+inputValue.split('-')[0])
   }, [inputValue])
-
-  const [memorizedDay, setMemorizedDay] = useState({
-    day: day,
-    month: month,
-    year: year,
-  })
-
-  // useEffect(() => {
-  //   changeHandler(selectedYear, selectedMonth + 1, selectedDay)
-  // }, [selectedDay, selectedMonth, selectedYear])
 
   const [daysArr, setDaysArr] = useState([])
 
   // Functions
   const daysInMonth = (month, year) => {
-    return new Date(year, month + 1, 0).getDate()
+    return new Date(year, month, 0).getDate()
   }
 
   const todayHandler = () => {
-    setSelectedDay(dateObj.getDate())
-    setSelectedMonth(dateObj.getMonth())
-    setSelectedYear(dateObj.getFullYear())
-    setMemorizedDay({
-      day: dateObj.getDate(),
-      month: dateObj.getMonth(),
-      year: dateObj.getFullYear(),
-    })
+    // setSelectedDay(dateObj.getDate())
+    // setSelectedMonth(dateObj.getMonth())
+    // setSelectedYear(dateObj.getFullYear())
+    changeHandler(
+      dateObj.getFullYear(),
+      dateObj.getMonth() + 1,
+      dateObj.getDate()
+    )
   }
 
   const oneMonthBack = () => {
-    setSelectedMonth(selectedMonth - 1)
+    if (selectedMonth == +'01') {
+      changeHandler(selectedYear - 1, +'12', selectedDay)
+    } else {
+      changeHandler(selectedYear, selectedMonth - 1, selectedDay)
+    }
   }
   const oneMonthForward = () => {
-    setSelectedMonth(selectedMonth + 1)
+    if (selectedMonth === 12) {
+      changeHandler(selectedYear + 1, +'01', selectedDay)
+    } else {
+      changeHandler(selectedYear, selectedMonth + 1, selectedDay)
+    }
   }
 
-  const areMemorizedDayAndSelectedDayEqual = (a, b) => {
-    if (a && b) {
-      if (
-        a['day'] === b['day'] &&
-        a['month'] === b['month'] &&
-        a['year'] === b['year']
-      ) {
-        return true
+  const nextDay = () => {
+    if (selectedDay === daysInMonth(selectedMonth, selectedYear)) {
+      if (selectedMonth === 12) {
+        changeHandler(selectedYear + 1, +'01', +'01')
+      } else {
+        changeHandler(selectedYear, selectedMonth + 1, +'01')
       }
+    } else {
+      changeHandler(selectedYear, selectedMonth, selectedDay + 1)
+    }
+  }
+
+  const prevDay = () => {
+    if (selectedDay === +'01') {
+      if (selectedMonth === +'01') {
+        changeHandler(
+          selectedYear - 1,
+          +'12',
+          daysInMonth(12, selectedYear - 1)
+        )
+      } else {
+        changeHandler(
+          selectedYear,
+          selectedMonth - 1,
+          daysInMonth(selectedMonth - 1, selectedYear)
+        )
+      }
+    } else {
+      changeHandler(selectedYear, selectedMonth, selectedDay - 1)
     }
   }
 
   const tempArr = []
 
   useEffect(() => {
-    //if the year should change
-    if (selectedMonth === -1) {
-      setSelectedMonth(11)
-      setSelectedYear(selectedYear - 1)
-    }
-    if (selectedMonth === 12) {
-      setSelectedMonth(0)
-      setSelectedYear(selectedYear + 1)
-    }
-
-    console.log('memorized day', memorizedDay)
-
     //empty tempArr
     tempArr.splice(0, tempArr.length)
 
@@ -164,7 +190,7 @@ export const DatePicker = ({
         }}
       >
         <Text weight={400}>
-          {months[selectedMonth]} {selectedYear}
+          {months[+inputValue.split('-')[1]]} {selectedYear}
         </Text>
 
         <div style={{ display: 'flex', gap: 16 }}>
@@ -220,9 +246,10 @@ export const DatePicker = ({
           ) : (
             <div
               style={{
-                border: areMemorizedDayAndSelectedDayEqual(val, memorizedDay)
-                  ? `1px solid ${color('accent')}`
-                  : '',
+                border:
+                  val['day'] === selectedDay
+                    ? `1px solid ${color('accent')}`
+                    : '',
                 borderRadius: 4,
                 width: 26,
                 height: 26,
@@ -234,9 +261,6 @@ export const DatePicker = ({
               }}
               key={i}
               onClick={() => {
-                console.log('val', val)
-                setSelectedDay(val['day'])
-                setMemorizedDay(val)
                 changeHandler(val['year'], val['month'], val['day'])
               }}
             >
@@ -252,15 +276,25 @@ export const DatePicker = ({
         <Text weight={400} onClick={todayHandler} space="4px">
           Today
         </Text>
-        <Text weight={400} space="4px">
+        {/* @ts-ignore */}
+        <Text weight={400} space="4px" onClick={nextDay}>
           Select next date
         </Text>
-        <Text weight={400} space="4px">
+        {/* @ts-ignore */}
+        <Text weight={400} space="4px" onClick={prevDay}>
           Select previous date
         </Text>
       </div>
       <div style={{ borderBottom: `1px solid ${color('border')}` }}></div>
-      <Text style={{ padding: '8px 16px' }}>Clear</Text>
+
+      <Text
+        style={{ padding: '8px 16px' }}
+        weight={400}
+        // @ts-ignore
+        onClick={() => changeHandler('YYYY', 'MM', 'DD')}
+      >
+        Clear
+      </Text>
     </div>
   )
 }
