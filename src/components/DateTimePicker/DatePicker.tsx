@@ -181,6 +181,7 @@ DatePickerProps) => {
         borderBottomLeftRadius: 4,
         borderBottomRightRadius: 4,
         width: 280,
+        boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
       }}
     >
       <div
@@ -259,6 +260,7 @@ DatePickerProps) => {
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',
+
                 justifyContent: 'center',
               }}
               key={i}

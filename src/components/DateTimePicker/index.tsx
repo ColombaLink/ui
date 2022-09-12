@@ -4,7 +4,7 @@ import { DatePicker } from './DatePicker'
 import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
-import { color, Select, useOverlay } from '~'
+import { color, Select, useOverlay, Text } from '~'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -12,6 +12,7 @@ const StyledDateInput = styled('input', {
   minHeight: 36,
   paddingLeft: 12,
   paddingRight: 12,
+
   cursor: 'text',
   border: `1px solid ${color('border')}`,
   '&::-webkit-calendar-picker-indicator': {
@@ -39,16 +40,13 @@ export const DateTimePicker = () => {
 
   console.log('input value', typeof inputValue)
 
-  // const DatePickerInner = ({ inputValue, setInputValue }) => {
-  //   return <DatePicker inputValue={inputValue} setInputValue={setInputValue} />
-  // }
-  /// value
-  /// min
-  /// max
-  /// onChange
-  // step??
+  // formatted date time to miliseconds
+  const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
+  console.log('to miliseconds ------> ', dateAndTimeToMiliseconds)
 
-  // options -> year, months, days, hours, minutes, seconds, milliseconds
+  // miliseconds to date time
+  const milisecondsToDateAndTime = new Date(dateAndTimeToMiliseconds)
+  console.log('to date and time ------> ', milisecondsToDateAndTime)
 
   return (
     <div>
@@ -57,9 +55,15 @@ export const DateTimePicker = () => {
       <br />
       combined output : {dateAndTime}
       <Spacer />
+      <Text space="8px">Date Time</Text>
       <div style={{ display: 'flex', gap: 16 }}>
         <StyledDateInput
-          style={{ maxWidth: 280 }}
+          style={{
+            maxWidth: 280,
+            background: showDatePicker ? color('background2') : '',
+            borderBottomLeftRadius: showDatePicker ? 0 : 4,
+            borderBottomRightRadius: showDatePicker ? 0 : 4,
+          }}
           placeholder="2001/01/10"
           type="date"
           onClick={(e) => {
@@ -71,6 +75,8 @@ export const DateTimePicker = () => {
             setInputValue(e.target.value)
           }}
           value={inputValue}
+          onBlur={() => {}}
+
           // onFocus={useContextMenu(
           //   DatePicker,
           //   { inputValue, setInputValue },
