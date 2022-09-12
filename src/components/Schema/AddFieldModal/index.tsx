@@ -1,30 +1,20 @@
-import React from 'react'
-import { Dialog, useLocation } from '~'
+import React, { FC } from 'react'
 import { AddFieldModalGeneral } from './General'
 import { AddFieldModalReference } from './Reference'
+import { templates } from '../fields'
 
-export const AddFieldModal = ({ fieldData }) => {
-  const [location] = useLocation()
-  const pathArray = location.split('/')
-  const name = pathArray[1]
-
+export const AddFieldModal: FC<{
+  template: string
+  type: string
+}> = ({ template, type }) => {
+  const { schema } = templates[template]
   const isRef =
-    (fieldData.type === 'reference' || fieldData.type === 'references') &&
-    fieldData.id !== 'file'
+    (schema.type === 'reference' || schema.type === 'references') &&
+    template !== 'file'
 
   return isRef ? (
-    <AddFieldModalReference
-      // field={field}
-      type={name}
-      fieldData={fieldData}
-      //  envSchema={envSchema}
-    />
+    <AddFieldModalReference type={type} template={template} />
   ) : (
-    <AddFieldModalGeneral
-      fieldData={fieldData}
-      //  envSchema={envSchema}
-      //  field={field}
-      type={name}
-    />
+    <AddFieldModalGeneral template={template} type={type} />
   )
 }

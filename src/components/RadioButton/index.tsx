@@ -11,8 +11,12 @@ type RadioButtonProps = {
   label?: string
   description?: string
   direction?: 'horizontal' | 'vertical'
+  onChange?: (value: string | number) => void
   // onChange?: (value: string, payload: OnRadioGroupChange) => void
 }
+
+// TODO: Why is this called radioButton and not buttonS?
+// Add description to items..
 
 export const RadioButton: FC<RadioButtonProps> = ({
   label,
@@ -20,11 +24,11 @@ export const RadioButton: FC<RadioButtonProps> = ({
   direction,
   data,
   defaultValue,
+  onChange,
   ...props
 }) => {
-  const snurp = data?.indexOf(defaultValue)
-
-  const [checked, setChecked] = useState<number | undefined>(snurp)
+  const selectedIndex = data?.indexOf(defaultValue)
+  const [checked, setChecked] = useState<number | undefined>(selectedIndex)
 
   return (
     <div {...props}>
@@ -44,6 +48,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
           <div
             onClick={() => {
               setChecked(index)
+              onChange?.(data[index])
             }}
             key={index}
             style={{
@@ -61,7 +66,9 @@ export const RadioButton: FC<RadioButtonProps> = ({
               value={data[checked]}
               checked={index == checked}
               onChange={() => {
+                // TODO remove this?
                 setChecked(index)
+                onChange?.(data[index])
               }}
               style={{
                 position: 'relative',

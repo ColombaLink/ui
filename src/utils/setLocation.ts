@@ -45,6 +45,6 @@ export const setLocation = (
         .join('&')
       newPath += queryString
     }
-    window.history.pushState({}, '', newPath)
   }
+  window.history.pushState({}, '', newPath)
 }
