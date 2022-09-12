@@ -1,16 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Input } from '../Input'
 import { DatePicker } from './DatePicker'
 import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
-import { color, Select, useOverlay, Text } from '~'
+import {
+  color,
+  Select,
+  useOverlay,
+  Text,
+  useContextMenu,
+  CalendarIcon,
+} from '~'
 
 const StyledDateInput = styled('input', {
   width: 280,
   borderRadius: 4,
   minHeight: 36,
-  paddingLeft: 12,
+  paddingLeft: 28,
   paddingRight: 12,
 
   cursor: 'text',
@@ -38,40 +45,8 @@ export const DateTimePicker = () => {
   const [UTCValue, setUTCValue] = useState(0)
 
   const dateAndTime = `${inputValue}T${inputTime}`
-
-  // console.log('input value', typeof inputValue)
-
   const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
   const outputInMsec = dateAndTimeToMiliseconds + UTCValue
-
-  // formatted date time to miliseconds
-
-  // console.log('to miliseconds ------> ', dateAndTimeToMiliseconds)
-  // console.log('offset time zone', new Date(dateAndTime).getTimezoneOffset())
-
-  // console.log('UTC Offset Value', UTCValue)
-
-  // console.log(
-  //   ' local offset time zone',
-  //   new Date(dateAndTime).getTimezoneOffset() * 60000
-  // )
-
-  //   Note that a negative return value from getTimezoneOffset() indicates that the current location is
-  // ahead of UTC, while a positive value indicates that the location is behind UTC.
-
-  // console.log(
-  //   'milliseconds and offset --> current UTC time in msec',
-  //   dateAndTimeToMiliseconds + new Date(dateAndTime).getTimezoneOffset() * 60000
-  // )
-
-  // const currentTimeWithOffsetMsec =
-  //   dateAndTimeToMiliseconds + new Date(dateAndTime).getTimezoneOffset() * 60000
-
-  // miliseconds to date time
-  // const milisecondsToDateAndTime = new Date(dateAndTimeToMiliseconds)
-  // console.log('to date and time ------> ', milisecondsToDateAndTime)
-
-  // console.log('blah', new Date(currentTimeWithOffsetMsec).toISOString())
 
   return (
     <div>
@@ -85,32 +60,42 @@ export const DateTimePicker = () => {
       <Spacer space="28px" />
       <Text space="8px">Date Time</Text>
       <div style={{ display: 'flex', gap: 16 }}>
-        <StyledDateInput
-          style={{
-            maxWidth: 280,
-            background: showDatePicker ? color('background2') : '',
-            borderBottomLeftRadius: showDatePicker ? 0 : 4,
-            borderBottomRightRadius: showDatePicker ? 0 : 4,
-          }}
-          placeholder="2001/01/10"
-          type="date"
-          onClick={(e) => {
-            //hides the calender in firefox
-            e.preventDefault()
-            setShowDatePicker(true)
-          }}
-          onChange={(e) => {
-            setInputValue(e.target.value)
-          }}
-          value={inputValue}
-          onBlur={() => {}}
-
-          // onFocus={useContextMenu(
-          //   DatePicker,
-          //   { inputValue, setInputValue },
-          //   { placement: 'center', width: 280 }
-          // )}
-        />
+        <div style={{ position: 'relative' }}>
+          <CalendarIcon
+            size={14}
+            style={{
+              pointerEvents: 'none',
+              position: 'absolute',
+              top: 10,
+              left: 10,
+            }}
+          />
+          <StyledDateInput
+            style={{
+              maxWidth: 280,
+              background: showDatePicker ? color('background2') : '',
+              borderBottomLeftRadius: showDatePicker ? 0 : 4,
+              borderBottomRightRadius: showDatePicker ? 0 : 4,
+            }}
+            placeholder="2001/01/10"
+            type="date"
+            onClick={(e) => {
+              //hides the calender in firefox
+              e.preventDefault()
+              setShowDatePicker(true)
+            }}
+            onChange={(e) => {
+              setInputValue(e.target.value)
+            }}
+            value={inputValue}
+            onBlur={() => {}}
+            // onFocus={useContextMenu(
+            //   () => DatePicker({ inputValue, setInputValue }),
+            //   {},
+            //   { placement: 'center', width: 282 }
+            // )}
+          ></StyledDateInput>
+        </div>
 
         <TimeInput setInputTime={setInputTime} inputTime={inputTime} />
 
@@ -158,7 +143,12 @@ export const DateTimePicker = () => {
         />
       </div>
       {showDatePicker && (
-        <DatePicker inputValue={inputValue} setInputValue={setInputValue} />
+        <DatePicker
+          inputValue={inputValue}
+          setInputValue={setInputValue}
+          showDatePicker={showDatePicker}
+          setShowDatePicker={setShowDatePicker}
+        />
       )}
     </div>
   )

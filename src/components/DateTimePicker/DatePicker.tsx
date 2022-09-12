@@ -1,21 +1,35 @@
-import React, { useState, useEffect } from 'react'
-import { ChevronDownIcon, ChevronUpIcon, Text, Separator, color } from '~'
+import React, { useState, useEffect, useRef } from 'react'
+import { ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
+import { styled } from 'inlines'
 
 type DatePickerProps = {
-  year?: number
-  month?: number
-  day?: number
+  // year?: number
+  // month?: number
+  // day?: number
   inputValue?: string
-  changeHandler?: (year, month, day) => void
+  // changeHandler?: (year, month, day) => void
   setInputValue?: (value: string) => void
+  showDatePicker?: boolean
+  setShowDatePicker?: (value: boolean) => void
 }
 
+const StyledDatePickerBox = styled('div', {
+  position: 'relative',
+  border: `1px solid ${color('border')}`,
+  borderBottomLeftRadius: 4,
+  borderBottomRightRadius: 4,
+  width: 280,
+  boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
+})
+
 export const DatePicker = ({
-  year,
-  month,
-  day,
+  // year,
+  // month,
+  // day,
   inputValue,
   setInputValue,
+  showDatePicker,
+  setShowDatePicker,
 }: // changeHandler,
 DatePickerProps) => {
   const dateObj = new Date()
@@ -37,9 +51,6 @@ DatePickerProps) => {
     'December',
   ]
 
-  const formatYmd = (date) => date.toISOString().slice(0, 10)
-  // console.log('formatYmd', formatYmd(dateObj))
-
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
   const currentYear = dateObj.getFullYear()
@@ -47,6 +58,8 @@ DatePickerProps) => {
   const [selectedDay, setSelectedDay] = useState(currentDay)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
+
+  const datePickerRef = useRef(null)
 
   const changeHandler = (year, month, day) => {
     if (day < 10) {
@@ -64,9 +77,23 @@ DatePickerProps) => {
     setSelectedYear(year)
 
     setInputValue(`${year}-${month}-${day}`)
-
-    //  console.log('--->>', `${year}-${month}-${day}`)
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        datePickerRef.current &&
+        !datePickerRef.current.contains(event.target)
+      ) {
+        setShowDatePicker(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [datePickerRef])
 
   useEffect(() => {
     setSelectedDay(+inputValue.split('-')[2])
@@ -82,26 +109,23 @@ DatePickerProps) => {
   }
 
   const todayHandler = () => {
-    // setSelectedDay(dateObj.getDate())
-    // setSelectedMonth(dateObj.getMonth())
-    // setSelectedYear(dateObj.getFullYear())
     changeHandler(
       dateObj.getFullYear(),
-      dateObj.getMonth() + 1,
+      (dateObj.getMonth() + 1).toString().slice(-2),
       dateObj.getDate()
     )
   }
 
   const oneMonthBack = () => {
     if (selectedMonth == +'01') {
-      changeHandler(selectedYear - 1, +'12', selectedDay)
+      changeHandler(selectedYear - 1, 12, selectedDay)
     } else {
       changeHandler(selectedYear, selectedMonth - 1, selectedDay)
     }
   }
   const oneMonthForward = () => {
     if (selectedMonth === 12) {
-      changeHandler(selectedYear + 1, +'01', selectedDay)
+      changeHandler(selectedYear + 1, 1, selectedDay)
     } else {
       changeHandler(selectedYear, selectedMonth + 1, selectedDay)
     }
@@ -175,15 +199,7 @@ DatePickerProps) => {
   // console.log(tempArr)
 
   return (
-    <div
-      style={{
-        border: `1px solid ${color('border')}`,
-        borderBottomLeftRadius: 4,
-        borderBottomRightRadius: 4,
-        width: 280,
-        boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
-      }}
-    >
+    <StyledDatePickerBox ref={datePickerRef}>
       <div
         style={{
           display: 'flex',
@@ -260,7 +276,6 @@ DatePickerProps) => {
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',
-
                 justifyContent: 'center',
               }}
               key={i}
@@ -300,6 +315,6 @@ DatePickerProps) => {
       >
         Clear
       </Text>
-    </div>
+    </StyledDatePickerBox>
   )
 }
