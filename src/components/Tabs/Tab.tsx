@@ -9,5 +9,5 @@ type TabProps = {
 }
 
 export const Tab = ({ children, style, label, icon }: TabProps) => {
-  return <div style={style}>{children}</div>
+  return <div style={{ flexGrow: 1, ...style }}>{children}</div>
 }
