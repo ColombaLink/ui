@@ -109,13 +109,13 @@ export const Tabs: FC<TabsProps> = ({
     if (t) {
       const { width, left, right } = t.getBoundingClientRect()
 
-      console.log('width:', width, 'left:', left, 'Fire')
-      console.log('bah', t.parentElement.getBoundingClientRect().left)
+      // console.log('width:', width, 'left:', left, 'Fire')
+      // console.log('bah', t.parentElement.getBoundingClientRect().left)
 
-      console.log(
-        'bkhafae',
-        left - t.parentElement.getBoundingClientRect().left
-      )
+      // console.log(
+      //   'bkhafae',
+      //   left - t.parentElement.getBoundingClientRect().left
+      // )
 
       setLineWidth(width)
       setX(left - t.parentElement.getBoundingClientRect().left)

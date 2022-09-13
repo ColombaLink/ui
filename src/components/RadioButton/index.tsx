@@ -6,7 +6,7 @@ import { border, color } from '~/utils'
 
 type RadioButtonProps = {
   value?: string
-  data?: Array<string>
+  data?: Array<{ label?: string; value: string; description?: string }>
   defaultValue?: string
   label?: string
   description?: string
@@ -27,8 +27,15 @@ export const RadioButton: FC<RadioButtonProps> = ({
   onChange,
   ...props
 }) => {
-  const selectedIndex = data?.indexOf(defaultValue)
-  const [checked, setChecked] = useState<number | undefined>(selectedIndex)
+  // const selectedIndex = data?.indexOf(defaultValue)
+
+  const defaultVar = data?.find(({ value }) => value === defaultValue)
+  const selectedIndex = data?.findIndex((obj) => obj === defaultVar)
+  const [checked, setChecked] = useState<any>(selectedIndex)
+
+  console.log('data', data)
+  console.log('defaultVar', defaultVar)
+  console.log('selectedIndex', selectedIndex)
 
   return (
     <div {...props}>
@@ -47,8 +54,10 @@ export const RadioButton: FC<RadioButtonProps> = ({
         {data?.map((item, index) => (
           <div
             onClick={() => {
+              console.log('clicked this', index)
+              console.log('----->', data[index].value)
               setChecked(index)
-              onChange?.(data[index])
+              onChange?.(data[index].value)
             }}
             key={index}
             style={{
@@ -68,7 +77,7 @@ export const RadioButton: FC<RadioButtonProps> = ({
               onChange={() => {
                 // TODO remove this?
                 setChecked(index)
-                onChange?.(data[index])
+                onChange?.(data[index].value)
               }}
               style={{
                 position: 'relative',
@@ -78,7 +87,6 @@ export const RadioButton: FC<RadioButtonProps> = ({
                 borderRadius: 20 / 2,
                 marginRight: 12,
                 border: border(1, 'border'),
-
                 '&:checked': {
                   background: color('accent'),
                   borderColor: color('accent'),
@@ -97,7 +105,12 @@ export const RadioButton: FC<RadioButtonProps> = ({
               }}
             ></styled.input>
             <div>
-              <Text weight={400}>{item}</Text>
+              <Text weight={500}>{item.label ? item.label : item.value}</Text>
+              {item.description && (
+                <Text weight={400} size={13} color="text2">
+                  {item.description}
+                </Text>
+              )}
             </div>
           </div>
         ))}
