@@ -49,13 +49,17 @@ const TabWrapper: FC<{
       style={{
         borderTop: '1px solid transparent',
         height: !large ? 42 - 3 : 66 - 3,
-        padding: !large ? '8px 12px 12px 8px' : '12px',
+        padding: !large ? '8px 12px 18px 8px' : '12px',
         display: 'flex',
         cursor: 'pointer',
         alignItems: 'center',
         ...(index === activeTabState
           ? font({ size: 15, weight: 600 })
           : font({ size: 15, color: 'text2' })),
+        borderBottom:
+          index === activeTabState
+            ? `3px solid ${color('text')}`
+            : '3px solid transparent',
       }}
       onClick={() => {
         setHoverTab(-1)
@@ -109,13 +113,13 @@ export const Tabs: FC<TabsProps> = ({
     if (t) {
       const { width, left, right } = t.getBoundingClientRect()
 
-      // console.log('width:', width, 'left:', left, 'Fire')
-      // console.log('bah', t.parentElement.getBoundingClientRect().left)
+      console.log('width:', width, 'left:', left, 'Fire')
+      console.log('bah', t.parentElement.getBoundingClientRect().left)
 
-      // console.log(
-      //   'bkhafae',
-      //   left - t.parentElement.getBoundingClientRect().left
-      // )
+      console.log(
+        'left - parent left',
+        left - t.parentElement.getBoundingClientRect().left
+      )
 
       setLineWidth(width)
       setX(left - t.parentElement.getBoundingClientRect().left)
@@ -130,8 +134,9 @@ export const Tabs: FC<TabsProps> = ({
     <>
       <div
         style={{
-          height: !large ? 42 : 66,
+          height: !large ? 39 : 63,
           borderBottom: `1px solid ${color('border')}`,
+          marginTop: '-2px',
           marginBottom: spaceToPx(space),
           position: 'relative',
           ...style,
@@ -144,7 +149,8 @@ export const Tabs: FC<TabsProps> = ({
             alignItems: 'center',
             display: 'flex',
             gap: 16,
-            paddingBottom: !large ? 8 : 0,
+            //    paddingBottom: !large ? 8 : 0,
+            marginBottom: -2,
           }}
           ref={elem}
         >
@@ -163,15 +169,19 @@ export const Tabs: FC<TabsProps> = ({
           ))}
         </styled.div>
         <div
-          style={{
-            transition: !large
-              ? 'width 0.2s, transform 0.15s'
-              : 'width 0.25s, transform 0.15s',
-            transform: `translate(${x}px, 0px)`,
-            width: lineWidth,
-            backgroundColor: color('text'),
-            height: 3,
-          }}
+          style={
+            {
+              // transition: !large
+              //   ? 'width 0.2s, transform 0.15s'
+              //   : 'width 0.25s, transform 0.15s',
+              // //   transform: `translate(${x}px, 0px)`,
+              // width: lineWidth,
+              // position: 'absolute',
+              // left: x,
+              // backgroundColor: color('text'),
+              // height: 3,
+            }
+          }
         ></div>
       </div>
 
@@ -180,7 +190,6 @@ export const Tabs: FC<TabsProps> = ({
         style={{
           flex: 1,
           height: sameHeight ? tabRefHeight : '100%',
-
           display: 'flex',
         }}
       >
