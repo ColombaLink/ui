@@ -51,13 +51,8 @@ const TabWrapper: FC<{
         height: !large ? 42 - 3 : 66 - 3,
         padding: !large ? '8px 12px 12px 8px' : '12px',
         display: 'flex',
-        //  marginRight: 16,
         cursor: 'pointer',
         alignItems: 'center',
-        // borderBottom:
-        //   index === activeTabState
-        //     ? `3px solid ${color('accent')}`
-        //     : '1px solid transparent',
         ...(index === activeTabState
           ? font({ size: 15, weight: 600 })
           : font({ size: 15, color: 'text2' })),
@@ -110,17 +105,17 @@ export const Tabs: FC<TabsProps> = ({
 
   useEffect(() => {
     const t = elem?.current?.children[hoverTab > -1 ? hoverTab : activeTabState]
-    console.log('hovertab', hoverTab)
+    // console.log('hovertab', hoverTab)
     if (t) {
       const { width, left, right } = t.getBoundingClientRect()
 
-      // console.log('width:', width, 'left:', left, 'Fire')
-      // console.log('bah', t.parentElement.getBoundingClientRect().left)
+      console.log('width:', width, 'left:', left, 'Fire')
+      console.log('bah', t.parentElement.getBoundingClientRect().left)
 
-      // console.log(
-      //   'bkhafae',
-      //   left - t.parentElement.getBoundingClientRect().left
-      // )
+      console.log(
+        'bkhafae',
+        left - t.parentElement.getBoundingClientRect().left
+      )
 
       setLineWidth(width)
       setX(left - t.parentElement.getBoundingClientRect().left)
@@ -171,7 +166,7 @@ export const Tabs: FC<TabsProps> = ({
           style={{
             transition: !large
               ? 'width 0.2s, transform 0.15s'
-              : 'width 0.25s, transform 0.2s',
+              : 'width 0.25s, transform 0.15s',
             transform: `translate(${x}px, 0px)`,
             width: lineWidth,
             backgroundColor: color('text'),
@@ -183,13 +178,13 @@ export const Tabs: FC<TabsProps> = ({
       <div
         ref={tabRef}
         style={{
-          flexGrow: 1,
+          flex: 1,
           height: sameHeight ? tabRefHeight : '100%',
+
+          display: 'flex',
         }}
       >
-        {typeof children !== 'string' && children
-          ? children[activeTabState]
-          : null}
+        {children[activeTabState]}
       </div>
     </>
   )

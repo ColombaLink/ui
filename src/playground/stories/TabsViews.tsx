@@ -10,7 +10,18 @@ const codeExample = `import { Tabs, Tab, Page } from '@based/ui'
     <Page>bla</Page>
   </Tab>
   <Tab label="label 2">
-    <Page>snurp</Page>
+    <Page>snurp
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+      <div>blha die blah</div>
+    </Page>
   </Tab>
 </Tabs>`
 
@@ -34,9 +45,9 @@ export const TabsView = () => {
           {
             code: codeExample,
           },
-          // {
-          //   code: codeExample2,
-          // },
+          {
+            code: codeExample2,
+          },
         ]}
         component={Tabs}
       />
