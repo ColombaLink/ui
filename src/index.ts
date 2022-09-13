@@ -13,6 +13,13 @@ export * from './components/Breadcrumbs'
 export * from './components/Button'
 export * from './components/Callout'
 export * from './components/Card'
+
+export * from './components/DateTimePicker'
+export * from './components/Badge'
+export * from './components/Thumbnail'
+export * from './components/Button'
+
+
 export * from './components/Checkbox'
 export * from './components/Code'
 export * from './components/Code'
