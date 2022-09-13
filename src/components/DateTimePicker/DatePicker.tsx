@@ -11,7 +11,7 @@ type DatePickerProps = {
 
 const StyledDatePickerBox = styled('div', {
   background: color('background'),
-  position: 'relative',
+  position: 'absolute',
   border: `1px solid ${color('border')}`,
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
