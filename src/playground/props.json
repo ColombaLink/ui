@@ -693,7 +693,7 @@
           "type": "Space"
         }
       },
-      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (boolean) => void\n  label?: ReactNode | string\n  space?: Space\n}",
+      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: ReactNode | string\n  space?: Space\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -996,6 +996,52 @@
       },
       "code": "type CustomListProps = {\n  items?: any[]\n  draggable?: boolean\n  itemSize?: number\n  itemSpace?: Space\n  style?: CSSProperties\n  autoScrollDistance?: number\n  maxItemWidth?: number\n  client?: any\n  schema?: any\n  db?: any\n  name?: string\n  fieldData?: any\n  showSystemFields?: boolean\n}",
       "file": "/components/CustomList/index.tsx"
+    },
+    "DatePickerProps": {
+      "name": "DatePickerProps",
+      "props": {
+        "inputValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "setInputValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "showDatePicker": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setShowDatePicker": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  showDatePicker?: boolean\n  setShowDatePicker?: (value: boolean) => void\n}",
+      "file": "/components/DateTimePicker/DatePicker.tsx"
+    },
+    "DateTimePickerProps": {
+      "name": "DateTimePickerProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  onChange?: (value: string) => void\n  space?: Space\n}",
+      "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
       "name": "ExpandableListProps",
@@ -1667,6 +1713,10 @@
           "optional": true,
           "type": "function"
         },
+        "error": {
+          "optional": true,
+          "type": "function"
+        },
         "transform": {
           "optional": true,
           "type": "function"
@@ -1687,7 +1737,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2112,9 +2162,13 @@
               "value": "vertical"
             }
           ]
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<string>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
+      "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<string>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
       "file": "/components/RadioButton/index.tsx"
     },
     "ResultCardProps": {
@@ -2213,32 +2267,6 @@
       },
       "code": "type ScatterResultProps = {\n  data: {\n    time: number\n    points: {\n      x: number\n      y: number\n      label: string\n      color: any\n      info?: { [key: string]: string | number }\n    }[]\n  }[]\n  xLabel?: string | number | NumberFormat\n  yLabel?: string | number | NumberFormat\n  info?: {\n    [key: string]: { format: string; label: string | number }\n  }\n  xLabelFormat?: NumberFormat\n  yLabelFormat?: NumberFormat\n  header?: string\n  width?: number\n  height?: number\n}",
       "file": "/components/ScatterResult/index.tsx"
-    },
-    "SchemaLeftSidebarProps": {
-      "name": "SchemaLeftSidebarProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "data": {
-          "optional": true,
-          "type": "TSTypeLiteral"
-        }
-      },
-      "code": "type SchemaLeftSidebarProps = {\n  style?: CSSProperties\n  data?: { [key: string]: string }\n}",
-      "file": "/components/Schema/SchemaLeftSidebar.tsx"
-    },
-    "SchemaEditorProps": {
-      "name": "SchemaEditorProps",
-      "props": {
-        "db": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type SchemaEditorProps = {\n  db?: string\n}",
-      "file": "/components/Schema/index.tsx"
     },
     "MultiSelectProps": {
       "name": "MultiSelectProps",
@@ -2589,6 +2617,9 @@
               "value": 40
             },
             {
+              "value": 48
+            },
+            {
               "value": 64
             }
           ]
@@ -2621,7 +2652,7 @@
           "type": "string"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
+      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 48 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
@@ -2699,7 +2730,7 @@
     "ToggleProps": {
       "name": "ToggleProps",
       "props": {
-        "checked": {
+        "value": {
           "optional": true,
           "type": "boolean"
         },
@@ -2721,9 +2752,13 @@
         },
         "style": {
           "type": "CSSProperties"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type ToggleProps = {\n  checked?: boolean\n  label?: string\n  description?: string\n  text?: string\n  baseColor?: Color\n  style: CSSProperties\n}",
+      "code": "type ToggleProps = {\n  value?: boolean\n  label?: string\n  description?: string\n  text?: string\n  baseColor?: Color\n  style: CSSProperties\n  onChange?: (value: boolean) => void\n}",
       "file": "/components/Toggle/index.tsx"
     },
     "ToggleGroupProps": {

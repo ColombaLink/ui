@@ -34,9 +34,9 @@ export const TabsView = () => {
           {
             code: codeExample,
           },
-          {
-            code: codeExample2,
-          },
+          // {
+          //   code: codeExample2,
+          // },
         ]}
         component={Tabs}
       />

@@ -49,11 +49,15 @@ const TabWrapper: FC<{
       style={{
         borderTop: '1px solid transparent',
         height: !large ? 42 - 3 : 66 - 3,
-        padding: !large ? '8px 8px 12px 8px' : '12px',
+        padding: !large ? '8px 12px 12px 8px' : '12px',
         display: 'flex',
-        marginRight: 16,
+        //  marginRight: 16,
         cursor: 'pointer',
         alignItems: 'center',
+        // borderBottom:
+        //   index === activeTabState
+        //     ? `3px solid ${color('accent')}`
+        //     : '1px solid transparent',
         ...(index === activeTabState
           ? font({ size: 15, weight: 600 })
           : font({ size: 15, color: 'text2' })),
@@ -75,6 +79,7 @@ const TabWrapper: FC<{
         <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
       )}
       {/* @ts-ignore */}
+
       {typeof children === 'string' ? children : children.props.label}
     </div>
   )
@@ -104,13 +109,23 @@ export const Tabs: FC<TabsProps> = ({
   const elem = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const t = elem.current.children[hoverTab > -1 ? hoverTab : activeTabState]
+    const t = elem?.current?.children[hoverTab > -1 ? hoverTab : activeTabState]
+    console.log('hovertab', hoverTab)
     if (t) {
-      const { width, left } = t.getBoundingClientRect()
+      const { width, left, right } = t.getBoundingClientRect()
+
+      // console.log('width:', width, 'left:', left, 'Fire')
+      // console.log('bah', t.parentElement.getBoundingClientRect().left)
+
+      // console.log(
+      //   'bkhafae',
+      //   left - t.parentElement.getBoundingClientRect().left
+      // )
+
       setLineWidth(width)
       setX(left - t.parentElement.getBoundingClientRect().left)
     }
-  }, [activeTabState, hoverTab, elem, children])
+  }, [hoverTab, activeTab, elem, children, activeTabState])
 
   // same height tabs options
   const tabRef = useRef(null)
@@ -123,6 +138,7 @@ export const Tabs: FC<TabsProps> = ({
           height: !large ? 42 : 66,
           borderBottom: `1px solid ${color('border')}`,
           marginBottom: spaceToPx(space),
+          position: 'relative',
           ...style,
         }}
         {...props}
@@ -132,6 +148,7 @@ export const Tabs: FC<TabsProps> = ({
             height: !large ? 42 - 3 : 66 - 3,
             alignItems: 'center',
             display: 'flex',
+            gap: 16,
             paddingBottom: !large ? 8 : 0,
           }}
           ref={elem}
