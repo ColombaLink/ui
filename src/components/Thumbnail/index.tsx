@@ -5,7 +5,7 @@ import { isCapitalised } from '~/utils/isCapitalised'
 import { Text } from '../Text'
 
 type ThumbnailProps = {
-  size?: 32 | 36 | 40 | 64
+  size?: 32 | 36 | 40 | 48 | 64
   img?: string
   icon?: FC | ReactNode
   color?: Color

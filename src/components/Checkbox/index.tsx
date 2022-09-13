@@ -11,7 +11,7 @@ export type CheckboxProps = {
   checked?: boolean
   description?: string
   style?: CSSProperties
-  onChange?: (boolean) => void
+  onChange?: (value: boolean) => void
   label?: ReactNode | string
   space?: Space
 }

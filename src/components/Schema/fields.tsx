@@ -1,71 +1,120 @@
-import React, { ReactNode } from 'react'
+// export type FieldData = {
+//   name: string
+//   type: string
+//   description: string
+//   icon: string
+//   id: string
+//   color?: string
+//   template?: { [key: string]: any }
+//   field?: boolean
+//   validation?: string // TODO make these typed
+// }
+
+import { ReactElement } from 'react'
 import {
   TextIcon,
-  EmailIcon,
+  AddIcon,
   ExternalLinkIcon,
-  TargetIcon,
-  StackIcon,
-  EditIcon,
-  MarkDownIcon,
-  AlignJustifyIcon,
-  ReferenceIcon,
-  AttachmentIcon,
-  CurlyBracesIcon,
-  GeoMarkerIcon,
   ModelIcon,
-  ListIcon,
-  TwentyThreeIcon,
-  PercentageIcon,
-  ToggleIcon,
-  CalendarIcon,
+  AttachmentIcon,
 } from '~/icons'
+import { Color } from '~/types'
 
-export type FieldData = {
-  name: string
-  type: string
-  description: string
-  icon: string | ReactNode
-  id: string
-  color?: string
-  template?: { [key: string]: any }
-  field?: boolean
-  validation?: string // make these typed
+// export type Field = {
+//   type: string
+//   // TODO fix this in based
+//   meta?: any
+//   properties?: any
+//   values?: any
+//   items?: any
+// }
+
+export const systemFields = new Set(['id', 'type', 'children', 'parents'])
+export const alwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
+export const templates: {
+  [template: string]: {
+    label: string
+    description: string
+    color: Color
+    icon: any
+  }
+} = {
+  // keys have to represent types or formats TODO add ts
+  string: {
+    label: 'String',
+    description: 'String is nice',
+    icon: TextIcon,
+    color: 'lightyellow',
+  },
+  object: {
+    label: 'Object',
+    description: 'Objects are sublime',
+    icon: ModelIcon,
+    color: 'lightbabyblue',
+  },
+  url: {
+    label: 'URL',
+    description: 'Url is cool',
+    icon: ExternalLinkIcon,
+    color: 'lightgreen',
+  },
+  markdown: {
+    label: 'Markdown',
+    description: 'Markdown is fancy',
+    icon: AddIcon,
+    color: 'lightyellow',
+  },
+  file: {
+    label: 'File',
+    description: 'Files are handy',
+    icon: AttachmentIcon,
+    color: 'lightred',
+  },
 }
+
+// const systemFieldData: FieldData = {
+//   name: 'system',
+//   type: 'type',
+//   description: 'System field',
+//   icon: 'IconText',
+//   id: 'system',
+// }
+/*
 
 export const fieldDescriptors: FieldData[] = [
   {
     name: 'Text',
     type: 'text',
     description: 'Text, word, etc.',
-    icon: TextIcon,
+    icon: 'IconText',
     id: 'text',
   },
   {
     name: 'Url',
     type: 'url',
     description: 'Field for urls',
-    icon: ExternalLinkIcon,
+    icon: 'IconLink',
     id: 'url',
   },
   {
     name: 'Email',
     type: 'email',
     description: 'Field for emails',
-    icon: EmailIcon,
+    icon: 'IconEmail',
     id: 'email',
   },
   {
     name: 'Id',
     type: 'id',
     description: 'System field stores unique id of node',
-    icon: TargetIcon,
+    icon: 'IconTarget',
     id: 'id',
   },
   {
     name: 'Type',
     type: 'type',
     description: 'Type api name',
-    icon: StackIcon,
+    icon: 'IconLayers',
     id: 'type',
   },
   {
@@ -74,7 +123,7 @@ export const fieldDescriptors: FieldData[] = [
     type: 'text',
     description: 'Markdown editor',
     validation: 'markdown',
-    icon: MarkDownIcon,
+    icon: 'IconMarkdown',
   },
   {
     name: 'Rich text',
@@ -82,14 +131,14 @@ export const fieldDescriptors: FieldData[] = [
     id: 'richtext',
     description: 'Editor with formatting',
     validation: 'markdown',
-    icon: EditIcon,
+    icon: 'IconEdit',
   },
   {
     name: 'Option list',
     type: 'string',
     id: 'options',
     description: 'A list with specific options (Enum)',
-    icon: AlignJustifyIcon,
+    icon: 'IconAlignJustify',
     validation: 'options', // + meta
   },
 
@@ -98,7 +147,7 @@ export const fieldDescriptors: FieldData[] = [
     type: 'reference',
     id: 'reference',
     description: 'Data relations',
-    icon: ReferenceIcon,
+    icon: 'IconReference',
   },
 
   {
@@ -106,7 +155,7 @@ export const fieldDescriptors: FieldData[] = [
     type: 'references',
     id: 'references',
     description: 'Data relations',
-    icon: ReferenceIcon,
+    icon: 'IconReference',
   },
 
   {
@@ -114,21 +163,21 @@ export const fieldDescriptors: FieldData[] = [
     type: 'reference',
     id: 'file',
     description: 'Static files',
-    icon: AttachmentIcon,
+    icon: 'IconAttachment',
   },
   {
     name: 'Json',
     type: 'json',
     id: 'json',
     description: 'Unstructured data',
-    icon: CurlyBracesIcon,
+    icon: 'IconJson',
   },
   {
     name: 'Object',
     type: 'object',
     id: 'object',
     description: 'Structured object',
-    icon: CurlyBracesIcon,
+    icon: 'IconJson',
   },
   {
     name: 'Geo',
@@ -147,28 +196,28 @@ export const fieldDescriptors: FieldData[] = [
       },
     },
     description: 'Geo coordinates',
-    icon: GeoMarkerIcon,
+    icon: 'IconGrid',
   },
   {
     name: 'Map',
     type: 'record',
     id: 'map',
     description: 'Key value pairs',
-    icon: ModelIcon,
+    icon: 'IconModel',
   },
   {
     name: 'Array',
     type: 'array',
     id: 'array',
     description: 'List with things',
-    icon: ListIcon,
+    icon: 'IconAlignJustify',
   },
   {
     name: 'Integer',
     type: 'number',
     id: 'int',
     description: 'A whole number',
-    icon: TwentyThreeIcon,
+    icon: 'IconInteger',
     validation: 'int',
   },
   {
@@ -176,7 +225,7 @@ export const fieldDescriptors: FieldData[] = [
     type: 'number',
     id: 'float',
     description: 'Any number including fractions',
-    icon: PercentageIcon,
+    icon: 'IconFloat',
     validation: 'float',
   },
   {
@@ -184,7 +233,7 @@ export const fieldDescriptors: FieldData[] = [
     type: 'boolean',
     id: 'boolean',
     description: 'True or false',
-    icon: ToggleIcon,
+    icon: 'IconBoolean',
   },
 
   {
@@ -192,7 +241,7 @@ export const fieldDescriptors: FieldData[] = [
     type: 'string',
     id: 'string',
     description: 'Non internationlized string of characters',
-    icon: TextIcon,
+    icon: 'IconText',
   },
 
   {
@@ -200,21 +249,21 @@ export const fieldDescriptors: FieldData[] = [
     type: 'set',
     id: 'set',
     description: 'Set with numbers or strings',
-    icon: StackIcon,
+    icon: 'IconLayers',
   },
   {
     name: 'Date time',
     type: 'timestamp',
     id: 'timestamp',
     description: 'Date with time',
-    icon: CalendarIcon,
+    icon: 'IconCal',
   },
   {
     name: 'Created at',
     type: 'timestamp',
     id: 'createdAt',
     description: 'Filled when item gets created',
-    icon: CalendarIcon,
+    icon: 'IconCal',
     field: true,
   },
   {
@@ -222,7 +271,59 @@ export const fieldDescriptors: FieldData[] = [
     type: 'timestamp',
     id: 'updatedAt',
     description: 'Updates on any change',
-    icon: CalendarIcon,
+    icon: 'IconCal',
     field: true,
   },
 ]
+
+export const fieldDescriptorsById: { [key: string]: FieldData } = {}
+export const getFieldStyle = (field: Field, fieldName?: string): FieldData => {
+  const id = field.meta?.id
+
+  if (id) {
+    const f = fieldDescriptorsById[id]
+    if (f) {
+      return f
+    }
+  }
+
+  if (fieldName && fieldDescriptorsById[fieldName]) {
+    return fieldDescriptorsById[fieldName]
+  }
+
+  const metaName = field.meta?.name
+
+  if (metaName) {
+    const f = fieldDescriptors.find((f) => f.name === metaName)
+    if (f) {
+      return f
+    }
+  }
+
+  let t = field.type
+
+  if (t === 'references') {
+    t = 'reference'
+  }
+
+  if (fieldDescriptorsById[t]) {
+    return fieldDescriptorsById[t]
+  }
+
+  const f = fieldDescriptors.find((f) => f.type === t)
+  if (f) {
+    return f
+  }
+
+  const validation = field.meta?.validation
+
+  if (validation) {
+    const f = fieldDescriptors.find((f) => f.validation === validation)
+    if (f) {
+      return f
+    }
+  }
+
+  return systemFieldData
+}
+*/

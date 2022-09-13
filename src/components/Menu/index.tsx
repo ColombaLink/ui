@@ -70,7 +70,7 @@ export const MenuItem: FC<MenuItemProps> = ({
             : null,
         }}
       >
-        {children}
+        {typeof children === 'function' ? children({ isActive }) : children}
       </Link>
     </Text>
   )
@@ -90,7 +90,7 @@ export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
 }
 
 export const Menu: FC<{
-  data: object
+  data: any
   selected?: string
   prefix?: string
   style?: CSSProperties
@@ -103,6 +103,21 @@ export const Menu: FC<{
     selected = location
   }
 
+  if (!Array.isArray(data)) {
+    data = Object.keys(data).map((key) => {
+      const href = data[key]
+      return typeof href === 'object'
+        ? {
+            label: key,
+            items: href,
+          }
+        : {
+            label: key,
+            href,
+          }
+    })
+  }
+
   return (
     <ScrollArea
       style={{
@@ -113,29 +128,20 @@ export const Menu: FC<{
         ...style,
       }}
     >
-      {header ? (
-        <div
-          style={{
-            marginBottom: 24,
-          }}
-        >
-          {header}
-        </div>
-      ) : null}
-      {Object.keys(data).map((key, i) => {
-        let value = data[key]
-        if (typeof value === 'object') {
-          if (!Array.isArray(value)) {
-            value = Object.keys(value).map((key) => ({
+      {header}
+      {data.map(({ label, href, items }, i) => {
+        if (items) {
+          if (!Array.isArray(items)) {
+            items = Object.keys(items).map((key) => ({
               label: key,
-              href: value[key],
+              href: items[key],
             }))
           }
 
           return (
-            <Fragment key={key}>
-              <MenuHeader style={{ marginTop: i && 40 }}>{key}</MenuHeader>
-              {value.map(({ href, label }, index) => {
+            <Fragment key={i}>
+              <MenuHeader style={{ marginTop: i && 40 }}>{label}</MenuHeader>
+              {items.map(({ href, label }, index) => {
                 if (href[0] !== '?') {
                   href = prefix + href
                 }
@@ -153,15 +159,15 @@ export const Menu: FC<{
             </Fragment>
           )
         }
-        const href = prefix + value
+        href = prefix + href
         return (
           <MenuItem
-            key={key}
+            key={i}
             href={href}
             isActive={hrefIsActive(href, selected)}
             weight={500}
           >
-            {key}
+            {label}
           </MenuItem>
         )
       })}

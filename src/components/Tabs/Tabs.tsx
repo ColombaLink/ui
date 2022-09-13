@@ -53,7 +53,6 @@ const TabWrapper: FC<{
         display: 'flex',
         marginRight: 16,
         cursor: 'pointer',
-        // borderBottom: `3px solid transparent`,
         alignItems: 'center',
         ...(index === activeTabState
           ? font({ size: 15, weight: 600 })
@@ -122,7 +121,6 @@ export const Tabs: FC<TabsProps> = ({
       <div
         style={{
           height: !large ? 42 : 66,
-          marginTop: 24,
           borderBottom: `1px solid ${color('border')}`,
           marginBottom: spaceToPx(space),
           ...style,
@@ -147,7 +145,6 @@ export const Tabs: FC<TabsProps> = ({
               setHoverTab={setHoverTab}
               setActiveTabInternal={setActiveTabInternal}
               sameHeight={sameHeight}
-              // @ts-ignore
             >
               {child}
             </TabWrapper>

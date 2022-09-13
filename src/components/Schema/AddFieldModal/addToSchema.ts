@@ -1,59 +1,51 @@
 import { deepCopy } from '@saulx/utils'
 import { Based } from '@based/client'
-import safeTypeName from '../safeTypeName'
-import { FieldData } from '../fields'
+import safeTypeName from '../AddTypeModal/safeTypeName'
 import { FieldOptionsState } from './types'
+import { templates } from '../fields'
 
 export default async function addToSchema(
   type: string,
   db: string,
   options: FieldOptionsState,
-  fieldData: FieldData,
+  template: string,
   originalSchema: any,
   client: Based,
-  field?: string
+  fieldName?: string
 ) {
   if (originalSchema) {
     const schema: any = deepCopy(originalSchema)
+    const fieldDefinition = deepCopy(templates[template].schema)
 
-    if (!schema.languages || !schema.languages.length) {
-      schema.languages = ['en']
+    if (!fieldName) {
+      if (!schema.languages || !schema.languages.length) {
+        schema.languages = ['en']
+      }
+
+      if (!schema.types) {
+        schema.types = {}
+      }
+
+      if (!schema.types[type]) {
+        schema.types[type] = {}
+      }
+
+      if (!schema.types[type].fields) {
+        schema.types[type].fields = {}
+      }
+
+      if (!options.name) {
+        throw new Error('Name is required')
+      }
+
+      fieldName = options.fieldName || safeTypeName(options.name)
     }
 
-    // make path
-    if (!schema.types) {
-      schema.types = {}
+    if (fieldDefinition.meta === undefined) {
+      fieldDefinition.meta = {}
     }
 
-    if (!schema.types[type]) {
-      schema.types[type] = {}
-    }
-
-    if (!schema.types[type].fields) {
-      schema.types[type].fields = {}
-    }
-
-    if (!options.name) {
-      throw new Error('Name is required')
-    }
-
-    const parsedName = options.fieldName || safeTypeName(options.name)
-
-    const index = Object.keys(schema.types[type].fields).length
-
-    schema.types[type].fields[parsedName] = fieldData.template
-      ? deepCopy(fieldData.template)
-      : {
-          type: fieldData.type,
-          meta: {
-            name: options.fieldName || options.name,
-            id: fieldData.id,
-          },
-        }
-
-    const fieldDefinition = schema.types[type].fields[parsedName]
-
-    fieldDefinition.meta.index = index
+    fieldDefinition.meta.index = Object.keys(schema.types[type].fields).length
 
     if (options.description) {
       fieldDefinition.meta.description = options.description
@@ -63,11 +55,14 @@ export default async function addToSchema(
       fieldDefinition.meta.required = true
     }
 
-    if (options.name !== parsedName) {
+    if (options.name !== fieldName) {
       fieldDefinition.meta.name = options.name
     }
 
-    if (fieldData.type === 'reference' || fieldData.type === 'reference') {
+    if (
+      fieldDefinition.type === 'reference' ||
+      fieldDefinition.type === 'reference'
+    ) {
       if (options.fileTypes) {
         fieldDefinition.meta.fileTypes = options.fileTypes
       }
@@ -85,19 +80,17 @@ export default async function addToSchema(
         options.biDirectionalTarget &&
         options.biDirectionalTarget.name
       ) {
-        console.info('ok spannend!')
-
-        const biparsedName =
+        const bifieldName =
           options.biDirectionalTarget.fieldName ||
           safeTypeName(options.biDirectionalTarget.name)
 
         fieldDefinition.bidirectional = {
-          fromField: biparsedName,
+          fromField: bifieldName,
         }
 
         if (options.refTypes && options.refTypes.length) {
           options.refTypes.forEach((refType) => {
-            // biparsedName
+            // bifieldName
 
             const target = schema.types[refType]
 
@@ -107,9 +100,9 @@ export default async function addToSchema(
 
             const index = Object.keys(target.fields).length
 
-            target.fields[biparsedName] = {
+            target.fields[bifieldName] = {
               bidirectional: {
-                fromField: parsedName,
+                fromField: fieldName,
               },
               type:
                 //  @ts-ignore
@@ -133,9 +126,11 @@ export default async function addToSchema(
     }
 
     // for all
-    if (fieldData.type === 'object') {
+    if (fieldDefinition.type === 'object') {
       fieldDefinition.properties = {}
     }
+
+    schema.types[type].fields[fieldName] = fieldDefinition
 
     await client.updateSchema({ schema, db })
   }

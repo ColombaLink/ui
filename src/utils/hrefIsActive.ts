@@ -17,9 +17,15 @@ export const hrefIsActive = (href: string, selected: string, data?: object) => {
   }
 
   if (href[0] === '?') {
-    // TODO bit of a lazy check, can improve
-    return location.search.indexOf(href.substring(1)) !== -1
+    return location.search.substring(1).split('/').includes(href.substring(1))
   }
 
-  return selected.startsWith(href)
+  if (selected.startsWith(href)) {
+    const nextChar = selected[href.length]
+    if (nextChar === undefined || nextChar === '/' || nextChar === '?') {
+      return true
+    }
+  }
+
+  return false
 }

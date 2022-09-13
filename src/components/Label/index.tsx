@@ -24,6 +24,9 @@ export const Label = ({
   children,
   style,
 }: LabelProps) => {
+  if (!label && !description) {
+    return null
+  }
   return (
     <div
       style={{

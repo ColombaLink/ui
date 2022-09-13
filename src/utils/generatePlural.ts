@@ -30,11 +30,17 @@ export const getName = (schema: any, type: string) => {
   return capitalize(schema.types[type]?.meta?.name || type)
 }
 
-export const capitalize = (name: string): string => {
+export const capitalize = (name: string, allWords?: boolean): string => {
   if (!name) {
     return ''
   }
-  return name[0].toUpperCase() + (name.length > 1 ? name.slice(1) : '')
+  if (allWords) {
+    return name
+      .split(' ')
+      .map((word) => capitalize(word))
+      .join(' ')
+  }
+  return name[0].toUpperCase() + name.substring(1)
 }
 
 // @ts-ignore

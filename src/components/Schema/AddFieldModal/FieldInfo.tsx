@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Input } from '~'
+import safeTypeName from '../AddTypeModal/safeTypeName'
 import { FieldOptionsState } from './types'
-import safeTypeName from '../safeTypeName'
 
 export const FieldInfo: FC<{
   options: FieldOptionsState
@@ -19,7 +19,7 @@ export const FieldInfo: FC<{
           update({ name: value })
         }}
         value={options.name}
-        space="20px"
+        style={{ marginBottom: 24 }}
       />
       <Input
         type="text"
@@ -30,10 +30,10 @@ export const FieldInfo: FC<{
           update({ fieldName: safeTypeName(value) })
         }}
         value={options.fieldName || safeTypeName(options.name || '')}
-        space="20px"
+        style={{ marginBottom: 24 }}
       />
       <Input
-        multiline
+        multiline // TODO no camelcase?
         label="Description (Optional)"
         description="Displays a hint for content editors"
         value={options.description}

@@ -103,7 +103,6 @@ export const ToastProvider = ({
     }
 
     toast.add = toast
-
     toast.close = (id?: number) => {
       if (typeof id === 'number') {
         const index = toastsRef.current.findIndex(

@@ -69,6 +69,7 @@ type InputProps = {
   large?: boolean
   disabled?: boolean
   suggest?: (str: string) => string // show suggestion => Enter to complete
+  error?: (str: string) => string // show error
   transform?: (str: string) => string // transform string
   forceSuggestion?: boolean // apply suggestion on blur
   noInterrupt?: boolean // dont use external state while focused
@@ -161,47 +162,53 @@ export const Input: FC<
   InputPropsChange &
     Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
 > = ({
-  style,
-  onChange: onChangeProp,
-  label,
+  autoFocus,
+  bg,
   colorInput,
-  description,
-  optional,
-  ghost,
-  value: valueProp,
   defaultValue,
-  type,
-  placeholder = 'Type something here',
+  description,
+  disabled,
+  forceSuggestion,
+  ghost,
   icon,
   iconRight,
-  multiline,
-  bg,
-  autoFocus,
-  name,
-  space,
   inputRef,
+  label,
   large,
-  disabled,
+  multiline,
+  name,
+  noInterrupt,
+  onChange: onChangeProp,
+  optional,
+  placeholder = 'Type something here',
+  space,
+  style,
   suggest,
   transform,
-  forceSuggestion,
-  noInterrupt,
+  error,
+  type,
+  value: valueProp,
   ...otherProps
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
-
+  // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
 
   const onChange = (e) => {
-    const newValue = transform ? transform(e.target.value) : e.target.value
+    let newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
-    if (type === 'number' && typeof newValue !== 'number') return
-    // ignore so we have to write less code.. TODO: write more stuff for this
-    // @ts-ignore
+    if (type === 'number' && typeof newValue !== 'number') {
+      newValue = Number(newValue)
+    }
+
     onChangeProp?.(newValue)
+    // const msg = error?.(newValue)
+    // if (msg) {
+
+    // }
   }
 
   const paddingLeft = ghost ? 0 : icon ? 36 : 12
@@ -249,14 +256,11 @@ export const Input: FC<
         ...style,
       }}
     >
-      {label || description ? (
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 12 }}
-        />
-      ) : null}
-
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -276,7 +280,9 @@ export const Input: FC<
         })}
         {colorInput ? (
           <ColorInput
-            onChange={(e) => setColorValue(e.target.value)}
+            onChange={(e) => {
+              setColorValue(e.target.value)
+            }}
             value={colorValue}
             style={{ width: '100%' }}
           />
@@ -305,6 +311,7 @@ export const Input: FC<
           },
         })}
       </div>
+      {/* <ErrorMessage /> */}
     </div>
   )
 }
