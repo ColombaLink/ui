@@ -1,25 +1,38 @@
-import React, { ChangeEventHandler, FC, FormEvent, ReactNode } from 'react'
+import React, {
+  ChangeEventHandler,
+  CSSProperties,
+  FC,
+  FormEvent,
+  ReactNode,
+} from 'react'
 import { styled } from 'inlines'
 
 type SubmitResponse = {
-  [key: string]: HTMLInputElement
+  [key: string]: any
 }
 
-export type FormProps = {
-  children?: ReactNode
+export const Form: FC<{
+  style?: CSSProperties
   onSubmit?: (res: SubmitResponse) => void
-}
-
-export const Form: FC<FormProps> = ({ children, onSubmit, ...props }) => {
+}> = ({ onSubmit, ...props }) => {
   return (
     <styled.form
       onSubmit={(e) => {
         e.preventDefault()
-        onSubmit?.(e.target.elements)
+        if (onSubmit) {
+          const result = Array.from(e.target.elements).reduce(
+            (res, { name, value }) => {
+              if (name) {
+                res[name] = value
+              }
+              return res
+            },
+            {}
+          )
+          onSubmit(result)
+        }
       }}
       {...props}
-    >
-      {children}
-    </styled.form>
+    />
   )
 }

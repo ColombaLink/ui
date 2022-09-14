@@ -10,7 +10,16 @@ export const InputFields = () => {
       examples={[
         {
           props: {
+            // make this work!
             label: 'Input label',
+            maxChars: 200,
+            descriptionBottom: 'Dit komt eronder',
+            indent: true,
+            error: (value) => {
+              if (!value) {
+                return 'Please enter a value'
+              }
+            },
           },
         },
         {

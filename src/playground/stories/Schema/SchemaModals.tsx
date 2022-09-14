@@ -2,11 +2,14 @@ import { Based, BasedClient } from '@based/client'
 import { useClient, useSchema } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import React, { FC, useEffect, useRef, useState } from 'react'
+import { Button } from '~/components/Button'
 import { Dialog } from '~/components/Dialog'
+import { Form } from '~/components/Form'
 import { Input } from '~/components/Input'
 import { Page } from '~/components/Page'
 import safeTypeName from '~/components/Schema/AddTypeModal/safeTypeName'
 import { templates } from '~/components/Schema/fields'
+import { Select } from '~/components/Select'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
 import { Toast, useToast } from '~/components/Toast'
@@ -24,21 +27,21 @@ const GeneralMeta: FC<{
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>
   editField?: boolean
 }> = ({ options, setDisabled, editField }) => {
-  const [fieldName, setFieldName] = useState(options.fieldName)
+  const [field, setField] = useState(options.field)
   const update = useUpdate()
 
   useEffect(() => {
     if (
-      !options.displayName ||
-      options.displayName.length < 3 ||
-      !options.fieldName ||
-      options.fieldName.length < 3
+      !options.meta.name ||
+      options.meta.name.length < 3 ||
+      !options.field ||
+      options.field.length < 3
     ) {
       setDisabled(true)
     } else {
       setDisabled(false)
     }
-  }, [options.fieldName, options.displayName])
+  }, [options.field, options.meta.name])
 
   return (
     <>
@@ -49,13 +52,13 @@ const GeneralMeta: FC<{
         label="Display name"
         description="Name that will be displayed in the interface"
         onChange={(value: string) => {
-          options.displayName = value
-          if (!fieldName) {
-            options.fieldName = safeTypeName(value)
+          options.meta.name = value
+          if (!field) {
+            options.field = safeTypeName(value)
           }
           update()
         }}
-        value={options.displayName}
+        value={options.meta.name}
         style={{ marginTop: 24, marginBottom: 24 }}
       />
       <Input
@@ -66,12 +69,12 @@ const GeneralMeta: FC<{
         description="Api field - name used in the sdk and clients"
         onChange={(value: string) => {
           // TODO make own safeName for fields (dont use type)
-          options.fieldName = safeTypeName(value)
-          setFieldName(options.fieldName)
+          options.field = safeTypeName(value)
+          setField(options.field)
         }}
         value={
-          options.fieldName ??
-          (options.displayName && safeTypeName(options.displayName))
+          options.field ??
+          (options.meta.name && safeTypeName(options.meta.name))
         }
         style={{ marginBottom: 24 }}
       />
@@ -79,9 +82,9 @@ const GeneralMeta: FC<{
         multiline // TODO no camelcase?
         label="Description (Optional)"
         description="Displays a hint for content editors"
-        value={options.description}
+        value={options.meta.description}
         onChange={(value) => {
-          options.description = value
+          options.meta.description = value
           update()
         }}
       />
@@ -89,19 +92,20 @@ const GeneralMeta: FC<{
   )
 }
 
-type FieldOptions = {
-  displayName?: string
-  fieldName?: string
+type FieldMeta = {
+  name?: string
   description?: string
+  format?: 'url'
+}
+
+type FieldOptions = {
+  field?: string
+  meta?: FieldMeta
 }
 
 type FieldSchemaTemplate = {
   type: string
-  meta?: {
-    name?: string
-    description?: string
-    format?: 'url'
-  }
+  meta?: FieldMeta
 }
 
 const updateFieldSchema = (
@@ -110,26 +114,14 @@ const updateFieldSchema = (
   fieldSchemaTemplate: FieldSchemaTemplate,
   options: FieldOptions
 ) => {
-  const { displayName, description, fieldName } = options
+  const { field, meta = {} } = options
 
-  if (!displayName) {
+  if (!meta.name) {
     throw Error('Display name is required')
   }
 
-  if (!fieldName) {
+  if (!field) {
     throw Error('Field name is required')
-  }
-
-  const fieldSchema = deepCopy(fieldSchemaTemplate) as FieldSchemaTemplate
-
-  if (!fieldSchema.meta) {
-    fieldSchema.meta = {}
-  }
-
-  fieldSchema.meta.name = displayName
-
-  if (description) {
-    fieldSchema.meta.description = description
   }
 
   return client.updateSchema({
@@ -137,7 +129,10 @@ const updateFieldSchema = (
       types: {
         [type]: {
           fields: {
-            [fieldName]: fieldSchema,
+            [field]: {
+              type: fieldSchemaTemplate.type,
+              meta,
+            },
           },
         },
       },
@@ -159,7 +154,8 @@ const useFieldSchemaUpdate = (
   const client = useClient()
   const toast = useToast({ attached: true })
   const { current: options } = useRef<FieldOptions>({
-    fieldName: editField,
+    field: editField,
+    meta: {},
   })
   const [disabled, setDisabled] = useState(true)
   const { schema, loading } = useSchema()
@@ -169,8 +165,7 @@ const useFieldSchemaUpdate = (
     if (editField && !loading) {
       const { meta } = schema.types[type].fields[editField]
       if (meta) {
-        options.displayName = meta.name
-        options.description = meta.description
+        options.meta = meta
         update()
       }
     }
@@ -210,7 +205,9 @@ const FieldModal = ({
           <Thumbnail color={color} icon={icon} style={{ marginRight: 16 }} />
           {label}
         </Dialog.Label>
-        <Tabs sameHeight>{children}</Tabs>
+        <Tabs sameHeight activeTab={0}>
+          {children}
+        </Tabs>
       </Dialog.Body>
       <Dialog.Buttons border>
         <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
@@ -222,7 +219,7 @@ const FieldModal = ({
   )
 }
 
-const String = ({ type, editField }) => {
+const StringModal = ({ type, editField }) => {
   const { options, disabled, update, setDisabled } = useFieldSchemaUpdate(
     type,
     {
@@ -250,7 +247,7 @@ const String = ({ type, editField }) => {
   )
 }
 
-const Url = ({ type, editField }) => {
+const UrlModal = ({ type, editField }) => {
   const { options, disabled, update, setDisabled } = useFieldSchemaUpdate(
     type,
     {
@@ -280,7 +277,7 @@ const Url = ({ type, editField }) => {
   )
 }
 
-const Object = ({ type, editField }) => {
+const ObjectModal = ({ type, editField }) => {
   const { options, disabled, update, setDisabled } = useFieldSchemaUpdate(
     type,
     {
@@ -307,7 +304,7 @@ const Object = ({ type, editField }) => {
   )
 }
 
-const File = ({ type, editField }) => {
+const FileModal = ({ type, editField }) => {
   const { options, disabled, update, setDisabled } = useFieldSchemaUpdate(
     type,
     {
@@ -350,12 +347,54 @@ const File = ({ type, editField }) => {
 // }
 
 export const SchemaModals = () => {
+  const [type, setType] = useState('youzitype')
+  const [editField, setEditField] = useState('what-is-the-plan')
+  const { schema, loading } = useSchema()
+
+  useEffect(() => {
+    if (!loading) {
+      if (!schema.types[type].fields[editField]) {
+        setEditField(null)
+      }
+    }
+  }, [type, schema, loading, editField])
+
   return (
-    <div style={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap', gap: 32 }}>
-      <String type="youzitype" editField="ok-g" />
-      <Url type="youzitype" editField="ok-g" />
-      <Object type="youzitype" editField="ok-g" />
-      <File type="youzitype" editField="ok-g" />
-    </div>
+    !loading && (
+      <>
+        <Select
+          style={{ width: 500 }}
+          value={type}
+          options={Object.keys(schema.types)}
+          name="type"
+          label="Item type"
+          // @ts-ignore
+          onChange={setType}
+        />
+        {type && (
+          <>
+            <Select
+              style={{ width: 500 }}
+              value={editField}
+              options={Object.keys(schema.types[type].fields)}
+              name="type"
+              label="Edit Existing Field"
+              // @ts-ignore
+              onChange={setEditField}
+            />
+            <br />
+          </>
+        )}
+        <div
+          key={editField}
+          style={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap', gap: 32 }}
+        >
+          <StringModal type={type} editField={editField} />
+          <UrlModal type={type} editField={editField} />
+          <ObjectModal type={type} editField={editField} />
+          <FileModal type={type} editField={editField} />
+        </div>
+      </>
+    )
   )
 }

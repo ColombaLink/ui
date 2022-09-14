@@ -139,7 +139,9 @@ const components = {
 
 const EditField = ({ id, meta, type, field, index, language, onChange }) => {
   const { ui, format, description, name } = meta
+
   const { data } = useData({ $id: id, $language: language, [field]: true })
+
   const Component = components[type]?.[ui || format || 'default']
   const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
 
@@ -177,7 +179,8 @@ const Edit = ({ id, onChange }) => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {fields[meta.descriptor] || meta.name}:{id}
+      {/* {fields[meta.descriptor] ||  */}
+      {meta.name}:{id}
       {Object.keys(fields).map((field) => {
         const { type, meta } = fields[field]
 

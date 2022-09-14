@@ -205,10 +205,10 @@ export const Input: FC<
     }
 
     onChangeProp?.(newValue)
-    // const msg = error?.(newValue)
-    // if (msg) {
-
-    // }
+    const msg = error?.(newValue)
+    if (msg) {
+      // add error msg
+    }
   }
 
   const paddingLeft = ghost ? 0 : icon ? 36 : 12

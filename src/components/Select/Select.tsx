@@ -33,11 +33,12 @@ export const StyledSelect = styled('div', {
 export type SelectProps = {
   value?: Value
   options: (Option | Value)[]
-  onChange: (value: Value) => void
+  onChange?: (value: Value) => void
   filterable?: boolean | 'create'
   placeholder?: string
   overlay?: PositionProps
   label?: string
+  name?: string
   color?: Color
   style?: CSSProperties
 }
@@ -52,6 +53,7 @@ export const Select: FC<SelectProps> = ({
   placeholder = 'Select an option',
   overlay,
   label,
+  name,
 }) => {
   const [currentValue, open] = useSelect(options, value, {
     variant: 'over',
@@ -65,9 +67,9 @@ export const Select: FC<SelectProps> = ({
   useEffect(() => {
     if (currentValue !== value) {
       // TODO: Fix this type
-      onChange(currentValue as Value)
+      onChange?.(currentValue as Value)
     }
-  }, [currentValue])
+  }, [currentValue, onChange])
 
   if (currentValue) {
     for (const opt of options) {
@@ -79,6 +81,14 @@ export const Select: FC<SelectProps> = ({
 
   const children = (
     <>
+      {typeof currentValue === 'string' && (
+        <input
+          readOnly
+          style={{ display: 'none' }}
+          value={currentValue}
+          name={name}
+        />
+      )}
       <Text color={currentValue ? 'text2' : 'text'}>
         {labelValue || placeholder}
       </Text>
