@@ -9,7 +9,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { Text } from '../Text'
+import { Text, Button } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -272,11 +272,22 @@ export const Input: FC<
         ...style,
       }}
     >
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 12 }}
-      />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 12 }}
+        />
+        {value.length > 0 && indent && (
+          <Button
+            ghost
+            onClick={() => setValue('')}
+            style={{ height: 'fit-content' }}
+          >
+            Clear
+          </Button>
+        )}
+      </div>
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
