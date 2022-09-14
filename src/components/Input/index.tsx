@@ -9,7 +9,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { Text } from '../Text'
+import { Text, Button, Callout, ErrorIcon } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -53,12 +53,15 @@ type InputProps = {
   label?: string
   colorInput?: boolean
   description?: string
+  descriptionBottom?: string
   optional?: boolean
   value?: string | number
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
+  indent?: boolean
   defaultValue?: string | number
   placeholder?: string
+  maxChars?: number
   multiline?: boolean
   bg?: boolean
   ghost?: boolean
@@ -167,14 +170,18 @@ export const Input: FC<
   colorInput,
   defaultValue,
   description,
+  descriptionBottom,
   disabled,
+  error,
   forceSuggestion,
   ghost,
   icon,
   iconRight,
+  indent,
   inputRef,
   label,
   large,
+  maxChars,
   multiline,
   name,
   noInterrupt,
@@ -185,7 +192,6 @@ export const Input: FC<
   style,
   suggest,
   transform,
-  error,
   type,
   value: valueProp,
   ...otherProps
@@ -196,18 +202,31 @@ export const Input: FC<
   const { listeners: hoverListeners, hover } = useHover()
   // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (maxChars && value.length > maxChars) {
+      setValue(value.slice(0, maxChars))
+    }
+  }, [value])
 
   const onChange = (e) => {
     let newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
+
     if (type === 'number' && typeof newValue !== 'number') {
       newValue = Number(newValue)
     }
 
     onChangeProp?.(newValue)
     const msg = error?.(newValue)
+
     if (msg) {
       // add error msg
+      setErrorMessage(msg)
+    } else {
+      // remove error msg
+      setErrorMessage('')
     }
   }
 
@@ -253,14 +272,35 @@ export const Input: FC<
       style={{
         width: ghost ? 300 : '100%',
         marginBottom: spaceToPx(space),
+        borderLeft: indent ? `2px solid ${color('border')}` : null,
+        borderColor: errorMessage
+          ? color('red')
+          : focused
+          ? color('accent')
+          : color('border'),
+        paddingLeft: indent ? 12 : null,
         ...style,
       }}
     >
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 12 }}
-      />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 12 }}
+        />
+        {value.length > 0 && indent && (
+          <Button
+            ghost
+            onClick={() => {
+              onChangeProp?.('')
+              setValue('')
+            }}
+            style={{ height: 'fit-content' }}
+          >
+            Clear
+          </Button>
+        )}
+      </div>
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -311,7 +351,43 @@ export const Input: FC<
           },
         })}
       </div>
+
+      {maxChars && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 8,
+          }}
+        >
+          <Text color="text2" weight={400}>
+            {value.length} characters
+          </Text>
+          <Text color="text2" weight={400}>
+            Max {maxChars} characters
+          </Text>
+        </div>
+      )}
+      {descriptionBottom && (
+        <Text color="text2" italic weight={400}>
+          {descriptionBottom}
+        </Text>
+      )}
       {/* <ErrorMessage /> */}
+      {errorMessage && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            marginTop: 6,
+          }}
+        >
+          <ErrorIcon color="red" size={16} />
+          <Text color="red">{errorMessage}</Text>
+        </div>
+      )}
     </div>
   )
 }

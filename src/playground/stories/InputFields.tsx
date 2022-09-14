@@ -16,6 +16,9 @@ export const InputFields = () => {
             descriptionBottom: 'Dit komt eronder',
             indent: true,
             error: (value) => {
+              if (value === 'yo') {
+                return 'What up yo??'
+              }
               if (!value) {
                 return 'Please enter a value'
               }

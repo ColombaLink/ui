@@ -109,7 +109,15 @@ const Type = ({ value, style }) => {
 }
 
 const string = {
-  default: Input,
+  default: ({ description, ...props }) => (
+    <Input
+      {...props}
+      maxChars={200}
+      descriptionBottom={description}
+      indent
+      space
+    />
+  ),
 }
 
 const boolean = {

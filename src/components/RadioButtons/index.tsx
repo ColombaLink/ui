@@ -4,7 +4,7 @@ import { Text } from '../Text'
 import { Label } from '../Label'
 import { border, color } from '~/utils'
 
-type RadioButtonProps = {
+type RadioButtonsProps = {
   value?: string
   data?: Array<{ label?: string; value: string; description?: string }>
   defaultValue?: string
@@ -18,7 +18,7 @@ type RadioButtonProps = {
 // TODO: Why is this called radioButton and not buttonS?
 // Add description to items..
 
-export const RadioButton: FC<RadioButtonProps> = ({
+export const RadioButtons: FC<RadioButtonsProps> = ({
   label,
   description,
   direction,
