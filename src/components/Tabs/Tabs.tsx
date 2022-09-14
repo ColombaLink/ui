@@ -45,7 +45,7 @@ const TabWrapper: FC<{
   const icon = children.props.icon
 
   return (
-    <div
+    <styled.div
       style={{
         borderTop: '1px solid transparent',
         height: !large ? 42 - 3 : 66 - 3,
@@ -60,6 +60,9 @@ const TabWrapper: FC<{
           index === activeTabState
             ? `3px solid ${color('text')}`
             : '3px solid transparent',
+        '&:hover': {
+          color: index !== activeTabState && color('text'),
+        },
       }}
       onClick={() => {
         setHoverTab(-1)
@@ -80,7 +83,7 @@ const TabWrapper: FC<{
       {/* @ts-ignore */}
 
       {typeof children === 'string' ? children : children.props.label}
-    </div>
+    </styled.div>
   )
 }
 

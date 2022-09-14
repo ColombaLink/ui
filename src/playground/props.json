@@ -1038,9 +1038,13 @@
         "space": {
           "optional": true,
           "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  onChange?: (value: string) => void\n  space?: Space\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
@@ -2168,7 +2172,7 @@
           "type": "function"
         }
       },
-      "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<string>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
+      "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<{ label?: string; value: string; description?: string }>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
       "file": "/components/RadioButton/index.tsx"
     },
     "ResultCardProps": {

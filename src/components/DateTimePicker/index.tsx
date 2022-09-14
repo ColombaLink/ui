@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, useRef, FC, CSSProperties } from 'react'
 import { Input } from '../Input'
 import { DatePicker } from './DatePicker'
 import { Spacer } from '../Spacer'
@@ -32,14 +32,16 @@ type DateTimePickerProps = {
   description?: string
   onChange?: (value: number) => void
   space?: Space
+  style?: CSSProperties
 }
 
-export const DateTimePicker = ({
+export const DateTimePicker: FC<DateTimePickerProps> = ({
   label,
   description,
   onChange,
   space,
-}: DateTimePickerProps) => {
+  style,
+}) => {
   const currentDate = new Date()
 
   const formatYmd = (date) => date.toISOString().slice(0, 10)
@@ -59,7 +61,7 @@ export const DateTimePicker = ({
   }, [inputValue, inputTime, UTCValue])
 
   return (
-    <div>
+    <div style={{ ...style }}>
       {/* <div style={{ border: '1px solid red', padding: 12, width: 420 }}>
         Input DATE : {inputValue} | Input Time : {inputTime}
         <br />

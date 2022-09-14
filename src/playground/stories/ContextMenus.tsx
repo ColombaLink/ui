@@ -9,6 +9,8 @@ import {
   useContextMenu,
   useDialog,
   color,
+  DeleteIcon,
+  DuplicateIcon,
 } from '~'
 
 export const ContextMenus = () => {
@@ -118,10 +120,13 @@ export const ContextMenus = () => {
         Menu (large menu)
       </Button>
       <Button
+        space
         onClick={useContextMenu(DoubleOverlayMenu, { props: { flap: 1 } })}
       >
         Menu (double overlays)
       </Button>
+
+      <Button onClick={useContextMenu(TestMenu)}>Test</Button>
     </div>
   )
 }
@@ -231,5 +236,18 @@ const DialogWithMenu = () => {
         Menu (placement: center)
       </Button>
     </Dialog>
+  )
+}
+
+const TestMenu = () => {
+  return (
+    <>
+      <ContextItem onClick={() => {}} icon={DuplicateIcon}>
+        Duplicate
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={DeleteIcon}>
+        Delete
+      </ContextItem>
+    </>
   )
 }
