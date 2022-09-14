@@ -74,7 +74,7 @@ const App = () => {
             DateTimePicker: '?story=DateTime',
             Forms: '?story=forms',
             InputFields: '?story=input-fields',
-            Radiobuttons: '?story=radiobuttons',
+            Radiobuttons: '?story=radiobutton',
             Selects: '?story=selects',
             Sliders: '?story=sliders',
             Toggle: '?story=toggles',

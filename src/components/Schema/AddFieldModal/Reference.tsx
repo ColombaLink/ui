@@ -6,7 +6,7 @@ import {
   ListIcon,
   Checkbox,
   useObjectState,
-  RadioButton,
+  RadioButtons,
   Dialog,
   Button,
   MultiSelect,
@@ -155,10 +155,10 @@ export const AddFieldModalReference: FC<{
                       marginTop: 24,
                     }}
                   >
-                    <RadioButton
+                    <RadioButtons
                       label="Target reference settings"
                       value={options.biDirectionalTarget?.refType}
-                      data={['single', 'mulitple']}
+                      data={[{ value: 'single' }, { value: 'mulitple' }]}
                       // data={['Multiple references', 'Single reference']}
                       onChange={(value) => {
                         setOptions({
@@ -188,7 +188,7 @@ export const AddFieldModalReference: FC<{
                           </DirtyWrapper>
                         </Text>
                       </Radio> */}
-                    </RadioButton>
+                    </RadioButtons>
                   </div>
                 ) : null}
               </div>
