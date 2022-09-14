@@ -112,17 +112,9 @@ export const Tabs: FC<TabsProps> = ({
 
   useEffect(() => {
     const t = elem?.current?.children[hoverTab > -1 ? hoverTab : activeTabState]
-    // console.log('hovertab', hoverTab)
+
     if (t) {
-      const { width, left, right } = t.getBoundingClientRect()
-
-      console.log('width:', width, 'left:', left, 'Fire')
-      console.log('bah', t.parentElement.getBoundingClientRect().left)
-
-      console.log(
-        'left - parent left',
-        left - t.parentElement.getBoundingClientRect().left
-      )
+      const { width, left } = t.getBoundingClientRect()
 
       setLineWidth(width)
       setX(left - t.parentElement.getBoundingClientRect().left)
