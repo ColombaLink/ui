@@ -30,7 +30,7 @@ const StyledDateInput = styled('input', {
 type DateTimePickerProps = {
   label?: string
   description?: string
-  onChange?: (value: string) => void
+  onChange?: (value: number) => void
   space?: Space
 }
 
@@ -54,16 +54,20 @@ export const DateTimePicker = ({
   const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
   const outputInMsec = dateAndTimeToMiliseconds + UTCValue
 
+  useEffect(() => {
+    onChange?.(outputInMsec)
+  }, [inputValue, inputTime, UTCValue])
+
   return (
     <div>
-      <div style={{ border: '1px solid red', padding: 12, width: 420 }}>
+      {/* <div style={{ border: '1px solid red', padding: 12, width: 420 }}>
         Input DATE : {inputValue} | Input Time : {inputTime}
         <br />
         combined output : {dateAndTime}
         <br />
         Output in msec: {outputInMsec}
       </div>
-      <Spacer space="28px" />
+      <Spacer space="28px" /> */}
 
       <div style={{ marginBottom: space ? spaceToPx(space) : 16 }}>
         {label && <Text space="8px">{label}</Text>}
@@ -94,6 +98,7 @@ export const DateTimePicker = ({
               }}
               onChange={(e) => {
                 setInputValue(e.target.value)
+                //   onChange?.(outputInMsec)
               }}
               value={inputValue}
               onBlur={() => {}}
@@ -142,6 +147,7 @@ export const DateTimePicker = ({
               //   console.log(tempUTCValMsec)
               // @ts-ignore
               setUTCValue(tempUTCValMsec)
+              //    onChange?.(outputInMsec)
             }}
           />
         </div>
