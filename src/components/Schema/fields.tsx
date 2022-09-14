@@ -17,6 +17,7 @@ import {
   ExternalLinkIcon,
   ModelIcon,
   AttachmentIcon,
+  CalendarIcon,
 } from '~/icons'
 import { Color } from '~/types'
 
@@ -40,6 +41,12 @@ export const templates: {
   }
 } = {
   // keys have to represent types or formats TODO add ts
+  dateTime: {
+    label: 'Date-Time',
+    description: 'Dates and times the 4th dimension',
+    icon: CalendarIcon,
+    color: 'lightyellow',
+  },
   string: {
     label: 'String',
     description: 'String is nice',

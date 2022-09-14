@@ -1415,21 +1415,6 @@
       "code": "type FlowProps = {\n  indicator?: boolean\n  onDropData?: DataEventHandler\n  onDropFile?: DataEventHandler\n  onDrop?: DataEventHandler<\n    | { data: Data[]; targetIndex: number; targetData: Data }\n    | { files: File[]; targetIndex: number; targetData: Data }\n  > // i think this is an order change - if this is not there dont allow order change\n  onDropSequence?: DataEventHandler<\n    | { data: Data[]; targetIndex: number }\n    | { files: File[]; targetIndex: number }\n  > // i think this is an order change - if this is not there dont allow order change\n  paddingRight?: number\n  paddingLeft?: number\n  sequenceSpacing?: number\n  paddingTop?: number\n  expandable?: boolean\n  defaultIsExpanded?: boolean\n  paddingBottom?: number\n  width?: number\n  items: Object[]\n  draggable?: boolean\n  Actions?: ComponentType<OptionsComponentProps>\n  itemProps?: SequenceitemProps\n  onClick?: DataEventHandler\n  actionIcon?: string\n  onAction?: DataEventHandler\n  footer?: FooterProps\n  stepFooter?: FooterProps\n  exportData?: ExportData\n  exportDataSequence?: ExportData\n  onOptions?: DataEventHandler // select options\n  optionsIcon?: string\n  contextualMenu?: boolean\n  children?: Children<OptionsComponentProps>\n  header?: HeaderProps\n  color?: Color\n}",
       "file": "/components/Flow/index.tsx"
     },
-    "FormProps": {
-      "name": "FormProps",
-      "props": {
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "onSubmit": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type FormProps = {\n  children?: ReactNode\n  onSubmit?: (res: SubmitResponse) => void\n}",
-      "file": "/components/Form/index.tsx"
-    },
     "GridProps": {
       "name": "GridProps",
       "props": {
@@ -2335,6 +2320,7 @@
           }
         },
         "onChange": {
+          "optional": true,
           "type": "function"
         },
         "filterable": {
@@ -2358,6 +2344,10 @@
           "optional": true,
           "type": "string"
         },
+        "name": {
+          "optional": true,
+          "type": "string"
+        },
         "color": {
           "optional": true,
           "type": "Color"
@@ -2367,7 +2357,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  color?: Color\n  style?: CSSProperties\n}",
+      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  name?: string\n  color?: Color\n  style?: CSSProperties\n}",
       "file": "/components/Select/Select.tsx"
     },
     "SeparatorProps": {
