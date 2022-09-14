@@ -6,12 +6,16 @@ import { border, color } from '~/utils'
 
 type RadioButtonsProps = {
   value?: string
-  data?: Array<{ label?: string; value: string; description?: string }>
+  data?: Array<{
+    label?: string
+    value: string | boolean | number
+    description?: string
+  }>
   defaultValue?: string
   label?: string
   description?: string
   direction?: 'horizontal' | 'vertical'
-  onChange?: (value: string | number) => void
+  onChange?: (value: string | number | boolean) => void
   // onChange?: (value: string, payload: OnRadioGroupChange) => void
 }
 
@@ -33,9 +37,9 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   const selectedIndex = data?.findIndex((obj) => obj === defaultVar)
   const [checked, setChecked] = useState<any>(selectedIndex)
 
-  console.log('data', data)
-  console.log('defaultVar', defaultVar)
-  console.log('selectedIndex', selectedIndex)
+  // console.log('data', data)
+  // console.log('defaultVar', defaultVar)
+  // console.log('selectedIndex', selectedIndex)
 
   return (
     <div {...props}>
@@ -54,8 +58,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
         {data?.map((item, index) => (
           <div
             onClick={() => {
-              console.log('clicked this', index)
-              console.log('----->', data[index].value)
+              // console.log('clicked this', index)
+              // console.log('----->', data[index].value)
               setChecked(index)
               onChange?.(data[index].value)
             }}

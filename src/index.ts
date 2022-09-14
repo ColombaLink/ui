@@ -18,7 +18,7 @@ export * from './components/DateTimePicker'
 export * from './components/Badge'
 export * from './components/Thumbnail'
 export * from './components/Button'
-
+export * from './components/Boolean'
 export * from './components/Checkbox'
 export * from './components/Code'
 export * from './components/Code'
