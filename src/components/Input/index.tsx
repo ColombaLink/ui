@@ -9,7 +9,7 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { Text, Button } from '~'
+import { Text, Button, Callout, ErrorIcon } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -172,6 +172,7 @@ export const Input: FC<
   description,
   descriptionBottom,
   disabled,
+  error,
   forceSuggestion,
   ghost,
   icon,
@@ -191,7 +192,6 @@ export const Input: FC<
   style,
   suggest,
   transform,
-  error,
   type,
   value: valueProp,
   ...otherProps
@@ -202,6 +202,7 @@ export const Input: FC<
   const { listeners: hoverListeners, hover } = useHover()
   // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
+  const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
     if (maxChars && value.length > maxChars) {
@@ -219,8 +220,13 @@ export const Input: FC<
 
     onChangeProp?.(newValue)
     const msg = error?.(newValue)
+
     if (msg) {
       // add error msg
+      setErrorMessage(msg)
+    } else {
+      // remove error msg
+      setErrorMessage('')
     }
   }
 
@@ -267,7 +273,11 @@ export const Input: FC<
         width: ghost ? 300 : '100%',
         marginBottom: spaceToPx(space),
         borderLeft: indent ? `2px solid ${color('border')}` : null,
-        borderColor: focused ? color('accent') : color('border'),
+        borderColor: errorMessage
+          ? color('red')
+          : focused
+          ? color('accent')
+          : color('border'),
         paddingLeft: indent ? 12 : null,
         ...style,
       }}
@@ -281,7 +291,10 @@ export const Input: FC<
         {value.length > 0 && indent && (
           <Button
             ghost
-            onClick={() => setValue('')}
+            onClick={() => {
+              onChangeProp?.('')
+              setValue('')
+            }}
             style={{ height: 'fit-content' }}
           >
             Clear
@@ -362,6 +375,19 @@ export const Input: FC<
         </Text>
       )}
       {/* <ErrorMessage /> */}
+      {errorMessage && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            marginTop: 6,
+          }}
+        >
+          <ErrorIcon color="red" size={16} />
+          <Text color="red">{errorMessage}</Text>
+        </div>
+      )}
     </div>
   )
 }

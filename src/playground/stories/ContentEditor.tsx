@@ -109,11 +109,11 @@ const Type = ({ value, style }) => {
 }
 
 const string = {
-  default: (props) => (
+  default: ({ description, ...props }) => (
     <Input
       {...props}
       maxChars={200}
-      descriptionBottom="This is descriptionBottom."
+      descriptionBottom={description}
       indent
       space
     />
