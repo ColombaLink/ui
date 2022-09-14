@@ -428,6 +428,45 @@
       "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: any\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
     },
+    "BooleanProps": {
+      "name": "BooleanProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type BooleanProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // value?: boolean\n  style?: CSSProperties\n  space?: Space\n  error?: (value: boolean | string | number) => string\n  onChange?: (value: string | number | boolean) => void\n}",
+      "file": "/components/Boolean/index.tsx"
+    },
     "BreadcrumbsProps": {
       "name": "BreadcrumbsProps",
       "props": {
@@ -2169,7 +2208,7 @@
           "type": "function"
         }
       },
-      "code": "type RadioButtonsProps = {\n  value?: string\n  data?: Array<{ label?: string; value: string; description?: string }>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
+      "code": "type RadioButtonsProps = {\n  value?: string\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number | boolean) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
       "file": "/components/RadioButtons/index.tsx"
     },
     "ResultCardProps": {
