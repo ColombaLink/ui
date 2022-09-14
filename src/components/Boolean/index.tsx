@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties } from 'react'
+import React, { useState, CSSProperties, FC } from 'react'
 import {
   RadioButtons,
   Label,
@@ -18,11 +18,11 @@ type BooleanProps = {
   // value?: boolean
   style?: CSSProperties
   space?: Space
-  error?: (value: boolean) => void
+  error?: (value: boolean | string | number) => string
   onChange?: (value: string | number | boolean) => void
 }
 
-export const Boolean = ({
+export const Boolean: FC<BooleanProps> = ({
   label,
   description,
   descriptionBottom,
@@ -31,25 +31,24 @@ export const Boolean = ({
   space,
   style,
   error,
-  onChange,
-}: BooleanProps) => {
+  onChange: onChangeProp,
+}) => {
   const [errorMessage, setErrorMessage] = useState('')
   const [value, setValue] = useState<boolean | string | number>(undefined)
 
-  //   const onChange = (e) => {
-  //     setValue(newValue)
+  const onChange = (e) => {
+    setValue(value)
 
-  //     onChangeProp?.(newValue)
-  //     const msg = error?.(newValue)
+    const msg = error?.(e)
 
-  //     if (msg) {
-  //       // add error msg
-  //       setErrorMessage(msg)
-  //     } else {
-  //       // remove error msg
-  //       setErrorMessage('')
-  //     }
-  //   }
+    if (msg) {
+      // add error msg
+      setErrorMessage(msg)
+    } else {
+      // remove error msg
+      setErrorMessage('')
+    }
+  }
 
   return (
     <div
@@ -70,9 +69,11 @@ export const Boolean = ({
           { value: false, label: 'False' },
         ]}
         onChange={(e) => {
-          console.log(typeof e)
+          //   console.log(typeof e)
+          //   console.log('E', e)
           setValue(e)
-          onChange?.(e)
+          // onChangeProp?.(e)
+          onChange(e)
         }}
       />
 
