@@ -53,12 +53,15 @@ type InputProps = {
   label?: string
   colorInput?: boolean
   description?: string
+  descriptionBottom?: string
   optional?: boolean
   value?: string | number
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
+  indent?: boolean
   defaultValue?: string | number
   placeholder?: string
+  maxChars?: number
   multiline?: boolean
   bg?: boolean
   ghost?: boolean
@@ -167,14 +170,17 @@ export const Input: FC<
   colorInput,
   defaultValue,
   description,
+  descriptionBottom,
   disabled,
   forceSuggestion,
   ghost,
   icon,
   iconRight,
+  indent,
   inputRef,
   label,
   large,
+  maxChars,
   multiline,
   name,
   noInterrupt,
@@ -197,9 +203,16 @@ export const Input: FC<
   // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
 
+  useEffect(() => {
+    if (maxChars && value.length > maxChars) {
+      setValue(value.slice(0, maxChars))
+    }
+  }, [value])
+
   const onChange = (e) => {
     let newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
+
     if (type === 'number' && typeof newValue !== 'number') {
       newValue = Number(newValue)
     }
@@ -253,6 +266,9 @@ export const Input: FC<
       style={{
         width: ghost ? 300 : '100%',
         marginBottom: spaceToPx(space),
+        borderLeft: indent ? `2px solid ${color('border')}` : null,
+        borderColor: focused ? color('accent') : color('border'),
+        paddingLeft: indent ? 12 : null,
         ...style,
       }}
     >
@@ -311,6 +327,29 @@ export const Input: FC<
           },
         })}
       </div>
+
+      {maxChars && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 8,
+          }}
+        >
+          <Text color="text2" weight={400}>
+            {value.length} characters
+          </Text>
+          <Text color="text2" weight={400}>
+            Max {maxChars} characters
+          </Text>
+        </div>
+      )}
+      {descriptionBottom && (
+        <Text color="text2" italic weight={400}>
+          {descriptionBottom}
+        </Text>
+      )}
       {/* <ErrorMessage /> */}
     </div>
   )

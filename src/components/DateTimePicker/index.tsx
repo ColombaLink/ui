@@ -13,7 +13,6 @@ const StyledDateInput = styled('input', {
   minHeight: 36,
   paddingLeft: 28,
   paddingRight: 12,
-
   cursor: 'text',
   border: `1px solid ${color('border')}`,
   '&::-webkit-calendar-picker-indicator': {
