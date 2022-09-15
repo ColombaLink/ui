@@ -1054,9 +1054,17 @@
         "setShowDatePicker": {
           "optional": true,
           "type": "function"
+        },
+        "focused": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setFocused": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  showDatePicker?: boolean\n  setShowDatePicker?: (value: boolean) => void\n}",
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  showDatePicker?: boolean\n  setShowDatePicker?: (value: boolean) => void\n  focused?: boolean\n  setFocused?: (value: boolean) => void\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateTimePickerProps": {
@@ -1070,6 +1078,14 @@
           "optional": true,
           "type": "string"
         },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
         "onChange": {
           "optional": true,
           "type": "function"
@@ -1081,9 +1097,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
@@ -1819,12 +1839,16 @@
           "optional": true,
           "type": "ReactNode"
         },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
         }
       },
-      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string | number | ReactNode\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string | number | ReactNode\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {
