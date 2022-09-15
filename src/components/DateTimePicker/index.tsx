@@ -15,6 +15,7 @@ import {
   Button,
 } from '~'
 import { Space } from '~/types'
+import { clear } from 'console'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -73,6 +74,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [focused, setFocused] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
+  const clearAll = () => {
+    setInputValue(`yyyyy-mm-dd`)
+    setInputTime(`00:00`)
+  }
+
   useEffect(() => {
     onChange?.(outputInMsec)
 
@@ -109,8 +115,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           <Button
             ghost
             onClick={() => {
-              console.log('clicked')
-              setInputValue(`yyyyy-mm-dd`)
+              clearAll()
             }}
             style={{ height: 'fit-content' }}
           >
@@ -173,8 +178,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
 
         <Select
+          //@ts-ignore
+          id="UTC-id"
           style={{ maxWidth: 160, fontWeight: 400, height: 36 }}
-          placeholder="UTC-0"
+          placeholder="UTC+0"
           options={[
             'UTC+0',
             'UTC+1',
@@ -203,14 +210,15 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             'UTC-12',
           ]}
           onChange={(e) => {
-            //  console.log('e', e)
+            console.log('e', e)
+
             // @ts-ignore
             // so UTC offset is in minutes
             const tempUTCValMsec = +e.substring(3) * 60 * 60000
             //   console.log(tempUTCValMsec)
+            console.log('e', tempUTCValMsec)
             // @ts-ignore
             setUTCValue(tempUTCValMsec)
-            //    onChange?.(outputInMsec)
           }}
         />
       </div>

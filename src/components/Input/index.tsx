@@ -9,12 +9,20 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { Text, Button, Callout, ErrorIcon } from '~'
+import {
+  Text,
+  Button,
+  Callout,
+  ErrorIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
+import { styled } from 'inlines'
 
 const resize = (target) => {
   if (target) {
@@ -288,7 +296,7 @@ export const Input: FC<
           description={description}
           style={{ marginBottom: 12 }}
         />
-        {value.length > 0 && indent && (
+        {value !== '' && indent && (
           <Button
             ghost
             onClick={() => {
@@ -341,6 +349,61 @@ export const Input: FC<
             <Single {...props} />
           </MaybeSuggest>
         )}
+        {type === 'number' && !disabled && (
+          <div
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              display: 'flex',
+              flexDirection: 'column',
+              width: 15,
+              height: 20,
+            }}
+          >
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '&:hover': {
+                  backgroundColor: color('border'),
+                },
+              }}
+              onClick={() => {
+                onChange(setValue(+value + 1))
+              }}
+            >
+              {/* @ts-ignore */}
+              <ChevronUpIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '&:hover': {
+                  backgroundColor: color('border'),
+                },
+              }}
+              onClick={() => {
+                onChange(setValue(+value - 1))
+              }}
+            >
+              {/* @ts-ignore */}
+              <ChevronDownIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+          </div>
+        )}
         {renderOrCreateElement(iconRight, {
           style: {
             position: 'absolute',
@@ -370,7 +433,7 @@ export const Input: FC<
         </div>
       )}
       {descriptionBottom && (
-        <Text color="text2" italic weight={400}>
+        <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
           {descriptionBottom}
         </Text>
       )}

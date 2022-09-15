@@ -10,6 +10,14 @@ export const InputFields = () => {
       examples={[
         {
           props: {
+            label: 'Number or Float',
+            descriptionBottom: 'this is description',
+            indent: true,
+            type: 'number',
+          },
+        },
+        {
+          props: {
             // make this work!
             label: 'Input label',
             maxChars: 200,
