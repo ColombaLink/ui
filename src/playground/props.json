@@ -428,6 +428,45 @@
       "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: any\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
     },
+    "BooleanProps": {
+      "name": "BooleanProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type BooleanProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // value?: boolean\n  style?: CSSProperties\n  space?: Space\n  error?: (value: boolean | string | number) => string\n  onChange?: (value: string | number | boolean) => void\n}",
+      "file": "/components/Boolean/index.tsx"
+    },
     "BreadcrumbsProps": {
       "name": "BreadcrumbsProps",
       "props": {
@@ -1015,9 +1054,17 @@
         "setShowDatePicker": {
           "optional": true,
           "type": "function"
+        },
+        "focused": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setFocused": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  showDatePicker?: boolean\n  setShowDatePicker?: (value: boolean) => void\n}",
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  showDatePicker?: boolean\n  setShowDatePicker?: (value: boolean) => void\n  focused?: boolean\n  setFocused?: (value: boolean) => void\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateTimePickerProps": {
@@ -1031,6 +1078,14 @@
           "optional": true,
           "type": "string"
         },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
         "onChange": {
           "optional": true,
           "type": "function"
@@ -1042,9 +1097,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
@@ -1626,6 +1685,10 @@
           "optional": true,
           "type": "string"
         },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
         "optional": {
           "optional": true,
           "type": "boolean"
@@ -1651,6 +1714,10 @@
             "ReactNode"
           ]
         },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
         "defaultValue": {
           "optional": true,
           "type": [
@@ -1661,6 +1728,10 @@
         "placeholder": {
           "optional": true,
           "type": "string"
+        },
+        "maxChars": {
+          "optional": true,
+          "type": "number"
         },
         "multiline": {
           "optional": true,
@@ -1726,7 +1797,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  description?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  defaultValue?: string | number\n  placeholder?: string\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -1768,12 +1839,16 @@
           "optional": true,
           "type": "ReactNode"
         },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
         }
       },
-      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string | number | ReactNode\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type LabelProps = {\n  label?: string | number | ReactNode\n  labelColor?: Color\n  description?: string | number | ReactNode\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {
@@ -2118,8 +2193,8 @@
       "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n}",
       "file": "/components/Provider/index.tsx"
     },
-    "RadioButtonProps": {
-      "name": "RadioButtonProps",
+    "RadioButtonsProps": {
+      "name": "RadioButtonsProps",
       "props": {
         "value": {
           "optional": true,
@@ -2157,8 +2232,8 @@
           "type": "function"
         }
       },
-      "code": "type RadioButtonProps = {\n  value?: string\n  data?: Array<{ label?: string; value: string; description?: string }>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
-      "file": "/components/RadioButton/index.tsx"
+      "code": "type RadioButtonsProps = {\n  value?: string\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number | boolean) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
+      "file": "/components/RadioButtons/index.tsx"
     },
     "ResultCardProps": {
       "name": "ResultCardProps",

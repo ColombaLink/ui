@@ -3,7 +3,7 @@ import {
   Checkbox,
   useObjectState,
   Dialog,
-  RadioButton,
+  RadioButtons,
   MultiSelect,
   useToast,
   Toast,
@@ -25,7 +25,7 @@ export const ReferenceType = ({
   options: FieldOptionsState
   update: (val: FieldOptionsState | null | undefined) => void
 }) => (
-  <RadioButton
+  <RadioButtons
     label="Reference type"
     value={options.refType}
     data={['single', 'mulitple']}
@@ -42,7 +42,7 @@ export const ReferenceType = ({
       <Text weight="semibold">Multiple files</Text>
       <Text color="Secondary">This will result in a list of files</Text>
     </Radio> */}
-  </RadioButton>
+  </RadioButtons>
 )
 
 export const Settings: FC<ValidationProps> = ({ update, options }) => {

@@ -1,8 +1,8 @@
 import React from 'react'
-import { RadioButton } from '~/components/RadioButton'
+import { RadioButtons } from '~/components/RadioButtons'
 import ComponentViewer from '../ComponentViewer'
 
-export const Radiobuttons = () => {
+export const Radiobutton = () => {
   const testObjects = [
     { label: 'Appeltjes', value: 'Apples', description: 'jonagold' },
     { label: 'Sinasapple', value: 'Oranges', description: 'oranje rond fruit' },
@@ -12,8 +12,8 @@ export const Radiobuttons = () => {
   return (
     <div>
       <ComponentViewer
-        component={RadioButton}
-        propsName="RadioButtonProps"
+        component={RadioButtons}
+        propsName="RadioButtonsProps"
         examples={[
           {
             props: {

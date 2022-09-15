@@ -9,12 +9,20 @@ import React, {
   useEffect,
   useRef,
 } from 'react'
-import { Text } from '../Text'
+import {
+  Text,
+  Button,
+  Callout,
+  ErrorIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
+import { styled } from 'inlines'
 
 const resize = (target) => {
   if (target) {
@@ -53,12 +61,15 @@ type InputProps = {
   label?: string
   colorInput?: boolean
   description?: string
+  descriptionBottom?: string
   optional?: boolean
   value?: string | number
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
+  indent?: boolean
   defaultValue?: string | number
   placeholder?: string
+  maxChars?: number
   multiline?: boolean
   bg?: boolean
   ghost?: boolean
@@ -167,14 +178,18 @@ export const Input: FC<
   colorInput,
   defaultValue,
   description,
+  descriptionBottom,
   disabled,
+  error,
   forceSuggestion,
   ghost,
   icon,
   iconRight,
+  indent,
   inputRef,
   label,
   large,
+  maxChars,
   multiline,
   name,
   noInterrupt,
@@ -185,7 +200,6 @@ export const Input: FC<
   style,
   suggest,
   transform,
-  error,
   type,
   value: valueProp,
   ...otherProps
@@ -196,18 +210,31 @@ export const Input: FC<
   const { listeners: hoverListeners, hover } = useHover()
   // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (maxChars && value.length > maxChars) {
+      setValue(value.slice(0, maxChars))
+    }
+  }, [value])
 
   const onChange = (e) => {
     let newValue = transform ? transform(e.target.value) : e.target.value
     setValue(newValue)
+
     if (type === 'number' && typeof newValue !== 'number') {
       newValue = Number(newValue)
     }
 
     onChangeProp?.(newValue)
     const msg = error?.(newValue)
+
     if (msg) {
       // add error msg
+      setErrorMessage(msg)
+    } else {
+      // remove error msg
+      setErrorMessage('')
     }
   }
 
@@ -253,14 +280,35 @@ export const Input: FC<
       style={{
         width: ghost ? 300 : '100%',
         marginBottom: spaceToPx(space),
+        borderLeft: indent ? `2px solid ${color('border')}` : null,
+        borderColor: errorMessage
+          ? color('red')
+          : focused
+          ? color('accent')
+          : color('border'),
+        paddingLeft: indent ? 12 : null,
         ...style,
       }}
     >
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 12 }}
-      />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 12 }}
+        />
+        {value !== '' && indent && (
+          <Button
+            ghost
+            onClick={() => {
+              onChangeProp?.('')
+              setValue('')
+            }}
+            style={{ height: 'fit-content' }}
+          >
+            Clear
+          </Button>
+        )}
+      </div>
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -301,6 +349,61 @@ export const Input: FC<
             <Single {...props} />
           </MaybeSuggest>
         )}
+        {type === 'number' && !disabled && (
+          <div
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              display: 'flex',
+              flexDirection: 'column',
+              width: 15,
+              height: 20,
+            }}
+          >
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '&:hover': {
+                  backgroundColor: color('border'),
+                },
+              }}
+              onClick={() => {
+                onChange(setValue(+value + 1))
+              }}
+            >
+              {/* @ts-ignore */}
+              <ChevronUpIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '&:hover': {
+                  backgroundColor: color('border'),
+                },
+              }}
+              onClick={() => {
+                onChange(setValue(+value - 1))
+              }}
+            >
+              {/* @ts-ignore */}
+              <ChevronDownIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+          </div>
+        )}
         {renderOrCreateElement(iconRight, {
           style: {
             position: 'absolute',
@@ -311,7 +414,42 @@ export const Input: FC<
           },
         })}
       </div>
-      {/* <ErrorMessage /> */}
+
+      {maxChars && (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 8,
+          }}
+        >
+          <Text color="text2" weight={400}>
+            {value.length} characters
+          </Text>
+          <Text color="text2" weight={400}>
+            Max {maxChars} characters
+          </Text>
+        </div>
+      )}
+      {descriptionBottom && (
+        <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
+          {descriptionBottom}
+        </Text>
+      )}
+      {errorMessage && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            marginTop: 6,
+          }}
+        >
+          <ErrorIcon color="red" size={16} />
+          <Text color="red">{errorMessage}</Text>
+        </div>
+      )}
     </div>
   )
 }

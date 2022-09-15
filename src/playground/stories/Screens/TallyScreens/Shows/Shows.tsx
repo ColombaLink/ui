@@ -12,7 +12,7 @@ import {
   Input,
   UploadIcon,
   BasedIcon,
-  RadioButton,
+  RadioButtons,
   MoreIcon,
   Table,
   Link,
@@ -77,16 +77,9 @@ const AddShowDialog = () => {
         icon={UploadIcon}
         placeholder="Upload file"
       />
-      <RadioButton
+      <RadioButtons
         label="Organisations"
-        data={[
-          'Saulx',
-          'Twister Interactive',
-          'Digame',
-          'Sport 1',
-          'ARD',
-          'SRF',
-        ]}
+        data={[{ value: 'SRD' }, { value: 'TEST' }]}
       />
       <Dialog.Buttons border>
         <Button icon={AddIcon}>Add Show</Button>
