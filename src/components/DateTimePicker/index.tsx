@@ -12,6 +12,7 @@ import {
   spaceToPx,
   Label,
   ErrorIcon,
+  Button,
 } from '~'
 import { Space } from '~/types'
 
@@ -100,9 +101,23 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         ...style,
       }}
     >
-      {label && (
-        <Label space="8px" label={label} description={description}></Label>
-      )}
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {label && (
+          <Label space="12px" label={label} description={description}></Label>
+        )}
+        {!Number.isNaN(outputInMsec) && indent && (
+          <Button
+            ghost
+            onClick={() => {
+              console.log('clicked')
+              setInputValue(`yyyyy-mm-dd`)
+            }}
+            style={{ height: 'fit-content' }}
+          >
+            Clear
+          </Button>
+        )}
+      </div>
       <div style={{ display: 'flex', gap: 16 }}>
         <div style={{ position: 'relative' }}>
           <CalendarIcon
