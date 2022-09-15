@@ -19,9 +19,6 @@ type RadioButtonsProps = {
   // onChange?: (value: string, payload: OnRadioGroupChange) => void
 }
 
-// TODO: Why is this called radioButton and not buttonS?
-// Add description to items..
-
 export const RadioButtons: FC<RadioButtonsProps> = ({
   label,
   description,
@@ -31,15 +28,9 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   onChange,
   ...props
 }) => {
-  // const selectedIndex = data?.indexOf(defaultValue)
-
   const defaultVar = data?.find(({ value }) => value === defaultValue)
   const selectedIndex = data?.findIndex((obj) => obj === defaultVar)
   const [checked, setChecked] = useState<any>(selectedIndex)
-
-  // console.log('data', data)
-  // console.log('defaultVar', defaultVar)
-  // console.log('selectedIndex', selectedIndex)
 
   return (
     <div {...props}>

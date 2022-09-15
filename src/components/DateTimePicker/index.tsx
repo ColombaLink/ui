@@ -15,7 +15,6 @@ import {
   Button,
 } from '~'
 import { Space } from '~/types'
-import { clear } from 'console'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -61,7 +60,18 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   disabled,
   value,
 }) => {
-  const currentDate = new Date()
+  // const testVal = new Date(value)
+  // console.log('Test Val --->', testVal)
+
+  let currentDate
+
+  if (value) {
+    currentDate = new Date(value)
+  } else {
+    currentDate = new Date()
+  }
+
+  // console.log('Current Date --->', currentDate)
 
   const formatYmd = (date) => date.toISOString().slice(0, 10)
   const formattedDate = formatYmd(currentDate)
@@ -85,6 +95,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   useEffect(() => {
     onChange?.(outputInMsec)
+    value = outputInMsec
+
+    // console.log('The Value --> ', value)
 
     const msg = error?.(outputInMsec)
 
