@@ -13,7 +13,7 @@ export const DateTime = () => {
         examples={[
           {
             props: {
-              value: 1263247622335,
+              value: 1662974400000,
               label: 'Date Time',
               // description: 'Description',
               descriptionBottom: 'Onchange (e) returns value in milliseconds',

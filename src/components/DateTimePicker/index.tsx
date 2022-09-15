@@ -71,13 +71,17 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     currentDate = new Date()
   }
 
+  let currentTime = currentDate?.toString().split(' ')[4].substring(0, 5)
+
   // console.log('Current Date --->', currentDate)
+  // console.log('Current Time --->', currentTime)
 
   const formatYmd = (date) => date.toISOString().slice(0, 10)
+
   const formattedDate = formatYmd(currentDate)
 
   const [inputValue, setInputValue] = useState(formattedDate)
-  const [inputTime, setInputTime] = useState('00:00')
+  const [inputTime, setInputTime] = useState(currentTime)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [UTCValue, setUTCValue] = useState(0)
 
@@ -90,7 +94,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const clearAll = () => {
     setInputValue(`yyyyy-mm-dd`)
-    setInputTime(`00:00`)
+    setInputTime('00:00')
   }
 
   useEffect(() => {
