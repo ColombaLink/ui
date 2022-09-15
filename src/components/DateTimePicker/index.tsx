@@ -45,6 +45,8 @@ type DateTimePickerProps = {
   space?: Space
   style?: CSSProperties
   error?: (value: boolean | string | number) => string
+  disabled?: boolean
+  value?: number
 }
 
 export const DateTimePicker: FC<DateTimePickerProps> = ({
@@ -56,6 +58,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   space,
   style,
   error,
+  disabled,
+  value,
 }) => {
   const currentDate = new Date()
 
@@ -104,14 +108,20 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           ? color('accent')
           : color('border'),
         paddingLeft: indent ? 12 : null,
+        cursor: disabled ? 'not-allowed' : 'auto',
         ...style,
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         {label && (
-          <Label space="12px" label={label} description={description}></Label>
+          <Label
+            space="12px"
+            label={label}
+            description={description}
+            labelColor={disabled ? color('text2') : color('text')}
+          ></Label>
         )}
-        {!Number.isNaN(outputInMsec) && indent && (
+        {!Number.isNaN(outputInMsec) && indent && !disabled && (
           <Button
             ghost
             onClick={() => {
@@ -138,9 +148,14 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             style={{
               maxWidth: 280,
               background: showDatePicker ? color('background2') : '',
+              color: disabled ? color('text2') : color('text'),
               borderBottomLeftRadius: showDatePicker ? 0 : 4,
               borderBottomRightRadius: showDatePicker ? 0 : 4,
+              '&:hover': {
+                cursor: disabled ? 'not-allowed' : 'auto',
+              },
             }}
+            disabled={disabled}
             placeholder="2001/01/10"
             type="date"
             onClick={(e) => {
@@ -173,6 +188,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           inputTime={inputTime}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          disabled={disabled}
         />
 
         {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
@@ -180,7 +196,16 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         <Select
           //@ts-ignore
           id="UTC-id"
-          style={{ maxWidth: 160, fontWeight: 400, height: 36 }}
+          style={{
+            maxWidth: 160,
+            fontWeight: 400,
+            height: 36,
+            backgroundColor: disabled
+              ? color('background2')
+              : color('background'),
+            cursor: disabled ? 'not-allowed' : 'auto',
+            pointerEvents: disabled ? 'none' : 'auto',
+          }}
           placeholder="UTC+0"
           options={[
             'UTC+0',
@@ -210,13 +235,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             'UTC-12',
           ]}
           onChange={(e) => {
-            console.log('e', e)
-
             // @ts-ignore
             // so UTC offset is in minutes
             const tempUTCValMsec = +e.substring(3) * 60 * 60000
             //   console.log(tempUTCValMsec)
-            console.log('e', tempUTCValMsec)
+
             // @ts-ignore
             setUTCValue(tempUTCValMsec)
           }}

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Input, color } from '~'
 
-export const TimeInput = ({ inputTime, setInputTime, onFocus, onBlur }) => {
+export const TimeInput = ({
+  inputTime,
+  setInputTime,
+  onFocus,
+  onBlur,
+  disabled,
+}) => {
   const [time, setTime] = useState('')
   const [validTimeInput, setValidTimeInput] = useState(false)
 
@@ -45,6 +51,10 @@ export const TimeInput = ({ inputTime, setInputTime, onFocus, onBlur }) => {
         placeholder="00:00"
         onFocus={() => onFocus()}
         onBlur={onBlur}
+        disabled={disabled}
+        style={{
+          backgroundColor: disabled ? color('background2') : '',
+        }}
       />
       <div
         style={{
