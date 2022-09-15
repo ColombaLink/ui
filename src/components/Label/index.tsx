@@ -1,6 +1,7 @@
 import React, { ReactNode, CSSProperties } from 'react'
-import { Color } from '~'
+import { Color, spaceToPx } from '~'
 import { Text } from '~'
+import { Space } from '~/types'
 import { color, renderOrCreateElement } from '~/utils'
 
 type LabelProps = {
@@ -11,6 +12,7 @@ type LabelProps = {
   icon?: ReactNode
   iconColor?: Color
   children?: ReactNode
+  space?: Space
   style?: CSSProperties
 }
 
@@ -20,6 +22,7 @@ export const Label = ({
   description,
   descriptionColor,
   icon,
+  space,
   iconColor: colorProp = 'accent',
   children,
   style,
@@ -32,6 +35,7 @@ export const Label = ({
       style={{
         display: 'flex',
         flexDirection: 'column',
+        marginBottom: space ? spaceToPx(space) : 0,
         ...style,
       }}
     >

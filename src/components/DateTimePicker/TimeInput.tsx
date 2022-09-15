@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Input, color } from '~'
 
-export const TimeInput = ({ inputTime, setInputTime }) => {
+export const TimeInput = ({ inputTime, setInputTime, onFocus, onBlur }) => {
   const [time, setTime] = useState('')
   const [validTimeInput, setValidTimeInput] = useState(false)
 
@@ -43,6 +43,8 @@ export const TimeInput = ({ inputTime, setInputTime }) => {
         onKeyPress={keyPressHandler}
         onChange={timeHandler}
         placeholder="00:00"
+        onFocus={() => onFocus()}
+        onBlur={onBlur}
       />
       <div
         style={{
@@ -52,11 +54,11 @@ export const TimeInput = ({ inputTime, setInputTime }) => {
           width: '100%',
           height: '100%',
           borderRadius: 4,
+          pointerEvents: 'none',
           border:
             !validTimeInput && time.length === 5
               ? `2px solid ${color('red')}`
               : '',
-          pointerEvents: 'none',
         }}
       ></div>
     </div>

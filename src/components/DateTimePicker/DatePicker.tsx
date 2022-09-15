@@ -7,6 +7,8 @@ type DatePickerProps = {
   setInputValue?: (value: string) => void
   showDatePicker?: boolean
   setShowDatePicker?: (value: boolean) => void
+  focused?: boolean
+  setFocused?: (value: boolean) => void
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -24,6 +26,8 @@ export const DatePicker = ({
   setInputValue,
   showDatePicker,
   setShowDatePicker,
+  focused,
+  setFocused,
 }: DatePickerProps) => {
   const dateObj = new Date()
   // console.log('dateObj', dateObj)
@@ -79,6 +83,7 @@ export const DatePicker = ({
         !datePickerRef.current.contains(event.target)
       ) {
         setShowDatePicker(false)
+        setFocused(false)
       }
     }
 

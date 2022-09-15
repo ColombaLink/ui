@@ -14,11 +14,18 @@ export const DateTime = () => {
           {
             props: {
               label: 'Date Time',
-              description: 'Onchange (e) returns value in milliseconds',
+              // description: 'Description',
+              descriptionBottom: 'Onchange (e) returns value in milliseconds',
               onChange: (e) => console.log(e),
+              indent: true,
               space: '32px',
               style: {
                 marginBottom: 420,
+              },
+              error: (e) => {
+                if (Number.isNaN(e)) {
+                  return 'Not a number error!'
+                }
               },
             },
           },
