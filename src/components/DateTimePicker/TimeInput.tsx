@@ -8,7 +8,7 @@ export const TimeInput = ({
   onBlur,
   disabled,
 }) => {
-  const [time, setTime] = useState('')
+  const [time, setTime] = useState(inputTime)
   const [validTimeInput, setValidTimeInput] = useState(false)
 
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
@@ -25,6 +25,10 @@ export const TimeInput = ({
       setValidTimeInput(false)
     }
   }, [time])
+
+  useEffect(() => {
+    setTime(inputTime)
+  }, [inputTime])
 
   const timeHandler = (e) => {
     if (e.length === 2) {
