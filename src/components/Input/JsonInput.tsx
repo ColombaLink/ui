@@ -8,8 +8,6 @@ import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
 
-// import './JsonInputsyntax.css'
-
 const StyledJsonEditor = styled('div', {
   border: `1px solid ${color('border')}`,
   borderRadius: 4,
@@ -80,7 +78,7 @@ export const JsonInput = ({
             setValid(isValidJson(code))
             setCode(JSON.stringify(JSON.parse(code), null, 2))
             if (isValidJson(code)) {
-              // @ts-ignore
+              //@ts-ignore
               onChange({ target: { value: JSON.stringify(code) } })
               console.log('on changed fired from json input')
             }

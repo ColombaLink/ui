@@ -343,9 +343,7 @@ export const Input: FC<
             {...props}
             setErrorMessage={setErrorMessage}
             value={value}
-            onChange={(e) => {
-              setValue(e.target.value)
-            }}
+            onChange={onChange}
           />
         ) : multiline ? (
           <Multi {...props} />
