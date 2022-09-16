@@ -339,7 +339,14 @@ export const Input: FC<
             style={{ width: '100%' }}
           />
         ) : jsonInput ? (
-          <JsonInput {...props} setErrorMessage={setErrorMessage} />
+          <JsonInput
+            {...props}
+            setErrorMessage={setErrorMessage}
+            value={value}
+            onChange={(e) => {
+              setValue(e.target.value)
+            }}
+          />
         ) : multiline ? (
           <Multi {...props} />
         ) : (

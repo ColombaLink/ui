@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import { styled } from 'inlines'
 import { color, Text, Input } from '~'
 import Editor from '../Code/ReactSImpleEditor'
@@ -15,8 +15,18 @@ const StyledJsonEditor = styled('div', {
   borderRadius: 4,
 })
 
-export const JsonInput = ({ setErrorMessage }) => {
-  const [code, setCode] = useState('')
+type JsonInputProps = {
+  value?: string
+  onChange?: (value: string) => void
+  setErrorMessage?: (value: string) => void
+}
+
+export const JsonInput = ({
+  value,
+  onChange,
+  setErrorMessage,
+}: JsonInputProps) => {
+  const [code, setCode] = useState(value)
   const [valid, setValid] = useState(true)
 
   const isValidJson = (str) => {
@@ -31,11 +41,9 @@ export const JsonInput = ({ setErrorMessage }) => {
   useEffect(() => {
     if (!valid) {
       setErrorMessage('Invalid JSON')
-      console.log('not valid', code)
     } else {
       //   setErrorMessage('')
       //  setCode(JSON.stringify(JSON.parse(code), null, 2))
-      console.log('valider')
     }
   }, [valid])
 
@@ -71,6 +79,11 @@ export const JsonInput = ({ setErrorMessage }) => {
           onBlur={() => {
             setValid(isValidJson(code))
             setCode(JSON.stringify(JSON.parse(code), null, 2))
+            if (isValidJson(code)) {
+              // @ts-ignore
+              onChange({ target: { value: JSON.stringify(code) } })
+              console.log('on changed fired from json input')
+            }
           }}
           onFocus={() => {
             setValid(true)
