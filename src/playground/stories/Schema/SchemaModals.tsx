@@ -193,7 +193,7 @@ const FieldModal = ({
   children,
   editField = false,
 }) => {
-  const { label, description, icon, color } = templates[template]
+  const { label, icon, color } = templates[template]
   return (
     <Dialog>
       <Dialog.Body>

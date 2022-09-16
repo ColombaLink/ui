@@ -27,8 +27,6 @@ const Stories: FC = () => {
 }
 
 const App = () => {
-  console.log(client)
-
   const [darkMode, setDarkMode] = useDarkMode()
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
@@ -59,6 +57,9 @@ const App = () => {
           </>
         }
         data={{
+          Based: {
+            App: '?story=based-app',
+          },
           Advanced: {
             Auth: '?story=auth',
             ContentEditor: '?story=content-editor',

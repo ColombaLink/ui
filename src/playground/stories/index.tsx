@@ -36,6 +36,7 @@ export * from './ScatterResults'
 export * from './Schema'
 export * from './ContentEditor'
 export * from './Spacers'
+export * from './BasedApp'
 
 export * from './Screens/Inbox'
 export * from './Screens/ProfileSettings'
