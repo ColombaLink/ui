@@ -60,8 +60,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   disabled,
   value,
 }) => {
-  // const testVal = new Date(value)
-  // console.log('Test Val --->', testVal)
+  const testVal = new Date(value)
+  console.log('Test Val --->', testVal)
 
   let currentDate
 
@@ -72,6 +72,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   let currentTime = currentDate?.toString().split(' ')[4].substring(0, 5)
+
+  let GmtUtcTime = 'UTC' + currentDate?.toString().split(' ')[5].substring(3, 6)
+
+  console.log('GmtUtcTime -->', GmtUtcTime)
 
   // console.log('Current Date --->', currentDate)
   // console.log('Current Time --->', currentTime)
@@ -223,7 +227,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             cursor: disabled ? 'not-allowed' : 'auto',
             pointerEvents: disabled ? 'none' : 'auto',
           }}
-          placeholder="UTC+0"
+          placeholder={GmtUtcTime}
           options={[
             'UTC+0',
             'UTC+1',

@@ -220,11 +220,12 @@ export const Input: FC<
 
   const onChange = (e) => {
     let newValue = transform ? transform(e.target.value) : e.target.value
-    setValue(newValue)
 
     if (type === 'number' && typeof newValue !== 'number') {
       newValue = Number(newValue)
     }
+
+    setValue(newValue)
 
     onChangeProp?.(newValue)
     const msg = error?.(newValue)
@@ -376,7 +377,8 @@ export const Input: FC<
                 },
               }}
               onClick={() => {
-                onChange(setValue(+value + 1))
+                onChange({ target: { value: +value + 1 } })
+                // setValue(+value + 1)
               }}
             >
               {/* @ts-ignore */}
@@ -396,7 +398,7 @@ export const Input: FC<
                 },
               }}
               onClick={() => {
-                onChange(setValue(+value - 1))
+                onChange({ target: { value: +value - 1 } })
               }}
             >
               {/* @ts-ignore */}
