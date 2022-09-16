@@ -15,32 +15,9 @@ const StyledJsonEditor = styled('div', {
   borderRadius: 4,
 })
 
-const testObj = {
-  glossary: {
-    title: 'example glossary',
-    GlossDiv: {
-      title: 'S',
-      GlossList: {
-        GlossEntry: {
-          ID: 'SGML',
-          SortAs: 'SGML',
-          GlossTerm: 'Standard Generalized Markup Language',
-          Acronym: 'SGML',
-          Abbrev: 'ISO 8879:1986',
-          GlossDef: {
-            para: 'A meta-markup language, used to create markup languages such as DocBook.',
-            GlossSeeAlso: ['GML', 'XML'],
-          },
-          GlossSee: 'markup',
-        },
-      },
-    },
-  },
-}
-
 export const JsonInput = ({ setErrorMessage }) => {
   const [code, setCode] = useState('')
-  const [valid, setValid] = useState(false)
+  const [valid, setValid] = useState(true)
 
   const isValidJson = (str) => {
     try {
@@ -50,6 +27,17 @@ export const JsonInput = ({ setErrorMessage }) => {
     }
     return true
   }
+
+  useEffect(() => {
+    if (!valid) {
+      setErrorMessage('Invalid JSON')
+      console.log('not valid', code)
+    } else {
+      //   setErrorMessage('')
+      //  setCode(JSON.stringify(JSON.parse(code), null, 2))
+      console.log('valider')
+    }
+  }, [valid])
 
   return (
     <StyledJsonEditor>
@@ -82,20 +70,13 @@ export const JsonInput = ({ setErrorMessage }) => {
           }}
           onBlur={() => {
             setValid(isValidJson(code))
-            if (valid) {
-              console.log('valid', code)
-              setCode(JSON.stringify(JSON.parse(code), null, 2))
-              setErrorMessage('')
-            } else {
-              setErrorMessage('Invalid JSON')
-            }
+            setCode(JSON.stringify(JSON.parse(code), null, 2))
+          }}
+          onFocus={() => {
+            setValid(true)
+            setErrorMessage('')
           }}
         />
-      </div>
-
-      <div>
-        <Text>Json stringified: {JSON.stringify(code, null, 2)}</Text>
-        <Text>Is valid json?: {valid ? 'true' : 'false'} </Text>
       </div>
     </StyledJsonEditor>
   )
