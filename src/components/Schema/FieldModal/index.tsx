@@ -79,5 +79,3 @@ export const FieldModal: FC<
     </Dialog>
   )
 }
-
-const Bla = () => <FieldModal template= />

@@ -25,6 +25,9 @@ export const ToggleGroups = () => {
           {
             props: {
               data: ['First', 'Second', 'Third', 'Fourth'],
+              onChange: (value: number) => {
+                console.log(value)
+              },
             },
           },
           {

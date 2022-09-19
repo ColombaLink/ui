@@ -215,6 +215,10 @@ export const Input: FC<
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
   const [errorMessage, setErrorMessage] = useState('')
 
+  // to clear json value
+  const [clearValue, setClearValue] = useState(false)
+  const [showJSONClearButton, setShowJSONClearButton] = useState(false)
+
   useEffect(() => {
     if (maxChars && value.length > maxChars) {
       setValue(value.slice(0, maxChars))
@@ -300,12 +304,30 @@ export const Input: FC<
           description={description}
           style={{ marginBottom: 12 }}
         />
-        {value !== '' && indent && (
+        {value !== '' && indent && !jsonInput && (
           <Button
             ghost
             onClick={() => {
+              console.log('the value', value)
               onChangeProp?.('')
               setValue('')
+            }}
+            style={{ height: 'fit-content' }}
+          >
+            Clear
+          </Button>
+        )}
+        {/* JSON Input CLEAR BUTTON */}
+        {indent && jsonInput && showJSONClearButton && (
+          <Button
+            ghost
+            onClick={() => {
+              //  console.log('the value', value)
+              setShowJSONClearButton(false)
+              setValue('')
+              onChangeProp?.('')
+              setClearValue(true)
+              setErrorMessage('')
             }}
             style={{ height: 'fit-content' }}
           >
@@ -344,6 +366,10 @@ export const Input: FC<
             setErrorMessage={setErrorMessage}
             value={value}
             onChange={onChange}
+            clearValue={clearValue}
+            setClearValue={setClearValue}
+            showJSONClearButton={showJSONClearButton}
+            setShowJSONClearButton={setShowJSONClearButton}
           />
         ) : multiline ? (
           <Multi {...props} />

@@ -1,4 +1,10 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import React, {
+  useEffect,
+  useState,
+  Dispatch,
+  SetStateAction,
+  ChangeEvent,
+} from 'react'
 import { styled } from 'inlines'
 import { color, Text, Input } from '~'
 import Editor from '../Code/ReactSImpleEditor'
@@ -15,14 +21,22 @@ const StyledJsonEditor = styled('div', {
 
 type JsonInputProps = {
   value?: string
-  onChange?: (value: string) => void
+  onChange?: (target) => void
   setErrorMessage?: (value: string) => void
+  clearValue?: boolean
+  setClearValue?: Dispatch<SetStateAction<boolean>>
+  showJSONClearButton?: boolean
+  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>
 }
 
 export const JsonInput = ({
   value,
   onChange,
   setErrorMessage,
+  clearValue,
+  setClearValue,
+  showJSONClearButton,
+  setShowJSONClearButton,
 }: JsonInputProps) => {
   const [code, setCode] = useState(value)
   const [valid, setValid] = useState(true)
@@ -37,13 +51,19 @@ export const JsonInput = ({
   }
 
   useEffect(() => {
-    if (!valid) {
+    if (!valid && code !== '') {
       setErrorMessage('Invalid JSON')
+      // console.log(code.length)
     } else {
-      //   setErrorMessage('')
+      //  setErrorMessage('')
       //  setCode(JSON.stringify(JSON.parse(code), null, 2))
     }
   }, [valid])
+
+  useEffect(() => {
+    setCode('')
+    setClearValue(false)
+  }, [clearValue])
 
   return (
     <StyledJsonEditor>
@@ -61,7 +81,16 @@ export const JsonInput = ({
       <div style={{ padding: 12 }}>
         <Editor
           value={code}
-          onValueChange={(code) => setCode(code)}
+          onValueChange={(code) => {
+            // console.log(code.length)
+            if (code.length > 0) {
+              setShowJSONClearButton(true)
+            } else {
+              setShowJSONClearButton(false)
+            }
+
+            setCode(code)
+          }}
           highlight={(tempCode) => {
             try {
               const h = highlight(tempCode, languages.json)
@@ -78,9 +107,8 @@ export const JsonInput = ({
             setValid(isValidJson(code))
             setCode(JSON.stringify(JSON.parse(code), null, 2))
             if (isValidJson(code)) {
-              //@ts-ignore
-              onChange({ target: { value: JSON.stringify(code) } })
-              console.log('on changed fired from json input')
+              const stringified = JSON.stringify(code)
+              onChange({ target: { value: stringified } })
             }
           }}
           onFocus={() => {

@@ -1674,6 +1674,41 @@
       "code": "type EditableTitleProps = {\n  value?: string\n  placeholder?: string\n  identifier?: any\n  onChange?: (value: string) => void\n  onBlur?: (event: React.FormEvent<HTMLDivElement>) => void\n  placeholderAsDefault?: boolean\n  autoFocus?: boolean\n  weight?: Weight\n  horizontalPaddding?: number\n}",
       "file": "/components/Input/EditableTitle.tsx"
     },
+    "JsonInputProps": {
+      "name": "JsonInputProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "setErrorMessage": {
+          "optional": true,
+          "type": "function"
+        },
+        "clearValue": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setClearValue": {
+          "optional": true,
+          "type": "Dispatch"
+        },
+        "showJSONClearButton": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setShowJSONClearButton": {
+          "optional": true,
+          "type": "Dispatch"
+        }
+      },
+      "code": "type JsonInputProps = {\n  value?: string\n  onChange?: (target) => void\n  setErrorMessage?: (value: string) => void\n  clearValue?: boolean\n  setClearValue?: Dispatch<SetStateAction<boolean>>\n  showJSONClearButton?: boolean\n  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>\n}",
+      "file": "/components/Input/JsonInput.tsx"
+    },
     "InputProps": {
       "name": "InputProps",
       "props": {
@@ -1686,6 +1721,10 @@
           "type": "string"
         },
         "colorInput": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "jsonInput": {
           "optional": true,
           "type": "boolean"
         },
@@ -1805,7 +1844,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  jsonInput?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2462,20 +2501,61 @@
             "array": "TSTypeLiteral"
           }
         },
-        "logo": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "avatar": {
-          "optional": true,
-          "type": "ReactNode"
-        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "selected": {
+          "optional": true,
+          "type": "string"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "header": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
         }
       },
-      "code": "type SidebarProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n    isActive?: boolean\n  }[]\n  logo?: ReactNode\n  avatar?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type SidebarProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n  }[]\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n}",
+      "file": "/components/Sidebar/index.tsx"
+    },
+    "SidebarItemProps": {
+      "name": "SidebarItemProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "href": {
+          "optional": true,
+          "type": "string"
+        },
+        "isActive": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SpacerProps": {
@@ -2855,9 +2935,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n  onChange?: (value: number) => void\n}",
       "file": "/components/ToggleGroup/index.tsx"
     },
     "TooltipProps": {
@@ -3025,11 +3109,11 @@
           "optional": true,
           "type": "number"
         },
-        "onValueChange": {
+        "onChange": {
           "type": "function"
         }
       },
-      "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onValueChange: (value: number) => void\n}",
+      "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n}",
       "file": "/components/ValueSlider/index.tsx"
     }
   },

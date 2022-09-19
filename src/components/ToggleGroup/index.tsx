@@ -7,6 +7,7 @@ type ToggleGroupProps = {
   data?: Array<string> | Array<ReactNode>
   space?: Space
   style?: CSSProperties
+  onChange?: (value: number) => void
 }
 
 const StyledToggleTab = styled('div', {
@@ -20,6 +21,7 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({
   data,
   space,
   style,
+  onChange,
   ...props
 }) => {
   const [activeTab, setActiveTab] = useState<number>(0)
@@ -44,6 +46,7 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({
           key={idx}
           onClick={() => {
             setActiveTab(idx)
+            onChange && onChange(idx)
           }}
           style={{
             backgroundColor:
