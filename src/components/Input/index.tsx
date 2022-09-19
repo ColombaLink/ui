@@ -23,6 +23,7 @@ import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
+import { JsonInput } from './JsonInput'
 
 const resize = (target) => {
   if (target) {
@@ -60,6 +61,7 @@ type InputProps = {
   style?: CSSProperties
   label?: string
   colorInput?: boolean
+  jsonInput?: boolean
   description?: string
   descriptionBottom?: string
   optional?: boolean
@@ -176,6 +178,7 @@ export const Input: FC<
   autoFocus,
   bg,
   colorInput,
+  jsonInput,
   defaultValue,
   description,
   descriptionBottom,
@@ -334,6 +337,13 @@ export const Input: FC<
             }}
             value={colorValue}
             style={{ width: '100%' }}
+          />
+        ) : jsonInput ? (
+          <JsonInput
+            {...props}
+            setErrorMessage={setErrorMessage}
+            value={value}
+            onChange={onChange}
           />
         ) : multiline ? (
           <Multi {...props} />

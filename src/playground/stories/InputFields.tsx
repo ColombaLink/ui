@@ -10,6 +10,15 @@ export const InputFields = () => {
       examples={[
         {
           props: {
+            jsonInput: true,
+            label: 'Label for JSON',
+            description: 'Description for JSON',
+            descriptionBottom: 'this is bottom description',
+            indent: true,
+          },
+        },
+        {
+          props: {
             label: 'Number or Float',
             descriptionBottom: 'this is description',
             indent: true,
