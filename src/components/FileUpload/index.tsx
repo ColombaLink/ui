@@ -7,6 +7,7 @@ import {
   UploadIcon,
   AttachmentIcon,
   BasedIcon,
+  Button,
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -85,7 +86,20 @@ export const FileUpload = ({
         ...style,
       }}
     >
-      <Label label={label} description={description} space="8px" />
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Label label={label} description={description} space="8px" />
+
+        {file && (
+          <Button
+            ghost
+            onClick={() => setFile(null)}
+            style={{ height: 'fit-content', marginBottom: 4 }}
+          >
+            Clear
+          </Button>
+        )}
+      </div>
+
       {/* {uploadedFiles &&
         uploadedFiles.map((file, idx) => (
           <StyledUploadedFile key={idx}>
