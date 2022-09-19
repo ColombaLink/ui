@@ -30,7 +30,6 @@ type FileUploadProps = {
 
 const StyledFileInput = styled('div', {
   borderRadius: '4px',
-  border: `1px dashed ${color('border')}`,
   display: 'flex',
   alignItems: 'center',
   gap: 8,
@@ -57,6 +56,9 @@ const StyledUploadedFile = styled('div', {
 const StyledMoreIcon = styled('div', {
   position: 'absolute',
   right: 16,
+  '&:hover': {
+    cursor: 'pointer',
+  },
 })
 
 export const FileUpload = ({
@@ -70,6 +72,7 @@ export const FileUpload = ({
   style,
 }: FileUploadProps) => {
   const [file, setFile] = useState<File | null>(null)
+  const [draggingOver, setDraggingOver] = useState(false)
 
   // for multiple files
   // const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
@@ -77,12 +80,22 @@ export const FileUpload = ({
   const hiddenFileInput = useRef(null)
 
   const handleClickUpload = () => {
+    console.log(hiddenFileInput)
     hiddenFileInput.current.click()
   }
 
+  const handleFileDrop = (e) => {
+    console.log(e)
+    e.preventDefault()
+    e.stopPropagation()
+    setFile(e.dataTransfer.files[0])
+    console.log('Drop it, please')
+    setDraggingOver(false)
+  }
+
   const handleChange = (e) => {
-    // console.log(e)
-    // console.log(e.target.files[0])
+    console.log(e)
+    console.log(e.target.files[0])
     setFile(e.target.files[0])
     // for multiple files
     // setUploadedFiles([...uploadedFiles, e.target.files[0]])
@@ -185,9 +198,32 @@ export const FileUpload = ({
           </StyledMoreIcon>
         </StyledUploadedFile>
       )}
-      <StyledFileInput onClick={handleClickUpload}>
+      <StyledFileInput
+        onClick={handleClickUpload}
+        onDragOver={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setDraggingOver(true)
+        }}
+        onDrop={handleFileDrop}
+        onDragLeave={() => setDraggingOver(false)}
+        style={{
+          backgroundColor: draggingOver
+            ? color('lightaccent')
+            : color('background2'),
+          border: draggingOver
+            ? `1px dashed ${color('accent')}`
+            : `1px dashed ${color('border')}`,
+        }}
+      >
         <UploadIcon />
-        {file ? <Text>Replace file</Text> : <Text>Select a file</Text>}
+        {draggingOver ? (
+          <Text>Drop to upload</Text>
+        ) : file ? (
+          <Text>Replace file</Text>
+        ) : (
+          <Text>Select a file</Text>
+        )}
       </StyledFileInput>
       {/* hide the real input field */}
       <input
