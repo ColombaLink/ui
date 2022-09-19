@@ -13,6 +13,7 @@ export const Upload = () => {
         indent
         descriptionBottom="You can put upload file here."
         acceptedFileTypes={['.png', '.jpg', '.jpeg', 'video/*']}
+        onChange={(e) => console.log('Hallow daar ---> vanuit parent ', e)}
       />
     </div>
   )

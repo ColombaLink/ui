@@ -23,7 +23,7 @@ type FileUploadProps = {
   description?: string
   descriptionBottom?: string
   indent?: boolean
-  error?: string
+  error?: (str: string) => string
   onChange?: (file: File) => void
   style?: CSSProperties
   space?: Space
@@ -55,6 +55,7 @@ const StyledUploadedFile = styled('div', {
 
 const StyledMoreIcon = styled('div', {
   position: 'absolute',
+
   right: 16,
   '&:hover': {
     cursor: 'pointer',
@@ -68,7 +69,7 @@ export const FileUpload = ({
   descriptionBottom,
   indent,
   error,
-  onChange,
+  onChange: onChangeProp,
   space,
   style,
   disabled,
@@ -82,7 +83,10 @@ export const FileUpload = ({
 
   const hiddenFileInput = useRef(null)
 
-  console.log('Accepted', acceptedFileTypes.join(','))
+  console.log(
+    'Accepted extensions:',
+    acceptedFileTypes && acceptedFileTypes.join(',')
+  )
 
   const handleClickUpload = () => {
     if (!disabled) {
@@ -94,34 +98,52 @@ export const FileUpload = ({
     if (!disabled) {
       e.preventDefault()
       e.stopPropagation()
-      console.log(e.dataTransfer.files[0])
-      if (
-        acceptedFileTypes.indexOf(e.dataTransfer.files[0].type) &&
-        e.dataTransfer.files[0].type !== ''
-      ) {
-        setFile(e.dataTransfer.files[0])
-        setDraggingOver(false)
+      console.log('from DROP --->', e.dataTransfer.files[0])
+      if (acceptedFileTypes) {
+        if (
+          acceptedFileTypes.indexOf(e.dataTransfer.files[0].type) &&
+          e.dataTransfer.files[0].type !== ''
+        ) {
+          setFile(e.dataTransfer.files[0])
+          onChangeProp(e.dataTransfer.files[0])
+          setDraggingOver(false)
+        } else {
+          setFile(null)
+          setDraggingOver(false)
+        }
       } else {
-        setFile(null)
+        setFile(e.dataTransfer.files[0])
+        onChangeProp(e.dataTransfer.files[0])
         setDraggingOver(false)
-        console.log('now??', file)
       }
     }
   }
 
-  const handleChange = (e) => {
+  const onChange = (e) => {
     console.log(e)
     console.log(e.target.files[0])
+    // can only input accepted anyway??
+
     setFile(e.target.files[0])
+    onChangeProp(e.target.files[0])
+
     // for multiple files
     // setUploadedFiles([...uploadedFiles, e.target.files[0]])
+    const msg = error
+    if (msg) {
+      // add error msg
+      setErrorMessage(msg)
+    } else {
+      // remove error msg
+      setErrorMessage('')
+    }
   }
 
   // IF FILE IS NOT ACCEPTED SET ERROR MESSAGE ?
 
   const contextHandler = useContextMenu(
     ContextOptions,
-    { setFile, handleClickUpload },
+    { setFile, handleClickUpload, onChangeProp },
     { placement: 'right' }
   )
 
@@ -154,7 +176,10 @@ export const FileUpload = ({
         {file && (
           <Button
             ghost
-            onClick={() => setFile(null)}
+            onClick={() => {
+              setFile(null)
+              onChangeProp(null)
+            }}
             style={{ height: 'fit-content', marginBottom: 4 }}
           >
             Clear
@@ -259,10 +284,10 @@ export const FileUpload = ({
       {/* hide the real input field */}
       <input
         ref={hiddenFileInput}
-        onChange={handleChange}
+        onChange={onChange}
         type="file"
         style={{ display: 'none' }}
-        accept={acceptedFileTypes.join(',')}
+        accept={acceptedFileTypes && acceptedFileTypes.join(',')}
       />
       {descriptionBottom && (
         <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
@@ -286,13 +311,20 @@ export const FileUpload = ({
   )
 }
 
-const ContextOptions = ({ setFile, handleClickUpload }) => {
+const ContextOptions = ({ setFile, handleClickUpload, onChangeProp }) => {
   return (
     <>
       <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
         Edit
       </ContextItem>
-      <ContextItem color="red" onClick={() => setFile(null)} icon={DeleteIcon}>
+      <ContextItem
+        color="red"
+        onClick={() => {
+          setFile(null)
+          onChangeProp(null)
+        }}
+        icon={DeleteIcon}
+      >
         Remove
       </ContextItem>
     </>
