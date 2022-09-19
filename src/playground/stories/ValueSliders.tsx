@@ -22,14 +22,14 @@ export const Sliders = () => {
               min: 0,
               max: 50,
               value: 20,
-              onValueChange: (value) => console.log(value),
+              onChange: (value) => console.log(value),
             },
           },
           {
             props: {
               alwaysShowLabel: true,
               items: Items,
-              onValueChange: (value) => console.log(value),
+              onChange: (value) => console.log(value),
             },
           },
         ]}

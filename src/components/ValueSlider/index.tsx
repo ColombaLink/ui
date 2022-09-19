@@ -136,12 +136,12 @@ type ValueSliderProps = {
   onStartSliding?: () => void
   onEndSliding?: () => void
   value?: number
-  onValueChange: (value: number) => void
+  onChange: (value: number) => void
 }
 
 export const ValueSlider: FC<ValueSliderProps> = ({
   items,
-  onValueChange,
+  onChange,
   max,
   alwaysShowLabel = false,
   step,
@@ -218,13 +218,13 @@ export const ValueSlider: FC<ValueSliderProps> = ({
       const index = getClosestIndex(xPosArray, newPercentage)
       setPercentageX(snap ? xPosArray[index] : newPercentage)
       if (value !== index) {
-        onValueChange(index)
+        onChange(index)
       }
     } else {
       setPercentageX(newPercentage)
       const newValue = (newPercentage * (max - min)) / 100 + min
       if (value !== newValue) {
-        onValueChange(newValue)
+        onChange(newValue)
       }
     }
   }
