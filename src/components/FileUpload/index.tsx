@@ -1,5 +1,13 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react'
-import { Label, color, Text, spaceToPx, UploadIcon, AttachmentIcon } from '~'
+import React, { CSSProperties, useRef, useState } from 'react'
+import {
+  Label,
+  color,
+  Text,
+  spaceToPx,
+  UploadIcon,
+  AttachmentIcon,
+  BasedIcon,
+} from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 
@@ -87,6 +95,7 @@ export const FileUpload = ({
         ))} */}
       {file && (
         <StyledUploadedFile>
+          {/* image */}
           {file.type.includes('image') && (
             <div
               style={{
@@ -97,8 +106,42 @@ export const FileUpload = ({
               }}
             />
           )}
+          {/* movie */}
+          {file.type.includes('video') && (
+            <div
+              style={{
+                height: 62,
+                width: 62,
+                backgroundColor: color('background2'),
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <BasedIcon size={20} />
+            </div>
+          )}
+          {/* audio */}
+          {file.type.includes('audio') && (
+            <div
+              style={{
+                height: 62,
+                width: 62,
+                backgroundColor: color('background2'),
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <BasedIcon size={20} />
+            </div>
+          )}
 
-          {!file.type.includes('image') && <AttachmentIcon />}
+          {file.type.includes('image') ||
+          file.type.includes('video') ||
+          file.type.includes('audio') ? null : (
+            <AttachmentIcon />
+          )}
           <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
             {file.name}
           </Text>
