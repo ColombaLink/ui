@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { Label, color, Text, spaceToPx, UploadIcon, AttachmentIcon } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -32,7 +32,6 @@ const StyledUploadedFile = styled('div', {
   display: 'flex',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
-  padding: 6,
   paddingLeft: 12,
   borderRadius: 4,
   alignItems: 'center',
@@ -64,13 +63,9 @@ export const FileUpload = ({
   const handleChange = (e) => {
     console.log(e)
     console.log(e.target.files[0])
-
     setFile(e.target.files[0])
-
     // for multiple files
     // setUploadedFiles([...uploadedFiles, e.target.files[0]])
-
-    console.log('the fiel', file)
   }
 
   return (
@@ -92,12 +87,25 @@ export const FileUpload = ({
         ))} */}
       {file && (
         <StyledUploadedFile>
-          <AttachmentIcon />
-          <Text weight={400}>{file.name}</Text>
+          {file.type.includes('image') && (
+            <div
+              style={{
+                height: 62,
+                width: 62,
+                backgroundImage: `url(${URL.createObjectURL(file)})`,
+                backgroundSize: 'cover',
+              }}
+            />
+          )}
+
+          {!file.type.includes('image') && <AttachmentIcon />}
+          <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
+            {file.name}
+          </Text>
         </StyledUploadedFile>
       )}
       <StyledFileInput onClick={handleClickUpload}>
-        <UploadIcon />{' '}
+        <UploadIcon />
         {file ? <Text>Replace file</Text> : <Text>Select a file</Text>}
       </StyledFileInput>
       {/* hide the real input field */}
