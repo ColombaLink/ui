@@ -13,6 +13,7 @@ import {
   ContextItem,
   EditIcon,
   DeleteIcon,
+  ErrorIcon,
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -26,6 +27,8 @@ type FileUploadProps = {
   onChange?: (file: File) => void
   style?: CSSProperties
   space?: Space
+  disabled?: boolean
+  acceptedFileTypes?: string[]
 }
 
 const StyledFileInput = styled('div', {
@@ -36,9 +39,6 @@ const StyledFileInput = styled('div', {
   padding: 6,
   paddingLeft: 12,
   backgroundColor: color('background2'),
-  '&:hover': {
-    cursor: 'pointer',
-  },
 })
 
 const StyledUploadedFile = styled('div', {
@@ -63,6 +63,7 @@ const StyledMoreIcon = styled('div', {
 
 export const FileUpload = ({
   label,
+  acceptedFileTypes,
   description,
   descriptionBottom,
   indent,
@@ -70,27 +71,42 @@ export const FileUpload = ({
   onChange,
   space,
   style,
+  disabled,
 }: FileUploadProps) => {
   const [file, setFile] = useState<File | null>(null)
   const [draggingOver, setDraggingOver] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
   // for multiple files
   // const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
 
   const hiddenFileInput = useRef(null)
 
+  console.log('Accepted', acceptedFileTypes.join(','))
+
   const handleClickUpload = () => {
-    console.log(hiddenFileInput)
-    hiddenFileInput.current.click()
+    if (!disabled) {
+      hiddenFileInput.current.click()
+    }
   }
 
   const handleFileDrop = (e) => {
-    console.log(e)
-    e.preventDefault()
-    e.stopPropagation()
-    setFile(e.dataTransfer.files[0])
-    console.log('Drop it, please')
-    setDraggingOver(false)
+    if (!disabled) {
+      e.preventDefault()
+      e.stopPropagation()
+      console.log(e.dataTransfer.files[0])
+      if (
+        acceptedFileTypes.indexOf(e.dataTransfer.files[0].type) &&
+        e.dataTransfer.files[0].type !== ''
+      ) {
+        setFile(e.dataTransfer.files[0])
+        setDraggingOver(false)
+      } else {
+        setFile(null)
+        setDraggingOver(false)
+        console.log('now??', file)
+      }
+    }
   }
 
   const handleChange = (e) => {
@@ -101,6 +117,8 @@ export const FileUpload = ({
     // setUploadedFiles([...uploadedFiles, e.target.files[0]])
   }
 
+  // IF FILE IS NOT ACCEPTED SET ERROR MESSAGE ?
+
   const contextHandler = useContextMenu(
     ContextOptions,
     { setFile, handleClickUpload },
@@ -108,20 +126,30 @@ export const FileUpload = ({
   )
 
   return (
-    <div
+    <styled.div
       style={{
         paddingLeft: indent ? 12 : null,
-        borderLeft: file
+        borderLeft: errorMessage
+          ? `2px solid ${color('red')}`
+          : file
           ? `2px solid ${color('accent')}`
           : indent
           ? `2px solid ${color('border')}`
           : 'none',
         marginBottom: spaceToPx(space),
+        '&:hover': {
+          cursor: disabled ? 'not-allowed' : 'pointer',
+        },
         ...style,
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Label label={label} description={description} space="8px" />
+        <Label
+          label={label}
+          labelColor={disabled ? 'text2' : 'text'}
+          description={description}
+          space="8px"
+        />
 
         {file && (
           <Button
@@ -214,6 +242,9 @@ export const FileUpload = ({
           border: draggingOver
             ? `1px dashed ${color('accent')}`
             : `1px dashed ${color('border')}`,
+          '&:hover': {
+            cursor: disabled ? 'not-allowed' : 'pointer',
+          },
         }}
       >
         <UploadIcon />
@@ -231,13 +262,27 @@ export const FileUpload = ({
         onChange={handleChange}
         type="file"
         style={{ display: 'none' }}
+        accept={acceptedFileTypes.join(',')}
       />
       {descriptionBottom && (
         <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
           {descriptionBottom}
         </Text>
       )}
-    </div>
+      {errorMessage && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            marginTop: 6,
+          }}
+        >
+          <ErrorIcon color="red" size={16} />
+          <Text color="red">{errorMessage}</Text>
+        </div>
+      )}
+    </styled.div>
   )
 }
 
