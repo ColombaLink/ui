@@ -1,5 +1,11 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
-import { border, color, hrefIsActive, renderOrCreateElement } from '~/utils'
+import React, { FC, ReactNode, CSSProperties, useEffect } from 'react'
+import {
+  border,
+  color,
+  hrefIsActive,
+  renderOrCreateElement,
+  setLocation,
+} from '~/utils'
 import { Link } from '../Link'
 import { useLocation } from '~/hooks'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -68,11 +74,32 @@ export const Sidebar: FC<SidebarProps> = ({
   header,
   children,
 }) => {
-  const [location] = useLocation()
+  const [location, setLocation] = useLocation()
 
   if (!selected) {
     selected = location
   }
+
+  let hasActive
+  const parsedData = data.map(({ label, href, icon }, i) => {
+    if (href[0] !== '?') {
+      href = prefix + href
+    }
+
+    const isActive = hrefIsActive(href, location, data)
+
+    if (isActive) {
+      hasActive = true
+    }
+
+    return { label, href, isActive, icon }
+  })
+
+  useEffect(() => {
+    if (!hasActive) {
+      setLocation(parsedData[0].href)
+    }
+  }, [hasActive])
 
   return (
     <div
@@ -89,18 +116,9 @@ export const Sidebar: FC<SidebarProps> = ({
     >
       {header}
       <div style={{ flexGrow: 1, padding: 8 }}>
-        {data.map(({ label, href, icon }, i) => {
-          if (href[0] !== '?') {
-            href = prefix + href
-          }
-
+        {parsedData.map(({ label, href, isActive, icon }, i) => {
           return (
-            <SidebarItem
-              key={i}
-              label={label}
-              href={href}
-              isActive={hrefIsActive(href, location)}
-            >
+            <SidebarItem key={i} label={label} href={href} isActive={isActive}>
               {renderOrCreateElement(icon, { size: 20 })}
             </SidebarItem>
           )

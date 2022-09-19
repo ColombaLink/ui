@@ -1,15 +1,6 @@
 import { useSchema } from '@based/react'
 import React, { FC } from 'react'
-import {
-  Menu,
-  Text,
-  Button,
-  AddIcon,
-  Separator,
-  useDialog,
-  capitalize,
-  Badge,
-} from '~'
+import { Menu, Text, Button, AddIcon, useDialog, capitalize, Badge } from '~'
 import { AddTypeModal } from '../AddTypeModal'
 
 const SystemLabel = ({ isActive = false, children }) => {
@@ -21,9 +12,9 @@ const SystemLabel = ({ isActive = false, children }) => {
   )
 }
 
-export const Types: FC<{
-  hrefPrefix: string
-}> = ({ hrefPrefix }) => {
+export const SchemaLeft: FC<{
+  prefix: string
+}> = ({ prefix }) => {
   const dialog = useDialog()
   const { schema, loading } = useSchema()
 
@@ -39,7 +30,7 @@ export const Types: FC<{
 
   return (
     <Menu
-      prefix={hrefPrefix}
+      prefix={prefix}
       style={{ paddingTop: 24, minWidth: 234 }}
       data={Object.keys(types)
         .sort()
@@ -78,7 +69,7 @@ export const Types: FC<{
               ghost
               icon={AddIcon}
               onClick={() => {
-                dialog.open(<AddTypeModal hrefPrefix={hrefPrefix} />)
+                dialog.open(<AddTypeModal prefix={prefix} />)
               }}
             >
               Add
@@ -86,6 +77,6 @@ export const Types: FC<{
           </div>
         </>
       }
-    ></Menu>
+    />
   )
 }

@@ -16,7 +16,7 @@ import addToSchema from './addToSchema'
 import { ValidationProps } from './types'
 import { FieldInfo } from './FieldInfo'
 import { useClient, useSchema } from '@based/react'
-import { templates } from '../fields'
+import { templates } from '../templates'
 
 export const ReferenceType = ({
   options,

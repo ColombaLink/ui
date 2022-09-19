@@ -1,4 +1,3 @@
-import ListIcon from './ListIcon'
 import {
   DragDropIcon,
   Text,
@@ -7,7 +6,6 @@ import {
   MoreIcon,
   Button,
   RedoIcon,
-  Color,
   ContextItem,
   useDialog,
   useContextMenu,
@@ -69,7 +67,7 @@ const EditMenu: FC<{
 
 const ListItem: FC<{
   style: CSSProperties
-  type: string
+  fieldType: string
   fieldName: string
   isBidirectional?: boolean
   name: string
@@ -79,7 +77,7 @@ const ListItem: FC<{
   style,
   name,
   fieldName,
-  type,
+  fieldType,
   isBidirectional,
   isDragging,
   schemaType,
@@ -93,6 +91,8 @@ const ListItem: FC<{
     },
     { position: 'left' }
   )
+
+  console.log({ fieldType, schemaType, name, fieldName })
 
   // isBidirectional
   return (
@@ -146,7 +146,7 @@ const ListItem: FC<{
           </Text>
           <Badge ghost outline style={{ marginLeft: 12 }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <div>{type}</div>
+              <div>{fieldType}</div>
               {isBidirectional ? <RedoIcon style={{ marginLeft: 8 }} /> : ''}
             </div>
           </Badge>
@@ -158,7 +158,7 @@ const ListItem: FC<{
           e.stopPropagation()
         }}
       >
-        {/* {type === "object" || type === "array" ? (
+        {/* {fieldType === "object" || fieldType === "array" ? (
           <Button style={{ marginRight: 16 }} variant="ghost">
             Settings
           </Button>

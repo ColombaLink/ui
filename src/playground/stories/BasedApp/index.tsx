@@ -1,10 +1,18 @@
 import { Sidebar } from '~/components/Sidebar'
 import React from 'react'
 import { AttachmentIcon, EditIcon, LayersIcon } from '~/icons'
+import { SchemaEditor } from '~/components/Schema'
+import { useLocation } from '~/hooks'
 
 const Project = ({ id, style }) => {
+  const [location] = useLocation()
   return (
-    <div style={style}>
+    <div
+      style={{
+        display: 'flex',
+        ...style,
+      }}
+    >
       <Sidebar
         data={[
           {
@@ -23,6 +31,10 @@ const Project = ({ id, style }) => {
             href: '/files',
           },
         ]}
+      />
+      <SchemaEditor
+        prefix={`/${location.split('/')[1]}`}
+        style={{ flexGrow: 1 }}
       />
     </div>
   )

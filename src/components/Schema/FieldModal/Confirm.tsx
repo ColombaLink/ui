@@ -2,7 +2,7 @@ import { useClient } from '@based/react'
 import React from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
-import { templates } from '../fields'
+import { templates } from '../templates'
 
 export const Confirm = ({ disabled, options, type, template, children }) => {
   const toast = useToast({ attached: true })

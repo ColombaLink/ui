@@ -53,7 +53,7 @@ const EditMenu: FC<{ type: string }> = ({ type }) => {
 }
 
 export const Type: FC<{
-  hrefPrefix: string
+  prefix: string
   type: string
   db: string
 }> = ({ type, db }) => {
@@ -70,7 +70,7 @@ export const Type: FC<{
   if (loading) return null
 
   const { meta = {}, fields } =
-    type === 'root' ? schema.rootType : schema.types[type]
+    type === 'root' ? schema.rootType : schema.types[type] || {}
   const { name, description } = meta
 
   return (

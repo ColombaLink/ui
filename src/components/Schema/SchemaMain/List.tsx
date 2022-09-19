@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { styled } from 'inlines'
 import { capitalize, Checkbox } from '~'
-import { alwaysIgnore, systemFields, Field } from '../fields'
+import { alwaysIgnore, systemFields } from '../templates'
 import ListItem from './ListItem'
 import {
   DndContext,
@@ -24,6 +24,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { createPortal } from 'react-dom'
 import { useClient, useSchema } from '@based/react'
+import type { FieldSchema } from '../types.js'
 
 const SortableItem: FC<{ id: string }> = ({ id, children }) => {
   const {
@@ -61,7 +62,7 @@ const FieldsWrapper = styled('div', {
 })
 
 const FieldItem: FC<{
-  field: Field
+  field: FieldSchema
   name: string
   isDragging?: boolean
   schemaType?: string
@@ -82,7 +83,7 @@ const FieldItem: FC<{
       // color={style.color}
       name={title}
       fieldName={name}
-      type={field.type}
+      fieldType={field.type}
       schemaType={schemaType}
       style={{
         marginBottom: 16,

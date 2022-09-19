@@ -11,7 +11,7 @@ const Container = styled('div', {
   alignItems: 'center',
 })
 
-export const NoType: FC<{ hrefPrefix: string }> = ({ hrefPrefix }) => {
+export const NoType: FC<{ prefix: string }> = ({ prefix }) => {
   const { open } = useDialog()
 
   return (
@@ -21,7 +21,7 @@ export const NoType: FC<{ hrefPrefix: string }> = ({ hrefPrefix }) => {
         style={{ marginTop: 16 }}
         icon={AddIcon}
         onClick={() => {
-          open(<AddTypeModal hrefPrefix={hrefPrefix} />)
+          open(<AddTypeModal prefix={prefix} />)
         }}
       >
         Create a new type

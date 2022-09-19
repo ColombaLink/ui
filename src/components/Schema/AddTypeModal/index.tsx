@@ -4,7 +4,7 @@ import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
 import { useClient, useSchema } from '@based/react'
 
-export const AddTypeModal: FC<{ hrefPrefix: string }> = ({ hrefPrefix }) => {
+export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
   const { schema } = useSchema()
   const client = useClient()
   const db = 'default' // TODO
@@ -143,7 +143,7 @@ export const AddTypeModal: FC<{ hrefPrefix: string }> = ({ hrefPrefix }) => {
               //   await client.removeField(parsedName, 'createdAt')
               // }
 
-              setLocation(`${hrefPrefix}/${parsedName}`)
+              setLocation(`${prefix}/${parsedName}`)
             }
           }}
         >

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Input } from '~/components/Input'
 import safeTypeName from '../AddTypeModal/safeTypeName'
-import { FieldOptions } from './types'
+import { FieldOptions } from '../types'
 
 const useUpdate = (callback?: () => void) => {
   const [count, setCount] = useState(0)

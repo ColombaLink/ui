@@ -10,7 +10,7 @@ import {
 import { styled } from 'inlines'
 import React, { FC } from 'react'
 import { AddFieldModal } from '../AddFieldModal'
-import { templates } from '../fields'
+import { templates } from '../templates'
 // import { FieldData } from '../fields'
 
 const Section = styled('div', {

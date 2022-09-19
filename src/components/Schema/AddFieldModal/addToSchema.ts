@@ -2,7 +2,7 @@ import { deepCopy } from '@saulx/utils'
 import { Based } from '@based/client'
 import safeTypeName from '../AddTypeModal/safeTypeName'
 import { FieldOptionsState } from './types'
-import { templates } from '../fields'
+import { templates } from '../templates'
 
 export default async function addToSchema(
   type: string,

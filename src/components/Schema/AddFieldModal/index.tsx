@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { AddFieldModalGeneral } from './General'
 import { AddFieldModalReference } from './Reference'
-import { templates } from '../fields'
+import { templates } from '../templates'
 
 export const AddFieldModal: FC<{
   template: string

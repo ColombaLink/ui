@@ -3,9 +3,9 @@ import { useSchema } from '@based/react'
 import { Dialog } from '~/components/Dialog'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
-import { templates, FieldTemplates } from '../fields'
+import { templates, FieldTemplates } from '../templates'
 import { Confirm } from './Confirm'
-import { FieldOptions } from './types'
+import { FieldOptions } from '../types'
 import { General } from './General'
 
 export const FieldModal: FC<

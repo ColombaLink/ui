@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
+import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
 import { useLocation } from '~/hooks'
 import { Weight } from '~/types'
 import { color } from '~/utils'
@@ -47,7 +47,6 @@ export const MenuItem: FC<MenuItemProps> = ({
   return (
     <Text
       color={isActive ? 'lightaccent:contrast' : isNested ? 'text2' : 'text'}
-      // variant={isActive ? 'active' : null}
       weight={isActive ? 600 : weight}
       wrap
       style={{
@@ -97,7 +96,7 @@ export const Menu: FC<{
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
 }> = ({ data = {}, selected, prefix = '', style, children, header }) => {
-  const [location] = useLocation()
+  const [location, setLocation] = useLocation()
 
   if (!selected) {
     selected = location
@@ -118,6 +117,67 @@ export const Menu: FC<{
     })
   }
 
+  let firstHref
+  let hasActive
+  const items = data.map(({ label, href, items }, i) => {
+    if (items) {
+      if (!Array.isArray(items)) {
+        items = Object.keys(items).map((key) => ({
+          label: key,
+          href: items[key],
+        }))
+      }
+
+      return (
+        <Fragment key={i}>
+          <MenuHeader style={{ marginTop: i && 40 }}>{label}</MenuHeader>
+          {items.map(({ href, label }, index) => {
+            if (href[0] !== '?') {
+              href = prefix + href
+            }
+            if (!firstHref) {
+              firstHref = href
+            }
+            const isActive = hrefIsActive(href, selected, items)
+            if (isActive) {
+              hasActive = true
+            }
+            return (
+              <MenuItem key={index} href={href} isActive={isActive} isNested>
+                {label}
+              </MenuItem>
+            )
+          })}
+        </Fragment>
+      )
+    }
+
+    if (href[0] !== '?') {
+      href = prefix + href
+    }
+
+    if (!firstHref) {
+      firstHref = href
+    }
+
+    const isActive = hrefIsActive(href, selected, data)
+    if (isActive) {
+      hasActive = true
+    }
+
+    return (
+      <MenuItem key={i} href={href} isActive={isActive} weight={500}>
+        {label}
+      </MenuItem>
+    )
+  })
+
+  useEffect(() => {
+    if (!hasActive) {
+      setLocation(firstHref)
+    }
+  }, [hasActive])
+
   return (
     <ScrollArea
       style={{
@@ -129,48 +189,7 @@ export const Menu: FC<{
       }}
     >
       {header}
-      {data.map(({ label, href, items }, i) => {
-        if (items) {
-          if (!Array.isArray(items)) {
-            items = Object.keys(items).map((key) => ({
-              label: key,
-              href: items[key],
-            }))
-          }
-
-          return (
-            <Fragment key={i}>
-              <MenuHeader style={{ marginTop: i && 40 }}>{label}</MenuHeader>
-              {items.map(({ href, label }, index) => {
-                if (href[0] !== '?') {
-                  href = prefix + href
-                }
-                return (
-                  <MenuItem
-                    key={index}
-                    href={href}
-                    isActive={hrefIsActive(href, selected)}
-                    isNested
-                  >
-                    {label}
-                  </MenuItem>
-                )
-              })}
-            </Fragment>
-          )
-        }
-        href = prefix + href
-        return (
-          <MenuItem
-            key={i}
-            href={href}
-            isActive={hrefIsActive(href, selected)}
-            weight={500}
-          >
-            {label}
-          </MenuItem>
-        )
-      })}
+      {items}
       {children}
     </ScrollArea>
   )

@@ -1,23 +1,26 @@
-export const hrefIsActive = (href: string, selected: string, data?: object) => {
+export const hrefIsActive = (
+  href: string,
+  selected: string,
+  data?: { href: string }[]
+) => {
   if (href === selected) {
     return true
   }
 
   if (href === '/') {
     if (data) {
-      for (const i in data) {
-        const value = data[i]
-        if (value !== href && selected.startsWith(value)) {
-          return false
+      return !data.find((item) => {
+        if (item.href !== href) {
+          return selected.startsWith(item.href)
         }
-      }
-      return true
+        return false
+      })
     }
     return false
   }
 
   if (href[0] === '?') {
-    return location.search.substring(1).split('/').includes(href.substring(1))
+    return location.search.substring(1).split('&').includes(href.substring(1))
   }
 
   if (selected.startsWith(href)) {
