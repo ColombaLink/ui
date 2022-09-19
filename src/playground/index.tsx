@@ -74,6 +74,7 @@ const App = () => {
             Checkboxes: '?story=checkboxes',
             ColorPicker: '?story=color-picker',
             DateTimePicker: '?story=DateTime',
+            FileUpload: '?story=upload',
             Forms: '?story=forms',
             InputFields: '?story=input-fields',
             Radiobuttons: '?story=radiobutton',
