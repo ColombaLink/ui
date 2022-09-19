@@ -77,16 +77,19 @@ export const FileUpload = ({
   const [file, setFile] = useState<File | null>(null)
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [clearCount, setClearCount] = useState(0)
 
   // for multiple files
   // const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
 
   const hiddenFileInput = useRef(null)
 
-  console.log(
-    'Accepted extensions:',
-    acceptedFileTypes && acceptedFileTypes.join(',')
-  )
+  //   console.log(
+  //     'Accepted extensions:',
+  //     acceptedFileTypes && acceptedFileTypes.join(','),
+  //     file,
+  //     file && URL.createObjectURL(file)
+  //   )
 
   const handleClickUpload = () => {
     if (!disabled) {
@@ -94,11 +97,15 @@ export const FileUpload = ({
     }
   }
 
+  const handleClearCount = () => {
+    setClearCount(clearCount + 1)
+  }
+
   const handleFileDrop = (e) => {
     if (!disabled) {
       e.preventDefault()
       e.stopPropagation()
-      console.log('from DROP --->', e.dataTransfer.files[0])
+      //  console.log('from DROP --->', e.dataTransfer.files[0])
       if (acceptedFileTypes) {
         if (
           acceptedFileTypes.indexOf(e.dataTransfer.files[0].type) &&
@@ -106,22 +113,18 @@ export const FileUpload = ({
         ) {
           setFile(e.dataTransfer.files[0])
           onChangeProp(e.dataTransfer.files[0])
-          setDraggingOver(false)
         } else {
           setFile(null)
-          setDraggingOver(false)
         }
       } else {
         setFile(e.dataTransfer.files[0])
         onChangeProp(e.dataTransfer.files[0])
-        setDraggingOver(false)
       }
+      setDraggingOver(false)
     }
   }
 
   const onChange = (e) => {
-    console.log(e)
-    console.log(e.target.files[0])
     // can only input accepted anyway??
 
     setFile(e.target.files[0])
@@ -129,7 +132,7 @@ export const FileUpload = ({
 
     // for multiple files
     // setUploadedFiles([...uploadedFiles, e.target.files[0]])
-    const msg = error
+    const msg = error(e.target.files[0].name)
     if (msg) {
       // add error msg
       setErrorMessage(msg)
@@ -143,7 +146,7 @@ export const FileUpload = ({
 
   const contextHandler = useContextMenu(
     ContextOptions,
-    { setFile, handleClickUpload, onChangeProp },
+    { setFile, handleClickUpload, onChangeProp, handleClearCount },
     { placement: 'right' }
   )
 
@@ -179,6 +182,7 @@ export const FileUpload = ({
             onClick={() => {
               setFile(null)
               onChangeProp(null)
+              handleClearCount()
             }}
             style={{ height: 'fit-content', marginBottom: 4 }}
           >
@@ -288,6 +292,7 @@ export const FileUpload = ({
         type="file"
         style={{ display: 'none' }}
         accept={acceptedFileTypes && acceptedFileTypes.join(',')}
+        key={clearCount}
       />
       {descriptionBottom && (
         <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
@@ -311,7 +316,12 @@ export const FileUpload = ({
   )
 }
 
-const ContextOptions = ({ setFile, handleClickUpload, onChangeProp }) => {
+const ContextOptions = ({
+  setFile,
+  handleClickUpload,
+  onChangeProp,
+  handleClearCount,
+}) => {
   return (
     <>
       <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
@@ -322,6 +332,7 @@ const ContextOptions = ({ setFile, handleClickUpload, onChangeProp }) => {
         onClick={() => {
           setFile(null)
           onChangeProp(null)
+          handleClearCount()
         }}
         icon={DeleteIcon}
       >
