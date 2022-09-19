@@ -8,6 +8,11 @@ import {
   AttachmentIcon,
   BasedIcon,
   Button,
+  MoreIcon,
+  useContextMenu,
+  ContextItem,
+  EditIcon,
+  DeleteIcon,
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -46,6 +51,12 @@ const StyledUploadedFile = styled('div', {
   alignItems: 'center',
   gap: 12,
   marginBottom: 8,
+  position: 'relative',
+})
+
+const StyledMoreIcon = styled('div', {
+  position: 'absolute',
+  right: 16,
 })
 
 export const FileUpload = ({
@@ -70,18 +81,28 @@ export const FileUpload = ({
   }
 
   const handleChange = (e) => {
-    console.log(e)
-    console.log(e.target.files[0])
+    // console.log(e)
+    // console.log(e.target.files[0])
     setFile(e.target.files[0])
     // for multiple files
     // setUploadedFiles([...uploadedFiles, e.target.files[0]])
   }
 
+  const contextHandler = useContextMenu(
+    ContextOptions,
+    { setFile, handleClickUpload },
+    { placement: 'right' }
+  )
+
   return (
     <div
       style={{
         paddingLeft: indent ? 12 : null,
-        borderLeft: indent ? `2px solid ${color('border')}` : 'none',
+        borderLeft: file
+          ? `2px solid ${color('accent')}`
+          : indent
+          ? `2px solid ${color('border')}`
+          : 'none',
         marginBottom: spaceToPx(space),
         ...style,
       }}
@@ -159,6 +180,9 @@ export const FileUpload = ({
           <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
             {file.name}
           </Text>
+          <StyledMoreIcon onClick={contextHandler}>
+            <MoreIcon />
+          </StyledMoreIcon>
         </StyledUploadedFile>
       )}
       <StyledFileInput onClick={handleClickUpload}>
@@ -178,5 +202,18 @@ export const FileUpload = ({
         </Text>
       )}
     </div>
+  )
+}
+
+const ContextOptions = ({ setFile, handleClickUpload }) => {
+  return (
+    <>
+      <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
+        Edit
+      </ContextItem>
+      <ContextItem color="red" onClick={() => setFile(null)} icon={DeleteIcon}>
+        Remove
+      </ContextItem>
+    </>
   )
 }
