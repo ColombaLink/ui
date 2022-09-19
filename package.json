@@ -40,7 +40,7 @@
     "@dnd-kit/utilities": "^3.2.0",
     "@saulx/aristotle": "^4.4.1",
     "@saulx/hash": "^1.1.0",
-    "@saulx/utils": "^2.2.1",
+    "@saulx/utils": "^2.4.0",
     "@saulx/validators": "^1.2.0",
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",

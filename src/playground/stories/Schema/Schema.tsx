@@ -1,6 +1,6 @@
 import React from 'react'
 import { Page, color } from '~'
-import { SchemaEditor } from '~/components/Schema'
+import { Schema as SchemaEditor } from '~/components/Schema'
 
 export const Schema = () => {
   return (

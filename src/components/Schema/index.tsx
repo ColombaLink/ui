@@ -4,7 +4,7 @@ import { SchemaLeft } from './SchemaLeft'
 import { SchemaRight } from './SchemaRight'
 import { useLocation } from '~'
 
-export const SchemaEditor: FC<{
+export const Schema: FC<{
   db?: string
   prefix?: string
   style?: CSSProperties

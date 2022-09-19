@@ -1,21 +1,12 @@
 import { useSchema } from '@based/react'
 import React, { FC } from 'react'
 import { Menu, Text, Button, AddIcon, useDialog, capitalize, Badge } from '~'
+import { SystemLabel } from '~/components/Schema/SchemaLeft'
 import { AddTypeModal } from '../AddTypeModal'
 
-export const SystemLabel = ({ isActive = false, children }) => {
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      {children}
-      <Badge ghost={isActive}>system</Badge>
-    </div>
-  )
-}
-
-export const SchemaLeft: FC<{
+export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
-  const dialog = useDialog()
   const { schema, loading } = useSchema()
 
   if (loading) {
@@ -51,15 +42,6 @@ export const SchemaLeft: FC<{
               <Text size="15px" weight="600">
                 Types
               </Text>
-              <Button
-                ghost
-                icon={AddIcon}
-                onClick={() => {
-                  dialog.open(<AddTypeModal prefix={prefix} />)
-                }}
-              >
-                Add
-              </Button>
             </div>
           ),
           items: Object.keys(types)
@@ -80,35 +62,6 @@ export const SchemaLeft: FC<{
             }),
         },
       ]}
-      // header={
-      //   <>
-      //     <Text size="18px" weight="700">
-      //       Schema
-      //     </Text>
-      //     <div
-      //       style={{
-      //         marginTop: 12,
-      //         marginBottom: 12,
-      //         display: 'flex',
-      //         justifyContent: 'space-between',
-      //         alignItems: 'center',
-      //       }}
-      //     >
-      //       <Text size="15px" weight="600" color="text2">
-      //         Types
-      //       </Text>
-      //       <Button
-      //         ghost
-      //         icon={AddIcon}
-      //         onClick={() => {
-      //           dialog.open(<AddTypeModal prefix={prefix} />)
-      //         }}
-      //       >
-      //         Add
-      //       </Button>
-      //     </div>
-      //   </>
-      // }
     />
   )
 }

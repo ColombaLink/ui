@@ -44,6 +44,7 @@ export type InfiniteListProps = {
   limit?: number
   treshold?: number
   target?: string
+  language?: string
   style?: CSSProperties
   itemData?: (items: object[]) => any
   children?: FC<{ index: number; style: CSSProperties; data: any }>
@@ -59,6 +60,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
   itemData,
   treshold = 0,
   target = 'root',
+  language = 'en',
   ...props
 }) => {
   const blockHeight = itemSize * limit
@@ -108,6 +110,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
         const start = offset + limit * i
         const payload = {
           $id: target,
+          $language: language,
           items: query(start, limit),
         }
         const subId = generateSubscriptionId(payload)
@@ -125,7 +128,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
 
       current.subs = subs
     }
-  }, [target, client, offset, blocks, query, current]) // dont include limit
+  }, [target, client, offset, blocks, query, current, language]) // dont include limit
 
   useEffect(update, [
     blockHeight,
@@ -141,6 +144,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
     data: { itemCount },
   } = useData({
     $id: target as string,
+    $language: language,
     itemCount: {
       $aggregate: {
         $function: 'count',

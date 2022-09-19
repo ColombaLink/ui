@@ -18,7 +18,7 @@ export const scrollAreaStyle = {
   },
   '&::-webkit-scrollbar:horizontal': {
     height: '10px',
-    marginTop: '-10px',
+    // marginTop: '-10px',
   },
   '&:hover': {
     // firefox
