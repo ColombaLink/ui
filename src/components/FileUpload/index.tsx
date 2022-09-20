@@ -24,11 +24,12 @@ type FileUploadProps = {
   descriptionBottom?: string
   indent?: boolean
   error?: (str: string) => string
-  onChange?: (file: File) => void
+  onChange?: (file: File[]) => void
   style?: CSSProperties
   space?: Space
   disabled?: boolean
   acceptedFileTypes?: string[]
+  multiple?: boolean
 }
 
 const StyledFileInput = styled('div', {
@@ -55,7 +56,6 @@ const StyledUploadedFile = styled('div', {
 
 const StyledMoreIcon = styled('div', {
   position: 'absolute',
-
   right: 16,
   '&:hover': {
     cursor: 'pointer',
@@ -73,6 +73,7 @@ export const FileUpload = ({
   space,
   style,
   disabled,
+  multiple,
 }: FileUploadProps) => {
   const [file, setFile] = useState<File | null>(null)
   const [draggingOver, setDraggingOver] = useState(false)
@@ -80,7 +81,7 @@ export const FileUpload = ({
   const [clearCount, setClearCount] = useState(0)
 
   // for multiple files
-  // const [uploadedFiles, setUploadedFiles] = useState<File[]>([])
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
   const hiddenFileInput = useRef(null)
 
@@ -92,14 +93,11 @@ export const FileUpload = ({
 
   const clearFile = () => {
     setClearCount((clearCount) => clearCount + 1)
-    setFile(null)
+    // setFile(null)
+    setUploadedFiles([])
     onChangeProp(null)
     setErrorMessage('')
   }
-
-  useEffect(() => {
-    console.log('clearCount has fired', clearCount)
-  }, [clearCount])
 
   const handleFileDrop = (e) => {
     if (!disabled) {
@@ -127,11 +125,22 @@ export const FileUpload = ({
   const onChange = (e) => {
     // can only input accepted anyway??
 
-    setFile(e.target.files[0])
-    onChangeProp(e.target.files[0])
+    // setFile(e.target.files[0])
+    // onChangeProp(e.target.files[0])
+
+    console.log('EEEEe', e.target.files)
 
     // for multiple files
-    // setUploadedFiles([...uploadedFiles, e.target.files[0]])
+    if (multiple) {
+      const TempArr = Array.from(e.target.files)
+      setUploadedFiles([...uploadedFiles, ...TempArr])
+      onChangeProp([...uploadedFiles, ...TempArr])
+      console.log('uploadedFiles', uploadedFiles)
+    } else {
+      setUploadedFiles([e.target.files[0]])
+      onChangeProp(e.target.files[0])
+    }
+
     const msg = error(e.target.files[0].name)
     if (msg) {
       // add error msg
@@ -141,6 +150,10 @@ export const FileUpload = ({
       setErrorMessage('')
     }
   }
+
+  useEffect(() => {
+    console.log('uploaded files changed', uploadedFiles)
+  }, [uploadedFiles])
 
   // IF FILE IS NOT ACCEPTED SET ERROR MESSAGE ?
 
@@ -156,7 +169,7 @@ export const FileUpload = ({
         paddingLeft: indent ? 12 : null,
         borderLeft: errorMessage
           ? `2px solid ${color('red')}`
-          : file
+          : uploadedFiles.length > 0
           ? `2px solid ${color('accent')}`
           : indent
           ? `2px solid ${color('border')}`
@@ -176,7 +189,7 @@ export const FileUpload = ({
           space="8px"
         />
 
-        {file && (
+        {uploadedFiles.length > 0 && (
           <Button
             ghost
             onClick={() => clearFile()}
@@ -187,70 +200,74 @@ export const FileUpload = ({
         )}
       </div>
 
-      {/* {uploadedFiles &&
-        uploadedFiles.map((file, idx) => (
+      {/* {uploadedFiles?.length > 0 &&
+        uploadedFiles?.map((file, idx) => (
           <StyledUploadedFile key={idx}>
             <AttachmentIcon />
             {file.name}
           </StyledUploadedFile>
-        ))} */}
-      {file && (
-        <StyledUploadedFile>
-          {/* image */}
-          {file.type.includes('image') && (
-            <div
-              style={{
-                height: 62,
-                width: 62,
-                backgroundImage: `url(${URL.createObjectURL(file)})`,
-                backgroundSize: 'cover',
-              }}
-            />
-          )}
-          {/* movie */}
-          {file.type.includes('video') && (
-            <div
-              style={{
-                height: 62,
-                width: 62,
-                backgroundColor: color('background2'),
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <BasedIcon size={20} />
-            </div>
-          )}
-          {/* audio */}
-          {file.type.includes('audio') && (
-            <div
-              style={{
-                height: 62,
-                width: 62,
-                backgroundColor: color('background2'),
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <BasedIcon size={20} />
-            </div>
-          )}
+        ))}
+      // {file && ( */}
 
-          {file.type.includes('image') ||
-          file.type.includes('video') ||
-          file.type.includes('audio') ? null : (
-            <AttachmentIcon />
-          )}
-          <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
-            {file.name}
-          </Text>
-          <StyledMoreIcon onClick={contextHandler}>
-            <MoreIcon />
-          </StyledMoreIcon>
-        </StyledUploadedFile>
-      )}
+      {uploadedFiles?.length > 0 &&
+        uploadedFiles?.map((file, idx) => (
+          <StyledUploadedFile key={idx}>
+            {/* image */}
+            {file.type.includes('image') && (
+              <div
+                style={{
+                  height: 62,
+                  width: 62,
+                  backgroundImage: `url(${URL.createObjectURL(file)})`,
+                  backgroundSize: 'cover',
+                }}
+              />
+            )}
+            {/* movie */}
+            {file.type.includes('video') && (
+              <div
+                style={{
+                  height: 62,
+                  width: 62,
+                  backgroundColor: color('background2'),
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <BasedIcon size={20} />
+              </div>
+            )}
+            {/* audio */}
+            {file.type.includes('audio') && (
+              <div
+                style={{
+                  height: 62,
+                  width: 62,
+                  backgroundColor: color('background2'),
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <BasedIcon size={20} />
+              </div>
+            )}
+
+            {file.type.includes('image') ||
+            file.type.includes('video') ||
+            file.type.includes('audio') ? null : (
+              <AttachmentIcon />
+            )}
+            <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
+              {file.name}
+            </Text>
+            <StyledMoreIcon onClick={contextHandler}>
+              <MoreIcon />
+            </StyledMoreIcon>
+          </StyledUploadedFile>
+        ))}
+      {/* // end map */}
       <StyledFileInput
         onClick={handleClickUpload}
         onDragOver={(e) => {
@@ -289,6 +306,7 @@ export const FileUpload = ({
         style={{ display: 'none' }}
         accept={acceptedFileTypes && acceptedFileTypes.join(',')}
         key={clearCount}
+        multiple={multiple}
       />
       {descriptionBottom && (
         <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>

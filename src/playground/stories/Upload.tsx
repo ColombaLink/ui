@@ -10,6 +10,7 @@ export const Upload = () => {
         label="Upload"
         //   description="do it!"
         //  disabled
+        multiple
         indent
         descriptionBottom="You can put upload file here."
         acceptedFileTypes={['.png', '.jpg', '.jpeg', 'video/*']}
