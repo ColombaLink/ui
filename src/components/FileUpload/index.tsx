@@ -100,23 +100,31 @@ export const FileUpload = ({
   }
 
   const handleFileDrop = (e) => {
+    console.log('E form handleFileDrop', e)
+
     if (!disabled) {
       e.preventDefault()
       e.stopPropagation()
-      //  console.log('from DROP --->', e.dataTransfer.files[0])
+      console.log('from DROP --->', e.dataTransfer.files)
+
       if (acceptedFileTypes) {
         if (
           acceptedFileTypes.indexOf(e.dataTransfer.files[0].type) &&
           e.dataTransfer.files[0].type !== ''
         ) {
-          setFile(e.dataTransfer.files[0])
-          onChangeProp(e.dataTransfer.files[0])
+          const TempArr = Array.from(e.dataTransfer.files)
+          setUploadedFiles([...uploadedFiles, ...TempArr])
+          onChangeProp([...uploadedFiles, ...TempArr])
+
+          // setFile(e.dataTransfer.files[0])
+          // onChangeProp(e.dataTransfer.files[0])
         } else {
           setFile(null)
         }
       } else {
-        setFile(e.dataTransfer.files[0])
-        onChangeProp(e.dataTransfer.files[0])
+        const TempArr = Array.from(e.dataTransfer.files)
+        setUploadedFiles([...uploadedFiles, ...TempArr])
+        onChangeProp([...uploadedFiles, ...TempArr])
       }
       setDraggingOver(false)
     }
@@ -199,15 +207,6 @@ export const FileUpload = ({
           </Button>
         )}
       </div>
-
-      {/* {uploadedFiles?.length > 0 &&
-        uploadedFiles?.map((file, idx) => (
-          <StyledUploadedFile key={idx}>
-            <AttachmentIcon />
-            {file.name}
-          </StyledUploadedFile>
-        ))}
-      // {file && ( */}
 
       {uploadedFiles?.length > 0 &&
         uploadedFiles?.map((file, idx) => (
