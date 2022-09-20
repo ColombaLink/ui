@@ -78,6 +78,7 @@ const App = () => {
             Forms: '?story=forms',
             InputFields: '?story=input-fields',
             Radiobuttons: '?story=radiobutton',
+            ReferenceInput: '?story=reference-inputs',
             Selects: '?story=selects',
             Sliders: '?story=sliders',
             Toggle: '?story=toggles',
