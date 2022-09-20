@@ -17,6 +17,7 @@ import {
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
+import { UploadedFileItem } from './UploadedFileItem'
 
 type FileUploadProps = {
   label?: string
@@ -54,14 +55,6 @@ const StyledUploadedFile = styled('div', {
   position: 'relative',
 })
 
-const StyledMoreIcon = styled('div', {
-  position: 'absolute',
-  right: 16,
-  '&:hover': {
-    cursor: 'pointer',
-  },
-})
-
 export const FileUpload = ({
   label,
   acceptedFileTypes,
@@ -91,7 +84,7 @@ export const FileUpload = ({
     }
   }
 
-  const clearFile = () => {
+  const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
     // setFile(null)
     setUploadedFiles([])
@@ -131,11 +124,6 @@ export const FileUpload = ({
   }
 
   const onChange = (e) => {
-    // can only input accepted anyway??
-
-    // setFile(e.target.files[0])
-    // onChangeProp(e.target.files[0])
-
     console.log('EEEEe', e.target.files)
 
     // for multiple files
@@ -143,12 +131,12 @@ export const FileUpload = ({
       const TempArr = Array.from(e.target.files)
       setUploadedFiles([...uploadedFiles, ...TempArr])
       onChangeProp([...uploadedFiles, ...TempArr])
-      console.log('uploadedFiles', uploadedFiles)
     } else {
       setUploadedFiles([e.target.files[0]])
       onChangeProp(e.target.files[0])
     }
 
+    // TODO: add error handling niet alleen op de [0]
     const msg = error(e.target.files[0].name)
     if (msg) {
       // add error msg
@@ -159,17 +147,12 @@ export const FileUpload = ({
     }
   }
 
-  useEffect(() => {
-    console.log('uploaded files changed', uploadedFiles)
-  }, [uploadedFiles])
-
-  // IF FILE IS NOT ACCEPTED SET ERROR MESSAGE ?
-
-  const contextHandler = useContextMenu(
-    ContextOptions,
-    { handleClickUpload, clearFile },
-    { placement: 'right' }
-  )
+  const deleteSpecificFile = (id) => {
+    setUploadedFiles((uploadedFiles) =>
+      uploadedFiles.filter((_, index) => index !== id)
+    )
+    console.log('DAS DELETED ID: ', id)
+  }
 
   return (
     <styled.div
@@ -200,7 +183,7 @@ export const FileUpload = ({
         {uploadedFiles.length > 0 && (
           <Button
             ghost
-            onClick={() => clearFile()}
+            onClick={() => clearFiles()}
             style={{ height: 'fit-content', marginBottom: 4 }}
           >
             Clear
@@ -210,61 +193,13 @@ export const FileUpload = ({
 
       {uploadedFiles?.length > 0 &&
         uploadedFiles?.map((file, idx) => (
-          <StyledUploadedFile key={idx}>
-            {/* image */}
-            {file.type.includes('image') && (
-              <div
-                style={{
-                  height: 62,
-                  width: 62,
-                  backgroundImage: `url(${URL.createObjectURL(file)})`,
-                  backgroundSize: 'cover',
-                }}
-              />
-            )}
-            {/* movie */}
-            {file.type.includes('video') && (
-              <div
-                style={{
-                  height: 62,
-                  width: 62,
-                  backgroundColor: color('background2'),
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <BasedIcon size={20} />
-              </div>
-            )}
-            {/* audio */}
-            {file.type.includes('audio') && (
-              <div
-                style={{
-                  height: 62,
-                  width: 62,
-                  backgroundColor: color('background2'),
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <BasedIcon size={20} />
-              </div>
-            )}
-
-            {file.type.includes('image') ||
-            file.type.includes('video') ||
-            file.type.includes('audio') ? null : (
-              <AttachmentIcon />
-            )}
-            <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
-              {file.name}
-            </Text>
-            <StyledMoreIcon onClick={contextHandler}>
-              <MoreIcon />
-            </StyledMoreIcon>
-          </StyledUploadedFile>
+          <UploadedFileItem
+            file={file}
+            handleClickUpload={handleClickUpload}
+            deleteSpecificFile={deleteSpecificFile}
+            key={idx}
+            id={idx}
+          />
         ))}
       {/* // end map */}
       <StyledFileInput
@@ -326,18 +261,5 @@ export const FileUpload = ({
         </div>
       )}
     </styled.div>
-  )
-}
-
-const ContextOptions = ({ clearFile, handleClickUpload }) => {
-  return (
-    <>
-      <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
-        Edit
-      </ContextItem>
-      <ContextItem color="red" onClick={clearFile} icon={DeleteIcon}>
-        Remove
-      </ContextItem>
-    </>
   )
 }
