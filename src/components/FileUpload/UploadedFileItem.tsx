@@ -1,0 +1,122 @@
+import React from 'react'
+import { styled } from 'inlines'
+import {
+  color,
+  BasedIcon,
+  AttachmentIcon,
+  Text,
+  MoreIcon,
+  useContextMenu,
+  ContextItem,
+  DeleteIcon,
+  EditIcon,
+} from '~'
+
+const StyledUploadedFile = styled('div', {
+  display: 'flex',
+  border: `1px solid ${color('border')}`,
+  backgroundColor: color('background'),
+  paddingLeft: 12,
+  borderRadius: 4,
+  alignItems: 'center',
+  gap: 12,
+  marginBottom: 8,
+  position: 'relative',
+  cursor: 'auto',
+})
+
+const StyledMoreIcon = styled('div', {
+  position: 'absolute',
+  right: 16,
+  '&:hover': {
+    cursor: 'pointer',
+  },
+})
+
+export const UploadedFileItem = ({
+  file,
+  handleClickUpload,
+  deleteSpecificFile,
+  id,
+}) => {
+  const contextHandler = useContextMenu(
+    ContextOptions,
+    { handleClickUpload, deleteSpecificFile, id },
+    { placement: 'right' }
+  )
+
+  return (
+    <StyledUploadedFile>
+      {/* image */}
+      {file?.type.includes('image') && (
+        <div
+          style={{
+            height: 62,
+            width: 62,
+            backgroundImage: `url(${URL.createObjectURL(file)})`,
+            backgroundSize: 'cover',
+          }}
+        />
+      )}
+      {/* movie */}
+      {file?.type.includes('video') && (
+        <div
+          style={{
+            height: 62,
+            width: 62,
+            backgroundColor: color('background2'),
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <BasedIcon size={20} />
+        </div>
+      )}
+      {/* audio */}
+      {file?.type.includes('audio') && (
+        <div
+          style={{
+            height: 62,
+            width: 62,
+            backgroundColor: color('background2'),
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <BasedIcon size={20} />
+        </div>
+      )}
+
+      {file?.type.includes('image') ||
+      file?.type.includes('video') ||
+      file?.type.includes('audio') ? null : (
+        <AttachmentIcon />
+      )}
+      <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
+        {file?.name}
+      </Text>
+      <StyledMoreIcon onClick={contextHandler}>
+        <MoreIcon />
+      </StyledMoreIcon>
+    </StyledUploadedFile>
+  )
+}
+
+const ContextOptions = ({ handleClickUpload, deleteSpecificFile, id }) => {
+  return (
+    <>
+      <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
+        Edit
+      </ContextItem>
+      <ContextItem
+        color="red"
+        onClick={() => deleteSpecificFile(id)}
+        icon={DeleteIcon}
+      >
+        Remove
+      </ContextItem>
+    </>
+  )
+}
