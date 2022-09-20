@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState } from 'react'
+import React, { CSSProperties, useRef, useState, FC } from 'react'
 import { Label, color, Text, spaceToPx, UploadIcon, Button, ErrorIcon } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -9,7 +9,7 @@ type FileUploadProps = {
   description?: string
   descriptionBottom?: string
   indent?: boolean
-  error?: (str: string) => string
+  // error?: (str: string) => string
   onChange?: (file: File[]) => void
   style?: CSSProperties
   space?: Space
@@ -28,26 +28,23 @@ const StyledFileInput = styled('div', {
   backgroundColor: color('background2'),
 })
 
-export const FileUpload = ({
+export const FileUpload: FC<FileUploadProps> = ({
   label,
   acceptedFileTypes,
   description,
   descriptionBottom,
   indent,
-  error,
+  // error,
   onChange: onChangeProp,
   space,
   style,
   disabled,
   multiple,
-}: FileUploadProps) => {
-  const [file, setFile] = useState<File | null>(null)
+}) => {
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
-
-  // for multiple files
-  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
 
   const hiddenFileInput = useRef(null)
 
@@ -59,14 +56,12 @@ export const FileUpload = ({
 
   const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
-    // setFile(null)
     setUploadedFiles([])
     onChangeProp(null)
     setErrorMessage('')
   }
 
   const handleFileDrop = (e) => {
-    console.log('E form handleFileDrop', e)
     setErrorMessage('')
 
     if (!disabled) {
@@ -77,9 +72,8 @@ export const FileUpload = ({
       let tempCounter = 0
 
       for (let i = 0; i < tempArr.length; i++) {
-        const file = tempArr[i]
+        const file: any = tempArr[i]
         if (acceptedFileTypes && !acceptedFileTypes.includes(file?.type)) {
-          //  console.log('types', file?.type)
           setErrorMessage(`File type: ${file?.type} is not allowed.`)
           setDraggingOver(false)
           return
@@ -89,7 +83,6 @@ export const FileUpload = ({
 
       if (acceptedFileTypes) {
         if (tempCounter === tempArr.length) {
-          //   const TempArr = Array.from(e.dataTransfer.files)
           setUploadedFiles([...uploadedFiles, ...tempArr])
           onChangeProp([...uploadedFiles, ...tempArr])
         }
@@ -103,10 +96,8 @@ export const FileUpload = ({
   }
 
   const onChange = (e) => {
-    console.log('EEEEe', e.target.files)
     setErrorMessage('')
 
-    // for multiple files
     if (multiple) {
       const TempArr = Array.from(e.target.files)
       setUploadedFiles([...uploadedFiles, ...TempArr])
@@ -136,13 +127,6 @@ export const FileUpload = ({
       uploadedFiles.filter((_, index) => index !== id)
     )
     setClearCount((clearCount) => clearCount + 1)
-    console.log('DAS DELETED ID: ', id)
-    console.log('uploaded files', uploadedFiles)
-
-    // // voor single file upload rerender de hidden input
-    // if (uploadedFiles.length === 1 || uploadedFiles.length === 0) {
-    //   setClearCount((clearCount) => clearCount + 1)
-    // }
   }
 
   return (
