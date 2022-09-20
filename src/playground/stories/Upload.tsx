@@ -13,13 +13,13 @@ export const Upload = () => {
         multiple
         indent
         descriptionBottom="You can put upload file here."
-        acceptedFileTypes={['.png', '.jpg', '.jpeg', 'video/*']}
+        //  acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg', 'video/*']}
         onChange={(e) => console.log('Hallow daar ---> vanuit parent ', e)}
-        error={(value) => {
-          if (value.includes('jpg')) {
-            return 'jpg is not allowed, but it is test'
-          }
-        }}
+        // error={(value) => {
+        //   if (value.includes('image/jpg')) {
+        //     return 'jpg is not allowed, but it is test'
+        //   }
+        // }}
       />
     </div>
   )
