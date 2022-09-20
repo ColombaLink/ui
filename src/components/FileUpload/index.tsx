@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import {
   Label,
   color,
@@ -84,22 +84,22 @@ export const FileUpload = ({
 
   const hiddenFileInput = useRef(null)
 
-  //   console.log(
-  //     'Accepted extensions:',
-  //     acceptedFileTypes && acceptedFileTypes.join(','),
-  //     file,
-  //     file && URL.createObjectURL(file)
-  //   )
-
   const handleClickUpload = () => {
     if (!disabled) {
       hiddenFileInput.current.click()
     }
   }
 
-  const handleClearCount = () => {
-    setClearCount(clearCount + 1)
+  const clearFile = () => {
+    setClearCount((clearCount) => clearCount + 1)
+    setFile(null)
+    onChangeProp(null)
+    setErrorMessage('')
   }
+
+  useEffect(() => {
+    console.log('clearCount has fired', clearCount)
+  }, [clearCount])
 
   const handleFileDrop = (e) => {
     if (!disabled) {
@@ -146,7 +146,7 @@ export const FileUpload = ({
 
   const contextHandler = useContextMenu(
     ContextOptions,
-    { setFile, handleClickUpload, onChangeProp, handleClearCount },
+    { handleClickUpload, clearFile },
     { placement: 'right' }
   )
 
@@ -179,11 +179,7 @@ export const FileUpload = ({
         {file && (
           <Button
             ghost
-            onClick={() => {
-              setFile(null)
-              onChangeProp(null)
-              handleClearCount()
-            }}
+            onClick={() => clearFile()}
             style={{ height: 'fit-content', marginBottom: 4 }}
           >
             Clear
@@ -316,26 +312,13 @@ export const FileUpload = ({
   )
 }
 
-const ContextOptions = ({
-  setFile,
-  handleClickUpload,
-  onChangeProp,
-  handleClearCount,
-}) => {
+const ContextOptions = ({ clearFile, handleClickUpload }) => {
   return (
     <>
       <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
         Edit
       </ContextItem>
-      <ContextItem
-        color="red"
-        onClick={() => {
-          setFile(null)
-          onChangeProp(null)
-          handleClearCount()
-        }}
-        icon={DeleteIcon}
-      >
+      <ContextItem color="red" onClick={clearFile} icon={DeleteIcon}>
         Remove
       </ContextItem>
     </>
