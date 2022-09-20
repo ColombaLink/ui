@@ -67,6 +67,7 @@ export const FileUpload = ({
 
   const handleFileDrop = (e) => {
     console.log('E form handleFileDrop', e)
+    setErrorMessage('')
 
     if (!disabled) {
       e.preventDefault()
@@ -103,6 +104,7 @@ export const FileUpload = ({
 
   const onChange = (e) => {
     console.log('EEEEe', e.target.files)
+    setErrorMessage('')
 
     // for multiple files
     if (multiple) {
@@ -133,13 +135,14 @@ export const FileUpload = ({
     setUploadedFiles((uploadedFiles) =>
       uploadedFiles.filter((_, index) => index !== id)
     )
+    setClearCount((clearCount) => clearCount + 1)
     console.log('DAS DELETED ID: ', id)
     console.log('uploaded files', uploadedFiles)
 
-    // voor single file upload rerender de hidden input
-    if (uploadedFiles.length === 1) {
-      setClearCount((clearCount) => clearCount + 1)
-    }
+    // // voor single file upload rerender de hidden input
+    // if (uploadedFiles.length === 1 || uploadedFiles.length === 0) {
+    //   setClearCount((clearCount) => clearCount + 1)
+    // }
   }
 
   return (
@@ -214,8 +217,8 @@ export const FileUpload = ({
         <UploadIcon />
         {draggingOver ? (
           <Text>Drop to upload</Text>
-        ) : file ? (
-          <Text>Replace file</Text>
+        ) : uploadedFiles.length > 0 && !multiple ? (
+          <Text>{!multiple ? 'Replace file' : 'Select a file'}</Text>
         ) : (
           <Text>{multiple ? 'Select your files' : 'Select a file'}</Text>
         )}

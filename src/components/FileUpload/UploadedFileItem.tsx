@@ -22,6 +22,7 @@ const StyledUploadedFile = styled('div', {
   gap: 12,
   marginBottom: 8,
   position: 'relative',
+  cursor: 'auto',
 })
 
 const StyledMoreIcon = styled('div', {
@@ -47,7 +48,7 @@ export const UploadedFileItem = ({
   return (
     <StyledUploadedFile>
       {/* image */}
-      {file.type.includes('image') && (
+      {file?.type.includes('image') && (
         <div
           style={{
             height: 62,
@@ -58,7 +59,7 @@ export const UploadedFileItem = ({
         />
       )}
       {/* movie */}
-      {file.type.includes('video') && (
+      {file?.type.includes('video') && (
         <div
           style={{
             height: 62,
@@ -73,7 +74,7 @@ export const UploadedFileItem = ({
         </div>
       )}
       {/* audio */}
-      {file.type.includes('audio') && (
+      {file?.type.includes('audio') && (
         <div
           style={{
             height: 62,
@@ -88,13 +89,13 @@ export const UploadedFileItem = ({
         </div>
       )}
 
-      {file.type.includes('image') ||
-      file.type.includes('video') ||
-      file.type.includes('audio') ? null : (
+      {file?.type.includes('image') ||
+      file?.type.includes('video') ||
+      file?.type.includes('audio') ? null : (
         <AttachmentIcon />
       )}
       <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
-        {file.name}
+        {file?.name}
       </Text>
       <StyledMoreIcon onClick={contextHandler}>
         <MoreIcon />

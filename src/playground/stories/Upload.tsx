@@ -13,7 +13,7 @@ export const Upload = () => {
         multiple
         indent
         descriptionBottom="You can put upload file here."
-        //  acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg', 'video/*']}
+        acceptedFileTypes={['image/png', 'image/jpg', 'image/jpeg', 'video/*']}
         onChange={(e) => console.log('Hallow daar ---> vanuit parent ', e)}
         // error={(value) => {
         //   if (value.includes('image/jpg')) {
