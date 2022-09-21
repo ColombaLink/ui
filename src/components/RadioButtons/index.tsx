@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
@@ -11,7 +11,7 @@ type RadioButtonsProps = {
     value: string | boolean | number
     description?: string
   }>
-  defaultValue?: string
+  defaultValue?: string | boolean | number
   label?: string
   description?: string
   direction?: 'horizontal' | 'vertical'
@@ -41,7 +41,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       <div
         style={{
           display: 'flex',
-          flexDirection: direction == 'horizontal' ? 'row' : 'column',
+          flexDirection: direction === 'horizontal' ? 'row' : 'column',
           marginBottom: 8,
           marginTop: 8,
         }}
