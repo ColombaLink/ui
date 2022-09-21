@@ -24,26 +24,25 @@ export const ReferenceSingleField = ({
         height: 50,
         padding: '0 12px',
         marginBottom: 10,
-        cursor: 'grab',
       }}
     >
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-        <DragDropIcon />
         <Badge color="grey">{refType}</Badge>
         <Text>{refName}</Text>
       </div>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-        <Badge
-          color="green"
-          style={{
-            color: '#235340',
-            backgroundColor: 'rgba(15, 188, 133, 0.2)',
-          }}
-        >
-          {refStatus}
-        </Badge>
-        <MoreIcon />
+        {refStatus && (
+          <Badge
+            color="green"
+            style={{
+              color: '#235340',
+              backgroundColor: 'rgba(15, 188, 133, 0.2)',
+            }}
+          >
+            {refStatus}
+          </Badge>
+        )}
       </div>
     </styled.div>
   )

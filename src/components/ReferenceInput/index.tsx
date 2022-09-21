@@ -67,11 +67,7 @@ export const ReferenceInput: FC<ReferenceInputProps> = ({
       {/* Fields list  DRAG and Drop Shizzle */}
 
       <div style={{ marginBottom: 12 }}>
-        <ReferenceSingleField
-          refName="Referencie"
-          refType="Reference"
-          refStatus="Published"
-        />
+        <ReferenceSingleField refName="Referencie" refType="Reference" />
         <ReferenceSingleField
           refName="Pink T-Shirt"
           refType="Products"
