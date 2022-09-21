@@ -312,6 +312,7 @@ export const Input: FC<
               onChangeProp?.('')
               setValue('')
             }}
+            disabled={disabled}
             style={{ height: 'fit-content' }}
           >
             Clear
@@ -330,6 +331,7 @@ export const Input: FC<
               setErrorMessage('')
             }}
             style={{ height: 'fit-content' }}
+            disabled={disabled}
           >
             Clear
           </Button>
@@ -357,6 +359,7 @@ export const Input: FC<
             onChange={(e) => {
               setColorValue(e.target.value)
             }}
+            disabled={disabled}
             value={colorValue}
             style={{ width: '100%' }}
           />
@@ -370,6 +373,7 @@ export const Input: FC<
             setClearValue={setClearValue}
             showJSONClearButton={showJSONClearButton}
             setShowJSONClearButton={setShowJSONClearButton}
+            disabled={disabled}
           />
         ) : multiline ? (
           <Multi {...props} />

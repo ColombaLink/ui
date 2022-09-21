@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef, FC, CSSProperties } from 'react'
-import { Input } from '../Input'
+import React, { useEffect, useState, FC, CSSProperties } from 'react'
 import { DatePicker } from './DatePicker'
-import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
 import {
@@ -140,7 +138,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             label={label}
             description={description}
             labelColor={disabled ? color('text2') : color('text')}
-          ></Label>
+          />
         )}
         {!Number.isNaN(outputInMsec) && indent && !disabled && (
           <Button
@@ -180,7 +178,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             placeholder="2001/01/10"
             type="date"
             onClick={(e) => {
-              //hides the calender in firefox
+              // hides the calender in firefox
               e.preventDefault()
               setShowDatePicker(true)
             }}
@@ -191,7 +189,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             }}
             value={inputValue}
             onFocus={() => setFocused(true)}
-          ></StyledDateInput>
+          />
           {showDatePicker && (
             <DatePicker
               inputValue={inputValue}
@@ -215,7 +213,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
 
         <Select
-          //@ts-ignore
+          // @ts-ignore
           id="UTC-id"
           style={{
             maxWidth: 160,
