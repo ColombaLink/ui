@@ -11,6 +11,7 @@ import {
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
+import { ReferenceSingleField } from './ReferenceSingleField'
 
 type ReferenceInputProps = {
   label?: string
@@ -71,6 +72,13 @@ export const ReferenceInput: FC<ReferenceInputProps> = ({
           Clear
         </Button>
       </div>
+
+      {/* Fields list  */}
+      <div style={{ marginBottom: 12 }}>
+        <ReferenceSingleField />
+        <ReferenceSingleField />
+      </div>
+
       <div style={{ display: 'flex', gap: 16 }}>
         <Button ghost icon={AddIcon} disabled={disabled}>
           Add existing 'Reference'
