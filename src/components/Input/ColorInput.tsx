@@ -36,7 +36,12 @@ export const ColorInput = ({
   }, [rgba])
 
   return (
-    <div style={{ display: 'flex', position: 'relative' }}>
+    <div
+      style={{
+        display: 'flex',
+        position: 'relative',
+      }}
+    >
       <input
         {...props}
         type="text"
@@ -44,12 +49,14 @@ export const ColorInput = ({
         value={colorState}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
+        disabled={disabled}
         style={{
           ...style,
           paddingLeft: 36,
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           minHeight: 36,
+          cursor: disabled ? 'not-allowed' : null,
         }}
       />
       <button
@@ -66,6 +73,7 @@ export const ColorInput = ({
           marginRight: 8,
           marginLeft: -4,
           border: `1px solid ${color('border')}`,
+          pointerEvents: disabled ? 'none' : null,
         }}
         onClick={onClick}
       />

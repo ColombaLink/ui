@@ -27,6 +27,7 @@ type JsonInputProps = {
   setClearValue?: Dispatch<SetStateAction<boolean>>
   showJSONClearButton?: boolean
   setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>
+  disabled?: boolean
 }
 
 export const JsonInput = ({
@@ -37,6 +38,7 @@ export const JsonInput = ({
   setClearValue,
   showJSONClearButton,
   setShowJSONClearButton,
+  disabled,
 }: JsonInputProps) => {
   const [code, setCode] = useState(value)
   const [valid, setValid] = useState(true)
@@ -66,7 +68,7 @@ export const JsonInput = ({
   }, [clearValue])
 
   return (
-    <StyledJsonEditor>
+    <StyledJsonEditor style={{ cursor: disabled ? 'not-allowed' : null }}>
       <div
         style={{
           padding: 12,
@@ -78,7 +80,7 @@ export const JsonInput = ({
         {valid}
       </div>
 
-      <div style={{ padding: 12 }}>
+      <div style={{ padding: 12, pointerEvents: disabled ? 'none' : null }}>
         <Editor
           value={code}
           onValueChange={(code) => {

@@ -22,6 +22,7 @@ type ReferenceInputProps = {
   onChange?: (value: any) => void
   style?: CSSProperties
   space?: Space
+  disabled?: boolean
 }
 
 export const ReferenceInput: FC<ReferenceInputProps> = ({
@@ -34,6 +35,7 @@ export const ReferenceInput: FC<ReferenceInputProps> = ({
   onChange,
   style,
   space,
+  disabled,
 }) => {
   return (
     <div
@@ -42,15 +44,38 @@ export const ReferenceInput: FC<ReferenceInputProps> = ({
         borderLeft: indent ? `2px solid ${color('border')}` : null,
         borderColor: color('border'),
         paddingLeft: indent ? 12 : null,
+        cursor: disabled ? 'not-allowed' : null,
+
         ...style,
       }}
     >
-      <Label label={label} space="8px" />
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Label
+          label={label}
+          labelColor={disabled ? 'text2' : 'text'}
+          space="8px"
+          description={description}
+        />
+        <Button
+          ghost
+          style={{ height: 'fit-content' }}
+          onClick={() => console.log('clear it')}
+          disabled={disabled}
+        >
+          Clear
+        </Button>
+      </div>
       <div style={{ display: 'flex', gap: 16 }}>
-        <Button ghost icon={AddIcon}>
+        <Button ghost icon={AddIcon} disabled={disabled}>
           Add existing 'Reference'
         </Button>
-        <Button ghost icon={AddIcon}>
+        <Button ghost icon={AddIcon} disabled={disabled}>
           Create & add new 'Reference'
         </Button>
       </div>
@@ -59,6 +84,18 @@ export const ReferenceInput: FC<ReferenceInputProps> = ({
           {descriptionBottom}
         </Text>
       )}
+
+      <div
+        style={{
+          display: 'flex',
+          gap: 6,
+          alignItems: 'center',
+          marginTop: 10,
+        }}
+      >
+        <ErrorIcon color="red" size={16} />
+        <Text color="red">'errorMessage' kan hier</Text>
+      </div>
     </div>
   )
 }
