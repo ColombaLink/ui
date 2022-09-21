@@ -1,14 +1,5 @@
 import React, { CSSProperties, FC } from 'react'
-import {
-  Label,
-  Text,
-  Button,
-  AddIcon,
-  ErrorIcon,
-  Badge,
-  color,
-  spaceToPx,
-} from '~'
+import { Label, Text, Button, AddIcon, ErrorIcon, color, spaceToPx } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
 import { ReferenceSingleField } from './ReferenceSingleField'
@@ -73,10 +64,19 @@ export const ReferenceInput: FC<ReferenceInputProps> = ({
         </Button>
       </div>
 
-      {/* Fields list  */}
+      {/* Fields list  DRAG and Drop Shizzle */}
+
       <div style={{ marginBottom: 12 }}>
-        <ReferenceSingleField />
-        <ReferenceSingleField />
+        <ReferenceSingleField
+          refName="Referencie"
+          refType="Reference"
+          refStatus="Published"
+        />
+        <ReferenceSingleField
+          refName="Pink T-Shirt"
+          refType="Products"
+          refStatus="Published"
+        />
       </div>
 
       <div style={{ display: 'flex', gap: 16 }}>

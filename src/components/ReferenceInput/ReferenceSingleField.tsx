@@ -2,7 +2,17 @@ import React from 'react'
 import { Badge, MoreIcon, Text, DragDropIcon, color } from '~'
 import { styled } from 'inlines'
 
-export const ReferenceSingleField = () => {
+type ReferenceInputProps = {
+  refName?: string
+  refType?: string
+  refStatus?: string
+}
+
+export const ReferenceSingleField = ({
+  refName,
+  refType,
+  refStatus,
+}: ReferenceInputProps) => {
   return (
     <styled.div
       style={{
@@ -14,12 +24,13 @@ export const ReferenceSingleField = () => {
         height: 50,
         padding: '0 12px',
         marginBottom: 10,
+        cursor: 'grab',
       }}
     >
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
         <DragDropIcon />
-        <Badge color="grey">Reference</Badge>
-        <Text>Reference</Text>
+        <Badge color="grey">{refType}</Badge>
+        <Text>{refName}</Text>
       </div>
 
       <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
@@ -30,7 +41,7 @@ export const ReferenceSingleField = () => {
             backgroundColor: 'rgba(15, 188, 133, 0.2)',
           }}
         >
-          Published
+          {refStatus}
         </Badge>
         <MoreIcon />
       </div>
