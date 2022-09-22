@@ -31,7 +31,7 @@ type GeoInputProps = {
   description?: string
   descriptionBottom?: string
   onChange?: (value: any) => void
-  style: CSSProperties
+  style?: CSSProperties
   indent?: boolean
   disabled?: boolean
   space?: Space
@@ -76,7 +76,10 @@ export const GeoInput: FC<GeoInputProps> = ({
   // Geocoder shizzle
   useEffect(() => {
     geocoder.addTo('#geocoder')
-    console.log('Geocoder', geocoder)
+    console.log('Geocoder ----> ', geocoder)
+
+    const testThisShit = geocoder.query('126.981,37.539')
+    console.log('ggae', testThisShit)
   }, [])
 
   useEffect(() => {
@@ -87,6 +90,7 @@ export const GeoInput: FC<GeoInputProps> = ({
     accessToken: MAPBOX_TOKEN_COWBOYBEER,
     types: 'country,region,place,postcode,locality,neighborhood',
     placeholder: 'Start typing to find a location',
+    reverseGeocode: true,
   })
 
   // als result geselecteerd wordt
@@ -96,6 +100,8 @@ export const GeoInput: FC<GeoInputProps> = ({
     setLongitude(e.result.center[0])
     setAddress(e.result.place_name)
   })
+
+  /// lat , lng
 
   // console.log('map', map)
 
