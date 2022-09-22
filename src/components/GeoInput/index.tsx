@@ -184,6 +184,7 @@ export const GeoInput: FC<GeoInputProps> = ({
             placeholder="Between -90 and 90"
             onChange={(e) => setLatitude(e)}
             value={latitude}
+            onBlur={() => setChangeCounter(changeCounter + 1)}
           />
           <Text wrap style={{ marginLeft: 16 }}>
             Longitude
@@ -193,6 +194,7 @@ export const GeoInput: FC<GeoInputProps> = ({
             placeholder="Between -180 and 180"
             onChange={(e) => setLongitude(e)}
             value={longitude}
+            onBlur={() => setChangeCounter(changeCounter + 1)}
           />
           {true ? (
             <Button
