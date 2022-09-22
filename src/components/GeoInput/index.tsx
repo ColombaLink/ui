@@ -78,13 +78,9 @@ export const GeoInput: FC<GeoInputProps> = ({
     geocoder.addTo('#geocoder')
     console.log('Geocoder ----> ', geocoder)
 
-    const testThisShit = geocoder.query('126.981,37.539')
-    console.log('ggae', testThisShit)
+    // const testThisShit = geocoder.query('52.36516779992266,4.891164534406535')
+    // console.log('ggae', testThisShit)
   }, [])
-
-  useEffect(() => {
-    onSelectPlace({ longitude, latitude })
-  }, [changeCounter])
 
   const geocoder = new MapboxGeocoder({
     accessToken: MAPBOX_TOKEN_COWBOYBEER,
@@ -98,12 +94,20 @@ export const GeoInput: FC<GeoInputProps> = ({
     console.log(e)
     setLatitude(e.result.center[1])
     setLongitude(e.result.center[0])
-    setAddress(e.result.place_name)
+    // setAddress(e.result.place_name)
+    // onSelectPlace({ longitude, latitude })
+    setChangeCounter(changeCounter + 1)
   })
 
-  /// lat , lng
+  useEffect(() => {
+    geocoder.query(`${latitude},${longitude}`)
+    const reverseAddress = geocoder.query(`${latitude},${longitude}`)
+    console.log(reverseAddress.inputString)
+  }, [])
 
-  // console.log('map', map)
+  useEffect(() => {
+    onSelectPlace({ longitude, latitude })
+  }, [changeCounter])
 
   return (
     <styled.div
@@ -130,6 +134,8 @@ export const GeoInput: FC<GeoInputProps> = ({
           setLongitude(e.lngLat.lng)
           setLatitude(e.lngLat.lat)
           setChangeCounter(changeCounter + 1)
+          //  ///////////
+          geocoder.query(`${latitude},${longitude}`)
         }}
       >
         <NavigationControl showCompass={false} showZoom />
