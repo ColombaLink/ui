@@ -1,7 +1,20 @@
-import React, { CSSProperties, FC, useState } from 'react'
-import { Label, Input, RadioButtons, color, Text, ErrorIcon, Button } from '~'
+import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import {
+  Label,
+  Input,
+  RadioButtons,
+  color,
+  Text,
+  ErrorIcon,
+  Button,
+  GeoMarkerIcon,
+} from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
+import Map, { Marker, NavigationControl } from 'react-map-gl'
+
+// css required to make nav and marker work
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 type GeoInputProps = {
   label?: string
@@ -26,8 +39,18 @@ export const GeoInput: FC<GeoInputProps> = ({
 }) => {
   const [value, setValue] = useState<string | boolean | number>('Address')
   const [addressInput, setAddressInput] = useState<string>('')
-  const [latitude, setLatitude] = useState<number>()
-  const [longitude, setLongitude] = useState<number>()
+  const [latitude, setLatitude] = useState<number>(52.36516779992266)
+  const [longitude, setLongitude] = useState<number>(4.891164534406535)
+
+  const [viewport, setViewport] = useState<any>({
+    latitude: latitude,
+    longitude: longitude,
+    zoom: 5,
+  })
+
+  // put in .env.local
+  const MAPBOX_TOKEN_COWBOYBEER =
+    'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 
   return (
     <styled.div
@@ -37,13 +60,31 @@ export const GeoInput: FC<GeoInputProps> = ({
       }}
     >
       <Label label={label} description={description} space="8px" />
-      <div
+
+      <Map
+        {...viewport}
+        mapboxAccessToken={MAPBOX_TOKEN_COWBOYBEER}
+        onMove={(e) => setViewport(e)}
+        mapStyle="mapbox://styles/cowboybeer/cl8ct97kg007d15s1ku1vn231"
         style={{
           border: `1px solid ${color('border')}`,
-          height: 220,
+          height: 240,
           borderRadius: 4,
+          width: '100%',
         }}
-      />
+        onClick={(e) => {
+          setLongitude(e.lngLat.lng)
+          setLatitude(e.lngLat.lat)
+
+          console.log(e.lngLat.lat, e.lngLat.lng)
+        }}
+      >
+        <NavigationControl showCompass={false} showZoom />
+        <Marker latitude={latitude} longitude={longitude}>
+          <GeoMarkerIcon color="accent" />
+        </Marker>
+      </Map>
+
       <RadioButtons
         data={[{ value: 'Address' }, { value: 'Coordinates' }]}
         direction="horizontal"
@@ -95,7 +136,7 @@ export const GeoInput: FC<GeoInputProps> = ({
             onChange={(e) => setLongitude(e)}
             value={longitude}
           />
-          {latitude || longitude ? (
+          {true ? (
             <Button
               ghost
               style={{ marginLeft: 16 }}
