@@ -52,6 +52,7 @@ export const BasedApp = () => {
       // id="enBEFnEK"
       style={{
         border: '1px solid black',
+        overflow: 'hidden',
       }}
     />
   )

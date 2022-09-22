@@ -1,6 +1,6 @@
 import { useClient, useSchema } from '@based/react'
 import React, { FC, useState } from 'react'
-import { useContextMenu } from '~/hooks'
+import { useContextMenu, useSchemaTypes } from '~/hooks'
 import {
   Checkbox,
   MoreIcon,
@@ -10,9 +10,12 @@ import {
   ScrollArea,
   DragDropIcon,
   Thumbnail,
-  AddIcon,
   capitalize,
   Badge,
+  Button,
+  useDialog,
+  ContextItem,
+  getName,
 } from '~'
 import { createPortal } from 'react-dom'
 import {
@@ -34,7 +37,8 @@ import {
 } from '@dnd-kit/sortable'
 
 import { CSS } from '@dnd-kit/utilities'
-import { alwaysIgnore, templates } from '../templates'
+import { alwaysIgnore, systemFields, templates } from '../templates'
+import { FieldModal } from '../FieldModal'
 
 const Header = ({ children }) => {
   return (
@@ -90,10 +94,49 @@ const Draggable: FC<{ id: string }> = ({ id, children }) => {
   )
 }
 
-const Field = ({ field, fields, isDragging = false }) => {
-  const { meta, type } = fields[field]
-  const template = meta?.format || type
+const stopPropagation = (e) => e.stopPropagation()
+
+const EditMenu: FC<{
+  type: string
+  field: string
+}> = ({ type, field }) => {
+  const { schema } = useSchema()
+  const client = useClient()
+  const { confirm } = useDialog()
+  return (
+    <ContextItem
+      // @ts-ignore
+      onClick={async () => {
+        if (
+          await confirm(
+            `Are you sure you want to remove the field ${field} from ${getName(
+              schema,
+              type
+            )}?`
+          )
+        ) {
+          await client.removeField(type, field)
+        }
+      }}
+    >
+      Delete
+    </ContextItem>
+  )
+}
+
+const Field = ({ type, field, fields, isDragging = false }) => {
+  const { meta, type: fieldType } = fields[field]
+  const template = meta?.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
+  const { open } = useDialog()
+  const openEditMenu = useContextMenu(
+    EditMenu,
+    {
+      type,
+      field,
+    },
+    { position: 'left' }
+  )
 
   return (
     <div
@@ -111,19 +154,39 @@ const Field = ({ field, fields, isDragging = false }) => {
       }}
     >
       <DragDropIcon style={{ marginRight: 12, flexShrink: 0 }} />
-      <Thumbnail icon={icon} color={iconColor} size={32} />
+      <Thumbnail
+        icon={icon}
+        color={iconColor}
+        size={32}
+        style={{ flexShrink: 0 }}
+      />
       <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
         {capitalize(meta?.name || field)}
       </Text>
       <Text color="text2">- {field}</Text>
       <Badge outline ghost style={{ marginLeft: 12 }}>
-        {type}
+        {fieldType}
       </Badge>
+      <div style={{ flexGrow: 1, width: 16 }} />
+      <Button
+        onPointerDown={stopPropagation}
+        onClick={() => {
+          open(<FieldModal type={type} field={field} template={template} />)
+        }}
+        ghost
+      >
+        Settings
+      </Button>
+      <MoreIcon
+        onPointerDown={stopPropagation}
+        style={{ marginLeft: 16, flexShrink: 0, cursor: 'pointer' }}
+        onClick={openEditMenu}
+      />
     </div>
   )
 }
 
-const Fields = ({ fields, onChange }) => {
+const Fields = ({ includeSystemFields, type, fields, onChange }) => {
   const [draggingField, setDraggingField] = useState<UniqueIdentifier>()
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -132,7 +195,7 @@ const Fields = ({ fields, onChange }) => {
     })
   )
 
-  const keys = Object.keys(fields).sort((a, b) => {
+  const sortedFields = Object.keys(fields).sort((a, b) => {
     return fields[a].meta?.index < fields[b].meta?.index ? -1 : 1
   })
 
@@ -142,12 +205,12 @@ const Fields = ({ fields, onChange }) => {
 
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over.id) {
-      const sorted = arrayMove(
-        keys,
-        keys.indexOf(active.id as string),
-        keys.indexOf(over.id as string)
+      const resortedFields = arrayMove(
+        sortedFields,
+        sortedFields.indexOf(active.id as string),
+        sortedFields.indexOf(over.id as string)
       )
-      sorted.forEach((field, index) => {
+      resortedFields.forEach((field, index) => {
         if ('meta' in fields[field]) {
           fields[field].meta.index = index
         } else {
@@ -166,14 +229,20 @@ const Fields = ({ fields, onChange }) => {
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
     >
-      <SortableContext items={keys} strategy={verticalListSortingStrategy}>
-        {keys.map((field) => {
+      <SortableContext
+        items={sortedFields}
+        strategy={verticalListSortingStrategy}
+      >
+        {sortedFields.map((field) => {
           if (alwaysIgnore.has(field)) {
             return null
           }
+          // if (!includeSystemFields && systemFields.has(field)) {
+          //   return null
+          // }
           return (
             <Draggable key={field} id={field}>
-              <Field field={field} fields={fields} />
+              <Field type={type} field={field} fields={fields} />
             </Draggable>
           )
         })}
@@ -181,7 +250,12 @@ const Fields = ({ fields, onChange }) => {
       {createPortal(
         <DragOverlay>
           {draggingField ? (
-            <Field isDragging field={draggingField} fields={fields} />
+            <Field
+              isDragging
+              type={type}
+              field={draggingField}
+              fields={fields}
+            />
           ) : null}
         </DragOverlay>,
         document.body
@@ -195,15 +269,15 @@ export const SchemaMain: FC<{
   type: string
   db: string
 }> = ({ prefix = '', type, db = 'default' }) => {
-  const { schema, loading } = useSchema()
+  const { loading, types } = useSchemaTypes()
+  const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
   if (loading) {
     return null
   }
 
-  const { meta = {}, fields } =
-    type === 'root' ? schema.rootType : schema.types[type] || {}
+  const { meta = {}, fields } = types[type] || {}
   const { name } = meta
 
   if (!fields) {
@@ -226,11 +300,13 @@ export const SchemaMain: FC<{
       <Checkbox
         style={{ marginTop: 36, marginBottom: 24 }}
         label="Show system fields"
-        // checked={system}
-        // onChange={(v) => showSystemFields(v)}
+        checked={includeSystemFields}
+        onChange={toggleSystemFields}
       />
       <Fields
+        type={type}
         fields={fields}
+        includeSystemFields={includeSystemFields}
         onChange={(fields) =>
           client
             .updateSchema({
@@ -242,10 +318,4 @@ export const SchemaMain: FC<{
       />
     </ScrollArea>
   )
-
-  // return type ? (
-  //   <TypeSelected prefix={prefix} type={type} db={db} />
-  // ) : (
-  //   <NoType prefix={prefix} />
-  // )
 }

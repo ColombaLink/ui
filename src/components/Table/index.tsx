@@ -1,15 +1,28 @@
-import React, { FC, CSSProperties, useRef, useState, ReactNode } from 'react'
-import { Color } from '~/types'
-import { color } from '~/utils'
-import { FixedSizeList } from 'react-window'
+import React, { FC, CSSProperties, useRef, useState } from 'react'
+import { border } from '~/utils'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
 import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
-import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
+import { VariableSizeGrid as Grid, FixedSizeList } from 'react-window'
+import {
+  InfiniteList,
+  InfiniteListQueryResponse,
+  useInfiniteScroll,
+} from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { useData } from '@based/react'
+import { Row } from './Row'
+import { Cell } from './Cell'
+import { isImage } from '~/utils/isImage'
+import {
+  ACTIONS_WIDTH,
+  HEADER_HEIGHT,
+  ITEM_HEIGHT,
+  ITEM_WIDTH,
+} from './constants'
+import { useSchema } from '@based/react'
+import { TableFromQuery } from './TableFromQuery'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
 const IList = styled(InfiniteList, {
@@ -17,135 +30,6 @@ const IList = styled(InfiniteList, {
   overflowX: 'hidden',
   scrollbarGutter: 'none',
 })
-const Edit = styled(EditIcon, {
-  cursor: 'pointer',
-  '&:hover': {
-    opacity: 0.6,
-  },
-})
-
-const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
-const ITEM_WIDTH = 96
-const ITEM_HEIGHT = 56
-const ACTIONS_WIDTH = 128
-const HEADER_HEIGHT = 40
-const Item: FC<{
-  color?: Color
-  children: ReactNode
-  longestString: ReactNode
-  index: number
-  height?: number
-  onClick?: () => void
-  icon?: ReactNode
-}> = ({
-  color: colorProp,
-  children,
-  longestString,
-  index,
-  height = ITEM_HEIGHT,
-  onClick,
-  icon,
-}) => {
-  const left = 8
-  const right = 24
-  return (
-    <styled.div
-      onClick={onClick}
-      style={{
-        minWidth: ITEM_WIDTH,
-        flexShrink: index,
-        // flexShrink: 0,
-        // outline: '1px solid red',
-        height: height,
-        position: 'relative',
-        cursor: 'pointer',
-        '&:hover': onClick
-          ? {
-              backgroundColor: color('background:hover'),
-            }
-          : null,
-      }}
-    >
-      <Text
-        style={{
-          visibility: 'hidden',
-          paddingRight: left + right,
-        }}
-      >
-        {longestString}
-      </Text>
-      <Text
-        color={colorProp}
-        style={{
-          lineHeight: `${height}px`,
-          position: 'absolute',
-          left: 8,
-          right: 24,
-          bottom: 0,
-          top: 0,
-        }}
-      >
-        {children}
-      </Text>
-      {icon}
-    </styled.div>
-  )
-}
-
-const Row = ({ data: { data, fields, longest, onClick }, index, style }) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        borderBottom: `1px solid ${color('border')}`,
-        ...style,
-      }}
-    >
-      <div
-        style={{
-          width: ACTIONS_WIDTH,
-          display: 'flex',
-          alignItems: 'center',
-          flexShrink: 0,
-        }}
-      >
-        <Checkbox style={{ marginLeft: 24 }} />
-        <Edit style={{ marginLeft: 20 }} color="accent" />
-      </div>
-      {fields.map((field, i) => {
-        const value = data[index]?.[field]
-
-        if (isImage.test(value)) {
-          return (
-            <Item key={field} longestString={longest[field]} index={i}>
-              <div
-                style={{
-                  width: ITEM_HEIGHT,
-                  height: ITEM_HEIGHT,
-                  backgroundImage: `url(${value})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
-              />
-            </Item>
-          )
-        }
-
-        return (
-          <Item
-            key={field}
-            longestString={longest[field]}
-            index={i}
-            onClick={() => onClick(field, value, data[index])}
-          >
-            {isDate(value) ? toDateString(value) : value}
-          </Item>
-        )
-      })}
-    </div>
-  )
-}
 
 type Fields =
   | {
@@ -288,26 +172,13 @@ const TableInner: FC<TableProps> = ({
     }
   }
 
-  // console.log(
-  //   useData({
-  //     $id: target as string,
-  //     $language: language,
-  //     itemCount: {
-  //       $aggregate: {
-  //         $function: 'count',
-  //         ...query(0, 0, 'createdAt', 'desc')?.$list?.$find,
-  //       },
-  //     },
-  //   })
-  // )
-
   return (
     <div style={{ width }}>
       <div
         style={{
           width: '100%',
           display: 'flex',
-          borderBottom: `1px solid ${color('border')}`,
+          borderBottom: border(1),
           height: HEADER_HEIGHT,
           alignItems: 'center',
           overflowY: 'auto',
@@ -326,7 +197,7 @@ const TableInner: FC<TableProps> = ({
           const field = fields[i]
           const selected = sortField === field
           return (
-            <Item
+            <Cell
               key={label}
               color="text2"
               longestString={longest[fields[i]]}
@@ -342,7 +213,7 @@ const TableInner: FC<TableProps> = ({
               }}
             >
               {label}
-            </Item>
+            </Cell>
           )
         })}
       </div>
@@ -368,9 +239,11 @@ const TableInner: FC<TableProps> = ({
                 return { data: items, longest, fields, onClick }
               }
               for (const item of items) {
-                for (const field of fields) {
-                  if (field in item) {
-                    measure(field, item[field])
+                if (item) {
+                  for (const field of fields) {
+                    if (field in item) {
+                      measure(field, item[field])
+                    }
                   }
                 }
               }
@@ -380,9 +253,11 @@ const TableInner: FC<TableProps> = ({
 
             const set = new Set()
             for (const item of items) {
-              for (const key in item) {
-                set.add(key)
-                measure(key, item[key])
+              if (item) {
+                for (const key in item) {
+                  set.add(key)
+                  measure(key, item[key])
+                }
               }
             }
 
@@ -405,6 +280,16 @@ const TableInner: FC<TableProps> = ({
   )
 }
 
+const TableFromData = () => {
+  return null
+}
+
+const Cell = ({ columnIndex, rowIndex, style }) => (
+  <div style={style}>
+    Item {rowIndex},{columnIndex}
+  </div>
+)
+
 export const Table: FC<TableProps> = ({ style, ...props }) => {
   return (
     <styled.div
@@ -419,7 +304,11 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
     >
       <AutoSizer>
         {({ width, height }) => {
-          return <TableInner width={width} height={height} {...props} />
+          return props.query ? (
+            <TableFromQuery width={width} height={height} {...props} />
+          ) : (
+            <TableFromData width={width} height={height} {...props} />
+          ) //<TableInner width={width} height={height} {...props} />
         }}
       </AutoSizer>
     </styled.div>

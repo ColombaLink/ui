@@ -6,18 +6,27 @@ import {
   ModelIcon,
   AttachmentIcon,
   CalendarIcon,
+  ToggleIcon,
 } from '~/icons'
 
 export const systemFields = new Set(['id', 'type', 'children', 'parents'])
 export const alwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
 
 export type FieldTemplates =
+  | 'boolean'
   | 'dateTime'
-  | 'string'
-  | 'object'
-  | 'url'
-  | 'markdown'
+  | 'email'
   | 'file'
+  | 'id'
+  | 'markdown'
+  | 'object'
+  | 'reference'
+  | 'references'
+  | 'string'
+  | 'text'
+  | 'timestamp'
+  | 'type'
+  | 'url'
 
 export const templates: {
   [K in FieldTemplates]: {
@@ -75,5 +84,66 @@ export const templates: {
     icon: AttachmentIcon,
     color: 'lightred',
     schema: { type: 'reference' },
+  },
+  boolean: {
+    label: 'Boolean',
+    description: 'Booleans you know it',
+    icon: ToggleIcon,
+    color: 'lightred',
+    schema: { type: 'boolean' },
+  },
+  id: {
+    label: 'Identifier',
+    description: 'IDs you know it',
+    icon: ToggleIcon,
+    color: 'babyblue',
+    schema: { type: 'id' },
+  },
+  reference: {
+    label: 'Reference',
+    description: 'References you know it',
+    icon: ToggleIcon,
+    color: 'red',
+    schema: { type: 'reference' },
+  },
+  references: {
+    label: 'References',
+    description: 'References you know it',
+    icon: ToggleIcon,
+    color: 'red',
+    schema: { type: 'references' },
+  },
+  timestamp: {
+    label: 'Timestamp',
+    description: 'Timestamps you know it',
+    icon: ToggleIcon,
+    color: 'yellow',
+    schema: { type: 'timestamp' },
+  },
+  type: {
+    label: 'Type',
+    description: 'Types you know it',
+    icon: ToggleIcon,
+    color: 'yellow',
+    schema: { type: 'type' },
+  },
+  text: {
+    label: 'Text',
+    description: 'Text you know it',
+    icon: ToggleIcon,
+    color: 'yellow',
+    schema: { type: 'text' },
+  },
+  email: {
+    label: 'Email',
+    description: 'Emails you know it',
+    icon: ToggleIcon,
+    color: 'yellow',
+    schema: {
+      type: 'string',
+      meta: {
+        format: 'email',
+      },
+    },
   },
 }

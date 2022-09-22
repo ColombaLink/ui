@@ -11,7 +11,7 @@ const useUpdate = (callback?: () => void) => {
   }
 }
 
-export const General: FC<{
+export const SharedGeneral: FC<{
   options: FieldOptions
   setDisabled: React.Dispatch<React.SetStateAction<boolean>>
   field?: string

@@ -1,12 +1,37 @@
 import React, { FC, useRef, useState } from 'react'
-import { useSchema } from '@based/react'
 import { Dialog } from '~/components/Dialog'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
+import { Text } from '~/components/Text'
+
 import { templates, FieldTemplates } from '../templates'
 import { Confirm } from './Confirm'
 import { FieldOptions } from '../types'
-import { General } from './General'
+import { SharedGeneral } from './SharedGeneral'
+import { useSchemaTypes } from '~/hooks'
+import { MultiSelect } from '~/components/Select'
+
+const References = ({ types, options }) => {
+  return (
+    <>
+      <Text style={{ marginTop: 24 }}>Allowed types</Text>
+      <MultiSelect
+        placeholder="Select allowed types"
+        filterable
+        style={{ marginTop: 16, width: 400 }}
+        values={options.meta.refTypes || []}
+        onChange={(values) => {
+          options.meta.refTypes = values
+        }}
+        options={Object.keys(types)}
+      />
+    </>
+  )
+}
+
+const general = {
+  references: References,
+}
 
 export const FieldModal: FC<
   | {
@@ -20,20 +45,32 @@ export const FieldModal: FC<
       template: FieldTemplates
     }
 > = ({ type, field, template }) => {
-  const { schema, loading } = useSchema()
+  const { types, loading } = useSchemaTypes()
   const [disabled, setDisabled] = useState(true)
-  const { current: options } = useRef<FieldOptions>({
-    field,
-    meta: {},
-  })
+  const optionsRef = useRef<FieldOptions>()
 
   if (loading) {
     return null
   }
 
+  if (!optionsRef.current) {
+    if (field) {
+      optionsRef.current = {
+        field,
+        meta: types[type].fields[field].meta || {},
+      }
+    } else {
+      optionsRef.current = {
+        meta: {},
+      }
+    }
+  }
+
+  const options = optionsRef.current
+
   if (!template) {
     if (field) {
-      const fieldSchema = schema.types[type].fields[field]
+      const fieldSchema = types[type].fields[field]
       if (!fieldSchema) {
         console.warn('Field is not defined in schema')
         return null
@@ -46,6 +83,7 @@ export const FieldModal: FC<
   }
 
   const { label, icon, color } = templates[template]
+  const TypeSpecificGeneral = general[template]
 
   return (
     <Dialog>
@@ -56,11 +94,19 @@ export const FieldModal: FC<
         </Dialog.Label>
         <Tabs sameHeight activeTab={0}>
           <Tab label="General">
-            <General
+            <SharedGeneral
               options={options}
               setDisabled={setDisabled}
               field={field}
             />
+            {TypeSpecificGeneral && (
+              <TypeSpecificGeneral
+                options={options}
+                setDisabled={setDisabled}
+                field={field}
+                types={types}
+              />
+            )}
           </Tab>
           <Tab label="Settings" />
         </Tabs>

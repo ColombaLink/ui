@@ -3,65 +3,43 @@ import React from 'react'
 import { useData, useSchema } from '@based/react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { border } from '~/utils'
-import { useLocation } from '~/hooks'
+import { useLocation, useSchemaTypes } from '~/hooks'
 import { Badge } from '~/components/Badge'
 import { DeleteIcon } from '~/icons'
-import { parseQuery } from '@saulx/utils'
+import { deepEqual, parseQuery } from '@saulx/utils'
+import { Input } from '~/components/Input'
 
 export const ContentMain = () => {
-  const { schema, loading } = useSchema()
+  const { loading, types } = useSchemaTypes()
   const [, setLocation] = useLocation()
-  let query
+
+  if (loading) return null
+
   const q = parseQuery(window.location.search.substring(1))
   const filters = q.filter ? JSON.parse(decodeURIComponent(q.filter)) : []
   const target = q.id ? String(q.id) : 'root'
   const field = q.field || 'descendants'
 
-  if (!loading) {
-    const types = Object.keys(schema.types)
-    types.push('root')
-    query = types.reduce(
-      (query, type) => {
-        query[type] = {
-          $find: {
-            $traverse: field,
-            $filter: [
-              ...filters,
-              {
-                $field: 'type',
-                $operator: '=',
-                $value: type,
-              },
-            ],
-          },
-        }
-        return query
-      },
-      { $id: target }
-    )
-  }
-
-  const { data } = useData(query)
-  const set = new Set(['type'])
+  const set = new Set(['type', 'id', 'name', 'children'])
   const indexed = []
   const other = new Set()
+  const includedTypes = Object.keys(types)
 
-  for (const type in data) {
-    const { fields } = type === 'root' ? schema.rootType : schema.types[type]
+  includedTypes.forEach((type) => {
+    const { fields } = types[type]
     for (const field in fields) {
-      if (alwaysIgnore.has(field)) {
-        continue
-      }
-      const index = fields[field].meta?.index
-      if (index === undefined) {
-        other.add(field)
-      } else if (!(index in indexed)) {
-        indexed[index] = new Set([field])
-      } else {
-        indexed[index].add(field)
+      if (!alwaysIgnore.has(field)) {
+        const index = fields[field].meta?.index
+        if (index === undefined) {
+          other.add(field)
+        } else if (!(index in indexed)) {
+          indexed[index] = new Set([field])
+        } else {
+          indexed[index].add(field)
+        }
       }
     }
-  }
+  })
 
   const addField = (field) => set.add(field)
   indexed.forEach((fields) => fields.forEach(addField))
@@ -69,17 +47,51 @@ export const ContentMain = () => {
 
   const fields = Array.from(set)
 
-  if (!fields.length) {
-    return null
-  }
+  // if (!fields.length) {
+  //   return null
+  // }
 
   return (
     <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', padding: 8 }}>
+      <div style={{ display: 'flex', padding: 12 }}>
+        <Badge
+          style={{ margin: 4 }}
+          iconRight={q.field ? DeleteIcon : null}
+          onClick={
+            q.field
+              ? () => {
+                  setLocation(`?field=0`)
+                }
+              : null
+          }
+        >
+          IN: {field}
+        </Badge>
+        <Badge
+          style={{ margin: 4 }}
+          iconRight={q.id ? DeleteIcon : null}
+          onClick={
+            q.id
+              ? () => {
+                  setLocation(`?id=0`)
+                }
+              : null
+          }
+        >
+          OF: {target}
+        </Badge>
+        <Input
+          onChange={(value) => {
+            console.log('onChange', value)
+          }}
+          suggest={(value) => {
+            return fields.find((field) => field.startsWith(value))
+          }}
+        />
         {filters.map(({ $field, $operator, $value }, index) => (
           <Badge
             key={index}
-            style={{ margin: 8 }}
+            style={{ margin: 4 }}
             iconRight={DeleteIcon}
             onClick={() => {
               setLocation(
@@ -89,7 +101,7 @@ export const ContentMain = () => {
               )
             }}
           >
-            {$field} {$operator} {$value}
+            {index ? 'AND' : 'WHERE'} {$field} {$operator} {$value}
           </Badge>
         ))}
       </div>
@@ -100,25 +112,22 @@ export const ContentMain = () => {
         language="en"
         onClick={(field, value, { type, id }) => {
           if (value !== undefined) {
-            const fieldType =
-              type === 'root'
-                ? schema.rootType.fields[field].type
-                : schema.types[type].fields[field].type
+            const fieldType = types[type].fields[field].type
             if (fieldType === 'references') {
-              setLocation(`?id=${id}&field=${field}`)
+              setLocation(`?id=${id}&field=${field}&filter=${0}`)
             } else {
-              setLocation(
-                `?filter=${encodeURIComponent(
-                  JSON.stringify([
-                    ...filters,
-                    {
-                      $field: field,
-                      $operator: '=',
-                      $value: value,
-                    },
-                  ])
-                )}`
-              )
+              const filter = {
+                $field: field,
+                $operator: '=',
+                $value: value,
+              }
+              if (!filters.find((f) => deepEqual(f, filter))) {
+                setLocation(
+                  `?filter=${encodeURIComponent(
+                    JSON.stringify([...filters, filter])
+                  )}`
+                )
+              }
             }
           }
         }}
@@ -140,6 +149,7 @@ export const ContentMain = () => {
           fields.forEach((field) => {
             query[field] = true
           })
+
           return query
         }}
       />

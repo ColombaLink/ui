@@ -92,8 +92,6 @@ const ListItem: FC<{
     { position: 'left' }
   )
 
-  console.log({ fieldType, schemaType, name, fieldName })
-
   // isBidirectional
   return (
     <ListItemStyled style={style}>
@@ -115,33 +113,16 @@ const ListItem: FC<{
           {/* <ListIcon icon={icon} color={color} /> */}
           {name.length > 20 ? (
             <Tooltip label={name}>
-              <Text
-                // color="Primary"
-                style={{ marginLeft: 16, maxWidth: 150, marginRight: 6 }}
-                // weight={'bold'}
-              >
+              <Text style={{ marginLeft: 16, maxWidth: 150, marginRight: 6 }}>
                 {name}
               </Text>
             </Tooltip>
           ) : (
-            <Text
-              // color="Primary"
-              style={{ marginLeft: 16, maxWidth: 150, marginRight: 6 }}
-              // weight={'bold'}
-            >
+            <Text style={{ marginLeft: 16, maxWidth: 150, marginRight: 6 }}>
               {name}
             </Text>
           )}
-          {/* TODO: bug time */}
-          <Text
-            style={{ maxWidth: 150 }}
-            color="text2"
-            // singleLine
-
-            // size={'medium'}
-            // weight="regular"
-            // color="Secondary"
-          >
+          <Text style={{ maxWidth: 150 }} color="text2">
             - {fieldName}
           </Text>
           <Badge ghost outline style={{ marginLeft: 12 }}>

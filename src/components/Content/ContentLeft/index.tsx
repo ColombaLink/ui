@@ -1,22 +1,26 @@
 import { useSchema } from '@based/react'
 import React, { FC } from 'react'
-import { Menu, Text, Button, AddIcon, useDialog, capitalize, Badge } from '~'
+import {
+  Menu,
+  Text,
+  Button,
+  AddIcon,
+  useDialog,
+  capitalize,
+  Badge,
+  useSchemaTypes,
+} from '~'
 import { SystemLabel } from '~/components/Schema/SchemaLeft'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
-  const { schema, loading } = useSchema()
+  const { loading, types } = useSchemaTypes()
 
   if (loading) {
     // TODO loading state
     return <>loading...</>
-  }
-
-  const types = {
-    root: schema.rootType,
-    ...schema.types,
   }
 
   return (

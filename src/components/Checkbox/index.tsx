@@ -14,6 +14,7 @@ export type CheckboxProps = {
   onChange?: (value: boolean) => void
   label?: ReactNode | string
   space?: Space
+  size?: number
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -24,6 +25,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   onChange,
   label,
   space,
+  size = 20,
   ...props
 }) => {
   const [checked, setChecked] = usePropState(checkedProp)
@@ -52,11 +54,10 @@ export const Checkbox: FC<CheckboxProps> = ({
             : null,
           border: border(1, 'border', hover ? 'hover' : null),
           borderRadius: 4,
-          height: 20,
+          height: size,
           marginRight: 12,
-          minWidth: 20,
-          minHeight: 20,
-          width: 20,
+          flexShrink: 0,
+          width: size,
           marginTop: 2,
           display: 'flex',
           alignItems: 'center',

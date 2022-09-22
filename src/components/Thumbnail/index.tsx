@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Color, Size, Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { isCapitalised } from '~/utils/isCapitalised'
 import { Text } from '../Text'
 
 type ThumbnailProps = {
@@ -48,7 +47,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
           {label[0].toLocaleUpperCase()}
         </Text>
       ) : null}
-      <>{renderOrCreateElement(icon)}</>
+      <>{renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })}</>
     </div>
   )
 }
