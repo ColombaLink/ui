@@ -1,4 +1,11 @@
-import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  useRef,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react'
 import {
   Label,
   Input,
@@ -11,7 +18,11 @@ import {
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
-import Map, { Marker, NavigationControl } from 'react-map-gl'
+import Map, { Marker, NavigationControl, MapRef } from 'react-map-gl'
+import mapboxgl from 'mapbox-gl'
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
+
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 // css required to make nav and marker work
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -41,6 +52,11 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [addressInput, setAddressInput] = useState<string>('')
   const [latitude, setLatitude] = useState<number>(52.36516779992266)
   const [longitude, setLongitude] = useState<number>(4.891164534406535)
+  const [changeCounter, setChangeCounter] = useState<number>(0)
+
+  // put in .env.local
+  const MAPBOX_TOKEN_COWBOYBEER =
+    'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 
   const [viewport, setViewport] = useState<any>({
     latitude: latitude,
@@ -48,9 +64,34 @@ export const GeoInput: FC<GeoInputProps> = ({
     zoom: 5,
   })
 
-  // put in .env.local
-  const MAPBOX_TOKEN_COWBOYBEER =
-    'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
+  const mapRef = useRef<MapRef>()
+
+  const onSelectPlace = useCallback(({ longitude, latitude }) => {
+    mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
+  }, [])
+
+  // Geocoder shizzle
+  useEffect(() => {
+    geocoder.addTo('#geocoder')
+  }, [])
+
+  useEffect(() => {
+    onSelectPlace({ longitude, latitude })
+  }, [changeCounter])
+
+  const geocoder = new MapboxGeocoder({
+    accessToken: MAPBOX_TOKEN_COWBOYBEER,
+    types: 'country,region,place,postcode,locality,neighborhood',
+  })
+
+  // als result geselecteerd wordt
+  geocoder.on('result', (e) => {
+    console.log(e.result)
+    setLatitude(e.result.center[1])
+    setLongitude(e.result.center[0])
+  })
+
+  // console.log('map', map)
 
   return (
     <styled.div
@@ -62,6 +103,7 @@ export const GeoInput: FC<GeoInputProps> = ({
       <Label label={label} description={description} space="8px" />
 
       <Map
+        ref={mapRef}
         {...viewport}
         mapboxAccessToken={MAPBOX_TOKEN_COWBOYBEER}
         onMove={(e) => setViewport(e)}
@@ -73,9 +115,14 @@ export const GeoInput: FC<GeoInputProps> = ({
           width: '100%',
         }}
         onClick={(e) => {
+          console.log('click', e)
           setLongitude(e.lngLat.lng)
           setLatitude(e.lngLat.lat)
 
+          // // move to this new center location
+          setChangeCounter(changeCounter + 1)
+
+          // mapRef.flyTo({ center: [e.lngLat.lng, e.lngLat.lat] })
           console.log(e.lngLat.lat, e.lngLat.lng)
         }}
       >
@@ -91,6 +138,17 @@ export const GeoInput: FC<GeoInputProps> = ({
         onChange={(e) => setValue(e)}
         defaultValue={value}
       />
+
+      <styled.div
+        style={{
+          marginBottom: 12,
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
+          maxWidth: '80%',
+        }}
+        id="geocoder"
+      />
+
       {value === 'Address' && (
         <div
           style={{
