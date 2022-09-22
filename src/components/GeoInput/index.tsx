@@ -19,7 +19,6 @@ import {
 import { styled } from 'inlines'
 import { Space } from '~/types'
 import Map, { Marker, NavigationControl, MapRef } from 'react-map-gl'
-import mapboxgl from 'mapbox-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -48,11 +47,15 @@ export const GeoInput: FC<GeoInputProps> = ({
   disabled,
   space,
 }) => {
-  const [value, setValue] = useState<string | boolean | number>('Address')
-  const [addressInput, setAddressInput] = useState<string>('')
-  const [latitude, setLatitude] = useState<number>(52.36516779992266)
-  const [longitude, setLongitude] = useState<number>(4.891164534406535)
+  const [radioValue, setRadioValue] = useState<string | boolean | number>(
+    'Address'
+  )
+  const [address, setAddress] = useState<string>('')
+  const [latitude, setLatitude] = useState<any>(52.36516779992266)
+  const [longitude, setLongitude] = useState<any>(4.891164534406535)
   const [changeCounter, setChangeCounter] = useState<number>(0)
+
+  const [errorMessage, setErrorMessage] = useState<string | null>('')
 
   // put in .env.local
   const MAPBOX_TOKEN_COWBOYBEER =
@@ -73,6 +76,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   // Geocoder shizzle
   useEffect(() => {
     geocoder.addTo('#geocoder')
+    console.log('Geocoder', geocoder)
   }, [])
 
   useEffect(() => {
@@ -82,13 +86,15 @@ export const GeoInput: FC<GeoInputProps> = ({
   const geocoder = new MapboxGeocoder({
     accessToken: MAPBOX_TOKEN_COWBOYBEER,
     types: 'country,region,place,postcode,locality,neighborhood',
+    placeholder: 'Start typing to find a location',
   })
 
   // als result geselecteerd wordt
   geocoder.on('result', (e) => {
-    console.log(e.result)
+    console.log(e)
     setLatitude(e.result.center[1])
     setLongitude(e.result.center[0])
+    setAddress(e.result.place_name)
   })
 
   // console.log('map', map)
@@ -115,15 +121,9 @@ export const GeoInput: FC<GeoInputProps> = ({
           width: '100%',
         }}
         onClick={(e) => {
-          console.log('click', e)
           setLongitude(e.lngLat.lng)
           setLatitude(e.lngLat.lat)
-
-          // // move to this new center location
           setChangeCounter(changeCounter + 1)
-
-          // mapRef.flyTo({ center: [e.lngLat.lng, e.lngLat.lat] })
-          console.log(e.lngLat.lat, e.lngLat.lng)
         }}
       >
         <NavigationControl showCompass={false} showZoom />
@@ -135,8 +135,8 @@ export const GeoInput: FC<GeoInputProps> = ({
       <RadioButtons
         data={[{ value: 'Address' }, { value: 'Coordinates' }]}
         direction="horizontal"
-        onChange={(e) => setValue(e)}
-        defaultValue={value}
+        onChange={(e) => setRadioValue(e)}
+        defaultValue={radioValue}
       />
 
       <styled.div
@@ -145,31 +145,52 @@ export const GeoInput: FC<GeoInputProps> = ({
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           maxWidth: '80%',
+          '& .mapboxgl-ctrl-geocoder': {
+            width: '100%',
+            maxWidth: '100%',
+          },
+          '& .mapboxgl-ctrl-geocoder, .suggestions': {
+            boxShadow: 'none',
+          },
+          '& .mapboxgl-ctrl-geocoder--input': {
+            padding: '10px !important',
+            width: '100%',
+          },
+          '& .mapboxgl-ctrl-geocoder svg': {
+            display: 'none',
+          },
+          '& .mapboxgl-ctrl-geocoder--input:focus': {
+            outline: 'none',
+            border: `2px solid ${color('accent')}`,
+            borderRadius: '4px',
+            color: color('text'),
+          },
         }}
         id="geocoder"
       />
 
-      {value === 'Address' && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Input
-            placeholder="Start typing to find a location"
-            onChange={(e) => setAddressInput(e)}
-            style={{ maxWidth: '80%' }}
-          />
-          {addressInput !== '' && (
-            <Button ghost onClick={() => console.log('clear pressed')}>
-              Clear
-            </Button>
-          )}
-        </div>
+      {radioValue === 'Address' && (
+        <>{address}</>
+        // <div
+        //   style={{
+        //     display: 'flex',
+        //     justifyContent: 'space-between',
+        //     alignItems: 'center',
+        //   }}
+        // >
+        //   {/* <Input
+        //     placeholder="Start typing to find a location"
+        //     onChange={(e) => setAddressInput(e)}
+        //     style={{ maxWidth: '80%' }}
+        //   /> */}
+        //   {addressInput !== '' && (
+        //     <Button ghost onClick={() => console.log('clear pressed')}>
+        //       Clear
+        //     </Button>
+        //   )}
+        // </div>
       )}
-      {value === 'Coordinates' && (
+      {radioValue === 'Coordinates' && (
         <div
           style={{
             display: 'flex',
@@ -182,7 +203,16 @@ export const GeoInput: FC<GeoInputProps> = ({
           <Input
             type="number"
             placeholder="Between -90 and 90"
-            onChange={(e) => setLatitude(e)}
+            onChange={(e) => {
+              if (e <= 90 && e >= -90) {
+                setLatitude(e)
+                setErrorMessage('')
+              } else {
+                setErrorMessage(
+                  'Please enter a valid latitude between -90 and 90'
+                )
+              }
+            }}
             value={latitude}
             onBlur={() => setChangeCounter(changeCounter + 1)}
           />
@@ -192,15 +222,25 @@ export const GeoInput: FC<GeoInputProps> = ({
           <Input
             type="number"
             placeholder="Between -180 and 180"
-            onChange={(e) => setLongitude(e)}
+            onChange={(e) => {
+              if (e <= 180 && e >= -180) {
+                setLongitude(e)
+                setErrorMessage('')
+              } else {
+                setErrorMessage('Longitude must be between -180 and 180')
+              }
+            }}
             value={longitude}
             onBlur={() => setChangeCounter(changeCounter + 1)}
           />
-          {true ? (
+          {longitude || latitude ? (
             <Button
               ghost
               style={{ marginLeft: 16 }}
-              onClick={() => console.log('clear pressed')}
+              onClick={() => {
+                setLatitude('')
+                setLongitude('')
+              }}
             >
               Clear
             </Button>
@@ -215,17 +255,19 @@ export const GeoInput: FC<GeoInputProps> = ({
         </Text>
       )}
 
-      <div
-        style={{
-          display: 'flex',
-          gap: 6,
-          alignItems: 'center',
-          marginTop: 10,
-        }}
-      >
-        <ErrorIcon color="red" size={16} />
-        <Text color="red">'errorMessage' kan hier</Text>
-      </div>
+      {errorMessage && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            marginTop: 10,
+          }}
+        >
+          <ErrorIcon color="red" size={16} />
+          <Text color="red">{errorMessage}</Text>
+        </div>
+      )}
     </styled.div>
   )
 }
