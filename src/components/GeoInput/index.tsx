@@ -65,6 +65,19 @@ export const GeoInput: FC<GeoInputProps> = ({
   // Fetch this url with the lat and long & Token API
   //  https://api.mapbox.com/geocoding/v5/mapbox.places/-73.989,40.733.json?access_token=pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA
 
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${MAPBOX_TOKEN_COWBOYBEER}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('From Fetch ---->', data.features[0].place_name)
+      })
+      .catch((error) => {
+        console.log('Not A Place', error)
+      })
+  }, [changeCounter])
+
   const [viewport, setViewport] = useState<any>({
     latitude: latitude,
     longitude: longitude,
