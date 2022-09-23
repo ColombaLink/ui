@@ -50,10 +50,10 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [radioValue, setRadioValue] = useState<string | boolean | number>(
     'Address'
   )
-  const [address, setAddress] = useState<string>('')
   const [latitude, setLatitude] = useState<any>(52.36516779992266)
   const [longitude, setLongitude] = useState<any>(4.891164534406535)
   const [changeCounter, setChangeCounter] = useState<number>(0)
+  const [testInput, setTestInput] = useState<string>('')
 
   const [errorMessage, setErrorMessage] = useState<string | null>('')
 
@@ -61,10 +61,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   const MAPBOX_TOKEN_COWBOYBEER =
     'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 
-  // For Reverse Geocoding
-  // Fetch this url with the lat and long & Token API
-  //  https://api.mapbox.com/geocoding/v5/mapbox.places/-73.989,40.733.json?access_token=pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA
-
+  const geoInputField = document.querySelector('.mapboxgl-ctrl-geocoder--input')
   useEffect(() => {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${MAPBOX_TOKEN_COWBOYBEER}`
@@ -72,11 +69,18 @@ export const GeoInput: FC<GeoInputProps> = ({
       .then((res) => res.json())
       .then((data) => {
         console.log('From Fetch ---->', data.features[0].place_name)
+        // set the input value of the geocoder
+
+        //   geocoder.query(data.features[0].place_name)
+
+        geoInputField?.setAttribute('value', data.features[0].place_name)
       })
       .catch((error) => {
         console.log('Not A Place', error)
       })
-  }, [changeCounter])
+
+    console.log('Geocoder value', geocoder)
+  }, [changeCounter, radioValue])
 
   const [viewport, setViewport] = useState<any>({
     latitude: latitude,
@@ -84,12 +88,14 @@ export const GeoInput: FC<GeoInputProps> = ({
     zoom: 5,
   })
 
+  // useEffect(() => {
+  //   geoInputField?.setAttribute('value', data.features[0].place_name)
+  // }, [radioValue])
+
   const mapRef = useRef<MapRef>()
 
   const onSelectPlace = useCallback(({ longitude, latitude }) => {
     mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
-
-    console.log('FIRESD')
   }, [])
 
   // Geocoder shizzle
@@ -106,7 +112,7 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   // als result geselecteerd wordt
   geocoder.on('result', (e) => {
-    console.log(e)
+    console.log('from result ---->', e)
     setLatitude(e.result.center[1])
     setLongitude(e.result.center[0])
     setChangeCounter((changeCounter) => (changeCounter += 1))
@@ -156,37 +162,37 @@ export const GeoInput: FC<GeoInputProps> = ({
         defaultValue={radioValue}
       />
 
-      {radioValue === 'Address' && (
-        <styled.div
-          style={{
-            marginBottom: 12,
-            border: `1px solid ${color('border')}`,
-            borderRadius: 4,
-            maxWidth: '80%',
-            '& .mapboxgl-ctrl-geocoder': {
-              width: '100%',
-              maxWidth: '100%',
-            },
-            '& .mapboxgl-ctrl-geocoder, .suggestions': {
-              boxShadow: 'none',
-            },
-            '& .mapboxgl-ctrl-geocoder--input': {
-              padding: '10px !important',
-              width: '100%',
-            },
-            '& .mapboxgl-ctrl-geocoder svg': {
-              display: 'none',
-            },
-            '& .mapboxgl-ctrl-geocoder--input:focus': {
-              outline: 'none',
-              border: `2px solid ${color('accent')}`,
-              borderRadius: '4px',
-              color: color('text'),
-            },
-          }}
-          id="geocoder"
-        />
-      )}
+      <styled.div
+        style={{
+          marginBottom: 12,
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
+          maxWidth: '80%',
+          '& .mapboxgl-ctrl-geocoder': {
+            width: '100%',
+            maxWidth: '100%',
+          },
+          '& .mapboxgl-ctrl-geocoder, .suggestions': {
+            boxShadow: 'none',
+          },
+          '& .mapboxgl-ctrl-geocoder--input': {
+            padding: '10px !important',
+            width: '100%',
+          },
+          '& .mapboxgl-ctrl-geocoder svg': {
+            display: 'none',
+          },
+          '& .mapboxgl-ctrl-geocoder--input:focus': {
+            outline: 'none',
+            border: `2px solid ${color('accent')}`,
+            borderRadius: '4px',
+            color: color('text'),
+          },
+        }}
+        id="geocoder"
+      />
+
+      {radioValue === 'Address' && <></>}
       {radioValue === 'Coordinates' && (
         <div
           style={{
