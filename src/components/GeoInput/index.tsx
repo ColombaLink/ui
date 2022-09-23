@@ -135,7 +135,7 @@ export const GeoInput: FC<GeoInputProps> = ({
         {...viewport}
         mapboxAccessToken={MAPBOX_TOKEN_COWBOYBEER}
         onMove={(e) => setViewport(e)}
-        mapStyle="mapbox://styles/cowboybeer/cl8ct97kg007d15s1ku1vn231"
+        mapStyle="mapbox://styles/cowboybeer/cl8ebzbdc000614nv5qyzhm99"
         style={{
           border: `1px solid ${color('border')}`,
           height: 240,
