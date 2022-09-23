@@ -61,6 +61,10 @@ export const GeoInput: FC<GeoInputProps> = ({
   const MAPBOX_TOKEN_COWBOYBEER =
     'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 
+  // For Reverse Geocoding
+  // Fetch this url with the lat and long & Token API
+  //  https://api.mapbox.com/geocoding/v5/mapbox.places/-73.989,40.733.json?access_token=pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA
+
   const [viewport, setViewport] = useState<any>({
     latitude: latitude,
     longitude: longitude,
@@ -69,15 +73,11 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   const mapRef = useRef<MapRef>()
 
-  const onSelectPlace = useCallback(
-    ({ longitude, latitude }) => {
-      mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
+  const onSelectPlace = useCallback(({ longitude, latitude }) => {
+    mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
 
-      console.log('FIRESD')
-      // if geocoder
-    },
-    [changeCounter]
-  )
+    console.log('FIRESD')
+  }, [])
 
   // Geocoder shizzle
   useEffect(() => {
@@ -96,28 +96,12 @@ export const GeoInput: FC<GeoInputProps> = ({
     console.log(e)
     setLatitude(e.result.center[1])
     setLongitude(e.result.center[0])
-    // setAddress(e.result.place_name)
-    // onSelectPlace({ longitude, latitude })
-    //  mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
     setChangeCounter((changeCounter) => (changeCounter += 1))
   })
-
-  // useEffect(() => {
-  //   geocoder.query(`${latitude},${longitude}`)
-  //   const reverseAddress = geocoder.query(`${latitude},${longitude}`)
-  //   console.log(reverseAddress.inputString)
-  // }, [])
 
   useEffect(() => {
     onSelectPlace({ longitude, latitude })
   }, [changeCounter])
-
-  // if radiovalue changes / user switches back from coordinates to address
-  useEffect(() => {
-    if (radioValue === 'Address') {
-      geocoder.query(`${latitude},${longitude}`)
-    }
-  }, [radioValue])
 
   return (
     <styled.div
@@ -144,10 +128,6 @@ export const GeoInput: FC<GeoInputProps> = ({
           setLongitude(e.lngLat.lng)
           setLatitude(e.lngLat.lat)
           setChangeCounter(changeCounter + 1)
-          //  onSelectPlace({ longitude, latitude })
-          //  /////////// input the query in the geocoder
-          console.log('On click , new lang long--->', e.lngLat)
-          // @ts-ignore
         }}
       >
         <NavigationControl showCompass={false} showZoom />
