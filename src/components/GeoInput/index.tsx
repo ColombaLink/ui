@@ -53,7 +53,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [latitude, setLatitude] = useState<any>(52.36516779992266)
   const [longitude, setLongitude] = useState<any>(4.891164534406535)
   const [changeCounter, setChangeCounter] = useState<number>(0)
-  const [testInput, setTestInput] = useState<string>('')
+  const [isFocused, setIsFocused] = useState<boolean>(false)
 
   const [errorMessage, setErrorMessage] = useState<string | null>('')
 
@@ -68,18 +68,15 @@ export const GeoInput: FC<GeoInputProps> = ({
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log('From Fetch ---->', data.features[0].place_name)
+        // console.log('From Fetch ---->', data.features[0].place_name)
         // set the input value of the geocoder
-
-        //   geocoder.query(data.features[0].place_name)
-
         geoInputField?.setAttribute('value', data.features[0].place_name)
       })
       .catch((error) => {
         console.log('Not A Place', error)
       })
 
-    console.log('Geocoder value', geocoder)
+    //  console.log('Geocoder value', geocoder)
   }, [changeCounter, radioValue])
 
   const [viewport, setViewport] = useState<any>({
@@ -87,10 +84,6 @@ export const GeoInput: FC<GeoInputProps> = ({
     longitude: longitude,
     zoom: 5,
   })
-
-  // useEffect(() => {
-  //   geoInputField?.setAttribute('value', data.features[0].place_name)
-  // }, [radioValue])
 
   const mapRef = useRef<MapRef>()
 
@@ -112,7 +105,7 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   // als result geselecteerd wordt
   geocoder.on('result', (e) => {
-    console.log('from result ---->', e)
+    //  console.log('from result ---->', e)
     setLatitude(e.result.center[1])
     setLongitude(e.result.center[0])
     setChangeCounter((changeCounter) => (changeCounter += 1))
@@ -125,7 +118,13 @@ export const GeoInput: FC<GeoInputProps> = ({
   return (
     <styled.div
       style={{
-        borderLeft: indent ? `2px solid ${color('border')}` : 'none',
+        borderLeft: errorMessage
+          ? `2px solid ${color('red')}`
+          : isFocused
+          ? `2px solid ${color('accent')}`
+          : indent
+          ? `2px solid ${color('border')}`
+          : 'none',
         paddingLeft: indent ? 12 : 0,
       }}
     >
@@ -163,10 +162,13 @@ export const GeoInput: FC<GeoInputProps> = ({
       />
 
       <styled.div
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         style={{
           marginBottom: 12,
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
+          display: radioValue === 'Address' ? 'block' : 'none',
           maxWidth: '80%',
           '& .mapboxgl-ctrl-geocoder': {
             width: '100%',
@@ -191,8 +193,6 @@ export const GeoInput: FC<GeoInputProps> = ({
         }}
         id="geocoder"
       />
-
-      {radioValue === 'Address' && <></>}
       {radioValue === 'Coordinates' && (
         <div
           style={{
@@ -217,7 +217,9 @@ export const GeoInput: FC<GeoInputProps> = ({
               }
             }}
             value={latitude}
-            onBlur={() => setChangeCounter(changeCounter + 1)}
+            onBlur={() => {
+              setChangeCounter(changeCounter + 1)
+            }}
           />
           <Text wrap style={{ marginLeft: 16 }}>
             Longitude
