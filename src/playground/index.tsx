@@ -76,6 +76,7 @@ const App = () => {
             DateTimePicker: '?story=DateTime',
             FileUpload: '?story=upload',
             Forms: '?story=forms',
+            Geo: '?story=geo',
             InputFields: '?story=input-fields',
             Radiobuttons: '?story=radiobutton',
             ReferenceInput: '?story=reference-inputs',
