@@ -24,6 +24,7 @@ import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
+import { CustomRegexInput } from './CustomRegexInput'
 
 const resize = (target) => {
   if (target) {
@@ -49,18 +50,20 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-const Single = ({ type, inputRef, ...props }) => {
+const Single = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     // @ts-ignore
     return <ColorInput inputRef={inputRef} {...props} />
   }
-  return <input {...props} type={type} ref={inputRef} />
+  return <input {...props} type={type} ref={inputRef} pattern={pattern} />
 }
 
 type InputProps = {
   style?: CSSProperties
   label?: string
   colorInput?: boolean
+  customRegex?: boolean
+  pattern?: string
   jsonInput?: boolean
   description?: string
   descriptionBottom?: string
@@ -178,6 +181,8 @@ export const Input: FC<
   autoFocus,
   bg,
   colorInput,
+  customRegex,
+  pattern,
   jsonInput,
   defaultValue,
   description,
@@ -377,6 +382,13 @@ export const Input: FC<
           />
         ) : multiline ? (
           <Multi {...props} />
+        ) : customRegex ? (
+          <CustomRegexInput
+            pattern={pattern}
+            setErrorMessage={setErrorMessage}
+            value={value}
+            onChange={onChange}
+          />
         ) : (
           <MaybeSuggest
             focused={focused}
