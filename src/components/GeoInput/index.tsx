@@ -69,17 +69,19 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   const mapRef = useRef<MapRef>()
 
-  const onSelectPlace = useCallback(({ longitude, latitude }) => {
-    mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
-  }, [])
+  const onSelectPlace = useCallback(
+    ({ longitude, latitude }) => {
+      mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
+
+      console.log('FIRESD')
+      // if geocoder
+    },
+    [changeCounter]
+  )
 
   // Geocoder shizzle
   useEffect(() => {
     geocoder.addTo('#geocoder')
-    console.log('Geocoder ----> ', geocoder)
-
-    // const testThisShit = geocoder.query('52.36516779992266,4.891164534406535')
-    // console.log('ggae', testThisShit)
   }, [])
 
   const geocoder = new MapboxGeocoder({
@@ -96,18 +98,26 @@ export const GeoInput: FC<GeoInputProps> = ({
     setLongitude(e.result.center[0])
     // setAddress(e.result.place_name)
     // onSelectPlace({ longitude, latitude })
-    setChangeCounter(changeCounter + 1)
+    //  mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
+    setChangeCounter((changeCounter) => (changeCounter += 1))
   })
 
-  useEffect(() => {
-    geocoder.query(`${latitude},${longitude}`)
-    const reverseAddress = geocoder.query(`${latitude},${longitude}`)
-    console.log(reverseAddress.inputString)
-  }, [])
+  // useEffect(() => {
+  //   geocoder.query(`${latitude},${longitude}`)
+  //   const reverseAddress = geocoder.query(`${latitude},${longitude}`)
+  //   console.log(reverseAddress.inputString)
+  // }, [])
 
   useEffect(() => {
     onSelectPlace({ longitude, latitude })
   }, [changeCounter])
+
+  // if radiovalue changes / user switches back from coordinates to address
+  useEffect(() => {
+    if (radioValue === 'Address') {
+      geocoder.query(`${latitude},${longitude}`)
+    }
+  }, [radioValue])
 
   return (
     <styled.div
@@ -134,8 +144,10 @@ export const GeoInput: FC<GeoInputProps> = ({
           setLongitude(e.lngLat.lng)
           setLatitude(e.lngLat.lat)
           setChangeCounter(changeCounter + 1)
-          //  ///////////
-          geocoder.query(`${latitude},${longitude}`)
+          //  onSelectPlace({ longitude, latitude })
+          //  /////////// input the query in the geocoder
+          console.log('On click , new lang long--->', e.lngLat)
+          // @ts-ignore
         }}
       >
         <NavigationControl showCompass={false} showZoom />
@@ -151,56 +163,36 @@ export const GeoInput: FC<GeoInputProps> = ({
         defaultValue={radioValue}
       />
 
-      <styled.div
-        style={{
-          marginBottom: 12,
-          border: `1px solid ${color('border')}`,
-          borderRadius: 4,
-          maxWidth: '80%',
-          '& .mapboxgl-ctrl-geocoder': {
-            width: '100%',
-            maxWidth: '100%',
-          },
-          '& .mapboxgl-ctrl-geocoder, .suggestions': {
-            boxShadow: 'none',
-          },
-          '& .mapboxgl-ctrl-geocoder--input': {
-            padding: '10px !important',
-            width: '100%',
-          },
-          '& .mapboxgl-ctrl-geocoder svg': {
-            display: 'none',
-          },
-          '& .mapboxgl-ctrl-geocoder--input:focus': {
-            outline: 'none',
-            border: `2px solid ${color('accent')}`,
-            borderRadius: '4px',
-            color: color('text'),
-          },
-        }}
-        id="geocoder"
-      />
-
       {radioValue === 'Address' && (
-        <>{address}</>
-        // <div
-        //   style={{
-        //     display: 'flex',
-        //     justifyContent: 'space-between',
-        //     alignItems: 'center',
-        //   }}
-        // >
-        //   {/* <Input
-        //     placeholder="Start typing to find a location"
-        //     onChange={(e) => setAddressInput(e)}
-        //     style={{ maxWidth: '80%' }}
-        //   /> */}
-        //   {addressInput !== '' && (
-        //     <Button ghost onClick={() => console.log('clear pressed')}>
-        //       Clear
-        //     </Button>
-        //   )}
-        // </div>
+        <styled.div
+          style={{
+            marginBottom: 12,
+            border: `1px solid ${color('border')}`,
+            borderRadius: 4,
+            maxWidth: '80%',
+            '& .mapboxgl-ctrl-geocoder': {
+              width: '100%',
+              maxWidth: '100%',
+            },
+            '& .mapboxgl-ctrl-geocoder, .suggestions': {
+              boxShadow: 'none',
+            },
+            '& .mapboxgl-ctrl-geocoder--input': {
+              padding: '10px !important',
+              width: '100%',
+            },
+            '& .mapboxgl-ctrl-geocoder svg': {
+              display: 'none',
+            },
+            '& .mapboxgl-ctrl-geocoder--input:focus': {
+              outline: 'none',
+              border: `2px solid ${color('accent')}`,
+              borderRadius: '4px',
+              color: color('text'),
+            },
+          }}
+          id="geocoder"
+        />
       )}
       {radioValue === 'Coordinates' && (
         <div
