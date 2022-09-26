@@ -129,6 +129,10 @@ export const FileUpload: FC<FileUploadProps> = ({
     setClearCount((clearCount) => clearCount + 1)
   }
 
+  const replaceSpecificFile = (id) => {
+    console.log('Should open edit modal --> The id:', id)
+  }
+
   return (
     <styled.div
       style={{
@@ -172,6 +176,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             file={file}
             handleClickUpload={handleClickUpload}
             deleteSpecificFile={deleteSpecificFile}
+            replaceSpecificFile={replaceSpecificFile}
             key={idx}
             id={idx}
           />

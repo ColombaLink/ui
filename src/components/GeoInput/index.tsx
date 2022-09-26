@@ -35,6 +35,8 @@ type GeoInputProps = {
   indent?: boolean
   disabled?: boolean
   space?: Space
+  mapboxApiAccessToken?: string
+  mapboxStyle?: string
 }
 
 export const GeoInput: FC<GeoInputProps> = ({
@@ -45,6 +47,8 @@ export const GeoInput: FC<GeoInputProps> = ({
   style,
   indent,
   disabled,
+  mapboxApiAccessToken,
+  mapboxStyle,
   space,
 }) => {
   const [radioValue, setRadioValue] = useState<string | boolean | number>(
@@ -61,10 +65,14 @@ export const GeoInput: FC<GeoInputProps> = ({
   const MAPBOX_TOKEN_COWBOYBEER =
     'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 
+  const ACCESS_TOKEN =
+    mapboxApiAccessToken ||
+    'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
+
   const geoInputField = document.querySelector('.mapboxgl-ctrl-geocoder--input')
   useEffect(() => {
     fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${MAPBOX_TOKEN_COWBOYBEER}`
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${ACCESS_TOKEN}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -97,7 +105,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   }, [])
 
   const geocoder = new MapboxGeocoder({
-    accessToken: MAPBOX_TOKEN_COWBOYBEER,
+    accessToken: ACCESS_TOKEN,
     types: 'country,region,place,postcode,locality,neighborhood',
     placeholder: 'Start typing to find a location',
     reverseGeocode: true,
@@ -133,9 +141,10 @@ export const GeoInput: FC<GeoInputProps> = ({
       <Map
         ref={mapRef}
         {...viewport}
-        mapboxAccessToken={MAPBOX_TOKEN_COWBOYBEER}
+        mapboxAccessToken={ACCESS_TOKEN}
         onMove={(e) => setViewport(e)}
-        mapStyle="mapbox://styles/cowboybeer/cl8ebzbdc000614nv5qyzhm99"
+        mapStyle={mapboxStyle || 'mapbox://styles/mapbox/streets-v11'}
+        //  mapStyle="mapbox://styles/cowboybeer/cl8ebzbdc000614nv5qyzhm99"
         style={{
           border: `1px solid ${color('border')}`,
           height: 240,
