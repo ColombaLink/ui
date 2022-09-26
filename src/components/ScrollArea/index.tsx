@@ -6,19 +6,18 @@ const transparentAreaColor = color('background')
 
 export const scrollAreaStyle = {
   scrollbarGutter: 'stable',
+  overflow: 'overlay',
   // firefox
   scrollbarColor: 'transparent transparent',
   '&::-webkit-scrollbar': {
     visibility: 'hidden',
-    position: 'absolute',
   },
   // the rest
   '&::-webkit-scrollbar:vertical': {
-    width: '10px',
+    width: '8px',
   },
   '&::-webkit-scrollbar:horizontal': {
-    height: '10px',
-    marginTop: '-10px',
+    height: '8px',
   },
   '&:hover': {
     // firefox
@@ -31,17 +30,23 @@ export const scrollAreaStyle = {
 
     '&::-webkit-scrollbar-thumb': {
       backgroundColor: scrollbarColor,
-      border: `2px solid ${transparentAreaColor}`,
-      borderRadius: '6px',
+      borderRadius: '4px',
     },
     '&::-webkit-scrollbar-thumb:vertical': {
+      borderRight: `2px solid ${transparentAreaColor}`,
       minHeight: '32px',
+    },
+    '&::-webkit-scrollbar-thumb:horizontal': {
+      borderBottom: `2px solid ${transparentAreaColor}`,
+      minWidth: '32px',
     },
   },
 }
 
-export const ScrollArea = styled('div', {
-  overflow: 'auto',
-  overflowY: 'overlay',
-  ...scrollAreaStyle,
-})
+export const ScrollArea = styled('div', scrollAreaStyle)
+
+// export const ScrollArea = styled('div', {
+//   overflow: 'auto',
+//   overflowY: 'overlay',
+//   ...scrollAreaStyle,
+// })

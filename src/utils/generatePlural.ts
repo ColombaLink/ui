@@ -1,17 +1,17 @@
 import plur from 'plur'
 
-/**
- * Call function once.
- */
-export const once = <A extends any[], R, T>(
-  fn: (this: T, ...arg: A) => R
-): ((this: T, ...arg: A) => R | undefined) => {
-  let done = false
+// /**
+//  * Call function once.
+//  */
+// export const once = <A extends any[], R, T>(
+//   fn: (this: T, ...arg: A) => R
+// ): ((this: T, ...arg: A) => R | undefined) => {
+//   let done = false
 
-  return function (this: T, ...args: A) {
-    return done ? void 0 : ((done = true), fn.apply(this, args))
-  }
-}
+//   return function (this: T, ...args: A) {
+//     return done ? void 0 : ((done = true), fn.apply(this, args))
+//   }
+// }
 
 export const generatePlural = (string: string) => {
   return plur(string) || `${string}s`
@@ -64,8 +64,7 @@ export const parseTypeNames = (schema: any, field: any, max = 5): string => {
 }
 
 export const parseDisplayName = (field: any, name: string): string => {
-  const meta = field.meta || {}
-  let displayName = meta.name || name
+  let displayName = field.meta?.name || name
   if (displayName === 'createdAt') {
     displayName = 'Created At'
   }

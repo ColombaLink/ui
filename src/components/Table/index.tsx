@@ -1,176 +1,35 @@
 import React, { FC, CSSProperties, useRef, useState } from 'react'
-import { Color } from '~/types'
-import { color } from '~/utils'
-import { FixedSizeList } from 'react-window'
+import { border } from '~/utils'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
+import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
+import { VariableSizeGrid as Grid, FixedSizeList } from 'react-window'
 import {
-  ChevronDownIcon,
-  ChevronUpIcon,
-  DeleteIcon,
-  DuplicateIcon,
-  EditIcon,
-  MoreIcon,
-} from '~/icons'
-import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
-import { ReactNode } from 'react'
+  InfiniteList,
+  InfiniteListQueryResponse,
+  useInfiniteScroll,
+} from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { Link } from '~'
-
-import { useContextMenu } from '~/hooks'
-import { ContextItem } from '~'
+import { Row } from './Row'
+import { Cell } from './Cell'
+import { isImage } from '~/utils/isImage'
+import {
+  ACTIONS_WIDTH,
+  HEADER_HEIGHT,
+  ITEM_HEIGHT,
+  ITEM_WIDTH,
+} from './constants'
+import { useSchema } from '@based/react'
+import { TableFromQuery } from './TableFromQuery'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
-const IList = styled(InfiniteList, scrollAreaStyle)
-const Edit = styled(EditIcon, {
-  cursor: 'pointer',
-  '&:hover': {
-    opacity: 0.6,
-  },
+const IList = styled(InfiniteList, {
+  ...scrollAreaStyle,
+  overflowX: 'hidden',
+  scrollbarGutter: 'none',
 })
-const More = styled(MoreIcon, {
-  cursor: 'pointer',
-  opacity: 0.6,
-  '&:hover': {
-    opacity: 1,
-  },
-})
-
-const isImage = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|jpeg|gif|png)/
-const ITEM_WIDTH = 96
-const ITEM_HEIGHT = 56
-const ACTIONS_WIDTH = 128
-const HEADER_HEIGHT = 40
-const Item: FC<{
-  color?: Color
-  children: ReactNode
-  longestString: ReactNode
-  index: number
-  height?: number
-  onClick?: () => void
-  icon?: ReactNode
-}> = ({
-  color: colorProp,
-  children,
-  longestString,
-  index,
-  height = ITEM_HEIGHT,
-  onClick,
-  icon,
-}) => {
-  const left = 8
-  const right = 24
-
-  return (
-    <styled.div
-      onClick={onClick}
-      style={{
-        minWidth: ITEM_WIDTH,
-        flexShrink: index,
-        height: height,
-        position: 'relative',
-        cursor: 'pointer',
-        alignItems: 'center',
-        display: 'flex',
-        '&:hover': {
-          backgroundColor: color('lightgrey:hover'),
-        },
-      }}
-    >
-      <Text style={{ visibility: 'hidden', paddingRight: left + right }}>
-        {longestString}
-      </Text>
-      {typeof children === 'string' && (
-        <Text
-          color={colorProp}
-          style={{
-            lineHeight: `${height}px`,
-            position: 'absolute',
-            left: 8,
-            right: 24,
-            bottom: 0,
-            top: 0,
-          }}
-        >
-          {children}
-        </Text>
-      )}
-      {typeof children !== 'string' && (
-        <div
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-          }}
-        >
-          {children}
-        </div>
-      )}
-    </styled.div>
-  )
-}
-
-const Row = ({ data: { data, fields, longest }, index, style }) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        borderBottom: `1px solid ${color('border')}`,
-        ...style,
-      }}
-    >
-      <div
-        style={{
-          width: ACTIONS_WIDTH,
-          display: 'flex',
-          alignItems: 'center',
-          flexShrink: 0,
-        }}
-      >
-        <Checkbox style={{ marginLeft: 24 }} />
-        <Link href={data[index].href ? data[index].href : '#'}>
-          <Edit style={{ marginLeft: 20 }} color="accent" />
-        </Link>
-      </div>
-
-      {fields
-        .filter((field) => field !== 'href')
-        .map((field, i) => {
-          const value = data[index]?.[field]
-
-          if (isImage.test(value)) {
-            return (
-              <Item key={field} longestString={longest[field]} index={i}>
-                <div
-                  style={{
-                    width: ITEM_HEIGHT,
-                    height: ITEM_HEIGHT,
-                    backgroundImage: `url(${value})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                />
-              </Item>
-            )
-          }
-
-          return (
-            <Item key={field} longestString={longest[field]} index={i}>
-              {isDate(value) ? toDateString(value) : value}
-            </Item>
-          )
-        })}
-
-      <More
-        style={{ position: 'absolute', right: 16 }}
-        onClick={useContextMenu(SimpleMenu, {}, { placement: 'center' })}
-      />
-    </div>
-  )
-}
 
 type Fields =
   | {
@@ -187,11 +46,12 @@ type TableProps = {
     sortOrder: string
   ) => InfiniteListQueryResponse
   data?: object[]
-  onEdit?: () => void
   itemSize?: number
   style?: CSSProperties
   width?: number
   height?: number
+  language?: string
+  target?: string
 }
 
 const toDateString = (ms) =>
@@ -231,6 +91,9 @@ const TableInner: FC<TableProps> = ({
   data,
   width,
   height,
+  target,
+  language,
+  onClick,
 }) => {
   const [init, setInit] = useState<boolean>()
   const isObject = fieldsProp && !Array.isArray(fieldsProp)
@@ -290,17 +153,20 @@ const TableInner: FC<TableProps> = ({
   if (fields) {
     labels = isObject
       ? Object.values(fieldsProp)
-      : fields
-          .filter((field) => field !== 'href')
-          .map((header) =>
-            header
-              .replace(/([A-Z])/g, ' $1')
-              .replace(/^./, (str) => str.toUpperCase())
-          )
+      : fields.map((header) =>
+          header
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, (str) => str.toUpperCase())
+        )
     fields.forEach((field, i) => {
       measure(field, labels[i])
     })
-    const minWidth = fields.length * ITEM_WIDTH + ACTIONS_WIDTH // TODO find out why we need this mystery 5px
+    const minWidth =
+      ~~Object.keys(textWidths).reduce((size, key) => {
+        return size + Math.max(ITEM_WIDTH, textWidths[key])
+      }, 0) + ACTIONS_WIDTH
+
+    // const minWidth = fields.length * ITEM_WIDTH + ACTIONS_WIDTH // TODO find out why we need this mystery 5px
     if (minWidth > width) {
       width = minWidth //
     }
@@ -312,12 +178,11 @@ const TableInner: FC<TableProps> = ({
         style={{
           width: '100%',
           display: 'flex',
-          borderBottom: `1px solid ${color('border')}`,
+          borderBottom: border(1),
           height: HEADER_HEIGHT,
           alignItems: 'center',
           overflowY: 'auto',
           overflowX: 'hidden',
-          scrollbarGutter: 'stable',
         }}
       >
         <div style={{ width: ACTIONS_WIDTH, flexShrink: 0 }}>
@@ -332,7 +197,7 @@ const TableInner: FC<TableProps> = ({
           const field = fields[i]
           const selected = sortField === field
           return (
-            <Item
+            <Cell
               key={label}
               color="text2"
               longestString={longest[fields[i]]}
@@ -348,7 +213,7 @@ const TableInner: FC<TableProps> = ({
               }}
             >
               {label}
-            </Item>
+            </Cell>
           )
         })}
       </div>
@@ -364,29 +229,35 @@ const TableInner: FC<TableProps> = ({
         </List>
       ) : (
         <IList
+          target={target}
+          language={language}
           height={height - HEADER_HEIGHT}
           query={(offset, limit) => query(offset, limit, sortField, sortOrder)}
           itemData={(items) => {
             if (fields) {
               if (init) {
-                return { data: items, longest, fields }
+                return { data: items, longest, fields, onClick }
               }
               for (const item of items) {
-                for (const field of fields) {
-                  if (field in item) {
-                    measure(field, item[field])
+                if (item) {
+                  for (const field of fields) {
+                    if (field in item) {
+                      measure(field, item[field])
+                    }
                   }
                 }
               }
               setTimeout(() => setInit(true))
-              return { data: items, longest, fields }
+              return { data: items, longest, fields, onClick }
             }
 
             const set = new Set()
             for (const item of items) {
-              for (const key in item) {
-                set.add(key)
-                measure(key, item[key])
+              if (item) {
+                for (const key in item) {
+                  set.add(key)
+                  measure(key, item[key])
+                }
               }
             }
 
@@ -397,7 +268,7 @@ const TableInner: FC<TableProps> = ({
               setInit(true)
             })
 
-            return { data: items, longest, fields: newFields }
+            return { data: items, longest, fields: newFields, onClick }
           }}
           itemSize={ITEM_HEIGHT}
           width={width}
@@ -408,6 +279,16 @@ const TableInner: FC<TableProps> = ({
     </div>
   )
 }
+
+const TableFromData = () => {
+  return null
+}
+
+const Cell = ({ columnIndex, rowIndex, style }) => (
+  <div style={style}>
+    Item {rowIndex},{columnIndex}
+  </div>
+)
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
   return (
@@ -423,25 +304,13 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
     >
       <AutoSizer>
         {({ width, height }) => {
-          return <TableInner width={width} height={height} {...props} />
+          return props.query ? (
+            <TableFromQuery width={width} height={height} {...props} />
+          ) : (
+            <TableFromData width={width} height={height} {...props} />
+          ) //<TableInner width={width} height={height} {...props} />
         }}
       </AutoSizer>
     </styled.div>
-  )
-}
-
-const SimpleMenu = () => {
-  return (
-    <>
-      <ContextItem
-        icon={DuplicateIcon}
-        onClick={() => {
-          console.log('hello')
-        }}
-      >
-        Duplicate
-      </ContextItem>
-      <ContextItem icon={DeleteIcon}>Delete</ContextItem>
-    </>
   )
 }

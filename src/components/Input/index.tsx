@@ -23,6 +23,8 @@ import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
+import { JsonInput } from './JsonInput'
+import { CustomRegexInput } from './CustomRegexInput'
 
 const resize = (target) => {
   if (target) {
@@ -48,18 +50,21 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-const Single = ({ type, inputRef, ...props }) => {
+const Single = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     // @ts-ignore
     return <ColorInput inputRef={inputRef} {...props} />
   }
-  return <input {...props} type={type} ref={inputRef} />
+  return <input {...props} type={type} ref={inputRef} pattern={pattern} />
 }
 
 type InputProps = {
   style?: CSSProperties
   label?: string
   colorInput?: boolean
+  customRegex?: boolean
+  pattern?: string
+  jsonInput?: boolean
   description?: string
   descriptionBottom?: string
   optional?: boolean
@@ -176,6 +181,9 @@ export const Input: FC<
   autoFocus,
   bg,
   colorInput,
+  customRegex,
+  pattern,
+  jsonInput,
   defaultValue,
   description,
   descriptionBottom,
@@ -212,6 +220,10 @@ export const Input: FC<
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
   const [errorMessage, setErrorMessage] = useState('')
 
+  // to clear json value
+  const [clearValue, setClearValue] = useState(false)
+  const [showJSONClearButton, setShowJSONClearButton] = useState(false)
+
   useEffect(() => {
     if (maxChars && value.length > maxChars) {
       setValue(value.slice(0, maxChars))
@@ -220,11 +232,12 @@ export const Input: FC<
 
   const onChange = (e) => {
     let newValue = transform ? transform(e.target.value) : e.target.value
-    setValue(newValue)
 
     if (type === 'number' && typeof newValue !== 'number') {
       newValue = Number(newValue)
     }
+
+    setValue(newValue)
 
     onChangeProp?.(newValue)
     const msg = error?.(newValue)
@@ -296,14 +309,34 @@ export const Input: FC<
           description={description}
           style={{ marginBottom: 12 }}
         />
-        {value !== '' && indent && (
+        {value !== '' && indent && !jsonInput && (
           <Button
             ghost
             onClick={() => {
+              console.log('the value', value)
               onChangeProp?.('')
               setValue('')
             }}
+            disabled={disabled}
             style={{ height: 'fit-content' }}
+          >
+            Clear
+          </Button>
+        )}
+        {/* JSON Input CLEAR BUTTON */}
+        {indent && jsonInput && showJSONClearButton && (
+          <Button
+            ghost
+            onClick={() => {
+              //  console.log('the value', value)
+              setShowJSONClearButton(false)
+              setValue('')
+              onChangeProp?.('')
+              setClearValue(true)
+              setErrorMessage('')
+            }}
+            style={{ height: 'fit-content' }}
+            disabled={disabled}
           >
             Clear
           </Button>
@@ -331,11 +364,31 @@ export const Input: FC<
             onChange={(e) => {
               setColorValue(e.target.value)
             }}
+            disabled={disabled}
             value={colorValue}
             style={{ width: '100%' }}
           />
+        ) : jsonInput ? (
+          <JsonInput
+            {...props}
+            setErrorMessage={setErrorMessage}
+            value={value}
+            onChange={onChange}
+            clearValue={clearValue}
+            setClearValue={setClearValue}
+            showJSONClearButton={showJSONClearButton}
+            setShowJSONClearButton={setShowJSONClearButton}
+            disabled={disabled}
+          />
         ) : multiline ? (
           <Multi {...props} />
+        ) : customRegex ? (
+          <CustomRegexInput
+            pattern={pattern}
+            setErrorMessage={setErrorMessage}
+            value={value}
+            onChange={onChange}
+          />
         ) : (
           <MaybeSuggest
             focused={focused}
@@ -376,7 +429,8 @@ export const Input: FC<
                 },
               }}
               onClick={() => {
-                onChange(setValue(+value + 1))
+                onChange({ target: { value: +value + 1 } })
+                // setValue(+value + 1)
               }}
             >
               {/* @ts-ignore */}
@@ -396,7 +450,7 @@ export const Input: FC<
                 },
               }}
               onClick={() => {
-                onChange(setValue(+value - 1))
+                onChange({ target: { value: +value - 1 } })
               }}
             >
               {/* @ts-ignore */}

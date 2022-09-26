@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
@@ -11,16 +11,13 @@ type RadioButtonsProps = {
     value: string | boolean | number
     description?: string
   }>
-  defaultValue?: string
+  defaultValue?: string | boolean | number
   label?: string
   description?: string
   direction?: 'horizontal' | 'vertical'
   onChange?: (value: string | number | boolean) => void
   // onChange?: (value: string, payload: OnRadioGroupChange) => void
 }
-
-// TODO: Why is this called radioButton and not buttonS?
-// Add description to items..
 
 export const RadioButtons: FC<RadioButtonsProps> = ({
   label,
@@ -31,15 +28,9 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   onChange,
   ...props
 }) => {
-  // const selectedIndex = data?.indexOf(defaultValue)
-
   const defaultVar = data?.find(({ value }) => value === defaultValue)
   const selectedIndex = data?.findIndex((obj) => obj === defaultVar)
   const [checked, setChecked] = useState<any>(selectedIndex)
-
-  // console.log('data', data)
-  // console.log('defaultVar', defaultVar)
-  // console.log('selectedIndex', selectedIndex)
 
   return (
     <div {...props}>
@@ -50,7 +41,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       <div
         style={{
           display: 'flex',
-          flexDirection: direction == 'horizontal' ? 'row' : 'column',
+          flexDirection: direction === 'horizontal' ? 'row' : 'column',
           marginBottom: 8,
           marginTop: 8,
         }}

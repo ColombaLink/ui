@@ -1,17 +1,8 @@
-import {
-  useDialog,
-  Text,
-  removeOverlay,
-  Label,
-  border,
-  Thumbnail,
-  AddIcon,
-} from '~'
+import { useDialog, Text, removeOverlay, Label, border, Thumbnail } from '~'
 import { styled } from 'inlines'
 import React, { FC } from 'react'
-import { AddFieldModal } from '../AddFieldModal'
-import { templates } from '../fields'
-// import { FieldData } from '../fields'
+import { templates } from '../templates'
+import { FieldModal } from '../FieldModal'
 
 const Section = styled('div', {
   marginTop: 20,
@@ -22,13 +13,13 @@ const Section = styled('div', {
 })
 
 const Template = ({ type, template }) => {
-  const { label, description, icon } = templates[template]
+  const { label, description, icon, color } = templates[template]
   const { open } = useDialog()
   return (
     <div
       onClick={() => {
         removeOverlay()
-        open(<AddFieldModal type={type} template={template} />)
+        open(<FieldModal type={type} template={template} />)
       }}
       style={{
         alignItems: 'center',
@@ -47,6 +38,7 @@ const Template = ({ type, template }) => {
       <Thumbnail
         size={48}
         icon={icon}
+        color={color}
         style={{
           marginRight: 8,
         }}

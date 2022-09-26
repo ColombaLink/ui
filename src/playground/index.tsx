@@ -27,8 +27,6 @@ const Stories: FC = () => {
 }
 
 const App = () => {
-  console.log(client)
-
   const [darkMode, setDarkMode] = useDarkMode()
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
@@ -59,6 +57,9 @@ const App = () => {
           </>
         }
         data={{
+          Based: {
+            App: '?story=based-app',
+          },
           Advanced: {
             Auth: '?story=auth',
             ContentEditor: '?story=content-editor',
@@ -73,9 +74,12 @@ const App = () => {
             Checkboxes: '?story=checkboxes',
             ColorPicker: '?story=color-picker',
             DateTimePicker: '?story=DateTime',
+            FileUpload: '?story=upload',
             Forms: '?story=forms',
+            Geo: '?story=geo',
             InputFields: '?story=input-fields',
             Radiobuttons: '?story=radiobutton',
+            ReferenceInput: '?story=reference-inputs',
             Selects: '?story=selects',
             Sliders: '?story=sliders',
             Toggle: '?story=toggles',

@@ -1,14 +1,10 @@
 import { Based, BasedClient } from '@based/client'
 import { useClient, useSchema } from '@based/react'
-import { deepCopy } from '@saulx/utils'
 import React, { FC, useEffect, useRef, useState } from 'react'
-import { Button } from '~/components/Button'
 import { Dialog } from '~/components/Dialog'
-import { Form } from '~/components/Form'
 import { Input } from '~/components/Input'
-import { Page } from '~/components/Page'
 import safeTypeName from '~/components/Schema/AddTypeModal/safeTypeName'
-import { templates } from '~/components/Schema/fields'
+import { templates } from '~/components/Schema/templates'
 import { Select } from '~/components/Select'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
@@ -197,7 +193,7 @@ const FieldModal = ({
   children,
   editField = false,
 }) => {
-  const { label, description, icon, color } = templates[template]
+  const { label, icon, color } = templates[template]
   return (
     <Dialog>
       <Dialog.Body>
@@ -331,24 +327,36 @@ const FileModal = ({ type, editField }) => {
   )
 }
 
-// const Integer = ({ type }) => {
-//   const { options, disabled, update, setDisabled } = useFieldSchemaUpdate(
-//     type,
-//     'int'
-//   )
-//   return (
-//     <FieldModal template="url" disabled={disabled} onConfirm={update}>
-//       <Tab label="General">
-//         <GeneralMeta options={options} setDisabled={setDisabled} />
-//       </Tab>
-//       <Tab label="Settings"></Tab>
-//     </FieldModal>
-//   )
-// }
+const DateTimeModal = ({ type, editField }) => {
+  const { options, disabled, update, setDisabled } = useFieldSchemaUpdate(
+    type,
+    {
+      type: 'timestamp',
+    },
+    editField
+  )
+  return (
+    <FieldModal
+      template="dateTime"
+      disabled={disabled}
+      onConfirm={update}
+      editField={editField}
+    >
+      <Tab label="General">
+        <GeneralMeta
+          options={options}
+          setDisabled={setDisabled}
+          editField={editField}
+        />
+      </Tab>
+      <Tab label="Settings"></Tab>
+    </FieldModal>
+  )
+}
 
 export const SchemaModals = () => {
   const [type, setType] = useState('youzitype')
-  const [editField, setEditField] = useState('what-is-the-plan')
+  const [editField, setEditField] = useState('createdAt')
   const { schema, loading } = useSchema()
 
   useEffect(() => {
@@ -359,42 +367,68 @@ export const SchemaModals = () => {
     }
   }, [type, schema, loading, editField])
 
-  return (
-    !loading && (
-      <>
-        <Select
-          style={{ width: 500 }}
-          value={type}
-          options={Object.keys(schema.types)}
-          name="type"
-          label="Item type"
-          // @ts-ignore
-          onChange={setType}
-        />
-        {type && (
-          <>
-            <Select
-              style={{ width: 500 }}
-              value={editField}
-              options={Object.keys(schema.types[type].fields)}
-              name="type"
-              label="Edit Existing Field"
-              // @ts-ignore
-              onChange={setEditField}
-            />
-            <br />
-          </>
-        )}
-        <div
-          key={editField}
-          style={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap', gap: 32 }}
-        >
+  if (loading) {
+    return null
+  }
+
+  let modals
+  if (editField) {
+    const fieldType = schema.types[type].fields[editField].type
+    if (fieldType === 'string' || fieldType === 'text') {
+      modals = (
+        <>
           <StringModal type={type} editField={editField} />
           <UrlModal type={type} editField={editField} />
-          <ObjectModal type={type} editField={editField} />
-          <FileModal type={type} editField={editField} />
-        </div>
+        </>
+      )
+    } else if (fieldType === 'timestamp') {
+      modals = <DateTimeModal type={type} editField={editField} />
+    }
+  } else {
+    modals = (
+      <>
+        <StringModal type={type} editField={editField} />
+        <UrlModal type={type} editField={editField} />
+        <ObjectModal type={type} editField={editField} />
+        <FileModal type={type} editField={editField} />
       </>
     )
+  }
+
+  return (
+    <>
+      <Select
+        style={{ width: 500, marginBottom: 12 }}
+        value={type}
+        options={Object.keys(schema.types)}
+        name="type"
+        label="Item type"
+        // @ts-ignore
+        onChange={setType}
+      />
+      {type && (
+        <>
+          <Select
+            style={{ width: 500 }}
+            value={editField}
+            options={Object.keys(schema.types[type].fields).map((field) => ({
+              value: field,
+              label: `${field} (${schema.types[type].fields[field].type})`,
+            }))}
+            name="type"
+            label="Edit Existing Field"
+            // @ts-ignore
+            onChange={setEditField}
+          />
+          <br />
+        </>
+      )}
+      <div
+        key={editField}
+        style={{ display: 'flex', flexGrow: 1, flexWrap: 'wrap', gap: 32 }}
+      >
+        {modals}
+      </div>
+    </>
   )
 }

@@ -1,7 +1,5 @@
-import React, { useEffect, useState, useRef, FC, CSSProperties } from 'react'
-import { Input } from '../Input'
+import React, { useEffect, useState, FC, CSSProperties } from 'react'
 import { DatePicker } from './DatePicker'
-import { Spacer } from '../Spacer'
 import { TimeInput } from './TimeInput'
 import { styled } from 'inlines'
 import {
@@ -15,7 +13,6 @@ import {
   Button,
 } from '~'
 import { Space } from '~/types'
-import { clear } from 'console'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -61,13 +58,32 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   disabled,
   value,
 }) => {
-  const currentDate = new Date()
+  const testVal = new Date(value)
+  console.log('Test Val --->', testVal)
+
+  let currentDate
+
+  if (value) {
+    currentDate = new Date(value)
+  } else {
+    currentDate = new Date()
+  }
+
+  let currentTime = currentDate?.toString().split(' ')[4].substring(0, 5)
+
+  let GmtUtcTime = 'UTC' + currentDate?.toString().split(' ')[5].substring(3, 6)
+
+  console.log('GmtUtcTime -->', GmtUtcTime)
+
+  // console.log('Current Date --->', currentDate)
+  // console.log('Current Time --->', currentTime)
 
   const formatYmd = (date) => date.toISOString().slice(0, 10)
+
   const formattedDate = formatYmd(currentDate)
 
   const [inputValue, setInputValue] = useState(formattedDate)
-  const [inputTime, setInputTime] = useState('00:00')
+  const [inputTime, setInputTime] = useState(currentTime)
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [UTCValue, setUTCValue] = useState(0)
 
@@ -80,11 +96,14 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const clearAll = () => {
     setInputValue(`yyyyy-mm-dd`)
-    setInputTime(`00:00`)
+    setInputTime('00:00')
   }
 
   useEffect(() => {
     onChange?.(outputInMsec)
+    value = outputInMsec
+
+    // console.log('The Value --> ', value)
 
     const msg = error?.(outputInMsec)
 
@@ -119,7 +138,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             label={label}
             description={description}
             labelColor={disabled ? color('text2') : color('text')}
-          ></Label>
+          />
         )}
         {!Number.isNaN(outputInMsec) && indent && !disabled && (
           <Button
@@ -159,7 +178,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             placeholder="2001/01/10"
             type="date"
             onClick={(e) => {
-              //hides the calender in firefox
+              // hides the calender in firefox
               e.preventDefault()
               setShowDatePicker(true)
             }}
@@ -170,7 +189,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             }}
             value={inputValue}
             onFocus={() => setFocused(true)}
-          ></StyledDateInput>
+          />
           {showDatePicker && (
             <DatePicker
               inputValue={inputValue}
@@ -194,7 +213,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
 
         <Select
-          //@ts-ignore
+          // @ts-ignore
           id="UTC-id"
           style={{
             maxWidth: 160,
@@ -206,30 +225,30 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             cursor: disabled ? 'not-allowed' : 'auto',
             pointerEvents: disabled ? 'none' : 'auto',
           }}
-          placeholder="UTC+0"
+          placeholder={GmtUtcTime}
           options={[
-            'UTC+0',
-            'UTC+1',
-            'UTC+2',
-            'UTC+3',
-            'UTC+4',
-            'UTC+5',
-            'UTC+6',
-            'UTC+7',
-            'UTC+8',
-            'UTC+9',
+            'UTC+00',
+            'UTC+01',
+            'UTC+02',
+            'UTC+03',
+            'UTC+04',
+            'UTC+05',
+            'UTC+06',
+            'UTC+07',
+            'UTC+08',
+            'UTC+09',
             'UTC+10',
             'UTC+11',
             'UTC+12',
-            'UTC-1',
-            'UTC-2',
-            'UTC-3',
-            'UTC-4',
-            'UTC-5',
-            'UTC-6',
-            'UTC-7',
-            'UTC-8',
-            'UTC-9',
+            'UTC-01',
+            'UTC-02',
+            'UTC-03',
+            'UTC-04',
+            'UTC-05',
+            'UTC-06',
+            'UTC-07',
+            'UTC-08',
+            'UTC-09',
             'UTC-10',
             'UTC-11',
             'UTC-12',

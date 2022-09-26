@@ -11,7 +11,6 @@ export const RightSidebar: FC<RightSidebarProps> = ({ children, style }) => {
     <div
       style={{
         backgroundColor: color('background2'),
-        height: 'calc(100vh - 66px)',
         padding: '20px 24px',
         maxWidth: 240,
         marginLeft: 'auto',

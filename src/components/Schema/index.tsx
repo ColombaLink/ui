@@ -1,22 +1,22 @@
-import React from 'react'
-import { Type } from './Type'
-import { Types } from './Types'
+import React, { CSSProperties, FC } from 'react'
+import { SchemaMain } from './SchemaMain'
+import { SchemaLeft } from './SchemaLeft'
+import { SchemaRight } from './SchemaRight'
 import { useLocation } from '~'
-import { SchemaRightSidebar } from './SchemaRightSidebar'
 
-export const SchemaEditor = ({
-  hrefPrefix = '/any-prefix',
-  db = 'default',
-  style,
-}) => {
+export const Schema: FC<{
+  db?: string
+  prefix?: string
+  style?: CSSProperties
+}> = ({ db = 'default', prefix = '', style }) => {
   const [location] = useLocation()
-  const type = location.substring(hrefPrefix.length).split('/')[1]
+  const type = location.substring(prefix.length).split('/')[1]
 
   return (
     <div style={{ display: 'flex', ...style }}>
-      <Types hrefPrefix={hrefPrefix} />
-      <Type hrefPrefix={hrefPrefix} db={db} type={type} />
-      <SchemaRightSidebar type={type} />
+      <SchemaLeft prefix={prefix} />
+      <SchemaMain prefix={prefix} db={db} type={type} />
+      <SchemaRight type={type} />
     </div>
   )
 }

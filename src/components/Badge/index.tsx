@@ -56,7 +56,7 @@ export const Badge: FC<BadgeProps> = ({
       style={{
         transition: 'transform 0.15s',
         transform: 'scale(1)',
-        cursor: onClick ? 'pointer' : 'default',
+        cursor: onClick ? 'pointer' : null,
         padding: '0 8px',
         borderRadius: boxed ? 4 : 12,
         minHeight: 24,
@@ -68,9 +68,11 @@ export const Badge: FC<BadgeProps> = ({
         color: color(colorProp, 'contrast', true),
         border: border(outline && 1, colorProp, 'border', true),
         backgroundColor: ghost ? 'transparent' : color(colorProp, true),
-        '&:hover': {
-          backgroundColor: color(colorProp, 'hover', true),
-        },
+        '&:hover': onClick
+          ? {
+              backgroundColor: color(colorProp, 'hover', true),
+            }
+          : null,
         ...style,
       }}
       {...props}

@@ -3,7 +3,7 @@ import {
   removeSubscriber,
   generateSubscriptionId,
 } from '@based/client'
-import React, { useRef, useState, useEffect, FC, CSSProperties } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { FixedSizeList as List } from 'react-window'
 import { useData, useClient } from '@based/react'
 
@@ -36,30 +36,15 @@ export type InfiniteListQuery = (
   limit: number
 ) => InfiniteListQueryResponse
 
-export type InfiniteListProps = {
-  query: InfiniteListQuery
-  delay?: number
-  itemSize?: number
-  height?: number
-  limit?: number
-  treshold?: number
-  target?: string
-  style?: CSSProperties
-  itemData?: (items: object[]) => any
-  children?: FC<{ index: number; style: CSSProperties; data: any }>
-  width?: number | string
-}
-
-export const InfiniteList: FC<InfiniteListProps> = ({
+export const useInfiniteScroll = ({
   query,
   delay = 100,
   itemSize = 50,
   height = 400,
   limit = Math.ceil(height / itemSize),
-  itemData,
   treshold = 0,
   target = 'root',
-  ...props
+  language = 'en',
 }) => {
   const blockHeight = itemSize * limit
   const client = useClient()
@@ -78,7 +63,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
   const { current } = useRef({
     offset,
     blocks,
-    scroll: 0,
+    scrollY: 0,
     items: [],
     timer: null,
     subs: {},
@@ -108,6 +93,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
         const start = offset + limit * i
         const payload = {
           $id: target,
+          $language: language,
           items: query(start, limit),
         }
         const subId = generateSubscriptionId(payload)
@@ -119,13 +105,14 @@ export const InfiniteList: FC<InfiniteListProps> = ({
       for (const subId in current.subs) {
         if (!(subId in subs)) {
           const subscriberId = current.subs[subId]
+          console.log('REMOVE!', subId)
           removeSubscriber(client.client, Number(subId), subscriberId)
         }
       }
 
       current.subs = subs
     }
-  }, [target, client, offset, blocks, query, current]) // dont include limit
+  }, [target, client, offset, blocks, query, current, language]) // dont include limit
 
   useEffect(update, [
     blockHeight,
@@ -141,6 +128,7 @@ export const InfiniteList: FC<InfiniteListProps> = ({
     data: { itemCount },
   } = useData({
     $id: target as string,
+    $language: language,
     itemCount: {
       $aggregate: {
         $function: 'count',
@@ -149,31 +137,25 @@ export const InfiniteList: FC<InfiniteListProps> = ({
     },
   })
 
-  if (!itemCount || !current.items.length) {
-    return null
+  return {
+    loading: !itemCount || !current.items.length,
+    itemCount,
+    items: current.items,
+    cache: current,
+    onScrollY: (scrollY) => {
+      if (current.scrollY !== scrollY) {
+        current.scrollY = scrollY
+        update()
+      }
+    },
   }
 
-  return (
-    // @ts-ignore
-    <List
-      {...props}
-      height={height}
-      itemSize={itemSize}
-      itemData={itemData ? itemData(current.items) : current.items}
-      itemCount={itemCount}
-      onScroll={({ scrollOffset }) => {
-        current.scroll = scrollOffset
-        update()
-      }}
-    />
-  )
-
   function update() {
-    const start = Math.max(0, current.scroll / itemSize - treshold)
-    const end = (current.scroll + height) / itemSize
+    const start = Math.max(0, current.scrollY / itemSize - treshold)
+    const end = (current.scrollY + height) / itemSize
     const newOffset = start - (start % limit)
     let newBlocks = Math.ceil(
-      height / blockHeight + (current.scroll % blockHeight) / blockHeight
+      height / blockHeight + (current.scrollY % blockHeight) / blockHeight
     )
 
     if (treshold) {
@@ -209,4 +191,26 @@ export const InfiniteList: FC<InfiniteListProps> = ({
       }, delay)
     }
   }
+}
+
+export const InfiniteList = (props) => {
+  const { itemCount, items, onScrollY, loading } = useInfiniteScroll(props)
+
+  if (loading) {
+    return null
+  }
+
+  return (
+    <List
+      style={props.style}
+      height={props.height}
+      width={props.width}
+      itemSize={props.itemSize}
+      itemData={props.itemData ? props.itemData(items) : items}
+      itemCount={itemCount}
+      onScroll={({ scrollOffset }) => onScrollY(scrollOffset)}
+    >
+      {props.children}
+    </List>
+  )
 }
