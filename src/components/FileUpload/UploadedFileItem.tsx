@@ -38,10 +38,11 @@ export const UploadedFileItem = ({
   handleClickUpload,
   deleteSpecificFile,
   id,
+  replaceSpecificFile,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
-    { handleClickUpload, deleteSpecificFile, id },
+    { handleClickUpload, deleteSpecificFile, id, replaceSpecificFile },
     { placement: 'right' }
   )
 
@@ -104,10 +105,15 @@ export const UploadedFileItem = ({
   )
 }
 
-const ContextOptions = ({ handleClickUpload, deleteSpecificFile, id }) => {
+const ContextOptions = ({
+  handleClickUpload,
+  deleteSpecificFile,
+  id,
+  replaceSpecificFile,
+}) => {
   return (
     <>
-      <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
+      <ContextItem onClick={() => replaceSpecificFile(id)} icon={EditIcon}>
         Edit
       </ContextItem>
       <ContextItem
