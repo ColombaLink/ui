@@ -78,6 +78,7 @@ const SingleReference = ({ label, description, value, style, ...props }) => {
             indent
             descriptionBottom={description}
             space
+            multiple
           />
         </div>
       ) : (
@@ -137,10 +138,12 @@ const string = {
 }
 
 const boolean = {
-  default: ({ label, description, value, style, ...props }) => (
+  default: ({ label, description, value, meta, field, style, ...props }) => (
     <BooleanRadio
       label={label}
+      meta={meta}
       value={value}
+      field={field}
       indent
       {...props}
       descriptionBottom={description}

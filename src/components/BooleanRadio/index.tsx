@@ -14,6 +14,8 @@ type BooleanRadioProps = {
   error?: (value: boolean | string | number) => string
   onChange?: (value: boolean) => void
   props?: any
+  field?: string
+  meta?: any
 }
 
 export const BooleanRadio: FC<BooleanRadioProps> = ({
@@ -25,15 +27,21 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
   space,
   style,
   props,
+  meta,
+  field,
   error,
   onChange,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [BoolValue, setBoolValue] = useState<boolean | string | number>(value)
+  const [boolValue, setBoolValue] = useState<boolean | string | number>(value)
 
   console.log(onChange, 'onChange')
   console.log('PROPS FROM RADIO BOOL', props)
   console.log(value, 'value')
+  console.log('%c Field', 'color:#ff00ff', field)
+  console.log('%c Meta', 'color:#ff5091', meta)
+
+  const fieldName = meta.name
 
   const onChangeHandler = (e) => {
     setBoolValue(value)
@@ -46,7 +54,10 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
     } else {
       // remove error msg
       setErrorMessage('')
-      onChange({ value: e })
+      // onChange(e)
+
+      // i dunno  what to do here !!!!!!
+      onChange({ fieldName: { value: e } })
     }
   }
 
@@ -70,11 +81,10 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
         ]}
         onChange={(e) => {
           //   console.log(typeof e)
-          //   console.log('E', e)
+
           setBoolValue(e)
           // onChangeProp?.(e)
           onChangeHandler(e)
-          //  onChange(e)
         }}
       />
 
