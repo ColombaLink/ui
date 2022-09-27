@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { ContentMain } from './ContentMain'
-import { ContentLeft } from './ContentLeft'
+// import { ContentLeft } from './ContentLeft'
 // import { SchemaRight } from './ContentRight'
 import { useLocation } from '~'
 
