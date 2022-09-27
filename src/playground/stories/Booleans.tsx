@@ -1,12 +1,12 @@
 import React from 'react'
-import { Boolean } from '~'
+import { BooleanRadio } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Booleans = () => {
   return (
     <div>
       <ComponentViewer
-        component={Boolean}
+        component={BooleanRadio}
         propsName="BooleanProps"
         examples={[
           {

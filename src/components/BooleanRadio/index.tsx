@@ -1,43 +1,50 @@
+import { cornersOfRectangle } from '@dnd-kit/core/dist/utilities/algorithms/helpers'
 import React, { useState, CSSProperties, FC } from 'react'
-import {
-  RadioButtons,
-  Label,
-  Button,
-  ErrorIcon,
-  Text,
-  color,
-  spaceToPx,
-} from '~'
+import { RadioButtons, Label, ErrorIcon, Text, color, spaceToPx } from '~'
 import { Space } from '~/types'
 
-type BooleanProps = {
+type BooleanRadioProps = {
   label?: string
   description?: string
   descriptionBottom?: string
   indent?: boolean
-  // value?: boolean
+  value?: boolean
   style?: CSSProperties
   space?: Space
   error?: (value: boolean | string | number) => string
-  onChange?: (value: string | number | boolean) => void
+  onChange?: (value: boolean) => void
+  props?: any
+  field?: string
+  meta?: any
 }
 
-export const Boolean: FC<BooleanProps> = ({
+export const BooleanRadio: FC<BooleanRadioProps> = ({
   label,
   description,
   descriptionBottom,
-  //  value,
+  value,
   indent,
   space,
   style,
+  props,
+  meta,
+  field,
   error,
-  onChange: onChangeProp,
+  onChange,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [value, setValue] = useState<boolean | string | number>(undefined)
+  const [boolValue, setBoolValue] = useState<boolean | string | number>(value)
 
-  const onChange = (e) => {
-    setValue(value)
+  console.log(onChange, 'onChange')
+  console.log('PROPS FROM RADIO BOOL', props)
+  console.log(value, 'value')
+  console.log('%c Field', 'color:#ff00ff', field)
+  console.log('%c Meta', 'color:#ff5091', meta)
+
+  const fieldName = meta.name
+
+  const onChangeHandler = (e) => {
+    setBoolValue(value)
 
     const msg = error?.(e)
 
@@ -47,6 +54,10 @@ export const Boolean: FC<BooleanProps> = ({
     } else {
       // remove error msg
       setErrorMessage('')
+      // onChange(e)
+
+      // i dunno  what to do here !!!!!!
+      onChange({ fieldName: { value: e } })
     }
   }
 
@@ -70,10 +81,10 @@ export const Boolean: FC<BooleanProps> = ({
         ]}
         onChange={(e) => {
           //   console.log(typeof e)
-          //   console.log('E', e)
-          setValue(e)
+
+          setBoolValue(e)
           // onChangeProp?.(e)
-          onChange(e)
+          onChangeHandler(e)
         }}
       />
 

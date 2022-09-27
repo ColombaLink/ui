@@ -21,6 +21,7 @@ export const Confirm = ({ disabled, options, type, template, children }) => {
           if (!field) {
             throw Error('Field name is required')
           }
+
           return client.updateSchema({
             schema: {
               types: {
@@ -28,7 +29,10 @@ export const Confirm = ({ disabled, options, type, template, children }) => {
                   fields: {
                     [field]: {
                       type: schema.type,
-                      meta,
+                      meta: {
+                        ...schema.meta,
+                        ...meta,
+                      },
                     },
                   },
                 },

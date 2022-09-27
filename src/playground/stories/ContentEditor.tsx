@@ -3,13 +3,15 @@ import React from 'react'
 import {
   Page,
   Input,
-  Toggle,
   Text,
   Label,
   Badge,
   border,
   Button,
   AddIcon,
+  BooleanRadio,
+  DateTimePicker,
+  FileUpload,
 } from '~'
 import { client } from '..'
 
@@ -28,6 +30,7 @@ const useItemSchema = (id) => {
 
 const Reference = ({ id }) => {
   const { type } = useItemSchema(id)
+
   return (
     <div
       style={{
@@ -67,17 +70,31 @@ const References = ({ label, description, value = [], style }) => {
 
 const SingleReference = ({ label, description, value, style, ...props }) => {
   return (
-    <div style={style}>
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 12 }}
-      />
-      {value ? <Reference id={value} /> : null}{' '}
-      <Button light icon={AddIcon}>
-        Add {label.toLowerCase()}
-      </Button>
-    </div>
+    <>
+      {props?.meta?.refTypes?.includes('file') ? (
+        <div style={style}>
+          <FileUpload
+            label={label}
+            indent
+            descriptionBottom={description}
+            space
+            multiple
+          />
+        </div>
+      ) : (
+        <div style={style}>
+          <Label
+            label={label}
+            description={description}
+            style={{ marginBottom: 12 }}
+          />
+          {value ? <Reference id={value} /> : null}{' '}
+          <Button light icon={AddIcon}>
+            Add {label.toLowerCase()}
+          </Button>
+        </div>
+      )}
+    </>
   )
 }
 
@@ -121,11 +138,23 @@ const string = {
 }
 
 const boolean = {
-  default: Toggle,
+  default: ({ label, description, value, meta, field, style, ...props }) => (
+    <BooleanRadio
+      label={label}
+      meta={meta}
+      value={value}
+      field={field}
+      indent
+      {...props}
+      descriptionBottom={description}
+      space
+      style={style}
+    />
+  ),
 }
 
 const timestamp = {
-  default: (props) => <Input {...props} type="number" />,
+  default: (props) => <DateTimePicker {...props} type="number" />,
 }
 
 const references = {
@@ -163,15 +192,18 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
 
   const disabled = field === 'createdAt' || field === 'updatedAt'
 
+  console.log('FIELD??', field, meta)
+
   return (
     <Component
       description={description}
       disabled={disabled}
       label={label}
+      meta={meta}
       style={{ order: index, marginBottom: 24 }}
       value={data[field]}
       onChange={(value) => {
-        console.log(value)
+        console.log('VALLLLL', value)
         onChange({ $language: language, [field]: value })
       }}
     />
@@ -200,6 +232,8 @@ const Edit = ({ id, onChange }) => {
         ) {
           return null
         }
+
+        console.log('META:', meta, type)
 
         const index = meta.index
 

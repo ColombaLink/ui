@@ -16,6 +16,7 @@ type FileUploadProps = {
   disabled?: boolean
   acceptedFileTypes?: string[]
   multiple?: boolean
+  props?: any
 }
 
 const StyledFileInput = styled('div', {
@@ -40,6 +41,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   style,
   disabled,
   multiple,
+  props,
 }) => {
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
   const [draggingOver, setDraggingOver] = useState(false)
@@ -47,6 +49,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [clearCount, setClearCount] = useState(0)
 
   const hiddenFileInput = useRef(null)
+
+  console.log('PROPS FROM FILE UPLOAD', props)
 
   const handleClickUpload = () => {
     if (!disabled) {

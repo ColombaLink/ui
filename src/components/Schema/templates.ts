@@ -83,7 +83,12 @@ export const templates: {
     description: 'Files are handy',
     icon: AttachmentIcon,
     color: 'lightred',
-    schema: { type: 'reference' },
+    schema: {
+      type: 'reference',
+      meta: {
+        refTypes: ['file'],
+      },
+    },
   },
   boolean: {
     label: 'Boolean',
