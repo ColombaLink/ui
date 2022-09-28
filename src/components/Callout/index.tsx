@@ -71,19 +71,16 @@ export const Callout: FC<CalloutProps> = ({
           <CloseIcon onClick={closeCalloutHandler} />
         </div>
       )}
-      {/* TODO yves fix (either put check here or in Label) */}
-      {label || description || children || icon ? (
-        <Label
-          label={label}
-          labelColor={color(colorProp, 'contrast', true)}
-          description={description}
-          descriptionColor={color(colorProp, 'contrast', true)}
-          icon={icon}
-          iconColor={color(colorProp, 'contrast', true)}
-        >
-          {children}
-        </Label>
-      ) : null}
+
+      <Label
+        label={label}
+        labelColor={color(colorProp, 'contrast', true)}
+        description={description}
+        descriptionColor={color(colorProp, 'contrast', true)}
+        icon={icon}
+        iconColor={color(colorProp, 'contrast', true)}
+      />
+      {children}
     </div>
   )
 }

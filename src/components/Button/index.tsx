@@ -27,7 +27,7 @@ export type ButtonProps = {
   iconRight?: FC | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler
-  // outline?: boolean
+  //  outline?: boolean
   style?: CSSProperties
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
@@ -35,9 +35,10 @@ export type ButtonProps = {
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
-  console.log('getButtonStyle', props)
+  console.log('getButtonStyle', props.ghost)
 
   const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
+
   const isLight = light || ghost || outline
   const style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',

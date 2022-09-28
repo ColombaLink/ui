@@ -26,9 +26,6 @@ export const Label = ({
   children,
   style,
 }: LabelProps) => {
-  if (!label && !description) {
-    return null
-  }
   return (
     <div
       style={{
@@ -38,7 +35,7 @@ export const Label = ({
         ...style,
       }}
     >
-      <Text wrap weight={600} color={labelColor || 'text'}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {icon && (
           <div
             style={{
@@ -52,8 +49,10 @@ export const Label = ({
             })}
           </div>
         )}
-        {label}
-      </Text>
+        <Text wrap weight={600} color={labelColor || 'text'}>
+          {label}
+        </Text>
+      </div>
       {description && (
         <Text wrap weight={400} color={descriptionColor || 'text2'}>
           {description}

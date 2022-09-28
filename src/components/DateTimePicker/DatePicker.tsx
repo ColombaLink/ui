@@ -6,9 +6,9 @@ import { styled } from 'inlines'
 type DatePickerProps = {
   inputValue?: string
   setInputValue?: (value: string) => void
-  showDatePicker?: boolean
+  //  showDatePicker?: boolean
   setShowDatePicker?: (value: boolean) => void
-  focused?: boolean
+  //  focused?: boolean
   setFocused?: (value: boolean) => void
 }
 
@@ -25,13 +25,10 @@ const StyledDatePickerBox = styled('div', {
 export const DatePicker = ({
   inputValue,
   setInputValue,
-  showDatePicker,
   setShowDatePicker,
-  focused,
   setFocused,
 }: DatePickerProps) => {
   const dateObj = new Date()
-  // console.log('dateObj', dateObj)
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
     '',
@@ -116,7 +113,7 @@ export const DatePicker = ({
   }
 
   const oneMonthBack = () => {
-    if (selectedMonth == +'01') {
+    if (selectedMonth === +'01') {
       changeHandler(selectedYear - 1, 12, selectedDay)
     } else {
       changeHandler(selectedYear, selectedMonth - 1, selectedDay)
@@ -165,7 +162,6 @@ export const DatePicker = ({
   const tempArr = []
 
   useEffect(() => {
-    //empty tempArr
     tempArr.splice(0, tempArr.length)
 
     for (let i = 1; i <= daysInMonth(selectedMonth, selectedYear); i++) {
@@ -173,22 +169,22 @@ export const DatePicker = ({
     }
 
     // add some offset for the days layout
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Sat') {
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Sat') {
       tempArr.unshift('x', 'x', 'x', 'x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Fri') {
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Fri') {
       tempArr.unshift('x', 'x', 'x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Thu') {
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Thu') {
       tempArr.unshift('x', 'x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Wed') {
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Wed') {
       tempArr.unshift('x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Tue') {
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Tue') {
       tempArr.unshift('x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] == 'Mon') {
+    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Mon') {
       tempArr.unshift('x')
     }
 
@@ -265,9 +261,7 @@ export const DatePicker = ({
             <div
               style={{
                 border:
-                  val['day'] === selectedDay
-                    ? `1px solid ${color('accent')}`
-                    : '',
+                  val.day === selectedDay ? `1px solid ${color('accent')}` : '',
                 borderRadius: 4,
                 width: 26,
                 height: 26,
@@ -280,16 +274,16 @@ export const DatePicker = ({
               key={i}
               onClick={() => {
                 // console.log(val['year'])
-                changeHandler(selectedYear, selectedMonth, val['day'])
+                changeHandler(selectedYear, selectedMonth, val.day)
               }}
             >
-              {val['day']}
+              {val.day}
             </div>
           )
         )}
       </div>
 
-      <div style={{ borderBottom: `1px solid ${color('border')}` }}></div>
+      <div style={{ borderBottom: `1px solid ${color('border')}` }} />
       <div style={{ padding: '12px 16px' }}>
         {/* @ts-ignore */}
         <Text weight={400} onClick={todayHandler} space="4px">
@@ -304,7 +298,7 @@ export const DatePicker = ({
           Select previous date
         </Text>
       </div>
-      <div style={{ borderBottom: `1px solid ${color('border')}` }}></div>
+      <div style={{ borderBottom: `1px solid ${color('border')}` }} />
 
       <Text
         style={{ padding: '8px 16px' }}

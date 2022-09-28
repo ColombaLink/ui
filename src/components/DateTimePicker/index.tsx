@@ -43,7 +43,7 @@ type DateTimePickerProps = {
   style?: CSSProperties
   error?: (value: boolean | string | number) => string
   disabled?: boolean
-  value?: number
+  value?: number | string
 }
 
 export const DateTimePicker: FC<DateTimePickerProps> = ({
@@ -58,8 +58,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   disabled,
   value,
 }) => {
-  const testVal = new Date(value)
-  console.log('Test Val --->', testVal)
+  // const testVal = new Date(value)
+  // console.log('Test Val --->', testVal)
 
   let currentDate
 
@@ -69,12 +69,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     currentDate = new Date()
   }
 
-  let currentTime = currentDate?.toString().split(' ')[4].substring(0, 5)
+  const currentTime = currentDate?.toString().split(' ')[4].substring(0, 5)
 
-  let GmtUtcTime = 'UTC' + currentDate?.toString().split(' ')[5].substring(3, 6)
+  const GmtUtcTime =
+    'UTC' + currentDate?.toString().split(' ')[5].substring(3, 6)
 
-  console.log('GmtUtcTime -->', GmtUtcTime)
-
+  // console.log('GmtUtcTime -->', GmtUtcTime)
   // console.log('Current Date --->', currentDate)
   // console.log('Current Time --->', currentTime)
 
@@ -85,7 +85,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [inputValue, setInputValue] = useState(formattedDate)
   const [inputTime, setInputTime] = useState(currentTime)
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [UTCValue, setUTCValue] = useState(0)
+  const [UTCValue, setUTCValue] = useState<number>(0)
 
   const dateAndTime = `${inputValue}T${inputTime}`
   const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
@@ -194,9 +194,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             <DatePicker
               inputValue={inputValue}
               setInputValue={setInputValue}
-              showDatePicker={showDatePicker}
               setShowDatePicker={setShowDatePicker}
-              focused={focused}
               setFocused={setFocused}
             />
           )}
@@ -213,7 +211,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
 
         <Select
-          // @ts-ignore
+          //  @ts-ignore
           id="UTC-id"
           style={{
             maxWidth: 160,
@@ -253,13 +251,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             'UTC-11',
             'UTC-12',
           ]}
-          onChange={(e) => {
-            // @ts-ignore
+          onChange={(e: any) => {
             // so UTC offset is in minutes
             const tempUTCValMsec = +e.substring(3) * 60 * 60000
             //   console.log(tempUTCValMsec)
 
-            // @ts-ignore
             setUTCValue(tempUTCValMsec)
           }}
         />

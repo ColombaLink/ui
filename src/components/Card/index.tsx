@@ -62,25 +62,22 @@ export const Card: FC<CardProps> = ({
           >
             {renderOrCreateElement(topLeft)}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {/* TODO yves put logic in 1 place not 10 */}
-              {label || description || children ? (
-                <Label
-                  label={label}
-                  description={
-                    <span
-                      style={{
-                        fontSize: 13,
-                        marginTop: 0,
-                        display: 'block',
-                        lineHeight: '1.25',
-                      }}
-                    >
-                      {description}
-                    </span>
-                  }
-                  descriptionColor="text2"
-                />
-              ) : null}
+              <Label
+                label={label}
+                description={
+                  <span
+                    style={{
+                      fontSize: 13,
+                      marginTop: 0,
+                      display: 'block',
+                      lineHeight: '1.25',
+                    }}
+                  >
+                    {description}
+                  </span>
+                }
+                descriptionColor="text2"
+              />
             </div>
           </div>
         )}

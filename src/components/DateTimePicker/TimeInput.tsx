@@ -17,7 +17,7 @@ export const TimeInput = ({
     if (time.length === 6) {
       setTime(time.slice(0, -1))
     }
-    //check if regex matches
+    //  check if regex matches
     if (timeRegex.test(time) && time.length === 5) {
       setValidTimeInput(true)
       setInputTime(time)
@@ -74,7 +74,7 @@ export const TimeInput = ({
               ? `2px solid ${color('red')}`
               : '',
         }}
-      ></div>
+      />
     </div>
   )
 }

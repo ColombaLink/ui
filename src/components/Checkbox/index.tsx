@@ -6,7 +6,6 @@ import { useHover, usePropState } from '~/hooks'
 import { Space } from '~/types'
 
 export type CheckboxProps = {
-  children?: ReactNode
   checked?: boolean
   description?: string
   style?: CSSProperties
@@ -17,7 +16,6 @@ export type CheckboxProps = {
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  children,
   checked: checkedProp,
   description,
   style,
@@ -66,15 +64,12 @@ export const Checkbox: FC<CheckboxProps> = ({
       >
         {checked ? <CheckIcon size={16} color="accent:contrast" /> : null}
       </div>
-      {/* TODO yves fix */}
-      {label || description || children ? (
-        <Label
-          label={label}
-          description={description}
-          children={children}
-          style={{ textAlign: 'left' }}
-        />
-      ) : null}
+
+      <Label
+        label={label}
+        description={description}
+        style={{ textAlign: 'left' }}
+      />
     </button>
   )
 }

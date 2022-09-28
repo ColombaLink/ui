@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, CSSProperties, useRef } from 'react'
+import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Label } from '../Label'
 import { color } from '~/utils'
 import { CheckCircleIcon, CloseCircleIcon } from '~/icons'
@@ -49,23 +49,21 @@ export const Toast: FC<ToastProps> = ({
         }}
       >
         {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>}
-        {/* TODO yves fix */}
-        {label || description || children || icon ? (
-          <Label
-            label={label}
-            description={description}
-            icon={
-              icon && !type
-                ? icon
-                : type === 'success'
-                ? CheckCircleIcon
-                : CloseCircleIcon
-            }
-            iconColor={type === 'success' ? 'accent' : 'red'}
-          >
-            {children}
-          </Label>
-        ) : null}
+
+        <Label
+          label={label}
+          description={description}
+          icon={
+            icon && !type
+              ? icon
+              : type === 'success'
+              ? CheckCircleIcon
+              : CloseCircleIcon
+          }
+          iconColor={type === 'success' ? 'accent' : 'red'}
+        >
+          {children}
+        </Label>
       </div>
     </div>
   )
