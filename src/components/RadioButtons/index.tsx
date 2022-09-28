@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
@@ -51,13 +51,11 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
             onChange?.(data[index].value)
           }
           return (
-            <div
-              onClick={onSelect}
+            <label
               key={index}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                width: 'fit-content',
                 marginBottom: 4,
                 marginTop: 4,
                 marginRight: 12,
@@ -102,7 +100,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                   </Text>
                 )}
               </div>
-            </div>
+            </label>
           )
         })}
       </div>
