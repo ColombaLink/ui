@@ -145,10 +145,10 @@ const boolean = {
       value={value}
       field={field}
       indent
-      {...props}
       descriptionBottom={description}
       space
       style={style}
+      {...props}
     />
   ),
 }

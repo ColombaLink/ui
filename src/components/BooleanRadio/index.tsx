@@ -1,4 +1,3 @@
-import { cornersOfRectangle } from '@dnd-kit/core/dist/utilities/algorithms/helpers'
 import React, { useState, CSSProperties, FC } from 'react'
 import { RadioButtons, Label, ErrorIcon, Text, color, spaceToPx } from '~'
 import { Space } from '~/types'
@@ -13,9 +12,6 @@ type BooleanRadioProps = {
   space?: Space
   error?: (value: boolean | string | number) => string
   onChange?: (value: boolean) => void
-  props?: any
-  field?: string
-  meta?: any
 }
 
 export const BooleanRadio: FC<BooleanRadioProps> = ({
@@ -26,38 +22,20 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
   indent,
   space,
   style,
-  props,
-  meta,
-  field,
   error,
   onChange,
 }) => {
   const [errorMessage, setErrorMessage] = useState('')
-  const [boolValue, setBoolValue] = useState<boolean | string | number>(value)
 
-  console.log(onChange, 'onChange')
-  console.log('PROPS FROM RADIO BOOL', props)
-  console.log(value, 'value')
-  console.log('%c Field', 'color:#ff00ff', field)
-  console.log('%c Meta', 'color:#ff5091', meta)
-
-  const fieldName = meta.name
-
-  const onChangeHandler = (e) => {
-    setBoolValue(value)
-
-    const msg = error?.(e)
-
+  const onChangeHandler = (value) => {
+    const msg = error?.(value)
     if (msg) {
       // add error msg
       setErrorMessage(msg)
     } else {
       // remove error msg
       setErrorMessage('')
-      // onChange(e)
-
-      // i dunno  what to do here !!!!!!
-      onChange({ fieldName: { value: e } })
+      onChange?.(value)
     }
   }
 
@@ -72,28 +50,20 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
       }}
     >
       <Label label={label} description={description} />
-
       <RadioButtons
         direction="horizontal"
         data={[
           { value: true, label: 'True' },
           { value: false, label: 'False' },
         ]}
-        onChange={(e) => {
-          //   console.log(typeof e)
-
-          setBoolValue(e)
-          // onChangeProp?.(e)
-          onChangeHandler(e)
-        }}
+        value={value}
+        onChange={onChangeHandler}
       />
-
       {descriptionBottom && (
         <Text color="text2" italic weight={400}>
           {descriptionBottom}
         </Text>
       )}
-      {/* <ErrorMessage /> */}
       {errorMessage && (
         <div
           style={{
