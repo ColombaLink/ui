@@ -44,14 +44,7 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-type SingleProps = {
-  type?: string
-  inputRef?: RefObject<HTMLInputElement>
-  pattern?: any
-  props?: any
-}
-
-const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
+const Single = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
