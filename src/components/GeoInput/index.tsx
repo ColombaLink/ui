@@ -1,11 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  useRef,
-  useState,
-  useCallback,
-  useEffect,
-} from 'react'
+import React, { FC, useRef, useState, useCallback, useEffect } from 'react'
 import {
   Label,
   Input,
@@ -15,6 +8,7 @@ import {
   ErrorIcon,
   Button,
   GeoMarkerIcon,
+  spaceToPx,
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
@@ -31,7 +25,7 @@ type GeoInputProps = {
   description?: string
   descriptionBottom?: string
   onChange?: (value: any) => void
-  style?: CSSProperties
+
   indent?: boolean
   disabled?: boolean
   space?: Space
@@ -45,7 +39,6 @@ export const GeoInput: FC<GeoInputProps> = ({
   description,
   descriptionBottom,
   onChange,
-  style,
   indent,
   disabled,
   mapboxApiAccessToken,
@@ -59,17 +52,18 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [longitude, setLongitude] = useState<any>(4.891164534406535)
   const [changeCounter, setChangeCounter] = useState<number>(0)
   const [isFocused, setIsFocused] = useState<boolean>(false)
-
   const [errorMessage, setErrorMessage] = useState<string | null>('')
 
   // put in .env.local
-  // TODO yves fix
-  const MAPBOX_TOKEN_COWBOYBEER =
-    'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 
-  const ACCESS_TOKEN =
-    mapboxApiAccessToken ||
-    'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
+  // const MAPBOX_TOKEN_COWBOYBEER =
+  //   'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
+
+  // const ACCESS_TOKEN =
+  //   mapboxApiAccessToken ||
+  //   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
+
+  const ACCESS_TOKEN = mapboxApiAccessToken
 
   const geoInputField = document.querySelector('.mapboxgl-ctrl-geocoder--input')
   useEffect(() => {
@@ -78,15 +72,11 @@ export const GeoInput: FC<GeoInputProps> = ({
     )
       .then((res) => res.json())
       .then((data) => {
-        // console.log('From Fetch ---->', data.features[0].place_name)
-        // set the input value of the geocoder
         geoInputField?.setAttribute('value', data.features[0].place_name)
       })
       .catch((error) => {
         console.log('Not A Place', error)
       })
-
-    //  console.log('Geocoder value', geocoder)
   }, [changeCounter, radioValue])
 
   const [viewport, setViewport] = useState<any>({
@@ -101,7 +91,6 @@ export const GeoInput: FC<GeoInputProps> = ({
     mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
   }, [])
 
-  // Geocoder shizzle
   useEffect(() => {
     geocoder.addTo('#geocoder')
   }, [])
@@ -115,7 +104,6 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   // als result geselecteerd wordt
   geocoder.on('result', (e) => {
-    //  console.log('from result ---->', e)
     setLatitude(e.result.center[1])
     setLongitude(e.result.center[0])
     setChangeCounter((changeCounter) => (changeCounter += 1))
@@ -136,6 +124,7 @@ export const GeoInput: FC<GeoInputProps> = ({
           ? `2px solid ${color('border')}`
           : 'none',
         paddingLeft: indent ? 12 : 0,
+        marginBottom: spaceToPx(space),
       }}
     >
       <Label label={label} description={description} space="8px" />
@@ -146,7 +135,6 @@ export const GeoInput: FC<GeoInputProps> = ({
         mapboxAccessToken={ACCESS_TOKEN}
         onMove={(e) => setViewport(e)}
         mapStyle={mapboxStyle || 'mapbox://styles/mapbox/streets-v11'}
-        //  mapStyle="mapbox://styles/cowboybeer/cl8ebzbdc000614nv5qyzhm99"
         style={{
           border: `1px solid ${color('border')}`,
           height: 240,
@@ -169,7 +157,7 @@ export const GeoInput: FC<GeoInputProps> = ({
         data={[{ value: 'Address' }, { value: 'Coordinates' }]}
         direction="horizontal"
         onChange={(e) => setRadioValue(e)}
-        defaultValue={radioValue}
+        value={radioValue}
       />
 
       <styled.div

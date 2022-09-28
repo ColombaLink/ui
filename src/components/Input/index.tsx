@@ -8,16 +8,8 @@ import React, {
   RefObject,
   useState,
   useEffect,
-  useRef,
 } from 'react'
-import {
-  Text,
-  Button,
-  Callout,
-  ErrorIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '~'
+import { Text, Button, ErrorIcon, ChevronDownIcon, ChevronUpIcon } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement, spaceToPx } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -53,7 +45,6 @@ const Multi = ({ style, inputRef, ...props }) => {
 
 const Single = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
-    // @ts-ignore
     return <ColorInput inputRef={inputRef} {...props} />
   }
   return <input {...props} type={type} ref={inputRef} pattern={pattern} />

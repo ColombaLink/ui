@@ -1,4 +1,4 @@
-// TODO yves fix errors/warnings
+// TODO yves fix errors/warnings // ts ignores
 import React, { useState, useEffect, useRef } from 'react'
 import { ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
 import { styled } from 'inlines'

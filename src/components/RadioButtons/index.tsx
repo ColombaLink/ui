@@ -5,7 +5,7 @@ import { Label } from '../Label'
 import { border, color } from '~/utils'
 import { usePropState } from '~/hooks'
 import { Space } from '~/types'
-import { spaceToPx } from '~/utils/spaceToPx'
+import { InputWrapper } from '../Input/InputWrapper'
 
 type RadioButtonsProps = {
   value?: string | boolean | number
@@ -51,19 +51,12 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   }
 
   return (
-    <div
-      style={{
-        borderLeft: indent ? `2px solid ${color('border')}` : null,
-        borderColor: errorMessage
-          ? color('red')
-          : checked !== -1
-          ? color('accent')
-          : color('border'),
-        paddingLeft: indent ? 12 : null,
-        marginBottom: spaceToPx(space),
-        ...style,
-      }}
-      {...props}
+    <InputWrapper
+      indent={indent}
+      space={space}
+      style={style}
+      focus={checked !== -1}
+      descriptionBottom={descriptionBottom}
     >
       <Label label={label} description={description} />
       <div
@@ -133,11 +126,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
           )
         })}
       </div>
-      {descriptionBottom && (
-        <Text color="text2" italic weight={400}>
-          {descriptionBottom}
-        </Text>
-      )}
-    </div>
+    </InputWrapper>
   )
 }

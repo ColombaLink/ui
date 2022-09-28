@@ -3,10 +3,10 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
-  ChangeEvent,
+  // ChangeEvent,
 } from 'react'
 import { styled } from 'inlines'
-import { color, Text, Input } from '~'
+import { color, Text } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
@@ -25,7 +25,7 @@ type JsonInputProps = {
   setErrorMessage?: (value: string) => void
   clearValue?: boolean
   setClearValue?: Dispatch<SetStateAction<boolean>>
-  showJSONClearButton?: boolean
+  // showJSONClearButton?: boolean
   setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>
   disabled?: boolean
 }
@@ -36,7 +36,7 @@ export const JsonInput = ({
   setErrorMessage,
   clearValue,
   setClearValue,
-  showJSONClearButton,
+  // showJSONClearButton,
   setShowJSONClearButton,
   disabled,
 }: JsonInputProps) => {
