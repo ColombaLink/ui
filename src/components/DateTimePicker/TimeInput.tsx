@@ -46,7 +46,7 @@ export const TimeInput = ({
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <>
       <Input
         value={time}
         type="text"
@@ -75,6 +75,6 @@ export const TimeInput = ({
               : '',
         }}
       />
-    </div>
+    </>
   )
 }

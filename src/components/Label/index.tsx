@@ -26,39 +26,43 @@ export const Label = ({
   children,
   style,
 }: LabelProps) => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        marginBottom: space ? spaceToPx(space) : 0,
-        ...style,
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {icon && (
-          <div
-            style={{
-              display: 'inline-block',
-              marginRight: 8,
-              marginBottom: -2,
-            }}
-          >
-            {renderOrCreateElement(icon, {
-              color: colorProp,
-            })}
-          </div>
+  if (!label && !description && !icon) {
+    return null
+  } else {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          marginBottom: space ? spaceToPx(space) : 0,
+          ...style,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {icon && (
+            <div
+              style={{
+                display: 'inline-block',
+                marginRight: 8,
+                marginBottom: -2,
+              }}
+            >
+              {renderOrCreateElement(icon, {
+                color: colorProp,
+              })}
+            </div>
+          )}
+          <Text wrap weight={600} color={labelColor || 'text'}>
+            {label}
+          </Text>
+        </div>
+        {description && (
+          <Text wrap weight={400} color={descriptionColor || 'text2'}>
+            {description}
+          </Text>
         )}
-        <Text wrap weight={600} color={labelColor || 'text'}>
-          {label}
-        </Text>
+        <div>{children}</div>
       </div>
-      {description && (
-        <Text wrap weight={400} color={descriptionColor || 'text2'}>
-          {description}
-        </Text>
-      )}
-      <div>{children}</div>
-    </div>
-  )
+    )
+  }
 }

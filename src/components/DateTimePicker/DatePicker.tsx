@@ -6,9 +6,7 @@ import { styled } from 'inlines'
 type DatePickerProps = {
   inputValue?: string
   setInputValue?: (value: string) => void
-  //  showDatePicker?: boolean
   setShowDatePicker?: (value: boolean) => void
-  //  focused?: boolean
   setFocused?: (value: boolean) => void
 }
 
@@ -208,14 +206,8 @@ export const DatePicker = ({
         </Text>
 
         <div style={{ display: 'flex', gap: 16 }}>
-          <ChevronUpIcon
-            // @ts-ignore
-            onClick={oneMonthBack}
-          />
-          <ChevronDownIcon
-            // @ts-ignore
-            onClick={oneMonthForward}
-          />
+          <ChevronUpIcon onClick={oneMonthBack} />
+          <ChevronDownIcon onClick={oneMonthForward} />
         </div>
       </div>
 
@@ -273,7 +265,6 @@ export const DatePicker = ({
               }}
               key={i}
               onClick={() => {
-                // console.log(val['year'])
                 changeHandler(selectedYear, selectedMonth, val.day)
               }}
             >

@@ -58,9 +58,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   disabled,
   value,
 }) => {
-  // const testVal = new Date(value)
-  // console.log('Test Val --->', testVal)
-
   let currentDate
 
   if (value) {
