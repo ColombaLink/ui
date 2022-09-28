@@ -19,8 +19,6 @@ type AccordionProps = {
 }
 
 export const Accordion: FC<AccordionProps> = ({ children, space, style }) => {
-  // TODO yves fix
-  space = 32
   return (
     <div style={{ marginBottom: spaceToPx(space), ...style }}>{children}</div>
   )
@@ -30,14 +28,13 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   label,
   children,
   checked,
-  space = 12,
   style,
   ...props
 }) => {
   const [open, setOpen] = useState(false)
 
   return (
-    <div style={{ marginBottom: spaceToPx(space) }}>
+    <div style={{ marginBottom: 12 }}>
       <div
         onClick={() => setOpen(!open)}
         style={{

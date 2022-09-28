@@ -9,7 +9,7 @@ import {
   border,
   Button,
   AddIcon,
-  BooleanRadio,
+  RadioButtons,
   DateTimePicker,
   FileUpload,
 } from '~'
@@ -138,12 +138,10 @@ const string = {
 }
 
 const boolean = {
-  default: ({ label, description, value, meta, field, style, ...props }) => (
-    <BooleanRadio
+  default: ({ label, description, value, style, ...props }) => (
+    <RadioButtons
       label={label}
-      meta={meta}
       value={value}
-      field={field}
       indent
       descriptionBottom={description}
       space

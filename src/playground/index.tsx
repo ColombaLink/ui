@@ -70,7 +70,6 @@ const App = () => {
           },
           Input: {
             Buttons: '?story=buttons',
-            Boolean: '?story=Booleans',
             Checkboxes: '?story=checkboxes',
             ColorPicker: '?story=color-picker',
             DateTimePicker: '?story=DateTime',

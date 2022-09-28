@@ -19,15 +19,15 @@ export type ButtonProps = {
   children?: ReactNode
   disabled?: boolean
   color?: Color
-  ghost?: boolean
-  light?: boolean
+  // ghost?: boolean
+  // light?: boolean
   large?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler
-  outline?: boolean
+  // outline?: boolean
   style?: CSSProperties
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
@@ -35,6 +35,8 @@ export type ButtonProps = {
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
+  console.log('getButtonStyle', props)
+
   const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
   const isLight = light || ghost || outline
   const style = {
@@ -71,9 +73,9 @@ export const Button: FC<ButtonProps> = (props) => {
     space,
     large,
     // TODO yves fix
-    ghost,
-    light,
-    outline,
+    // ghost,
+    // light,
+    // outline,
     fill,
     textAlign = 'left',
     ...rest

@@ -1,9 +1,11 @@
-import React, { FC } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
 import { border, color } from '~/utils'
 import { usePropState } from '~/hooks'
+import { Space } from '~/types'
+import { spaceToPx } from '~/utils/spaceToPx'
 
 type RadioButtonsProps = {
   value?: string | boolean | number
@@ -15,8 +17,12 @@ type RadioButtonsProps = {
   label?: string
   description?: string
   direction?: 'horizontal' | 'vertical'
+  indent?: boolean
+  descriptionBottom?: string
+  error?: (value: string | boolean | number) => string
   onChange?: (value: string | number | boolean) => void
-  // onChange?: (value: string, payload: OnRadioGroupChange) => void
+  space?: Space
+  style?: CSSProperties
 }
 
 export const RadioButtons: FC<RadioButtonsProps> = ({
@@ -26,13 +32,39 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   data,
   value,
   onChange,
+  indent,
+  error,
+  space,
+  style,
+  descriptionBottom,
   ...props
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
 
+  // TODO YVES ADD ERROR COMPONENT
+  let errorMessage
+  if (error) {
+    errorMessage = ''
+  } else {
+    errorMessage = ''
+  }
+
   return (
-    <div {...props}>
+    <div
+      style={{
+        borderLeft: indent ? `2px solid ${color('border')}` : null,
+        borderColor: errorMessage
+          ? color('red')
+          : checked !== -1
+          ? color('accent')
+          : color('border'),
+        paddingLeft: indent ? 12 : null,
+        marginBottom: spaceToPx(space),
+        ...style,
+      }}
+      {...props}
+    >
       <Label label={label} description={description} />
       <div
         style={{
@@ -101,6 +133,11 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
           )
         })}
       </div>
+      {descriptionBottom && (
+        <Text color="text2" italic weight={400}>
+          {descriptionBottom}
+        </Text>
+      )}
     </div>
   )
 }
