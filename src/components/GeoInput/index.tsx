@@ -5,10 +5,8 @@ import {
   RadioButtons,
   color,
   Text,
-  ErrorIcon,
   Button,
   GeoMarkerIcon,
-  spaceToPx,
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
@@ -19,13 +17,13 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
 // css required to make nav and marker work
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { InputWrapper } from '../Input/InputWrapper'
 
 type GeoInputProps = {
   label?: string
   description?: string
   descriptionBottom?: string
   onChange?: (value: any) => void
-
   indent?: boolean
   disabled?: boolean
   space?: Space
@@ -88,7 +86,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   const mapRef = useRef<MapRef>()
 
   const onSelectPlace = useCallback(({ longitude, latitude }) => {
-    mapRef.current?.flyTo({ center: [longitude, latitude], duration: 1500 })
+    mapRef.current?.flyTo({ center: [longitude, latitude], duration: 250 })
   }, [])
 
   useEffect(() => {
@@ -114,18 +112,12 @@ export const GeoInput: FC<GeoInputProps> = ({
   }, [changeCounter])
 
   return (
-    <styled.div
-      style={{
-        borderLeft: errorMessage
-          ? `2px solid ${color('red')}`
-          : isFocused
-          ? `2px solid ${color('accent')}`
-          : indent
-          ? `2px solid ${color('border')}`
-          : 'none',
-        paddingLeft: indent ? 12 : 0,
-        marginBottom: spaceToPx(space),
-      }}
+    <InputWrapper
+      indent={indent}
+      focus={isFocused}
+      space={space}
+      descriptionBottom={descriptionBottom}
+      errorMessage={errorMessage}
     >
       <Label label={label} description={description} space="8px" />
 
@@ -142,6 +134,7 @@ export const GeoInput: FC<GeoInputProps> = ({
           width: '100%',
         }}
         onClick={(e) => {
+          setErrorMessage('')
           setLongitude(e.lngLat.lng)
           setLatitude(e.lngLat.lat)
           setChangeCounter(changeCounter + 1)
@@ -208,7 +201,9 @@ export const GeoInput: FC<GeoInputProps> = ({
             onChange={(e) => {
               if (e <= 90 && e >= -90) {
                 setLatitude(e)
+                console.log('CHANGED')
                 setErrorMessage('')
+                setIsFocused(true)
               } else {
                 setErrorMessage(
                   'Please enter a valid latitude between -90 and 90'
@@ -230,6 +225,7 @@ export const GeoInput: FC<GeoInputProps> = ({
               if (e <= 180 && e >= -180) {
                 setLongitude(e)
                 setErrorMessage('')
+                setIsFocused(true)
               } else {
                 setErrorMessage('Longitude must be between -180 and 180')
               }
@@ -253,25 +249,6 @@ export const GeoInput: FC<GeoInputProps> = ({
           )}
         </div>
       )}
-      {descriptionBottom && (
-        <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
-          {descriptionBottom}
-        </Text>
-      )}
-
-      {errorMessage && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 6,
-            alignItems: 'center',
-            marginTop: 10,
-          }}
-        >
-          <ErrorIcon color="red" size={16} />
-          <Text color="red">{errorMessage}</Text>
-        </div>
-      )}
-    </styled.div>
+    </InputWrapper>
   )
 }

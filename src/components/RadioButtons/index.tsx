@@ -19,7 +19,7 @@ type RadioButtonsProps = {
   direction?: 'horizontal' | 'vertical'
   indent?: boolean
   descriptionBottom?: string
-  error?: (value: string | boolean | number) => string
+  // error?: (value: string | boolean | number) => string
   onChange?: (value: string | number | boolean) => void
   space?: Space
   style?: CSSProperties
@@ -33,22 +33,14 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   value,
   onChange,
   indent,
-  error,
+  // error,
   space,
   style,
   descriptionBottom,
-  ...props
+  // ...props
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
-
-  // TODO YVES ADD ERROR COMPONENT
-  let errorMessage
-  if (error) {
-    errorMessage = ''
-  } else {
-    errorMessage = ''
-  }
 
   return (
     <InputWrapper

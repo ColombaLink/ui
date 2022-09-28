@@ -1,11 +1,11 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { styled } from 'inlines'
-import { color, spaceToPx, Text } from '~'
+import { color, spaceToPx, Text, ErrorIcon } from '~'
 import { Space } from '~/types'
 
 type InputWrapperProps = {
   children: ReactNode
-  error?: boolean
+  errorMessage?: string
   focus?: boolean
   indent?: boolean
   space?: Space
@@ -16,7 +16,7 @@ type InputWrapperProps = {
 export const InputWrapper: FC<InputWrapperProps> = ({
   children,
   indent,
-  error,
+  errorMessage,
   focus,
   space,
   descriptionBottom,
@@ -27,7 +27,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
     <styled.div
       style={{
         borderLeft: indent ? `2px solid ${color('border')}` : null,
-        borderColor: error
+        borderColor: errorMessage
           ? color('red')
           : focus
           ? color('accent')
@@ -40,9 +40,22 @@ export const InputWrapper: FC<InputWrapperProps> = ({
     >
       {children}
       {descriptionBottom && (
-        <Text color="text2" italic weight={400}>
+        <Text color="text2" italic weight={400} style={{ marginTop: 6 }}>
           {descriptionBottom}
         </Text>
+      )}
+      {errorMessage && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 6,
+            alignItems: 'center',
+            marginTop: 6,
+          }}
+        >
+          <ErrorIcon color="red" size={16} />
+          <Text color="red">{errorMessage}</Text>
+        </div>
       )}
     </styled.div>
   )
