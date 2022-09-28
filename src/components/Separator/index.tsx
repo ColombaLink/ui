@@ -1,48 +1,49 @@
 import React, { CSSProperties, FC } from 'react'
-import { color } from '~'
+import { border } from '~'
 
 type SeparatorProps = {
   style?: CSSProperties
 }
 
 export const Separator: FC<SeparatorProps> = ({ children, style }) => {
+  if (children) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          marginBottom: 24,
+          ...style,
+        }}
+      >
+        <div
+          style={{
+            borderBottom: border(1),
+            flexGrow: 1,
+            height: 12,
+            marginRight: 16,
+          }}
+        />
+        <div style={{ display: 'flex' }}>{children}</div>
+        <div
+          style={{
+            borderBottom: border(1),
+            flexGrow: 1,
+            height: 12,
+            marginLeft: 16,
+          }}
+        />
+      </div>
+    )
+  }
+
   return (
     <div
       style={{
-        display: 'flex',
+        borderBottom: border(1),
+        height: 12,
         marginBottom: 24,
         ...style,
       }}
-    >
-      <div
-        style={{
-          borderBottom: '1px solid ' + color('border'),
-          display: 'flex',
-          flexGrow: 1,
-          height: 12,
-          marginRight: 16,
-        }}
-      />
-      {children ? (
-        <>
-          <div
-            style={{
-              display: 'flex',
-            }}
-          >
-            {children}
-          </div>
-          <div
-            style={{
-              borderBottom: '1px solid ' + color('border'),
-              display: 'flex',
-              flexGrow: 1,
-              height: 12,
-              marginLeft: 16,
-            }}
-          />
-        </>
-      ) : null}
-    </div>
+    />
   )
 }

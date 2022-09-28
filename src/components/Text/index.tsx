@@ -1,6 +1,6 @@
 import React, { FC, CSSProperties, ReactNode } from 'react'
 import { Size, Color, Weight, Space, ColorVariant } from '~/types'
-import { font, spaceToPx, color } from '~/utils'
+import { font, spaceToPx } from '~/utils'
 
 type TextProps = {
   size?: Size

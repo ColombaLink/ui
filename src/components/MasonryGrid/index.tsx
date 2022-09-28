@@ -25,14 +25,12 @@ export const MasonryGrid: FC<MasonryGridProps> = ({
   ...props
 }) => {
   const styledRef = useRef<HTMLDivElement>(null)
-
   const [containerWidth, setContainerWidth] = useState<undefined | number>()
   const { width, height } = useWindowResize()
 
   useEffect(() => {
-    if (styledRef?.current.clientWidth > 200) {
-      setContainerWidth(styledRef?.current?.clientWidth)
-      // console.log('containerWidth', containerWidth)
+    if (styledRef.current.clientWidth > 200) {
+      setContainerWidth(styledRef.current.clientWidth)
     }
   }, [width, height])
 

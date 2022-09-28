@@ -1,5 +1,5 @@
 import React from 'react'
-import { color } from '~/utils'
+import { Color, color } from '~/utils'
 import HoverPath from './HoverPath'
 
 const genPathCurve = (points, r) => {
@@ -32,7 +32,7 @@ const genPath = (
   ySpread,
   spread,
   segments,
-  baseColor = 'accent',
+  baseColor: Color = 'accent',
   legend?: any
 ) => {
   let stepSize = width / (data.length - 1)
@@ -225,10 +225,6 @@ const genPath = (
                 points[points.length - 1][1]
               }L${points[points.length - 1][0]},${height},L0,${height}`
             }
-            // fill={useColor({ color: 'primary', opacity: 0.08 })}
-
-            // fill with basecolor but opacity 0.08
-            // @ts-ignore
             fill={color(baseColor)}
             fillOpacity={0.08}
             //  fill={'rgba(154,82,246,0.08)'}

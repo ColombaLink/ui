@@ -12,7 +12,7 @@ import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space, AccentColor, Key } from '~/types'
+import { Space, Key } from '~/types'
 import { useKeyUp } from '~'
 
 export type ButtonProps = {
@@ -70,6 +70,7 @@ export const Button: FC<ButtonProps> = (props) => {
     style,
     space,
     large,
+    // TODO yves fix
     ghost,
     light,
     outline,

@@ -24,15 +24,6 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
-/*code menu
-<CopyIcon
-   onClick={() => {
-    copyToClipboard(children)
-  }}
-  color={'PrimaryMain'}
-/>`
-*/
-
 export type CodeProps = {
   style?: CSSProperties
   value?: string

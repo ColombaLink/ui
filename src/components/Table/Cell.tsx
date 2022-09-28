@@ -25,6 +25,7 @@ export const Cell: FC<{
   const left = 8
   const right = 24
 
+  // TODO youzi
   if (typeof children === 'object' && !children.$$typeof) {
     console.warn('TODO: fix this!!!')
     children = JSON.stringify(children)

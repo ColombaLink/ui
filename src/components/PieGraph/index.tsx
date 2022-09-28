@@ -20,6 +20,7 @@ type PieGraphProps = {
   baseColor?: Color
 }
 
+// TODO yves fix
 export const PieGraph: FC<PieGraphProps> = ({
   data,
   label,

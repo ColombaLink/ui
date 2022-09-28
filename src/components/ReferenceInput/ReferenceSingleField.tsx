@@ -1,5 +1,5 @@
 import React from 'react'
-import { Badge, MoreIcon, Text, DragDropIcon, color } from '~'
+import { Badge, Text, color } from '~'
 import { styled } from 'inlines'
 
 type ReferenceInputProps = {

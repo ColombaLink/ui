@@ -1,10 +1,10 @@
-import React, { FunctionComponent, createContext, FC } from 'react'
+import React, { FunctionComponent, createContext } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import Graph from './Graph'
 import StackedGraph from './StackedGraph'
 
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { DateFormat, prettyDate } from '@based/pretty-date'
+import { NumberFormat } from '@based/pretty-number'
+import { DateFormat } from '@based/pretty-date'
 import { Color } from '~/types'
 
 type Data = { x: number; y: number }[]
@@ -12,7 +12,7 @@ type Data = { x: number; y: number }[]
 type Ctx = { hover?: (key: string) => void }
 
 const defCtx: Ctx = {
-  hover: (a) => {},
+  hover: () => {},
 }
 
 export const GraphContext = createContext(defCtx)

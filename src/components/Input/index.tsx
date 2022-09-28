@@ -1,3 +1,4 @@
+// TODO yves en youri fix this
 import React, {
   Dispatch,
   FC,
@@ -486,11 +487,13 @@ export const Input: FC<
           </Text>
         </div>
       )}
+      {/* TODO yves make this a component */}
       {descriptionBottom && (
         <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
           {descriptionBottom}
         </Text>
       )}
+      {/* TODO yves make this a component */}
       {errorMessage && (
         <div
           style={{

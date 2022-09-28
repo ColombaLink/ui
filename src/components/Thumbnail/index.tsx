@@ -32,7 +32,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundImage: img ? `url(${img})` : 'none',
+        backgroundImage: img ? `url(${img})` : null,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
         marginBottom: spaceToPx(space),
@@ -42,12 +42,13 @@ export const Thumbnail: FC<ThumbnailProps> = ({
       }}
       {...props}
     >
-      {label && !icon && !img ? (
+      {label ? (
         <Text color="inherit" size={(size / 2) as Size}>
-          {label[0].toLocaleUpperCase()}
+          {label[0].toUpperCase()}
         </Text>
+      ) : icon ? (
+        renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })
       ) : null}
-      <>{renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })}</>
     </div>
   )
 }

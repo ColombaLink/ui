@@ -4,7 +4,7 @@ import { spaceToPx } from '~/utils/spaceToPx'
 import { styled } from 'inlines'
 
 type GridProps = {
-  children?: ReactNode
+  children?: ReactNode[]
   gap?: number
   itemWidth?: number
   space?: Space
@@ -25,28 +25,23 @@ export const Grid: FC<GridProps> = ({
         display: 'flex',
         flexWrap: 'wrap',
         marginBottom: spaceToPx(space),
-        // '& div:first-child': {
-        //   marginLeft: '0px !important',
-        // },
         ...style,
       }}
       {...props}
     >
-      {children &&
-        // @ts-ignore
-        children.map((child, idx) => (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: itemWidth,
-              display: 'table',
-              margin: gap / 2,
-            }}
-            key={idx}
-          >
-            {child}
-          </div>
-        ))}
+      {children?.map((child, idx) => (
+        <div
+          style={{
+            width: '100%',
+            maxWidth: itemWidth,
+            display: 'table',
+            margin: gap / 2,
+          }}
+          key={idx}
+        >
+          {child}
+        </div>
+      ))}
     </styled.div>
   )
 }

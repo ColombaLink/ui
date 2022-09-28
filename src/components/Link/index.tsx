@@ -13,7 +13,7 @@ export const Link: FC<LinkProps> = styled(
   ({ href = '/', ...props }: { href: string }) => {
     return (
       <WLink href={parseHref(href)}>
-        <a {...props}></a>
+        <a {...props} />
       </WLink>
     )
   },

@@ -33,10 +33,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
 
   return (
     <div {...props}>
-      {label || description ? (
-        <Label label={label} description={description} />
-      ) : null}
-
+      <Label label={label} description={description} />
       <div
         style={{
           display: 'flex',

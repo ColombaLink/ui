@@ -1,10 +1,4 @@
-import React, {
-  ChangeEventHandler,
-  CSSProperties,
-  FC,
-  FormEvent,
-  ReactNode,
-} from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { styled } from 'inlines'
 
 type SubmitResponse = {

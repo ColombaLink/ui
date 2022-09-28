@@ -19,6 +19,7 @@ type AccordionProps = {
 }
 
 export const Accordion: FC<AccordionProps> = ({ children, space, style }) => {
+  // TODO yves fix
   space = 32
   return (
     <div style={{ marginBottom: spaceToPx(space), ...style }}>{children}</div>
@@ -36,11 +37,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   const [open, setOpen] = useState(false)
 
   return (
-    <div
-      style={{
-        marginBottom: spaceToPx(space),
-      }}
-    >
+    <div style={{ marginBottom: spaceToPx(space) }}>
       <div
         onClick={() => setOpen(!open)}
         style={{
@@ -65,17 +62,18 @@ export const AccordionItem: FC<AccordionItemProps> = ({
 
         <div>{open ? <ChevronUpIcon /> : <ChevronDownIcon />}</div>
       </div>
-      <div
-        style={{
-          display: open ? 'block' : 'none',
-          marginBottom: 24,
-          marginTop: 24,
-          paddingLeft: 16,
-          paddingRight: 16,
-        }}
-      >
-        {children}
-      </div>
+      {open ? (
+        <div
+          style={{
+            marginBottom: 24,
+            marginTop: 24,
+            paddingLeft: 16,
+            paddingRight: 16,
+          }}
+        >
+          {children}
+        </div>
+      ) : null}
     </div>
   )
 }

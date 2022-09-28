@@ -82,7 +82,7 @@ export const Register: FC<RegisterProps> = ({
         width,
       }}
     >
-      {googleClientId || microsoftClientId ? (
+      {googleClientId || microsoftClientId || githubClientId ? (
         <>
           {googleClientId ? (
             <GoogleButton

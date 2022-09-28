@@ -49,8 +49,9 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
         ...style,
       }}
     >
-      <Label label={label} description={description} />
       <RadioButtons
+        label={label}
+        description={description}
         direction="horizontal"
         data={[
           { value: true, label: 'True' },
@@ -59,6 +60,7 @@ export const BooleanRadio: FC<BooleanRadioProps> = ({
         value={value}
         onChange={onChangeHandler}
       />
+      {/* TODO yves move this stuff to Radiobuttons */}
       {descriptionBottom && (
         <Text color="text2" italic weight={400}>
           {descriptionBottom}

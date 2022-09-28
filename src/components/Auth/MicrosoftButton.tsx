@@ -16,6 +16,7 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
   label = 'Continue with Microsoft',
   clientId,
 }) => {
+  // TODO nuno fix
   const client = useClient()
   return (
     <Button

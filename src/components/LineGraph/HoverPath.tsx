@@ -4,12 +4,12 @@ import { GraphContext } from '.'
 import useThrottledCallback from '~/hooks/useThrottledCallback'
 
 const HoverPath = ({
-  amount,
+  // amount,
   i,
   code,
   d,
-  legend,
-  points,
+  // legend,
+  // points,
   baseColor = 'accent',
 }) => {
   const ctx = useContext(GraphContext)

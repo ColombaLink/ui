@@ -1,11 +1,5 @@
 import React, { FC, ReactNode, CSSProperties, useEffect } from 'react'
-import {
-  border,
-  color,
-  hrefIsActive,
-  renderOrCreateElement,
-  setLocation,
-} from '~/utils'
+import { border, color, hrefIsActive, renderOrCreateElement } from '~/utils'
 import { Link } from '../Link'
 import { useLocation } from '~/hooks'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -81,7 +75,7 @@ export const Sidebar: FC<SidebarProps> = ({
   }
 
   let hasActive
-  const parsedData = data.map(({ label, href, icon }, i) => {
+  const parsedData = data.map(({ label, href, icon }) => {
     if (href[0] !== '?') {
       href = prefix + href
     }

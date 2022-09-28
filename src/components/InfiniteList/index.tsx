@@ -105,7 +105,6 @@ export const useInfiniteScroll = ({
       for (const subId in current.subs) {
         if (!(subId in subs)) {
           const subscriberId = current.subs[subId]
-          console.log('REMOVE!', subId)
           removeSubscriber(client.client, Number(subId), subscriberId)
         }
       }

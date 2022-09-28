@@ -42,6 +42,7 @@ export const Badge: FC<BadgeProps> = ({
         onClick
           ? useCallback(
               (e) => {
+                // TODO check with Maarten if we want this animation
                 const t = e.currentTarget
                 t.style.transform = 'scale(1.15)'
                 setTimeout(() => {

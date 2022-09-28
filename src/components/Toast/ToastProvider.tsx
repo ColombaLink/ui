@@ -34,9 +34,8 @@ const ToastContainer = ({
         cursor: 'pointer',
       }}
       onTransitionEnd={fade ? close : null}
-      onClick={(e) => {
+      onClick={() => {
         close()
-        console.log(e)
         onClick?.()
       }}
     >

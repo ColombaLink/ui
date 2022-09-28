@@ -237,9 +237,9 @@ const Fields = ({ includeSystemFields, type, fields, onChange }) => {
           if (alwaysIgnore.has(field)) {
             return null
           }
-          // if (!includeSystemFields && systemFields.has(field)) {
-          //   return null
-          // }
+          if (!includeSystemFields && systemFields.has(field)) {
+            return null
+          }
           return (
             <Draggable key={field} id={field}>
               <Field type={type} field={field} fields={fields} />

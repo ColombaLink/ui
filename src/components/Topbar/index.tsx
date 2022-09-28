@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, useState } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color, font } from '~/utils'
@@ -174,6 +174,7 @@ export const Topbar: FC<TopbarProps> = ({
                 <TopbarTab
                   key={key}
                   href={href}
+                  // TODO youzi fix
                   isActive={hrefIsActive(href, location, data)}
                   icon={icons ? icons[i] : null}
                 >

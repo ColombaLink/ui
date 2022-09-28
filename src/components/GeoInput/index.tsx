@@ -39,6 +39,7 @@ type GeoInputProps = {
   mapboxStyle?: string
 }
 
+// TODO yves fix
 export const GeoInput: FC<GeoInputProps> = ({
   label,
   description,
@@ -62,6 +63,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [errorMessage, setErrorMessage] = useState<string | null>('')
 
   // put in .env.local
+  // TODO yves fix
   const MAPBOX_TOKEN_COWBOYBEER =
     'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
 

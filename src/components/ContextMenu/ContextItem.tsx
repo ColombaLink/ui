@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  CSSProperties,
-  FunctionComponent,
-  createElement,
-  FC,
-} from 'react'
+import React, { ReactNode, FunctionComponent, FC } from 'react'
 import { Text } from '~/components/Text'
 import { Color, Icon, PropsEventHandler } from '~/types'
 import { Style, styled } from 'inlines'

@@ -21,9 +21,9 @@ export const ResultCard: FC<ResultCardProps> = ({
   ...props
 }) => {
   if (typeof value === 'object') {
-    //@ts-ignore
-    format = value['format']
-    value = value['value']
+    // @ts-ignore TODO
+    format = value.format
+    value = value.value
   }
 
   return (

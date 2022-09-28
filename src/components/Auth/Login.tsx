@@ -47,7 +47,7 @@ export const Login: FC<LoginProps> = ({
         width,
       }}
     >
-      {googleClientId || microsoftClientId ? (
+      {googleClientId || microsoftClientId || githubClientId ? (
         <>
           {googleClientId ? (
             <GoogleButton width={width} clientId={googleClientId} />

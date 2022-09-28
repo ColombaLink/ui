@@ -1,6 +1,4 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { Text } from '../Text'
-import { Spacer } from '../Spacer'
 import { Label } from '../Label'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
@@ -64,6 +62,7 @@ export const Card: FC<CardProps> = ({
           >
             {renderOrCreateElement(topLeft)}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {/* TODO yves put logic in 1 place not 10 */}
               {label || description || children ? (
                 <Label
                   label={label}
@@ -79,7 +78,7 @@ export const Card: FC<CardProps> = ({
                       {description}
                     </span>
                   }
-                  descriptionColor={color('text2')}
+                  descriptionColor="text2"
                 />
               ) : null}
             </div>

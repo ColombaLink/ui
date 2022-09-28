@@ -41,6 +41,7 @@ export const Authorize: FC<AuthProps> = ({
   githubClientId,
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
+  // TODO nuno fix
   const [email = '', setEmail] = useGlobalState('email')
   const [fadeIn, setFade] = useState(false)
 

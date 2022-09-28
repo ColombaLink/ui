@@ -8,12 +8,12 @@ import React, {
   useEffect,
   useState,
   useCallback,
-  Children,
 } from 'react'
 import { color, spaceToPx, font, renderOrCreateElement } from '~/utils'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 
+// TODO yves clean up times
 type TabsProps = {
   children: ReactNode | ReactNode[]
   style?: CSSProperties

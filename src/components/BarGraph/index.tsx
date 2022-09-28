@@ -20,6 +20,7 @@ type BarGraphProps = {
 
 export const BarGraph: FC<BarGraphProps> = ({
   data,
+  // TODO yves
   label,
   value,
   legend = null,
@@ -292,7 +293,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
         height: 32,
         display: 'block',
         width: width + '%',
-        backgroundColor: bgColor ? bgColor : color('accent'),
+        backgroundColor: bgColor || color('accent'),
         opacity: `calc(1 - 0.${id * 2})`,
         ...style,
         '&:hover': {
