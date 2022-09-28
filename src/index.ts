@@ -63,7 +63,7 @@ export * from './components/Thumbnail'
 export * from './components/Toast'
 export * from './components/Toggle'
 export * from './components/ToggleGroup'
-export * from './components/Tooltip'
+
 export * from './components/Topbar'
 export * from './components/ValueSlider'
 export * from './icons'

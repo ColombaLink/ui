@@ -1,7 +1,6 @@
 import React from 'react'
-import ComponentViewer from '../ComponentViewer'
-import { useTooltip } from '~'
-import { Button, Text, Container, Avatar, Callout, Code } from '~'
+
+import { Button, Text, Container, Callout, Code, useTooltip } from '~'
 
 export const Tooltips = () => {
   const tooltipListeners = useTooltip("I'm a tooltip", 'top')
@@ -19,24 +18,6 @@ export const Tooltips = () => {
 
   return (
     <>
-      {/* <ComponentViewer
-        component={Tooltip}
-        examples={[
-          {
-            props: {
-              label: 'Tooltip label',
-              children: <Button>Hover me!</Button>,
-            },
-          },
-          {
-            props: {
-              label: 'Tooltip label',
-              position: 'top',
-              children: <Button>Top Hover me!</Button>,
-            },
-          },
-        ]}
-      /> */}
       <Code space value={codeExample} />
 
       <Container style={{ width: 'fit-content' }} space>

@@ -5,17 +5,16 @@ import React, {
   useRef,
   Dispatch,
   SetStateAction,
-  useEffect,
   useState,
   useCallback,
+  ReactElement,
 } from 'react'
 import { color, spaceToPx, font, renderOrCreateElement } from '~/utils'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 
-// TODO yves clean up times
 type TabsProps = {
-  children: ReactNode | ReactNode[]
+  children: ReactNode
   style?: CSSProperties
   space?: Space
   large?: boolean
@@ -25,24 +24,21 @@ type TabsProps = {
 }
 
 const TabWrapper: FC<{
-  children: ReactNode
+  children: ReactNode | ReactNode[] | ReactElement | Symbol | Object | any
   activeTabState: number
   index: number
   large: boolean
   setActiveTabInternal: Dispatch<SetStateAction<number>>
   setHoverTab: Dispatch<SetStateAction<number>>
-  sameHeight?: boolean
 }> = ({
   large,
   children,
   index,
-  sameHeight,
   activeTabState,
   setHoverTab,
   setActiveTabInternal,
 }) => {
-  /* @ts-ignore */
-  const icon = children.props.icon
+  const icon = children?.props?.icon
 
   return (
     <styled.div
@@ -68,19 +64,15 @@ const TabWrapper: FC<{
         setHoverTab(-1)
         setActiveTabInternal(index)
       }}
-      onMouseEnter={useCallback((e) => {
+      onMouseEnter={useCallback(() => {
         setHoverTab(index)
       }, [])}
-      onMouseLeave={useCallback((e) => {
+      onMouseLeave={useCallback(() => {
         setHoverTab(-1)
       }, [])}
       key={index}
     >
-      {/* @ts-ignore */}
-      {children.props.icon && (
-        <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
-      )}
-      {/* @ts-ignore */}
+      <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
 
       {typeof children === 'string' ? children : children.props.label}
     </styled.div>
@@ -105,23 +97,9 @@ export const Tabs: FC<TabsProps> = ({
   } else {
     useState(null)
   }
-  const [hoverTab, setHoverTab] = useState(-1)
-  const [lineWidth, setLineWidth] = useState(0)
-  const [x, setX] = useState(0)
+  const [, setHoverTab] = useState(-1)
   const elem = useRef<HTMLElement>(null)
 
-  useEffect(() => {
-    const t = elem?.current?.children[hoverTab > -1 ? hoverTab : activeTabState]
-
-    if (t) {
-      const { width, left } = t.getBoundingClientRect()
-
-      setLineWidth(width)
-      setX(left - t.parentElement.getBoundingClientRect().left)
-    }
-  }, [hoverTab, activeTab, elem, children, activeTabState])
-
-  // same height tabs options
   const tabRef = useRef(null)
   const tabRefHeight = tabRef.current?.clientHeight
 
@@ -144,7 +122,6 @@ export const Tabs: FC<TabsProps> = ({
             alignItems: 'center',
             display: 'flex',
             gap: 16,
-            //    paddingBottom: !large ? 8 : 0,
             marginBottom: -2,
           }}
           ref={elem}
@@ -157,27 +134,11 @@ export const Tabs: FC<TabsProps> = ({
               activeTabState={activeTabState}
               setHoverTab={setHoverTab}
               setActiveTabInternal={setActiveTabInternal}
-              sameHeight={sameHeight}
             >
               {child}
             </TabWrapper>
           ))}
         </styled.div>
-        <div
-          style={
-            {
-              // transition: !large
-              //   ? 'width 0.2s, transform 0.15s'
-              //   : 'width 0.25s, transform 0.15s',
-              // //   transform: `translate(${x}px, 0px)`,
-              // width: lineWidth,
-              // position: 'absolute',
-              // left: x,
-              // backgroundColor: color('text'),
-              // height: 3,
-            }
-          }
-        ></div>
       </div>
 
       <div
