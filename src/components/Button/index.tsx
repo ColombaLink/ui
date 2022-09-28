@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, {
   CSSProperties,
   FC,
@@ -19,15 +20,15 @@ export type ButtonProps = {
   children?: ReactNode
   disabled?: boolean
   color?: Color
-  // ghost?: boolean
-  // light?: boolean
+  ghost?: boolean
+  light?: boolean
   large?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler
-  //  outline?: boolean
+  outline?: boolean
   style?: CSSProperties
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
@@ -35,8 +36,6 @@ export type ButtonProps = {
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
-  console.log('getButtonStyle', props.ghost)
-
   const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
 
   const isLight = light || ghost || outline
@@ -73,13 +72,8 @@ export const Button: FC<ButtonProps> = (props) => {
     style,
     space,
     large,
-    // TODO yves fix
-    // ghost,
-    // light,
-    // outline,
     fill,
     textAlign = 'left',
-    ...rest
   } = props
 
   const [isLoading, setIsLoading] = useState(false)
@@ -160,7 +154,7 @@ export const Button: FC<ButtonProps> = (props) => {
         ...getButtonStyle(props, true),
         ...style,
       }}
-      {...rest}
+      // {...rest}
     >
       <div
         style={{

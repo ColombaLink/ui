@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, Fragment, useState, useRef } from 'react'
+import React, { FC, Fragment, useState, useRef } from 'react'
 import { color, spaceToPx } from '~/utils'
 import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
@@ -11,49 +11,35 @@ type PieGraphProps = {
     label: string
     color?: string
   }[]
-  label?: string
   value?: number
-  legend?: { [key: string]: string } | string[]
-  style?: CSSProperties
   size?: number
   space?: Space
   baseColor?: Color
 }
 
-// TODO yves fix
 export const PieGraph: FC<PieGraphProps> = ({
   data,
-  label,
-  value,
-  legend = null,
-  style,
   baseColor,
   space,
   size = 280,
 }) => {
   let total,
-    highestVal,
-    normalizedData,
-    normalizedDataPerObject,
     totalPerObject,
     subValuesPerObject,
-    legendValues,
-    legendKeys,
     subLabelsPerObject,
     totalPercentagesPerObject,
     percentagePerObject,
-    totalSubValuesPerObject,
     anglePercentages
 
   let tempCounter = 0
   let subTempCounter = 0
-  let subPercentages = []
+  const subPercentages = []
   let anglePercentageCounter = 0
-  let angleAddedPercentages = []
-  let allLabelsInRowArray = []
-  let newColorArr = []
+  const angleAddedPercentages = []
+  const allLabelsInRowArray = []
+  const newColorArr = []
 
-  let themeColorArray = [
+  const themeColorArray = [
     'rgba(61, 83, 231,1)',
     'rgba(89,196,197,1)',
     'rgba(154,82,246,1)',
@@ -77,28 +63,19 @@ export const PieGraph: FC<PieGraphProps> = ({
     return `rgba(${r}, ${g}, ${b}, 1)`
   }
 
-  //test if value is an object or number
+  //  test if value is an object or number
   if (typeof data[0].value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
     subLabelsPerObject = data.map((item) => Object.keys(item.value))
-    // @ts-ignore
+
     totalPerObject = data.map((item) =>
       Object.values(item.value).reduce((t, value) => t + value, 0)
-    )
-    highestVal = Math.max(...totalPerObject)
-    normalizedData = totalPerObject.map((item) => (item / highestVal) * 100)
-
-    // totalPerObject[idx]
-    normalizedDataPerObject = data.map((item, idx) =>
-      Object.values(item.value).map((value) =>
-        (+(value / totalPerObject[idx]) * 100).toFixed(1)
-      )
     )
 
     total = totalPerObject.reduce((t, value) => t + value, 0)
 
     totalPercentagesPerObject = totalPerObject.map(
-      (item, idx) => +((item / total) * 100)
+      (item) => +((item / total) * 100)
     )
 
     for (let i = 0; i < subValuesPerObject.length; i++) {
@@ -107,14 +84,14 @@ export const PieGraph: FC<PieGraphProps> = ({
       }
     }
 
-    anglePercentages = subPercentages.map((item, i) => (+item / 100) * 360)
+    anglePercentages = subPercentages.map((item) => (+item / 100) * 360)
 
     for (let i = 0; i < anglePercentages.length; i++) {
       anglePercentageCounter += anglePercentages[i]
       angleAddedPercentages.push(anglePercentageCounter)
     }
 
-    //all labels array
+    //  all labels array
     for (let i = 0; i < totalPercentagesPerObject.length; i++) {
       for (let j = 0; j < subLabelsPerObject[i].length; j++) {
         allLabelsInRowArray.push(subLabelsPerObject[i][j])
@@ -145,25 +122,8 @@ export const PieGraph: FC<PieGraphProps> = ({
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
   ) {
-    // if the value is a single number (key pair)
-    // @ts-ignore
-    total = Object.values(data).reduce((t, { value }) => t + value, 0)
-    // @ts-ignore
-    highestVal = Math.max(...data.map((item) => item.value))
-    // @ts-ignore
-    normalizedData = data.map((item) => (+item.value / highestVal) * 100)
-    // @ts-ignore
-    percentagePerObject = data.map((item, idx) => (item.value / total) * 100)
-  }
-
-  // little legend check
-  if (legend && typeof legend === 'object') {
-    legendValues = Object.values(legend)
-    legendKeys = Object.keys(legend)
-  } else if (legend && Array.isArray(legend)) {
-    legendValues = legend
-  } else {
-    legendValues = undefined
+    total = Object.values(data).reduce((t, { value }) => t + +value, 0)
+    percentagePerObject = data.map((item) => (+item.value / total) * 100)
   }
 
   const percentageToDegrees = (percentage: number) => {
@@ -209,7 +169,6 @@ export const PieGraph: FC<PieGraphProps> = ({
         setShowMouseLabel(true)
       }}
     >
-      {/* als het geen object is */}
       {typeof data[0].value !== 'object' && (
         <div
           style={{
@@ -220,8 +179,6 @@ export const PieGraph: FC<PieGraphProps> = ({
             overflow: 'hidden',
           }}
         >
-          {/* map and reduce  counter for percentage to degrees*/}
-
           {data.map((item, idx) => (
             <Fragment key={idx}>
               <div
@@ -245,7 +202,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `calc(1 - 0.${idx * 1})`,
                 }}
-              ></div>
+              />
 
               <span style={{ display: 'none' }}>
                 {(tempCounter += +percentagePerObject[idx].toFixed())}
@@ -254,8 +211,6 @@ export const PieGraph: FC<PieGraphProps> = ({
           ))}
         </div>
       )}
-
-      {/****************************  als het wel een object is *****************************/}
 
       {typeof data[0].value === 'object' && (
         <div
@@ -275,20 +230,18 @@ export const PieGraph: FC<PieGraphProps> = ({
                   width: size,
                   height: size,
                   borderRadius: size / 2,
-                  // background: ` conic-gradient(${themeColorArray[index]} calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
-                  // background: ` conic-gradient(white calc(${totalPercentagesPerObject[index]}*1%),#0000 0)`,
                   background: 'transparent',
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `1`,
                 }}
-              ></div>
+              />
 
               <span style={{ display: 'none' }}>
                 {(tempCounter += +totalPercentagesPerObject[index])}
               </span>
             </Fragment>
           ))}
-          {/* sub values per object  */}
+
           {subPercentages.map((value, idx) => (
             <Fragment key={idx}>
               <styled.div
@@ -304,7 +257,7 @@ export const PieGraph: FC<PieGraphProps> = ({
                   )}deg)`,
                   opacity: idx === toolTipIndex ? '0.75' : '1',
                 }}
-              ></styled.div>
+              />
               <span style={{ display: 'none' }}>
                 {(subTempCounter += +subPercentages[idx])}
               </span>
@@ -331,8 +284,6 @@ export const PieGraph: FC<PieGraphProps> = ({
         </div>
       )}
 
-      {/*************************  legenda if you want **************/}
-
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {data.map((item, idx) => (
           <div
@@ -356,11 +307,10 @@ export const PieGraph: FC<PieGraphProps> = ({
                 marginRight: 12,
                 border: `1px solid ${color('border')}`,
               }}
-            ></div>
+            />
             {typeof data[0].value !== 'object' && (
               <Text>
-                {/* @ts-ignore */}
-                {item.label} - {prettyNumber(item.value, 'number-short')} (
+                {item.label} - {prettyNumber(+item.value, 'number-short')} (
                 {percentagePerObject[idx].toFixed(0) + '%'})
               </Text>
             )}

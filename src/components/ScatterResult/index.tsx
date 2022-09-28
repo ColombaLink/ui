@@ -1,12 +1,10 @@
 // TODO yves throw away
 
 import React, { FC, useEffect, useState, useRef } from 'react'
-import { Text, Button } from '~'
-import { color, spaceToPx } from '~/utils'
-import { ExpandRightIcon } from '~'
+import { Text, Button, ExpandRightIcon, useTooltip } from '~'
+import { color } from '~/utils'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
-import { useTooltip } from '~'
 
 type ScatterResultProps = {
   data: {
@@ -109,8 +107,6 @@ const ScatterInner: FC<
   const spread = (maxX - minX) / labelamount
 
   for (let i = 0; i < labelamount; i++) {
-    // xLabel format
-    // yLabel format
     xLabelsP.push(
       <div
         key={i}
@@ -121,7 +117,6 @@ const ScatterInner: FC<
       >
         <Text>
           {prettyNumber(spread * i + minX, xLabelFormat || 'number-short')}
-          {/* {{ value: spread * i + minX, format: xLabelFormat || 'number-short' }} */}
         </Text>
       </div>
     )
@@ -146,8 +141,6 @@ const ScatterInner: FC<
   const spreadY = (maxY - minY) / labelYamount
 
   for (let i = 0; i < labelYamount; i++) {
-    // xLabel format
-    // yLabel format
     yLabelsP.push(
       <div
         key={i}
@@ -161,10 +154,6 @@ const ScatterInner: FC<
       >
         <Text>
           {prettyNumber(maxY - spreadY * i, yLabelFormat || 'number-short')}
-          {/* {{
-            value: maxY - spreadY * i,
-             format: yLabelFormat || 'number-short',
-          }} */}
         </Text>
       </div>
     )
@@ -186,7 +175,6 @@ const ScatterInner: FC<
       style={{
         width,
         height,
-        // border: '1px solid blue',
       }}
     >
       <div
@@ -209,10 +197,7 @@ const ScatterInner: FC<
               alignItems: 'center',
             }}
           >
-            <Text>
-              {prettyDate(data[index].time, 'date-time-human')}
-              {/* {{ value: data[index].time, format: 'date-time-human' }} */}
-            </Text>
+            <Text>{prettyDate(data[index].time, 'date-time-human')}</Text>
             <Button
               style={{
                 marginLeft: 16,
@@ -249,12 +234,9 @@ const ScatterInner: FC<
             position: 'relative',
             width: graphWidth,
             height: graphHeight,
-            // margin: 100,
           }}
         >
-          {points.map((v, i) => {
-            const color = v.color
-
+          {points.map((v) => {
             const infoContent = []
 
             let tooltip = {}
@@ -267,7 +249,7 @@ const ScatterInner: FC<
                       {info[key].label}
                     </Text>
                     <Text weight={400}>
-                      {/* @ts-ignore   */}
+                      {/* // @ts-ignore */}
                       {prettyNumber(v.info ? v.info[key] : 0, info[key].format)}
                     </Text>
                   </div>
