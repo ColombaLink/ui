@@ -17,6 +17,7 @@ export const Geo = () => {
               mapboxApiAccessToken:
                 'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg',
               mapboxStyle: 'mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge',
+              onChange: (value) => console.log(value),
             },
           },
           {
@@ -36,6 +37,7 @@ export const Geo = () => {
         indent
         mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
         mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
+        onChange={(value) => console.log(value)}
       />
     </div>
   )

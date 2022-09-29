@@ -231,11 +231,7 @@ export const Input: FC<
   }, [value])
 
   const onChange = (e) => {
-    let newValue = transform ? transform(e.target.value) : e.target.value
-
-    if (type === 'number' && typeof newValue !== 'number') {
-      newValue = Number(newValue)
-    }
+    const newValue = transform ? transform(e.target.value) : e.target.value
 
     setValue(newValue)
 
@@ -295,6 +291,7 @@ export const Input: FC<
       space={space}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
+      disabled={disabled}
     >
       <div
         style={{
@@ -312,7 +309,6 @@ export const Input: FC<
             <Button
               ghost
               onClick={() => {
-                console.log('the value', value)
                 onChangeProp?.('')
                 setValue('')
               }}
@@ -327,7 +323,6 @@ export const Input: FC<
             <Button
               ghost
               onClick={() => {
-                //  console.log('the value', value)
                 setShowJSONClearButton(false)
                 setValue('')
                 onChangeProp?.('')

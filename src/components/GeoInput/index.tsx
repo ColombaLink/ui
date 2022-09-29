@@ -23,17 +23,13 @@ type GeoInputProps = {
   label?: string
   description?: string
   descriptionBottom?: string
-  onChange?: (value: any) => void
+  onChange?: (value: { latitude: number; longitude: number }) => void
   indent?: boolean
   disabled?: boolean
   space?: Space
   mapboxApiAccessToken?: string
   mapboxStyle?: string
 }
-
-// TODO yves fix
-//  ONCHANGE
-//  STYLING LONG LAT
 
 export const GeoInput: FC<GeoInputProps> = ({
   label,
@@ -103,6 +99,7 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   useEffect(() => {
     onSelectPlace({ longitude, latitude })
+    onChange?.({ latitude, longitude })
   }, [changeCounter])
 
   return (
@@ -192,46 +189,50 @@ export const GeoInput: FC<GeoInputProps> = ({
           }}
         >
           <Text wrap>Latitude</Text>
-          <Input
-            disabled={disabled}
-            type="number"
-            placeholder="Between -90 and 90"
-            onChange={(e) => {
-              if (e <= 90 && e >= -90) {
-                setLatitude(e)
-                console.log('CHANGED')
-                setErrorMessage('')
-                setIsFocused(true)
-              } else {
-                setErrorMessage(
-                  'Please enter a valid latitude between -90 and 90'
-                )
-              }
-            }}
-            value={latitude}
-            onBlur={() => {
-              setChangeCounter(changeCounter + 1)
-            }}
-          />
+          <div style={{ flexGrow: 1 }}>
+            <Input
+              disabled={disabled}
+              type="number"
+              placeholder="Between -90 and 90"
+              onChange={(e) => {
+                if (e <= 90 && e >= -90) {
+                  setLatitude(e)
+                  console.log('CHANGED')
+                  setErrorMessage('')
+                  setIsFocused(true)
+                } else {
+                  setErrorMessage(
+                    'Please enter a valid latitude between -90 and 90'
+                  )
+                }
+              }}
+              value={latitude}
+              onBlur={() => {
+                setChangeCounter(changeCounter + 1)
+              }}
+            />
+          </div>
           <Text wrap style={{ marginLeft: 16 }}>
             Longitude
           </Text>
-          <Input
-            disabled={disabled}
-            type="number"
-            placeholder="Between -180 and 180"
-            onChange={(e) => {
-              if (e <= 180 && e >= -180) {
-                setLongitude(e)
-                setErrorMessage('')
-                setIsFocused(true)
-              } else {
-                setErrorMessage('Longitude must be between -180 and 180')
-              }
-            }}
-            value={longitude}
-            onBlur={() => setChangeCounter(changeCounter + 1)}
-          />
+          <div style={{ flexGrow: 1 }}>
+            <Input
+              disabled={disabled}
+              type="number"
+              placeholder="Between -180 and 180"
+              onChange={(e) => {
+                if (e <= 180 && e >= -180) {
+                  setLongitude(e)
+                  setErrorMessage('')
+                  setIsFocused(true)
+                } else {
+                  setErrorMessage('Longitude must be between -180 and 180')
+                }
+              }}
+              value={longitude}
+              onBlur={() => setChangeCounter(changeCounter + 1)}
+            />
+          </div>
           {longitude || latitude ? (
             <Button
               ghost

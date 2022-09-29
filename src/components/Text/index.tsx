@@ -14,6 +14,7 @@ type TextProps = {
   variant?: ColorVariant
   textAlign?: 'center' | 'right' | 'left'
   children: ReactNode
+  onClick?: () => void
 }
 
 export const Text: FC<TextProps> = ({
@@ -28,6 +29,7 @@ export const Text: FC<TextProps> = ({
   space,
   variant,
   textAlign,
+  onClick,
   ...props
 }) => {
   const s = font({ size, color, variant, weight }) as CSSProperties
@@ -57,7 +59,7 @@ export const Text: FC<TextProps> = ({
   }
 
   return (
-    <div style={s} {...props}>
+    <div style={s} {...props} onClick={onClick}>
       {children}
     </div>
   )
