@@ -1,5 +1,3 @@
-// TODO yves throw away
-
 import React, { FC, useEffect, useState, useRef } from 'react'
 import { Text, Button, ExpandRightIcon, useTooltip } from '~'
 import { color } from '~/utils'

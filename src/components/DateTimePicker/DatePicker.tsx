@@ -1,4 +1,3 @@
-// TODO yves fix errors/warnings // ts ignores
 import React, { useState, useEffect, useRef } from 'react'
 import { ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
 import { styled } from 'inlines'
@@ -97,7 +96,6 @@ export const DatePicker = ({
 
   const [daysArr, setDaysArr] = useState([])
 
-  // Functions
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
   }
@@ -189,8 +187,6 @@ export const DatePicker = ({
     setDaysArr(tempArr)
   }, [selectedMonth])
 
-  // console.log(tempArr)
-
   return (
     <StyledDatePickerBox ref={datePickerRef}>
       <div
@@ -276,15 +272,12 @@ export const DatePicker = ({
 
       <div style={{ borderBottom: `1px solid ${color('border')}` }} />
       <div style={{ padding: '12px 16px' }}>
-        {/* @ts-ignore */}
         <Text weight={400} onClick={todayHandler} space="4px">
           Today
         </Text>
-        {/* @ts-ignore */}
         <Text weight={400} space="4px" onClick={nextDay}>
           Select next date
         </Text>
-        {/* @ts-ignore */}
         <Text weight={400} space="4px" onClick={prevDay}>
           Select previous date
         </Text>
@@ -294,7 +287,6 @@ export const DatePicker = ({
       <Text
         style={{ padding: '8px 16px' }}
         weight={400}
-        // @ts-ignore
         onClick={() => changeHandler('YYYY', 'MM', 'DD')}
       >
         Clear
