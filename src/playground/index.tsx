@@ -1,11 +1,20 @@
 import { render } from 'react-dom'
-import React, { FC } from 'react'
-import { Provider, Button, Page, Menu, useLocation } from '../'
+import React, { FC, useState } from 'react'
+import {
+  Provider,
+  Button,
+  Page,
+  Menu,
+  useLocation,
+  Input,
+  SearchIcon,
+  LargeLogo,
+  DarkModeIcon,
+  LightModeIcon,
+} from '../'
 import based from '@based/client'
 import * as stories from './stories'
-import { DarkModeIcon, LightModeIcon } from '../'
 import { toPascalCase } from './utils'
-import { LargeLogo } from '../'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import basedConfig from './based.json'
@@ -26,11 +35,131 @@ const Stories: FC = () => {
   return <>Overview</>
 }
 
+const menuItems = {
+  Based: {
+    App: '?story=based-app',
+  },
+  Advanced: {
+    Auth: '?story=auth',
+    ContentEditor: '?story=content-editor',
+  },
+  Schema: {
+    Schema: '?story=schema',
+    SchemaModals: '?story=schema-modals',
+  },
+  Input: {
+    Buttons: '?story=buttons',
+    Checkboxes: '?story=checkboxes',
+    ColorPicker: '?story=color-picker',
+    DateTimePicker: '?story=DateTime',
+    FileUpload: '?story=upload',
+    Forms: '?story=forms',
+    Geo: '?story=geo',
+    InputFields: '?story=input-fields',
+    Radiobuttons: '?story=radiobutton',
+    ReferenceInput: '?story=reference-inputs',
+    Selects: '?story=selects',
+    Sliders: '?story=sliders',
+    Toggle: '?story=toggles',
+    ToggleGroups: '?story=ToggleGroups',
+  },
+  Display: {
+    Avatars: '?story=avatars',
+    Badges: '?story=badges',
+    Cards: '?story=cards',
+    Icons: '?story=icons',
+    Label: '?story=labels',
+    Steps: '?story=step',
+    Thumbnails: '?story=thumbnails',
+    Separator: '?story=separators',
+    Spacer: '?story=Spacers',
+  },
+  Feedback: {
+    Callouts: '?story=callouts',
+    Dialogs: '?story=dialogs',
+    Toasts: '?story=toasts',
+  },
+  Code: {
+    Code: '?story=code',
+  },
+  Layout: {
+    Accordions: '?story=accordions',
+    Container: '?story=Containers',
+    Flow: '?story=FlowSequences',
+    Grids: '?story=grids',
+    ExpandableList: '?story=ExpandableLists',
+    InfiniteList: '?story=InfiniteLists',
+    Lists: '?story=lists',
+    MasonryGrid: '?story=masonryGrid',
+    Page: '?story=pages',
+    Tables: '?story=tables',
+    Tabs: '?story=tabsView',
+  },
+  Navigation: {
+    Breadcrumbs: '?story=breadcrumb',
+    SideMenu: '?story=SideMenu',
+    Sidebar: '?story=SideBar',
+    Topbar: '?story=topbars',
+  },
+  Overlays: {
+    ContextMenus: '?story=context-menus',
+  },
+
+  Themes: {
+    Theming: '?story=theming',
+  },
+  Text: {
+    Text: '?story=text',
+  },
+  Insights: {
+    BarGraphs: '?story=BarGraphs',
+    LineGraph: '?story=lineGraph',
+    PieGraph: '?story=PieGraphs',
+    ResultCards: '?story=ResultCards',
+    // ScatterResults: '?story=ScatterResults',
+  },
+  Hooks: {
+    Tooltips: '?story=tooltips',
+  },
+  Handbook: {
+    Props: '?story=props',
+  },
+  Examples: {
+    Inbox: '?story=inbox',
+    ProfileSettings: '?story=profile-settings',
+    ProjectSettings: '?story=project-settings',
+    Tally: '?story=tally-screens',
+  },
+}
+
 const App = () => {
   const [darkMode, setDarkMode] = useDarkMode()
+  const [filteredObj, setFilteredObj] = useState<Object>(menuItems)
+
+  const searchFilterHandler = (value: string) => {
+    if (value === '') {
+      setFilteredObj(menuItems)
+      return
+    }
+
+    const filteredArr = []
+    for (const key in menuItems) {
+      for (const subKey in menuItems[key]) {
+        if (subKey.toLowerCase().includes(value.toLowerCase())) {
+          filteredArr.push([subKey, menuItems[key][subKey]])
+        }
+      }
+    }
+    // nu van array weer object maken
+    const filteredObjTest = Object.fromEntries(filteredArr)
+
+    setFilteredObj({ Results: filteredObjTest })
+  }
+
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
       <Menu
+        collapse
         style={{
           paddingLeft: 32,
           // minWidth: 300,
@@ -46,6 +175,7 @@ const App = () => {
             >
               <Button
                 color="text"
+                space="12px"
                 ghost
                 style={{
                   marginLeft: -8,
@@ -54,104 +184,17 @@ const App = () => {
                 onClick={() => setDarkMode(!darkMode)}
               />
             </div>
+            <div style={{ marginLeft: -8 }}>
+              <Input
+                icon={<SearchIcon />}
+                placeholder="Search"
+                space="20px"
+                onChange={(e) => searchFilterHandler(e)}
+              />
+            </div>
           </>
         }
-        data={{
-          Based: {
-            App: '?story=based-app',
-          },
-          Advanced: {
-            Auth: '?story=auth',
-            ContentEditor: '?story=content-editor',
-          },
-          Schema: {
-            Schema: '?story=schema',
-            SchemaModals: '?story=schema-modals',
-          },
-          Input: {
-            Buttons: '?story=buttons',
-            Checkboxes: '?story=checkboxes',
-            ColorPicker: '?story=color-picker',
-            DateTimePicker: '?story=DateTime',
-            FileUpload: '?story=upload',
-            Forms: '?story=forms',
-            Geo: '?story=geo',
-            InputFields: '?story=input-fields',
-            Radiobuttons: '?story=radiobutton',
-            ReferenceInput: '?story=reference-inputs',
-            Selects: '?story=selects',
-            Sliders: '?story=sliders',
-            Toggle: '?story=toggles',
-            ToggleGroups: '?story=ToggleGroups',
-          },
-          Display: {
-            Avatars: '?story=avatars',
-            Badges: '?story=badges',
-            Cards: '?story=cards',
-            Icons: '?story=icons',
-            Label: '?story=labels',
-            Steps: '?story=step',
-            Thumbnails: '?story=thumbnails',
-            Separator: '?story=separators',
-            Spacer: '?story=Spacers',
-          },
-          Feedback: {
-            Callouts: '?story=callouts',
-            Dialogs: '?story=dialogs',
-            Toasts: '?story=toasts',
-          },
-          Code: {
-            Code: '?story=code',
-          },
-          Layout: {
-            Accordions: '?story=accordions',
-            Container: '?story=Containers',
-            Flow: '?story=FlowSequences',
-            Grids: '?story=grids',
-            ExpandableList: '?story=ExpandableLists',
-            InfiniteList: '?story=InfiniteLists',
-            Lists: '?story=lists',
-            MasonryGrid: '?story=masonryGrid',
-            Page: '?story=pages',
-            Tables: '?story=tables',
-            Tabs: '?story=tabsView',
-          },
-          Navigation: {
-            Breadcrumbs: '?story=breadcrumb',
-            SideMenu: '?story=SideMenu',
-            Sidebar: '?story=SideBar',
-            Topbar: '?story=topbars',
-          },
-          Overlays: {
-            ContextMenus: '?story=context-menus',
-          },
-
-          Themes: {
-            Theming: '?story=theming',
-          },
-          Text: {
-            Text: '?story=text',
-          },
-          Insights: {
-            BarGraphs: '?story=BarGraphs',
-            LineGraph: '?story=lineGraph',
-            PieGraph: '?story=PieGraphs',
-            ResultCards: '?story=ResultCards',
-            // ScatterResults: '?story=ScatterResults',
-          },
-          Hooks: {
-            Tooltips: '?story=tooltips',
-          },
-          Handbook: {
-            Props: '?story=props',
-          },
-          Examples: {
-            Inbox: '?story=inbox',
-            ProfileSettings: '?story=profile-settings',
-            ProjectSettings: '?story=project-settings',
-            Tally: '?story=tally-screens',
-          },
-        }}
+        data={filteredObj}
       />
       <Page style={{ padding: 32 }}>
         <Stories />
