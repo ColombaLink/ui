@@ -32,6 +32,9 @@ type GeoInputProps = {
 }
 
 // TODO yves fix
+//  ONCHANGE
+//  STYLING LONG LAT
+
 export const GeoInput: FC<GeoInputProps> = ({
   label,
   description,
@@ -51,15 +54,6 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [changeCounter, setChangeCounter] = useState<number>(0)
   const [isFocused, setIsFocused] = useState<boolean>(false)
   const [errorMessage, setErrorMessage] = useState<string | null>('')
-
-  // put in .env.local
-
-  // const MAPBOX_TOKEN_COWBOYBEER =
-  //   'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA'
-
-  // const ACCESS_TOKEN =
-  //   mapboxApiAccessToken ||
-  //   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
 
   const ACCESS_TOKEN = mapboxApiAccessToken
 
@@ -113,6 +107,7 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   return (
     <InputWrapper
+      disabled={disabled}
       indent={indent}
       focus={isFocused}
       space={space}
@@ -161,6 +156,7 @@ export const GeoInput: FC<GeoInputProps> = ({
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           display: radioValue === 'Address' ? 'block' : 'none',
+
           maxWidth: '80%',
           '& .mapboxgl-ctrl-geocoder': {
             width: '100%',
@@ -172,6 +168,7 @@ export const GeoInput: FC<GeoInputProps> = ({
           '& .mapboxgl-ctrl-geocoder--input': {
             padding: '10px !important',
             width: '100%',
+            pointerEvents: disabled ? 'none' : 'auto',
           },
           '& .mapboxgl-ctrl-geocoder svg': {
             display: 'none',
@@ -196,6 +193,7 @@ export const GeoInput: FC<GeoInputProps> = ({
         >
           <Text wrap>Latitude</Text>
           <Input
+            disabled={disabled}
             type="number"
             placeholder="Between -90 and 90"
             onChange={(e) => {
@@ -219,6 +217,7 @@ export const GeoInput: FC<GeoInputProps> = ({
             Longitude
           </Text>
           <Input
+            disabled={disabled}
             type="number"
             placeholder="Between -180 and 180"
             onChange={(e) => {

@@ -249,7 +249,7 @@ const ScatterInner: FC<
                       {info[key].label}
                     </Text>
                     <Text weight={400}>
-                      {/* // @ts-ignore */}
+                      {/* @ts-ignore */}
                       {prettyNumber(v.info ? v.info[key] : 0, info[key].format)}
                     </Text>
                   </div>
