@@ -1,6 +1,9 @@
 import { useLocation as useWouterLocation, LocationHook } from 'wouter'
 
 export const parseHref = (href = '/') => {
+  if (href !== '/' && href[href.length - 1] === '/') {
+    href = href.slice(0,-1)
+  }
   const { search } = location
   if (search) {
     if (href[0] === '?') {
@@ -17,6 +20,7 @@ export const parseHref = (href = '/') => {
       href = `${href}${search}`
     }
   }
+  
   return href
 }
 
