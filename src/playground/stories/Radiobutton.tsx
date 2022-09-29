@@ -19,7 +19,7 @@ export const Radiobutton = () => {
             props: {
               label: 'Radio Buttons',
               description: 'Radio Buttons for you',
-              //  data: ['Apples', 'Oranges', 'Bananas'],
+              indent: true,
               data: testObjects,
               value: 'Bananas',
             },

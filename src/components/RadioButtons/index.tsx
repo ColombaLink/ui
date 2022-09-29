@@ -18,6 +18,7 @@ type RadioButtonsProps = {
   description?: string
   direction?: 'horizontal' | 'vertical'
   indent?: boolean
+  disabled?: boolean
   descriptionBottom?: string
   // error?: (value: string | boolean | number) => string
   onChange?: (value: string | number | boolean) => void
@@ -33,6 +34,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   value,
   onChange,
   indent,
+  disabled,
   // error,
   space,
   style,
@@ -49,6 +51,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       style={style}
       focus={checked !== -1}
       descriptionBottom={descriptionBottom}
+      disabled={disabled}
     >
       <Label label={label} description={description} />
       <div

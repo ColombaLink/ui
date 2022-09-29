@@ -8,7 +8,7 @@ type ResultCardProps = {
   label?: string
   value?: number | { [key: string]: number | string }
   style?: CSSProperties
-  format?: NumberFormat
+  format?: NumberFormat | string | number
   space?: Space
 }
 
@@ -21,7 +21,6 @@ export const ResultCard: FC<ResultCardProps> = ({
   ...props
 }) => {
   if (typeof value === 'object') {
-    // @ts-ignore TODO
     format = value.format
     value = value.value
   }
