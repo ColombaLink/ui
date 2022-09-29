@@ -8,7 +8,7 @@ type ResultCardProps = {
   label?: string
   value?: number | { [key: string]: number | string }
   style?: CSSProperties
-  format?: NumberFormat | string | number
+  format?: NumberFormat
   space?: Space
 }
 
@@ -21,6 +21,7 @@ export const ResultCard: FC<ResultCardProps> = ({
   ...props
 }) => {
   if (typeof value === 'object') {
+    // @ts-ignore
     format = value.format
     value = value.value
   }
@@ -45,6 +46,7 @@ export const ResultCard: FC<ResultCardProps> = ({
       <Text weight={400} space="8px">
         {label}
       </Text>
+
       <Text size="24px" weight={700}>
         {prettyNumber(value, format)}
       </Text>
