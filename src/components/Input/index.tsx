@@ -44,7 +44,14 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-const Single = ({ type, inputRef, pattern, ...props }) => {
+type SingleProps = {
+  type?: string
+  inputRef?: RefObject<any>
+  pattern?: string
+  props?: any
+}
+
+const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
@@ -424,7 +431,6 @@ export const Input: FC<
                   // setValue(+value + 1)
                 }}
               >
-                {/* @ts-ignore */}
                 <ChevronUpIcon size={9} strokeWidth={2.5} />
               </styled.div>
               <styled.div
@@ -444,7 +450,6 @@ export const Input: FC<
                   onChange({ target: { value: +value - 1 } })
                 }}
               >
-                {/* @ts-ignore */}
                 <ChevronDownIcon size={9} strokeWidth={2.5} />
               </styled.div>
             </div>
