@@ -57,7 +57,9 @@ export const TimeInput = ({
         onBlur={onBlur}
         disabled={disabled}
         style={{
-          backgroundColor: disabled ? color('background2') : '',
+          backgroundColor: disabled
+            ? color('background2')
+            : color('background'),
         }}
       />
       <div

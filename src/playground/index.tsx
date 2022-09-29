@@ -134,29 +134,26 @@ const menuItems = {
 
 const App = () => {
   const [darkMode, setDarkMode] = useDarkMode()
-  const [filteredObj, setFilteredObj] = useState(menuItems)
+  const [filteredObj, setFilteredObj] = useState<Object>(menuItems)
 
   const searchFilterHandler = (value: string) => {
+    if (value === '') {
+      setFilteredObj(menuItems)
+      return
+    }
+
     const filteredArr = []
     for (const key in menuItems) {
-      if (key.toLowerCase().includes(value.toLowerCase())) {
-        filteredArr.push([key, '#'])
-      }
       for (const subKey in menuItems[key]) {
         if (subKey.toLowerCase().includes(value.toLowerCase())) {
           filteredArr.push([subKey, menuItems[key][subKey]])
         }
       }
     }
-
     // nu van array weer object maken
     const filteredObjTest = Object.fromEntries(filteredArr)
 
-    console.log('filteredArr', filteredArr)
-
-    // filter through the parents
-    console.log('filteredObj', filteredObj)
-    setFilteredObj(filteredObjTest)
+    setFilteredObj({ Results: filteredObjTest })
   }
 
   return (
