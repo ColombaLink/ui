@@ -159,6 +159,7 @@ const App = () => {
   return (
     <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
       <Menu
+        collapse
         style={{
           paddingLeft: 32,
           // minWidth: 300,
@@ -187,7 +188,7 @@ const App = () => {
               <Input
                 icon={<SearchIcon />}
                 placeholder="Search"
-                space="12px"
+                space="20px"
                 onChange={(e) => searchFilterHandler(e)}
               />
             </div>
