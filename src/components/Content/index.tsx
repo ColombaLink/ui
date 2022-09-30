@@ -12,7 +12,7 @@ export const Content: FC<{
   const [location] = useLocation()
   const type = location.substring(prefix.length).split('/')[1]
 
-  // console.log(window.location.search)
+  console.log(window.location.search.substring(1).split('&'))
 
   return (
     <div
@@ -24,7 +24,7 @@ export const Content: FC<{
     >
       <ContentLeft prefix={prefix} />
       <ContentMain prefix={prefix} db={db} type={type} />
-      <ContentModal />
+      {/* <ContentModal /> */}
     </div>
   )
 }

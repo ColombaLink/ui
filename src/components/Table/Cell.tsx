@@ -46,11 +46,11 @@ export const Cell: FC<{
         height: height,
         position: 'relative',
         cursor: 'pointer',
-        '&:hover': onClick
-          ? {
-              backgroundColor: color('background:hover'),
-            }
-          : null,
+        // '&:hover': onClick
+        //   ? {
+        //       backgroundColor: color('background:hover'),
+        //     }
+        //   : null,
       }}
     >
       <Text

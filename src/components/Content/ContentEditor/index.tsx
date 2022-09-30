@@ -1,4 +1,4 @@
-import { useData } from '@based/react'
+import { useClient, useData } from '@based/react'
 import React from 'react'
 import {
   Input,
@@ -12,11 +12,15 @@ import {
   DateTimePicker,
   FileUpload,
 } from '~'
+import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
+import { useDescriptor } from '../hooks/useDescriptor'
+import { Dialog, useDialog } from '~/components/Dialog'
+import { ContentMain } from '../ContentMain'
 
 const Reference = ({ id }) => {
-  const { type } = useItemSchema(id)
+  const { type, descriptor } = useDescriptor(id)
 
   return (
     <div
@@ -31,15 +35,23 @@ const Reference = ({ id }) => {
         marginBottom: 12,
       }}
     >
-      <Badge>{type}</Badge>
-      <Text style={{ marginLeft: 8 }}>{id}</Text>
+      <Badge color="text">{type}</Badge>
+      <Text style={{ marginLeft: 8 }}>{descriptor}</Text>
     </div>
   )
 }
 
-const References = ({ label, description, value = [], style }) => {
+const References = ({
+  label,
+  description,
+  value = [],
+  style,
+  onChange,
+  ...props
+}) => {
+  const { open } = useDialog()
   return (
-    <div style={style}>
+    <InputWrapper indent style={style}>
       <Label
         label={label}
         description={description}
@@ -48,10 +60,27 @@ const References = ({ label, description, value = [], style }) => {
       {value.map((id) => (
         <Reference key={id} id={id} />
       ))}
-      <Button light icon={AddIcon}>
+      <Button
+        ghost
+        icon={AddIcon}
+        onClick={() => {
+          open(
+            <Dialog
+              padding={0}
+              style={{
+                width: '100vw',
+                height: 'calc(100vh - 60px)',
+              }}
+              pure
+            >
+              <ContentMain style={{ height: '100%' }} />
+            </Dialog>
+          )
+        }}
+      >
         Add item
       </Button>
-    </div>
+    </InputWrapper>
   )
 }
 
@@ -121,7 +150,7 @@ const boolean = {
 }
 
 const timestamp = {
-  default: (props) => <DateTimePicker {...props} type="number" />,
+  default: (props) => <DateTimePicker indent {...props} type="number" />,
 }
 
 const references = {

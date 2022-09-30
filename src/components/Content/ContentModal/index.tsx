@@ -1,4 +1,4 @@
-import { useClient, useData } from '@based/react'
+import { useClient } from '@based/react'
 import React from 'react'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -8,41 +8,10 @@ import { Text } from '~/components/Text'
 import { AddIcon, CloseIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
-import { useItemSchema } from '../hooks/useItemSchema'
-import { useLanguage } from '../hooks/useLanguage'
-
-const getDescriptors = (fields, meta) => {
-  const options = Object.keys(fields)
-    .filter((key) => {
-      const { type } = fields[key]
-      return type === 'string' || type === 'text'
-    })
-    .sort((a, b) => {
-      return fields[a].meta?.index > fields[b].meta?.index ? 1 : -1
-    })
-
-  return meta.descriptor ? [meta.descriptor, ...options] : options
-}
-
-const useDescriptor = (id) => {
-  const { fields, meta, loading } = useItemSchema(id)
-  const { language } = useLanguage()
-  const { data } = useData(
-    loading
-      ? null
-      : {
-          $id: id,
-          $language: language,
-          descriptor: {
-            $field: getDescriptors(fields, meta),
-          },
-        }
-  )
-  return data.descriptor || ''
-}
+import { useDescriptor } from '../hooks/useDescriptor'
 
 const Topbar = ({ id }) => {
-  const descriptor = useDescriptor(id)
+  const { descriptor } = useDescriptor(id)
   return (
     <div
       style={{

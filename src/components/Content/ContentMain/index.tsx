@@ -9,7 +9,7 @@ import { DeleteIcon } from '~/icons'
 import { deepEqual, parseQuery } from '@saulx/utils'
 import { Input } from '~/components/Input'
 
-export const ContentMain = () => {
+export const ContentMain = ({ style }) => {
   const { loading, types } = useSchemaTypes()
   const [, setLocation] = useLocation()
 
@@ -52,7 +52,14 @@ export const ContentMain = () => {
   // }
 
   return (
-    <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{
+        flexGrow: 1,
+        display: 'flex',
+        flexDirection: 'column',
+        ...style,
+      }}
+    >
       <div style={{ display: 'flex', padding: 12 }}>
         <Badge
           style={{ margin: 4 }}
