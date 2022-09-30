@@ -98,17 +98,26 @@ const string = {
 }
 
 const boolean = {
-  default: ({ label, description, value, style, ...props }) => (
-    <RadioButtons
-      label={label}
-      value={value}
-      indent
-      descriptionBottom={description}
-      space
-      style={style}
-      {...props}
-    />
-  ),
+  default: ({ description, ...props }) => {
+    return (
+      <RadioButtons
+        indent
+        descriptionBottom={description}
+        space
+        data={[
+          {
+            value: true,
+            label: 'True',
+          },
+          {
+            value: false,
+            label: 'False',
+          },
+        ]}
+        {...props}
+      />
+    )
+  },
 }
 
 const timestamp = {

@@ -35,11 +35,9 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   onChange,
   indent,
   disabled,
-  // error,
   space,
   style,
   descriptionBottom,
-  // ...props
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
