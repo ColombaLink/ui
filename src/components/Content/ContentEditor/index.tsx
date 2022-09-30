@@ -1,7 +1,6 @@
-import { useClient, useData, useSchema } from '@based/react'
+import { useData } from '@based/react'
 import React from 'react'
 import {
-  Page,
   Input,
   Text,
   Label,
@@ -13,19 +12,7 @@ import {
   DateTimePicker,
   FileUpload,
 } from '~'
-
-const useItemSchema = (id) => {
-  const { schema, loading } = useSchema()
-  if (loading) {
-    return { loading }
-  }
-  if (id === 'root') {
-    return { schema, type: 'root', ...schema.rootType }
-  } else {
-    const type = schema.prefixToTypeMapping[id.substring(0, 2)]
-    return { schema, type, ...schema.types[type] }
-  }
-}
+import { useItemSchema } from '../hooks/useItemSchema'
 
 const Reference = ({ id }) => {
   const { type } = useItemSchema(id)
@@ -171,11 +158,9 @@ const components = {
   timestamp,
 }
 
-const EditField = ({ id, meta, type, field, index, language, onChange }) => {
+const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   const { ui, format, description, name } = meta
-
   const { data } = useData({ $id: id, $language: language, [field]: true })
-
   const Component = components[type]?.[ui || format || 'default']
   const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
 
@@ -189,8 +174,6 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
 
   const disabled = field === 'createdAt' || field === 'updatedAt'
 
-  console.log('FIELD??', field, meta)
-
   return (
     <Component
       description={description}
@@ -200,14 +183,13 @@ const EditField = ({ id, meta, type, field, index, language, onChange }) => {
       style={{ order: index, marginBottom: 24 }}
       value={data[field]}
       onChange={(value) => {
-        console.log('VALLLLL', value)
         onChange({ $language: language, [field]: value })
       }}
     />
   )
 }
 
-const Edit = ({ id, onChange }) => {
+export const ContentEditor = ({ id, onChange, style }) => {
   const { schema, fields, loading, meta } = useItemSchema(id)
 
   if (loading) {
@@ -215,9 +197,7 @@ const Edit = ({ id, onChange }) => {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* {fields[meta.descriptor] ||  */}
-      {meta.name}:{id}
+    <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {Object.keys(fields).map((field) => {
         const { type, meta } = fields[field]
 
@@ -230,12 +210,10 @@ const Edit = ({ id, onChange }) => {
           return null
         }
 
-        console.log('META:', meta, type)
-
         const index = meta.index
 
         return (
-          <EditField
+          <ContentField
             field={field}
             id={id}
             index={index}
@@ -249,19 +227,4 @@ const Edit = ({ id, onChange }) => {
       })}
     </div>
   )
-}
-
-export const ContentEditor = () => {
-  const id = '5060967721'
-  const client = useClient()
-
-  return <Edit
-          id={id}
-          onChange={(data) => {
-            return client.set({
-              $id: id,
-              ...data,
-            })
-          }}
-        />
 }
