@@ -18,8 +18,6 @@ const getDescriptors = (fields, meta) => {
       return fields[a].meta?.index > fields[b].meta?.index ? 1 : -1
     })
 
-  console.log(JSON.stringify({ options, fields }, null, 2))
-
   return meta.descriptor ? [meta.descriptor, ...options] : options
 }
 

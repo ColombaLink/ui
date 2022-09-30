@@ -12,6 +12,7 @@ import {
   DateTimePicker,
   FileUpload,
 } from '~'
+import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 
 const Reference = ({ id }) => {
@@ -84,33 +85,6 @@ const SingleReference = ({ label, description, value, style, ...props }) => {
   )
 }
 
-const Id = ({ value, style }) => {
-  return (
-    <div
-      style={{
-        ...style,
-        order: -1,
-      }}
-    >
-      {value}
-    </div>
-  )
-}
-
-const Type = ({ value, style }) => {
-  return (
-    <div
-      style={{
-        ...style,
-        order: -1,
-        float: 'right',
-      }}
-    >
-      {value}
-    </div>
-  )
-}
-
 const string = {
   default: ({ description, ...props }) => (
     <Input
@@ -164,6 +138,14 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   const Component = components[type]?.[ui || format || 'default']
   const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
 
+  if (
+    field === 'createdAt' ||
+    field === 'updatedAt' ||
+    alwaysIgnore.has(field)
+  ) {
+    return null
+  }
+
   if (Component === undefined) {
     return (
       <div style={{ order: index }}>
@@ -172,12 +154,9 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
     )
   }
 
-  const disabled = field === 'createdAt' || field === 'updatedAt'
-
   return (
     <Component
       description={description}
-      disabled={disabled}
       label={label}
       meta={meta}
       style={{ order: index, marginBottom: 24 }}
@@ -189,7 +168,7 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   )
 }
 
-export const ContentEditor = ({ id, onChange, style }) => {
+export const ContentEditor = ({ id, onChange, style = null }) => {
   const { schema, fields, loading, meta } = useItemSchema(id)
 
   if (loading) {

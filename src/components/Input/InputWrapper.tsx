@@ -26,7 +26,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   ...props
 }) => {
   return (
-    <div style={{ cursor: disabled ? 'not-allowed' : null }}>
+    <div style={{ cursor: disabled ? 'not-allowed' : null, ...style }}>
       <styled.div
         style={{
           borderLeft: indent ? `2px solid ${color('border')}` : null,
@@ -38,7 +38,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
           paddingLeft: indent ? 12 : null,
           marginBottom: spaceToPx(space),
           pointerEvents: disabled ? 'none' : null,
-          ...style,
         }}
         {...props}
       >

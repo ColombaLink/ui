@@ -286,6 +286,7 @@ export const Input: FC<
 
   return (
     <InputWrapper
+      style={style}
       indent={indent}
       focus={focused}
       space={space}
@@ -296,7 +297,6 @@ export const Input: FC<
       <div
         style={{
           width: ghost ? 300 : '100%',
-          ...style,
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
