@@ -1,8 +1,11 @@
 import { useClient, useData } from '@based/react'
 import React from 'react'
+import { Button } from '~/components/Button'
+import { RightSidebar } from '~/components/RightSidebar'
 import { ScrollArea } from '~/components/ScrollArea'
+import { Separator } from '~/components/Separator'
 import { Text } from '~/components/Text'
-import { CloseIcon } from '~/icons'
+import { AddIcon, CloseIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useItemSchema } from '../hooks/useItemSchema'
@@ -92,20 +95,46 @@ export const ContentModal = () => {
         }}
       >
         <Topbar id={id} />
-        <ScrollArea style={{ flexGrow: 1 }}>
-          <ContentEditor
-            id={id}
-            style={{
-              padding: '48px 76px',
-            }}
-            onChange={(data) => {
-              return client.set({
-                $id: id,
-                ...data,
-              })
-            }}
-          />
-        </ScrollArea>
+        <div
+          style={{
+            display: 'flex',
+            height: 'calc(100% - 64px)',
+          }}
+        >
+          <ScrollArea style={{ flexGrow: 1 }}>
+            <ContentEditor
+              id={id}
+              style={{ padding: '48px 76px' }}
+              onChange={(data) => {
+                return client.set({
+                  $id: id,
+                  ...data,
+                })
+              }}
+            />
+          </ScrollArea>
+          <RightSidebar style={{ minWidth: 210 }}>
+            <Text space="16px" size={18} weight={700}>
+              Status
+            </Text>
+            <Separator />
+            <Button
+              textAlign="center"
+              space="24px"
+              icon={AddIcon}
+              style={{ width: '100%' }}
+              // onClick={openSelectField}
+            >
+              Publish
+            </Button>
+            {/* <Text space="12px" size={14} weight={600}>
+            Documentation
+          </Text>
+          <Text size={12} color="text2" wrap>
+            Read more about schema types in our guide to schema editing.
+          </Text> */}
+          </RightSidebar>
+        </div>
       </div>
     </div>
   )
