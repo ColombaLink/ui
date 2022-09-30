@@ -69,6 +69,8 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const handleFileDrop = (e) => {
     setErrorMessage('')
+    setDraggingOver(false)
+    setIsFocused(false)
 
     if (!disabled) {
       e.preventDefault()
@@ -97,7 +99,6 @@ export const FileUpload: FC<FileUploadProps> = ({
         setUploadedFiles([...uploadedFiles, ...TempArr])
         onChangeProp([...uploadedFiles, ...TempArr])
       }
-      setDraggingOver(false)
     }
   }
 
@@ -174,12 +175,16 @@ export const FileUpload: FC<FileUploadProps> = ({
         <StyledFileInput
           onClick={handleClickUpload}
           onDragOver={(e) => {
+            setIsFocused(true)
             e.preventDefault()
             e.stopPropagation()
             setDraggingOver(true)
           }}
           onDrop={handleFileDrop}
-          onDragLeave={() => setDraggingOver(false)}
+          onDragLeave={() => {
+            setDraggingOver(false)
+            setIsFocused(false)
+          }}
           style={{
             backgroundColor: draggingOver
               ? color('lightaccent')
@@ -205,7 +210,6 @@ export const FileUpload: FC<FileUploadProps> = ({
         <input
           ref={hiddenFileInput}
           onChange={onChange}
-          onFocus={() => setIsFocused(true)}
           type="file"
           style={{ display: 'none' }}
           accept={acceptedFileTypes && acceptedFileTypes.join(',')}
