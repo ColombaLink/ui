@@ -12,6 +12,8 @@ type InputWrapperProps = {
   descriptionBottom?: string
   style?: CSSProperties
   disabled?: boolean
+  onMouseEnter?: () => void
+  onMouseLeave?: () => void
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({

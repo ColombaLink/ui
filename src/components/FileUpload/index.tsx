@@ -48,6 +48,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
+  const [isFocused, setIsFocused] = useState(false)
 
   const hiddenFileInput = useRef(null)
 
@@ -130,11 +131,15 @@ export const FileUpload: FC<FileUploadProps> = ({
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       errorMessage={errorMessage}
-      focus={uploadedFiles.length > 0}
+      focus={isFocused}
       space={space}
       style={style}
     >
-      <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
+      <styled.div
+        style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+        onMouseOver={() => setIsFocused(true)}
+        onMouseLeave={() => setIsFocused(false)}
+      >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Label
             label={label}

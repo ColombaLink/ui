@@ -43,7 +43,6 @@ export const capitalize = (name: string, allWords?: boolean): string => {
   return name[0].toUpperCase() + name.substring(1)
 }
 
-// @ts-ignore
 const formatter = new Intl.ListFormat('en', {
   style: 'long',
   type: 'disjunction',
