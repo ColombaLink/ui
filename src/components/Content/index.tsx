@@ -12,8 +12,16 @@ export const Content: FC<{
   const [location] = useLocation()
   const type = location.substring(prefix.length).split('/')[1]
 
+  // console.log(window.location.search)
+
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 120px)', ...style }}>
+    <div
+      style={{
+        display: 'flex',
+        height: 'calc(100vh - 120px)',
+        ...style,
+      }}
+    >
       <ContentLeft prefix={prefix} />
       <ContentMain prefix={prefix} db={db} type={type} />
       <ContentModal />

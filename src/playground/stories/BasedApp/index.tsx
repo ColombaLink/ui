@@ -51,6 +51,7 @@ export const BasedApp = () => {
     <Project
       // id="enBEFnEK"
       style={{
+        position: 'relative',
         border: '1px solid black',
         overflow: 'hidden',
       }}
