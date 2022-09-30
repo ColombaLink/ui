@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, FC, useState } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
@@ -43,13 +43,14 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
+  const [isFocused, setIsFocused] = useState(false)
 
   return (
     <InputWrapper
       indent={indent}
       space={space}
       style={style}
-      focus={checked !== -1}
+      focus={isFocused}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
     >
@@ -61,6 +62,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
           marginBottom: 8,
           marginTop: 8,
         }}
+        onMouseLeave={() => setIsFocused(false)}
+        onMouseOver={() => setIsFocused(true)}
       >
         {data?.map((item, index) => {
           const onSelect = () => {

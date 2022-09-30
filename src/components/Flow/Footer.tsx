@@ -5,14 +5,9 @@ import React, {
   CSSProperties,
   ReactNode,
 } from 'react'
-import { Text, LoadingIcon, AddIcon } from '~'
+import { Text, LoadingIcon } from '~'
 import { color, renderOrCreateElement, stringToIcon } from '~/utils'
-import {
-  Data,
-  Children,
-  MultiDataEventHandler,
-  DataEventHandler,
-} from '~/types'
+import { Data, MultiDataEventHandler, DataEventHandler } from '~/types'
 import { useFlowHover } from './useFlowHover'
 
 export type FooterProps<T = any> = {
@@ -69,10 +64,10 @@ export const Footer: FC<FooterProps> = ({
       onClick={useCallback(
         (e) => {
           setLoading(true)
-          // @ts-ignore
+
           const p = onClick(e, data || items)
           if (p instanceof Promise) {
-            p.then((v) => {
+            p.then(() => {
               setLoading(false)
             })
           } else {

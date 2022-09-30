@@ -176,16 +176,17 @@ export const Menu: FC<{
               alignItems: 'center',
             }}
             onClick={() => {
-              console.log('click', i)
-              document
-                .getElementById(`${i}-menuitems`)
-                .classList.toggle('hidden')
-              document
-                .getElementById(`${i}-menuchevron`)
-                .classList.toggle('closed')
-              document
-                .getElementById(`${i}-menuheader`)
-                .classList.toggle('closed')
+              if (collapse) {
+                document
+                  .getElementById(`${i}-menuitems`)
+                  .classList.toggle('hidden')
+                document
+                  .getElementById(`${i}-menuchevron`)
+                  .classList.toggle('closed')
+                document
+                  .getElementById(`${i}-menuheader`)
+                  .classList.toggle('closed')
+              }
             }}
           >
             {label}
