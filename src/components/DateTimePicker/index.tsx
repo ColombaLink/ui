@@ -146,7 +146,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             <StyledDateInput
               style={{
                 maxWidth: 280,
-                background: showDatePicker ? color('background2') : '',
+                background: showDatePicker
+                  ? color('background2')
+                  : color('background'),
                 color: disabled ? color('text2') : color('text'),
                 borderBottomLeftRadius: showDatePicker ? 0 : 4,
                 borderBottomRightRadius: showDatePicker ? 0 : 4,
