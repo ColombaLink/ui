@@ -60,8 +60,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
           marginBottom: 8,
           marginTop: 8,
         }}
-        onMouseLeave={() => setIsFocused(false)}
-        onMouseOver={() => setIsFocused(true)}
       >
         {data?.map((item, index) => {
           const onSelect = () => {
@@ -84,6 +82,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 type="radio"
                 value={data[checked]}
                 checked={index === checked}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
                 onChange={onSelect}
                 style={{
                   position: 'relative',

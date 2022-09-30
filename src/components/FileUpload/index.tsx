@@ -69,6 +69,8 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const handleFileDrop = (e) => {
     setErrorMessage('')
+    setDraggingOver(false)
+    setIsFocused(false)
 
     if (!disabled) {
       e.preventDefault()
@@ -97,7 +99,6 @@ export const FileUpload: FC<FileUploadProps> = ({
         setUploadedFiles([...uploadedFiles, ...TempArr])
         onChangeProp([...uploadedFiles, ...TempArr])
       }
-      setDraggingOver(false)
     }
   }
 
@@ -137,8 +138,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     >
       <styled.div
         style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
-        onMouseOver={() => setIsFocused(true)}
-        onMouseLeave={() => setIsFocused(false)}
+        // onMouseOver={() => setIsFocused(true)}
+        // onMouseLeave={() => setIsFocused(false)}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Label
@@ -174,12 +175,16 @@ export const FileUpload: FC<FileUploadProps> = ({
         <StyledFileInput
           onClick={handleClickUpload}
           onDragOver={(e) => {
+            setIsFocused(true)
             e.preventDefault()
             e.stopPropagation()
             setDraggingOver(true)
           }}
           onDrop={handleFileDrop}
-          onDragLeave={() => setDraggingOver(false)}
+          onDragLeave={() => {
+            setDraggingOver(false)
+            setIsFocused(false)
+          }}
           style={{
             backgroundColor: draggingOver
               ? color('lightaccent')
