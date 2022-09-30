@@ -137,8 +137,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     >
       <styled.div
         style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
-        onMouseOver={() => setIsFocused(true)}
-        onMouseLeave={() => setIsFocused(false)}
+        // onMouseOver={() => setIsFocused(true)}
+        // onMouseLeave={() => setIsFocused(false)}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Label
@@ -205,6 +205,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         <input
           ref={hiddenFileInput}
           onChange={onChange}
+          onFocus={() => setIsFocused(true)}
           type="file"
           style={{ display: 'none' }}
           accept={acceptedFileTypes && acceptedFileTypes.join(',')}
