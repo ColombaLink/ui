@@ -16,7 +16,8 @@ type DateTimePickerProps = {
   style?: CSSProperties
   error?: (value: boolean | string | number) => string
   disabled?: boolean
-  value?: number | string
+  value?: string
+  props?: any
 }
 
 const nowInMs = new Date().getTime()
@@ -46,8 +47,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   error,
   disabled,
   value,
+  props,
 }) => {
+  console.log('PROPS', props)
+
   const [ms, setMs] = useState(value)
+  const [focus, setFocus] = useState(false)
 
   const [dateFormatInput, setDateFormatInput] = useState(nowFormatted)
   const [dateTimeInput, setDateTimeInput] = useState(nowHours)
@@ -61,7 +66,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     console.log('Datestring', dateString)
     console.log('Output in ms -->', outPutInMs)
 
-    return outPutInMs
+    onChange(outPutInMs)
+    // return outPutInMs
   }
 
   const dateHandler = (val) => {
@@ -87,15 +93,22 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       indent={indent}
       space={space}
       // errorMessage={error}
+      focus={focus}
       disabled={disabled}
       style={style}
     >
       <Label label={label} description={description} space="12px" />
-      <div
-        style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}
-      >
-        <DateInput dateHandler={dateHandler} value={dateFormatInput} />
-        <TimeInput timeInputHandler={timeInputHandler} value={dateTimeInput} />
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>
+        <DateInput
+          dateHandler={dateHandler}
+          value={dateFormatInput}
+          setFocused={setFocus}
+        />
+        <TimeInput
+          timeInputHandler={timeInputHandler}
+          value={dateTimeInput}
+          onFocus={() => setFocus(true)}
+        />
         <UtcInput utcInputHandler={utcInputHandler} />
       </div>
     </InputWrapper>

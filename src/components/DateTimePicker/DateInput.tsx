@@ -24,16 +24,18 @@ const StyledDateInput = styled('input', {
 
 type DateInputProps = {
   //   onChange?: (value: number) => void
-  style?: CSSProperties
+  // style?: CSSProperties
   error?: (value: boolean | string | number) => string
   value?: number | string
   placeholder?: string
   dateHandler?: (value: string) => void
+  setFocused?: (value: boolean) => void
 }
 
 export const DateInput: FC<DateInputProps> = ({
   value,
   placeholder,
+  setFocused,
   dateHandler,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -64,9 +66,9 @@ export const DateInput: FC<DateInputProps> = ({
       {showDatePicker && (
         <DatePicker
           inputValue={value}
-          //   setInputValue={setInputValue}
-          //   setShowDatePicker={setShowDatePicker}
-          //   setFocused={setFocused}
+          setInputValue={dateHandler}
+          setShowDatePicker={setShowDatePicker}
+          setFocused={setFocused}
         />
       )}
     </div>

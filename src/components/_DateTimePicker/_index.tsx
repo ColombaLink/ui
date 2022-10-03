@@ -63,8 +63,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const GmtUtcTime =
     'UTC' + currentDate?.toString().split(' ')[5].substring(3, 6)
 
-  // YVES FIX ONCHANGE SAVE VALUE IN SCHEMA
-
   const formatYmd = (date) => date.toISOString().slice(0, 10)
 
   const formattedDate = formatYmd(currentDate)
