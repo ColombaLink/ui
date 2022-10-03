@@ -175,25 +175,51 @@ const InnerTable = ({ types, items, fields, onClick, ...props }) => {
   )
 }
 
-const HeaderDragLine = ({ dragging, setDragging, index }) => {
+const HeaderDragLine = ({
+  dragging,
+  setDragging,
+  index,
+  setColWidths,
+  colWidths,
+}) => {
   const { hover, active, listeners } = useHover()
   const width = 8
   const isDragging = dragging === index
 
-  useEffect(() => {
-    if (active) {
-      setDragging(index)
-      const onUp = () => {
-        setDragging(false)
-        removeEventListener('mouseup', onUp)
-      }
-      addEventListener('mouseup', onUp)
-    }
-  }, [active, index])
+  // useEffect(() => {
+  //   if (active) {
+  //     if (dragging === false) {
+  //       setDragging(index)
+  //       const onUp = () => {
+  //         console.log('UP')
+  //         removeEventListener('mouseup', onUp)
+  //         setDragging(false)
+  //       }
+  //       addEventListener('mouseup', onUp)
+  //     }
+  //   }
+  // }, [active, index, dragging])
 
   return (
     <div
-      {...listeners}
+      onMouseEnter={listeners.onMouseEnter}
+      onMouseLeave={listeners.onMouseLeave}
+      onMouseDown={({ currentTarget, clientX: startX }) => {
+        // @ts-ignore
+        const { offsetWidth } = currentTarget.parentNode
+        setDragging(index)
+        const onUp = () => {
+          removeEventListener('mouseup', onUp)
+          removeEventListener('mousemove', onMove)
+          setDragging(false)
+        }
+        const onMove = ({ clientX }) => {
+          colWidths[index + 1] = offsetWidth - (startX - clientX)
+          setColWidths([...colWidths])
+        }
+        addEventListener('mousemove', onMove)
+        addEventListener('mouseup', onUp)
+      }}
       style={{
         zIndex: 1,
         position: 'absolute',
@@ -209,16 +235,19 @@ const HeaderDragLine = ({ dragging, setDragging, index }) => {
           marginLeft: width / 2,
           width: hover || isDragging ? 2 : 1,
           height: '100%',
-          backgroundColor: color(hover || isDragging ? 'accent' : 'border'),
+          backgroundColor: color(
+            isDragging ? 'red' : hover ? 'accent' : 'border'
+          ),
         }}
       />
     </div>
   )
 }
 
-const Header = ({ width, fields, columnWidth }) => {
+const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
   const { hover, active, listeners } = useHover()
-  const [dragging, setDragging] = useState<number>()
+  const [dragging, setDragging] = useState(false)
+
   return (
     <div
       style={{
@@ -246,14 +275,13 @@ const Header = ({ width, fields, columnWidth }) => {
           <Text
             color="text2"
             weight="400"
-            style={{
-              paddingLeft: 16,
-              lineHeight: `${HEADER_HEIGHT}px`,
-            }}
+            style={{ paddingLeft: 16, lineHeight: `${HEADER_HEIGHT}px` }}
           >
             {capitalize(field)}
           </Text>
           <HeaderDragLine
+            setColWidths={setColWidths}
+            colWidths={colWidths}
             dragging={dragging}
             setDragging={setDragging}
             index={index}
@@ -279,7 +307,6 @@ export const TableFromQuery = ({
     'createdAt',
     'desc',
   ])
-  // const [colWidths, setColWidths] = useState([])
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
     query: (offset, limit) => query(offset, limit, sortField, sortOrder),
     height,
@@ -288,7 +315,7 @@ export const TableFromQuery = ({
     itemSize: ITEM_HEIGHT,
     // treshold: 15,
   })
-
+  const [colWidths, setColWidths] = useState([])
   if (loading) {
     return null
   }
@@ -300,6 +327,9 @@ export const TableFromQuery = ({
 
   const columnCount = fields.length + 1 // one extra for actions
   const columnWidth = (index) => {
+    if (colWidths[index] !== undefined) {
+      return colWidths[index]
+    }
     if (index) {
       const field = fields[index - 1]
       if (field === 'id') {
@@ -335,7 +365,13 @@ export const TableFromQuery = ({
             }}
           >
             <div>{children}</div>
-            <Header width={width} columnWidth={columnWidth} fields={fields} />
+            <Header
+              width={width}
+              colWidths={colWidths}
+              columnWidth={columnWidth}
+              fields={fields}
+              setColWidths={setColWidths}
+            />
           </div>
         )
       }}
