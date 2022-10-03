@@ -1,6 +1,7 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC, CSSProperties, useState } from 'react'
 import { styled } from 'inlines'
-import { color } from '~'
+import { color, CalendarIcon } from '~'
+import { DatePicker } from './DatePicker'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -35,13 +36,39 @@ export const DateInput: FC<DateInputProps> = ({
   placeholder,
   dateHandler,
 }) => {
+  const [showDatePicker, setShowDatePicker] = useState(false)
+
   return (
-    <StyledDateInput
-      type="date"
-      value={value}
-      onChange={(e) => {
-        dateHandler(e.target.value)
-      }}
-    />
+    <div style={{ position: 'relative' }}>
+      <CalendarIcon
+        size={14}
+        style={{
+          pointerEvents: 'none',
+          position: 'absolute',
+          top: 10,
+          left: 10,
+        }}
+      />
+      <StyledDateInput
+        type="date"
+        value={value}
+        onChange={(e) => {
+          dateHandler(e.target.value)
+        }}
+        onClick={(e) => {
+          // hides the calender in firefox
+          e.preventDefault()
+          setShowDatePicker(true)
+        }}
+      />
+      {showDatePicker && (
+        <DatePicker
+          inputValue={value}
+          //   setInputValue={setInputValue}
+          //   setShowDatePicker={setShowDatePicker}
+          //   setFocused={setFocused}
+        />
+      )}
+    </div>
   )
 }
