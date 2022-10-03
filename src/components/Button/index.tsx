@@ -28,6 +28,7 @@ export type ButtonProps = {
   iconRight?: FC | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler
+  onPointerDown?: MouseEventHandler
   outline?: boolean
   style?: CSSProperties
   space?: Space
@@ -63,16 +64,17 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
 
 export const Button: FC<ButtonProps> = (props) => {
   let {
+    actionKeys,
     children,
+    fill,
     icon,
     iconRight,
+    large,
     loading,
     onClick,
-    actionKeys,
-    style,
+    onPointerDown,
     space,
-    large,
-    fill,
+    style,
     textAlign = 'left',
   } = props
 
@@ -137,6 +139,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ref={buttonElem}
       disabled={props.disabled}
       onClick={onClick && extendedOnClick}
+      onPointerDown={onPointerDown}
       style={{
         padding:
           !children && large
@@ -154,7 +157,6 @@ export const Button: FC<ButtonProps> = (props) => {
         ...getButtonStyle(props, true),
         ...style,
       }}
-      // {...rest}
     >
       <div
         style={{
