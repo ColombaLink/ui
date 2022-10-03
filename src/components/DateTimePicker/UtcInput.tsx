@@ -1,7 +1,7 @@
 import React from 'react'
 import { Select } from '~'
 
-export const UtcInput = () => {
+export const UtcInput = ({ utcInputHandler }) => {
   return (
     <Select
       id="UTC-id"
@@ -43,7 +43,8 @@ export const UtcInput = () => {
       ]}
       onChange={(e: any) => {
         // so UTC offset is in minutes
-        const tempUTCValMsec = +e.substring(3) * 60 * 60000
+        utcInputHandler(+e.substring(3) * 60 * 60000)
+        // const tempUTCValMsec = +e.substring(3) * 60 * 60000
         //   setUTCValue(tempUTCValMsec)
       }}
     />

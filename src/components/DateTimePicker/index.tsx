@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, useState } from 'react'
+import React, { FC, CSSProperties, useState, useEffect } from 'react'
 import { color, Select, CalendarIcon, Label, Button } from '~'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -21,12 +21,17 @@ type DateTimePickerProps = {
 
 const nowInMs = new Date().getTime()
 const now = new Date()
+const nowHours = new Date()?.toString().split(' ')[4].substring(0, 5)
+
+console.log('now hours', nowHours)
+
+const formatYmd = (date) => date?.toISOString().slice(0, 10)
+
+const nowFormatted = formatYmd(new Date(nowInMs))
 console.log('nowInMs', nowInMs)
 console.log('now', now)
 
 // ms to --> 1888-10-31 format
-const formatYmd = (date) => date?.toISOString().slice(0, 10)
-console.log('formatted shizzle ->', formatYmd(new Date(nowInMs)))
 
 // 1888-10-31 --->  to ms
 
@@ -43,19 +48,39 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   value,
 }) => {
   const [ms, setMs] = useState(value)
-  const [dateFormatInput, setDateFormatInput] = useState()
+
+  const [dateFormatInput, setDateFormatInput] = useState(nowFormatted)
+  const [dateTimeInput, setDateTimeInput] = useState(nowHours)
+  const [dateUtcInput, setDateUtcInput] = useState(0)
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput, utcInput) => {
-    // now return the total ms seconds
+    const dateString = `${dateInput}T${timeInput}`
+    const outPutInMs = new Date(dateString).getTime() + utcInput
+
+    console.log('Datestring', dateString)
+    console.log('Output in ms -->', outPutInMs)
+
+    return outPutInMs
   }
 
   const dateHandler = (val) => {
-    console.log('From datehandler', val)
-    // return this input in ms seconds
-    // and set as dateInput
+    // console.log('From datehandler', val)
+    setDateFormatInput(val)
+    newMsFromAll(val, dateTimeInput, dateUtcInput)
   }
 
+  const timeInputHandler = (val) => {
+    // console.log('From Timehandler', val)
+    setDateTimeInput(val)
+    newMsFromAll(dateFormatInput, val, dateUtcInput)
+  }
+
+  const utcInputHandler = (val) => {
+    // console.log('form utc input handler', val)
+    setDateUtcInput(val)
+    newMsFromAll(dateFormatInput, dateTimeInput, val)
+  }
   return (
     <InputWrapper
       descriptionBottom={descriptionBottom}
@@ -69,9 +94,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       <div
         style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}
       >
-        <DateInput dateHandler={dateHandler} />
-        <TimeInput />
-        <UtcInput />
+        <DateInput dateHandler={dateHandler} value={dateFormatInput} />
+        <TimeInput timeInputHandler={timeInputHandler} value={dateTimeInput} />
+        <UtcInput utcInputHandler={utcInputHandler} />
       </div>
     </InputWrapper>
   )

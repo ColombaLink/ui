@@ -22,7 +22,7 @@ const StyledDateInput = styled('input', {
 })
 
 type DateInputProps = {
-  onChange?: (value: number) => void
+  //   onChange?: (value: number) => void
   style?: CSSProperties
   error?: (value: boolean | string | number) => string
   value?: number | string
@@ -33,15 +33,14 @@ type DateInputProps = {
 export const DateInput: FC<DateInputProps> = ({
   value,
   placeholder,
-  onChange,
   dateHandler,
 }) => {
   return (
     <StyledDateInput
       type="date"
+      value={value}
       onChange={(e) => {
         dateHandler(e.target.value)
-        //    console.log(e.target.value)
       }}
     />
   )
