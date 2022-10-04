@@ -39,6 +39,7 @@ export const DateInput: FC<DateInputProps> = ({
   dateHandler,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
+  const [isFocus, setIsFocus] = useState(false)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -62,7 +63,24 @@ export const DateInput: FC<DateInputProps> = ({
           e.preventDefault()
           setShowDatePicker(true)
         }}
+        onFocus={() => {
+          setIsFocus(true)
+          setFocused(true)
+        }}
       />
+      {isFocus && (
+        <div
+          style={{
+            border: `2px solid ${color('accent')}`,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 4,
+          }}
+        />
+      )}
       {showDatePicker && (
         <DatePicker
           inputValue={value}

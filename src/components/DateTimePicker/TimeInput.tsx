@@ -10,6 +10,7 @@ export const TimeInput = ({
 }) => {
   const [time, setTime] = useState(value)
   const [validTimeInput, setValidTimeInput] = useState(false)
+  const [isFocus, setIsFocus] = useState(false)
 
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
 
@@ -44,19 +45,35 @@ export const TimeInput = ({
   }
 
   return (
-    <Input
-      value={time}
-      type="text"
-      onKeyPress={keyPressHandler}
-      onChange={timeHandler}
-      placeholder={placeholder}
-      onFocus={() => onFocus(true)}
-
-      //   onBlur={onBlur}
-      //   disabled={disabled}
-      //   style={{
-      //     backgroundColor: disabled ? color('background2') : color('background'),
-      //   }}
-    />
+    <div style={{ position: 'relative' }}>
+      <Input
+        value={time}
+        type="text"
+        onKeyPress={keyPressHandler}
+        onChange={timeHandler}
+        placeholder={placeholder}
+        onFocus={() => {
+          setIsFocus(true)
+          onFocus(true)
+        }}
+        onBlur={() => {
+          setIsFocus(false)
+          onFocus(false)
+        }}
+      />
+      {isFocus && (
+        <div
+          style={{
+            border: `2px solid ${color('accent')}`,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 4,
+          }}
+        />
+      )}
+    </div>
   )
 }
