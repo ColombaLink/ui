@@ -16,6 +16,7 @@ const StyledDatePickerBox = styled('div', {
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
   width: 280,
+  zIndex: 1,
   boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
 })
 
@@ -89,9 +90,9 @@ export const DatePicker = ({
   }, [datePickerRef])
 
   useEffect(() => {
-    setSelectedDay(+inputValue.split('-')[2])
-    setSelectedMonth(+inputValue.split('-')[1])
-    setSelectedYear(+inputValue.split('-')[0])
+    setSelectedDay(+inputValue?.split('-')[2])
+    setSelectedMonth(+inputValue?.split('-')[1])
+    setSelectedYear(+inputValue?.split('-')[0])
   }, [inputValue])
 
   const [daysArr, setDaysArr] = useState([])
@@ -198,7 +199,7 @@ export const DatePicker = ({
         }}
       >
         <Text weight={400}>
-          {months[+inputValue.split('-')[1]]} {selectedYear}
+          {months[+inputValue?.split('-')[1]]} {selectedYear}
         </Text>
 
         <div style={{ display: 'flex', gap: 16 }}>
