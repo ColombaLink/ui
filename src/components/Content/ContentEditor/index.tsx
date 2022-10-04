@@ -51,36 +51,54 @@ const References = ({
 }) => {
   const { open } = useDialog()
   return (
-    <InputWrapper indent style={style}>
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 12 }}
-      />
-      {value.map((id) => (
-        <Reference key={id} id={id} />
-      ))}
-      <Button
-        ghost
-        icon={AddIcon}
-        onClick={() => {
-          open(
-            <Dialog
-              padding={0}
-              style={{
-                width: '100vw',
-                height: 'calc(100vh - 60px)',
-              }}
-              pure
-            >
-              <ContentMain style={{ height: '100%' }} />
-            </Dialog>
-          )
-        }}
-      >
-        Add item
-      </Button>
-    </InputWrapper>
+    <>
+      {props?.meta?.refTypes?.includes('file') ? (
+        <div style={style}>
+          <FileUpload
+            style={{ background: 'yellow' }}
+            label={label}
+            indent
+            descriptionBottom={description}
+            space
+            multiple
+            props={props}
+            onChange={onChange}
+            value={value}
+          />
+        </div>
+      ) : (
+        <InputWrapper indent style={style}>
+          <Label
+            label={label}
+            description={description}
+            style={{ marginBottom: 12 }}
+          />
+          {value.map((id) => (
+            <Reference key={id} id={id} />
+          ))}
+          <Button
+            ghost
+            icon={AddIcon}
+            onClick={() => {
+              open(
+                <Dialog
+                  padding={0}
+                  style={{
+                    width: '100vw',
+                    height: 'calc(100vh - 60px)',
+                  }}
+                  pure
+                >
+                  <ContentMain style={{ height: '100%' }} />
+                </Dialog>
+              )
+            }}
+          >
+            Add item
+          </Button>
+        </InputWrapper>
+      )}
+    </>
   )
 }
 
@@ -249,7 +267,10 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       value={data[field]}
       onChange={(value) => {
         // $file: {}
-        console.log(value)
+        console.log('nhbj', value)
+        if (Array.isArray(value)) {
+          console.log('It is an arraytje !!!')
+        }
 
         // vanuit de top
 

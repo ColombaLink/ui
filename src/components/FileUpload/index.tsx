@@ -17,7 +17,6 @@ type FileUploadProps = {
   disabled?: boolean
   acceptedFileTypes?: string[]
   multiple?: boolean
-  props?: any
   value?: any
 }
 
@@ -44,7 +43,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   disabled,
   multiple,
   value,
-  props,
 }) => {
   let [uploadedFiles, setUploadedFiles] = useState<any[]>([])
   const [draggingOver, setDraggingOver] = useState(false)
@@ -54,7 +52,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const hiddenFileInput = useRef(null)
 
-  if (value && uploadedFiles?.length === 0) {
+  if (!multiple && value && uploadedFiles?.length === 0) {
     uploadedFiles = [
       {
         name: value.name,
@@ -65,7 +63,20 @@ export const FileUpload: FC<FileUploadProps> = ({
     console.log('xxx', uploadedFiles)
   }
 
+  // multiple
+  if (multiple && value && uploadedFiles?.length === 0) {
+    uploadedFiles = [
+      {
+        name: value.name,
+        src: value.src,
+        type: value.mimeType,
+      },
+    ]
+    console.log('zzz', uploadedFiles)
+  }
+
   console.log('What is the value??', value)
+  console.log('Whjat is the length of the value', value?.length)
 
   const handleClickUpload = () => {
     if (!disabled) {
@@ -151,11 +162,7 @@ export const FileUpload: FC<FileUploadProps> = ({
       space={space}
       style={style}
     >
-      <styled.div
-        style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
-        // onMouseOver={() => setIsFocused(true)}
-        // onMouseLeave={() => setIsFocused(false)}
-      >
+      <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Label
             label={label}
