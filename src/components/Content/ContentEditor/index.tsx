@@ -151,7 +151,17 @@ const boolean = {
 
 const timestamp = {
   default: (props) => (
-    <DateTimePicker indent {...props} type="number" value={props.value} />
+    <DateTimePicker
+      indent
+      {...props}
+      type="number"
+      value={props.value}
+      error={(value) => {
+        if (!value) {
+          return 'Please enter a valid value'
+        }
+      }}
+    />
   ),
 }
 

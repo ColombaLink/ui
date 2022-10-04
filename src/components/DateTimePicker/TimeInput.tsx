@@ -9,7 +9,7 @@ export const TimeInput = ({
   placeholder,
 }) => {
   const [time, setTime] = useState(value)
-  const [validTimeInput, setValidTimeInput] = useState(false)
+  const [, setValidTimeInput] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/

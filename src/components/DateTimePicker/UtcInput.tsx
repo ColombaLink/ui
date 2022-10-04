@@ -43,7 +43,9 @@ export const UtcInput = ({ utcInputHandler }) => {
       ]}
       onChange={(e: any) => {
         // so UTC offset is in minutes
-        utcInputHandler(+e.substring(3) * 60 * 60000)
+        utcInputHandler(e)
+
+        // utcInputHandler(+e.substring(3) * 60 * 60000)
         // const tempUTCValMsec = +e.substring(3) * 60 * 60000
         //   setUTCValue(tempUTCValMsec)
       }}

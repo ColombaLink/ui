@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
 import { color, CalendarIcon } from '~'
 import { DatePicker } from './DatePicker'
@@ -23,18 +23,13 @@ const StyledDateInput = styled('input', {
 })
 
 type DateInputProps = {
-  //   onChange?: (value: number) => void
-  // style?: CSSProperties
-  error?: (value: boolean | string | number) => string
-  value?: number | string
-  placeholder?: string
+  value?: string
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
 }
 
 export const DateInput: FC<DateInputProps> = ({
   value,
-  placeholder,
   setFocused,
   dateHandler,
 }) => {
