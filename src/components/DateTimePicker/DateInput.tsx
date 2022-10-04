@@ -41,6 +41,10 @@ export const DateInput: FC<DateInputProps> = ({
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
+  if (showDatePicker) {
+    setFocused(true)
+  }
+
   return (
     <div style={{ position: 'relative' }}>
       <CalendarIcon
@@ -66,6 +70,11 @@ export const DateInput: FC<DateInputProps> = ({
         onFocus={() => {
           setIsFocus(true)
           setFocused(true)
+          setShowDatePicker(true)
+        }}
+        onBlur={() => {
+          setFocused(false)
+          setIsFocus(false)
         }}
       />
       {isFocus && (

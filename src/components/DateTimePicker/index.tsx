@@ -131,13 +131,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           dateHandler={dateHandler}
           value={dateFormatInput}
           setFocused={setFocus}
-          focus={focus}
         />
         <TimeInput
           timeInputHandler={timeInputHandler}
           value={dateTimeInput}
           onFocus={setFocus}
-          focus={focus}
           placeholder={dateTimeInput}
         />
         <UtcInput utcInputHandler={utcInputHandler} />
