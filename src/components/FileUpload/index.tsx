@@ -52,7 +52,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const hiddenFileInput = useRef(null)
 
-  console.log('PROPS FROM FILE UPLOAD', props)
+  // console.log('PROPS FROM FILE UPLOAD', props)
 
   const handleClickUpload = () => {
     if (!disabled) {

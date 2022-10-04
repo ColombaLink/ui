@@ -150,7 +150,9 @@ const boolean = {
 }
 
 const timestamp = {
-  default: (props) => <DateTimePicker indent {...props} type="number" />,
+  default: (props) => (
+    <DateTimePicker indent {...props} type="number" value={props.value} />
+  ),
 }
 
 const references = {

@@ -5,6 +5,7 @@ import { InputWrapper } from '../Input/InputWrapper'
 import { TimeInput } from './TimeInput'
 import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
+import { usePropState } from '~/hooks'
 
 type DateTimePickerProps = {
   label?: string
@@ -23,18 +24,15 @@ type DateTimePickerProps = {
 const nowInMs = new Date().getTime()
 const now = new Date()
 const nowHours = new Date()?.toString().split(' ')[4].substring(0, 5)
-
-console.log('now hours', nowHours)
-
 const formatYmd = (date) => date?.toISOString().slice(0, 10)
-
 const nowFormatted = formatYmd(new Date(nowInMs))
-console.log('nowInMs', nowInMs)
-console.log('now', now)
 
-// ms to --> 1888-10-31 format
+// console.log('nowInMs', nowInMs)
+// console.log('now', now)
+// console.log(nowFormatted)
+// console.log('now hours', nowHours)
 
-// 1888-10-31 --->  to ms
+// console.log('WAT IS DIT?', new Date(nowInMs))
 
 export const DateTimePicker: FC<DateTimePickerProps> = ({
   label,
@@ -50,13 +48,33 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   props,
 }) => {
   console.log('PROPS', props)
+  console.log('onchange?', onChange)
 
-  const [ms, setMs] = useState(value)
+  const [msValue, setMsValue] = useState('')
   const [focus, setFocus] = useState(false)
 
-  const [dateFormatInput, setDateFormatInput] = useState(nowFormatted)
-  const [dateTimeInput, setDateTimeInput] = useState(nowHours)
-  const [dateUtcInput, setDateUtcInput] = useState(0)
+  const [dateFormatInput, setDateFormatInput] = useState()
+  const [dateTimeInput, setDateTimeInput] = useState()
+  const [dateUtcInput, setDateUtcInput] = useState()
+
+  // useEffect(() => {
+  //   if (value) {
+  //     setMsValue(value)
+  //     console.log('AEFA', new Date(value))
+  //     setDateFormatInput(formatYmd(new Date(value)))
+  //     setDateTimeInput(
+  //       new Date(value)?.toString().split(' ')[4].substring(0, 5)
+  //     )
+  //     onChange(value)
+
+  //     //  console.log('Formatted', formatYmd(value))
+  //     console.log('FIRE')
+  //     console.log('MS vAL', msValue)
+  //     console.log(value)
+  //   }
+  // }, [value])
+
+  console.log(value)
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput, utcInput) => {
