@@ -27,10 +27,10 @@ const nowHours = new Date()?.toString().split(' ')[4].substring(0, 5)
 const formatYmd = (date) => date?.toISOString().slice(0, 10)
 const nowFormatted = formatYmd(new Date(nowInMs))
 
-// console.log('nowInMs', nowInMs)
-// console.log('now', now)
-// console.log(nowFormatted)
-// console.log('now hours', nowHours)
+console.log('nowInMs', nowInMs)
+console.log('now', now)
+console.log(nowFormatted)
+console.log('now hours', nowHours)
 
 // console.log('WAT IS DIT?', new Date(nowInMs))
 
@@ -54,7 +54,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [focus, setFocus] = useState(false)
 
   const [dateFormatInput, setDateFormatInput] = useState()
-  const [dateTimeInput, setDateTimeInput] = useState()
+  const [dateTimeInput, setDateTimeInput] = useState<string>()
   const [dateUtcInput, setDateUtcInput] = useState()
 
   // useEffect(() => {
@@ -74,12 +74,22 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   //   }
   // }, [value])
 
-  console.log(value)
+  console.log('The value -->', value)
+
+  useEffect(() => {
+    if (value) {
+      console.log('Save the date', new Date(value))
+      setDateFormatInput(formatYmd(new Date(value)))
+      setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
+    }
+  }, [value])
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput, utcInput) => {
+    console.log('DATE INPUT', dateInput)
+    console.log('TIME INPUT', timeInput)
     const dateString = `${dateInput}T${timeInput}`
-    const outPutInMs = new Date(dateString).getTime() + utcInput
+    const outPutInMs = new Date(dateString).getTime()
 
     console.log('Datestring', dateString)
     console.log('Output in ms -->', outPutInMs)
@@ -126,6 +136,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           timeInputHandler={timeInputHandler}
           value={dateTimeInput}
           onFocus={() => setFocus(true)}
+          placeholder={dateTimeInput}
         />
         <UtcInput utcInputHandler={utcInputHandler} />
       </div>

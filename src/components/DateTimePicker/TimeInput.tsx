@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Input } from '../Input'
 import { color } from '~'
 
-export const TimeInput = ({ timeInputHandler, value, onFocus }) => {
+export const TimeInput = ({
+  timeInputHandler,
+  value,
+  onFocus,
+  placeholder,
+}) => {
   const [time, setTime] = useState(value)
   const [validTimeInput, setValidTimeInput] = useState(false)
 
@@ -44,8 +49,9 @@ export const TimeInput = ({ timeInputHandler, value, onFocus }) => {
       type="text"
       onKeyPress={keyPressHandler}
       onChange={timeHandler}
-      placeholder="00:00"
+      placeholder={placeholder}
       onFocus={() => onFocus(true)}
+
       //   onBlur={onBlur}
       //   disabled={disabled}
       //   style={{
