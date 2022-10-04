@@ -46,19 +46,19 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 }) => {
   const [focus, setFocus] = useState(false)
 
-  const [dateFormatInput, setDateFormatInput] = useState()
-  const [dateTimeInput, setDateTimeInput] = useState<string>()
+  const [dateFormatInput, setDateFormatInput] = useState('')
+  const [dateTimeInput, setDateTimeInput] = useState<string>('')
   const [dateUtcInput, setDateUtcInput] = useState('')
   const [utcInputInMs, setUtcInputInMs] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
 
-  console.log('The value -->', value)
-  console.log('ERROR', error)
+  // console.log('The value -->', value)
+  // console.log('ERROR', error)
 
   if (error)
     useEffect(() => {
       if (value) {
-        console.log('Save the date', new Date(value))
+        //  console.log('Save the date', new Date(value))
         setDateFormatInput(formatYmd(new Date(value)))
         setDateTimeInput(
           new Date(value).toString().split(' ')[4].substring(0, 5)

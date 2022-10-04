@@ -84,7 +84,14 @@ const References = ({
   )
 }
 
-const SingleReference = ({ label, description, value, style, ...props }) => {
+const SingleReference = ({
+  label,
+  description,
+  onChange,
+  value,
+  style,
+  ...props
+}) => {
   return (
     <>
       {props?.meta?.refTypes?.includes('file') ? (
@@ -94,7 +101,10 @@ const SingleReference = ({ label, description, value, style, ...props }) => {
             indent
             descriptionBottom={description}
             space
-            multiple
+            // multiple
+            props={props}
+            onChange={onChange}
+            value={value}
           />
         </div>
       ) : (
@@ -184,9 +194,35 @@ const components = {
 
 const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   const { ui, format, description, name } = meta
-  const { data } = useData({ $id: id, $language: language, [field]: true })
+
+  // if field === ref && meta restrict === file
+  // return { src, name, id }
+
+  // isFiles
+  // isFile
+
+  let q: any = true
+  if (
+    type === 'reference' &&
+    meta &&
+    meta.refTypes?.length === 1 &&
+    meta.refTypes[0] === 'file'
+  ) {
+    console.log('???')
+    q = {
+      mimeType: true,
+      name: true,
+      src: true,
+      id: true,
+      // $list: true
+    }
+  }
+
+  const { data } = useData({ $id: id, $language: language, [field]: q })
   const Component = components[type]?.[ui || format || 'default']
   const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
+
+  const client = useClient()
 
   if (
     field === 'createdAt' ||
@@ -212,7 +248,18 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       style={{ order: index, marginBottom: 24 }}
       value={data[field]}
       onChange={(value) => {
-        onChange({ $language: language, [field]: value })
+        // $file: {}
+        console.log(value)
+
+        // vanuit de top
+
+        if (value instanceof File) {
+          client.file(value).then((v) => {
+            onChange({ [field]: v.id })
+          })
+        } else {
+          onChange({ $language: language, [field]: value })
+        }
       }}
     />
   )

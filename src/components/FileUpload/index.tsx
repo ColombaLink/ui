@@ -18,6 +18,7 @@ type FileUploadProps = {
   acceptedFileTypes?: string[]
   multiple?: boolean
   props?: any
+  value?: any
 }
 
 const StyledFileInput = styled('div', {
@@ -37,14 +38,15 @@ export const FileUpload: FC<FileUploadProps> = ({
   descriptionBottom,
   indent,
   // error,
-  onChange: onChangeProp,
+  onChange,
   space,
   style,
   disabled,
   multiple,
+  value,
   props,
 }) => {
-  const [uploadedFiles, setUploadedFiles] = useState<any[]>([])
+  let [uploadedFiles, setUploadedFiles] = useState<any[]>([])
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
@@ -52,7 +54,18 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const hiddenFileInput = useRef(null)
 
-  // console.log('PROPS FROM FILE UPLOAD', props)
+  if (value && uploadedFiles?.length === 0) {
+    uploadedFiles = [
+      {
+        name: value.name,
+        src: value.src,
+        type: value.mimeType,
+      },
+    ]
+    console.log('xxx', uploadedFiles)
+  }
+
+  console.log('What is the value??', value)
 
   const handleClickUpload = () => {
     if (!disabled) {
@@ -63,7 +76,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
     setUploadedFiles([])
-    onChangeProp(null)
+    onChange(null)
     setErrorMessage('')
   }
 
@@ -92,26 +105,28 @@ export const FileUpload: FC<FileUploadProps> = ({
       if (acceptedFileTypes) {
         if (tempCounter === tempArr.length) {
           setUploadedFiles([...uploadedFiles, ...tempArr])
-          onChangeProp([...uploadedFiles, ...tempArr])
+          onChange([...uploadedFiles, ...tempArr])
         }
       } else {
         const TempArr = Array.from(e.dataTransfer.files)
         setUploadedFiles([...uploadedFiles, ...TempArr])
-        onChangeProp([...uploadedFiles, ...TempArr])
+        onChange([...uploadedFiles, ...TempArr])
       }
     }
   }
 
-  const onChange = (e) => {
+  const changeHandler = (e) => {
     setErrorMessage('')
+
+    console.log('E for e', e)
 
     if (multiple) {
       const TempArr = Array.from(e.target.files)
       setUploadedFiles([...uploadedFiles, ...TempArr])
-      onChangeProp([...uploadedFiles, ...TempArr])
+      onChange([...uploadedFiles, ...TempArr])
     } else {
       setUploadedFiles([e.target.files[0]])
-      onChangeProp(e.target.files[0])
+      onChange(e.target.files[0])
     }
   }
 
@@ -209,7 +224,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         {/* hide the real input field */}
         <input
           ref={hiddenFileInput}
-          onChange={onChange}
+          onChange={(e) => changeHandler(e)}
           type="file"
           style={{ display: 'none' }}
           accept={acceptedFileTypes && acceptedFileTypes.join(',')}

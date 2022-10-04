@@ -9,9 +9,6 @@ export const UtcInput = ({ utcInputHandler }) => {
         maxWidth: 160,
         fontWeight: 400,
         height: 36,
-        // backgroundColor: disabled ? color('background2') : color('background'),
-        // cursor: disabled ? 'not-allowed' : 'auto',
-        // pointerEvents: disabled ? 'none' : 'auto',
       }}
       placeholder="UTC+00"
       options={[
@@ -44,10 +41,6 @@ export const UtcInput = ({ utcInputHandler }) => {
       onChange={(e: any) => {
         // so UTC offset is in minutes
         utcInputHandler(e)
-
-        // utcInputHandler(+e.substring(3) * 60 * 60000)
-        // const tempUTCValMsec = +e.substring(3) * 60 * 60000
-        //   setUTCValue(tempUTCValMsec)
       }}
     />
   )
