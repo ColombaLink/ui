@@ -37,6 +37,8 @@ export const DatePicker = ({
   setFocused,
 }: DatePickerProps) => {
   const dateObj = new Date()
+
+  console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
     '',
@@ -83,7 +85,8 @@ export const DatePicker = ({
     }
     setSelectedYear(year)
 
-    setInputValue(`${year}-${month}-${day}`)
+    // setInputValue(`${year}-${month}-${day}`)
+    setInputValue(`${day}/${month}/${year}`)
   }
 
   useEffect(() => {
@@ -104,9 +107,9 @@ export const DatePicker = ({
   }, [datePickerRef])
 
   useEffect(() => {
-    setSelectedDay(+inputValue?.split('-')[2])
-    setSelectedMonth(+inputValue?.split('-')[1])
-    setSelectedYear(+inputValue?.split('-')[0])
+    setSelectedDay(+inputValue?.split('/')[0])
+    setSelectedMonth(+inputValue?.split('/')[1])
+    setSelectedYear(+inputValue?.split('/')[2])
   }, [inputValue])
 
   const [daysArr, setDaysArr] = useState([])
@@ -220,7 +223,7 @@ export const DatePicker = ({
         }}
       >
         <Text weight={400}>
-          {months[+inputValue?.split('-')[1]]} {selectedYear}
+          {months[+inputValue?.split('/')[1]]} {selectedYear}
         </Text>
 
         <div style={{ display: 'flex', gap: 16 }}>

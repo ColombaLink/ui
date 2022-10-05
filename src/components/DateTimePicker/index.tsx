@@ -59,7 +59,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   useEffect(() => {
     if (value) {
-      setDateFormatInput(formatYmd(new Date(value)))
+      // setDateFormatInput(formatYmd(new Date(value)))
       setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
       setDateUtcInput(dateUtcInput)
 
@@ -76,7 +76,14 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput) => {
-    const dateString = `${dateInput}T${timeInput}`
+    console.log('TiME CHANGE??', timeInput)
+    console.log('DATEA DAN', dateInput)
+    const dateString = `${dateInput
+      .split('/')
+      .reverse()
+      .join('-')}T${timeInput}`
+    console.log('DATESTRING', dateString)
+
     const outPutInMs = new Date(dateString).getTime()
 
     const msg = error?.(outPutInMs)
