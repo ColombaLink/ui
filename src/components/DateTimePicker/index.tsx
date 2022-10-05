@@ -20,6 +20,7 @@ type DateTimePickerProps = {
 }
 
 const formatYmd = (date) => date?.toISOString().slice(0, 10)
+const timezoneOffset = new Date().getTimezoneOffset()
 
 // const nowInMs = new Date().getTime()
 // const now = new Date()
@@ -31,6 +32,7 @@ const formatYmd = (date) => date?.toISOString().slice(0, 10)
 // console.log(nowFormatted)
 // console.log('now hours', nowHours)
 // console.log('WAT IS DIT?', new Date(nowInMs))
+// console.log('timezoneOffset -->', timezoneOffset)
 
 export const DateTimePicker: FC<DateTimePickerProps> = ({
   label,
@@ -52,40 +54,36 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [utcInputInMs, setUtcInputInMs] = useState(0)
   const [errorMessage, setErrorMessage] = useState('')
 
-  // console.log('The value -->', value)
-  // console.log('ERROR', error)
+  //  setDateFormatInput()
+  // dateHandler(startDate.toLocaleString('en-GB').split(',')[0])
 
-  if (error)
-    useEffect(() => {
-      if (value) {
-        //  console.log('Save the date', new Date(value))
-        setDateFormatInput(formatYmd(new Date(value)))
-        setDateTimeInput(
-          new Date(value).toString().split(' ')[4].substring(0, 5)
-        )
-        setDateUtcInput(dateUtcInput)
-      }
-    }, [value])
+  useEffect(() => {
+    if (value) {
+      setDateFormatInput(formatYmd(new Date(value)))
+      setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
+      setDateUtcInput(dateUtcInput)
+
+      const startDate = new Date(value)
+      console.log(
+        'START',
+        startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
+      )
+      setDateFormatInput(
+        startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
+      )
+    }
+  }, [value])
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput) => {
-    // console.log('DATE INPUT', dateInput)
-    // console.log('TIME INPUT', timeInput)
-    // console.log('UTC INPUT', utcInput)
-    // nu nog UTC
     const dateString = `${dateInput}T${timeInput}`
-    const outPutInMs = new Date(dateString).getTime() + utcInputInMs
-
-    // console.log('Datestring', dateString)
-    // console.log('Output in ms -->', outPutInMs)
+    const outPutInMs = new Date(dateString).getTime()
 
     const msg = error?.(outPutInMs)
 
     if (msg) {
-      // add error msg
       setErrorMessage(msg)
     } else {
-      // remove error msg
       setErrorMessage('')
     }
 
@@ -93,8 +91,18 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   const dateHandler = (val) => {
-    setDateFormatInput(val)
-    newMsFromAll(val, dateTimeInput)
+    console.log('VALUE from date handler', val)
+    // do output like this -->  2002-10-29
+    const tempArr = []
+    const day = `${val[0]}${val[1]}`
+    const month = `${val[3]}${val[4]}`
+    const year = val.substring(6)
+    tempArr.push(year, month, day)
+    console.log(tempArr.join('-'))
+    const dateStringNew = tempArr.join('-')
+
+    setDateFormatInput(dateStringNew)
+    newMsFromAll(dateStringNew, dateTimeInput)
   }
 
   const timeInputHandler = (val) => {
@@ -103,8 +111,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   const utcInputHandler = (val) => {
-    const tempMs = +val.substring(3) * 60 * 60000
-    setUtcInputInMs(tempMs)
+    // onthoud de utc value
+    // placeholder is huidige timezone
+    // const tempMs = +val.substring(3) * 60 * 60000
+    //   setUtcInputInMs(tempMs)
     // newMsFromAll(dateFormatInput, dateTimeInput, temp)
   }
   return (
@@ -130,8 +140,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           onFocus={setFocus}
           placeholder={dateTimeInput}
         />
-        <UtcInput utcInputHandler={utcInputHandler} />
+        <UtcInput
+          utcInputHandler={utcInputHandler}
+          placeholder={timezoneOffset}
+        />
       </div>
+      <div>miliseconds: {value}</div>
     </InputWrapper>
   )
 }

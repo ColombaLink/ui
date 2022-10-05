@@ -52,6 +52,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const hiddenFileInput = useRef(null)
 
+  // single
   if (!multiple && value && uploadedFiles?.length === 0) {
     uploadedFiles = [
       {
@@ -60,7 +61,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         type: value.mimeType,
       },
     ]
-    console.log('xxx', uploadedFiles)
+    //  console.log('xxx', uploadedFiles)
   }
 
   // multiple
@@ -75,8 +76,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     console.log('zzz', uploadedFiles)
   }
 
-  console.log('What is the value??', value)
-  console.log('Whjat is the length of the value', value?.length)
+  console.log('What is the value?? --->', value)
 
   const handleClickUpload = () => {
     if (!disabled) {
@@ -87,7 +87,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
     setUploadedFiles([])
-    onChange(null)
+    // client delete ???
+    onChange('')
     setErrorMessage('')
   }
 
@@ -134,6 +135,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     if (multiple) {
       const TempArr = Array.from(e.target.files)
       setUploadedFiles([...uploadedFiles, ...TempArr])
+      console.log('uploaded files', ...uploadedFiles)
+      console.log('TEMP ARR', ...TempArr)
       onChange([...uploadedFiles, ...TempArr])
     } else {
       setUploadedFiles([e.target.files[0]])

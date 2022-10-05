@@ -268,8 +268,12 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       onChange={(value) => {
         // $file: {}
         console.log('nhbj', value)
+
         if (Array.isArray(value)) {
           console.log('It is an arraytje !!!')
+          client.file(value).then((v) => {
+            onChange()
+          })
         }
 
         // vanuit de top

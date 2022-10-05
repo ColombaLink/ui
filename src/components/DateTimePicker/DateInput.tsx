@@ -40,6 +40,18 @@ export const DateInput: FC<DateInputProps> = ({
     setFocused(true)
   }
 
+  const dateInputHandler = (e) => {
+    if (e.target.value.length === 2) {
+      e.target.value = e.target.value + '/'
+    }
+    if (e.target.value.length === 5) {
+      e.target.value = e.target.value + '/'
+    }
+    console.log(e.target.value)
+
+    dateHandler(e.target.value)
+  }
+
   return (
     <div style={{ position: 'relative' }}>
       <CalendarIcon
@@ -52,10 +64,23 @@ export const DateInput: FC<DateInputProps> = ({
         }}
       />
       <StyledDateInput
-        type="date"
         value={value}
+        placeholder="Select a date"
+        type="text"
+        pattern="\d{1,2}/\d{1,2}/\d{4}"
+        style={{
+          backgroundColor: showDatePicker ? color('background2') : '',
+          borderBottomLeftRadius: showDatePicker ? 0 : 4,
+          borderBottomRightRadius: showDatePicker ? 0 : 4,
+          borderBottom: showDatePicker
+            ? '0px solid'
+            : `1px solid ${color('border')}`,
+        }}
         onChange={(e) => {
-          dateHandler(e.target.value)
+          dateInputHandler(e)
+          // dateInputHandler
+
+          //  dateHandler(e.target.value)
         }}
         onClick={(e) => {
           // hides the calender in firefox

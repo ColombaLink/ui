@@ -20,6 +20,16 @@ const StyledDatePickerBox = styled('div', {
   boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
 })
 
+const StyledChevronHolders = styled('div', {
+  borderRadius: 4,
+  height: 24,
+  width: 24,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '&:hover': { background: color('border'), cursor: 'pointer' },
+})
+
 export const DatePicker = ({
   inputValue,
   setInputValue,
@@ -44,6 +54,8 @@ export const DatePicker = ({
     'December',
   ]
 
+  console.log('INPUT VALUE UIT DE PICKER', inputValue)
+
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
   const currentYear = dateObj.getFullYear()
@@ -51,6 +63,8 @@ export const DatePicker = ({
   const [selectedDay, setSelectedDay] = useState(currentDay)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
+
+  const [presentDay] = useState(currentDay)
 
   const datePickerRef = useRef(null)
 
@@ -158,6 +172,13 @@ export const DatePicker = ({
 
   const tempArr = []
 
+  const clearHandler = () => {
+    setSelectedDay(null)
+    setSelectedMonth(currentMonth + 1)
+    setSelectedYear(currentYear)
+    //  changeHandler('00', '00', '0000', 'Select a date')
+  }
+
   useEffect(() => {
     tempArr.splice(0, tempArr.length)
 
@@ -203,8 +224,12 @@ export const DatePicker = ({
         </Text>
 
         <div style={{ display: 'flex', gap: 16 }}>
-          <ChevronUpIcon onClick={oneMonthBack} />
-          <ChevronDownIcon onClick={oneMonthForward} />
+          <StyledChevronHolders onClick={oneMonthBack}>
+            <ChevronUpIcon />
+          </StyledChevronHolders>
+          <StyledChevronHolders onClick={oneMonthForward}>
+            <ChevronDownIcon />
+          </StyledChevronHolders>
         </div>
       </div>
 
@@ -247,10 +272,17 @@ export const DatePicker = ({
               .
             </div>
           ) : (
-            <div
+            <styled.div
               style={{
                 border:
-                  val.day === selectedDay ? `1px solid ${color('accent')}` : '',
+                  val.day === presentDay &&
+                  selectedMonth === currentMonth + 1 &&
+                  selectedYear === currentYear
+                    ? `1px solid ${color('accent')}`
+                    : '',
+                background: val.day === selectedDay ? color('accent') : '',
+                color:
+                  val.day === selectedDay ? color('background') : color('text'),
                 borderRadius: 4,
                 width: 26,
                 height: 26,
@@ -259,14 +291,22 @@ export const DatePicker = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                '&:hover': {
+                  background:
+                    val.day === selectedDay ? color('accent') : color('border'),
+                  cursor: 'pointer',
+                },
               }}
               key={i}
               onClick={() => {
                 changeHandler(selectedYear, selectedMonth, val.day)
+                // now close it
+                // setShowDatePicker(false)
+                // setFocused(false)
               }}
             >
               {val.day}
-            </div>
+            </styled.div>
           )
         )}
       </div>
@@ -288,7 +328,8 @@ export const DatePicker = ({
       <Text
         style={{ padding: '8px 16px' }}
         weight={400}
-        onClick={() => changeHandler('YYYY', 'MM', 'DD')}
+        //   onClick={() => changeHandler('YYYY', 'MM', 'DD')}
+        onClick={() => clearHandler()}
       >
         Clear
       </Text>
