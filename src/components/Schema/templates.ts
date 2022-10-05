@@ -7,13 +7,15 @@ import {
   AttachmentIcon,
   CalendarIcon,
   ToggleIcon,
+  ListIcon,
 } from '~/icons'
 
 
-export const systemFields = new Set(['id', 'type', 'children', 'parents'])
+export const systemFields = new Set(['id', 'type', 'children', 'parents', 'createdAt', 'updatedAt'])
 export const alwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
 
 export type FieldTemplates =
+  | 'array'
   | 'boolean'
   | 'dateTime'
   | 'email'
@@ -37,6 +39,8 @@ export const templates: {
     icon: any
     schema: {
       type: string
+      properties?: object
+      items?: object
       meta?: {
         format?: 'url'
       }
@@ -44,6 +48,12 @@ export const templates: {
   }
 } = {
   // keys have to represent types or formats TODO add ts
+  array: {
+    label: 'Array',
+    description: 'Arrays is nice',
+    icon: ListIcon,
+    schema: { type: 'array' }
+  },
   dateTime: {
     label: 'Date-Time',
     description: 'Dates and times the 4th dimension',
@@ -60,7 +70,7 @@ export const templates: {
     label: 'Object',
     description: 'Objects are sublime',
     icon: ModelIcon,
-    schema: { type: 'object' },
+    schema: { type: 'object', properties: {} },
   },
   url: {
     label: 'URL',

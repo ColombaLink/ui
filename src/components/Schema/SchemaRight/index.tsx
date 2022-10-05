@@ -3,11 +3,12 @@ import { RightSidebar } from '../../RightSidebar'
 import { Button, Text, AddIcon, Separator, useContextMenu } from '~'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 
-export const SchemaRight = ({ type }) => {
+export const SchemaRight = ({ type, path }) => {
   const openSelectField = useContextMenu(
     SelectFieldTypeModal,
     {
       type,
+      path,
     },
     { width: 924, placement: 'right' }
   )

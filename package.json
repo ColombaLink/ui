@@ -24,7 +24,7 @@
     "extends": "@saulx/eslint-config"
   },
   "peerDependencies": {
-    "@based/client": "^3.2.1",
+    "@based/client": "^3.3.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
@@ -63,7 +63,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/traverse": "^7.18.6",
     "@based/cli": "^2.13.1",
-    "@based/client": "^3.2.1",
+    "@based/client": "^3.3.0",
     "@based/server": "^3.3.2",
     "@ladle/react": "^1.1.1",
     "@saulx/eslint-config": "^1.1.1",

@@ -10,13 +10,13 @@ export const Schema: FC<{
   style?: CSSProperties
 }> = ({ db = 'default', prefix = '', style }) => {
   const [location] = useLocation()
-  const type = location.substring(prefix.length).split('/')[1]
-
+  const [, type, ...path] = location.substring(prefix.length).split('/')
+  console.log('???', type, path)
   return (
     <div style={{ display: 'flex', ...style }}>
       <SchemaLeft prefix={prefix} />
-      <SchemaMain prefix={prefix} db={db} type={type} />
-      <SchemaRight type={type} />
+      <SchemaMain db={db} type={type} path={path} />
+      <SchemaRight type={type} path={path} />
     </div>
   )
 }

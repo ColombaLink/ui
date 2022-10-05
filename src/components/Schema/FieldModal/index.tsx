@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
@@ -9,7 +9,7 @@ import { Confirm } from './Confirm'
 import { FieldOptions } from '../types'
 import { SharedGeneral } from './SharedGeneral'
 import { useSchemaTypes } from '~/hooks'
-import { MultiSelect } from '~/components/Select'
+import { MultiSelect, Select } from '~/components/Select'
 
 const References = ({ types, options }) => {
   return (
@@ -29,8 +29,45 @@ const References = ({ types, options }) => {
   )
 }
 
+const ArraySettings = ({ options, field, setDisabled }) => {
+  const itemsType = options.items?.type
+
+  useEffect(() => {
+    setDisabled(!itemsType)
+  }, [itemsType])
+  return (
+    <>
+      <Text style={{ marginTop: 24 }}>Value type</Text>
+      <Select
+        placeholder="Select value type"
+        style={{
+          opacity: field ? 0.6 : 1,
+          pointerEvents: field ? 'none' : null,
+          cursor: field ? 'not-allowed' : null,
+          marginTop: 16,
+          width: 400,
+        }}
+        filterable
+        value={itemsType}
+        onChange={(value) => {
+          options.items = { type: value }
+          setDisabled(false)
+        }}
+        options={[
+          { value: 'digest', label: 'Digest' },
+          { value: 'float', label: 'Float' },
+          { value: 'int', label: 'Integer' },
+          { value: 'object', label: 'Object' },
+          { value: 'string', label: 'String' },
+        ]}
+      />
+    </>
+  )
+}
+
 const general = {
   references: References,
+  array: ArraySettings,
 }
 
 export const FieldModal: FC<
@@ -38,39 +75,29 @@ export const FieldModal: FC<
       type: string
       field: string
       template?: FieldTemplates
+      path?: string[]
     }
   | {
       type: string
       field?: string
       template: FieldTemplates
+      path?: string[]
     }
-> = ({ type, field, template }) => {
+> = ({ type, field, template, path = [] }) => {
   const { types, loading } = useSchemaTypes()
-  const [disabled, setDisabled] = useState(true)
+  const [generalDisabled, setGeneralDisabled] = useState(true)
+  const [specificDisabled, setSpecificDisabled] = useState(false)
   const optionsRef = useRef<FieldOptions>()
 
   if (loading) {
     return null
   }
 
-  if (!optionsRef.current) {
-    if (field) {
-      optionsRef.current = {
-        field,
-        meta: types[type].fields[field].meta || {},
-      }
-    } else {
-      optionsRef.current = {
-        meta: {},
-      }
-    }
-  }
-
-  const options = optionsRef.current
+  const fields = path.reduce((fields, key) => fields[key], types[type].fields)
 
   if (!template) {
     if (field) {
-      const fieldSchema = types[type].fields[field]
+      const fieldSchema = fields[field]
       if (!fieldSchema) {
         console.warn('Field is not defined in schema')
         return null
@@ -81,6 +108,23 @@ export const FieldModal: FC<
       return null
     }
   }
+
+  if (!optionsRef.current) {
+    if (field) {
+      optionsRef.current = {
+        field,
+        meta: {},
+        ...fields[field],
+      }
+    } else {
+      optionsRef.current = {
+        meta: {},
+        ...templates[template].schema,
+      }
+    }
+  }
+
+  const options = optionsRef.current
 
   const { label, icon, color } = templates[template]
   const TypeSpecificGeneral = general[template]
@@ -96,13 +140,13 @@ export const FieldModal: FC<
           <Tab label="General">
             <SharedGeneral
               options={options}
-              setDisabled={setDisabled}
+              setDisabled={setGeneralDisabled}
               field={field}
             />
             {TypeSpecificGeneral && (
               <TypeSpecificGeneral
                 options={options}
-                setDisabled={setDisabled}
+                setDisabled={setSpecificDisabled}
                 field={field}
                 types={types}
               />
@@ -115,9 +159,9 @@ export const FieldModal: FC<
         <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
         <Confirm
           type={type}
-          disabled={disabled}
+          disabled={generalDisabled || specificDisabled}
           options={options}
-          template={template}
+          path={path}
         >
           {field ? 'Update' : 'Create'} (Enter)
         </Confirm>
