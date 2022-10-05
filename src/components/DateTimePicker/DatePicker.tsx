@@ -304,8 +304,8 @@ export const DatePicker = ({
               onClick={() => {
                 changeHandler(selectedYear, selectedMonth, val.day)
                 // now close it
-                // setShowDatePicker(false)
-                // setFocused(false)
+                setShowDatePicker(false)
+                setFocused(false)
               }}
             >
               {val.day}

@@ -51,12 +51,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [dateFormatInput, setDateFormatInput] = useState('')
   const [dateTimeInput, setDateTimeInput] = useState<string>('')
   const [dateUtcInput, setDateUtcInput] = useState('')
-  const [utcInputInMs, setUtcInputInMs] = useState(0)
+
   const [errorMessage, setErrorMessage] = useState('')
+  // 2000-12-20
 
   //  setDateFormatInput()
   // dateHandler(startDate.toLocaleString('en-GB').split(',')[0])
-
   useEffect(() => {
     if (value) {
       // setDateFormatInput(formatYmd(new Date(value)))
@@ -106,9 +106,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     const year = val.substring(6)
     tempArr.push(year, month, day)
     console.log(tempArr.join('-'))
+    // datestring new is om de millisecondes te krijgen
     const dateStringNew = tempArr.join('-')
 
-    setDateFormatInput(dateStringNew)
+    // als value hou de gewone value??
+    setDateFormatInput(val)
     newMsFromAll(dateStringNew, dateTimeInput)
   }
 
