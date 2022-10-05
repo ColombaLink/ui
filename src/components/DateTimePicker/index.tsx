@@ -19,7 +19,7 @@ type DateTimePickerProps = {
   value?: string
 }
 
-const formatYmd = (date) => date?.toISOString().slice(0, 10)
+// const formatYmd = (date) => date?.toISOString().slice(0, 10)
 const timezoneOffset = new Date().getTimezoneOffset()
 
 // const nowInMs = new Date().getTime()
@@ -53,21 +53,13 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [dateUtcInput, setDateUtcInput] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
-  // 2000-12-20
 
-  //  setDateFormatInput()
-  // dateHandler(startDate.toLocaleString('en-GB').split(',')[0])
   useEffect(() => {
     if (value) {
-      // setDateFormatInput(formatYmd(new Date(value)))
       setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
       setDateUtcInput(dateUtcInput)
 
       const startDate = new Date(value)
-      console.log(
-        'START',
-        startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
-      )
       setDateFormatInput(
         startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
       )
@@ -76,14 +68,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput) => {
-    console.log('TiME CHANGE??', timeInput)
-    console.log('DATEA DAN', dateInput)
     const dateString = `${dateInput
       .split('/')
       .reverse()
       .join('-')}T${timeInput}`
-    console.log('DATESTRING', dateString)
-
     const outPutInMs = new Date(dateString).getTime()
 
     const msg = error?.(outPutInMs)
@@ -105,7 +93,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     const month = `${val[3]}${val[4]}`
     const year = val.substring(6)
     tempArr.push(year, month, day)
-    console.log(tempArr.join('-'))
+
     // datestring new is om de millisecondes te krijgen
     const dateStringNew = tempArr.join('-')
 
@@ -126,6 +114,15 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     //   setUtcInputInMs(tempMs)
     // newMsFromAll(dateFormatInput, dateTimeInput, temp)
   }
+
+  const clearHandler = () => {
+    console.log('AREA CLEAR')
+    setDateFormatInput('')
+    setDateTimeInput('')
+
+    onChange(0)
+  }
+
   return (
     <InputWrapper
       descriptionBottom={descriptionBottom}
@@ -142,12 +139,13 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           dateHandler={dateHandler}
           value={dateFormatInput}
           setFocused={setFocus}
+          clearHandler={clearHandler}
         />
         <TimeInput
           timeInputHandler={timeInputHandler}
           value={dateTimeInput}
           onFocus={setFocus}
-          placeholder={dateTimeInput}
+          placeholder={dateTimeInput || 'hh:mm'}
         />
         <UtcInput
           utcInputHandler={utcInputHandler}

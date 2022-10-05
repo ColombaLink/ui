@@ -7,6 +7,7 @@ type DatePickerProps = {
   setInputValue?: (value: string) => void
   setShowDatePicker?: (value: boolean) => void
   setFocused?: (value: boolean) => void
+  clearHandler?: () => void
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -35,6 +36,7 @@ export const DatePicker = ({
   setInputValue,
   setShowDatePicker,
   setFocused,
+  clearHandler,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
@@ -174,13 +176,6 @@ export const DatePicker = ({
   }
 
   const tempArr = []
-
-  const clearHandler = () => {
-    setSelectedDay(null)
-    setSelectedMonth(currentMonth + 1)
-    setSelectedYear(currentYear)
-    //  changeHandler('00', '00', '0000', 'Select a date')
-  }
 
   useEffect(() => {
     tempArr.splice(0, tempArr.length)
@@ -332,7 +327,11 @@ export const DatePicker = ({
         style={{ padding: '8px 16px' }}
         weight={400}
         //   onClick={() => changeHandler('YYYY', 'MM', 'DD')}
-        onClick={() => clearHandler()}
+        onClick={() => {
+          clearHandler()
+          setShowDatePicker(false)
+          setFocused(false)
+        }}
       >
         Clear
       </Text>

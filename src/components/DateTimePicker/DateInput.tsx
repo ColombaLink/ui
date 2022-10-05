@@ -26,12 +26,14 @@ type DateInputProps = {
   value?: string
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
+  clearHandler?: () => void
 }
 
 export const DateInput: FC<DateInputProps> = ({
   value,
   setFocused,
   dateHandler,
+  clearHandler,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
@@ -67,7 +69,7 @@ export const DateInput: FC<DateInputProps> = ({
         value={value}
         placeholder="Select a date"
         type="text"
-        pattern="\d{1,2}/\d{1,2}/\d{4}"
+        //  pattern="\d{1,2}/\d{1,2}/\d{4}"
         style={{
           backgroundColor: showDatePicker ? color('background2') : '',
           borderBottomLeftRadius: showDatePicker ? 0 : 4,
@@ -94,7 +96,7 @@ export const DateInput: FC<DateInputProps> = ({
           setIsFocus(false)
         }}
       />
-      {isFocus && (
+      {/* {isFocus && (
         <div
           style={{
             border: `2px solid ${color('accent')}`,
@@ -106,13 +108,14 @@ export const DateInput: FC<DateInputProps> = ({
             borderRadius: 4,
           }}
         />
-      )}
+      )} */}
       {showDatePicker && (
         <DatePicker
           inputValue={value}
           setInputValue={dateHandler}
           setShowDatePicker={setShowDatePicker}
           setFocused={setFocused}
+          clearHandler={clearHandler}
         />
       )}
     </div>
