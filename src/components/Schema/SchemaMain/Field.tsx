@@ -43,7 +43,32 @@ const EditMenu: FC<{
             )}?`
           )
         ) {
-          await client.removeField(type, field.split('.'))
+          const path = field.split('.')
+          const currentFields = schema.types[type].fields
+          const fields = {}
+          let from = currentFields
+          let dest = fields
+          let i = 0
+          const l = path.length
+
+          while (i < l) {
+            const key = path[i++]
+            dest[key] = { ...from[key] }
+            dest = dest[key]
+            from = from[key]
+          }
+
+          // @ts-ignore
+          dest.$delete = true
+
+          await client.call('basedUpdateSchema', {
+            types: {
+              [type]: {
+                fields,
+              },
+            },
+          })
+          // await client.removeField(type, field.split('.'))
         }
       }}
     >
