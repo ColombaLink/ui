@@ -26,54 +26,64 @@ const stopPropagation = (e) => e.stopPropagation()
 const EditMenu: FC<{
   type: string
   field: string
-}> = ({ type, field }) => {
+  isObject: boolean
+}> = ({ type, field, isObject }) => {
   const { schema } = useSchema()
   const client = useClient()
   const { confirm } = useDialog()
+  const [location, setLocation] = useLocation()
 
   return (
-    <ContextItem
-      // @ts-ignore
-      onClick={async () => {
-        if (
-          await confirm(
-            `Are you sure you want to remove the field ${field} from ${getName(
-              schema,
-              type
-            )}?`
-          )
-        ) {
-          const path = field.split('.')
-          const currentFields = schema.types[type].fields
-          const fields = {}
-          let from = currentFields
-          let dest = fields
-          let i = 0
-          const l = path.length
+    <>
+      <ContextItem
+        onClick={() => {
+          setLocation(`${location}/${field.replace('.', '/')}/properties`)
+        }}
+      >
+        Configure Object
+      </ContextItem>
+      <ContextItem
+        onClick={async () => {
+          if (
+            await confirm(
+              `Are you sure you want to remove the field ${field} from ${getName(
+                schema,
+                type
+              )}?`
+            )
+          ) {
+            const path = field.split('.')
+            const currentFields = schema.types[type].fields
+            const fields = {}
+            let from = currentFields
+            let dest = fields
+            let i = 0
+            const l = path.length
 
-          while (i < l) {
-            const key = path[i++]
-            dest[key] = { ...from[key] }
-            dest = dest[key]
-            from = from[key]
-          }
+            while (i < l) {
+              const key = path[i++]
+              dest[key] = { ...from[key] }
+              dest = dest[key]
+              from = from[key]
+            }
 
-          // @ts-ignore
-          dest.$delete = true
+            // @ts-ignore
+            dest.$delete = true
 
-          await client.call('basedUpdateSchema', {
-            types: {
-              [type]: {
-                fields,
+            await client.call('basedUpdateSchema', {
+              types: {
+                [type]: {
+                  fields,
+                },
               },
-            },
-          })
-          // await client.removeField(type, field.split('.'))
-        }
-      }}
-    >
-      Delete
-    </ContextItem>
+            })
+            // await client.removeField(type, field.split('.'))
+          }
+        }}
+      >
+        Delete
+      </ContextItem>
+    </>
   )
 }
 
@@ -85,18 +95,19 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
   const template = meta?.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
   const { open } = useDialog()
+  const isArray = fieldType === 'array'
+  const isObject = fieldType === 'object'
+  const Icon = isObject && isDragging ? ChevronDownIcon : DragDropIcon
+
   const openEditMenu = useContextMenu(
     EditMenu,
     {
       type,
       field,
+      isObject,
     },
     { position: 'left' }
   )
-
-  const isArray = fieldType === 'array'
-  const isObject = fieldType === 'object'
-  const Icon = isObject && isDragging ? ChevronDownIcon : DragDropIcon
 
   return (
     // require extra div for smooth animation of nested props
@@ -138,7 +149,7 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
           </Badge>
         ) : null}
         <div style={{ flexGrow: 1, width: 16 }} />
-        {isObject ? (
+        {/* {isObject ? (
           <Button
             onPointerDown={stopPropagation}
             onClick={() => {
@@ -157,7 +168,7 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
           ghost
         >
           Settings
-        </Button>
+        </Button> */}
         <MoreIcon
           onPointerDown={stopPropagation}
           style={{ marginLeft: 16, flexShrink: 0, cursor: 'pointer' }}

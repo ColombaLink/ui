@@ -133,7 +133,7 @@ export const Menu: FC<{
   header,
   collapse,
 }) => {
-  const [location, setLocation] = useLocation()
+  const [location] = useLocation()
 
   if (!selected) {
     selected = location
@@ -237,7 +237,7 @@ export const Menu: FC<{
 
   useEffect(() => {
     if (!hasActive) {
-      setLocation(firstHref)
+      window.history.replaceState({}, '', firstHref)
     }
   }, [hasActive])
 
