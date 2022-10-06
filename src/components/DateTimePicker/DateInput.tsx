@@ -26,18 +26,32 @@ type DateInputProps = {
   value?: string
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
+  clearHandler?: () => void
 }
 
 export const DateInput: FC<DateInputProps> = ({
   value,
   setFocused,
   dateHandler,
+  clearHandler,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
   if (showDatePicker) {
     setFocused(true)
+  }
+
+  const dateInputHandler = (e) => {
+    if (e.target.value.length === 2) {
+      e.target.value = e.target.value + '/'
+    }
+    if (e.target.value.length === 5) {
+      e.target.value = e.target.value + '/'
+    }
+    console.log(e.target.value)
+
+    dateHandler(e.target.value)
   }
 
   return (
@@ -52,10 +66,20 @@ export const DateInput: FC<DateInputProps> = ({
         }}
       />
       <StyledDateInput
-        type="date"
         value={value}
+        placeholder="Select a date"
+        type="text"
+        //  pattern="\d{1,2}/\d{1,2}/\d{4}"
+        style={{
+          backgroundColor: showDatePicker ? color('background2') : '',
+          borderBottomLeftRadius: showDatePicker ? 0 : 4,
+          borderBottomRightRadius: showDatePicker ? 0 : 4,
+          borderBottom: showDatePicker
+            ? '0px solid'
+            : `1px solid ${color('border')}`,
+        }}
         onChange={(e) => {
-          dateHandler(e.target.value)
+          dateInputHandler(e)
         }}
         onClick={(e) => {
           // hides the calender in firefox
@@ -72,7 +96,7 @@ export const DateInput: FC<DateInputProps> = ({
           setIsFocus(false)
         }}
       />
-      {isFocus && (
+      {/* {isFocus && (
         <div
           style={{
             border: `2px solid ${color('accent')}`,
@@ -84,13 +108,14 @@ export const DateInput: FC<DateInputProps> = ({
             borderRadius: 4,
           }}
         />
-      )}
+      )} */}
       {showDatePicker && (
         <DatePicker
           inputValue={value}
           setInputValue={dateHandler}
           setShowDatePicker={setShowDatePicker}
           setFocused={setFocused}
+          clearHandler={clearHandler}
         />
       )}
     </div>
