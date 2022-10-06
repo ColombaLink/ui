@@ -56,16 +56,21 @@ export const SelectFieldTypeModal: FC<{
         Add Field
       </Text>
       <Section>
-        {Object.keys(templates).map((template: FieldTemplates) => (
-          <Template
-            key={template}
-            template={template}
-            onClick={() => {
-              removeOverlay()
-              open(<FieldModal type={type} template={template} path={path} />)
-            }}
-          />
-        ))}
+        {Object.keys(templates).map((template: FieldTemplates) => {
+          if (templates[template].hidden) {
+            return null
+          }
+          return (
+            <Template
+              key={template}
+              template={template}
+              onClick={() => {
+                removeOverlay()
+                open(<FieldModal type={type} template={template} path={path} />)
+              }}
+            />
+          )
+        })}
       </Section>
     </div>
   )

@@ -8,6 +8,9 @@ import {
   CalendarIcon,
   ToggleIcon,
   ListIcon,
+  TwentyThreeIcon,
+  LockIcon,
+  EmailIcon,
 } from '~/icons'
 
 
@@ -20,8 +23,11 @@ export type FieldTemplates =
   | 'dateTime'
   | 'email'
   | 'file'
+  | 'float'
   | 'id'
+  | 'int'
   | 'markdown'
+  | 'number'
   | 'object'
   | 'reference'
   | 'references'
@@ -36,13 +42,14 @@ export const templates: {
     label: string
     description: string
     color?: Color
+    hidden?: boolean
     icon: any
     schema: {
       type: string
       properties?: object
       items?: object
       meta?: {
-        format?: 'url'
+        format?: 'url' | 'email'
       }
     }
   }
@@ -101,7 +108,32 @@ export const templates: {
     icon: ToggleIcon,
     schema: { type: 'boolean' },
   },
+  digest: {
+    label: 'Digest',
+    description: 'Digests you know it',
+    icon: LockIcon,
+    schema: { type: 'digest' },
+  },
+  number: {
+    label: 'Number',
+    description: 'Numbers you know it',
+    icon: TwentyThreeIcon,
+    schema: { type: 'number' },
+  },
+  int: {
+    label: 'Integer',
+    description: 'Integers you know it',
+    icon: TwentyThreeIcon,
+    schema: { type: 'int' },
+  },
+  float: {
+    label: 'Float',
+    description: 'Floats you know it',
+    icon: TwentyThreeIcon,
+    schema: { type: 'float' },
+  },
   id: {
+    hidden: true,
     label: 'Identifier',
     description: 'IDs you know it',
     icon: ToggleIcon,
@@ -122,10 +154,11 @@ export const templates: {
   timestamp: {
     label: 'Timestamp',
     description: 'Timestamps you know it',
-    icon: ToggleIcon,
+    icon: CalendarIcon,
     schema: { type: 'timestamp' },
   },
   type: {
+    hidden: true,
     label: 'Type',
     description: 'Types you know it',
     icon: ToggleIcon,
@@ -140,7 +173,7 @@ export const templates: {
   email: {
     label: 'Email',
     description: 'Emails you know it',
-    icon: ToggleIcon,
+    icon: EmailIcon,
     schema: {
       type: 'string',
       meta: {
@@ -151,7 +184,7 @@ export const templates: {
 }
 
 
-const templateColors = ['accent', 'babyblue', 'reddish', 'yellow', 'green', 'teal', 'purple', 'mustard']
+const templateColors = ['accent', 'babyblue', 'yellow', 'green', 'red', 'teal', 'purple', 'mustard', 'reddish']
 
 Object.keys(templates).forEach((key, i) => {
   templates[key].color = `light${templateColors[i % templateColors.length]}`
