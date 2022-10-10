@@ -1,4 +1,13 @@
-import { useDialog, Text, removeOverlay, Label, border, Thumbnail } from '~'
+import {
+  useDialog,
+  Text,
+  removeOverlay,
+  Label,
+  border,
+  Thumbnail,
+  MasonryGrid,
+} from '~'
+import { color } from '~/utils'
 import { styled } from 'inlines'
 import React, { FC } from 'react'
 import { FieldTemplates, templates } from '../templates'
@@ -12,11 +21,11 @@ const Section = styled('div', {
   marginBottom: 10,
 })
 
-const Template = ({ template, onClick }) => {
+const Template = ({ template, onClick, style }) => {
   const { label, description, icon, color } = templates[template]
 
   return (
-    <div
+    <styled.div
       onClick={onClick}
       style={{
         alignItems: 'center',
@@ -30,6 +39,7 @@ const Template = ({ template, onClick }) => {
         userSelect: 'none',
         width: 284,
         padding: '8px 16px',
+        ...style,
       }}
     >
       <Thumbnail
@@ -37,11 +47,11 @@ const Template = ({ template, onClick }) => {
         icon={icon}
         color={color}
         style={{
-          marginRight: 8,
+          marginRight: 16,
         }}
       />
       <Label label={label} description={description} />
-    </div>
+    </styled.div>
   )
 }
 
@@ -52,25 +62,42 @@ export const SelectFieldTypeModal: FC<{
   const { open } = useDialog()
   return (
     <div>
-      <Text style={{ marginTop: 20, marginLeft: 20 }} weight="700">
+      <Text style={{ marginTop: 20, marginLeft: 20 }} weight="700" space="0px">
         Add Field
       </Text>
       <Section>
-        {Object.keys(templates).map((template: FieldTemplates) => {
-          if (templates[template].hidden) {
-            return null
-          }
-          return (
-            <Template
-              key={template}
-              template={template}
-              onClick={() => {
-                removeOverlay()
-                open(<FieldModal type={type} template={template} path={path} />)
-              }}
-            />
-          )
-        })}
+        <MasonryGrid style={{ marginBottom: 20, padding: 0 }} gap={5}>
+          {Object.keys(templates).map((template: FieldTemplates) => {
+            if (templates[template].hidden) {
+              return null
+            }
+
+            return (
+              <React.Fragment key={template}>
+                {templates[template].categoryTitle && (
+                  <Text color="text2" space="12px" style={{ paddingLeft: 6 }}>
+                    {templates[template].categoryTitle}
+                  </Text>
+                )}
+                <Template
+                  template={template}
+                  onClick={() => {
+                    removeOverlay()
+                    open(
+                      <FieldModal type={type} template={template} path={path} />
+                    )
+                  }}
+                  style={{
+                    '&:hover': {
+                      background: color(templates[template].color),
+                      border: `1px solid ${color(templates[template].color)}`,
+                    },
+                  }}
+                />
+              </React.Fragment>
+            )
+          })}
+        </MasonryGrid>
       </Section>
     </div>
   )
