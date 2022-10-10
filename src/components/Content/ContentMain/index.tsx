@@ -21,6 +21,9 @@ export const ContentMain = ({ style }) => {
   const field = q.field || 'descendants'
 
   const set = new Set(['type', 'id', 'name', 'children'])
+
+  console.log('Q?', q)
+
   const indexed = []
   const other = new Set()
   const includedTypes = Object.keys(types)

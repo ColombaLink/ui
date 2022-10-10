@@ -11,7 +11,7 @@ export const Schema: FC<{
 }> = ({ db = 'default', prefix = '', style }) => {
   const [location] = useLocation()
   const [, type, ...path] = location.substring(prefix.length).split('/')
-  console.log('???', type, path)
+
   return (
     <div style={{ display: 'flex', ...style }}>
       <SchemaLeft prefix={prefix} />

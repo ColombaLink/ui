@@ -120,7 +120,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     setDateFormatInput('')
     setDateTimeInput('')
 
-    onChange(0)
+    onChange(null)
   }
 
   return (

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tabs } from '../..'
 import ComponentViewer from '../ComponentViewer'
-import { StackIcon } from '~'
 
 const codeExample = `import { Tabs, Tab, Page } from '@based/ui'
 
