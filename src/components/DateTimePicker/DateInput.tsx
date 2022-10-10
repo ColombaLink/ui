@@ -49,7 +49,7 @@ export const DateInput: FC<DateInputProps> = ({
     if (e.target.value.length === 5) {
       e.target.value = e.target.value + '/'
     }
-    console.log(e.target.value)
+    console.log('-->>', e.target.value)
 
     dateHandler(e.target.value)
   }
@@ -83,8 +83,14 @@ export const DateInput: FC<DateInputProps> = ({
         }}
         onClick={(e) => {
           // hides the calender in firefox
+          //  TODO
           e.preventDefault()
           setShowDatePicker(true)
+          if (value === '') {
+            console.log('Empty yo')
+            value = '08/09/2077'
+          }
+          console.log('Value', value)
         }}
         onFocus={() => {
           setIsFocus(true)
