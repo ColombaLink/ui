@@ -29,11 +29,11 @@ const Template = ({ template, onClick, style }) => {
       onClick={onClick}
       style={{
         alignItems: 'center',
-        border: border(1),
+        // border: border(1),
         borderRadius: 4,
         cursor: 'pointer',
         display: 'flex',
-        marginBottom: 12,
+        marginBottom: 3,
         marginLeft: 6,
         marginRight: 6,
         userSelect: 'none',
@@ -43,7 +43,7 @@ const Template = ({ template, onClick, style }) => {
       }}
     >
       <Thumbnail
-        size={48}
+        size={32}
         icon={icon}
         color={color}
         style={{
@@ -62,11 +62,18 @@ export const SelectFieldTypeModal: FC<{
   const { open } = useDialog()
   return (
     <div>
-      <Text style={{ marginTop: 20, marginLeft: 20 }} weight="700" space="0px">
+      <Text
+        style={{ marginTop: 20, marginLeft: 20, marginBottom: -20 }}
+        weight="700"
+        space="0px"
+      >
         Add Field
       </Text>
       <Section>
-        <MasonryGrid style={{ marginBottom: 20, padding: 0 }} gap={5}>
+        <MasonryGrid
+          style={{ marginBottom: 20, padding: 0, marginLeft: -14 }}
+          gap={5}
+        >
           {Object.keys(templates).map((template: FieldTemplates) => {
             if (templates[template].hidden) {
               return null
@@ -75,7 +82,11 @@ export const SelectFieldTypeModal: FC<{
             return (
               <React.Fragment key={template}>
                 {templates[template].categoryTitle && (
-                  <Text color="text2" space="12px" style={{ paddingLeft: 6 }}>
+                  <Text
+                    color="text2"
+                    space="12px"
+                    style={{ paddingLeft: 20, marginTop: 20 }}
+                  >
                     {templates[template].categoryTitle}
                   </Text>
                 )}
