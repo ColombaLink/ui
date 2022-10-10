@@ -2,7 +2,6 @@ import { Color } from '~/types'
 import {
   TextIcon,
   AddIcon,
-  ModelIcon,
   AttachmentIcon,
   CalendarIcon,
   ListIcon,
@@ -253,17 +252,17 @@ export const templates: {
   },
 }
 
-const templateColors = [
-  'accent',
-  'babyblue',
-  'yellow',
-  'green',
-  'red',
-  'teal',
-  'purple',
-  'mustard',
-  'reddish',
-]
+// const templateColors = [
+//   'accent',
+//   'babyblue',
+//   'yellow',
+//   'green',
+//   'red',
+//   'teal',
+//   'purple',
+//   'mustard',
+//   'reddish',
+// ]
 
 // Object.keys(templates).forEach((key, i) => {
 //   templates[key].color = `light${templateColors[i % templateColors.length]}`
