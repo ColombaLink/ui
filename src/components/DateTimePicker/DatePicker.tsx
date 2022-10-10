@@ -310,23 +310,29 @@ export const DatePicker = ({
       </div>
 
       <div style={{ borderBottom: `1px solid ${color('border')}` }} />
-      <div style={{ padding: '12px 16px' }}>
+      <styled.div
+        style={{
+          padding: '12px 16px',
+          '& div': {
+            '&:hover': { cursor: 'pointer' },
+          },
+        }}
+      >
         <Text weight={400} onClick={todayHandler} space="4px">
           Today
         </Text>
-        <Text weight={400} space="4px" onClick={nextDay}>
+        <Text weight={400} space="4px" onClick={nextDay} style={{}}>
           Select next date
         </Text>
-        <Text weight={400} space="4px" onClick={prevDay}>
+        <Text weight={400} space="4px" onClick={prevDay} style={{}}>
           Select previous date
         </Text>
-      </div>
+      </styled.div>
       <div style={{ borderBottom: `1px solid ${color('border')}` }} />
 
       <Text
         style={{ padding: '8px 16px' }}
         weight={400}
-        //   onClick={() => changeHandler('YYYY', 'MM', 'DD')}
         onClick={() => {
           clearHandler()
           setShowDatePicker(false)

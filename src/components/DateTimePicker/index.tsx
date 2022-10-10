@@ -118,7 +118,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   const clearHandler = () => {
-    console.log('AREA CLEAR')
+    // console.log('AREA CLEAR')
     setDateFormatInput('')
     setDateTimeInput('')
     onChange(null)
