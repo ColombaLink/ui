@@ -89,8 +89,7 @@ export const SelectFieldTypeModal: FC<{
                   }}
                   style={{
                     '&:hover': {
-                      background: color(templates[template].color),
-                      border: `1px solid ${color(templates[template].color)}`,
+                      background: color('border'),
                     },
                   }}
                 />

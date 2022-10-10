@@ -40,7 +40,7 @@ export const DatePicker = ({
 }: DatePickerProps) => {
   const dateObj = new Date()
 
-  console.log('Date', dateObj, dateObj.getDate())
+  // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
     '',
@@ -58,7 +58,7 @@ export const DatePicker = ({
     'December',
   ]
 
-  console.log('INPUT VALUE UIT DE PICKER', inputValue)
+  // console.log('INPUT VALUE UIT DE PICKER', inputValue)
 
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()

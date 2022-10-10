@@ -86,7 +86,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   const dateHandler = (val) => {
-    console.log('VALUE from date handler', val)
+    // console.log('VALUE from date handler', val)
     // do output like this -->  2002-10-29
     const tempArr = []
     const day = `${val[0]}${val[1]}`
@@ -103,8 +103,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   const timeInputHandler = (val) => {
-    setDateTimeInput(val)
-    newMsFromAll(dateFormatInput, val)
+    if (val.length === 5) {
+      setDateTimeInput(val)
+      newMsFromAll(dateFormatInput, val)
+    }
   }
 
   const utcInputHandler = (val) => {
@@ -152,7 +154,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           placeholder={timezoneOffset}
         />
       </div>
-      <div>miliseconds: {value}</div>
+      {/* <div>miliseconds: {value}</div> */}
     </InputWrapper>
   )
 }
