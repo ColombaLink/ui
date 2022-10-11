@@ -35,15 +35,19 @@ export const alwaysIgnore = new Set(['descendants', 'ancestors', 'aliases'])
 export type FieldTemplates =
   | 'array'
   | 'boolean'
+  | 'createdBy'
   | 'dateTime'
+  | 'digest'
   | 'email'
   | 'file'
   | 'float'
   | 'id'
   | 'int'
+  | 'map'
   | 'markdown'
   | 'number'
   | 'object'
+  | 'record'
   | 'reference'
   | 'references'
   | 'string'
@@ -73,7 +77,6 @@ export const templates: {
   // keys have to represent types or formats TODO add ts
 
   string: {
-    categoryTitle: 'Text and String',
     label: 'String',
     color: 'lightpurple',
     description: 'Non internationalized string',
@@ -104,7 +107,6 @@ export const templates: {
   },
 
   email: {
-    categoryTitle: 'Rich formatted data',
     label: 'Email',
     color: 'lightbabyblue',
     description: 'An email address',
@@ -132,7 +134,6 @@ export const templates: {
   },
 
   dateTime: {
-    categoryTitle: 'Plain formatted data',
     label: 'Date-Time',
     color: 'lightteal',
     description: 'Dates and timestamp',
@@ -162,7 +163,6 @@ export const templates: {
   },
 
   reference: {
-    categoryTitle: 'References and files',
     label: 'Reference',
     color: 'lightyellow',
     description: 'References you know it',
@@ -190,7 +190,6 @@ export const templates: {
   },
 
   number: {
-    categoryTitle: 'Numbers',
     label: 'Number',
     color: 'lightsailorblue',
     description: 'Numbers you know it',
@@ -213,7 +212,6 @@ export const templates: {
   },
 
   array: {
-    categoryTitle: 'Complex data structures',
     label: 'Array',
     color: 'lightorange',
     description: 'A collection of similar types',
@@ -236,7 +234,6 @@ export const templates: {
   },
 
   id: {
-    hidden: true,
     label: 'Identifier',
     description: 'IDs you know it',
     icon: ListIcon,
@@ -244,26 +241,9 @@ export const templates: {
   },
 
   type: {
-    hidden: true,
     label: 'Type',
     description: 'Types you know it',
     icon: ListIcon,
     schema: { type: 'type' },
   },
 }
-
-// const templateColors = [
-//   'accent',
-//   'babyblue',
-//   'yellow',
-//   'green',
-//   'red',
-//   'teal',
-//   'purple',
-//   'mustard',
-//   'reddish',
-// ]
-
-// Object.keys(templates).forEach((key, i) => {
-//   templates[key].color = `light${templateColors[i % templateColors.length]}`
-// })

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, Fragment, useState } from 'react'
 import {
   useDialog,
   Text,
@@ -9,7 +9,7 @@ import {
   Input,
   SearchIcon,
 } from '~'
-import { color } from '~/utils'
+import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
 import { FieldTemplates, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
@@ -22,12 +22,73 @@ const Section = styled('div', {
   marginBottom: 10,
 })
 
-const Template = ({ template, onClick, style }) => {
+const {
+  string,
+  text,
+  markdown,
+  digest,
+  email,
+  url,
+  map,
+  dateTime,
+  timestamp,
+  createdBy,
+  boolean,
+  reference,
+  references,
+  file,
+  number,
+  float,
+  int,
+  array,
+  object,
+  record,
+} = templates
+const items = {
+  'Text and String': {
+    string,
+    text,
+    markdown,
+    digest,
+  },
+  'Rich formatted data': {
+    email,
+    url,
+    map,
+  },
+  'Plain formatted data': {
+    dateTime,
+    timestamp,
+    createdBy,
+    boolean,
+  },
+  'References and files': {
+    reference,
+    references,
+    file,
+  },
+  Numbers: {
+    number,
+    float,
+    int,
+  },
+  'Complex data structures': {
+    array,
+    object,
+    record,
+  },
+}
+
+const Template = ({ template, type, path }) => {
   const { label, description, icon, color } = templates[template]
+  const { open } = useDialog()
 
   return (
     <styled.div
-      onClick={onClick}
+      onClick={() => {
+        removeOverlay()
+        open(<FieldModal type={type} template={template} path={path} />)
+      }}
       style={{
         alignItems: 'center',
         borderRadius: 4,
@@ -39,7 +100,9 @@ const Template = ({ template, onClick, style }) => {
         userSelect: 'none',
         width: 284,
         padding: '8px 16px',
-        ...style,
+        '&:hover': {
+          background: colorFn('border'),
+        },
       }}
     >
       <Thumbnail
@@ -59,33 +122,24 @@ export const SelectFieldTypeModal: FC<{
   type: string
   path?: string[]
 }> = ({ type, path = [] }) => {
-  const { open } = useDialog()
-
-  const [filteredObj, setFilteredObj] = useState<Object>(templates)
-  const [isSearching, setIsSearching] = useState<Boolean>(false)
+  const [filteredItems, setFilteredItems] = useState<string[]>(null)
 
   const searchFilterHandler = (value: string) => {
     if (value === '') {
-      setFilteredObj(templates)
-      setIsSearching(false)
+      setFilteredItems(null)
       return
     }
 
-    if (value.length > 0) {
-      setIsSearching(true)
-    }
-
     const filteredArr = []
-    for (const key in templates) {
-      if (key.toLowerCase().includes(value.toLowerCase())) {
-        filteredArr.push([key, templates[key]])
+    for (const header in items) {
+      for (const template in items[header]) {
+        if (template.toLowerCase().includes(value.toLowerCase())) {
+          filteredArr.push(template)
+        }
       }
     }
 
-    // nu van array weer object maken
-    const filteredObjTest = Object.fromEntries(filteredArr)
-
-    setFilteredObj(filteredObjTest)
+    setFilteredItems(filteredArr)
   }
 
   return (
@@ -95,7 +149,7 @@ export const SelectFieldTypeModal: FC<{
         placeholder="Search and discover"
         space="0px"
         ghost
-        onChange={(e) => searchFilterHandler(e)}
+        onChange={searchFilterHandler}
         style={{
           marginTop: -4,
           paddingTop: 12,
@@ -103,9 +157,13 @@ export const SelectFieldTypeModal: FC<{
           paddingLeft: 8,
         }}
       />
-      <div style={{ borderBottom: `1px solid ${color('border')}` }} />
+      <div style={{ borderBottom: `1px solid ${colorFn('border')}` }} />
       <Text
-        style={{ marginTop: 20, marginLeft: 20, marginBottom: -20 }}
+        style={{
+          marginTop: 20,
+          marginLeft: 20,
+          marginBottom: filteredItems ? 0 : -20,
+        }}
         weight="700"
         space="0px"
       >
@@ -120,7 +178,45 @@ export const SelectFieldTypeModal: FC<{
           }}
           gap={5}
         >
-          {Object.keys(filteredObj).map((template: FieldTemplates) => {
+          {filteredItems
+            ? filteredItems.map((template: FieldTemplates) => {
+                // put template
+                return (
+                  <Template
+                    key={template}
+                    type={type}
+                    path={path}
+                    template={template}
+                  />
+                )
+              })
+            : Object.keys(items).map((header) => {
+                return (
+                  <Fragment key={header}>
+                    <Text
+                      color="text2"
+                      space="12px"
+                      style={{ paddingLeft: 20, marginTop: 20 }}
+                    >
+                      {header}
+                    </Text>
+                    {Object.keys(items[header]).map(
+                      (template: FieldTemplates) => {
+                        // put template
+                        return (
+                          <Template
+                            key={template}
+                            type={type}
+                            path={path}
+                            template={template}
+                          />
+                        )
+                      }
+                    )}
+                  </Fragment>
+                )
+              })}
+          {/* {Object.keys(filteredObj).map((template: FieldTemplates) => {
             if (templates[template]?.hidden) {
               return null
             }
@@ -152,7 +248,7 @@ export const SelectFieldTypeModal: FC<{
                 />
               </React.Fragment>
             )
-          })}
+          })} */}
         </MasonryGrid>
       </Section>
     </div>
