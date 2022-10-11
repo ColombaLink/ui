@@ -37,7 +37,7 @@ export const MasonryGrid: FC<MasonryGridProps> = ({
   return (
     <div
       ref={styledRef}
-      style={{ padding: 10, position: 'relative', display: 'block' }}
+      style={{ position: 'relative', display: 'block' }}
       {...props}
     >
       <styled.div
@@ -47,9 +47,10 @@ export const MasonryGrid: FC<MasonryGridProps> = ({
             containerWidth < 400 ? 1 : containerWidth < 600 ? 2 : columns,
           ...style,
           '& div': {
-            display: 'inline-block',
-            width: '100%',
-            marginBottom: `calc(${gap}px /2)`,
+            display: 'inline-flex',
+            breakInside: 'avoid-column',
+            // width: '100%',
+            //  marginBottom: `calc(${gap}px /2)`,
             height: 'auto',
           },
 

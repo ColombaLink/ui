@@ -247,7 +247,7 @@ export const Input: FC<
     }
   }
 
-  const paddingLeft = ghost ? 0 : icon ? 36 : 12
+  const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const props = {
     name,
@@ -272,8 +272,8 @@ export const Input: FC<
       paddingLeft,
       paddingRight,
       width: '100%',
-      fontSize: ghost ? 16 : null,
-      fontWeight: ghost ? 500 : null,
+      fontSize: ghost ? 15 : null,
+      fontWeight: ghost ? 400 : null,
       backgroundColor: bg
         ? color(hover && !disabled ? 'border' : 'border')
         : 'inherit',
@@ -296,7 +296,7 @@ export const Input: FC<
     >
       <div
         style={{
-          width: ghost ? 300 : '100%',
+          width: '100%',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>

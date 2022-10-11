@@ -11,15 +11,6 @@ const StyledDateInput = styled('input', {
   paddingRight: 12,
   cursor: 'text',
   border: `1px solid ${color('border')}`,
-  '&::-webkit-calendar-picker-indicator': {
-    display: 'none',
-  },
-  '&[type="date"]::-webkit-input-placeholder': {
-    visibility: 'hidden !important',
-  },
-  '&[type="date"]:input-placeholder': {
-    visibility: 'hidden !important',
-  },
 })
 
 type DateInputProps = {
@@ -38,6 +29,8 @@ export const DateInput: FC<DateInputProps> = ({
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
+  const dateObj = new Date()
+
   if (showDatePicker) {
     setFocused(true)
   }
@@ -49,8 +42,6 @@ export const DateInput: FC<DateInputProps> = ({
     if (e.target.value.length === 5) {
       e.target.value = e.target.value + '/'
     }
-    console.log(e.target.value)
-
     dateHandler(e.target.value)
   }
 
@@ -82,7 +73,15 @@ export const DateInput: FC<DateInputProps> = ({
           dateInputHandler(e)
         }}
         onClick={(e) => {
-          // hides the calender in firefox
+          if (value === '') {
+            dateInputHandler({
+              target: {
+                value: `${dateObj.getUTCDate()}/${
+                  dateObj.getUTCMonth() + 1
+                }/${dateObj.getUTCFullYear()}`,
+              },
+            })
+          }
           e.preventDefault()
           setShowDatePicker(true)
         }}
@@ -96,19 +95,7 @@ export const DateInput: FC<DateInputProps> = ({
           setIsFocus(false)
         }}
       />
-      {/* {isFocus && (
-        <div
-          style={{
-            border: `2px solid ${color('accent')}`,
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            borderRadius: 4,
-          }}
-        />
-      )} */}
+
       {showDatePicker && (
         <DatePicker
           inputValue={value}
