@@ -62,25 +62,30 @@ export const SelectFieldTypeModal: FC<{
   const { open } = useDialog()
 
   const [filteredObj, setFilteredObj] = useState<Object>(templates)
+  const [isSearching, setIsSearching] = useState<Boolean>(false)
 
   const searchFilterHandler = (value: string) => {
     if (value === '') {
-      setFilteredObj(menuItems)
+      setFilteredObj(templates)
+      setIsSearching(false)
       return
     }
 
+    if (value.length > 0) {
+      setIsSearching(true)
+    }
+
     const filteredArr = []
-    for (const key in menuItems) {
-      for (const subKey in menuItems[key]) {
-        if (subKey.toLowerCase().includes(value.toLowerCase())) {
-          filteredArr.push([subKey, menuItems[key][subKey]])
-        }
+    for (const key in templates) {
+      if (key.toLowerCase().includes(value.toLowerCase())) {
+        filteredArr.push([key, templates[key]])
       }
     }
 
     // nu van array weer object maken
     const filteredObjTest = Object.fromEntries(filteredArr)
-    setFilteredObj({ Results: filteredObjTest })
+
+    setFilteredObj(filteredObjTest)
   }
 
   return (
@@ -89,13 +94,13 @@ export const SelectFieldTypeModal: FC<{
         icon={<SearchIcon />}
         placeholder="Search and discover"
         space="0px"
+        ghost
         onChange={(e) => searchFilterHandler(e)}
         style={{
           marginTop: -4,
-          paddingTop: 6,
-          paddingBottom: 6,
+          paddingTop: 12,
+          paddingBottom: 12,
           paddingLeft: 8,
-          outline: '0px',
         }}
       />
       <div style={{ borderBottom: `1px solid ${color('border')}` }} />
@@ -115,20 +120,20 @@ export const SelectFieldTypeModal: FC<{
           }}
           gap={5}
         >
-          {Object.keys(templates).map((template: FieldTemplates) => {
-            if (templates[template].hidden) {
+          {Object.keys(filteredObj).map((template: FieldTemplates) => {
+            if (templates[template]?.hidden) {
               return null
             }
 
             return (
               <React.Fragment key={template}>
-                {templates[template].categoryTitle && (
+                {templates[template]?.categoryTitle && !isSearching && (
                   <Text
                     color="text2"
                     space="12px"
                     style={{ paddingLeft: 20, marginTop: 20 }}
                   >
-                    {templates[template].categoryTitle}
+                    {templates[template]?.categoryTitle}
                   </Text>
                 )}
                 <Template

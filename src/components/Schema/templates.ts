@@ -54,7 +54,7 @@ export type FieldTemplates =
 
 export const templates: {
   [K in FieldTemplates]: {
-    label: string
+    label?: string
     categoryTitle?: string
     description: string
     color?: Color
