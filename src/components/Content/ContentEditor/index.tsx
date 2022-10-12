@@ -18,8 +18,9 @@ import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
-import isUrl from 'is-url-superb'
+// import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
+import { validatePassword, url as isUrl } from '@saulx/validators'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -207,6 +208,7 @@ const float = {
         space
         type="number"
         indent
+        //  onChange={(e) => console.log(typeof e)}
       />
     )
   },
@@ -222,6 +224,24 @@ const int = {
         integer
         type="number"
         indent
+      />
+    )
+  },
+}
+
+const digest = {
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        indent
+        space
+        error={(value) => {
+          if (validatePassword(value)) {
+            return 'this'
+          }
+        }}
       />
     )
   },
@@ -282,6 +302,7 @@ const components = {
   number,
   float,
   int,
+  digest,
   text: string,
   timestamp,
 }
@@ -302,7 +323,7 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
     meta.refTypes?.length === 1 &&
     meta.refTypes[0] === 'file'
   ) {
-    console.log('???')
+    //  console.log('???')
     q = {
       mimeType: true,
       name: true,
@@ -312,7 +333,7 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
     }
   }
 
-  console.log(field, type, format)
+  // console.log(field, type, format)
 
   const { data } = useData({ $id: id, $language: language, [field]: q })
   const Component =
@@ -346,7 +367,8 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       value={data[field]}
       onChange={(value) => {
         // $file: {}
-        console.log('nhbj', value)
+        console.log('nhbj the value uit onchange', value)
+        console.log('Type of value -->', typeof value)
 
         if (Array.isArray(value)) {
           console.log('It is an arraytje !!!')
@@ -354,6 +376,29 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
             onChange()
           })
         }
+
+        if (meta.format === 'email') {
+          if (isEmail(value) || value.length < 1) {
+            onChange({ $language: language, [field]: value })
+          } else {
+            return
+          }
+        }
+
+        if (meta.format === 'url') {
+          if (isUrl(value) || value.length < 1) {
+            onChange({ $language: language, [field]: value })
+          } else {
+            return
+          }
+        }
+
+        if (meta.format === 'digest') {
+          console.log('yo')
+        }
+
+        console.log('meta', meta)
+        console.log('data[field]', data[field])
 
         // vanuit de top
 

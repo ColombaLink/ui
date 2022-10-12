@@ -56,6 +56,7 @@ const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
+
   return <input {...props} type={type} ref={inputRef} pattern={pattern} />
 }
 
@@ -236,9 +237,14 @@ export const Input: FC<
   const onChange = (e) => {
     const newValue = transform ? transform(e.target.value) : e.target.value
 
-    setValue(newValue)
+    if (type === 'number') {
+      setValue(+e.target.value)
+      onChangeProp?.(+newValue)
+    } else {
+      setValue(newValue)
+      onChangeProp?.(newValue)
+    }
 
-    onChangeProp?.(newValue)
     const msg = error?.(newValue)
 
     if (msg) {
@@ -400,6 +406,10 @@ export const Input: FC<
                 onKeyDown={(e) => {
                   if (integer && (e.key === ',' || e.key === '.')) {
                     e.preventDefault()
+                  }
+                  if (type === 'number' && e.key === '.') {
+                    e.preventDefault()
+                    e.key = ','
                   }
                 }}
               />
