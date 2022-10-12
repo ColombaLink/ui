@@ -4,7 +4,7 @@ import { Page } from '~/components/Page'
 import { ContentEditor as Editor } from '../../components/Content/ContentEditor'
 
 export const ContentEditor = () => {
-  const id = '100632b95d'
+  const id = '205e250a20'
   const client = useClient()
 
   return (

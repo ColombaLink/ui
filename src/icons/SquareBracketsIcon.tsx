@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-export const ArchiveIcon = ({
+export const SquareBracketsIcon = ({
   color: colorProp = 'currentColor',
   size = 16,
   ...props
@@ -11,15 +11,17 @@ export const ArchiveIcon = ({
     <svg
       width={size}
       height={size}
-      viewBox="0 0 20 20"
+      viewBox="0 0 16 18"
       fill={color(colorProp)}
       {...props}
     >
-      <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
       <path
-        fillRule="evenodd"
-        d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
-        clipRule="evenodd"
+        d="M0 18V0H5.04107V1.9693H2.42641V16.0378H5.04107V18H0Z"
+        fill={color(colorProp)}
+      />
+      <path
+        d="M16 0V18H10.9589V16.0378H13.5736V1.9693H10.9589V0H16Z"
+        fill={color(colorProp)}
       />
     </svg>
   )

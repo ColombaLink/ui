@@ -49,13 +49,13 @@ type SingleProps = {
   inputRef?: RefObject<any>
   pattern?: string
   props?: any
+  onKeyDown?: (e: any) => void
 }
 
 const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
-  console.log({ inputRef })
   return <input {...props} type={type} ref={inputRef} pattern={pattern} />
 }
 
@@ -70,6 +70,7 @@ type InputProps = {
   descriptionBottom?: string
   optional?: boolean
   value?: string | number
+  integer?: boolean
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   indent?: boolean
@@ -201,6 +202,7 @@ export const Input: FC<
   iconRight,
   indent,
   inputRef,
+  integer,
   label,
   large,
   maxChars,
@@ -239,9 +241,14 @@ export const Input: FC<
   const onChange = (e) => {
     const newValue = transform ? transform(e.target.value) : e.target.value
 
-    setValue(newValue)
+    if (type === 'number') {
+      setValue(+e.target.value)
+      onChangeProp?.(+newValue)
+    } else {
+      setValue(newValue)
+      onChangeProp?.(newValue)
+    }
 
-    onChangeProp?.(newValue)
     const msg = error?.(newValue)
 
     if (msg) {
@@ -253,7 +260,7 @@ export const Input: FC<
     }
   }
 
-  const paddingLeft = ghost ? 0 : icon ? 36 : 12
+  const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const fontSize = 16
   const fontWeight = 500
@@ -404,7 +411,18 @@ export const Input: FC<
               fontWeight={fontWeight}
               onChange={onChange}
             >
-              <Single {...props} />
+              <Single
+                {...props}
+                onKeyDown={(e) => {
+                  if (integer && (e.key === ',' || e.key === '.')) {
+                    e.preventDefault()
+                  }
+                  if (type === 'number' && e.key === '.') {
+                    e.preventDefault()
+                    e.key = ','
+                  }
+                }}
+              />
             </MaybeSuggest>
           )}
           {type === 'number' && !disabled && (

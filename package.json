@@ -46,6 +46,7 @@
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",
     "inlines": "^0.2.2",
+    "is-email": "^1.0.2",
     "mapbox-gl": "^2.10.0",
     "plur": "^5.1.0",
     "prismjs": "^1.25.0",

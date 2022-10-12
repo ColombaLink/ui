@@ -74,7 +74,9 @@ const TabWrapper: FC<{
     >
       <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
 
-      {typeof children === 'string' ? children : children.props.label}
+      {typeof children === 'string'
+        ? children
+        : (children.props.label as string)}
     </styled.div>
   )
 }
