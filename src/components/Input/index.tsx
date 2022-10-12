@@ -49,6 +49,7 @@ type SingleProps = {
   inputRef?: RefObject<any>
   pattern?: string
   props?: any
+  onKeyDown?: (e: any) => void
 }
 
 const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
@@ -69,6 +70,7 @@ type InputProps = {
   descriptionBottom?: string
   optional?: boolean
   value?: string | number
+  integer?: boolean
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   indent?: boolean
@@ -195,6 +197,7 @@ export const Input: FC<
   iconRight,
   indent,
   inputRef,
+  integer,
   label,
   large,
   maxChars,
@@ -392,7 +395,14 @@ export const Input: FC<
               paddingRight={paddingRight}
               onChange={onChange}
             >
-              <Single {...props} />
+              <Single
+                {...props}
+                onKeyDown={(e) => {
+                  if (integer && (e.key === ',' || e.key === '.')) {
+                    e.preventDefault()
+                  }
+                }}
+              />
             </MaybeSuggest>
           )}
           {type === 'number' && !disabled && (

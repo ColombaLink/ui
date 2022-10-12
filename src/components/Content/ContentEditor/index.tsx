@@ -18,6 +18,8 @@ import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
+import isUrl from 'is-url-superb'
+import isEmail from 'is-email'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -152,6 +154,77 @@ const string = {
       space
     />
   ),
+  url: ({ description, ...props }) => (
+    <Input
+      {...props}
+      maxChars={200}
+      descriptionBottom={description}
+      indent
+      space
+      error={(value) => {
+        if (!isUrl(value) && value.length > 0) {
+          return `Please enter a valid url https://...`
+        }
+      }}
+    />
+  ),
+  email: ({ description, ...props }) => (
+    <Input
+      {...props}
+      maxChars={200}
+      descriptionBottom={description}
+      indent
+      space
+      error={(value) => {
+        if (!isEmail(value) && value.length > 0) {
+          return `Please enter a valid email-address`
+        }
+      }}
+    />
+  ),
+}
+
+const number = {
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        indent
+        space
+        type="number"
+      />
+    )
+  },
+}
+
+const float = {
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        space
+        type="number"
+        indent
+      />
+    )
+  },
+}
+
+const int = {
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        space
+        integer
+        type="number"
+        indent
+      />
+    )
+  },
 }
 
 const boolean = {
@@ -206,6 +279,9 @@ const components = {
   reference,
   references,
   string,
+  number,
+  float,
+  int,
   text: string,
   timestamp,
 }
@@ -236,8 +312,11 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
     }
   }
 
+  console.log(field, type, format)
+
   const { data } = useData({ $id: id, $language: language, [field]: q })
-  const Component = components[type]?.[ui || format || 'default']
+  const Component =
+    components[type]?.[ui || format || 'default'] || components[type]?.default
   const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
 
   const client = useClient()

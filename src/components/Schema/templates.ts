@@ -123,7 +123,12 @@ export const templates: {
     color: 'lightbabyblue',
     description: 'A web address',
     icon: UrlIcon,
-    schema: { type: 'url' },
+    schema: {
+      type: 'string',
+      meta: {
+        format: 'url',
+      },
+    },
   },
   map: {
     label: 'Map',
