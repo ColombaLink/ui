@@ -55,6 +55,7 @@ const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
+  console.log({ inputRef })
   return <input {...props} type={type} ref={inputRef} pattern={pattern} />
 }
 
@@ -125,6 +126,8 @@ const Suggestor = ({
   children,
   paddingLeft,
   paddingRight,
+  fontSize,
+  fontWeight,
   onChange,
   forceSuggestion,
   focused,
@@ -164,6 +167,8 @@ const Suggestor = ({
             alignItems: 'center',
             opacity: 0.4,
             pointerEvents: 'none',
+            fontSize,
+            fontWeight,
           }}
         >
           {suggestion}
@@ -174,6 +179,7 @@ const Suggestor = ({
   )
 }
 
+// TODO need to clean this whole thing up...
 export const Input: FC<
   InputPropsChange &
     Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
@@ -189,7 +195,7 @@ export const Input: FC<
   descriptionBottom,
   disabled,
   error,
-  // forceSuggestion,
+  forceSuggestion,
   ghost,
   icon,
   iconRight,
@@ -249,6 +255,8 @@ export const Input: FC<
 
   const paddingLeft = ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
+  const fontSize = 16
+  const fontWeight = 500
   const props = {
     name,
     type,
@@ -272,8 +280,10 @@ export const Input: FC<
       paddingLeft,
       paddingRight,
       width: '100%',
-      fontSize: ghost ? 16 : null,
-      fontWeight: ghost ? 500 : null,
+      fontSize,
+      fontWeight,
+      // fontSize: ghost ? 16 : null,
+      // fontWeight: ghost ? 500 : null,
       backgroundColor: bg
         ? color(hover && !disabled ? 'border' : 'border')
         : 'inherit',
@@ -296,7 +306,7 @@ export const Input: FC<
     >
       <div
         style={{
-          width: ghost ? 300 : '100%',
+          width: '100%',
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -385,11 +395,13 @@ export const Input: FC<
           ) : (
             <MaybeSuggest
               focused={focused}
-              forceSuggestion
+              forceSuggestion={forceSuggestion}
               suggest={suggest}
               value={value}
               paddingLeft={paddingLeft}
               paddingRight={paddingRight}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
               onChange={onChange}
             >
               <Single {...props} />

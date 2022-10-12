@@ -11,6 +11,7 @@ import {
   LargeLogo,
   DarkModeIcon,
   LightModeIcon,
+  ExternalLinkIcon,
 } from '../'
 import based from '@based/client'
 import * as stories from './stories'
@@ -133,8 +134,13 @@ const menuItems = {
 }
 
 const App = () => {
+  const [fullscreen, setFullscreen] = useState(false)
   const [darkMode, setDarkMode] = useDarkMode()
   const [filteredObj, setFilteredObj] = useState<Object>(menuItems)
+
+  if (fullscreen) {
+    return <Stories />
+  }
 
   const searchFilterHandler = (value: string) => {
     if (value === '') {
@@ -182,6 +188,13 @@ const App = () => {
                 }}
                 icon={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
                 onClick={() => setDarkMode(!darkMode)}
+              />
+              <Button
+                color="text"
+                space="12px"
+                ghost
+                icon={ExternalLinkIcon}
+                onClick={() => setFullscreen(!fullscreen)}
               />
             </div>
             <div style={{ marginLeft: -8 }}>

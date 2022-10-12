@@ -156,7 +156,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   )
 }
 
-const InnerTable = ({ types, items, fields, onClick, ...props }) => {
+const InnerTable = ({ tableRef, types, items, fields, onClick, ...props }) => {
   const [state, setState] = useState({})
   const { current: itemData } = useRef({})
 
@@ -168,53 +168,27 @@ const InnerTable = ({ types, items, fields, onClick, ...props }) => {
     setState,
     ...state,
   })
+
   return (
-    <Grid {...props} itemData={itemData}>
+    <Grid {...props} itemData={itemData} ref={tableRef}>
       {Cell}
     </Grid>
   )
 }
 
-const HeaderDragLine = ({
-  dragging,
-  setDragging,
-  index,
-  setColWidths,
-  colWidths,
-}) => {
-  const { hover, active, listeners } = useHover()
+const HeaderDragLine = ({ index, setColWidths, colWidths }) => {
   const width = 8
-  const isDragging = dragging === index
-
-  // useEffect(() => {
-  //   if (active) {
-  //     if (dragging === false) {
-  //       setDragging(index)
-  //       const onUp = () => {
-  //         console.log('UP')
-  //         removeEventListener('mouseup', onUp)
-  //         setDragging(false)
-  //       }
-  //       addEventListener('mouseup', onUp)
-  //     }
-  //   }
-  // }, [active, index, dragging])
-
   return (
-    <div
-      onMouseEnter={listeners.onMouseEnter}
-      onMouseLeave={listeners.onMouseLeave}
+    <styled.div
       onMouseDown={({ currentTarget, clientX: startX }) => {
         // @ts-ignore
         const { offsetWidth } = currentTarget.parentNode
-        setDragging(index)
         const onUp = () => {
           removeEventListener('mouseup', onUp)
           removeEventListener('mousemove', onMove)
-          setDragging(false)
         }
         const onMove = ({ clientX }) => {
-          colWidths[index + 1] = offsetWidth - (startX - clientX)
+          colWidths[index] = Math.max(40, offsetWidth - (startX - clientX))
           setColWidths([...colWidths])
         }
         addEventListener('mousemove', onMove)
@@ -227,26 +201,26 @@ const HeaderDragLine = ({
         height: 32,
         bottom: 0,
         width,
-        cursor: hover ? 'col-resize' : null,
+        cursor: 'col-resize',
+        '&:hover>div': {
+          backgroundColor: color('border'),
+        },
       }}
     >
       <div
         style={{
           marginLeft: width / 2,
-          width: hover || isDragging ? 2 : 1,
+          width: 2,
           height: '100%',
-          backgroundColor: color(
-            isDragging ? 'red' : hover ? 'accent' : 'border'
-          ),
         }}
       />
-    </div>
+    </styled.div>
   )
 }
 
 const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
-  const { hover, active, listeners } = useHover()
-  const [dragging, setDragging] = useState(false)
+  // const { hover, active, listeners } = useHover()
+  // const [dragging, setDragging] = useState(false)
 
   return (
     <div
@@ -261,7 +235,7 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
         height: HEADER_HEIGHT,
         minWidth: width,
       }}
-      {...listeners}
+      // {...listeners}
     >
       {fields.map((field, index) => (
         <div
@@ -282,8 +256,6 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
           <HeaderDragLine
             setColWidths={setColWidths}
             colWidths={colWidths}
-            dragging={dragging}
-            setDragging={setDragging}
             index={index}
           />
         </div>
@@ -307,6 +279,7 @@ export const TableFromQuery = ({
     'createdAt',
     'desc',
   ])
+  const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
     query: (offset, limit) => query(offset, limit, sortField, sortOrder),
     height,
@@ -316,6 +289,25 @@ export const TableFromQuery = ({
     // treshold: 15,
   })
   const [colWidths, setColWidths] = useState([])
+
+  useEffect(() => {
+    if (tableRef.current) {
+      const prevColWidths = tableRef.current.colWidths || []
+      const columnIndex = Math.max(
+        0,
+        colWidths.findIndex((val, index) => {
+          return val !== prevColWidths[index]
+        })
+      )
+
+      tableRef.current.resetAfterIndices({
+        columnIndex,
+      })
+
+      tableRef.current.colWidths = colWidths
+    }
+  }, [colWidths])
+
   if (loading) {
     return null
   }
@@ -327,24 +319,26 @@ export const TableFromQuery = ({
 
   const columnCount = fields.length + 1 // one extra for actions
   const columnWidth = (index) => {
+    if (index === 0) {
+      return ACTIONS_WIDTH
+    }
+    index = index - 1
     if (colWidths[index] !== undefined) {
       return colWidths[index]
     }
-    if (index) {
-      const field = fields[index - 1]
-      if (field === 'id') {
-        return 116
-      }
-      // if (field === 'children' || field === 'parents') {
-      //   return 96
-      // }
-      return colWidth
+    const field = fields[index]
+    if (field === 'id') {
+      return 116
     }
-    return ACTIONS_WIDTH
+    // if (field === 'children' || field === 'parents') {
+    //   return 96
+    // }
+    return colWidth
   }
 
   return (
     <InnerTable
+      tableRef={tableRef}
       style={scrollAreaStyle}
       columnCount={columnCount}
       columnWidth={columnWidth}

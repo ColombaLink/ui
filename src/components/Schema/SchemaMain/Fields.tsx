@@ -36,7 +36,25 @@ const sortAndFlatten = (fields) => {
 
   for (let i = sortedFields.length - 1; i >= 0; i--) {
     const key = sortedFields[i]
-    if (fields[key].type === 'object') {
+    if (fields[key].type === 'record') {
+      const { properties } = fields[key].values
+      if (properties) {
+        const nested = sortAndFlatten(properties)
+        nested.forEach((nestedKey, index) => {
+          nested[index] = `${key}.values.properties.${nestedKey}`
+        })
+        sortedFields.splice(i + 1, 0, ...nested)
+      }
+    } else if (fields[key].type === 'array') {
+      const { properties } = fields[key].items
+      if (properties) {
+        const nested = sortAndFlatten(properties)
+        nested.forEach((nestedKey, index) => {
+          nested[index] = `${key}.items.properties.${nestedKey}`
+        })
+        sortedFields.splice(i + 1, 0, ...nested)
+      }
+    } else if (fields[key].type === 'object') {
       const nested = sortAndFlatten(fields[key].properties)
       nested.forEach((nestedKey, index) => {
         nested[index] = `${key}.properties.${nestedKey}`
@@ -56,7 +74,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
-  const objects = new Set()
+  const objects = {}
   const overIdRef = useRef()
   const sortedFields = sortAndFlatten(fields)
   const onDragStart = ({ active }) => {
@@ -66,11 +84,21 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over.id) {
       const activePath = active.id.split('.')
-      const objectId =
-        overIdRef.current && getObjectId(overIdRef.current, objects)
-      const overPath = objectId
-        ? [...objectId.split('.'), 'properties', '$placeholder']
-        : over.id.split('.')
+      const overObject = getObjectId(overIdRef.current, objects)
+      let overPath
+
+      if (overObject) {
+        const { type } = objects[overObject]
+        overPath = overObject.split('.')
+        if (type === 'array') {
+          overPath.push('items')
+        } else if (type === 'record') {
+          overPath.push('values')
+        }
+        overPath.push('properties', '$$stub$$')
+      } else {
+        overPath = over.id.split('.')
+      }
 
       if (activePath.length !== overPath.length) {
         const activeKey = activePath[activePath.length - 1]
@@ -78,9 +106,11 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
           (fields, key) => fields[key],
           fields
         )
+
         const overFields = overPath
           .slice(0, -1)
           .reduce((fields, key) => fields[key], fields)
+
         if (activeKey in overFields) {
           console.error('Already has field!', activeKey, overFields)
         } else {
@@ -111,6 +141,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     setDraggingField(null)
   }
 
+  let inObject
   const filtered = sortedFields.filter((field) => {
     if (alwaysIgnore.has(field)) {
       return false
@@ -122,13 +153,32 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       return false
     }
     const path = field.split('.')
-    const { type, $delete } = path.reduce((fields, key) => fields[key], fields)
+    const { type, $delete, items, values } = path.reduce(
+      (fields, key) => fields[key],
+      fields
+    )
+
     if ($delete) {
       return false
     }
-    if (type === 'object') {
-      objects.add(field)
+
+    if (inObject) {
+      if (field.startsWith(inObject.field)) {
+        objects[field] = inObject
+      } else {
+        inObject = false
+      }
     }
+
+    if (
+      type === 'object' ||
+      items?.type === 'object' ||
+      values?.type === 'object'
+    ) {
+      inObject = { field, type }
+      objects[field] = inObject
+    }
+
     return true
   })
 

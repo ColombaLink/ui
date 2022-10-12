@@ -29,6 +29,7 @@ export type FieldTemplates =
   | 'markdown'
   | 'number'
   | 'object'
+  | 'record'
   | 'reference'
   | 'references'
   | 'string'
@@ -47,6 +48,7 @@ export const templates: {
     schema: {
       type: string
       properties?: object
+      values?: object
       items?: object
       meta?: {
         format?: 'url' | 'email'
@@ -79,11 +81,17 @@ export const templates: {
     icon: ModelIcon,
     schema: { type: 'object', properties: {} },
   },
+  record: {
+    label: 'Record',
+    description: 'Records are sublime',
+    icon: ModelIcon,
+    schema: { type: 'record', values: {} },
+  },
   url: {
     label: 'URL',
     description: 'Url is cool',
     icon: ExternalLinkIcon,
-    schema: { type: 'string' },
+    schema: { type: 'string', meta: { format: 'url' } },
   },
   markdown: {
     label: 'Markdown',

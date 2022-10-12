@@ -3,18 +3,19 @@ import { Size, Color, Weight, Space, ColorVariant } from '~/types'
 import { font, spaceToPx } from '~/utils'
 
 type TextProps = {
+  capitalize?: boolean
+  children: ReactNode
+  color?: Color
+  italic?: boolean
+  onClick?: (e) => void
+  selectable?: boolean
   size?: Size
   space?: Space
-  color?: Color
-  weight?: Weight
   style?: CSSProperties
-  italic?: boolean
-  selectable?: boolean
-  wrap?: boolean
-  variant?: ColorVariant
   textAlign?: 'center' | 'right' | 'left'
-  children: ReactNode
-  onClick?: () => void
+  variant?: ColorVariant
+  weight?: Weight
+  wrap?: boolean
 }
 
 export const Text: FC<TextProps> = ({
@@ -29,6 +30,7 @@ export const Text: FC<TextProps> = ({
   space,
   variant,
   textAlign,
+  capitalize,
   onClick,
   ...props
 }) => {
@@ -52,6 +54,10 @@ export const Text: FC<TextProps> = ({
 
   if (textAlign) {
     s.textAlign = textAlign
+  }
+
+  if (capitalize) {
+    s.textTransform = 'capitalize'
   }
 
   if (style) {

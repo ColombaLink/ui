@@ -1,11 +1,17 @@
 export const getObjectId = (overId, objects) => {
-  if (objects.has(overId)) {
-    return overId
+  if (overId && overId in objects) {
+      return objects[overId].field
   }
 
-  const i = overId.lastIndexOf('.properties.')
-  if (i !== -1) {
-    const str = overId.substring(0, i)
-    return str.substring(str.lastIndexOf('.'))
+}
+
+export const getDepth = (path, depth = 0) => {
+  for (let i = 1; i < path.length; i++) {
+    const key = path[i]
+    if (key === 'properties') {
+      depth++
+      i++
+    }
   }
+  return depth
 }

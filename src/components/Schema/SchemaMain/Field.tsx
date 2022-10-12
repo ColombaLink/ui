@@ -15,33 +15,61 @@ import {
   ContextItem,
   getName,
   ChevronDownIcon,
+  ContextDivider,
+  AddIcon,
 } from '~'
 
-import { systemFields, templates } from '../templates'
+import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
 import { useLocation } from 'wouter'
+import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
+import { getDepth } from './utils'
 
 const stopPropagation = (e) => e.stopPropagation()
 
 const EditMenu: FC<{
   type: string
   field: string
+  template: FieldTemplates
   isObject: boolean
-}> = ({ type, field, isObject }) => {
+  path: string[]
+}> = ({ type, field, template, isObject, path }) => {
   const { schema } = useSchema()
   const client = useClient()
   const { confirm } = useDialog()
   const [location, setLocation] = useLocation()
+  const { open } = useDialog()
 
   return (
     <>
       <ContextItem
         onClick={() => {
-          setLocation(`${location}/${field.replace('.', '/')}/properties`)
+          open(<FieldModal type={type} field={field} template={template} />)
         }}
       >
-        Configure Object
+        Settings
       </ContextItem>
+      {isObject ? (
+        <ContextItem
+          onClick={() => {
+            let isField = true
+            const filteredPath = path.filter((field) => {
+              if (isField) {
+                isField = false
+                return true
+              }
+              if (field === 'properties') {
+                isField = true
+              }
+              return false
+            })
+            setLocation(`${location}/${filteredPath.join('/')}`)
+          }}
+        >
+          Configure Object
+        </ContextItem>
+      ) : null}
+      <ContextDivider />
       <ContextItem
         onClick={async () => {
           if (
@@ -87,27 +115,57 @@ const EditMenu: FC<{
   )
 }
 
+const AddObjectFieldButton = ({ type, path }) => {
+  const openSelectField = useContextMenu(
+    SelectFieldTypeModal,
+    {
+      type,
+      path,
+    },
+    { width: 924, placement: 'right' }
+  )
+  return (
+    <Button
+      onPointerDown={stopPropagation}
+      onClick={openSelectField}
+      ghost
+      icon={AddIcon}
+    >
+      Add field
+    </Button>
+  )
+}
 export const Field = ({ type, field, fields, isDragging = false }) => {
-  const [location, setLocation] = useLocation()
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
   const { meta, type: fieldType } = fieldSchema
   const template = meta?.format || fieldType
   const { icon, color: iconColor } = templates[template] || {}
-  const { open } = useDialog()
-  const isArray = fieldType === 'array'
-  const isObject = fieldType === 'object'
+  const nestedType = (fieldSchema.items || fieldSchema.values)?.type
+  const isObject = fieldType === 'object' || nestedType === 'object'
   const Icon = isObject && isDragging ? ChevronDownIcon : DragDropIcon
+  const lastIndex = path.length - 1
+  const objectPath = isObject
+    ? fieldType === 'record'
+      ? [...path, 'values', 'properties']
+      : fieldType === 'array'
+      ? [...path, 'items', 'properties']
+      : [...path, 'properties']
+    : path
 
   const openEditMenu = useContextMenu(
     EditMenu,
     {
       type,
       field,
+      template,
       isObject,
+      path,
     },
     { position: 'left' }
   )
+
+  // console.log(path, getDepth(path))
 
   return (
     // require extra div for smooth animation of nested props
@@ -118,11 +176,9 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
           opacity: systemFields.has(field) ? 0.5 : 1,
           borderRadius: 4,
           border: border(1),
-          // paddingTop: 8,
-          // paddingBottom: 8,
           paddingLeft: 16,
           paddingRight: 16,
-          marginLeft: (path.length - 1) * 12,
+          marginLeft: getDepth(path) * 24,
           display: 'flex',
           alignItems: 'center',
           backgroundColor: color('background2dp'),
@@ -137,38 +193,21 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
           style={{ flexShrink: 0 }}
         />
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
-          {capitalize(meta?.name || field)}
+          {capitalize(meta?.name || path[lastIndex])}
         </Text>
-        <Text color="text2">- {field}</Text>
+        <Text color="text2">- {path[lastIndex]}</Text>
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>
-        {isArray ? (
+        {nestedType ? (
           <Badge color="text" style={{ marginLeft: 12 }}>
-            {fieldSchema.items.type}
+            {nestedType}
           </Badge>
         ) : null}
         <div style={{ flexGrow: 1, width: 16 }} />
-        {/* {isObject ? (
-          <Button
-            onPointerDown={stopPropagation}
-            onClick={() => {
-              setLocation(`${location}/${path.join('/')}/properties`)
-            }}
-            ghost
-          >
-            Configure
-          </Button>
+        {isObject ? (
+          <AddObjectFieldButton type={type} path={objectPath} />
         ) : null}
-        <Button
-          onPointerDown={stopPropagation}
-          onClick={() => {
-            open(<FieldModal type={type} field={field} template={template} />)
-          }}
-          ghost
-        >
-          Settings
-        </Button> */}
         <MoreIcon
           onPointerDown={stopPropagation}
           style={{ marginLeft: 16, flexShrink: 0, cursor: 'pointer' }}

@@ -3,7 +3,7 @@ import { color } from '~'
 import { useSortable } from '@dnd-kit/sortable'
 
 import { CSS } from '@dnd-kit/utilities'
-import { getObjectId } from './utils'
+import { getDepth, getObjectId } from './utils'
 
 export const Draggable: FC<{ id: string; objects: Set<string> }> = ({
   id,
@@ -27,7 +27,12 @@ export const Draggable: FC<{ id: string; objects: Set<string> }> = ({
   overIdRef.current =
     activeIndex > overIndex ? items[overIndex - 1] : items[overIndex]
 
-  const objectId = overIdRef.current && getObjectId(overIdRef.current, objects)
+  const draggingOverObjectId =
+    isDragging && getObjectId(overIdRef.current, objects)
+  const draggingInObjectId = draggingOverObjectId !== id && draggingOverObjectId
+
+  if (draggingInObjectId) console.log(draggingInObjectId)
+
   const indexRef = useRef<number>()
   const jumpedRef = useRef<boolean>()
   const style: CSSProperties = {
@@ -38,8 +43,9 @@ export const Draggable: FC<{ id: string; objects: Set<string> }> = ({
     transform: CSS.Transform.toString(transform),
     transition: transition,
     marginBottom: 12,
-    marginLeft:
-      isDragging && objectId ? (objectId.split('.').length + 1) * 12 : 0,
+    marginLeft: draggingInObjectId
+      ? getDepth(draggingInObjectId.split('.'), 1) * 24
+      : 0,
   }
 
   if (jumpedRef.current) {

@@ -42,12 +42,10 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             ...schema,
           }
 
-          return client.updateSchema({
-            schema: {
-              types: {
-                [type]: {
-                  fields,
-                },
+          return client.call('basedUpdateSchema', {
+            types: {
+              [type]: {
+                fields,
               },
             },
           })

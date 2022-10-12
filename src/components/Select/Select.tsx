@@ -42,6 +42,7 @@ export type SelectProps = {
   color?: Color
   style?: CSSProperties
   id?: string
+  ghost?: boolean
 }
 
 export const Select: FC<SelectProps> = ({
@@ -56,6 +57,7 @@ export const Select: FC<SelectProps> = ({
   label,
   name,
   id,
+  ghost,
 }) => {
   const [currentValue, open] = useSelect(options, value, {
     variant: 'over',
@@ -97,6 +99,16 @@ export const Select: FC<SelectProps> = ({
       <ChevronDownIcon color={color} size={16} />
     </>
   )
+
+  if (ghost) {
+    style = {
+      ...style,
+      backgroundColor: null,
+      border: null,
+      padding: 0,
+      '&:hover': null,
+    }
+  }
 
   return label ? (
     <SelectLabel label={label} onClick={open} style={style}>

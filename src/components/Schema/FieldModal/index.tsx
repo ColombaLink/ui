@@ -35,6 +35,7 @@ const ArraySettings = ({ options, field, setDisabled }) => {
   useEffect(() => {
     setDisabled(!itemsType)
   }, [itemsType])
+
   return (
     <>
       <Text style={{ marginTop: 24 }}>Value type</Text>
@@ -50,7 +51,44 @@ const ArraySettings = ({ options, field, setDisabled }) => {
         filterable
         value={itemsType}
         onChange={(value) => {
-          options.items = { type: value }
+          options.items = templates[value].schema
+          setDisabled(false)
+        }}
+        options={[
+          { value: 'digest', label: 'Digest' },
+          { value: 'float', label: 'Float' },
+          { value: 'int', label: 'Integer' },
+          { value: 'object', label: 'Object' },
+          { value: 'string', label: 'String' },
+        ]}
+      />
+    </>
+  )
+}
+
+const RecordSettings = ({ options, field, setDisabled }) => {
+  const valuesType = options.values?.type
+
+  useEffect(() => {
+    setDisabled(!valuesType)
+  }, [valuesType])
+
+  return (
+    <>
+      <Text style={{ marginTop: 24 }}>Value type</Text>
+      <Select
+        placeholder="Select value type"
+        style={{
+          opacity: field ? 0.6 : 1,
+          pointerEvents: field ? 'none' : null,
+          cursor: field ? 'not-allowed' : null,
+          marginTop: 16,
+          width: 400,
+        }}
+        filterable
+        value={valuesType}
+        onChange={(value) => {
+          options.values = templates[value].schema
           setDisabled(false)
         }}
         options={[
@@ -68,6 +106,7 @@ const ArraySettings = ({ options, field, setDisabled }) => {
 const general = {
   references: References,
   array: ArraySettings,
+  record: RecordSettings,
 }
 
 export const FieldModal: FC<
