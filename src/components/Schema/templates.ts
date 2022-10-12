@@ -123,14 +123,14 @@ export const templates: {
     color: 'lightbabyblue',
     description: 'A web address',
     icon: UrlIcon,
-    schema: { type: 'string' },
+    schema: { type: 'url' },
   },
   map: {
     label: 'Map',
     color: 'lightbabyblue',
     description: 'Geo coordinates',
     icon: GeoMarkerIcon,
-    schema: { type: 'string' },
+    schema: { type: 'map' },
   },
 
   dateTime: {
