@@ -43,7 +43,7 @@ export type FieldTemplates =
   | 'float'
   | 'id'
   | 'int'
-  | 'map'
+  | 'geo'
   | 'markdown'
   | 'number'
   | 'object'
@@ -130,12 +130,12 @@ export const templates: {
       },
     },
   },
-  map: {
-    label: 'Map',
+  geo: {
+    label: 'Geo',
     color: 'lightbabyblue',
     description: 'Geo coordinates',
     icon: GeoMarkerIcon,
-    schema: { type: 'map' },
+    schema: { type: 'geo' },
   },
 
   dateTime: {

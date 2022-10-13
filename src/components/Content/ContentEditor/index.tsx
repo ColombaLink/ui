@@ -11,6 +11,7 @@ import {
   RadioButtons,
   DateTimePicker,
   FileUpload,
+  GeoInput,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -231,6 +232,8 @@ const int = {
 
 const digest = {
   default: ({ description, ...props }) => {
+    console.log('Digest props', props)
+
     return (
       <Input
         {...props}
@@ -242,6 +245,7 @@ const digest = {
             return 'this'
           }
         }}
+        onChange={(e) => e.preventDefault()}
       />
     )
   },
@@ -265,6 +269,21 @@ const boolean = {
           },
         ]}
         {...props}
+      />
+    )
+  },
+}
+
+const geo = {
+  default: ({ description, ...props }) => {
+    return (
+      <GeoInput
+        {...props}
+        space
+        indent
+        descriptionBottom={description}
+        mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
+        mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
       />
     )
   },
@@ -303,6 +322,7 @@ const components = {
   float,
   int,
   digest,
+  geo,
   text: string,
   timestamp,
 }
@@ -394,6 +414,7 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
         }
 
         if (meta.format === 'digest') {
+          console.log(value)
           console.log('yo')
         }
 
