@@ -413,15 +413,16 @@ export const Input: FC<
             >
               <Single
                 {...props}
-                onKeyDown={(e) => {
-                  if (integer && (e.key === ',' || e.key === '.')) {
-                    e.preventDefault()
-                  }
-                  if (type === 'number' && e.key === '.') {
-                    e.preventDefault()
-                    e.key = ','
-                  }
-                }}
+                // TODO put this in a transform()
+                // onKeyDown={(e) => {
+                //   if (integer && (e.key === ',' || e.key === '.')) {
+                //     e.preventDefault()
+                //   }
+                //   if (type === 'number' && e.key === '.') {
+                //     e.preventDefault()
+                //     e.key = ','
+                //   }
+                // }}
               />
             </MaybeSuggest>
           )}

@@ -20,19 +20,10 @@ import { alwaysIgnore, systemFields } from '../templates'
 import { Draggable } from './Draggable'
 import { Field } from './Field'
 import { getObjectId } from './utils'
+import { sortFields } from '~/hooks/useSchema'
 
 const sortAndFlatten = (fields) => {
-  const sortedFields = Object.keys(fields).sort((a, b) => {
-    const indexA = fields[a].meta?.index
-    const indexB = fields[b].meta?.index
-    if (indexA === undefined) {
-      if (indexB === undefined) {
-        return a < b ? -1 : 1
-      }
-      return 1
-    }
-    return indexA < indexB ? -1 : 1
-  })
+  const sortedFields = sortFields(fields)
 
   for (let i = sortedFields.length - 1; i >= 0; i--) {
     const key = sortedFields[i]

@@ -1,10 +1,5 @@
 import React, { FC } from 'react'
-import {
-  Menu,
-  Text,
-  capitalize,
-  useSchemaTypes,
-} from '~'
+import { Menu, Text, useSchemaTypes } from '~'
 import { SystemLabel } from '~/components/Schema/SchemaLeft'
 
 export const ContentLeft: FC<{
@@ -29,8 +24,8 @@ export const ContentLeft: FC<{
       data={{
         All: '/all',
         Bawler: {
-          Snuk: '/slay'
-        }
+          Snuk: '/slay',
+        },
       }}
     />
   )

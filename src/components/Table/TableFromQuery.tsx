@@ -6,7 +6,7 @@ import React, {
   useEffect,
   Fragment,
 } from 'react'
-import { border, capitalize, color, parseDisplayName } from '~/utils'
+import { border, color, parseDisplayName } from '~/utils'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
@@ -29,11 +29,12 @@ import {
   ITEM_WIDTH,
   ACTIONS_WIDTH,
 } from './constants'
-import { useError, useSchema } from '@based/react'
+import { useError } from '@based/react'
 import { toDateString } from '~/utils/date'
 import { Button } from '../Button'
 import { Badge } from '../Badge'
 import { useHover } from '~/hooks'
+import { useSchema } from '~/hooks/useSchema'
 
 const Grid = styled(VariableSizeGrid)
 const References = ({ value: { length } }) => {
@@ -251,7 +252,7 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
             weight="400"
             style={{ paddingLeft: 16, lineHeight: `${HEADER_HEIGHT}px` }}
           >
-            {capitalize(field)}
+            {field}
           </Text>
           <HeaderDragLine
             setColWidths={setColWidths}

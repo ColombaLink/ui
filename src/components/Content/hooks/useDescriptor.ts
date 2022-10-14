@@ -3,14 +3,10 @@ import { useItemSchema } from '../hooks/useItemSchema'
 import { useLanguage } from '../hooks/useLanguage'
 
 const getDescriptors = (fields, meta) => {
-  const options = Object.keys(fields)
-    .filter((key) => {
-      const { type } = fields[key]
-      return type === 'string' || type === 'text'
-    })
-    .sort((a, b) => {
-      return fields[a].meta?.index > fields[b].meta?.index ? 1 : -1
-    })
+  const options = Object.keys(fields).filter((key) => {
+    const { type } = fields[key]
+    return type === 'string' || type === 'text'
+  })
 
   return meta?.descriptor ? [meta.descriptor, ...options] : options
 }
@@ -33,6 +29,6 @@ export const useDescriptor = (id) => {
   return {
     ...schema,
     descriptor: data.descriptor || id,
-    loading: schema.loading || loading
+    loading: schema.loading || loading,
   }
 }

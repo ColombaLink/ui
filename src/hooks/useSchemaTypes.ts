@@ -1,4 +1,4 @@
-import { useSchema } from '@based/react'
+import { useSchema } from './useSchema'
 
 export const useSchemaTypes = () => {
   const res = useSchema()

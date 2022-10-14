@@ -66,7 +66,7 @@ const Header = ({ back = null, children, type, path }) => {
         weight="700"
         style={{
           userSelect: 'none',
-          textTransform: 'capitalize',
+          // textTransform: 'capitalize',
         }}
       >
         {children}

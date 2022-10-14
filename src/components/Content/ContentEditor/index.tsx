@@ -338,7 +338,7 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   const { data } = useData({ $id: id, $language: language, [field]: q })
   const Component =
     components[type]?.[ui || format || 'default'] || components[type]?.default
-  const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
+  const label = name // || `${field[0].toUpperCase()}${field.substring(1)}`
 
   const client = useClient()
 

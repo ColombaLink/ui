@@ -1,4 +1,4 @@
-import { useClient, useSchema } from '@based/react'
+import { useClient } from '@based/react'
 import React, { FC } from 'react'
 import { useContextMenu } from '~/hooks'
 import {
@@ -8,12 +8,10 @@ import {
   color,
   DragDropIcon,
   Thumbnail,
-  capitalize,
   Badge,
   Button,
   useDialog,
   ContextItem,
-  getName,
   ChevronDownIcon,
   ContextDivider,
   AddIcon,
@@ -24,6 +22,7 @@ import { FieldModal } from '../FieldModal'
 import { useLocation } from 'wouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
+import { useSchema } from '~/hooks/useSchema'
 
 const stopPropagation = (e) => e.stopPropagation()
 
@@ -74,10 +73,7 @@ const EditMenu: FC<{
         onClick={async () => {
           if (
             await confirm(
-              `Are you sure you want to remove the field ${field} from ${getName(
-                schema,
-                type
-              )}?`
+              `Are you sure you want to remove the field ${field} from ${schema.types[type].meta.name}?`
             )
           ) {
             const path = field.split('.')
@@ -193,7 +189,7 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
           style={{ flexShrink: 0 }}
         />
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
-          {capitalize(meta?.name || path[lastIndex])}
+          {meta?.name}
         </Text>
         <Text color="text2">- {path[lastIndex]}</Text>
         <Badge color="text" style={{ marginLeft: 12 }}>
