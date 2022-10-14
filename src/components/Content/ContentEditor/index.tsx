@@ -175,7 +175,7 @@ const string = {
       space
     />
   ),
-  url: ({ description, ...props }) => (
+  url: ({ description, meta, field, language, onChange, ...props }) => (
     <Input
       {...props}
       maxChars={200}
@@ -187,9 +187,16 @@ const string = {
           return `Please enter a valid url https://...`
         }
       }}
+      onChange={(value) => {
+        if (meta.format === 'url') {
+          if (isUrl(value) || value.length < 1) {
+            onChange(value)
+          }
+        }
+      }}
     />
   ),
-  email: ({ description, ...props }) => (
+  email: ({ description, meta, onChange, ...props }) => (
     <Input
       {...props}
       maxChars={200}
@@ -199,6 +206,13 @@ const string = {
       error={(value) => {
         if (!isEmail(value) && value.length > 0) {
           return `Please enter a valid email-address`
+        }
+      }}
+      onChange={(value) => {
+        if (meta.format === 'email') {
+          if (isEmail(value) || value.length < 1) {
+            onChange(value)
+          }
         }
       }}
     />
@@ -386,50 +400,8 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       style={{ order: index, marginBottom: 24 }}
       value={data[field]}
       onChange={(value) => {
-        // $file: {}
         // console.log('nhbj the value uit onchange', value)
         // console.log('Type of value -->', typeof value)
-
-        // if (Array.isArray(value)) {
-        //   console.log('It is an arraytje !!!')
-        //   client.file(value).then((v) => {
-        //     onChange()
-        //   })
-        // }
-        // console.log(1, value)
-        // if (meta.format === 'email') {
-        //   if (isEmail(value) || value.length < 1) {
-        //     onChange({ $language: language, [field]: value })
-        //   } else {
-        //     return
-        //   }
-        // }
-
-        // if (meta.format === 'url') {
-        //   if (isUrl(value) || value.length < 1) {
-        //     onChange({ $language: language, [field]: value })
-        //   } else {
-        //     return
-        //   }
-        // }
-
-        // // if (meta.format === 'digest') {
-        // //   console.log(value)
-        // //   console.log('yo')
-        // // }
-
-        // // console.log('meta', meta)
-        // // console.log('data[field]', data[field])
-
-        // // vanuit de top
-
-        // if (value instanceof File) {
-        //   // console.log('SNOOKIE', value)
-        //   client.file(value).then((v) => {
-        //     onChange({ [field]: v.id })
-        //   })
-        // } else {
-
         onChange({ $language: language, [field]: value })
         // }
       }}
