@@ -1,5 +1,5 @@
 import React, { CSSProperties, useRef, useState, FC } from 'react'
-import { Label, color, Text, UploadIcon, Button } from '~'
+import { Label, color, Text, UploadIcon, Button, usePropState } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
@@ -44,39 +44,16 @@ export const FileUpload: FC<FileUploadProps> = ({
   multiple,
   value,
 }) => {
-  let [uploadedFiles, setUploadedFiles] = useState<any[]>([])
+  let [uploadedFiles, setUploadedFiles] = usePropState(value)
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
-
   const hiddenFileInput = useRef(null)
 
-  // single
-  if (!multiple && value && uploadedFiles?.length === 0) {
-    uploadedFiles = [
-      {
-        name: value.name,
-        src: value.src,
-        type: value.mimeType,
-      },
-    ]
-    //  console.log('xxx', uploadedFiles)
+  if (!Array.isArray(uploadedFiles)) {
+    uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
-
-  // multiple
-  if (multiple && value && uploadedFiles?.length === 0) {
-    uploadedFiles = [
-      {
-        name: value.name,
-        src: value.src,
-        type: value.mimeType,
-      },
-    ]
-    console.log('zzz', uploadedFiles)
-  }
-
-  console.log('What is the value?? --->', value)
 
   const handleClickUpload = () => {
     if (!disabled) {
@@ -87,8 +64,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
     setUploadedFiles([])
-    // client delete ???
-    onChange('')
+    onChange([])
     setErrorMessage('')
   }
 
@@ -101,47 +77,37 @@ export const FileUpload: FC<FileUploadProps> = ({
       e.preventDefault()
       e.stopPropagation()
 
-      const tempArr = Array.from(e.dataTransfer.files)
-      let tempCounter = 0
-
-      for (let i = 0; i < tempArr.length; i++) {
-        const file: any = tempArr[i]
-        if (acceptedFileTypes && !acceptedFileTypes.includes(file?.type)) {
-          setErrorMessage(`File type: ${file?.type} is not allowed.`)
-          setDraggingOver(false)
-          return
-        }
-        tempCounter += 1
-      }
+      let files = Array.from(e.dataTransfer.files)
 
       if (acceptedFileTypes) {
-        if (tempCounter === tempArr.length) {
-          setUploadedFiles([...uploadedFiles, ...tempArr])
-          onChange([...uploadedFiles, ...tempArr])
-        }
-      } else {
-        const TempArr = Array.from(e.dataTransfer.files)
-        setUploadedFiles([...uploadedFiles, ...TempArr])
-        onChange([...uploadedFiles, ...TempArr])
+        files = files.filter((file: File) => {
+          const accepted = acceptedFileTypes.includes(file.type)
+          if (!accepted) {
+            setErrorMessage(`File type: ${file?.type} is not allowed.`)
+            setDraggingOver(false)
+          }
+          return accepted
+        })
       }
+
+      let newValue = [...uploadedFiles, ...files]
+      if (!multiple) {
+        const [first] = newValue
+        newValue = first ? [first] : []
+      }
+      setUploadedFiles(newValue)
+      onChange(newValue)
     }
   }
 
   const changeHandler = (e) => {
+    const newValue = multiple
+      ? [...uploadedFiles, ...e.target.files]
+      : [e.target.files[0]]
+
+    setUploadedFiles(newValue)
+    onChange(newValue)
     setErrorMessage('')
-
-    console.log('E for e', e)
-
-    if (multiple) {
-      const TempArr = Array.from(e.target.files)
-      setUploadedFiles([...uploadedFiles, ...TempArr])
-      console.log('uploaded files', ...uploadedFiles)
-      console.log('TEMP ARR', ...TempArr)
-      onChange([...uploadedFiles, ...TempArr])
-    } else {
-      setUploadedFiles([e.target.files[0]])
-      onChange(e.target.files[0])
-    }
   }
 
   const deleteSpecificFile = (id) => {
@@ -154,6 +120,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   const replaceSpecificFile = (id) => {
     console.log('Should open edit modal --> The id:', id)
   }
+
+  console.log('???', uploadedFiles)
 
   return (
     <InputWrapper
@@ -186,7 +154,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         </div>
 
         {uploadedFiles?.length > 0 &&
-          uploadedFiles?.map((file, idx) => (
+          uploadedFiles.map((file, idx) => (
             <UploadedFileItem
               file={file}
               handleClickUpload={handleClickUpload}

@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   Input,
   Text,
@@ -64,10 +64,9 @@ const References = ({
             indent
             descriptionBottom={description}
             space
-            multiple
-            props={props}
             onChange={onChange}
             value={value}
+            {...props}
           />
         </div>
       ) : (
@@ -106,43 +105,63 @@ const References = ({
   )
 }
 
-const SingleReference = ({
+const FileReference = ({
+  value,
   label,
   description,
-  onChange,
-  value,
   style,
-  ...props
+  onChange,
+  multiple,
 }) => {
+  const client = useClient()
+  if (value?.mimeType) {
+    value.type = value.mimeType
+  }
+
   return (
-    <>
-      {props?.meta?.refTypes?.includes('file') ? (
-        <div style={style}>
-          <FileUpload
-            label={label}
-            indent
-            descriptionBottom={description}
-            space
-            // multiple
-            props={props}
-            onChange={onChange}
-            value={value}
-          />
-        </div>
-      ) : (
-        <div style={style}>
-          <Label
-            label={label}
-            description={description}
-            style={{ marginBottom: 12 }}
-          />
-          {value ? <Reference id={value} /> : null}{' '}
-          <Button light icon={AddIcon}>
-            Add {label.toLowerCase()}
-          </Button>
-        </div>
-      )}
-    </>
+    <FileUpload
+      style={style}
+      label={label}
+      indent
+      descriptionBottom={description}
+      space
+      multiple={multiple}
+      onChange={async (files) => {
+        const result = await Promise.all(
+          files.map((file) => {
+            return client.file(file)
+          })
+        )
+
+        onChange(
+          multiple
+            ? result.filter(({ id }) => id)
+            : result[0]?.id || { $delete: true }
+        )
+      }}
+      value={value}
+    />
+  )
+}
+
+const SingleReference = (props) => {
+  if (props.meta?.refTypes?.includes('file')) {
+    return <FileReference {...props} />
+  }
+  const { label, description, value, style } = props
+
+  return (
+    <div style={style}>
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
+      {value ? <Reference id={value} /> : null}{' '}
+      <Button light icon={AddIcon}>
+        Add {label.toLowerCase()}
+      </Button>
+    </div>
   )
 }
 
@@ -232,8 +251,6 @@ const int = {
 
 const digest = {
   default: ({ description, ...props }) => {
-    console.log('Digest props', props)
-
     return (
       <Input
         {...props}
@@ -328,39 +345,22 @@ const components = {
 }
 
 const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
-  const { ui, format, description, name } = meta
-
-  // if field === ref && meta restrict === file
-  // return { src, name, id }
-
-  // isFiles
-  // isFile
-
-  let q: any = true
-  if (
-    type === 'reference' &&
-    meta &&
-    meta.refTypes?.length === 1 &&
-    meta.refTypes[0] === 'file'
-  ) {
-    //  console.log('???')
-    q = {
-      mimeType: true,
-      name: true,
-      src: true,
-      id: true,
-      // $list: true
-    }
-  }
-
-  // console.log(field, type, format)
-
-  const { data } = useData({ $id: id, $language: language, [field]: q })
+  const { ui, format, description, name, refTypes } = meta
+  const { data } = useData({
+    $id: id,
+    $language: language,
+    [field]: refTypes?.includes('file')
+      ? {
+          mimeType: true,
+          name: true,
+          src: true,
+          id: true,
+        }
+      : true,
+  })
   const Component =
     components[type]?.[ui || format || 'default'] || components[type]?.default
   const label = name || `${field[0].toUpperCase()}${field.substring(1)}`
-
-  const client = useClient()
 
   if (
     field === 'createdAt' ||
@@ -387,49 +387,51 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       value={data[field]}
       onChange={(value) => {
         // $file: {}
-        console.log('nhbj the value uit onchange', value)
-        console.log('Type of value -->', typeof value)
+        // console.log('nhbj the value uit onchange', value)
+        // console.log('Type of value -->', typeof value)
 
-        if (Array.isArray(value)) {
-          console.log('It is an arraytje !!!')
-          client.file(value).then((v) => {
-            onChange()
-          })
-        }
+        // if (Array.isArray(value)) {
+        //   console.log('It is an arraytje !!!')
+        //   client.file(value).then((v) => {
+        //     onChange()
+        //   })
+        // }
+        // console.log(1, value)
+        // if (meta.format === 'email') {
+        //   if (isEmail(value) || value.length < 1) {
+        //     onChange({ $language: language, [field]: value })
+        //   } else {
+        //     return
+        //   }
+        // }
 
-        if (meta.format === 'email') {
-          if (isEmail(value) || value.length < 1) {
-            onChange({ $language: language, [field]: value })
-          } else {
-            return
-          }
-        }
+        // if (meta.format === 'url') {
+        //   if (isUrl(value) || value.length < 1) {
+        //     onChange({ $language: language, [field]: value })
+        //   } else {
+        //     return
+        //   }
+        // }
 
-        if (meta.format === 'url') {
-          if (isUrl(value) || value.length < 1) {
-            onChange({ $language: language, [field]: value })
-          } else {
-            return
-          }
-        }
+        // // if (meta.format === 'digest') {
+        // //   console.log(value)
+        // //   console.log('yo')
+        // // }
 
-        if (meta.format === 'digest') {
-          console.log(value)
-          console.log('yo')
-        }
+        // // console.log('meta', meta)
+        // // console.log('data[field]', data[field])
 
-        console.log('meta', meta)
-        console.log('data[field]', data[field])
+        // // vanuit de top
 
-        // vanuit de top
+        // if (value instanceof File) {
+        //   // console.log('SNOOKIE', value)
+        //   client.file(value).then((v) => {
+        //     onChange({ [field]: v.id })
+        //   })
+        // } else {
 
-        if (value instanceof File) {
-          client.file(value).then((v) => {
-            onChange({ [field]: v.id })
-          })
-        } else {
-          onChange({ $language: language, [field]: value })
-        }
+        onChange({ $language: language, [field]: value })
+        // }
       }}
     />
   )

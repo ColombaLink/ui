@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'inlines'
 import {
   color,
@@ -33,6 +33,32 @@ const StyledMoreIcon = styled('div', {
   },
 })
 
+const CacheBackground = ({ file }) => {
+  if (!file.src) {
+    file.src = URL.createObjectURL(file)
+  }
+  const [url, setUrl] = useState(file.src)
+
+  return (
+    <div
+      style={{
+        height: 62,
+        width: 62,
+        backgroundImage: `url(${url})`,
+        backgroundSize: 'cover',
+      }}
+    >
+      <img
+        style={{ display: 'none' }}
+        src={file.src}
+        onLoad={() => {
+          setUrl(file.src)
+        }}
+      />
+    </div>
+  )
+}
+
 export const UploadedFileItem = ({
   file,
   handleClickUpload,
@@ -49,16 +75,7 @@ export const UploadedFileItem = ({
   return (
     <StyledUploadedFile>
       {/* image */}
-      {file?.type?.includes('image') && (
-        <div
-          style={{
-            height: 62,
-            width: 62,
-            backgroundImage: `url(${file.src || URL.createObjectURL(file)})`,
-            backgroundSize: 'cover',
-          }}
-        />
-      )}
+      {file?.type?.includes('image') && <CacheBackground file={file} />}
       {/* movie */}
       {file?.type?.includes('video') && (
         <div
