@@ -45,63 +45,39 @@ const Reference = ({ id }) => {
   )
 }
 
-const References = ({
-  label,
-  description,
-  value = [],
-  style,
-  onChange,
-  ...props
-}) => {
+const References = ({ label, description, value = [], style }) => {
   const { open } = useDialog()
   return (
-    <>
-      {props?.meta?.refTypes?.includes('file') ? (
-        <div style={style}>
-          <FileUpload
-            style={{ background: 'yellow' }}
-            label={label}
-            indent
-            descriptionBottom={description}
-            space
-            onChange={onChange}
-            value={value}
-            {...props}
-          />
-        </div>
-      ) : (
-        <InputWrapper indent style={style}>
-          <Label
-            label={label}
-            description={description}
-            style={{ marginBottom: 12 }}
-          />
-          {value.map((id) => (
-            <Reference key={id} id={id} />
-          ))}
-          <Button
-            ghost
-            icon={AddIcon}
-            onClick={() => {
-              open(
-                <Dialog
-                  padding={0}
-                  style={{
-                    width: '100vw',
-                    height: 'calc(100vh - 60px)',
-                  }}
-                  pure
-                >
-                  <ContentMain style={{ height: '100%' }} />
-                </Dialog>
-              )
-            }}
-          >
-            Add item
-          </Button>
-        </InputWrapper>
-      )}
-    </>
+    <InputWrapper indent style={style}>
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
+      {value.map((id) => (
+        <Reference key={id} id={id} />
+      ))}
+      <Button
+        ghost
+        icon={AddIcon}
+        onClick={() => {
+          open(
+            <Dialog
+              padding={0}
+              style={{
+                width: '100vw',
+                height: 'calc(100vh - 60px)',
+              }}
+              pure
+            >
+              <ContentMain style={{ height: '100%' }} />
+            </Dialog>
+          )
+        }}
+      >
+        Add item
+      </Button>
+    </InputWrapper>
   )
 }
 
@@ -146,7 +122,7 @@ const FileReference = ({
 
 const SingleReference = (props) => {
   if (props.meta?.refTypes?.includes('file')) {
-    return <FileReference {...props} />
+    return <FileReference {...props} multiple />
   }
   const { label, description, value, style } = props
 
