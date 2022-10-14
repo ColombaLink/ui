@@ -37,6 +37,7 @@ const {
   reference,
   references,
   file,
+  files,
   number,
   float,
   int,
@@ -66,6 +67,7 @@ const items = {
     reference,
     references,
     file,
+    files,
   },
   Numbers: {
     number,

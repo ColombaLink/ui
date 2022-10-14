@@ -45,7 +45,55 @@ const Reference = ({ id }) => {
   )
 }
 
-const References = ({ label, description, value = [], style }) => {
+const FileReference = ({
+  value,
+  label,
+  description,
+  style,
+  onChange,
+  multiple,
+}) => {
+  const client = useClient()
+  if (value?.mimeType) {
+    value.type = value.mimeType
+  }
+
+  return (
+    <FileUpload
+      style={style}
+      label={label}
+      indent
+      descriptionBottom={description}
+      space
+      multiple={multiple}
+      onChange={async (files) => {
+        console.log('-->', files)
+        const result = await Promise.all(
+          files.map((file) => {
+            return client.file(file)
+          })
+        )
+
+        console.log('The result', result)
+
+        onChange(
+          multiple
+            ? result.filter(({ id }) => id)
+            : result[0]?.id || { $delete: true }
+        )
+      }}
+      value={value}
+    />
+  )
+}
+
+const References = (props) => {
+  if (props.meta?.refTypes?.includes('files')) {
+    return <FileReference {...props} multiple />
+  }
+
+  const { label, description, value, style } = props
+
   const { open } = useDialog()
   return (
     <InputWrapper indent style={style}>
@@ -54,7 +102,7 @@ const References = ({ label, description, value = [], style }) => {
         description={description}
         style={{ marginBottom: 12 }}
       />
-      {value.map((id) => (
+      {value?.map((id) => (
         <Reference key={id} id={id} />
       ))}
       <Button
@@ -81,48 +129,9 @@ const References = ({ label, description, value = [], style }) => {
   )
 }
 
-const FileReference = ({
-  value,
-  label,
-  description,
-  style,
-  onChange,
-  multiple,
-}) => {
-  const client = useClient()
-  if (value?.mimeType) {
-    value.type = value.mimeType
-  }
-
-  return (
-    <FileUpload
-      style={style}
-      label={label}
-      indent
-      descriptionBottom={description}
-      space
-      multiple={multiple}
-      onChange={async (files) => {
-        const result = await Promise.all(
-          files.map((file) => {
-            return client.file(file)
-          })
-        )
-
-        onChange(
-          multiple
-            ? result.filter(({ id }) => id)
-            : result[0]?.id || { $delete: true }
-        )
-      }}
-      value={value}
-    />
-  )
-}
-
 const SingleReference = (props) => {
   if (props.meta?.refTypes?.includes('file')) {
-    return <FileReference {...props} multiple />
+    return <FileReference {...props} />
   }
   const { label, description, value, style } = props
 
@@ -151,7 +160,7 @@ const string = {
       space
     />
   ),
-  url: ({ description, meta, field, language, onChange, ...props }) => (
+  url: ({ description, meta, onChange, ...props }) => (
     <Input
       {...props}
       maxChars={200}
@@ -240,19 +249,27 @@ const int = {
 }
 
 const digest = {
-  default: ({ description, ...props }) => {
+  default: ({ description, onChange, ...props }) => {
     return (
       <Input
         {...props}
         descriptionBottom={description}
         indent
         space
-        error={(value) => {
-          if (validatePassword(value)) {
-            return 'this'
+        type="password"
+        // error={(value) => {
+        //   if (validatePassword(value)) {
+        //     return 'is valid password?'
+        //   }
+        // }}
+        //  onChange={(e) => e.preventDefault()}
+        onBlur={(e) => {
+          console.log('ON BLur', e)
+          if (validatePassword(e.target.value)) {
+            onChange(e.target.value)
           }
+          //  Change the border color back as well
         }}
-        onChange={(e) => e.preventDefault()}
       />
     )
   },
@@ -336,6 +353,7 @@ const components = {
 
 const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   const { ui, format, description, name, refTypes } = meta
+
   const { data } = useData({
     $id: id,
     $language: language,
@@ -376,8 +394,9 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
       style={{ order: index, marginBottom: 24 }}
       value={data[field]}
       onChange={(value) => {
-        // console.log('nhbj the value uit onchange', value)
+        //  console.log('nhbj the value uit onchange', value)
         // console.log('Type of value -->', typeof value)
+
         onChange({ $language: language, [field]: value })
         // }
       }}

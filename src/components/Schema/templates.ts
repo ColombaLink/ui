@@ -40,6 +40,7 @@ export type FieldTemplates =
   | 'digest'
   | 'email'
   | 'file'
+  | 'files'
   | 'float'
   | 'id'
   | 'int'
@@ -184,12 +185,24 @@ export const templates: {
   file: {
     label: 'File',
     color: 'lightpink',
-    description: 'Files are handy',
+    description: 'Single file',
     icon: AttachmentIcon,
     schema: {
       type: 'reference',
       meta: {
         refTypes: ['file'],
+      },
+    },
+  },
+  files: {
+    label: 'Files',
+    color: 'lightpink',
+    description: 'Multiple files',
+    icon: AttachmentIcon,
+    schema: {
+      type: 'references',
+      meta: {
+        refTypes: ['files'],
       },
     },
   },

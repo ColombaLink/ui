@@ -112,7 +112,9 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const deleteSpecificFile = (id) => {
     setUploadedFiles((uploadedFiles) =>
-      uploadedFiles.filter((_, index) => index !== id)
+      Array.isArray(uploadedFiles)
+        ? uploadedFiles?.filter((_, index) => index !== id)
+        : []
     )
     setClearCount((clearCount) => clearCount + 1)
   }
