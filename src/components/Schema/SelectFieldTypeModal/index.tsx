@@ -29,7 +29,7 @@ const {
   digest,
   email,
   url,
-  map,
+  geo,
   dateTime,
   timestamp,
   createdBy,
@@ -37,6 +37,7 @@ const {
   reference,
   references,
   file,
+  files,
   number,
   float,
   int,
@@ -54,7 +55,7 @@ const items = {
   'Rich formatted data': {
     email,
     url,
-    map,
+    geo,
   },
   'Plain formatted data': {
     dateTime,
@@ -66,6 +67,7 @@ const items = {
     reference,
     references,
     file,
+    files,
   },
   Numbers: {
     number,
