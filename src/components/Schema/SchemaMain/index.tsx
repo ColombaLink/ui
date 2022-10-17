@@ -56,6 +56,7 @@ const Header = ({ back = null, children, type, path }) => {
   return (
     <div
       style={{
+        width: '100%',
         display: 'flex',
         alignItems: 'center',
       }}
@@ -182,48 +183,59 @@ export const SchemaMain: FC<{
           paddingTop: 24,
           paddingBottom: 64,
           flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {header}
-        <Checkbox
-          style={{ marginTop: 36, marginBottom: 24 }}
-          label="Show system fields"
-          checked={includeSystemFields}
-          onChange={toggleSystemFields}
-        />
-        <div>
-          <Fields
-            type={type}
-            fields={path.reduce((fields, key) => fields[key], fields)}
-            includeSystemFields={includeSystemFields}
-            onChange={(val) => {
-              const update = {}
-              let from = fields
-              let dest = update
-              let i = 0
-              const l = path.length
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
+            <Checkbox
+              style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
+              label="Show system fields"
+              checked={includeSystemFields}
+              onChange={toggleSystemFields}
+            />
+            <div>
+              <Fields
+                type={type}
+                fields={path.reduce((fields, key) => fields[key], fields)}
+                includeSystemFields={includeSystemFields}
+                onChange={(val) => {
+                  const update = {}
+                  let from = fields
+                  let dest = update
+                  let i = 0
+                  const l = path.length
 
-              while (i < l) {
-                const key = path[i++]
-                dest[key] = { ...from[key] }
-                dest = dest[key]
-                from = from[key]
-              }
+                  while (i < l) {
+                    const key = path[i++]
+                    dest[key] = { ...from[key] }
+                    dest = dest[key]
+                    from = from[key]
+                  }
 
-              Object.assign(dest, val)
+                  Object.assign(dest, val)
 
-              return client
-                .call('basedUpdateSchema', {
-                  types: {
-                    [type]: {
-                      fields: update,
-                    },
-                  },
-                  db,
-                })
-                .catch((e) => console.error('error updating schema', e))
-            }}
-          />
+                  return client
+                    .call('basedUpdateSchema', {
+                      types: {
+                        [type]: {
+                          fields: update,
+                        },
+                      },
+                      db,
+                    })
+                    .catch((e) => console.error('error updating schema', e))
+                }}
+              />
+            </div>
+          </div>
         </div>
       </ScrollArea>
       {footer}

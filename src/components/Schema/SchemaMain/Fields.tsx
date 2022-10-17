@@ -65,6 +65,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
+  const properties = {}
   const objects = {}
   const overIdRef = useRef()
   const sortedFields = sortAndFlatten(fields)
@@ -75,7 +76,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over.id) {
       const activePath = active.id.split('.')
-      const overObject = getObjectId(overIdRef.current, objects)
+      const overObject = getObjectId(overIdRef.current, properties, objects)
       let overPath
 
       if (overObject) {
@@ -132,7 +133,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     setDraggingField(null)
   }
 
-  let inObject
+  const objectPath = []
   const filtered = sortedFields.filter((field) => {
     if (alwaysIgnore.has(field)) {
       return false
@@ -153,11 +154,13 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       return false
     }
 
-    if (inObject) {
-      if (field.startsWith(inObject.field)) {
-        objects[field] = inObject
+    while (objectPath.length) {
+      const parent = objectPath[objectPath.length - 1]
+      if (field.startsWith(parent.field)) {
+        properties[field] = parent
+        break
       } else {
-        inObject = false
+        objectPath.pop()
       }
     }
 
@@ -166,8 +169,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       items?.type === 'object' ||
       values?.type === 'object'
     ) {
-      inObject = { field, type }
-      objects[field] = inObject
+      objectPath.push((objects[field] = { field, type }))
     }
 
     return true
@@ -186,6 +188,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
             <Draggable
               key={field}
               id={field}
+              properties={properties}
               objects={objects}
               overIdRef={overIdRef}
             >

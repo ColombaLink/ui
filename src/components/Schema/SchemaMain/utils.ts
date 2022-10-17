@@ -1,8 +1,12 @@
-export const getObjectId = (overId, objects) => {
-  if (overId && overId in objects) {
+export const getObjectId = (overId, properties, objects) => {
+  if (overId) {
+    if (overId in objects) {
       return objects[overId].field
+    }
+    if (overId in properties) {
+      return properties[overId].field
+    }
   }
-
 }
 
 export const getDepth = (path, depth = 0) => {

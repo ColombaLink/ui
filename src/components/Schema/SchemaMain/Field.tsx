@@ -139,7 +139,6 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
   const { icon, color: iconColor } = templates[template] || {}
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
-  const Icon = isObject && isDragging ? ChevronDownIcon : DragDropIcon
   const lastIndex = path.length - 1
   const objectPath = isObject
     ? fieldType === 'record'
@@ -179,9 +178,21 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
           alignItems: 'center',
           backgroundColor: color('background2dp'),
           cursor: isDragging ? 'grabbing' : 'grab',
+          position: 'relative',
         }}
       >
-        <Icon style={{ marginRight: 12, flexShrink: 0 }} />
+        {isObject ? (
+          <ChevronDownIcon
+            style={{
+              transform: isDragging ? 'rotate(-90deg)' : null,
+              cursor: 'pointer',
+              position: 'absolute',
+              left: -30,
+              top: 16,
+            }}
+          />
+        ) : null}
+        <DragDropIcon style={{ marginRight: 12, flexShrink: 0 }} />
         <Thumbnail
           icon={icon}
           color={iconColor}

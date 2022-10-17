@@ -5,12 +5,11 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { getDepth, getObjectId } from './utils'
 
-export const Draggable: FC<{ id: string; objects: Set<string> }> = ({
-  id,
-  children,
-  objects,
-  overIdRef,
-}) => {
+export const Draggable: FC<{
+  id: string
+  properties: object
+  objects: object
+}> = ({ id, children, properties, objects, overIdRef }) => {
   const {
     attributes,
     listeners,
@@ -28,18 +27,17 @@ export const Draggable: FC<{ id: string; objects: Set<string> }> = ({
     activeIndex > overIndex ? items[overIndex - 1] : items[overIndex]
 
   const draggingOverObjectId =
-    isDragging && getObjectId(overIdRef.current, objects)
+    isDragging && getObjectId(overIdRef.current, properties, objects)
   const draggingInObjectId = draggingOverObjectId !== id && draggingOverObjectId
 
-  if (draggingInObjectId) console.log(draggingInObjectId)
+  // console.log(overIdRef.current, draggingOverObjectId, properties)
+  // if (draggingInObjectId) console.log(draggingInObjectId, overIdRef.current)
 
   const indexRef = useRef<number>()
   const jumpedRef = useRef<boolean>()
   const style: CSSProperties = {
     height: 50,
-    overflow: 'hidden',
-    // opacity: isDragging ? 0.5 : 1,
-    // visibility: isDragging ? 'hidden' : 'visible',
+    overflow: isDragging ? 'hidden' : null,
     transform: CSS.Transform.toString(transform),
     transition: transition,
     marginBottom: 12,
