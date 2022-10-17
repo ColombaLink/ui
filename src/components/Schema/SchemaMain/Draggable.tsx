@@ -9,6 +9,7 @@ export const Draggable: FC<{
   id: string
   properties: object
   objects: object
+  overIdRef: any
 }> = ({ id, children, properties, objects, overIdRef }) => {
   const {
     attributes,
@@ -28,10 +29,6 @@ export const Draggable: FC<{
 
   const draggingOverObjectId =
     isDragging && getObjectId(overIdRef.current, properties, objects)
-  const draggingInObjectId = draggingOverObjectId !== id && draggingOverObjectId
-
-  // console.log(overIdRef.current, draggingOverObjectId, properties)
-  // if (draggingInObjectId) console.log(draggingInObjectId, overIdRef.current)
 
   const indexRef = useRef<number>()
   const jumpedRef = useRef<boolean>()
@@ -41,8 +38,11 @@ export const Draggable: FC<{
     transform: CSS.Transform.toString(transform),
     transition: transition,
     marginBottom: 12,
-    marginLeft: draggingInObjectId
-      ? getDepth(draggingInObjectId.split('.'), 1) * 24
+    marginLeft: draggingOverObjectId
+      ? getDepth(
+          draggingOverObjectId.split('.'),
+          draggingOverObjectId === id ? 0 : 1
+        ) * 24
       : 0,
   }
 

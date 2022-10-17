@@ -131,7 +131,14 @@ const AddObjectFieldButton = ({ type, path }) => {
     </Button>
   )
 }
-export const Field = ({ type, field, fields, isDragging = false }) => {
+export const Field = ({
+  type,
+  field,
+  fields,
+  isDragging = false,
+  toggleExpand = null,
+  collapsed = false,
+}) => {
   const path = field.split('.')
   const fieldSchema = path.reduce((fields, key) => fields[key], fields)
   const { meta, type: fieldType } = fieldSchema
@@ -183,8 +190,10 @@ export const Field = ({ type, field, fields, isDragging = false }) => {
       >
         {isObject ? (
           <ChevronDownIcon
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={() => toggleExpand?.(field)}
             style={{
-              transform: isDragging ? 'rotate(-90deg)' : null,
+              transform: isDragging || collapsed ? 'rotate(-90deg)' : null,
               cursor: 'pointer',
               position: 'absolute',
               left: -30,

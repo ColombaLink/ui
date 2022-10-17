@@ -73,6 +73,17 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     setDraggingField(active.id)
   }
 
+  const [collapsed = new Set(), setCollapsed] = useState<Set<string>>()
+
+  const toggleExpand = (field) => {
+    if (collapsed.has(field)) {
+      collapsed.delete(field)
+    } else {
+      collapsed.add(field)
+    }
+    setCollapsed(new Set(collapsed))
+  }
+
   const onDragEnd = ({ active, over }) => {
     if (active.id !== over.id) {
       const activePath = active.id.split('.')
@@ -157,7 +168,11 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     while (objectPath.length) {
       const parent = objectPath[objectPath.length - 1]
       if (field.startsWith(parent.field)) {
-        properties[field] = parent
+        if (collapsed.has(parent.field)) {
+          return false
+        } else {
+          properties[field] = parent
+        }
         break
       } else {
         objectPath.pop()
@@ -197,6 +212,8 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
                 field={field}
                 fields={fields}
                 isDragging={field === draggingField}
+                toggleExpand={toggleExpand}
+                collapsed={collapsed.has(field)}
               />
             </Draggable>
           )
