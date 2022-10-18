@@ -23,7 +23,6 @@ export const Callouts = () => {
               outline: true,
               label: 'Hello Label',
               icon: <ErrorIcon />,
-              iconRight: <ErrorIcon />,
               description: 'This is a description',
               children: <Button style={{ marginTop: 12 }}>Child button</Button>,
             },
@@ -32,6 +31,7 @@ export const Callouts = () => {
             props: {
               style: { maxWidth: 540 },
               outline: true,
+              icon: <ErrorIcon />,
               children: 'This component has an outline. and max width',
             },
           },

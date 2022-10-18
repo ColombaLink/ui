@@ -13,7 +13,6 @@ import React, {
   useEffect,
   CSSProperties,
   createContext,
-  useContext,
   EventHandler,
   SyntheticEvent,
 } from 'react'

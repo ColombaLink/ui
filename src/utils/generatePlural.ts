@@ -17,18 +17,18 @@ export const generatePlural = (string: string) => {
   return plur(string) || `${string}s`
 }
 
-export const getPluralName = (schema: any, type: string) => {
-  let pluralName = schema.types[type]?.meta?.pluralName
-  if (!pluralName) {
-    const name = schema.types[type]?.meta?.name || type
-    pluralName = generatePlural(name)
-  }
-  return capitalize(pluralName)
-}
+// export const getPluralName = (schema: any, type: string) => {
+//   let pluralName = schema.types[type]?.meta?.pluralName
+//   if (!pluralName) {
+//     const name = schema.types[type]?.meta?.name || type
+//     pluralName = generatePlural(name)
+//   }
+//   return capitalize(pluralName)
+// }
 
-export const getName = (schema: any, type: string) => {
-  return capitalize(schema.types[type]?.meta?.name || type)
-}
+// export const getName = (schema: any, type: string) => {
+//   return capitalize(schema.types[type]?.meta?.name || type)
+// }
 
 export const capitalize = (name: string, allWords?: boolean): string => {
   if (!name) {
@@ -43,7 +43,6 @@ export const capitalize = (name: string, allWords?: boolean): string => {
   return name[0].toUpperCase() + name.substring(1)
 }
 
-// @ts-ignore
 const formatter = new Intl.ListFormat('en', {
   style: 'long',
   type: 'disjunction',

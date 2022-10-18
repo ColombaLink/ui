@@ -31,6 +31,7 @@ export type MultiSelectProps = {
   placeholder?: string
   style?: CSSProperties
   values?: Value[]
+  ghost?: boolean
 }
 
 const StyledBadgeContainer = styled('div', {
@@ -55,6 +56,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   placeholder = 'Select options',
   overlay,
   label,
+  ghost,
 }) => {
   const ref = useRef<HTMLInputElement | null>()
   const [displayIndex, setDisplayIndex] = useState(values?.length || 0)
@@ -162,6 +164,16 @@ export const MultiSelect: FC<MultiSelectProps> = ({
     }
 
     optionsBadges = <StyledBadgeContainer>{c}</StyledBadgeContainer>
+  }
+
+  if (ghost) {
+    style = {
+      ...style,
+      backgroundColor: null,
+      border: null,
+      padding: 0,
+      '&:hover': null,
+    }
   }
 
   if (label) {

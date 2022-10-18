@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useEffect, useState } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { Text, usePropState } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'
@@ -70,7 +70,7 @@ export const Toggle: FC<ToggleProps> = ({
               right: checked && '2px',
             },
           }}
-        ></styled.input>
+        />
         {text && <Text weight={400}>{text}</Text>}
       </div>
     </div>

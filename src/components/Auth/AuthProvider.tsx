@@ -7,11 +7,11 @@ import { Toast, useToast } from '../Toast'
 type AuthProviderProps = {
   children: ReactNode
 }
+
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const client = useClient()
   const toast = useToast()
   const [showLoader, setShowLoader] = useState(false)
-
   const [isGoogleRedirect] = useRoute('/auth-google')
   const [isMicrosoftRedirect] = useRoute('/auth-microsoft')
   const [isGithubRedirect] = useRoute('/auth-github')
@@ -22,7 +22,9 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     : isGithubRedirect
     ? 'github'
     : false
+
   useEffect(() => {
+    // TODO nuno fix => if we need to check for window, use typeof window !== 'undefined'
     if (thirdPartyRedirect && window) {
       setShowLoader(true)
       const params = new URLSearchParams(window.location.search)
@@ -34,7 +36,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       } catch (error) {
         console.warn(error)
       }
-      console.log({ params, code })
       const clientId = window.sessionStorage.getItem('client_id')
       const codeVerifier = window.sessionStorage.getItem('code_verifier')
       client
@@ -58,6 +59,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
           window.sessionStorage.removeItem('client_id')
           window.sessionStorage.removeItem('code_verifier')
           setShowLoader(false)
+          // TODO nuno fix (cant check window like this)
           if (window && state.redirectUrl) {
             window.location.href = state.redirectUrl
           }

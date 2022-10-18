@@ -1,7 +1,6 @@
-import React, { FC, ReactNode, CSSProperties, useRef } from 'react'
-import { Text } from '../Text'
+import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Label } from '../Label'
-import { color, renderOrCreateElement } from '~/utils'
+import { color } from '~/utils'
 import { CheckCircleIcon, CloseCircleIcon } from '~/icons'
 
 type ToastProps = {
@@ -26,8 +25,6 @@ export const Toast: FC<ToastProps> = ({
   type,
   ...props
 }) => {
-  const toastRef = useRef<HTMLDivElement>(null)
-
   return (
     <div
       style={{
@@ -42,9 +39,6 @@ export const Toast: FC<ToastProps> = ({
         ...style,
       }}
       {...props}
-      onClick={() => {
-        console.log('clicked')
-      }}
     >
       <div
         style={{
@@ -56,22 +50,20 @@ export const Toast: FC<ToastProps> = ({
       >
         {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>}
 
-        {label || description || children || icon ? (
-          <Label
-            label={label}
-            description={description}
-            icon={
-              icon && !type
-                ? icon
-                : type === 'success'
-                ? CheckCircleIcon
-                : CloseCircleIcon
-            }
-            iconColor={type === 'success' ? 'accent' : 'red'}
-            children={children}
-            //  style={{ marginBottom: 12 }}
-          />
-        ) : null}
+        <Label
+          label={label}
+          description={description}
+          icon={
+            icon && !type
+              ? icon
+              : type === 'success'
+              ? CheckCircleIcon
+              : CloseCircleIcon
+          }
+          iconColor={type === 'success' ? 'accent' : 'red'}
+        >
+          {children}
+        </Label>
       </div>
     </div>
   )

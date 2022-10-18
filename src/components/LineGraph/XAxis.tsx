@@ -1,8 +1,6 @@
 import React from 'react'
 import { Text } from '~'
-import { color } from '~/utils'
-
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 
 const XAxis = ({ maxX, minX, format, width }) => {

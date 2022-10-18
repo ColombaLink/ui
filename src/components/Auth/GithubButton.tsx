@@ -6,6 +6,7 @@ type GithubButtonProps = {
   label?: string
   clientId: string
 }
+
 export const GithubButton: FC<GithubButtonProps> = ({
   width = '100%',
   label = 'Continue with Github',

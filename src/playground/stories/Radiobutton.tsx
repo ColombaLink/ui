@@ -19,9 +19,9 @@ export const Radiobutton = () => {
             props: {
               label: 'Radio Buttons',
               description: 'Radio Buttons for you',
-              //  data: ['Apples', 'Oranges', 'Bananas'],
+              indent: true,
               data: testObjects,
-              defaultValue: 'Bananas',
+              value: 'Bananas',
             },
           },
           {
@@ -30,7 +30,7 @@ export const Radiobutton = () => {
               description: 'More Radio Buttons for you',
               data: [{ value: 'Tea' }, { value: 'Coffee' }, { value: 'Water' }],
               direction: 'horizontal',
-              defaultValue: 'Tea',
+              value: 'Tea',
             },
           },
         ]}

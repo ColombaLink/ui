@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { Color, color } from '~/utils'
-import { Text } from '~'
+import { Text, Label } from '~'
 import { useTooltip } from '~/hooks'
 import { styled } from 'inlines'
 import { prettyNumber } from '@based/pretty-number'
@@ -12,6 +12,7 @@ type BarGraphProps = {
     color?: string
   }[]
   label?: string
+  description?: string
   value?: number
   legend?: { [key: string]: string } | string[]
   style?: CSSProperties
@@ -21,33 +22,30 @@ type BarGraphProps = {
 export const BarGraph: FC<BarGraphProps> = ({
   data,
   label,
+  description,
   value,
   legend = null,
   style,
   baseColor,
 }) => {
-  let total,
-    highestVal,
+  let highestVal,
     normalizedData,
     totalPerObject,
     normalizedDataPerObject,
     subValuesPerObject,
     legendValues,
-    legendKeys,
     subLabelsPerObject
 
-  //test if value is an object or number
   if (typeof data[0].value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
     subLabelsPerObject = data.map((item) => Object.keys(item.value))
-    // @ts-ignore
+
     totalPerObject = data.map((item) =>
       Object.values(item.value).reduce((t, value) => t + value, 0)
     )
     highestVal = Math.max(...totalPerObject)
     normalizedData = totalPerObject.map((item) => (item / highestVal) * 100)
 
-    // totalPerObject[idx]
     normalizedDataPerObject = data.map((item, idx) =>
       Object.values(item.value).map((value) =>
         (+(value / totalPerObject[idx]) * 100).toFixed(1)
@@ -57,19 +55,14 @@ export const BarGraph: FC<BarGraphProps> = ({
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
   ) {
-    // if the value is a single number (key pair)
-    // @ts-ignore
-    total = Object.values(data).reduce((t, { value }) => t + value, 0)
-    // @ts-ignore
-    highestVal = Math.max(...data.map((item) => item.value))
-    // @ts-ignore
+    highestVal = Math.max(...data.map((item) => +item.value))
+
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
   }
 
   // little legend check
   if (legend && typeof legend === 'object') {
     legendValues = Object.values(legend)
-    legendKeys = Object.keys(legend)
   } else if (legend && Array.isArray(legend)) {
     legendValues = legend
   } else {
@@ -103,6 +96,7 @@ export const BarGraph: FC<BarGraphProps> = ({
 
   return (
     <>
+      <Label label={label} description={description} space />
       <div
         style={{
           display: 'flex',
@@ -268,7 +262,6 @@ export const BarSegment: FC<BarSegmentProps> = ({
           <Text space="8px">{label}</Text>
         </div>
       )}
-      {/* Prettify format issue?? */}
 
       <div
         style={{
@@ -292,7 +285,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
         height: 32,
         display: 'block',
         width: width + '%',
-        backgroundColor: bgColor ? bgColor : color('accent'),
+        backgroundColor: bgColor || color('accent'),
         opacity: `calc(1 - 0.${id * 2})`,
         ...style,
         '&:hover': {

@@ -1,40 +1,65 @@
-import React, { useEffect, useState } from 'react'
-import { Input, color } from '~'
+import React, { useState, useEffect } from 'react'
+import { Input } from '../Input'
+import { color } from '~'
 
 export const TimeInput = ({
-  inputTime,
-  setInputTime,
+  timeInputHandler,
+  value,
   onFocus,
-  onBlur,
-  disabled,
+  placeholder,
 }) => {
-  const [time, setTime] = useState(inputTime)
-  const [validTimeInput, setValidTimeInput] = useState(false)
+  const [time, setTime] = useState(value)
+  const [, setValidTimeInput] = useState(false)
+  const [isFocus, setIsFocus] = useState(false)
 
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
 
   useEffect(() => {
-    if (time.length === 6) {
-      setTime(time.slice(0, -1))
+    if (time?.length === 6) {
+      setTime(time?.slice(0, -1))
     }
-    //check if regex matches
+    //  check if regex matches
     if (timeRegex.test(time) && time.length === 5) {
       setValidTimeInput(true)
-      setInputTime(time)
+      setTime(time)
+      timeInputHandler(time)
     } else {
       setValidTimeInput(false)
     }
   }, [time])
 
-  useEffect(() => {
-    setTime(inputTime)
-  }, [inputTime])
-
   const timeHandler = (e) => {
+    placeholder = 'hh:mm'
+
+    if (e.length === 1 && e > 2) {
+      e = '0' + e
+    }
+
     if (e.length === 2) {
+      timeInputHandler(e)
       setTime(e + ':')
     } else {
       setTime(e)
+    }
+
+    if (e.length === 3 && e.split('').pop() !== ':') {
+      let temp = e.split('')
+      temp.splice(2, 0, ':')
+      temp = temp.join('')
+      e = temp
+      timeInputHandler(temp)
+      setTime(temp)
+    }
+
+    if (e.length === 4) {
+      if (+e.slice(-1) > 5) {
+        let temp = e.split('')
+        temp.splice(3, 0, '0')
+        temp = temp.join('')
+
+        timeInputHandler(temp)
+        setTime(temp)
+      }
     }
   }
 
@@ -52,29 +77,29 @@ export const TimeInput = ({
         type="text"
         onKeyPress={keyPressHandler}
         onChange={timeHandler}
-        placeholder="00:00"
-        onFocus={() => onFocus()}
-        onBlur={onBlur}
-        disabled={disabled}
-        style={{
-          backgroundColor: disabled ? color('background2') : '',
+        placeholder={placeholder}
+        onFocus={() => {
+          setIsFocus(true)
+          onFocus(true)
+        }}
+        onBlur={() => {
+          setIsFocus(false)
+          onFocus(false)
         }}
       />
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          borderRadius: 4,
-          pointerEvents: 'none',
-          border:
-            !validTimeInput && time.length === 5
-              ? `2px solid ${color('red')}`
-              : '',
-        }}
-      ></div>
+      {isFocus && (
+        <div
+          style={{
+            border: `2px solid ${color('accent')}`,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 4,
+          }}
+        />
+      )}
     </div>
   )
 }

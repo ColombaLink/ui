@@ -4,6 +4,7 @@ import { AttachmentIcon, EditIcon, LayersIcon } from '~/icons'
 import { Schema } from '~/components/Schema'
 import { Content } from '~/components/Content'
 import { useLocation } from '~/hooks'
+import { border } from '~/utils'
 
 const Project = ({ style }) => {
   const [location] = useLocation()
@@ -51,7 +52,10 @@ export const BasedApp = () => {
     <Project
       // id="enBEFnEK"
       style={{
-        border: '1px solid black',
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+        outline: border(1),
         overflow: 'hidden',
       }}
     />

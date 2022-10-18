@@ -1,8 +1,7 @@
 import React, { ReactNode, CSSProperties } from 'react'
-import { Color, spaceToPx } from '~'
-import { Text } from '~'
+import { Text, Color, spaceToPx } from '~'
 import { Space } from '~/types'
-import { color, renderOrCreateElement } from '~/utils'
+import { renderOrCreateElement } from '~/utils'
 
 type LabelProps = {
   label?: string | number | ReactNode
@@ -27,7 +26,7 @@ export const Label = ({
   children,
   style,
 }: LabelProps) => {
-  if (!label && !description) {
+  if (!label && !description && !icon) {
     return null
   }
   return (
@@ -39,11 +38,7 @@ export const Label = ({
         ...style,
       }}
     >
-      <Text
-        wrap
-        weight={600}
-        color={labelColor ? color(labelColor) : color('text')}
-      >
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {icon && (
           <div
             style={{
@@ -53,18 +48,16 @@ export const Label = ({
             }}
           >
             {renderOrCreateElement(icon, {
-              color: color(colorProp),
+              color: colorProp,
             })}
           </div>
         )}
-        {label}
-      </Text>
+        <Text wrap weight={600} color={labelColor || 'text'}>
+          {label}
+        </Text>
+      </div>
       {description && (
-        <Text
-          wrap
-          weight={400}
-          color={descriptionColor ? color(descriptionColor) : color('text2')}
-        >
+        <Text wrap weight={400} color={descriptionColor || 'text2'}>
           {description}
         </Text>
       )}

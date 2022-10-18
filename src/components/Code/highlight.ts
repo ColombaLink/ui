@@ -1,3 +1,4 @@
+// TODO this file is ununed?
 import { color } from '../../utils'
 
 const toHtmlSafeChar = (char: string): string => {

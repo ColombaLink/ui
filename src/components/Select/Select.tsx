@@ -41,6 +41,8 @@ export type SelectProps = {
   name?: string
   color?: Color
   style?: CSSProperties
+  id?: string
+  ghost?: boolean
 }
 
 export const Select: FC<SelectProps> = ({
@@ -54,6 +56,8 @@ export const Select: FC<SelectProps> = ({
   overlay,
   label,
   name,
+  id,
+  ghost,
 }) => {
   const [currentValue, open] = useSelect(options, value, {
     variant: 'over',
@@ -96,12 +100,22 @@ export const Select: FC<SelectProps> = ({
     </>
   )
 
+  if (ghost) {
+    style = {
+      ...style,
+      backgroundColor: null,
+      border: null,
+      padding: 0,
+      '&:hover': null,
+    }
+  }
+
   return label ? (
     <SelectLabel label={label} onClick={open} style={style}>
       {children}
     </SelectLabel>
   ) : (
-    <StyledSelect onClick={open} style={style}>
+    <StyledSelect onClick={open} style={style} id={id}>
       {children}
     </StyledSelect>
   )

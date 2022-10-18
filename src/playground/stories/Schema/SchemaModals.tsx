@@ -1,5 +1,5 @@
-import { Based, BasedClient } from '@based/client'
-import { useClient, useSchema } from '@based/react'
+import { Based } from '@based/client'
+import { useClient } from '@based/react'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Input } from '~/components/Input'
@@ -9,6 +9,7 @@ import { Select } from '~/components/Select'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
 import { Toast, useToast } from '~/components/Toast'
+import { useSchema } from '~/hooks/useSchema'
 
 const useUpdate = (callback?: () => void) => {
   const [count, setCount] = useState(0)

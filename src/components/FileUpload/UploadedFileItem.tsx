@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { styled } from 'inlines'
 import {
   color,
@@ -33,33 +33,51 @@ const StyledMoreIcon = styled('div', {
   },
 })
 
+const CacheBackground = ({ file }) => {
+  if (!file.src) {
+    file.src = URL.createObjectURL(file)
+  }
+  const [url, setUrl] = useState(file.src)
+
+  return (
+    <div
+      style={{
+        height: 62,
+        width: 62,
+        backgroundImage: `url(${url})`,
+        backgroundSize: 'cover',
+      }}
+    >
+      <img
+        style={{ display: 'none' }}
+        src={file.src}
+        onLoad={() => {
+          setUrl(file.src)
+        }}
+      />
+    </div>
+  )
+}
+
 export const UploadedFileItem = ({
   file,
   handleClickUpload,
   deleteSpecificFile,
   id,
+  replaceSpecificFile,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
-    { handleClickUpload, deleteSpecificFile, id },
+    { handleClickUpload, deleteSpecificFile, id, replaceSpecificFile },
     { placement: 'right' }
   )
 
   return (
     <StyledUploadedFile>
       {/* image */}
-      {file?.type.includes('image') && (
-        <div
-          style={{
-            height: 62,
-            width: 62,
-            backgroundImage: `url(${URL.createObjectURL(file)})`,
-            backgroundSize: 'cover',
-          }}
-        />
-      )}
+      {file?.type?.includes('image') && <CacheBackground file={file} />}
       {/* movie */}
-      {file?.type.includes('video') && (
+      {file?.type?.includes('video') && (
         <div
           style={{
             height: 62,
@@ -74,7 +92,7 @@ export const UploadedFileItem = ({
         </div>
       )}
       {/* audio */}
-      {file?.type.includes('audio') && (
+      {file?.type?.includes('audio') && (
         <div
           style={{
             height: 62,
@@ -89,9 +107,9 @@ export const UploadedFileItem = ({
         </div>
       )}
 
-      {file?.type.includes('image') ||
-      file?.type.includes('video') ||
-      file?.type.includes('audio') ? null : (
+      {file?.type?.includes('image') ||
+      file?.type?.includes('video') ||
+      file?.type?.includes('audio') ? null : (
         <AttachmentIcon />
       )}
       <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
@@ -104,10 +122,15 @@ export const UploadedFileItem = ({
   )
 }
 
-const ContextOptions = ({ handleClickUpload, deleteSpecificFile, id }) => {
+const ContextOptions = ({
+  handleClickUpload,
+  deleteSpecificFile,
+  id,
+  replaceSpecificFile,
+}) => {
   return (
     <>
-      <ContextItem onClick={() => handleClickUpload()} icon={EditIcon}>
+      <ContextItem onClick={() => replaceSpecificFile(id)} icon={EditIcon}>
         Edit
       </ContextItem>
       <ContextItem

@@ -4,7 +4,7 @@ import { prettyDate, DateFormat } from '@based/pretty-date'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
 import snarkdown from 'snarkdown'
 
-export function isHtml(val: Value): val is { html: string } {
+export function isHtml(val: Value | Value[]): val is { html: string } {
   return val && typeof val === 'object' && 'html' in val
 }
 
@@ -34,6 +34,7 @@ export type Value =
   | undefined
   | (string | number | { html: string })
   | (string | number | { html: string })[]
+  | string[]
 
 export type TextValueSingle = Value | Partial<Record<Language, Value>>
 
@@ -175,7 +176,6 @@ export function getTextValue(
     }
   }
 
-  // @ts-ignore
   return value
 }
 

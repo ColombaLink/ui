@@ -1,6 +1,6 @@
-import { useSchema } from '@based/react'
 import React, { FC } from 'react'
-import { Menu, Text, Button, AddIcon, useDialog, capitalize, Badge } from '~'
+import { Menu, Text, Button, AddIcon, useDialog, Badge } from '~'
+import { useSchema } from '~/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {
@@ -65,8 +65,7 @@ export const SchemaLeft: FC<{
           items: Object.keys(types)
             .sort()
             .map((key) => {
-              // TODO fix type
-              let label: any = capitalize(types[key].meta?.name || key, true)
+              let label = types[key].meta?.name
               if (key === 'file' || key === 'root') {
                 const children = label
                 label = ({ isActive }) => (

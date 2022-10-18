@@ -21,8 +21,8 @@ export function useOverlay<P = any>(
 ): PropsEventHandler {
   // maybe remove selectionProps :/
   return useCallback((e: Event | SyntheticEvent, selectionProps) => {
-    e.stopPropagation()
-    e.preventDefault()
+    e.stopPropagation?.()
+    e.preventDefault?.()
     let cancel: OnClose
     if (handler) {
       cancel = handler(e)

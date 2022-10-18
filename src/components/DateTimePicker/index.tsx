@@ -1,37 +1,10 @@
-import React, { useEffect, useState, FC, CSSProperties } from 'react'
-import { DatePicker } from './DatePicker'
-import { TimeInput } from './TimeInput'
-import { styled } from 'inlines'
-import {
-  color,
-  Select,
-  Text,
-  CalendarIcon,
-  spaceToPx,
-  Label,
-  ErrorIcon,
-  Button,
-} from '~'
+import React, { FC, CSSProperties, useState, useEffect } from 'react'
+import { Label } from '~'
 import { Space } from '~/types'
-
-const StyledDateInput = styled('input', {
-  width: 280,
-  borderRadius: 4,
-  minHeight: 36,
-  paddingLeft: 28,
-  paddingRight: 12,
-  cursor: 'text',
-  border: `1px solid ${color('border')}`,
-  '&::-webkit-calendar-picker-indicator': {
-    display: 'none',
-  },
-  '&[type="date"]::-webkit-input-placeholder': {
-    visibility: 'hidden !important',
-  },
-  '&[type="date"]:input-placeholder': {
-    visibility: 'hidden !important',
-  },
-})
+import { InputWrapper } from '../Input/InputWrapper'
+import { TimeInput } from './TimeInput'
+import { DateInput } from './DateInput'
+import { UtcInput } from './UtcInput'
 
 type DateTimePickerProps = {
   label?: string
@@ -43,8 +16,23 @@ type DateTimePickerProps = {
   style?: CSSProperties
   error?: (value: boolean | string | number) => string
   disabled?: boolean
-  value?: number
+  value?: string
 }
+
+// const formatYmd = (date) => date?.toISOString().slice(0, 10)
+const timezoneOffset = new Date().getTimezoneOffset()
+
+// const nowInMs = new Date().getTime()
+// const now = new Date()
+// const nowHours = new Date()?.toString().split(' ')[4].substring(0, 5)
+// const nowFormatted = formatYmd(new Date(nowInMs))
+
+// console.log('nowInMs', nowInMs)
+// console.log('now', now)
+// console.log(nowFormatted)
+// console.log('now hours', nowHours)
+// console.log('WAT IS DIT?', new Date(nowInMs))
+// console.log('timezoneOffset -->', timezoneOffset)
 
 export const DateTimePicker: FC<DateTimePickerProps> = ({
   label,
@@ -58,231 +46,114 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   disabled,
   value,
 }) => {
-  const testVal = new Date(value)
-  console.log('Test Val --->', testVal)
+  const [focus, setFocus] = useState(false)
 
-  let currentDate
+  const [dateFormatInput, setDateFormatInput] = useState('')
+  const [dateTimeInput, setDateTimeInput] = useState<string>('')
+  const [dateUtcInput, setDateUtcInput] = useState('')
 
-  if (value) {
-    currentDate = new Date(value)
-  } else {
-    currentDate = new Date()
-  }
-
-  let currentTime = currentDate?.toString().split(' ')[4].substring(0, 5)
-
-  let GmtUtcTime = 'UTC' + currentDate?.toString().split(' ')[5].substring(3, 6)
-
-  console.log('GmtUtcTime -->', GmtUtcTime)
-
-  // console.log('Current Date --->', currentDate)
-  // console.log('Current Time --->', currentTime)
-
-  const formatYmd = (date) => date.toISOString().slice(0, 10)
-
-  const formattedDate = formatYmd(currentDate)
-
-  const [inputValue, setInputValue] = useState(formattedDate)
-  const [inputTime, setInputTime] = useState(currentTime)
-  const [showDatePicker, setShowDatePicker] = useState(false)
-  const [UTCValue, setUTCValue] = useState(0)
-
-  const dateAndTime = `${inputValue}T${inputTime}`
-  const dateAndTimeToMiliseconds = new Date(dateAndTime).getTime()
-  const outputInMsec = dateAndTimeToMiliseconds + UTCValue
-
-  const [focused, setFocused] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
 
-  const clearAll = () => {
-    setInputValue(`yyyyy-mm-dd`)
-    setInputTime('00:00')
-  }
-
   useEffect(() => {
-    onChange?.(outputInMsec)
-    value = outputInMsec
+    if (value) {
+      setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
+      setDateUtcInput(dateUtcInput)
 
-    // console.log('The Value --> ', value)
+      const startDate = new Date(value)
+      setDateFormatInput(
+        startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
+      )
+    }
+  }, [value])
 
-    const msg = error?.(outputInMsec)
+  // functions to get the values back
+  const newMsFromAll = (dateInput, timeInput) => {
+    const dateString = `${dateInput
+      .split('/')
+      .reverse()
+      .join('-')}T${timeInput}`
+    const outPutInMs = new Date(dateString).getTime()
+
+    const msg = error?.(outPutInMs)
 
     if (msg) {
-      // add error msg
       setErrorMessage(msg)
     } else {
-      // remove error msg
       setErrorMessage('')
     }
-  }, [inputValue, inputTime, UTCValue])
+
+    onChange(outPutInMs)
+  }
+
+  const dateHandler = (val) => {
+    // console.log('VALUE from date handler', val)
+    // do output like this -->  2002-10-29
+    const tempArr = []
+    const day = `${val[0]}${val[1]}`
+    const month = `${val[3]}${val[4]}`
+    const year = val.substring(6)
+    tempArr.push(year, month, day)
+
+    // datestring new is om de millisecondes te krijgen
+    const dateStringNew = tempArr.join('-')
+
+    // als value hou de gewone value??
+    setDateFormatInput(val)
+    newMsFromAll(dateStringNew, dateTimeInput)
+  }
+
+  const timeInputHandler = (val) => {
+    if (val.length === 5) {
+      setDateTimeInput(val)
+      newMsFromAll(dateFormatInput, val)
+    }
+  }
+
+  const utcInputHandler = (val) => {
+    // onthoud de utc value
+    // placeholder is huidige timezone
+    // const tempMs = +val.substring(3) * 60 * 60000
+    //   setUtcInputInMs(tempMs)
+    // newMsFromAll(dateFormatInput, dateTimeInput, temp)
+  }
+
+  const clearHandler = () => {
+    // console.log('AREA CLEAR')
+    setDateFormatInput('')
+    setDateTimeInput('')
+    onChange(null)
+  }
 
   return (
-    <div
-      style={{
-        marginBottom: space ? spaceToPx(space) : 16,
-        borderLeft: indent ? `2px solid ${color('border')}` : null,
-        borderColor: errorMessage
-          ? color('red')
-          : focused
-          ? color('accent')
-          : color('border'),
-        paddingLeft: indent ? 12 : null,
-        cursor: disabled ? 'not-allowed' : 'auto',
-        ...style,
-      }}
+    <InputWrapper
+      descriptionBottom={descriptionBottom}
+      indent={indent}
+      space={space}
+      errorMessage={errorMessage}
+      focus={focus}
+      disabled={disabled}
+      style={style}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {label && (
-          <Label
-            space="12px"
-            label={label}
-            description={description}
-            labelColor={disabled ? color('text2') : color('text')}
-          />
-        )}
-        {!Number.isNaN(outputInMsec) && indent && !disabled && (
-          <Button
-            ghost
-            onClick={() => {
-              clearAll()
-            }}
-            style={{ height: 'fit-content' }}
-          >
-            Clear
-          </Button>
-        )}
-      </div>
-      <div style={{ display: 'flex', gap: 16 }}>
-        <div style={{ position: 'relative' }}>
-          <CalendarIcon
-            size={14}
-            style={{
-              pointerEvents: 'none',
-              position: 'absolute',
-              top: 10,
-              left: 10,
-            }}
-          />
-          <StyledDateInput
-            style={{
-              maxWidth: 280,
-              background: showDatePicker ? color('background2') : '',
-              color: disabled ? color('text2') : color('text'),
-              borderBottomLeftRadius: showDatePicker ? 0 : 4,
-              borderBottomRightRadius: showDatePicker ? 0 : 4,
-              '&:hover': {
-                cursor: disabled ? 'not-allowed' : 'auto',
-              },
-            }}
-            disabled={disabled}
-            placeholder="2001/01/10"
-            type="date"
-            onClick={(e) => {
-              // hides the calender in firefox
-              e.preventDefault()
-              setShowDatePicker(true)
-            }}
-            onChange={(e) => {
-              setInputValue(e.target.value)
-
-              //   onChange?.(outputInMsec)
-            }}
-            value={inputValue}
-            onFocus={() => setFocused(true)}
-          />
-          {showDatePicker && (
-            <DatePicker
-              inputValue={inputValue}
-              setInputValue={setInputValue}
-              showDatePicker={showDatePicker}
-              setShowDatePicker={setShowDatePicker}
-              focused={focused}
-              setFocused={setFocused}
-            />
-          )}
-        </div>
-
+      <Label label={label} description={description} space="12px" />
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>
+        <DateInput
+          dateHandler={dateHandler}
+          value={dateFormatInput}
+          setFocused={setFocus}
+          clearHandler={clearHandler}
+        />
         <TimeInput
-          setInputTime={setInputTime}
-          inputTime={inputTime}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          disabled={disabled}
+          timeInputHandler={timeInputHandler}
+          value={dateTimeInput}
+          onFocus={setFocus}
+          placeholder={dateTimeInput || 'hh:mm'}
         />
-
-        {/* elke +1 UTC is -60 en elke -1 UTC is +60 */}
-
-        <Select
-          // @ts-ignore
-          id="UTC-id"
-          style={{
-            maxWidth: 160,
-            fontWeight: 400,
-            height: 36,
-            backgroundColor: disabled
-              ? color('background2')
-              : color('background'),
-            cursor: disabled ? 'not-allowed' : 'auto',
-            pointerEvents: disabled ? 'none' : 'auto',
-          }}
-          placeholder={GmtUtcTime}
-          options={[
-            'UTC+00',
-            'UTC+01',
-            'UTC+02',
-            'UTC+03',
-            'UTC+04',
-            'UTC+05',
-            'UTC+06',
-            'UTC+07',
-            'UTC+08',
-            'UTC+09',
-            'UTC+10',
-            'UTC+11',
-            'UTC+12',
-            'UTC-01',
-            'UTC-02',
-            'UTC-03',
-            'UTC-04',
-            'UTC-05',
-            'UTC-06',
-            'UTC-07',
-            'UTC-08',
-            'UTC-09',
-            'UTC-10',
-            'UTC-11',
-            'UTC-12',
-          ]}
-          onChange={(e) => {
-            // @ts-ignore
-            // so UTC offset is in minutes
-            const tempUTCValMsec = +e.substring(3) * 60 * 60000
-            //   console.log(tempUTCValMsec)
-
-            // @ts-ignore
-            setUTCValue(tempUTCValMsec)
-          }}
+        <UtcInput
+          utcInputHandler={utcInputHandler}
+          placeholder={timezoneOffset}
         />
       </div>
-      {descriptionBottom && (
-        <Text color="text2" weight={400} italic style={{ marginTop: 8 }}>
-          {descriptionBottom}
-        </Text>
-      )}
-      {/* <ErrorMessage /> */}
-      {errorMessage && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 6,
-            alignItems: 'center',
-            marginTop: 6,
-          }}
-        >
-          <ErrorIcon color="red" size={16} />
-          <Text color="red">{errorMessage}</Text>
-        </div>
-      )}
-    </div>
+      {/* <div>miliseconds: {value}</div> */}
+    </InputWrapper>
   )
 }

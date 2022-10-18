@@ -65,7 +65,9 @@ export const Dialogs = () => {
         onClick={async () => {
           const ok = await open(
             <Dialog label="Bonjour monsieur">
-              Hello
+              {Array.from(Array(1000)).map((_, index) => {
+                return <div key={index}>Hello {index}</div>
+              })}
               <Dialog.Buttons border>
                 <Dialog.Cancel />
                 <Dialog.Confirm />

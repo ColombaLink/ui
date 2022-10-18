@@ -7,10 +7,14 @@ import { Button, ButtonProps } from '../Button'
 import { Link } from '../Link'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
+import { ChevronDownIcon } from '~/icons'
+import { styled } from 'inlines'
 
 type MenuHeaderProps = {
   children?: ReactNode
   style?: CSSProperties
+  onClick?: () => void
+  id?: string
 }
 
 type MenuItemProps = {
@@ -22,17 +26,27 @@ type MenuItemProps = {
   weight?: Weight
 }
 
-const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
+const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
   return (
-    <Text
-      weight="600"
+    <styled.div
+      id={id}
       style={{
-        marginBottom: 12,
-        ...style,
+        '&.closed': {
+          marginBottom: '-12px',
+        },
       }}
     >
-      {children}
-    </Text>
+      <Text
+        weight="600"
+        style={{
+          marginBottom: 12,
+          ...style,
+        }}
+        onClick={onClick}
+      >
+        {children}
+      </Text>
+    </styled.div>
   )
 }
 
@@ -88,6 +102,20 @@ export const MenuButton: FC<ButtonProps> = ({ style, ...props }) => {
   )
 }
 
+const HideableStyledDiv = styled('div', {
+  display: 'block',
+  '&.hidden': {
+    display: 'none',
+  },
+})
+
+const StyledChevron = styled(ChevronDownIcon, {
+  transition: 'transform 0.2s',
+  '&.closed': {
+    transform: 'rotate(180deg)',
+  },
+})
+
 export const Menu: FC<{
   data: any
   selected?: string
@@ -95,8 +123,17 @@ export const Menu: FC<{
   style?: CSSProperties
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
-}> = ({ data = {}, selected, prefix = '', style, children, header }) => {
-  const [location, setLocation] = useLocation()
+  collapse?: boolean
+}> = ({
+  data = {},
+  selected,
+  prefix = '',
+  style,
+  children,
+  header,
+  collapse,
+}) => {
+  const [location] = useLocation()
 
   if (!selected) {
     selected = location
@@ -130,24 +167,50 @@ export const Menu: FC<{
 
       return (
         <Fragment key={i}>
-          <MenuHeader style={{ marginTop: i && 40 }}>{label}</MenuHeader>
-          {items.map(({ href, label }, index) => {
-            if (href[0] !== '?') {
-              href = prefix + href
-            }
-            if (!firstHref) {
-              firstHref = href
-            }
-            const isActive = hrefIsActive(href, selected, items)
-            if (isActive) {
-              hasActive = true
-            }
-            return (
-              <MenuItem key={index} href={href} isActive={isActive} isNested>
-                {label}
-              </MenuItem>
-            )
-          })}
+          <MenuHeader
+            id={`${i}-menuheader`}
+            style={{
+              marginTop: i && 36,
+              justifyContent: collapse ? 'space-between' : null,
+              display: collapse ? 'flex' : null,
+              alignItems: 'center',
+            }}
+            onClick={() => {
+              if (collapse) {
+                document
+                  .getElementById(`${i}-menuitems`)
+                  .classList.toggle('hidden')
+                document
+                  .getElementById(`${i}-menuchevron`)
+                  .classList.toggle('closed')
+                document
+                  .getElementById(`${i}-menuheader`)
+                  .classList.toggle('closed')
+              }
+            }}
+          >
+            {label}
+            {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+          </MenuHeader>
+          <HideableStyledDiv id={`${i}-menuitems`}>
+            {items.map(({ href, label }, index) => {
+              if (href[0] !== '?') {
+                href = prefix + href
+              }
+              if (!firstHref) {
+                firstHref = href
+              }
+              const isActive = hrefIsActive(href, selected, items)
+              if (isActive) {
+                hasActive = true
+              }
+              return (
+                <MenuItem key={index} href={href} isActive={isActive} isNested>
+                  {label}
+                </MenuItem>
+              )
+            })}
+          </HideableStyledDiv>
         </Fragment>
       )
     }
@@ -174,7 +237,7 @@ export const Menu: FC<{
 
   useEffect(() => {
     if (!hasActive) {
-      setLocation(firstHref)
+      window.history.replaceState({}, '', firstHref)
     }
   }, [hasActive])
 

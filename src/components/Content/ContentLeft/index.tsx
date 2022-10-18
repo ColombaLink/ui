@@ -1,17 +1,6 @@
-import { useSchema } from '@based/react'
 import React, { FC } from 'react'
-import {
-  Menu,
-  Text,
-  Button,
-  AddIcon,
-  useDialog,
-  capitalize,
-  Badge,
-  useSchemaTypes,
-} from '~'
+import { Menu, Text, useSchemaTypes } from '~'
 import { SystemLabel } from '~/components/Schema/SchemaLeft'
-import { AddTypeModal } from '../AddTypeModal'
 
 export const ContentLeft: FC<{
   prefix: string
@@ -32,40 +21,12 @@ export const ContentLeft: FC<{
           Content
         </Text>
       }
-      data={[
-        {
-          label: (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                height: 32,
-              }}
-            >
-              <Text size="15px" weight="600">
-                Types
-              </Text>
-            </div>
-          ),
-          items: Object.keys(types)
-            .sort()
-            .map((key) => {
-              // TODO fix type
-              let label: any = capitalize(types[key].meta?.name || key, true)
-              if (key === 'file' || key === 'root') {
-                const children = label
-                label = ({ isActive }) => (
-                  <SystemLabel isActive={isActive}>{children}</SystemLabel>
-                )
-              }
-              return {
-                label,
-                href: `/${key}`,
-              }
-            }),
+      data={{
+        All: '/all',
+        Bawler: {
+          Snuk: '/slay',
         },
-      ]}
+      }}
     />
   )
 }

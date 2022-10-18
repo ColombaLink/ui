@@ -27,15 +27,13 @@ const Container = styled('div', {
 })
 
 const ScrollBody = styled('div', {
-  // paddingTop: 'var(--dialogPadding)',
-  // paddingLeft: 'var(--dialogPadding)',
-  // paddingRight: 'var(--dialogPadding)',
-
-  padding: '12px 24px',
+  paddingTop: 'var(--dialogPadding)',
+  paddingLeft: 'var(--dialogPadding)',
+  paddingRight: 'var(--dialogPadding)',
   paddingBottom: '0px',
   width: '100%',
   '&>:last-child': {
-    paddingBottom: '24px !important',
+    paddingBottom: 'var(--dialogPadding) !important',
   },
 })
 
@@ -171,11 +169,15 @@ export interface DialogProps extends ComponentProps<typeof Container> {
   children?: ReactNode
   label?: string
   padding?: number
+  pure?: boolean
 }
 
 export const Dialog = Object.assign(
   forwardRef<ElementRef<typeof Container>, DialogProps>(
-    ({ children, label, padding = 24, style, ...props }, forwardedRef) => {
+    (
+      { children, label, padding = 24, style, pure, ...props },
+      forwardedRef
+    ) => {
       if (typeof children === 'string') {
         if (!label) {
           label = children
@@ -216,15 +218,19 @@ export const Dialog = Object.assign(
               <Text weight={600}>{label}</Text>
             </div>
           )}
-          <ScrollArea>
-            <ScrollBody
-              style={{
-                '--dialogPadding': `${padding}px`,
-              }}
-            >
-              {children}
-            </ScrollBody>
-          </ScrollArea>
+          {pure ? (
+            children
+          ) : (
+            <ScrollArea>
+              <ScrollBody
+                style={{
+                  '--dialogPadding': `${padding}px`,
+                }}
+              >
+                {children}
+              </ScrollBody>
+            </ScrollArea>
+          )}
         </Container>
       )
     }

@@ -22,12 +22,13 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   ...props
 }) => {
   const [location] = useLocation()
-  if (!selected) {
-    selected = location
-  }
 
   if (!data) {
     return null
+  }
+
+  if (!selected) {
+    selected = location
   }
 
   return (

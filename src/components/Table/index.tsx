@@ -4,13 +4,9 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import { ChevronDownIcon, ChevronUpIcon, EditIcon } from '~/icons'
-import { VariableSizeGrid as Grid, FixedSizeList } from 'react-window'
-import {
-  InfiniteList,
-  InfiniteListQueryResponse,
-  useInfiniteScroll,
-} from '../InfiniteList'
+import { ChevronDownIcon, ChevronUpIcon } from '~/icons'
+import { FixedSizeList } from 'react-window'
+import { InfiniteList, InfiniteListQueryResponse } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { Row } from './Row'
 import { Cell } from './Cell'
@@ -21,7 +17,6 @@ import {
   ITEM_HEIGHT,
   ITEM_WIDTH,
 } from './constants'
-import { useSchema } from '@based/react'
 import { TableFromQuery } from './TableFromQuery'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
@@ -283,12 +278,6 @@ const TableInner: FC<TableProps> = ({
 const TableFromData = () => {
   return null
 }
-
-const Cell = ({ columnIndex, rowIndex, style }) => (
-  <div style={style}>
-    Item {rowIndex},{columnIndex}
-  </div>
-)
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
   return (

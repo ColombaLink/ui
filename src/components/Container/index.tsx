@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement, border } from '~/utils'
+import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 
 type ContainerProps = {

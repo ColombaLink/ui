@@ -4,7 +4,7 @@ import React, { FC } from 'react'
 
 export type IconProps = {
   color?: Color
-  size?: 10 | 12 | 14 | 16 | 20 | 32
+  size?: 8 | 9 | 10 | 12 | 14 | 16 | 20 | 32
 }
 
 export const Icon: FC<{}> = () => {

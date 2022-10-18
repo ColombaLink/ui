@@ -7,6 +7,9 @@ type FieldMeta = {
 export type FieldOptions = {
   field?: string
   meta?: FieldMeta
+  items?: {
+    type: string
+  }
 }
 
 export type FieldSchema = {

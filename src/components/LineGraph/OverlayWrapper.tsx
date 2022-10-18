@@ -4,8 +4,7 @@ import useGraphHover from '~/hooks/useGraphHover'
 import useThrottledCallback from '~/hooks//useThrottledCallback'
 import { Text } from '~'
 import { GraphContext } from '.'
-
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 
 const OverlayNested = ({
@@ -289,11 +288,10 @@ export default ({
         height,
         position: 'relative',
       }}
-      // @ts-ignore
+      // @ts-ignore TODO fix
       onMouseMove={useThrottledCallback((event) => {
         const { x } = event.currentTarget.getBoundingClientRect()
-
-        let mousePosX = event.clientX
+        const mousePosX = event.clientX
 
         if (window.innerWidth - mousePosX < 200) {
           isFlippedX = true

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import React, {
   CSSProperties,
   FC,
@@ -12,7 +13,7 @@ import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space, AccentColor, Key } from '~/types'
+import { Space, Key } from '~/types'
 import { useKeyUp } from '~'
 
 export type ButtonProps = {
@@ -27,6 +28,7 @@ export type ButtonProps = {
   iconRight?: FC | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler
+  onPointerDown?: MouseEventHandler
   outline?: boolean
   style?: CSSProperties
   space?: Space
@@ -36,6 +38,7 @@ export type ButtonProps = {
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
   const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
+
   const isLight = light || ghost || outline
   const style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
@@ -61,21 +64,18 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
 
 export const Button: FC<ButtonProps> = (props) => {
   let {
+    actionKeys,
     children,
+    fill,
     icon,
     iconRight,
+    large,
     loading,
     onClick,
-    actionKeys,
-    style,
+    onPointerDown,
     space,
-    large,
-    ghost,
-    light,
-    outline,
-    fill,
+    style,
     textAlign = 'left',
-    ...rest
   } = props
 
   const [isLoading, setIsLoading] = useState(false)
@@ -139,6 +139,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ref={buttonElem}
       disabled={props.disabled}
       onClick={onClick && extendedOnClick}
+      onPointerDown={onPointerDown}
       style={{
         padding:
           !children && large
@@ -156,7 +157,6 @@ export const Button: FC<ButtonProps> = (props) => {
         ...getButtonStyle(props, true),
         ...style,
       }}
-      {...rest}
     >
       <div
         style={{

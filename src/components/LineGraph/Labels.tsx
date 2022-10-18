@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text } from '~'
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
-import { prettyDate } from '@based/pretty-date'
+import { prettyNumber } from '@based/pretty-number'
 
 export default ({ labels, labelHeight, valueFormat }) => {
   // let prevValue

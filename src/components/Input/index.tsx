@@ -1,3 +1,4 @@
+// TODO yves en youri fix this
 import React, {
   Dispatch,
   FC,
@@ -7,24 +8,17 @@ import React, {
   RefObject,
   useState,
   useEffect,
-  useRef,
 } from 'react'
-import {
-  Text,
-  Button,
-  Callout,
-  ErrorIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-} from '~'
+import { Text, Button, ChevronDownIcon, ChevronUpIcon } from '~'
 import { Label } from '../Label'
-import { color, renderOrCreateElement, spaceToPx } from '~/utils'
+import { color, renderOrCreateElement } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
 import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
 import { CustomRegexInput } from './CustomRegexInput'
+import { InputWrapper } from './InputWrapper'
 
 const resize = (target) => {
   if (target) {
@@ -50,9 +44,16 @@ const Multi = ({ style, inputRef, ...props }) => {
   )
 }
 
-const Single = ({ type, inputRef, pattern, ...props }) => {
+type SingleProps = {
+  type?: string
+  inputRef?: RefObject<any>
+  pattern?: string
+  props?: any
+  onKeyDown?: (e: any) => void
+}
+
+const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
   if (type === 'color') {
-    // @ts-ignore
     return <ColorInput inputRef={inputRef} {...props} />
   }
   return <input {...props} type={type} ref={inputRef} pattern={pattern} />
@@ -69,6 +70,7 @@ type InputProps = {
   descriptionBottom?: string
   optional?: boolean
   value?: string | number
+  integer?: boolean
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   indent?: boolean
@@ -125,6 +127,8 @@ const Suggestor = ({
   children,
   paddingLeft,
   paddingRight,
+  fontSize,
+  fontWeight,
   onChange,
   forceSuggestion,
   focused,
@@ -164,6 +168,8 @@ const Suggestor = ({
             alignItems: 'center',
             opacity: 0.4,
             pointerEvents: 'none',
+            fontSize,
+            fontWeight,
           }}
         >
           {suggestion}
@@ -174,6 +180,7 @@ const Suggestor = ({
   )
 }
 
+// TODO need to clean this whole thing up...
 export const Input: FC<
   InputPropsChange &
     Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
@@ -195,6 +202,7 @@ export const Input: FC<
   iconRight,
   indent,
   inputRef,
+  integer,
   label,
   large,
   maxChars,
@@ -202,7 +210,7 @@ export const Input: FC<
   name,
   noInterrupt,
   onChange: onChangeProp,
-  optional,
+  // optional,
   placeholder = 'Type something here',
   space,
   style,
@@ -231,15 +239,16 @@ export const Input: FC<
   }, [value])
 
   const onChange = (e) => {
-    let newValue = transform ? transform(e.target.value) : e.target.value
+    const newValue = transform ? transform(e.target.value) : e.target.value
 
-    if (type === 'number' && typeof newValue !== 'number') {
-      newValue = Number(newValue)
+    if (type === 'number') {
+      setValue(+e.target.value)
+      onChangeProp?.(+newValue)
+    } else {
+      setValue(newValue)
+      onChangeProp?.(newValue)
     }
 
-    setValue(newValue)
-
-    onChangeProp?.(newValue)
     const msg = error?.(newValue)
 
     if (msg) {
@@ -251,8 +260,10 @@ export const Input: FC<
     }
   }
 
-  const paddingLeft = ghost ? 0 : icon ? 36 : 12
+  const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
+  const fontSize = 16
+  const fontWeight = 500
   const props = {
     name,
     type,
@@ -276,8 +287,10 @@ export const Input: FC<
       paddingLeft,
       paddingRight,
       width: '100%',
-      fontSize: ghost ? 16 : null,
-      fontWeight: ghost ? 500 : null,
+      fontSize,
+      fontWeight,
+      // fontSize: ghost ? 16 : null,
+      // fontWeight: ghost ? 500 : null,
       backgroundColor: bg
         ? color(hover && !disabled ? 'border' : 'border')
         : 'inherit',
@@ -289,221 +302,213 @@ export const Input: FC<
   }
 
   return (
-    <div
-      style={{
-        width: ghost ? 300 : '100%',
-        marginBottom: spaceToPx(space),
-        borderLeft: indent ? `2px solid ${color('border')}` : null,
-        borderColor: errorMessage
-          ? color('red')
-          : focused
-          ? color('accent')
-          : color('border'),
-        paddingLeft: indent ? 12 : null,
-        ...style,
-      }}
+    <InputWrapper
+      style={style}
+      indent={indent}
+      focus={focused}
+      space={space}
+      descriptionBottom={descriptionBottom}
+      errorMessage={errorMessage}
+      disabled={disabled}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 12 }}
-        />
-        {value !== '' && indent && !jsonInput && (
-          <Button
-            ghost
-            onClick={() => {
-              console.log('the value', value)
-              onChangeProp?.('')
-              setValue('')
-            }}
-            disabled={disabled}
-            style={{ height: 'fit-content' }}
-          >
-            Clear
-          </Button>
-        )}
-        {/* JSON Input CLEAR BUTTON */}
-        {indent && jsonInput && showJSONClearButton && (
-          <Button
-            ghost
-            onClick={() => {
-              //  console.log('the value', value)
-              setShowJSONClearButton(false)
-              setValue('')
-              onChangeProp?.('')
-              setClearValue(true)
-              setErrorMessage('')
-            }}
-            style={{ height: 'fit-content' }}
-            disabled={disabled}
-          >
-            Clear
-          </Button>
-        )}
-      </div>
       <div
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
         style={{
-          position: 'relative',
-          color: color('text'),
+          width: '100%',
         }}
       >
-        {renderOrCreateElement(icon, {
-          style: {
-            position: 'absolute',
-            left: 12,
-            top: '50%',
-            transform: 'translate3d(0,-50%,0)',
-            pointerEvents: 'none',
-          },
-        })}
-        {colorInput ? (
-          <ColorInput
-            onChange={(e) => {
-              setColorValue(e.target.value)
-            }}
-            disabled={disabled}
-            value={colorValue}
-            style={{ width: '100%' }}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Label
+            label={label}
+            description={description}
+            style={{ marginBottom: 12 }}
           />
-        ) : jsonInput ? (
-          <JsonInput
-            {...props}
-            setErrorMessage={setErrorMessage}
-            value={value}
-            onChange={onChange}
-            clearValue={clearValue}
-            setClearValue={setClearValue}
-            showJSONClearButton={showJSONClearButton}
-            setShowJSONClearButton={setShowJSONClearButton}
-            disabled={disabled}
-          />
-        ) : multiline ? (
-          <Multi {...props} />
-        ) : customRegex ? (
-          <CustomRegexInput
-            pattern={pattern}
-            setErrorMessage={setErrorMessage}
-            value={value}
-            onChange={onChange}
-          />
-        ) : (
-          <MaybeSuggest
-            focused={focused}
-            forceSuggestion
-            suggest={suggest}
-            value={value}
-            paddingLeft={paddingLeft}
-            paddingRight={paddingRight}
-            onChange={onChange}
-          >
-            <Single {...props} />
-          </MaybeSuggest>
-        )}
-        {type === 'number' && !disabled && (
-          <div
-            style={{
+          {value !== '' && indent && !jsonInput && (
+            <Button
+              ghost
+              onClick={() => {
+                onChangeProp?.('')
+                setValue('')
+              }}
+              disabled={disabled}
+              style={{ height: 'fit-content' }}
+            >
+              Clear
+            </Button>
+          )}
+          {/* JSON Input CLEAR BUTTON */}
+          {indent && jsonInput && showJSONClearButton && (
+            <Button
+              ghost
+              onClick={() => {
+                setShowJSONClearButton(false)
+                setValue('')
+                onChangeProp?.('')
+                setClearValue(true)
+                setErrorMessage('')
+              }}
+              style={{ height: 'fit-content' }}
+              disabled={disabled}
+            >
+              Clear
+            </Button>
+          )}
+        </div>
+        <div
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          style={{
+            position: 'relative',
+            color: color('text'),
+          }}
+        >
+          {renderOrCreateElement(icon, {
+            style: {
               position: 'absolute',
-              right: 8,
+              left: 12,
               top: '50%',
               transform: 'translate3d(0,-50%,0)',
+              pointerEvents: 'none',
+            },
+          })}
+          {colorInput ? (
+            <ColorInput
+              onChange={(e) => {
+                setColorValue(e.target.value)
+              }}
+              disabled={disabled}
+              value={colorValue}
+              style={{ width: '100%' }}
+            />
+          ) : jsonInput ? (
+            <JsonInput
+              {...props}
+              setErrorMessage={setErrorMessage}
+              value={value}
+              onChange={onChange}
+              clearValue={clearValue}
+              setClearValue={setClearValue}
+              setShowJSONClearButton={setShowJSONClearButton}
+              disabled={disabled}
+            />
+          ) : multiline ? (
+            <Multi {...props} />
+          ) : customRegex ? (
+            <CustomRegexInput
+              pattern={pattern}
+              setErrorMessage={setErrorMessage}
+              value={value}
+              onChange={onChange}
+            />
+          ) : (
+            <MaybeSuggest
+              focused={focused}
+              forceSuggestion={forceSuggestion}
+              suggest={suggest}
+              value={value}
+              paddingLeft={paddingLeft}
+              paddingRight={paddingRight}
+              fontSize={fontSize}
+              fontWeight={fontWeight}
+              onChange={onChange}
+            >
+              <Single
+                {...props}
+                // TODO put this in a transform()
+                // onKeyDown={(e) => {
+                //   if (integer && (e.key === ',' || e.key === '.')) {
+                //     e.preventDefault()
+                //   }
+                //   if (type === 'number' && e.key === '.') {
+                //     e.preventDefault()
+                //     e.key = ','
+                //   }
+                // }}
+              />
+            </MaybeSuggest>
+          )}
+          {type === 'number' && !disabled && (
+            <div
+              style={{
+                position: 'absolute',
+                right: 8,
+                top: '50%',
+                transform: 'translate3d(0,-50%,0)',
+                display: 'flex',
+                flexDirection: 'column',
+                width: 15,
+                height: 20,
+              }}
+            >
+              <styled.div
+                style={{
+                  border: `1px solid ${color('border')}`,
+                  borderTopLeftRadius: 5,
+                  borderTopRightRadius: 5,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 10,
+                  '&:hover': {
+                    backgroundColor: color('border'),
+                  },
+                }}
+                onClick={() => {
+                  onChange({ target: { value: +value + 1 } })
+                  // setValue(+value + 1)
+                }}
+              >
+                <ChevronUpIcon size={9} strokeWidth={2.5} />
+              </styled.div>
+              <styled.div
+                style={{
+                  border: `1px solid ${color('border')}`,
+                  borderBottomLeftRadius: 5,
+                  borderBottomRightRadius: 5,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 10,
+                  '&:hover': {
+                    backgroundColor: color('border'),
+                  },
+                }}
+                onClick={() => {
+                  onChange({ target: { value: +value - 1 } })
+                }}
+              >
+                <ChevronDownIcon size={9} strokeWidth={2.5} />
+              </styled.div>
+            </div>
+          )}
+          {renderOrCreateElement(iconRight, {
+            style: {
+              position: 'absolute',
+              right: 12,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              pointerEvents: 'none',
+            },
+          })}
+        </div>
+
+        {maxChars && (
+          <div
+            style={{
               display: 'flex',
-              flexDirection: 'column',
-              width: 15,
-              height: 20,
+              justifyContent: 'space-between',
+              marginBottom: 4,
+              marginTop: 8,
             }}
           >
-            <styled.div
-              style={{
-                border: `1px solid ${color('border')}`,
-                borderTopLeftRadius: 5,
-                borderTopRightRadius: 5,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 10,
-                '&:hover': {
-                  backgroundColor: color('border'),
-                },
-              }}
-              onClick={() => {
-                onChange({ target: { value: +value + 1 } })
-                // setValue(+value + 1)
-              }}
-            >
-              {/* @ts-ignore */}
-              <ChevronUpIcon size={9} strokeWidth={2.5} />
-            </styled.div>
-            <styled.div
-              style={{
-                border: `1px solid ${color('border')}`,
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 10,
-                '&:hover': {
-                  backgroundColor: color('border'),
-                },
-              }}
-              onClick={() => {
-                onChange({ target: { value: +value - 1 } })
-              }}
-            >
-              {/* @ts-ignore */}
-              <ChevronDownIcon size={9} strokeWidth={2.5} />
-            </styled.div>
+            <Text color="text2" weight={400}>
+              {value.length} characters
+            </Text>
+            <Text color="text2" weight={400}>
+              Max {maxChars} characters
+            </Text>
           </div>
         )}
-        {renderOrCreateElement(iconRight, {
-          style: {
-            position: 'absolute',
-            right: 12,
-            top: '50%',
-            transform: 'translate3d(0,-50%,0)',
-            pointerEvents: 'none',
-          },
-        })}
       </div>
-
-      {maxChars && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: 4,
-            marginTop: 8,
-          }}
-        >
-          <Text color="text2" weight={400}>
-            {value.length} characters
-          </Text>
-          <Text color="text2" weight={400}>
-            Max {maxChars} characters
-          </Text>
-        </div>
-      )}
-      {descriptionBottom && (
-        <Text color="text2" italic weight={400} style={{ marginTop: 8 }}>
-          {descriptionBottom}
-        </Text>
-      )}
-      {errorMessage && (
-        <div
-          style={{
-            display: 'flex',
-            gap: 6,
-            alignItems: 'center',
-            marginTop: 6,
-          }}
-        >
-          <ErrorIcon color="red" size={16} />
-          <Text color="red">{errorMessage}</Text>
-        </div>
-      )}
-    </div>
+    </InputWrapper>
   )
 }

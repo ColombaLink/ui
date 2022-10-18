@@ -3,8 +3,6 @@ import React, {
   FC,
   useCallback,
   useState,
-  forwardRef,
-  ElementRef,
   useReducer,
   SyntheticEvent,
   CSSProperties,

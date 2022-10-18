@@ -1,8 +1,7 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { Space, Color } from '~/types'
-import { Text } from '../Text'
 import { Label } from '../Label'
-import { border, color, renderOrCreateElement, spaceToPx } from '~/utils'
+import { border, color, spaceToPx } from '~/utils'
 import { CloseIcon } from '~/icons'
 
 type CalloutProps = {
@@ -73,18 +72,15 @@ export const Callout: FC<CalloutProps> = ({
         </div>
       )}
 
-      {label || description || children || icon ? (
-        <Label
-          label={label}
-          labelColor={color(colorProp, 'contrast', true)}
-          description={description}
-          descriptionColor={color(colorProp, 'contrast', true)}
-          icon={icon}
-          iconColor={color(colorProp, 'contrast', true)}
-          children={children}
-          //  style={{ marginBottom: 12 }}
-        />
-      ) : null}
+      <Label
+        label={label}
+        labelColor={color(colorProp, 'contrast', true)}
+        description={description}
+        descriptionColor={color(colorProp, 'contrast', true)}
+        icon={icon}
+        iconColor={color(colorProp, 'contrast', true)}
+      />
+      {children}
     </div>
   )
 }
