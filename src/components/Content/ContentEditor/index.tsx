@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import {
   Input,
   Text,
@@ -68,17 +68,25 @@ const FileReference = ({
       multiple={multiple}
       onChange={async (files) => {
         console.log('-->', files)
+
         const result = await Promise.all(
           files.map((file) => {
+            console.log('file from map', file)
             return client.file(file)
           })
         )
 
-        console.log('The result', result)
+        // console.log('The result -->', result)
+        // console.log(
+        //   'Test this -->',
+        //   result.map((file) => file?.id)
+        // )
+
+        console.log(result)
 
         onChange(
           multiple
-            ? result.filter(({ id }) => id)
+            ? result.map((file) => file?.id) || { $delete: true }
             : result[0]?.id || { $delete: true }
         )
       }}
@@ -88,11 +96,11 @@ const FileReference = ({
 }
 
 const References = (props) => {
+  const { label, description, value, style } = props
+
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
   }
-
-  const { label, description, value, style } = props
 
   const { open } = useDialog()
   return (
@@ -250,21 +258,24 @@ const int = {
 
 const digest = {
   default: ({ description, onChange, ...props }) => {
+    const [show, setShow] = useState(true)
     return (
       <Input
         {...props}
         descriptionBottom={description}
         indent
         space
-        type="password"
+        type={show ? 'password' : 'text'}
         // error={(value) => {
         //   if (validatePassword(value)) {
         //     return 'is valid password?'
         //   }
         // }}
         //  onChange={(e) => e.preventDefault()}
+        onFocus={() => setShow(false)}
         onBlur={(e) => {
-          console.log('ON BLur', e)
+          setShow(true)
+          //  console.log('ON BLur', e)
           if (validatePassword(e.target.value)) {
             onChange(e.target.value)
           }
