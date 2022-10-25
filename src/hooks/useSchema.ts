@@ -57,12 +57,18 @@ export const useSchema = (db = 'default') => {
   const res = useBasedSchema(db)
   const ctx = useBasedContext() as any
 
+  console.log(
+    'res.schema:',
+    JSON.stringify(res.schema?.rootType?.meta || {}, null, 2)
+  )
+
   if (!res.loading) {
     if (!('_buiSha' in ctx)) {
       ctx._buiSha = {}
     }
     if (res.schema.sha !== ctx._buiSha[db]) {
       ctx._buiSha[db] = res.schema.sha
+
       walkType(res.schema.rootType, 'root')
       for (const key in res.schema.types) {
         walkType(res.schema.types[key], key)

@@ -21,7 +21,7 @@ export const Content: FC<{
       }}
     >
       <ContentLeft prefix={prefix} />
-      <ContentMain prefix={`${prefix}/${type}`} type={type} />
+      <ContentMain prefix={`${prefix}/${type}`} view={type} />
       <ContentModal prefix={`${prefix}/${type}`} id={id} field={field} />
     </div>
   )

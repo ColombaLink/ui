@@ -109,6 +109,7 @@ export const JsonInput = ({
             setValid(isValidJson(code))
             setCode(JSON.stringify(JSON.parse(code), null, 2))
             if (isValidJson(code)) {
+              // TODO dont do on blur
               const stringified = JSON.stringify(code)
               onChange({ target: { value: stringified } })
             }

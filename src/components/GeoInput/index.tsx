@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   GeoMarkerIcon,
+  usePropState,
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
@@ -29,6 +30,153 @@ type GeoInputProps = {
   space?: Space
   mapboxApiAccessToken?: string
   mapboxStyle?: string
+  value?: {
+    lat: number
+    lng: number
+  }
+}
+
+const GeoAddressInput = ({ lat, lng, token, onChange }) => {
+  const ref = useRef()
+
+  useEffect(() => {
+    const geocoder = new MapboxGeocoder({
+      accessToken: token,
+      types: 'country,region,place,postcode,locality,neighborhood',
+      placeholder: 'Start typing to find a location',
+      reverseGeocode: true,
+    })
+
+    geocoder.on(
+      'result',
+      ({
+        result: {
+          center: [lng, lat],
+        },
+      }) => {
+        onChange({
+          lng,
+          lat,
+        })
+      }
+    )
+
+    geocoder.addTo(ref.current)
+  }, [token])
+
+  useEffect(() => {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        const geoInputField = document.querySelector(
+          '.mapboxgl-ctrl-geocoder--input'
+        )
+        geoInputField?.setAttribute('value', data.features[0].place_name)
+      })
+      .catch((error) => {
+        console.log('Not A Place', error)
+      })
+  }, [lat, lng, token])
+
+  return (
+    <styled.div
+      style={{
+        marginBottom: 12,
+        border: `1px solid ${color('border')}`,
+        borderRadius: 4,
+
+        maxWidth: '80%',
+        '& .mapboxgl-ctrl-geocoder': {
+          width: '100%',
+          maxWidth: '100%',
+        },
+        '& .mapboxgl-ctrl-geocoder, .suggestions': {
+          boxShadow: 'none',
+        },
+        '& .mapboxgl-ctrl-geocoder--input': {
+          padding: '10px !important',
+          width: '100%',
+          // pointerEvents: disabled ? 'none' : 'auto',
+        },
+        '& .mapboxgl-ctrl-geocoder svg': {
+          display: 'none',
+        },
+        '& .mapboxgl-ctrl-geocoder--input:focus': {
+          outline: `2px solid ${color('accent')}`,
+          borderRadius: '4px',
+          color: color('text'),
+        },
+      }}
+      ref={ref}
+    />
+  )
+}
+
+const GeoMap = ({ lat, lng, token, mapStyle, onChange }) => {
+  const ref = useRef<MapRef>()
+
+  const [viewport, setViewport] = useState<any>({
+    latitude: lat,
+    longitude: lng,
+    zoom: 5,
+  })
+
+  useEffect(() => {
+    setViewport({
+      latitude: lat,
+      longitude: lng,
+      zoom: viewport.zoom,
+    })
+  }, [lat, lng])
+
+  return (
+    <Map
+      ref={ref}
+      {...viewport}
+      mapboxAccessToken={token}
+      onMove={({ viewState }) => {
+        setViewport(viewState)
+      }}
+      mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v11'}
+      style={{
+        border: `1px solid ${color('border')}`,
+        height: 240,
+        borderRadius: 4,
+        width: '100%',
+      }}
+      onClick={({ lngLat }) => {
+        ref.current?.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 250 })
+        onChange(lngLat)
+      }}
+    >
+      <NavigationControl showCompass={false} showZoom />
+      <Marker latitude={lat} longitude={lng}>
+        <GeoMarkerIcon color="accent" />
+      </Marker>
+    </Map>
+  )
+}
+
+const GeoCoordsInput = ({ lat, lng, onChange }) => {
+  return (
+    <>
+      <Input
+        label="Longitude"
+        value={lng}
+        type="number"
+        space
+        onChange={(lng) => onChange({ lng, lat })}
+      />
+      <Input
+        label="Latitude"
+        value={lat}
+        type="number"
+        onChange={(lat) => onChange({ lng, lat })}
+      />
+    </>
+  )
 }
 
 export const GeoInput: FC<GeoInputProps> = ({
@@ -41,214 +189,58 @@ export const GeoInput: FC<GeoInputProps> = ({
   mapboxApiAccessToken,
   mapboxStyle,
   space,
+  value,
 }) => {
   const [radioValue, setRadioValue] = useState<string | boolean | number>(
     'Address'
   )
-  // get lat and long from top prop / db
-  const [latitude, setLatitude] = useState<any>(52.36516779992266)
-  const [longitude, setLongitude] = useState<any>(4.891164534406535)
-  const [changeCounter, setChangeCounter] = useState<number>(0)
-  const [isFocused, setIsFocused] = useState<boolean>(false)
+  const [{ lat = 52.36516779992266, lng = 4.891164534406535 } = {}, setValue] =
+    usePropState(value)
   const [errorMessage, setErrorMessage] = useState<string | null>('')
 
-  const ACCESS_TOKEN = mapboxApiAccessToken
-
-  const geoInputField = document.querySelector('.mapboxgl-ctrl-geocoder--input')
-  useEffect(() => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${ACCESS_TOKEN}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        geoInputField?.setAttribute('value', data.features[0].place_name)
-      })
-      .catch((error) => {
-        console.log('Not A Place', error)
-      })
-  }, [changeCounter, radioValue])
-
-  const [viewport, setViewport] = useState<any>({
-    latitude: latitude,
-    longitude: longitude,
-    zoom: 5,
-  })
-
-  const mapRef = useRef<MapRef>()
-
-  const onSelectPlace = useCallback(({ longitude, latitude }) => {
-    mapRef.current?.flyTo({ center: [longitude, latitude], duration: 250 })
-  }, [])
-
-  useEffect(() => {
-    geocoder.addTo('#geocoder')
-  }, [])
-
-  const geocoder = new MapboxGeocoder({
-    accessToken: ACCESS_TOKEN,
-    types: 'country,region,place,postcode,locality,neighborhood',
-    placeholder: 'Start typing to find a location',
-    reverseGeocode: true,
-  })
-
-  // als result geselecteerd wordt
-  geocoder.on('result', (e) => {
-    setLatitude(e.result.center[1])
-    setLongitude(e.result.center[0])
-    setChangeCounter((changeCounter) => (changeCounter += 1))
-  })
-
-  useEffect(() => {
-    onSelectPlace({ longitude, latitude })
-    //   onChange?.({ latitude, longitude })
-  }, [changeCounter])
+  const onChangeHandler = (val) => {
+    onChange(val)
+    setValue(val)
+    if (Math.abs(val.lng) > 180) {
+      setErrorMessage('Longitude must be between -180 and 180')
+    } else if (Math.abs(val.lat) > 90) {
+      setErrorMessage('Please enter a valid latitude between -90 and 90')
+    } else {
+      setErrorMessage('')
+    }
+  }
 
   return (
     <InputWrapper
       disabled={disabled}
       indent={indent}
-      focus={isFocused}
       space={space}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
     >
       <Label label={label} description={description} space="8px" />
-
-      <Map
-        ref={mapRef}
-        {...viewport}
-        mapboxAccessToken={ACCESS_TOKEN}
-        onMove={(e) => setViewport(e)}
-        mapStyle={mapboxStyle || 'mapbox://styles/mapbox/streets-v11'}
-        style={{
-          border: `1px solid ${color('border')}`,
-          height: 240,
-          borderRadius: 4,
-          width: '100%',
-        }}
-        onClick={(e) => {
-          setErrorMessage('')
-          setLongitude(e.lngLat.lng)
-          setLatitude(e.lngLat.lat)
-          setChangeCounter(changeCounter + 1)
-        }}
-      >
-        <NavigationControl showCompass={false} showZoom />
-        <Marker latitude={latitude} longitude={longitude}>
-          <GeoMarkerIcon color="accent" />
-        </Marker>
-      </Map>
-
+      <GeoMap
+        mapStyle={mapboxStyle}
+        lat={lat}
+        lng={lng}
+        token={mapboxApiAccessToken}
+        onChange={onChangeHandler}
+      />
       <RadioButtons
         data={[{ value: 'Address' }, { value: 'Coordinates' }]}
         direction="horizontal"
         onChange={(e) => setRadioValue(e)}
         value={radioValue}
       />
-
-      <styled.div
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        style={{
-          marginBottom: 12,
-          border: `1px solid ${color('border')}`,
-          borderRadius: 4,
-          display: radioValue === 'Address' ? 'block' : 'none',
-
-          maxWidth: '80%',
-          '& .mapboxgl-ctrl-geocoder': {
-            width: '100%',
-            maxWidth: '100%',
-          },
-          '& .mapboxgl-ctrl-geocoder, .suggestions': {
-            boxShadow: 'none',
-          },
-          '& .mapboxgl-ctrl-geocoder--input': {
-            padding: '10px !important',
-            width: '100%',
-            pointerEvents: disabled ? 'none' : 'auto',
-          },
-          '& .mapboxgl-ctrl-geocoder svg': {
-            display: 'none',
-          },
-          '& .mapboxgl-ctrl-geocoder--input:focus': {
-            outline: 'none',
-            border: `2px solid ${color('accent')}`,
-            borderRadius: '4px',
-            color: color('text'),
-          },
-        }}
-        id="geocoder"
-      />
-      {radioValue === 'Coordinates' && (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            gap: 16,
-          }}
-        >
-          <Text wrap>Latitude</Text>
-          <div style={{ flexGrow: 1 }}>
-            <Input
-              disabled={disabled}
-              type="number"
-              placeholder="Between -90 and 90"
-              onChange={(e) => {
-                if (e <= 90 && e >= -90) {
-                  setLatitude(e)
-                  console.log('CHANGED')
-                  setErrorMessage('')
-                  setIsFocused(true)
-                } else {
-                  setErrorMessage(
-                    'Please enter a valid latitude between -90 and 90'
-                  )
-                }
-              }}
-              value={latitude}
-              onBlur={() => {
-                setChangeCounter(changeCounter + 1)
-              }}
-            />
-          </div>
-          <Text wrap style={{ marginLeft: 16 }}>
-            Longitude
-          </Text>
-          <div style={{ flexGrow: 1 }}>
-            <Input
-              disabled={disabled}
-              type="number"
-              placeholder="Between -180 and 180"
-              onChange={(e) => {
-                if (e <= 180 && e >= -180) {
-                  setLongitude(e)
-                  setErrorMessage('')
-                  setIsFocused(true)
-                } else {
-                  setErrorMessage('Longitude must be between -180 and 180')
-                }
-              }}
-              value={longitude}
-              onBlur={() => setChangeCounter(changeCounter + 1)}
-            />
-          </div>
-          {longitude || latitude ? (
-            <Button
-              ghost
-              style={{ marginLeft: 16 }}
-              onClick={() => {
-                setLatitude('')
-                setLongitude('')
-              }}
-            >
-              Clear
-            </Button>
-          ) : (
-            <div style={{ minWidth: 54, marginLeft: 16 }} />
-          )}
-        </div>
+      {radioValue === 'Address' ? (
+        <GeoAddressInput
+          lat={lat}
+          lng={lng}
+          token={mapboxApiAccessToken}
+          onChange={onChangeHandler}
+        />
+      ) : (
+        <GeoCoordsInput lat={lat} lng={lng} onChange={onChangeHandler} />
       )}
     </InputWrapper>
   )

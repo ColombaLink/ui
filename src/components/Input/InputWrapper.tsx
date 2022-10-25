@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { styled } from 'inlines'
 import { color, spaceToPx, Text, ErrorIcon } from '~'
 import { Space } from '~/types'
@@ -20,15 +20,23 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   children,
   indent,
   errorMessage,
-  focus,
   space,
   descriptionBottom,
   style,
   disabled,
   ...props
 }) => {
+  const [focus, setFocus] = useState(false)
   return (
-    <div style={{ cursor: disabled ? 'not-allowed' : null, ...style }}>
+    <div
+      onFocus={() => {
+        setFocus(true)
+      }}
+      onBlur={() => {
+        setFocus(false)
+      }}
+      style={{ cursor: disabled ? 'not-allowed' : null, ...style }}
+    >
       <styled.div
         style={{
           borderLeft: indent ? `2px solid ${color('border')}` : null,

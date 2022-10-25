@@ -8,6 +8,8 @@ import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
 import { AddIcon, MoreIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
+import { useDialog } from '~/components/Dialog'
+import { useClient, useSchema } from '@based/react'
 
 const Menu = () => {
   return (
@@ -41,11 +43,14 @@ const CreateMenu = ({ prefix }) => {
   )
 }
 
-const Header = ({ type, prefix }) => {
+const Header = ({ view, prefix }) => {
+  const { confirm } = useDialog()
+  const client = useClient()
+  const { schema } = useSchema()
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Text weight={600}>{type}</Text>
-      <div style={{ flexGrow: 1, padding: '0 16px' }}>
+      <Text weight={600}>{view}</Text>
+      <div style={{ padding: '0 16px' }}>
         <MoreIcon
           onClick={useContextMenu(Menu)}
           style={{
@@ -53,6 +58,29 @@ const Header = ({ type, prefix }) => {
           }}
         />
       </div>
+      <Button
+        ghost
+        onClick={async () => {
+          const ok = await confirm(`This will update '${view}'`)
+
+          await client.updateSchema({
+            schema: {
+              rootType: {
+                meta: {
+                  ...schema.rootType.meta,
+                  views: {
+                    Hello: '?foo=haha',
+                  },
+                },
+              },
+            },
+          })
+        }}
+      >
+        Update view
+      </Button>
+      <Button ghost>Create new view</Button>
+      <div style={{ flexGrow: 1 }} />
       <Button icon={AddIcon} onClick={useContextMenu(CreateMenu, { prefix })}>
         Create Item
       </Button>
@@ -60,7 +88,7 @@ const Header = ({ type, prefix }) => {
   )
 }
 
-export const ContentMain = ({ prefix = '', type = null, style = null }) => {
+export const ContentMain = ({ prefix = '', view = null, style = null }) => {
   const { loading, types } = useSchemaTypes()
   const [, setLocation] = useLocation()
   const query = useQuery()
@@ -118,7 +146,7 @@ export const ContentMain = ({ prefix = '', type = null, style = null }) => {
           padding: '16px 24px',
         }}
       >
-        <Header type={type} prefix={prefix} />
+        <Header view={view} prefix={prefix} />
         <Query
           types={types}
           fields={fields}
@@ -133,7 +161,6 @@ export const ContentMain = ({ prefix = '', type = null, style = null }) => {
         language="en"
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
-            console.log(`?target=${item.id}&field=${field}&filter=%5B%5D`)
             setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
           } else {
             setLocation(`${prefix}/${item.id}/${field}`)
