@@ -29,7 +29,7 @@ const Topbar = ({ id, type, onClose }) => {
         flexShrink: 0,
       }}
     >
-      <CloseIcon onClick={onClose} style={{ pointer: 'cursor' }} />
+      <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
       <Text style={{ marginLeft: 24 }} weight={600}>
         {id
           ? loading

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, ReactNode } from 'react'
 import { Color } from '~/types'
 import { color } from '~/utils'

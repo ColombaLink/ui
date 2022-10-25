@@ -74,6 +74,7 @@ export const templates: {
       items?: object
       meta?: {
         format?: 'url' | 'email'
+        refTypes?: string[]
       }
     }
   }

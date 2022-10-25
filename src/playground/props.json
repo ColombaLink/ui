@@ -363,6 +363,10 @@
           "optional": true,
           "type": "string"
         },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
         "value": {
           "optional": true,
           "type": "number"
@@ -385,7 +389,7 @@
           "type": "Color"
         }
       },
-      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  baseColor?: Color\n}",
+      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  baseColor?: Color\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BarSegmentProps": {
@@ -427,45 +431,6 @@
       },
       "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: any\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
-    },
-    "BooleanProps": {
-      "name": "BooleanProps",
-      "props": {
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "descriptionBottom": {
-          "optional": true,
-          "type": "string"
-        },
-        "indent": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "space": {
-          "optional": true,
-          "type": "Space"
-        },
-        "error": {
-          "optional": true,
-          "type": "function"
-        },
-        "onChange": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type BooleanProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // value?: boolean\n  style?: CSSProperties\n  space?: Space\n  error?: (value: boolean | string | number) => string\n  onChange?: (value: string | number | boolean) => void\n}",
-      "file": "/components/Boolean/index.tsx"
     },
     "BreadcrumbsProps": {
       "name": "BreadcrumbsProps",
@@ -543,6 +508,10 @@
           "optional": true,
           "type": "MouseEventHandler"
         },
+        "onPointerDown": {
+          "optional": true,
+          "type": "MouseEventHandler"
+        },
         "outline": {
           "optional": true,
           "type": "boolean"
@@ -576,7 +545,7 @@
           }
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -700,10 +669,6 @@
     "CheckboxProps": {
       "name": "CheckboxProps",
       "props": {
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
         "checked": {
           "optional": true,
           "type": "boolean"
@@ -730,9 +695,13 @@
         "space": {
           "optional": true,
           "type": "Space"
+        },
+        "size": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type CheckboxProps = {\n  children?: ReactNode\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: ReactNode | string\n  space?: Space\n}",
+      "code": "type CheckboxProps = {\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: ReactNode | string\n  space?: Space\n  size?: number\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1036,6 +1005,29 @@
       "code": "type CustomListProps = {\n  items?: any[]\n  draggable?: boolean\n  itemSize?: number\n  itemSpace?: Space\n  style?: CSSProperties\n  autoScrollDistance?: number\n  maxItemWidth?: number\n  client?: any\n  schema?: any\n  db?: any\n  name?: string\n  fieldData?: any\n  showSystemFields?: boolean\n}",
       "file": "/components/CustomList/index.tsx"
     },
+    "DateInputProps": {
+      "name": "DateInputProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "dateHandler": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocused": {
+          "optional": true,
+          "type": "function"
+        },
+        "clearHandler": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n}",
+      "file": "/components/DateTimePicker/DateInput.tsx"
+    },
     "DatePickerProps": {
       "name": "DatePickerProps",
       "props": {
@@ -1047,24 +1039,20 @@
           "optional": true,
           "type": "function"
         },
-        "showDatePicker": {
-          "optional": true,
-          "type": "boolean"
-        },
         "setShowDatePicker": {
           "optional": true,
           "type": "function"
         },
-        "focused": {
-          "optional": true,
-          "type": "boolean"
-        },
         "setFocused": {
+          "optional": true,
+          "type": "function"
+        },
+        "clearHandler": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  showDatePicker?: boolean\n  setShowDatePicker?: (value: boolean) => void\n  focused?: boolean\n  setFocused?: (value: boolean) => void\n}",
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateTimePickerProps": {
@@ -1108,10 +1096,10 @@
         },
         "value": {
           "optional": true,
-          "type": "number"
+          "type": "string"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: number\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
@@ -1221,9 +1209,13 @@
         "multiple": {
           "optional": true,
           "type": "boolean"
+        },
+        "value": {
+          "optional": true,
+          "type": "TSAnyKeyword"
         }
       },
-      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: any\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -1531,12 +1523,57 @@
       "code": "type FlowProps = {\n  indicator?: boolean\n  onDropData?: DataEventHandler\n  onDropFile?: DataEventHandler\n  onDrop?: DataEventHandler<\n    | { data: Data[]; targetIndex: number; targetData: Data }\n    | { files: File[]; targetIndex: number; targetData: Data }\n  > // i think this is an order change - if this is not there dont allow order change\n  onDropSequence?: DataEventHandler<\n    | { data: Data[]; targetIndex: number }\n    | { files: File[]; targetIndex: number }\n  > // i think this is an order change - if this is not there dont allow order change\n  paddingRight?: number\n  paddingLeft?: number\n  sequenceSpacing?: number\n  paddingTop?: number\n  expandable?: boolean\n  defaultIsExpanded?: boolean\n  paddingBottom?: number\n  width?: number\n  items: Object[]\n  draggable?: boolean\n  Actions?: ComponentType<OptionsComponentProps>\n  itemProps?: SequenceitemProps\n  onClick?: DataEventHandler\n  actionIcon?: string\n  onAction?: DataEventHandler\n  footer?: FooterProps\n  stepFooter?: FooterProps\n  exportData?: ExportData\n  exportDataSequence?: ExportData\n  onOptions?: DataEventHandler // select options\n  optionsIcon?: string\n  contextualMenu?: boolean\n  children?: Children<OptionsComponentProps>\n  header?: HeaderProps\n  color?: Color\n}",
       "file": "/components/Flow/index.tsx"
     },
+    "GeoInputProps": {
+      "name": "GeoInputProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "mapboxApiAccessToken": {
+          "optional": true,
+          "type": "string"
+        },
+        "mapboxStyle": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type GeoInputProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  onChange?: (value: { latitude: number; longitude: number }) => void\n  indent?: boolean\n  disabled?: boolean\n  space?: Space\n  mapboxApiAccessToken?: string\n  mapboxStyle?: string\n}",
+      "file": "/components/GeoInput/index.tsx"
+    },
     "GridProps": {
       "name": "GridProps",
       "props": {
         "children": {
           "optional": true,
-          "type": "ReactNode"
+          "type": {
+            "array": "ReactNode"
+          }
         },
         "gap": {
           "optional": true,
@@ -1555,7 +1592,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type GridProps = {\n  children?: ReactNode\n  gap?: number\n  itemWidth?: number\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type GridProps = {\n  children?: ReactNode[]\n  gap?: number\n  itemWidth?: number\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Grid/index.tsx"
     },
     "IconProps": {
@@ -1568,6 +1605,12 @@
         "size": {
           "optional": true,
           "type": [
+            {
+              "value": 8
+            },
+            {
+              "value": 9
+            },
             {
               "value": 10
             },
@@ -1589,61 +1632,8 @@
           ]
         }
       },
-      "code": "type IconProps = {\n  color?: Color\n  size?: 10 | 12 | 14 | 16 | 20 | 32\n}",
+      "code": "type IconProps = {\n  color?: Color\n  size?: 8 | 9 | 10 | 12 | 14 | 16 | 20 | 32\n}",
       "file": "/components/Icon/index.tsx"
-    },
-    "InfiniteListProps": {
-      "name": "InfiniteListProps",
-      "props": {
-        "query": {
-          "type": "InfiniteListQuery"
-        },
-        "delay": {
-          "optional": true,
-          "type": "number"
-        },
-        "itemSize": {
-          "optional": true,
-          "type": "number"
-        },
-        "height": {
-          "optional": true,
-          "type": "number"
-        },
-        "limit": {
-          "optional": true,
-          "type": "number"
-        },
-        "treshold": {
-          "optional": true,
-          "type": "number"
-        },
-        "target": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "itemData": {
-          "optional": true,
-          "type": "function"
-        },
-        "children": {
-          "optional": true,
-          "type": "FC"
-        },
-        "width": {
-          "optional": true,
-          "type": [
-            "number",
-            "string"
-          ]
-        }
-      },
-      "code": "type InfiniteListProps = {\n  query: InfiniteListQuery\n  delay?: number\n  itemSize?: number\n  height?: number\n  limit?: number\n  treshold?: number\n  target?: string\n  style?: CSSProperties\n  itemData?: (items: object[]) => any\n  children?: FC<{ index: number; style: CSSProperties; data: any }>\n  width?: number | string\n}",
-      "file": "/components/InfiniteList/index.tsx"
     },
     "ColorInputProps": {
       "name": "ColorInputProps",
@@ -1679,6 +1669,33 @@
       },
       "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  placeholder?: string\n  defaultValue?: string\n  disabled?: boolean\n  style?: CSSProperties\n  onChange?: (target) => void\n}",
       "file": "/components/Input/ColorInput.tsx"
+    },
+    "CustomRegexInputProps": {
+      "name": "CustomRegexInputProps",
+      "props": {
+        "pattern": {
+          "optional": true,
+          "type": "string"
+        },
+        "setErrorMessage": {
+          "optional": true,
+          "type": "function"
+        },
+        "errorMessage": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type CustomRegexInputProps = {\n  pattern?: string\n  setErrorMessage?: (errorMessage: string) => void\n  errorMessage?: string\n  value?: string\n  onChange?: (value: string | number | null) => void\n}",
+      "file": "/components/Input/CustomRegexInput.tsx"
     },
     "EditableTitleProps": {
       "name": "EditableTitleProps",
@@ -1723,6 +1740,52 @@
       "code": "type EditableTitleProps = {\n  value?: string\n  placeholder?: string\n  identifier?: any\n  onChange?: (value: string) => void\n  onBlur?: (event: React.FormEvent<HTMLDivElement>) => void\n  placeholderAsDefault?: boolean\n  autoFocus?: boolean\n  weight?: Weight\n  horizontalPaddding?: number\n}",
       "file": "/components/Input/EditableTitle.tsx"
     },
+    "InputWrapperProps": {
+      "name": "InputWrapperProps",
+      "props": {
+        "children": {
+          "type": "ReactNode"
+        },
+        "errorMessage": {
+          "optional": true,
+          "type": "string"
+        },
+        "focus": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onMouseEnter": {
+          "optional": true,
+          "type": "function"
+        },
+        "onMouseLeave": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  space?: Space\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n}",
+      "file": "/components/Input/InputWrapper.tsx"
+    },
     "JsonInputProps": {
       "name": "JsonInputProps",
       "props": {
@@ -1746,17 +1809,44 @@
           "optional": true,
           "type": "Dispatch"
         },
-        "showJSONClearButton": {
-          "optional": true,
-          "type": "boolean"
-        },
         "setShowJSONClearButton": {
           "optional": true,
           "type": "Dispatch"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type JsonInputProps = {\n  value?: string\n  onChange?: (target) => void\n  setErrorMessage?: (value: string) => void\n  clearValue?: boolean\n  setClearValue?: Dispatch<SetStateAction<boolean>>\n  showJSONClearButton?: boolean\n  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>\n}",
+      "code": "type JsonInputProps = {\n  value?: string\n  onChange?: (target) => void\n  setErrorMessage?: (value: string) => void\n  clearValue?: boolean\n  setClearValue?: Dispatch<SetStateAction<boolean>>\n  // showJSONClearButton?: boolean\n  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>\n  disabled?: boolean\n}",
       "file": "/components/Input/JsonInput.tsx"
+    },
+    "SingleProps": {
+      "name": "SingleProps",
+      "props": {
+        "type": {
+          "optional": true,
+          "type": "string"
+        },
+        "inputRef": {
+          "optional": true,
+          "type": "RefObject"
+        },
+        "pattern": {
+          "optional": true,
+          "type": "string"
+        },
+        "props": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onKeyDown": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type SingleProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n}",
+      "file": "/components/Input/index.tsx"
     },
     "InputProps": {
       "name": "InputProps",
@@ -1772,6 +1862,14 @@
         "colorInput": {
           "optional": true,
           "type": "boolean"
+        },
+        "customRegex": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "pattern": {
+          "optional": true,
+          "type": "string"
         },
         "jsonInput": {
           "optional": true,
@@ -1795,6 +1893,10 @@
             "string",
             "number"
           ]
+        },
+        "integer": {
+          "optional": true,
+          "type": "boolean"
         },
         "icon": {
           "optional": true,
@@ -1893,7 +1995,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  jsonInput?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  integer?: boolean\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2061,9 +2163,17 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "id": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  onClick?: () => void\n  id?: string\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MenuItemProps": {
@@ -2214,26 +2324,9 @@
             "array": "TSTypeLiteral"
           }
         },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
         "value": {
           "optional": true,
           "type": "number"
-        },
-        "legend": {
-          "optional": true,
-          "type": [
-            "TSTypeLiteral",
-            {
-              "array": "string"
-            }
-          ]
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
         },
         "size": {
           "optional": true,
@@ -2248,7 +2341,7 @@
           "type": "Color"
         }
       },
-      "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  size?: number\n  space?: Space\n  baseColor?: Color\n}",
+      "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  baseColor?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "ProviderProps": {
@@ -2294,15 +2387,15 @@
       "props": {
         "value": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "boolean",
+            "number"
+          ]
         },
         "data": {
           "optional": true,
           "type": "Array"
-        },
-        "defaultValue": {
-          "optional": true,
-          "type": "string"
         },
         "label": {
           "optional": true,
@@ -2323,13 +2416,52 @@
             }
           ]
         },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
         "onChange": {
           "optional": true,
           "type": "function"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
         }
       },
-      "code": "type RadioButtonsProps = {\n  value?: string\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  defaultValue?: string\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  onChange?: (value: string | number | boolean) => void\n  // onChange?: (value: string, payload: OnRadioGroupChange) => void\n}",
+      "code": "type RadioButtonsProps = {\n  value?: string | boolean | number\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  indent?: boolean\n  disabled?: boolean\n  descriptionBottom?: string\n  // error?: (value: string | boolean | number) => string\n  onChange?: (value: string | number | boolean) => void\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/RadioButtons/index.tsx"
+    },
+    "ReferenceInputProps": {
+      "name": "ReferenceInputProps",
+      "props": {
+        "refName": {
+          "optional": true,
+          "type": "string"
+        },
+        "refType": {
+          "optional": true,
+          "type": "string"
+        },
+        "refStatus": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ReferenceInputProps = {\n  refName?: string\n  refType?: string\n  refStatus?: string\n}",
+      "file": "/components/ReferenceInput/ReferenceSingleField.tsx"
     },
     "ResultCardProps": {
       "name": "ResultCardProps",
@@ -2473,9 +2605,13 @@
           "type": {
             "array": "Value"
           }
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: CSSProperties\n  values?: Value[]\n}",
+      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: CSSProperties\n  values?: Value[]\n  ghost?: boolean\n}",
       "file": "/components/Select/MultiSelect.tsx"
     },
     "SelectProps": {
@@ -2526,9 +2662,17 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "id": {
+          "optional": true,
+          "type": "string"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  name?: string\n  color?: Color\n  style?: CSSProperties\n}",
+      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  name?: string\n  color?: Color\n  style?: CSSProperties\n  id?: string\n  ghost?: boolean\n}",
       "file": "/components/Select/Select.tsx"
     },
     "SeparatorProps": {
@@ -2662,10 +2806,6 @@
             "array": "TSObjectKeyword"
           }
         },
-        "onEdit": {
-          "optional": true,
-          "type": "function"
-        },
         "itemSize": {
           "optional": true,
           "type": "number"
@@ -2681,20 +2821,38 @@
         "height": {
           "optional": true,
           "type": "number"
+        },
+        "language": {
+          "optional": true,
+          "type": "string"
+        },
+        "target": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  onEdit?: () => void\n  itemSize?: number\n  style?: CSSProperties\n  width?: number\n  height?: number\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  itemSize?: number\n  style?: CSSProperties\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
       "name": "TabProps",
       "props": {
         "label": {
+          "optional": true,
           "type": "string"
         },
         "children": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
         },
         "style": {
           "optional": true,
@@ -2705,19 +2863,14 @@
           "type": "ReactNode"
         }
       },
-      "code": "type TabProps = {\n  label: string\n  children?: ReactNode\n  style?: CSSProperties\n  icon?: ReactNode\n}",
+      "code": "type TabProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  icon?: ReactNode\n}",
       "file": "/components/Tabs/Tab.tsx"
     },
     "TabsProps": {
       "name": "TabsProps",
       "props": {
         "children": {
-          "type": [
-            "ReactNode",
-            {
-              "array": "ReactNode"
-            }
-          ]
+          "type": "ReactNode"
         },
         "style": {
           "optional": true,
@@ -2744,12 +2897,35 @@
           "type": "boolean"
         }
       },
-      "code": "type TabsProps = {\n  children: ReactNode | ReactNode[]\n  style?: CSSProperties\n  space?: Space\n  large?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n  sameHeight?: boolean\n}",
+      "code": "type TabsProps = {\n  children: ReactNode\n  style?: CSSProperties\n  space?: Space\n  large?: boolean\n  activeTab?: number\n  setActiveTab?: (index: number) => void\n  sameHeight?: boolean\n}",
       "file": "/components/Tabs/Tabs.tsx"
     },
     "TextProps": {
       "name": "TextProps",
       "props": {
+        "capitalize": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "children": {
+          "type": "ReactNode"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "italic": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "selectable": {
+          "optional": true,
+          "type": "boolean"
+        },
         "size": {
           "optional": true,
           "type": "Size"
@@ -2758,33 +2934,9 @@
           "optional": true,
           "type": "Space"
         },
-        "color": {
-          "optional": true,
-          "type": "Color"
-        },
-        "weight": {
-          "optional": true,
-          "type": "Weight"
-        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
-        },
-        "italic": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "selectable": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "wrap": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "variant": {
-          "optional": true,
-          "type": "ColorVariant"
         },
         "textAlign": {
           "optional": true,
@@ -2800,11 +2952,20 @@
             }
           ]
         },
-        "children": {
-          "type": "ReactNode"
+        "variant": {
+          "optional": true,
+          "type": "ColorVariant"
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
+        },
+        "wrap": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TextProps = {\n  size?: Size\n  space?: Space\n  color?: Color\n  weight?: Weight\n  style?: CSSProperties\n  italic?: boolean\n  selectable?: boolean\n  wrap?: boolean\n  variant?: ColorVariant\n  textAlign?: 'center' | 'right' | 'left'\n  children: ReactNode\n}",
+      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
@@ -2992,47 +3153,6 @@
       },
       "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n  onChange?: (value: number) => void\n}",
       "file": "/components/ToggleGroup/index.tsx"
-    },
-    "TooltipProps": {
-      "name": "TooltipProps",
-      "props": {
-        "children": {
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "label": {
-          "type": "string"
-        },
-        "position": {
-          "optional": true,
-          "type": [
-            {
-              "value": "top"
-            },
-            {
-              "value": "bottom"
-            },
-            {
-              "value": "left"
-            },
-            {
-              "value": "right"
-            }
-          ]
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "onClose": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type TooltipProps = {\n  children: FC | ReactNode\n  label: string\n  position?: 'top' | 'bottom' | 'left' | 'right'\n  style?: CSSProperties\n  onClose?: () => void\n}",
-      "file": "/components/Tooltip/index.tsx"
     },
     "TopbarTabProps": {
       "name": "TopbarTabProps",

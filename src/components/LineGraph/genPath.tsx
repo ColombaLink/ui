@@ -156,13 +156,13 @@ const genPath = (
         // add useHover
         children.push(
           <HoverPath
-            points={pointArr[key]}
+            // points={pointArr[key]}
             d={d}
             i={i}
-            amount={amount}
+            // amount={amount}
             code={key}
             key={key}
-            legend={legend}
+            // legend={legend}
             baseColor={baseColor}
           />
         )
@@ -283,13 +283,13 @@ const genPath = (
         // add useHover
         children.push(
           <HoverPath
-            points={pointArr[key]}
+            // points={pointArr[key]}
             d={d}
             i={i}
-            amount={amount}
+            // amount={amount}
             code={key}
             key={key}
-            legend={legend}
+            // legend={legend}
             baseColor={baseColor}
           />
         )

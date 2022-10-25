@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { FC, CSSProperties, useRef, useState } from 'react'
 import { border } from '~/utils'
 import { styled } from 'inlines'
@@ -47,6 +48,11 @@ type TableProps = {
   height?: number
   language?: string
   target?: string
+  onClick?: (
+    item: { [key: string]: string },
+    field: string,
+    fieldType: string
+  ) => void
 }
 
 const toDateString = (ms) =>
