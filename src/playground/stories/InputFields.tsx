@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input, CheckIcon, EditIcon, LockIcon, EmailIcon } from '~'
+import { Input, CheckIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const InputFields = () => {

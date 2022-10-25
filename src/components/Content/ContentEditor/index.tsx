@@ -258,30 +258,8 @@ const int = {
 
 const digest = {
   default: ({ description, onChange, ...props }) => {
-    const [show, setShow] = useState(true)
     return (
-      <Input
-        {...props}
-        descriptionBottom={description}
-        indent
-        space
-        type={show ? 'password' : 'text'}
-        // error={(value) => {
-        //   if (validatePassword(value)) {
-        //     return 'is valid password?'
-        //   }
-        // }}
-        //  onChange={(e) => e.preventDefault()}
-        onFocus={() => setShow(false)}
-        onBlur={(e) => {
-          setShow(true)
-          //  console.log('ON BLur', e)
-          if (validatePassword(e.target.value)) {
-            onChange(e.target.value)
-          }
-          //  Change the border color back as well
-        }}
-      />
+      <Input {...props} descriptionBottom={description} indent digest space />
     )
   },
 }
