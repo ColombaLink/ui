@@ -19,6 +19,7 @@ import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
 import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
+import { DigestInput } from './DigestInput'
 
 const resize = (target) => {
   if (target) {
@@ -66,6 +67,7 @@ type InputProps = {
   customRegex?: boolean
   pattern?: string
   jsonInput?: boolean
+  digest?: boolean
   description?: string
   descriptionBottom?: string
   optional?: boolean
@@ -194,6 +196,7 @@ export const Input: FC<
   defaultValue,
   description,
   descriptionBottom,
+  digest,
   disabled,
   error,
   forceSuggestion,
@@ -401,6 +404,8 @@ export const Input: FC<
               value={value}
               onChange={onChange}
             />
+          ) : digest ? (
+            <DigestInput {...props} />
           ) : (
             <MaybeSuggest
               focused={focused}

@@ -20,6 +20,8 @@ import {
   SquareBracketsIcon,
   CurlyBracesIcon,
   DocIcon,
+  JsonIcon,
+  SetIcon,
 } from '~/icons'
 
 export const systemFields = new Set([
@@ -243,7 +245,7 @@ export const templates: {
     label: 'Set',
     color: 'lightorange',
     description: 'A collection of unique values',
-    icon: CurlyBracesIcon,
+    icon: SetIcon,
     schema: { type: 'set' },
   },
   object: {
@@ -264,7 +266,7 @@ export const templates: {
     label: 'JSON',
     color: 'lightorange',
     description: 'A JSON object',
-    icon: DocIcon,
+    icon: JsonIcon,
     schema: { type: 'json' },
   },
 
