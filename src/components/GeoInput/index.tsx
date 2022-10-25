@@ -45,6 +45,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [radioValue, setRadioValue] = useState<string | boolean | number>(
     'Address'
   )
+  // get lat and long from top prop / db
   const [latitude, setLatitude] = useState<any>(52.36516779992266)
   const [longitude, setLongitude] = useState<any>(4.891164534406535)
   const [changeCounter, setChangeCounter] = useState<number>(0)
@@ -99,7 +100,7 @@ export const GeoInput: FC<GeoInputProps> = ({
 
   useEffect(() => {
     onSelectPlace({ longitude, latitude })
-    onChange?.({ latitude, longitude })
+    //   onChange?.({ latitude, longitude })
   }, [changeCounter])
 
   return (

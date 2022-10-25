@@ -17,6 +17,7 @@ export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
 
   useEffect(() => {
     console.log('top value changed', topValue)
+    // onChange(topValue)
   }, [topValue])
 
   return (
