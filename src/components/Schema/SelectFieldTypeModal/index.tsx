@@ -44,6 +44,8 @@ const {
   array,
   object,
   record,
+  set,
+  json,
 } = templates
 const items = {
   'Text and String': {
@@ -78,6 +80,8 @@ const items = {
     array,
     object,
     record,
+    set,
+    json,
   },
 }
 
