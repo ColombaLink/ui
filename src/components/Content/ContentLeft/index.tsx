@@ -6,7 +6,7 @@ export const ContentLeft: FC<{
 }> = ({ prefix }) => {
   const { loading, types } = useSchemaTypes()
 
-  if (loading) return '...'
+  if (loading) return <>...</>
 
   return (
     <Menu

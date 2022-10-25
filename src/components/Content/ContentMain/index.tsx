@@ -21,20 +21,24 @@ const Menu = () => {
 const CreateMenu = ({ prefix }) => {
   const { types } = useSchemaTypes()
   const [, setLocation] = useLocation()
-  return Object.keys(types)
-    .sort()
-    .map((type) => {
-      return type === 'root' ? null : (
-        <ContextItem
-          key={type}
-          onClick={() => {
-            setLocation(`${prefix}/create/${type}`)
-          }}
-        >
-          {type}
-        </ContextItem>
-      )
-    })
+  return (
+    <>
+      {Object.keys(types)
+        .sort()
+        .map((type) => {
+          return type === 'root' ? null : (
+            <ContextItem
+              key={type}
+              onClick={() => {
+                setLocation(`${prefix}/create/${type}`)
+              }}
+            >
+              {type}
+            </ContextItem>
+          )
+        })}
+    </>
+  )
 }
 
 const Header = ({ type, prefix }) => {
@@ -56,7 +60,7 @@ const Header = ({ type, prefix }) => {
   )
 }
 
-export const ContentMain = ({ prefix, type, style }) => {
+export const ContentMain = ({ prefix = '', type = null, style = null }) => {
   const { loading, types } = useSchemaTypes()
   const [, setLocation] = useLocation()
   const query = useQuery()
@@ -95,7 +99,7 @@ export const ContentMain = ({ prefix, type, style }) => {
   indexed.forEach((fields) => fields.forEach(addField))
   other.forEach(addField)
 
-  const fields = Array.from(set)
+  const fields = Array.from(set) as string[]
 
   return (
     <div
@@ -163,7 +167,7 @@ export const ContentMain = ({ prefix, type, style }) => {
             },
           }
 
-          fields.forEach((field) => {
+          fields.forEach((field: string) => {
             q[field] = true
           })
 

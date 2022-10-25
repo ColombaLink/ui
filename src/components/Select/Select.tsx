@@ -106,6 +106,7 @@ export const Select: FC<SelectProps> = ({
       backgroundColor: null,
       border: null,
       padding: 0,
+      // @ts-ignore
       '&:hover': null,
     }
   }

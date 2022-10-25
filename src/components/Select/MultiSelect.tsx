@@ -172,6 +172,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
       backgroundColor: null,
       border: null,
       padding: 0,
+      // @ts-ignore
       '&:hover': null,
     }
   }

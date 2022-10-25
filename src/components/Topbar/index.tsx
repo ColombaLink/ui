@@ -175,7 +175,7 @@ export const Topbar: FC<TopbarProps> = ({
                   key={key}
                   href={href}
                   // TODO youzi fix
-                  isActive={hrefIsActive(href, location, data)}
+                  isActive={hrefIsActive(href, location)}
                   icon={icons ? icons[i] : null}
                 >
                   {key}

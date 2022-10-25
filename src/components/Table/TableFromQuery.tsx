@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, {
   FC,
   CSSProperties,
@@ -21,7 +22,6 @@ import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { Row } from './Row'
-import { Cell } from './Cell'
 import { isImage } from '~/utils/isImage'
 import {
   HEADER_HEIGHT,

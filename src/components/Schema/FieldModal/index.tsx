@@ -157,6 +157,7 @@ export const FieldModal: FC<
       }
     } else {
       optionsRef.current = {
+        // @ts-ignore
         meta: {},
         ...templates[template].schema,
       }
