@@ -82,7 +82,7 @@ const FileReference = ({
         //   result.map((file) => file?.id)
         // )
 
-        console.log(result)
+        console.log('Result->', result)
 
         onChange(
           multiple
@@ -348,6 +348,20 @@ const reference = {
   default: SingleReference,
 }
 
+const json = {
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        space
+        indent
+        jsonInput
+      />
+    )
+  },
+}
+
 const components = {
   boolean,
   reference,
@@ -360,6 +374,7 @@ const components = {
   geo,
   text: string,
   timestamp,
+  json,
 }
 
 const ContentField = ({ id, meta, type, field, index, language, onChange }) => {

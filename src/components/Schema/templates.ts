@@ -56,6 +56,8 @@ export type FieldTemplates =
   | 'timestamp'
   | 'type'
   | 'url'
+  | 'set'
+  | 'json'
 
 export const templates: {
   [K in FieldTemplates]: {
@@ -236,10 +238,17 @@ export const templates: {
     icon: SquareBracketsIcon,
     schema: { type: 'array' },
   },
+  set: {
+    label: 'Set',
+    color: 'lightorange',
+    description: 'A collection of unique values',
+    icon: CurlyBracesIcon,
+    schema: { type: 'set' },
+  },
   object: {
     label: 'Object',
     color: 'lightorange',
-    description: 'A collection of multiple types',
+    description: 'Multiple types',
     icon: CurlyBracesIcon,
     schema: { type: 'object', properties: {} },
   },
@@ -249,6 +258,13 @@ export const templates: {
     description: 'A fixed collection of fields',
     icon: DocIcon,
     schema: { type: 'object', properties: {} },
+  },
+  json: {
+    label: 'JSON',
+    color: 'lightorange',
+    description: 'A JSON object',
+    icon: DocIcon,
+    schema: { type: 'json' },
   },
 
   id: {
