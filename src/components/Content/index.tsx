@@ -10,9 +10,7 @@ export const Content: FC<{
   style?: CSSProperties
 }> = ({ db = 'default', prefix = '', style }) => {
   const [location] = useLocation()
-  const type = location.substring(prefix.length).split('/')[1]
-
-  console.log(window.location.search.substring(1).split('&'))
+  const [, type, id, field] = location.substring(prefix.length).split('/')
 
   return (
     <div
@@ -23,8 +21,8 @@ export const Content: FC<{
       }}
     >
       <ContentLeft prefix={prefix} />
-      <ContentMain prefix={prefix} db={db} type={type} />
-      {/* <ContentModal /> */}
+      <ContentMain prefix={`${prefix}/${type}`} type={type} />
+      <ContentModal prefix={`${prefix}/${type}`} id={id} field={field} />
     </div>
   )
 }

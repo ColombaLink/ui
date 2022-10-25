@@ -171,13 +171,16 @@ const filterItems = (
   filter?: string,
   values?: Value[]
 ): Option[] => {
+  // TODO reduce / remake
   if (filter) {
     items = items.filter((opt) => {
-      const s = String(opt.value)
+      const s = String(
+        (typeof opt.label === 'string' && opt.label) || opt.value
+      ).toLowerCase()
       const splitFilter = filter.split(' ')
       let correct = 0
       for (const segment of splitFilter) {
-        if (s.includes(segment.toLocaleLowerCase())) {
+        if (s.includes(segment.toLowerCase())) {
           correct++
           if (correct === splitFilter.length) {
             return true
@@ -194,7 +197,9 @@ const filterItems = (
 
   if (values) {
     items = items.filter((opt) => {
-      return !values.includes(opt.value)
+      return !values.includes(
+        (typeof opt.label === 'string' && opt.label) || opt.value
+      )
     })
 
     if (items.length === 0) {
@@ -235,6 +240,7 @@ const FilterableContextOptions: FC<
         <FilterInputHolder>
           <SearchIcon color="text2" size={16} />
           <FilterInput
+            autoFocus
             data-aviato-context-item
             placeholder={placeholder || 'Filter...'}
             onChange={onFilter}

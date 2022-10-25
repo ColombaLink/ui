@@ -15,15 +15,15 @@ export const useDescriptor = (id) => {
   const schema = useItemSchema(id)
   const { language } = useLanguage()
   const { data, loading } = useData(
-    schema.loading
-      ? null
-      : {
+    schema.fields
+      ? {
           $id: id,
           $language: language,
           descriptor: {
             $field: getDescriptors(schema.fields, schema.meta),
           },
         }
+      : null
   )
 
   return {

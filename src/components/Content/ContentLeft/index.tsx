@@ -1,20 +1,17 @@
 import React, { FC } from 'react'
 import { Menu, Text, useSchemaTypes } from '~'
-import { SystemLabel } from '~/components/Schema/SchemaLeft'
 
 export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
   const { loading, types } = useSchemaTypes()
 
-  if (loading) {
-    // TODO loading state
-    return <>loading...</>
-  }
+  if (loading) return '...'
 
   return (
     <Menu
       prefix={prefix}
+      collapse
       style={{ paddingTop: 24, minWidth: 234 }}
       header={
         <Text size="18px" weight="700" style={{ marginBottom: 18 }}>
@@ -22,10 +19,12 @@ export const ContentLeft: FC<{
         </Text>
       }
       data={{
-        All: '/all',
-        Bawler: {
-          Snuk: '/slay',
-        },
+        'Default Views': Object.keys(types).map((type) => {
+          return {
+            href: `/${type}`,
+            label: types[type].meta.name,
+          }
+        }),
       }}
     />
   )

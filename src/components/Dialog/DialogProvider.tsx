@@ -5,7 +5,14 @@ import { Input } from '../Input'
 import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
 import { color } from '~/utils'
 
-const Prompt = ({ type = 'prompt', onCancel, onConfirm, style, ...props }) => {
+const Prompt = ({
+  type = 'prompt',
+  onCancel,
+  onConfirm,
+  style,
+  children,
+  ...props
+}) => {
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
@@ -22,7 +29,9 @@ const Prompt = ({ type = 'prompt', onCancel, onConfirm, style, ...props }) => {
         <Dialog.Body>
           <Input autoFocus onChange={(v) => (value.current = v)} />
         </Dialog.Body>
-      ) : null}
+      ) : (
+        children
+      )}
       <Dialog.Buttons>
         {isAlert ? null : <Dialog.Cancel onCancel={onCancel} />}
         <Dialog.Confirm
@@ -103,6 +112,8 @@ export const DialogProvider = ({ children, fixed = true }) => {
             label: props,
           }
         }
+
+        console.log('??', props)
 
         dialog.open(<Prompt {...props} type={type} onConfirm={resolve} />, () =>
           resolve(false)

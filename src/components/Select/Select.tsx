@@ -21,7 +21,7 @@ export const StyledSelect = styled('div', {
   paddingBottom: 7,
   cursor: 'pointer',
   userSelect: 'none',
-  height: 38,
+  height: 36,
   overflow: 'hidden',
   display: 'flex',
   width: '100%',
@@ -93,7 +93,7 @@ export const Select: FC<SelectProps> = ({
           name={name}
         />
       )}
-      <Text color={currentValue ? 'text2' : 'text'}>
+      <Text color={labelValue ? 'text' : 'text2'}>
         {labelValue || placeholder}
       </Text>
       <ChevronDownIcon color={color} size={16} />

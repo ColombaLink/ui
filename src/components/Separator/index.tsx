@@ -11,7 +11,7 @@ export const Separator: FC<SeparatorProps> = ({ children, style }) => {
       <div
         style={{
           display: 'flex',
-          marginBottom: 24,
+          marginBottom: 12,
           ...style,
         }}
       >
@@ -19,7 +19,7 @@ export const Separator: FC<SeparatorProps> = ({ children, style }) => {
           style={{
             borderBottom: border(1),
             flexGrow: 1,
-            height: 12,
+            height: 8,
             marginRight: 16,
           }}
         />
@@ -40,8 +40,8 @@ export const Separator: FC<SeparatorProps> = ({ children, style }) => {
     <div
       style={{
         borderBottom: border(1),
-        height: 12,
-        marginBottom: 24,
+        height: 8,
+        marginBottom: 12,
         ...style,
       }}
     />

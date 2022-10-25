@@ -12,6 +12,7 @@ import {
   DateTimePicker,
   FileUpload,
   GeoInput,
+  useSchemaTypes,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -150,20 +151,19 @@ const SingleReference = (props) => {
   )
 }
 
+// const text = {
+//   default: ({ description, ...props }) => {
+//     return <Input {...props} descriptionBottom={description} indent space />
+//   },
+// }
+
 const string = {
   default: ({ description, ...props }) => (
-    <Input
-      {...props}
-      maxChars={200}
-      descriptionBottom={description}
-      indent
-      space
-    />
+    <Input {...props} descriptionBottom={description} indent space />
   ),
   url: ({ description, meta, onChange, ...props }) => (
     <Input
       {...props}
-      maxChars={200}
       descriptionBottom={description}
       indent
       space
@@ -351,24 +351,44 @@ const components = {
   timestamp,
 }
 
-const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
+const ContentField = ({
+  id,
+  meta,
+  type,
+  field,
+  index,
+  language,
+  onChange,
+  autoFocus,
+}) => {
   const { ui, format, description, name, refTypes } = meta
-
-  const { data } = useData({
-    $id: id,
-    $language: language,
-    [field]: refTypes?.includes('file')
+  const dataRef = useRef<any>()
+  const isText = type === 'text'
+  const { data, loading } = useData(
+    id
       ? {
-          mimeType: true,
-          name: true,
-          src: true,
-          id: true,
+          $id: id,
+          // $language: type === 'text' ? language : undefined,
+          [field]: refTypes?.includes('file')
+            ? {
+                mimeType: true,
+                name: true,
+                src: true,
+                id: true,
+              }
+            : isText
+            ? { [language]: true }
+            : true,
         }
-      : true,
-  })
+      : null
+  )
+
+  if (!loading) {
+    dataRef.current = data
+  }
+
   const Component =
     components[type]?.[ui || format || 'default'] || components[type]?.default
-  const label = name // || `${field[0].toUpperCase()}${field.substring(1)}`
 
   if (
     field === 'createdAt' ||
@@ -381,7 +401,7 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   if (Component === undefined) {
     return (
       <div style={{ order: index }}>
-        {label} Missing component for type: {type}
+        {name} Missing component for type: {type}
       </div>
     )
   }
@@ -389,23 +409,45 @@ const ContentField = ({ id, meta, type, field, index, language, onChange }) => {
   return (
     <Component
       description={description}
-      label={label}
+      label={name}
       meta={meta}
       style={{ order: index, marginBottom: 24 }}
-      value={data[field]}
+      value={
+        isText ? dataRef.current?.[field]?.[language] : dataRef.current?.[field]
+      }
+      autoFocus={autoFocus}
       onChange={(value) => {
-        //  console.log('nhbj the value uit onchange', value)
-        // console.log('Type of value -->', typeof value)
-
-        onChange({ $language: language, [field]: value })
-        // }
+        if (isText) {
+          onChange({ $language: language, [field]: value })
+        } else {
+          onChange({ [field]: value })
+        }
       }}
     />
   )
 }
 
-export const ContentEditor = ({ id, onChange, style = null }) => {
-  const { schema, fields, loading, meta } = useItemSchema(id)
+export const ContentEditor = ({
+  id,
+  type,
+  onChange,
+  style = null,
+  autoFocus = null,
+  language = 'en',
+}) => {
+  let fields, loading
+
+  if (id) {
+    const s = useItemSchema(id)
+    fields = s.fields
+    loading = s.loading
+  } else {
+    const s = useSchemaTypes()
+    loading = s.loading
+    if (!loading) {
+      fields = s.types[type].fields
+    }
+  }
 
   if (loading) {
     return <>loading...</>
@@ -429,6 +471,7 @@ export const ContentEditor = ({ id, onChange, style = null }) => {
 
         return (
           <ContentField
+            autoFocus={autoFocus === field}
             field={field}
             id={id}
             index={index}
@@ -436,7 +479,7 @@ export const ContentEditor = ({ id, onChange, style = null }) => {
             meta={meta}
             type={type}
             onChange={onChange}
-            language={schema.languages[0] || 'en'}
+            language={language}
           />
         )
       })}

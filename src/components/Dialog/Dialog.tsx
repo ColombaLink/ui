@@ -139,7 +139,12 @@ const Confirm = ({ children = 'OK', onConfirm = () => {}, ...props }) => {
   )
 }
 
-const Cancel = ({ children = 'Cancel', onCancel = null, ...props }) => {
+const Cancel = ({
+  children = 'Cancel (Esc)',
+  onCancel = null,
+  style = null,
+  ...props
+}) => {
   const dialog = useDialog()
   const { current: myId } = useRef(dialog._id)
 
@@ -159,7 +164,17 @@ const Cancel = ({ children = 'Cancel', onCancel = null, ...props }) => {
   useHotkeys([['escape', onClick]])
 
   return (
-    <Button onClick={onClick} outline light {...props}>
+    <Button
+      onClick={onClick}
+      outline
+      color="text"
+      light
+      style={{
+        borderColor: color('border'),
+        ...style,
+      }}
+      {...props}
+    >
       {children}
     </Button>
   )

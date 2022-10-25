@@ -2751,6 +2751,11 @@
     "js-yaml" "^3.13.1"
     "parse-json" "^4.0.0"
 
+"countries-list@^2.6.1":
+  "integrity" "sha512-jXM1Nv3U56dPQ1DsUSsEaGmLHburo4fnB7m+1yhWDUVvx5gXCd1ok/y3gXCjXzhqyawG+igcPYcAl4qjkvopaQ=="
+  "resolved" "https://registry.npmjs.org/countries-list/-/countries-list-2.6.1.tgz"
+  "version" "2.6.1"
+
 "cross-fetch@^3.1.4":
   "integrity" "sha512-lvb1SBsI0Z7GDwmuid+mU3kWVBwTVUbe7S0H52yaaAdQOXq2YktTCZdlAcNKFzE6QtRz0snpw9bNiPeOIkkQvw=="
   "resolved" "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.5.tgz"

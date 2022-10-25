@@ -43,6 +43,7 @@
     "@saulx/hash": "^1.1.0",
     "@saulx/utils": "^2.4.0",
     "@saulx/validators": "^1.2.0",
+    "countries-list": "^2.6.1",
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",
     "inlines": "^0.2.2",

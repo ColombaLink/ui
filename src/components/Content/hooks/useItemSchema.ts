@@ -2,7 +2,7 @@ import { useSchema } from '~/hooks/useSchema'
 
 export const useItemSchema = (id) => {
   const { schema, loading } = useSchema()
-  if (loading) {
+  if (loading || !id) {
     return { loading }
   }
   if (id === 'root') {
