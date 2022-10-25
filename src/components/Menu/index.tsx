@@ -13,7 +13,7 @@ import { styled } from 'inlines'
 type MenuHeaderProps = {
   children?: ReactNode
   style?: CSSProperties
-  onClick?: () => void
+  onClick?: (e) => void
   id?: string
 }
 
@@ -175,17 +175,11 @@ export const Menu: FC<{
               display: collapse ? 'flex' : null,
               alignItems: 'center',
             }}
-            onClick={() => {
+            onClick={(e) => {
               if (collapse) {
-                document
-                  .getElementById(`${i}-menuitems`)
-                  .classList.toggle('hidden')
-                document
-                  .getElementById(`${i}-menuchevron`)
-                  .classList.toggle('closed')
-                document
-                  .getElementById(`${i}-menuheader`)
-                  .classList.toggle('closed')
+                e.currentTarget.parentNode.nextSibling.classList.toggle(
+                  'hidden'
+                )
               }
             }}
           >
