@@ -35,8 +35,10 @@ import { Button } from '../Button'
 import { Badge } from '../Badge'
 import { useHover } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
+import { useItemSchema } from '../Content/hooks/useItemSchema'
 
 const Grid = styled(VariableSizeGrid)
+
 const References = ({ value: { length } }) => {
   return length ? (
     <>
@@ -63,18 +65,21 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   } = data
   const item = items[rowIndex]
   let children, value, field
-  const { hover, listeners } = useHover()
+  const { hover, active, listeners } = useHover()
   const colIndex = columnIndex - 1
   const activeRow = hoverRowIndex === rowIndex
   const activeColumn = hoverColumnIndex === colIndex
   const isCheckbox = columnIndex === 0
+  // TODO optimize
+  const { fields: schemaFields } = useItemSchema(item?.id)
+  let hasField
   if (item) {
     if (isCheckbox) {
       children = <Checkbox size={16} />
     } else {
       field = fields[colIndex]
       value = item[field]
-
+      hasField = schemaFields && field in schemaFields
       if (value) {
         const fieldType = types[item.type].fields[field].type
         const weight = colIndex ? 400 : 500
@@ -89,7 +94,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         } else if (fieldType === 'id') {
           children = <Badge color="text">{value}</Badge>
         } else if (fieldType === 'references') {
-          children = <References value={value} />
+          children = value.length ? <References value={value} /> : null
         } else if (fieldType === 'timestamp') {
           children = <Text weight={weight}>{toDateString(value)}</Text>
         } else if (isImage(value)) {
@@ -106,8 +111,23 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         } else {
           children = <Text weight={weight}>{value}</Text>
         }
-      } else {
-        children = ''
+      }
+
+      if (!children) {
+        children =
+          activeRow && hasField ? (
+            <Text
+              color="text"
+              style={{
+                pointerEvents: 'none',
+                opacity: 0.5,
+              }}
+            >
+              {field}
+            </Text>
+          ) : (
+            ''
+          )
       }
     }
   }
@@ -131,7 +151,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   return (
     <div
       {...listeners}
-      // onClick={() => onClick(field, value, item)}
+      onClick={() => {
+        onClick(item, field, field && types[item.type].fields[field].type)
+      }}
       style={{
         ...style,
         top: style.top + HEADER_HEIGHT,
@@ -139,13 +161,13 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
-        cursor: 'pointer',
+        cursor: isCheckbox ? null : hasField ? 'pointer' : 'not-allowed',
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 12,
         paddingRight: 12,
         borderBottom: border(1),
         backgroundColor: color(
           activeRow
-            ? activeColumn && !isCheckbox
+            ? activeColumn && !isCheckbox && hasField
               ? 'background:hover'
               : 'background2:hover'
             : 'background'
@@ -250,7 +272,7 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
           <Text
             color="text2"
             weight="400"
-            style={{ paddingLeft: 16, lineHeight: `${HEADER_HEIGHT}px` }}
+            style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
           >
             {field}
           </Text>

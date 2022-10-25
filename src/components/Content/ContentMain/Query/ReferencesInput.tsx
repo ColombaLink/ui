@@ -9,6 +9,8 @@ export const ReferencesInput = (props) => {
 
   return (
     <SelectInput
+      // TODO remove this hack for switching targets
+      key={props.target}
       {...props}
       options={Object.keys(fields).filter(
         (field) => fields[field].type === 'references'

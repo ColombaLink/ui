@@ -1,20 +1,77 @@
 import { Table } from '~/components/Table'
+import { Text } from '~/components/Text'
 import React from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
-import { useSchemaTypes } from '~/hooks'
+import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
+import { AddIcon, MoreIcon } from '~/icons'
+import { Button } from '~/components/Button'
+import { ContextItem } from '~/components/ContextMenu'
 
-export const ContentMain = ({ style }) => {
+const Menu = () => {
+  return (
+    <>
+      <ContextItem>Rename view</ContextItem>
+      <ContextItem>Delete view</ContextItem>
+    </>
+  )
+}
+
+const CreateMenu = ({ prefix }) => {
+  const { types } = useSchemaTypes()
+  const [, setLocation] = useLocation()
+  return Object.keys(types)
+    .sort()
+    .map((type) => {
+      return type === 'root' ? null : (
+        <ContextItem
+          key={type}
+          onClick={() => {
+            setLocation(`${prefix}/create/${type}`)
+          }}
+        >
+          {type}
+        </ContextItem>
+      )
+    })
+}
+
+const Header = ({ type, prefix }) => {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <Text weight={600}>{type}</Text>
+      <div style={{ flexGrow: 1, padding: '0 16px' }}>
+        <MoreIcon
+          onClick={useContextMenu(Menu)}
+          style={{
+            cursor: 'pointer',
+          }}
+        />
+      </div>
+      <Button icon={AddIcon} onClick={useContextMenu(CreateMenu, { prefix })}>
+        Create Item
+      </Button>
+    </div>
+  )
+}
+
+export const ContentMain = ({ prefix, type, style }) => {
   const { loading, types } = useSchemaTypes()
+  const [, setLocation] = useLocation()
   const query = useQuery()
 
   if (loading) return null
 
-  const set = new Set(['type', 'id', 'name', 'children'])
+  const set = new Set() //new Set(['type', 'id', 'name', 'children'])
   const indexed = []
   const other = new Set()
-  const includedTypes = Object.keys(types)
+  const typeFilter = query?.filters?.find(
+    ({ $field, $operator }) => $field === 'type' && $operator === '='
+  )
+  const includedTypes = typeFilter?.$value
+    ? [typeFilter.$value]
+    : Object.keys(types)
   const fieldTypes = {}
 
   includedTypes.forEach((type) => {
@@ -49,17 +106,35 @@ export const ContentMain = ({ style }) => {
         ...style,
       }}
     >
-      <Query
-        types={types}
-        fields={fields}
-        fieldTypes={fieldTypes}
-        query={query}
-      />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 16,
+          padding: '16px 24px',
+        }}
+      >
+        <Header type={type} prefix={prefix} />
+        <Query
+          types={types}
+          fields={fields}
+          fieldTypes={fieldTypes}
+          query={query}
+        />
+      </div>
       <Table
         key={fields.length}
         fields={fields}
         target={query.target}
         language="en"
+        onClick={(item, field, fieldType) => {
+          if (fieldType === 'references') {
+            console.log(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+            setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+          } else {
+            setLocation(`${prefix}/${item.id}/${field}`)
+          }
+        }}
         query={($offset, $limit, $field, $order) => {
           const q = {
             $list: {

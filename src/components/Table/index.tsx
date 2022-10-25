@@ -276,7 +276,7 @@ const TableInner: FC<TableProps> = ({
 }
 
 const TableFromData = () => {
-  return null
+  return 'todo'
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {

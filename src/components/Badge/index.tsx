@@ -28,7 +28,7 @@ export const Badge: FC<BadgeProps> = ({
   iconRight,
   style,
   outline,
-  color: colorProp = 'accent',
+  color: colorProp = 'text',
   onClick,
   boxed,
   ghost,

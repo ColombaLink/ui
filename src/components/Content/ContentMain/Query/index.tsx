@@ -47,7 +47,8 @@ const ScopePill = ({ query, setOverlay, setLocation }) => {
           onOverlay={setOverlay}
           value={query.field}
           onSubmit={(val) => {
-            setLocation(`?field=${val}`)
+            console.log('????', { val })
+            // setLocation(`?field=${val}`)
           }}
         />
       </>
@@ -130,11 +131,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
   }
 
   return (
-    <div
-      style={{
-        padding: 24,
-      }}
-    >
+    <>
       <div
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
@@ -221,6 +218,6 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           )
         })}
       </div>
-    </div>
+    </>
   )
 }

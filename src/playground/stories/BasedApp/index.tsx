@@ -1,14 +1,159 @@
 import { Sidebar } from '~/components/Sidebar'
-import React from 'react'
-import { AttachmentIcon, EditIcon, LayersIcon } from '~/icons'
+import React, { useState } from 'react'
+import {
+  AddIcon,
+  AttachmentIcon,
+  EditIcon,
+  LayersIcon,
+  SettingsIcon,
+} from '~/icons'
 import { Schema } from '~/components/Schema'
+import { Text } from '~/components/Text'
 import { Content } from '~/components/Content'
 import { useLocation } from '~/hooks'
-import { border } from '~/utils'
+import { border, color } from '~/utils'
+import { Menu } from '~/components/Menu'
+import { Button } from '~/components/Button'
+import { useClient, useSchema } from '@based/react'
+import { Dialog, useDialog } from '~/components/Dialog'
+import { Select } from '~/components/Select'
+import { Label } from '~/components/Label'
+import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
+
+const AddLocaleModal = ({ languages = [] }) => {
+  const [selected, setSelected] = useState<string>()
+  const client = useClient()
+  return (
+    <Dialog label="Create locale">
+      <Dialog.Body>
+        <div>
+          <Label label="Locale" space={4} />
+          <Select
+            filterable
+            options={Object.keys(languageNames)
+              .sort((a, b) => {
+                return languageNames[a] < languageNames[b] ? -1 : 1
+              })
+              .map((iso) => {
+                return { value: iso, label: languageNames[iso] }
+              })}
+            placeholder="Select a locale"
+            onChange={(value: string) => {
+              setSelected(value)
+            }}
+          />
+        </div>
+      </Dialog.Body>
+      <Dialog.Buttons>
+        <Dialog.Cancel />
+        <Dialog.Confirm
+          disabled={!selected}
+          onConfirm={() => {
+            languages.push(selected)
+            return client.updateSchema({
+              schema: {
+                languages,
+              },
+            })
+          }}
+        >
+          Create
+        </Dialog.Confirm>
+      </Dialog.Buttons>
+    </Dialog>
+  )
+}
+
+const Settings = ({ prefix, style }) => {
+  const {
+    schema: { languages = [] },
+  } = useSchema()
+  const { open } = useDialog()
+  return (
+    <div style={{ display: 'flex', ...style }}>
+      <Menu
+        prefix={prefix}
+        data={{
+          'Project settings': {
+            General: '/general',
+            Locales: '/locales',
+          },
+        }}
+      />
+      <div style={{ flexGrow: 1, padding: 24 }}>
+        <div
+          style={{
+            display: 'flex',
+            padding: '4px 0px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Text size="20px" weight={700}>
+            Locales
+          </Text>
+          <Button
+            icon={AddIcon}
+            onClick={() => {
+              open(<AddLocaleModal languages={languages} />)
+            }}
+          >
+            Add locale
+          </Button>
+        </div>
+        <div
+          style={{
+            marginTop: 32,
+            border: border(1),
+            borderRadius: 4,
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: color('background2'),
+              height: 48,
+              display: 'flex',
+              alignItems: 'center',
+              padding: '0 24px',
+            }}
+          >
+            <Text color="text2">Display Name</Text>
+          </div>
+          {languages.map((lang) => {
+            return (
+              <div
+                key={lang}
+                style={{
+                  borderTop: border(1),
+                  height: 48,
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '0 24px',
+                }}
+              >
+                {languageNames[lang]} ({lang})
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const components = {
+  content: Content,
+  files: () => 'todo files?',
+  schema: Schema,
+  settings: Settings,
+}
 
 const Project = ({ style }) => {
   const [location] = useLocation()
-  const prefix = `/${location.split('/')[1]}`
+  const [, section] = location.split('/')
+  const prefix = `/${section}`
+  const Component = components[section] || (() => null)
 
   return (
     <div
@@ -34,15 +179,14 @@ const Project = ({ style }) => {
             label: 'Files',
             href: '/files',
           },
+          {
+            icon: SettingsIcon,
+            label: 'Settings',
+            href: '/settings',
+          },
         ]}
       />
-      {location.startsWith('/content') ? (
-        <Content prefix={prefix} style={{ flexGrow: 1 }} />
-      ) : location.startsWith('/files') ? (
-        'files'
-      ) : (
-        <Schema prefix={prefix} style={{ flexGrow: 1 }} />
-      )}
+      <Component prefix={prefix} style={{ flexGrow: 1 }} />
     </div>
   )
 }

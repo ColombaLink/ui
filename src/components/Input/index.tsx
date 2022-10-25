@@ -202,7 +202,6 @@ export const Input: FC<
   iconRight,
   indent,
   inputRef,
-  integer,
   label,
   large,
   maxChars,
@@ -289,8 +288,6 @@ export const Input: FC<
       width: '100%',
       fontSize,
       fontWeight,
-      // fontSize: ghost ? 16 : null,
-      // fontWeight: ghost ? 500 : null,
       backgroundColor: bg
         ? color(hover && !disabled ? 'border' : 'border')
         : 'inherit',
@@ -316,7 +313,12 @@ export const Input: FC<
           width: '100%',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
           <Label
             label={label}
             description={description}
@@ -411,19 +413,7 @@ export const Input: FC<
               fontWeight={fontWeight}
               onChange={onChange}
             >
-              <Single
-                {...props}
-                // TODO put this in a transform()
-                // onKeyDown={(e) => {
-                //   if (integer && (e.key === ',' || e.key === '.')) {
-                //     e.preventDefault()
-                //   }
-                //   if (type === 'number' && e.key === '.') {
-                //     e.preventDefault()
-                //     e.key = ','
-                //   }
-                // }}
-              />
+              <Single {...props} />
             </MaybeSuggest>
           )}
           {type === 'number' && !disabled && (
