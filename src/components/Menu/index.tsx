@@ -231,12 +231,9 @@ export const Menu: FC<{
 
   useEffect(() => {
     if (!hasActive) {
-      console.log('??????', window.location.origin)
-      window.history.replaceState(
-        {},
-        '',
-        `${window.location.origin}/${firstHref}`
-      )
+      const base = document.querySelector('base')
+      const href = base ? `${base.href}/${firstHref}` : firstHref
+      window.history.replaceState({}, '', href)
     }
   }, [hasActive])
 
