@@ -123,7 +123,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     console.log('Should open edit modal --> The id:', id)
   }
 
-  console.log('???', uploadedFiles)
+  // console.log('??? Uploaded Files?', uploadedFiles)
 
   return (
     <InputWrapper

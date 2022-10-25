@@ -28,6 +28,10 @@ export const BarGraph: FC<BarGraphProps> = ({
   style,
   baseColor,
 }) => {
+  if (!data) {
+    return null
+  }
+
   let highestVal,
     normalizedData,
     totalPerObject,

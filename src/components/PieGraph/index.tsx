@@ -23,6 +23,10 @@ export const PieGraph: FC<PieGraphProps> = ({
   space,
   size = 280,
 }) => {
+  if (!data) {
+    return null
+  }
+
   let total,
     totalPerObject,
     subValuesPerObject,
