@@ -131,7 +131,6 @@ export const FileUpload: FC<FileUploadProps> = ({
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       errorMessage={errorMessage}
-      focus={isFocused}
       space={space}
       style={style}
     >

@@ -57,10 +57,10 @@ export const useSchema = (db = 'default') => {
   const res = useBasedSchema(db)
   const ctx = useBasedContext() as any
 
-  console.log(
-    'res.schema:',
-    JSON.stringify(res.schema?.rootType?.meta || {}, null, 2)
-  )
+  // console.log(
+  //   'res.schema:',
+  //   JSON.stringify(res.schema?.rootType?.meta || {}, null, 2)
+  // )
 
   if (!res.loading) {
     if (!('_buiSha' in ctx)) {

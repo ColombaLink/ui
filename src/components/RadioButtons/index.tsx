@@ -48,7 +48,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       indent={indent}
       space={space}
       style={style}
-      focus={isFocused}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
     >

@@ -130,7 +130,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       indent={indent}
       space={space}
       errorMessage={errorMessage}
-      focus={focus}
       disabled={disabled}
       style={style}
     >

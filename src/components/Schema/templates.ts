@@ -75,7 +75,7 @@ export const templates: {
       values?: object
       items?: object
       meta?: {
-        format?: 'url' | 'email'
+        format?: 'url' | 'email' | 'geo'
         refTypes?: string[]
       }
     }
@@ -136,12 +136,22 @@ export const templates: {
       },
     },
   },
+
   geo: {
     label: 'Geo',
     color: 'lightbabyblue',
     description: 'Geo coordinates',
     icon: GeoMarkerIcon,
-    schema: { type: 'geo' },
+    schema: {
+      type: 'object',
+      meta: {
+        format: 'geo',
+      },
+      properties: {
+        lat: { type: 'float' },
+        lng: { type: 'float' },
+      },
+    },
   },
 
   dateTime: {

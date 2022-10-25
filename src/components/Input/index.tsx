@@ -305,7 +305,6 @@ export const Input: FC<
     <InputWrapper
       style={style}
       indent={indent}
-      focus={focused}
       space={space}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}

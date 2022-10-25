@@ -165,6 +165,21 @@ const SingleReference = (props) => {
 //   },
 // }
 
+const object = {
+  geo: ({ description, ...props }) => {
+    return (
+      <GeoInput
+        {...props}
+        space
+        indent
+        descriptionBottom={description}
+        mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
+        mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
+      />
+    )
+  },
+}
+
 const string = {
   default: ({ description, ...props }) => (
     <Input {...props} descriptionBottom={description} indent space />
@@ -287,21 +302,6 @@ const boolean = {
   },
 }
 
-const geo = {
-  default: ({ description, ...props }) => {
-    return (
-      <GeoInput
-        {...props}
-        space
-        indent
-        descriptionBottom={description}
-        mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
-        mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
-      />
-    )
-  },
-}
-
 const timestamp = {
   default: (props) => (
     <DateTimePicker
@@ -349,7 +349,7 @@ const components = {
   float,
   int,
   digest,
-  geo,
+  object,
   text: string,
   timestamp,
   json,
