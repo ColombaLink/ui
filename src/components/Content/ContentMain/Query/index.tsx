@@ -47,8 +47,7 @@ const ScopePill = ({ query, setOverlay, setLocation }) => {
           onOverlay={setOverlay}
           value={query.field}
           onSubmit={(val) => {
-            console.log('????', { val })
-            // setLocation(`?field=${val}`)
+            setLocation(`?field=${val}`)
           }}
         />
       </>
@@ -64,6 +63,8 @@ const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
         <Pill>
           <Text color="text2">{$field}</Text>
           <SelectInput
+            // TODO remove
+            key={$operator}
             options={Object.keys(operatorMap).map((value) => {
               return { value, label: operatorMap[value] }
             })}

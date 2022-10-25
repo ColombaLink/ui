@@ -1,17 +1,13 @@
-import { parseQuery } from '@saulx/utils'
 import { useLocation } from '~/hooks'
 
 export const useQuery = () => {
   useLocation()
 
-  const q = parseQuery(window.location.search.substring(1)) as {
-    filter: string
-    target: string
-    field: string
-  }
-  const filters = q.filter ? JSON.parse(decodeURIComponent(q.filter)) : []
-  const target = q.target ? String(q.target) : 'root'
-  const field = q.field || 'descendants'
+  const p = new URLSearchParams(window.location.search)
+  const f = p.get('filter')
+  const filters = f ? JSON.parse(decodeURIComponent(f)) : []
+  const target = p.get('target') || 'root'
+  const field = p.get('field') || 'descendants'
 
   return {
     filters,

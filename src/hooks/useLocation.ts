@@ -2,25 +2,26 @@ import { useLocation as useWouterLocation } from 'wouter'
 
 export const parseHref = (href = '/') => {
   if (href !== '/' && href[href.length - 1] === '/') {
-    href = href.slice(0,-1)
+    href = href.slice(0, -1)
   }
+
   const { search } = location
+
   if (search) {
-    if (href[0] === '?') {
-      // TODO maybe support multiple keys?
-      const key = href.substring(1, href.indexOf('='))
-      const keyIs = `${key}=`
-      const params = search.substring(1)
-        .split('&')
-        .filter((v) => v !== key && !v.startsWith(keyIs))
-      if (params.length) {
-        href = `?${params.join('&')}&${href.substring(1)}`
-      }
+    const i = href.indexOf('?')
+    if (i !== -1) {
+      const a = new URLSearchParams(search)
+      const b = new URLSearchParams(href.substring(i))
+
+      b.forEach((value, key) => {
+        a.set(key, value)
+      })
+      href = `${href.substring(0, i)}?${a.toString()}`
     } else {
       href = `${href}${search}`
     }
   }
-  
+
   return href
 }
 
