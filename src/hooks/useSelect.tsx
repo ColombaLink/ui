@@ -36,6 +36,7 @@ export function useSelect<T = any>(
 ] {
   const [v, setValue] = useState(value)
   useEffect(() => {
+    console.log({ value })
     setValue(value)
   }, [value])
   let id: number

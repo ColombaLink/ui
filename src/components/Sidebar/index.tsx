@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, CSSProperties, useEffect } from 'react'
 import { border, color, hrefIsActive, renderOrCreateElement } from '~/utils'
 import { Link } from '../Link'
-import { useLocation } from '~/hooks'
+import { parseHref, useLocation } from '~/hooks'
 import { useTooltip } from '~/hooks/useTooltip'
 
 type SidebarProps = {
@@ -91,7 +91,9 @@ export const Sidebar: FC<SidebarProps> = ({
 
   useEffect(() => {
     if (!hasActive) {
-      setLocation(parsedData[0].href)
+      // console.log('do it 2', parsedData[0].href, parseHref(parsedData[0].href))
+      window.history.replaceState({}, '', parseHref(parsedData[0].href))
+      // setLocation(parseHref(parsedData[0].href))
     }
   }, [hasActive])
 

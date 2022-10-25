@@ -1,5 +1,5 @@
 import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
-import { useLocation } from '~/hooks'
+import { parseHref, useLocation } from '~/hooks'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
@@ -231,9 +231,7 @@ export const Menu: FC<{
 
   useEffect(() => {
     if (!hasActive) {
-      const base = document.querySelector('base')
-      const href = base ? `${base.href}/${firstHref}` : firstHref
-      window.history.replaceState({}, '', href)
+      window.history.replaceState({}, '', parseHref(firstHref))
     }
   }, [hasActive])
 

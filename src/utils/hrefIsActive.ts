@@ -19,8 +19,15 @@ export const hrefIsActive = (
     return false
   }
 
-  if (href[0] === '?') {
-    return location.search.substring(1).split('&').includes(href.substring(1))
+  const i = href.indexOf('?')
+  if (
+    i !== -1 &&
+    location.search
+      .substring(1)
+      .split('&')
+      .includes(href.substring(i + 1))
+  ) {
+    return true
   }
 
   if (selected.startsWith(href)) {

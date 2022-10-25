@@ -20,11 +20,11 @@ export const useTooltip = (
     }
   )
 
-  const location = useLocation()
+  const [location] = useLocation()
 
-  useEffect(() => {
-    removeAllOverlays()
-  }, [location])
+  // useEffect(() => {
+  //   removeAllOverlays()
+  // }, [location])
 
   return {
     onMouseEnter,
