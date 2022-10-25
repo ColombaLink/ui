@@ -389,8 +389,6 @@ export const Input: FC<
               setErrorMessage={setErrorMessage}
               value={value}
               onChange={onChange}
-              clearValue={clearValue}
-              setClearValue={setClearValue}
               setShowJSONClearButton={setShowJSONClearButton}
               disabled={disabled}
             />

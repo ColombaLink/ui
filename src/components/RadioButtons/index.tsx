@@ -41,7 +41,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
-  const [isFocused, setIsFocused] = useState(false)
 
   return (
     <InputWrapper
@@ -81,8 +80,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 type="radio"
                 value={data[checked]}
                 checked={index === checked}
-                onFocus={() => setIsFocused(true)}
-                onBlur={() => setIsFocused(false)}
                 onChange={onSelect}
                 style={{
                   position: 'relative',
