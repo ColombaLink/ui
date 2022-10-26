@@ -1,11 +1,9 @@
-import React, { FC, useRef, useState, useCallback, useEffect } from 'react'
+import React, { FC, useRef, useState, useEffect } from 'react'
 import {
   Label,
   Input,
   RadioButtons,
   color,
-  Text,
-  Button,
   GeoMarkerIcon,
   usePropState,
 } from '~'
