@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react'
 import { Input } from '.'
-import { Text, EyeIcon, EyeBlockedIcon } from '~'
-import { usePropState } from '~/hooks'
+import { EyeIcon, EyeBlockedIcon, color } from '~'
+// import { usePropState } from '~/hooks'
 
 type DigestInputProps = {
   value?: string
-  onChange?: (value: string | number | null) => void
+  onChange?: (target) => void
   props?: any
 }
 
 export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
-  const [digestType, setDigestType] = useState('password')
+  const [digestInputType, setDigestInputType] = useState('password')
 
-  // change if value from top changes
-  const [topValue] = usePropState(value)
+  // const [topValue] = usePropState(value)
+  // console.log(value)
 
-  useEffect(() => {
-    console.log('top value changed', topValue)
-    // onChange(topValue)
-  }, [topValue])
+  // useEffect(() => {
+  //   console.log('once -->', value)
+  // }, [])
+
+  // useEffect(() => {
+  //   console.log('top value changed', topValue)
+  //   // onChange(topValue)
+  // }, [topValue])
 
   return (
     <div
@@ -27,20 +31,38 @@ export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
       <Input
         {...props}
         style={{ width: '100%' }}
-        type={digestType}
-        value={topValue}
+        type={digestInputType}
+        value={value}
+        onChange={(e) => {
+          // console.log('e', e)
+          onChange({ target: { value: e } })
+        }}
       />
-      {/* // onclick should change the input type to text from password */}
-      {digestType === 'password' && (
+
+      {digestInputType === 'text' && (
         <EyeIcon
-          style={{ position: 'absolute', right: 12, cursor: 'pointer' }}
-          onClick={() => setDigestType('text')}
+          size={24}
+          style={{
+            position: 'absolute',
+            right: 6,
+            cursor: 'pointer',
+            border: `3px solid ${color('background')}`,
+            backgroundColor: color('background'),
+          }}
+          onClick={() => setDigestInputType('password')}
         />
       )}
-      {digestType === 'text' && (
+      {digestInputType === 'password' && (
         <EyeBlockedIcon
-          style={{ position: 'absolute', right: 12, cursor: 'pointer' }}
-          onClick={() => setDigestType('password')}
+          size={24}
+          style={{
+            position: 'absolute',
+            right: 6,
+            cursor: 'pointer',
+            backgroundColor: color('background'),
+            border: `3px solid ${color('background')}`,
+          }}
+          onClick={() => setDigestInputType('text')}
         />
       )}
     </div>

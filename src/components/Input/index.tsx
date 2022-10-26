@@ -358,8 +358,6 @@ export const Input: FC<
           )}
         </div>
         <div
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           style={{
             position: 'relative',
             color: color('text'),
@@ -402,7 +400,7 @@ export const Input: FC<
               onChange={onChange}
             />
           ) : digest ? (
-            <DigestInput {...props} />
+            <DigestInput {...props} onChange={onChange} value={value} />
           ) : (
             <MaybeSuggest
               focused={focused}

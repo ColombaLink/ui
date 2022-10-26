@@ -272,7 +272,7 @@ const int = {
 }
 
 const digest = {
-  default: ({ description, onChange, ...props }) => {
+  default: ({ description, ...props }) => {
     return (
       <Input {...props} descriptionBottom={description} indent digest space />
     )

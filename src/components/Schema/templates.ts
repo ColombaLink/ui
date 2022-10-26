@@ -109,7 +109,7 @@ export const templates: {
   digest: {
     label: 'Digest',
     color: 'lightpurple',
-    description: 'Digests you know it',
+    description: 'Digests for secrets',
     icon: LockIcon,
     schema: { type: 'digest' },
   },
