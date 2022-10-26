@@ -285,6 +285,7 @@ export const Input: FC<
       outlineOffset: ghost ? null : focus ? -2 : -1,
       borderRadius: 4,
       cursor: disabled ? 'not-allowed' : 'text',
+      color: disabled ? color('text2:hover') : 'inherit',
       minHeight: ghost ? null : large ? 48 : 36,
       paddingLeft,
       paddingRight,

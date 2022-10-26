@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Input } from '.'
 import { EyeIcon, EyeBlockedIcon, color } from '~'
-// import { usePropState } from '~/hooks'
 
 type DigestInputProps = {
   value?: string
@@ -11,32 +10,40 @@ type DigestInputProps = {
 
 export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
   const [digestInputType, setDigestInputType] = useState('password')
+  const [disabledIfHashed, setDisabledIfHashed] = useState(false)
 
-  // const [topValue] = usePropState(value)
-  // console.log(value)
+  const isHashedString = (str) => {
+    if (str.length === 64 && str.match(/^[0-9a-f]+$/)) {
+      return true
+    }
+  }
 
-  // useEffect(() => {
-  //   console.log('once -->', value)
-  // }, [])
-
-  // useEffect(() => {
-  //   console.log('top value changed', topValue)
-  //   // onChange(topValue)
-  // }, [topValue])
+  useEffect(() => {
+    if (isHashedString(value)) {
+      setDisabledIfHashed(true)
+    }
+    if (value.length === 0) {
+      setDisabledIfHashed(false)
+    }
+  }, [value])
 
   return (
     <div
-      style={{ display: 'flex', position: 'relative', alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        position: 'relative',
+        alignItems: 'center',
+      }}
     >
       <Input
         {...props}
-        style={{ width: '100%' }}
+        style={{ width: '100%', '& .input': { color: 'yellow' } }}
         type={digestInputType}
         value={value}
         onChange={(e) => {
-          // console.log('e', e)
           onChange({ target: { value: e } })
         }}
+        disabled={disabledIfHashed}
       />
 
       {digestInputType === 'text' && (
