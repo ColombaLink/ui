@@ -13,6 +13,7 @@ import {
   GeoMarkerIcon,
   TimeIcon,
   CheckCircleIcon,
+  IdIcon,
   UserIcon,
   ChildrenIcon,
   IntegerIcon,
@@ -22,6 +23,7 @@ import {
   DocIcon,
   JsonIcon,
   SetIcon,
+  ToggleIcon,
 } from '~/icons'
 
 export const systemFields = new Set([
@@ -75,7 +77,7 @@ export const templates: {
       values?: object
       items?: object
       meta?: {
-        format?: 'url' | 'email' | 'geo'
+        format?: 'url' | 'email' | 'geo' | 'file' | 'files'
         refTypes?: string[]
       }
     }
@@ -179,7 +181,7 @@ export const templates: {
     label: 'Boolean',
     color: 'lightteal',
     description: 'True and false',
-    icon: CheckCircleIcon,
+    icon: ToggleIcon,
     schema: { type: 'boolean' },
   },
 
@@ -205,6 +207,7 @@ export const templates: {
     schema: {
       type: 'reference',
       meta: {
+        format: 'file',
         refTypes: ['file'],
       },
     },
@@ -217,6 +220,7 @@ export const templates: {
     schema: {
       type: 'references',
       meta: {
+        format: 'files',
         refTypes: ['files'],
       },
     },
@@ -283,7 +287,7 @@ export const templates: {
   id: {
     label: 'Identifier',
     description: 'IDs you know it',
-    icon: ListIcon,
+    icon: IdIcon,
     schema: { type: 'id' },
   },
 

@@ -5,7 +5,7 @@ import {
   removeOverlay,
   Label,
   Thumbnail,
-  MasonryGrid,
+  Grid,
   Input,
   SearchIcon,
 } from '~'
@@ -54,16 +54,23 @@ const items = {
     markdown,
     digest,
   },
-  'Rich formatted data': {
-    email,
-    url,
-    geo,
-  },
+
   'Plain formatted data': {
     dateTime,
     timestamp,
     createdBy,
     boolean,
+  },
+  Numbers: {
+    number,
+    float,
+    int,
+  },
+
+  'Rich formatted data': {
+    email,
+    url,
+    geo,
   },
   'References and files': {
     reference,
@@ -71,11 +78,7 @@ const items = {
     file,
     files,
   },
-  Numbers: {
-    number,
-    float,
-    int,
-  },
+
   'Complex data structures': {
     array,
     object,
@@ -176,13 +179,14 @@ export const SelectFieldTypeModal: FC<{
         Add Field
       </Text>
       <Section>
-        <MasonryGrid
+        <Grid
           style={{
             marginBottom: 20,
             padding: 0,
             marginLeft: -14,
           }}
           gap={5}
+          itemWidth={234}
         >
           {filteredItems
             ? filteredItems.map((template: FieldTemplates) => {
@@ -255,7 +259,7 @@ export const SelectFieldTypeModal: FC<{
               </React.Fragment>
             )
           })} */}
-        </MasonryGrid>
+        </Grid>
       </Section>
     </div>
   )
