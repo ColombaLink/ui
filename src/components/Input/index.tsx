@@ -401,7 +401,12 @@ export const Input: FC<
               onChange={onChange}
             />
           ) : digest ? (
-            <DigestInput {...props} onChange={onChange} value={value} />
+            <DigestInput
+              {...props}
+              disabled={!!valueProp}
+              onChange={onChange}
+              value={value}
+            />
           ) : (
             <MaybeSuggest
               focused={focused}

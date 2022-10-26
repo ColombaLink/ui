@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { Input } from '.'
 import { EyeIcon, EyeBlockedIcon, color } from '~'
 
 type DigestInputProps = {
   value?: string
   onChange?: (target) => void
-  props?: any
+  disabled?: boolean
 }
 
-export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
+export const DigestInput = ({
+  value,
+  onChange,
+  disabled,
+  ...props
+}: DigestInputProps) => {
   const [digestInputType, setDigestInputType] = useState('password')
-  const [disabledIfHashed, setDisabledIfHashed] = useState(false)
+  // const [disabledIfHashed, setDisabledIfHashed] = useState(false)
 
-  const isHashedString = (str) => {
-    if (str.length === 64 && str.match(/^[0-9a-f]+$/)) {
-      return true
-    }
-  }
+  // const isHashedString = (str) => {
+  //   if (str.length === 64 && str.match(/^[0-9a-f]+$/)) {
+  //     return true
+  //   }
+  // }
 
-  useEffect(() => {
-    if (isHashedString(value)) {
-      setDisabledIfHashed(true)
-    }
-    if (value.length === 0) {
-      setDisabledIfHashed(false)
-    }
-  }, [value])
+  // useEffect(() => {
+  //   if (isHashedString(value)) {
+  //     setDisabledIfHashed(true)
+  //   }
+  //   if (value.length === 0) {
+  //     setDisabledIfHashed(false)
+  //   }
+  // }, [value])
 
   return (
     <div
@@ -37,13 +42,13 @@ export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
     >
       <Input
         {...props}
-        style={{ width: '100%', '& .input': { color: 'yellow' } }}
+        style={{ width: '100%' }}
         type={digestInputType}
         value={value}
         onChange={(e) => {
           onChange({ target: { value: e } })
         }}
-        disabled={disabledIfHashed}
+        disabled={disabled}
       />
 
       {digestInputType === 'text' && (

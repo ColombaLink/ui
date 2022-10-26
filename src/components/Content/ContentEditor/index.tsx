@@ -273,6 +273,7 @@ const int = {
 
 const digest = {
   default: ({ description, ...props }) => {
+    // TODO make it type: digest
     return (
       <Input {...props} descriptionBottom={description} indent digest space />
     )
@@ -421,6 +422,9 @@ const ContentField = ({
       }
       autoFocus={autoFocus}
       onChange={(value) => {
+        // if (value === '') {
+        //   value = { $delete: true }
+        // }
         if (isText) {
           onChange({ $language: language, [field]: value })
         } else {
