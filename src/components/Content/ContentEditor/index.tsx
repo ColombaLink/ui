@@ -13,6 +13,7 @@ import {
   FileUpload,
   GeoInput,
   useSchemaTypes,
+  ArrayList,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -22,7 +23,6 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
 // import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
-import { validatePassword, url as isUrl } from '@saulx/validators'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -341,6 +341,12 @@ const json = {
   },
 }
 
+const array = {
+  default: ({ description, ...props }) => {
+    return <ArrayList {...props} description={description} indent space />
+  },
+}
+
 const components = {
   boolean,
   reference,
@@ -354,6 +360,7 @@ const components = {
   text: string,
   timestamp,
   json,
+  array,
 }
 
 const ContentField = ({
