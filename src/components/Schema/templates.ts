@@ -187,14 +187,14 @@ export const templates: {
 
   reference: {
     label: 'Reference',
-    color: 'lightyellow',
+    color: 'lightpink',
     description: 'References you know it',
     icon: ChildrenIcon,
     schema: { type: 'reference' },
   },
   references: {
     label: 'References',
-    color: 'lightyellow',
+    color: 'lightpink',
     description: 'References you know it',
     icon: ChildrenIcon,
     schema: { type: 'references' },

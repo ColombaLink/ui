@@ -61,6 +61,13 @@ const items = {
     createdBy,
     boolean,
   },
+  'References and files': {
+    reference,
+    references,
+    file,
+    files,
+  },
+
   Numbers: {
     number,
     float,
@@ -72,13 +79,6 @@ const items = {
     url,
     geo,
   },
-  'References and files': {
-    reference,
-    references,
-    file,
-    files,
-  },
-
   'Complex data structures': {
     array,
     object,
