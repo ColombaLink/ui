@@ -12,7 +12,6 @@ import {
   UrlIcon,
   GeoMarkerIcon,
   TimeIcon,
-  CheckCircleIcon,
   IdIcon,
   UserIcon,
   ChildrenIcon,
