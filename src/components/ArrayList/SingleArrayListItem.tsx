@@ -55,7 +55,9 @@ export const SingleArrayListItem = ({
       {...listeners}
     >
       <DragDropIcon />
-      <Badge style={{ marginLeft: 12, marginRight: 12 }}>{itemType}</Badge>
+      <Badge style={{ marginLeft: 12, marginRight: 12 }}>
+        {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
+      </Badge>
       <Text weight={600}>{props.id}</Text>
       <MoreIcon
         style={{ marginLeft: 'auto', cursor: 'pointer' }}

@@ -20,7 +20,6 @@ import {
 import { SingleArrayListItem } from './SingleArrayListItem'
 
 type ArrayListProps = {
-  items?: string[] | number[]
   description?: string
   indent?: boolean
   disabled?: boolean
@@ -30,7 +29,6 @@ type ArrayListProps = {
 }
 
 export const ArrayList = ({
-  items,
   description,
   indent,
   disabled,
@@ -40,11 +38,12 @@ export const ArrayList = ({
   ...props
 }: ArrayListProps) => {
   console.log('props from array list', props)
-  console.log('onChange', onChange)
+
+  console.log('value -->', props.value)
 
   const { prompt } = useDialog()
 
-  const [Arr, setArr] = useState([] || items)
+  const [arr, setArr] = usePropState(props.value)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -57,22 +56,16 @@ export const ArrayList = ({
     const { active, over } = event
 
     if (active.id !== over.id) {
-      setArr((Arr) => {
-        const oldIndex = Arr.indexOf(active.id)
-        const newIndex = Arr.indexOf(over.id)
+      setArr((arr) => {
+        const oldIndex = arr.indexOf(active.id)
+        const newIndex = arr.indexOf(over.id)
 
-        return arrayMove(Arr, oldIndex, newIndex)
+        return arrayMove(arr, oldIndex, newIndex)
       })
     }
   }
 
-  const itemType = 'String'
-
-  // als array veranderd dan onchange
-  useEffect(() => {
-    console.log('Array', Arr)
-    onChange(Arr)
-  }, [Arr])
+  const itemType = props?.schema.items.type
 
   // Delete item options
   const deleteSpecificItem = (idx) => {
@@ -93,25 +86,26 @@ export const ArrayList = ({
     >
       <Label label={props?.label} space={12} />
 
-      {/** map trough items /arr here */}
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-      >
-        <SortableContext items={Arr} strategy={verticalListSortingStrategy}>
-          {Arr?.map((id, idx) => (
-            <SingleArrayListItem
-              key={id}
-              id={id}
-              idx={idx}
-              itemType={itemType}
-              deleteSpecificItem={deleteSpecificItem}
-              editSpecificItem={editSpecificItem}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
+      {arr && (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <SortableContext items={arr} strategy={verticalListSortingStrategy}>
+            {arr?.map((id, idx) => (
+              <SingleArrayListItem
+                key={id}
+                id={id}
+                idx={idx}
+                itemType={itemType}
+                deleteSpecificItem={deleteSpecificItem}
+                editSpecificItem={editSpecificItem}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+      )}
 
       <Button
         ghost
@@ -120,17 +114,20 @@ export const ArrayList = ({
         onClick={async () => {
           // open modal om een nieuw item toe te voegen..
 
-          const ok = await prompt('Add new "blah" ')
+          const ok = await prompt(
+            `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
+          )
           console.log('Result from prompt', ok)
 
           // push to array
           // als het geen boolean is, of typeof string of number
           if (ok && typeof ok !== 'boolean') {
-            setArr([...Arr, ok])
+            setArr([...arr, ok])
+            onChange(arr)
           }
         }}
       >
-        Add "blha"
+        Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
       </Button>
     </InputWrapper>
   )

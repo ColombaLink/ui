@@ -373,15 +373,15 @@ const components = {
 
 const ContentField = ({
   id,
-  meta,
   type,
+  schema,
   field,
   index,
   language,
   onChange,
   autoFocus,
 }) => {
-  const { ui, format, description, name, refTypes } = meta
+  const { ui, format, description, name, refTypes } = schema.meta
   const dataRef = useRef<any>()
   const isText = type === 'text'
   const { data, loading } = useData(
@@ -430,7 +430,8 @@ const ContentField = ({
     <Component
       description={description}
       label={name}
-      meta={meta}
+      schema={schema}
+      meta={schema.meta}
       style={{ order: index, marginBottom: 24 }}
       value={
         isText ? dataRef.current?.[field]?.[language] : dataRef.current?.[field]
@@ -479,6 +480,7 @@ export const ContentEditor = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {Object.keys(fields).map((field) => {
+        const fieldSchema = fields[field]
         const { type, meta } = fields[field]
 
         if (
@@ -499,7 +501,7 @@ export const ContentEditor = ({
             id={id}
             index={index}
             key={field}
-            meta={meta}
+            schema={fieldSchema}
             type={type}
             onChange={onChange}
             language={language}
