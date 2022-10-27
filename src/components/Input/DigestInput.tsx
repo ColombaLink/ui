@@ -1,46 +1,80 @@
-import React, { useEffect, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { Input } from '.'
-import { Text, EyeIcon, EyeBlockedIcon } from '~'
-import { usePropState } from '~/hooks'
+import { EyeIcon, EyeBlockedIcon, color } from '~'
 
 type DigestInputProps = {
   value?: string
-  onChange?: (value: string | number | null) => void
-  props?: any
+  onChange?: (target) => void
+  disabled?: boolean
 }
 
-export const DigestInput = ({ value, onChange, props }: DigestInputProps) => {
-  const [digestType, setDigestType] = useState('password')
+export const DigestInput = ({
+  value,
+  onChange,
+  disabled,
+  ...props
+}: DigestInputProps) => {
+  const [digestInputType, setDigestInputType] = useState('password')
+  // const [disabledIfHashed, setDisabledIfHashed] = useState(false)
 
-  // change if value from top changes
-  const [topValue] = usePropState(value)
+  // const isHashedString = (str) => {
+  //   if (str.length === 64 && str.match(/^[0-9a-f]+$/)) {
+  //     return true
+  //   }
+  // }
 
-  useEffect(() => {
-    console.log('top value changed', topValue)
-    // onChange(topValue)
-  }, [topValue])
+  // useEffect(() => {
+  //   if (isHashedString(value)) {
+  //     setDisabledIfHashed(true)
+  //   }
+  //   if (value.length === 0) {
+  //     setDisabledIfHashed(false)
+  //   }
+  // }, [value])
 
   return (
     <div
-      style={{ display: 'flex', position: 'relative', alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        position: 'relative',
+        alignItems: 'center',
+      }}
     >
       <Input
         {...props}
         style={{ width: '100%' }}
-        type={digestType}
-        value={topValue}
+        type={digestInputType}
+        value={value}
+        onChange={(e) => {
+          onChange({ target: { value: e } })
+        }}
+        disabled={disabled}
       />
-      {/* // onclick should change the input type to text from password */}
-      {digestType === 'password' && (
+
+      {digestInputType === 'text' && (
         <EyeIcon
-          style={{ position: 'absolute', right: 12, cursor: 'pointer' }}
-          onClick={() => setDigestType('text')}
+          size={24}
+          style={{
+            position: 'absolute',
+            right: 6,
+            cursor: 'pointer',
+            border: `3px solid ${color('background')}`,
+            backgroundColor: color('background'),
+          }}
+          onClick={() => setDigestInputType('password')}
         />
       )}
-      {digestType === 'text' && (
+      {digestInputType === 'password' && (
         <EyeBlockedIcon
-          style={{ position: 'absolute', right: 12, cursor: 'pointer' }}
-          onClick={() => setDigestType('password')}
+          size={24}
+          style={{
+            position: 'absolute',
+            right: 6,
+            cursor: 'pointer',
+            backgroundColor: color('background'),
+            border: `3px solid ${color('background')}`,
+          }}
+          onClick={() => setDigestInputType('text')}
         />
       )}
     </div>

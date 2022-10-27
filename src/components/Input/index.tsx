@@ -285,6 +285,7 @@ export const Input: FC<
       outlineOffset: ghost ? null : focus ? -2 : -1,
       borderRadius: 4,
       cursor: disabled ? 'not-allowed' : 'text',
+      color: disabled ? color('text2:hover') : 'inherit',
       minHeight: ghost ? null : large ? 48 : 36,
       paddingLeft,
       paddingRight,
@@ -358,8 +359,6 @@ export const Input: FC<
           )}
         </div>
         <div
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
           style={{
             position: 'relative',
             color: color('text'),
@@ -389,8 +388,6 @@ export const Input: FC<
               setErrorMessage={setErrorMessage}
               value={value}
               onChange={onChange}
-              clearValue={clearValue}
-              setClearValue={setClearValue}
               setShowJSONClearButton={setShowJSONClearButton}
               disabled={disabled}
             />
@@ -404,7 +401,12 @@ export const Input: FC<
               onChange={onChange}
             />
           ) : digest ? (
-            <DigestInput {...props} />
+            <DigestInput
+              {...props}
+              disabled={!!valueProp}
+              onChange={onChange}
+              value={value}
+            />
           ) : (
             <MaybeSuggest
               focused={focused}

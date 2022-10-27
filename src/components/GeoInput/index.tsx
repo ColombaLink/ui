@@ -1,11 +1,9 @@
-import React, { FC, useRef, useState, useCallback, useEffect } from 'react'
+import React, { FC, useRef, useState, useEffect } from 'react'
 import {
   Label,
   Input,
   RadioButtons,
   color,
-  Text,
-  Button,
   GeoMarkerIcon,
   usePropState,
 } from '~'
@@ -87,7 +85,7 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
         border: `1px solid ${color('border')}`,
         borderRadius: 4,
 
-        maxWidth: '80%',
+        // maxWidth: '80%',
         '& .mapboxgl-ctrl-geocoder': {
           width: '100%',
           maxWidth: '100%',
@@ -98,6 +96,10 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
         '& .mapboxgl-ctrl-geocoder--input': {
           padding: '10px !important',
           width: '100%',
+          fontSize: '16px',
+          fontWeight: 500,
+          backgroundColor: color('background'),
+          color: color('text'),
           // pointerEvents: disabled ? 'none' : 'auto',
         },
         '& .mapboxgl-ctrl-geocoder svg': {
@@ -107,6 +109,16 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
           outline: `2px solid ${color('accent')}`,
           borderRadius: '4px',
           color: color('text'),
+        },
+        '& .suggestions': {
+          border: `1px solid ${color('border')}`,
+          borderTopLeftRadius: '0px',
+          borderTopRightRadius: '0px',
+          marginTop: ' -4px',
+          paddingBottom: '6px',
+        },
+        '& .mapboxgl-ctrl-geocoder--powered-by': {
+          display: 'none !important',
         },
       }}
       ref={ref}

@@ -13,6 +13,7 @@ import {
   FileUpload,
   GeoInput,
   useSchemaTypes,
+  ArrayList,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -20,9 +21,8 @@ import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
-// import isUrl from 'is-url-superb'
+import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
-import { validatePassword, url as isUrl } from '@saulx/validators'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -272,7 +272,8 @@ const int = {
 }
 
 const digest = {
-  default: ({ description, onChange, ...props }) => {
+  default: ({ description, ...props }) => {
+    // TODO make it type: digest
     return (
       <Input {...props} descriptionBottom={description} indent digest space />
     )
@@ -340,6 +341,20 @@ const json = {
   },
 }
 
+const array = {
+  default: ({ description, onChange, ...props }) => {
+    return (
+      <ArrayList
+        {...props}
+        description={description}
+        onChange={onChange}
+        indent
+        space
+      />
+    )
+  },
+}
+
 const components = {
   boolean,
   reference,
@@ -353,19 +368,20 @@ const components = {
   text: string,
   timestamp,
   json,
+  array,
 }
 
 const ContentField = ({
   id,
-  meta,
   type,
+  schema,
   field,
   index,
   language,
   onChange,
   autoFocus,
 }) => {
-  const { ui, format, description, name, refTypes } = meta
+  const { ui, format, description, name, refTypes } = schema.meta
   const dataRef = useRef<any>()
   const isText = type === 'text'
   const { data, loading } = useData(
@@ -414,13 +430,17 @@ const ContentField = ({
     <Component
       description={description}
       label={name}
-      meta={meta}
+      schema={schema}
+      meta={schema.meta}
       style={{ order: index, marginBottom: 24 }}
       value={
         isText ? dataRef.current?.[field]?.[language] : dataRef.current?.[field]
       }
       autoFocus={autoFocus}
       onChange={(value) => {
+        // if (value === '') {
+        //   value = { $delete: true }
+        // }
         if (isText) {
           onChange({ $language: language, [field]: value })
         } else {
@@ -460,6 +480,7 @@ export const ContentEditor = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {Object.keys(fields).map((field) => {
+        const fieldSchema = fields[field]
         const { type, meta } = fields[field]
 
         if (
@@ -480,7 +501,7 @@ export const ContentEditor = ({
             id={id}
             index={index}
             key={field}
-            meta={meta}
+            schema={fieldSchema}
             type={type}
             onChange={onChange}
             language={language}
