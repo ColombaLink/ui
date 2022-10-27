@@ -9,7 +9,7 @@ import { AddIcon, MoreIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
-import { useClient, useSchema } from '@based/react'
+import { useClient, useData, useSchema } from '@based/react'
 
 const Menu = () => {
   return (
@@ -46,10 +46,24 @@ const CreateMenu = ({ prefix }) => {
 const Header = ({ view, prefix }) => {
   const { confirm } = useDialog()
   const client = useClient()
-  const { schema } = useSchema()
+  const { data: views } = useData('basedObserveViews')
+  let key
+
+  const getLabel = () => {
+    // TODO FIX the redirect!!
+    view = Number(view)
+    for (key in views) {
+      for (const { id, label } of views[key]) {
+        if (id === view) {
+          return label
+        }
+      }
+    }
+  }
+
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Text weight={600}>{view}</Text>
+      <Text weight={600}>{getLabel()}</Text>
       <div style={{ padding: '0 16px' }}>
         <MoreIcon
           onClick={useContextMenu(Menu)}
@@ -62,19 +76,10 @@ const Header = ({ view, prefix }) => {
         ghost
         onClick={async () => {
           const ok = await confirm(`This will update '${view}'`)
-
-          await client.updateSchema({
-            schema: {
-              rootType: {
-                meta: {
-                  ...schema.rootType.meta,
-                  views: {
-                    Hello: '?foo=haha',
-                  },
-                },
-              },
-            },
-          })
+          if (ok) {
+            views[key][view] = location.search
+            await client.call('basedSetViews', views)
+          }
         }}
       >
         Update view

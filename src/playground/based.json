@@ -1,7 +1,5 @@
 {
-  "_env": "dev",
   "org": "saulx",
-  "_project": "tally",
   "env": "production",
   "project": "demo"
 }

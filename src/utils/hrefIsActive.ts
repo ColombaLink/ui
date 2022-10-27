@@ -27,7 +27,7 @@ export const hrefIsActive = (
       .split('&')
       .includes(href.substring(i + 1))
   ) {
-    return true
+    return i === 0 || hrefIsActive(href.substring(0, i), selected, data)
   }
 
   if (selected.startsWith(href)) {

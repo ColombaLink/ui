@@ -120,6 +120,7 @@ export const Topbar: FC<TopbarProps> = ({
     // @ts-ignore
     user
       ? {
+          // @ts-ignore
           $id: user.id,
           email: true,
         }

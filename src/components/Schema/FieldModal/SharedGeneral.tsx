@@ -1,15 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
 import { Input } from '~/components/Input'
+import { useUpdate } from '~/hooks/useUpdate'
 import safeTypeName from '../AddTypeModal/safeTypeName'
 import { FieldOptions } from '../types'
-
-const useUpdate = (callback?: () => void) => {
-  const [count, setCount] = useState(0)
-  return () => {
-    setCount(count + 1)
-    callback?.()
-  }
-}
 
 export const SharedGeneral: FC<{
   options: FieldOptions

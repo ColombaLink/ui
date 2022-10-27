@@ -67,7 +67,6 @@
     "@based/cli": "^2.13.1",
     "@based/client": "^3.3.0",
     "@based/server": "^3.3.2",
-    "@ladle/react": "^1.1.1",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",
     "@types/node": "^18.0.0",

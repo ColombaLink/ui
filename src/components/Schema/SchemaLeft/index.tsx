@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { Menu, Text, Button, AddIcon, useDialog, Badge } from '~'
+import React, { FC, useEffect } from 'react'
+import { Menu, Text, Button, AddIcon, useDialog, Badge, useLocation } from '~'
 import { useSchema } from '~/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
