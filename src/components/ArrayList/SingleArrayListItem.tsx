@@ -2,9 +2,26 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { color } from '~/utils'
-import { Badge, DragDropIcon, Text, MoreIcon } from '~'
+import {
+  Badge,
+  DragDropIcon,
+  Text,
+  MoreIcon,
+  DeleteIcon,
+  EditIcon,
+  useContextMenu,
+  ContextItem,
+} from '~'
 
-export const SingleArrayListItem = ({ itemType, ...props }) => {
+const stopPropagation = (e) => e.stopPropagation()
+
+export const SingleArrayListItem = ({
+  itemType,
+  deleteSpecificItem,
+  editSpecificItem,
+  idx,
+  ...props
+}) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: props.id })
 
@@ -12,6 +29,12 @@ export const SingleArrayListItem = ({ itemType, ...props }) => {
     transform: CSS.Transform.toString(transform),
     transition,
   }
+
+  const contextHandler = useContextMenu(
+    ContextMenu,
+    { editSpecificItem, deleteSpecificItem, idx },
+    { placement: 'right' }
+  )
 
   return (
     <div
@@ -37,8 +60,22 @@ export const SingleArrayListItem = ({ itemType, ...props }) => {
       <MoreIcon
         style={{ marginLeft: 'auto', cursor: 'pointer' }}
         // open options on clik
-        onClick={(e) => console.log(e)}
+        onPointerDown={stopPropagation}
+        onClick={contextHandler}
       />
     </div>
+  )
+}
+
+const ContextMenu = ({ editSpecificItem, deleteSpecificItem, idx }) => {
+  return (
+    <>
+      <ContextItem onClick={() => editSpecificItem(idx)} icon={EditIcon}>
+        Edit
+      </ContextItem>
+      <ContextItem onClick={() => deleteSpecificItem(idx)} icon={DeleteIcon}>
+        Delete
+      </ContextItem>
+    </>
   )
 }

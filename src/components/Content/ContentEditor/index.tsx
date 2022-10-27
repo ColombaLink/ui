@@ -342,8 +342,16 @@ const json = {
 }
 
 const array = {
-  default: ({ description, ...props }) => {
-    return <ArrayList {...props} description={description} indent space />
+  default: ({ description, onChange, ...props }) => {
+    return (
+      <ArrayList
+        {...props}
+        description={description}
+        onChange={onChange}
+        indent
+        space
+      />
+    )
   },
 }
 

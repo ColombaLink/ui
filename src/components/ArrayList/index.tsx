@@ -1,7 +1,7 @@
 import React, { CSSProperties, useEffect, useState } from 'react'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, AddIcon } from '~'
+import { Label, Button, AddIcon, usePropState } from '~'
 import { useDialog } from '~/components/Dialog'
 import {
   DndContext,
@@ -26,6 +26,7 @@ type ArrayListProps = {
   disabled?: boolean
   style?: CSSProperties
   space?: Space
+  onChange?(items: string[] | number[]): void
 }
 
 export const ArrayList = ({
@@ -33,15 +34,17 @@ export const ArrayList = ({
   description,
   indent,
   disabled,
+  onChange,
   style,
   space,
   ...props
 }: ArrayListProps) => {
   console.log('props from array list', props)
+  console.log('onChange', onChange)
 
   const { prompt } = useDialog()
 
-  const [Arr, setArr] = useState(items || [])
+  const [Arr, setArr] = useState([] || items)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -68,7 +71,18 @@ export const ArrayList = ({
   // als array veranderd dan onchange
   useEffect(() => {
     console.log('Array', Arr)
+    onChange(Arr)
   }, [Arr])
+
+  // Delete item options
+  const deleteSpecificItem = (idx) => {
+    console.log('Delete this', idx)
+  }
+
+  // Edit item options
+  const editSpecificItem = (idx) => {
+    console.log('edit this', idx)
+  }
 
   return (
     <InputWrapper
@@ -86,8 +100,15 @@ export const ArrayList = ({
         onDragEnd={handleDragEnd}
       >
         <SortableContext items={Arr} strategy={verticalListSortingStrategy}>
-          {Arr.map((id) => (
-            <SingleArrayListItem key={id} id={id} itemType={itemType} />
+          {Arr?.map((id, idx) => (
+            <SingleArrayListItem
+              key={id}
+              id={id}
+              idx={idx}
+              itemType={itemType}
+              deleteSpecificItem={deleteSpecificItem}
+              editSpecificItem={editSpecificItem}
+            />
           ))}
         </SortableContext>
       </DndContext>
