@@ -1,5 +1,5 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
-import { useLocation } from '~/hooks'
+import React, { CSSProperties, FC, ReactNode, useEffect } from 'react'
+import { parseHref, useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color, font } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
@@ -99,21 +99,8 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
   )
 }
 
-export const Topbar: FC<TopbarProps> = ({
-  data = {},
-  icons,
-  prefix = '',
-  selected,
-  onFilter,
-  onProfile,
-  breadcrumbs,
-  children,
-  logo,
-  noLogo = false,
-  style,
-}) => {
+const Profile = ({ onProfile }) => {
   const user = useAuth()
-
   const {
     data: { email },
   } = useData(
@@ -127,11 +114,72 @@ export const Topbar: FC<TopbarProps> = ({
       : null
   )
 
+  return <Avatar onClick={onProfile} label={email} size={32} />
+}
+
+export const Topbar: FC<TopbarProps> = ({
+  data = {},
+  icons,
+  prefix = '',
+  selected,
+  onFilter,
+  onProfile,
+  breadcrumbs,
+  children,
+  logo,
+  noLogo = false,
+  style,
+}) => {
   const [location] = useLocation()
 
   if (!selected) {
     selected = location
   }
+
+  if (!logo && !noLogo) {
+    logo = (
+      <Logo
+        height={32}
+        width={32}
+        style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+      />
+    )
+  }
+
+  let hasActive, firstHref
+  const items = Object.keys(data).map((label) => {
+    const href = prefix + data[label]
+    if (!firstHref) {
+      firstHref = href
+    }
+    return {
+      label,
+      href,
+    }
+  })
+
+  const elements = items.map(({ label, href }, i) => {
+    const isActive = hrefIsActive(href, location, items)
+    if (isActive) {
+      hasActive = true
+    }
+    return (
+      <TopbarTab
+        key={href}
+        href={href}
+        isActive={isActive}
+        icon={icons ? icons[i] : null}
+      >
+        {label}
+      </TopbarTab>
+    )
+  })
+
+  useEffect(() => {
+    if (!hasActive) {
+      window.history.replaceState({}, '', parseHref(firstHref))
+    }
+  }, [hasActive])
 
   return (
     <div
@@ -149,40 +197,15 @@ export const Topbar: FC<TopbarProps> = ({
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {noLogo ? (
-            <></>
-          ) : logo ? (
-            <>{logo}</>
-          ) : (
-            <Logo
-              height={32}
-              width={32}
-              style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
-            />
-          )}
-
+          {logo}
           {breadcrumbs}
-
           <div
             style={{
               display: 'flex',
               gap: icons ? 12 : 0,
             }}
           >
-            {Object.keys(data).map((key, i) => {
-              const href = prefix + data[key]
-              return (
-                <TopbarTab
-                  key={key}
-                  href={href}
-                  // TODO youzi fix
-                  isActive={hrefIsActive(href, location)}
-                  icon={icons ? icons[i] : null}
-                >
-                  {key}
-                </TopbarTab>
-              )
-            })}
+            {elements}
 
             {children ? (
               <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
@@ -194,11 +217,7 @@ export const Topbar: FC<TopbarProps> = ({
       {onFilter || onProfile ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {onFilter && <TopbarSearchbar />}
-          <div>
-            {onProfile && (
-              <Avatar onClick={onProfile} label={email} size={32} />
-            )}
-          </div>
+          <div>{onProfile && <Profile onProfile={onProfile} />}</div>
         </div>
       ) : null}
     </div>

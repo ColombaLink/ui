@@ -7,16 +7,17 @@ export const hrefIsActive = (
     return true
   }
 
-  if (href === '/') {
-    if (data) {
-      return !data.find((item) => {
-        if (item.href !== href) {
-          return selected.startsWith(item.href)
-        }
-        return false
-      })
+  if (data && selected.startsWith(href)) {
+    const nextChar = selected[href.length]
+    if (nextChar === undefined || nextChar === '/' || nextChar === '?') {
+      if (
+        !data.find((item) => {
+          return item.href !== href && hrefIsActive(item.href, selected)
+        })
+      ) {
+        return true
+      }
     }
-    return false
   }
 
   const i = href.indexOf('?')
@@ -28,13 +29,6 @@ export const hrefIsActive = (
       .includes(href.substring(i + 1))
   ) {
     return i === 0 || hrefIsActive(href.substring(0, i), selected, data)
-  }
-
-  if (selected.startsWith(href)) {
-    const nextChar = selected[href.length]
-    if (nextChar === undefined || nextChar === '/' || nextChar === '?') {
-      return true
-    }
   }
 
   return false
