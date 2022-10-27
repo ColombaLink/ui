@@ -98,7 +98,8 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
           width: '100%',
           fontSize: '16px',
           fontWeight: 500,
-
+          backgroundColor: color('background'),
+          color: color('text'),
           // pointerEvents: disabled ? 'none' : 'auto',
         },
         '& .mapboxgl-ctrl-geocoder svg': {
