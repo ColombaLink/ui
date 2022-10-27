@@ -39,11 +39,12 @@ export const ArrayList = ({
 }: ArrayListProps) => {
   console.log('props from array list', props)
 
-  console.log('value -->', props.value)
+  // console.log('value -->', props?.value)
 
   const { prompt } = useDialog()
 
-  const [arr, setArr] = usePropState(props.value)
+  // @ts-ignore
+  const [arr, setArr] = usePropState(props?.value)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -64,8 +65,8 @@ export const ArrayList = ({
       })
     }
   }
-
-  const itemType = props?.schema.items.type
+  // @ts-ignore
+  const itemType = props?.schema?.items.type
 
   // Delete item options
   const deleteSpecificItem = (idx) => {
@@ -84,6 +85,7 @@ export const ArrayList = ({
       disabled={disabled}
       descriptionBottom={description}
     >
+      {/** @ts-ignore  **/}
       <Label label={props?.label} space={12} />
 
       {arr && (
