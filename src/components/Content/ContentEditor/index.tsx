@@ -21,7 +21,7 @@ import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
-// import isUrl from 'is-url-superb'
+import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 
 const Reference = ({ id }) => {
