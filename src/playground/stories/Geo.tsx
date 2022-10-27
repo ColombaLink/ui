@@ -20,24 +20,7 @@ export const Geo = () => {
               onChange: (value) => console.log(value),
             },
           },
-          {
-            props: {
-              label: 'Geo',
-              mapboxApiAccesToken:
-                'pk.eyJ1IjoiY293Ym95YmVlciIsImEiOiJjbDhjcm4zOXQwazI5M29waHRoM3V1bGwxIn0.y9EmrPBCd26rMGuZ7UlFjA',
-              mapboxStyle: 'mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge',
-            },
-          },
         ]}
-      />
-      Geo:
-      <GeoInput
-        label="Geo input"
-        descriptionBottom="Description at the very bottom"
-        indent
-        mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
-        mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
-        onChange={(value) => console.log(value)}
       />
     </div>
   )
