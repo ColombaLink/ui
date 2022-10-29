@@ -9,7 +9,7 @@ import {
   Input,
   SearchIcon,
 } from '~'
-import { color as colorFn } from '~/utils'
+import { border, color as colorFn } from '~/utils'
 import { styled } from 'inlines'
 import { FieldTemplates, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
@@ -166,7 +166,7 @@ export const SelectFieldTypeModal: FC<{
           paddingLeft: 8,
         }}
       />
-      <div style={{ borderBottom: `1px solid ${colorFn('border')}` }} />
+      <div style={{ borderBottom: border(1) }} />
       <Text
         style={{
           marginTop: 20,
@@ -226,39 +226,6 @@ export const SelectFieldTypeModal: FC<{
                   </Fragment>
                 )
               })}
-          {/* {Object.keys(filteredObj).map((template: FieldTemplates) => {
-            if (templates[template]?.hidden) {
-              return null
-            }
-
-            return (
-              <React.Fragment key={template}>
-                {templates[template]?.categoryTitle && !isSearching && (
-                  <Text
-                    color="text2"
-                    space="12px"
-                    style={{ paddingLeft: 20, marginTop: 20 }}
-                  >
-                    {templates[template]?.categoryTitle}
-                  </Text>
-                )}
-                <Template
-                  template={template}
-                  onClick={() => {
-                    removeOverlay()
-                    open(
-                      <FieldModal type={type} template={template} path={path} />
-                    )
-                  }}
-                  style={{
-                    '&:hover': {
-                      background: color('border'),
-                    },
-                  }}
-                />
-              </React.Fragment>
-            )
-          })} */}
         </Grid>
       </Section>
     </div>

@@ -10,9 +10,20 @@ type LinkProps = {
 }
 
 export const Link: FC<LinkProps> = styled(
-  ({ href = '/', ...props }: { href: string }) => {
+  ({ href = '/', onClick, ...props }) => {
+    const parsedHref = parseHref(href)
     return (
-      <WLink href={parseHref(href)}>
+      <WLink
+        href={parsedHref}
+        onClick={
+          parsedHref.includes('#')
+            ? (e) => {
+                dispatchEvent(new HashChangeEvent('hashchange'))
+                onClick?.(e)
+              }
+            : onClick
+        }
+      >
         <a {...props} />
       </WLink>
     )

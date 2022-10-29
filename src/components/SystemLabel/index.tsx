@@ -173,7 +173,7 @@ export const Menu: FC<{
   })
 
   useEffect(() => {
-    if (!hasActive) {
+    if (!hasActive && firstHref) {
       // setLocation(firstHref)
       window.history.replaceState({}, '', parseHref(firstHref))
     }

@@ -1,5 +1,14 @@
 import React, { FC, useEffect } from 'react'
-import { Menu, Text, Button, AddIcon, useDialog, Badge, useLocation } from '~'
+import {
+  Menu,
+  Text,
+  Button,
+  AddIcon,
+  useDialog,
+  Badge,
+  useLocation,
+  LoadingIcon,
+} from '~'
 import { useSchema } from '~/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
@@ -20,7 +29,21 @@ export const SchemaLeft: FC<{
 
   if (loading) {
     // TODO loading state
-    return <>loading...</>
+    return (
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <span>
+          <LoadingIcon style={{ display: 'inline', verticalAlign: 'middle' }} />{' '}
+          Loading schema
+        </span>
+      </div>
+    )
   }
 
   const types = {

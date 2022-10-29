@@ -230,7 +230,7 @@ export const Menu: FC<{
   })
 
   useEffect(() => {
-    if (!hasActive) {
+    if (!hasActive && firstHref) {
       window.history.replaceState({}, '', parseHref(firstHref))
     }
   }, [hasActive])

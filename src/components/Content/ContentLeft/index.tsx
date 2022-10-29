@@ -1,14 +1,12 @@
 import { useClient, useData } from '@based/react'
 import React, { FC } from 'react'
-import { Menu, Text, useSchemaTypes } from '~'
+import { border, LoadingIcon, Menu, Text, useSchemaTypes } from '~'
 
 export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
   // const client = useClient()
   const { data: views, loading } = useData('basedObserveViews')
-
-  if (loading) return <>...</>
 
   // client.call('basedSetViews', {
   //   default: [
@@ -57,11 +55,26 @@ export const ContentLeft: FC<{
   //   ],
   // })
 
-  return (
+  return loading ? (
+    <div
+      style={{
+        width: 234,
+        borderRight: border(1),
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <span>
+        <LoadingIcon style={{ display: 'inline', verticalAlign: 'middle' }} />{' '}
+        Loading content views
+      </span>
+    </div>
+  ) : (
     <Menu
       prefix={prefix}
       collapse
-      style={{ paddingTop: 24, minWidth: 234 }}
+      style={{ paddingTop: 24, width: 234 }}
       header={
         <Text size="18px" weight="700" style={{ marginBottom: 18 }}>
           Content

@@ -33,56 +33,24 @@ type TopbarProps = {
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
-  const marginTop = (66 - 32) / 2
-
   return (
-    <div
+    <Link
+      href={href}
       style={{
-        position: 'relative',
-        height: '100%',
+        display: 'flex',
         marginLeft: 32,
+        alignItems: 'center',
+        height: 66,
+        gap: 12,
+        borderTop: '3px solid transparent',
+        borderBottom: `3px solid ${isActive ? color('accent') : 'transparent'}`,
+        ...(isActive
+          ? font({ size: 15, weight: 600 })
+          : font({ size: 15, color: 'text2' })),
       }}
     >
-      {/* this is to create a consistent size between active/inactive */}
-      <Text weight={600} style={{ visibility: 'hidden' }}>
-        {children}
-      </Text>
-      <Link
-        href={href}
-        style={{
-          padding: '0px 12px',
-          height: 32,
-          // marginTop,
-          marginLeft: -12,
-          position: 'absolute',
-          top: 0,
-          borderRadius: 4,
-          '&:hover': {
-            backgroundColor: color('lightaccent:hover'),
-          },
-        }}
-      >
-        <div
-          style={{
-            marginTop: -marginTop,
-            height: 66,
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            width: 'max-content',
-            borderBottom: `3px solid ${
-              isActive ? color('accent') : 'transparent'
-            }`,
-            marginBottom: -3,
-            ...(isActive
-              ? font({ size: 15, weight: 600 })
-              : font({ size: 15, color: 'text2' })),
-          }}
-        >
-          {icon && stringToIcon(icon)} {children}
-        </div>
-      </Link>
-    </div>
+      {icon && stringToIcon(icon)} {children}
+    </Link>
   )
 }
 
@@ -92,7 +60,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
       <Input
         placeholder="Search and discover"
         icon={SearchIcon}
-        onChange={(e) => console.log(e)}
+        onChange={onFilter}
         style={{ marginLeft: 12, marginRight: 12 }}
       />
     </>
@@ -176,7 +144,7 @@ export const Topbar: FC<TopbarProps> = ({
   })
 
   useEffect(() => {
-    if (!hasActive) {
+    if (!hasActive && firstHref) {
       window.history.replaceState({}, '', parseHref(firstHref))
     }
   }, [hasActive])
@@ -216,7 +184,7 @@ export const Topbar: FC<TopbarProps> = ({
 
       {onFilter || onProfile ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {onFilter && <TopbarSearchbar />}
+          {onFilter && <TopbarSearchbar onFilter={onFilter} />}
           <div>{onProfile && <Profile onProfile={onProfile} />}</div>
         </div>
       ) : null}

@@ -22,9 +22,12 @@ export const Steps: FC<StepsProps> = ({
   ...props
 }) => {
   const [location] = useLocation()
-  if (!selected) {
+  if (selected) {
+    selected = prefix + selected
+  } else {
     selected = location
   }
+
   return (
     <div style={style} {...props}>
       {Object.keys(data).map((key, index) => {

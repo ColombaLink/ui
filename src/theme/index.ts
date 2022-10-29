@@ -1,5 +1,4 @@
 import { baseTheme } from './baseTheme'
-import { darkTheme } from './darkTheme'
 import { getDarkMode, setDarkMode } from '~/hooks/useDarkMode'
 import { prefersDarkMode } from '~/utils/prefersDarkMode'
 

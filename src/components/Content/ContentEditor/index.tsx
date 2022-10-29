@@ -13,6 +13,7 @@ import {
   FileUpload,
   GeoInput,
   useSchemaTypes,
+  LoadingIcon,
   ArrayList,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
@@ -474,7 +475,18 @@ export const ContentEditor = ({
   }
 
   if (loading) {
-    return <>loading...</>
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...style,
+        }}
+      >
+        <LoadingIcon />
+      </div>
+    )
   }
 
   return (

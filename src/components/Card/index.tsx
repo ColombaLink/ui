@@ -2,6 +2,7 @@ import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Label } from '../Label'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
+import { styled } from 'inlines'
 
 type CardProps = {
   label?: string
@@ -31,7 +32,7 @@ export const Card: FC<CardProps> = ({
   ...props
 }) => {
   return (
-    <div
+    <styled.div
       style={{
         borderRadius: 8,
         padding: 16,
@@ -39,6 +40,12 @@ export const Card: FC<CardProps> = ({
         border: `1px solid ${color('border')}`,
         maxWidth: small ? 280 : 302,
         marginBottom: spaceToPx(space),
+        cursor: props.onClick ? 'pointer' : null,
+        '&:hover': props.onClick
+          ? {
+              backgroundColor: color('background:hover'),
+            }
+          : null,
         ...style,
       }}
       {...props}
@@ -97,6 +104,6 @@ export const Card: FC<CardProps> = ({
         {bottomLeft}
         {bottomRight}
       </div>
-    </div>
+    </styled.div>
   )
 }

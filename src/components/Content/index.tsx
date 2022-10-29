@@ -16,7 +16,7 @@ export const Content: FC<{
     <div
       style={{
         display: 'flex',
-        height: 'calc(100vh - 120px)',
+        // height: 'calc(100vh - 120px)',
         ...style,
       }}
     >

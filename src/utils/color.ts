@@ -37,3 +37,19 @@ export const color: ColorFn = (name, variant, light): cssColorString | null => {
   }
   return null
 }
+
+const colors = Object.keys(baseTheme.colors).filter(
+  (name) =>
+    !(
+      name.startsWith('text') ||
+      name.startsWith('background') ||
+      name.startsWith('border') ||
+      name.startsWith('grey')
+    )
+)
+
+export const colorByIndex = (index, variant, light) =>
+  color(colorNameByIndex(index), variant, light)
+
+export const colorNameByIndex = (index): Color =>
+  colors[index % colors.length] as AccentColor

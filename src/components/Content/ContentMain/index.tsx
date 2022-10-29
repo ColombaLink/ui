@@ -20,8 +20,7 @@ const Menu = () => {
   )
 }
 
-const CreateMenu = ({ prefix }) => {
-  const { types } = useSchemaTypes()
+const CreateMenu = ({ prefix, types }) => {
   const [, setLocation] = useLocation()
   return (
     <>
@@ -45,6 +44,7 @@ const CreateMenu = ({ prefix }) => {
 
 const Header = ({ view, prefix }) => {
   const { confirm } = useDialog()
+  const { types } = useSchemaTypes()
   const client = useClient()
   const { data: views } = useData('basedObserveViews')
   let key
@@ -86,7 +86,10 @@ const Header = ({ view, prefix }) => {
       </Button>
       <Button ghost>Create new view</Button>
       <div style={{ flexGrow: 1 }} />
-      <Button icon={AddIcon} onClick={useContextMenu(CreateMenu, { prefix })}>
+      <Button
+        icon={AddIcon}
+        onClick={useContextMenu(CreateMenu, { prefix, types })}
+      >
         Create Item
       </Button>
     </div>

@@ -80,20 +80,29 @@ export const Sidebar: FC<SidebarProps> = ({
       href = prefix + href
     }
 
-    const isActive = hrefIsActive(href, location, data)
+    return { label, href, icon }
+  })
+
+  const elements = parsedData.map(({ label, href, icon }, i) => {
+    const isActive = hrefIsActive(href, location, parsedData)
 
     if (isActive) {
       hasActive = true
     }
 
-    return { label, href, isActive, icon }
+    return (
+      <SidebarItem key={i} label={label} href={href} isActive={isActive}>
+        {renderOrCreateElement(icon, { size: 20 })}
+      </SidebarItem>
+    )
   })
 
   useEffect(() => {
     if (!hasActive) {
-      // console.log('do it 2', parsedData[0].href, parseHref(parsedData[0].href))
-      window.history.replaceState({}, '', parseHref(parsedData[0].href))
-      // setLocation(parseHref(parsedData[0].href))
+      const firstHref = parsedData[0].href
+      if (firstHref) {
+        window.history.replaceState({}, '', parseHref(parsedData[0].href))
+      }
     }
   }, [hasActive])
 
@@ -110,15 +119,7 @@ export const Sidebar: FC<SidebarProps> = ({
       }}
     >
       {header}
-      <div style={{ flexGrow: 1, padding: 8 }}>
-        {parsedData.map(({ label, href, isActive, icon }, i) => {
-          return (
-            <SidebarItem key={i} label={label} href={href} isActive={isActive}>
-              {renderOrCreateElement(icon, { size: 20 })}
-            </SidebarItem>
-          )
-        })}
-      </div>
+      <div style={{ flexGrow: 1, padding: 8 }}>{elements}</div>
       {children}
     </div>
   )

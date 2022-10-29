@@ -1,4 +1,4 @@
-import React, { FC, useEffect, ReactNode, CSSProperties } from 'react'
+import React, { FC, useEffect, ReactNode, CSSProperties, useRef } from 'react'
 import { useSelect } from '~/hooks/useSelect'
 import { Value, Option } from '~/components/ContextMenu'
 import { Text } from '~/components/Text'
@@ -59,6 +59,7 @@ export const Select: FC<SelectProps> = ({
   id,
   ghost,
 }) => {
+  const openedRef = useRef<boolean>()
   const [currentValue, open] = useSelect(options, value, {
     variant: 'over',
     filterable,
@@ -69,9 +70,11 @@ export const Select: FC<SelectProps> = ({
   let labelValue: ReactNode = currentValue
 
   useEffect(() => {
-    if (currentValue !== value) {
-      // TODO: Fix this type
-      onChange?.(currentValue as Value)
+    if (openedRef.current) {
+      if (currentValue !== value) {
+        // TODO: Fix this type
+        onChange?.(currentValue as Value)
+      }
     }
   }, [currentValue, onChange])
 
@@ -112,11 +115,25 @@ export const Select: FC<SelectProps> = ({
   }
 
   return label ? (
-    <SelectLabel label={label} onClick={open} style={style}>
+    <SelectLabel
+      label={label}
+      onClick={(e) => {
+        openedRef.current = true
+        open(e)
+      }}
+      style={style}
+    >
       {children}
     </SelectLabel>
   ) : (
-    <StyledSelect onClick={open} style={style} id={id}>
+    <StyledSelect
+      onClick={(e) => {
+        openedRef.current = true
+        open(e)
+      }}
+      style={style}
+      id={id}
+    >
       {children}
     </StyledSelect>
   )
