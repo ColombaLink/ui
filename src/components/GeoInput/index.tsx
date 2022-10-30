@@ -63,19 +63,21 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
   }, [token])
 
   useEffect(() => {
-    fetch(
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        const geoInputField = document.querySelector(
-          '.mapboxgl-ctrl-geocoder--input'
-        )
-        geoInputField?.setAttribute('value', data.features[0].place_name)
-      })
-      .catch((error) => {
-        console.log('Not A Place', error)
-      })
+    if (typeof lat === 'number' && typeof lng === 'number') {
+      fetch(
+        `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          const geoInputField = document.querySelector(
+            '.mapboxgl-ctrl-geocoder--input'
+          )
+          geoInputField?.setAttribute('value', data.features[0].place_name)
+        })
+        .catch((error) => {
+          console.log('Not A Place', error)
+        })
+    }
   }, [lat, lng, token])
 
   return (
@@ -126,7 +128,13 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
   )
 }
 
-const GeoMap = ({ lat, lng, token, mapStyle, onChange }) => {
+const GeoMap = ({
+  lat = 52.36516779992266,
+  lng = 4.891164534406535,
+  token,
+  mapStyle,
+  onChange,
+}) => {
   const ref = useRef<MapRef>()
 
   const [viewport, setViewport] = useState<any>({
@@ -206,7 +214,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   const [radioValue, setRadioValue] = useState<string | boolean | number>(
     'Address'
   )
-  const [{ lat = 52.36516779992266, lng = 4.891164534406535 } = {}, setValue] =
+  const [{ lat = undefined, lng = undefined } = {}, setValue] =
     usePropState(value)
   const [errorMessage, setErrorMessage] = useState<string | null>('')
 
