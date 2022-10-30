@@ -37,6 +37,7 @@ const Multi = ({ style, inputRef, ...props }) => {
         display: 'block',
         resize: 'none',
         paddingTop: 8,
+        minHeight: 84,
       }}
       ref={resize}
       onInput={({ target }) => resize(target)}

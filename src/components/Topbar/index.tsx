@@ -30,6 +30,7 @@ type TopbarProps = {
   noLogo?: boolean
   style?: CSSProperties
   icons?: ReactNode | string
+  avatar?: ReactNode
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
@@ -92,6 +93,7 @@ export const Topbar: FC<TopbarProps> = ({
   selected,
   onFilter,
   onProfile,
+  avatar,
   breadcrumbs,
   children,
   logo,
@@ -182,10 +184,12 @@ export const Topbar: FC<TopbarProps> = ({
         </div>
       </div>
 
-      {onFilter || onProfile ? (
+      {onFilter || onProfile || avatar ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           {onFilter && <TopbarSearchbar onFilter={onFilter} />}
-          <div>{onProfile && <Profile onProfile={onProfile} />}</div>
+          <div>
+            {avatar || (onProfile && <Profile onProfile={onProfile} />)}
+          </div>
         </div>
       ) : null}
     </div>
