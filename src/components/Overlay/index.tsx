@@ -272,8 +272,17 @@ const OverlayItem: FunctionComponent<OverlayItemProps> = ({
   )
 }
 
+// TODO: We have to refactor this so that it works with context...
+const providers = []
+
 export const OverlayProvider = () => {
   const [, update] = useReducer((x) => x + 1, 0)
+  const ref = useRef<boolean>()
+
+  if (!ref.current) {
+    ref.current = true
+    providers.push(ref)
+  }
 
   useEffect(() => {
     listeners.push(update)
@@ -284,10 +293,16 @@ export const OverlayProvider = () => {
     }
     document.addEventListener('keydown', remove)
     return () => {
+      providers.splice(providers.indexOf('b'), 1)
       document.removeEventListener('keydown', remove)
       listeners = listeners.filter((u) => u !== update)
     }
   }, [])
+
+  if (providers[providers.length - 1] !== ref) {
+    console.warn('overlays are using the deepest context')
+    return null
+  }
 
   return (
     <div

@@ -113,8 +113,6 @@ export const DialogProvider = ({ children, fixed = true }) => {
           }
         }
 
-        console.log('??', props)
-
         dialog.open(<Prompt {...props} type={type} onConfirm={resolve} />, () =>
           resolve(false)
         )

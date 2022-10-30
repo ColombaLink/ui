@@ -1,7 +1,11 @@
 import { useLocation } from '~/hooks'
 
-export const useQuery = () => {
+export const useQuery = (queryOverwrite) => {
   useLocation()
+
+  if (queryOverwrite) {
+    return queryOverwrite
+  }
 
   const p = new URLSearchParams(window.location.search)
   const f = p.get('filter')

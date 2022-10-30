@@ -81,35 +81,37 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       value = item[field]
       hasField = schemaFields && field in schemaFields
       if (value) {
-        const fieldType = types[item.type].fields[field].type
-        const weight = colIndex ? 400 : 500
-        if (fieldType === 'array') {
-          children = 'ARRAY!'
-        } else if (fieldType === 'record') {
-          children = 'RECORD!'
-        } else if (fieldType === 'set') {
-          children = 'SET!'
-        } else if (fieldType === 'object') {
-          children = 'OBJECT!'
-        } else if (fieldType === 'id') {
-          children = <Badge color="text">{value}</Badge>
-        } else if (fieldType === 'references') {
-          children = value.length ? <References value={value} /> : null
-        } else if (fieldType === 'timestamp') {
-          children = <Text weight={weight}>{toDateString(value)}</Text>
-        } else if (isImage(value)) {
-          children = (
-            <div
-              style={{
-                backgroundImage: `url(${value})`,
-                backgroundSize: 'cover',
-                height: style.height,
-                width: style.height,
-              }}
-            />
-          )
-        } else {
-          children = <Text weight={weight}>{value}</Text>
+        const fieldType = types[item.type].fields[field]?.type
+        if (fieldType) {
+          const weight = colIndex ? 400 : 500
+          if (fieldType === 'array') {
+            children = 'ARRAY!'
+          } else if (fieldType === 'record') {
+            children = 'RECORD!'
+          } else if (fieldType === 'set') {
+            children = 'SET!'
+          } else if (fieldType === 'object') {
+            children = 'OBJECT!'
+          } else if (fieldType === 'id') {
+            children = <Badge color="text">{value}</Badge>
+          } else if (fieldType === 'references') {
+            children = value.length ? <References value={value} /> : null
+          } else if (fieldType === 'timestamp') {
+            children = <Text weight={weight}>{toDateString(value)}</Text>
+          } else if (isImage(value)) {
+            children = (
+              <div
+                style={{
+                  backgroundImage: `url(${value})`,
+                  backgroundSize: 'cover',
+                  height: style.height,
+                  width: style.height,
+                }}
+              />
+            )
+          } else {
+            children = <Text weight={weight}>{value}</Text>
+          }
         }
       }
 

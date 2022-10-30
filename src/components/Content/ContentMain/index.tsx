@@ -42,9 +42,27 @@ const CreateMenu = ({ prefix, types }) => {
   )
 }
 
-const Header = ({ view, prefix }) => {
-  const { confirm } = useDialog()
+const Header = ({ label, view, prefix }) => {
   const { types } = useSchemaTypes()
+  const createBtn = (
+    <Button
+      icon={AddIcon}
+      onClick={useContextMenu(CreateMenu, { prefix, types })}
+    >
+      Create Item
+    </Button>
+  )
+  if (label) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Text weight={600}>{label}</Text>
+        <div style={{ flexGrow: 1 }} />
+        {createBtn}
+      </div>
+    )
+  }
+
+  const { confirm } = useDialog()
   const client = useClient()
   const { data: views } = useData('basedObserveViews')
   let key
@@ -86,20 +104,21 @@ const Header = ({ view, prefix }) => {
       </Button>
       <Button ghost>Create new view</Button>
       <div style={{ flexGrow: 1 }} />
-      <Button
-        icon={AddIcon}
-        onClick={useContextMenu(CreateMenu, { prefix, types })}
-      >
-        Create Item
-      </Button>
+      {createBtn}
     </div>
   )
 }
 
-export const ContentMain = ({ prefix = '', view = null, style = null }) => {
+export const ContentMain = ({
+  prefix = '',
+  view = null,
+  style = null,
+  query: queryOverwrite = undefined,
+  label = null,
+}) => {
   const { loading, types } = useSchemaTypes()
   const [, setLocation] = useLocation()
-  const query = useQuery()
+  const query = useQuery(queryOverwrite)
 
   if (loading) return null
 
@@ -154,13 +173,15 @@ export const ContentMain = ({ prefix = '', view = null, style = null }) => {
           padding: '16px 24px',
         }}
       >
-        <Header view={view} prefix={prefix} />
-        <Query
-          types={types}
-          fields={fields}
-          fieldTypes={fieldTypes}
-          query={query}
-        />
+        <Header label={label} view={view} prefix={prefix} />
+        {queryOverwrite ? null : (
+          <Query
+            types={types}
+            fields={fields}
+            fieldTypes={fieldTypes}
+            query={query}
+          />
+        )}
       </div>
       <Table
         key={fields.length}

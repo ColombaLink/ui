@@ -98,7 +98,7 @@ const FileReference = ({
 }
 
 const References = (props) => {
-  const { label, description, value, style } = props
+  const { id, field, label, description, value, style } = props
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
@@ -128,7 +128,15 @@ const References = (props) => {
               }}
               pure
             >
-              <ContentMain style={{ height: '100%' }} />
+              <ContentMain
+                // label={`Add ${field}`}
+                // query={{
+                //   filters: [],
+                //   target: id,
+                //   field,
+                // }}
+                style={{ height: '100%' }}
+              />
             </Dialog>
           )
         }}
@@ -429,8 +437,10 @@ const ContentField = ({
 
   return (
     <Component
+      id={id}
       description={description}
       label={name}
+      field={field}
       schema={schema}
       meta={schema.meta}
       style={{ order: index, marginBottom: 24 }}
