@@ -114,7 +114,7 @@ const Buttons = ({ children, border = null }) => {
   )
 }
 
-const Confirm = ({ children = 'OK', onConfirm = () => {}, ...props }) => {
+const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
   const dialog = useDialog()
   const { current: myId } = useRef(dialog._id)
   const onClick = onConfirm
@@ -130,10 +130,8 @@ const Confirm = ({ children = 'OK', onConfirm = () => {}, ...props }) => {
         }
       }
 
-  useHotkeys([['enter', onClick]])
-
   return (
-    <Button onClick={onClick} {...props}>
+    <Button onClick={onClick} {...props} actionKeys={['Enter']}>
       {children}
     </Button>
   )
