@@ -52,7 +52,7 @@ export const ArrayList = ({
   )
 
   useEffect(() => {
-    onChange && onChange(arr)
+    onChange(arr)
   }, [arr])
 
   const handleDragEnd = (event) => {
@@ -71,25 +71,24 @@ export const ArrayList = ({
   // @ts-ignore
   const itemType = props?.schema?.items.type
 
-  // Delete item options
-  const deleteSpecificItem = (idx) => {
-    console.log('Delete this', idx)
-    // filter out
-
+  const deleteSpecificItem = async (idx) => {
     setArr((arr) => arr.filter((item, index) => index !== idx))
   }
 
-  // Edit item options
-  const editSpecificItem = (idx) => {
-    console.log('edit this', idx)
-    // so open modal and with this idx and value
-    // const editText = prompt(`Edit ${arr[idx]} `)
+  const editSpecificItem = async (idx) => {
+    const editText = await prompt(`Edit ${arr[idx]} `)
+    const resolved = Promise.resolve(editText)
 
-    // if (editText && typeof editText !== 'boolean') {
-    //   console.group(editText)
-    //   console.log('--->', arr.splice(idx, 1, editText))
-    //   setArr(arr.splice(idx, 1, editText))
-    // }
+    resolved.then((value) => {
+      setArr((arr) =>
+        arr.map((item) => {
+          if (item === arr[idx]) {
+            return value
+          }
+          return item
+        })
+      )
+    })
   }
 
   return (
@@ -116,7 +115,7 @@ export const ArrayList = ({
                 idx={idx}
                 itemType={itemType}
                 deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={async () => editSpecificItem(idx)}
+                editSpecificItem={editSpecificItem}
               />
             ))}
           </SortableContext>
