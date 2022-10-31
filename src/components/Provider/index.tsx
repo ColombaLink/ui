@@ -73,7 +73,7 @@ export const Provider: FC<ProviderProps> = ({
       style={{
         backgroundColor: color('background'),
         color: color('text'),
-        height: fill ? '100vh' : '100%',
+        height: fill ? '100vh' : null,
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
