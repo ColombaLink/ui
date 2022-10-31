@@ -61,6 +61,10 @@ export const ArrayList = ({
         const oldIndex = arr.indexOf(active.id)
         const newIndex = arr.indexOf(over.id)
 
+        // onChange the order
+        // @ts-ignore
+        onChange(arrayMove(arr, oldIndex, newIndex))
+
         return arrayMove(arr, oldIndex, newIndex)
       })
     }
@@ -71,6 +75,9 @@ export const ArrayList = ({
   // Delete item options
   const deleteSpecificItem = (idx) => {
     console.log('Delete this', idx)
+    // filter out
+    setArr(arr.filter((item, index) => index !== idx))
+    onChange(arr.filter((item, index) => index !== idx))
   }
 
   // Edit item options
@@ -125,7 +132,7 @@ export const ArrayList = ({
           // als het geen boolean is, of typeof string of number
           if (ok && typeof ok !== 'boolean') {
             setArr([...arr, ok])
-            onChange(arr)
+            onChange([...arr, ok])
           }
         }}
       >
