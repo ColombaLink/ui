@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, AddIcon, usePropState } from '~'
@@ -33,7 +33,6 @@ export const ArrayList = ({
   indent,
   disabled,
   onChange,
-  style,
   space,
   ...props
 }: ArrayListProps) => {
@@ -68,6 +67,7 @@ export const ArrayList = ({
   }
   // @ts-ignore
   const itemType = props?.schema?.items.type
+  console.log(itemType)
 
   const deleteSpecificItem = async (idx) => {
     setArr((arr) => arr.filter((item, index) => index !== idx))
@@ -79,15 +79,48 @@ export const ArrayList = ({
     const resolved = Promise.resolve(editText)
 
     resolved.then((value) => {
-      if (value !== false) {
-        setArr((arr) =>
-          arr.map((item) => {
-            if (item === arr[idx]) {
-              return value
-            }
-            return item
-          })
-        )
+      // do something with the value based on the type
+      if (itemType === 'string') {
+        if (value !== false) {
+          setArr((arr) =>
+            arr.map((item) => {
+              if (item === arr[idx]) {
+                return value
+              }
+              return item
+            })
+          )
+        }
+      }
+
+      if (itemType === 'int') {
+        // @ts-ignore
+        if (value !== false && !isNaN(parseInt(value))) {
+          setArr((arr) =>
+            arr.map((item) => {
+              if (item === arr[idx]) {
+                // @ts-ignore
+                return parseInt(value)
+              }
+              return item
+            })
+          )
+        }
+      }
+
+      if (itemType === 'float') {
+        // @ts-ignore
+        if (value !== false && !isNaN(parseFloat(value))) {
+          setArr((arr) =>
+            arr.map((item) => {
+              if (item === arr[idx]) {
+                // @ts-ignore
+                return parseFloat(value)
+              }
+              return item
+            })
+          )
+        }
       }
     })
   }
@@ -132,21 +165,29 @@ export const ArrayList = ({
             `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
           )
 
-          if (ok && typeof ok !== 'boolean' && arr === undefined) {
+          // als er nog geen array is
+          if (ok && typeof ok !== 'boolean') {
             if (itemType === 'string') {
               onChange([ok])
             }
             if (itemType === 'int') {
               onChange([parseInt(ok)])
             }
+            if (itemType === 'float') {
+              onChange([parseFloat(ok)])
+            }
           }
 
+          // als er wel al een begin-array is
           if (ok && typeof ok !== 'boolean') {
             if (itemType === 'string') {
               onChange([...arr, ok])
             }
             if (itemType === 'int') {
               onChange([...arr, parseInt(ok)])
+            }
+            if (itemType === 'float') {
+              onChange([...arr, parseFloat(ok)])
             }
           }
 
