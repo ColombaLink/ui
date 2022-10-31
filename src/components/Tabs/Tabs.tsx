@@ -147,7 +147,7 @@ export const Tabs: FC<TabsProps> = ({
         ref={tabRef}
         style={{
           flex: 1,
-          height: sameHeight ? tabRefHeight : '100%',
+          height: sameHeight ? tabRefHeight : null,
           display: 'flex',
         }}
       >
