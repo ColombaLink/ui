@@ -9,7 +9,7 @@ import { AddIcon, MoreIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
-import { useClient, useData, useSchema } from '@based/react'
+import { useClient, useData } from '@based/react'
 
 const Menu = () => {
   return (
@@ -62,26 +62,30 @@ const Header = ({ label, view, prefix }) => {
     )
   }
 
-  const { confirm } = useDialog()
+  const { confirm, prompt } = useDialog()
   const client = useClient()
   const { data: views } = useData('basedObserveViews')
-  let key
+  let viewKey
+  let viewLabel
 
-  const getLabel = () => {
+  const parse = () => {
     // TODO FIX the redirect!!
     view = Number(view)
-    for (key in views) {
-      for (const { id, label } of views[key]) {
-        if (id === view) {
-          return label
+    for (viewKey in views) {
+      for (const v of views[viewKey]) {
+        if (v.id === view) {
+          viewLabel = v.label
+          return
         }
       }
     }
   }
 
+  parse()
+
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Text weight={600}>{getLabel()}</Text>
+      <Text weight={600}>{viewLabel}</Text>
       <div style={{ padding: '0 16px' }}>
         <MoreIcon
           onClick={useContextMenu(Menu)}
@@ -93,16 +97,43 @@ const Header = ({ label, view, prefix }) => {
       <Button
         ghost
         onClick={async () => {
-          const ok = await confirm(`This will update '${view}'`)
+          const ok = await confirm(`This will update '${viewLabel}'`)
           if (ok) {
-            views[key][view] = location.search
+            views[viewKey][view].query = location.search.substring(1)
             await client.call('basedSetViews', views)
           }
         }}
       >
         Update view
       </Button>
-      <Button ghost>Create new view</Button>
+      <Button
+        ghost
+        onClick={async () => {
+          const label = (await prompt(
+            'What would you like to call this view?'
+          )) as string
+          if (label) {
+            if (!views.custom) {
+              views.custom = []
+            }
+            const ids = new Set()
+            views.custom.forEach(({ id }) => ids.add(id))
+            views.default.forEach(({ id }) => ids.add(id))
+            let id = 0
+            while (ids.has(id)) {
+              id++
+            }
+            views.custom.push({
+              id,
+              query: location.search.substring(1),
+              label,
+            })
+            await client.call('basedSetViews', views)
+          }
+        }}
+      >
+        Create new view
+      </Button>
       <div style={{ flexGrow: 1 }} />
       {createBtn}
     </div>
