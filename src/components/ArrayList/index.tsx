@@ -37,8 +37,6 @@ export const ArrayList = ({
   space,
   ...props
 }: ArrayListProps) => {
-  console.log('props from array list', props)
-
   const { prompt } = useDialog()
 
   // @ts-ignore
@@ -75,19 +73,22 @@ export const ArrayList = ({
     setArr((arr) => arr.filter((item, index) => index !== idx))
   }
 
+  // Wat als het een integer is
   const editSpecificItem = async (idx) => {
     const editText = await prompt(`Edit ${arr[idx]} `)
     const resolved = Promise.resolve(editText)
 
     resolved.then((value) => {
-      setArr((arr) =>
-        arr.map((item) => {
-          if (item === arr[idx]) {
-            return value
-          }
-          return item
-        })
-      )
+      if (value !== false) {
+        setArr((arr) =>
+          arr.map((item) => {
+            if (item === arr[idx]) {
+              return value
+            }
+            return item
+          })
+        )
+      }
     })
   }
 
@@ -132,11 +133,21 @@ export const ArrayList = ({
           )
 
           if (ok && typeof ok !== 'boolean' && arr === undefined) {
-            onChange([ok])
+            if (itemType === 'string') {
+              onChange([ok])
+            }
+            if (itemType === 'int') {
+              onChange([parseInt(ok)])
+            }
           }
 
           if (ok && typeof ok !== 'boolean') {
-            onChange([...arr, ok])
+            if (itemType === 'string') {
+              onChange([...arr, ok])
+            }
+            if (itemType === 'int') {
+              onChange([...arr, parseInt(ok)])
+            }
           }
 
           //  focus on button after adding one to quickly add another
