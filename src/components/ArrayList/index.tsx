@@ -39,8 +39,6 @@ export const ArrayList = ({
 }: ArrayListProps) => {
   console.log('props from array list', props)
 
-  // console.log('value -->', props?.value)
-
   const { prompt } = useDialog()
 
   // @ts-ignore
@@ -53,6 +51,10 @@ export const ArrayList = ({
     })
   )
 
+  useEffect(() => {
+    onChange && onChange(arr)
+  }, [arr])
+
   const handleDragEnd = (event) => {
     const { active, over } = event
 
@@ -60,7 +62,8 @@ export const ArrayList = ({
       setArr((arr) => {
         const oldIndex = arr.indexOf(active.id)
         const newIndex = arr.indexOf(over.id)
-
+        // @ts-ignore
+        onChange(arrayMove(arr, oldIndex, newIndex))
         return arrayMove(arr, oldIndex, newIndex)
       })
     }
@@ -71,11 +74,22 @@ export const ArrayList = ({
   // Delete item options
   const deleteSpecificItem = (idx) => {
     console.log('Delete this', idx)
+    // filter out
+
+    setArr((arr) => arr.filter((item, index) => index !== idx))
   }
 
   // Edit item options
   const editSpecificItem = (idx) => {
     console.log('edit this', idx)
+    // so open modal and with this idx and value
+    // const editText = prompt(`Edit ${arr[idx]} `)
+
+    // if (editText && typeof editText !== 'boolean') {
+    //   console.group(editText)
+    //   console.log('--->', arr.splice(idx, 1, editText))
+    //   setArr(arr.splice(idx, 1, editText))
+    // }
   }
 
   return (
@@ -102,7 +116,7 @@ export const ArrayList = ({
                 idx={idx}
                 itemType={itemType}
                 deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={editSpecificItem}
+                editSpecificItem={async () => editSpecificItem(idx)}
               />
             ))}
           </SortableContext>
@@ -114,19 +128,19 @@ export const ArrayList = ({
         icon={AddIcon}
         space={8}
         onClick={async () => {
-          // open modal om een nieuw item toe te voegen..
-
           const ok = await prompt(
             `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
           )
-          console.log('Result from prompt', ok)
 
-          // push to array
-          // als het geen boolean is, of typeof string of number
-          if (ok && typeof ok !== 'boolean') {
-            setArr([...arr, ok])
-            onChange(arr)
+          if (ok && typeof ok !== 'boolean' && arr === undefined) {
+            onChange([ok])
           }
+
+          if (ok && typeof ok !== 'boolean') {
+            onChange([...arr, ok])
+          }
+
+          //  focus on button after adding one to quickly add another
         }}
       >
         Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
