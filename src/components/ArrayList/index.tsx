@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, AddIcon, usePropState } from '~'
@@ -40,6 +40,7 @@ export const ArrayList = ({
 
   // @ts-ignore
   const [arr, setArr] = usePropState(props?.value)
+  const [isFocus, setIsFocus] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -67,7 +68,40 @@ export const ArrayList = ({
   }
   // @ts-ignore
   const itemType = props?.schema?.items.type
-  console.log(itemType)
+
+  const addItemHandler = async () => {
+    const ok = await prompt(
+      `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
+    )
+
+    // als er nog geen array is
+    if (ok && typeof ok !== 'boolean') {
+      if (itemType === 'string') {
+        onChange([ok])
+      }
+      if (itemType === 'int') {
+        onChange([parseInt(ok)])
+      }
+      if (itemType === 'float') {
+        onChange([parseFloat(ok)])
+      }
+    }
+
+    // als er wel al een begin-array is
+    if (ok && typeof ok !== 'boolean') {
+      if (itemType === 'string') {
+        onChange([...arr, ok])
+      }
+      if (itemType === 'int') {
+        onChange([...arr, parseInt(ok)])
+      }
+      if (itemType === 'float') {
+        onChange([...arr, parseFloat(ok)])
+      }
+    }
+
+    setIsFocus(true)
+  }
 
   const deleteSpecificItem = async (idx) => {
     setArr((arr) => arr.filter((item, index) => index !== idx))
@@ -131,6 +165,21 @@ export const ArrayList = ({
       space={space}
       disabled={disabled}
       descriptionBottom={description}
+      onFocus={(e) => {
+        console.log('focus', e)
+        setIsFocus(true)
+      }}
+      onBlur={() => {
+        setIsFocus(false)
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Tab' && isFocus) {
+          console.log('hellow')
+          addItemHandler()
+          setIsFocus(true)
+          console.log('TESTREF --->', testRef)
+        }
+      }}
     >
       {/** @ts-ignore  **/}
       <Label label={props?.label} space={12} />
@@ -144,7 +193,7 @@ export const ArrayList = ({
           <SortableContext items={arr} strategy={verticalListSortingStrategy}>
             {arr?.map((id, idx) => (
               <SingleArrayListItem
-                key={id}
+                key={idx}
                 id={id}
                 idx={idx}
                 itemType={itemType}
@@ -159,42 +208,12 @@ export const ArrayList = ({
       <Button
         ghost
         icon={AddIcon}
+        // style={{ '&:focus': { outline: '1px solid blue !important' } }}
         space={8}
-        onClick={async () => {
-          const ok = await prompt(
-            `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
-          )
-
-          // als er nog geen array is
-          if (ok && typeof ok !== 'boolean') {
-            if (itemType === 'string') {
-              onChange([ok])
-            }
-            if (itemType === 'int') {
-              onChange([parseInt(ok)])
-            }
-            if (itemType === 'float') {
-              onChange([parseFloat(ok)])
-            }
-          }
-
-          // als er wel al een begin-array is
-          if (ok && typeof ok !== 'boolean') {
-            if (itemType === 'string') {
-              onChange([...arr, ok])
-            }
-            if (itemType === 'int') {
-              onChange([...arr, parseInt(ok)])
-            }
-            if (itemType === 'float') {
-              onChange([...arr, parseFloat(ok)])
-            }
-          }
-
-          //  focus on button after adding one to quickly add another
-        }}
+        onClick={addItemHandler}
       >
         Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
+        {isFocus && ` (Tab)`}
       </Button>
     </InputWrapper>
   )
