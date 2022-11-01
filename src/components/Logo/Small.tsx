@@ -1,8 +1,18 @@
 import React, { SVGProps, FC } from 'react'
 
-export const SmallLogo: FC<SVGProps<SVGSVGElement>> = (props) => {
+export const SmallLogo: FC<SVGProps<SVGSVGElement>> = ({ style, ...props }) => {
   return (
-    <svg fill="none" height="80" viewBox="0 0 80 80" width="80" {...props}>
+    <svg
+      fill="none"
+      height="80"
+      viewBox="0 0 80 80"
+      width="80"
+      {...props}
+      style={{
+        ...style,
+        cursor: props.onClick ? 'pointer' : null,
+      }}
+    >
       <path
         d="m60.822 26.3984-19.0829 19.0829h-19.0829l19.0829-19.0829z"
         fill="#4b41ff"

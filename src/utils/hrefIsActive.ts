@@ -3,6 +3,10 @@ export const hrefIsActive = (
   selected: string,
   data?: { href: string }[]
 ) => {
+  if (href.includes('#') && !selected.includes('#')) {
+    selected = selected + location.hash
+  }
+
   if (href === selected) {
     return href.length
   }
