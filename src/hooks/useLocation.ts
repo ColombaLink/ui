@@ -34,16 +34,22 @@ export const useLocation = (): [string, (href: string) => void] => {
   const [location, setLocation] = useWouterLocation()
 
   // add this for hash change?
-  // const update = useUpdate()
-  // useEffect(() => {
-  //   window.addEventListener('hashchange', update)
-  //   return () => window.removeEventListener('hashchange', update)
-  // }, [])
+  const update = useUpdate()
+  useEffect(() => {
+    // TODO optimize!
+    const l = () => update()
+    window.addEventListener('hashchange', l)
+    return () => window.removeEventListener('hashchange', l)
+  }, [])
 
   return [
     location,
     (href) => {
       setLocation(parseHref(href))
+      const i = href.indexOf('#')
+      if (i !== -1 && href.substring(i) !== window.location.hash) {
+        dispatchEvent(new HashChangeEvent('hashchange'))
+      }
     },
   ]
 }

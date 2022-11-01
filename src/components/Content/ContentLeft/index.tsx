@@ -10,6 +10,9 @@ export const ContentLeft: FC<{
 
   if (!loading && !loadingSchema) {
     const types = Object.keys(schema.types)
+    if (!views.default) {
+      views.default = []
+    }
     if (views.default.length < types.length) {
       for (let i = views.default.length; i < types.length; i++) {
         const type = types[i]

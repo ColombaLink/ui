@@ -6,7 +6,6 @@ import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Avatar } from '../Avatar'
 import { Input } from '../Input'
 import { Link } from '../Link'
-import { Text } from '../Text'
 import { Logo } from '../Logo'
 import { useData, useAuth } from '@based/react'
 import { stringToIcon } from '~/utils/stringToIcon'
@@ -31,6 +30,7 @@ type TopbarProps = {
   style?: CSSProperties
   icons?: ReactNode | string
   avatar?: ReactNode
+  onClick?: () => void
 }
 
 const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
@@ -99,6 +99,7 @@ export const Topbar: FC<TopbarProps> = ({
   logo,
   noLogo = false,
   style,
+  onClick,
 }) => {
   const [location] = useLocation()
 
@@ -112,6 +113,7 @@ export const Topbar: FC<TopbarProps> = ({
         height={32}
         width={32}
         style={{ marginLeft: 32, minHeight: 40, minWidth: 40 }}
+        onClick={onClick}
       />
     )
   }

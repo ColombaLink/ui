@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
 import { parseHref, useLocation } from '~/hooks'
 import { Weight } from '~/types'
-import { color } from '~/utils'
+import { color, setLocation } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
 import { Link } from '../Link'
@@ -124,6 +124,7 @@ export const Menu: FC<{
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
+  forceActive?: boolean
 }> = ({
   data = {},
   selected,
@@ -132,6 +133,7 @@ export const Menu: FC<{
   children,
   header,
   collapse,
+  forceActive = true,
 }) => {
   const [location] = useLocation()
 
@@ -174,12 +176,15 @@ export const Menu: FC<{
               justifyContent: collapse ? 'space-between' : null,
               display: collapse ? 'flex' : null,
               alignItems: 'center',
+              cursor: href ? 'pointer' : null,
             }}
             onClick={(e) => {
               if (collapse) {
                 e.currentTarget.parentNode.nextSibling.classList.toggle(
                   'hidden'
                 )
+              } else if (href) {
+                setLocation(href)
               }
             }}
           >
@@ -195,6 +200,7 @@ export const Menu: FC<{
                 firstHref = href
               }
               const isActive = hrefIsActive(href, selected, items)
+
               if (isActive) {
                 hasActive = true
               }
@@ -230,10 +236,10 @@ export const Menu: FC<{
   })
 
   useEffect(() => {
-    if (!hasActive && firstHref) {
+    if (!hasActive && firstHref && forceActive) {
       window.history.replaceState({}, '', parseHref(firstHref))
     }
-  }, [hasActive])
+  }, [hasActive, forceActive])
 
   return (
     <ScrollArea

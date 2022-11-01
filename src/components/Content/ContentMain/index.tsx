@@ -86,14 +86,14 @@ const Header = ({ label, view, prefix }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Text weight={600}>{viewLabel}</Text>
-      <div style={{ padding: '0 16px' }}>
+      {/* <div style={{ padding: '0 16px' }}>
         <MoreIcon
           onClick={useContextMenu(Menu)}
           style={{
             cursor: 'pointer',
           }}
         />
-      </div>
+      </div> */}
       <Button
         ghost
         onClick={async () => {
@@ -257,10 +257,6 @@ export const ContentMain = ({
           fields.forEach((field: string) => {
             q[field] = true
           })
-
-          // q.$all = true
-
-          // console.log(JSON.stringify(q, null, 2))
 
           return q
         }}

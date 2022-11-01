@@ -60,6 +60,7 @@ export * from './components/Steps'
 export * from './components/Table'
 export * from './components/Tabs'
 export * from './components/Text'
+export * from './components/ListItems'
 
 export * from './components/Thumbnail'
 export * from './components/Toast'
