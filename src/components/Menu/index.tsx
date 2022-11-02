@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
 import { parseHref, useLocation } from '~/hooks'
 import { Weight } from '~/types'
-import { color, setLocation } from '~/utils'
+import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
 import { Link } from '../Link'
@@ -135,7 +135,7 @@ export const Menu: FC<{
   collapse,
   forceActive = true,
 }) => {
-  const [location] = useLocation()
+  const [location, setLocation] = useLocation()
 
   if (!selected) {
     selected = location
@@ -177,6 +177,10 @@ export const Menu: FC<{
               display: collapse ? 'flex' : null,
               alignItems: 'center',
               cursor: href ? 'pointer' : null,
+              color:
+                href && hrefIsActive(href, selected, items)
+                  ? color('accent')
+                  : null,
             }}
             onClick={(e) => {
               if (collapse) {
