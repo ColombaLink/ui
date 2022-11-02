@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { CSSProperties, useEffect } from 'react'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, AddIcon, usePropState } from '~'
@@ -40,7 +40,6 @@ export const ArrayList = ({
 
   // @ts-ignore
   const [arr, setArr] = usePropState(props?.value)
-  const [isFocus, setIsFocus] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -99,8 +98,6 @@ export const ArrayList = ({
         onChange([...arr, parseFloat(ok)])
       }
     }
-
-    setIsFocus(true)
   }
 
   const deleteSpecificItem = async (idx) => {
@@ -165,21 +162,6 @@ export const ArrayList = ({
       space={space}
       disabled={disabled}
       descriptionBottom={description}
-      onFocus={(e) => {
-        console.log('focus', e)
-        setIsFocus(true)
-      }}
-      onBlur={() => {
-        setIsFocus(false)
-      }}
-      onKeyDown={(e) => {
-        if (e.key === 'Tab' && isFocus) {
-          console.log('hellow')
-          addItemHandler()
-          setIsFocus(true)
-          console.log('TESTREF --->', testRef)
-        }
-      }}
     >
       {/** @ts-ignore  **/}
       <Label label={props?.label} space={12} />
@@ -205,15 +187,8 @@ export const ArrayList = ({
         </DndContext>
       )}
 
-      <Button
-        ghost
-        icon={AddIcon}
-        // style={{ '&:focus': { outline: '1px solid blue !important' } }}
-        space={8}
-        onClick={addItemHandler}
-      >
+      <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
         Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
-        {isFocus && ` (Tab)`}
       </Button>
     </InputWrapper>
   )
