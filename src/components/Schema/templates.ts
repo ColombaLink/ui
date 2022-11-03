@@ -191,13 +191,13 @@ export const templates: {
     icon: ChildrenIcon,
     schema: { type: 'reference' },
   },
-  references: {
-    label: 'References',
-    color: 'lightpink',
-    description: 'References you know it',
-    icon: ChildrenIcon,
-    schema: { type: 'references' },
-  },
+  // references: {
+  //   label: 'References',
+  //   color: 'lightpink',
+  //   description: 'References you know it',
+  //   icon: ChildrenIcon,
+  //   schema: { type: 'references' },
+  // },
   file: {
     label: 'File',
     color: 'lightpink',
@@ -211,19 +211,19 @@ export const templates: {
       },
     },
   },
-  files: {
-    label: 'Files',
-    color: 'lightpink',
-    description: 'Multiple files',
-    icon: AttachmentIcon,
-    schema: {
-      type: 'references',
-      meta: {
-        format: 'files',
-        refTypes: ['files'],
-      },
-    },
-  },
+  // files: {
+  //   label: 'Files',
+  //   color: 'lightpink',
+  //   description: 'Multiple files',
+  //   icon: AttachmentIcon,
+  //   schema: {
+  //     type: 'references',
+  //     meta: {
+  //       format: 'files',
+  //       refTypes: ['files'],
+  //     },
+  //   },
+  // },
 
   number: {
     label: 'Number',

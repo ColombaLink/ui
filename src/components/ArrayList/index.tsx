@@ -68,6 +68,10 @@ export const ArrayList = ({
   // @ts-ignore
   const itemType = props?.schema?.items.type
 
+  if (itemType === 'object') {
+    console.log('AAA', props?.schema?.items.properties)
+  }
+
   const addItemHandler = async () => {
     const ok = await prompt(
       `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
@@ -173,16 +177,21 @@ export const ArrayList = ({
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={arr} strategy={verticalListSortingStrategy}>
-            {arr?.map((id, idx) => (
-              <SingleArrayListItem
-                key={idx}
-                id={id}
-                idx={idx}
-                itemType={itemType}
-                deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={editSpecificItem}
-              />
-            ))}
+            {arr?.map((item, idx) => {
+              // if (arr.indexOf(item) !== idx) {
+              //   item = item + ' (duplicate)'
+              // }
+              return (
+                <SingleArrayListItem
+                  key={idx}
+                  item={item}
+                  idx={idx}
+                  itemType={itemType}
+                  deleteSpecificItem={deleteSpecificItem}
+                  editSpecificItem={editSpecificItem}
+                />
+              )
+            })}
           </SortableContext>
         </DndContext>
       )}

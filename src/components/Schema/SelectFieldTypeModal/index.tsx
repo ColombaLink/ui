@@ -35,9 +35,9 @@ const {
   createdBy,
   boolean,
   reference,
-  references,
+  // references,
   file,
-  files,
+  // files,
   number,
   float,
   int,
@@ -61,17 +61,18 @@ const items = {
     createdBy,
     boolean,
   },
-  'References and files': {
-    reference,
-    references,
-    file,
-    files,
-  },
-
   Numbers: {
     number,
     float,
     int,
+  },
+
+  'Complex data structures': {
+    array,
+    object,
+    record,
+    set,
+    json,
   },
 
   'Rich formatted data': {
@@ -79,12 +80,11 @@ const items = {
     url,
     geo,
   },
-  'Complex data structures': {
-    array,
-    object,
-    record,
-    set,
-    json,
+  'References and files': {
+    reference,
+    // references,
+    file,
+    // files,
   },
 }
 

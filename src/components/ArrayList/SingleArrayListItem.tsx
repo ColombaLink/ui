@@ -20,10 +20,11 @@ export const SingleArrayListItem = ({
   deleteSpecificItem,
   editSpecificItem,
   idx,
+  item,
   ...props
 }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: props.id /* data: { index: props.index } */ })
+    useSortable({ id: item /* data: { index: props.id } */ })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -58,8 +59,9 @@ export const SingleArrayListItem = ({
       <Badge style={{ marginLeft: 12, marginRight: 12 }}>
         {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
       </Badge>
-      {/* <Text>{idx} - </Text> */}
-      <Text weight={600}>{props.id}</Text>
+      <Text>{idx} - </Text>
+      {/* <Text weight={600}>{props.id}</Text> */}
+      <Text weight={600}>{item}</Text>
       <MoreIcon
         style={{ marginLeft: 'auto', cursor: 'pointer' }}
         // open options on clik
