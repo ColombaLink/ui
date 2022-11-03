@@ -139,8 +139,6 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
         }
       })
 
-      console.log(JSON.stringify(fields, null, 2))
-
       onChange(fields)
     }
     setDraggingField(null)

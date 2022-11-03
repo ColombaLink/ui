@@ -1,4 +1,5 @@
-import React, { CSSProperties, useEffect } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, AddIcon, usePropState } from '~'
@@ -10,6 +11,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  DragOverlay,
 } from '@dnd-kit/core'
 import {
   arrayMove,
@@ -25,7 +27,8 @@ type ArrayListProps = {
   disabled?: boolean
   style?: CSSProperties
   space?: Space
-  onChange?(items: string[] | number[]): void
+  onChange?(ids: string[] | number[]): void
+  value?: any[]
 }
 
 export const ArrayList = ({
@@ -34,13 +37,46 @@ export const ArrayList = ({
   disabled,
   onChange,
   space,
+  value = [],
   ...props
 }: ArrayListProps) => {
   const { prompt } = useDialog()
+  const id = JSON.stringify(value)
+  const [arr, setArr] = useState<any[]>([])
+  const [draggingIndex, setDraggingIndex] = useState<number>()
+  const ref = useRef<string>()
+  const idsRef = useRef<any[]>()
 
-  // @ts-ignore
-  const [arr, setArr] = usePropState(props?.value)
+  if (ref.current !== id) {
+    // if the external value changed
+    ref.current = id
+    if (id !== JSON.stringify(arr)) {
+      // and it's not the same as the internal value
+      // => update the internal array
+      value.forEach((item, i) => {
+        arr[i] = item
+      })
+      arr.splice(value.length)
+      // and clear the ids cache
+      idsRef.current = null
+    }
+  }
 
+  if (!idsRef.current) {
+    // if no ids cache
+    const set = new Set()
+    // create an array of unique values to act as id
+    idsRef.current = value.map((item) => {
+      let cnt = 0
+      while (set.has(item)) {
+        item = `${item}-${cnt++}`
+      }
+      set.add(item)
+      return item
+    })
+  }
+
+  const ids = idsRef.current
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -48,116 +84,92 @@ export const ArrayList = ({
     })
   )
 
-  useEffect(() => {
-    onChange(arr)
-  }, [arr])
+  const onDragStart = ({ active }) => {
+    setDraggingIndex(ids.indexOf(active.id))
+  }
 
-  const handleDragEnd = (event) => {
+  const onDragEnd = (event) => {
     const { active, over } = event
 
     if (active.id !== over.id) {
-      setArr((arr) => {
-        const oldIndex = arr.indexOf(active.id)
-        const newIndex = arr.indexOf(over.id)
-        // @ts-ignore
-        onChange(arrayMove(arr, oldIndex, newIndex))
-        return arrayMove(arr, oldIndex, newIndex)
-      })
+      const oldIndex = ids.indexOf(active.id)
+      const newIndex = ids.indexOf(over.id)
+      // update the array
+      const newArray = arrayMove(arr, oldIndex, newIndex)
+      // update the ids
+      idsRef.current = arrayMove(idsRef.current, oldIndex, newIndex)
+      onChange(newArray)
+      setArr(newArray)
     }
-  }
-  // @ts-ignore
-  const itemType = props?.schema?.items.type
 
-  if (itemType === 'object') {
-    console.log('AAA', props?.schema?.items.properties)
+    setDraggingIndex(-1)
   }
+
+  // @ts-ignore
+  const itemType = props.schema?.items.type
 
   const addItemHandler = async () => {
     const ok = await prompt(
       `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
     )
 
-    // als er nog geen array is
-    if (ok && typeof ok !== 'boolean') {
-      if (itemType === 'string') {
-        onChange([ok])
-      }
-      if (itemType === 'int') {
-        onChange([parseInt(ok)])
-      }
-      if (itemType === 'float') {
-        onChange([parseFloat(ok)])
-      }
-    }
-
-    // als er wel al een begin-array is
     if (ok && typeof ok !== 'boolean') {
       if (itemType === 'string') {
         onChange([...arr, ok])
-      }
-      if (itemType === 'int') {
+      } else if (itemType === 'int') {
         onChange([...arr, parseInt(ok)])
-      }
-      if (itemType === 'float') {
+      } else if (itemType === 'float') {
         onChange([...arr, parseFloat(ok)])
       }
     }
   }
 
   const deleteSpecificItem = async (idx) => {
-    setArr((arr) => arr.filter((item, index) => index !== idx))
+    setArr(arr.filter((_, index) => index !== idx))
   }
 
   // Wat als het een integer is
   const editSpecificItem = async (idx) => {
-    const editText = await prompt(`Edit ${arr[idx]} `)
-    const resolved = Promise.resolve(editText)
-
-    resolved.then((value) => {
-      // do something with the value based on the type
-      if (itemType === 'string') {
-        if (value !== false) {
-          setArr((arr) =>
-            arr.map((item) => {
-              if (item === arr[idx]) {
-                return value
-              }
-              return item
-            })
-          )
-        }
+    const value = await prompt(`Edit ${arr[idx]} `)
+    if (value === false) {
+      return
+    }
+    if (itemType === 'string') {
+      setArr(
+        arr.map((item) => {
+          if (item === arr[idx]) {
+            return value
+          }
+          return item
+        })
+      )
+    } else if (itemType === 'int') {
+      // @ts-ignore
+      if (!isNaN(parseInt(value))) {
+        setArr(
+          arr.map((item) => {
+            if (item === arr[idx]) {
+              // @ts-ignore
+              return parseInt(value)
+            }
+            return item
+          })
+        )
       }
-
-      if (itemType === 'int') {
-        // @ts-ignore
-        if (value !== false && !isNaN(parseInt(value))) {
-          setArr((arr) =>
-            arr.map((item) => {
-              if (item === arr[idx]) {
-                // @ts-ignore
-                return parseInt(value)
-              }
-              return item
-            })
-          )
-        }
+    } else if (itemType === 'float') {
+      // @ts-ignore
+      if (!isNaN(parseFloat(value))) {
+        setArr(
+          arr.map((item) => {
+            if (item === arr[idx]) {
+              // @ts-ignore
+              return parseFloat(value)
+            }
+            return item
+          })
+        )
       }
-
-      if (itemType === 'float') {
-        // @ts-ignore
-        if (value !== false && !isNaN(parseFloat(value))) {
-          setArr((arr) =>
-            arr.map((item) => {
-              if (item === arr[idx]) {
-                // @ts-ignore
-                return parseFloat(value)
-              }
-              return item
-            })
-          )
-        }
-      }
-    })
+    }
   }
 
   return (
@@ -168,33 +180,45 @@ export const ArrayList = ({
       descriptionBottom={description}
     >
       {/** @ts-ignore  **/}
-      <Label label={props?.label} space={12} />
+      <Label label={props.label} space={12} />
 
-      {arr && (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={arr} strategy={verticalListSortingStrategy}>
-            {arr?.map((item, idx) => {
-              // if (arr.indexOf(item) !== idx) {
-              //   item = item + ' (duplicate)'
-              // }
-              return (
-                <SingleArrayListItem
-                  key={idx}
-                  item={item}
-                  idx={idx}
-                  itemType={itemType}
-                  deleteSpecificItem={deleteSpecificItem}
-                  editSpecificItem={editSpecificItem}
-                />
-              )
-            })}
-          </SortableContext>
-        </DndContext>
-      )}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={onDragEnd}
+        onDragStart={onDragStart}
+      >
+        <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+          {ids.map((id, idx) => {
+            return (
+              <SingleArrayListItem
+                key={id}
+                id={id}
+                item={arr[idx]}
+                idx={idx}
+                itemType={itemType}
+                deleteSpecificItem={deleteSpecificItem}
+                editSpecificItem={editSpecificItem}
+              />
+            )
+          })}
+        </SortableContext>
+        {createPortal(
+          <DragOverlay>
+            {draggingIndex >= 0 ? (
+              <SingleArrayListItem
+                id={ids[draggingIndex]}
+                item={arr[draggingIndex]}
+                idx={draggingIndex}
+                itemType={itemType}
+                deleteSpecificItem={deleteSpecificItem}
+                editSpecificItem={editSpecificItem}
+              />
+            ) : null}
+          </DragOverlay>,
+          document.body
+        )}
+      </DndContext>
 
       <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
         Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}

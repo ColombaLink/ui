@@ -20,11 +20,17 @@ export const SingleArrayListItem = ({
   deleteSpecificItem,
   editSpecificItem,
   idx,
+  id,
   item,
-  ...props
 }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item /* data: { index: props.id } */ })
+  const {
+    isDragging,
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -41,6 +47,7 @@ export const SingleArrayListItem = ({
     <div
       ref={setNodeRef}
       style={{
+        visibility: isDragging ? 'hidden' : null,
         border: `1px solid ${color('border')}`,
         borderRadius: 4,
         height: 50,
@@ -59,7 +66,7 @@ export const SingleArrayListItem = ({
       <Badge style={{ marginLeft: 12, marginRight: 12 }}>
         {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
       </Badge>
-      <Text>{idx} - </Text>
+      {/* <Text>{id} - </Text> */}
       {/* <Text weight={600}>{props.id}</Text> */}
       <Text weight={600}>{item}</Text>
       <MoreIcon
