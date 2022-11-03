@@ -68,6 +68,7 @@ const Settings = ({ prefix, style }) => {
   const {
     schema: { languages = [] },
   } = useSchema()
+
   const { open } = useDialog()
   return (
     <div style={{ display: 'flex', ...style }}>
