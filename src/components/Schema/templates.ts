@@ -252,14 +252,14 @@ export const templates: {
     color: 'lightorange',
     description: 'A collection of similar types',
     icon: SquareBracketsIcon,
-    schema: { type: 'array' },
+    schema: { type: 'array', items: {} },
   },
   set: {
     label: 'Set',
     color: 'lightorange',
     description: 'A collection of unique values',
     icon: SetIcon,
-    schema: { type: 'set' },
+    schema: { type: 'set', items: {} },
   },
   object: {
     label: 'Object',
