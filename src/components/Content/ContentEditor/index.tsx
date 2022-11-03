@@ -24,6 +24,7 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
 import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
+import { SetList } from '~/components/SetList/SetList'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -364,6 +365,20 @@ const array = {
   },
 }
 
+const set = {
+  default: ({ description, onChange, ...props }) => {
+    return (
+      <SetList
+        description={description}
+        onChange={onChange}
+        indent
+        space
+        {...props}
+      />
+    )
+  },
+}
+
 const components = {
   boolean,
   reference,
@@ -378,6 +393,7 @@ const components = {
   timestamp,
   json,
   array,
+  set,
 }
 
 const ContentField = ({
