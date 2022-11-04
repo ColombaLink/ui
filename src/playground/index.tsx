@@ -207,6 +207,7 @@ const App = () => {
             </div>
           </>
         }
+        prefix="/hello"
         data={filteredObj}
       />
       <Page style={{ padding: 32 }}>
