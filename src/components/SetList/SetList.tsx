@@ -1,9 +1,11 @@
 // @ts-nocheck
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Space } from '~/types'
 import { usePropState, Label, Button, AddIcon, Input, Dialog } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
 import { useDialog } from '~/components/Dialog'
+
+import { SingleSetListItem } from './SingleSetListItem'
 
 type SetListProps = {
   description?: string
@@ -65,18 +67,23 @@ export const SetList = ({
         </Dialog.Buttons>
       </Dialog>
     )
-
-    // if (ok && typeof ok !== 'boolean') {
-    //   if (schema?.items.type === 'string') {
-    //     console.log('ehllo')
-    //     onChange([...set, ok])
-    //   } else if (schema?.items.type === 'int') {
-    //     onChange([...set, parseInt(ok)])
-    //   } else if (schema?.items.type === 'float') {
-    //     onChange([...set, parseFloat(ok)])
-    //   }
-    // }
   }
+
+  /// Delete is not going great
+  const deleteSpecificItem = (id) => {
+    console.log('ID --->', id)
+    console.log(
+      'new array --->',
+      set.filter((_, index) => index !== id)
+    )
+    setSet(set.filter((_, index) => index !== id))
+    // onChange(set.filter((_, index) => index !== id))
+  }
+
+  const editSpecificItem = (id) => {
+    console.log(id)
+  }
+
   return (
     <InputWrapper
       indent={indent}
@@ -85,18 +92,18 @@ export const SetList = ({
       descriptionBottom={description}
     >
       <Label label={props.label} space={12} />
-      {set?.map((item, i) => (
-        <div key={i}>{item}</div>
-      ))}
-      <Button
-        ghost
-        icon={AddIcon}
-        onClick={() => {
-          console.log('pressed')
-
-          addItemHandler()
-        }}
-      >
+      {set &&
+        set?.map((item, i) => (
+          <SingleSetListItem
+            item={item}
+            key={i}
+            id={i}
+            itemType={itemType}
+            deleteSpecificItem={deleteSpecificItem}
+            editSpecificItem={editSpecificItem}
+          />
+        ))}
+      <Button ghost icon={AddIcon} onClick={() => addItemHandler()}>
         Add Item test
       </Button>
     </InputWrapper>
