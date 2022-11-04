@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { Page, color } from '~'
 import { Schema as SchemaEditor } from '~/components/Schema'
 
@@ -14,6 +14,7 @@ export const Schema = () => {
       >
         <SchemaEditor
           db="default"
+          prefix="/schema"
           style={{
             height: 400,
           }}
