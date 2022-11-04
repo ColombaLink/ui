@@ -65,7 +65,6 @@ export type FieldTemplates =
 export const templates: {
   [K in FieldTemplates]: {
     label?: string
-    categoryTitle?: string
     description: string
     color?: Color
     hidden?: boolean
@@ -83,7 +82,6 @@ export const templates: {
   }
 } = {
   // keys have to represent types or formats TODO add ts
-
   string: {
     label: 'String',
     color: 'lightpurple',
@@ -191,13 +189,13 @@ export const templates: {
     icon: ChildrenIcon,
     schema: { type: 'reference' },
   },
-  // references: {
-  //   label: 'References',
-  //   color: 'lightpink',
-  //   description: 'References you know it',
-  //   icon: ChildrenIcon,
-  //   schema: { type: 'references' },
-  // },
+  references: {
+    label: 'References',
+    color: 'lightpink',
+    description: 'References you know it',
+    icon: ChildrenIcon,
+    schema: { type: 'references' },
+  },
   file: {
     label: 'File',
     color: 'lightpink',
@@ -211,20 +209,19 @@ export const templates: {
       },
     },
   },
-  // files: {
-  //   label: 'Files',
-  //   color: 'lightpink',
-  //   description: 'Multiple files',
-  //   icon: AttachmentIcon,
-  //   schema: {
-  //     type: 'references',
-  //     meta: {
-  //       format: 'files',
-  //       refTypes: ['files'],
-  //     },
-  //   },
-  // },
-
+  files: {
+    label: 'Files',
+    color: 'lightpink',
+    description: 'Multiple files',
+    icon: AttachmentIcon,
+    schema: {
+      type: 'references',
+      meta: {
+        format: 'files',
+        refTypes: ['files'],
+      },
+    },
+  },
   number: {
     label: 'Number',
     color: 'lightsailorblue',
