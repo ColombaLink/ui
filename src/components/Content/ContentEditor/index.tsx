@@ -15,6 +15,7 @@ import {
   useSchemaTypes,
   LoadingIcon,
   ArrayList,
+  EditIcon,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -176,6 +177,20 @@ const SingleReference = (props) => {
 // }
 
 const object = {
+  default: ({ label, description, style, ...props }) => {
+    return (
+      <InputWrapper indent style={style}>
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 12 }}
+        />
+        <Button icon={EditIcon} ghost>
+          Edit object
+        </Button>
+      </InputWrapper>
+    )
+  },
   geo: ({ description, ...props }) => {
     return (
       <GeoInput
@@ -450,6 +465,8 @@ const ContentField = ({
       </div>
     )
   }
+
+  console.log({ name, index })
 
   return (
     <Component

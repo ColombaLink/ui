@@ -38,6 +38,7 @@ export const ArrayList = ({
   onChange,
   space,
   value = [],
+  style,
   ...props
 }: ArrayListProps) => {
   const { prompt } = useDialog()
@@ -178,6 +179,7 @@ export const ArrayList = ({
       space={space}
       disabled={disabled}
       descriptionBottom={description}
+      style={style}
     >
       {/** @ts-ignore  **/}
       <Label label={props.label} space={12} />

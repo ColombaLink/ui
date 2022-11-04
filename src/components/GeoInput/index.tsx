@@ -210,6 +210,7 @@ export const GeoInput: FC<GeoInputProps> = ({
   mapboxStyle,
   space,
   value,
+  style,
 }) => {
   const [radioValue, setRadioValue] = useState<string | boolean | number>(
     'Address'
@@ -237,6 +238,7 @@ export const GeoInput: FC<GeoInputProps> = ({
       space={space}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
+      style={style}
     >
       <Label label={label} description={description} space="8px" />
       <GeoMap
