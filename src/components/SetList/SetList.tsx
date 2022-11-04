@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState, useEffect } from 'react'
 import { Space } from '~/types'
 import { usePropState, Label, Button, AddIcon, Input, Dialog } from '~'
@@ -11,6 +12,7 @@ type SetListProps = {
   indent?: boolean
   onChange?(items: {}): void
   value?: any
+  schema?: any
 }
 
 export const SetList = ({
@@ -20,19 +22,12 @@ export const SetList = ({
   indent,
   space,
   value,
+  schema,
   ...props
 }: SetListProps) => {
-  console.log('Set props ---> ', props)
-  console.log('set Value ---> ', value)
-
-  const itemType = props?.schema?.items.type
-
-  console.log('itemType ---> ', itemType)
-
+  const itemType = schema?.items.type
   const [set, setSet] = usePropState(value)
-
   const { open } = useDialog()
-
   const [inputVal, setInputVal] = useState('')
 
   const addItemHandler = async () => {
@@ -72,12 +67,12 @@ export const SetList = ({
     )
 
     // if (ok && typeof ok !== 'boolean') {
-    //   if (props?.schema?.items.type === 'string') {
+    //   if (schema?.items.type === 'string') {
     //     console.log('ehllo')
     //     onChange([...set, ok])
-    //   } else if (props?.schema?.items.type === 'int') {
+    //   } else if (schema?.items.type === 'int') {
     //     onChange([...set, parseInt(ok)])
-    //   } else if (props?.schema?.items.type === 'float') {
+    //   } else if (schema?.items.type === 'float') {
     //     onChange([...set, parseFloat(ok)])
     //   }
     // }
@@ -89,7 +84,7 @@ export const SetList = ({
       disabled={disabled}
       descriptionBottom={description}
     >
-      <Label label={props?.label} space={12} />
+      <Label label={props.label} space={12} />
       {set?.map((item, i) => (
         <div key={i}>{item}</div>
       ))}
