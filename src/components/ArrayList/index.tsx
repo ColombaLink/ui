@@ -164,7 +164,7 @@ export const ArrayList = ({
       return
     }
     if (itemType === 'string') {
-      setArr(
+      onChange(
         arr.map((item) => {
           if (item === arr[idx]) {
             return value
@@ -175,7 +175,7 @@ export const ArrayList = ({
     } else if (itemType === 'int') {
       // @ts-ignore
       if (!isNaN(parseInt(value))) {
-        setArr(
+        onChange(
           arr.map((item) => {
             if (item === arr[idx]) {
               // @ts-ignore
@@ -188,7 +188,7 @@ export const ArrayList = ({
     } else if (itemType === 'float') {
       // @ts-ignore
       if (!isNaN(parseFloat(value))) {
-        setArr(
+        onChange(
           arr.map((item) => {
             if (item === arr[idx]) {
               // @ts-ignore
