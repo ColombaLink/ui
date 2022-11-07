@@ -9,6 +9,7 @@ import {
   Button,
   AddIcon,
   RadioButtons,
+  Toggle,
   DateTimePicker,
   FileUpload,
   GeoInput,
@@ -319,20 +320,20 @@ const digest = {
 const boolean = {
   default: ({ description, ...props }) => {
     return (
-      <RadioButtons
+      <Toggle
         indent
         descriptionBottom={description}
         space
-        data={[
-          {
-            value: true,
-            label: 'True',
-          },
-          {
-            value: false,
-            label: 'False',
-          },
-        ]}
+        // data={[
+        //   {
+        //     value: true,
+        //     label: 'True',
+        //   },
+        //   {
+        //     value: false,
+        //     label: 'False',
+        //   },
+        // ]}
         {...props}
       />
     )
