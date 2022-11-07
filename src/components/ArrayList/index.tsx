@@ -266,7 +266,16 @@ export const ArrayList = ({
       </DndContext>
 
       <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
-        Add {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
+        Add{' '}
+        {itemType === 'string'
+          ? 'String'
+          : itemType === 'int'
+          ? 'Integer'
+          : itemType === 'float'
+          ? 'Float'
+          : itemType === 'digest'
+          ? 'Digest'
+          : 'item'}
       </Button>
     </InputWrapper>
   )

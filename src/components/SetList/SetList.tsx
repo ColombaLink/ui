@@ -33,6 +33,8 @@ export const SetList = ({
   const { open } = useDialog()
   const [inputVal, setInputVal] = useState('')
 
+  const [errorMessage, setErrorMessage] = useState('')
+
   useEffect(() => {
     setArr(value)
     setSet(new Set(value))
@@ -65,9 +67,16 @@ export const SetList = ({
               } else if (itemType === 'float') {
                 inputVAL = parseFloat(inputVAL)
               }
-              set.add(inputVAL)
-              setArr(Array.from(set))
-              onChange(Array.from(set))
+              if (set.has(inputVAL)) {
+                setErrorMessage(
+                  'This item already exists in the set, none item was added'
+                )
+              } else {
+                setErrorMessage('')
+                set.add(inputVAL)
+                setArr(Array.from(set))
+                onChange(Array.from(set))
+              }
             }}
           />
         </Dialog.Buttons>
@@ -147,6 +156,7 @@ export const SetList = ({
       space={space}
       disabled={disabled}
       descriptionBottom={description}
+      errorMessage={errorMessage}
     >
       <Label label={props.label} space={12} />
       {arr &&
@@ -161,7 +171,16 @@ export const SetList = ({
           />
         ))}
       <Button ghost icon={AddIcon} onClick={() => addItemHandler()}>
-        Add Item test
+        Add{' '}
+        {itemType === 'string'
+          ? 'String'
+          : itemType === 'int'
+          ? 'Integer'
+          : itemType === 'float'
+          ? 'Float'
+          : itemType === 'digest'
+          ? 'Digest'
+          : 'item'}
       </Button>
     </InputWrapper>
   )
