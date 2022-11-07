@@ -80,7 +80,7 @@ export const SingleArrayListItem = ({
 const ContextMenu = ({ editSpecificItem, deleteSpecificItem, idx, item }) => {
   return (
     <>
-      <ContextItem onClick={() => editSpecificItem(idx)} icon={EditIcon}>
+      <ContextItem onClick={() => editSpecificItem(item, idx)} icon={EditIcon}>
         Edit
       </ContextItem>
       <ContextItem

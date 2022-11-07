@@ -41,7 +41,7 @@ export const ArrayList = ({
   style,
   ...props
 }: ArrayListProps) => {
-  const { prompt, open } = useDialog()
+  const { open } = useDialog()
   const id = JSON.stringify(value)
   const [arr, setArr] = useState<any[]>([])
   const [draggingIndex, setDraggingIndex] = useState<number>()
@@ -125,7 +125,7 @@ export const ArrayList = ({
           }
           digest={itemType === 'digest'}
           autoFocus
-          label="input shizzle"
+          // label="input shizzle"
           value={inputVal}
           onChange={(e) => {
             //    console.log(e)
@@ -154,51 +154,69 @@ export const ArrayList = ({
   }
 
   const deleteSpecificItem = async (item, idx) => {
-    onChange(arr.filter((itemp, index) => index !== idx))
+    onChange(arr.filter((_, index) => index !== idx))
   }
 
-  // Wat als het een integer is
-  const editSpecificItem = async (idx) => {
-    const value = await prompt(`Edit ${arr[idx]} `)
-    if (value === false) {
-      return
-    }
-    if (itemType === 'string') {
-      onChange(
-        arr.map((item) => {
-          if (item === arr[idx]) {
-            return value
+  const editSpecificItem = async (item, idx) => {
+    // const value = await prompt(`Edit ${arr[idx]} `)
+    let inputVAL = ''
+    const ok = await open(
+      <Dialog label={`Edit ${arr[idx]} `}>
+        <Input
+          type={
+            itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          return item
-        })
-      )
-    } else if (itemType === 'int') {
-      // @ts-ignore
-      if (!isNaN(parseInt(value))) {
-        onChange(
-          arr.map((item) => {
-            if (item === arr[idx]) {
-              // @ts-ignore
-              return parseInt(value)
-            }
-            return item
-          })
-        )
-      }
-    } else if (itemType === 'float') {
-      // @ts-ignore
-      if (!isNaN(parseFloat(value))) {
-        onChange(
-          arr.map((item) => {
-            if (item === arr[idx]) {
-              // @ts-ignore
-              return parseFloat(value)
-            }
-            return item
-          })
-        )
-      }
-    }
+          digest={itemType === 'digest'}
+          autoFocus
+          // label="input shizzle"
+          value={inputVal}
+          onChange={(e) => {
+            //    console.log(e)
+            inputVAL = e
+            //   console.log(inputVal)
+          }}
+        />
+        <Dialog.Buttons border>
+          <Dialog.Cancel />
+          <Dialog.Confirm
+            onConfirm={() => {
+              if (inputVAL) {
+                if (itemType === 'string') {
+                  onChange(
+                    arr.map((item, id) => {
+                      if (idx === id && item === arr[idx]) {
+                        return inputVAL
+                      }
+                      return item
+                    })
+                  )
+                } else if (itemType === 'int') {
+                  onChange(
+                    arr.map((item, id) => {
+                      if (idx === id && item === arr[idx]) {
+                        // @ts-ignore
+                        return parseInt(inputVAL)
+                      }
+                      return item
+                    })
+                  )
+                } else if (itemType === 'float') {
+                  onChange(
+                    arr.map((item) => {
+                      if (idx === id && item === arr[idx]) {
+                        // @ts-ignore
+                        return parseFloat(inputVAL)
+                      }
+                      return item
+                    })
+                  )
+                }
+              }
+            }}
+          />
+        </Dialog.Buttons>
+      </Dialog>
+    )
   }
 
   return (
