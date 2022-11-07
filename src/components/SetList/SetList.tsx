@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Space } from '~/types'
 import { usePropState, Label, Button, AddIcon, Input, Dialog } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -28,9 +28,16 @@ export const SetList = ({
   ...props
 }: SetListProps) => {
   const itemType = schema?.items.type
-  const [set, setSet] = usePropState(value)
+  const [arr, setArr] = useState(value)
+  const [set, setSet] = useState<any>(new Set(arr))
+
   const { open } = useDialog()
   const [inputVal, setInputVal] = useState('')
+
+  useEffect(() => {
+    setArr(value)
+    setSet(new Set(value))
+  }, [value])
 
   const addItemHandler = async () => {
     let inputVAL = ''
@@ -45,23 +52,18 @@ export const SetList = ({
           label="input shizzle"
           value={inputVal}
           onChange={(e) => {
-            console.log(e)
+            //    console.log(e)
             inputVAL = e
-            console.log(inputVal)
+            //   console.log(inputVal)
           }}
         />
         <Dialog.Buttons border>
           <Dialog.Cancel />
           <Dialog.Confirm
             onConfirm={() => {
-              console.log('ARgh', inputVAL)
-              if (!set) {
-                setSet([inputVAL])
-                onChange([inputVAL])
-              } else if (set?.indexOf(inputVAL) === -1) {
-                setSet([...set, inputVAL])
-                onChange([...set, inputVAL])
-              }
+              set.add(inputVAL)
+              setArr(Array.from(set))
+              onChange(Array.from(set))
             }}
           />
         </Dialog.Buttons>
@@ -70,14 +72,12 @@ export const SetList = ({
   }
 
   /// Delete is not going great
-  const deleteSpecificItem = (id) => {
-    console.log('ID --->', id)
-    console.log(
-      'new array --->',
-      set.filter((_, index) => index !== id)
-    )
-    setSet(set.filter((_, index) => index !== id))
-    // onChange(set.filter((_, index) => index !== id))
+  const deleteSpecificItem = (item, id) => {
+    console.log('ITEM & ID --->', item, id)
+    set.delete(item)
+
+    setArr(Array.from(set))
+    onChange(Array.from(set))
   }
 
   const editSpecificItem = (id) => {
@@ -92,8 +92,8 @@ export const SetList = ({
       descriptionBottom={description}
     >
       <Label label={props.label} space={12} />
-      {set &&
-        set?.map((item, i) => (
+      {arr &&
+        arr?.map((item, i) => (
           <SingleSetListItem
             item={item}
             key={i}
