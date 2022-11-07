@@ -62,7 +62,9 @@ export const DateInput: FC<DateInputProps> = ({
         type="text"
         //  pattern="\d{1,2}/\d{1,2}/\d{4}"
         style={{
-          backgroundColor: showDatePicker ? color('background2') : '',
+          backgroundColor: showDatePicker
+            ? color('background2')
+            : color('background'),
           borderBottomLeftRadius: showDatePicker ? 0 : 4,
           borderBottomRightRadius: showDatePicker ? 0 : 4,
           borderBottom: showDatePicker

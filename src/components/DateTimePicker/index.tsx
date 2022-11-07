@@ -1,5 +1,5 @@
 import React, { FC, CSSProperties, useState, useEffect } from 'react'
-import { Label } from '~'
+import { Label, color } from '~'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { TimeInput } from './TimeInput'

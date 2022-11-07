@@ -71,20 +71,29 @@ export const TimeInput = ({
   }
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div
+      style={{
+        position: 'relative',
+        backgroundColor: isFocus ? color('background2') : color('background'),
+        borderRadius: 4,
+      }}
+      onFocus={() => {
+        setIsFocus(true)
+        onFocus(true)
+      }}
+      onBlur={() => {
+        setIsFocus(false)
+        onFocus(false)
+      }}
+    >
       <Input
         value={time}
         type="text"
         onKeyPress={keyPressHandler}
         onChange={timeHandler}
         placeholder={placeholder}
-        onFocus={() => {
-          setIsFocus(true)
-          onFocus(true)
-        }}
-        onBlur={() => {
-          setIsFocus(false)
-          onFocus(false)
+        style={{
+          backgroundColor: 'transparent',
         }}
       />
       {isFocus && (
