@@ -420,7 +420,15 @@ export const Input: FC<
               fontWeight={fontWeight}
               onChange={onChange}
             >
-              <Single {...props} />
+              <Single
+                {...props}
+                onKeyDown={(e) => {
+                  // now you can remove the zero in input fields
+                  if (e.key === 'Backspace' && value === 0) {
+                    setValue('')
+                  }
+                }}
+              />
             </MaybeSuggest>
           )}
           {type === 'number' && !disabled && (

@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useEffect, useState } from 'react'
 import { Space } from '~/types'
-import { usePropState, Label, Button, AddIcon, Input, Dialog } from '~'
+import { Label, Button, AddIcon, Input, Dialog } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
 import { useDialog } from '~/components/Dialog'
 
@@ -30,9 +30,7 @@ export const SetList = ({
   const itemType = schema?.items.type
   const [arr, setArr] = useState(value)
   const [set, setSet] = useState<any>(new Set(arr))
-  const [renderCounter, setRenderCounter] = useState(1)
-
-  const { open, prompt } = useDialog()
+  const { open } = useDialog()
   const [inputVal, setInputVal] = useState('')
 
   useEffect(() => {
@@ -43,29 +41,33 @@ export const SetList = ({
   const addItemHandler = async () => {
     let inputVAL = ''
     const ok = await open(
-      <Dialog label="Bonjour monsieur">
+      <Dialog label="Add new item to the set">
         <Input
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
           digest={itemType === 'digest'}
           autoFocus
-          label="input shizzle"
+          label={`Add new ${
+            itemType.charAt(0).toUpperCase() + itemType.slice(1)
+          } `}
           value={inputVal}
           onChange={(e) => {
-            //    console.log(e)
             inputVAL = e
-            //   console.log(inputVal)
           }}
         />
         <Dialog.Buttons border>
           <Dialog.Cancel />
           <Dialog.Confirm
             onConfirm={() => {
+              if (itemType === 'int') {
+                inputVAL = parseInt(inputVAL)
+              } else if (itemType === 'float') {
+                inputVAL = parseFloat(inputVAL)
+              }
               set.add(inputVAL)
               setArr(Array.from(set))
               onChange(Array.from(set))
-              setRenderCounter(renderCounter + 1)
             }}
           />
         </Dialog.Buttons>
@@ -75,29 +77,68 @@ export const SetList = ({
 
   /// Delete is not going great
   const deleteSpecificItem = (item, id) => {
-    console.log('ITEM & ID --->', item, id)
+    // console.log('ITEM & ID --->', item, id)
     set.delete(item)
     onChange(Array.from(set))
-    setRenderCounter(renderCounter + 1)
-    console.log(renderCounter)
   }
 
-  const editSpecificItem = async (item, id) => {
-    console.log(item, id)
-    const value = await prompt(`Edit ${arr[id]} `)
-    if (value === false) {
-      return
-    } else {
-      onChange(
-        arr.map((item) => {
-          if (item === arr[id]) {
-            return value
+  const editSpecificItem = async (item, idx) => {
+    // console.log(item, idx)
+    let inputVAL = ''
+    const ok = await open(
+      <Dialog label={`Edit ${arr[idx]} `}>
+        <Input
+          type={
+            itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          return item
-        })
-      )
-      setRenderCounter(renderCounter + 1)
-    }
+          digest={itemType === 'digest'}
+          autoFocus
+          value={inputVal}
+          onChange={(e) => {
+            inputVAL = e
+          }}
+        />
+        <Dialog.Buttons border>
+          <Dialog.Cancel />
+          <Dialog.Confirm
+            onConfirm={() => {
+              if (inputVAL) {
+                if (itemType === 'string') {
+                  onChange(
+                    arr.map((item, id) => {
+                      if (idx === id && item === arr[idx]) {
+                        return inputVAL
+                      }
+                      return item
+                    })
+                  )
+                } else if (itemType === 'int') {
+                  onChange(
+                    arr.map((item, id) => {
+                      if (idx === id && item === arr[idx]) {
+                        // @ts-ignore
+                        return parseInt(inputVAL)
+                      }
+                      return item
+                    })
+                  )
+                } else if (itemType === 'float') {
+                  onChange(
+                    arr.map((item, id) => {
+                      if (idx === id && item === arr[idx]) {
+                        // @ts-ignore
+                        return parseFloat(inputVAL)
+                      }
+                      return item
+                    })
+                  )
+                }
+              }
+            }}
+          />
+        </Dialog.Buttons>
+      </Dialog>
+    )
   }
 
   return (
@@ -109,7 +150,6 @@ export const SetList = ({
     >
       <Label label={props.label} space={12} />
       {arr &&
-        renderCounter &&
         arr?.map((item, i) => (
           <SingleSetListItem
             item={item}

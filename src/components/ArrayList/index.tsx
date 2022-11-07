@@ -125,12 +125,9 @@ export const ArrayList = ({
           }
           digest={itemType === 'digest'}
           autoFocus
-          // label="input shizzle"
           value={inputVal}
           onChange={(e) => {
-            //    console.log(e)
             inputVAL = e
-            //   console.log(inputVal)
           }}
         />
         <Dialog.Buttons border>
