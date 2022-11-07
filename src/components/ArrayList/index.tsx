@@ -2,7 +2,7 @@ import React, { CSSProperties, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, AddIcon } from '~'
+import { Label, Button, AddIcon, Dialog, Input } from '~'
 import { useDialog } from '~/components/Dialog'
 import {
   DndContext,
@@ -41,12 +41,14 @@ export const ArrayList = ({
   style,
   ...props
 }: ArrayListProps) => {
-  const { prompt } = useDialog()
+  const { prompt, open } = useDialog()
   const id = JSON.stringify(value)
   const [arr, setArr] = useState<any[]>([])
   const [draggingIndex, setDraggingIndex] = useState<number>()
   const ref = useRef<string>()
   const idsRef = useRef<any[]>()
+
+  const [inputVal, setInputVal] = useState('')
 
   if (ref.current !== id) {
     // if the external value changed
@@ -110,23 +112,49 @@ export const ArrayList = ({
   const itemType = props.schema?.items.type
 
   const addItemHandler = async () => {
-    const ok = await prompt(
-      `Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)} `
+    let inputVAL = ''
+    const ok = await open(
+      <Dialog
+        label={`Add new ${
+          itemType.charAt(0).toUpperCase() + itemType.slice(1)
+        } `}
+      >
+        <Input
+          type={
+            itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
+          }
+          digest={itemType === 'digest'}
+          autoFocus
+          label="input shizzle"
+          value={inputVal}
+          onChange={(e) => {
+            //    console.log(e)
+            inputVAL = e
+            //   console.log(inputVal)
+          }}
+        />
+        <Dialog.Buttons border>
+          <Dialog.Cancel />
+          <Dialog.Confirm
+            onConfirm={() => {
+              if (inputVAL && typeof ok !== 'boolean') {
+                if (itemType === 'string') {
+                  onChange([...arr, inputVAL])
+                } else if (itemType === 'int') {
+                  onChange([...arr, parseInt(inputVAL)])
+                } else if (itemType === 'float') {
+                  onChange([...arr, parseFloat(inputVAL)])
+                }
+              }
+            }}
+          />
+        </Dialog.Buttons>
+      </Dialog>
     )
-
-    if (ok && typeof ok !== 'boolean') {
-      if (itemType === 'string') {
-        onChange([...arr, ok])
-      } else if (itemType === 'int') {
-        onChange([...arr, parseInt(ok)])
-      } else if (itemType === 'float') {
-        onChange([...arr, parseFloat(ok)])
-      }
-    }
   }
 
-  const deleteSpecificItem = async (idx) => {
-    setArr(arr.filter((_, index) => index !== idx))
+  const deleteSpecificItem = async (item, idx) => {
+    onChange(arr.filter((itemp, index) => index !== idx))
   }
 
   // Wat als het een integer is

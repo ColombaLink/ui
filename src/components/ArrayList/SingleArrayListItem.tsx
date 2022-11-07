@@ -39,7 +39,7 @@ export const SingleArrayListItem = ({
 
   const contextHandler = useContextMenu(
     ContextMenu,
-    { editSpecificItem, deleteSpecificItem, idx },
+    { editSpecificItem, deleteSpecificItem, idx, item },
     { placement: 'right' }
   )
 
@@ -77,13 +77,16 @@ export const SingleArrayListItem = ({
   )
 }
 
-const ContextMenu = ({ editSpecificItem, deleteSpecificItem, idx }) => {
+const ContextMenu = ({ editSpecificItem, deleteSpecificItem, idx, item }) => {
   return (
     <>
       <ContextItem onClick={() => editSpecificItem(idx)} icon={EditIcon}>
         Edit
       </ContextItem>
-      <ContextItem onClick={() => deleteSpecificItem(idx)} icon={DeleteIcon}>
+      <ContextItem
+        onClick={() => deleteSpecificItem(item, idx)}
+        icon={DeleteIcon}
+      >
         Delete
       </ContextItem>
     </>
