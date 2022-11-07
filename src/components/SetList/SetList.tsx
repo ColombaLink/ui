@@ -30,8 +30,9 @@ export const SetList = ({
   const itemType = schema?.items.type
   const [arr, setArr] = useState(value)
   const [set, setSet] = useState<any>(new Set(arr))
+  const [renderCounter, setRenderCounter] = useState(1)
 
-  const { open } = useDialog()
+  const { open, prompt } = useDialog()
   const [inputVal, setInputVal] = useState('')
 
   useEffect(() => {
@@ -64,6 +65,7 @@ export const SetList = ({
               set.add(inputVAL)
               setArr(Array.from(set))
               onChange(Array.from(set))
+              setRenderCounter(renderCounter + 1)
             }}
           />
         </Dialog.Buttons>
@@ -75,13 +77,27 @@ export const SetList = ({
   const deleteSpecificItem = (item, id) => {
     console.log('ITEM & ID --->', item, id)
     set.delete(item)
-
-    setArr(Array.from(set))
     onChange(Array.from(set))
+    setRenderCounter(renderCounter + 1)
+    console.log(renderCounter)
   }
 
-  const editSpecificItem = (id) => {
-    console.log(id)
+  const editSpecificItem = async (item, id) => {
+    console.log(item, id)
+    const value = await prompt(`Edit ${arr[id]} `)
+    if (value === false) {
+      return
+    } else {
+      onChange(
+        arr.map((item) => {
+          if (item === arr[id]) {
+            return value
+          }
+          return item
+        })
+      )
+      setRenderCounter(renderCounter + 1)
+    }
   }
 
   return (
@@ -93,6 +109,7 @@ export const SetList = ({
     >
       <Label label={props.label} space={12} />
       {arr &&
+        renderCounter &&
         arr?.map((item, i) => (
           <SingleSetListItem
             item={item}

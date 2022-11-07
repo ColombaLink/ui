@@ -1,8 +1,8 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import React, { CSSProperties, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, AddIcon, usePropState } from '~'
+import { Label, Button, AddIcon } from '~'
 import { useDialog } from '~/components/Dialog'
 import {
   DndContext,
