@@ -73,7 +73,7 @@ type InputProps = {
   descriptionBottom?: string
   optional?: boolean
   value?: string | number
-  integer?: boolean
+  // integer?: boolean
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   indent?: boolean
@@ -428,6 +428,9 @@ export const Input: FC<
                     setValue('')
                   }
                 }}
+                // @ts-ignore
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
               />
             </MaybeSuggest>
           )}

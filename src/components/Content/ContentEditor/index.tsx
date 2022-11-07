@@ -207,7 +207,13 @@ const object = {
 
 const string = {
   default: ({ description, ...props }) => (
-    <Input {...props} descriptionBottom={description} indent space />
+    <Input
+      {...props}
+      descriptionBottom={description}
+      indent
+      space
+      noInterrupt
+    />
   ),
   url: ({ description, meta, onChange, ...props }) => (
     <Input
@@ -215,6 +221,7 @@ const string = {
       descriptionBottom={description}
       indent
       space
+      noInterrupt
       error={(value) => {
         if (!isUrl(value) && value.length > 0) {
           return `Please enter a valid url https://...`
@@ -236,6 +243,7 @@ const string = {
       descriptionBottom={description}
       indent
       space
+      noInterrupt
       error={(value) => {
         if (!isEmail(value) && value.length > 0) {
           return `Please enter a valid email-address`
@@ -259,6 +267,7 @@ const number = {
         {...props}
         descriptionBottom={description}
         indent
+        noInterrupt
         space
         type="number"
       />
@@ -273,6 +282,7 @@ const float = {
         {...props}
         descriptionBottom={description}
         space
+        noInterrupt
         type="number"
         indent
         //  onChange={(e) => console.log(typeof e)}
@@ -288,7 +298,8 @@ const int = {
         {...props}
         descriptionBottom={description}
         space
-        integer
+        // integer
+        noInterrupt
         type="number"
         indent
       />

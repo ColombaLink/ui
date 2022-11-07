@@ -141,6 +141,16 @@ export const SetList = ({
                       return item
                     })
                   )
+                } else if (itemType === 'digest') {
+                  onChange(
+                    arr.map((item, id) => {
+                      if (idx === id && item === arr[idx]) {
+                        // @ts-ignore
+                        return inputVAL
+                      }
+                      return item
+                    })
+                  )
                 }
               }
             }}

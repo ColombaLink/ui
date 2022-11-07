@@ -141,6 +141,8 @@ export const ArrayList = ({
                   onChange([...arr, parseInt(inputVAL)])
                 } else if (itemType === 'float') {
                   onChange([...arr, parseFloat(inputVAL)])
+                } else if (itemType === 'digest') {
+                  onChange([...arr, inputVAL])
                 }
               }
             }}
