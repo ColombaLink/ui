@@ -8,7 +8,6 @@ import {
   border,
   Button,
   AddIcon,
-  RadioButtons,
   Toggle,
   DateTimePicker,
   FileUpload,
@@ -26,7 +25,8 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { ContentMain } from '../ContentMain'
 import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
-import { SetList } from '~/components/SetList/SetList'
+import { SetList } from '~/components/SetList'
+import { ObjectList } from '~/components/ObjectList'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -178,18 +178,17 @@ const SingleReference = (props) => {
 // }
 
 const object = {
-  default: ({ label, description, style, ...props }) => {
+  default: ({ label, description, schema, style, ...props }) => {
+    console.log('Object props -->', props)
     return (
-      <InputWrapper indent style={style}>
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 12 }}
-        />
-        <Button icon={EditIcon} ghost>
-          Edit object
-        </Button>
-      </InputWrapper>
+      <ObjectList
+        label={label}
+        schema={schema}
+        indent
+        description={description}
+        style={style}
+        {...props}
+      />
     )
   },
   geo: ({ description, ...props }) => {
@@ -319,24 +318,7 @@ const digest = {
 
 const boolean = {
   default: ({ description, ...props }) => {
-    return (
-      <Toggle
-        indent
-        descriptionBottom={description}
-        space
-        // data={[
-        //   {
-        //     value: true,
-        //     label: 'True',
-        //   },
-        //   {
-        //     value: false,
-        //     label: 'False',
-        //   },
-        // ]}
-        {...props}
-      />
-    )
+    return <Toggle indent descriptionBottom={description} space {...props} />
   },
 }
 
