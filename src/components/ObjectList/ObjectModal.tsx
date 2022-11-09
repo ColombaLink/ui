@@ -85,6 +85,7 @@ export const ObjectListModal = ({ label, props, schema }) => {
           flexDirection: 'column',
         }}
       >
+        {/* @ts-ignore */}
         <Topbar
           //  id={id}
           //  type={type}

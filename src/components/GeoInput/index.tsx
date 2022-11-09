@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, useEffect } from 'react'
+import React, { FC, useRef, useState, useEffect, CSSProperties } from 'react'
 import {
   Label,
   Input,
@@ -28,6 +28,7 @@ type GeoInputProps = {
   space?: Space
   mapboxApiAccessToken?: string
   mapboxStyle?: string
+  style?: CSSProperties
   value?: {
     lat: number
     lng: number

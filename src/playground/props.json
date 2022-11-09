@@ -2357,6 +2357,41 @@
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
     },
+    "ObjectListProps": {
+      "name": "ObjectListProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "descriptionBottom": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "indent": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "schema": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        }
+      },
+      "code": "type ObjectListProps = {\n  label?: string\n  space?: Space\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  indent?: boolean\n  schema?: any\n}",
+      "file": "/components/ObjectList/index.tsx"
+    },
     "PositionProps": {
       "name": "PositionProps",
       "props": {
@@ -2865,7 +2900,7 @@
         }
       },
       "code": "type SetListProps = {\n  description?: string\n  disabled?: boolean\n  space?: Space\n  indent?: boolean\n  onChange?(items: {}): void\n  value?: any\n  schema?: any\n}",
-      "file": "/components/SetList/SetList.tsx"
+      "file": "/components/SetList/index.tsx"
     },
     "SidebarProps": {
       "name": "SidebarProps",
