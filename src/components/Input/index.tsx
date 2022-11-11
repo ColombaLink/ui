@@ -20,6 +20,7 @@ import { JsonInput } from './JsonInput'
 import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
+import { MarkdownInput } from './MarkdownInput'
 
 const resize = (target) => {
   if (target) {
@@ -68,6 +69,7 @@ type InputProps = {
   customRegex?: boolean
   pattern?: string
   jsonInput?: boolean
+  markdownInput?: boolean
   digest?: boolean
   description?: string
   descriptionBottom?: string
@@ -194,6 +196,7 @@ export const Input: FC<
   customRegex,
   pattern,
   jsonInput,
+  markdownInput,
   defaultValue,
   description,
   descriptionBottom,
@@ -390,6 +393,15 @@ export const Input: FC<
               value={value}
               onChange={onChange}
               setShowJSONClearButton={setShowJSONClearButton}
+              disabled={disabled}
+            />
+          ) : markdownInput ? (
+            <MarkdownInput
+              {...props}
+              // setErrorMessage={setErrorMessage}
+              value={value}
+              onChange={onChange}
+              // setShowJSONClearButton={setShowJSONClearButton}
               disabled={disabled}
             />
           ) : multiline ? (
