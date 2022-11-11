@@ -360,6 +360,20 @@ const json = {
   },
 }
 
+const markdown = {
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        space
+        indent
+        markdownInput
+      />
+    )
+  },
+}
+
 const array = {
   default: ({ description, onChange, ...props }) => {
     return (
@@ -401,6 +415,7 @@ const components = {
   text: string,
   timestamp,
   json,
+  markdown,
   array,
   set,
 }
