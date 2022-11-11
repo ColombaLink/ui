@@ -37,6 +37,7 @@ export const MarkdownInput = ({
       <div style={{ padding: 12, pointerEvents: disabled ? 'none' : null }}>
         <Editor
           value={code}
+          onValueChange={(code) => setCode(code)}
           highlight={(code) => highlight(code, languages.markup, 'markup')}
           style={{
             fontSize: 14,
