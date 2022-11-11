@@ -3,6 +3,7 @@ import { styled } from 'inlines'
 import { color, Text } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
+import 'prismjs/components/prism-markdown'
 
 const StyledMarkdownInput = styled('div', {
   border: `1px solid ${color('border')}`,
@@ -38,7 +39,7 @@ export const MarkdownInput = ({
         <Editor
           value={code}
           onValueChange={(code) => setCode(code)}
-          highlight={(code) => highlight(code, languages.markup, 'markup')}
+          highlight={(code) => highlight(code, languages.markdown, 'markdown')}
           style={{
             fontSize: 14,
             color: color('accent'),
