@@ -178,7 +178,7 @@ const SingleReference = (props) => {
 
 const object = {
   default: ({ label, description, schema, style, ...props }) => {
-    console.log('Object props -->', props)
+    //  console.log('Object props -->', props)
     return (
       <ObjectList
         label={label}
@@ -531,16 +531,17 @@ export const ContentEditor = ({
     }
   }
 
+  // if is inside object
   if (objectName && fields) {
-    console.log('objectName', objectName)
-    console.log(fields[objectName])
+    //  console.log('objectName', objectName)
+    // console.log(fields[objectName])
     fields = fields[objectName].properties
 
-    console.log('NEW FIELD', fields)
+    // console.log('NEW FIELD', fields)
   }
 
   if (childFields) {
-    console.log('childFields', childFields)
+    // console.log('childFields', childFields)
     // fields = childFields
   }
 

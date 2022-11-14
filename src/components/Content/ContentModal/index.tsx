@@ -103,7 +103,7 @@ const Translation = ({ language, setLanguage }) => {
 }
 
 const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
-  console.log('ConntentModalInner', objectName, field, childFields)
+  // console.log('ConntentModalInner', objectName, field, childFields)
 
   const client = useClient()
   const [, setLocation] = useLocation()
@@ -151,6 +151,8 @@ const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
         left: 0,
         right: 0,
         display: 'flex',
+        // temp
+        zIndex: 1,
       }}
     >
       <div
@@ -188,10 +190,16 @@ const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
               style={{ padding: '48px 76px' }}
               autoFocus={id ? field : null}
               onChange={(data) => {
-                console.log('DATA-->', data)
+                const key = Object.keys(data)[0]
+                const val = data[key]
+                console.log('DATA-->', val)
                 setDisabled(false)
                 // TODO need to fix this for refs etc
-                Object.assign(changes, data)
+                Object.assign(changes, {
+                  [field]: {
+                    [key]: val,
+                  },
+                })
               }}
             />
           </ScrollArea>

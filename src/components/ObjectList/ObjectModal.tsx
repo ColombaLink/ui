@@ -44,14 +44,14 @@ import { ContentModal } from '../Content/ContentModal'
 // }
 
 export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
-  // console.log('props from objectlistmodal', props)
+  console.log('props from objectlistmodal', props)
 
   const objectKeys = Object.keys(schema.properties)
   const type = props.id ? null : props.field
 
-  console.log('props', props)
-  console.log('objectKeys to the kingdom', objectKeys)
-  console.log('propsField', props.field)
+  // console.log('props', props)
+  // console.log('objectKeys to the kingdom', objectKeys)
+  // console.log('propsField', props.field)
 
   const onClose = async () => {
     setShowModal(false)
