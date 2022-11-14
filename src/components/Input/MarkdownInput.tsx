@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { styled } from 'inlines'
-import { color, Text } from '~'
+import { color, Text, usePropState } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markdown'
@@ -21,7 +21,7 @@ export const MarkdownInput = ({
   onChange,
   disabled,
 }: MarkdownInputProps) => {
-  const [code, setCode] = useState(value)
+  const [code, setCode] = usePropState(value)
 
   return (
     <StyledMarkdownInput>
@@ -38,7 +38,11 @@ export const MarkdownInput = ({
       <div style={{ padding: 12, pointerEvents: disabled ? 'none' : null }}>
         <Editor
           value={code}
-          onValueChange={(code) => setCode(code)}
+          onValueChange={(code) => {
+            setCode(code)
+            // onChange(code)
+            onChange({ target: { value: code } })
+          }}
           highlight={(code) => highlight(code, languages.markdown, 'markdown')}
           style={{
             fontSize: 14,

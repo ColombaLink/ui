@@ -103,7 +103,7 @@ type InputProps = {
 
 // to coorece the on change (skips having to make conversions or ts ignores)
 type InputTypeString = {
-  type: 'text' | 'password' | 'email' | 'phone' | 'color'
+  type: 'text' | 'password' | 'email' | 'phone' | 'color' | 'markdown'
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
 }
 type InputNameString = {
