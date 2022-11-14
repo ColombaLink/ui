@@ -518,6 +518,7 @@ export const ContentEditor = ({
   if (id) {
     const s = useItemSchema(id)
     fields = s.fields
+    console.log('Content Editor the fields', fields)
     loading = s.loading
   } else {
     const s = useSchemaTypes()
@@ -544,6 +545,7 @@ export const ContentEditor = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
+      {/* mapt over de fields in de object */}
       {Object.keys(fields).map((field) => {
         const fieldSchema = fields[field]
         const { type, meta } = fields[field]

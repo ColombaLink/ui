@@ -41,19 +41,13 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
   )
 }
 
-export const ObjectListModal = ({ label, props, schema }) => {
+export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
   console.log('props from objectlistmodal', props)
 
   const objectKeys = Object.keys(schema.properties)
 
-  console.log(Object.keys(schema.properties))
-  console.log(Object.values(schema.properties))
-  console.log(schema.properties['arraytje'])
-
-  console.log(schema.properties['arraytje'].type)
-
   const onClose = async () => {
-    console.log('close it')
+    setShowModal(false)
   }
 
   return (
@@ -65,6 +59,8 @@ export const ObjectListModal = ({ label, props, schema }) => {
         left: 0,
         right: 0,
         display: 'flex',
+        // temp z index
+        zIndex: 1,
       }}
     >
       <div
@@ -115,6 +111,10 @@ export const ObjectListModal = ({ label, props, schema }) => {
                 </div>
               ))}
             </div>
+
+            {/* // subset of ContentEditor fields */}
+            {/* // maybe filter out the ones in the object */}
+            {/* // maybe pass specific fields as props?? */}
             {/* <ContentEditor
               id={id}
               type={type}
