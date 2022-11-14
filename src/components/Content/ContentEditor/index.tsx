@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import {
   Input,
   Text,
@@ -15,7 +15,6 @@ import {
   useSchemaTypes,
   LoadingIcon,
   ArrayList,
-  EditIcon,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -206,15 +205,17 @@ const object = {
 }
 
 const string = {
-  default: ({ description, ...props }) => (
-    <Input
-      {...props}
-      descriptionBottom={description}
-      indent
-      space
-      noInterrupt
-    />
-  ),
+  default: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        indent
+        space
+        noInterrupt
+      />
+    )
+  },
   url: ({ description, meta, onChange, ...props }) => (
     <Input
       {...props}
@@ -236,28 +237,42 @@ const string = {
       }}
     />
   ),
-  email: ({ description, meta, onChange, ...props }) => (
-    <Input
-      {...props}
-      maxChars={200}
-      descriptionBottom={description}
-      indent
-      space
-      noInterrupt
-      error={(value) => {
-        if (!isEmail(value) && value.length > 0) {
-          return `Please enter a valid email-address`
-        }
-      }}
-      onChange={(value) => {
-        if (meta.format === 'email') {
-          if (isEmail(value) || value.length < 1) {
-            onChange(value)
+  email: ({ description, meta, onChange, ...props }) => {
+    return (
+      <Input
+        {...props}
+        maxChars={200}
+        descriptionBottom={description}
+        indent
+        space
+        noInterrupt
+        error={(value) => {
+          if (!isEmail(value) && value.length > 0) {
+            return `Please enter a valid email-address`
           }
-        }
-      }}
-    />
-  ),
+        }}
+        onChange={(value) => {
+          if (meta.format === 'email') {
+            if (isEmail(value) || value.length < 1) {
+              onChange(value)
+            }
+          }
+        }}
+      />
+    )
+  },
+  markdown: ({ description, ...props }) => {
+    return (
+      <Input
+        {...props}
+        descriptionBottom={description}
+        space
+        indent
+        markdownInput
+        noInterrupt
+      />
+    )
+  },
 }
 
 const number = {
@@ -399,6 +414,7 @@ const components = {
   digest,
   object,
   text: string,
+  markdown: string,
   timestamp,
   json,
   array,

@@ -75,7 +75,7 @@ export const templates: {
       values?: object
       items?: object
       meta?: {
-        format?: 'url' | 'email' | 'geo' | 'file' | 'files'
+        format?: 'url' | 'email' | 'geo' | 'file' | 'files' | 'markdown'
         refTypes?: string[]
       }
     }
@@ -94,7 +94,12 @@ export const templates: {
     color: 'lightpurple',
     description: 'Markdown editor',
     icon: AddIcon,
-    schema: { type: 'string' },
+    schema: {
+      type: 'string',
+      meta: {
+        format: 'markdown',
+      },
+    },
   },
   text: {
     label: 'Text',
@@ -278,14 +283,12 @@ export const templates: {
     icon: JsonIcon,
     schema: { type: 'json' },
   },
-
   id: {
     label: 'Identifier',
     description: 'IDs you know it',
     icon: IdIcon,
     schema: { type: 'id' },
   },
-
   type: {
     label: 'Type',
     description: 'Types you know it',

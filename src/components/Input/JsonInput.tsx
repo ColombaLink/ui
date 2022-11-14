@@ -13,6 +13,7 @@ import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-json'
+// import './jsonInputSyntax.css'
 
 const StyledJsonEditor = styled('div', {
   border: `1px solid ${color('border')}`,

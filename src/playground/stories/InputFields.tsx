@@ -36,6 +36,15 @@ export const InputFields = () => {
         },
         {
           props: {
+            markdownInput: true,
+            label: 'Label for Markdown',
+            description: 'Description for Markdown',
+            descriptionBottom: 'this is bottom description',
+            indent: true,
+          },
+        },
+        {
+          props: {
             label: 'Number or Float',
             descriptionBottom: 'this is description',
             indent: true,
