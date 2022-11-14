@@ -116,7 +116,7 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
 
             {/* // subset of ContentEditor fields */}
             {/* // maybe filter out the ones in the object */}
-            {/* // maybe pass specific fields as props?? */}
+            {/* // maybe pass specific fields as props??  TODO */}
             <ContentEditor
               id={props.id}
               type={type}
