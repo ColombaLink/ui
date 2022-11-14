@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { border, color } from '~/utils'
 import { CloseIcon, Text, ScrollArea, Button } from '~'
 import { RightSidebar } from '../RightSidebar'
+import { ContentEditor } from '../../components/Content/ContentEditor'
 // import { useDescriptor } from '../hooks/useDescriptor'
 
 const Topbar = ({ label, id, type, onClose }) => {
@@ -45,6 +46,7 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
   console.log('props from objectlistmodal', props)
 
   const objectKeys = Object.keys(schema.properties)
+  const type = props.id ? null : props.field
 
   const onClose = async () => {
     setShowModal(false)
@@ -115,17 +117,17 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
             {/* // subset of ContentEditor fields */}
             {/* // maybe filter out the ones in the object */}
             {/* // maybe pass specific fields as props?? */}
-            {/* <ContentEditor
-              id={id}
+            <ContentEditor
+              id={props.id}
               type={type}
-              language={language}
+              language={'en'}
               style={{ padding: '48px 76px' }}
-              autoFocus={id ? field : null}
+              // autoFocus={id ? field : null}
               onChange={(data) => {
-                setDisabled(false)
-                Object.assign(changes, data)
+                // setDisabled(false)
+                // Object.assign(changes, data)
               }}
-            /> */}
+            />
           </ScrollArea>
           <RightSidebar style={{ width: 260 }}>
             <SideHeader title="Status" />
