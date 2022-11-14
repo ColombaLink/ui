@@ -48,8 +48,9 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
   const objectKeys = Object.keys(schema.properties)
   const type = props.id ? null : props.field
 
+  console.log('props', props)
   console.log('objectKeys to the kingdom', objectKeys)
-  console.log('props from objectlistmodal', props.field)
+  console.log('propsField', props.field)
 
   const onClose = async () => {
     setShowModal(false)
@@ -100,38 +101,23 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
           }}
         >
           <ScrollArea style={{ flexGrow: 1 }}>
-            <div style={{ padding: '48px 76px' }}>
-              1 level deep
-              {objectKeys.map((objectKey, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    borderRadius: 4,
-                    border: `1px solid ${color('border')}`,
-                    padding: '8px 12px',
-                    marginBottom: 8,
-                  }}
-                >
-                  {objectKey} - {schema.properties[objectKey].type}
-                </div>
-              ))}
-            </div>
-
             {/* // subset of ContentEditor fields */}
             {/* // maybe filter out the ones in the object */}
             {/* // maybe pass specific fields as props??  TODO */}
             <ContentEditor
               id={props.id}
               type={type}
-              language={'en'}
+              // language={'en'}
               style={{ padding: '48px 76px' }}
               childFields={objectKeys}
               objectName={props.field}
+              onChange={props.onChange}
               // autoFocus={id ? field : null}
-              onChange={(data) => {
-                // setDisabled(false)
-                // Object.assign(changes, data)
-              }}
+              // onChange={(data) => {
+              //   // setDisabled(false)
+              //   // Object.assign(changes, data)
+
+              // }}
             />
           </ScrollArea>
           <RightSidebar style={{ width: 260 }}>
