@@ -512,6 +512,8 @@ export const ContentEditor = ({
   style = null,
   autoFocus = null,
   language = 'en',
+  childFields = null,
+  objectName = null,
 }) => {
   let fields, loading
 
@@ -519,6 +521,7 @@ export const ContentEditor = ({
     const s = useItemSchema(id)
     fields = s.fields
     console.log('Content Editor the fields', fields)
+
     loading = s.loading
   } else {
     const s = useSchemaTypes()
@@ -526,6 +529,19 @@ export const ContentEditor = ({
     if (!loading) {
       fields = s.types[type].fields
     }
+  }
+
+  if (objectName && fields) {
+    console.log('objectName', objectName)
+    console.log(fields[objectName])
+    fields = fields[objectName].properties
+
+    console.log('NEW FIELD', fields)
+  }
+
+  if (childFields) {
+    console.log('childFields', childFields)
+    // fields = childFields
   }
 
   if (loading) {

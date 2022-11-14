@@ -43,10 +43,13 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
 }
 
 export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
-  console.log('props from objectlistmodal', props)
+  // console.log('props from objectlistmodal', props)
 
   const objectKeys = Object.keys(schema.properties)
   const type = props.id ? null : props.field
+
+  console.log('objectKeys to the kingdom', objectKeys)
+  console.log('props from objectlistmodal', props.field)
 
   const onClose = async () => {
     setShowModal(false)
@@ -122,6 +125,8 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
               type={type}
               language={'en'}
               style={{ padding: '48px 76px' }}
+              childFields={objectKeys}
+              objectName={props.field}
               // autoFocus={id ? field : null}
               onChange={(data) => {
                 // setDisabled(false)

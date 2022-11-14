@@ -26,7 +26,7 @@ export const ObjectList = ({
 }: ObjectListProps) => {
   const [showModal, setShowModal] = useState(false)
 
-  console.log('SCHMA', schema)
+  // console.log('SCHMA', schema)
 
   const openObjectHandler = () => {
     setShowModal(true)
