@@ -102,7 +102,9 @@ const Translation = ({ language, setLanguage }) => {
   )
 }
 
-const ContentModalInner = ({ prefix, id, field }) => {
+const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
+  console.log('ConntentModalInner', objectName, field, childFields)
+
   const client = useClient()
   const [, setLocation] = useLocation()
   const [disabled, setDisabled] = useState(true)
@@ -181,9 +183,12 @@ const ContentModalInner = ({ prefix, id, field }) => {
               id={id}
               type={type}
               language={language}
+              childFields={childFields}
+              objectName={objectName}
               style={{ padding: '48px 76px' }}
               autoFocus={id ? field : null}
               onChange={(data) => {
+                console.log('DATA-->', data)
                 setDisabled(false)
                 // TODO need to fix this for refs etc
                 Object.assign(changes, data)
@@ -234,12 +239,21 @@ const ContentModalInner = ({ prefix, id, field }) => {
 }
 
 export const ContentModal = (props) => {
+  console.log('some props', props)
+
   if (!props.id) {
     return null
   }
 
   if (props.id === 'create') {
-    return <ContentModalInner {...props} id={null} />
+    return (
+      <ContentModalInner
+        {...props}
+        id={null}
+        childFields={props.childFields}
+        objectName={props.objectName}
+      />
+    )
   }
 
   return <ContentModalInner {...props} />
