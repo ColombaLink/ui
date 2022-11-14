@@ -16,7 +16,7 @@ import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
 
-const Topbar = ({ id, type, onClose }) => {
+const Topbar = ({ id, type, onClose, objectName }) => {
   const { descriptor, type: schemaType, loading } = useDescriptor(id)
   return (
     <div
@@ -31,12 +31,15 @@ const Topbar = ({ id, type, onClose }) => {
     >
       <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
       <Text style={{ marginLeft: 24 }} weight={600}>
-        {id
+        {objectName
+          ? `Edit ${objectName} `
+          : id
           ? loading
             ? null
             : `Edit ${schemaType}: ${descriptor}`
           : `Create new ${type}`}
       </Text>
+      {objectName && <Badge style={{ marginLeft: 8 }}>Object</Badge>}
     </div>
   )
 }
@@ -173,7 +176,7 @@ const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
           flexDirection: 'column',
         }}
       >
-        <Topbar id={id} type={type} onClose={onClose} />
+        <Topbar id={id} type={type} onClose={onClose} objectName={objectName} />
         <div
           style={{
             display: 'flex',
@@ -200,6 +203,9 @@ const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
                     [key]: val,
                   },
                 })
+
+                // originally
+                // Object.assign(changes, data)
               }}
             />
           </ScrollArea>

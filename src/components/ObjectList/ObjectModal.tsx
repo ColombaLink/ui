@@ -62,6 +62,7 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
       {...props}
       childFields={objectKeys}
       objectName={props.field}
+      setShowModal={setShowModal}
     />
     // <div
     //   style={{
