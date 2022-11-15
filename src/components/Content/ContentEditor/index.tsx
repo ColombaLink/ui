@@ -213,7 +213,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        noInterrupt
+        //  noInterrupt
       />
     )
   },
@@ -223,7 +223,7 @@ const string = {
       descriptionBottom={description}
       indent
       space
-      noInterrupt
+      // noInterrupt
       error={(value) => {
         if (!isUrl(value) && value.length > 0) {
           return `Please enter a valid url https://...`
@@ -246,7 +246,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        noInterrupt
+        //  noInterrupt
         error={(value) => {
           if (!isEmail(value) && value.length > 0) {
             return `Please enter a valid email-address`
@@ -270,7 +270,7 @@ const string = {
         space
         indent
         markdownInput
-        noInterrupt
+        //    noInterrupt
       />
     )
   },
@@ -283,7 +283,7 @@ const number = {
         {...props}
         descriptionBottom={description}
         indent
-        noInterrupt
+        //   noInterrupt
         space
         type="number"
       />
@@ -298,7 +298,7 @@ const float = {
         {...props}
         descriptionBottom={description}
         space
-        noInterrupt
+        //   noInterrupt
         type="number"
         indent
         //  onChange={(e) => console.log(typeof e)}
@@ -315,7 +315,7 @@ const int = {
         descriptionBottom={description}
         space
         // integer
-        noInterrupt
+        //    noInterrupt
         type="number"
         indent
       />

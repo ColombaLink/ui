@@ -1,8 +1,8 @@
-import React, { CSSProperties, useRef, useState } from 'react'
+import React, { CSSProperties, useRef, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, AddIcon, Dialog, Input } from '~'
+import { Label, Button, AddIcon, Dialog, Input, usePropState } from '~'
 import { useDialog } from '~/components/Dialog'
 import {
   DndContext,
@@ -80,6 +80,9 @@ export const ArrayList = ({
   }
 
   const ids = idsRef.current
+
+  console.log('ids', ids)
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -137,6 +140,8 @@ export const ArrayList = ({
               if (inputVAL && typeof ok !== 'boolean') {
                 if (itemType === 'string') {
                   onChange([...arr, inputVAL])
+                  setArr([...arr, inputVAL])
+                  console.log('arrggghh', arr)
                 } else if (itemType === 'int') {
                   onChange([...arr, parseInt(inputVAL)])
                 } else if (itemType === 'float') {
@@ -250,6 +255,7 @@ export const ArrayList = ({
             )
           })}
         </SortableContext>
+
         {createPortal(
           <DragOverlay>
             {draggingIndex >= 0 ? (

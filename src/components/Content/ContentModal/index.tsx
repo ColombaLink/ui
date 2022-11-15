@@ -17,7 +17,7 @@ import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
 
-const Topbar = ({ id, type, onClose, objectName }) => {
+const Topbar = ({ id, type, onClose }) => {
   const { descriptor, type: schemaType, loading } = useDescriptor(id)
   return (
     <div
@@ -32,15 +32,12 @@ const Topbar = ({ id, type, onClose, objectName }) => {
     >
       <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
       <Text style={{ marginLeft: 24 }} weight={600}>
-        {objectName
-          ? `Edit ${objectName} `
-          : id
+        {id
           ? loading
             ? null
             : `Edit ${schemaType}: ${descriptor}`
           : `Create new ${type}`}
       </Text>
-      {objectName && <Badge style={{ marginLeft: 8 }}>Object</Badge>}
     </div>
   )
 }
@@ -106,7 +103,7 @@ const Translation = ({ language, setLanguage }) => {
   )
 }
 
-const ContentModalInner = ({ prefix, id, field, objectName }) => {
+const ContentModalInner = ({ prefix, id, field }) => {
   const client = useClient()
   const [, setLocation] = useLocation()
   const [disabled, setDisabled] = useState(true)
@@ -173,7 +170,7 @@ const ContentModalInner = ({ prefix, id, field, objectName }) => {
           flexDirection: 'column',
         }}
       >
-        <Topbar id={id} type={type} onClose={onClose} objectName={objectName} />
+        <Topbar id={id} type={type} onClose={onClose} />
         <div
           style={{
             display: 'flex',
