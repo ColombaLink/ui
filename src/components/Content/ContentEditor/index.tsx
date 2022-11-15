@@ -179,7 +179,7 @@ const SingleReference = (props) => {
 
 const object = {
   default: ({ prefix, field, ...props }) => {
-    console.log('object', { prefix })
+    // console.log('object', { prefix })
     const [, setLocation] = useLocation()
     return (
       <ObjectList

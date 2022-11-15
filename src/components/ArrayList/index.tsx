@@ -81,8 +81,6 @@ export const ArrayList = ({
 
   const ids = idsRef.current
 
-  console.log('ids', ids)
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {

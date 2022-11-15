@@ -6,7 +6,7 @@ import { RightSidebar } from '~/components/RightSidebar'
 import { ScrollArea } from '~/components/ScrollArea'
 import { Text } from '~/components/Text'
 import { useLocation, useSchema } from '~/hooks'
-import { CloseIcon } from '~/icons'
+import { CloseIcon, ArrowRightIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useDescriptor } from '../hooks/useDescriptor'
@@ -18,7 +18,9 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
 
 const Topbar = ({ id, type, onClose }) => {
+  const [location, setLocation] = useLocation()
   const { descriptor, type: schemaType, loading } = useDescriptor(id)
+
   return (
     <div
       style={{
@@ -30,7 +32,17 @@ const Topbar = ({ id, type, onClose }) => {
         flexShrink: 0,
       }}
     >
-      <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
+      {location.split('.').length > 1 ? (
+        <ArrowRightIcon
+          onClick={() => {
+            const newLocation = location.split('.').slice(0, -1).join('.')
+            setLocation(newLocation)
+          }}
+          style={{ cursor: 'pointer', transform: 'scaleX(-1)' }}
+        />
+      ) : (
+        <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
+      )}
       <Text style={{ marginLeft: 24 }} weight={600}>
         {id
           ? loading
