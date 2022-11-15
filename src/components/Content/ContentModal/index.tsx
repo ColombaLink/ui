@@ -15,6 +15,7 @@ import { Select } from '~/components/Select'
 import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
+import { deepMerge } from '@saulx/utils'
 
 const Topbar = ({ id, type, onClose, objectName }) => {
   const { descriptor, type: schemaType, loading } = useDescriptor(id)
@@ -105,17 +106,7 @@ const Translation = ({ language, setLanguage }) => {
   )
 }
 
-const ContentModalInner = ({
-  prefix,
-  id,
-  field,
-  childFields,
-  objectName,
-  schema,
-  ...props
-}) => {
-  // console.log('ConntentModalInner', objectName, field, childFields)
-
+const ContentModalInner = ({ prefix, id, field, objectName }) => {
   const client = useClient()
   const [, setLocation] = useLocation()
   const [disabled, setDisabled] = useState(true)
@@ -162,8 +153,6 @@ const ContentModalInner = ({
         left: 0,
         right: 0,
         display: 'flex',
-        // temp
-        zIndex: 1,
       }}
     >
       <div
@@ -196,31 +185,18 @@ const ContentModalInner = ({
               id={id}
               type={type}
               language={language}
-              childFields={childFields}
-              objectName={objectName}
               style={{ padding: '48px 76px' }}
               autoFocus={id ? field : null}
+              prefix={prefix}
               onChange={(data) => {
-                const key = Object.keys(data)[0]
-                const val = data[key]
-                console.log('DATA-->', key, val)
-                console.log('Schema', schema.properties[key])
-                console.log('some propsss -->', props)
-                console.log('I dunno', props?.value[key])
                 setDisabled(false)
-                // TODO need to fix this for refs etc
-                // Object.assign(changes,
-                //   [field]: [key]: val,
 
-                //   },
-                // })
-
-                // Object.assign(changes, (schema.properties[key].value = val))
-
-                Object.assign(changes, (props.value[key] = val))
-
-                // originally
-                // Object.assign(changes, data)
+                if (typeof data === 'object' && !Array.isArray(data)) {
+                  console.warn('doing deep merge!', changes)
+                  deepMerge(changes, data)
+                } else {
+                  Object.assign(changes, data)
+                }
               }}
             />
           </ScrollArea>
@@ -229,18 +205,16 @@ const ContentModalInner = ({
             <Button
               disabled={disabled}
               textAlign="center"
-              // icon={AddIcon}
               style={{ width: '100%' }}
               onClick={async () => {
-                const res = await client.set({
-                  $id: id || undefined,
+                await client.set({
+                  $id: id.split('.')[0] || undefined,
                   type,
                   ...changes,
                 })
                 published.current = true
                 ref.current = {}
                 setDisabled(true)
-                setLocation(`${prefix}/${res.id}`)
               }}
             >
               {published.current
@@ -268,8 +242,6 @@ const ContentModalInner = ({
 }
 
 export const ContentModal = (props) => {
-  console.log('some props', props)
-
   if (!props.id) {
     return null
   }

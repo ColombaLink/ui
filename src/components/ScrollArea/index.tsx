@@ -10,7 +10,8 @@ export const scrollAreaStyle = {
   overflowY: 'overlay',
   overflowX: 'overlay',
   // firefox
-  scrollbarColor: 'transparent transparent',
+  scrollbarColor: `${scrollbarColor} transparent`,
+  scrollbarWidth: 'thin',
   '&::-webkit-scrollbar': {
     visibility: 'hidden',
   },
@@ -22,9 +23,6 @@ export const scrollAreaStyle = {
     height: '8px',
   },
   '&:hover': {
-    // firefox
-    scrollbarColor: `${scrollbarColor} transparent`,
-    scrollbarWidth: 'thin',
     // the rest
     '&::-webkit-scrollbar': {
       visibility: 'visible',

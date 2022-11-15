@@ -159,9 +159,19 @@ export const ContentMain = ({
   const typeFilter = query?.filters?.find(
     ({ $field, $operator }) => $field === 'type' && $operator === '='
   )
-  const includedTypes = typeFilter?.$value
-    ? [typeFilter.$value]
-    : Object.keys(types)
+  let includedTypes
+  if (typeFilter) {
+    if (typeFilter.$value in types) {
+      includedTypes = [typeFilter.$value]
+    } else {
+      return null
+    }
+  }
+
+  if (!includedTypes) {
+    includedTypes = Object.keys(types)
+  }
+
   const fieldTypes = {}
 
   includedTypes.forEach((type) => {

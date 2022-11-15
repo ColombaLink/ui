@@ -21,16 +21,17 @@ export const ObjectList = ({
   space,
   indent,
   style,
-  schema,
-  ...props
-}: ObjectListProps) => {
-  const [showModal, setShowModal] = useState(false)
+  onClick,
+}: // schema,
+// ...props
+ObjectListProps) => {
+  // const [showModal, setShowModal] = useState(false)
 
-  // console.log('SCHMA', schema)
+  // // console.log('SCHMA', schema)
 
-  const openObjectHandler = () => {
-    setShowModal(true)
-  }
+  // const openObjectHandler = () => {
+  //   setShowModal(true)
+  // }
 
   return (
     <>
@@ -46,18 +47,18 @@ export const ObjectList = ({
           style={{ marginBottom: 12 }}
         />
 
-        <Button icon={EditIcon} ghost onClick={openObjectHandler}>
+        <Button icon={EditIcon} ghost onClick={onClick}>
           Edit object
         </Button>
       </InputWrapper>
-      {showModal && (
+      {/* {showModal && (
         <ObjectListModal
           label={label}
           props={props}
           schema={schema}
           setShowModal={setShowModal}
         />
-      )}
+      )} */}
     </>
   )
 }
