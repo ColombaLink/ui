@@ -7,20 +7,22 @@ export const ContentLeft: FC<{
 }> = ({ prefix }) => {
   const { schema, loading: loadingSchema } = useSchema()
   const { data: views, loading } = useData('basedObserveViews')
-
   if (!loading && !loadingSchema) {
     const types = Object.keys(schema.types)
     if (!views.default) {
       views.default = []
     }
+
     if (views.default.length < types.length) {
-      for (let i = views.default.length; i < types.length; i++) {
-        const type = types[i]
-        views.default.push({
-          id: i,
-          query: `filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${type}%22%7D%5D`,
-          label: type,
-        })
+      const viewTypes = new Set(views.default.map(({ id }) => id))
+      for (const type of types) {
+        if (!viewTypes.has(type)) {
+          views.default.push({
+            id: type,
+            query: `filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${type}%22%7D%5D&target=root&field=descendants`,
+            label: type,
+          })
+        }
       }
     }
   }

@@ -7,14 +7,14 @@ export const ReferencesInput = (props) => {
 
   if (loading) return null
 
-  return (
+  const options = Object.keys(fields)
+
+  return options.length ? (
     <SelectInput
       // TODO remove this hack for switching targets
       key={props.target}
       {...props}
-      options={Object.keys(fields).filter(
-        (field) => fields[field].type === 'references'
-      )}
+      options={options.filter((field) => fields[field].type === 'references')}
     />
-  )
+  ) : null
 }
