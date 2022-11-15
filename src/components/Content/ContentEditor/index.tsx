@@ -461,7 +461,8 @@ const ContentField = ({
   const { data, loading } = useData(targetId ? query : null)
 
   if (!loading) {
-    dataRef.current = path.reduce((data, field) => data[field], data)
+    dataRef.current = path.reduce((data, field) => data[field] || {}, data)
+    // console.log(dataRef.current)
   }
 
   const Component =
