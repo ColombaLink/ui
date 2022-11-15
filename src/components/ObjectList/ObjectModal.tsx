@@ -46,6 +46,8 @@ import { ContentModal } from '../Content/ContentModal'
 export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
   console.log('props from objectlistmodal', props)
 
+  console.log('schema from objectlistmodal', schema)
+
   const objectKeys = Object.keys(schema.properties)
   const type = props.id ? null : props.field
 
@@ -63,6 +65,7 @@ export const ObjectListModal = ({ label, props, schema, setShowModal }) => {
       childFields={objectKeys}
       objectName={props.field}
       setShowModal={setShowModal}
+      schema={schema}
     />
     // <div
     //   style={{

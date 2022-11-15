@@ -105,7 +105,15 @@ const Translation = ({ language, setLanguage }) => {
   )
 }
 
-const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
+const ContentModalInner = ({
+  prefix,
+  id,
+  field,
+  childFields,
+  objectName,
+  schema,
+  ...props
+}) => {
   // console.log('ConntentModalInner', objectName, field, childFields)
 
   const client = useClient()
@@ -195,14 +203,21 @@ const ContentModalInner = ({ prefix, id, field, childFields, objectName }) => {
               onChange={(data) => {
                 const key = Object.keys(data)[0]
                 const val = data[key]
-                console.log('DATA-->', val)
+                console.log('DATA-->', key, val)
+                console.log('Schema', schema.properties[key])
+                console.log('some propsss -->', props)
+                console.log('I dunno', props?.value[key])
                 setDisabled(false)
                 // TODO need to fix this for refs etc
-                Object.assign(changes, {
-                  [field]: {
-                    [key]: val,
-                  },
-                })
+                // Object.assign(changes,
+                //   [field]: [key]: val,
+
+                //   },
+                // })
+
+                // Object.assign(changes, (schema.properties[key].value = val))
+
+                Object.assign(changes, (props.value[key] = val))
 
                 // originally
                 // Object.assign(changes, data)

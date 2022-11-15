@@ -238,6 +238,7 @@ const string = {
     />
   ),
   email: ({ description, meta, onChange, ...props }) => {
+    console.log('email props -->', props)
     return (
       <Input
         {...props}
