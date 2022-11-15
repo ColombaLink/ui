@@ -45,7 +45,7 @@ export const useLocation = (): [string, (href: string) => void] => {
   return [
     location,
     (href) => {
-      const i = href.indexOf('#')
+      const i = href?.indexOf('#')
       const fireHashChange =
         i !== -1 && href.substring(i) !== window.location.hash
       setLocation(parseHref(href))

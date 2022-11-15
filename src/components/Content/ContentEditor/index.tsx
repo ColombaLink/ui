@@ -15,6 +15,7 @@ import {
   useSchemaTypes,
   LoadingIcon,
   ArrayList,
+  useLocation,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -177,16 +178,16 @@ const SingleReference = (props) => {
 // }
 
 const object = {
-  default: ({ label, description, schema, style, ...props }) => {
-    console.log('Object props -->', props)
+  default: ({ prefix, field, ...props }) => {
+    console.log('object', { prefix })
+    const [, setLocation] = useLocation()
     return (
       <ObjectList
-        label={label}
-        schema={schema}
         indent
-        description={description}
-        style={style}
         {...props}
+        onClick={() => {
+          setLocation(`${prefix}.${field}`)
+        }}
       />
     )
   },
@@ -212,7 +213,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        noInterrupt
+        //  noInterrupt
       />
     )
   },
@@ -222,7 +223,7 @@ const string = {
       descriptionBottom={description}
       indent
       space
-      noInterrupt
+      // noInterrupt
       error={(value) => {
         if (!isUrl(value) && value.length > 0) {
           return `Please enter a valid url https://...`
@@ -245,7 +246,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        noInterrupt
+        //  noInterrupt
         error={(value) => {
           if (!isEmail(value) && value.length > 0) {
             return `Please enter a valid email-address`
@@ -269,7 +270,7 @@ const string = {
         space
         indent
         markdownInput
-        noInterrupt
+        //    noInterrupt
       />
     )
   },
@@ -282,7 +283,7 @@ const number = {
         {...props}
         descriptionBottom={description}
         indent
-        noInterrupt
+        //   noInterrupt
         space
         type="number"
       />
@@ -297,7 +298,7 @@ const float = {
         {...props}
         descriptionBottom={description}
         space
-        noInterrupt
+        //   noInterrupt
         type="number"
         indent
         //  onChange={(e) => console.log(typeof e)}
@@ -314,7 +315,7 @@ const int = {
         descriptionBottom={description}
         space
         // integer
-        noInterrupt
+        //    noInterrupt
         type="number"
         indent
       />
@@ -430,31 +431,37 @@ const ContentField = ({
   language,
   onChange,
   autoFocus,
+  prefix,
 }) => {
   const { ui, format, description, name, refTypes } = schema.meta
   const dataRef = useRef<any>()
   const isText = type === 'text'
-  const { data, loading } = useData(
-    id
-      ? {
-          $id: id,
-          // $language: type === 'text' ? language : undefined,
-          [field]: refTypes?.includes('file')
-            ? {
-                mimeType: true,
-                name: true,
-                src: true,
-                id: true,
-              }
-            : isText
-            ? { [language]: true }
-            : true,
-        }
-      : null
-  )
+  const [targetId, ...path] = id.split('.')
+
+  const query = {
+    $id: targetId,
+  }
+  let target = query
+  path.forEach((field) => {
+    target[field] = {}
+    target = target[field]
+  })
+
+  target[field] = refTypes?.includes('file')
+    ? {
+        mimeType: true,
+        name: true,
+        src: true,
+        id: true,
+      }
+    : isText
+    ? { [language]: true }
+    : true
+
+  const { data, loading } = useData(targetId ? query : null)
 
   if (!loading) {
-    dataRef.current = data
+    dataRef.current = path.reduce((data, field) => data[field], data)
   }
 
   const Component =
@@ -476,11 +483,11 @@ const ContentField = ({
     )
   }
 
-  //  console.log({ name, index })
-
   return (
     <Component
-      id={id}
+      // TODO is this ok? why do we neeed? otherwise we have to handle nested objects here as well
+      // id={targetId}
+      prefix={prefix}
       description={description}
       label={name}
       field={field}
@@ -512,13 +519,43 @@ export const ContentEditor = ({
   style = null,
   autoFocus = null,
   language = 'en',
+  prefix = '',
 }) => {
   let fields, loading
 
   if (id) {
-    const s = useItemSchema(id)
-    fields = s.fields
-    loading = s.loading
+    if (id.includes('.')) {
+      // im dealing with nested fields
+      const [pathId, ...path] = id.split('.')
+      const s = useItemSchema(pathId)
+      loading = s.loading
+      fields = s.fields
+
+      if (fields) {
+        path.forEach((field) => {
+          if (field in fields) {
+            const { properties, items, values } = fields[field]
+            // TODO also make for object in array, record, etc
+            fields = items?.properties || values?.properties || properties
+          }
+        })
+        const onChangeProp = onChange
+
+        onChange = (val) => {
+          const setObj = path.reduceRight((val, field) => {
+            return {
+              [field]: val,
+            }
+          }, val)
+
+          onChangeProp(setObj)
+        }
+      }
+    } else {
+      const s = useItemSchema(id)
+      fields = s.fields
+      loading = s.loading
+    }
   } else {
     const s = useSchemaTypes()
     loading = s.loading
@@ -544,6 +581,7 @@ export const ContentEditor = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
+      {/* mapt over de fields in de object */}
       {Object.keys(fields).map((field) => {
         const fieldSchema = fields[field]
         const { type, meta } = fields[field]
@@ -561,6 +599,7 @@ export const ContentEditor = ({
 
         return (
           <ContentField
+            prefix={`${prefix}/${id}`}
             autoFocus={autoFocus === field}
             field={field}
             id={id}

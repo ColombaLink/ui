@@ -1,8 +1,7 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, EditIcon } from '~'
 import { Space } from '~/types'
-import { ObjectListModal } from './ObjectModal'
 
 type ObjectListProps = {
   label?: string
@@ -11,7 +10,7 @@ type ObjectListProps = {
   descriptionBottom?: string
   style?: CSSProperties
   indent?: boolean
-  schema?: any
+  onClick?: () => void
 }
 
 export const ObjectList = ({
@@ -21,17 +20,8 @@ export const ObjectList = ({
   space,
   indent,
   style,
-  schema,
-  ...props
+  onClick,
 }: ObjectListProps) => {
-  const [showModal, setShowModal] = useState(false)
-
-  console.log('SCHMA', schema)
-
-  const openObjectHandler = () => {
-    setShowModal(true)
-  }
-
   return (
     <>
       <InputWrapper
@@ -46,13 +36,10 @@ export const ObjectList = ({
           style={{ marginBottom: 12 }}
         />
 
-        <Button icon={EditIcon} ghost onClick={openObjectHandler}>
+        <Button icon={EditIcon} ghost onClick={onClick}>
           Edit object
         </Button>
       </InputWrapper>
-      {showModal && (
-        <ObjectListModal label={label} props={props} schema={schema} />
-      )}
     </>
   )
 }

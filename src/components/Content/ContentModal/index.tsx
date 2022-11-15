@@ -15,6 +15,7 @@ import { Select } from '~/components/Select'
 import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
+import { deepMerge } from '@saulx/utils'
 
 const Topbar = ({ id, type, onClose }) => {
   const { descriptor, type: schemaType, loading } = useDescriptor(id)
@@ -183,10 +184,16 @@ const ContentModalInner = ({ prefix, id, field }) => {
               language={language}
               style={{ padding: '48px 76px' }}
               autoFocus={id ? field : null}
+              prefix={prefix}
               onChange={(data) => {
                 setDisabled(false)
-                // TODO need to fix this for refs etc
-                Object.assign(changes, data)
+
+                if (typeof data === 'object' && !Array.isArray(data)) {
+                  console.warn('doing deep merge!', changes)
+                  deepMerge(changes, data)
+                } else {
+                  Object.assign(changes, data)
+                }
               }}
             />
           </ScrollArea>
@@ -195,18 +202,16 @@ const ContentModalInner = ({ prefix, id, field }) => {
             <Button
               disabled={disabled}
               textAlign="center"
-              // icon={AddIcon}
               style={{ width: '100%' }}
               onClick={async () => {
-                const res = await client.set({
-                  $id: id || undefined,
+                await client.set({
+                  $id: id.split('.')[0] || undefined,
                   type,
                   ...changes,
                 })
                 published.current = true
                 ref.current = {}
                 setDisabled(true)
-                setLocation(`${prefix}/${res.id}`)
               }}
             >
               {published.current
@@ -239,7 +244,14 @@ export const ContentModal = (props) => {
   }
 
   if (props.id === 'create') {
-    return <ContentModalInner {...props} id={null} />
+    return (
+      <ContentModalInner
+        {...props}
+        id={null}
+        childFields={props.childFields}
+        objectName={props.objectName}
+      />
+    )
   }
 
   return <ContentModalInner {...props} />
