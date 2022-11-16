@@ -92,7 +92,7 @@ export const ArrayList = ({
   useEffect(() => {
     setRenderCounter((c) => c + 1)
     console.log('fire', renderCounter)
-  }, [arr.length, ids.length])
+  }, [arr.length, ids.length, idsRef.current.length])
 
   const onDragStart = ({ active }) => {
     setDraggingIndex(ids.indexOf(active.id))
@@ -168,11 +168,18 @@ export const ArrayList = ({
   }
 
   const deleteSpecificItem = async (item, idx) => {
-    onChange(arr.filter((_, index) => index !== idx))
+    // console.log('delete this', item, idx)
+    arr.splice(idx, 1)
+    idsRef.current = [...arr]
+    // console.log('idsREF current --> ', idsRef.current)
+    onChange(arr)
+    setRenderCounter((c) => c + 1)
+    //  console.log('delete fire', renderCounter)
   }
 
   const editSpecificItem = async (item, idx) => {
     // const value = await prompt(`Edit ${arr[idx]} `)
+
     let inputVAL = ''
     const ok = await open(
       <Dialog label={`Edit ${arr[idx]} `}>
