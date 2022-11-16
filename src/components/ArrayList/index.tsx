@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState, useEffect } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -47,7 +47,6 @@ export const ArrayList = ({
   const [draggingIndex, setDraggingIndex] = useState<number>()
   const ref = useRef<string>()
   const idsRef = useRef<any[]>()
-
   const [inputVal, setInputVal] = useState('')
 
   if (ref.current !== id) {
@@ -138,8 +137,10 @@ export const ArrayList = ({
               if (inputVAL && typeof ok !== 'boolean') {
                 if (itemType === 'string') {
                   onChange([...arr, inputVAL])
+                  console.log('arrggghh', [...arr, inputVAL])
                   setArr([...arr, inputVAL])
-                  console.log('arrggghh', arr)
+
+                  idsRef.current = [...arr, inputVAL]
                 } else if (itemType === 'int') {
                   onChange([...arr, parseInt(inputVAL)])
                 } else if (itemType === 'float') {
@@ -239,7 +240,7 @@ export const ArrayList = ({
         onDragStart={onDragStart}
       >
         <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-          {ids.map((id, idx) => {
+          {ids?.map((id, idx) => {
             return (
               <SingleArrayListItem
                 key={id}
