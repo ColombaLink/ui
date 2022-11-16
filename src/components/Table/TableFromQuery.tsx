@@ -85,13 +85,15 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         if (fieldType) {
           const weight = colIndex ? 400 : 500
           if (fieldType === 'array') {
-            children = 'ARRAY!'
+            children = '[array]'
+          } else if (fieldType === 'json') {
+            children = '[json]'
           } else if (fieldType === 'record') {
-            children = 'RECORD!'
+            children = '[record]'
           } else if (fieldType === 'set') {
-            children = 'SET!'
+            children = '[set]'
           } else if (fieldType === 'object') {
-            children = 'OBJECT!'
+            children = '[object]'
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
           } else if (fieldType === 'references') {
@@ -109,6 +111,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
                 }}
               />
             )
+          } else if (typeof value === 'object') {
+            console.warn('incorrect value:', fieldType, item, field, value)
           } else {
             children = <Text weight={weight}>{value}</Text>
           }

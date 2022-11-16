@@ -171,6 +171,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
             )
           }}
           onSubmit={(value) => {
+            console.log('------>', value || fields[0])
             addFieldFilter(value || fields[0])
           }}
         />

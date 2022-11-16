@@ -11,11 +11,39 @@ import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
 import { useClient, useData } from '@based/react'
 
-const Menu = () => {
+const Menu = ({ views, currentView, deletable }) => {
+  const client = useClient()
+  const { prompt, confirm } = useDialog()
   return (
     <>
-      <ContextItem>Rename view</ContextItem>
-      <ContextItem>Delete view</ContextItem>
+      <ContextItem
+        onClick={async () => {
+          const name = await prompt(`Enter a new name for this view`)
+          if (name) {
+            currentView.label = name
+            await client.call('basedSetViews', views)
+          }
+        }}
+      >
+        Rename view
+      </ContextItem>
+      {deletable ? (
+        <ContextItem
+          onClick={async () => {
+            const ok = await confirm(
+              `Are you sure you want to delete '${currentView.label}?`
+            )
+            if (ok) {
+              for (const i in views) {
+                views[i] = views[i].filter((view) => view !== currentView)
+              }
+              await client.call('basedSetViews', views)
+            }
+          }}
+        >
+          Delete view
+        </ContextItem>
+      ) : null}
     </>
   )
 }
@@ -65,16 +93,15 @@ const Header = ({ label, view, prefix }) => {
   const { confirm, prompt } = useDialog()
   const client = useClient()
   const { data: views } = useData('basedObserveViews')
-  let viewKey
-  let viewLabel
+  let currentView, deletable
 
   const parse = () => {
     // TODO FIX the redirect!!
-    view = Number(view)
-    for (viewKey in views) {
+    for (const viewKey in views) {
       for (const v of views[viewKey]) {
-        if (v.id === view) {
-          viewLabel = v.label
+        if (String(v.id) === view) {
+          currentView = v
+          deletable = viewKey !== 'default'
           return
         }
       }
@@ -85,21 +112,21 @@ const Header = ({ label, view, prefix }) => {
 
   return (
     <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Text weight={600}>{viewLabel}</Text>
-      {/* <div style={{ padding: '0 16px' }}>
+      <Text weight={600}>{currentView?.label}</Text>
+      <div style={{ padding: '0 16px' }}>
         <MoreIcon
-          onClick={useContextMenu(Menu)}
+          onClick={useContextMenu(Menu, { views, currentView, deletable })}
           style={{
             cursor: 'pointer',
           }}
         />
-      </div> */}
+      </div>
       <Button
         ghost
         onClick={async () => {
-          const ok = await confirm(`This will update '${viewLabel}'`)
+          const ok = await confirm(`This will update '${currentView.label}'`)
           if (ok) {
-            views[viewKey][view].query = location.search.substring(1)
+            currentView.query = location.search.substring(1)
             await client.call('basedSetViews', views)
           }
         }}
@@ -153,14 +180,14 @@ export const ContentMain = ({
 
   if (loading) return null
 
-  const set = new Set() //new Set(['type', 'id', 'name', 'children'])
+  const set = new Set()
   const indexed = []
   const other = new Set()
   const typeFilter = query?.filters?.find(
     ({ $field, $operator }) => $field === 'type' && $operator === '='
   )
   let includedTypes
-  if (typeFilter) {
+  if (typeFilter?.$value) {
     if (typeFilter.$value in types) {
       includedTypes = [typeFilter.$value]
     } else {

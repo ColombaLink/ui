@@ -27,6 +27,8 @@ export const ContentLeft: FC<{
     }
   }
 
+  // useClient().call('basedSetViews', {})
+
   const data = {}
 
   if (views.custom?.length) {
