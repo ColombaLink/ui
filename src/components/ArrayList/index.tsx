@@ -49,6 +49,8 @@ export const ArrayList = ({
   const idsRef = useRef<any[]>()
   const [inputVal, setInputVal] = useState('')
 
+  const [renderCounter, setRenderCounter] = useState(1)
+
   if (ref.current !== id) {
     // if the external value changed
     ref.current = id
@@ -86,6 +88,11 @@ export const ArrayList = ({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
+
+  useEffect(() => {
+    setRenderCounter((c) => c + 1)
+    console.log('fire', renderCounter)
+  }, [arr.length, ids.length])
 
   const onDragStart = ({ active }) => {
     setDraggingIndex(ids.indexOf(active.id))
@@ -137,16 +144,20 @@ export const ArrayList = ({
               if (inputVAL && typeof ok !== 'boolean') {
                 if (itemType === 'string') {
                   onChange([...arr, inputVAL])
-                  console.log('arrggghh', [...arr, inputVAL])
                   setArr([...arr, inputVAL])
-
-                  idsRef.current = [...arr, inputVAL]
+                  idsRef.current = [...idsRef.current, inputVAL]
                 } else if (itemType === 'int') {
                   onChange([...arr, parseInt(inputVAL)])
+                  setArr([...arr, parseInt(inputVAL)])
+                  idsRef.current = [...idsRef.current, parseInt(inputVAL)]
                 } else if (itemType === 'float') {
                   onChange([...arr, parseFloat(inputVAL)])
+                  setArr([...arr, parseFloat(inputVAL)])
+                  idsRef.current = [...idsRef.current, parseFloat(inputVAL)]
                 } else if (itemType === 'digest') {
                   onChange([...arr, inputVAL])
+                  setArr([...arr, inputVAL])
+                  idsRef.current = [...idsRef.current, inputVAL]
                 }
               }
             }}
@@ -233,44 +244,46 @@ export const ArrayList = ({
       {/** @ts-ignore  **/}
       <Label label={props.label} space={12} />
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-        onDragStart={onDragStart}
-      >
-        <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-          {ids?.map((id, idx) => {
-            return (
-              <SingleArrayListItem
-                key={id}
-                id={id}
-                item={arr[idx]}
-                idx={idx}
-                itemType={itemType}
-                deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={editSpecificItem}
-              />
-            )
-          })}
-        </SortableContext>
+      {renderCounter ? (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={onDragEnd}
+          onDragStart={onDragStart}
+        >
+          <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+            {ids?.map((id, idx) => {
+              return (
+                <SingleArrayListItem
+                  key={id}
+                  id={id}
+                  item={arr[idx]}
+                  idx={idx}
+                  itemType={itemType}
+                  deleteSpecificItem={deleteSpecificItem}
+                  editSpecificItem={editSpecificItem}
+                />
+              )
+            })}
+          </SortableContext>
 
-        {createPortal(
-          <DragOverlay>
-            {draggingIndex >= 0 ? (
-              <SingleArrayListItem
-                id={ids[draggingIndex]}
-                item={arr[draggingIndex]}
-                idx={draggingIndex}
-                itemType={itemType}
-                deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={editSpecificItem}
-              />
-            ) : null}
-          </DragOverlay>,
-          document.body
-        )}
-      </DndContext>
+          {createPortal(
+            <DragOverlay>
+              {draggingIndex >= 0 ? (
+                <SingleArrayListItem
+                  id={ids[draggingIndex]}
+                  item={arr[draggingIndex]}
+                  idx={draggingIndex}
+                  itemType={itemType}
+                  deleteSpecificItem={deleteSpecificItem}
+                  editSpecificItem={editSpecificItem}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+      ) : null}
 
       <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
         Add{' '}
