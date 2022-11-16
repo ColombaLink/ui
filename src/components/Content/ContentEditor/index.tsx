@@ -178,12 +178,13 @@ const SingleReference = (props) => {
 // }
 
 const object = {
-  default: ({ prefix, field, ...props }) => {
+  default: ({ prefix, schema, field, ...props }) => {
     // console.log('object', { prefix })
     const [, setLocation] = useLocation()
     return (
       <ObjectList
         indent
+        schema={schema}
         {...props}
         onClick={() => {
           setLocation(`${prefix}.${field}`)

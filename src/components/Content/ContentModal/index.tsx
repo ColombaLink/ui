@@ -200,10 +200,14 @@ const ContentModalInner = ({ prefix, id, field }) => {
               onChange={(data) => {
                 setDisabled(false)
 
-                if (typeof data === 'object' && !Array.isArray(data)) {
+                if (
+                  typeof data === 'object' &&
+                  !Array.isArray(data[Object.keys(data)[0]])
+                ) {
                   console.warn('doing deep merge!', changes)
                   deepMerge(changes, data)
                 } else {
+                  console.log('array ', data, changes)
                   Object.assign(changes, data)
                 }
               }}

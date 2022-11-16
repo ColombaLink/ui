@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState, useEffect } from 'react'
+import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -47,8 +47,9 @@ export const ArrayList = ({
   const [draggingIndex, setDraggingIndex] = useState<number>()
   const ref = useRef<string>()
   const idsRef = useRef<any[]>()
-
   const [inputVal, setInputVal] = useState('')
+
+  const [renderCounter, setRenderCounter] = useState(1)
 
   if (ref.current !== id) {
     // if the external value changed
@@ -87,6 +88,11 @@ export const ArrayList = ({
       coordinateGetter: sortableKeyboardCoordinates,
     })
   )
+
+  useEffect(() => {
+    setRenderCounter((c) => c + 1)
+    console.log('fire', renderCounter)
+  }, [arr.length, ids.length, idsRef.current.length])
 
   const onDragStart = ({ active }) => {
     setDraggingIndex(ids.indexOf(active.id))
@@ -139,13 +145,19 @@ export const ArrayList = ({
                 if (itemType === 'string') {
                   onChange([...arr, inputVAL])
                   setArr([...arr, inputVAL])
-                  console.log('arrggghh', arr)
+                  idsRef.current = [...idsRef.current, inputVAL]
                 } else if (itemType === 'int') {
                   onChange([...arr, parseInt(inputVAL)])
+                  setArr([...arr, parseInt(inputVAL)])
+                  idsRef.current = [...idsRef.current, parseInt(inputVAL)]
                 } else if (itemType === 'float') {
                   onChange([...arr, parseFloat(inputVAL)])
+                  setArr([...arr, parseFloat(inputVAL)])
+                  idsRef.current = [...idsRef.current, parseFloat(inputVAL)]
                 } else if (itemType === 'digest') {
                   onChange([...arr, inputVAL])
+                  setArr([...arr, inputVAL])
+                  idsRef.current = [...idsRef.current, inputVAL]
                 }
               }
             }}
@@ -156,11 +168,18 @@ export const ArrayList = ({
   }
 
   const deleteSpecificItem = async (item, idx) => {
-    onChange(arr.filter((_, index) => index !== idx))
+    // console.log('delete this', item, idx)
+    arr.splice(idx, 1)
+    idsRef.current = [...arr]
+    // console.log('idsREF current --> ', idsRef.current)
+    onChange(arr)
+    setRenderCounter((c) => c + 1)
+    //  console.log('delete fire', renderCounter)
   }
 
   const editSpecificItem = async (item, idx) => {
     // const value = await prompt(`Edit ${arr[idx]} `)
+
     let inputVAL = ''
     const ok = await open(
       <Dialog label={`Edit ${arr[idx]} `}>
@@ -232,44 +251,46 @@ export const ArrayList = ({
       {/** @ts-ignore  **/}
       <Label label={props.label} space={12} />
 
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={onDragEnd}
-        onDragStart={onDragStart}
-      >
-        <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-          {ids.map((id, idx) => {
-            return (
-              <SingleArrayListItem
-                key={id}
-                id={id}
-                item={arr[idx]}
-                idx={idx}
-                itemType={itemType}
-                deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={editSpecificItem}
-              />
-            )
-          })}
-        </SortableContext>
+      {renderCounter ? (
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={onDragEnd}
+          onDragStart={onDragStart}
+        >
+          <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+            {ids?.map((id, idx) => {
+              return (
+                <SingleArrayListItem
+                  key={id}
+                  id={id}
+                  item={arr[idx]}
+                  idx={idx}
+                  itemType={itemType}
+                  deleteSpecificItem={deleteSpecificItem}
+                  editSpecificItem={editSpecificItem}
+                />
+              )
+            })}
+          </SortableContext>
 
-        {createPortal(
-          <DragOverlay>
-            {draggingIndex >= 0 ? (
-              <SingleArrayListItem
-                id={ids[draggingIndex]}
-                item={arr[draggingIndex]}
-                idx={draggingIndex}
-                itemType={itemType}
-                deleteSpecificItem={deleteSpecificItem}
-                editSpecificItem={editSpecificItem}
-              />
-            ) : null}
-          </DragOverlay>,
-          document.body
-        )}
-      </DndContext>
+          {createPortal(
+            <DragOverlay>
+              {draggingIndex >= 0 ? (
+                <SingleArrayListItem
+                  id={ids[draggingIndex]}
+                  item={arr[draggingIndex]}
+                  idx={draggingIndex}
+                  itemType={itemType}
+                  deleteSpecificItem={deleteSpecificItem}
+                  editSpecificItem={editSpecificItem}
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )}
+        </DndContext>
+      ) : null}
 
       <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
         Add{' '}
