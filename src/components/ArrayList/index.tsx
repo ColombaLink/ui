@@ -91,7 +91,7 @@ export const ArrayList = ({
 
   useEffect(() => {
     setRenderCounter((c) => c + 1)
-    console.log('fire', renderCounter)
+    // console.log('fire to force a rerender', renderCounter)
   }, [arr.length, ids.length, idsRef.current.length])
 
   const onDragStart = ({ active }) => {

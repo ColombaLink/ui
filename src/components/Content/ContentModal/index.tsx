@@ -207,7 +207,8 @@ const ContentModalInner = ({ prefix, id, field }) => {
                   console.warn('doing deep merge!', changes)
                   deepMerge(changes, data)
                 } else {
-                  console.log('array ', data, changes)
+                  //    console.log('array ', data, changes)
+                  // als array of set is
                   Object.assign(changes, data)
                 }
               }}
