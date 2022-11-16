@@ -439,7 +439,7 @@ export const Input: FC<
                   if (e.key === 'Backspace' && value === 0) {
                     setValue('')
                   }
-                  props?.onKeyDown(e) // <================== DO THIS!!!
+                  props.onKeyDown?.(e)
                 }}
                 // @ts-ignore
                 onFocus={() => setFocused(true)}

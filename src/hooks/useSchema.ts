@@ -2,24 +2,29 @@ import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
 import { systemFields } from '~/components/Schema/templates'
 
 export const sortFields = (fields) => {
-  return Object.keys(fields).sort((a, b) => {
-    const indexA = fields[a].meta?.index
-    const indexB = fields[b].meta?.index
-    if (indexA === undefined) {
-      if (indexB === undefined) {
-        if (systemFields.has(a)) {
-          if (!systemFields.has(b)) {
-            return 1
+  try {
+    return Object.keys(fields).sort((a, b) => {
+      const indexA = fields[a].meta?.index
+      const indexB = fields[b].meta?.index
+      if (indexA === undefined) {
+        if (indexB === undefined) {
+          if (systemFields.has(a)) {
+            if (!systemFields.has(b)) {
+              return 1
+            }
+          } else if (systemFields.has(b)) {
+            return -1
           }
-        } else if (systemFields.has(b)) {
-          return -1
+          return a < b ? -1 : 1
         }
-        return a < b ? -1 : 1
+        return 1
       }
-      return 1
-    }
-    return indexA < indexB ? -1 : 1
-  })
+      return indexA < indexB ? -1 : 1
+    })
+  } catch (e) {
+    console.log(e, fields)
+    return Object.keys(fields)
+  }
 }
 
 const addMeta = (obj, key) => {

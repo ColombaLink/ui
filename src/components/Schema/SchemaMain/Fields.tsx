@@ -21,6 +21,7 @@ import { Draggable } from './Draggable'
 import { Field } from './Field'
 import { getObjectId } from './utils'
 import { sortFields } from '~/hooks/useSchema'
+import { useDialog } from '~/components/Dialog'
 
 const sortAndFlatten = (fields) => {
   const sortedFields = sortFields(fields)
@@ -58,7 +59,8 @@ const sortAndFlatten = (fields) => {
 }
 
 export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
-  const [draggingField, setDraggingField] = useState<UniqueIdentifier>()
+  const { confirm } = useDialog()
+  const [draggingField, setDraggingField] = useState<UniqueIdentifier | false>()
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -84,7 +86,8 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     setCollapsed(new Set(collapsed))
   }
 
-  const onDragEnd = ({ active, over }) => {
+  const onDragEnd = async ({ active, over }) => {
+    setDraggingField(null)
     if (active.id !== over.id) {
       const activePath = active.id.split('.')
       const overObject = getObjectId(overIdRef.current, properties, objects)
@@ -103,6 +106,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
         overPath = over.id.split('.')
       }
 
+      let revert
       if (activePath.length !== overPath.length) {
         const activeKey = activePath[activePath.length - 1]
         const activeField = activePath.reduce(
@@ -119,6 +123,11 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
         } else {
           overFields[activeKey] = { ...activeField }
           activeField.$delete = true
+
+          revert = () => {
+            delete overFields[activeKey]
+            delete activeField.$delete
+          }
         }
       }
 
@@ -127,21 +136,36 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
         sortedFields.indexOf(active.id as string),
         sortedFields.indexOf(over.id as string)
       )
-
-      resortedFields.forEach((field, index) => {
+      const setIndex = (field, index) => {
         const path = field.split('.')
         const targetFields = path.reduce((fields, key) => fields[key], fields)
-
         if ('meta' in targetFields) {
           targetFields.meta.index = index
         } else {
           targetFields.meta = { index }
         }
-      })
+      }
+
+      resortedFields.forEach(setIndex)
+
+      if (revert) {
+        // @ts-ignore
+        const ok = await confirm({
+          label: 'Your are moving a field in or out of an object',
+          children:
+            'Are you sure? This will update the schema and all related data',
+        })
+
+        if (!ok) {
+          sortedFields.forEach(setIndex)
+          revert()
+          setDraggingField(false) // force an update
+          return
+        }
+      }
 
       onChange(fields)
     }
-    setDraggingField(null)
   }
 
   const objectPath = []
