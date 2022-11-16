@@ -88,7 +88,11 @@ export const SetList = ({
   const deleteSpecificItem = (item, id) => {
     // console.log('ITEM & ID --->', item, id)
     set.delete(item)
-    onChange(Array.from(set))
+
+    const newArr = Array.from(set)
+
+    setArr(newArr)
+    onChange(newArr)
   }
 
   const editSpecificItem = async (item, idx) => {
