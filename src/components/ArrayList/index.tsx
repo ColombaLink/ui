@@ -48,13 +48,13 @@ export const ArrayList = ({
   const ref = useRef<string>()
   const idsRef = useRef<any[]>()
   const [inputVal, setInputVal] = useState('')
-
   const [renderCounter, setRenderCounter] = useState(1)
 
   if (ref.current !== id) {
     // if the external value changed
     ref.current = id
     if (id !== JSON.stringify(arr)) {
+      // console.log('change?!', id, arr)
       // and it's not the same as the internal value
       // => update the internal array
       value.forEach((item, i) => {
@@ -65,6 +65,8 @@ export const ArrayList = ({
       idsRef.current = null
     }
   }
+
+  // console.log('render', arr)
 
   if (!idsRef.current) {
     // if no ids cache
@@ -91,7 +93,6 @@ export const ArrayList = ({
 
   useEffect(() => {
     setRenderCounter((c) => c + 1)
-    // console.log('fire to force a rerender', renderCounter)
   }, [arr.length, ids.length, idsRef.current.length])
 
   const onDragStart = ({ active }) => {
@@ -177,11 +178,10 @@ export const ArrayList = ({
     //  console.log('delete fire', renderCounter)
   }
 
-  const editSpecificItem = async (item, idx) => {
+  const editSpecificItem = async (item, idx, arr) => {
     // const value = await prompt(`Edit ${arr[idx]} `)
-
     let inputVAL = ''
-    const ok = await open(
+    await open(
       <Dialog label={`Edit ${arr[idx]} `}>
         <Input
           type={
@@ -202,35 +202,39 @@ export const ArrayList = ({
           <Dialog.Confirm
             onConfirm={() => {
               if (inputVAL) {
+                //   console.log('current:', arr)
+                // make a extra array to track the editid items
+                // let editTempArr = [...arr]
                 if (itemType === 'string') {
-                  onChange(
-                    arr.map((item, id) => {
-                      if (idx === id && item === arr[idx]) {
-                        return inputVAL
-                      }
-                      return item
-                    })
-                  )
+                  const editTempArr = arr.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      return inputVAL
+                    }
+                    return item
+                  })
+                  setArr(editTempArr)
+                  onChange(editTempArr)
+                  //  console.log('editTempArr', JSON.stringify(editTempArr))
                 } else if (itemType === 'int') {
-                  onChange(
-                    arr.map((item, id) => {
-                      if (idx === id && item === arr[idx]) {
-                        // @ts-ignore
-                        return parseInt(inputVAL)
-                      }
-                      return item
-                    })
-                  )
+                  const editTempArr = arr.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      // @ts-ignore
+                      return parseInt(inputVAL)
+                    }
+                    return item
+                  })
+                  setArr(editTempArr)
+                  onChange(editTempArr)
                 } else if (itemType === 'float') {
-                  onChange(
-                    arr.map((item) => {
-                      if (idx === id && item === arr[idx]) {
-                        // @ts-ignore
-                        return parseFloat(inputVAL)
-                      }
-                      return item
-                    })
-                  )
+                  const editTempArr = arr.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      // @ts-ignore
+                      return parseFloat(inputVAL)
+                    }
+                    return item
+                  })
+                  setArr(editTempArr)
+                  onChange(editTempArr)
                 }
               }
             }}
@@ -269,6 +273,7 @@ export const ArrayList = ({
                   itemType={itemType}
                   deleteSpecificItem={deleteSpecificItem}
                   editSpecificItem={editSpecificItem}
+                  arr={arr}
                 />
               )
             })}
@@ -284,6 +289,7 @@ export const ArrayList = ({
                   itemType={itemType}
                   deleteSpecificItem={deleteSpecificItem}
                   editSpecificItem={editSpecificItem}
+                  arr={arr}
                 />
               ) : null}
             </DragOverlay>,

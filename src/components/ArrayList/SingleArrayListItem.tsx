@@ -22,6 +22,7 @@ export const SingleArrayListItem = ({
   idx,
   id,
   item,
+  arr = [],
 }) => {
   const {
     isDragging,
@@ -39,7 +40,7 @@ export const SingleArrayListItem = ({
 
   const contextHandler = useContextMenu(
     ContextMenu,
-    { editSpecificItem, deleteSpecificItem, idx, item },
+    { editSpecificItem, deleteSpecificItem, idx, item, arr },
     { placement: 'right' }
   )
 
@@ -77,14 +78,23 @@ export const SingleArrayListItem = ({
   )
 }
 
-const ContextMenu = ({ editSpecificItem, deleteSpecificItem, idx, item }) => {
+const ContextMenu = ({
+  editSpecificItem,
+  deleteSpecificItem,
+  idx,
+  item,
+  arr,
+}) => {
   return (
     <>
-      <ContextItem onClick={() => editSpecificItem(item, idx)} icon={EditIcon}>
+      <ContextItem
+        onClick={() => editSpecificItem(item, idx, arr)}
+        icon={EditIcon}
+      >
         Edit
       </ContextItem>
       <ContextItem
-        onClick={() => deleteSpecificItem(item, idx)}
+        onClick={() => deleteSpecificItem(item, idx, arr)}
         icon={DeleteIcon}
       >
         Delete
