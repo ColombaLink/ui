@@ -120,7 +120,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const replaceSpecificFile = (id) => {
-    console.log('Should open edit modal --> The id:', id)
+    console.log('Edit file through a modal, like name? or something??', id)
   }
 
   // console.log('??? Uploaded Files?', uploadedFiles)

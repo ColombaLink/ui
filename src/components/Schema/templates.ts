@@ -197,7 +197,7 @@ export const templates: {
   references: {
     label: 'References',
     color: 'lightpink',
-    description: 'References you know it',
+    description: 'References ',
     icon: ChildrenIcon,
     schema: { type: 'references' },
   },
