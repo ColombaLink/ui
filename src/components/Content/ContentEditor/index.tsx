@@ -64,8 +64,6 @@ const FileReference = ({
     value.type = value.mimeType
   }
 
-  console.log(meta)
-  console.log('hallow')
   return (
     <FileUpload
       style={style}
@@ -83,12 +81,6 @@ const FileReference = ({
             return client.file(file)
           })
         )
-
-        // console.log('The result -->', result)
-        // console.log(
-        //   'Test this -->',
-        //   result.map((file) => file?.id)
-        // )
 
         console.log('Result->', result)
 
