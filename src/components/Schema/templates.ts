@@ -204,7 +204,7 @@ export const templates: {
   file: {
     label: 'File',
     color: 'lightpink',
-    description: 'Single file',
+    description: 'File or Files upload',
     icon: AttachmentIcon,
     schema: {
       type: 'reference',

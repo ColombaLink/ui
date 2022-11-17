@@ -57,12 +57,15 @@ const FileReference = ({
   style,
   onChange,
   multiple,
+  meta,
 }) => {
   const client = useClient()
   if (value?.mimeType) {
     value.type = value.mimeType
   }
 
+  console.log(meta)
+  console.log('hallow')
   return (
     <FileUpload
       style={style}
@@ -70,7 +73,7 @@ const FileReference = ({
       indent
       descriptionBottom={description}
       space
-      multiple={multiple}
+      multiple={meta.multiple}
       onChange={async (files) => {
         console.log('-->', files)
 

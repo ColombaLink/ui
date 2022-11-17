@@ -10,6 +10,7 @@ import { FieldOptions } from '../types'
 import { SharedGeneral } from './SharedGeneral'
 import { useSchemaTypes } from '~/hooks'
 import { MultiSelect, Select } from '~/components/Select'
+import { Checkbox } from '~/components/Checkbox'
 
 const References = ({ types, options }) => {
   return (
@@ -139,11 +140,25 @@ const RecordSettings = ({ options, field, setDisabled }) => {
   )
 }
 
+const FileSettings = ({ options }) => {
+  return (
+    <Checkbox
+      style={{ marginTop: 24 }}
+      label="Allow multiple files upload"
+      checked={options.multiple}
+      onChange={(value) => {
+        options.meta.multiple = value
+      }}
+    />
+  )
+}
+
 const general = {
   references: References,
   array: ArraySettings,
   record: RecordSettings,
   set: SetSettings,
+  file: FileSettings,
 }
 
 export const FieldModal: FC<
