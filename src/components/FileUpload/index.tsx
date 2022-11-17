@@ -110,11 +110,12 @@ export const FileUpload: FC<FileUploadProps> = ({
     setErrorMessage('')
   }
 
+  // should TODO delete file instead of the onChange([])
   const deleteSpecificFile = (id) => {
     setUploadedFiles((uploadedFiles) =>
       Array.isArray(uploadedFiles)
         ? uploadedFiles?.filter((_, index) => index !== id)
-        : []
+        : onChange([])
     )
     setClearCount((clearCount) => clearCount + 1)
   }
