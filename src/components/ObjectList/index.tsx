@@ -23,8 +23,11 @@ export const ObjectList = ({
   style,
   schema,
   onClick,
-}: ObjectListProps) => {
+}: /// ...props
+ObjectListProps) => {
   const [insideObjectFields] = useState(schema.properties)
+
+  // console.log('What is inside object props-->', props)
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -115,6 +115,17 @@ const Translation = ({ language, setLanguage }) => {
   )
 }
 
+const parseBasedSetPayload = (payload) => {
+  for (const i in payload) {
+    const val = payload[i]
+    if (val === null || val === '') {
+      payload[i] = { $delete: true }
+    } else if (typeof val === 'object') {
+      parseBasedSetPayload(val)
+    }
+  }
+}
+
 const ContentModalInner = ({ prefix, id, field }) => {
   const client = useClient()
   const [, setLocation] = useLocation()
@@ -221,6 +232,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               textAlign="center"
               style={{ width: '100%' }}
               onClick={async () => {
+                parseBasedSetPayload(changes)
                 await client.set({
                   $id: id.split('.')[0] || undefined,
                   type,
