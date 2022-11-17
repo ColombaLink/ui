@@ -40,6 +40,9 @@ export const SetList = ({
     setSet(new Set(value))
   }, [value])
 
+  // console.log('Arrtje', arr)
+  // console.log('Settje', set)
+
   const addItemHandler = async () => {
     let inputVAL = ''
     const ok = await open(
@@ -84,19 +87,21 @@ export const SetList = ({
     )
   }
 
-  /// Delete is not going great
-  const deleteSpecificItem = (item, id) => {
-    // console.log('ITEM & ID --->', item, id)
-    set.delete(item)
-
-    setArr(Array.from(set))
-    onChange(Array.from(set))
+  const deleteSpecificItem = (item, id, set) => {
+    // console.log('ITEM & ID --->', item, id, set)
+    const newSet = new Set(set)
+    newSet.delete(item)
+    // console.log('NEW Delete SET --->', newSet)
+    setArr(Array.from(newSet))
+    setSet(newSet)
+    onChange(Array.from(newSet))
   }
 
-  const editSpecificItem = async (item, idx) => {
+  const editSpecificItem = async (item, idx, set) => {
     // console.log(item, idx)
+    // console.log('ARRR', set)
     let inputVAL = ''
-    const ok = await open(
+    await open(
       <Dialog label={`Edit ${arr[idx]} `}>
         <Input
           type={
@@ -115,44 +120,44 @@ export const SetList = ({
             onConfirm={() => {
               if (inputVAL) {
                 if (itemType === 'string') {
-                  onChange(
-                    arr.map((item, id) => {
-                      if (idx === id && item === arr[idx]) {
-                        return inputVAL
-                      }
-                      return item
-                    })
-                  )
+                  const editTempSet = set.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      return inputVAL
+                    }
+                    return item
+                  })
+                  onChange(editTempSet)
+                  setArr(editTempSet)
                 } else if (itemType === 'int') {
-                  onChange(
-                    arr.map((item, id) => {
-                      if (idx === id && item === arr[idx]) {
-                        // @ts-ignore
-                        return parseInt(inputVAL)
-                      }
-                      return item
-                    })
-                  )
+                  const editTempSet = arr.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      // @ts-ignore
+                      return parseInt(inputVAL)
+                    }
+                    return item
+                  })
+                  onChange(editTempSet)
+                  setArr(editTempSet)
                 } else if (itemType === 'float') {
-                  onChange(
-                    arr.map((item, id) => {
-                      if (idx === id && item === arr[idx]) {
-                        // @ts-ignore
-                        return parseFloat(inputVAL)
-                      }
-                      return item
-                    })
-                  )
+                  const editTempSet = arr.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      // @ts-ignore
+                      return parseFloat(inputVAL)
+                    }
+                    return item
+                  })
+                  onChange(editTempSet)
+                  setArr(editTempSet)
                 } else if (itemType === 'digest') {
-                  onChange(
-                    arr.map((item, id) => {
-                      if (idx === id && item === arr[idx]) {
-                        // @ts-ignore
-                        return inputVAL
-                      }
-                      return item
-                    })
-                  )
+                  const editTempSet = arr.map((item, id) => {
+                    if (idx === id && item === arr[idx]) {
+                      // @ts-ignore
+                      return inputVAL
+                    }
+                    return item
+                  })
+                  onChange(editTempSet)
+                  setArr(editTempSet)
                 }
               }
             }}
@@ -180,6 +185,7 @@ export const SetList = ({
             itemType={itemType}
             deleteSpecificItem={deleteSpecificItem}
             editSpecificItem={editSpecificItem}
+            arr={arr}
           />
         ))}
       <Button ghost icon={AddIcon} onClick={() => addItemHandler()}>
