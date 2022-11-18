@@ -65,7 +65,7 @@ export const SingleArrayListItem = ({
     >
       <DragDropIcon />
       <Badge style={{ marginLeft: 12, marginRight: 12 }}>
-        {itemType.charAt(0).toUpperCase() + itemType.slice(1)}
+        {itemType?.charAt(0).toUpperCase() + itemType?.slice(1)}
       </Badge>
       <Text weight={600}>{item}</Text>
       <MoreIcon

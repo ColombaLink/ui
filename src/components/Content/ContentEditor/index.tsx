@@ -82,7 +82,11 @@ const FileReference = ({
           })
         )
 
-        console.log('Result->', result)
+        // console.log('Result->', result)
+        // console.log(
+        //   'Arraytje toch',
+        //   result.map((file) => file?.id)
+        // )
 
         onChange(
           multiple
@@ -432,7 +436,7 @@ const ContentField = ({
   const { ui, format, description, name, refTypes } = schema.meta
   const dataRef = useRef<any>()
   const isText = type === 'text'
-  const [targetId, ...path] = id.split('.')
+  const [targetId, ...path] = id?.split('.') || []
 
   const query = {
     $id: targetId,
@@ -460,6 +464,8 @@ const ContentField = ({
     dataRef.current = path.reduce((data, field) => data[field] || {}, data)
     // console.log(dataRef.current)
   }
+
+  console.log('-', field, JSON.stringify({ schema, query, data }, null, 2))
 
   const Component =
     components[type]?.[ui || format || 'default'] || components[type]?.default

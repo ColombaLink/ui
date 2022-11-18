@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, AddIcon, Dialog, Input, usePropState } from '~'
+import { Label, Button, AddIcon, Dialog, Input, usePropState, Text } from '~'
 import { useDialog } from '~/components/Dialog'
 import {
   DndContext,
@@ -50,6 +50,11 @@ export const ArrayList = ({
   const [inputVal, setInputVal] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
 
+  console.log('props', props)
+  console.log('value', value)
+  console.log('arr', arr)
+  console.log('id', id)
+
   if (ref.current !== id) {
     // if the external value changed
     ref.current = id
@@ -83,6 +88,7 @@ export const ArrayList = ({
   }
 
   const ids = idsRef.current
+  console.log('ids', ids)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -127,17 +133,26 @@ export const ArrayList = ({
           itemType.charAt(0).toUpperCase() + itemType.slice(1)
         } `}
       >
-        <Input
-          type={
-            itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
-          }
-          digest={itemType === 'digest'}
-          autoFocus
-          value={inputVal}
-          onChange={(e) => {
-            inputVAL = e
-          }}
-        />
+        {itemType !== 'object' && (
+          <Input
+            type={
+              itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
+            }
+            digest={itemType === 'digest'}
+            autoFocus
+            value={inputVal}
+            onChange={(e) => {
+              inputVAL = e
+            }}
+          />
+        )}
+
+        {itemType === 'object' && (
+          <div>
+            <Text>Add a new object?</Text>
+          </div>
+        )}
+
         <Dialog.Buttons border>
           <Dialog.Cancel />
           <Dialog.Confirm
@@ -160,6 +175,11 @@ export const ArrayList = ({
                   setArr([...arr, inputVAL])
                   idsRef.current = [...idsRef.current, inputVAL]
                 }
+              }
+              if (itemType === 'object' && typeof ok !== 'boolean') {
+                onChange([...arr, {}])
+                setArr([...arr, {}])
+                idsRef.current = [...idsRef.current, {}]
               }
             }}
           />
@@ -266,9 +286,9 @@ export const ArrayList = ({
             {ids?.map((id, idx) => {
               return (
                 <SingleArrayListItem
-                  key={id}
                   id={id}
-                  item={arr[idx]}
+                  key={idx}
+                  item={itemType !== 'object' ? arr[idx] : arr[idx].toString()}
                   idx={idx}
                   itemType={itemType}
                   deleteSpecificItem={deleteSpecificItem}
@@ -284,7 +304,11 @@ export const ArrayList = ({
               {draggingIndex >= 0 ? (
                 <SingleArrayListItem
                   id={ids[draggingIndex]}
-                  item={arr[draggingIndex]}
+                  item={
+                    itemType !== 'object'
+                      ? arr[draggingIndex]
+                      : arr[draggingIndex].toString()
+                  }
                   idx={draggingIndex}
                   itemType={itemType}
                   deleteSpecificItem={deleteSpecificItem}
@@ -308,6 +332,8 @@ export const ArrayList = ({
           ? 'Float'
           : itemType === 'digest'
           ? 'Digest'
+          : itemType === 'object'
+          ? 'Object'
           : 'item'}
       </Button>
     </InputWrapper>

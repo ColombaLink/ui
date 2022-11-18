@@ -13,6 +13,7 @@ export const ContentEditor = () => {
         <Editor
           id={id}
           onChange={(data) => {
+            console.log(JSON.stringify(data, null, 2))
             return client.set({
               $id: id,
               ...data,

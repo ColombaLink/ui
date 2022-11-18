@@ -34,6 +34,7 @@ export const Schema: FC<{
       }
       if (values?.properties) {
         path.push('values', 'properties')
+
         return values.properties
       }
       console.error('something is wrong here...', p)

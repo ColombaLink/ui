@@ -91,6 +91,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     if (active.id !== over.id) {
       const activePath = active.id.split('.')
       const overObject = getObjectId(overIdRef.current, properties, objects)
+
       let overPath
 
       if (overObject) {

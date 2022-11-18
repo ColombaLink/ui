@@ -274,7 +274,7 @@ export const templates: {
     color: 'lightorange',
     description: 'A fixed collection of fields',
     icon: DocIcon,
-    schema: { type: 'object', properties: {} },
+    schema: { type: 'record', values: {} },
   },
   json: {
     label: 'JSON',
