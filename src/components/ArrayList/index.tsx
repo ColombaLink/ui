@@ -50,10 +50,10 @@ export const ArrayList = ({
   const [inputVal, setInputVal] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
 
-  console.log('props', props)
-  console.log('value', value)
-  console.log('arr', arr)
-  console.log('id', id)
+  // console.log('props', props)
+  // console.log('value', value)
+  // console.log('arr', arr)
+  // console.log('id', id)
 
   if (ref.current !== id) {
     // if the external value changed
@@ -88,7 +88,7 @@ export const ArrayList = ({
   }
 
   const ids = idsRef.current
-  console.log('ids', ids)
+  // console.log('ids', ids)
 
   const sensors = useSensors(
     useSensor(PointerSensor),

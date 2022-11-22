@@ -39,6 +39,8 @@ const EditMenu: FC<{
   const [location, setLocation] = useLocation()
   const { open } = useDialog()
 
+  // console.log('client', client)
+
   return (
     <>
       <ContextItem

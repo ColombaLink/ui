@@ -106,16 +106,16 @@ const References = (props) => {
     return <FileReference {...props} multiple />
   }
 
-  console.log('META?', meta)
+  // console.log('META?', meta)
   console.log('---> Reference props', props)
-  console.log('-->', meta?.refTypes)
+  // console.log('-->', meta?.refTypes)
 
   const { open } = useDialog()
   return (
-    <InputWrapper indent style={style}>
+    <InputWrapper indent style={style} descriptionBottom={description}>
       <Label
         label={label}
-        description={description}
+        // description={description}
         style={{ marginBottom: 12 }}
       />
 
@@ -223,7 +223,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        //  noInterrupt
+        noInterrupt
       />
     )
   },
@@ -349,11 +349,11 @@ const boolean = {
 }
 
 const timestamp = {
-  default: (props) => (
+  default: ({ description, ...props }) => (
     <DateTimePicker
+      descriptionBottom={description}
       indent
       {...props}
-      type="number"
       value={props.value}
       error={(value) => {
         if (!value) {

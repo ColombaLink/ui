@@ -13,6 +13,9 @@ import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
 
 const References = ({ types, options }) => {
+  console.log('options', options)
+  console.log('the types', types)
+
   return (
     <>
       <Text style={{ marginTop: 24 }}>Allowed types</Text>
