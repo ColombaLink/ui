@@ -92,8 +92,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
       let newValue = [...uploadedFiles, ...files]
       if (!multiple) {
-        const [first] = newValue
-        newValue = first ? [first] : []
+        newValue = [files[0]]
       }
       setUploadedFiles(newValue)
       onChange(newValue)

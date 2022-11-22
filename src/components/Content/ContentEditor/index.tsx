@@ -76,7 +76,7 @@ const FileReference = ({
         console.log('-->', files)
 
         const result = await Promise.all(
-          files.map((file) => {
+          files?.map((file) => {
             console.log('file from map', file)
             return client.file(file)
           })

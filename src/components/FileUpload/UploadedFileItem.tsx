@@ -123,7 +123,7 @@ export const UploadedFileItem = ({
 }
 
 const ContextOptions = ({
-  handleClickUpload,
+  // handleClickUpload,
   deleteSpecificFile,
   id,
   replaceSpecificFile,
