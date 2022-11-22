@@ -71,8 +71,7 @@ const FileReference = ({
       indent
       descriptionBottom={description}
       space
-      multiple
-      // multiple={meta.multiple}
+      multiple={meta.multiple}
       onChange={async (files) => {
         console.log('-->', files)
 
@@ -472,7 +471,7 @@ const ContentField = ({
     // console.log(dataRef.current)
   }
 
-  console.log('-', field, JSON.stringify({ schema, query, data }, null, 2))
+  // console.log('-', field, JSON.stringify({ schema, query, data }, null, 2))
 
   const Component =
     components[type]?.[ui || format || 'default'] || components[type]?.default
