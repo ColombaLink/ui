@@ -41,10 +41,10 @@ const Reference = ({ id }) => {
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
-        marginBottom: 12,
+        marginBottom: 8,
       }}
     >
-      <Badge color="text">{type}</Badge>
+      <Badge color="text">{type || 'reference'}</Badge>
       <Text style={{ marginLeft: 8 }}>{descriptor}</Text>
     </div>
   )
@@ -88,12 +88,6 @@ const FileReference = ({
         //   result.map((file) => file?.id)
         // )
 
-        // console.log(
-        //   '%c hello',
-        //   'background-color:black; color: #ff00ff',
-        //   result[0]
-        // )
-
         onChange(
           multiple
             ? result.map((file) => file?.id) || { $delete: true }
@@ -106,11 +100,15 @@ const FileReference = ({
 }
 
 const References = (props) => {
-  const { label, description, value, style } = props
+  const { label, description, value, style, meta } = props
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
   }
+
+  console.log('META?', meta)
+  console.log('---> Reference props', props)
+  console.log('-->', meta?.refTypes)
 
   const { open } = useDialog()
   return (
@@ -120,6 +118,12 @@ const References = (props) => {
         description={description}
         style={{ marginBottom: 12 }}
       />
+
+      {/* if there are reftypes on the meta */}
+
+      {meta?.refTypes?.length > 0 &&
+        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)}
+
       {value?.map((id) => (
         <Reference key={id} id={id} />
       ))}
