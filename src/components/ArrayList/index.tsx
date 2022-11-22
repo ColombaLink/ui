@@ -177,9 +177,9 @@ export const ArrayList = ({
                 }
               }
               if (itemType === 'object' && typeof ok !== 'boolean') {
-                onChange([...arr, {}])
-                setArr([...arr, {}])
-                idsRef.current = [...idsRef.current, {}]
+                onChange([...arr, { test: 1 }])
+                setArr([...arr, { test: 1 }])
+                idsRef.current = [...idsRef.current, { test: 1 }]
               }
             }}
           />
@@ -288,7 +288,7 @@ export const ArrayList = ({
                 <SingleArrayListItem
                   id={id}
                   key={idx}
-                  item={itemType !== 'object' ? arr[idx] : arr[idx].toString()}
+                  item={itemType !== 'object' ? arr[idx] : 'objectje'}
                   idx={idx}
                   itemType={itemType}
                   deleteSpecificItem={deleteSpecificItem}

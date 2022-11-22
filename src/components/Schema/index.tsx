@@ -14,6 +14,8 @@ export const Schema: FC<{
   const [, type, ...p] = location.substring(prefix.length).split('/')
   const { types, loading } = useSchemaTypes()
 
+  console.log('??', types?.yvestype)
+
   const path = []
 
   if (p.length) {

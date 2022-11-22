@@ -148,6 +148,14 @@ const FileSettings = ({ options }) => {
       checked={options.multiple}
       onChange={(value) => {
         options.meta.multiple = value
+        console.log('-->', value)
+        if (value) {
+          // schema change from file to files
+          options.meta.format = 'files'
+          options.meta.refTypes = ['files']
+          options.type = 'references'
+        }
+        // change template based on this reference for file and refrences for files
       }}
     />
   )

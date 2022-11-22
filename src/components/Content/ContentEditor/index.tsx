@@ -71,7 +71,8 @@ const FileReference = ({
       indent
       descriptionBottom={description}
       space
-      multiple={meta.multiple}
+      multiple
+      // multiple={meta.multiple}
       onChange={async (files) => {
         console.log('-->', files)
 
@@ -86,6 +87,12 @@ const FileReference = ({
         // console.log(
         //   'Arraytje toch',
         //   result.map((file) => file?.id)
+        // )
+
+        // console.log(
+        //   '%c hello',
+        //   'background-color:black; color: #ff00ff',
+        //   result[0]
         // )
 
         onChange(
