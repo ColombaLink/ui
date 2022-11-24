@@ -226,6 +226,7 @@ const record = {
         description={description}
         value={value}
         onClick={() => {
+          console.log('get value back?', value)
           setLocation(`${prefix}.${field}`)
         }}
         {...props}
@@ -561,13 +562,18 @@ export const ContentEditor = ({
       // im dealing with nested fields
       const [pathId, ...path] = id.split('.')
       const s = useItemSchema(pathId)
+
       loading = s.loading
       fields = s.fields
 
+      // if it is a record
       if (fields && id) {
         const lastPartOfId = id.split('.').pop()
         if (fields[lastPartOfId].type === 'record') {
+          const recordValueType = fields[lastPartOfId].values.type
+
           console.log('it is inside of a record')
+          console.log(recordValueType)
           type = 'record'
         }
       }
@@ -624,10 +630,15 @@ export const ContentEditor = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {/* Als het een record is */}
-      {type === 'record' && (
-        <div style={{ marginBottom: 24 }}>yo this is inside a record</div>
-      )}
 
+      {type === 'record' && (
+        <div style={{ marginBottom: 24 }}>
+          yo this is inside a record
+          <br />
+          key value pairs <br />
+          add button
+        </div>
+      )}
       {/* mapt over de fields in de object */}
       {fields &&
         Object.keys(fields).map((field) => {

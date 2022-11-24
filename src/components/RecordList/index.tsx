@@ -32,6 +32,8 @@ export const RecordList = ({
   const { open } = useDialog()
   const [tempObj, setTempObj] = useState({})
 
+  console.log('REC PROPS-->', props, value)
+
   useEffect(() => {
     setTempObj(value)
   }, [value])
