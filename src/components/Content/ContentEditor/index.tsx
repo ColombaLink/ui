@@ -557,6 +557,18 @@ export const ContentEditor = ({
 }) => {
   let fields, loading
 
+  console.log('-->', id)
+
+  const { data } = useData(
+    id
+      ? {
+          $id: id,
+        }
+      : null
+  )
+
+  console.log('DATA', data)
+
   if (id) {
     if (id.includes('.')) {
       // im dealing with nested fields
