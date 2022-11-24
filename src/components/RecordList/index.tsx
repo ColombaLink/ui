@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Space } from '~/types'
 import { EditIcon, AddIcon } from '~/icons'
@@ -15,6 +15,7 @@ type RecordListProps = {
   schema?: any
   style?: CSSProperties
   space?: Space
+  value?: {}
   onClick?: () => void
   onChange?: (value: any) => void
 }
@@ -23,14 +24,17 @@ export const RecordList = ({
   label,
   description,
   schema,
+  value,
   onClick,
   onChange,
   ...props
 }: RecordListProps) => {
   const { open } = useDialog()
-  //   const [inputKey, setInputKey] = useState('')
-  //   const [inputValue, setInputVal] = useState('')
-  console.log('What is inside RECORD props-->', props)
+  const [tempObj, setTempObj] = useState({})
+
+  useEffect(() => {
+    setTempObj(value)
+  }, [value])
 
   const addItemHandler = async () => {
     const itemType = schema.values.type
@@ -75,8 +79,7 @@ export const RecordList = ({
             onConfirm={() => {
               if (inputKey && typeof ok !== 'boolean') {
                 if (itemType === 'string') {
-                  console.log('What is inputKey-->', inputKey)
-                  console.log('What is inputValue-->', inputValue)
+                  setTempObj({ ...tempObj, [inputKey]: inputValue })
                   onChange({ ...ok, [inputKey]: inputValue })
                 } else if (itemType === 'int') {
                 } else if (itemType === 'float') {
@@ -98,23 +101,25 @@ export const RecordList = ({
         </div>
       </Text>
       <InputWrapper indent space={8}>
-        {props.value &&
-          Object.keys(props.value).map((ObjKey, idx) => (
+        {tempObj &&
+          Object.keys(tempObj).map((ObjKey, idx) => (
             <div key={idx} style={{ display: 'flex', marginBottom: 4 }}>
-              {ObjKey} : {props.value[ObjKey]}
+              <Text weight={500}>{ObjKey}</Text> : {tempObj[ObjKey]}
             </div>
           ))}
       </InputWrapper>
-      {props.value && (
-        <Button ghost icon={EditIcon} onClick={onClick}>
-          Edit Record
-        </Button>
-      )}
-      {!props.value && (
+
+      <div style={{ display: 'flex', gap: 16 }}>
         <Button ghost icon={AddIcon} onClick={addItemHandler}>
           Add {schema.values.type}
         </Button>
-      )}
+
+        {value && (
+          <Button ghost icon={EditIcon} onClick={onClick}>
+            Edit Record
+          </Button>
+        )}
+      </div>
     </InputWrapper>
   )
 }

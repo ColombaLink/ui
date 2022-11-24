@@ -217,13 +217,14 @@ const object = {
 }
 
 const record = {
-  default: ({ prefix, field, label, description, schema, ...props }) => {
+  default: ({ prefix, field, label, value, description, schema, ...props }) => {
     const [, setLocation] = useLocation()
     return (
       <RecordList
         label={label}
         schema={schema}
         description={description}
+        value={value}
         onClick={() => {
           setLocation(`${prefix}.${field}`)
         }}
@@ -563,10 +564,19 @@ export const ContentEditor = ({
       loading = s.loading
       fields = s.fields
 
+      if (fields && id) {
+        const lastPartOfId = id.split('.').pop()
+        if (fields[lastPartOfId].type === 'record') {
+          console.log('it is inside of a record')
+          type = 'record'
+        }
+      }
+
       if (fields) {
         path.forEach((field) => {
           if (field in fields) {
             const { properties, items, values } = fields[field]
+
             // TODO also make for object in array, record, etc
             fields = items?.properties || values?.properties || properties
           }
@@ -613,8 +623,12 @@ export const ContentEditor = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
-      {/* mapt over de fields in de object */}
+      {/* Als het een record is */}
+      {type === 'record' && (
+        <div style={{ marginBottom: 24 }}>yo this is inside a record</div>
+      )}
 
+      {/* mapt over de fields in de object */}
       {fields &&
         Object.keys(fields).map((field) => {
           const fieldSchema = fields[field]
@@ -630,10 +644,6 @@ export const ContentEditor = ({
           }
 
           const index = meta.index
-
-          if (type === 'record') {
-            console.log('hellowafeaf ')
-          }
 
           return (
             <ContentField
