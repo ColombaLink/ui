@@ -225,9 +225,6 @@ const record = {
         schema={schema}
         description={description}
         onClick={() => {
-          console.log('watup yo')
-          console.log('prefix', prefix)
-          console.log('field', field)
           setLocation(`${prefix}.${field}`)
         }}
         {...props}
@@ -617,6 +614,7 @@ export const ContentEditor = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {/* mapt over de fields in de object */}
+
       {fields &&
         Object.keys(fields).map((field) => {
           const fieldSchema = fields[field]
@@ -632,6 +630,10 @@ export const ContentEditor = ({
           }
 
           const index = meta.index
+
+          if (type === 'record') {
+            console.log('hellowafeaf ')
+          }
 
           return (
             <ContentField
