@@ -27,6 +27,7 @@ import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
+import { RecordList } from '~/components/RecordList'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -107,7 +108,7 @@ const References = (props) => {
   }
 
   // console.log('META?', meta)
-  console.log('---> Reference props', props)
+  // console.log('---> Reference props', props)
   // console.log('-->', meta?.refTypes)
 
   const { open } = useDialog()
@@ -121,8 +122,8 @@ const References = (props) => {
 
       {/* if there are reftypes on the meta */}
 
-      {meta?.refTypes?.length > 0 &&
-        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)}
+      {/* {meta?.refTypes?.length > 0 &&
+        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
 
       {value?.map((id) => (
         <Reference key={id} id={id} />
@@ -210,6 +211,26 @@ const object = {
         descriptionBottom={description}
         mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
         mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
+      />
+    )
+  },
+}
+
+const record = {
+  default: ({ prefix, field, label, description, schema, ...props }) => {
+    const [, setLocation] = useLocation()
+    return (
+      <RecordList
+        label={label}
+        schema={schema}
+        description={description}
+        onClick={() => {
+          console.log('watup yo')
+          console.log('prefix', prefix)
+          console.log('field', field)
+          setLocation(`${prefix}.${field}`)
+        }}
+        {...props}
       />
     )
   },
@@ -430,6 +451,7 @@ const components = {
   json,
   array,
   set,
+  record,
 }
 
 const ContentField = ({
@@ -595,36 +617,37 @@ export const ContentEditor = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {/* mapt over de fields in de object */}
-      {Object.keys(fields).map((field) => {
-        const fieldSchema = fields[field]
-        const { type, meta } = fields[field]
+      {fields &&
+        Object.keys(fields).map((field) => {
+          const fieldSchema = fields[field]
+          const { type, meta } = fields[field]
 
-        if (
-          type === 'id' ||
-          type === 'type' ||
-          meta === undefined ||
-          meta.hidden
-        ) {
-          return null
-        }
+          if (
+            type === 'id' ||
+            type === 'type' ||
+            meta === undefined ||
+            meta.hidden
+          ) {
+            return null
+          }
 
-        const index = meta.index
+          const index = meta.index
 
-        return (
-          <ContentField
-            prefix={`${prefix}/${id}`}
-            autoFocus={autoFocus === field}
-            field={field}
-            id={id}
-            index={index}
-            key={field}
-            schema={fieldSchema}
-            type={type}
-            onChange={onChange}
-            language={language}
-          />
-        )
-      })}
+          return (
+            <ContentField
+              prefix={`${prefix}/${id}`}
+              autoFocus={autoFocus === field}
+              field={field}
+              id={id}
+              index={index}
+              key={field}
+              schema={fieldSchema}
+              type={type}
+              onChange={onChange}
+              language={language}
+            />
+          )
+        })}
     </div>
   )
 }
