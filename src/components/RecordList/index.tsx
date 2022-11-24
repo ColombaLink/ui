@@ -98,7 +98,6 @@ export const RecordList = ({
         </div>
       </Text>
       <InputWrapper indent space={8}>
-        if there is something in here
         {props.value &&
           Object.keys(props.value).map((ObjKey, idx) => (
             <div key={idx} style={{ display: 'flex', marginBottom: 4 }}>
