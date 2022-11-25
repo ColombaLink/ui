@@ -16,6 +16,7 @@ import {
   LoadingIcon,
   ArrayList,
   useLocation,
+  color,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -28,6 +29,7 @@ import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
 import { RecordList } from '~/components/RecordList'
+import { SingleRecordListItem } from '~/components/RecordList/SingleRecordListItem'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -226,7 +228,7 @@ const record = {
         description={description}
         value={value}
         onClick={() => {
-          console.log('get value back?', value)
+          //  console.log('get value back?', value)
           setLocation(`${prefix}.${field}`)
         }}
         {...props}
@@ -557,17 +559,18 @@ export const ContentEditor = ({
 }) => {
   let fields, loading
 
-  console.log('-->', id)
+  // for record fields
+  const targetId = id.split('.')[0]
+  const field = id.split('.').pop()
 
-  const { data } = useData(
-    id
-      ? {
-          $id: id,
-        }
-      : null
-  )
+  const query = {
+    $id: targetId,
+    [field]: true,
+  }
+  const { data } = useData(targetId ? query : null)
 
-  console.log('DATA', data)
+  const insideRecordField = data?.[field]
+  let recordValueType
 
   if (id) {
     if (id.includes('.')) {
@@ -582,10 +585,7 @@ export const ContentEditor = ({
       if (fields && id) {
         const lastPartOfId = id.split('.').pop()
         if (fields[lastPartOfId].type === 'record') {
-          const recordValueType = fields[lastPartOfId].values.type
-
-          console.log('it is inside of a record')
-          console.log(recordValueType)
+          recordValueType = fields[lastPartOfId].values.type
           type = 'record'
         }
       }
@@ -642,15 +642,23 @@ export const ContentEditor = ({
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {/* Als het een record is */}
-
-      {type === 'record' && (
+      {type === 'record' && insideRecordField && (
         <div style={{ marginBottom: 24 }}>
-          yo this is inside a record
-          <br />
-          key value pairs <br />
-          add button
+          {Object.keys(insideRecordField).map((ObjKey, idx) => (
+            <SingleRecordListItem
+              key={idx}
+              index={idx}
+              objectKey={ObjKey}
+              objectValue={insideRecordField[ObjKey]}
+              onChange={onChange}
+            />
+          ))}
+          <Button ghost icon={AddIcon} style={{ marginTop: 12 }}>
+            Add {recordValueType || 'key value pair'}
+          </Button>
         </div>
       )}
+
       {/* mapt over de fields in de object */}
       {fields &&
         Object.keys(fields).map((field) => {
