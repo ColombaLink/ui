@@ -5,8 +5,7 @@ import { EditIcon, AddIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { Text } from '~/components/Text'
 import { Badge } from '~/components/Badge'
-import { Dialog, useDialog } from '~/components/Dialog'
-import { Input } from '~/components/Input'
+import { useDialog } from '~/components/Dialog'
 import { AddSingleRecordItem } from './AddSingleRecordItem'
 
 type RecordListProps = {
@@ -33,15 +32,16 @@ export const RecordList = ({
   const { open } = useDialog()
   const [tempObj, setTempObj] = useState({})
 
-  // console.log('REC PROPS-->', props, value)
-  // console.log('TEMP OBJ-->', tempObj)
+  console.log()
+
+  const itemType = schema.values.type
 
   useEffect(() => {
     setTempObj(value)
   }, [value])
 
   const addItemHandler = async () => {
-    AddSingleRecordItem({ tempObj, setTempObj, schema, onChange, open })
+    AddSingleRecordItem(tempObj, setTempObj, itemType, onChange, open)
   }
 
   return (

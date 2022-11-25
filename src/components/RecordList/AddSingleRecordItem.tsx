@@ -1,14 +1,16 @@
 import React from 'react'
 import { Dialog, Input } from '~'
 
-export const AddSingleRecordItem = async ({
+export const AddSingleRecordItem = async (
   tempObj,
   setTempObj,
-  schema,
+  itemType,
   onChange,
-  open,
-}) => {
-  const itemType = schema.values.type
+  open
+) => {
+  // const itemType = 'string'
+
+  console.log('temp obj-->', tempObj)
 
   // const { open } = useDialog()
 

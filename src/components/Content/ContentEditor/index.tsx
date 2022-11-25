@@ -30,6 +30,7 @@ import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
 import { RecordList } from '~/components/RecordList'
 import { SingleRecordListItem } from '~/components/RecordList/SingleRecordListItem'
+import { AddSingleRecordItem } from '~/components/RecordList/AddSingleRecordItem'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -560,6 +561,8 @@ export const ContentEditor = ({
   let fields, loading
 
   // for record fields
+  const { open } = useDialog()
+
   const targetId = id.split('.')[0]
   const field = id.split('.').pop()
 
@@ -567,12 +570,13 @@ export const ContentEditor = ({
     $id: targetId,
     [field]: true,
   }
-  const { data } = useData(targetId ? query : null)
 
-  console.log('yo data??', data)
+  const { data } = useData(targetId ? query : null)
 
   const insideRecordField = data?.[field]
   let recordValueType
+
+  console.log('Inside record field', insideRecordField)
 
   if (id) {
     if (id.includes('.')) {
@@ -604,13 +608,11 @@ export const ContentEditor = ({
         const onChangeProp = onChange
 
         onChange = (val) => {
-          console.log('??', val)
           const setObj = path.reduceRight((val, field) => {
             return {
               [field]: val,
             }
           }, val)
-
           onChangeProp(setObj)
         }
       }
@@ -660,7 +662,21 @@ export const ContentEditor = ({
               />
             )
           })}
-          <Button ghost icon={AddIcon} style={{ marginTop: 12 }}>
+          <Button
+            ghost
+            icon={AddIcon}
+            style={{ marginTop: 12 }}
+            onClick={async () =>
+              AddSingleRecordItem(
+                insideRecordField,
+                // setTempObj,
+                () => {},
+                recordValueType,
+                onChange,
+                open
+              )
+            }
+          >
             Add {recordValueType || 'key value pair'}
           </Button>
         </div>
