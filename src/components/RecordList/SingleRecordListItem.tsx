@@ -24,7 +24,7 @@ export const SingleRecordListItem = ({
 
   const contextHandler = useContextMenu(
     ContextMenu,
-    { index, objectKey, objectValue, open },
+    { index, objectKey, objectValue, open, onChange },
     { placement: 'right' }
   )
 
@@ -58,30 +58,38 @@ export const SingleRecordListItem = ({
   )
 }
 
-const editSpecificItem = async (index, objectKey, objectValue, open) => {
+const editSpecificItem = async (
+  index,
+  objectKey,
+  objectValue,
+  open,
+  onChange
+) => {
   console.log('EDIT ITEM', index, objectKey, objectValue)
 
-  let inputVal = ''
+  const newObjKey = objectKey
+  const newObjVal = objectValue
   const ok = await open(
     <Dialog label={`Edit ${objectKey} : ${objectValue} `}>
-      <Input
-        autoFocus
-        // label="input shizzle"
-        value={inputVal}
-      />
+      <Input autoFocus label="Object Key" value={newObjKey} space />
+      <Input autoFocus label="Object Value" value={newObjVal} />
       <Dialog.Buttons border>
         <Dialog.Cancel />
-        <Dialog.Confirm onConfirm={() => console.log('confirmed')} />
+        <Dialog.Confirm
+          onConfirm={() => console.log('confirmed', newObjKey, newObjVal)}
+        />
       </Dialog.Buttons>
     </Dialog>
   )
 }
 
-const ContextMenu = ({ index, objectKey, objectValue, open }) => {
+const ContextMenu = ({ index, objectKey, objectValue, open, onChange }) => {
   return (
     <>
       <ContextItem
-        onClick={() => editSpecificItem(index, objectKey, objectValue, open)}
+        onClick={() =>
+          editSpecificItem(index, objectKey, objectValue, open, onChange)
+        }
         icon={EditIcon}
       >
         Edit
