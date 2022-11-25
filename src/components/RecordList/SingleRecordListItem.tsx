@@ -29,7 +29,6 @@ export const SingleRecordListItem = ({
     { placement: 'right' }
   )
 
-  console.log('onChange', onChange)
   console.log('Complete object', object)
 
   return (
@@ -70,19 +69,41 @@ const editSpecificItem = async (
 ) => {
   console.log('EDIT ITEM', index, objectKey, objectValue)
 
-  const newObjKey = objectKey
-  const newObjVal = objectValue
+  let newObjKey = objectKey
+  let newObjVal = objectValue
+
+  const oldObjKey = objectKey
+  const oldObjVal = objectValue
+
   const ok = await open(
     <Dialog label={`Edit ${objectKey} : ${objectValue} `}>
-      <Input autoFocus label="Object Key" value={newObjKey} space />
-      <Input autoFocus label="Object Value" value={newObjVal} />
+      <Input
+        autoFocus
+        label="Object Key"
+        value={newObjKey}
+        space
+        onChange={(e) => (newObjKey = e)}
+      />
+      <Input
+        autoFocus
+        label="Object Value"
+        value={newObjVal}
+        onChange={(e) => (newObjVal = e)}
+      />
       <Dialog.Buttons border>
         <Dialog.Cancel />
         <Dialog.Confirm
           onConfirm={() => {
             console.log('confirmed', newObjKey, newObjVal)
-            // change the object TODO
-            onChange({ ...ok, [newObjKey]: newObjVal })
+
+            // delete old key
+            delete object[oldObjKey]
+
+            console.log('OKaY?', ok)
+            console.log('object na delete', object, oldObjKey)
+
+            onChange(delete object[oldObjKey])
+            onChange({ ...object, [newObjKey]: newObjVal })
           }}
         />
       </Dialog.Buttons>
@@ -116,7 +137,18 @@ const ContextMenu = ({
         Edit
       </ContextItem>
       <ContextItem
-        onClick={() => console.log('delete this', index)}
+        onClick={() => {
+          console.log('delete this -->', index, objectKey, objectValue)
+          //  delete object[objectKey]
+
+          delete object[objectKey]
+          //   onChange(delete object[objectKey])
+          //   onChange({ ...object })
+
+          onChange({ objectKey, ...object })
+
+          //  onChange({ ...object })
+        }}
         icon={DeleteIcon}
       >
         Delete
