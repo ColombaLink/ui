@@ -12,7 +12,7 @@ import {
 } from '~'
 import { useDialog } from '~/components/Dialog'
 
-const stopPropagation = (e) => e.stopPropagation()
+// const stopPropagation = (e) => e.stopPropagation()
 
 export const SingleRecordListItem = ({
   index,
@@ -29,7 +29,7 @@ export const SingleRecordListItem = ({
     { placement: 'right' }
   )
 
-  console.log('Complete object', object)
+  //  console.log('Incoming Complete object', object)
 
   return (
     <div
@@ -51,7 +51,7 @@ export const SingleRecordListItem = ({
         <MoreIcon
           style={{ cursor: 'pointer' }}
           // open options on clik
-          onPointerDown={stopPropagation}
+          //  onPointerDown={stopPropagation}
           onClick={contextHandler}
         />
       </div>
@@ -78,7 +78,6 @@ const editSpecificItem = async (
   const ok = await open(
     <Dialog label={`Edit ${objectKey} : ${objectValue} `}>
       <Input
-        autoFocus
         label="Object Key"
         value={newObjKey}
         space
@@ -94,15 +93,15 @@ const editSpecificItem = async (
         <Dialog.Cancel />
         <Dialog.Confirm
           onConfirm={() => {
-            console.log('confirmed', newObjKey, newObjVal)
+            object[oldObjKey] = object[newObjKey]
+            object[newObjKey] = newObjVal
 
-            // delete old key
-            delete object[oldObjKey]
+            if (newObjKey !== oldObjKey) {
+              object[oldObjKey] = null
+            }
 
-            console.log('OKaY?', ok)
-            console.log('object na delete', object, oldObjKey)
+            // . delete object[oldObjKey]
 
-            onChange(delete object[oldObjKey])
             onChange({ ...object, [newObjKey]: newObjVal })
           }}
         />
@@ -138,16 +137,8 @@ const ContextMenu = ({
       </ContextItem>
       <ContextItem
         onClick={() => {
-          console.log('delete this -->', index, objectKey, objectValue)
-          //  delete object[objectKey]
-
-          delete object[objectKey]
-          //   onChange(delete object[objectKey])
-          //   onChange({ ...object })
-
-          onChange({ objectKey, ...object })
-
-          //  onChange({ ...object })
+          object[objectKey] = null
+          onChange({ ...object })
         }}
         icon={DeleteIcon}
       >

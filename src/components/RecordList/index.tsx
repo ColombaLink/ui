@@ -7,6 +7,7 @@ import { Text } from '~/components/Text'
 import { Badge } from '~/components/Badge'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { Input } from '~/components/Input'
+import { AddSingleRecordItem } from './AddSingleRecordItem'
 
 type RecordListProps = {
   label?: string
@@ -33,66 +34,14 @@ export const RecordList = ({
   const [tempObj, setTempObj] = useState({})
 
   // console.log('REC PROPS-->', props, value)
+  // console.log('TEMP OBJ-->', tempObj)
 
   useEffect(() => {
     setTempObj(value)
   }, [value])
 
   const addItemHandler = async () => {
-    const itemType = schema.values.type
-
-    let inputValue = ''
-    let inputKey = ''
-    const ok = await open(
-      <Dialog
-        label={`Add new ${
-          itemType.charAt(0).toUpperCase() + itemType.slice(1)
-        } `}
-      >
-        <Input
-          label="Key"
-          space
-          type={
-            itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
-          }
-          digest={itemType === 'digest'}
-          autoFocus
-          value={inputKey}
-          onChange={(e) => {
-            inputKey = e
-          }}
-        />
-        <Input
-          label="Value"
-          type={
-            itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
-          }
-          digest={itemType === 'digest'}
-          autoFocus
-          value={inputValue}
-          onChange={(e) => {
-            inputValue = e
-          }}
-        />
-
-        <Dialog.Buttons border>
-          <Dialog.Cancel />
-          <Dialog.Confirm
-            onConfirm={() => {
-              if (inputKey && typeof ok !== 'boolean') {
-                if (itemType === 'string') {
-                  setTempObj({ ...tempObj, [inputKey]: inputValue })
-                  onChange({ ...ok, [inputKey]: inputValue })
-                } else if (itemType === 'int') {
-                } else if (itemType === 'float') {
-                } else if (itemType === 'digest') {
-                }
-              }
-            }}
-          />
-        </Dialog.Buttons>
-      </Dialog>
-    )
+    AddSingleRecordItem({ tempObj, setTempObj, schema, onChange, open })
   }
 
   return (

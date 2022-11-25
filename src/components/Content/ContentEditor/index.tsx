@@ -569,6 +569,8 @@ export const ContentEditor = ({
   }
   const { data } = useData(targetId ? query : null)
 
+  console.log('yo data??', data)
+
   const insideRecordField = data?.[field]
   let recordValueType
 
@@ -602,6 +604,7 @@ export const ContentEditor = ({
         const onChangeProp = onChange
 
         onChange = (val) => {
+          console.log('??', val)
           const setObj = path.reduceRight((val, field) => {
             return {
               [field]: val,
@@ -644,16 +647,19 @@ export const ContentEditor = ({
       {/* Als het een record is */}
       {type === 'record' && insideRecordField && (
         <div style={{ marginBottom: 24 }}>
-          {Object.keys(insideRecordField).map((ObjKey, idx) => (
-            <SingleRecordListItem
-              key={idx}
-              index={idx}
-              objectKey={ObjKey}
-              objectValue={insideRecordField[ObjKey]}
-              onChange={onChange}
-              object={insideRecordField}
-            />
-          ))}
+          {Object.keys(insideRecordField).map((ObjKey, idx) => {
+            const objectValue = insideRecordField[ObjKey]
+            return objectValue === null ? null : (
+              <SingleRecordListItem
+                key={idx}
+                index={idx}
+                objectKey={ObjKey}
+                objectValue={objectValue}
+                onChange={onChange}
+                object={insideRecordField}
+              />
+            )
+          })}
           <Button ghost icon={AddIcon} style={{ marginTop: 12 }}>
             Add {recordValueType || 'key value pair'}
           </Button>
