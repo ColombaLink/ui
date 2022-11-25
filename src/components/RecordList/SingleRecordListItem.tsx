@@ -19,16 +19,18 @@ export const SingleRecordListItem = ({
   objectKey,
   objectValue,
   onChange,
+  object,
 }) => {
   const { open } = useDialog()
 
   const contextHandler = useContextMenu(
     ContextMenu,
-    { index, objectKey, objectValue, open, onChange },
+    { index, objectKey, objectValue, open, onChange, object },
     { placement: 'right' }
   )
 
   console.log('onChange', onChange)
+  console.log('Complete object', object)
 
   return (
     <div
@@ -63,7 +65,8 @@ const editSpecificItem = async (
   objectKey,
   objectValue,
   open,
-  onChange
+  onChange,
+  object
 ) => {
   console.log('EDIT ITEM', index, objectKey, objectValue)
 
@@ -76,19 +79,37 @@ const editSpecificItem = async (
       <Dialog.Buttons border>
         <Dialog.Cancel />
         <Dialog.Confirm
-          onConfirm={() => console.log('confirmed', newObjKey, newObjVal)}
+          onConfirm={() => {
+            console.log('confirmed', newObjKey, newObjVal)
+            // change the object TODO
+            onChange({ ...ok, [newObjKey]: newObjVal })
+          }}
         />
       </Dialog.Buttons>
     </Dialog>
   )
 }
 
-const ContextMenu = ({ index, objectKey, objectValue, open, onChange }) => {
+const ContextMenu = ({
+  index,
+  objectKey,
+  objectValue,
+  open,
+  onChange,
+  object,
+}) => {
   return (
     <>
       <ContextItem
         onClick={() =>
-          editSpecificItem(index, objectKey, objectValue, open, onChange)
+          editSpecificItem(
+            index,
+            objectKey,
+            objectValue,
+            open,
+            onChange,
+            object
+          )
         }
         icon={EditIcon}
       >

@@ -651,6 +651,7 @@ export const ContentEditor = ({
               objectKey={ObjKey}
               objectValue={insideRecordField[ObjKey]}
               onChange={onChange}
+              object={insideRecordField}
             />
           ))}
           <Button ghost icon={AddIcon} style={{ marginTop: 12 }}>
