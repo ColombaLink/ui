@@ -540,9 +540,7 @@ export const ContentEditor = ({
   language = 'en',
   prefix = '',
 }) => {
-  let fields, loading
-
-  let recordValueType
+  let fields, loading, recordValueType
 
   if (id) {
     if (id.includes('.')) {

@@ -29,8 +29,6 @@ export const SingleRecordListItem = ({
     { placement: 'right' }
   )
 
-  //  console.log('Incoming Complete object', object)
-
   return (
     <div
       style={{
@@ -50,7 +48,6 @@ export const SingleRecordListItem = ({
       <div>
         <MoreIcon
           style={{ cursor: 'pointer' }}
-          // open options on clik
           //  onPointerDown={stopPropagation}
           onClick={contextHandler}
         />
