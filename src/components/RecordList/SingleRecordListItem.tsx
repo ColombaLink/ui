@@ -100,8 +100,6 @@ const editSpecificItem = async (
               object[oldObjKey] = null
             }
 
-            // . delete object[oldObjKey]
-
             onChange({ ...object, [newObjKey]: newObjVal })
           }}
         />

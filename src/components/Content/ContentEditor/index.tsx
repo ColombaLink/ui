@@ -16,7 +16,6 @@ import {
   LoadingIcon,
   ArrayList,
   useLocation,
-  color,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -29,8 +28,7 @@ import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
 import { RecordList } from '~/components/RecordList'
-import { SingleRecordListItem } from '~/components/RecordList/SingleRecordListItem'
-import { AddSingleRecordItem } from '~/components/RecordList/AddSingleRecordItem'
+import { RecordPage } from '~/components/RecordList/RecordPage'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -86,12 +84,6 @@ const FileReference = ({
           })
         )
 
-        // console.log('Result->', result)
-        // console.log(
-        //   'Arraytje toch',
-        //   result.map((file) => file?.id)
-        // )
-
         onChange(
           multiple
             ? result.map((file) => file?.id) || { $delete: true }
@@ -109,10 +101,6 @@ const References = (props) => {
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
   }
-
-  // console.log('META?', meta)
-  // console.log('---> Reference props', props)
-  // console.log('-->', meta?.refTypes)
 
   const { open } = useDialog()
   return (
@@ -183,12 +171,6 @@ const SingleReference = (props) => {
     </div>
   )
 }
-
-// const text = {
-//   default: ({ description, ...props }) => {
-//     return <Input {...props} descriptionBottom={description} indent space />
-//   },
-// }
 
 const object = {
   default: ({ prefix, schema, field, ...props }) => {
@@ -560,23 +542,7 @@ export const ContentEditor = ({
 }) => {
   let fields, loading
 
-  // for record fields
-  const { open } = useDialog()
-
-  const targetId = id.split('.')[0]
-  const field = id.split('.').pop()
-
-  const query = {
-    $id: targetId,
-    [field]: true,
-  }
-
-  const { data } = useData(targetId ? query : null)
-
-  const insideRecordField = data?.[field]
   let recordValueType
-
-  console.log('Inside record field', insideRecordField)
 
   if (id) {
     if (id.includes('.')) {
@@ -590,7 +556,7 @@ export const ContentEditor = ({
       // if it is a record
       if (fields && id) {
         const lastPartOfId = id.split('.').pop()
-        if (fields[lastPartOfId].type === 'record') {
+        if (fields[lastPartOfId]?.type === 'record') {
           recordValueType = fields[lastPartOfId].values.type
           type = 'record'
         }
@@ -644,44 +610,20 @@ export const ContentEditor = ({
     )
   }
 
+  if (type === 'record') {
+    return (
+      <RecordPage
+        fields={fields}
+        id={id}
+        onChange={onChange}
+        recordValueType={recordValueType}
+        style={style}
+      />
+    )
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
-      {/* Als het een record is */}
-      {type === 'record' && insideRecordField && (
-        <div style={{ marginBottom: 24 }}>
-          {Object.keys(insideRecordField).map((ObjKey, idx) => {
-            const objectValue = insideRecordField[ObjKey]
-            return objectValue === null ? null : (
-              <SingleRecordListItem
-                key={idx}
-                index={idx}
-                objectKey={ObjKey}
-                objectValue={objectValue}
-                onChange={onChange}
-                object={insideRecordField}
-              />
-            )
-          })}
-          <Button
-            ghost
-            icon={AddIcon}
-            style={{ marginTop: 12 }}
-            onClick={async () =>
-              AddSingleRecordItem(
-                insideRecordField,
-                // setTempObj,
-                () => {},
-                recordValueType,
-                onChange,
-                open
-              )
-            }
-          >
-            Add {recordValueType || 'key value pair'}
-          </Button>
-        </div>
-      )}
-
       {/* mapt over de fields in de object */}
       {fields &&
         Object.keys(fields).map((field) => {

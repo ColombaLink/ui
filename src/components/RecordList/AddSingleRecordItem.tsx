@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dialog, Input } from '~'
 
-export const AddSingleRecordItem = async (
+export const addSingleRecordItem = async (
   tempObj,
   setTempObj,
   itemType,
@@ -11,8 +11,6 @@ export const AddSingleRecordItem = async (
   // const itemType = 'string'
 
   console.log('temp obj-->', tempObj)
-
-  // const { open } = useDialog()
 
   let inputValue = ''
   let inputKey = ''

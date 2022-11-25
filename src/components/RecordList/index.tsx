@@ -6,7 +6,7 @@ import { Button } from '~/components/Button'
 import { Text } from '~/components/Text'
 import { Badge } from '~/components/Badge'
 import { useDialog } from '~/components/Dialog'
-import { AddSingleRecordItem } from './AddSingleRecordItem'
+import { addSingleRecordItem } from './AddSingleRecordItem'
 
 type RecordListProps = {
   label?: string
@@ -32,8 +32,6 @@ export const RecordList = ({
   const { open } = useDialog()
   const [tempObj, setTempObj] = useState({})
 
-  console.log()
-
   const itemType = schema.values.type
 
   useEffect(() => {
@@ -41,7 +39,7 @@ export const RecordList = ({
   }, [value])
 
   const addItemHandler = async () => {
-    AddSingleRecordItem(tempObj, setTempObj, itemType, onChange, open)
+    addSingleRecordItem(tempObj, setTempObj, itemType, onChange, open)
   }
 
   return (
