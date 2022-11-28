@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CheckIcon, CopyIcon } from '~/icons'
 import { Input, Text } from '~'
 
@@ -14,8 +14,14 @@ export const DigestInput = ({
   disabled,
   ...props
 }: DigestInputProps) => {
-  const [shortState, setShortState] = useState(true)
+  const [shortState, setShortState] = useState(false)
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    if (value.length > 6) {
+      setShortState(true)
+    }
+  }, [])
 
   function copy(text) {
     const input = document.createElement('input')
@@ -35,24 +41,34 @@ export const DigestInput = ({
           position: 'relative',
           alignItems: 'center',
         }}
+        onBlur={() => {
+          if (value.length > 6) {
+            setShortState(true)
+          }
+        }}
+        onFocus={() => {
+          setShortState(false)
+        }}
       >
-        {shortState}
-        <Input
-          icon=" "
-          {...props}
-          style={{ width: '100%' }}
-          type="text"
-          value={value}
-          onChange={(e) => {
-            onChange({ target: { value: e } })
-          }}
-          disabled={disabled}
-          onClick={() => {
-            console.log('click')
-            console.log('shortState: ', shortState)
-            setShortState(!shortState)
-          }}
-        />
+        {shortState ? (
+          <Input
+            value={value.substring(0, 6) + '...'}
+            icon=" "
+            style={{ width: '100%' }}
+          />
+        ) : (
+          <Input
+            icon=" "
+            {...props}
+            style={{ width: '100%' }}
+            type="text"
+            value={value}
+            onChange={(e) => {
+              onChange({ target: { value: e } })
+            }}
+            disabled={disabled}
+          />
+        )}
         <CopyIcon
           style={{ position: 'absolute', left: 12, cursor: 'pointer' }}
           onClick={() => {
@@ -71,6 +87,7 @@ export const DigestInput = ({
             gap: 4,
             alignItems: 'center',
             marginTop: 12,
+            paddingBottom: 6,
             marginBottom: -24,
           }}
         >
