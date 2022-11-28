@@ -10,16 +10,16 @@ export const InputFields = () => {
       examples={[
         {
           props: {
-            passwordInput: true,
-            label: 'Password',
+            digest: true,
+            label: 'Digest input',
             description: 'Press eye to see the value',
             indent: true,
           },
         },
         {
           props: {
-            digest: true,
-            label: 'Digest input',
+            passwordInput: true,
+            label: 'Password',
             description: 'Press eye to see the value',
             indent: true,
           },

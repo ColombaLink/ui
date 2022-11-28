@@ -110,6 +110,7 @@ const editSpecificItem = async (
         type={
           itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
         }
+        digest={itemType === 'digest'}
         value={newObjVal}
         onChange={(e) => (newObjVal = e)}
       />

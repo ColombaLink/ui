@@ -238,7 +238,7 @@ export const Input: FC<
   const [errorMessage, setErrorMessage] = useState('')
 
   // to clear json value
-  const [clearValue, setClearValue] = useState(false)
+  const [, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
 
   useEffect(() => {

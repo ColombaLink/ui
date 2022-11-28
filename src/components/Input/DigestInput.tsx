@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Input } from '.'
-import { EyeIcon, EyeBlockedIcon, color } from '~'
+import { CheckIcon, CopyIcon } from '~/icons'
+import { Input, Text } from '~'
 
 type DigestInputProps = {
   value?: string
@@ -14,53 +14,70 @@ export const DigestInput = ({
   disabled,
   ...props
 }: DigestInputProps) => {
-  const [digestInputType, setDigestInputType] = useState('password')
+  const [shortState, setShortState] = useState(true)
+  const [copied, setCopied] = useState(false)
+
+  function copy(text) {
+    const input = document.createElement('input')
+    input.setAttribute('value', text)
+    document.body.appendChild(input)
+    input.select()
+    const result = document.execCommand('copy')
+    document.body.removeChild(input)
+    return result
+  }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        position: 'relative',
-        alignItems: 'center',
-      }}
-    >
-      <Input
-        {...props}
-        style={{ width: '100%' }}
-        type={digestInputType}
-        value={value}
-        onChange={(e) => {
-          onChange({ target: { value: e } })
+    <>
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+          alignItems: 'center',
         }}
-        disabled={disabled}
-      />
-
-      {digestInputType === 'text' && (
-        <EyeIcon
-          size={24}
-          style={{
-            position: 'absolute',
-            right: 6,
-            cursor: 'pointer',
-            border: `3px solid ${color('background')}`,
-            backgroundColor: color('background'),
+      >
+        {shortState}
+        <Input
+          icon=" "
+          {...props}
+          style={{ width: '100%' }}
+          type="text"
+          value={value}
+          onChange={(e) => {
+            onChange({ target: { value: e } })
           }}
-          onClick={() => setDigestInputType('password')}
-        />
-      )}
-      {digestInputType === 'password' && (
-        <EyeBlockedIcon
-          size={24}
-          style={{
-            position: 'absolute',
-            right: 6,
-            cursor: 'pointer',
-            backgroundColor: color('background'),
-            border: `3px solid ${color('background')}`,
+          disabled={disabled}
+          onClick={() => {
+            console.log('click')
+            console.log('shortState: ', shortState)
+            setShortState(!shortState)
           }}
-          onClick={() => setDigestInputType('text')}
         />
+        <CopyIcon
+          style={{ position: 'absolute', left: 12, cursor: 'pointer' }}
+          onClick={() => {
+            copy(value)
+            setCopied(true)
+            setTimeout(() => {
+              setCopied(false)
+            }, 3500)
+          }}
+        />
+      </div>
+      {copied && (
+        <div
+          style={{
+            display: 'flex',
+            gap: 4,
+            alignItems: 'center',
+            marginTop: 12,
+            marginBottom: -24,
+          }}
+        >
+          <CheckIcon color="green" />
+          <Text>Copied full SHA!!</Text>
+        </div>
       )}
-    </div>
+    </>
   )
 }
