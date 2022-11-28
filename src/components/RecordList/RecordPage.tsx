@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, CSSProperties } from 'react'
 import { Button } from '~/components/Button'
 import { SingleRecordListItem } from './SingleRecordListItem'
 import { addSingleRecordItem } from './AddSingleRecordItem'
@@ -6,14 +6,22 @@ import { useDialog } from '~/components/Dialog'
 import { useData } from '@based/react'
 import { AddIcon } from '~/icons'
 
+type RecordPageProps = {
+  id?: string
+  fields?: any
+  onChange?: (fields: any) => void
+  recordValueType?: string
+  style?: CSSProperties
+}
+
 export const RecordPage = ({
   fields,
   id,
   onChange,
   recordValueType,
   style,
-}) => {
-  const [tempObj, setTempObj] = useState(null)
+}: RecordPageProps) => {
+  const [tempObj, setTempObj] = useState({})
 
   if (fields && id) {
     const lastPartOfId = id.split('.').pop()
@@ -35,16 +43,14 @@ export const RecordPage = ({
 
   const { data } = useData(targetId ? query : null)
 
-  const insideRecordField = data?.[field]
-
   useEffect(() => {
-    setTempObj(insideRecordField)
-  }, [insideRecordField])
+    setTempObj(data?.[field])
+  }, [data])
 
   return (
     <div>
       {/* Als het een record is */}
-      {insideRecordField && tempObj && (
+      {tempObj && (
         <div style={{ marginBottom: 24, ...style }}>
           {Object.keys(tempObj).map((ObjKey, idx) => {
             const objectValue = tempObj[ObjKey]
@@ -55,7 +61,8 @@ export const RecordPage = ({
                 objectKey={ObjKey}
                 objectValue={objectValue}
                 onChange={onChange}
-                object={insideRecordField}
+                object={tempObj}
+                setTempObj={setTempObj}
               />
             )
           })}
@@ -66,7 +73,7 @@ export const RecordPage = ({
             style={{ marginTop: 12 }}
             onClick={async () =>
               addSingleRecordItem(
-                insideRecordField,
+                tempObj,
                 setTempObj,
                 recordValueType,
                 onChange,

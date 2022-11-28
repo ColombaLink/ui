@@ -14,18 +14,28 @@ import { useDialog } from '~/components/Dialog'
 
 // const stopPropagation = (e) => e.stopPropagation()
 
+type SingleRecordListItemProps = {
+  index?: number
+  objectKey?: string
+  objectValue?: any
+  onChange?: (value: any) => void
+  object?: {}
+  setTempObj?: (value: any) => void
+}
+
 export const SingleRecordListItem = ({
   index,
   objectKey,
   objectValue,
   onChange,
   object,
-}) => {
+  setTempObj,
+}: SingleRecordListItemProps) => {
   const { open } = useDialog()
 
   const contextHandler = useContextMenu(
     ContextMenu,
-    { index, objectKey, objectValue, open, onChange, object },
+    { index, objectKey, objectValue, open, onChange, object, setTempObj },
     { placement: 'right' }
   )
 
@@ -43,7 +53,8 @@ export const SingleRecordListItem = ({
       }}
     >
       <div style={{ display: 'flex' }}>
-        <Text weight={500}>{objectKey}</Text> : {objectValue}
+        <Text weight={600}>{objectKey} : </Text>
+        <Text style={{ marginLeft: 6 }}>{objectValue}</Text>
       </div>
       <div>
         <MoreIcon
@@ -62,7 +73,8 @@ const editSpecificItem = async (
   objectValue,
   open,
   onChange,
-  object
+  object,
+  setTempObj
 ) => {
   console.log('EDIT ITEM', index, objectKey, objectValue)
 
@@ -70,9 +82,9 @@ const editSpecificItem = async (
   let newObjVal = objectValue
 
   const oldObjKey = objectKey
-  const oldObjVal = objectValue
+  // const oldObjVal = objectValue
 
-  const ok = await open(
+  await open(
     <Dialog label={`Edit ${objectKey} : ${objectValue} `}>
       <Input
         label="Object Key"
@@ -98,6 +110,8 @@ const editSpecificItem = async (
             }
 
             onChange({ ...object, [newObjKey]: newObjVal })
+            setTempObj({ ...object, [newObjKey]: newObjVal })
+            // verander ook de tempObj in RecordPage
           }}
         />
       </Dialog.Buttons>
@@ -112,6 +126,7 @@ const ContextMenu = ({
   open,
   onChange,
   object,
+  setTempObj,
 }) => {
   return (
     <>
@@ -123,7 +138,8 @@ const ContextMenu = ({
             objectValue,
             open,
             onChange,
-            object
+            object,
+            setTempObj
           )
         }
         icon={EditIcon}
@@ -134,6 +150,7 @@ const ContextMenu = ({
         onClick={() => {
           object[objectKey] = null
           onChange({ ...object })
+          setTempObj({ ...object })
         }}
         icon={DeleteIcon}
       >

@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Space } from '~/types'
 import { EditIcon, AddIcon } from '~/icons'
@@ -11,9 +11,7 @@ import { addSingleRecordItem } from './AddSingleRecordItem'
 type RecordListProps = {
   label?: string
   description?: string
-  descriptionBottom?: string
   schema?: any
-  style?: CSSProperties
   space?: Space
   value?: {}
   onClick?: () => void
@@ -25,10 +23,11 @@ export const RecordList = ({
   description,
   schema,
   value,
+  space,
   onClick,
   onChange,
-  ...props
-}: RecordListProps) => {
+}: // ...props
+RecordListProps) => {
   const { open } = useDialog()
   const [tempObj, setTempObj] = useState({})
 
@@ -43,7 +42,7 @@ export const RecordList = ({
   }
 
   return (
-    <InputWrapper indent space descriptionBottom={description}>
+    <InputWrapper indent space={space} descriptionBottom={description}>
       <Text space={12} weight={600}>
         <div style={{ display: 'flex' }}>
           {label} <Badge style={{ marginLeft: 8 }}>{schema.values.type}</Badge>
@@ -53,7 +52,8 @@ export const RecordList = ({
         {tempObj &&
           Object.keys(tempObj).map((ObjKey, idx) => (
             <div key={idx} style={{ display: 'flex', marginBottom: 4 }}>
-              <Text weight={500}>{ObjKey}</Text> : {tempObj[ObjKey]}
+              <Text weight={600}>{ObjKey}: </Text>
+              <Text style={{ marginLeft: 6 }}>{tempObj[ObjKey]}</Text>
             </div>
           ))}
       </InputWrapper>

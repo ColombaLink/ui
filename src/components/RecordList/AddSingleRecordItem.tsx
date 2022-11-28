@@ -7,10 +7,8 @@ export const addSingleRecordItem = async (
   itemType,
   onChange,
   open
-) => {
+): Promise<any> => {
   // const itemType = 'string'
-
-  console.log('temp obj-->', tempObj)
 
   let inputValue = ''
   let inputKey = ''

@@ -96,7 +96,7 @@ const FileReference = ({
 }
 
 const References = (props) => {
-  const { label, description, value, style, meta } = props
+  const { label, description, value, style } = props
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
