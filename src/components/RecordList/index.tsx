@@ -49,7 +49,7 @@ RecordListProps) => {
           {label} <Badge style={{ marginLeft: 8 }}>{schema.values.type}</Badge>
         </div>
       </Text>
-      <InputWrapper indent space={8}>
+      <InputWrapper indent space={12}>
         {tempObj &&
           Object.keys(tempObj).map((ObjKey, idx) => (
             <div
@@ -57,11 +57,18 @@ RecordListProps) => {
               style={{
                 display: 'flex',
                 marginBottom: 4,
+                borderRadius: 4,
                 borderBottom: `1px solid ${color('border')}`,
               }}
             >
-              <Text weight={600}>{ObjKey}: </Text>
-              <Text style={{ marginLeft: 6 }}>{tempObj[ObjKey]}</Text>
+              <Text weight={600} style={{ width: 134 }}>
+                {ObjKey}:{' '}
+              </Text>
+              <Text style={{ marginLeft: 6 }}>
+                {itemType === 'digest'
+                  ? tempObj[ObjKey].toString().substring(0, 6) + '...'
+                  : tempObj[ObjKey]}
+              </Text>
             </div>
           ))}
       </InputWrapper>

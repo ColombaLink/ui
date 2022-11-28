@@ -64,8 +64,12 @@ export const SingleRecordListItem = ({
       }}
     >
       <div style={{ display: 'flex' }}>
-        <Text weight={600}>{objectKey} : </Text>
-        <Text style={{ marginLeft: 6 }}>{objectValue}</Text>
+        <Text weight={600}>{objectKey}: </Text>
+        <Text style={{ marginLeft: 6 }}>
+          {itemType === 'digest'
+            ? objectValue.toString().substring(0, 6) + '...'
+            : objectValue}
+        </Text>
       </div>
       <div style={{ minWidth: 16 }}>
         <MoreIcon
