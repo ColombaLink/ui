@@ -21,6 +21,7 @@ import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
+import { PasswordInput } from './PasswordInput'
 
 const resize = (target) => {
   if (target) {
@@ -69,6 +70,7 @@ type InputProps = {
   customRegex?: boolean
   pattern?: string
   jsonInput?: boolean
+  passwordInput?: boolean
   markdownInput?: boolean
   digest?: boolean
   description?: string
@@ -196,6 +198,7 @@ export const Input: FC<
   customRegex,
   pattern,
   jsonInput,
+  passwordInput,
   markdownInput,
   defaultValue,
   description,
@@ -415,6 +418,13 @@ export const Input: FC<
             />
           ) : digest ? (
             <DigestInput
+              {...props}
+              disabled={!!valueProp}
+              onChange={onChange}
+              value={value}
+            />
+          ) : passwordInput ? (
+            <PasswordInput
               {...props}
               disabled={!!valueProp}
               onChange={onChange}

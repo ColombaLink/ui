@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
-import { Input } from '.'
-import { EyeIcon, EyeBlockedIcon, color } from '~'
+import { Input, EyeIcon, EyeBlockedIcon, LockIcon, color } from '~'
 
-type DigestInputProps = {
+type PasswordInputProps = {
   value?: string
   onChange?: (target) => void
   disabled?: boolean
 }
 
-export const DigestInput = ({
+export const PasswordInput = ({
   value,
   onChange,
   disabled,
   ...props
-}: DigestInputProps) => {
-  const [digestInputType, setDigestInputType] = useState('password')
+}: PasswordInputProps) => {
+  const [passwordInputType, setPasswordInputType] = useState('password')
 
   return (
     <div
@@ -26,8 +25,9 @@ export const DigestInput = ({
     >
       <Input
         {...props}
+        icon={<LockIcon />}
         style={{ width: '100%' }}
-        type={digestInputType}
+        type={passwordInputType}
         value={value}
         onChange={(e) => {
           onChange({ target: { value: e } })
@@ -35,7 +35,7 @@ export const DigestInput = ({
         disabled={disabled}
       />
 
-      {digestInputType === 'text' && (
+      {passwordInputType === 'text' && (
         <EyeIcon
           size={24}
           style={{
@@ -45,10 +45,10 @@ export const DigestInput = ({
             border: `3px solid ${color('background')}`,
             backgroundColor: color('background'),
           }}
-          onClick={() => setDigestInputType('password')}
+          onClick={() => setPasswordInputType('password')}
         />
       )}
-      {digestInputType === 'password' && (
+      {passwordInputType === 'password' && (
         <EyeBlockedIcon
           size={24}
           style={{
@@ -58,7 +58,7 @@ export const DigestInput = ({
             backgroundColor: color('background'),
             border: `3px solid ${color('background')}`,
           }}
-          onClick={() => setDigestInputType('text')}
+          onClick={() => setPasswordInputType('text')}
         />
       )}
     </div>
