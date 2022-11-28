@@ -67,7 +67,7 @@ export const SingleRecordListItem = ({
         <Text weight={600}>{objectKey} : </Text>
         <Text style={{ marginLeft: 6 }}>{objectValue}</Text>
       </div>
-      <div>
+      <div style={{ minWidth: 16 }}>
         <MoreIcon
           style={{ cursor: 'pointer' }}
           //  onPointerDown={stopPropagation}

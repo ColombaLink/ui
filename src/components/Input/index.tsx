@@ -441,7 +441,7 @@ export const Input: FC<
                   }
                   // for some reason pressing . in number input
                   // changed the value to one
-                  if (e.key === '.') {
+                  if (e.key === '.' && type === 'number') {
                     e.preventDefault()
                   }
                   props.onKeyDown?.(e)
