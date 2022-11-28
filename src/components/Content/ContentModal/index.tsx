@@ -215,7 +215,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
                   typeof data === 'object' &&
                   !Array.isArray(data[Object.keys(data)[0]])
                 ) {
-                  console.warn('doing deep merge!', changes)
+                  console.warn('doing deep merge!', changes, data)
                   deepMerge(changes, data)
                 } else {
                   //    console.log('array ', data, changes)
@@ -233,6 +233,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
+                console.log(JSON.stringify(changes, null, 2))
                 await client.set({
                   $id: id.split('.')[0] || undefined,
                   type,

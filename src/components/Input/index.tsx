@@ -439,6 +439,11 @@ export const Input: FC<
                   if (e.key === 'Backspace' && value === 0) {
                     setValue('')
                   }
+                  // for some reason pressing . in number input
+                  // changed the value to one
+                  if (e.key === '.') {
+                    e.preventDefault()
+                  }
                   props.onKeyDown?.(e)
                 }}
                 // @ts-ignore

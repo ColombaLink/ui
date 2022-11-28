@@ -27,6 +27,8 @@ import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
+import { RecordList } from '~/components/RecordList'
+import { RecordPage } from '~/components/RecordList/RecordPage'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -82,12 +84,6 @@ const FileReference = ({
           })
         )
 
-        // console.log('Result->', result)
-        // console.log(
-        //   'Arraytje toch',
-        //   result.map((file) => file?.id)
-        // )
-
         onChange(
           multiple
             ? result.map((file) => file?.id) || { $delete: true }
@@ -100,15 +96,11 @@ const FileReference = ({
 }
 
 const References = (props) => {
-  const { label, description, value, style, meta } = props
+  const { label, description, value, style } = props
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
   }
-
-  // console.log('META?', meta)
-  console.log('---> Reference props', props)
-  // console.log('-->', meta?.refTypes)
 
   const { open } = useDialog()
   return (
@@ -121,8 +113,8 @@ const References = (props) => {
 
       {/* if there are reftypes on the meta */}
 
-      {meta?.refTypes?.length > 0 &&
-        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)}
+      {/* {meta?.refTypes?.length > 0 &&
+        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
 
       {value?.map((id) => (
         <Reference key={id} id={id} />
@@ -180,12 +172,6 @@ const SingleReference = (props) => {
   )
 }
 
-// const text = {
-//   default: ({ description, ...props }) => {
-//     return <Input {...props} descriptionBottom={description} indent space />
-//   },
-// }
-
 const object = {
   default: ({ prefix, schema, field, ...props }) => {
     // console.log('object', { prefix })
@@ -210,6 +196,25 @@ const object = {
         descriptionBottom={description}
         mapboxApiAccessToken="pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg"
         mapboxStyle="mapbox://styles/nfrade/ckkzrytvp3vtn17lizbcps9ge"
+      />
+    )
+  },
+}
+
+const record = {
+  default: ({ prefix, field, label, value, description, schema, ...props }) => {
+    const [, setLocation] = useLocation()
+    return (
+      <RecordList
+        label={label}
+        schema={schema}
+        description={description}
+        value={value}
+        onClick={() => {
+          //  console.log('get value back?', value)
+          setLocation(`${prefix}.${field}`)
+        }}
+        {...props}
       />
     )
   },
@@ -430,6 +435,7 @@ const components = {
   json,
   array,
   set,
+  record,
 }
 
 const ContentField = ({
@@ -534,20 +540,31 @@ export const ContentEditor = ({
   language = 'en',
   prefix = '',
 }) => {
-  let fields, loading
+  let fields, loading, recordValueType
 
   if (id) {
     if (id.includes('.')) {
       // im dealing with nested fields
       const [pathId, ...path] = id.split('.')
       const s = useItemSchema(pathId)
+
       loading = s.loading
       fields = s.fields
+
+      // if it is a record
+      if (fields && id) {
+        const lastPartOfId = id.split('.').pop()
+        if (fields[lastPartOfId]?.type === 'record') {
+          recordValueType = fields[lastPartOfId].values.type
+          type = 'record'
+        }
+      }
 
       if (fields) {
         path.forEach((field) => {
           if (field in fields) {
             const { properties, items, values } = fields[field]
+
             // TODO also make for object in array, record, etc
             fields = items?.properties || values?.properties || properties
           }
@@ -560,7 +577,6 @@ export const ContentEditor = ({
               [field]: val,
             }
           }, val)
-
           onChangeProp(setObj)
         }
       }
@@ -592,39 +608,52 @@ export const ContentEditor = ({
     )
   }
 
+  if (type === 'record') {
+    return (
+      <RecordPage
+        fields={fields}
+        id={id}
+        onChange={onChange}
+        recordValueType={recordValueType}
+        style={style}
+      />
+    )
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {/* mapt over de fields in de object */}
-      {Object.keys(fields).map((field) => {
-        const fieldSchema = fields[field]
-        const { type, meta } = fields[field]
+      {fields &&
+        Object.keys(fields).map((field) => {
+          const fieldSchema = fields[field]
+          const { type, meta } = fields[field]
 
-        if (
-          type === 'id' ||
-          type === 'type' ||
-          meta === undefined ||
-          meta.hidden
-        ) {
-          return null
-        }
+          if (
+            type === 'id' ||
+            type === 'type' ||
+            meta === undefined ||
+            meta.hidden
+          ) {
+            return null
+          }
 
-        const index = meta.index
+          const index = meta.index
 
-        return (
-          <ContentField
-            prefix={`${prefix}/${id}`}
-            autoFocus={autoFocus === field}
-            field={field}
-            id={id}
-            index={index}
-            key={field}
-            schema={fieldSchema}
-            type={type}
-            onChange={onChange}
-            language={language}
-          />
-        )
-      })}
+          return (
+            <ContentField
+              prefix={`${prefix}/${id}`}
+              autoFocus={autoFocus === field}
+              field={field}
+              id={id}
+              index={index}
+              key={field}
+              schema={fieldSchema}
+              type={type}
+              onChange={onChange}
+              language={language}
+            />
+          )
+        })}
     </div>
   )
 }
