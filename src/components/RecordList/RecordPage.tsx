@@ -63,6 +63,7 @@ export const RecordPage = ({
                 onChange={onChange}
                 object={tempObj}
                 setTempObj={setTempObj}
+                itemType={recordValueType}
               />
             )
           })}

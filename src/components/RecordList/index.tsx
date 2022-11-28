@@ -7,6 +7,7 @@ import { Text } from '~/components/Text'
 import { Badge } from '~/components/Badge'
 import { useDialog } from '~/components/Dialog'
 import { addSingleRecordItem } from './AddSingleRecordItem'
+import { color } from '~'
 
 type RecordListProps = {
   label?: string
@@ -23,7 +24,7 @@ export const RecordList = ({
   description,
   schema,
   value,
-  space,
+  space = 48,
   onClick,
   onChange,
 }: // ...props
@@ -51,7 +52,14 @@ RecordListProps) => {
       <InputWrapper indent space={8}>
         {tempObj &&
           Object.keys(tempObj).map((ObjKey, idx) => (
-            <div key={idx} style={{ display: 'flex', marginBottom: 4 }}>
+            <div
+              key={idx}
+              style={{
+                display: 'flex',
+                marginBottom: 4,
+                borderBottom: `1px solid ${color('border')}`,
+              }}
+            >
               <Text weight={600}>{ObjKey}: </Text>
               <Text style={{ marginLeft: 6 }}>{tempObj[ObjKey]}</Text>
             </div>

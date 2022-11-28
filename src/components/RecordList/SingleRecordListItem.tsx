@@ -21,6 +21,7 @@ type SingleRecordListItemProps = {
   onChange?: (value: any) => void
   object?: {}
   setTempObj?: (value: any) => void
+  itemType?: string
 }
 
 export const SingleRecordListItem = ({
@@ -30,12 +31,22 @@ export const SingleRecordListItem = ({
   onChange,
   object,
   setTempObj,
+  itemType,
 }: SingleRecordListItemProps) => {
   const { open } = useDialog()
 
   const contextHandler = useContextMenu(
     ContextMenu,
-    { index, objectKey, objectValue, open, onChange, object, setTempObj },
+    {
+      index,
+      objectKey,
+      objectValue,
+      open,
+      onChange,
+      object,
+      setTempObj,
+      itemType,
+    },
     { placement: 'right' }
   )
 
@@ -74,7 +85,8 @@ const editSpecificItem = async (
   open,
   onChange,
   object,
-  setTempObj
+  setTempObj,
+  itemType
 ) => {
   console.log('EDIT ITEM', index, objectKey, objectValue)
 
@@ -95,6 +107,9 @@ const editSpecificItem = async (
       <Input
         autoFocus
         label="Object Value"
+        type={
+          itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
+        }
         value={newObjVal}
         onChange={(e) => (newObjVal = e)}
       />
@@ -111,7 +126,6 @@ const editSpecificItem = async (
 
             onChange({ ...object, [newObjKey]: newObjVal })
             setTempObj({ ...object, [newObjKey]: newObjVal })
-            // verander ook de tempObj in RecordPage
           }}
         />
       </Dialog.Buttons>
@@ -127,6 +141,7 @@ const ContextMenu = ({
   onChange,
   object,
   setTempObj,
+  itemType,
 }) => {
   return (
     <>
@@ -139,7 +154,8 @@ const ContextMenu = ({
             open,
             onChange,
             object,
-            setTempObj
+            setTempObj,
+            itemType
           )
         }
         icon={EditIcon}

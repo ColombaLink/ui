@@ -19,10 +19,8 @@ export const addSingleRecordItem = async (
       <Input
         label="Key"
         space
-        type={
-          itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
-        }
-        digest={itemType === 'digest'}
+        type="text"
+        // digest={itemType === 'digest'}
         autoFocus
         value={inputKey}
         onChange={(e) => {
@@ -51,8 +49,14 @@ export const addSingleRecordItem = async (
                 setTempObj({ ...tempObj, [inputKey]: inputValue })
                 onChange({ ...ok, [inputKey]: inputValue })
               } else if (itemType === 'int') {
+                setTempObj({ ...tempObj, [inputKey]: parseInt(inputValue) })
+                onChange({ ...ok, [inputKey]: parseInt(inputValue) })
               } else if (itemType === 'float') {
+                setTempObj({ ...tempObj, [inputKey]: parseFloat(inputValue) })
+                onChange({ ...ok, [inputKey]: parseFloat(inputValue) })
               } else if (itemType === 'digest') {
+                setTempObj({ ...tempObj, [inputKey]: inputValue })
+                onChange({ ...ok, [inputKey]: inputValue })
               }
             }
           }}
