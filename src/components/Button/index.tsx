@@ -22,7 +22,7 @@ export type ButtonProps = {
   color?: Color
   ghost?: boolean
   light?: boolean
-  large?: boolean
+  small?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
@@ -69,7 +69,7 @@ export const Button: FC<ButtonProps> = (props) => {
     fill,
     icon,
     iconRight,
-    large,
+    small,
     loading,
     onClick,
     onPointerDown,
@@ -142,18 +142,18 @@ export const Button: FC<ButtonProps> = (props) => {
       onPointerDown={onPointerDown}
       style={{
         padding:
-          !children && large
+          !children && small
             ? '16px'
             : !children
             ? '8px'
-            : large
-            ? '4px 16px'
-            : '4px 8px',
-        borderRadius: 4,
+            : small
+            ? '4px 12px'
+            : '8px 16px',
+        borderRadius: small ? 4 : 8,
         width: fill ? '100%' : null,
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
-        height: large ? 48 : null,
+        // height: small ? 48 : null,
         ...getButtonStyle(props, true),
         ...style,
       }}
@@ -182,7 +182,9 @@ export const Button: FC<ButtonProps> = (props) => {
                 }
               : null
           )}
-        <Text color="inherit">{children}</Text>
+        <Text color="inherit" weight={small ? 500 : 600}>
+          {children}
+        </Text>
         {iconRight &&
           renderOrCreateElement(
             iconRight,

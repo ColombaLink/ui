@@ -286,15 +286,17 @@ export const Input: FC<
       margin: 0,
       outline: ghost
         ? null
-        : focus
-        ? `2px solid ${color('border:active')}`
+        : focused
+        ? `3px solid rgba(44, 60, 234, 0.2)`
         : `1px solid ${color(hover ? 'border:hover' : 'border')}`,
       outlineOffset: ghost ? null : focus ? -2 : -1,
-      borderRadius: 4,
+      borderRadius: 8,
+      boxShadow: '0px 1px 4px #f6f6f6',
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
       minHeight: ghost ? null : large ? 48 : 36,
       paddingLeft,
+      border: focused ? `1.5px solid ${color('accent')}` : null,
       paddingRight,
       width: '100%',
       fontSize,

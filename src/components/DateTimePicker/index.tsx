@@ -113,7 +113,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     // onthoud de utc value
     // placeholder is huidige timezone
     // const tempMs = +val.substring(3) * 60 * 60000
-    //   setUtcInputInMs(tempMs)
+    // setUtcInputInMs(tempMs)
     // newMsFromAll(dateFormatInput, dateTimeInput, temp)
   }
 
