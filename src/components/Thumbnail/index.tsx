@@ -11,6 +11,7 @@ type ThumbnailProps = {
   space?: Space
   style?: CSSProperties
   label?: string
+  outline?: boolean
 }
 
 export const Thumbnail: FC<ThumbnailProps> = ({
@@ -21,6 +22,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   space,
   style,
   label,
+  outline,
   ...props
 }) => {
   return (
@@ -29,6 +31,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         backgroundColor: color(colorProp),
         borderRadius: 4,
         color: color(colorProp, 'contrast'),
+        border: outline ? `1px solid ${color(`${colorProp}:hover`)}` : 'none',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

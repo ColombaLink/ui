@@ -133,7 +133,7 @@ const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
       }
 
   return (
-    <Button onClick={onClick} {...props} actionKeys={['Enter']}>
+    <Button large onClick={onClick} {...props} actionKeys={['Enter']}>
       {children}
     </Button>
   )
@@ -165,6 +165,7 @@ const Cancel = ({
 
   return (
     <Button
+      large
       onClick={onClick}
       outline
       color="text"
