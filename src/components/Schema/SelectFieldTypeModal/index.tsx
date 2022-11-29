@@ -115,6 +115,7 @@ const Template = ({ template, type, path }) => {
       }}
     >
       <Thumbnail
+        outline
         size={32}
         icon={icon}
         color={color}

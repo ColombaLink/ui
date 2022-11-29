@@ -55,7 +55,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           marginRight: 12,
           flexShrink: 0,
           width: size,
-          marginTop: 2,
+          // marginTop: 2,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',

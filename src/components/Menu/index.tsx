@@ -60,8 +60,8 @@ export const MenuItem: FC<MenuItemProps> = ({
 }) => {
   return (
     <Text
-      color={isActive ? 'lightaccent:contrast' : isNested ? 'text2' : 'text'}
-      weight={isActive ? 600 : weight}
+      color={isActive ? 'lightaccent:contrast' : isNested ? 'text' : 'text'}
+      weight={isActive ? 500 : weight}
       wrap
       style={{
         marginBottom: 8,
@@ -71,8 +71,8 @@ export const MenuItem: FC<MenuItemProps> = ({
       <Link
         href={href}
         style={{
-          padding: '4px 12px',
-          margin: '-4px -12px',
+          padding: '4px 8px',
+          margin: '-4px -4px -4px -2px',
           borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
           '&:hover': !isActive

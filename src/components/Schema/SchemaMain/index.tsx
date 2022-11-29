@@ -63,10 +63,11 @@ const Header = ({ back = null, children, type, path }) => {
     >
       {back ? <BackButton /> : null}
       <Text
-        size="18px"
+        size="22px"
         weight="700"
         style={{
           userSelect: 'none',
+          lineHeight: '32px',
           // textTransform: 'capitalize',
         }}
       >
@@ -75,6 +76,7 @@ const Header = ({ back = null, children, type, path }) => {
       <MoreIcon
         onClick={openEditMenu}
         style={{
+          marginTop: 3,
           cursor: 'pointer',
           marginLeft: 16,
         }}
