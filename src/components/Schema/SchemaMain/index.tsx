@@ -77,7 +77,7 @@ const Header = ({ back = null, children, type, path }) => {
       style={{
         width: '100%',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'space-between',
       }}
     >

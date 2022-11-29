@@ -100,7 +100,7 @@ const Template = ({ template, type, path }) => {
       }}
       style={{
         alignItems: 'center',
-        borderRadius: 4,
+        borderRadius: 8,
         cursor: 'pointer',
         display: 'flex',
         marginBottom: 3,

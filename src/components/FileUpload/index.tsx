@@ -21,7 +21,7 @@ type FileUploadProps = {
 }
 
 const StyledFileInput = styled('div', {
-  borderRadius: '4px',
+  borderRadius: '8px',
   display: 'flex',
   alignItems: 'center',
   gap: 8,

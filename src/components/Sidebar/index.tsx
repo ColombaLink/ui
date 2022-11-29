@@ -109,8 +109,9 @@ export const Sidebar: FC<SidebarProps> = ({
   return (
     <div
       style={{
-        width: 48,
-        minWidth: 48,
+        width: 70,
+        minWidth: 70,
+        paddingTop: 64,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',

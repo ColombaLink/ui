@@ -4,6 +4,7 @@ import { SchemaLeft } from './SchemaLeft'
 import { SchemaRight } from './SchemaRight'
 import { useLocation } from '~'
 import { useSchemaTypes } from '~/hooks'
+import { SchemaTopbar } from './SchemaTopbar'
 
 export const Schema: FC<{
   db?: string
@@ -46,7 +47,6 @@ export const Schema: FC<{
 
   return (
     <div style={{ display: 'flex', ...style }}>
-      {/* top bar hier */}
       <SchemaLeft prefix={prefix} />
       <SchemaMain db={db} type={type} path={path} prefix={prefix} />
       {/* <SchemaRight type={type} path={path} /> */}
