@@ -269,7 +269,7 @@ export const Input: FC<
     }
   }
 
-  const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
+  const paddingLeft = ghost && icon ? 36 : ghost ? 12 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const fontSize = 16
   const fontWeight = 500
@@ -285,18 +285,20 @@ export const Input: FC<
     style: {
       margin: 0,
       outline: ghost
-        ? null
+        ? `3px solid transparent`
         : focused
         ? `3px solid rgba(44, 60, 234, 0.2)`
         : `3px solid transparent`,
       outlineOffset: ghost ? null : focus ? -1 : -1,
       borderRadius: 8,
-      boxShadow: '0px 1px 4px #f6f6f6',
+      boxShadow: ghost ? null : '0px 1px 4px #f6f6f6',
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? null : large ? 48 : 36,
+      minHeight: ghost ? 36 : large ? 48 : 36,
       paddingLeft,
-      border: focused
+      border: ghost
+        ? `1.5px solid transparent`
+        : focused
         ? `1.5px solid ${color('accent')}`
         : `1px solid ${color('border')}`,
       paddingRight,

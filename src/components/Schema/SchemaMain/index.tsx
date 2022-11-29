@@ -1,11 +1,21 @@
 import { useClient } from '@based/react'
 import React, { FC, Fragment, useState } from 'react'
 import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
-import { Checkbox, MoreIcon, Text, ScrollArea, Link, ContextItem } from '~'
+import {
+  Checkbox,
+  MoreIcon,
+  Text,
+  ScrollArea,
+  Link,
+  ContextItem,
+  Button,
+  AddIcon,
+} from '~'
 import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon } from '~/icons'
 import { border } from '~/utils'
 import { useDialog } from '~/components/Dialog'
+import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 
 const EditMenu = ({ type, path }) => {
   const { types } = useSchemaTypes()
@@ -53,34 +63,58 @@ const Header = ({ back = null, children, type, path }) => {
     path,
   })
 
+  const openSelectField = useContextMenu(
+    SelectFieldTypeModal,
+    {
+      type,
+      path,
+    },
+    { width: 924, placement: 'right' }
+  )
+
   return (
     <div
       style={{
         width: '100%',
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
       }}
     >
-      {back ? <BackButton /> : null}
-      <Text
-        size="22px"
-        weight="700"
-        style={{
-          userSelect: 'none',
-          lineHeight: '32px',
-          // textTransform: 'capitalize',
-        }}
-      >
-        {children}
-      </Text>
-      <MoreIcon
-        onClick={openEditMenu}
-        style={{
-          marginTop: 3,
-          cursor: 'pointer',
-          marginLeft: 16,
-        }}
-      />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {back ? <BackButton /> : null}
+        <Text
+          size="22px"
+          weight="700"
+          style={{
+            userSelect: 'none',
+            lineHeight: '32px',
+            // textTransform: 'capitalize',
+          }}
+        >
+          {children}
+        </Text>
+        <MoreIcon
+          onClick={openEditMenu}
+          style={{
+            marginTop: 3,
+            cursor: 'pointer',
+            marginLeft: 16,
+          }}
+        />
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Button
+          textAlign="center"
+          large
+          icon={AddIcon}
+          style={{ width: '100%' }}
+          onClick={openSelectField}
+        >
+          Add Field
+        </Button>
+      </div>
     </div>
   )
 }
