@@ -11,7 +11,7 @@ import { SelectLabel } from './shared'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
-  borderRadius: 4,
+  borderRadius: 8,
   alignItems: 'center',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
@@ -131,7 +131,7 @@ export const Select: FC<SelectProps> = ({
         openedRef.current = true
         open(e)
       }}
-      style={style}
+      style={{ boxShadow: ghost ? null : '0px 1px 4px #f6f6f6', ...style }}
       id={id}
     >
       {children}

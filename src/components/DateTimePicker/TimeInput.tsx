@@ -99,7 +99,7 @@ export const TimeInput = ({
       {isFocus && (
         <div
           style={{
-            border: `2px solid ${color('accent')}`,
+            //    border: `2px solid ${color('accent')}`,
             position: 'absolute',
             top: 0,
             left: 0,
