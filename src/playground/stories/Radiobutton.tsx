@@ -18,6 +18,15 @@ export const Radiobutton = () => {
           {
             props: {
               label: 'Radio Buttons',
+              cards: true,
+              data: testObjects,
+              value: 'Bananas',
+              direction: 'horizontal',
+            },
+          },
+          {
+            props: {
+              label: 'Radio Buttons',
               description: 'Radio Buttons for you',
               indent: true,
               data: testObjects,

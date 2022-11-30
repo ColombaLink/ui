@@ -12,13 +12,13 @@ import {
 import { IconProps } from '../components/Icon'
 export type { Color, ColorVariant, AccentColor } from '../utils/color'
 
-type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 24 | 32
+type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 22 | 24 | 32
 export type Size = `${SizeInt}px` | SizeInt
 
 type WeightInt = 400 | 500 | 600 | 700
 export type Weight = WeightInt | `${WeightInt}`
 
-type SpaceInt = 0 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32 | 48
+type SpaceInt = 0 | 2 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32 | 48
 export type Space = SpaceInt | `${SpaceInt}px` | true
 
 export type Icon = SVGProps<SVGSVGElement> & IconProps

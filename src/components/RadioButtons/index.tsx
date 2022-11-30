@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
@@ -24,6 +24,7 @@ type RadioButtonsProps = {
   onChange?: (value: string | number | boolean) => void
   space?: Space
   style?: CSSProperties
+  cards?: boolean
 }
 
 export const RadioButtons: FC<RadioButtonsProps> = ({
@@ -38,6 +39,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   space,
   style,
   descriptionBottom,
+  cards,
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
@@ -72,8 +74,21 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 alignItems: 'center',
                 marginBottom: 4,
                 marginTop: 4,
-                marginRight: 12,
+                marginRight: 16,
+                flexGrow: cards ? 1 : 0,
                 cursor: 'pointer',
+                border:
+                  cards && index === checked
+                    ? `1px solid ${color('lightaccent:border')}`
+                    : cards
+                    ? `1px solid ${color('border')}`
+                    : 'none',
+                padding: cards ? '12px 12px 20px 12px' : 0,
+                borderRadius: 8,
+                backgroundColor:
+                  cards && index === checked
+                    ? color('lightaccent')
+                    : 'transparent',
               }}
             >
               <styled.input
@@ -107,9 +122,11 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 }}
               />
               <div>
-                <Text weight={500}>{item.label ? item.label : item.value}</Text>
+                <Text weight={500} space={2}>
+                  {item.label ? item.label : item.value}
+                </Text>
                 {item.description && (
-                  <Text weight={400} size={13} color="text2">
+                  <Text weight={400} size={14} color="text2">
                     {item.description}
                   </Text>
                 )}

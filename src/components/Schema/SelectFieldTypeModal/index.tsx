@@ -100,7 +100,7 @@ const Template = ({ template, type, path }) => {
       }}
       style={{
         alignItems: 'center',
-        borderRadius: 4,
+        borderRadius: 8,
         cursor: 'pointer',
         display: 'flex',
         marginBottom: 3,
@@ -115,6 +115,7 @@ const Template = ({ template, type, path }) => {
       }}
     >
       <Thumbnail
+        outline
         size={32}
         icon={icon}
         color={color}

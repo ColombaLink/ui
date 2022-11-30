@@ -178,7 +178,7 @@ export const Field = ({
         style={{
           height: 50,
           opacity: systemFields.has(field) ? 0.5 : 1,
-          borderRadius: 4,
+          borderRadius: 8,
           border: border(1),
           paddingLeft: 16,
           paddingRight: 16,
@@ -205,6 +205,7 @@ export const Field = ({
         ) : null}
         <DragDropIcon style={{ marginRight: 12, flexShrink: 0 }} />
         <Thumbnail
+          outline
           icon={icon}
           color={iconColor}
           size={32}

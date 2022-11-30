@@ -52,12 +52,24 @@ export const Label = ({
             })}
           </div>
         )}
-        <Text wrap weight={600} color={labelColor || 'text'}>
+        <Text
+          wrap
+          weight={500}
+          size="14px"
+          style={{ lineHeight: '20px', marginBottom: 4 }}
+          color={labelColor || 'text'}
+        >
           {label}
         </Text>
       </div>
       {description && (
-        <Text wrap weight={400} color={descriptionColor || 'text2'}>
+        <Text
+          wrap
+          weight={500}
+          size="14px"
+          style={{ lineHeight: '20px' }}
+          color={descriptionColor || 'text2'}
+        >
           {description}
         </Text>
       )}

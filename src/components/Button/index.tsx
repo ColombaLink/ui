@@ -147,13 +147,13 @@ export const Button: FC<ButtonProps> = (props) => {
             : !children
             ? '8px'
             : large
-            ? '4px 16px'
-            : '4px 8px',
-        borderRadius: 4,
+            ? '8px 16px'
+            : '4px 12px',
+        borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
-        height: large ? 48 : null,
+        // height: small ? 48 : null,
         ...getButtonStyle(props, true),
         ...style,
       }}
@@ -182,7 +182,9 @@ export const Button: FC<ButtonProps> = (props) => {
                 }
               : null
           )}
-        <Text color="inherit">{children}</Text>
+        <Text color="inherit" weight={large ? 600 : 500}>
+          {children}
+        </Text>
         {iconRight &&
           renderOrCreateElement(
             iconRight,

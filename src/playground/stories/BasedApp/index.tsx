@@ -19,6 +19,7 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { Select } from '~/components/Select'
 import { Label } from '~/components/Label'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
+import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
@@ -160,34 +161,45 @@ const Project = ({ style }) => {
     <div
       style={{
         display: 'flex',
+        flexDirection: 'column',
         ...style,
       }}
     >
-      <Sidebar
-        data={[
-          {
-            icon: LayersIcon,
-            label: 'Schema',
-            href: '/schema',
-          },
-          {
-            icon: EditIcon,
-            label: 'Content',
-            href: '/content',
-          },
-          {
-            icon: AttachmentIcon,
-            label: 'Files',
-            href: '/files',
-          },
-          {
-            icon: SettingsIcon,
-            label: 'Settings',
-            href: '/settings',
-          },
-        ]}
-      />
-      <Component prefix={prefix} style={{ flexGrow: 1 }} />
+      <SchemaTopbar />
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Sidebar
+          expandable
+          data={[
+            {
+              subTitle: 'Database',
+            },
+            {
+              icon: LayersIcon,
+              label: 'Schema',
+              href: '/schema',
+            },
+            {
+              icon: EditIcon,
+              label: 'Content',
+              href: '/content',
+            },
+            {
+              icon: AttachmentIcon,
+              label: 'Files',
+              href: '/files',
+            },
+            {
+              subTitle: 'General',
+            },
+            {
+              icon: SettingsIcon,
+              label: 'Settings',
+              href: '/settings',
+            },
+          ]}
+        />
+        <Component prefix={prefix} style={{ flexGrow: 1 }} />
+      </div>
     </div>
   )
 }

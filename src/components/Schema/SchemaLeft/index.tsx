@@ -54,10 +54,19 @@ export const SchemaLeft: FC<{
   return (
     <Menu
       prefix={prefix}
-      style={{ paddingTop: 24, minWidth: 234 }}
+      style={{
+        paddingTop: 24,
+        minWidth: 234,
+        paddingLeft: 16,
+        paddingRight: 16,
+      }}
       header={
-        <Text size="18px" weight="700" style={{ marginBottom: 18 }}>
-          Content
+        <Text
+          size="22px"
+          weight="700"
+          style={{ marginBottom: 18, lineHeight: '32px' }}
+        >
+          Schema
         </Text>
       }
       data={[
@@ -71,7 +80,12 @@ export const SchemaLeft: FC<{
                 height: 32,
               }}
             >
-              <Text size="15px" weight="600">
+              <Text
+                size="12px"
+                weight="600"
+                color="text2"
+                style={{ textTransform: 'uppercase', letterSpacing: '0.02em' }}
+              >
                 Types
               </Text>
               <Button
