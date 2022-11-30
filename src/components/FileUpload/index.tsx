@@ -1,5 +1,5 @@
 import React, { CSSProperties, useRef, useState, FC } from 'react'
-import { Label, color, Text, UploadIcon, Button, usePropState } from '~'
+import { Label, color, Text, UploadIcon, Button, usePropState, Input } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
@@ -49,6 +49,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
+  const [urlInputValue, setUrlInputValue] = useState('')
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {
@@ -104,6 +105,7 @@ export const FileUpload: FC<FileUploadProps> = ({
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
+    console.log('newValue', newValue)
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
@@ -211,6 +213,41 @@ export const FileUpload: FC<FileUploadProps> = ({
           multiple={multiple}
         />
       </styled.div>
+      <div style={{ display: 'flex', marginTop: 12, marginBottom: 12 }}>
+        <Input
+          placeholder="Paste your url here"
+          style={{ marginRight: 12, width: '100%' }}
+          onChange={(e) => {
+            console.log('e from url input', e)
+            setUrlInputValue(e)
+          }}
+          value={urlInputValue}
+        />
+        <Button
+          icon={<UploadIcon />}
+          outline
+          style={{ minWidth: 162 }}
+          onClick={async () => {
+            console.log('uploadbutton was clicked', urlInputValue)
+            //  const blob = await fetch(urlInputValue).then((res) => res.blob())
+            const file = await fetch(urlInputValue)
+              .then((res) => res.blob())
+              .then(
+                (blobFile) =>
+                  new File([blobFile], 'fileNameGoesHere', {
+                    type: 'image/jpg',
+                  })
+              )
+            //   console.log('hi blob', blob)
+            console.log('file before', file)
+            file.src = URL.createObjectURL(file)
+            console.log('hi file', URL.createObjectURL(file))
+            console.log('File me now', file)
+          }}
+        >
+          Upload from url
+        </Button>
+      </div>
     </InputWrapper>
   )
 }

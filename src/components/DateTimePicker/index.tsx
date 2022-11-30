@@ -1,5 +1,5 @@
 import React, { FC, CSSProperties, useState, useEffect } from 'react'
-import { Label, color } from '~'
+import { Label } from '~'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { TimeInput } from './TimeInput'
@@ -53,6 +53,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [dateUtcInput, setDateUtcInput] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
+
+  // console.log('Onchange from datetimepicker', onChange)
 
   useEffect(() => {
     if (value) {
