@@ -204,7 +204,7 @@ export const Sidebar: FC<SidebarProps> = ({
           }}
         >
           {hoverForExpansion ? (
-            <div
+            <styled.div
               style={{
                 position: 'absolute',
                 width: 28,
@@ -218,6 +218,9 @@ export const Sidebar: FC<SidebarProps> = ({
                 right: -14,
                 top: menuHeight / 2 - 14,
                 cursor: 'pointer',
+                '&:hover': {
+                  backgroundColor: color('background2'),
+                },
               }}
             >
               <ChevronRightIcon
@@ -229,7 +232,7 @@ export const Sidebar: FC<SidebarProps> = ({
                 }}
                 onClick={() => setExpanded(!expanded)}
               />
-            </div>
+            </styled.div>
           ) : null}
         </styled.div>
       )}
