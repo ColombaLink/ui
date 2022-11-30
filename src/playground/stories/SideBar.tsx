@@ -11,8 +11,11 @@ export const SideBar = () => {
   import { ScreenIcon, GearsIcon } from '~/icons'
 
   <Sidebar
-        avatar={<Avatar size={24} color="accent" label="T" />}
+        expandable
         data={[
+          {
+            subTitle: 'Subtitle',
+          },
           {
             icon: ScreenIcon,
             label: 'Schema',
@@ -32,24 +35,6 @@ export const SideBar = () => {
   />
   `
 
-  const exampleSidebarData = [
-    {
-      icon: ScreenIcon,
-      label: 'Schema',
-      href: '/schema',
-    },
-    {
-      icon: GearsIcon,
-      label: 'Content',
-      href: '/content',
-    },
-    {
-      icon: SettingsIcon,
-      label: 'Files',
-      href: '/files',
-    },
-  ]
-
   return (
     <>
       {/* <ComponentViewer
@@ -67,7 +52,11 @@ export const SideBar = () => {
       <Code value={codeExample} space />
 
       <Sidebar
+        expandable
         data={[
+          {
+            subTitle: 'Subtitle',
+          },
           {
             icon: ScreenIcon,
             label: 'Schema',
