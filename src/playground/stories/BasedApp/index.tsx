@@ -170,6 +170,9 @@ const Project = ({ style }) => {
         <Sidebar
           data={[
             {
+              subTitle: 'Database',
+            },
+            {
               icon: LayersIcon,
               label: 'Schema',
               href: '/schema',
@@ -183,6 +186,9 @@ const Project = ({ style }) => {
               icon: AttachmentIcon,
               label: 'Files',
               href: '/files',
+            },
+            {
+              subTitle: 'General',
             },
             {
               icon: SettingsIcon,

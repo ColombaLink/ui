@@ -48,7 +48,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
     >
       {label ? (
         <Text color="inherit" size={(size / 2) as Size}>
-          {label[0].toUpperCase()}
+          {label[0].toUpperCase() + label[1].toUpperCase()}
         </Text>
       ) : icon ? (
         renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })
