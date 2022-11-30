@@ -1,5 +1,15 @@
 import React, { CSSProperties, useRef, useState, FC } from 'react'
-import { Label, color, Text, UploadIcon, Button, usePropState, Input } from '~'
+import {
+  Label,
+  color,
+  Text,
+  UploadIcon,
+  Button,
+  usePropState,
+  Input,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
@@ -50,6 +60,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [clearCount, setClearCount] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
+  const [showMoreOptions, setShowMoreOptions] = useState(false)
+
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {
@@ -70,6 +82,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const handleFileDrop = (e) => {
+    console.log('E from handleFileDrop', e)
+
     setErrorMessage('')
     setDraggingOver(false)
     setIsFocused(false)
@@ -79,6 +93,8 @@ export const FileUpload: FC<FileUploadProps> = ({
       e.stopPropagation()
 
       let files = Array.from(e.dataTransfer.files)
+
+      console.log('-----> the money', files)
 
       if (acceptedFileTypes) {
         files = files.filter((file: File) => {
@@ -101,6 +117,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const changeHandler = (e) => {
+    console.log('E from changehandler', e)
+
     const newValue = multiple
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
@@ -123,6 +141,28 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const replaceSpecificFile = (id) => {
     console.log('Edit file through a modal, like name? or something??', id)
+  }
+
+  const urlUploadFile = async (e) => {
+    let files = e
+    if (acceptedFileTypes) {
+      files = files.filter((file: File) => {
+        const accepted = acceptedFileTypes.includes(file.type)
+        if (!accepted) {
+          setErrorMessage(`File type: ${file?.type} is not allowed.`)
+          setDraggingOver(false)
+        }
+        return accepted
+      })
+    }
+
+    let newValue = [...uploadedFiles, ...files]
+    if (!multiple) {
+      newValue = [files[0]]
+    }
+    setUploadedFiles(newValue)
+    onChange(newValue)
+    setUrlInputValue('')
   }
 
   // console.log('??? Uploaded Files?', uploadedFiles)
@@ -213,41 +253,54 @@ export const FileUpload: FC<FileUploadProps> = ({
           multiple={multiple}
         />
       </styled.div>
-      <div style={{ display: 'flex', marginTop: 12, marginBottom: 12 }}>
-        <Input
-          placeholder="Paste your url here"
-          style={{ marginRight: 12, width: '100%' }}
-          onChange={(e) => {
-            console.log('e from url input', e)
-            setUrlInputValue(e)
-          }}
-          value={urlInputValue}
-        />
-        <Button
-          icon={<UploadIcon />}
-          outline
-          style={{ minWidth: 162 }}
-          onClick={async () => {
-            console.log('uploadbutton was clicked', urlInputValue)
-            //  const blob = await fetch(urlInputValue).then((res) => res.blob())
-            const file = await fetch(urlInputValue)
-              .then((res) => res.blob())
-              .then(
-                (blobFile) =>
-                  new File([blobFile], 'fileNameGoesHere', {
-                    type: 'image/jpg',
-                  })
-              )
-            //   console.log('hi blob', blob)
-            console.log('file before', file)
-            file.src = URL.createObjectURL(file)
-            console.log('hi file', URL.createObjectURL(file))
-            console.log('File me now', file)
-          }}
-        >
-          Upload from url
-        </Button>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          marginTop: 12,
+          marginBottom: 12,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          setShowMoreOptions(!showMoreOptions)
+        }}
+      >
+        <Text style={{ marginRight: 12 }}>More Options</Text>
+        {showMoreOptions ? <ChevronDownIcon /> : <ChevronUpIcon />}
       </div>
+      {showMoreOptions && (
+        <div style={{ display: 'flex' }}>
+          <Input
+            placeholder="Paste your url here"
+            style={{ marginRight: 12, width: '100%' }}
+            onChange={(e) => {
+              setUrlInputValue(e)
+            }}
+            value={urlInputValue}
+          />
+          <Input placeholder="Your file name" />
+          <Button
+            icon={<UploadIcon />}
+            outline
+            style={{ minWidth: 162 }}
+            onClick={async () => {
+              console.log('uploadbutton was clicked', urlInputValue)
+              const file = await fetch(urlInputValue)
+                .then((res) => res.blob())
+                .then(
+                  (blobFile) =>
+                    new File([blobFile], 'fileNameGoesHere', {
+                      type: 'image/jpg',
+                    })
+                )
+              console.log('file before', file)
+              urlUploadFile([file])
+            }}
+          >
+            Upload from url
+          </Button>
+        </div>
+      )}
     </InputWrapper>
   )
 }
