@@ -168,6 +168,7 @@ const Project = ({ style }) => {
       <SchemaTopbar />
       <div style={{ display: 'flex', flexGrow: 1 }}>
         <Sidebar
+          expandable
           data={[
             {
               subTitle: 'Database',

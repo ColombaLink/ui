@@ -5,6 +5,7 @@ import { parseHref, useLocation } from '~/hooks'
 import { useTooltip } from '~/hooks/useTooltip'
 import { Text } from '../Text'
 import { styled } from 'inlines'
+import { ChevronRightIcon } from '~/icons'
 
 type SidebarProps = {
   data: {
@@ -87,6 +88,8 @@ export const Sidebar: FC<SidebarProps> = ({
 }) => {
   const [location, setLocation] = useLocation()
   const [expanded, setExpanded] = useState(false)
+  const [hoverForExpansion, setHoverForExpansion] = useState(false)
+  const [menuHeight, setMenuHeight] = useState(null)
 
   if (!selected) {
     selected = location
@@ -160,7 +163,7 @@ export const Sidebar: FC<SidebarProps> = ({
   }, [hasActive])
 
   return (
-    <styled.div
+    <div
       style={{
         width: expanded ? 246 : 70,
         minWidth: expanded ? 246 : 70,
@@ -168,17 +171,68 @@ export const Sidebar: FC<SidebarProps> = ({
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
+        position: 'relative',
         borderRight: border(1),
-        '&:hover': {
-          //  borderRight: '1px solid blue',
-        },
+        transition: 'all 0.24s ease-in-out',
+
         ...style,
       }}
-      onMouseOver={(e) => console.log('mouseover', e)}
     >
       {header}
       <div style={{ flexGrow: 1, padding: 8 }}>{elements}</div>
       {children}
-    </styled.div>
+      {expandable && (
+        <styled.div
+          style={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            bottom: 0,
+            height: '100%',
+            width: 16,
+            borderRight: '2px solid transparent',
+            '&:hover': {
+              borderRight: `2px solid ${color('accent')}`,
+            },
+          }}
+          onMouseOver={(e) => {
+            setMenuHeight(e.currentTarget.offsetHeight)
+            setHoverForExpansion(true)
+          }}
+          onMouseLeave={() => {
+            setHoverForExpansion(false)
+          }}
+        >
+          {hoverForExpansion ? (
+            <div
+              style={{
+                position: 'absolute',
+                width: 28,
+                height: 28,
+                borderRadius: 16,
+                backgroundColor: color('background'),
+                border: `1px solid ${color('border')}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                right: -14,
+                top: menuHeight / 2 - 14,
+                cursor: 'pointer',
+              }}
+            >
+              <ChevronRightIcon
+                color="text"
+                size={16}
+                style={{
+                  transform: expanded ? 'scaleX(-1)' : 'scaleX(1)',
+                  boxShadow: `0px 1px 4px ${color('background2')}`,
+                }}
+                onClick={() => setExpanded(!expanded)}
+              />
+            </div>
+          ) : null}
+        </styled.div>
+      )}
+    </div>
   )
 }
