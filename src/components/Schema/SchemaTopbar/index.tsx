@@ -54,7 +54,7 @@ export const SchemaTopbar = () => {
         <Button ghost color="text2">
           Changelog
         </Button>
-        <Button outline ghost color="text2">
+        <Button outline ghost light color="text">
           Documentation
         </Button>
         <Avatar icon={BasedIcon} />
