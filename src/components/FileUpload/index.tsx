@@ -269,16 +269,18 @@ export const FileUpload: FC<FileUploadProps> = ({
         {showMoreOptions ? <ChevronDownIcon /> : <ChevronUpIcon />}
       </div>
       {showMoreOptions && (
-        <div style={{ display: 'flex' }}>
+        <div>
           <Input
+            label="Upload from URL"
             placeholder="Paste your url here"
             style={{ marginRight: 12, width: '100%' }}
             onChange={(e) => {
               setUrlInputValue(e)
             }}
             value={urlInputValue}
+            space={8}
           />
-          <Input placeholder="Your file name" />
+          <Input placeholder="Your file name" space={8} />
           <Button
             icon={<UploadIcon />}
             outline
