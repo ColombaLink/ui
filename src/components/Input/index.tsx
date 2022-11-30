@@ -32,19 +32,32 @@ const resize = (target) => {
 
 const Multi = ({ style, inputRef, ...props }) => {
   if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
+  const [inputFocus, setInputFocus] = useState(false)
+
   return (
-    <textarea
-      style={{
-        ...style,
-        display: 'block',
-        resize: 'none',
-        paddingTop: 8,
-        minHeight: 84,
-      }}
-      ref={resize}
-      onInput={({ target }) => resize(target)}
-      {...props}
-    />
+    <div
+      onFocus={() => setInputFocus(true)}
+      onBlur={() => setInputFocus(false)}
+    >
+      <textarea
+        style={{
+          ...style,
+          display: 'block',
+          resize: 'none',
+          paddingTop: 8,
+          minHeight: 84,
+          outline: inputFocus
+            ? `3px solid rgba(44, 60, 234, 0.2)`
+            : `3px solid transparent`,
+          border: inputFocus
+            ? `1.5px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
+        }}
+        ref={resize}
+        onInput={({ target }) => resize(target)}
+        {...props}
+      />
+    </div>
   )
 }
 
@@ -272,7 +285,7 @@ export const Input: FC<
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const fontSize = 16
-  const fontWeight = 500
+  const fontWeight = 400
   const props = {
     name,
     type,
@@ -291,7 +304,7 @@ export const Input: FC<
         : `3px solid transparent`,
       outlineOffset: ghost ? null : focus ? -1 : -1,
       borderRadius: 8,
-      boxShadow: ghost ? null : '0px 1px 4px #f6f6f6',
+      boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
       minHeight: ghost ? 6 : large ? 48 : 36,
