@@ -294,14 +294,18 @@ export const FileUpload: FC<FileUploadProps> = ({
             style={{ minWidth: 162 }}
             onClick={async () => {
               const file = await fetch(urlInputValue)
-                .then((res) => res.blob())
+                .then(
+                  (res) => res.blob()
+                  //  mimetype = res.headers.get('content-type')
+                  //  console.log('type is', mimetype)
+                )
                 .then(
                   (blobFile) =>
                     new File(
                       [blobFile],
                       fileName || urlInputValue.split('/').pop(),
                       {
-                        type: 'image/jpg',
+                        type: blobFile.type,
                       }
                     )
                 )
