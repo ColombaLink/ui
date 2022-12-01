@@ -83,8 +83,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const handleFileDrop = (e) => {
-    console.log('E from handleFileDrop', e)
-
     setErrorMessage('')
     setDraggingOver(false)
     setIsFocused(false)
@@ -94,8 +92,6 @@ export const FileUpload: FC<FileUploadProps> = ({
       e.stopPropagation()
 
       let files = Array.from(e.dataTransfer.files)
-
-      console.log('-----> the money', files)
 
       if (acceptedFileTypes) {
         files = files.filter((file: File) => {
@@ -118,13 +114,10 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const changeHandler = (e) => {
-    console.log('E from changehandler', e)
-
     const newValue = multiple
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
-    console.log('newValue', newValue)
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
@@ -266,7 +259,9 @@ export const FileUpload: FC<FileUploadProps> = ({
           setShowMoreOptions(!showMoreOptions)
         }}
       >
-        <Text style={{ marginRight: 12 }}>More Options</Text>
+        <Text style={{ marginRight: 12 }} size={13}>
+          More Options
+        </Text>
         {showMoreOptions ? <ChevronDownIcon /> : <ChevronUpIcon />}
       </div>
       {showMoreOptions && (
@@ -298,7 +293,6 @@ export const FileUpload: FC<FileUploadProps> = ({
             outline
             style={{ minWidth: 162 }}
             onClick={async () => {
-              console.log('uploadbutton was clicked', urlInputValue)
               const file = await fetch(urlInputValue)
                 .then((res) => res.blob())
                 .then(
@@ -311,7 +305,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                       }
                     )
                 )
-              console.log('file before', file)
+              // console.log('file before', file)
               urlUploadFile([file])
             }}
           >
