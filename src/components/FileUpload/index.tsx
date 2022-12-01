@@ -60,6 +60,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [clearCount, setClearCount] = useState(0)
   const [isFocused, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
+  const [fileName, setFileName] = useState('')
   const [showMoreOptions, setShowMoreOptions] = useState(false)
 
   const hiddenFileInput = useRef(null)
@@ -270,17 +271,28 @@ export const FileUpload: FC<FileUploadProps> = ({
       </div>
       {showMoreOptions && (
         <div>
-          <Input
-            label="Upload from URL"
-            placeholder="Paste your url here"
-            style={{ marginRight: 12, width: '100%' }}
-            onChange={(e) => {
-              setUrlInputValue(e)
-            }}
-            value={urlInputValue}
-            space={8}
-          />
-          <Input placeholder="Your file name" space={8} />
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Input
+              label="Upload from URL"
+              placeholder="Paste your url here"
+              style={{ marginRight: 12, width: '100%' }}
+              onChange={(e) => {
+                setUrlInputValue(e)
+              }}
+              value={urlInputValue}
+              space={12}
+            />
+            <Input
+              label="File name"
+              placeholder="Your file name"
+              space={12}
+              style={{ width: '100%' }}
+              value={fileName}
+              onChange={(e) => {
+                setFileName(e)
+              }}
+            />
+          </div>
           <Button
             icon={<UploadIcon />}
             outline
@@ -291,9 +303,13 @@ export const FileUpload: FC<FileUploadProps> = ({
                 .then((res) => res.blob())
                 .then(
                   (blobFile) =>
-                    new File([blobFile], 'fileNameGoesHere', {
-                      type: 'image/jpg',
-                    })
+                    new File(
+                      [blobFile],
+                      fileName || urlInputValue.split('/').pop(),
+                      {
+                        type: 'image/jpg',
+                      }
+                    )
                 )
               console.log('file before', file)
               urlUploadFile([file])
