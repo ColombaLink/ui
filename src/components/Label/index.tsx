@@ -56,7 +56,7 @@ export const Label = ({
           wrap
           weight={500}
           size="14px"
-          style={{ lineHeight: '20px', marginBottom: 4 }}
+          style={{ lineHeight: '20px', marginBottom: description ? 4 : 0 }}
           color={labelColor || 'text'}
         >
           {label}

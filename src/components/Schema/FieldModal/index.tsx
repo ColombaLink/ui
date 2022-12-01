@@ -263,7 +263,35 @@ export const FieldModal: FC<
               />
             )}
           </Tab>
-          <Tab label="Settings" />
+          <Tab label="Settings">
+            <div style={{ marginTop: 24, marginBottom: 24, paddingLeft: 16 }}>
+              <Checkbox
+                space
+                label="Can't be empty"
+                description="Prevents saving an entry if this field is empty"
+              />
+              <Checkbox
+                space
+                label="Set field as unique"
+                description="Ensures that multiple entries can't have the same value for this field"
+              />
+              <Checkbox
+                space
+                label="Limit character count"
+                description="Specifies the maximum number of characters allowed in this field"
+              />
+              <Checkbox
+                space
+                label="Match a specific pattern"
+                description="Only accepts values that match a specific regular exporession"
+              />
+              <Checkbox
+                space
+                label="Custom validation"
+                description="Write a custom function"
+              />
+            </div>
+          </Tab>
         </Tabs>
       </Dialog.Body>
       <Dialog.Buttons border>
