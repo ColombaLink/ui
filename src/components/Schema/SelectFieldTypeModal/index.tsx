@@ -10,7 +10,7 @@ import {
   SearchIcon,
   color,
 } from '~'
-import { border, color as colorFn } from '~/utils'
+import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
 import { FieldTemplates, templates } from '../templates'
 import { FieldModal } from '../FieldModal'

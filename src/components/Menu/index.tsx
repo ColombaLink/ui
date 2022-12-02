@@ -38,8 +38,12 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
     >
       <Text
         weight="600"
+        color={color('text2')}
+        size={12}
         style={{
-          marginBottom: 12,
+          marginBottom: 16,
+          textTransform: 'uppercase',
+          color: color('text2'),
           ...style,
         }}
         onClick={onClick}
@@ -180,12 +184,15 @@ export const Menu: FC<{
               color:
                 href && hrefIsActive(href, selected, items)
                   ? color('accent')
-                  : null,
+                  : color('text2'),
             }}
             onClick={(e) => {
               if (collapse) {
                 e.currentTarget.parentNode.nextSibling.classList.toggle(
                   'hidden'
+                )
+                e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                  'closed'
                 )
               } else if (href) {
                 setLocation(href)
@@ -193,7 +200,10 @@ export const Menu: FC<{
             }}
           >
             {label}
-            {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+            {collapse && (
+              <StyledChevron id={`${i}-menuchevron`} />
+              // <ChevronDownIcon />
+            )}
           </MenuHeader>
           <HideableStyledDiv id={`${i}-menuitems`}>
             {items.map(({ href, label }, index) => {
