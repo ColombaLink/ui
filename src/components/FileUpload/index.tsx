@@ -58,7 +58,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
-  const [isFocused, setIsFocused] = useState(false)
+  const [, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
   const [showMoreOptions, setShowMoreOptions] = useState(false)
@@ -293,24 +293,26 @@ export const FileUpload: FC<FileUploadProps> = ({
             outline
             style={{ minWidth: 162 }}
             onClick={async () => {
-              const file = await fetch(urlInputValue)
-                .then(
-                  (res) => res.blob()
-                  //  mimetype = res.headers.get('content-type')
-                  //  console.log('type is', mimetype)
-                )
-                .then(
-                  (blobFile) =>
-                    new File(
-                      [blobFile],
-                      fileName || urlInputValue.split('/').pop(),
-                      {
-                        type: blobFile.type,
-                      }
-                    )
-                )
-              // console.log('file before', file)
-              urlUploadFile([file])
+              if (urlInputValue) {
+                const file = await fetch(urlInputValue)
+                  .then(
+                    (res) => res.blob()
+                    //  mimetype = res.headers.get('content-type')
+                    //  console.log('type is', mimetype)
+                  )
+                  .then(
+                    (blobFile) =>
+                      new File(
+                        [blobFile],
+                        fileName || urlInputValue.split('/').pop(),
+                        {
+                          type: blobFile.type,
+                        }
+                      )
+                  )
+                // console.log('file before', file)
+                urlUploadFile([file])
+              }
             }}
           >
             Upload from url
