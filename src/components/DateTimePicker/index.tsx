@@ -16,7 +16,7 @@ type DateTimePickerProps = {
   style?: CSSProperties
   error?: (value: boolean | string | number) => string
   disabled?: boolean
-  value?: string
+  value?: string | number
 }
 
 // const formatYmd = (date) => date?.toISOString().slice(0, 10)

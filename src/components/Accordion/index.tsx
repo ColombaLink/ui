@@ -61,7 +61,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
 
         <div>{open ? <ChevronUpIcon /> : <ChevronDownIcon />}</div>
       </div>
-      {open ? (
+      {open && (
         <div
           style={{
             marginBottom: 24,
@@ -72,7 +72,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         >
           {children}
         </div>
-      ) : null}
+      )}
     </div>
   )
 }
