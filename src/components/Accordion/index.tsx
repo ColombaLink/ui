@@ -10,6 +10,7 @@ type AccordionItemProps = {
   space?: Space
   checked?: boolean
   style?: CSSProperties
+  active?: boolean
 }
 
 type AccordionProps = {
@@ -29,9 +30,10 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   children,
   checked,
   style,
+  active,
   ...props
 }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(active)
 
   return (
     <div style={{ marginBottom: 12 }}>

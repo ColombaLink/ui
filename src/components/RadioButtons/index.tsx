@@ -122,11 +122,11 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 }}
               />
               <div>
-                <Text weight={500} space={2}>
+                <Text weight={500} space={2} wrap>
                   {item.label ? item.label : item.value}
                 </Text>
                 {item.description && (
-                  <Text weight={400} size={14} color="text2">
+                  <Text weight={400} size={14} color="text2" wrap>
                     {item.description}
                   </Text>
                 )}

@@ -11,6 +11,7 @@ import { SharedGeneral } from './SharedGeneral'
 import { useSchemaTypes } from '~/hooks'
 import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
+import { Accordion, AccordionItem, RadioButtons, Input } from '~'
 
 const References = ({ types, options }) => {
   console.log('options', options)
@@ -18,17 +19,39 @@ const References = ({ types, options }) => {
 
   return (
     <>
-      <Text style={{ marginTop: 24 }}>Allowed types</Text>
-      <MultiSelect
-        placeholder="Select allowed types"
-        filterable
-        style={{ marginTop: 16, width: 400 }}
-        values={options.meta.refTypes || []}
-        onChange={(values) => {
-          options.meta.refTypes = values
-        }}
-        options={Object.keys(types)}
-      />
+      <Accordion>
+        <AccordionItem label="1. Define relationship" active>
+          <RadioButtons
+            cards
+            direction="horizontal"
+            data={[
+              {
+                label: 'Multiple references',
+                value: 'Multiref',
+                description: 'This will result in a list of references',
+              },
+              {
+                label: 'Single reference',
+                value: 'SingleRef',
+                description: 'This will result in a single reference',
+              },
+            ]}
+          />
+          <MultiSelect
+            placeholder="Type to reference"
+            filterable
+            style={{ marginTop: 16, width: 400 }}
+            values={options.meta.refTypes || []}
+            onChange={(values) => {
+              options.meta.refTypes = values
+            }}
+            options={Object.keys(types)}
+          />
+        </AccordionItem>
+        <AccordionItem label="2. Field info" />
+        <AccordionItem label="3. Bi-directional" />
+        <AccordionItem label="4. Target info" />
+      </Accordion>
     </>
   )
 }
@@ -279,7 +302,41 @@ export const FieldModal: FC<
                 space
                 label="Limit character count"
                 description="Specifies the maximum number of characters allowed in this field"
+                onChange={(e) => console.log('this is checked now --->', e)}
               />
+              {true && (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 16,
+                    marginBottom: 20,
+                    marginTop: -12,
+                    maxWidth: 450,
+                    marginLeft: 24,
+                  }}
+                >
+                  <Select
+                    options={[
+                      { value: 'atleast', label: 'At least' },
+                      { value: 'between', label: 'Between' },
+                      { value: 'nomorethan', label: 'No more than' },
+                    ]}
+                    placeholder="Set a limit"
+                  />
+                  <Input
+                    type="number"
+                    style={{ minWidth: 100 }}
+                    placeholder="Min"
+                  />
+                  <Text wrap>&</Text>
+                  <Input
+                    type="number"
+                    style={{ minWidth: 100 }}
+                    placeholder="Max"
+                  />
+                </div>
+              )}
               <Checkbox
                 space
                 label="Match a specific pattern"

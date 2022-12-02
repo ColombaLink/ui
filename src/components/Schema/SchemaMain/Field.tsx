@@ -214,7 +214,9 @@ export const Field = ({
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
           {meta?.name}
         </Text>
-        <Text color="text2">- {path[lastIndex]}</Text>
+        <Text color="text2" weight={400}>
+          - {path[lastIndex]}
+        </Text>
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>

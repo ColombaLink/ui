@@ -8,6 +8,7 @@ import {
   Grid,
   Input,
   SearchIcon,
+  color,
 } from '~'
 import { border, color as colorFn } from '~/utils'
 import { styled } from 'inlines'
@@ -158,33 +159,28 @@ export const SelectFieldTypeModal: FC<{
         icon={<SearchIcon />}
         placeholder="Search and discover"
         space="0px"
-        ghost
         onChange={searchFilterHandler}
+        ghost
         style={{
-          marginTop: -4,
-          paddingTop: 12,
-          paddingBottom: 12,
-          paddingLeft: 8,
+          backgroundColor: color('background2'),
+          boxShadow: '0px',
+          outline: 'none',
+          height: 40,
+          alignItems: 'center',
+          borderRadius: 8,
+          paddingTop: '6px',
+          paddingBottom: '6px',
+          marginLeft: 24,
+          marginRight: 24,
+          marginTop: 20,
         }}
       />
-      <div style={{ borderBottom: border(1) }} />
-      <Text
-        style={{
-          marginTop: 20,
-          marginLeft: 20,
-          marginBottom: filteredItems ? 0 : -20,
-        }}
-        weight="700"
-        space="0px"
-      >
-        Add Field
-      </Text>
       <Section>
         <Grid
           style={{
             marginBottom: 20,
             padding: 0,
-            marginLeft: -14,
+            marginLeft: 0,
           }}
           gap={5}
           itemWidth={234}
@@ -207,7 +203,7 @@ export const SelectFieldTypeModal: FC<{
                     <Text
                       color="text2"
                       space="12px"
-                      style={{ paddingLeft: 20, marginTop: 20 }}
+                      style={{ paddingLeft: 20, marginTop: 12 }}
                     >
                       {header}
                     </Text>
