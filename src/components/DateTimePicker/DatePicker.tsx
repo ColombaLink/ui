@@ -184,24 +184,41 @@ export const DatePicker = ({
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 
+    // console.log(
+    //   'whats this than slut',
+    //   days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
+    // )
+
     // add some offset for the days layout
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Sat') {
-      tempArr.unshift('x', 'x', 'x', 'x', 'x', 'x')
-    }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Fri') {
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sat'
+    ) {
       tempArr.unshift('x', 'x', 'x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Thu') {
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Fri'
+    ) {
       tempArr.unshift('x', 'x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Wed') {
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Thu'
+    ) {
       tempArr.unshift('x', 'x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Tue') {
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Wed'
+    ) {
       tempArr.unshift('x', 'x')
     }
-    if (days[new Date(selectedYear, selectedMonth, 0).getDay()] === 'Mon') {
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Tue'
+    ) {
       tempArr.unshift('x')
+    }
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Mon'
+    ) {
+      // tempArr.unshift()
     }
 
     setDaysArr(tempArr)
