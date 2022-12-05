@@ -382,10 +382,14 @@
         },
         "onClick": {
           "optional": true,
-          "type": "MouseEventHandler"
+          "type": [
+            "MouseEventHandler",
+            "boolean",
+            "TSAnyKeyword"
+          ]
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: AccentColor\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: AccentColor\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler<Element> | boolean | any\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -1133,10 +1137,27 @@
         },
         "value": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "from": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "till": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  from?: string | number\n  till?: string | number\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {

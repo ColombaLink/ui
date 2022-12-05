@@ -17,6 +17,9 @@ type DateTimePickerProps = {
   error?: (value: boolean | string | number) => string
   disabled?: boolean
   value?: string | number
+  from?: string | number
+  till?: string | number
+  utc?: boolean
 }
 
 // const formatYmd = (date) => date?.toISOString().slice(0, 10)
@@ -45,6 +48,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   error,
   disabled,
   value,
+  from,
+  till,
+  utc,
 }) => {
   const [focus, setFocus] = useState(false)
 
@@ -54,6 +60,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const [errorMessage, setErrorMessage] = useState('')
 
+  // console.log('From -->', from, new Date(from).getTime())
+  // console.log('Till -->', till, new Date(till).getTime())
   // console.log('Onchange from datetimepicker', onChange)
 
   useEffect(() => {
@@ -84,7 +92,15 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       setErrorMessage('')
     }
 
-    onChange(outPutInMs)
+    if (outPutInMs < new Date(from).getTime()) {
+      setErrorMessage('Date is before the from date')
+    } else if (outPutInMs > new Date(till).getTime()) {
+      setErrorMessage('Date is after the till date')
+    }
+
+    if (!errorMessage) {
+      onChange(outPutInMs)
+    }
   }
 
   const dateHandler = (val) => {
@@ -149,10 +165,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           onFocus={setFocus}
           placeholder={dateTimeInput || 'hh:mm'}
         />
-        <UtcInput
-          utcInputHandler={utcInputHandler}
-          placeholder={timezoneOffset}
-        />
+        {utc && (
+          <UtcInput
+            utcInputHandler={utcInputHandler}
+            placeholder={timezoneOffset}
+          />
+        )}
       </div>
       {/* <div>miliseconds: {value}</div> */}
     </InputWrapper>
