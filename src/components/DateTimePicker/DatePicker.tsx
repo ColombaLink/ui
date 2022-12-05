@@ -184,15 +184,10 @@ export const DatePicker = ({
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 
-    console.log('TEMPARR', tempArr)
-    console.log('days', days)
-    console.log('selectedYear', selectedYear)
-    console.log('selectedMonth', selectedMonth)
-
-    console.log(
-      'whats this than slut',
-      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
-    )
+    // console.log(
+    //   'whats this than slut',
+    //   days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
+    // )
 
     // add some offset for the days layout
     if (
