@@ -76,8 +76,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const isCheckbox = columnIndex === 0
   // TODO optimize
 
-  // console.log('What the data?', data)
-  // console.log('types', types)
+  console.log('What the data?', data)
+  console.log('types', types)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
@@ -93,9 +93,10 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
         const fieldTypeItems = types[item.type].fields[field]?.items?.type
         const fieldTypeProperties = types[item.type].fields[field]?.properties
+        const recordFieldtype = types[item.type].fields[field]?.values?.type
 
-        console.log('als heeeft', fieldTypeItems)
-        console.log('fieldTypeProperties', fieldTypeProperties)
+        // console.log('als heeeft', fieldTypeItems)
+        // console.log('fieldTypeProperties', fieldTypeProperties)
 
         if (fieldType) {
           const weight = colIndex ? 400 : 500
@@ -103,6 +104,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = (
               <>
                 <Text style={{ marginTop: -1 }}>[ ]</Text>
+                <Badge outline boxed ghost style={{ marginLeft: 6 }}>
+                  Array
+                </Badge>
                 <Badge style={{ marginLeft: 6 }}>{fieldTypeItems}</Badge>
               </>
             )
@@ -117,16 +121,51 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
               </Badge>
             )
           } else if (fieldType === 'record') {
-            children = '[record]'
+            children = (
+              <>
+                <CurlyBracesIcon
+                  size={14}
+                  style={{ minWidth: 14, marginRight: 8 }}
+                />
+                <Badge outline boxed ghost>
+                  Record
+                </Badge>
+                <Badge style={{ marginLeft: 8 }}>{recordFieldtype}</Badge>
+              </>
+            )
           } else if (fieldType === 'set') {
             children = (
               <>
                 <SetIcon size={16} />
+                <Badge outline boxed ghost style={{ marginLeft: 8 }}>
+                  Set
+                </Badge>
                 <Badge style={{ marginLeft: 8 }}>{fieldTypeItems}</Badge>
               </>
             )
           } else if (fieldType === 'object') {
-            children = <CurlyBracesIcon size={14} />
+            children = (
+              <div
+                style={{
+                  maxWidth: 174,
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  overflowX: 'hidden',
+                  alignItems: 'center',
+                }}
+              >
+                <CurlyBracesIcon size={14} style={{ minWidth: 14 }} />
+                {Object.keys(fieldTypeProperties)?.map((item, idx) => {
+                  if (idx < 4) {
+                    return (
+                      <Badge key={idx} style={{ marginLeft: 8 }}>
+                        {fieldTypeProperties[item].type}
+                      </Badge>
+                    )
+                  }
+                })}
+              </div>
+            )
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
           } else if (fieldType === 'references') {
@@ -147,7 +186,14 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (typeof value === 'object') {
             console.warn('incorrect value:', fieldType, item, field, value)
           } else {
-            children = <Text weight={weight}>{value}</Text>
+            children = (
+              <>
+                <Text weight={weight}>{value}</Text>
+                <Badge style={{ marginLeft: 8 }} color="purple" outline>
+                  {fieldType}
+                </Badge>
+              </>
+            )
           }
         }
       }
@@ -204,6 +250,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 12,
         paddingRight: 12,
         borderBottom: border(1),
+        borderRight: border(1),
         backgroundColor: color(
           activeRow
             ? activeColumn && !isCheckbox && hasField
