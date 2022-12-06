@@ -44,6 +44,7 @@ const menuItems = {
   Advanced: {
     Auth: '?story=auth',
     ContentEditor: '?story=content-editor',
+    ContentEditorYouzi: '?story=content-editor-youzi',
   },
   Schema: {
     Schema: '?story=schema',

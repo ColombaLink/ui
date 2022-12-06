@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Input,
   Text,
@@ -16,17 +16,19 @@ import {
   LoadingIcon,
   ArrayList,
   useLocation,
+  InfiniteList,
+  Checkbox,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { Dialog, useDialog } from '~/components/Dialog'
-import { ContentMain } from '../ContentMain'
 import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
+import { toDateString } from '~/utils/date'
 import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 
@@ -75,11 +77,8 @@ const FileReference = ({
       space
       multiple={meta.multiple}
       onChange={async (files) => {
-        console.log('-->', files)
-
         const result = await Promise.all(
           files?.map((file) => {
-            console.log('file from map', file)
             return client.file(file)
           })
         )
@@ -95,6 +94,196 @@ const FileReference = ({
   )
 }
 
+const SelectReferencesItemDescriptor = ({ id }) => {
+  const { descriptor, loading } = useDescriptor(id)
+  return loading ? null : <Text>{descriptor}</Text>
+}
+
+const SelectReferencesItem = ({ style, data, index }) => {
+  const item = data.items[index]
+  if (!item) {
+    return (
+      <div
+        style={{
+          borderBottom: border(1),
+          ...style,
+        }}
+      />
+    )
+  }
+  const checked = data.selected.has(item.id)
+  return (
+    <div
+      style={{
+        display: 'flex',
+        borderBottom: border(1),
+        alignItems: 'center',
+        padding: '0 24px',
+        ...style,
+      }}
+    >
+      <Checkbox
+        checked={checked}
+        onChange={() => {
+          if (checked) {
+            data.selected.delete(item.id)
+          } else {
+            data.selected.add(item.id)
+          }
+        }}
+      />
+      <Badge
+        style={{
+          marginRight: 16,
+          fontFamily: 'monospace',
+        }}
+      >
+        {item.id}
+      </Badge>
+      <SelectReferencesItemDescriptor id={item.id} />
+      <div style={{ flexGrow: 1 }} />
+      <Badge style={{ marginLeft: 16 }}>{item.type}</Badge>
+      <Text style={{ marginLeft: 16 }}>{toDateString(item.createdAt)}</Text>
+    </div>
+  )
+}
+
+const SelectReferences = () => {
+  const [filter, setFilter] = useState('')
+  const { types, loading } = useSchemaTypes()
+  const [typing, setTyping] = useState(false)
+  const selected = useRef<Set<string>>()
+
+  if (typing) {
+    if (selected.current) {
+      selected.current = null
+    }
+  } else if (!selected.current) {
+    selected.current = new Set()
+  }
+
+  useEffect(() => {
+    if (filter) {
+      setTyping(true)
+      const timer = setTimeout(() => {
+        setTyping(false)
+      }, 500)
+      return () => clearTimeout(timer)
+    } else {
+      setTyping(false)
+    }
+  }, [filter])
+
+  if (loading) return null
+
+  const queryFields = Object.keys(types).reduce((set, type) => {
+    for (const key in types[type].fields) {
+      const field = types[type].fields[key]
+      if (field.type === 'string' || field.type === 'id') {
+        set.add(key)
+      }
+    }
+    return set
+  }, new Set())
+
+  return (
+    <Dialog
+      style={{ height: 492, display: 'flex', flexDirection: 'column' }}
+      pure
+      label={
+        <>
+          <>Select References</>
+          <Input
+            style={{ marginTop: 8 }}
+            value={filter}
+            onChange={(val) => {
+              setFilter(val.trim())
+            }}
+          />
+        </>
+      }
+    >
+      {typing ? (
+        <div
+          style={{
+            flexGrow: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <LoadingIcon />
+        </div>
+      ) : (
+        <div
+          style={{
+            flexGrow: 1,
+          }}
+        >
+          <InfiniteList
+            target="root"
+            height={323 - 8}
+            itemSize={55}
+            itemData={(items) => ({ items, selected: selected.current })}
+            query={($offset, $limit) => {
+              const query = {
+                id: true,
+                createdAt: true,
+                type: true,
+                $list: {
+                  $offset,
+                  $limit,
+                  $find: {
+                    $traverse: 'descendants',
+                  },
+                },
+              }
+
+              if (filter) {
+                let f
+                queryFields.forEach(($field) => {
+                  const obj = {
+                    $field,
+                    $operator: 'includes',
+                    $value: filter,
+                  }
+                  if (f) {
+                    f = f.$or = obj
+                  } else {
+                    f = query.$list.$find.$filter = obj
+                  }
+                })
+              }
+
+              return query
+            }}
+          >
+            {SelectReferencesItem}
+          </InfiniteList>
+        </div>
+      )}
+      <div
+        style={{
+          padding: 24,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          borderTop: border(1),
+        }}
+      >
+        <Dialog.Confirm
+          onConfirm={() => {
+
+            console.log('aight', selected.current)
+          }}
+        >
+          Do it
+        </Dialog.Confirm>
+      </div>
+    </Dialog>
+  )
+}
+
+// let once
 const References = (props) => {
   const { label, description, value, style } = props
 
@@ -103,6 +292,18 @@ const References = (props) => {
   }
 
   const { open } = useDialog()
+  const onClick = () => {
+    open(<SelectReferences />)
+  }
+
+  // // TODO remove this, is just for testing
+  // useEffect(() => {
+  //   if (!once) {
+  //     once = true
+  //     onClick()
+  //   }
+  // }, [])
+
   return (
     <InputWrapper indent style={style} descriptionBottom={description}>
       <Label
@@ -119,32 +320,7 @@ const References = (props) => {
       {value?.map((id) => (
         <Reference key={id} id={id} />
       ))}
-      <Button
-        ghost
-        icon={AddIcon}
-        onClick={() => {
-          open(
-            <Dialog
-              padding={0}
-              style={{
-                width: '100vw',
-                height: 'calc(100vh - 60px)',
-              }}
-              pure
-            >
-              <ContentMain
-                // label={`Add ${field}`}
-                // query={{
-                //   filters: [],
-                //   target: id,
-                //   field,
-                // }}
-                style={{ height: '100%' }}
-              />
-            </Dialog>
-          )
-        }}
-      >
+      <Button ghost icon={AddIcon} onClick={onClick}>
         Add item
       </Button>
     </InputWrapper>
