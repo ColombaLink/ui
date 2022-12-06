@@ -16,7 +16,11 @@ import {
   AttachmentIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  CurlyBracesIcon,
   EditIcon,
+  JsonIcon,
+  SetIcon,
+  SquareBracketsIcon,
 } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
@@ -71,6 +75,10 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const activeColumn = hoverColumnIndex === colIndex
   const isCheckbox = columnIndex === 0
   // TODO optimize
+
+  // console.log('What the data?', data)
+  // console.log('types', types)
+
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
   if (item) {
@@ -82,18 +90,43 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       hasField = schemaFields && field in schemaFields
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
+
+        const fieldTypeItems = types[item.type].fields[field]?.items?.type
+        const fieldTypeProperties = types[item.type].fields[field]?.properties
+
+        console.log('als heeeft', fieldTypeItems)
+        console.log('fieldTypeProperties', fieldTypeProperties)
+
         if (fieldType) {
           const weight = colIndex ? 400 : 500
           if (fieldType === 'array') {
-            children = '[array]'
+            children = (
+              <>
+                <Text style={{ marginTop: -1 }}>[ ]</Text>
+                <Badge style={{ marginLeft: 6 }}>{fieldTypeItems}</Badge>
+              </>
+            )
           } else if (fieldType === 'json') {
-            children = '[json]'
+            children = (
+              <Badge
+                boxed
+                color="background"
+                style={{ backgroundColor: color('grey') }}
+              >
+                JSON
+              </Badge>
+            )
           } else if (fieldType === 'record') {
             children = '[record]'
           } else if (fieldType === 'set') {
-            children = '[set]'
+            children = (
+              <>
+                <SetIcon size={16} />
+                <Badge style={{ marginLeft: 8 }}>{fieldTypeItems}</Badge>
+              </>
+            )
           } else if (fieldType === 'object') {
-            children = '[object]'
+            children = <CurlyBracesIcon size={14} />
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
           } else if (fieldType === 'references') {
