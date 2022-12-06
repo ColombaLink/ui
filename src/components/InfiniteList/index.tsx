@@ -4,8 +4,12 @@ import {
   generateSubscriptionId,
 } from '@based/client'
 import React, { useRef, useState, useEffect } from 'react'
-import { FixedSizeList as List } from 'react-window'
+import { FixedSizeList } from 'react-window'
 import { useData, useClient } from '@based/react'
+import { styled } from 'inlines'
+import { scrollAreaStyle } from '../ScrollArea'
+
+const List = styled(FixedSizeList, scrollAreaStyle)
 
 const addScrollSub = (client, subId, payload, offset, current, setChecksum) => {
   const [, subscriberId] = addSubscriber(

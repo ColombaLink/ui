@@ -14,13 +14,16 @@ const getDescriptors = (fields, meta) => {
 export const useDescriptor = (id) => {
   const schema = useItemSchema(id)
   const { language } = useLanguage()
+  const descriptorFields = schema.fields
+    ? getDescriptors(schema.fields, schema.meta)
+    : []
   const { data, loading } = useData(
     schema.fields
       ? {
           $id: id,
           $language: language,
           descriptor: {
-            $field: getDescriptors(schema.fields, schema.meta),
+            $field: descriptorFields,
           },
         }
       : null
@@ -28,7 +31,8 @@ export const useDescriptor = (id) => {
 
   return {
     ...schema,
-    descriptor: data.descriptor || id,
+    descriptor: data.descriptor || '-',
     loading: schema.loading || loading,
+    descriptorFields,
   }
 }
