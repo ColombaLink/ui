@@ -53,7 +53,11 @@ const Reference = ({ id }) => {
         marginBottom: 8,
       }}
     >
-      <Badge color="text" onClick={copy} icon={<CopyIcon />}>
+      <Badge
+        color="text"
+        onClick={id !== 'root' ? copy : null}
+        icon={id !== 'root' ? <CopyIcon /> : null}
+      >
         {id}
       </Badge>
       <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>

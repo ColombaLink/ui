@@ -30,7 +30,12 @@ export const SchemaTopbar = () => {
           style={{ borderRadius: 12 }}
         />
         <div>
-          <Text color="text" weight={600} size="16px">
+          <Text
+            color="text"
+            weight={600}
+            size="16px"
+            style={{ lineHeight: '20px' }}
+          >
             {client.opts.project}
           </Text>
           <Text color="accent" weight={600} size="14px">
