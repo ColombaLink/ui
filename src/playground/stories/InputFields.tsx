@@ -10,8 +10,23 @@ export const InputFields = () => {
       examples={[
         {
           props: {
+            label: 'Input label',
+            description: 'this is description',
+            // icon: <CheckIcon />,
+          },
+        },
+        {
+          props: {
             digest: true,
             label: 'Digest input',
+            description: 'Press eye to see the value',
+            indent: true,
+          },
+        },
+        {
+          props: {
+            passwordInput: true,
+            label: 'Password',
             description: 'Press eye to see the value',
             indent: true,
           },
@@ -66,13 +81,6 @@ export const InputFields = () => {
                 return 'Please enter a value'
               }
             },
-          },
-        },
-        {
-          props: {
-            label: 'Input label',
-            description: 'this is description',
-            icon: <CheckIcon />,
           },
         },
         {

@@ -5,8 +5,8 @@ import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
 import { ScrollArea } from '~/components/ScrollArea'
 import { Text } from '~/components/Text'
-import { useLocation, useSchema } from '~/hooks'
-import { CloseIcon, ArrowRightIcon } from '~/icons'
+import { useLocation, useSchema, useCopyToClipboard } from '~/hooks'
+import { CloseIcon, ArrowRightIcon, CheckIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useDescriptor } from '../hooks/useDescriptor'
@@ -137,6 +137,8 @@ const ContentModalInner = ({ prefix, id, field }) => {
   const { open } = useDialog()
   const type = id ? null : field
 
+  const [copied, copy] = useCopyToClipboard(id)
+
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
     if (changedFields) {
@@ -215,7 +217,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
                   typeof data === 'object' &&
                   !Array.isArray(data[Object.keys(data)[0]])
                 ) {
-                  console.warn('doing deep merge!', changes)
+                  console.warn('doing deep merge!', changes, data)
                   deepMerge(changes, data)
                 } else {
                   //    console.log('array ', data, changes)
@@ -233,6 +235,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
+                console.log(JSON.stringify(changes, null, 2))
                 await client.set({
                   $id: id.split('.')[0] || undefined,
                   type,
@@ -254,7 +257,19 @@ const ContentModalInner = ({ prefix, id, field }) => {
                 <>
                   <LastSaved id={id} />
                   <SideHeader title="ID" />
-                  <Badge style={{ marginBottom: 24 }}>{id}</Badge>
+                  <div style={{ display: 'flex' }}>
+                    <Badge style={{ marginBottom: 24 }} onClick={copy}>
+                      {id}
+                    </Badge>
+                    {copied && (
+                      <div
+                        style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}
+                      >
+                        <CheckIcon color="green" />
+                        <Text size={12}>Copied!!</Text>
+                      </div>
+                    )}
+                  </div>
                 </>
               ) : null}
             </div>

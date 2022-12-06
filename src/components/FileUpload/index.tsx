@@ -1,5 +1,15 @@
 import React, { CSSProperties, useRef, useState, FC } from 'react'
-import { Label, color, Text, UploadIcon, Button, usePropState } from '~'
+import {
+  Label,
+  color,
+  Text,
+  UploadIcon,
+  Button,
+  usePropState,
+  Input,
+  ChevronDownIcon,
+  ChevronUpIcon,
+} from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
@@ -21,7 +31,7 @@ type FileUploadProps = {
 }
 
 const StyledFileInput = styled('div', {
-  borderRadius: '4px',
+  borderRadius: '8px',
   display: 'flex',
   alignItems: 'center',
   gap: 8,
@@ -48,7 +58,11 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [clearCount, setClearCount] = useState(0)
-  const [isFocused, setIsFocused] = useState(false)
+  const [, setIsFocused] = useState(false)
+  const [urlInputValue, setUrlInputValue] = useState('')
+  const [fileName, setFileName] = useState('')
+  const [showMoreOptions, setShowMoreOptions] = useState(false)
+
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {
@@ -121,6 +135,28 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const replaceSpecificFile = (id) => {
     console.log('Edit file through a modal, like name? or something??', id)
+  }
+
+  const urlUploadFile = async (e) => {
+    let files = e
+    if (acceptedFileTypes) {
+      files = files.filter((file: File) => {
+        const accepted = acceptedFileTypes.includes(file.type)
+        if (!accepted) {
+          setErrorMessage(`File type: ${file?.type} is not allowed.`)
+          setDraggingOver(false)
+        }
+        return accepted
+      })
+    }
+
+    let newValue = [...uploadedFiles, ...files]
+    if (!multiple) {
+      newValue = [files[0]]
+    }
+    setUploadedFiles(newValue)
+    onChange(newValue)
+    setUrlInputValue('')
   }
 
   // console.log('??? Uploaded Files?', uploadedFiles)
@@ -211,6 +247,78 @@ export const FileUpload: FC<FileUploadProps> = ({
           multiple={multiple}
         />
       </styled.div>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          marginTop: 12,
+          marginBottom: 12,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          setShowMoreOptions(!showMoreOptions)
+        }}
+      >
+        <Text style={{ marginRight: 12 }} size={13}>
+          More Options
+        </Text>
+        {showMoreOptions ? <ChevronDownIcon /> : <ChevronUpIcon />}
+      </div>
+      {showMoreOptions && (
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Input
+              label="Upload from URL"
+              placeholder="Paste your url here"
+              style={{ marginRight: 12, width: '100%' }}
+              onChange={(e) => {
+                setUrlInputValue(e)
+              }}
+              value={urlInputValue}
+              space={12}
+            />
+            <Input
+              label="File name"
+              placeholder="Your file name"
+              space={12}
+              style={{ width: '100%' }}
+              value={fileName}
+              onChange={(e) => {
+                setFileName(e)
+              }}
+            />
+          </div>
+          <Button
+            icon={<UploadIcon />}
+            outline
+            style={{ minWidth: 162 }}
+            onClick={async () => {
+              if (urlInputValue) {
+                const file = await fetch(urlInputValue)
+                  .then(
+                    (res) => res.blob()
+                    //  mimetype = res.headers.get('content-type')
+                    //  console.log('type is', mimetype)
+                  )
+                  .then(
+                    (blobFile) =>
+                      new File(
+                        [blobFile],
+                        fileName || urlInputValue.split('/').pop(),
+                        {
+                          type: blobFile.type,
+                        }
+                      )
+                  )
+                // console.log('file before', file)
+                urlUploadFile([file])
+              }
+            }}
+          >
+            Upload from url
+          </Button>
+        </div>
+      )}
     </InputWrapper>
   )
 }

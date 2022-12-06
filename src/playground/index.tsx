@@ -12,6 +12,7 @@ import {
   DarkModeIcon,
   LightModeIcon,
   ExternalLinkIcon,
+  color,
 } from '../'
 import based from '@based/client'
 import * as stories from './stories'
@@ -198,12 +199,23 @@ const App = () => {
                 onClick={() => setFullscreen(!fullscreen)}
               />
             </div>
-            <div style={{ marginLeft: -8 }}>
+            <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>
               <Input
                 icon={<SearchIcon />}
                 placeholder="Search"
-                space="20px"
+                space
                 onChange={(e) => searchFilterHandler(e)}
+                ghost
+                style={{
+                  backgroundColor: color('background2'),
+                  boxShadow: '0px',
+                  outline: 'none',
+                  height: 40,
+                  alignItems: 'center',
+                  borderRadius: 8,
+                  paddingTop: '6px',
+                  paddingBottom: '6px',
+                }}
               />
             </div>
           </>

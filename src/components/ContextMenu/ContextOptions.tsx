@@ -20,8 +20,8 @@ import { color } from '~/utils'
 const FilterInputHolderSticky = styled('div', {
   width: '100%',
   position: 'sticky',
-  borderTopLeftRadius: 4,
-  borderTopRightRadius: 4,
+  borderTopLeftRadius: 8,
+  borderTopRightRadius: 8,
   top: 0,
   backgroundColor: color('background2dp'),
 })
@@ -32,8 +32,8 @@ const FilterInputHolder = styled('div', {
   height: 36,
   paddingLeft: 22,
   paddingRight: 12,
-  borderTopLeftRadius: 3,
-  borderTopRightRadius: 3,
+  borderTopLeftRadius: 8,
+  borderTopRightRadius: 8,
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',

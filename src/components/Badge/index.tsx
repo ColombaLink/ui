@@ -19,7 +19,7 @@ type BadgeProps = {
   color?: AccentColor
   boxed?: boolean
   ghost?: boolean
-  onClick?: MouseEventHandler
+  onClick?: MouseEventHandler<Element> | boolean | any
 }
 
 export const Badge: FC<BadgeProps> = ({

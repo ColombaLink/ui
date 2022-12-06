@@ -21,7 +21,7 @@ const Container = styled('div', {
   maxHeight: 'calc(100vh - 30px)',
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: 4,
+  borderRadius: 8,
   boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.12)',
   backgroundColor: color('background2dp'),
 })
@@ -53,6 +53,8 @@ const ButtonsWithBorder = styled(StyledButtons, {
   marginTop: 48,
   paddingTop: 24,
   paddingLeft: 24,
+  borderBottomLeftRadius: 8,
+  borderBottomRightRadius: 8,
   paddingRight: 24,
   marginLeft: 'calc(-1 * var(--dialogPadding))',
   marginRight: 'calc(-1 * var(--dialogPadding))',
@@ -70,7 +72,7 @@ const BodySpacer = styled('div', {
 })
 
 const Label = (props) => {
-  return <Text weight={600} {...props} />
+  return <Text weight={600} size="18px" {...props} />
 }
 
 const Body = ({ children }) => {
@@ -131,7 +133,7 @@ const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
       }
 
   return (
-    <Button onClick={onClick} {...props} actionKeys={['Enter']}>
+    <Button large onClick={onClick} {...props} actionKeys={['Enter']}>
       {children}
     </Button>
   )
@@ -163,6 +165,7 @@ const Cancel = ({
 
   return (
     <Button
+      large
       onClick={onClick}
       outline
       color="text"

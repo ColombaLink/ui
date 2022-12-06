@@ -178,7 +178,7 @@ export const Field = ({
         style={{
           height: 50,
           opacity: systemFields.has(field) ? 0.5 : 1,
-          borderRadius: 4,
+          borderRadius: 8,
           border: border(1),
           paddingLeft: 16,
           paddingRight: 16,
@@ -205,6 +205,7 @@ export const Field = ({
         ) : null}
         <DragDropIcon style={{ marginRight: 12, flexShrink: 0 }} />
         <Thumbnail
+          outline
           icon={icon}
           color={iconColor}
           size={32}
@@ -213,7 +214,9 @@ export const Field = ({
         <Text weight={600} style={{ marginLeft: 12, marginRight: 5 }}>
           {meta?.name}
         </Text>
-        <Text color="text2">- {path[lastIndex]}</Text>
+        <Text color="text2" weight={400}>
+          - {path[lastIndex]}
+        </Text>
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>

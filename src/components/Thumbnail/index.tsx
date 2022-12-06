@@ -11,6 +11,7 @@ type ThumbnailProps = {
   space?: Space
   style?: CSSProperties
   label?: string
+  outline?: boolean
 }
 
 export const Thumbnail: FC<ThumbnailProps> = ({
@@ -21,6 +22,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   space,
   style,
   label,
+  outline,
   ...props
 }) => {
   return (
@@ -29,6 +31,8 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         backgroundColor: color(colorProp),
         borderRadius: 4,
         color: color(colorProp, 'contrast'),
+        // @ts-ignore
+        border: outline ? `1px solid ${color(colorProp + ':hover')}` : 'none',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -44,7 +48,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
     >
       {label ? (
         <Text color="inherit" size={(size / 2) as Size}>
-          {label[0].toUpperCase()}
+          {label[0].toUpperCase() + label[1].toUpperCase()}
         </Text>
       ) : icon ? (
         renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })

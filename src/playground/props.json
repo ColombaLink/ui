@@ -22,9 +22,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "active": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type AccordionItemProps = {\n  label?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n}",
+      "code": "type AccordionItemProps = {\n  label?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n  active?: boolean\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
@@ -378,10 +382,14 @@
         },
         "onClick": {
           "optional": true,
-          "type": "MouseEventHandler"
+          "type": [
+            "MouseEventHandler",
+            "boolean",
+            "TSAnyKeyword"
+          ]
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: AccentColor\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: AccentColor\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler<Element> | boolean | any\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -1129,10 +1137,27 @@
         },
         "value": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "from": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "till": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  from?: string | number\n  till?: string | number\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
@@ -1895,6 +1920,25 @@
       "code": "type MarkdownInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
       "file": "/components/Input/MarkdownInput.tsx"
     },
+    "PasswordInputProps": {
+      "name": "PasswordInputProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "string"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
+      "file": "/components/Input/PasswordInput.tsx"
+    },
     "SingleProps": {
       "name": "SingleProps",
       "props": {
@@ -1946,6 +1990,10 @@
           "type": "string"
         },
         "jsonInput": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "passwordInput": {
           "optional": true,
           "type": "boolean"
         },
@@ -2073,7 +2121,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2655,10 +2703,111 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "cards": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type RadioButtonsProps = {\n  value?: string | boolean | number\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  indent?: boolean\n  disabled?: boolean\n  descriptionBottom?: string\n  // error?: (value: string | boolean | number) => string\n  onChange?: (value: string | number | boolean) => void\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type RadioButtonsProps = {\n  value?: string | boolean | number\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  indent?: boolean\n  disabled?: boolean\n  descriptionBottom?: string\n  // error?: (value: string | boolean | number) => string\n  onChange?: (value: string | number | boolean) => void\n  space?: Space\n  style?: CSSProperties\n  cards?: boolean\n}",
       "file": "/components/RadioButtons/index.tsx"
+    },
+    "RecordPageProps": {
+      "name": "RecordPageProps",
+      "props": {
+        "id": {
+          "optional": true,
+          "type": "string"
+        },
+        "fields": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "recordValueType": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type RecordPageProps = {\n  id?: string\n  fields?: any\n  onChange?: (fields: any) => void\n  recordValueType?: string\n  style?: CSSProperties\n}",
+      "file": "/components/RecordList/RecordPage.tsx"
+    },
+    "SingleRecordListItemProps": {
+      "name": "SingleRecordListItemProps",
+      "props": {
+        "index": {
+          "optional": true,
+          "type": "number"
+        },
+        "objectKey": {
+          "optional": true,
+          "type": "string"
+        },
+        "objectValue": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "object": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "setTempObj": {
+          "optional": true,
+          "type": "function"
+        },
+        "itemType": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type SingleRecordListItemProps = {\n  index?: number\n  objectKey?: string\n  objectValue?: any\n  onChange?: (value: any) => void\n  object?: {}\n  setTempObj?: (value: any) => void\n  itemType?: string\n}",
+      "file": "/components/RecordList/SingleRecordListItem.tsx"
+    },
+    "RecordListProps": {
+      "name": "RecordListProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "description": {
+          "optional": true,
+          "type": "string"
+        },
+        "schema": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        },
+        "value": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RecordListProps = {\n  label?: string\n  description?: string\n  schema?: any\n  space?: Space\n  value?: {}\n  onClick?: () => void\n  onChange?: (value: any) => void\n}",
+      "file": "/components/RecordList/index.tsx"
     },
     "ReferenceInputProps": {
       "name": "ReferenceInputProps",
@@ -2970,9 +3119,13 @@
               "array": "ReactNode"
             }
           ]
+        },
+        "expandable": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SidebarProps = {\n  data: {\n    icon: ReactNode\n    label: string\n    href: string\n  }[]\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n}",
+      "code": "type SidebarProps = {\n  data: {\n    icon?: ReactNode\n    label?: string\n    href?: string\n    subTitle?: string\n  }[]\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {
@@ -2993,9 +3146,13 @@
         "isActive": {
           "optional": true,
           "type": "boolean"
+        },
+        "expanded": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n}",
+      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SpacerProps": {
@@ -3264,9 +3421,13 @@
         "label": {
           "optional": true,
           "type": "string"
+        },
+        "outline": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 48 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n}",
+      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 48 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n  outline?: boolean\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
@@ -3604,6 +3765,11 @@
         },
         {
           "type": {
+            "value": 22
+          }
+        },
+        {
+          "type": {
             "value": 24
           }
         },
@@ -3613,7 +3779,7 @@
           }
         }
       ],
-      "code": "type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 24 | 32",
+      "code": "type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 22 | 24 | 32",
       "file": "/types/index.ts"
     },
     "Size": {
@@ -3679,6 +3845,11 @@
         },
         {
           "type": {
+            "value": 2
+          }
+        },
+        {
+          "type": {
             "value": 4
           }
         },
@@ -3716,9 +3887,14 @@
           "type": {
             "value": 32
           }
+        },
+        {
+          "type": {
+            "value": 48
+          }
         }
       ],
-      "code": "type SpaceInt = 0 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32",
+      "code": "type SpaceInt = 0 | 2 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32 | 48",
       "file": "/types/index.ts"
     },
     "Space": {
