@@ -18,6 +18,8 @@ import {
   useLocation,
   InfiniteList,
   Checkbox,
+  CheckIcon,
+  CopyIcon,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -31,9 +33,11 @@ import { ObjectList } from '~/components/ObjectList'
 import { toDateString } from '~/utils/date'
 import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
+import { useCopyToClipboard } from '~/hooks'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
+  const [copied, copy] = useCopyToClipboard(id)
 
   return (
     <div
@@ -48,8 +52,16 @@ const Reference = ({ id }) => {
         marginBottom: 8,
       }}
     >
-      <Badge color="text">{type || 'reference'}</Badge>
-      <Text style={{ marginLeft: 8 }}>{descriptor}</Text>
+      <Badge color="text" onClick={copy} icon={<CopyIcon />}>
+        {id}
+      </Badge>
+      <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>
+      {copied && (
+        <div style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}>
+          <CheckIcon color="green" />
+          <Text size={12}>Copied!!</Text>
+        </div>
+      )}
     </div>
   )
 }
@@ -148,7 +160,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
   )
 }
 
-const SelectReferences = () => {
+const SelectReferences = ({ onChange }) => {
   const [filter, setFilter] = useState('')
   const { types, loading } = useSchemaTypes()
   const [typing, setTyping] = useState(false)
@@ -272,8 +284,9 @@ const SelectReferences = () => {
       >
         <Dialog.Confirm
           onConfirm={() => {
-
+            onChange(Array.from(selected.current))
             console.log('aight', selected.current)
+            console.log('aight array ?', Array.from(selected.current))
           }}
         >
           Do it
@@ -285,15 +298,18 @@ const SelectReferences = () => {
 
 // let once
 const References = (props) => {
-  const { label, description, value, style } = props
+  const { label, description, value, style, onChange } = props
+
+  console.log('REF PROPS', props)
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
   }
 
   const { open } = useDialog()
+
   const onClick = () => {
-    open(<SelectReferences />)
+    open(<SelectReferences onChange={onChange} />)
   }
 
   // // TODO remove this, is just for testing
@@ -321,7 +337,7 @@ const References = (props) => {
         <Reference key={id} id={id} />
       ))}
       <Button ghost icon={AddIcon} onClick={onClick}>
-        Add item
+        {value ? 'Change References' : 'Add References'}
       </Button>
     </InputWrapper>
   )

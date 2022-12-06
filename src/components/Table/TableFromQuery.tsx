@@ -68,6 +68,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // TODO optimize
 
   // console.log('What the data?', data)
+  // console.log('What the item?', item)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
