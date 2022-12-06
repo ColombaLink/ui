@@ -229,7 +229,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               }}
             />
           </ScrollArea>
-          <RightSidebar style={{ width: 260 }}>
+          <RightSidebar style={{ minWidth: 224 }}>
             <SideHeader title="Status" />
             <Button
               disabled={disabled}

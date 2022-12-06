@@ -8,8 +8,9 @@ import { useClient } from '@based/react'
 
 const StyledSchemaTopbar = styled('div', {
   height: 64,
-  paddingLeft: 20,
-  paddingRight: 20,
+  minHeight: 64,
+  paddingLeft: 12,
+  paddingRight: 12,
   backgroundColor: color('background'),
   display: 'flex',
   justifyContent: 'space-between',
@@ -20,14 +21,9 @@ const StyledSchemaTopbar = styled('div', {
 export const SchemaTopbar = () => {
   const client = useClient()
 
-  console.log('this client', client)
-
   return (
     <StyledSchemaTopbar>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-        <Text color="text" size="16px">
-          Home /
-        </Text>
         <Thumbnail
           size={40}
           label={client.opts.project}
