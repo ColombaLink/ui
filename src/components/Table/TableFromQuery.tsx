@@ -12,16 +12,7 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import {
-  AttachmentIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  CurlyBracesIcon,
-  EditIcon,
-  JsonIcon,
-  SetIcon,
-  SquareBracketsIcon,
-} from '~/icons'
+import { AttachmentIcon } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -33,13 +24,13 @@ import {
   ITEM_WIDTH,
   ACTIONS_WIDTH,
 } from './constants'
-import { useError } from '@based/react'
 import { toDateString } from '~/utils/date'
 import { Button } from '../Button'
 import { Badge } from '../Badge'
 import { useHover } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
+import stringifyObject from 'stringify-object'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -76,11 +67,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const isCheckbox = columnIndex === 0
   // TODO optimize
 
-  console.log('What the data?', data)
-  console.log('types', types)
-  console.log('items', items)
-
-  // . console.log('TESTJE', FieldTemplates.templates)
+  // console.log('What the data?', data)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
@@ -93,44 +80,47 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       hasField = schemaFields && field in schemaFields
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
-
         const metaFieldType = types[item.type].fields[field]?.meta?.format
-        // const fieldTypeItems = types[item.type].fields[field]?.items?.type
-        // const fieldTypeProperties = types[item.type].fields[field]?.properties
-        // const recordFieldtype = types[item.type].fields[field]?.values?.type
 
-        // console.log('als heeeft', fieldTypeItems)
-        // console.log('fieldTypeProperties', fieldTypeProperties)
-
-        // console.log(JSON.stringify(items[0][field]))
+        const prettierObject = (obj) => {
+          return stringifyObject(obj, {
+            indent: ' ',
+            singleQuotes: false,
+            doubleQuotes: false,
+          })
+        }
 
         if (fieldType) {
           const weight = colIndex ? 400 : 500
           if (fieldType === 'array') {
             children = (
               <Text weight={400}>
-                {JSON.stringify(items[0][field]).substring(0, 64)}
+                {prettierObject(items[0][field]).substring(0, 64)}
               </Text>
             )
           } else if (fieldType === 'json') {
-            children = <Text weight={400}>{value.substring(0, 64)}</Text>
+            children = (
+              <Text weight={400}>
+                {prettierObject(JSON.parse(value)).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'boolean') {
             children = <Text weight={400}>{JSON.stringify(value)}</Text>
           } else if (fieldType === 'record') {
             children = (
               <Text weight={400}>
-                {JSON.stringify(items[0][field]).substring(0, 64)}
+                {prettierObject(items[0][field]).substring(0, 64)}
               </Text>
             )
           } else if (fieldType === 'set') {
             children = (
               <Text weight={400}>
-                {JSON.stringify(items[0][field]).substring(0, 64)}
+                {prettierObject(items[0][field]).substring(0, 64)}
               </Text>
             )
           } else if (fieldType === 'object') {
             children = (
-              <Text weight={400}>{JSON.stringify(value).substring(0, 64)}</Text>
+              <Text weight={400}>{prettierObject(value).substring(0, 64)}</Text>
             )
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
@@ -158,7 +148,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (typeof value === 'object') {
             console.warn('incorrect value:', fieldType, item, field, value)
           } else {
-            children = <Text weight={weight}>{value}</Text>
+            children = <Text weight={400}>{value}</Text>
           }
         }
       }

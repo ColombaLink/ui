@@ -310,7 +310,7 @@ export const Input: FC<
       minHeight: ghost ? 6 : large ? 48 : 36,
       paddingLeft,
       border: ghost
-        ? `1.5px solid transparent`
+        ? `0px solid transparent`
         : focused
         ? `1.5px solid ${color('accent')}`
         : `1px solid ${color('border')}`,
