@@ -28,12 +28,9 @@ import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
-<<<<<<< HEAD
 import { toDateString } from '~/utils/date'
-=======
 import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
->>>>>>> bc3cfeea9df83a90eeb15801e445571090e25220
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
@@ -172,6 +169,8 @@ const SelectReferences = () => {
         setTyping(false)
       }, 500)
       return () => clearTimeout(timer)
+    } else {
+      setTyping(false)
     }
   }, [filter])
 
@@ -273,7 +272,8 @@ const SelectReferences = () => {
       >
         <Dialog.Confirm
           onConfirm={() => {
-            console.log('aight')
+
+            console.log('aight', selected.current)
           }}
         >
           Do it
@@ -283,7 +283,7 @@ const SelectReferences = () => {
   )
 }
 
-let once
+// let once
 const References = (props) => {
   const { label, description, value, style } = props
 
@@ -296,13 +296,13 @@ const References = (props) => {
     open(<SelectReferences />)
   }
 
-  // TODO remove this, is just for testing
-  useEffect(() => {
-    if (!once) {
-      once = true
-      onClick()
-    }
-  }, [])
+  // // TODO remove this, is just for testing
+  // useEffect(() => {
+  //   if (!once) {
+  //     once = true
+  //     onClick()
+  //   }
+  // }, [])
 
   return (
     <InputWrapper indent style={style} descriptionBottom={description}>
@@ -311,15 +311,12 @@ const References = (props) => {
         // description={description}
         style={{ marginBottom: 12 }}
       />
-<<<<<<< HEAD
-=======
 
       {/* if there are reftypes on the meta */}
 
       {/* {meta?.refTypes?.length > 0 &&
         meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
 
->>>>>>> bc3cfeea9df83a90eeb15801e445571090e25220
       {value?.map((id) => (
         <Reference key={id} id={id} />
       ))}
