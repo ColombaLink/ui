@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, CheckIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
-  const [loadingState, setLoadingState] = useState(true)
-
   return (
     <ComponentViewer
       component={Button}
@@ -12,9 +10,15 @@ export const Buttons = () => {
       examples={[
         {
           props: {
-            loading: loadingState,
             children: 'Just a button',
-            onClick: () => setLoadingState(false),
+            onClick: () => alert('Clicked!'),
+          },
+        },
+        {
+          props: {
+            children: 'Async button',
+            onClick: async () =>
+              await new Promise((resolve) => setTimeout(resolve, 1e3)),
           },
         },
         {
