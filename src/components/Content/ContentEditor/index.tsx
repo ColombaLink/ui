@@ -8,6 +8,7 @@ import {
   border,
   Button,
   AddIcon,
+  EditIcon,
   Toggle,
   DateTimePicker,
   FileUpload,
@@ -160,7 +161,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
   )
 }
 
-const SelectReferences = ({ onChange }) => {
+const SelectReferences = ({ onChange, setRefArray }) => {
   const [filter, setFilter] = useState('')
   const { types, loading } = useSchemaTypes()
   const [typing, setTyping] = useState(false)
@@ -284,9 +285,10 @@ const SelectReferences = ({ onChange }) => {
       >
         <Dialog.Confirm
           onConfirm={() => {
+            setRefArray([...selected.current])
             onChange(Array.from(selected.current))
-            console.log('aight', selected.current)
-            console.log('aight array ?', Array.from(selected.current))
+            // console.log('aight', selected.current)
+            // console.log('aight array ?', Array.from(selected.current))
           }}
         >
           Do it
@@ -300,7 +302,14 @@ const SelectReferences = ({ onChange }) => {
 const References = (props) => {
   const { label, description, value, style, onChange } = props
 
-  console.log('REF PROPS', props)
+  const [refArray, setRefArray] = useState([])
+
+  // console.log('REF PROPS', props)
+  useEffect(() => {
+    setRefArray(value)
+  }, [value])
+
+  // console.log('value', value)
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
@@ -309,16 +318,8 @@ const References = (props) => {
   const { open } = useDialog()
 
   const onClick = () => {
-    open(<SelectReferences onChange={onChange} />)
+    open(<SelectReferences onChange={onChange} setRefArray={setRefArray} />)
   }
-
-  // // TODO remove this, is just for testing
-  // useEffect(() => {
-  //   if (!once) {
-  //     once = true
-  //     onClick()
-  //   }
-  // }, [])
 
   return (
     <InputWrapper indent style={style} descriptionBottom={description}>
@@ -333,11 +334,19 @@ const References = (props) => {
       {/* {meta?.refTypes?.length > 0 &&
         meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
 
-      {value?.map((id) => (
+      {refArray?.map((id) => (
         <Reference key={id} id={id} />
       ))}
-      <Button ghost icon={AddIcon} onClick={onClick}>
-        {value ? 'Change References' : 'Add References'}
+
+      {/* {value?.map((id) => (
+        <Reference key={id} id={id} />
+      ))} */}
+      <Button
+        ghost
+        icon={value?.length > 0 ? EditIcon : AddIcon}
+        onClick={onClick}
+      >
+        {value?.length > 0 ? 'Change References' : 'Add References'}
       </Button>
     </InputWrapper>
   )

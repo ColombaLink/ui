@@ -47,7 +47,9 @@ const Topbar = ({ id, type, onClose }) => {
         {id
           ? loading
             ? null
-            : `Edit ${schemaType}: ${descriptor}`
+            : `Edit ${schemaType}${
+                location.includes('.') ? '.' + location.split('.').pop() : ''
+              }`
           : `Create new ${type}`}
       </Text>
     </div>
