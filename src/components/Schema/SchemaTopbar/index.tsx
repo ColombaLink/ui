@@ -4,6 +4,7 @@ import { color } from '~/utils'
 import { Button } from '~/components/Button'
 import { Avatar } from '~/components/Avatar'
 import { BasedIcon, Text, Input, SearchIcon, Thumbnail } from '~'
+import { useClient } from '@based/react'
 
 const StyledSchemaTopbar = styled('div', {
   height: 64,
@@ -17,19 +18,27 @@ const StyledSchemaTopbar = styled('div', {
 })
 
 export const SchemaTopbar = () => {
+  const client = useClient()
+
+  console.log('this client', client)
+
   return (
     <StyledSchemaTopbar>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
         <Text color="text" size="16px">
           Home /
         </Text>
-        <Thumbnail size={40} label="Tally" style={{ borderRadius: 12 }} />
+        <Thumbnail
+          size={40}
+          label={client.opts.project}
+          style={{ borderRadius: 12 }}
+        />
         <div>
           <Text color="text" weight={600} size="16px">
-            Tally
+            {client.opts.project}
           </Text>
           <Text color="accent" weight={600} size="14px">
-            Production
+            {client.opts.env}
           </Text>
         </div>
       </div>

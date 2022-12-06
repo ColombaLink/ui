@@ -4,7 +4,6 @@ import { SchemaLeft } from './SchemaLeft'
 import { SchemaRight } from './SchemaRight'
 import { useLocation } from '~'
 import { useSchemaTypes } from '~/hooks'
-import { SchemaTopbar } from './SchemaTopbar'
 
 export const Schema: FC<{
   db?: string
@@ -14,8 +13,6 @@ export const Schema: FC<{
   const [location] = useLocation()
   const [, type, ...p] = location.substring(prefix.length).split('/')
   const { types, loading } = useSchemaTypes()
-
-  // console.log('hello schema yves type??', types?.yvestype)
 
   const path = []
 

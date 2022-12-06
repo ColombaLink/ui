@@ -24,6 +24,7 @@ import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
   const client = useClient()
+
   return (
     <Dialog label="Create locale">
       <Dialog.Body>
@@ -153,6 +154,7 @@ const components = {
 
 const Project = ({ style }) => {
   const [location] = useLocation()
+
   const [, section] = location.split('/')
   const prefix = `/${section}`
   const Component = components[section] || (() => null)
