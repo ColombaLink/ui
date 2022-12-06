@@ -78,6 +78,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   console.log('What the data?', data)
   console.log('types', types)
+  console.log('items', items)
+
+  // . console.log('TESTJE', FieldTemplates.templates)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
@@ -91,80 +94,43 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
 
-        const fieldTypeItems = types[item.type].fields[field]?.items?.type
-        const fieldTypeProperties = types[item.type].fields[field]?.properties
-        const recordFieldtype = types[item.type].fields[field]?.values?.type
+        const metaFieldType = types[item.type].fields[field]?.meta?.format
+        // const fieldTypeItems = types[item.type].fields[field]?.items?.type
+        // const fieldTypeProperties = types[item.type].fields[field]?.properties
+        // const recordFieldtype = types[item.type].fields[field]?.values?.type
 
         // console.log('als heeeft', fieldTypeItems)
         // console.log('fieldTypeProperties', fieldTypeProperties)
+
+        // console.log(JSON.stringify(items[0][field]))
 
         if (fieldType) {
           const weight = colIndex ? 400 : 500
           if (fieldType === 'array') {
             children = (
-              <>
-                <Text style={{ marginTop: -1 }}>[ ]</Text>
-                <Badge outline boxed ghost style={{ marginLeft: 6 }}>
-                  Array
-                </Badge>
-                <Badge style={{ marginLeft: 6 }}>{fieldTypeItems}</Badge>
-              </>
+              <Text weight={400}>
+                {JSON.stringify(items[0][field]).substring(0, 64)}
+              </Text>
             )
           } else if (fieldType === 'json') {
-            children = (
-              <Badge
-                boxed
-                color="background"
-                style={{ backgroundColor: color('grey') }}
-              >
-                JSON
-              </Badge>
-            )
+            children = <Text weight={400}>{value.substring(0, 64)}</Text>
+          } else if (fieldType === 'boolean') {
+            children = <Text weight={400}>{JSON.stringify(value)}</Text>
           } else if (fieldType === 'record') {
             children = (
-              <>
-                <CurlyBracesIcon
-                  size={14}
-                  style={{ minWidth: 14, marginRight: 8 }}
-                />
-                <Badge outline boxed ghost>
-                  Record
-                </Badge>
-                <Badge style={{ marginLeft: 8 }}>{recordFieldtype}</Badge>
-              </>
+              <Text weight={400}>
+                {JSON.stringify(items[0][field]).substring(0, 64)}
+              </Text>
             )
           } else if (fieldType === 'set') {
             children = (
-              <>
-                <SetIcon size={16} />
-                <Badge outline boxed ghost style={{ marginLeft: 8 }}>
-                  Set
-                </Badge>
-                <Badge style={{ marginLeft: 8 }}>{fieldTypeItems}</Badge>
-              </>
+              <Text weight={400}>
+                {JSON.stringify(items[0][field]).substring(0, 64)}
+              </Text>
             )
           } else if (fieldType === 'object') {
             children = (
-              <div
-                style={{
-                  maxWidth: 174,
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  overflowX: 'hidden',
-                  alignItems: 'center',
-                }}
-              >
-                <CurlyBracesIcon size={14} style={{ minWidth: 14 }} />
-                {Object.keys(fieldTypeProperties)?.map((item, idx) => {
-                  if (idx < 4) {
-                    return (
-                      <Badge key={idx} style={{ marginLeft: 8 }}>
-                        {fieldTypeProperties[item].type}
-                      </Badge>
-                    )
-                  }
-                })}
-              </div>
+              <Text weight={400}>{JSON.stringify(value).substring(0, 64)}</Text>
             )
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
@@ -172,6 +138,12 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = value.length ? <References value={value} /> : null
           } else if (fieldType === 'timestamp') {
             children = <Text weight={weight}>{toDateString(value)}</Text>
+          } else if (fieldType === 'digest') {
+            children = (
+              <Badge weight={weight}>{value.substring(0, 6) + '...'}</Badge>
+            )
+          } else if (fieldType === 'string' && metaFieldType === 'markdown') {
+            children = <Text weight={weight}>{value.substring(0, 64)}</Text>
           } else if (isImage(value)) {
             children = (
               <div
@@ -186,14 +158,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (typeof value === 'object') {
             console.warn('incorrect value:', fieldType, item, field, value)
           } else {
-            children = (
-              <>
-                <Text weight={weight}>{value}</Text>
-                <Badge style={{ marginLeft: 8 }} color="purple" outline>
-                  {fieldType}
-                </Badge>
-              </>
-            )
+            children = <Text weight={weight}>{value}</Text>
           }
         }
       }
@@ -250,7 +215,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 12,
         paddingRight: 12,
         borderBottom: border(1),
-        borderRight: border(1),
+        //  borderRight: border(1),
         backgroundColor: color(
           activeRow
             ? activeColumn && !isCheckbox && hasField
