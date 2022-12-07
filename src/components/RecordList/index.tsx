@@ -44,11 +44,12 @@ RecordListProps) => {
 
   return (
     <InputWrapper indent space={space} descriptionBottom={description}>
-      <Text space={12} weight={600}>
-        <div style={{ display: 'flex' }}>
-          {label} <Badge style={{ marginLeft: 8 }}>{schema.values.type}</Badge>
-        </div>
-      </Text>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
+        <Text weight={500} size={14}>
+          {label}
+        </Text>
+        <Badge style={{ marginLeft: 8 }}>{schema.values.type}</Badge>
+      </div>
       <InputWrapper indent space={12}>
         {tempObj &&
           Object.keys(tempObj).map((ObjKey, idx) => (

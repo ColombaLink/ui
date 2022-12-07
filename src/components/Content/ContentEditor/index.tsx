@@ -321,7 +321,7 @@ const SelectReferences = ({ onChange, setRefArray }) => {
 
 // let once
 const References = (props) => {
-  const { label, description, value, style, onChange } = props
+  const { label, description, value, style, onChange, space = 24 } = props
 
   const [refArray, setRefArray] = useState([])
 
@@ -343,7 +343,12 @@ const References = (props) => {
   }
 
   return (
-    <InputWrapper indent style={style} descriptionBottom={description}>
+    <InputWrapper
+      indent
+      style={style}
+      descriptionBottom={description}
+      space={space}
+    >
       <Label
         label={label}
         // description={description}
@@ -634,7 +639,6 @@ const set = {
         description={description}
         onChange={onChange}
         indent
-        space
         {...props}
       />
     )

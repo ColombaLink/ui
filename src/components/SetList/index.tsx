@@ -22,7 +22,7 @@ export const SetList = ({
   onChange,
   disabled,
   indent,
-  space,
+  space = 48,
   value,
   schema,
   ...props
