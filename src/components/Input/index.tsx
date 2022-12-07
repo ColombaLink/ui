@@ -361,7 +361,10 @@ export const Input: FC<
                 setValue('')
               }}
               disabled={disabled}
-              style={{ height: 'fit-content' }}
+              style={{
+                height: 'fit-content',
+                marginTop: description ? 0 : -6,
+              }}
             >
               Clear
             </Button>

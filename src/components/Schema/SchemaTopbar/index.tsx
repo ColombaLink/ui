@@ -9,8 +9,8 @@ import { useClient } from '@based/react'
 const StyledSchemaTopbar = styled('div', {
   height: 64,
   minHeight: 64,
-  paddingLeft: 12,
-  paddingRight: 12,
+  paddingLeft: 14,
+  paddingRight: 14,
   backgroundColor: color('background'),
   display: 'flex',
   justifyContent: 'space-between',

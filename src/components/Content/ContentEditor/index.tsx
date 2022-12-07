@@ -21,6 +21,7 @@ import {
   Checkbox,
   CheckIcon,
   CopyIcon,
+  color,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -211,7 +212,19 @@ const SelectReferences = ({ onChange, setRefArray }) => {
         <>
           <>Select References</>
           <Input
-            style={{ marginTop: 8 }}
+            ghost
+            style={{
+              marginTop: 12,
+              backgroundColor: color('background2'),
+              boxShadow: '0px',
+              outline: 'none',
+              height: 40,
+              alignItems: 'center',
+              borderRadius: 8,
+              paddingTop: '8px',
+              paddingBottom: '6px',
+              paddingLeft: '16px',
+            }}
             value={filter}
             onChange={(val) => {
               setFilter(val.trim())
@@ -235,6 +248,8 @@ const SelectReferences = ({ onChange, setRefArray }) => {
         <div
           style={{
             flexGrow: 1,
+            paddingLeft: 16,
+            paddingRight: 16,
           }}
         >
           <InfiniteList
@@ -282,12 +297,14 @@ const SelectReferences = ({ onChange, setRefArray }) => {
       <div
         style={{
           padding: 24,
+          paddingTop: 14,
           display: 'flex',
           justifyContent: 'flex-end',
           borderTop: border(1),
         }}
       >
         <Dialog.Confirm
+          space="16px"
           onConfirm={() => {
             setRefArray([...selected.current])
             onChange(Array.from(selected.current))
@@ -295,7 +312,7 @@ const SelectReferences = ({ onChange, setRefArray }) => {
             // console.log('aight array ?', Array.from(selected.current))
           }}
         >
-          Do it
+          Confirm
         </Dialog.Confirm>
       </div>
     </Dialog>
