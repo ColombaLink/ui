@@ -238,7 +238,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
           </ScrollArea>
           <RightSidebar
             style={{
-              minWidth: 246,
+              minWidth: 260,
               borderBottomRightRadius: 12,
               borderTopRightRadius: 12,
               marginTop: -64,

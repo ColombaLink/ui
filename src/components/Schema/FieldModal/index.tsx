@@ -258,17 +258,26 @@ export const FieldModal: FC<
   return (
     <Dialog>
       <Dialog.Body>
-        <Dialog.Label
-          style={{ alignItems: 'center', display: 'flex', fontSize: 16 }}
-        >
-          <Thumbnail
-            color={color}
-            icon={icon}
-            size={32}
-            outline
-            style={{ marginRight: 16 }}
-          />
-          {label}
+        <Dialog.Label>
+          <div
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              fontSize: 16,
+              marginTop: 8,
+            }}
+          >
+            <Thumbnail
+              color={color}
+              icon={icon}
+              size={32}
+              outline
+              style={{ marginRight: 16 }}
+            />
+            <Text weight={600} size={16}>
+              {label}
+            </Text>
+          </div>
         </Dialog.Label>
         <Tabs sameHeight activeTab={0}>
           <Tab label="General">
