@@ -11,12 +11,12 @@ import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { prettyDate } from '@based/pretty-date'
-import { Select } from '~/components/Select'
+import { Select, StyledSelect } from '~/components/Select'
 import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
-import { rgbaToArr } from '~/components/ColorPicker/utils'
+import { styled } from 'inlines'
 
 const Topbar = ({ id, type, onClose }) => {
   const [location, setLocation] = useLocation()
@@ -41,10 +41,8 @@ const Topbar = ({ id, type, onClose }) => {
           }}
           style={{ cursor: 'pointer', transform: 'scaleX(-1)' }}
         />
-      ) : (
-        <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
-      )}
-      <Text style={{ marginLeft: 24 }} weight={600}>
+      ) : null}
+      <Text style={{ marginLeft: 16 }} weight={600} size={16}>
         {id
           ? loading
             ? null
@@ -67,7 +65,9 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
         paddingBottom: 8,
       }}
     >
-      <Text>{title}</Text>
+      <Text weight={600} size={12}>
+        {title.toUpperCase()}
+      </Text>
       {children}
     </div>
   )
@@ -102,6 +102,7 @@ const Translation = ({ language, setLanguage }) => {
 
   return loading ? null : (
     <Select
+      style={{ backgroundColor: color('background2') }}
       value={
         schema.languages.includes(language) ? language : schema.languages[0]
       }
@@ -180,6 +181,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
         display: 'flex',
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
       }}
+      onClick={onClose}
     >
       <div
         onClick={onClose}
@@ -200,6 +202,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
           display: 'flex',
           flexDirection: 'column',
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <Topbar id={id} type={type} onClose={onClose} />
         <div
@@ -233,9 +236,36 @@ const ContentModalInner = ({ prefix, id, field }) => {
               }}
             />
           </ScrollArea>
-          <RightSidebar style={{ minWidth: 224, borderBottomRightRadius: 12 }}>
+          <RightSidebar
+            style={{
+              minWidth: 246,
+              borderBottomRightRadius: 12,
+              borderTopRightRadius: 12,
+              marginTop: -64,
+            }}
+          >
+            <styled.div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                height: 32,
+                width: 32,
+                marginLeft: 'auto',
+                borderRadius: 16,
+                backgroundColor: color('lighttext'),
+                '&:hover': {
+                  backgroundColor: color('lighttext:hover'),
+                },
+              }}
+              onClick={onClose}
+            >
+              <CloseIcon size={14} />
+            </styled.div>
             <SideHeader title="Status" />
             <Button
+              large
               disabled={disabled}
               textAlign="center"
               style={{ width: '100%' }}
