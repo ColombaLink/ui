@@ -16,6 +16,7 @@ import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
+import { rgbaToArr } from '~/components/ColorPicker/utils'
 
 const Topbar = ({ id, type, onClose }) => {
   const [location, setLocation] = useLocation()
@@ -177,6 +178,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
         left: 0,
         right: 0,
         display: 'flex',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
       }}
     >
       <div
@@ -185,12 +187,14 @@ const ContentModalInner = ({ prefix, id, field }) => {
           opacity: 0.6,
           width: 300,
           flexGrow: 1,
-          backgroundColor: color('background2'),
+          // backgroundColor: color('background2'),
         }}
       />
       <div
         style={{
           width: 1200,
+          margin: 24,
+          borderRadius: 12,
           backgroundColor: color('background'),
           boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
           display: 'flex',
@@ -229,7 +233,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               }}
             />
           </ScrollArea>
-          <RightSidebar style={{ minWidth: 224 }}>
+          <RightSidebar style={{ minWidth: 224, borderBottomRightRadius: 12 }}>
             <SideHeader title="Status" />
             <Button
               disabled={disabled}
