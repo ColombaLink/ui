@@ -120,7 +120,9 @@ const Buttons = ({ children, border = null }) => {
 
 const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
   const dialog = useDialog()
+
   const { current: myId } = useRef(dialog._id)
+
   const onClick = onConfirm
     ? async () => {
         if (!props.disabled && myId === dialog._id) {
@@ -215,6 +217,8 @@ export const Dialog = Object.assign(
         }
       }, [])
 
+      console.log('the label', label)
+
       return (
         <Container
           style={{
@@ -244,7 +248,7 @@ export const Dialog = Object.assign(
                   )
                 )
               ) : (
-                <Text weight={600} size="18px" space="24px">
+                <Text weight={600} size="18px">
                   {label}
                 </Text>
               )}

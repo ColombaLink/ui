@@ -19,14 +19,7 @@ const Menu = ({ views, currentView, deletable }) => {
     <>
       <ContextItem
         onClick={async () => {
-          const name = await prompt([
-            `Enter a new name for this view`,
-            <Callout
-              icon={<WarningIcon />}
-              color="orange"
-              label=" You are about to update the default view for all users."
-            />,
-          ])
+          const name = await prompt(`Enter a new name for this view`)
           if (name) {
             currentView.label = name
             await client.call('basedSetViews', views)
@@ -133,6 +126,15 @@ const Header = ({ label, view, prefix }) => {
         ghost
         onClick={async () => {
           const ok = await confirm(`Update '${currentView.label}'`)
+          // const ok = await confirm([
+          //   `Update '${currentView.label}'`,
+          //   <Callout
+          //     icon={<WarningIcon />}
+          //     color="orange"
+          //     label=" You are about to update the default view for all users."
+          //     labelColor="text"
+          //   />,
+          // ])
           if (ok) {
             currentView.query = location.search.substring(1)
             await client.call('basedSetViews', views)

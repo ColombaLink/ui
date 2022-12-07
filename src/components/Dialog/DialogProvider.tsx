@@ -17,8 +17,6 @@ const Prompt = ({
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
 
-  console.log(props)
-
   return (
     <Dialog
       {...props}
