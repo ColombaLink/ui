@@ -237,21 +237,9 @@ export const Dialog = Object.assign(
                 padding: '24px 32px 8px 32px',
               }}
             >
-              {Array.isArray(label) ? (
-                label?.map((item, idx) =>
-                  idx === 0 ? (
-                    <Text key={idx} weight={600} size="18px" space="24px">
-                      {item}
-                    </Text>
-                  ) : (
-                    <div key={idx}>{item}</div>
-                  )
-                )
-              ) : (
-                <Text weight={600} size="18px">
-                  {label}
-                </Text>
-              )}
+              <Text weight={600} size="18px">
+                {label}
+              </Text>
             </div>
           )}
           {pure ? (

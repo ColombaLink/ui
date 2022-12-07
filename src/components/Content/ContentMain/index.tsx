@@ -125,16 +125,16 @@ const Header = ({ label, view, prefix }) => {
       <Button
         ghost
         onClick={async () => {
-          const ok = await confirm(`Update '${currentView.label}'`)
-          // const ok = await confirm([
-          //   `Update '${currentView.label}'`,
-          //   <Callout
-          //     icon={<WarningIcon />}
-          //     color="orange"
-          //     label=" You are about to update the default view for all users."
-          //     labelColor="text"
-          //   />,
-          // ])
+          //   const ok = await confirm(`Update '${currentView.label}'`)
+          const ok = await confirm(
+            `Update '${currentView.label}'`,
+            <Callout
+              icon={<WarningIcon />}
+              color="orange"
+              label=" You are about to update the default view for all users."
+              labelColor="text"
+            />
+          )
           if (ok) {
             currentView.query = location.search.substring(1)
             await client.call('basedSetViews', views)

@@ -16,6 +16,10 @@ const Prompt = ({
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
+  const isConfirm = type === 'confirm'
+
+  console.log('children: ', children)
+  console.log('props: ', props)
 
   return (
     <Dialog
@@ -27,7 +31,7 @@ const Prompt = ({
     >
       {isPrompt ? (
         <Dialog.Body>
-          {/* // second argument here children */}
+          {children}
           <Input autoFocus onChange={(v) => (value.current = v)} />
         </Dialog.Body>
       ) : (
@@ -112,15 +116,15 @@ export const DialogProvider = ({ children, fixed = true }) => {
           props = {
             label: props,
           }
-        } else if (Array.isArray(props)) {
-          props = {
-            label: props,
-            children: children,
-          }
         }
-
-        dialog.open(<Prompt {...props} type={type} onConfirm={resolve} />, () =>
-          resolve(false)
+        dialog.open(
+          <Prompt
+            {...props}
+            type={type}
+            onConfirm={resolve}
+            children={children}
+          />,
+          () => resolve(false)
         )
       })
     }
@@ -147,9 +151,10 @@ export const DialogProvider = ({ children, fixed = true }) => {
       }
     }
 
-    dialog.prompt = (props) => prompt('prompt', props, children)
+    dialog.prompt = (props, children) => prompt('prompt', props, children)
+    // TODO alert add children
     dialog.alert = (props) => prompt('alert', props, children)
-    dialog.confirm = (props) => prompt('confirm', props, children)
+    dialog.confirm = (props, children) => prompt('confirm', props, children)
 
     dialog.useCount = () => {
       const [state, setState] = useState(dialogsRef.current.length)
