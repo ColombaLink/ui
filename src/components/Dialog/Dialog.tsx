@@ -65,7 +65,7 @@ const ButtonSpacer = styled('div', {
 })
 
 const BodySpacer = styled('div', {
-  height: 24,
+  // . height: 24,
   '&:first-child': {
     display: 'none',
   },
@@ -216,8 +216,6 @@ export const Dialog = Object.assign(
           cancelAnimationFrame(x)
         }
       }, [])
-
-      console.log('the label', label)
 
       return (
         <Container

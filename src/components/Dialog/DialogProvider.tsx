@@ -16,10 +16,7 @@ const Prompt = ({
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
-  const isConfirm = type === 'confirm'
-
-  console.log('children: ', children)
-  console.log('props: ', props)
+  //  const isConfirm = type === 'confirm'
 
   return (
     <Dialog
@@ -78,7 +75,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
             backgroundColor: color('backdrop'),
             display: 'flex',
             justifyContent: 'center',
-            padding: 20,
+            // padding: 20,
             position: fixed ? 'fixed' : 'absolute',
             top: 0,
             left: 0,
@@ -122,8 +119,10 @@ export const DialogProvider = ({ children, fixed = true }) => {
             {...props}
             type={type}
             onConfirm={resolve}
-            children={children}
-          />,
+            //     children={children}
+          >
+            {children}
+          </Prompt>,
           () => resolve(false)
         )
       })
@@ -153,7 +152,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     dialog.prompt = (props, children) => prompt('prompt', props, children)
     // TODO alert add children
-    dialog.alert = (props) => prompt('alert', props, children)
+    dialog.alert = (props, children) => prompt('alert', props, children)
     dialog.confirm = (props, children) => prompt('confirm', props, children)
 
     dialog.useCount = () => {
