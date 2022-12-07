@@ -615,6 +615,10 @@
           "optional": true,
           "type": "string"
         },
+        "labelColor": {
+          "optional": true,
+          "type": "Color"
+        },
         "description": {
           "optional": true,
           "type": "string"
@@ -647,7 +651,7 @@
           ]
         }
       },
-      "code": "type CalloutProps = {\n  children?: ReactNode\n  icon?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  label?: string\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right'\n}",
+      "code": "type CalloutProps = {\n  children?: ReactNode\n  icon?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  label?: string\n  labelColor?: Color\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right'\n}",
       "file": "/components/Callout/index.tsx"
     },
     "CardProps": {
@@ -1155,9 +1159,13 @@
             "string",
             "number"
           ]
+        },
+        "utc": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  from?: string | number\n  till?: string | number\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  from?: string | number\n  till?: string | number\n  utc?: boolean\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {

@@ -68,7 +68,11 @@ export const ContentLeft: FC<{
       collapse
       style={{ paddingTop: 24, width: 234 }}
       header={
-        <Text size="18px" weight="700" style={{ marginBottom: 18 }}>
+        <Text
+          size="22px"
+          weight="700"
+          style={{ marginBottom: 24, lineHeight: '32px' }}
+        >
           Content
         </Text>
       }
