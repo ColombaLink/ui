@@ -213,6 +213,7 @@ export const BasedApp = () => {
       style={{
         width: '100%',
         height: '100%',
+        minHeight: 'calc(100vh - 128px)',
         position: 'relative',
         outline: border(1),
         overflow: 'hidden',

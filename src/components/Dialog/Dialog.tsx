@@ -27,9 +27,9 @@ const Container = styled('div', {
 })
 
 const ScrollBody = styled('div', {
-  paddingTop: 'var(--dialogPadding)',
-  paddingLeft: 'var(--dialogPadding)',
-  paddingRight: 'var(--dialogPadding)',
+  paddingTop: '16px',
+  paddingLeft: '32px',
+  paddingRight: '32px',
   paddingBottom: '0px',
   width: '100%',
   '&>:last-child': {
@@ -72,7 +72,9 @@ const BodySpacer = styled('div', {
 })
 
 const Label = (props) => {
-  return <Text weight={600} size="18px" {...props} />
+  return (
+    <Text weight={600} size="18px" {...props} style={{ marginBottom: 24 }} />
+  )
 }
 
 const Body = ({ children }) => {
@@ -228,10 +230,24 @@ export const Dialog = Object.assign(
             <div
               style={{
                 // borderBottom: `1px solid ${color('border')}`,
-                padding: '20px 24px 8px 24px',
+                padding: '24px 32px 8px 32px',
               }}
             >
-              <Text weight={600}>{label}</Text>
+              {Array.isArray(label) ? (
+                label?.map((item, idx) =>
+                  idx === 0 ? (
+                    <Text key={idx} weight={600} size="18px" space="24px">
+                      {item}
+                    </Text>
+                  ) : (
+                    <div key={idx}>{item}</div>
+                  )
+                )
+              ) : (
+                <Text weight={600} size="18px" space="24px">
+                  {label}
+                </Text>
+              )}
             </div>
           )}
           {pure ? (

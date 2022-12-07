@@ -5,11 +5,12 @@ import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
 import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
-import { AddIcon, MoreIcon } from '~/icons'
+import { AddIcon, MoreIcon, WarningIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
 import { useClient, useData } from '@based/react'
+import { Callout } from '~/components/Callout'
 
 const Menu = ({ views, currentView, deletable }) => {
   const client = useClient()
@@ -18,7 +19,14 @@ const Menu = ({ views, currentView, deletable }) => {
     <>
       <ContextItem
         onClick={async () => {
-          const name = await prompt(`Enter a new name for this view`)
+          const name = await prompt([
+            `Enter a new name for this view`,
+            <Callout
+              icon={<WarningIcon />}
+              color="orange"
+              label=" You are about to update the default view for all users."
+            />,
+          ])
           if (name) {
             currentView.label = name
             await client.call('basedSetViews', views)
@@ -124,7 +132,7 @@ const Header = ({ label, view, prefix }) => {
       <Button
         ghost
         onClick={async () => {
-          const ok = await confirm(`This will update '${currentView.label}'`)
+          const ok = await confirm(`Update '${currentView.label}'`)
           if (ok) {
             currentView.query = location.search.substring(1)
             await client.call('basedSetViews', views)
