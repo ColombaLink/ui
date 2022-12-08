@@ -122,6 +122,7 @@ const menuItems = {
     // ScatterResults: '?story=ScatterResults',
   },
   Hooks: {
+    useContextMenu: '?story=ContextHook',
     useCopyToClipboard: '?story=CopyHookExample',
     useDarkMode: '?story=DarkModeHook',
     useDialog: '?story=DialogHookExample',
