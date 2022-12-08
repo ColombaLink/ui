@@ -123,6 +123,7 @@ const menuItems = {
   },
   Hooks: {
     useCopyToClipboard: '?story=CopyHookExample',
+    useDarkMode: '?story=DarkModeHook',
     useDialog: '?story=DialogHookExample',
     useToolTips: '?story=tooltips',
   },
