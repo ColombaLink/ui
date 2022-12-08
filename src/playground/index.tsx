@@ -125,6 +125,7 @@ const menuItems = {
     useCopyToClipboard: '?story=CopyHookExample',
     useDarkMode: '?story=DarkModeHook',
     useDialog: '?story=DialogHookExample',
+    useLocation: '?story=LocationHook',
     useToolTips: '?story=tooltips',
   },
   Handbook: {

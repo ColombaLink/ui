@@ -29,10 +29,6 @@ export const Tooltips = () => {
       <Container style={{ width: 'fit-content' }} space>
         <Callout {...tooltipListenersSec}>hover me</Callout>
       </Container>
-
-      <Container style={{ width: 'fit-content' }}>
-        <Button {...tooltipListenersSec}>hover me</Button>
-      </Container>
     </>
   )
 }

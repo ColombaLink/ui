@@ -20,7 +20,7 @@ export const DarkModeHook = () => {
   return (
     <div>
       <Code value={codeExample} space />
-      <Text space="8px">DarkMode: {darkMode ? 'true' : 'false'}</Text>
+      <Text space="12px">DarkMode: {darkMode ? 'true' : 'false'}</Text>
       <Button onClick={() => setDarkMode(!darkMode)} ghost outline>
         {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
       </Button>
