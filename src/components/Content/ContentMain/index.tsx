@@ -242,7 +242,7 @@ export const ContentMain = ({
               />
             )}
           </div>
-          <div style={{ display: 'flex', gap: 16, marginLeft: 16 }}>
+          <div style={{ display: 'flex', gap: 4, marginLeft: 16 }}>
             <Button
               style={{ maxHeight: 32, marginTop: 4 }}
               ghost
