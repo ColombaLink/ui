@@ -27,7 +27,7 @@ export type ButtonProps = {
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   loading?: boolean
-  onClick?: MouseEventHandler
+  onClick?: MouseEventHandler | boolean | (() => void)
   onPointerDown?: MouseEventHandler
   outline?: boolean
   style?: CSSProperties

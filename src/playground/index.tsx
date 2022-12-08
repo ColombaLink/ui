@@ -122,8 +122,9 @@ const menuItems = {
     // ScatterResults: '?story=ScatterResults',
   },
   Hooks: {
-    useToolTips: '?story=tooltips',
+    useCopyToClipboard: '?story=CopyHookExample',
     useDialog: '?story=DialogHookExample',
+    useToolTips: '?story=tooltips',
   },
   Handbook: {
     Props: '?story=props',
