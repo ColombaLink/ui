@@ -156,7 +156,7 @@ export const Button: FC<ButtonProps> = (props) => {
         width: fill ? '100%' : null,
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
-        height: large ? 48 : 'inherit',
+        // height: large ? 48 : 40,
         ...getButtonStyle(props, true),
         ...style,
       }}

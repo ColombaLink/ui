@@ -42,6 +42,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
           />
           <Button
             large
+            style={{ height: 48 }}
             actionKeys={['Enter']}
             fill
             space="16px"
@@ -69,6 +70,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
               outline
               onClick={onCancel}
               large
+              style={{ height: 48 }}
               fill
               ghost
             >
