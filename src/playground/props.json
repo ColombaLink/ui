@@ -547,7 +547,11 @@
         },
         "onClick": {
           "optional": true,
-          "type": "MouseEventHandler"
+          "type": [
+            "MouseEventHandler",
+            "boolean",
+            "TSParenthesizedType"
+          ]
         },
         "onPointerDown": {
           "optional": true,
@@ -586,7 +590,7 @@
           }
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -2817,25 +2821,6 @@
       "code": "type RecordListProps = {\n  label?: string\n  description?: string\n  schema?: any\n  space?: Space\n  value?: {}\n  onClick?: () => void\n  onChange?: (value: any) => void\n}",
       "file": "/components/RecordList/index.tsx"
     },
-    "ReferenceInputProps": {
-      "name": "ReferenceInputProps",
-      "props": {
-        "refName": {
-          "optional": true,
-          "type": "string"
-        },
-        "refType": {
-          "optional": true,
-          "type": "string"
-        },
-        "refStatus": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type ReferenceInputProps = {\n  refName?: string\n  refType?: string\n  refStatus?: string\n}",
-      "file": "/components/ReferenceInput/ReferenceSingleField.tsx"
-    },
     "ResultCardProps": {
       "name": "ResultCardProps",
       "props": {
@@ -3725,6 +3710,25 @@
       },
       "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n}",
       "file": "/components/ValueSlider/index.tsx"
+    },
+    "ReferenceInputProps": {
+      "name": "ReferenceInputProps",
+      "props": {
+        "refName": {
+          "optional": true,
+          "type": "string"
+        },
+        "refType": {
+          "optional": true,
+          "type": "string"
+        },
+        "refStatus": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type ReferenceInputProps = {\n  refName?: string\n  refType?: string\n  refStatus?: string\n}",
+      "file": "/components/_ReferenceInput/ReferenceSingleField.tsx"
     }
   },
   "types": {

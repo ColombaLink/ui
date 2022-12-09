@@ -267,7 +267,8 @@ const SelectReferences = ({ onChange, setRefArray }) => {
                   $limit,
                   $find: {
                     $traverse: 'descendants',
-                  },
+                    //  $filter: {},
+                  } as any,
                 },
               }
 

@@ -113,7 +113,7 @@ const Header = ({ label, view, prefix }) => {
   parse()
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginTop: '8px' }}>
+    <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
       <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
         {currentView?.label}
       </Text>

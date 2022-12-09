@@ -81,7 +81,7 @@ export const Button: FC<ButtonProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const buttonElem = useRef<HTMLElement>(null)
   const extendedOnClick = useCallback(
-    async (e) => {
+    async (e: any) => {
       e.stopPropagation()
       e.preventDefault()
       const t = buttonElem.current
@@ -92,6 +92,7 @@ export const Button: FC<ButtonProps> = (props) => {
         }
       }, 100)
       try {
+        // @ts-ignore
         await onClick?.(e)
       } catch (e) {
         console.error(`Error from async click "${e.message}"`)

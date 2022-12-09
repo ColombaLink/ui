@@ -19,7 +19,7 @@ export const InputFields = () => {
           props: {
             digest: true,
             label: 'Digest input',
-            description: 'Press eye to see the value',
+            description: 'Press icon to copy the SHA',
             indent: true,
           },
         },
