@@ -6,6 +6,7 @@ type PasswordInputProps = {
   onChange?: (target) => void
   disabled?: boolean
   large?: boolean
+  icon?: React.ReactNode
 }
 
 export const PasswordInput = ({
@@ -13,6 +14,7 @@ export const PasswordInput = ({
   onChange,
   disabled,
   large,
+  icon,
   ...props
 }: PasswordInputProps) => {
   const [passwordInputType, setPasswordInputType] = useState('password')
@@ -30,7 +32,7 @@ export const PasswordInput = ({
       <Input
         {...props}
         large={large}
-        icon={<LockIcon />}
+        icon={icon || <LockIcon />}
         style={{ width: '100%' }}
         type={passwordInputType}
         value={value}
