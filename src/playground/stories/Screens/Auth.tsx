@@ -25,6 +25,7 @@ export const Auth = () => {
   return (
     <div style={{ maxWidth: 500, height: 'auto' }}>
       <Authorize
+        logo
         overlay={false}
         app={AuthorizedCompoent}
         onLogin={() => {

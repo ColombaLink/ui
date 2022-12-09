@@ -13,7 +13,7 @@ import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space, Key } from '~/types'
+import { Space, Key, Weight } from '~/types'
 import { useKeyUp } from '~'
 
 export type ButtonProps = {
@@ -34,6 +34,7 @@ export type ButtonProps = {
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
   actionKeys?: Key[]
+  weight?: Weight
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
@@ -75,6 +76,7 @@ export const Button: FC<ButtonProps> = (props) => {
     onPointerDown,
     space,
     style,
+    weight,
     textAlign = 'left',
   } = props
 
@@ -183,7 +185,10 @@ export const Button: FC<ButtonProps> = (props) => {
                 }
               : null
           )}
-        <Text color="inherit" weight={large ? 600 : 500}>
+        <Text
+          color="inherit"
+          weight={weight !== undefined ? weight : large ? 600 : 500}
+        >
           {children}
         </Text>
         {iconRight &&

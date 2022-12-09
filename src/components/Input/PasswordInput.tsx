@@ -5,15 +5,19 @@ type PasswordInputProps = {
   value?: string
   onChange?: (target) => void
   disabled?: boolean
+  large?: boolean
 }
 
 export const PasswordInput = ({
   value,
   onChange,
   disabled,
+  large,
   ...props
 }: PasswordInputProps) => {
   const [passwordInputType, setPasswordInputType] = useState('password')
+
+  console.log('Theze:', large)
 
   return (
     <div
@@ -25,6 +29,7 @@ export const PasswordInput = ({
     >
       <Input
         {...props}
+        large={large}
         icon={<LockIcon />}
         style={{ width: '100%' }}
         type={passwordInputType}

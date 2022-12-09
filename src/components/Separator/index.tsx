@@ -1,17 +1,26 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { border } from '~'
+import { Space } from '~/types'
+import { spaceToPx } from '~/utils'
 
 type SeparatorProps = {
   style?: CSSProperties
+  children: ReactNode
+  space?: Space
 }
 
-export const Separator: FC<SeparatorProps> = ({ children, style }) => {
+export const Separator: FC<SeparatorProps> = ({
+  children,
+  style,
+  space = 12,
+}) => {
   if (children) {
     return (
       <div
         style={{
           display: 'flex',
-          marginBottom: 12,
+          marginBottom: spaceToPx(space),
+          alignItems: 'center',
           ...style,
         }}
       >
@@ -19,16 +28,16 @@ export const Separator: FC<SeparatorProps> = ({ children, style }) => {
           style={{
             borderBottom: border(1),
             flexGrow: 1,
-            height: 8,
+
             marginRight: 16,
           }}
         />
-        <div style={{ display: 'flex' }}>{children}</div>
+        {children}
         <div
           style={{
             borderBottom: border(1),
             flexGrow: 1,
-            height: 12,
+
             marginLeft: 16,
           }}
         />
@@ -40,7 +49,7 @@ export const Separator: FC<SeparatorProps> = ({ children, style }) => {
     <div
       style={{
         borderBottom: border(1),
-        height: 8,
+        height: 12,
         marginBottom: 12,
         ...style,
       }}

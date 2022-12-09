@@ -21,12 +21,14 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
   return (
     <Button
       icon={MicrosoftIcon}
-      color="grey"
+      color="lightgrey"
       textAlign="center"
+      weight={600}
       style={{
         width,
         height: 48,
         marginBottom: 8,
+        borderRadius: 8,
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }

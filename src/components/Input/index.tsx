@@ -448,6 +448,7 @@ export const Input: FC<
           ) : passwordInput ? (
             <PasswordInput
               {...props}
+              large={large}
               disabled={!!valueProp}
               onChange={onChange}
               value={value}

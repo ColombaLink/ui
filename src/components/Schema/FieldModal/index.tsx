@@ -13,7 +13,7 @@ import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
 import { Accordion, AccordionItem, RadioButtons, Input } from '~'
 
-const References = ({ types, options }) => {
+const ReferencesGeneral = ({ types, options }) => {
   console.log('options', options)
   console.log('the types', types)
 
@@ -56,7 +56,7 @@ const References = ({ types, options }) => {
   )
 }
 
-const ArraySettings = ({ options, field, setDisabled }) => {
+const ArrayGeneral = ({ options, field, setDisabled }) => {
   const itemsType = options.items?.type
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const ArraySettings = ({ options, field, setDisabled }) => {
   )
 }
 
-const SetSettings = ({ options, field, setDisabled }) => {
+const SetGeneral = ({ options, field, setDisabled }) => {
   const itemsType = options.items?.type
 
   useEffect(() => {
@@ -129,7 +129,7 @@ const SetSettings = ({ options, field, setDisabled }) => {
   )
 }
 
-const RecordSettings = ({ options, field, setDisabled }) => {
+const RecordGeneral = ({ options, field, setDisabled }) => {
   const valuesType = options.values?.type
 
   useEffect(() => {
@@ -166,7 +166,7 @@ const RecordSettings = ({ options, field, setDisabled }) => {
   )
 }
 
-const FileSettings = ({ options }) => {
+const FileGeneral = ({ options }) => {
   return (
     <Checkbox
       style={{ marginTop: 24 }}
@@ -188,11 +188,11 @@ const FileSettings = ({ options }) => {
 }
 
 const general = {
-  references: References,
-  array: ArraySettings,
-  record: RecordSettings,
-  set: SetSettings,
-  file: FileSettings,
+  references: ReferencesGeneral,
+  array: ArrayGeneral,
+  record: RecordGeneral,
+  set: SetGeneral,
+  file: FileGeneral,
 }
 
 export const FieldModal: FC<
