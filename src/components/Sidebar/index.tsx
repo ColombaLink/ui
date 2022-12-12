@@ -52,7 +52,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
         marginRight: 'auto',
         marginBottom: 8,
         borderRadius: 8,
-        transition: 'all 1s ease-in-out',
+        transition: 'all 0.3s linear',
         paddingLeft: expanded ? 16 : 12,
         paddingRight: expanded ? 16 : 12,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
@@ -69,25 +69,24 @@ const SidebarItem: FC<SidebarItemProps> = ({
       {...tooltip}
     >
       {children}
-      {expanded && (
-        <styled.div
+
+      <styled.div
+        style={{
+          width: expanded ? '100%' : 0,
+          transition: 'width 0.3s linear',
+          overflowX: 'hidden',
+        }}
+      >
+        <Text
           style={{
-            width: expanded ? '100%' : 0,
-            transition: 'width 1s ease-in-out',
-            overflowX: 'hidden',
+            marginLeft: 16,
           }}
+          weight={isActive ? 600 : 500}
+          color={isActive ? color('accent') : color('text')}
         >
-          <Text
-            style={{
-              marginLeft: 16,
-            }}
-            weight={isActive ? 600 : 500}
-            color={isActive ? color('accent') : color('text')}
-          >
-            {label}
-          </Text>
-        </styled.div>
-      )}
+          {label}
+        </Text>
+      </styled.div>
     </Link>
   )
 }
@@ -192,7 +191,7 @@ export const Sidebar: FC<SidebarProps> = ({
         flexDirection: 'column',
         position: 'relative',
         borderRight: border(1),
-        transition: 'all 1s ease-in-out',
+        transition: 'all 0.3s linear',
         ...style,
       }}
     >
