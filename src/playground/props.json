@@ -588,9 +588,13 @@
           "type": {
             "array": "Key"
           }
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n  weight?: Weight\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -1946,9 +1950,16 @@
         "disabled": {
           "optional": true,
           "type": "boolean"
+        },
+        "large": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true
         }
       },
-      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n}",
+      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  icon?: React.ReactNode\n}",
       "file": "/components/Input/PasswordInput.tsx"
     },
     "SingleProps": {
@@ -3039,9 +3050,17 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
         }
       },
-      "code": "type SeparatorProps = {\n  style?: CSSProperties\n}",
+      "code": "type SeparatorProps = {\n  style?: CSSProperties\n  children?: ReactNode\n  space?: Space\n}",
       "file": "/components/Separator/index.tsx"
     },
     "SetListProps": {

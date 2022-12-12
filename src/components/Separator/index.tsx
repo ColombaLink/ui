@@ -5,7 +5,7 @@ import { spaceToPx } from '~/utils'
 
 type SeparatorProps = {
   style?: CSSProperties
-  children: ReactNode
+  children?: ReactNode
   space?: Space
 }
 
