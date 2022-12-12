@@ -52,9 +52,9 @@ const SidebarItem: FC<SidebarItemProps> = ({
         marginRight: 'auto',
         marginBottom: 8,
         borderRadius: 8,
-        transition: 'all 0.3s linear',
-        paddingLeft: expanded ? 16 : 12,
-        paddingRight: expanded ? 16 : 12,
+        transition: 'width 0.3s linear',
+        paddingLeft: 16,
+        paddingRight: 16,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
         backgroundColor: isActive ? color('lightaccent:active') : null,
         '&:hover': isActive
@@ -72,8 +72,8 @@ const SidebarItem: FC<SidebarItemProps> = ({
 
       <styled.div
         style={{
-          width: expanded ? '100%' : 0,
-          transition: 'width 0.3s linear',
+          // width: expanded ? '100%' : 0,
+          //  transition: 'width 0.3s linear',
           overflowX: 'hidden',
         }}
       >
@@ -131,9 +131,10 @@ export const Sidebar: FC<SidebarProps> = ({
       hasActive = true
     }
 
-    if (subTitle && expanded) {
+    if (subTitle) {
       return (
         <Text
+          wrap
           key={i}
           space={16}
           size={12}
@@ -143,8 +144,8 @@ export const Sidebar: FC<SidebarProps> = ({
             letterSpacing: '0.02em',
             textTransform: 'uppercase',
             marginTop: 16,
-            // width: expanded ? '100%' : 0,
-            // transition: 'width 1s ease-in-out',
+            width: expanded ? '100%' : 0,
+            transition: 'width 0.3s linear',
             overflowX: 'hidden',
             // backgroundColor: 'red',
           }}
@@ -154,9 +155,9 @@ export const Sidebar: FC<SidebarProps> = ({
       )
     }
 
-    if (subTitle && !expanded) {
-      return <div key={i} style={{ height: 48 }} />
-    }
+    // if (subTitle && !expanded) {
+    //   return <div key={i} style={{ height: 48 }} />
+    // }
 
     return (
       <SidebarItem
