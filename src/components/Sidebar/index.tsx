@@ -52,7 +52,9 @@ const SidebarItem: FC<SidebarItemProps> = ({
         marginRight: 'auto',
         marginBottom: 8,
         borderRadius: 8,
-        paddingLeft: expanded ? 16 : 0,
+        transition: 'all 1s ease-in-out',
+        paddingLeft: expanded ? 16 : 12,
+        paddingRight: expanded ? 16 : 12,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
         backgroundColor: isActive ? color('lightaccent:active') : null,
         '&:hover': isActive
@@ -60,18 +62,31 @@ const SidebarItem: FC<SidebarItemProps> = ({
           : {
               backgroundColor: color('background:hover'),
             },
+        '& svg': {
+          minWidth: '20px',
+        },
       }}
       {...tooltip}
     >
       {children}
       {expanded && (
-        <Text
-          style={{ marginLeft: 16 }}
-          weight={isActive ? 600 : 500}
-          color={isActive ? color('accent') : color('text')}
+        <styled.div
+          style={{
+            width: expanded ? '100%' : 0,
+            transition: 'width 1s ease-in-out',
+            overflowX: 'hidden',
+          }}
         >
-          {label}
-        </Text>
+          <Text
+            style={{
+              marginLeft: 16,
+            }}
+            weight={isActive ? 600 : 500}
+            color={isActive ? color('accent') : color('text')}
+          >
+            {label}
+          </Text>
+        </styled.div>
       )}
     </Link>
   )
@@ -129,6 +144,10 @@ export const Sidebar: FC<SidebarProps> = ({
             letterSpacing: '0.02em',
             textTransform: 'uppercase',
             marginTop: 16,
+            // width: expanded ? '100%' : 0,
+            // transition: 'width 1s ease-in-out',
+            overflowX: 'hidden',
+            // backgroundColor: 'red',
           }}
         >
           {subTitle.toUpperCase()}
@@ -173,8 +192,7 @@ export const Sidebar: FC<SidebarProps> = ({
         flexDirection: 'column',
         position: 'relative',
         borderRight: border(1),
-        transition: 'all 0.24s ease-in-out',
-
+        transition: 'all 1s ease-in-out',
         ...style,
       }}
     >
@@ -189,10 +207,11 @@ export const Sidebar: FC<SidebarProps> = ({
             top: 0,
             bottom: 0,
             height: '100%',
-            width: 16,
+            width: 10,
             borderRight: '2px solid transparent',
             '&:hover': {
               borderRight: `2px solid ${color('accent')}`,
+              cursor: 'pointer',
             },
           }}
           onMouseOver={(e) => {
@@ -202,6 +221,7 @@ export const Sidebar: FC<SidebarProps> = ({
           onMouseLeave={() => {
             setHoverForExpansion(false)
           }}
+          onClick={() => setExpanded((prev) => !prev)}
         >
           {hoverForExpansion ? (
             <styled.div
@@ -222,6 +242,7 @@ export const Sidebar: FC<SidebarProps> = ({
                   backgroundColor: color('background2'),
                 },
               }}
+              onClick={() => setExpanded((prev) => !prev)}
             >
               <ChevronRightIcon
                 color="text"
@@ -230,7 +251,7 @@ export const Sidebar: FC<SidebarProps> = ({
                   transform: expanded ? 'scaleX(-1)' : 'scaleX(1)',
                   boxShadow: `0px 1px 4px ${color('background2')}`,
                 }}
-                onClick={() => setExpanded(!expanded)}
+                onClick={() => setExpanded((prev) => !prev)}
               />
             </styled.div>
           ) : null}
