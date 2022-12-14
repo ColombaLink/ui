@@ -44,7 +44,7 @@ export const Label = ({
             style={{
               display: 'inline-block',
               marginRight: 8,
-              marginBottom: -2,
+              marginBottom: description ? 4 : 0,
             }}
           >
             {renderOrCreateElement(icon, {
@@ -54,22 +54,14 @@ export const Label = ({
         )}
         <Text
           wrap
-          weight={500}
-          size="14px"
-          style={{ lineHeight: '20px', marginBottom: description ? 4 : 0 }}
+          style={{ marginBottom: description ? 4 : 0 }}
           color={labelColor || 'text'}
         >
           {label}
         </Text>
       </div>
       {description && (
-        <Text
-          wrap
-          weight={500}
-          size="14px"
-          style={{ lineHeight: '20px' }}
-          color={descriptionColor || 'text2'}
-        >
+        <Text wrap typo="body400" color={descriptionColor || 'text2'}>
           {description}
         </Text>
       )}

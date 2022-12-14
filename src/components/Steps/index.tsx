@@ -40,7 +40,7 @@ export const Steps: FC<StepsProps> = ({
             style={{
               alignItems: 'center',
               backgroundColor: isActive ? color('lightaccent:active') : null,
-              borderRadius: 4,
+              borderRadius: 8,
               display: 'flex',
               height: 48,
               marginBottom: 8,

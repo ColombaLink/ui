@@ -72,9 +72,7 @@ const BodySpacer = styled('div', {
 })
 
 const Label = (props) => {
-  return (
-    <Text weight={600} size="18px" {...props} style={{ marginBottom: 24 }} />
-  )
+  return <Text typo="subtitle600" {...props} style={{ marginBottom: 24 }} />
 }
 
 const Body = ({ children }) => {
@@ -235,9 +233,7 @@ export const Dialog = Object.assign(
                 padding: '24px 32px 8px 32px',
               }}
             >
-              <Text weight={600} size="18px">
-                {label}
-              </Text>
+              <Text typo="subtitle600">{label}</Text>
             </div>
           )}
           {pure ? (

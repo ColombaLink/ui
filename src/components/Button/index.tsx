@@ -151,7 +151,7 @@ export const Button: FC<ButtonProps> = (props) => {
             ? '8px'
             : large
             ? '8px 16px'
-            : '4px 12px',
+            : '6px 12px',
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
@@ -187,7 +187,8 @@ export const Button: FC<ButtonProps> = (props) => {
           )}
         <Text
           color="inherit"
-          weight={weight !== undefined ? weight : large ? 600 : 500}
+          //  weight={weight !== undefined ? weight : large ? 600 : 500}
+          typo={large ? 'subtext600' : 'body500'}
         >
           {children}
         </Text>

@@ -12,6 +12,7 @@ import React, {
 import { color, spaceToPx, font, renderOrCreateElement } from '~/utils'
 import { Space } from '~/types'
 import { styled } from 'inlines'
+import { Text } from '../Text'
 
 type TabsProps = {
   children: ReactNode
@@ -74,9 +75,15 @@ const TabWrapper: FC<{
     >
       <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
 
-      {typeof children === 'string'
-        ? children
-        : (children.props.label as string)}
+      {typeof children === 'string' ? (
+        <Text typo={index === activeTabState ? 'subtext600' : 'subtext500'}>
+          {children}
+        </Text>
+      ) : (
+        <Text typo={index === activeTabState ? 'subtext600' : 'subtext500'}>
+          {children.props.label as string}
+        </Text>
+      )}
     </styled.div>
   )
 }

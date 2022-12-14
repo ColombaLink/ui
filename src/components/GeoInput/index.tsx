@@ -86,21 +86,23 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
       style={{
         marginBottom: 12,
         border: `1px solid ${color('border')}`,
-        borderRadius: 4,
-
+        borderRadius: 8,
         // maxWidth: '80%',
         '& .mapboxgl-ctrl-geocoder': {
           width: '100%',
           maxWidth: '100%',
+          borderRadius: '8px',
+          boxShadow: `0px 1px 4px ${color('background2')}`,
         },
-        '& .mapboxgl-ctrl-geocoder, .suggestions': {
+        '& .mapboxgl-ctrl-geocoder .suggestions': {
           boxShadow: 'none',
         },
         '& .mapboxgl-ctrl-geocoder--input': {
           padding: '10px !important',
           width: '100%',
-          fontSize: '16px',
-          fontWeight: 500,
+          fontSize: '14px',
+          borderRadius: '8px',
+          fontWeight: 400,
           backgroundColor: color('background'),
           color: color('text'),
           // pointerEvents: disabled ? 'none' : 'auto',
@@ -109,9 +111,11 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
           display: 'none',
         },
         '& .mapboxgl-ctrl-geocoder--input:focus': {
-          outline: `2px solid ${color('accent')}`,
-          borderRadius: '4px',
+          // outline: `2px solid ${color('accent')}`,
+          border: `1px solid ${color('accent')}`,
+          borderRadius: '8px',
           color: color('text'),
+          outline: `3px solid rgba(44, 60, 234, 0.2)`,
         },
         '& .suggestions': {
           border: `1px solid ${color('border')}`,

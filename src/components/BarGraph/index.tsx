@@ -116,7 +116,7 @@ export const BarGraph: FC<BarGraphProps> = ({
           >
             {item.label || value ? (
               <div style={{ minWidth: 200, paddingRight: 24 }}>
-                <Text weight={400}>{item.label}</Text>
+                <Text>{item.label}</Text>
               </div>
             ) : null}
             <div

@@ -15,6 +15,7 @@ const StyledToggleTab = styled('div', {
   alignItems: 'center',
   padding: '10px',
   borderRadius: '4px',
+  fontSize: 14,
 })
 
 export const ToggleGroup: FC<ToggleGroupProps> = ({
@@ -51,6 +52,7 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({
           style={{
             backgroundColor:
               activeTab === idx ? color('background') : 'transparent',
+            fontWeight: activeTab === idx ? '500' : '400',
           }}
         >
           {item}

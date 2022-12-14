@@ -4,7 +4,7 @@ import ComponentViewer from '../ComponentViewer'
 
 const codeExample = `import { Tabs, Tab, Page } from '@based/ui'
 
-<Tabs activeTab={1}>
+<Tabs activeTab={1} sameHeight={true}>
   <Tab label="label 1">
     <Page>bla</Page>
   </Tab>
