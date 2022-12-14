@@ -259,10 +259,14 @@ export const FileUpload: FC<FileUploadProps> = ({
           setShowMoreOptions(!showMoreOptions)
         }}
       >
-        <Text style={{ marginRight: 12 }} size={13}>
+        <Text typo="caption500" style={{ marginRight: 12 }}>
           More Options
         </Text>
-        {showMoreOptions ? <ChevronDownIcon /> : <ChevronUpIcon />}
+        {showMoreOptions ? (
+          <ChevronDownIcon size={12} />
+        ) : (
+          <ChevronUpIcon size={12} />
+        )}
       </div>
       {showMoreOptions && (
         <div>

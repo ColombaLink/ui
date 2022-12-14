@@ -27,7 +27,10 @@ export const SchemaTopbar = () => {
         <Thumbnail
           size={40}
           label={client.opts.project}
-          style={{ borderRadius: 12 }}
+          style={{
+            borderRadius: 12,
+            boxShadow: '0px 2px 8px rgba(15, 16, 19, 0.06)',
+          }}
         />
         <div>
           <Text

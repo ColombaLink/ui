@@ -284,7 +284,7 @@ export const Input: FC<
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
-  const fontSize = 16
+  const fontSize = 14
   const fontWeight = 400
   const props = {
     name,
