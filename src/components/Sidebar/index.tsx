@@ -43,19 +43,18 @@ const SidebarItem: FC<SidebarItemProps> = ({
     <Link
       href={href}
       style={{
-        width: expanded ? 220 : 40,
+        width: expanded ? 216 : 40,
         height: 40,
         display: 'flex',
-        //  justifyContent: expanded ? 'flex-start' : 'center',
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginBottom: 8,
         borderRadius: 8,
-        transition: 'all 0.3s linear',
+        transition: 'width 0.3s linear',
         paddingLeft: 10,
-        paddingRight: 16,
+        //   paddingRight: 10,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
         backgroundColor: isActive ? color('lightaccent:active') : null,
         '&:hover': isActive
@@ -156,10 +155,6 @@ export const Sidebar: FC<SidebarProps> = ({
       )
     }
 
-    // if (subTitle && !expanded) {
-    //   return <div key={i} style={{ height: 48 }} />
-    // }
-
     return (
       <SidebarItem
         key={i}
@@ -185,7 +180,7 @@ export const Sidebar: FC<SidebarProps> = ({
   return (
     <div
       style={{
-        width: expanded ? 246 : 70,
+        // width: expanded ? 246 : 70,
         minWidth: expanded ? 246 : 70,
         paddingTop: 6,
         display: 'flex',
