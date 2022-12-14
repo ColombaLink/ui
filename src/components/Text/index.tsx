@@ -82,6 +82,21 @@ export const Text: FC<TextProps> = ({
     s.fontSize = '22px'
     s.lineHeight = '32px'
   }
+  if (typo === 'subtitle600') {
+    s.fontWeight = 600
+    s.fontSize = '18px'
+    s.lineHeight = '28px'
+  }
+  if (typo === 'subtitle500') {
+    s.fontWeight = 500
+    s.fontSize = '18px'
+    s.lineHeight = '28px'
+  }
+  if (typo === 'subtitle400') {
+    s.fontWeight = 400
+    s.fontSize = '18px'
+    s.lineHeight = '28px'
+  }
   if (typo === 'subtext600') {
     s.fontWeight = 600
     s.fontSize = '16px'

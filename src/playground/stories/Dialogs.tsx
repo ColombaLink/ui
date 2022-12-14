@@ -3,10 +3,10 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { Text, Button, WarningIcon, Callout, Code } from '~'
 
 const codeExample = `<Dialog label="label">
-    <Text weight={600} space>
+    <Text color="text2" space>
       Create a new organisation
     </Text>
-    <Text weight={400} wrap space>
+    <Text color="text2" wrap space>
       This is your organization’s name within Based. For example, you can
       use the name of your company or department.
     </Text>
@@ -39,7 +39,7 @@ export const Dialogs = () => {
         bottomLeft="b"
         bottomRight="c"
       >
-        <Text weight={400} wrap space>
+        <Text color="text2" wrap space>
           This is your organization’s name within Based. For example, you can
           use the name of your company or department.
         </Text>
@@ -47,7 +47,7 @@ export const Dialogs = () => {
       <br />
 
       <Dialog space label="Testing this here" border>
-        <Text weight={400} wrap space>
+        <Text color="text2" wrap space>
           This is your organization’s name within Based. For example, you can
           use the name of your company or department.
         </Text>

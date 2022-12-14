@@ -21,6 +21,9 @@ export type Weight = WeightInt | `${WeightInt}`
 export type Typo =
   | 'title1'
   | 'title2'
+  | 'subtitle600'
+  | 'subtitle500'
+  | 'subtitle400'
   | 'subtext600'
   | 'subtext500'
   | 'subtext400'

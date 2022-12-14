@@ -23,6 +23,24 @@ export const Typography = () => {
           },
           {
             props: {
+              typo: 'subtitle600',
+              children: 'subtitle600',
+            },
+          },
+          {
+            props: {
+              typo: 'subtitle500',
+              children: 'subtitle500',
+            },
+          },
+          {
+            props: {
+              typo: 'subtitle400',
+              children: 'subtitle400',
+            },
+          },
+          {
+            props: {
               typo: 'subtext600',
               children: 'subtext600',
             },
