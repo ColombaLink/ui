@@ -64,7 +64,14 @@ export const SchemaTopbar = () => {
         <Button ghost color="text2">
           Changelog
         </Button>
-        <Button outline ghost light color="text">
+        <Button
+          color="lightaction"
+          outline
+          style={{
+            // @ts-ignore
+            '&:hover': { boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)' },
+          }}
+        >
           Documentation
         </Button>
         <Avatar icon={BasedIcon} />
