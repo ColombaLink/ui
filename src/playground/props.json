@@ -3273,13 +3273,9 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
-        },
-        "icon": {
-          "optional": true,
-          "type": "ReactNode"
         }
       },
-      "code": "type TabProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  icon?: ReactNode\n}",
+      "code": "type TabProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  //  icon?: ReactNode\n}",
       "file": "/components/Tabs/Tab.tsx"
     },
     "TabsProps": {
@@ -3460,14 +3456,6 @@
             "ReactNode"
           ]
         },
-        "topLeft": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "topRight": {
-          "optional": true,
-          "type": "ReactNode"
-        },
         "description": {
           "optional": true,
           "type": "string"
@@ -3488,11 +3476,14 @@
             },
             {
               "value": "error"
+            },
+            {
+              "value": "warning"
             }
           ]
         }
       },
-      "code": "type ToastProps = {\n  label?: string\n  icon?: FC | ReactNode\n  topLeft?: ReactNode\n  topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error'\n}",
+      "code": "type ToastProps = {\n  label?: string\n  icon?: FC | ReactNode\n  // topLeft?: ReactNode\n  // topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error' | 'warning'\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "PositionStyleProps": {
@@ -3890,6 +3881,21 @@
         },
         {
           "type": {
+            "value": "subtitle600"
+          }
+        },
+        {
+          "type": {
+            "value": "subtitle500"
+          }
+        },
+        {
+          "type": {
+            "value": "subtitle400"
+          }
+        },
+        {
+          "type": {
             "value": "subtext600"
           }
         },
@@ -3934,7 +3940,7 @@
           }
         }
       ],
-      "code": "type Typo =\n  | 'title1'\n  | 'title2'\n  | 'subtext600'\n  | 'subtext500'\n  | 'subtext400'\n  | 'body600'\n  | 'body500'\n  | 'body400'\n  | 'caption600'\n  | 'caption500'\n  | 'caption400'",
+      "code": "type Typo =\n  | 'title1'\n  | 'title2'\n  | 'subtitle600'\n  | 'subtitle500'\n  | 'subtitle400'\n  | 'subtext600'\n  | 'subtext500'\n  | 'subtext400'\n  | 'body600'\n  | 'body500'\n  | 'body400'\n  | 'caption600'\n  | 'caption500'\n  | 'caption400'",
       "file": "/types/index.ts"
     },
     "SpaceInt": {
