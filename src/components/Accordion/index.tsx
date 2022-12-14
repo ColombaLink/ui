@@ -45,7 +45,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '16px 24px 16px 16px',
-          borderRadius: 4,
+          borderRadius: 8,
           height: 56,
           cursor: 'pointer',
           ...style,
@@ -53,9 +53,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         {...props}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text size="15px" weight={600}>
-            {label}
-          </Text>
+          <Text typo="body600">{label}</Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}
         </div>
 

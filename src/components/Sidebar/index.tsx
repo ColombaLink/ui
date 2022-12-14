@@ -177,7 +177,7 @@ export const Sidebar: FC<SidebarProps> = ({
   return (
     <div
       style={{
-        // width: expanded ? 246 : 70,
+        width: expanded ? 246 : 70,
         minWidth: expanded ? 246 : 70,
         paddingTop: 6,
         display: 'flex',

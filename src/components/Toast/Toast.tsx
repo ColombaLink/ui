@@ -1,24 +1,24 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
-import { Label } from '../Label'
-import { color } from '~/utils'
-import { CheckCircleIcon, CloseCircleIcon } from '~/icons'
+import { color, renderOrCreateElement } from '~/utils'
+import { CheckCircleIcon, CloseCircleIcon, WarningIcon } from '~/icons'
+import { Text } from '~'
 
 type ToastProps = {
   label?: string
   icon?: FC | ReactNode
-  topLeft?: ReactNode
-  topRight?: ReactNode
+  // topLeft?: ReactNode
+  // topRight?: ReactNode
   description?: string
   children?: ReactNode
   style?: CSSProperties
-  type?: 'success' | 'error'
+  type?: 'success' | 'error' | 'warning'
 }
 
 export const Toast: FC<ToastProps> = ({
   label,
   icon,
-  topLeft,
-  topRight,
+  // topLeft,
+  // topRight,
   description,
   children,
   style,
@@ -28,7 +28,7 @@ export const Toast: FC<ToastProps> = ({
   return (
     <div
       style={{
-        borderRadius: 4,
+        borderRadius: 8,
         backgroundColor: color('background'),
         boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
         cursor: 'pointer',
@@ -43,27 +43,30 @@ export const Toast: FC<ToastProps> = ({
       <div
         style={{
           display: 'flex',
-          justifyContent: topRight ? 'space-between' : 'flex-start',
-          alignItems: 'center',
+          flexDirection: 'column',
+          // justifyContent: topRight ? 'space-between' : 'flex-start',
+          justifyContent: 'flex-start',
+          alignItems: 'flex-start',
           marginBottom: 4,
         }}
       >
-        {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>}
+        {/* {topLeft && !icon && <div style={{ marginRight: 12 }}>{topLeft}</div>} */}
 
-        <Label
-          label={label}
-          description={description}
-          icon={
-            icon && !type
-              ? icon
-              : type === 'success'
-              ? CheckCircleIcon
-              : CloseCircleIcon
-          }
-          iconColor={type === 'success' ? 'accent' : 'red'}
-        >
-          {children}
-        </Label>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          {icon && renderOrCreateElement(icon)}
+          {type === 'success' && <CheckCircleIcon color="accent" />}
+          {type === 'error' && <CloseCircleIcon color="red" />}
+          {type === 'warning' && <WarningIcon color="orange" />}
+
+          {label && <Text typo="subtext500">{label}</Text>}
+        </div>
+        {description && (
+          <Text color="text2" style={{ marginTop: 6 }}>
+            {description}
+          </Text>
+        )}
+
+        {children}
       </div>
     </div>
   )
