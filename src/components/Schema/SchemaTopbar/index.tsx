@@ -69,7 +69,10 @@ export const SchemaTopbar = () => {
           outline
           style={{
             // @ts-ignore
-            '&:hover': { boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)' },
+            '&:hover': {
+              backgroundColor: color('lightaction:hover'),
+              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            },
           }}
         >
           Documentation
