@@ -49,7 +49,7 @@ export const Callout: FC<CalloutProps> = ({
         flexDirection: 'column',
         position: 'relative',
         padding: '12px 16px',
-        borderRadius: 4,
+        borderRadius: 8,
         marginBottom: spaceToPx(space),
         justifyContent:
           textAlign === 'center'

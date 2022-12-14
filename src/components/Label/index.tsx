@@ -44,7 +44,7 @@ export const Label = ({
             style={{
               display: 'inline-block',
               marginRight: 8,
-              marginBottom: -2,
+              marginBottom: description ? 4 : 0,
             }}
           >
             {renderOrCreateElement(icon, {

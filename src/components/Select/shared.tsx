@@ -67,6 +67,7 @@ export const SelectLabel: FC<{
         {label}
       </Text>
       <Text
+        weight={400}
         color={colorProp}
         style={{
           flexGrow: 1,
