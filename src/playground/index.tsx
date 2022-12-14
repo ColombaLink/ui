@@ -219,8 +219,7 @@ const App = () => {
                   height: 40,
                   alignItems: 'center',
                   borderRadius: 8,
-                  paddingTop: '6px',
-                  paddingBottom: '6px',
+                  paddingTop: '8px',
                 }}
               />
             </div>
