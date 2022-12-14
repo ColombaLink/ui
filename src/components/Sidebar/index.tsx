@@ -43,17 +43,18 @@ const SidebarItem: FC<SidebarItemProps> = ({
     <Link
       href={href}
       style={{
-        width: expanded ? 222 : 40,
+        width: expanded ? 220 : 40,
         height: 40,
         display: 'flex',
-        justifyContent: expanded ? 'flex-start' : 'center',
+        //  justifyContent: expanded ? 'flex-start' : 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         marginLeft: 'auto',
         marginRight: 'auto',
         marginBottom: 8,
         borderRadius: 8,
-        transition: 'width 0.3s linear',
-        paddingLeft: 16,
+        transition: 'all 0.3s linear',
+        paddingLeft: 10,
         paddingRight: 16,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
         backgroundColor: isActive ? color('lightaccent:active') : null,
@@ -144,10 +145,10 @@ export const Sidebar: FC<SidebarProps> = ({
             letterSpacing: '0.02em',
             textTransform: 'uppercase',
             marginTop: 16,
-            width: expanded ? '100%' : 0,
-            transition: 'width 0.3s linear',
+            // width: expanded ? '100%' : 0,
+            transition: 'opacity 0.3s linear',
             overflowX: 'hidden',
-            // backgroundColor: 'red',
+            opacity: expanded ? 1 : 0,
           }}
         >
           {subTitle.toUpperCase()}
@@ -197,7 +198,7 @@ export const Sidebar: FC<SidebarProps> = ({
       }}
     >
       {header}
-      <div style={{ flexGrow: 1, padding: 8 }}>{elements}</div>
+      <div style={{}}>{elements}</div>
       {children}
       {expandable && (
         <styled.div
