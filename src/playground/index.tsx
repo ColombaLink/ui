@@ -110,6 +110,7 @@ const menuItems = {
 
   Themes: {
     Theming: '?story=theming',
+    Typography: '?story=typography',
   },
   Text: {
     Text: '?story=text',

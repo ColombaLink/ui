@@ -1,5 +1,5 @@
 import React, { FC, CSSProperties, ReactNode } from 'react'
-import { Size, Color, Weight, Space, ColorVariant } from '~/types'
+import { Size, Color, Weight, Space, ColorVariant, Typo } from '~/types'
 import { font, spaceToPx } from '~/utils'
 
 type TextProps = {
@@ -16,6 +16,7 @@ type TextProps = {
   variant?: ColorVariant
   weight?: Weight
   wrap?: boolean
+  typo?: Typo
 }
 
 export const Text: FC<TextProps> = ({
@@ -32,11 +33,17 @@ export const Text: FC<TextProps> = ({
   textAlign,
   capitalize,
   onClick,
+  typo,
   ...props
 }) => {
   const s = font({ size, color, variant, weight }) as CSSProperties
 
   s.userSelect = selectable ? 'text' : 'none'
+
+  s.letterSpacing = '-0.015em'
+  s.fontSize = size || '14px'
+  s.fontWeight = weight || '500'
+  s.lineHeight = '20px'
 
   if (!wrap) {
     s.textOverflow = 'ellipsis'
@@ -63,6 +70,67 @@ export const Text: FC<TextProps> = ({
   if (style) {
     Object.assign(s, style)
   }
+
+  // typo styles
+  if (typo === 'title1') {
+    s.fontWeight = 700
+    s.fontSize = '36px'
+    s.lineHeight = '60px'
+  }
+  if (typo === 'title2') {
+    s.fontWeight = 700
+    s.fontSize = '22px'
+    s.lineHeight = '32px'
+  }
+  if (typo === 'subtext600') {
+    s.fontWeight = 600
+    s.fontSize = '16px'
+    s.lineHeight = '24px'
+  }
+  if (typo === 'subtext500') {
+    s.fontWeight = 500
+    s.fontSize = '16px'
+    s.lineHeight = '24px'
+  }
+  if (typo === 'subtext400') {
+    s.fontWeight = 400
+    s.fontSize = '16px'
+    s.lineHeight = '24px'
+  }
+  if (typo === 'body600') {
+    s.fontWeight = 600
+    s.fontSize = '14px'
+    s.lineHeight = '20px'
+  }
+  if (typo === 'body500') {
+    s.fontWeight = 500
+    s.fontSize = '14px'
+    s.lineHeight = '20px'
+  }
+  if (typo === 'body400') {
+    s.fontWeight = 400
+    s.fontSize = '14px'
+    s.lineHeight = '20px'
+  }
+  if (typo === 'caption600') {
+    s.fontWeight = 600
+    s.fontSize = '12px'
+    s.lineHeight = '16px'
+  }
+  if (typo === 'caption500') {
+    s.fontWeight = 500
+    s.fontSize = '12px'
+    s.lineHeight = '16px'
+  }
+  if (typo === 'caption400') {
+    s.fontWeight = 400
+    s.fontSize = '12px'
+    s.lineHeight = '16px'
+  }
+
+  // if (size) {
+  //   s.fontSize = `${size}px`
+  // }
 
   return (
     <div style={s} {...props} onClick={onClick}>

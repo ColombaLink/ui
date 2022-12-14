@@ -3379,9 +3379,13 @@
         "wrap": {
           "optional": true,
           "type": "boolean"
+        },
+        "typo": {
+          "optional": true,
+          "type": "Typo"
         }
       },
-      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n}",
+      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typo?: Typo\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
@@ -3808,9 +3812,14 @@
           "type": {
             "value": 32
           }
+        },
+        {
+          "type": {
+            "value": 36
+          }
         }
       ],
-      "code": "type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 22 | 24 | 32",
+      "code": "type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 22 | 24 | 32 | 36",
       "file": "/types/index.ts"
     },
     "Size": {
@@ -3864,6 +3873,68 @@
         }
       ],
       "code": "type Weight = WeightInt | `${WeightInt}`",
+      "file": "/types/index.ts"
+    },
+    "Typo": {
+      "name": "Typo",
+      "types": [
+        {
+          "type": {
+            "value": "title1"
+          }
+        },
+        {
+          "type": {
+            "value": "title2"
+          }
+        },
+        {
+          "type": {
+            "value": "subtext600"
+          }
+        },
+        {
+          "type": {
+            "value": "subtext500"
+          }
+        },
+        {
+          "type": {
+            "value": "subtext400"
+          }
+        },
+        {
+          "type": {
+            "value": "body600"
+          }
+        },
+        {
+          "type": {
+            "value": "body500"
+          }
+        },
+        {
+          "type": {
+            "value": "body400"
+          }
+        },
+        {
+          "type": {
+            "value": "caption600"
+          }
+        },
+        {
+          "type": {
+            "value": "caption500"
+          }
+        },
+        {
+          "type": {
+            "value": "caption400"
+          }
+        }
+      ],
+      "code": "type Typo =\n  | 'title1'\n  | 'title2'\n  | 'subtext600'\n  | 'subtext500'\n  | 'subtext400'\n  | 'body600'\n  | 'body500'\n  | 'body400'\n  | 'caption600'\n  | 'caption500'\n  | 'caption400'",
       "file": "/types/index.ts"
     },
     "SpaceInt": {
