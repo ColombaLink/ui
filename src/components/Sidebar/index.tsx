@@ -72,8 +72,6 @@ const SidebarItem: FC<SidebarItemProps> = ({
 
       <styled.div
         style={{
-          // width: expanded ? '100%' : 0,
-          //  transition: 'width 0.3s linear',
           overflowX: 'hidden',
         }}
       >
@@ -144,7 +142,6 @@ export const Sidebar: FC<SidebarProps> = ({
             letterSpacing: '0.02em',
             textTransform: 'uppercase',
             marginTop: 16,
-            // width: expanded ? '100%' : 0,
             transition: 'opacity 0.3s linear',
             overflowX: 'hidden',
             opacity: expanded ? 1 : 0,
