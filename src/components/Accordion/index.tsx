@@ -11,23 +11,39 @@ type AccordionItemProps = {
   checked?: boolean
   style?: CSSProperties
   active?: boolean
+  color?: Color
 }
 
 type AccordionProps = {
   children?: ReactNode
   space?: Space
   style?: CSSProperties
-  //  color?: Color
+  color?: Color
 }
 
 export const Accordion: FC<AccordionProps> = ({
   children,
   space,
   style,
-  // color,
+  color: colorProp = 'accent',
 }) => {
   return (
-    <div style={{ marginBottom: spaceToPx(space), ...style }}>{children}</div>
+    <>
+      {children && (
+        <div style={{ marginBottom: spaceToPx(space), ...style }}>
+          {React.Children.map(children as React.ReactElement, (child) => (
+            <div>
+              {React.cloneElement(child, {
+                color: colorProp,
+                // style: { backgroundColor: 'red' },
+              })}
+            </div>
+          ))}
+
+          {/* {children} */}
+        </div>
+      )}
+    </>
   )
 }
 
@@ -37,6 +53,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   checked,
   style,
   active,
+  color: colorProp = 'accent',
   ...props
 }) => {
   const [open, setOpen] = useState(active)
@@ -46,7 +63,8 @@ export const AccordionItem: FC<AccordionItemProps> = ({
       <div
         onClick={() => setOpen(!open)}
         style={{
-          backgroundColor: color(open ? 'lightaccent' : 'background2'),
+          // @ts-ignore
+          backgroundColor: color(open ? `light${colorProp}` : 'background2'),
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
