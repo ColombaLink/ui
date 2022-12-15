@@ -1,6 +1,7 @@
 import React, { ReactNode, CSSProperties } from 'react'
 
 type TabProps = {
+  // leave the label prop here!
   label?: string
   children?: ReactNode | ReactNode[]
   style?: CSSProperties
