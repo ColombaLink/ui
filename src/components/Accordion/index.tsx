@@ -35,12 +35,9 @@ export const Accordion: FC<AccordionProps> = ({
             <div>
               {React.cloneElement(child, {
                 color: colorProp,
-                // style: { backgroundColor: 'red' },
               })}
             </div>
           ))}
-
-          {/* {children} */}
         </div>
       )}
     </>

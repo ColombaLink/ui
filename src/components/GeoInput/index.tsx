@@ -92,10 +92,13 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
           width: '100%',
           maxWidth: '100%',
           borderRadius: '8px',
+          backgroundColor: 'transparent',
           boxShadow: `0px 1px 4px ${color('background2')}`,
         },
         '& .mapboxgl-ctrl-geocoder .suggestions': {
           boxShadow: 'none',
+          backgroundColor: color('background'),
+          color: color('text'),
         },
         '& .mapboxgl-ctrl-geocoder--input': {
           padding: '10px !important',
@@ -127,6 +130,16 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
         '& .mapboxgl-ctrl-geocoder--powered-by': {
           display: 'none !important',
         },
+        '& .mapboxgl-ctrl-geocoder--suggestion-title': {
+          color: color('text'),
+        },
+        '& .mapboxgl-ctrl-geocoder--suggestion-address': {
+          color: color('text2'),
+        },
+        '& .mapboxgl-ctrl-geocoder .suggestions > .active > a, .mapboxgl-ctrl-geocoder .suggestions > li > a:hover':
+          {
+            backgroundColor: color('background2'),
+          },
       }}
       ref={ref}
     />
