@@ -4,7 +4,7 @@ import { Text } from '../Text'
 import { Label } from '../Label'
 import { border, color } from '~/utils'
 import { usePropState } from '~/hooks'
-import { Space } from '~/types'
+import { Color, Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type RadioButtonsProps = {
@@ -25,6 +25,7 @@ type RadioButtonsProps = {
   space?: Space
   style?: CSSProperties
   cards?: boolean
+  color?: Color
 }
 
 export const RadioButtons: FC<RadioButtonsProps> = ({
@@ -40,6 +41,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   style,
   descriptionBottom,
   cards,
+  color: colorProp = 'accent',
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
@@ -79,7 +81,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 cursor: 'pointer',
                 border:
                   cards && index === checked
-                    ? `1px solid ${color('lightaccent:border')}`
+                    ? // @ts-ignore
+                      `1px solid ${color(`light${colorProp}:border`)}`
                     : cards
                     ? `1px solid ${color('border')}`
                     : 'none',
@@ -87,7 +90,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 borderRadius: 8,
                 backgroundColor:
                   cards && index === checked
-                    ? color('lightaccent')
+                    ? // @ts-ignore
+                      color('light' + colorProp)
                     : 'transparent',
               }}
             >
@@ -105,8 +109,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                   marginRight: 12,
                   border: border(1, 'border'),
                   '&:checked': {
-                    background: color('accent'),
-                    borderColor: color('accent'),
+                    background: color(colorProp),
+                    borderColor: color(colorProp),
                   },
                   '&:before': {
                     position: 'absolute',

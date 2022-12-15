@@ -3,7 +3,7 @@ import { Label } from '../Label'
 import { border, color, spaceToPx } from '~/utils'
 import { CheckIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
-import { Space } from '~/types'
+import { Color, Space } from '~/types'
 
 export type CheckboxProps = {
   checked?: boolean
@@ -13,6 +13,7 @@ export type CheckboxProps = {
   label?: ReactNode | string
   space?: Space
   size?: number
+  color?: Color
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -23,6 +24,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   label,
   space,
   size = 20,
+  color: colorProp = 'accent',
   ...props
 }) => {
   const [checked, setChecked] = usePropState(checkedProp)
@@ -47,7 +49,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       <div
         style={{
           backgroundColor: checked
-            ? color('accent', hover ? 'hover' : null)
+            ? color(colorProp, hover ? 'hover' : null)
             : null,
           border: border(1, 'border', hover ? 'hover' : null),
           borderRadius: 4,
