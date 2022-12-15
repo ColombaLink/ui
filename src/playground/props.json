@@ -26,9 +26,13 @@
         "active": {
           "optional": true,
           "type": "boolean"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type AccordionItemProps = {\n  label?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n  active?: boolean\n}",
+      "code": "type AccordionItemProps = {\n  label?: string\n  children?: ReactNode\n  space?: Space\n  checked?: boolean\n  style?: CSSProperties\n  active?: boolean\n  color?: Color\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "AccordionProps": {
@@ -45,9 +49,13 @@
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type AccordionProps = {\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n  color?: Color\n}",
       "file": "/components/Accordion/index.tsx"
     },
     "ArrayListProps": {
@@ -752,9 +760,13 @@
         "size": {
           "optional": true,
           "type": "number"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type CheckboxProps = {\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: ReactNode | string\n  space?: Space\n  size?: number\n}",
+      "code": "type CheckboxProps = {\n  checked?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: ReactNode | string\n  space?: Space\n  size?: number\n  color?: Color\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1885,9 +1897,13 @@
         "onMouseLeave": {
           "optional": true,
           "type": "function"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  space?: Space\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n}",
+      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  space?: Space\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n}",
       "file": "/components/Input/InputWrapper.tsx"
     },
     "JsonInputProps": {
@@ -2730,9 +2746,13 @@
         "cards": {
           "optional": true,
           "type": "boolean"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type RadioButtonsProps = {\n  value?: string | boolean | number\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  indent?: boolean\n  disabled?: boolean\n  descriptionBottom?: string\n  // error?: (value: string | boolean | number) => string\n  onChange?: (value: string | number | boolean) => void\n  space?: Space\n  style?: CSSProperties\n  cards?: boolean\n}",
+      "code": "type RadioButtonsProps = {\n  value?: string | boolean | number\n  data?: Array<{\n    label?: string\n    value: string | boolean | number\n    description?: string\n  }>\n  label?: string\n  description?: string\n  direction?: 'horizontal' | 'vertical'\n  indent?: boolean\n  disabled?: boolean\n  descriptionBottom?: string\n  // error?: (value: string | boolean | number) => string\n  onChange?: (value: string | number | boolean) => void\n  space?: Space\n  style?: CSSProperties\n  cards?: boolean\n  color?: Color\n}",
       "file": "/components/RadioButtons/index.tsx"
     },
     "RecordPageProps": {
@@ -3200,9 +3220,13 @@
         "data": {
           "optional": true,
           "type": "TSTypeLiteral"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n}",
+      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n  color?: Color\n}",
       "file": "/components/Steps/index.tsx"
     },
     "TableProps": {
@@ -3275,7 +3299,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type TabProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  //  icon?: ReactNode\n}",
+      "code": "type TabProps = {\n  // leave the label prop here!\n  label?: string\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  //  icon?: ReactNode\n}",
       "file": "/components/Tabs/Tab.tsx"
     },
     "TabsProps": {
@@ -3437,9 +3461,13 @@
         "outline": {
           "optional": true,
           "type": "boolean"
+        },
+        "counter": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 48 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n  outline?: boolean\n}",
+      "code": "type ThumbnailProps = {\n  size?: 32 | 36 | 40 | 48 | 64\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n  outline?: boolean\n  counter?: number\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
@@ -3540,10 +3568,6 @@
           "optional": true,
           "type": "boolean"
         },
-        "baseColor": {
-          "optional": true,
-          "type": "Color"
-        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
@@ -3552,12 +3576,16 @@
           "optional": true,
           "type": "Space"
         },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
         "onChange": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type ToggleProps = {\n  value?: boolean\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  text?: string\n  disabled?: boolean\n  indent?: boolean\n  baseColor?: Color\n  style?: CSSProperties\n  space?: Space\n  onChange?: (value: boolean) => void\n}",
+      "code": "type ToggleProps = {\n  value?: boolean\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  text?: string\n  disabled?: boolean\n  indent?: boolean\n  style?: CSSProperties\n  space?: Space\n  color?: Color\n  onChange?: (value: boolean) => void\n}",
       "file": "/components/Toggle/index.tsx"
     },
     "ToggleGroupProps": {
@@ -3720,9 +3748,13 @@
         },
         "onChange": {
           "type": "function"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
         }
       },
-      "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n}",
+      "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
       "file": "/components/ValueSlider/index.tsx"
     },
     "ReferenceInputProps": {

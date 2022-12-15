@@ -10,13 +10,6 @@ export const Buttons = () => {
       examples={[
         {
           props: {
-            children: 'Async button',
-            onClick: async () =>
-              await new Promise((resolve) => setTimeout(resolve, 1e3)),
-          },
-        },
-        {
-          props: {
             children: 'Just a button',
             onClick: () => alert('Clicked!'),
           },
