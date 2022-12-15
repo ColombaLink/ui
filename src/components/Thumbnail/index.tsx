@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, CSSProperties } from 'react'
 import { Color, Size, Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
+import { color, spaceToPx, renderOrCreateElement, boxShadow } from '~/utils'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
@@ -28,6 +28,7 @@ const CounterBadge = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  boxShadow: boxShadow('small'),
 })
 
 export const Thumbnail: FC<ThumbnailProps> = ({

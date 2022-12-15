@@ -1,5 +1,11 @@
 import React, { FC, ReactNode, CSSProperties, useEffect, useState } from 'react'
-import { border, color, hrefIsActive, renderOrCreateElement } from '~/utils'
+import {
+  border,
+  boxShadow,
+  color,
+  hrefIsActive,
+  renderOrCreateElement,
+} from '~/utils'
 import { Link } from '../Link'
 import { parseHref, useLocation } from '~/hooks'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -238,7 +244,7 @@ export const Sidebar: FC<SidebarProps> = ({
                 right: -14,
                 top: menuHeight / 2 - 14,
                 cursor: 'pointer',
-                boxShadow: `0px 1px 4px ${color('background2')}`,
+                boxShadow: boxShadow('small'),
                 '&:hover': {
                   backgroundColor: color('background2'),
                 },
