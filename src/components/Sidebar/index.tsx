@@ -52,7 +52,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
         marginRight: 'auto',
         marginBottom: 8,
         borderRadius: 8,
-        transition: 'width 0.3s linear',
+        transition: 'width 0.24s ease-out',
         paddingLeft: 10,
         //   paddingRight: 10,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
@@ -131,24 +131,30 @@ export const Sidebar: FC<SidebarProps> = ({
 
     if (subTitle) {
       return (
-        <Text
-          wrap
-          key={i}
-          space={16}
-          size={12}
-          weight={600}
-          color="text2"
-          style={{
-            letterSpacing: '0.02em',
-            textTransform: 'uppercase',
-            marginTop: 16,
-            transition: 'opacity 0.3s linear',
-            overflowX: 'hidden',
-            opacity: expanded ? 1 : 0,
-          }}
-        >
-          {subTitle.toUpperCase()}
-        </Text>
+        <div key={i} style={{ position: 'relative', height: 52 }}>
+          <Text
+            wrap
+            // key={i}
+            space={16}
+            size={12}
+            weight={600}
+            color="text2"
+            style={{
+              letterSpacing: '0.02em',
+              textTransform: 'uppercase',
+              marginTop: 16,
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              bottom: 0,
+              transition: 'opacity 0.24s linear',
+              overflowX: 'hidden',
+              opacity: expanded ? 1 : 0,
+            }}
+          >
+            {subTitle.toUpperCase()}
+          </Text>
+        </div>
       )
     }
 
@@ -185,7 +191,8 @@ export const Sidebar: FC<SidebarProps> = ({
         flexDirection: 'column',
         position: 'relative',
         borderRight: border(1),
-        transition: 'all 0.3s linear',
+        transition: 'all 0.24s ease-out',
+
         ...style,
       }}
     >
@@ -231,20 +238,27 @@ export const Sidebar: FC<SidebarProps> = ({
                 right: -14,
                 top: menuHeight / 2 - 14,
                 cursor: 'pointer',
+                boxShadow: `0px 1px 4px ${color('background2')}`,
                 '&:hover': {
                   backgroundColor: color('background2'),
                 },
               }}
-              onClick={() => setExpanded((prev) => !prev)}
+              onClick={(e) => {
+                e.stopPropagation()
+                setExpanded((prev) => !prev)
+              }}
             >
               <ChevronRightIcon
                 color="text"
-                size={16}
+                size={12}
                 style={{
                   transform: expanded ? 'scaleX(-1)' : 'scaleX(1)',
-                  boxShadow: `0px 1px 4px ${color('background2')}`,
+                  marginRight: -1,
                 }}
-                onClick={() => setExpanded((prev) => !prev)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setExpanded((prev) => !prev)
+                }}
               />
             </styled.div>
           ) : null}
