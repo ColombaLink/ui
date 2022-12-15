@@ -13,9 +13,9 @@ type ToggleProps = {
   text?: string
   disabled?: boolean
   indent?: boolean
-  baseColor?: Color
   style?: CSSProperties
   space?: Space
+  color?: Color
   onChange?: (value: boolean) => void
 }
 
@@ -28,7 +28,7 @@ export const Toggle: FC<ToggleProps> = ({
   descriptionBottom,
   text,
   space,
-  baseColor = 'accent',
+  color: colorProp = 'accent',
   style,
   onChange,
   ...props
@@ -42,6 +42,7 @@ export const Toggle: FC<ToggleProps> = ({
       style={style}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
+      color={colorProp}
     >
       <Label label={label} description={description} />
 
@@ -71,9 +72,9 @@ export const Toggle: FC<ToggleProps> = ({
               position: 'relative',
               cursor: 'pointer',
               border: border('1px', 'border'),
-              backgroundColor: color(checked ? baseColor : 'lightbackdrop'),
+              backgroundColor: color(checked ? colorProp : 'lightbackdrop'),
               '&:hover': {
-                backgroundColor: checked ? color(baseColor, 'active') : null,
+                backgroundColor: checked ? color(colorProp, 'active') : null,
               },
               '&:before': {
                 content: '" "',

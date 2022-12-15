@@ -10,6 +10,7 @@ import { styled } from 'inlines'
 import { Text } from '../Text'
 import { useWindowResize } from '../../hooks/useWindowResize'
 import { color } from '~/utils'
+import { Color } from '~/types'
 
 const Cursor = styled('div', {
   alignItems: 'flex-start',
@@ -138,6 +139,7 @@ type ValueSliderProps = {
   onEndSliding?: () => void
   value?: number
   onChange: (value: number) => void
+  color?: Color
 }
 
 export const ValueSlider: FC<ValueSliderProps> = ({
@@ -151,6 +153,7 @@ export const ValueSlider: FC<ValueSliderProps> = ({
   onEndSliding,
   Label,
   onStartSliding,
+  color: colorProp = 'accent',
   ...props
 }) => {
   if (step && max === undefined) {
@@ -373,8 +376,14 @@ export const ValueSlider: FC<ValueSliderProps> = ({
               borderRadius: '4px',
             }}
           />
-          <LeftPart ref={refLeftPart} style={{ width: `${percentageX}%` }} />
-          <Thumb ref={refThumb} />
+          <LeftPart
+            ref={refLeftPart}
+            style={{
+              width: `${percentageX}%`,
+              backgroundColor: color(colorProp),
+            }}
+          />
+          <Thumb ref={refThumb} style={{ borderColor: color(colorProp) }} />
         </SliderContainer>
       </RangeContainer>
 

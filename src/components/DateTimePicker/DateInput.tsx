@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
-import { color, CalendarIcon } from '~'
+import { color, CalendarIcon, boxShadow } from '~'
 import { DatePicker } from './DatePicker'
 
 const StyledDateInput = styled('input', {
@@ -11,7 +11,7 @@ const StyledDateInput = styled('input', {
   paddingRight: 12,
   cursor: 'text',
   border: `1px solid ${color('border')}`,
-  boxShadow: '0px 1px 4px #f6f6f6',
+  boxShadow: boxShadow('medium'),
 })
 
 type DateInputProps = {

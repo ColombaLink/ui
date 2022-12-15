@@ -53,6 +53,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       style={style}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
+      color={colorProp}
     >
       <Label label={label} description={description} />
       <div

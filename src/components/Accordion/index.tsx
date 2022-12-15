@@ -2,7 +2,7 @@ import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { Text } from '../Text'
 import { color, spaceToPx } from '~/utils'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '~/icons'
-import { Space } from '~/types'
+import { Space, Color } from '~/types'
 
 type AccordionItemProps = {
   label?: string
@@ -17,9 +17,15 @@ type AccordionProps = {
   children?: ReactNode
   space?: Space
   style?: CSSProperties
+  //  color?: Color
 }
 
-export const Accordion: FC<AccordionProps> = ({ children, space, style }) => {
+export const Accordion: FC<AccordionProps> = ({
+  children,
+  space,
+  style,
+  // color,
+}) => {
   return (
     <div style={{ marginBottom: spaceToPx(space), ...style }}>{children}</div>
   )

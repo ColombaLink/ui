@@ -31,6 +31,7 @@ export const Radiobutton = () => {
               indent: true,
               data: testObjects,
               value: 'Bananas',
+              color: 'green',
             },
           },
           {
