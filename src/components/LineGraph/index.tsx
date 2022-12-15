@@ -27,7 +27,7 @@ export type LineGraphProps = {
   spread?: boolean
   pure?: boolean
   label?: string
-  baseColor?: Color
+  color?: Color
 }
 
 // multi line
@@ -40,7 +40,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
   valueFormat = 'number-short',
   legend,
   pure,
-  baseColor,
+  color: colorProp = 'accent',
 }) => {
   const isStacked = data && typeof data === 'object' && !Array.isArray(data)
 
@@ -58,7 +58,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
               height={height}
               width={width}
               valueFormat={valueFormat}
-              baseColor={baseColor}
+              baseColor={colorProp}
             />
           </GraphContext.Provider>
         ) : (
@@ -71,7 +71,7 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
             width={width}
             valueFormat={valueFormat}
             pure={pure}
-            baseColor={baseColor}
+            baseColor={colorProp}
           />
         )
       }}

@@ -433,12 +433,12 @@
           "optional": true,
           "type": "CSSProperties"
         },
-        "baseColor": {
+        "color": {
           "optional": true,
           "type": "Color"
         }
       },
-      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  baseColor?: Color\n}",
+      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BarSegmentProps": {
@@ -2262,12 +2262,12 @@
           "optional": true,
           "type": "string"
         },
-        "baseColor": {
+        "color": {
           "optional": true,
           "type": "Color"
         }
       },
-      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  baseColor?: Color\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  color?: Color\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
@@ -2639,12 +2639,12 @@
           "optional": true,
           "type": "Space"
         },
-        "baseColor": {
+        "color": {
           "optional": true,
           "type": "Color"
         }
       },
-      "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  baseColor?: Color\n}",
+      "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  color?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "ProviderProps": {

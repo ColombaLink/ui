@@ -80,7 +80,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG legend={someLegend} data={someData} baseColor="yellow" />
+        <LG legend={someLegend} data={someData} color="yellow" />
       </div>
       <div
         style={{
@@ -89,7 +89,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={fraction} valueFormat="number-ratio" baseColor="green" />
+        <LG data={fraction} valueFormat="number-ratio" color="green" />
       </div>
       <div
         style={{
@@ -98,7 +98,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG valueFormat="number-bytes" data={bytes} baseColor="red" />
+        <LG valueFormat="number-bytes" data={bytes} color="red" />
       </div>
       <div
         style={{
@@ -143,7 +143,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={smallData} spread={false} baseColor={'teal'} />
+        <LG data={smallData} spread={false} color={'teal'} />
       </div>
       <div
         style={{
