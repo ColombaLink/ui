@@ -1,6 +1,7 @@
 import React, { CSSProperties, useState, ReactNode, FC } from 'react'
 import { Text, ExpandIcon } from '~'
 import { styled } from 'inlines'
+import { border, Color, color } from '~/utils'
 
 type ExpandableListProps = {
   style?: CSSProperties
@@ -33,7 +34,7 @@ const StyledUl = styled('ul', {
     top: '0',
     width: '200%',
     left: '-100%',
-    borderTop: '1px solid #e0e0e0',
+    borderTop: border(1),
   },
 })
 
