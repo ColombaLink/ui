@@ -1,5 +1,5 @@
 import React from 'react'
-import { Provider, DotIcon, CloseIcon, CheckCircleIcon } from '~'
+import { DotIcon, CheckCircleIcon } from '~'
 import { Badge } from '~/components/Badge'
 import ComponentViewer from '../ComponentViewer'
 
@@ -20,14 +20,14 @@ export const Badges = () => {
               children: 'Another Badge',
               outline: true,
               ghost: true,
-              icon: <DotIcon />,
+              icon: DotIcon,
             },
           },
           {
             props: {
               children: 'Another one',
               color: 'green',
-              iconRight: <CheckCircleIcon />,
+              iconRight: CheckCircleIcon,
             },
           },
           {

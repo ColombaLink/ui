@@ -6,10 +6,10 @@ import {
   BasedIcon,
   CopyIcon,
   MoreIcon,
-  CalendarIcon,
   StackIcon,
+  Badge,
+  Spacer,
 } from '~'
-import { Badge, Spacer } from '~'
 import { Thumbnail } from '~/components/Thumbnail'
 import ComponentViewer from '../ComponentViewer'
 
