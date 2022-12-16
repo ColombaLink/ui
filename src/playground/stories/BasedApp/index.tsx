@@ -96,6 +96,7 @@ const Settings = ({ prefix, style }) => {
             Locales
           </Text>
           <Button
+            large
             icon={AddIcon}
             onClick={() => {
               open(<AddLocaleModal languages={languages} />)
@@ -108,7 +109,7 @@ const Settings = ({ prefix, style }) => {
           style={{
             marginTop: 32,
             border: border(1),
-            borderRadius: 4,
+            borderRadius: 8,
             overflow: 'hidden',
           }}
         >

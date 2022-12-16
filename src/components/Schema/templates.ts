@@ -189,21 +189,21 @@ export const templates: {
 
   reference: {
     label: 'Reference',
-    color: 'lightpink',
+    color: 'lightyellow',
     description: 'References you know it',
     icon: ChildrenIcon,
     schema: { type: 'reference' },
   },
   references: {
     label: 'References',
-    color: 'lightpink',
+    color: 'lightyellow',
     description: 'References ',
     icon: ChildrenIcon,
     schema: { type: 'references' },
   },
   file: {
     label: 'File',
-    color: 'lightpink',
+    color: 'lightyellow',
     description: 'File or Files upload',
     icon: AttachmentIcon,
     schema: {
@@ -216,7 +216,7 @@ export const templates: {
   },
   files: {
     label: 'Files',
-    color: 'lightpink',
+    color: 'lightyellow',
     description: 'Multiple files',
     icon: AttachmentIcon,
     schema: {

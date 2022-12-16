@@ -142,11 +142,10 @@ export const Sidebar: FC<SidebarProps> = ({
             wrap
             // key={i}
             space={16}
-            size={12}
-            weight={600}
+            typo="caption600"
             color="text2"
             style={{
-              letterSpacing: '0.02em',
+              // letterSpacing: '0.02em',
               textTransform: 'uppercase',
               marginTop: 16,
               position: 'absolute',
@@ -158,7 +157,7 @@ export const Sidebar: FC<SidebarProps> = ({
               opacity: expanded ? 1 : 0,
             }}
           >
-            {subTitle.toUpperCase()}
+            {subTitle}
           </Text>
         </div>
       )
