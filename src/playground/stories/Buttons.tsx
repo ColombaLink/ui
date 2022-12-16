@@ -6,8 +6,8 @@ export const Buttons = () => {
   const codeExample = `
   import { Button } from '@based/ui'
 
-  <Button onClick={() =>  async () => {
-        await new Promise((resolve) => setTimeout(resolve, 1e3)),
+  <Button onClick={async () => {
+    await new Promise((resolve) => setTimeout(resolve, 1e3))
   }}>
     Async button
   </Button>      
@@ -22,7 +22,7 @@ export const Buttons = () => {
           {
             props: {
               children: 'Just a button',
-              onClick: () => alert('Clicked!'),
+              onClick: () => console.log('clicked'),
             },
           },
           {
@@ -39,9 +39,9 @@ export const Buttons = () => {
           },
           {
             props: {
-              children: 'Button with icon',
+              children: 'Button and icon',
               outline: true,
-              icon: <CheckIcon />,
+              icon: CheckIcon,
               large: true,
             },
           },

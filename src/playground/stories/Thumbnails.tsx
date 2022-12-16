@@ -28,7 +28,7 @@ export const Thumbnails = () => {
             props: {
               size: 40,
               color: 'pink',
-              icon: <AttachmentIcon />,
+              icon: AttachmentIcon,
             },
           },
           {
