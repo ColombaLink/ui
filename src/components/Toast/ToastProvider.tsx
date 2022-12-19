@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import { ToastContext, ToastContextType } from './ToastContext'
 
-const ToastContainer = ({
+export const ToastContainer = ({
   id,
   children,
   onClick = null,
