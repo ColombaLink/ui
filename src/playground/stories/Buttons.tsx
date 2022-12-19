@@ -41,7 +41,7 @@ export const Buttons = () => {
             props: {
               children: 'Button and icon',
               outline: true,
-              icon: CheckIcon,
+              icon: 'CheckIcon',
               large: true,
             },
           },

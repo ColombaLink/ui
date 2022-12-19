@@ -6,7 +6,6 @@ import ComponentViewer from '../ComponentViewer'
 export const Avatars = () => {
   return (
     <>
-      <Avatar size={32} icon={BasedIcon} color="yellow" />
       <ComponentViewer
         component={Avatar}
         propsName="AvatarProps"
