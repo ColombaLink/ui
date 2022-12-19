@@ -15,6 +15,7 @@ type InputWrapperProps = {
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   color?: Color
+  onClick?: () => void
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({

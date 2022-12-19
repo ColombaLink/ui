@@ -1,9 +1,10 @@
 import React, { CSSProperties, FC } from 'react'
-import { Text, usePropState, Label } from '~'
+import { Text, Label } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
+import { usePropState } from '~/hooks'
 
 type ToggleProps = {
   value?: boolean
@@ -39,12 +40,25 @@ export const Toggle: FC<ToggleProps> = ({
     <InputWrapper
       indent={indent}
       space={space}
-      style={style}
+      // style={style}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       color={colorProp}
+      style={{
+        width: 'fit-content',
+        cursor: 'pointer',
+      }}
+      onClick={() => {
+        const newChecked = !checked
+        setChecked(newChecked)
+        onChange?.(newChecked)
+      }}
     >
-      <Label label={label} description={description} />
+      <Label
+        label={label}
+        description={description}
+        style={{ marginRight: 12 }}
+      />
 
       <div {...props} style={{ ...style }}>
         <div
@@ -65,7 +79,7 @@ export const Toggle: FC<ToggleProps> = ({
             style={{
               display: 'flex',
               width: 32,
-              height: 20,
+              height: 21,
               borderRadius: 10,
               alignItems: 'center',
               marginRight: 12,
@@ -84,8 +98,10 @@ export const Toggle: FC<ToggleProps> = ({
                 borderRadius: '8px',
                 display: 'block',
                 position: 'absolute',
-                left: !checked && '2px',
-                right: checked && '2px',
+                //  left: !checked && '2px',
+                //  right: checked ? '2px' : 'auto',
+                transform: !checked ? 'translateX(2px)' : `translateX(14px)`,
+                transition: 'transform 0.1s linear',
               },
             }}
           />

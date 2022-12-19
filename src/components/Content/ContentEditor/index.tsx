@@ -577,7 +577,9 @@ const digest = {
 
 const boolean = {
   default: ({ description, ...props }) => {
-    return <Toggle indent descriptionBottom={description} space {...props} />
+    return (
+      <Toggle indent descriptionBottom={description} space="48px" {...props} />
+    )
   },
 }
 
