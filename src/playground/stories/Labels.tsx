@@ -1,31 +1,39 @@
 import React from 'react'
 import { Label } from '~/components/Label'
-import { ErrorIcon } from '~/icons'
+
 import ComponentViewer from '../ComponentViewer'
 
 export const Labels = () => {
+  const labelExampleOne = `import { Label } from '@based/ui'
+
+  <Label label="Labeltje" description="make it">
+    Child 
+  </Label>      
+  `
+
+  const labelExampleTwo = `import { Label, ErrorIcon } from '@based/ui'
+
+  <Label 
+    label="Bonjour"
+    labelColor="red"
+    description="have a nice day"
+    descriptionColor="accent"
+    icon={<ErrorIcon />}
+    iconColor="green"
+  >
+   Children
+  </Label>`
+
   return (
     <ComponentViewer
       component={Label}
       propsName="LabelProps"
       examples={[
         {
-          props: {
-            label: 'Labeltje',
-            description: 'maken toch',
-            children: 'Ach kind',
-          },
+          code: labelExampleOne,
         },
         {
-          props: {
-            label: 'Bonjour',
-            labelColor: 'red',
-            description: 'have a nice day',
-            descriptionColor: 'accent',
-            icon: <ErrorIcon />,
-            iconColor: 'green',
-            children: 'Woman and children first',
-          },
+          code: labelExampleTwo,
         },
       ]}
     />
