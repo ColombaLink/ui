@@ -10,6 +10,7 @@ import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '~/hooks/useSchema'
+import { Text } from '~'
 
 const useUpdate = (callback?: () => void) => {
   const [count, setCount] = useState(0)
@@ -198,9 +199,26 @@ const FieldModal = ({
   return (
     <Dialog>
       <Dialog.Body>
-        <Dialog.Label style={{ alignItems: 'center', display: 'flex' }}>
-          <Thumbnail color={color} icon={icon} style={{ marginRight: 16 }} />
-          {label}
+        <Dialog.Label>
+          <div
+            style={{
+              alignItems: 'center',
+              display: 'flex',
+              fontSize: 16,
+              marginTop: 8,
+            }}
+          >
+            <Thumbnail
+              color={color}
+              icon={icon}
+              size={32}
+              outline
+              style={{ marginRight: 16 }}
+            />
+            <Text weight={600} size={16}>
+              {label}
+            </Text>
+          </div>
         </Dialog.Label>
         <Tabs sameHeight activeTab={0}>
           {children}
@@ -239,7 +257,7 @@ const StringModal = ({ type, editField }) => {
           editField={editField}
         />
       </Tab>
-      <Tab label="Settings"></Tab>
+      <Tab label="Settings" />
     </FieldModal>
   )
 }
@@ -269,7 +287,7 @@ const UrlModal = ({ type, editField }) => {
           editField={editField}
         />
       </Tab>
-      <Tab label="Settings"></Tab>
+      <Tab label="Settings" />
     </FieldModal>
   )
 }
@@ -296,7 +314,7 @@ const ObjectModal = ({ type, editField }) => {
           editField={editField}
         />
       </Tab>
-      <Tab label="Settings"></Tab>
+      <Tab label="Settings" />
     </FieldModal>
   )
 }
@@ -323,7 +341,7 @@ const FileModal = ({ type, editField }) => {
           editField={editField}
         />
       </Tab>
-      <Tab label="Settings"></Tab>
+      <Tab label="Settings" />
     </FieldModal>
   )
 }
@@ -350,7 +368,7 @@ const DateTimeModal = ({ type, editField }) => {
           editField={editField}
         />
       </Tab>
-      <Tab label="Settings"></Tab>
+      <Tab label="Settings" />
     </FieldModal>
   )
 }
@@ -374,7 +392,7 @@ export const SchemaModals = () => {
 
   let modals
   if (editField) {
-    const fieldType = schema.types[type].fields[editField].type
+    const fieldType = schema.types[type]?.fields[editField]?.type
     if (fieldType === 'string' || fieldType === 'text') {
       modals = (
         <>
@@ -412,9 +430,9 @@ export const SchemaModals = () => {
           <Select
             style={{ width: 500 }}
             value={editField}
-            options={Object.keys(schema.types[type].fields).map((field) => ({
+            options={Object.keys(schema.types[type]?.fields).map((field) => ({
               value: field,
-              label: `${field} (${schema.types[type].fields[field].type})`,
+              label: `${field} (${schema.types[type]?.fields[field]?.type})`,
             }))}
             name="type"
             label="Edit Existing Field"

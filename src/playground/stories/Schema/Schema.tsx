@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { Page, color } from '~'
+import React from 'react'
+import { color } from '~'
 import { Schema as SchemaEditor } from '~/components/Schema'
 
 export const Schema = () => {

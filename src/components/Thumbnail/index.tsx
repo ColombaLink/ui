@@ -59,6 +59,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         backgroundPosition: 'center center',
         marginBottom: spaceToPx(space),
         position: 'relative',
+        minWidth: size,
         width: size,
         height: size,
         ...style,
