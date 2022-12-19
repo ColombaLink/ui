@@ -19,8 +19,6 @@ export const PasswordInput = ({
 }: PasswordInputProps) => {
   const [passwordInputType, setPasswordInputType] = useState('password')
 
-  console.log('Theze:', large)
-
   return (
     <div
       style={{
