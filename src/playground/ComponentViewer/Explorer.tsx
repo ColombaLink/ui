@@ -10,13 +10,13 @@ import {
   setLocation,
   Button,
   ModelIcon,
+  color,
 } from '../../'
 import * as ui from '../../'
 import { Callout } from '~/components/Callout'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 import parseCode from './parseCode'
-import { color } from '../../'
 
 export const CodeExample: FC<{
   p: any
@@ -29,7 +29,7 @@ export const CodeExample: FC<{
   index: number
 }> = ({ index, component, name, exampleCode, exampleProps, p }) => {
   const [cnt, update] = useState(0)
-  let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
+  const [code, setCode] = useLocalStorage('code-' + name + '-' + index)
   if (code) {
     exampleCode = code
   }
@@ -51,7 +51,7 @@ export const CodeExample: FC<{
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
-    child = <Callout color={'red'}>{err.message}</Callout>
+    child = <Callout color="red">{err.message}</Callout>
   }
   return (
     <>
@@ -113,7 +113,7 @@ export const Explorer: FC<{
         }}
       >
         <Link href={`src${p.file}`}>
-          <Text weight={700} size={'18px'}>
+          <Text weight={700} size="18px">
             {p.file.slice(1).split('/').slice(1, -1)}
           </Text>
         </Link>

@@ -249,7 +249,7 @@ export const generateRandomComponentCode = (
     exampleProps
   )
 
-  let exampleCode = `import { ${components.join(', ')} } from '@based/ui'\n\n`
+  let exampleCode = `import { ${components.join(', ')} } from '~'\n\n`
   exampleCode += toComponent(componentName, exampleProps, propsHeader)
 
   return exampleCode
