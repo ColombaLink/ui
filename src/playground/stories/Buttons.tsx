@@ -13,6 +13,14 @@ export const Buttons = () => {
   </Button>      
   `
 
+  const ButtonWithIcon = `
+  import { Button, CheckIcon } from '@based/ui'
+
+  <Button icon={CheckIcon}>
+    Button with icon
+  </Button>      
+  `
+
   return (
     <>
       <ComponentViewer
@@ -38,12 +46,7 @@ export const Buttons = () => {
             },
           },
           {
-            props: {
-              children: 'Button and icon',
-              outline: true,
-              icon: 'CheckIcon',
-              large: true,
-            },
+            code: ButtonWithIcon,
           },
           {
             props: {

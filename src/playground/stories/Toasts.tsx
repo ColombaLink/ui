@@ -104,7 +104,7 @@ export const Toasts = () => {
             },
           },
           {
-            code: 'ToastVarSizeExample',
+            code: ToastVarSizeExample,
           },
           {
             code: codeExample,
