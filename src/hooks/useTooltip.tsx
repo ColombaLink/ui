@@ -9,7 +9,7 @@ export const useTooltip = (
 ) => {
   const onMouseEnter = useOverlay(
     () => <>{text}</>,
-    null,
+    text,
     { variant: 'detached', position: position },
 
     undefined,
