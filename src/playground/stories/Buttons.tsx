@@ -1,26 +1,8 @@
 import React from 'react'
-import { Button, CheckIcon, Code, Container, Text } from '~'
+import { Button, CheckIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
-  const codeExample = `
-  import { Button } from '@based/ui'
-
-  <Button onClick={async () => {
-    await new Promise((resolve) => setTimeout(resolve, 1e3))
-  }}>
-    Async button
-  </Button>      
-  `
-
-  const ButtonWithIcon = `
-  import { Button, CheckIcon } from '@based/ui'
-
-  <Button icon={CheckIcon}>
-    Button with icon
-  </Button>      
-  `
-
   return (
     <>
       <ComponentViewer
@@ -30,6 +12,7 @@ export const Buttons = () => {
           {
             props: {
               children: 'Just a button',
+              // eslint-disable-next-line
               onClick: () => console.log('clicked'),
             },
           },
@@ -46,7 +29,10 @@ export const Buttons = () => {
             },
           },
           {
-            code: ButtonWithIcon,
+            props: {
+              icon: CheckIcon,
+              children: 'Button with icon',
+            },
           },
           {
             props: {
@@ -55,19 +41,14 @@ export const Buttons = () => {
               light: true,
             },
           },
+          {
+            props: {
+              children: 'Async button example',
+              onClick: () => new Promise((resolve) => setTimeout(resolve, 1e3)),
+            },
+          },
         ]}
       />
-      <Container>
-        <Text space>Async button example</Text>
-        <Code value={codeExample} space />
-        <Button
-          onClick={async () => {
-            await new Promise((resolve) => setTimeout(resolve, 1e3))
-          }}
-        >
-          Async button
-        </Button>
-      </Container>
     </>
   )
 }
