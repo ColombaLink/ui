@@ -47,6 +47,7 @@ export const Cell: FC<{
         height: height,
         position: 'relative',
         cursor: 'pointer',
+
         // '&:hover': onClick
         //   ? {
         //       backgroundColor: color('background:hover'),

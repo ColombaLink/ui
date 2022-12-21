@@ -8,7 +8,7 @@ const HexInput = ({ r, g, b, onRgbChange }) => {
   return (
     <Input
       placeholder="000000"
-      style={{ marginLeft: 8, flexGrow: 100, flexBasis: 80, marginBottom: 8 }}
+      style={{ marginLeft: 8, flexGrow: 4, flexBasis: 80, marginBottom: 8 }}
       value={`${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase()}
       suggest={hexSuggest}
       transform={(v) =>

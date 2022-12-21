@@ -4,6 +4,7 @@ import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Link } from '../Link'
 import { Text } from '../Text'
+import { Color } from '~/types'
 
 type StepsProps = {
   style?: CSSProperties
@@ -12,6 +13,7 @@ type StepsProps = {
   data?: {
     [key: string]: string
   }
+  color?: Color
 }
 
 export const Steps: FC<StepsProps> = ({
@@ -19,6 +21,7 @@ export const Steps: FC<StepsProps> = ({
   data = {},
   prefix = '',
   selected,
+  color: colorProp = 'accent',
   ...props
 }) => {
   const [location] = useLocation()
@@ -39,8 +42,11 @@ export const Steps: FC<StepsProps> = ({
             key={index}
             style={{
               alignItems: 'center',
-              backgroundColor: isActive ? color('lightaccent:active') : null,
-              borderRadius: 4,
+              backgroundColor: isActive
+                ? // @ts-ignore
+                  color(`light${colorProp}:active`)
+                : null,
+              borderRadius: 8,
               display: 'flex',
               height: 48,
               marginBottom: 8,
@@ -48,7 +54,7 @@ export const Steps: FC<StepsProps> = ({
             }}
           >
             <Text
-              color="accent"
+              color={colorProp}
               style={{
                 backgroundColor: color('accent:contrast'),
                 borderRadius: 13,

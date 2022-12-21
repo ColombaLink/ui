@@ -1,10 +1,10 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import React, { CSSProperties, FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
 import { border, color } from '~/utils'
 import { usePropState } from '~/hooks'
-import { Space } from '~/types'
+import { Color, Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type RadioButtonsProps = {
@@ -24,6 +24,8 @@ type RadioButtonsProps = {
   onChange?: (value: string | number | boolean) => void
   space?: Space
   style?: CSSProperties
+  cards?: boolean
+  color?: Color
 }
 
 export const RadioButtons: FC<RadioButtonsProps> = ({
@@ -38,6 +40,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   space,
   style,
   descriptionBottom,
+  cards,
+  color: colorProp = 'accent',
 }) => {
   const selectedIndex = data?.findIndex((item) => item.value === value)
   const [checked, setChecked] = usePropState(selectedIndex)
@@ -49,6 +53,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
       style={style}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
+      color={colorProp}
     >
       <Label label={label} description={description} />
       <div
@@ -72,8 +77,23 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 alignItems: 'center',
                 marginBottom: 4,
                 marginTop: 4,
-                marginRight: 12,
+                marginRight: 16,
+                flexGrow: cards ? 1 : 0,
                 cursor: 'pointer',
+                border:
+                  cards && index === checked
+                    ? // @ts-ignore
+                      `1px solid ${color(`light${colorProp}:border`)}`
+                    : cards
+                    ? `1px solid ${color('border')}`
+                    : 'none',
+                padding: cards ? '12px 12px 20px 12px' : 0,
+                borderRadius: 8,
+                backgroundColor:
+                  cards && index === checked
+                    ? // @ts-ignore
+                      color('light' + colorProp)
+                    : 'transparent',
               }}
             >
               <styled.input
@@ -90,8 +110,8 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                   marginRight: 12,
                   border: border(1, 'border'),
                   '&:checked': {
-                    background: color('accent'),
-                    borderColor: color('accent'),
+                    background: color(colorProp),
+                    borderColor: color(colorProp),
                   },
                   '&:before': {
                     position: 'absolute',
@@ -107,9 +127,11 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 }}
               />
               <div>
-                <Text weight={500}>{item.label ? item.label : item.value}</Text>
+                <Text weight={500} space={2} wrap>
+                  {item.label ? item.label : item.value}
+                </Text>
                 {item.description && (
-                  <Text weight={400} size={13} color="text2">
+                  <Text weight={400} size={14} color="text2" wrap>
                     {item.description}
                   </Text>
                 )}

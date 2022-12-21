@@ -63,15 +63,17 @@ export const Authorize: FC<AuthProps> = ({
   const auth = (
     <Container
       style={{
-        padding: 32,
-        maxWidth: '100vw',
-        width: 400,
+        padding: '24px 32px',
+        maxWidth: 456,
+        width: '100%',
         opacity: fadeIn ? 1 : 0,
         transition: 'opacity 1s',
+        boxShadow: `0px 4px 20px rgba(0, 0, 0, 0.08)`,
+        borderRadius: 8,
         ...style,
       }}
     >
-      {logo === true ? <LargeLogo /> : logo}
+      {logo === true ? <LargeLogo style={{ marginBottom: 16 }} /> : logo}
       {!showResetRequest ? (
         <Tabs space setActiveTab={setActiveTab} activeTab={activeTab}>
           <Tab label="Sign in">

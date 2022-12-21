@@ -1,6 +1,6 @@
 import React from 'react'
 import { Thumbnail } from '~/components/Thumbnail'
-import { TextIcon, MarkDownIcon, AttachmentIcon } from '~'
+import { AttachmentIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Thumbnails = () => {
@@ -21,6 +21,14 @@ export const Thumbnails = () => {
               size: 40,
               color: 'green',
               label: 'Apples',
+              counter: 8,
+            },
+          },
+          {
+            props: {
+              size: 40,
+              color: 'pink',
+              icon: AttachmentIcon,
             },
           },
           {

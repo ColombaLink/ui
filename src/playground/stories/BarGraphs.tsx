@@ -58,7 +58,7 @@ export const BarGraphs = () => {
           {
             props: {
               data: barData,
-              baseColor: 'purple',
+              color: 'purple',
             },
           },
           {

@@ -27,8 +27,6 @@ export const ObjectList = ({
 ObjectListProps) => {
   const [insideObjectFields] = useState(schema.properties)
 
-  // console.log('What is inside object props-->', props)
-
   return (
     <>
       <InputWrapper

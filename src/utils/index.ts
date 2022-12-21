@@ -1,5 +1,6 @@
 export * from './color'
 export * from './border'
+export * from './boxShadow'
 export * from './font'
 export * from './hrefIsActive'
 export * from './numberString'

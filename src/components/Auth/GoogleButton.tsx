@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Button, GoogleIcon } from '~'
+import { Button, GoogleIcon, color } from '~'
 
 type GoogleButtonProps = {
   width?: number | string
@@ -14,12 +14,16 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
   return (
     <Button
       icon={GoogleIcon}
-      color="grey"
+      color="lightgrey"
       textAlign="center"
+      weight={600}
       style={{
         width,
         height: 48,
+        borderRadius: 8,
         marginBottom: 8,
+        fontWeight: 600,
+        //   backgroundColor: color('background2'),
       }}
       onClick={async () => {
         const state = { redirectUrl: window.location.href }

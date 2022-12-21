@@ -34,13 +34,15 @@ export const ResetRequest: FC<ResetRequestProps> = ({
             large
             value={email}
             space="24px"
-            icon={EmailIcon}
+            label="Email"
+            // icon={EmailIcon}
             type="email"
             placeholder="Email address"
             onChange={setEmail}
           />
           <Button
             large
+            style={{ height: 48 }}
             actionKeys={['Enter']}
             fill
             space="16px"
@@ -68,6 +70,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
               outline
               onClick={onCancel}
               large
+              style={{ height: 48 }}
               fill
               ghost
             >

@@ -6,10 +6,11 @@ import { Color } from '~/types'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
-  borderRadius: 4,
+  borderRadius: 8,
   alignItems: 'center',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
+  boxShadow: `0px 1px 4px ${color('background2')}`,
   paddingLeft: 12,
   paddingRight: 12,
   paddingTop: 7,
@@ -38,7 +39,6 @@ export const SelectLabel: FC<{
         justifyContent: 'space-between',
         borderRadius: 4,
         border: `1px solid ${color('border')}`,
-
         backgroundColor: color('background'),
         cursor: 'pointer',
         userSelect: 'none',
@@ -67,6 +67,7 @@ export const SelectLabel: FC<{
         {label}
       </Text>
       <Text
+        weight={400}
         color={colorProp}
         style={{
           flexGrow: 1,

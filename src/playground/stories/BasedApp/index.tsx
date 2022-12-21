@@ -19,10 +19,12 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { Select } from '~/components/Select'
 import { Label } from '~/components/Label'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
+import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
   const client = useClient()
+
   return (
     <Dialog label="Create locale">
       <Dialog.Body>
@@ -94,6 +96,7 @@ const Settings = ({ prefix, style }) => {
             Locales
           </Text>
           <Button
+            large
             icon={AddIcon}
             onClick={() => {
               open(<AddLocaleModal languages={languages} />)
@@ -106,7 +109,7 @@ const Settings = ({ prefix, style }) => {
           style={{
             marginTop: 32,
             border: border(1),
-            borderRadius: 4,
+            borderRadius: 8,
             overflow: 'hidden',
           }}
         >
@@ -152,6 +155,7 @@ const components = {
 
 const Project = ({ style }) => {
   const [location] = useLocation()
+
   const [, section] = location.split('/')
   const prefix = `/${section}`
   const Component = components[section] || (() => null)
@@ -160,34 +164,45 @@ const Project = ({ style }) => {
     <div
       style={{
         display: 'flex',
+        flexDirection: 'column',
         ...style,
       }}
     >
-      <Sidebar
-        data={[
-          {
-            icon: LayersIcon,
-            label: 'Schema',
-            href: '/schema',
-          },
-          {
-            icon: EditIcon,
-            label: 'Content',
-            href: '/content',
-          },
-          {
-            icon: AttachmentIcon,
-            label: 'Files',
-            href: '/files',
-          },
-          {
-            icon: SettingsIcon,
-            label: 'Settings',
-            href: '/settings',
-          },
-        ]}
-      />
-      <Component prefix={prefix} style={{ flexGrow: 1 }} />
+      <SchemaTopbar />
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Sidebar
+          expandable
+          data={[
+            {
+              subTitle: 'Database',
+            },
+            {
+              icon: LayersIcon,
+              label: 'Schema',
+              href: '/schema',
+            },
+            {
+              icon: EditIcon,
+              label: 'Content',
+              href: '/content',
+            },
+            {
+              icon: AttachmentIcon,
+              label: 'Files',
+              href: '/files',
+            },
+            {
+              subTitle: 'General',
+            },
+            {
+              icon: SettingsIcon,
+              label: 'Settings',
+              href: '/settings',
+            },
+          ]}
+        />
+        <Component prefix={prefix} style={{ flexGrow: 1 }} />
+      </div>
     </div>
   )
 }
@@ -199,6 +214,7 @@ export const BasedApp = () => {
       style={{
         width: '100%',
         height: '100%',
+        minHeight: 'calc(100vh - 128px)',
         position: 'relative',
         outline: border(1),
         overflow: 'hidden',

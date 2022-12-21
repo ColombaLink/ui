@@ -1,6 +1,7 @@
 export * from './useColorPicker'
 export * from './useColorPicker'
 export * from './useContextMenu'
+export * from './useCopyToClipboard'
 export * from './useDrag/index'
 export * from './useDrop/index'
 export * from './useFocus'

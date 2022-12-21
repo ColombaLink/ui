@@ -6,12 +6,12 @@ import { styled } from 'inlines'
 import { PositionProps } from '../Overlay'
 import { Color } from '~/types'
 import { ChevronDownIcon } from '~/icons'
-import { color } from '~/utils'
+import { boxShadow, color } from '~/utils'
 import { SelectLabel } from './shared'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
-  borderRadius: 4,
+  borderRadius: 8,
   alignItems: 'center',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
@@ -131,7 +131,7 @@ export const Select: FC<SelectProps> = ({
         openedRef.current = true
         open(e)
       }}
-      style={style}
+      style={{ boxShadow: ghost ? null : boxShadow('medium'), ...style }}
       id={id}
     >
       {children}

@@ -5,11 +5,12 @@ import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
 import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
-import { AddIcon, MoreIcon } from '~/icons'
+import { AddIcon, MoreIcon, WarningIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
 import { useClient, useData } from '@based/react'
+import { Callout } from '~/components/Callout'
 
 const Menu = ({ views, currentView, deletable }) => {
   const client = useClient()
@@ -74,6 +75,7 @@ const Header = ({ label, view, prefix }) => {
   const { types } = useSchemaTypes()
   const createBtn = (
     <Button
+      large
       icon={AddIcon}
       onClick={useContextMenu(CreateMenu, { prefix, types })}
     >
@@ -90,8 +92,8 @@ const Header = ({ label, view, prefix }) => {
     )
   }
 
-  const { confirm, prompt } = useDialog()
-  const client = useClient()
+  // const { confirm, prompt } = useDialog()
+  // const client = useClient()
   const { data: views } = useData('basedObserveViews')
   let currentView, deletable
 
@@ -111,8 +113,10 @@ const Header = ({ label, view, prefix }) => {
   parse()
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <Text weight={600}>{currentView?.label}</Text>
+    <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
+      <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
+        {currentView?.label}
+      </Text>
       <div style={{ padding: '0 16px' }}>
         <MoreIcon
           onClick={useContextMenu(Menu, { views, currentView, deletable })}
@@ -121,46 +125,9 @@ const Header = ({ label, view, prefix }) => {
           }}
         />
       </div>
-      <Button
-        ghost
-        onClick={async () => {
-          const ok = await confirm(`This will update '${currentView.label}'`)
-          if (ok) {
-            currentView.query = location.search.substring(1)
-            await client.call('basedSetViews', views)
-          }
-        }}
-      >
-        Update view
-      </Button>
-      <Button
-        ghost
-        onClick={async () => {
-          const label = (await prompt(
-            'What would you like to call this view?'
-          )) as string
-          if (label) {
-            if (!views.custom) {
-              views.custom = []
-            }
-            const ids = new Set()
-            views.custom.forEach(({ id }) => ids.add(id))
-            views.default.forEach(({ id }) => ids.add(id))
-            let id = 0
-            while (ids.has(id)) {
-              id++
-            }
-            views.custom.push({
-              id,
-              query: location.search.substring(1),
-              label,
-            })
-            await client.call('basedSetViews', views)
-          }
-        }}
-      >
-        Create new view
-      </Button>
+
+      {/* old buttons place */}
+
       <div style={{ flexGrow: 1 }} />
       {createBtn}
     </div>
@@ -177,6 +144,27 @@ export const ContentMain = ({
   const { loading, types } = useSchemaTypes()
   const [, setLocation] = useLocation()
   const query = useQuery(queryOverwrite)
+
+  const { confirm, prompt } = useDialog()
+  const client = useClient()
+
+  const { data: views } = useData('basedObserveViews')
+  let currentView
+
+  const parse = () => {
+    // TODO FIX the redirect!!
+    for (const viewKey in views) {
+      for (const v of views[viewKey]) {
+        if (String(v.id) === view) {
+          currentView = v
+          //  deletable = viewKey !== 'default'
+          return
+        }
+      }
+    }
+  }
+
+  parse()
 
   if (loading) return null
 
@@ -242,14 +230,72 @@ export const ContentMain = ({
         }}
       >
         <Header label={label} view={view} prefix={prefix} />
-        {queryOverwrite ? null : (
-          <Query
-            types={types}
-            fields={fields}
-            fieldTypes={fieldTypes}
-            query={query}
-          />
-        )}
+
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ flexGrow: 1 }}>
+            {queryOverwrite ? null : (
+              <Query
+                types={types}
+                fields={fields}
+                fieldTypes={fieldTypes}
+                query={query}
+              />
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 4, marginLeft: 16 }}>
+            <Button
+              style={{ maxHeight: 32, marginTop: 4 }}
+              ghost
+              onClick={async () => {
+                //   const ok = await confirm(`Update '${currentView.label}'`)
+                const ok = await confirm(
+                  `Update '${currentView.label}'`,
+                  <Callout
+                    icon={<WarningIcon />}
+                    color="orange"
+                    label=" You are about to update the default view for all users."
+                    labelColor="text"
+                  />
+                )
+                if (ok) {
+                  currentView.query = location.search.substring(1)
+                  await client.call('basedSetViews', views)
+                }
+              }}
+            >
+              Update view
+            </Button>
+            <Button
+              style={{ maxHeight: 32, marginTop: 4 }}
+              ghost
+              onClick={async () => {
+                const label = (await prompt(
+                  'What would you like to call this view?'
+                )) as string
+                if (label) {
+                  if (!views.custom) {
+                    views.custom = []
+                  }
+                  const ids = new Set()
+                  views.custom.forEach(({ id }) => ids.add(id))
+                  views.default.forEach(({ id }) => ids.add(id))
+                  let id = 0
+                  while (ids.has(id)) {
+                    id++
+                  }
+                  views.custom.push({
+                    id,
+                    query: location.search.substring(1),
+                    label,
+                  })
+                  await client.call('basedSetViews', views)
+                }
+              }}
+            >
+              Create new view
+            </Button>
+          </div>
+        </div>
       </div>
       <Table
         key={fields.length}

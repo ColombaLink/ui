@@ -4,7 +4,7 @@ import { color } from '~'
 
 export const TimeInput = ({
   timeInputHandler,
-  value,
+  value = '00:00',
   onFocus,
   placeholder,
 }) => {
@@ -29,7 +29,7 @@ export const TimeInput = ({
   }, [time])
 
   const timeHandler = (e) => {
-    placeholder = 'hh:mm'
+    // placeholder = 'hh:mm'
 
     if (e.length === 1 && e > 2) {
       e = '0' + e
@@ -99,7 +99,7 @@ export const TimeInput = ({
       {isFocus && (
         <div
           style={{
-            border: `2px solid ${color('accent')}`,
+            //    border: `2px solid ${color('accent')}`,
             position: 'absolute',
             top: 0,
             left: 0,

@@ -19,7 +19,7 @@ type BadgeProps = {
   color?: AccentColor
   boxed?: boolean
   ghost?: boolean
-  onClick?: MouseEventHandler
+  onClick?: MouseEventHandler<Element> | boolean | any
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -90,7 +90,7 @@ export const Badge: FC<BadgeProps> = ({
           {renderOrCreateElement(icon, { size: 10 })}
         </div>
       )}
-      <Text size="12px" color="inherit">
+      <Text typo="caption500" color="inherit">
         {children}
       </Text>
       {iconRight && (

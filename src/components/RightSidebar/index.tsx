@@ -12,7 +12,7 @@ export const RightSidebar: FC<RightSidebarProps> = ({ children, style }) => {
       style={{
         backgroundColor: color('background2'),
         padding: '20px 24px',
-        maxWidth: 240,
+        maxWidth: 260,
         marginLeft: 'auto',
         borderLeft: `1px solid ${color('border')}`,
         ...style,

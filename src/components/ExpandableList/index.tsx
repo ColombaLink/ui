@@ -1,9 +1,7 @@
-import React, { CSSProperties, useEffect, useState, ReactNode, FC } from 'react'
+import React, { CSSProperties, useState, ReactNode, FC } from 'react'
 import { Text, ExpandIcon } from '~'
 import { styled } from 'inlines'
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
-
-import AutoSizer from 'react-virtualized-auto-sizer'
+import { border, Color, color } from '~/utils'
 
 type ExpandableListProps = {
   style?: CSSProperties
@@ -36,7 +34,7 @@ const StyledUl = styled('ul', {
     top: '0',
     width: '200%',
     left: '-100%',
-    borderTop: '1px solid #e0e0e0',
+    borderTop: border(1),
   },
 })
 
@@ -97,7 +95,7 @@ const ExpandableListItem = ({
               }}
             />
           ) : (
-            <div style={{ width: 32 }}></div>
+            <div style={{ width: 32 }} />
           )}
           <Text>{item.title}</Text>
         </div>

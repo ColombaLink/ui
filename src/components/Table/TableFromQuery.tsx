@@ -12,12 +12,7 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import {
-  AttachmentIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  EditIcon,
-} from '~/icons'
+import { AttachmentIcon } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -29,13 +24,13 @@ import {
   ITEM_WIDTH,
   ACTIONS_WIDTH,
 } from './constants'
-import { useError } from '@based/react'
 import { toDateString } from '~/utils/date'
 import { Button } from '../Button'
 import { Badge } from '../Badge'
 import { useHover } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
+import stringifyObject from 'stringify-object'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -71,6 +66,10 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const activeColumn = hoverColumnIndex === colIndex
   const isCheckbox = columnIndex === 0
   // TODO optimize
+
+  // console.log('What the data?', data)
+  // console.log('What the item?', item)
+
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
   if (item) {
@@ -82,24 +81,60 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       hasField = schemaFields && field in schemaFields
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
+        const metaFieldType = types[item.type].fields[field]?.meta?.format
+
+        const prettierObject = (obj) => {
+          return stringifyObject(obj, {
+            indent: ' ',
+            singleQuotes: false,
+            doubleQuotes: false,
+          })
+        }
+
         if (fieldType) {
           const weight = colIndex ? 400 : 500
           if (fieldType === 'array') {
-            children = '[array]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(items[0][field]).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'json') {
-            children = '[json]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(JSON.parse(value)).substring(0, 64)}
+              </Text>
+            )
+          } else if (fieldType === 'boolean') {
+            children = <Text weight={400}>{JSON.stringify(value)}</Text>
           } else if (fieldType === 'record') {
-            children = '[record]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(items[0][field]).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'set') {
-            children = '[set]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(items[0][field]).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'object') {
-            children = '[object]'
+            children = (
+              <Text weight={400}>{prettierObject(value).substring(0, 64)}</Text>
+            )
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
           } else if (fieldType === 'references') {
             children = value.length ? <References value={value} /> : null
           } else if (fieldType === 'timestamp') {
             children = <Text weight={weight}>{toDateString(value)}</Text>
+          } else if (fieldType === 'digest') {
+            children = (
+              <Badge weight={weight}>{value.substring(0, 6) + '...'}</Badge>
+            )
+          } else if (fieldType === 'string' && metaFieldType === 'markdown') {
+            children = <Text weight={weight}>{value.substring(0, 64)}</Text>
           } else if (isImage(value)) {
             children = (
               <div
@@ -114,7 +149,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (typeof value === 'object') {
             console.warn('incorrect value:', fieldType, item, field, value)
           } else {
-            children = <Text weight={weight}>{value}</Text>
+            children = <Text weight={400}>{value}</Text>
           }
         }
       }
@@ -171,6 +206,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 12,
         paddingRight: 12,
         borderBottom: border(1),
+        //  borderRight: border(1),
         backgroundColor: color(
           activeRow
             ? activeColumn && !isCheckbox && hasField

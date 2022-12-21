@@ -10,6 +10,7 @@ type CalloutProps = {
   outline?: boolean
   color?: Color
   label?: string
+  labelColor?: Color
   description?: string
   ghost?: boolean
   space?: Space
@@ -22,6 +23,7 @@ export const Callout: FC<CalloutProps> = ({
   children,
   description,
   label,
+  labelColor,
   icon,
   closeable,
   outline,
@@ -47,7 +49,7 @@ export const Callout: FC<CalloutProps> = ({
         flexDirection: 'column',
         position: 'relative',
         padding: '12px 16px',
-        borderRadius: 4,
+        borderRadius: 8,
         marginBottom: spaceToPx(space),
         justifyContent:
           textAlign === 'center'
@@ -74,7 +76,7 @@ export const Callout: FC<CalloutProps> = ({
 
       <Label
         label={label}
-        labelColor={color(colorProp, 'contrast', true)}
+        labelColor={labelColor || color(colorProp, 'contrast', true)}
         description={description}
         descriptionColor={color(colorProp, 'contrast', true)}
         icon={icon}

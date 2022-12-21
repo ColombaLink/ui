@@ -7,6 +7,8 @@ export const Tooltips = () => {
   const tooltipListenersSec = useTooltip("I'm another tooltip", 'right')
 
   const codeExample = `
+      import { useToolTips } from '@based/ui'
+      
                                           // "text" , "position"
       const tooltipListeners = useToolTips("I'm a tooltip", 'top')
 
@@ -26,10 +28,6 @@ export const Tooltips = () => {
 
       <Container style={{ width: 'fit-content' }} space>
         <Callout {...tooltipListenersSec}>hover me</Callout>
-      </Container>
-
-      <Container style={{ width: 'fit-content' }}>
-        <Button {...tooltipListenersSec}>hover me</Button>
       </Container>
     </>
   )

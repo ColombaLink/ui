@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   Input,
   Text,
@@ -8,6 +8,7 @@ import {
   border,
   Button,
   AddIcon,
+  EditIcon,
   Toggle,
   DateTimePicker,
   FileUpload,
@@ -16,20 +17,29 @@ import {
   LoadingIcon,
   ArrayList,
   useLocation,
+  InfiniteList,
+  Checkbox,
+  CheckIcon,
+  CopyIcon,
+  color,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { Dialog, useDialog } from '~/components/Dialog'
-import { ContentMain } from '../ContentMain'
 import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
+import { toDateString } from '~/utils/date'
+import { RecordList } from '~/components/RecordList'
+import { RecordPage } from '~/components/RecordList/RecordPage'
+import { useCopyToClipboard } from '~/hooks'
 
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
+  const [copied, copy] = useCopyToClipboard(id)
 
   return (
     <div
@@ -41,11 +51,23 @@ const Reference = ({ id }) => {
         display: 'flex',
         alignItems: 'center',
         padding: '0 16px',
-        marginBottom: 12,
+        marginBottom: 8,
       }}
     >
-      <Badge color="text">{type}</Badge>
-      <Text style={{ marginLeft: 8 }}>{descriptor}</Text>
+      <Badge
+        color="text"
+        onClick={id !== 'root' ? copy : null}
+        icon={id !== 'root' ? <CopyIcon /> : null}
+      >
+        {id}
+      </Badge>
+      <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>
+      {copied && (
+        <div style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}>
+          <CheckIcon color="green" />
+          <Text size={12}>Copied!!</Text>
+        </div>
+      )}
     </div>
   )
 }
@@ -73,20 +95,11 @@ const FileReference = ({
       space
       multiple={meta.multiple}
       onChange={async (files) => {
-        console.log('-->', files)
-
         const result = await Promise.all(
-          files.map((file) => {
-            console.log('file from map', file)
+          files?.map((file) => {
             return client.file(file)
           })
         )
-
-        // console.log('Result->', result)
-        // console.log(
-        //   'Arraytje toch',
-        //   result.map((file) => file?.id)
-        // )
 
         onChange(
           multiple
@@ -99,51 +112,268 @@ const FileReference = ({
   )
 }
 
+const SelectReferencesItemDescriptor = ({ id }) => {
+  const { descriptor, loading } = useDescriptor(id)
+  return loading ? null : <Text>{descriptor}</Text>
+}
+
+const SelectReferencesItem = ({ style, data, index }) => {
+  const item = data.items[index]
+  if (!item) {
+    return (
+      <div
+        style={{
+          borderBottom: border(1),
+          ...style,
+        }}
+      />
+    )
+  }
+  const checked = data.selected.has(item.id)
+  return (
+    <div
+      style={{
+        display: 'flex',
+        borderBottom: border(1),
+        alignItems: 'center',
+        padding: '0 24px',
+        ...style,
+      }}
+    >
+      <Checkbox
+        checked={checked}
+        onChange={() => {
+          if (checked) {
+            data.selected.delete(item.id)
+          } else {
+            data.selected.add(item.id)
+          }
+        }}
+      />
+      <Badge
+        style={{
+          marginRight: 16,
+          fontFamily: 'monospace',
+        }}
+      >
+        {item.id}
+      </Badge>
+      <SelectReferencesItemDescriptor id={item.id} />
+      <div style={{ flexGrow: 1 }} />
+      <Badge style={{ marginLeft: 16 }}>{item.type}</Badge>
+      <Text style={{ marginLeft: 16 }}>{toDateString(item.createdAt)}</Text>
+    </div>
+  )
+}
+
+const SelectReferences = ({ onChange, setRefArray }) => {
+  const [filter, setFilter] = useState('')
+  const { types, loading } = useSchemaTypes()
+  const [typing, setTyping] = useState(false)
+  const selected = useRef<Set<string>>()
+
+  if (typing) {
+    if (selected.current) {
+      selected.current = null
+    }
+  } else if (!selected.current) {
+    selected.current = new Set()
+  }
+
+  useEffect(() => {
+    if (filter) {
+      setTyping(true)
+      const timer = setTimeout(() => {
+        setTyping(false)
+      }, 500)
+      return () => clearTimeout(timer)
+    } else {
+      setTyping(false)
+    }
+  }, [filter])
+
+  if (loading) return null
+
+  const queryFields = Object.keys(types).reduce((set, type) => {
+    for (const key in types[type].fields) {
+      const field = types[type].fields[key]
+      if (field.type === 'string' || field.type === 'id') {
+        set.add(key)
+      }
+    }
+    return set
+  }, new Set())
+
+  return (
+    <Dialog
+      style={{ height: 492, display: 'flex', flexDirection: 'column' }}
+      pure
+      label={
+        <>
+          <>Select References</>
+          <Input
+            ghost
+            style={{
+              marginTop: 12,
+              backgroundColor: color('background2'),
+              boxShadow: '0px',
+              outline: 'none',
+              height: 40,
+              alignItems: 'center',
+              borderRadius: 8,
+              paddingTop: '8px',
+              paddingBottom: '6px',
+              paddingLeft: '16px',
+            }}
+            value={filter}
+            onChange={(val) => {
+              setFilter(val.trim())
+            }}
+          />
+        </>
+      }
+    >
+      {typing ? (
+        <div
+          style={{
+            flexGrow: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <LoadingIcon />
+        </div>
+      ) : (
+        <div
+          style={{
+            flexGrow: 1,
+            paddingLeft: 16,
+            paddingRight: 16,
+          }}
+        >
+          <InfiniteList
+            target="root"
+            height={323 - 8}
+            itemSize={55}
+            itemData={(items) => ({ items, selected: selected.current })}
+            query={($offset, $limit) => {
+              const query = {
+                id: true,
+                createdAt: true,
+                type: true,
+                $list: {
+                  $offset,
+                  $limit,
+                  $find: {
+                    $traverse: 'descendants',
+                    //  $filter: {},
+                  } as any,
+                },
+              }
+
+              if (filter) {
+                let f
+                queryFields.forEach(($field) => {
+                  const obj = {
+                    $field,
+                    $operator: 'includes',
+                    $value: filter,
+                  }
+                  if (f) {
+                    f = f.$or = obj
+                  } else {
+                    f = query.$list.$find.$filter = obj
+                  }
+                })
+              }
+
+              return query
+            }}
+          >
+            {SelectReferencesItem}
+          </InfiniteList>
+        </div>
+      )}
+      <div
+        style={{
+          padding: 24,
+          paddingTop: 14,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          borderTop: border(1),
+        }}
+      >
+        <Dialog.Confirm
+          space="16px"
+          onConfirm={() => {
+            setRefArray([...selected.current])
+            onChange(Array.from(selected.current))
+            // console.log('aight', selected.current)
+            // console.log('aight array ?', Array.from(selected.current))
+          }}
+        >
+          Confirm
+        </Dialog.Confirm>
+      </div>
+    </Dialog>
+  )
+}
+
+// let once
 const References = (props) => {
-  const { label, description, value, style } = props
+  const { label, description, value, style, onChange, space = 24 } = props
+
+  const [refArray, setRefArray] = useState([])
+
+  // console.log('REF PROPS', props)
+  useEffect(() => {
+    setRefArray(value)
+  }, [value])
+
+  // console.log('value', value)
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileReference {...props} multiple />
   }
 
   const { open } = useDialog()
+
+  const onClick = () => {
+    open(<SelectReferences onChange={onChange} setRefArray={setRefArray} />)
+  }
+
   return (
-    <InputWrapper indent style={style}>
+    <InputWrapper
+      indent
+      style={style}
+      descriptionBottom={description}
+      space={space}
+    >
       <Label
         label={label}
-        description={description}
+        // description={description}
         style={{ marginBottom: 12 }}
       />
-      {value?.map((id) => (
+
+      {/* if there are reftypes on the meta */}
+
+      {/* {meta?.refTypes?.length > 0 &&
+        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
+
+      {refArray?.map((id) => (
         <Reference key={id} id={id} />
       ))}
+
+      {/* {value?.map((id) => (
+        <Reference key={id} id={id} />
+      ))} */}
       <Button
         ghost
-        icon={AddIcon}
-        onClick={() => {
-          open(
-            <Dialog
-              padding={0}
-              style={{
-                width: '100vw',
-                height: 'calc(100vh - 60px)',
-              }}
-              pure
-            >
-              <ContentMain
-                // label={`Add ${field}`}
-                // query={{
-                //   filters: [],
-                //   target: id,
-                //   field,
-                // }}
-                style={{ height: '100%' }}
-              />
-            </Dialog>
-          )
-        }}
+        icon={value?.length > 0 ? EditIcon : AddIcon}
+        onClick={onClick}
       >
-        Add item
+        {value?.length > 0 ? 'Change References' : 'Add References'}
       </Button>
     </InputWrapper>
   )
@@ -169,12 +399,6 @@ const SingleReference = (props) => {
     </div>
   )
 }
-
-// const text = {
-//   default: ({ description, ...props }) => {
-//     return <Input {...props} descriptionBottom={description} indent space />
-//   },
-// }
 
 const object = {
   default: ({ prefix, schema, field, ...props }) => {
@@ -205,6 +429,25 @@ const object = {
   },
 }
 
+const record = {
+  default: ({ prefix, field, label, value, description, schema, ...props }) => {
+    const [, setLocation] = useLocation()
+    return (
+      <RecordList
+        label={label}
+        schema={schema}
+        description={description}
+        value={value}
+        onClick={() => {
+          //  console.log('get value back?', value)
+          setLocation(`${prefix}.${field}`)
+        }}
+        {...props}
+      />
+    )
+  },
+}
+
 const string = {
   default: ({ description, ...props }) => {
     return (
@@ -213,7 +456,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        //  noInterrupt
+        noInterrupt
       />
     )
   },
@@ -334,16 +577,18 @@ const digest = {
 
 const boolean = {
   default: ({ description, ...props }) => {
-    return <Toggle indent descriptionBottom={description} space {...props} />
+    return (
+      <Toggle indent descriptionBottom={description} space="48px" {...props} />
+    )
   },
 }
 
 const timestamp = {
-  default: (props) => (
+  default: ({ description, ...props }) => (
     <DateTimePicker
+      descriptionBottom={description}
       indent
       {...props}
-      type="number"
       value={props.value}
       error={(value) => {
         if (!value) {
@@ -397,7 +642,6 @@ const set = {
         description={description}
         onChange={onChange}
         indent
-        space
         {...props}
       />
     )
@@ -420,6 +664,7 @@ const components = {
   json,
   array,
   set,
+  record,
 }
 
 const ContentField = ({
@@ -465,7 +710,7 @@ const ContentField = ({
     // console.log(dataRef.current)
   }
 
-  console.log('-', field, JSON.stringify({ schema, query, data }, null, 2))
+  // console.log('-', field, JSON.stringify({ schema, query, data }, null, 2))
 
   const Component =
     components[type]?.[ui || format || 'default'] || components[type]?.default
@@ -524,20 +769,31 @@ export const ContentEditor = ({
   language = 'en',
   prefix = '',
 }) => {
-  let fields, loading
+  let fields, loading, recordValueType
 
   if (id) {
     if (id.includes('.')) {
       // im dealing with nested fields
       const [pathId, ...path] = id.split('.')
       const s = useItemSchema(pathId)
+
       loading = s.loading
       fields = s.fields
+
+      // if it is a record
+      if (fields && id) {
+        const lastPartOfId = id.split('.').pop()
+        if (fields[lastPartOfId]?.type === 'record') {
+          recordValueType = fields[lastPartOfId].values.type
+          type = 'record'
+        }
+      }
 
       if (fields) {
         path.forEach((field) => {
           if (field in fields) {
             const { properties, items, values } = fields[field]
+
             // TODO also make for object in array, record, etc
             fields = items?.properties || values?.properties || properties
           }
@@ -550,7 +806,6 @@ export const ContentEditor = ({
               [field]: val,
             }
           }, val)
-
           onChangeProp(setObj)
         }
       }
@@ -582,39 +837,52 @@ export const ContentEditor = ({
     )
   }
 
+  if (type === 'record') {
+    return (
+      <RecordPage
+        fields={fields}
+        id={id}
+        onChange={onChange}
+        recordValueType={recordValueType}
+        style={style}
+      />
+    )
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {/* mapt over de fields in de object */}
-      {Object.keys(fields).map((field) => {
-        const fieldSchema = fields[field]
-        const { type, meta } = fields[field]
+      {fields &&
+        Object.keys(fields).map((field) => {
+          const fieldSchema = fields[field]
+          const { type, meta } = fields[field]
 
-        if (
-          type === 'id' ||
-          type === 'type' ||
-          meta === undefined ||
-          meta.hidden
-        ) {
-          return null
-        }
+          if (
+            type === 'id' ||
+            type === 'type' ||
+            meta === undefined ||
+            meta.hidden
+          ) {
+            return null
+          }
 
-        const index = meta.index
+          const index = meta.index
 
-        return (
-          <ContentField
-            prefix={`${prefix}/${id}`}
-            autoFocus={autoFocus === field}
-            field={field}
-            id={id}
-            index={index}
-            key={field}
-            schema={fieldSchema}
-            type={type}
-            onChange={onChange}
-            language={language}
-          />
-        )
-      })}
+          return (
+            <ContentField
+              prefix={`${prefix}/${id}`}
+              autoFocus={autoFocus === field}
+              field={field}
+              id={id}
+              index={index}
+              key={field}
+              schema={fieldSchema}
+              type={type}
+              onChange={onChange}
+              language={language}
+            />
+          )
+        })}
     </div>
   )
 }

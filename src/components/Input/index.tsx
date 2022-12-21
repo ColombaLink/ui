@@ -21,6 +21,7 @@ import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
+import { PasswordInput } from './PasswordInput'
 
 const resize = (target) => {
   if (target) {
@@ -31,19 +32,32 @@ const resize = (target) => {
 
 const Multi = ({ style, inputRef, ...props }) => {
   if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
+  const [inputFocus, setInputFocus] = useState(false)
+
   return (
-    <textarea
-      style={{
-        ...style,
-        display: 'block',
-        resize: 'none',
-        paddingTop: 8,
-        minHeight: 84,
-      }}
-      ref={resize}
-      onInput={({ target }) => resize(target)}
-      {...props}
-    />
+    <div
+      onFocus={() => setInputFocus(true)}
+      onBlur={() => setInputFocus(false)}
+    >
+      <textarea
+        style={{
+          ...style,
+          display: 'block',
+          resize: 'none',
+          paddingTop: 8,
+          minHeight: 84,
+          outline: inputFocus
+            ? `3px solid rgba(44, 60, 234, 0.2)`
+            : `3px solid transparent`,
+          border: inputFocus
+            ? `1.5px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
+        }}
+        ref={resize}
+        onInput={({ target }) => resize(target)}
+        {...props}
+      />
+    </div>
   )
 }
 
@@ -69,6 +83,7 @@ type InputProps = {
   customRegex?: boolean
   pattern?: string
   jsonInput?: boolean
+  passwordInput?: boolean
   markdownInput?: boolean
   digest?: boolean
   description?: string
@@ -196,6 +211,7 @@ export const Input: FC<
   customRegex,
   pattern,
   jsonInput,
+  passwordInput,
   markdownInput,
   defaultValue,
   description,
@@ -235,7 +251,7 @@ export const Input: FC<
   const [errorMessage, setErrorMessage] = useState('')
 
   // to clear json value
-  const [clearValue, setClearValue] = useState(false)
+  const [, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
 
   useEffect(() => {
@@ -268,8 +284,8 @@ export const Input: FC<
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
-  const fontSize = 16
-  const fontWeight = 500
+  const fontSize = 14
+  const fontWeight = 400
   const props = {
     name,
     type,
@@ -282,16 +298,22 @@ export const Input: FC<
     style: {
       margin: 0,
       outline: ghost
-        ? null
-        : focus
-        ? `2px solid ${color('border:active')}`
-        : `1px solid ${color(hover ? 'border:hover' : 'border')}`,
-      outlineOffset: ghost ? null : focus ? -2 : -1,
-      borderRadius: 4,
+        ? `3px solid transparent`
+        : focused
+        ? `3px solid rgba(44, 60, 234, 0.2)`
+        : `3px solid transparent`,
+      outlineOffset: ghost ? null : focus ? -1 : -1,
+      borderRadius: 8,
+      boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? null : large ? 48 : 36,
+      minHeight: ghost ? 6 : large ? 48 : 36,
       paddingLeft,
+      border: ghost
+        ? `0px solid transparent`
+        : focused
+        ? `1.5px solid ${color('accent')}`
+        : `1px solid ${color('border')}`,
       paddingRight,
       width: '100%',
       fontSize,
@@ -339,7 +361,10 @@ export const Input: FC<
                 setValue('')
               }}
               disabled={disabled}
-              style={{ height: 'fit-content' }}
+              style={{
+                height: 'fit-content',
+                marginTop: description ? 0 : -6,
+              }}
             >
               Clear
             </Button>
@@ -420,6 +445,15 @@ export const Input: FC<
               onChange={onChange}
               value={value}
             />
+          ) : passwordInput ? (
+            <PasswordInput
+              {...props}
+              icon={icon}
+              large={large}
+              disabled={!!valueProp}
+              onChange={onChange}
+              value={value}
+            />
           ) : (
             <MaybeSuggest
               focused={focused}
@@ -438,6 +472,11 @@ export const Input: FC<
                   // now you can remove the zero in input fields
                   if (e.key === 'Backspace' && value === 0) {
                     setValue('')
+                  }
+                  // for some reason pressing . in number input
+                  // changed the value to one
+                  if (e.key === '.' && type === 'number') {
+                    e.preventDefault()
                   }
                   props.onKeyDown?.(e)
                 }}

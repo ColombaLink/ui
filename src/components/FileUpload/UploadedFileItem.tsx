@@ -17,7 +17,7 @@ const StyledUploadedFile = styled('div', {
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
   paddingLeft: 12,
-  borderRadius: 4,
+  borderRadius: 8,
   alignItems: 'center',
   gap: 12,
   marginBottom: 8,
@@ -123,7 +123,7 @@ export const UploadedFileItem = ({
 }
 
 const ContextOptions = ({
-  handleClickUpload,
+  // handleClickUpload,
   deleteSpecificFile,
   id,
   replaceSpecificFile,

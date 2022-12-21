@@ -12,6 +12,7 @@ import {
   DarkModeIcon,
   LightModeIcon,
   ExternalLinkIcon,
+  color,
 } from '../'
 import based from '@based/client'
 import * as stories from './stories'
@@ -43,6 +44,7 @@ const menuItems = {
   Advanced: {
     Auth: '?story=auth',
     ContentEditor: '?story=content-editor',
+    ContentEditorYouzi: '?story=content-editor-youzi',
   },
   Schema: {
     Schema: '?story=schema',
@@ -108,6 +110,7 @@ const menuItems = {
 
   Themes: {
     Theming: '?story=theming',
+    Typography: '?story=typography',
   },
   Text: {
     Text: '?story=text',
@@ -120,7 +123,12 @@ const menuItems = {
     // ScatterResults: '?story=ScatterResults',
   },
   Hooks: {
-    Tooltips: '?story=tooltips',
+    useContextMenu: '?story=ContextHook',
+    useCopyToClipboard: '?story=CopyHookExample',
+    useDarkMode: '?story=DarkModeHook',
+    useDialog: '?story=DialogHookExample',
+    useLocation: '?story=LocationHook',
+    useToolTips: '?story=tooltips',
   },
   Handbook: {
     Props: '?story=props',
@@ -197,12 +205,22 @@ const App = () => {
                 onClick={() => setFullscreen(!fullscreen)}
               />
             </div>
-            <div style={{ marginLeft: -8 }}>
+            <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>
               <Input
                 icon={<SearchIcon />}
                 placeholder="Search"
-                space="20px"
+                space
                 onChange={(e) => searchFilterHandler(e)}
+                ghost
+                style={{
+                  backgroundColor: color('background2'),
+                  boxShadow: '0px',
+                  outline: 'none',
+                  height: 40,
+                  alignItems: 'center',
+                  borderRadius: 8,
+                  paddingTop: '8px',
+                }}
               />
             </div>
           </>
