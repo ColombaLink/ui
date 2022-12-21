@@ -11,7 +11,7 @@
     "watch": "tsc-watch --build tsconfig.build.json --onSuccess \"node scripts/postbuild\"",
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
     "build-app": "npx @based/cli build-app -t src/playground/index.tsx -d functions/ui",
-    "deploy": "npx @based/cli deploy",
+    "deploy": "npx @based/cli deploy -nm",
     "_build-docs": "aristotle bundle -t ./src/playground/index.tsx -d docs -b /ui -ti 'Based UI' -k -m"
   },
   "files": [
