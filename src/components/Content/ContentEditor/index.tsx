@@ -456,7 +456,7 @@ const string = {
         descriptionBottom={description}
         indent
         space
-        noInterrupt
+        //  noInterrupt
       />
     )
   },
