@@ -145,6 +145,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
 
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
+
     if (changedFields) {
       open(
         <Dialog
@@ -184,12 +185,10 @@ const ContentModalInner = ({ prefix, id, field }) => {
       onClick={onClose}
     >
       <div
-        onClick={onClose}
         style={{
           opacity: 0.6,
           width: 300,
           flexGrow: 1,
-          // backgroundColor: color('background2'),
         }}
       />
       <div
