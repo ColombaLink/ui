@@ -18,6 +18,7 @@ export const Checkboxes = () => {
             label: 'Checkbox checked',
             checked: true,
             color: 'green',
+            indeterminate: true,
           },
         },
         {
@@ -25,6 +26,7 @@ export const Checkboxes = () => {
             label: 'Check it out',
             description: 'Checkbox description',
             checked: true,
+            size: 'sm',
           },
         },
         {
