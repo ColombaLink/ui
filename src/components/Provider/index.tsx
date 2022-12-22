@@ -34,6 +34,8 @@ const mergeNested = (theme, overwrite, key) => {
           theme[key][i] = overwrite[key][i]
         }
       }
+    } else {
+      theme[key] = overwrite[key]
     }
   }
 }
