@@ -20,19 +20,20 @@ export const CustomRegexInput = ({
   const [isValid, setIsValid] = useState(false)
 
   useEffect(() => {
-    if (new RegExp(pattern).test(val)) {
-      setIsValid(true)
-      setErrorMessage('')
-    } else {
-      setIsValid(false)
-      setErrorMessage('Does not match REGEX/pattern')
+    if (val.length > 1) {
+      if (new RegExp(pattern).test(val)) {
+        setIsValid(true)
+        setErrorMessage('')
+      } else {
+        setIsValid(false)
+        setErrorMessage('Does not match REGEX/pattern')
+      }
     }
   }, [val])
 
   return (
     <div>
       <Input
-        placeholder="test"
         value={val}
         onChange={(e) => {
           setVal(e)

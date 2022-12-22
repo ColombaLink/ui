@@ -107,6 +107,14 @@ export const Theming = () => {
     const k = isDarkMode ? 'dark' : 'base'
     const key = light ? 'light' : 'colors'
     const themes = currentThemes ? { ...currentThemes } : {}
+    if (light) {
+      name = name.substring(5)
+    }
+    console.log(
+      { name, variant },
+      [k, key, name, variant?.substring(0, 1) || 'm'],
+      rgbaToArr(val)
+    )
     if (!themes[k]) themes[k] = {}
     if (!themes[k][key]) themes[k][key] = {}
     if (!themes[k][key][name]) themes[k][key][name] = {}
