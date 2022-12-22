@@ -1609,6 +1609,21 @@
       "code": "type FlowProps = {\n  indicator?: boolean\n  onDropData?: DataEventHandler\n  onDropFile?: DataEventHandler\n  onDrop?: DataEventHandler<\n    | { data: Data[]; targetIndex: number; targetData: Data }\n    | { files: File[]; targetIndex: number; targetData: Data }\n  > // i think this is an order change - if this is not there dont allow order change\n  onDropSequence?: DataEventHandler<\n    | { data: Data[]; targetIndex: number }\n    | { files: File[]; targetIndex: number }\n  > // i think this is an order change - if this is not there dont allow order change\n  paddingRight?: number\n  paddingLeft?: number\n  sequenceSpacing?: number\n  paddingTop?: number\n  expandable?: boolean\n  defaultIsExpanded?: boolean\n  paddingBottom?: number\n  width?: number\n  items: Object[]\n  draggable?: boolean\n  Actions?: ComponentType<OptionsComponentProps>\n  itemProps?: SequenceitemProps\n  onClick?: DataEventHandler\n  actionIcon?: string\n  onAction?: DataEventHandler\n  footer?: FooterProps\n  stepFooter?: FooterProps\n  exportData?: ExportData\n  exportDataSequence?: ExportData\n  onOptions?: DataEventHandler // select options\n  optionsIcon?: string\n  contextualMenu?: boolean\n  children?: Children<OptionsComponentProps>\n  header?: HeaderProps\n  color?: Color\n}",
       "file": "/components/Flow/index.tsx"
     },
+    "FormProps": {
+      "name": "FormProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "onSubmit": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type FormProps = {\n  style?: CSSProperties\n  onSubmit?: (res: SubmitResponse) => void\n}",
+      "file": "/components/Form/index.tsx"
+    },
     "GeoInputProps": {
       "name": "GeoInputProps",
       "props": {
@@ -3186,9 +3201,13 @@
         "expanded": {
           "optional": true,
           "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n}",
+      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n  icon?: ReactNode\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SpacerProps": {

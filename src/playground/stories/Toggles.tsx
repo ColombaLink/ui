@@ -4,26 +4,24 @@ import ComponentViewer from '../ComponentViewer'
 
 export const Toggles = () => {
   return (
-    <div>
-      <ComponentViewer
-        component={Toggle}
-        propsName="ToggleProps"
-        examples={[
-          {
-            props: {
-              label: 'One Label',
-              description: 'One Description',
-              text: 'One Text',
-            },
+    <ComponentViewer
+      component={Toggle}
+      propsName="ToggleProps"
+      examples={[
+        {
+          props: {
+            label: 'One Label',
+            description: 'One Description',
+            text: 'One Text',
           },
-          {
-            props: {
-              text: 'checked',
-              checked: true,
-            },
+        },
+        {
+          props: {
+            text: 'checked',
+            checked: true,
           },
-        ]}
-      />
-    </div>
+        },
+      ]}
+    />
   )
 }

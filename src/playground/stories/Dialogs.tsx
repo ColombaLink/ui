@@ -2,7 +2,9 @@ import React from 'react'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { Text, Button, WarningIcon, Callout, Code } from '~'
 
-const codeExample = `<Dialog label="label">
+const codeExample = `import { Dialog } from '~/components/Dialog'
+
+<Dialog label="label">
     <Text color="text2" space>
       Create a new organisation
     </Text>
@@ -14,7 +16,8 @@ const codeExample = `<Dialog label="label">
        <Dialog.Cancel />
        <Dialog.Confirm />
     </Dialog.Buttons>
-  </Dialog>`
+  </Dialog>
+  `
 
 export const Dialogs = () => {
   const { confirm, alert, prompt, open } = useDialog()

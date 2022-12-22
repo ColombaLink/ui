@@ -273,7 +273,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
                 parseBasedSetPayload(changes)
                 console.log(JSON.stringify(changes, null, 2))
                 await client.set({
-                  $id: id.split('.')[0] || undefined,
+                  $id: id?.split('.')[0] || undefined,
                   type,
                   ...changes,
                 })

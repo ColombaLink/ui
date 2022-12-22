@@ -1,5 +1,4 @@
 import React from 'react'
-import { Provider, AddIcon } from '~'
 import { MultiSelect, Select } from '~/components/Select'
 import ComponentViewer from '../ComponentViewer'
 

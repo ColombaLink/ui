@@ -37,19 +37,17 @@ const codeExample2 = `import { Tabs, Tab, Page, StackIcon, EditIcon } from '@bas
 
 export const TabsView = () => {
   return (
-    <>
-      <ComponentViewer
-        propsName="TabsProps"
-        examples={[
-          {
-            code: codeExample,
-          },
-          {
-            code: codeExample2,
-          },
-        ]}
-        component={Tabs}
-      />
-    </>
+    <ComponentViewer
+      propsName="TabsProps"
+      examples={[
+        {
+          code: codeExample,
+        },
+        {
+          code: codeExample2,
+        },
+      ]}
+      component={Tabs}
+    />
   )
 }

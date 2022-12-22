@@ -60,7 +60,7 @@ const menuItems = {
     Geo: '?story=geo',
     InputFields: '?story=input-fields',
     Radiobuttons: '?story=radiobutton',
-    ReferenceInput: '?story=reference-inputs',
+    // ReferenceInput: '?story=reference-inputs',
     Selects: '?story=selects',
     Sliders: '?story=sliders',
     Toggle: '?story=toggles',
@@ -91,8 +91,8 @@ const menuItems = {
     Flow: '?story=FlowSequences',
     Grids: '?story=grids',
     ExpandableList: '?story=ExpandableLists',
-    InfiniteList: '?story=InfiniteLists',
-    Lists: '?story=lists',
+    // InfiniteList: '?story=InfiniteLists',
+    // Lists: '?story=lists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',
@@ -134,9 +134,9 @@ const menuItems = {
   },
   Examples: {
     Inbox: '?story=inbox',
-    ProfileSettings: '?story=profile-settings',
-    ProjectSettings: '?story=project-settings',
-    Tally: '?story=tally-screens',
+    // ProfileSettings: '?story=profile-settings',
+    // ProjectSettings: '?story=project-settings',
+    // Tally: '?story=tally-screens',
   },
 }
 

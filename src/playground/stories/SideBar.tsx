@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScreenIcon, GearsIcon, SettingsIcon } from '~/icons'
+import { ScreenIcon, GearsIcon, SettingsIcon } from '~'
 import { Sidebar } from '~/components/Sidebar'
 import ComponentViewer from '../ComponentViewer'
 import { Code } from '~/components/Code'
@@ -17,17 +17,17 @@ export const SideBar = () => {
             subTitle: 'Subtitle',
           },
           {
-            icon: ScreenIcon,
+            icon: <ScreenIcon/>,
             label: 'Schema',
             href: '/schema',
           },
           {
-            icon: GearsIcon,
+            icon: <GearsIcon/>,
             label: 'Content',
             href: '/content',
           },
           {
-            icon: SettingsIcon,
+            icon: <SettingsIcon/>,
             label: 'Files',
             href: '/files',
           },
@@ -43,7 +43,15 @@ export const SideBar = () => {
         examples={[
           {
             props: {
-              data: exampleSidebarData,
+              expandable: true,
+              data: [
+                { subTitle: 'Subtitle' },
+                {
+                  icon: SettingsIcon,
+                  label: 'Schema',
+                  href: '/schema',
+                },
+              ],
             },
           },
         ]}
