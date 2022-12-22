@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, MasonryGrid as MasonryGridC } from '../..'
+import { MasonryGrid as MasonryGridC } from '../..'
 import ComponentViewer from '../ComponentViewer'
 
 const codeExample = `import { MasonryGrid } from '@based/ui'
@@ -16,16 +16,14 @@ const codeExample = `import { MasonryGrid } from '@based/ui'
 
 export const MasonryGrid = () => {
   return (
-    <>
-      <ComponentViewer
-        component={MasonryGridC}
-        propsName="MasonryGridProps"
-        examples={[
-          {
-            code: codeExample,
-          },
-        ]}
-      />
-    </>
+    <ComponentViewer
+      component={MasonryGridC}
+      propsName="MasonryGridProps"
+      examples={[
+        {
+          code: codeExample,
+        },
+      ]}
+    />
   )
 }

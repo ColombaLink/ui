@@ -5,7 +5,6 @@ import ComponentViewer from '../ComponentViewer'
 export const ToggleGroups = () => {
   const codeExample = `import { ToggleGroup, AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from '@based/ui'
 
-
   <ToggleGroup
         space
         data={[

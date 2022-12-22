@@ -1,5 +1,4 @@
 import React from 'react'
-import { Container } from '~/components/Container'
 import { Spacer } from '~/components/Spacer'
 import ComponentViewer from '../ComponentViewer'
 
