@@ -30,6 +30,14 @@ export const Buttons = () => {
           },
           {
             props: {
+              children: 'Ghost button',
+              outline: true,
+              ghost: true,
+              color: 'lightaction',
+            },
+          },
+          {
+            props: {
               icon: CheckIcon,
               children: 'Button with icon',
             },
