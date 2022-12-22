@@ -20,7 +20,7 @@ export const Thumbnails = () => {
             size: 40,
             color: 'green',
             label: 'Apples',
-            counter: 7,
+            counter: 5,
           },
         },
         {
