@@ -107,7 +107,6 @@ const menuItems = {
   Overlays: {
     ContextMenus: '?story=context-menus',
   },
-
   Themes: {
     Theming: '?story=theming',
     Typography: '?story=typography',
@@ -123,7 +122,7 @@ const menuItems = {
     // ScatterResults: '?story=ScatterResults',
   },
   Hooks: {
-    useContextMenu: '?story=ContextHook',
+    useContextMenu: '?story=UseContextMenu',
     useCopyToClipboard: '?story=CopyHookExample',
     useDarkMode: '?story=DarkModeHook',
     useDialog: '?story=DialogHookExample',

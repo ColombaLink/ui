@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Button, Text, Container, Callout, Code, useDialog, Dialog } from '~'
 
 export const DialogHookExample = () => {
@@ -111,12 +110,12 @@ export const DialogHookExample = () => {
       <Container space>
         <Button
           onClick={async () => {
-            const ok = await open(
+            await open(
               <Dialog label="Bonjour monsieur">
                 <Text>Some text</Text>
                 <Dialog.Buttons border>
                   <Dialog.Cancel />
-                  <Dialog.Confirm />
+                  <Dialog.Confirm onConfirm={() => console.log('good!')} />
                 </Dialog.Buttons>
               </Dialog>
             )

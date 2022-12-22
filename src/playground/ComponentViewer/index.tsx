@@ -3,14 +3,27 @@ import props from '../props.json'
 import { Text, useSearchParam } from '../../'
 import { Explorer } from './Explorer'
 
+export type PropsDef = {
+  name: string
+  props: {
+    [key: string]: {
+      optional: boolean
+      type: string
+    }
+  }
+  code: string
+  file: string
+}
+
 const ComponentViewer: FC<{
-  component: FC
+  component?: FC
+  propsDef?: PropsDef
   propsName: string // mandatory otherwise it does not work when minified
   examples?: { props?: any; code?: string; component?: FC }[]
-  width?: number | '100%' | 'auto' // fuzz width
-}> = ({ component, propsName, width = 'auto', examples }) => {
+  title?: string
+}> = ({ propsDef, component, propsName, examples, title }) => {
   const fuzz = useSearchParam('randomize')
-  const p = props.props[propsName]
+  const p = propsDef || props.props[propsName]
   if (!p) {
     return (
       <div
@@ -20,14 +33,14 @@ const ComponentViewer: FC<{
           marginBottom: 48,
         }}
       >
-        <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
+        <Text weight={700} size="18px" style={{ marginBottom: 24 }}>
           {propsName}
         </Text>
       </div>
     )
   }
-  const fuzzArr = []
 
+  const fuzzArr = []
   for (let i = 0; i < (fuzz ? 50 : 0); i++) {
     fuzzArr.push({})
   }
@@ -37,6 +50,7 @@ const ComponentViewer: FC<{
       name={propsName}
       p={p}
       component={component}
+      title={title}
     />
   )
 }

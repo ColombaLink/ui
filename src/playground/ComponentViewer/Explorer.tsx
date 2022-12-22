@@ -24,8 +24,6 @@ export const CodeExample: FC<{
   name: string
   exampleCode?: string
   exampleProps?: string
-  fromComponent?: FC
-  runCode?: string
   index: number
 }> = ({ index, component, name, exampleCode, exampleProps, p }) => {
   const [cnt, update] = useState(0)
@@ -42,6 +40,7 @@ export const CodeExample: FC<{
 
   let child
   try {
+    // eslint-disable-next-line
     const fn = new Function(
       'ui',
       'React',
@@ -95,9 +94,10 @@ export const CodeExample: FC<{
 export const Explorer: FC<{
   p: any
   component: FC
+  title?: string
   name: string
   examples?: { code?: string; props?: any; component?: FC }[]
-}> = ({ component, p, name, examples = [{}] }) => {
+}> = ({ component, p, name, examples = [{}], title }) => {
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
 
@@ -114,7 +114,7 @@ export const Explorer: FC<{
       >
         <Link href={`src${p.file}`}>
           <Text weight={700} size="18px">
-            {p.file.slice(1).split('/').slice(1, -1)}
+            {title || p.file.slice(1).split('/').slice(1, -1)}
           </Text>
         </Link>
         <div style={{ display: 'flex' }}>
