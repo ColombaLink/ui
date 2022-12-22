@@ -135,9 +135,9 @@ const menuItems = {
   },
   Examples: {
     Inbox: '?story=inbox',
-    ProfileSettings: '?story=profile-settings',
-    ProjectSettings: '?story=project-settings',
-    Tally: '?story=tally-screens',
+    // ProfileSettings: '?story=profile-settings',
+    // ProjectSettings: '?story=project-settings',
+    // Tally: '?story=tally-screens',
   },
 }
 

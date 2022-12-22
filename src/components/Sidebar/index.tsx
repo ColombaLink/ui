@@ -34,6 +34,7 @@ type SidebarItemProps = {
   href?: string
   isActive?: boolean
   expanded?: boolean
+  icon?: ReactNode
 }
 
 const SidebarItem: FC<SidebarItemProps> = ({
@@ -42,6 +43,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
   isActive,
   children,
   expanded,
+  icon,
 }) => {
   const tooltip = expanded ? undefined : useTooltip(label, 'right')
 
@@ -170,6 +172,7 @@ export const Sidebar: FC<SidebarProps> = ({
         href={href}
         isActive={isActive}
         expanded={expanded}
+        icon={icon}
       >
         {renderOrCreateElement(icon, { size: 20 })}
       </SidebarItem>
@@ -197,7 +200,6 @@ export const Sidebar: FC<SidebarProps> = ({
         position: 'relative',
         borderRight: border(1),
         transition: 'all 0.24s ease-out',
-
         ...style,
       }}
     >

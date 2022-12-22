@@ -1,7 +1,6 @@
 import React from 'react'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { Text, Button, WarningIcon, Callout, Code } from '~'
-import ComponentViewer from '../ComponentViewer'
 
 const codeExample = `import { Dialog } from '~/components/Dialog'
 
