@@ -1,5 +1,5 @@
 import React, { FC, CSSProperties, useState, useEffect } from 'react'
-import { Label } from '~'
+import { Label, usePropState } from '~'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { TimeInput } from './TimeInput'
@@ -48,18 +48,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   value,
   utc,
 }) => {
-  // function padTo2Digits(num) {
-  //   return String(num).padStart(2, '0')
-  // }
-
-  // console.log(new Date(value).getHours() + ':' + new Date(value).getMinutes())
-
-  // const hoursMinutes =
-  //   new Date(value).getHours() +
-  //   ':' +
-  //   padTo2Digits(new Date(value).getMinutes())
-
-  // console.log('hoursMinutes', hoursMinutes)
+  const [incomingValue, setIncomingValue] = usePropState(value)
 
   const [focus, setFocus] = useState(false)
 
@@ -68,6 +57,22 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [dateUtcInput, setDateUtcInput] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    const incomingTime = new Date(incomingValue)
+      .toString()
+      .split(' ')[4]
+      ?.substring(0, 5)
+
+    const incomingDate = new Date(incomingValue)
+      .toLocaleString('en-GB')
+      .split(',')[0]
+      .split('-')
+      .join('/')
+
+    setDateFormatInput(incomingDate)
+    setDateTimeInput(incomingTime)
+  }, [incomingValue])
 
   // console.log('From -->', from, new Date(from).getTime())
   // console.log('Till -->', till, new Date(till).getTime())
@@ -155,6 +160,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      // @ts-ignore
       onBlur={() => {
         console.log('de tijd is: ', dateTimeInput)
         console.log('de datum is: ', dateFormatInput)
