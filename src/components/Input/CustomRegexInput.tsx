@@ -13,6 +13,7 @@ type CustomRegexInputProps = {
 export const CustomRegexInput = ({
   pattern,
   setErrorMessage,
+  errorMessage,
   value,
   onChange,
 }: CustomRegexInputProps) => {
@@ -26,7 +27,7 @@ export const CustomRegexInput = ({
         setErrorMessage('')
       } else {
         setIsValid(false)
-        setErrorMessage('Does not match REGEX/pattern')
+        setErrorMessage(errorMessage || 'Does not match REGEX/pattern')
       }
     }
   }, [val])

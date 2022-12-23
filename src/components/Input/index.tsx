@@ -271,7 +271,21 @@ export const Input: FC<
       onChangeProp?.(newValue)
     }
 
-    const msg = error?.(newValue)
+    // const msg = error?.(newValue)
+
+    // if (msg) {
+    //   // add error msg
+    //   setErrorMessage(msg)
+    // } else {
+    //   // remove error msg
+    //   setErrorMessage('')
+    // }
+  }
+
+  useEffect(() => {
+    //  check for error pas als de focus weg is
+
+    const msg = error?.(value)
 
     if (msg) {
       // add error msg
@@ -280,7 +294,7 @@ export const Input: FC<
       // remove error msg
       setErrorMessage('')
     }
-  }
+  }, [focused])
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12

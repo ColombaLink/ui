@@ -1,5 +1,5 @@
 import React from 'react'
-import { Input } from '~'
+import { Input, CheckIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const InputFields = () => {
@@ -13,6 +13,13 @@ export const InputFields = () => {
             label: 'Input label',
             description: 'this is description',
             // icon: <CheckIcon />,
+          },
+        },
+        {
+          props: {
+            label: 'Input label',
+            description: 'this is description',
+            icon: <CheckIcon />,
           },
         },
         {
@@ -76,9 +83,6 @@ export const InputFields = () => {
             error: (value) => {
               if (value === 'yo') {
                 return 'What up yo??'
-              }
-              if (!value) {
-                return 'Please enter a value'
               }
             },
           },
