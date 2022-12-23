@@ -192,7 +192,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           />
         )}
       </div>
-      <div>miliseconds: {value}</div>
+      {/* <div>miliseconds: {value}</div> */}
     </InputWrapper>
   )
 }
