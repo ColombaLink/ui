@@ -448,7 +448,7 @@ export const Input: FC<
           ) : customRegex ? (
             <CustomRegexInput
               pattern={pattern}
-              setErrorMessage={setErrorMessage}
+              errorMessage={errorMessage}
               value={value}
               onChange={onChange}
             />
