@@ -4,7 +4,7 @@ import { color } from '~'
 
 export const TimeInput = ({
   timeInputHandler,
-  value = '00:00',
+  value,
   onFocus,
   placeholder,
 }) => {
