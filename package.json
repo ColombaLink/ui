@@ -42,7 +42,7 @@
     "@dnd-kit/utilities": "^3.2.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@saulx/hash": "^1.1.0",
-    "@saulx/utils": "^2.4.0",
+    "@saulx/utils": "^2.4.1",
     "@saulx/validators": "^1.2.0",
     "countries-list": "^2.6.1",
     "crypto-js": "^4.1.1",
@@ -59,8 +59,7 @@
     "react-window-sortable": "^1.4.12",
     "snarkdown": "^2.0.0",
     "stringify-object": "^4.0.1",
-    "tarts": "^1.0.0",
-    "wouter": "^2.8.0-alpha.2"
+    "tarts": "^1.0.0"
   },
   "devDependencies": {
     "@saulx/aristotle": "^4.6.0",

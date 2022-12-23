@@ -1,4 +1,11 @@
-import React, { CSSProperties, FC, ReactNode, useEffect } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  createContext,
+  useRef,
+} from 'react'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
@@ -20,8 +27,15 @@ type ProviderProps = {
     dark?: object
   }
   fill?: boolean
+  path?: string
 }
 
+export const RouterContext = createContext<{
+  rootPath: string[]
+  componentMap: Map<any, { path: string[] }>
+}>({ rootPath: [], componentMap: new Map() })
+
+// TODO: types!
 const mergeNested = (theme, overwrite, key) => {
   if (overwrite[key]) {
     if (theme[key]) {
@@ -50,6 +64,7 @@ const merge = (theme, overwrite) => {
 export const Provider: FC<ProviderProps> = ({
   children,
   style,
+  path,
   client,
   themes,
   theme,
@@ -70,6 +85,12 @@ export const Provider: FC<ProviderProps> = ({
     }
   }, [theme])
 
+  const pathName = useRef(
+    path || typeof window !== 'undefined'
+      ? window.location.pathname.split('/').slice(1)
+      : []
+  )
+
   return (
     <div
       style={{
@@ -83,12 +104,19 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        <ToastProvider>
-          <DialogProvider>
-            <AuthProvider>{children}</AuthProvider>
-            <OverlayProvider />
-          </DialogProvider>
-        </ToastProvider>
+        <RouterContext.Provider
+          value={{
+            rootPath: pathName.current,
+            componentMap: new Map(),
+          }}
+        >
+          <ToastProvider>
+            <DialogProvider>
+              <AuthProvider>{children}</AuthProvider>
+              <OverlayProvider />
+            </DialogProvider>
+          </ToastProvider>
+        </RouterContext.Provider>
       </BasedProvider>
     </div>
   )

@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from 'react'
 import { removeAllOverlays, removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
-import { useLocation } from '~/hooks/useLocation'
+import { useLocation } from '~/hooks/location'
 
 export const useTooltip = (
   text: string | ReactNode,
