@@ -13,7 +13,7 @@ import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space, Key, Weight } from '~/types'
+import { Space, Key } from '~/types'
 import { useKeyUp } from '~'
 
 export type ButtonProps = {
@@ -34,7 +34,7 @@ export type ButtonProps = {
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
   actionKeys?: Key[]
-  weight?: Weight
+  //  weight?: Weight
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
@@ -76,7 +76,7 @@ export const Button: FC<ButtonProps> = (props) => {
     onPointerDown,
     space,
     style,
-    weight,
+    //   weight,
     textAlign = 'left',
   } = props
 
@@ -166,14 +166,15 @@ export const Button: FC<ButtonProps> = (props) => {
           visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
-          justifyContent:
-            textAlign === 'left'
-              ? 'flex-start'
-              : textAlign === 'center'
-              ? 'center'
-              : textAlign === 'right'
-              ? 'flex-end'
-              : 'flex-start',
+          justifyContent: fill
+            ? 'space-between'
+            : textAlign === 'left'
+            ? 'flex-start'
+            : textAlign === 'center'
+            ? 'center'
+            : textAlign === 'right'
+            ? 'flex-end'
+            : 'flex-start',
         }}
       >
         {icon &&
@@ -181,7 +182,7 @@ export const Button: FC<ButtonProps> = (props) => {
             icon,
             children || iconRight
               ? {
-                  style: { marginRight: 8 },
+                  style: { marginRight: 8, minWidth: 16 },
                 }
               : null
           )}
@@ -197,7 +198,7 @@ export const Button: FC<ButtonProps> = (props) => {
             iconRight,
             children || icon
               ? {
-                  style: { marginLeft: 8 },
+                  style: { marginLeft: 8, minWidth: 16 },
                 }
               : null
           )}

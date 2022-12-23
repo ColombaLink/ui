@@ -73,6 +73,7 @@ export const CodeExample: FC<{
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           borderColor: code !== exampleCode ? color('border') : color('accent'),
+          width: 'calc(100% - 350px)',
         }}
         onChange={(c) => setCode(c)}
         value={exampleCode}
@@ -82,6 +83,7 @@ export const CodeExample: FC<{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
           borderTopWidth: 0,
+          width: 'calc(100% - 350px)',
         }}
         space
       >
