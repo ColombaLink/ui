@@ -2,7 +2,7 @@ import '../assets/global.css'
 import '../assets/fonts.css'
 
 // for now use wouter
-export { Route, useRoute, useRouter, Switch, Router } from 'wouter'
+export { Route, useRouter, Switch, Router } from 'wouter'
 
 export * from './components/Accordion'
 export * from './components/Auth'
