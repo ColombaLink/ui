@@ -85,11 +85,7 @@ export const Provider: FC<ProviderProps> = ({
     }
   }, [theme])
 
-  const pathName = useRef(
-    path || typeof window !== 'undefined'
-      ? window.location.pathname.split('/').slice(1)
-      : []
-  )
+  const pathName = useRef(path ? path.split('/').slice(1) : [])
 
   return (
     <div

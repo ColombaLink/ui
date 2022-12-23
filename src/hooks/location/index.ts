@@ -8,6 +8,8 @@ import {
 import { useLocation as useWouterLocation } from 'wouter'
 import { useUpdate } from '../useUpdate'
 import { RouterContext } from '~/components/Provider'
+import { parseQuery } from '@saulx/utils'
+import { match } from 'assert'
 
 // maybe make this into a seperate pkg? or make sure parsing works well
 export const parseHref = (href = '/') => {
@@ -56,10 +58,79 @@ export const useLocation = (): [string, (href: string) => void] => {
   ]
 }
 
-const parseRoute = (path: string, location: string) => {
-  const p = path.split('/')
+type QueryParams = ReturnType<typeof parseQuery>
+type Value = string | number | boolean
 
-  return p
+export type RouteParams = {
+  query: QueryParams
+  hash: Value
+  path: { [key: string]: Value }
+  location: string
+  // setPath: (pathParams: { [key: string]: Value | null }) => boolean
+  // setQuery: (q: QueryParams | null, opts?: { overwrite: boolean }) => boolean
+  // setHash: (hash: Value | null) => boolean
+  // setLocation: (location: string) => boolean
+}
+
+const parseRoute = (
+  path: string[],
+  pathName: string,
+  q?: string,
+  hash?: string
+): RouteParams => {
+  const params = {
+    query: q ? parseQuery(q) : null,
+    hash,
+    path: {},
+    location:
+      q && hash
+        ? pathName + '?' + q + '#' + hash
+        : q
+        ? pathName + '?' + q
+        : hash
+        ? pathName + '#' + hash
+        : pathName,
+  }
+
+  const segments = pathName.split('/').slice(1)
+
+  let i = 0
+  for (const p of path) {
+    const segs = p.split('/')
+
+    for (let j = 0; j < segs.length; j++) {
+      const seg = segs[j]
+
+      const f = /\[.*?\]/g
+
+      const matchers = seg.match(f)
+
+      const vars = matchers ? matchers.map((v) => v.slice(1, -1)) : []
+
+      const matcher = new RegExp(seg.replace(f, '(.+)'))
+
+      // map the names of those killers
+
+      if (segments[i + j]) {
+        const pSeg = segments[i + j].match(matcher)
+        if (pSeg) {
+          for (let x = 1; x < pSeg.length; x++) {
+            // console.info(x, vars[x - 1], pSeg[x])
+            params.path[vars[x - 1]] = pSeg[x]
+          }
+        }
+      } else {
+        // go go go
+      }
+    }
+
+    i += segs.length
+  }
+
+  // const p = path.split('/')
+  // return p
+
+  return params
 }
 
 export const useRoute = (path?: string) => {
@@ -82,12 +153,17 @@ export const useRoute = (path?: string) => {
   const nodePath = [...parentPath, path]
   console.info('nodePath:', nodePath)
 
-  // .. => up
-  // / => root
-  // path
+  const params = parseRoute(
+    nodePath,
+    window.location.pathname,
+    window.location.search.substring(1),
+    window.location.hash
+  )
+
   ctx.componentMap.set(node, { path: nodePath })
-  console.info('I AM HOOK WITH CTX', ctx, path)
-  return nodePath.join('/')
+
+  console.info('I AM HOOK WITH CTX', path)
+  return params
 }
 
 /*

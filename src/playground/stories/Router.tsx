@@ -38,41 +38,42 @@ import {
 // )
 
 const RawRoute = ({ children }) => {
-  const flap = useRoute('[snurp1]')
-  return (
-    <div style={{ marginLeft: 0 }}>
-      {' '}
-      - RawRoute #{flap} {children}
-    </div>
-  )
+  const flap = useRoute('killer-[snurp1]mysnup[power]/[snapje]')
+
+  console.log(JSON.stringify(flap, false, 2))
+
+  return <div style={{ marginLeft: 0 }}> - RawRoute {children}</div>
 }
 
 const RawRoute2 = ({ children }) => {
   const [bla, setBla] = useState('snup')
 
   const flap = useRoute('[snurp2]')
+
+  console.log('RAW ROUTE NEST', JSON.stringify(flap, false, 2))
+
   return (
     <div style={{ marginLeft: 0 }}>
       {' '}
-      RawRoute #{flap} {children}{' '}
+      RawRoute {children}{' '}
       <button onClick={() => setBla(Math.random())}>poop</button>
     </div>
   )
 }
 
 const TestRoute = () => {
-  const flap = useRoute('[snurp]')
+  //   const flap = useRoute('[snurp]')
   return (
     <div>
-      hello #{flap}
+      hello
       <RawRoute>
-        <RawRoute />
+        <RawRoute2 />
       </RawRoute>
       <div>
         SMURF
-        <RawRoute2>
+        {/* <RawRoute2>
           <RawRoute2 />
-        </RawRoute2>
+        </RawRoute2> */}
       </div>
     </div>
   )
@@ -83,9 +84,9 @@ export const Router = () => {
     <>
       <TestRoute />
       -------------------------------
-      <RawRoute>
+      {/* <RawRoute>
         <TestRoute />
-      </RawRoute>
+      </RawRoute> */}
     </>
   )
 }
