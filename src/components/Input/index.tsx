@@ -251,7 +251,7 @@ export const Input: FC<
   const [errorMessage, setErrorMessage] = useState('')
 
   // to clear json value
-  const [, setClearValue] = useState(false)
+  const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
 
   useEffect(() => {
@@ -271,7 +271,21 @@ export const Input: FC<
       onChangeProp?.(newValue)
     }
 
-    const msg = error?.(newValue)
+    // const msg = error?.(newValue)
+
+    // if (msg) {
+    //   // add error msg
+    //   setErrorMessage(msg)
+    // } else {
+    //   // remove error msg
+    //   setErrorMessage('')
+    // }
+  }
+
+  useEffect(() => {
+    //  check for error pas als de focus weg is
+
+    const msg = error?.(value)
 
     if (msg) {
       // add error msg
@@ -280,7 +294,7 @@ export const Input: FC<
       // remove error msg
       setErrorMessage('')
     }
-  }
+  }, [focused])
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
@@ -418,6 +432,8 @@ export const Input: FC<
               value={value}
               onChange={onChange}
               setShowJSONClearButton={setShowJSONClearButton}
+              setClearValue={setClearValue}
+              clearValue={clearValue}
               disabled={disabled}
             />
           ) : markdownInput ? (
@@ -426,7 +442,6 @@ export const Input: FC<
               // setErrorMessage={setErrorMessage}
               value={value}
               onChange={onChange}
-              // setShowJSONClearButton={setShowJSONClearButton}
               disabled={disabled}
             />
           ) : multiline ? (
@@ -434,7 +449,7 @@ export const Input: FC<
           ) : customRegex ? (
             <CustomRegexInput
               pattern={pattern}
-              setErrorMessage={setErrorMessage}
+              errorMessage={errorMessage}
               value={value}
               onChange={onChange}
             />

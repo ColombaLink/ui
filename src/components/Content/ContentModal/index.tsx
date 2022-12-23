@@ -191,7 +191,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
           flexGrow: 1,
         }}
       />
-      <div
+      <styled.div
         style={{
           width: 1200,
           margin: 24,
@@ -200,6 +200,11 @@ const ContentModalInner = ({ prefix, id, field }) => {
           boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
           display: 'flex',
           flexDirection: 'column',
+          animation: 'incomingAnimation 0.1s ease-out ',
+          '@keyframes incomingAnimation': {
+            '0%': { transform: 'translateX(-45px)', opacity: 0 },
+            '100%': { transform: 'translateX(0px)', opacity: 1 },
+          },
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -312,7 +317,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
             <Translation language={language} setLanguage={setLanguage} />
           </RightSidebar>
         </div>
-      </div>
+      </styled.div>
     </div>
   )
 }

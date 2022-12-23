@@ -1,5 +1,5 @@
 import React, { FC, CSSProperties, useState, useEffect } from 'react'
-import { Label } from '~'
+import { Label, usePropState } from '~'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { TimeInput } from './TimeInput'
@@ -17,8 +17,6 @@ type DateTimePickerProps = {
   error?: (value: boolean | string | number) => string
   disabled?: boolean
   value?: string | number
-  from?: string | number
-  till?: string | number
   utc?: boolean
 }
 
@@ -48,10 +46,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   error,
   disabled,
   value,
-  from,
-  till,
   utc,
 }) => {
+  const [incomingValue, setIncomingValue] = usePropState(value)
+
   const [focus, setFocus] = useState(false)
 
   const [dateFormatInput, setDateFormatInput] = useState('')
@@ -60,21 +58,37 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const [errorMessage, setErrorMessage] = useState('')
 
+  useEffect(() => {
+    const incomingTime = new Date(incomingValue)
+      .toString()
+      .split(' ')[4]
+      ?.substring(0, 5)
+
+    const incomingDate = new Date(incomingValue)
+      .toLocaleString('en-GB')
+      .split(',')[0]
+      .split('-')
+      .join('/')
+
+    setDateFormatInput(incomingDate)
+    setDateTimeInput(incomingTime)
+  }, [incomingValue])
+
   // console.log('From -->', from, new Date(from).getTime())
   // console.log('Till -->', till, new Date(till).getTime())
   // console.log('Onchange from datetimepicker', onChange)
 
-  useEffect(() => {
-    if (value) {
-      setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
-      setDateUtcInput(dateUtcInput)
+  // useEffect(() => {
+  //   if (value) {
+  //     setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
+  //     setDateUtcInput(dateUtcInput)
 
-      const startDate = new Date(value)
-      setDateFormatInput(
-        startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
-      )
-    }
-  }, [value])
+  //     const startDate = new Date(value)
+  //     setDateFormatInput(
+  //       startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
+  //     )
+  //   }
+  // }, [value])
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput) => {
@@ -82,48 +96,45 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       .split('/')
       .reverse()
       .join('-')}T${timeInput}`
-    const outPutInMs = new Date(dateString).getTime()
 
-    const msg = error?.(outPutInMs)
+    const outputMs = new Date(dateString).getTime().toString()
 
-    if (msg) {
-      setErrorMessage(msg)
-    } else {
-      setErrorMessage('')
-    }
+    // console.log('this flippin ', new Date(dateString).getTime().toString())
 
-    if (outPutInMs < new Date(from).getTime()) {
-      setErrorMessage('Date is before the from date')
-    } else if (outPutInMs > new Date(till).getTime()) {
-      setErrorMessage('Date is after the till date')
-    }
+    //  const msg = error?.(outPutInMs)
 
-    if (!errorMessage) {
-      onChange(outPutInMs)
-    }
+    // if (msg && dateTimeInput !== '') {
+    //   setErrorMessage(msg)
+    // } else {
+    //   setErrorMessage('')
+    // }
+
+    // if (outPutInMs < new Date(from).getTime()) {
+    //   setErrorMessage('Date is before the from date')
+    // } else if (outPutInMs > new Date(till).getTime()) {
+    //   setErrorMessage('Date is after the till date')
+    // }
+
+    // if (!errorMessage) {
+    //   onChange(outPutInMs)
+    // }
+    onChange(+outputMs)
+    return outputMs
   }
 
   const dateHandler = (val) => {
-    // console.log('VALUE from date handler', val)
-    // do output like this -->  2002-10-29
     const tempArr = []
     const day = `${val[0]}${val[1]}`
     const month = `${val[3]}${val[4]}`
     const year = val.substring(6)
     tempArr.push(year, month, day)
 
-    // datestring new is om de millisecondes te krijgen
-    const dateStringNew = tempArr.join('-')
-
-    // als value hou de gewone value??
     setDateFormatInput(val)
-    newMsFromAll(dateStringNew, dateTimeInput)
   }
 
   const timeInputHandler = (val) => {
     if (val.length === 5) {
       setDateTimeInput(val)
-      newMsFromAll(dateFormatInput, val)
     }
   }
 
@@ -136,7 +147,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   const clearHandler = () => {
-    // console.log('AREA CLEAR')
     setDateFormatInput('')
     setDateTimeInput('')
     onChange(null)
@@ -150,6 +160,16 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      // @ts-ignore
+      onBlur={() => {
+        console.log('de tijd is: ', dateTimeInput)
+        console.log('de datum is: ', dateFormatInput)
+        console.log(
+          'output of this:',
+          newMsFromAll(dateFormatInput, dateTimeInput)
+        )
+        newMsFromAll(dateFormatInput, dateTimeInput)
+      }}
     >
       <Label label={label} description={description} space="12px" />
       <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>

@@ -1,35 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Input } from '.'
-import { Text } from '~'
 
 type CustomRegexInputProps = {
   pattern?: string
-  setErrorMessage?: (errorMessage: string) => void
   errorMessage?: string
   value?: string
-  onChange?: (value: string | number | null) => void
+  onChange?: (target) => void
 }
 
 export const CustomRegexInput = ({
   pattern,
-  setErrorMessage,
+  errorMessage,
   value,
   onChange,
 }: CustomRegexInputProps) => {
   const [val, setVal] = useState(value || '')
-  const [isValid, setIsValid] = useState(false)
-
-  useEffect(() => {
-    if (val.length > 1) {
-      if (new RegExp(pattern).test(val)) {
-        setIsValid(true)
-        setErrorMessage('')
-      } else {
-        setIsValid(false)
-        setErrorMessage('Does not match REGEX/pattern')
-      }
-    }
-  }, [val])
 
   return (
     <div>
@@ -37,8 +22,15 @@ export const CustomRegexInput = ({
         value={val}
         onChange={(e) => {
           setVal(e)
+          onChange({ target: { value: e } })
         }}
         space="8px"
+        error={(val) => {
+          if (new RegExp(pattern).test(val) || val.length < 1) {
+            return ''
+          }
+          return errorMessage || 'Does not match REGEX/pattern'
+        }}
       />
     </div>
   )
