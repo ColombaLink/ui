@@ -200,11 +200,12 @@ const ContentModalInner = ({ prefix, id, field }) => {
           boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
           display: 'flex',
           flexDirection: 'column',
-          animation: 'incomingAnimation 0.1s ease-out ',
-          '@keyframes incomingAnimation': {
-            '0%': { transform: 'translateX(-45px)', opacity: 0 },
+          '@keyframes': {
+            '0%': { transform: 'translateX(60px)', opacity: 0 },
             '100%': { transform: 'translateX(0px)', opacity: 1 },
           },
+          animationDuration: '0.15s',
+          animationEffect: 'ease-out',
         }}
         onClick={(e) => e.stopPropagation()}
       >
