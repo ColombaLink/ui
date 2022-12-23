@@ -59,20 +59,34 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
-    const incomingTime = new Date(incomingValue)
+    let incomingTime = new Date(incomingValue)
       .toString()
       .split(' ')[4]
       ?.substring(0, 5)
 
-    const incomingDate = new Date(incomingValue)
+    let incomingDate = new Date(incomingValue)
       .toLocaleString('en-GB')
       .split(',')[0]
       .split('-')
       .join('/')
 
+    if (incomingDate === 'Invalid Date') {
+      incomingDate = ''
+    }
+
+    //  console.log(incomingDate, incomingTime)
+
     setDateFormatInput(incomingDate)
     setDateTimeInput(incomingTime)
   }, [incomingValue])
+
+  useEffect(() => {
+    if (!dateTimeInput) {
+      setDateTimeInput('00:00')
+    } else {
+      setDateTimeInput(dateTimeInput)
+    }
+  }, [dateFormatInput])
 
   // console.log('From -->', from, new Date(from).getTime())
   // console.log('Till -->', till, new Date(till).getTime())
@@ -162,12 +176,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       style={style}
       // @ts-ignore
       onBlur={() => {
-        console.log('de tijd is: ', dateTimeInput)
-        console.log('de datum is: ', dateFormatInput)
-        console.log(
-          'output of this:',
-          newMsFromAll(dateFormatInput, dateTimeInput)
-        )
+        // console.log('de tijd is: ', dateTimeInput)
+        // console.log('de datum is: ', dateFormatInput)
+        // console.log(
+        //   'output of this:',
+        //   newMsFromAll(dateFormatInput, dateTimeInput)
+        // )
         newMsFromAll(dateFormatInput, dateTimeInput)
       }}
     >
