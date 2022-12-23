@@ -251,7 +251,7 @@ export const Input: FC<
   const [errorMessage, setErrorMessage] = useState('')
 
   // to clear json value
-  const [, setClearValue] = useState(false)
+  const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
 
   useEffect(() => {
@@ -432,6 +432,8 @@ export const Input: FC<
               value={value}
               onChange={onChange}
               setShowJSONClearButton={setShowJSONClearButton}
+              setClearValue={setClearValue}
+              clearValue={clearValue}
               disabled={disabled}
             />
           ) : markdownInput ? (
@@ -440,7 +442,6 @@ export const Input: FC<
               // setErrorMessage={setErrorMessage}
               value={value}
               onChange={onChange}
-              // setShowJSONClearButton={setShowJSONClearButton}
               disabled={disabled}
             />
           ) : multiline ? (
