@@ -45,10 +45,18 @@ const RawRoute = ({ children }) => {
   return <div style={{ marginLeft: 0 }}> - RawRoute {children}</div>
 }
 
+const X = () => {
+  const flap = useRoute('[X]')
+
+  console.log('RAW ROUTE NEST NEST! DOUBLE', JSON.stringify(flap, false, 2))
+
+  return <div>MY THING</div>
+}
+
 const RawRoute2 = ({ children }) => {
   const [bla, setBla] = useState('snup')
 
-  const flap = useRoute('[snurp2]')
+  const flap = useRoute('[id]/[envId]')
 
   console.log('RAW ROUTE NEST', JSON.stringify(flap, false, 2))
 
@@ -67,7 +75,9 @@ const TestRoute = () => {
     <div>
       hello
       <RawRoute>
-        <RawRoute2 />
+        <RawRoute2>
+          <X />
+        </RawRoute2>
       </RawRoute>
       <div>
         SMURF
