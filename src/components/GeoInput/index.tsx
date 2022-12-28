@@ -6,6 +6,7 @@ import {
   color,
   GeoMarkerIcon,
   usePropState,
+  Text,
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
@@ -39,28 +40,30 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
   const ref = useRef()
 
   useEffect(() => {
-    const geocoder = new MapboxGeocoder({
-      accessToken: token,
-      types: 'country,region,place,postcode,locality,neighborhood',
-      placeholder: 'Start typing to find a location',
-      reverseGeocode: true,
-    })
+    if (token) {
+      const geocoder = new MapboxGeocoder({
+        accessToken: token,
+        types: 'country,region,place,postcode,locality,neighborhood',
+        placeholder: 'Start typing to find a location',
+        reverseGeocode: true,
+      })
 
-    geocoder.on(
-      'result',
-      ({
-        result: {
-          center: [lng, lat],
-        },
-      }) => {
-        onChange({
-          lng,
-          lat,
-        })
-      }
-    )
+      geocoder.on(
+        'result',
+        ({
+          result: {
+            center: [lng, lat],
+          },
+        }) => {
+          onChange({
+            lng,
+            lat,
+          })
+        }
+      )
 
-    geocoder.addTo(ref.current)
+      geocoder.addTo(ref.current)
+    }
   }, [token])
 
   useEffect(() => {
@@ -170,30 +173,37 @@ const GeoMap = ({
   }, [lat, lng])
 
   return (
-    <Map
-      ref={ref}
-      {...viewport}
-      mapboxAccessToken={token}
-      onMove={({ viewState }) => {
-        setViewport(viewState)
-      }}
-      mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v11'}
-      style={{
-        border: `1px solid ${color('border')}`,
-        height: 240,
-        borderRadius: 4,
-        width: '100%',
-      }}
-      onClick={({ lngLat }) => {
-        ref.current?.flyTo({ center: [lngLat.lng, lngLat.lat], duration: 250 })
-        onChange(lngLat)
-      }}
-    >
-      <NavigationControl showCompass={false} showZoom />
-      <Marker latitude={lat} longitude={lng}>
-        <GeoMarkerIcon color="accent" />
-      </Marker>
-    </Map>
+    <>
+      {token && (
+        <Map
+          ref={ref}
+          {...viewport}
+          mapboxAccessToken={token}
+          onMove={({ viewState }) => {
+            setViewport(viewState)
+          }}
+          mapStyle={mapStyle || 'mapbox://styles/mapbox/streets-v11'}
+          style={{
+            border: `1px solid ${color('border')}`,
+            height: 240,
+            borderRadius: 4,
+            width: '100%',
+          }}
+          onClick={({ lngLat }) => {
+            ref.current?.flyTo({
+              center: [lngLat.lng, lngLat.lat],
+              duration: 250,
+            })
+            onChange(lngLat)
+          }}
+        >
+          <NavigationControl showCompass={false} showZoom />
+          <Marker latitude={lat} longitude={lng}>
+            <GeoMarkerIcon color="accent" />
+          </Marker>
+        </Map>
+      )}
+    </>
   )
 }
 
@@ -249,39 +259,49 @@ export const GeoInput: FC<GeoInputProps> = ({
     }
   }
 
-  return (
-    <InputWrapper
-      disabled={disabled}
-      indent={indent}
-      space={space}
-      descriptionBottom={descriptionBottom}
-      errorMessage={errorMessage}
-      style={style}
-    >
-      <Label label={label} description={description} space="8px" />
-      <GeoMap
-        mapStyle={mapboxStyle}
-        lat={lat}
-        lng={lng}
-        token={mapboxApiAccessToken}
-        onChange={onChangeHandler}
-      />
-      <RadioButtons
-        data={[{ value: 'Address' }, { value: 'Coordinates' }]}
-        direction="horizontal"
-        onChange={(e) => setRadioValue(e)}
-        value={radioValue}
-      />
-      {radioValue === 'Address' ? (
-        <GeoAddressInput
+  if (mapboxApiAccessToken) {
+    return (
+      <InputWrapper
+        disabled={disabled}
+        indent={indent}
+        space={space}
+        descriptionBottom={descriptionBottom}
+        errorMessage={errorMessage}
+        style={style}
+      >
+        <Label label={label} description={description} space="8px" />
+
+        <GeoMap
+          mapStyle={mapboxStyle}
           lat={lat}
           lng={lng}
           token={mapboxApiAccessToken}
           onChange={onChangeHandler}
         />
-      ) : (
-        <GeoCoordsInput lat={lat} lng={lng} onChange={onChangeHandler} />
-      )}
-    </InputWrapper>
-  )
+
+        <RadioButtons
+          data={[{ value: 'Address' }, { value: 'Coordinates' }]}
+          direction="horizontal"
+          onChange={(e) => setRadioValue(e)}
+          value={radioValue}
+        />
+        {radioValue === 'Address' ? (
+          <GeoAddressInput
+            lat={lat}
+            lng={lng}
+            token={mapboxApiAccessToken}
+            onChange={onChangeHandler}
+          />
+        ) : (
+          <GeoCoordsInput lat={lat} lng={lng} onChange={onChangeHandler} />
+        )}
+      </InputWrapper>
+    )
+  } else {
+    return (
+      <>
+        <Text space="24px">AccesToken required for geolocation</Text>
+      </>
+    )
+  }
 }
