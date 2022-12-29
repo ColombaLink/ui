@@ -1,7 +1,6 @@
 import {
   useContext,
   useEffect,
-  useMemo,
   // @ts-ignore
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as ITS_OK_DONT_WORRY,
 } from 'react'
@@ -9,7 +8,6 @@ import { useLocation as useWouterLocation } from 'wouter'
 import { useUpdate } from '../useUpdate'
 import { RouterContext } from '~/components/Provider'
 import { parseQuery } from '@saulx/utils'
-import { match } from 'assert'
 
 // maybe make this into a seperate pkg? or make sure parsing works well
 export const parseHref = (href = '/') => {
@@ -73,6 +71,7 @@ export type RouteParams = {
 }
 
 const parseRoute = (
+  myPath: string[],
   path: string[],
   pathName: string,
   q?: string,
@@ -109,23 +108,23 @@ const parseRoute = (
 
       const matcher = new RegExp(seg.replace(f, '(.+)'))
 
-      // map the names of those killers
-
       if (segments[i + j]) {
         const pSeg = segments[i + j].match(matcher)
         if (pSeg) {
           for (let x = 1; x < pSeg.length; x++) {
-            // console.info(x, vars[x - 1], pSeg[x])
             params.path[vars[x - 1]] = pSeg[x]
           }
         }
       } else {
+        // what to do here?
         // go go go
       }
     }
 
     i += segs.length
   }
+
+  console.info(path, 'myPath:', myPath)
 
   // const p = path.split('/')
   // return p
@@ -135,8 +134,6 @@ const parseRoute = (
 
 export const useRoute = (path?: string) => {
   const ctx = useContext(RouterContext)
-
-  // const hookNumber = useMemo(() => ++cnt, [])
 
   const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
   let parent = node.return
@@ -154,6 +151,7 @@ export const useRoute = (path?: string) => {
   console.info('nodePath:', nodePath)
 
   const params = parseRoute(
+    path,
     nodePath,
     window.location.pathname,
     window.location.search.substring(1),
