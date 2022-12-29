@@ -56,7 +56,7 @@ const genPath = (
     let setTotal = false
 
     // len = 50k
-    for (let i = 0; i < data.length - 1; i += condenseAmount) {
+    for (let i = 0; i < data.length; i += condenseAmount) {
       let total = 0
       let min: number
       let max: number
@@ -214,6 +214,7 @@ const genPath = (
       )
     } else {
       // NORMAL LINE
+
       const p = genPathCurve(points, stepSize / 2)
 
       paths = (
