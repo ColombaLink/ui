@@ -8,7 +8,7 @@ import {
 import { useLocation as useWouterLocation } from 'wouter'
 import { useUpdate } from '../useUpdate'
 import { RouterContext } from '~/components/Provider'
-import { parseQuery } from '@saulx/utils'
+import { parseQuery, deepEqual } from '@saulx/utils'
 
 // maybe make this into a seperate pkg? or make sure parsing works well
 export const parseHref = (href = '/') => {
@@ -57,46 +57,109 @@ export const useLocation = (): [string, (href: string) => void] => {
   ]
 }
 
+// ----------------------------------------------------------------------
+
 type QueryParams = ReturnType<typeof parseQuery>
 type Value = string | number | boolean
 
 // will be a class...
 
-export type RouteParams = {
+type Params = {
   query: QueryParams
   hash: Value
   path: { [key: string]: Value }
   location: string
+}
+
+export type RouteParams = Params & {
   // setPath: (pathParams: { [key: string]: Value | null }) => boolean
   // setQuery: (q: QueryParams | null, opts?: { overwrite: boolean }) => boolean
   // setHash: (hash: Value | null) => boolean
-  // setLocation: (location: string) => boolean
+  setLocation: (location: string) => boolean
+}
+
+export type RouterCtx = {
+  rootPath: string[]
+  updateRoute: () => boolean
+  pathName: string
+  query: QueryParams
+  hash?: string
+  location?: string
+  componentMap: Map<
+    any,
+    {
+      start: number
+      path: { vars: string[]; matcher: RegExp }[]
+      update: () => void
+    }
+  >
 }
 
 const matchVars = /\[.*?\]/g
 
+const parseLocation = (q: string, hash: string, pathName: string): string => {
+  return q && hash
+    ? pathName + '?' + q + '#' + hash
+    : q
+    ? pathName + '?' + q
+    : hash
+    ? pathName + '#' + hash
+    : pathName
+}
+
+export const useRouterListeners = (path?: string): RouterCtx => {
+  const routes = useMemo(() => {
+    const p = path ? path.split('/').slice(1) : []
+
+    const pathName = window.location.pathname
+    const q = window.location.search.substring(1)
+    const hash = window.location.hash
+
+    const componentMap = new Map()
+
+    const r: RouterCtx = {
+      hash,
+      pathName,
+      query: q ? parseQuery(q) : null,
+      location: parseLocation(q, hash, pathName),
+      updateRoute: () => {
+        return true
+      },
+      rootPath: p,
+      componentMap,
+    }
+
+    return r
+  }, [path])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const listener = () => {
+        console.info('LULLLZ', routes)
+      }
+      global.addEventListener('popstate', listener)
+      return () => {
+        global.removeEventListener('popstate', listener)
+      }
+    }
+    return () => {}
+  }, [path])
+
+  return routes
+}
+
 export const parseRoute = (
+  ctx: RouterCtx,
   path: { vars: string[]; matcher: RegExp }[],
-  start: number,
-  pathName: string,
-  q?: string,
-  hash?: string
-): RouteParams => {
-  // do the location etc once
+  start: number
+): Params => {
   const params = {
-    query: q ? parseQuery(q) : null,
-    hash,
+    query: ctx.query,
+    hash: ctx.hash,
     path: {},
-    location:
-      q && hash
-        ? pathName + '?' + q + '#' + hash
-        : q
-        ? pathName + '?' + q
-        : hash
-        ? pathName + '#' + hash
-        : pathName,
+    location: ctx.location,
   }
-  const segs = pathName.split('/').slice(1)
+  const segs = ctx.pathName.split('/').slice(1)
   for (let i = start; i < segs.length; i++) {
     const seg = segs[i]
     const { vars, matcher } = path[i - start]
@@ -112,9 +175,7 @@ export const parseRoute = (
   return params
 }
 
-// useReducer for change
-
-export const useRoute = (path?: string) => {
+export const useRoute = (path?: string): RouteParams => {
   const ctx = useContext(RouterContext)
   const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
 
@@ -163,16 +224,27 @@ export const useRoute = (path?: string) => {
     update,
   })
 
-  // have to check if changed
-  const params = parseRoute(
-    parsedPath,
-    start,
-    window.location.pathname,
-    window.location.search.substring(1),
-    window.location.hash
-  )
+  const params = parseRoute(ctx, parsedPath, start)
 
+  // have to check if changed
+  // deepEqual
+  // use reducer and deepEqual
   // check if they changed else dont update!
 
-  return params
+  return {
+    ...params,
+    setLocation: (location: string) => {
+      if (location === ctx.location) {
+        return false
+      }
+      const [s, hash = ''] = location.split('#')
+      const [pathName, q] = s.split('?')
+      ctx.hash = hash
+      ctx.pathName = pathName
+      ctx.query = q ? parseQuery(q) : null
+      ctx.location = location
+      ctx.updateRoute()
+      return true
+    },
+  }
 }

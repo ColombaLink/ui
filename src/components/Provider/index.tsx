@@ -4,8 +4,6 @@ import React, {
   ReactNode,
   useEffect,
   createContext,
-  useRef,
-  useMemo,
 } from 'react'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
@@ -16,7 +14,7 @@ import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
-import { AuthProvider } from '~'
+import { AuthProvider, RouterCtx, useRouterListeners } from '~'
 
 type ProviderProps = {
   children?: ReactNode
@@ -31,17 +29,10 @@ type ProviderProps = {
   path?: string
 }
 
-export const RouterContext = createContext<{
-  rootPath: string[]
-  componentMap: Map<
-    any,
-    {
-      start: number
-      path: { vars: string[]; matcher: RegExp }[]
-      update: () => void
-    }
-  >
-}>({ rootPath: [], componentMap: new Map() })
+export const RouterContext = createContext<RouterCtx>({
+  rootPath: [],
+  componentMap: new Map(),
+})
 
 // TODO: types!
 const mergeNested = (theme, overwrite, key) => {
@@ -87,32 +78,13 @@ export const Provider: FC<ProviderProps> = ({
     }
   }, [themes])
 
-  const routes = useMemo(() => {
-    const p = path ? path.split('/').slice(1) : []
-    return {
-      rootPath: p,
-      componentMap: new Map(),
-    }
-  }, [path])
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const listener = () => {
-        console.info('LULLLZ', routes)
-      }
-      global.addEventListener('popstate', listener)
-      return () => {
-        global.removeEventListener('popstate', listener)
-      }
-    }
-    return () => {}
-  }, [path])
-
   useEffect(() => {
     if (theme) {
       updateTheme(theme === 'dark' ? darkTheme : baseTheme)
     }
   }, [theme])
+
+  const routes = useRouterListeners(path)
 
   return (
     <div

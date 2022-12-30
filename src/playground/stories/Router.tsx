@@ -37,56 +37,41 @@ import {
 //   }
 // )
 
-const RawRoute = ({ children }) => {
-  const flap = useRoute('killer-[snurp1]mysnup[power]/[snapje]')
+// const RawRoute = ({ children }) => {
+//   const flap = useRoute('killer-[snurp1]mysnup[power]/[snapje]')
 
-  console.log(JSON.stringify(flap, false, 2))
+//   // console.log(JSON.stringify(flap, null, 2))
 
-  return <div style={{ marginLeft: 0 }}> - RawRoute {children}</div>
-}
+//   return <div style={{ marginLeft: 0 }}> - RawRoute {children}</div>
+// }
 
-const X = () => {
-  const flap = useRoute('[X]')
+// const X = () => {
+//   const flap = useRoute('[X]')
 
-  console.log('RAW ROUTE NEST NEST! DOUBLE', JSON.stringify(flap, false, 2))
+//   // console.log('RAW ROUTE NEST NEST! DOUBLE', JSON.stringify(flap, null, 2))
 
-  return <div>MY THING</div>
-}
+//   return <div>MY THING</div>
+// }
 
-const RawRoute2 = ({ children }) => {
-  const [bla, setBla] = useState('snup')
+// const RawRoute2 = ({ children }) => {
+//   const [bla, setBla] = useState('snup')
 
-  const flap = useRoute('[id]/[envId]')
+//   const flap = useRoute('[id]/[envId]')
 
-  console.log('RAW ROUTE NEST', JSON.stringify(flap, false, 2))
+//   // console.log('RAW ROUTE NEST', JSON.stringify(flap, null, 2))
 
-  return (
-    <div style={{ marginLeft: 0 }}>
-      {' '}
-      RawRoute {children}{' '}
-      <button onClick={() => setBla(Math.random())}>poop</button>
-    </div>
-  )
-}
+//   return (
+//     <div style={{ marginLeft: 0 }}>
+//       {' '}
+//       RawRoute {children}{' '}
+//       <button onClick={() => setBla(Math.random())}>poop</button>
+//     </div>
+//   )
+// }
 
 const TestRoute = () => {
-  //   const flap = useRoute('[snurp]')
-  return (
-    <div>
-      hello
-      <RawRoute>
-        <RawRoute2>
-          <X />
-        </RawRoute2>
-      </RawRoute>
-      <div>
-        SMURF
-        {/* <RawRoute2>
-          <RawRoute2 />
-        </RawRoute2> */}
-      </div>
-    </div>
-  )
+  const x = useRoute('[snurp]')
+  return <div>hello</div>
 }
 
 export const Router = () => {
