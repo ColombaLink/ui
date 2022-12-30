@@ -78,21 +78,23 @@ export type RouteParams = Params & {
   setLocation: (location: string) => boolean
 }
 
+type ComponentMap = Map<
+  any,
+  {
+    start: number
+    path: { vars: string[]; matcher: RegExp }[]
+    update: () => void
+  }
+>
+
 export type RouterCtx = {
   rootPath: string[]
-  updateRoute: () => boolean
+  updateRoute: (fromPopState: boolean) => void
   pathName: string
   query: QueryParams
   hash?: string
   location?: string
-  componentMap: Map<
-    any,
-    {
-      start: number
-      path: { vars: string[]; matcher: RegExp }[]
-      update: () => void
-    }
-  >
+  componentMap: ComponentMap
 }
 
 const matchVars = /\[.*?\]/g
@@ -109,33 +111,53 @@ const parseLocation = (q: string, hash: string, pathName: string): string => {
 
 export const useRouterListeners = (path?: string): RouterCtx => {
   const routes = useMemo(() => {
+    // TODO: fix for server side
     const p = path ? path.split('/').slice(1) : []
-
     const pathName = window.location.pathname
     const q = window.location.search.substring(1)
     const hash = window.location.hash
-
-    const componentMap = new Map()
-
-    const r: RouterCtx = {
+    const componentMap: ComponentMap = new Map()
+    const ctx: RouterCtx = {
       hash,
       pathName,
       query: q ? parseQuery(q) : null,
       location: parseLocation(q, hash, pathName),
-      updateRoute: () => {
-        return true
+      updateRoute: (fromPopState) => {
+        const ordered = [...componentMap.values()].sort((a, b) => {
+          return a.start < b.start ? -1 : a.start === b.start ? 0 : 1
+        })
+        console.info(
+          'ORDER',
+          ordered.map((v) => v.start)
+        )
+        // want this to be ordered (top first)
+        ordered.forEach((v) => {
+          v.update()
+        })
+        if (!fromPopState) {
+          global.history.pushState(undefined, undefined, ctx.location)
+        }
       },
       rootPath: p,
       componentMap,
     }
-
-    return r
+    return ctx
   }, [path])
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const listener = () => {
-        console.info('LULLLZ', routes)
+        const pathName = window.location.pathname
+        const q = window.location.search.substring(1)
+        const hash = window.location.hash
+        routes.hash = hash
+        routes.pathName = pathName
+        routes.query = q ? parseQuery(q) : null
+        const newLocation = parseLocation(q, hash, pathName)
+        if (newLocation !== routes.location) {
+          routes.location = newLocation
+          routes.updateRoute(true)
+        }
       }
       global.addEventListener('popstate', listener)
       return () => {
@@ -175,9 +197,16 @@ export const parseRoute = (
   return params
 }
 
+let cnt = 0
+
 export const useRoute = (path?: string): RouteParams => {
   const ctx = useContext(RouterContext)
   const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
+
+  // ref also?
+  if (!node._id) {
+    node._id = ++cnt
+  }
 
   const parsedPath = useMemo(() => {
     const p = path.split('/')
@@ -243,7 +272,7 @@ export const useRoute = (path?: string): RouteParams => {
       ctx.pathName = pathName
       ctx.query = q ? parseQuery(q) : null
       ctx.location = location
-      ctx.updateRoute()
+      ctx.updateRoute(false)
       return true
     },
   }

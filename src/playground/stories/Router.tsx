@@ -70,8 +70,22 @@ import {
 // }
 
 const TestRoute = () => {
-  const x = useRoute('[snurp]')
-  return <div>hello</div>
+  const X = useRoute('[snurp]')
+  console.info(X)
+  return (
+    <div>
+      hello {X.path.snurp}
+      <Button
+        onClick={() => {
+          X.setLocation(
+            '/' + String(~~(Math.random() * 1000)) + '?story=Router'
+          )
+        }}
+      >
+        Location!
+      </Button>
+    </div>
+  )
 }
 
 export const Router = () => {
