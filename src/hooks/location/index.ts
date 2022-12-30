@@ -9,6 +9,7 @@ import { useLocation as useWouterLocation } from 'wouter'
 import { useUpdate } from '../useUpdate'
 import { RouterContext } from '~/components/Provider'
 import { parseQuery, deepEqual } from '@saulx/utils'
+import setGlobals from 'react-map-gl/dist/esm/utils/set-globals'
 
 // maybe make this into a seperate pkg? or make sure parsing works well
 export const parseHref = (href = '/') => {
@@ -72,7 +73,7 @@ type Params = {
 }
 
 export type RouteParams = Params & {
-  // setPath: (pathParams: { [key: string]: Value | null }) => boolean
+  setPath: (pathParams: { [key: string]: Value | null }) => boolean
   // setQuery: (q: QueryParams | null, opts?: { overwrite: boolean }) => boolean
   // setHash: (hash: Value | null) => boolean
   setLocation: (location: string) => boolean
@@ -82,7 +83,7 @@ type ComponentMap = Map<
   any,
   {
     start: number
-    path: { vars: string[]; matcher: RegExp }[]
+    path: { vars: string[]; matcher: RegExp; seg: string }[]
     update: () => void
   }
 >
@@ -210,7 +211,7 @@ export const useRoute = (path?: string): RouteParams => {
 
   const parsedPath = useMemo(() => {
     const p = path.split('/')
-    const result: { vars: string[]; matcher: RegExp }[] = []
+    const result: { vars: string[]; matcher: RegExp; seg: string }[] = []
     for (const seg of p) {
       const matchers = seg.match(matchVars)
       const matcher = new RegExp(seg.replace(matchVars, '(.+)'))
@@ -218,6 +219,7 @@ export const useRoute = (path?: string): RouteParams => {
       result.push({
         vars,
         matcher,
+        seg,
       })
     }
     return result
@@ -260,8 +262,53 @@ export const useRoute = (path?: string): RouteParams => {
   // use reducer and deepEqual
   // check if they changed else dont update!
 
-  return {
+  const y = {
     ...params,
+    setPath: (p) => {
+      if (deepEqual(params.path, p)) {
+        return false
+      }
+
+      const results: Map<number, [string, Set<string>]> = new Map()
+
+      for (let i = parsedPath.length - 1; i > -1; i--) {
+        const parsed = parsedPath[i]
+
+        for (const key in p) {
+          if (parsed.vars.includes(key)) {
+            if (!results.has(i)) {
+              results.set(i, [parsed.seg, new Set()])
+            }
+            const r = results.get(i)
+            r[0] = r[0].replaceAll(`[${key}]`, String(p[key]))
+            r[1].add(key)
+          }
+        }
+
+        if (results.has(i)) {
+          const r = results.get(i)
+          for (const v of parsed.vars) {
+            if (!r[1].has(v)) {
+              r[0] = r[0].replaceAll(`[${v}]`, String(params.path[v] || ''))
+            }
+          }
+        }
+      }
+
+      const [s, hash = ''] = ctx.location.split('#')
+      const [pathName, q] = s.split('?')
+
+      const x = pathName.split('/')
+
+      results.forEach((v, k) => {
+        console.info(v, k)
+        x[k + start + 1] = v[0]
+      })
+
+      const newLocation = parseLocation(q, hash, x.join('/'))
+
+      return y.setLocation(newLocation)
+    },
     setLocation: (location: string) => {
       if (location === ctx.location) {
         return false
@@ -276,4 +323,6 @@ export const useRoute = (path?: string): RouteParams => {
       return true
     },
   }
+
+  return y
 }

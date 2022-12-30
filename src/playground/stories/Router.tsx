@@ -70,7 +70,7 @@ import {
 // }
 
 const TestRoute = () => {
-  const X = useRoute('[snurp]')
+  const X = useRoute('flapper[snurp]/[snap]!!!!!')
   console.info(X)
   return (
     <div>
@@ -78,11 +78,21 @@ const TestRoute = () => {
       <Button
         onClick={() => {
           X.setLocation(
-            '/' + String(~~(Math.random() * 1000)) + '?story=Router'
+            '/flapper' + String(~~(Math.random() * 1000)) + '?story=Router'
           )
         }}
       >
         Location!
+      </Button>
+      <Button
+        onClick={() => {
+          X.setPath({
+            snap: 'SNURF' + Math.round(Math.random() * 1000),
+            snurp: Math.round(Math.random() * 1000),
+          })
+        }}
+      >
+        set path!
       </Button>
     </div>
   )
