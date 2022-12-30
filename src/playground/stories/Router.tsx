@@ -69,6 +69,31 @@ import {
 //   )
 // }
 
+const SlurRoute = () => {
+  const X = useRoute('[flap]/[snur]/[snapje]')
+
+  return (
+    <div
+      style={{
+        border: '1px solid blue',
+        padding: 10,
+        margin: 10,
+      }}
+    >
+      SLURF MY PATH - {X.path.snapje}
+      <Button
+        onClick={() => {
+          X.setPath({
+            snapje: Math.round(Math.random() * 1000),
+          })
+        }}
+      >
+        set snapje
+      </Button>
+    </div>
+  )
+}
+
 const PowerRoute = () => {
   const X = useRoute('powerplay-[nested]/[gur]')
 
@@ -81,6 +106,7 @@ const PowerRoute = () => {
       }}
     >
       MY PATH - {X.path.nested}
+      <SlurRoute />
       <Button
         onClick={() => {
           X.setPath({
