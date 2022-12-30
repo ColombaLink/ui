@@ -94,6 +94,15 @@ const TestRoute = () => {
       >
         set path!
       </Button>
+      <Button
+        onClick={() => {
+          X.setQuery({
+            best: Math.round(Math.random() * 1000),
+          })
+        }}
+      >
+        set query!
+      </Button>
     </div>
   )
 }

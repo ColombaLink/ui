@@ -8,8 +8,7 @@ import {
 import { useLocation as useWouterLocation } from 'wouter'
 import { useUpdate } from '../useUpdate'
 import { RouterContext } from '~/components/Provider'
-import { parseQuery, deepEqual } from '@saulx/utils'
-import setGlobals from 'react-map-gl/dist/esm/utils/set-globals'
+import { parseQuery, deepEqual, deepMerge } from '@saulx/utils'
 
 // maybe make this into a seperate pkg? or make sure parsing works well
 export const parseHref = (href = '/') => {
@@ -74,8 +73,8 @@ type Params = {
 
 export type RouteParams = Params & {
   setPath: (pathParams: { [key: string]: Value | null }) => boolean
-  // setQuery: (q: QueryParams | null, opts?: { overwrite: boolean }) => boolean
-  // setHash: (hash: Value | null) => boolean
+  setQuery: (q: QueryParams | null, opts?: { overwrite: boolean }) => boolean
+  setHash: (hash: Value | null) => boolean
   setLocation: (location: string) => boolean
 }
 
@@ -200,6 +199,60 @@ export const parseRoute = (
 
 let cnt = 0
 
+type QueryValue = string | number | boolean
+
+const toQValue = (
+  q: QueryValue | QueryValue[] | { [key: string]: any }
+): string => {
+  if (typeof q === 'string') {
+    return q
+  }
+
+  if (typeof q === 'boolean') {
+    return !q ? 'false' : 'true'
+  }
+
+  if (typeof q === 'number') {
+    return String(q)
+  }
+
+  if (typeof q === 'number') {
+    return String(q)
+  }
+
+  if (q === null) {
+    return 'null'
+  }
+
+  if (Array.isArray(q)) {
+    return q
+      .map((v) => {
+        if (typeof v === 'object' && v !== null) {
+          return JSON.stringify(v)
+        }
+        return toQValue(v)
+      })
+      .join(',')
+  }
+
+  if (typeof q === 'object') {
+    return JSON.stringify(q)
+  }
+
+  return ''
+}
+
+const queryToString = (q: QueryParams): string => {
+  if (!q) {
+    return ''
+  }
+  let str = ''
+  for (const key in q) {
+    str += `&${key}=${toQValue(q[key])}`
+  }
+  return str.slice(1)
+}
+
 export const useRoute = (path?: string): RouteParams => {
   const ctx = useContext(RouterContext)
   const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
@@ -305,9 +358,48 @@ export const useRoute = (path?: string): RouteParams => {
         x[k + start + 1] = v[0]
       })
 
-      const newLocation = parseLocation(q, hash, x.join('/'))
+      const newLocation = parseLocation(
+        q,
+        hash,
+        x
+          .map((v) =>
+            v === undefined ? '' : typeof v === 'object' ? JSON.stringify(v) : v
+          )
+          .join('/')
+      )
 
       return y.setLocation(newLocation)
+    },
+    setQuery: (query: QueryParams, opts) => {
+      if (query === null) {
+        ctx.query = null
+      } else {
+        if (opts?.overwrite) {
+          ctx.query = query
+        } else {
+          deepMerge(ctx.query || {}, query)
+        }
+      }
+      const q = queryToString(ctx.query)
+
+      console.info(ctx.query, q)
+
+      const [s] = ctx.location.split('#')
+      const [pathName] = s.split('?')
+      ctx.location = parseLocation(q, ctx.hash, pathName)
+      ctx.updateRoute(false)
+      return true
+    },
+    setHash: (hash) => {
+      if (!hash) {
+        ctx.hash = ''
+      }
+      ctx.hash = hash
+      const [s] = ctx.location.split('#')
+      const [pathName, q] = s.split('?')
+      ctx.location = parseLocation(q, hash, pathName)
+      ctx.updateRoute(false)
+      return true
     },
     setLocation: (location: string) => {
       if (location === ctx.location) {
