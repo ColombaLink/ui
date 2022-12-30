@@ -1,6 +1,7 @@
 import {
   useContext,
   useEffect,
+  useMemo,
   // @ts-ignore
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED as ITS_OK_DONT_WORRY,
 } from 'react'
@@ -59,6 +60,8 @@ export const useLocation = (): [string, (href: string) => void] => {
 type QueryParams = ReturnType<typeof parseQuery>
 type Value = string | number | boolean
 
+// will be a class...
+
 export type RouteParams = {
   query: QueryParams
   hash: Value
@@ -70,13 +73,16 @@ export type RouteParams = {
   // setLocation: (location: string) => boolean
 }
 
+const matchVars = /\[.*?\]/g
+
 const parseRoute = (
-  myPath: string[],
-  path: string[],
+  path: { vars: string[]; matcher: RegExp }[],
+  start: number,
   pathName: string,
   q?: string,
   hash?: string
 ): RouteParams => {
+  // do the location etc once
   const params = {
     query: q ? parseQuery(q) : null,
     hash,
@@ -90,50 +96,39 @@ const parseRoute = (
         ? pathName + '#' + hash
         : pathName,
   }
-
-  const segments = pathName.split('/').slice(1)
-
-  let i = 0
-  for (const p of path) {
-    const segs = p.split('/')
-
-    for (let j = 0; j < segs.length; j++) {
-      const seg = segs[j]
-
-      const f = /\[.*?\]/g
-
-      const matchers = seg.match(f)
-
-      const vars = matchers ? matchers.map((v) => v.slice(1, -1)) : []
-
-      const matcher = new RegExp(seg.replace(f, '(.+)'))
-
-      if (segments[i + j]) {
-        const pSeg = segments[i + j].match(matcher)
-        if (pSeg) {
-          for (let x = 1; x < pSeg.length; x++) {
-            params.path[vars[x - 1]] = pSeg[x]
-          }
+  const segs = pathName.split('/').slice(1)
+  for (let i = start; i < segs.length; i++) {
+    const seg = segs[i]
+    const { vars, matcher } = path[i - start]
+    if (seg) {
+      const pSeg = segs[i].match(matcher)
+      if (pSeg) {
+        for (let x = 1; x < pSeg.length; x++) {
+          params.path[vars[x - 1]] = pSeg[x]
         }
-      } else {
-        // what to do here?
-        // go go go
       }
     }
-
-    i += segs.length
   }
-
-  console.info(path, 'myPath:', myPath)
-
-  // const p = path.split('/')
-  // return p
-
   return params
 }
 
 export const useRoute = (path?: string) => {
   const ctx = useContext(RouterContext)
+
+  const parsedPath = useMemo(() => {
+    const p = path.split('/')
+    const result: { vars: string[]; matcher: RegExp }[] = []
+    for (const seg of p) {
+      const matchers = seg.match(matchVars)
+      const matcher = new RegExp(seg.replace(matchVars, '(.+)'))
+      const vars = matchers ? matchers.map((v) => v.slice(1, -1)) : []
+      result.push({
+        vars,
+        matcher,
+      })
+    }
+    return result
+  }, [path])
 
   const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
   let parent = node.return
@@ -146,64 +141,22 @@ export const useRoute = (path?: string) => {
       break
     }
   }
-  const parentPath = parentStore?.path || ctx.rootPath
-  const nodePath = [...parentPath, path]
-  console.info('nodePath:', nodePath)
+  const start = parentStore
+    ? parentStore.start + parentStore.path.length
+    : ctx.rootPath.length
 
   const params = parseRoute(
-    path,
-    nodePath,
+    parsedPath,
+    start,
     window.location.pathname,
     window.location.search.substring(1),
     window.location.hash
   )
 
-  ctx.componentMap.set(node, { path: nodePath })
-
-  console.info('I AM HOOK WITH CTX', path)
-  return params
-}
-
-/*
-
- // CONTEXT <> useUrl() / useUrl() / useUrl() </>
-
-
-
-
-
-
-
-  paths: {
-    "sidemenu-hook": {
-        path: [/seg1]
-    },
-    "app-body": {
-      path: '/:id'
-      topbar: { path: '/[env]/[flap]' }
-      content: { path: '/[env]' }
-    }
-  }
-
-const Bla = () => {
-  const { path: { flap, flip }, query: { flip }, hash, location, setLocation, setPath, setQuery, setHash } = useRoute('environment-[name=youzi]-[flap]/[flip]?flip=1')
-
-  setPath({
-    name: 'youzi'
-  }) => 'environment-youzi-[flap]/[flip]?flip=1'
-
-  setQuery({
-    flip: {
-      potato: 7
-    }
-  }, {
-    overwrite: true
+  ctx.componentMap.set(node, {
+    path: parsedPath,
+    start,
   })
 
-  setQuery(null)
+  return params
 }
- 
-
- 
-
- */

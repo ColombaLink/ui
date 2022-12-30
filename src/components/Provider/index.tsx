@@ -32,7 +32,10 @@ type ProviderProps = {
 
 export const RouterContext = createContext<{
   rootPath: string[]
-  componentMap: Map<any, { path: string[] }>
+  componentMap: Map<
+    any,
+    { start: number; path: { vars: string[]; matcher: RegExp }[] }
+  >
 }>({ rootPath: [], componentMap: new Map() })
 
 // TODO: types!
