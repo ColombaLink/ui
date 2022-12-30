@@ -5,6 +5,7 @@ import React, {
   useEffect,
   createContext,
   useRef,
+  useMemo,
 } from 'react'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
@@ -34,7 +35,11 @@ export const RouterContext = createContext<{
   rootPath: string[]
   componentMap: Map<
     any,
-    { start: number; path: { vars: string[]; matcher: RegExp }[] }
+    {
+      start: number
+      path: { vars: string[]; matcher: RegExp }[]
+      update: () => void
+    }
   >
 }>({ rootPath: [], componentMap: new Map() })
 
@@ -82,13 +87,32 @@ export const Provider: FC<ProviderProps> = ({
     }
   }, [themes])
 
+  const routes = useMemo(() => {
+    const p = path ? path.split('/').slice(1) : []
+    return {
+      rootPath: p,
+      componentMap: new Map(),
+    }
+  }, [path])
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const listener = () => {
+        console.info('LULLLZ', routes)
+      }
+      global.addEventListener('popstate', listener)
+      return () => {
+        global.removeEventListener('popstate', listener)
+      }
+    }
+    return () => {}
+  }, [path])
+
   useEffect(() => {
     if (theme) {
       updateTheme(theme === 'dark' ? darkTheme : baseTheme)
     }
   }, [theme])
-
-  const pathName = useRef(path ? path.split('/').slice(1) : [])
 
   return (
     <div
@@ -103,12 +127,7 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        <RouterContext.Provider
-          value={{
-            rootPath: pathName.current,
-            componentMap: new Map(),
-          }}
-        >
+        <RouterContext.Provider value={routes}>
           <ToastProvider>
             <DialogProvider>
               <AuthProvider>{children}</AuthProvider>

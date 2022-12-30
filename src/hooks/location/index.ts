@@ -75,7 +75,7 @@ export type RouteParams = {
 
 const matchVars = /\[.*?\]/g
 
-const parseRoute = (
+export const parseRoute = (
   path: { vars: string[]; matcher: RegExp }[],
   start: number,
   pathName: string,
@@ -112,8 +112,11 @@ const parseRoute = (
   return params
 }
 
+// useReducer for change
+
 export const useRoute = (path?: string) => {
   const ctx = useContext(RouterContext)
+  const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
 
   const parsedPath = useMemo(() => {
     const p = path.split('/')
@@ -130,7 +133,16 @@ export const useRoute = (path?: string) => {
     return result
   }, [path])
 
-  const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
+  useEffect(() => {
+    return () => {
+      ctx.componentMap.delete(node)
+    }
+  }, [])
+
+  const update = useUpdate()
+
+  // on update
+
   let parent = node.return
   let parentStore = ctx.componentMap.get(parent)
   while (!parentStore) {
@@ -145,6 +157,13 @@ export const useRoute = (path?: string) => {
     ? parentStore.start + parentStore.path.length
     : ctx.rootPath.length
 
+  ctx.componentMap.set(node, {
+    path: parsedPath,
+    start,
+    update,
+  })
+
+  // have to check if changed
   const params = parseRoute(
     parsedPath,
     start,
@@ -153,10 +172,7 @@ export const useRoute = (path?: string) => {
     window.location.hash
   )
 
-  ctx.componentMap.set(node, {
-    path: parsedPath,
-    start,
-  })
+  // check if they changed else dont update!
 
   return params
 }
