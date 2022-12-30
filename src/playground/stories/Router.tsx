@@ -69,12 +69,38 @@ import {
 //   )
 // }
 
+const PowerRoute = () => {
+  const X = useRoute('powerplay-[nested]/[gur]')
+
+  return (
+    <div
+      style={{
+        border: '1px solid red',
+        padding: 10,
+        margin: 10,
+      }}
+    >
+      MY PATH - {X.path.nested}
+      <Button
+        onClick={() => {
+          X.setPath({
+            nested: Math.round(Math.random() * 1000),
+          })
+        }}
+      >
+        set NESTED!
+      </Button>
+    </div>
+  )
+}
+
 const TestRoute = () => {
   const X = useRoute('flapper[snurp]/[snap]!!!!!')
-  console.info(X)
+  // console.info(X) -- update control
   return (
     <div>
       hello {X.path.snurp}
+      <PowerRoute />
       <Button
         onClick={() => {
           X.setLocation(

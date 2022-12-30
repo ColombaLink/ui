@@ -126,10 +126,6 @@ export const useRouterListeners = (path?: string): RouterCtx => {
         const ordered = [...componentMap.values()].sort((a, b) => {
           return a.start < b.start ? -1 : a.start === b.start ? 0 : 1
         })
-        console.info(
-          'ORDER',
-          ordered.map((v) => v.start)
-        )
         // want this to be ordered (top first)
         ordered.forEach((v) => {
           v.update()
@@ -182,7 +178,7 @@ export const parseRoute = (
     location: ctx.location,
   }
   const segs = ctx.pathName.split('/').slice(1)
-  for (let i = start; i < segs.length; i++) {
+  for (let i = start; i < path.length + start; i++) {
     const seg = segs[i]
     const { vars, matcher } = path[i - start]
     if (seg) {
