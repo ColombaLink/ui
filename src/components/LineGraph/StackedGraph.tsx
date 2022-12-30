@@ -5,6 +5,7 @@ import genLabels from './genLabels'
 import XAxis from './XAxis'
 import OverlayWrapper from './OverlayWrapper'
 import Labels from './Labels'
+import { averageOrAddData } from './utils'
 
 const StackedGraph = ({
   width,
@@ -22,6 +23,8 @@ const StackedGraph = ({
   let maxX, minX
 
   const [xWidth, updateW] = useState(0)
+
+  data = averageOrAddData(data, width, spread)
 
   const dataStacked = []
 
@@ -127,6 +130,7 @@ const StackedGraph = ({
         <div
           ref={ref}
           style={{
+            marginTop: -32,
             paddingRight: 24,
           }}
         >

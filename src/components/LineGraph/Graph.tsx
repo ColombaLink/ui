@@ -5,6 +5,7 @@ import genLabels from './genLabels'
 import XAxis from './XAxis'
 import OverlayWrapper from './OverlayWrapper'
 import Labels from './Labels'
+import { averageOrAddData } from './utils'
 
 const Graph = ({
   width,
@@ -22,6 +23,8 @@ const Graph = ({
   let maxX, minX
 
   const [xWidth, updateW] = useState(0)
+
+  data = averageOrAddData(data, width, spread)
 
   for (let i = 0; i < data.length; i++) {
     const { x, y } = data[i]
@@ -92,7 +95,7 @@ const Graph = ({
       }}
     >
       {label ? (
-        <Text size="15px" weight={600} space="12px">
+        <Text size="15px" weight={600} space="32px">
           {label}
         </Text>
       ) : null}
@@ -106,6 +109,7 @@ const Graph = ({
         <div
           ref={ref}
           style={{
+            marginTop: -32,
             paddingRight: 24,
           }}
         >

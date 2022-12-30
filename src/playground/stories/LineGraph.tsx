@@ -165,6 +165,26 @@ export const LineGraph = () => {
           spread={false}
         />
       </div>
+      <div
+        style={{
+          width: '100%',
+          height: 360,
+          marginBottom: 32,
+        }}
+      >
+        <LG
+          label="Power play"
+          format="date"
+          data={[
+            { x: Date.now() - 40e3, y: 10 },
+            { x: Date.now() - 30e3, y: 20 },
+            { x: Date.now() - 20e3, y: 30 },
+            { x: Date.now() - 10e3, y: 20 },
+            { x: Date.now(), y: 25 },
+          ]}
+          spread={false}
+        />
+      </div>
     </>
   )
 }

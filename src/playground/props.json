@@ -596,13 +596,9 @@
           "type": {
             "array": "Key"
           }
-        },
-        "weight": {
-          "optional": true,
-          "type": "Weight"
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n  weight?: Weight\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n  //  weight?: Weight\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -1177,26 +1173,12 @@
             "number"
           ]
         },
-        "from": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "till": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        },
         "utc": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  from?: string | number\n  till?: string | number\n  utc?: boolean\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  utc?: boolean\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
@@ -1800,10 +1782,6 @@
           "optional": true,
           "type": "string"
         },
-        "setErrorMessage": {
-          "optional": true,
-          "type": "function"
-        },
         "errorMessage": {
           "optional": true,
           "type": "string"
@@ -1817,7 +1795,7 @@
           "type": "function"
         }
       },
-      "code": "type CustomRegexInputProps = {\n  pattern?: string\n  setErrorMessage?: (errorMessage: string) => void\n  errorMessage?: string\n  value?: string\n  onChange?: (value: string | number | null) => void\n}",
+      "code": "type CustomRegexInputProps = {\n  pattern?: string\n  errorMessage?: string\n  value?: string\n  onChange?: (target) => void\n}",
       "file": "/components/Input/CustomRegexInput.tsx"
     },
     "DigestInputProps": {
@@ -1958,9 +1936,17 @@
         "disabled": {
           "optional": true,
           "type": "boolean"
+        },
+        "clearValue": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setClearValue": {
+          "optional": true,
+          "type": "Dispatch"
         }
       },
-      "code": "type JsonInputProps = {\n  value?: string\n  onChange?: (target) => void\n  setErrorMessage?: (value: string) => void\n  // showJSONClearButton?: boolean\n  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>\n  disabled?: boolean\n}",
+      "code": "type JsonInputProps = {\n  value?: string\n  onChange?: (target) => void\n  setErrorMessage?: (value: string) => void\n  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>\n  disabled?: boolean\n  clearValue?: boolean\n  setClearValue?: Dispatch<SetStateAction<boolean>>\n}",
       "file": "/components/Input/JsonInput.tsx"
     },
     "MarkdownInputProps": {
@@ -2710,9 +2696,13 @@
         "fill": {
           "optional": true,
           "type": "boolean"
+        },
+        "path": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n}",
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
       "file": "/components/Provider/index.tsx"
     },
     "RadioButtonsProps": {
@@ -3263,6 +3253,38 @@
       "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n  color?: Color\n}",
       "file": "/components/Steps/index.tsx"
     },
+    "TableFromQueryProps": {
+      "name": "TableFromQueryProps",
+      "props": {
+        "fields": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "query": {
+          "type": "TSTypeLiteral"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "target": {
+          "optional": true,
+          "type": "string"
+        },
+        "language": {
+          "optional": true,
+          "type": "string"
+        },
+        "onClick": {
+          "type": "DataEventHandler"
+        }
+      },
+      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n}",
+      "file": "/components/Table/TableFromQuery.tsx"
+    },
     "TableProps": {
       "name": "TableProps",
       "props": {
@@ -3279,14 +3301,6 @@
           "type": {
             "array": "TSObjectKeyword"
           }
-        },
-        "itemSize": {
-          "optional": true,
-          "type": "number"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
         },
         "width": {
           "optional": true,
@@ -3309,7 +3323,7 @@
           "type": "function"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  itemSize?: number\n  style?: CSSProperties\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
