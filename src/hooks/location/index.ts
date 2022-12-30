@@ -9,6 +9,7 @@ import { useLocation as useWouterLocation } from 'wouter'
 import { useUpdate } from '../useUpdate'
 import { RouterContext } from '~/components/Provider'
 import { parseQuery, deepEqual, deepMerge } from '@saulx/utils'
+import { createGzip } from 'zlib'
 
 // maybe make this into a seperate pkg? or make sure parsing works well
 export const parseHref = (href = '/') => {
@@ -391,6 +392,9 @@ export const useRoute = (path?: string): RouteParams => {
       return true
     },
     setHash: (hash) => {
+      if (hash === ctx.hash) {
+        return false
+      }
       if (!hash) {
         ctx.hash = ''
       }

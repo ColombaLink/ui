@@ -103,6 +103,13 @@ const TestRoute = () => {
       >
         set query!
       </Button>
+      <Button
+        onClick={() => {
+          X.setHash('hashtime')
+        }}
+      >
+        set hash!
+      </Button>
     </div>
   )
 }
