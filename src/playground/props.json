@@ -1775,29 +1775,6 @@
       "code": "type ColorInputProps = {\n  inputRef?: RefObject<HTMLInputElement>\n  value?: string\n  placeholder?: string\n  defaultValue?: string\n  disabled?: boolean\n  style?: CSSProperties\n  onChange?: (target) => void\n}",
       "file": "/components/Input/ColorInput.tsx"
     },
-    "CustomRegexInputProps": {
-      "name": "CustomRegexInputProps",
-      "props": {
-        "pattern": {
-          "optional": true,
-          "type": "string"
-        },
-        "errorMessage": {
-          "optional": true,
-          "type": "string"
-        },
-        "value": {
-          "optional": true,
-          "type": "string"
-        },
-        "onChange": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type CustomRegexInputProps = {\n  pattern?: string\n  errorMessage?: string\n  value?: string\n  onChange?: (target) => void\n}",
-      "file": "/components/Input/CustomRegexInput.tsx"
-    },
     "DigestInputProps": {
       "name": "DigestInputProps",
       "props": {
@@ -2068,10 +2045,6 @@
           "optional": true,
           "type": "string"
         },
-        "optional": {
-          "optional": true,
-          "type": "boolean"
-        },
         "value": {
           "optional": true,
           "type": [
@@ -2176,7 +2149,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  //  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {

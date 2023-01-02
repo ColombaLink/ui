@@ -87,7 +87,7 @@ type InputProps = {
   digest?: boolean
   description?: string
   descriptionBottom?: string
-  optional?: boolean
+  //  optional?: boolean
   value?: string | number
   // integer?: boolean
   icon?: FC | ReactNode
