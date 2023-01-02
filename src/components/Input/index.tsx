@@ -331,7 +331,7 @@ export const Input: FC<
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? 6 : large ? 48 : 36,
+      minHeight: ghost ? 36 : large ? 48 : 36,
       paddingLeft,
       border: ghost
         ? `0px solid transparent`
