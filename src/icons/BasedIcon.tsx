@@ -14,6 +14,7 @@ export const BasedIcon = ({
       viewBox="14 12 28 24"
       fill="none"
       // style={style}
+      {...props}
     >
       <path
         d="M38.411 19.1992L28.8696 28.7407H19.3281L28.8696 19.1992H38.411Z"
