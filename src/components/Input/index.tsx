@@ -45,6 +45,7 @@ const Multi = ({ style, inputRef, ...props }) => {
           resize: 'none',
           paddingTop: 8,
           minHeight: 84,
+          paddingLeft: 12,
           outline: inputFocus
             ? `3px solid rgba(44, 60, 234, 0.2)`
             : `3px solid transparent`,
@@ -416,15 +417,18 @@ export const Input: FC<
             color: color('text'),
           }}
         >
-          {renderOrCreateElement(icon, {
-            style: {
-              position: 'absolute',
-              left: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+          {!jsonInput && !markdownInput && !multiline
+            ? renderOrCreateElement(icon, {
+                style: {
+                  position: 'absolute',
+                  left: 12,
+                  top: '50%',
+                  transform: 'translate3d(0,-50%,0)',
+                  pointerEvents: 'none',
+                },
+              })
+            : null}
+
           {colorInput ? (
             <ColorInput
               onChange={(e) => {
@@ -557,15 +561,17 @@ export const Input: FC<
               </styled.div>
             </div>
           )}
-          {renderOrCreateElement(iconRight, {
-            style: {
-              position: 'absolute',
-              right: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+          {!jsonInput && !markdownInput && !multiline
+            ? renderOrCreateElement(iconRight, {
+                style: {
+                  position: 'absolute',
+                  right: 12,
+                  top: '50%',
+                  transform: 'translate3d(0,-50%,0)',
+                  pointerEvents: 'none',
+                },
+              })
+            : null}
         </div>
 
         {maxChars && (
