@@ -17,7 +17,6 @@ import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
-import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
@@ -284,17 +283,27 @@ export const Input: FC<
 
   useEffect(() => {
     //  check for error pas als de focus weg is
+    if (!customRegex && !pattern) {
+      const msg = error?.(value)
 
-    const msg = error?.(value)
-
-    if (msg) {
-      // add error msg
-      setErrorMessage(msg)
-    } else {
-      // remove error msg
-      setErrorMessage('')
+      if (msg) {
+        // add error msg
+        setErrorMessage(msg)
+      } else {
+        // remove error msg
+        setErrorMessage('')
+      }
     }
   }, [focused])
+
+  useEffect(() => {
+    if (customRegex && pattern) {
+      if (new RegExp(pattern).test(value) || value.length < 1) {
+        return setErrorMessage('')
+      }
+      return setErrorMessage('Does not match REGEX/pattern')
+    }
+  }, [value])
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
@@ -446,13 +455,6 @@ export const Input: FC<
             />
           ) : multiline ? (
             <Multi {...props} />
-          ) : customRegex ? (
-            <CustomRegexInput
-              pattern={pattern}
-              errorMessage={errorMessage}
-              value={value}
-              onChange={onChange}
-            />
           ) : digest ? (
             <DigestInput
               {...props}
