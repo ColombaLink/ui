@@ -47,22 +47,28 @@ export const DateRangeInput = ({
           marginBottom: 12,
         }}
       >
-        from:{' '}
+        from:
         <DateInput
           value={fromValue}
           setFocused={() => {}}
           dateHandler={dateHandlerFrom}
-        />{' '}
-        till:{' '}
+          // testing
+          fromValue={fromValue}
+          tillValue={tillValue}
+        />
+        till:
         <DateInput
           value={tillValue}
           setFocused={() => {}}
           dateHandler={dateHandlerTill}
+          // testing
+          fromValue={fromValue}
+          tillValue={tillValue}
         />
       </div>
 
       <div style={{ background: 'yellow' }}>
-        FROM: {fromValue} -- TILL: {tillValue}
+        FROM: {fromValue} - TILL: {tillValue}
       </div>
     </>
   )

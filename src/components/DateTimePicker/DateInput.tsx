@@ -19,6 +19,9 @@ type DateInputProps = {
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
   clearHandler?: () => void
+
+  fromValue?: string
+  tillValue?: string
 }
 
 export const DateInput: FC<DateInputProps> = ({
@@ -26,11 +29,16 @@ export const DateInput: FC<DateInputProps> = ({
   setFocused,
   dateHandler,
   clearHandler,
+
+  fromValue,
+  tillValue,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
   const dateObj = new Date()
+
+  console.log('from , till ---> ', fromValue, tillValue)
 
   if (showDatePicker) {
     setFocused(true)
@@ -106,6 +114,8 @@ export const DateInput: FC<DateInputProps> = ({
           setShowDatePicker={setShowDatePicker}
           setFocused={setFocused}
           clearHandler={clearHandler}
+          // testing
+          fromValue={fromValue}
         />
       )}
     </div>

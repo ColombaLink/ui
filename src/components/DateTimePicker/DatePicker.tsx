@@ -8,6 +8,8 @@ type DatePickerProps = {
   setShowDatePicker?: (value: boolean) => void
   setFocused?: (value: boolean) => void
   clearHandler?: () => void
+
+  fromValue?: string
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -37,6 +39,7 @@ export const DatePicker = ({
   setShowDatePicker,
   setFocused,
   clearHandler,
+  fromValue,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
@@ -58,7 +61,7 @@ export const DatePicker = ({
     'December',
   ]
 
-  // console.log('INPUT VALUE UIT DE PICKER', inputValue)
+  console.log('from VALUE UIT DE PICKER', fromValue)
 
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
@@ -67,6 +70,12 @@ export const DatePicker = ({
   const [selectedDay, setSelectedDay] = useState(currentDay)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
+
+  const [fromDay, setFromDay] = useState(+fromValue?.split('/')[0])
+  const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
+  const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
+
+  console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
 
   const [presentDay] = useState(currentDay)
 
@@ -184,8 +193,12 @@ export const DatePicker = ({
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 
+    console.log('selectedMonth', selectedMonth)
+    console.log('selectedYear', selectedYear)
+    console.log('selectedDay', selectedDay)
+
     // console.log(
-    //   'whats this than slut',
+    //   'whats this than ',
     //   days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
     // )
 
@@ -308,7 +321,12 @@ export const DatePicker = ({
                 justifyContent: 'center',
                 '&:hover': {
                   background:
-                    val.day === selectedDay ? color('accent') : color('border'),
+                    val.day === selectedDay
+                      ? color('accent')
+                      : // for each of the days in between hover color light accent
+                      val.day > fromDay
+                      ? color('lightaccent')
+                      : color('border'),
                   cursor: 'pointer',
                 },
               }}
