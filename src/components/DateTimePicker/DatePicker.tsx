@@ -71,10 +71,10 @@ export const DatePicker = ({
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
 
+  // FROM
   const [fromDay, setFromDay] = useState(+fromValue?.split('/')[0])
   const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
   const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
-
   console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
 
   const [presentDay] = useState(currentDay)
@@ -324,6 +324,7 @@ export const DatePicker = ({
                     val.day === selectedDay
                       ? color('accent')
                       : // for each of the days in between hover color light accent
+                      // try to use the map this is in
                       val.day > fromDay
                       ? color('lightaccent')
                       : color('border'),
