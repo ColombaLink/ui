@@ -5,6 +5,7 @@ import { InputWrapper } from '../Input/InputWrapper'
 import { TimeInput } from './TimeInput'
 import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
+import { DateRangeInput } from './DateRangeInput'
 
 type DateTimePickerProps = {
   label?: string
@@ -18,6 +19,7 @@ type DateTimePickerProps = {
   disabled?: boolean
   value?: string | number
   utc?: boolean
+  dateRange?: boolean
 }
 
 // const formatYmd = (date) => date?.toISOString().slice(0, 10)
@@ -44,6 +46,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   space,
   style,
   error,
+  dateRange,
   disabled,
   value,
   utc,
@@ -186,26 +189,30 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       }}
     >
       <Label label={label} description={description} space="12px" />
-      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>
-        <DateInput
-          dateHandler={dateHandler}
-          value={dateFormatInput}
-          setFocused={setFocus}
-          clearHandler={clearHandler}
-        />
-        <TimeInput
-          timeInputHandler={timeInputHandler}
-          value={dateTimeInput}
-          onFocus={setFocus}
-          placeholder={dateTimeInput || 'hh:mm'}
-        />
-        {utc && (
-          <UtcInput
-            utcInputHandler={utcInputHandler}
-            placeholder={timezoneOffset}
+      {dateRange ? (
+        <DateRangeInput dateHandler={dateHandler} value={dateFormatInput} />
+      ) : (
+        <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>
+          <DateInput
+            dateHandler={dateHandler}
+            value={dateFormatInput}
+            setFocused={setFocus}
+            clearHandler={clearHandler}
           />
-        )}
-      </div>
+          <TimeInput
+            timeInputHandler={timeInputHandler}
+            value={dateTimeInput}
+            onFocus={setFocus}
+            placeholder={dateTimeInput || 'hh:mm'}
+          />
+          {utc && (
+            <UtcInput
+              utcInputHandler={utcInputHandler}
+              placeholder={timezoneOffset}
+            />
+          )}
+        </div>
+      )}
       {/* <div>miliseconds: {value}</div> */}
     </InputWrapper>
   )
