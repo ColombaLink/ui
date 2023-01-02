@@ -1,8 +1,8 @@
 import React, {
-  useEffect,
   useState,
   Dispatch,
   SetStateAction,
+  useEffect,
   // ChangeEvent,
 } from 'react'
 import { styled } from 'inlines'
@@ -24,9 +24,10 @@ type JsonInputProps = {
   value?: string
   onChange?: (target) => void
   setErrorMessage?: (value: string) => void
-  // showJSONClearButton?: boolean
   setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>
   disabled?: boolean
+  clearValue?: boolean
+  setClearValue?: Dispatch<SetStateAction<boolean>>
 }
 
 export const JsonInput = ({
@@ -34,10 +35,21 @@ export const JsonInput = ({
   onChange,
   setErrorMessage,
   setShowJSONClearButton,
+  setClearValue,
   disabled,
+  clearValue,
 }: JsonInputProps) => {
   const [code, setCode] = usePropState(value)
   const [valid, setValid] = useState(true)
+
+  useEffect(() => {
+    if (clearValue) {
+      setCode('')
+      // setShowJSONClearButton(false)
+      setValid(true)
+      setClearValue(false)
+    }
+  }, [clearValue])
 
   const isValidJson = (str) => {
     try {
@@ -47,16 +59,6 @@ export const JsonInput = ({
     }
     return true
   }
-
-  useEffect(() => {
-    if (!valid && code !== '') {
-      setErrorMessage('Invalid JSON')
-      // console.log(code.length)
-    } else {
-      //  setErrorMessage('')
-      //  setCode(JSON.stringify(JSON.parse(code), null, 2))
-    }
-  }, [valid])
 
   return (
     <StyledJsonEditor style={{ cursor: disabled ? 'not-allowed' : null }}>
@@ -73,6 +75,14 @@ export const JsonInput = ({
 
       <div style={{ padding: 12, pointerEvents: disabled ? 'none' : null }}>
         <Editor
+          onBlur={() => {
+            if (!valid && code !== '' && code.length > 0) {
+              setErrorMessage('Invalid JSON')
+              // console.log(code.length)
+            } else {
+              setErrorMessage('')
+            }
+          }}
           value={code}
           onValueChange={(code) => {
             setCode(code)
@@ -95,7 +105,9 @@ export const JsonInput = ({
               const h = highlight(tempCode, languages.json)
 
               return h
-            } catch (err) {}
+            } catch (err) {
+              console.log(err)
+            }
           }}
           style={{
             fontSize: 14,

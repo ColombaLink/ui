@@ -1,6 +1,6 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
-import { Input } from '.'
-import { EyeIcon, EyeBlockedIcon, color } from '~'
+import React, { useEffect, useState } from 'react'
+import { CheckIcon, CopyIcon } from '~/icons'
+import { Input, Text } from '~'
 
 type DigestInputProps = {
   value?: string
@@ -14,69 +14,87 @@ export const DigestInput = ({
   disabled,
   ...props
 }: DigestInputProps) => {
-  const [digestInputType, setDigestInputType] = useState('password')
-  // const [disabledIfHashed, setDisabledIfHashed] = useState(false)
+  const [shortState, setShortState] = useState(false)
+  const [copied, setCopied] = useState(false)
 
-  // const isHashedString = (str) => {
-  //   if (str.length === 64 && str.match(/^[0-9a-f]+$/)) {
-  //     return true
-  //   }
-  // }
+  useEffect(() => {
+    if (value.length > 6) {
+      setShortState(true)
+    }
+  }, [])
 
-  // useEffect(() => {
-  //   if (isHashedString(value)) {
-  //     setDisabledIfHashed(true)
-  //   }
-  //   if (value.length === 0) {
-  //     setDisabledIfHashed(false)
-  //   }
-  // }, [value])
+  function copy(text) {
+    const input = document.createElement('input')
+    input.setAttribute('value', text)
+    document.body.appendChild(input)
+    input.select()
+    const result = document.execCommand('copy')
+    document.body.removeChild(input)
+    return result
+  }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        position: 'relative',
-        alignItems: 'center',
-      }}
-    >
-      <Input
-        {...props}
-        style={{ width: '100%' }}
-        type={digestInputType}
-        value={value}
-        onChange={(e) => {
-          onChange({ target: { value: e } })
+    <>
+      <div
+        style={{
+          display: 'flex',
+          position: 'relative',
+          alignItems: 'center',
         }}
-        disabled={disabled}
-      />
-
-      {digestInputType === 'text' && (
-        <EyeIcon
-          size={24}
-          style={{
-            position: 'absolute',
-            right: 6,
-            cursor: 'pointer',
-            border: `3px solid ${color('background')}`,
-            backgroundColor: color('background'),
+        onBlur={() => {
+          if (value.length > 6) {
+            setShortState(true)
+          }
+        }}
+        onFocus={() => {
+          setShortState(false)
+        }}
+      >
+        {shortState ? (
+          <Input
+            value={value.substring(0, 6) + '...'}
+            icon=" "
+            style={{ width: '100%' }}
+          />
+        ) : (
+          <Input
+            icon=" "
+            {...props}
+            style={{ width: '100%' }}
+            type="text"
+            value={value}
+            onChange={(e) => {
+              onChange({ target: { value: e } })
+            }}
+            disabled={disabled}
+          />
+        )}
+        <CopyIcon
+          style={{ position: 'absolute', left: 12, cursor: 'pointer' }}
+          onClick={() => {
+            copy(value)
+            setCopied(true)
+            setTimeout(() => {
+              setCopied(false)
+            }, 3500)
           }}
-          onClick={() => setDigestInputType('password')}
         />
-      )}
-      {digestInputType === 'password' && (
-        <EyeBlockedIcon
-          size={24}
+      </div>
+      {copied && (
+        <div
           style={{
-            position: 'absolute',
-            right: 6,
-            cursor: 'pointer',
-            backgroundColor: color('background'),
-            border: `3px solid ${color('background')}`,
+            display: 'flex',
+            gap: 4,
+            alignItems: 'center',
+            marginTop: 12,
+            paddingBottom: 6,
+            marginBottom: -24,
           }}
-          onClick={() => setDigestInputType('text')}
-        />
+        >
+          <CheckIcon color="green" />
+          <Text>Copied full SHA!!</Text>
+        </div>
       )}
-    </div>
+    </>
   )
 }

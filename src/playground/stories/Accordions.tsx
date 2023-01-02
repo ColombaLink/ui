@@ -1,7 +1,6 @@
 import React from 'react'
 import { Accordion, AccordionItem } from '~/components/Accordion'
 import ComponentViewer from '../ComponentViewer'
-import { Text } from '../..'
 
 export const Accordions = () => {
   return (

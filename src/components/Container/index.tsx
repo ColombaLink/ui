@@ -33,7 +33,7 @@ export const Container: FC<ContainerProps> = ({
         backgroundColor: color('background2dp'),
         border: `1px solid ${color('border')}`,
         position: 'relative',
-        borderRadius: 4,
+        borderRadius: 8,
         overflow: 'hidden',
         marginBottom: spaceToPx(space, 32),
         width: wrap ? 'fit-content' : '100%',

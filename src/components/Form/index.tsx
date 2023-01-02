@@ -1,14 +1,16 @@
 import React, { CSSProperties, FC } from 'react'
 import { styled } from 'inlines'
 
+type FormProps = {
+  style?: CSSProperties
+  onSubmit?: (res: SubmitResponse) => void
+}
+
 type SubmitResponse = {
   [key: string]: any
 }
 
-export const Form: FC<{
-  style?: CSSProperties
-  onSubmit?: (res: SubmitResponse) => void
-}> = ({ onSubmit, ...props }) => {
+export const Form: FC<FormProps> = ({ onSubmit, ...props }) => {
   return (
     <styled.form
       onSubmit={(e) => {

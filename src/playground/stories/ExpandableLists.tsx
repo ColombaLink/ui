@@ -1,6 +1,5 @@
 import React from 'react'
 import { ExpandableList } from '~'
-import { Thumbnail } from '~'
 
 import ComponentViewer from '../ComponentViewer'
 
@@ -56,28 +55,26 @@ export const ExpandableLists = () => {
   ]
 
   return (
-    <div>
-      <ComponentViewer
-        component={ExpandableList}
-        propsName="ExpandableListProps"
-        examples={[
-          {
-            props: {
-              data: drillDownData,
-              height: 360,
-              topLeft: 'What kind of Snurpies?',
-              topRight: 'How many',
-            },
+    <ComponentViewer
+      component={ExpandableList}
+      propsName="ExpandableListProps"
+      examples={[
+        {
+          props: {
+            data: drillDownData,
+            height: 360,
+            topLeft: 'What kind of Snurpies?',
+            topRight: 'How many',
           },
-          {
-            props: {
-              data: otherExample,
-              height: 360,
-              topLeft: 'Cars from:',
-            },
+        },
+        {
+          props: {
+            data: otherExample,
+            height: 360,
+            topLeft: 'Cars from:',
           },
-        ]}
-      />
-    </div>
+        },
+      ]}
+    />
   )
 }

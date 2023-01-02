@@ -105,31 +105,39 @@ export const Register: FC<RegisterProps> = ({
               clientId={githubClientId}
             />
           ) : null}
-          <Separator style={{ marginTop: 16 }}>OR</Separator>
+          <Separator space={16} style={{ marginTop: 16 }}>
+            <Text color="text2" size={14} weight={500}>
+              OR
+            </Text>
+          </Separator>
         </>
       ) : null}
       <Input
         space="16px"
         large
+        label="Name"
         type="text"
         name="name"
-        placeholder="Name"
+        placeholder="Enter your full name"
         onChange={setName}
       />
 
       <Input
         type="email"
         large
+        label="Email"
         space="16px"
-        icon={EmailIcon}
+        // icon={EmailIcon}
         value={email}
         placeholder="Email address"
         onChange={setEmail}
       />
       <Input
         large
+        label="Password"
         space="16px"
-        icon={LockIcon}
+        passwordInput
+        // icon={LockIcon}
         type="password"
         placeholder="Password"
         onChange={setPassword}
@@ -154,6 +162,7 @@ export const Register: FC<RegisterProps> = ({
             )
           }
           space
+          passwordInput
           name="confirm-password"
           type="password"
           placeholder="Confirm password"
@@ -180,19 +189,23 @@ export const Register: FC<RegisterProps> = ({
           }}
         />
 
-        <Callout space icon={PasswordIcon({ color: passWordColor })}>
-          {passwordScore.entropy < 50
-            ? 'Password is too weak, add capitals, symbols or make it longer'
-            : passwordValidationMessage}
-        </Callout>
+        <Callout
+          space
+          icon={PasswordIcon({ color: passWordColor })}
+          label={
+            passwordScore.entropy < 50
+              ? 'Password is too weak, add capitals, symbols or make it longer'
+              : passwordValidationMessage
+          }
+        />
       </div>
 
       <Button
         disabled={!valid}
         fill
-        color="text"
         textAlign="center"
         large
+        style={{ height: 48 }}
         actionKeys={['Enter']}
         onClick={async () => {
           setWaitingForEmailConfirmation(true)

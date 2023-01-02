@@ -5,17 +5,18 @@ import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
 import { ScrollArea } from '~/components/ScrollArea'
 import { Text } from '~/components/Text'
-import { useLocation, useSchema } from '~/hooks'
-import { CloseIcon, ArrowRightIcon } from '~/icons'
+import { useLocation, useSchema, useCopyToClipboard } from '~/hooks'
+import { CloseIcon, ArrowRightIcon, CheckIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { prettyDate } from '@based/pretty-date'
-import { Select } from '~/components/Select'
+import { Select, StyledSelect } from '~/components/Select'
 import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
+import { styled } from 'inlines'
 
 const Topbar = ({ id, type, onClose }) => {
   const [location, setLocation] = useLocation()
@@ -40,14 +41,14 @@ const Topbar = ({ id, type, onClose }) => {
           }}
           style={{ cursor: 'pointer', transform: 'scaleX(-1)' }}
         />
-      ) : (
-        <CloseIcon onClick={onClose} style={{ cursor: 'pointer' }} />
-      )}
-      <Text style={{ marginLeft: 24 }} weight={600}>
+      ) : null}
+      <Text style={{ marginLeft: 16 }} weight={600} size={16}>
         {id
           ? loading
             ? null
-            : `Edit ${schemaType}: ${descriptor}`
+            : `Edit ${schemaType}${
+                location.includes('.') ? '.' + location.split('.').pop() : ''
+              }`
           : `Create new ${type}`}
       </Text>
     </div>
@@ -64,7 +65,9 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
         paddingBottom: 8,
       }}
     >
-      <Text>{title}</Text>
+      <Text weight={600} size={12}>
+        {title.toUpperCase()}
+      </Text>
       {children}
     </div>
   )
@@ -99,6 +102,7 @@ const Translation = ({ language, setLanguage }) => {
 
   return loading ? null : (
     <Select
+      style={{ backgroundColor: color('background2') }}
       value={
         schema.languages.includes(language) ? language : schema.languages[0]
       }
@@ -137,8 +141,11 @@ const ContentModalInner = ({ prefix, id, field }) => {
   const { open } = useDialog()
   const type = id ? null : field
 
+  const [copied, copy] = useCopyToClipboard(id)
+
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
+
     if (changedFields) {
       open(
         <Dialog
@@ -173,25 +180,34 @@ const ContentModalInner = ({ prefix, id, field }) => {
         left: 0,
         right: 0,
         display: 'flex',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
       }}
+      onClick={onClose}
     >
       <div
-        onClick={onClose}
         style={{
           opacity: 0.6,
           width: 300,
           flexGrow: 1,
-          backgroundColor: color('background2'),
         }}
       />
-      <div
+      <styled.div
         style={{
           width: 1200,
+          margin: 24,
+          borderRadius: 12,
           backgroundColor: color('background'),
           boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
           display: 'flex',
           flexDirection: 'column',
+          '@keyframes': {
+            '0%': { transform: 'translateX(60px)', opacity: 0 },
+            '100%': { transform: 'translateX(0px)', opacity: 1 },
+          },
+          animationDuration: '0.15s',
+          animationEffect: 'ease-out',
         }}
+        onClick={(e) => e.stopPropagation()}
       >
         <Topbar id={id} type={type} onClose={onClose} />
         <div
@@ -215,7 +231,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
                   typeof data === 'object' &&
                   !Array.isArray(data[Object.keys(data)[0]])
                 ) {
-                  console.warn('doing deep merge!', changes)
+                  console.warn('doing deep merge!', changes, data)
                   deepMerge(changes, data)
                 } else {
                   //    console.log('array ', data, changes)
@@ -225,16 +241,44 @@ const ContentModalInner = ({ prefix, id, field }) => {
               }}
             />
           </ScrollArea>
-          <RightSidebar style={{ width: 260 }}>
+          <RightSidebar
+            style={{
+              minWidth: 260,
+              borderBottomRightRadius: 12,
+              borderTopRightRadius: 12,
+              marginTop: -64,
+            }}
+          >
+            <styled.div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                height: 32,
+                width: 32,
+                marginLeft: 'auto',
+                borderRadius: 16,
+                backgroundColor: color('lighttext'),
+                '&:hover': {
+                  backgroundColor: color('lighttext:hover'),
+                },
+              }}
+              onClick={onClose}
+            >
+              <CloseIcon size={14} />
+            </styled.div>
             <SideHeader title="Status" />
             <Button
+              large
               disabled={disabled}
               textAlign="center"
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
+                console.log(JSON.stringify(changes, null, 2))
                 await client.set({
-                  $id: id.split('.')[0] || undefined,
+                  $id: id?.split('.')[0] || undefined,
                   type,
                   ...changes,
                 })
@@ -254,7 +298,19 @@ const ContentModalInner = ({ prefix, id, field }) => {
                 <>
                   <LastSaved id={id} />
                   <SideHeader title="ID" />
-                  <Badge style={{ marginBottom: 24 }}>{id}</Badge>
+                  <div style={{ display: 'flex' }}>
+                    <Badge style={{ marginBottom: 24 }} onClick={copy}>
+                      {id}
+                    </Badge>
+                    {copied && (
+                      <div
+                        style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}
+                      >
+                        <CheckIcon color="green" />
+                        <Text size={12}>Copied!!</Text>
+                      </div>
+                    )}
+                  </div>
                 </>
               ) : null}
             </div>
@@ -262,7 +318,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
             <Translation language={language} setLanguage={setLanguage} />
           </RightSidebar>
         </div>
-      </div>
+      </styled.div>
     </div>
   )
 }

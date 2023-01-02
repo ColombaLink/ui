@@ -1,6 +1,5 @@
 import React from 'react'
-import { Container } from '~'
-import { Text, Button, Input, Thumbnail } from '~'
+import { Text, Button, Input, Container } from '~'
 import ComponentViewer from '../ComponentViewer'
 import { MoreIcon } from '~/icons'
 

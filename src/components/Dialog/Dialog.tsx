@@ -21,15 +21,15 @@ const Container = styled('div', {
   maxHeight: 'calc(100vh - 30px)',
   display: 'flex',
   flexDirection: 'column',
-  borderRadius: 4,
+  borderRadius: 8,
   boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.12)',
   backgroundColor: color('background2dp'),
 })
 
 const ScrollBody = styled('div', {
-  paddingTop: 'var(--dialogPadding)',
-  paddingLeft: 'var(--dialogPadding)',
-  paddingRight: 'var(--dialogPadding)',
+  paddingTop: '16px',
+  paddingLeft: '32px',
+  paddingRight: '32px',
   paddingBottom: '0px',
   width: '100%',
   '&>:last-child': {
@@ -53,6 +53,8 @@ const ButtonsWithBorder = styled(StyledButtons, {
   marginTop: 48,
   paddingTop: 24,
   paddingLeft: 24,
+  borderBottomLeftRadius: 8,
+  borderBottomRightRadius: 8,
   paddingRight: 24,
   marginLeft: 'calc(-1 * var(--dialogPadding))',
   marginRight: 'calc(-1 * var(--dialogPadding))',
@@ -63,14 +65,14 @@ const ButtonSpacer = styled('div', {
 })
 
 const BodySpacer = styled('div', {
-  height: 24,
+  // . height: 24,
   '&:first-child': {
     display: 'none',
   },
 })
 
 const Label = (props) => {
-  return <Text weight={600} {...props} />
+  return <Text typo="subtitle600" {...props} style={{ marginBottom: 24 }} />
 }
 
 const Body = ({ children }) => {
@@ -116,7 +118,9 @@ const Buttons = ({ children, border = null }) => {
 
 const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
   const dialog = useDialog()
+
   const { current: myId } = useRef(dialog._id)
+
   const onClick = onConfirm
     ? async () => {
         if (!props.disabled && myId === dialog._id) {
@@ -131,7 +135,7 @@ const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
       }
 
   return (
-    <Button onClick={onClick} {...props} actionKeys={['Enter']}>
+    <Button large onClick={onClick} {...props} actionKeys={['Enter']}>
       {children}
     </Button>
   )
@@ -163,6 +167,7 @@ const Cancel = ({
 
   return (
     <Button
+      large
       onClick={onClick}
       outline
       color="text"
@@ -225,10 +230,10 @@ export const Dialog = Object.assign(
             <div
               style={{
                 // borderBottom: `1px solid ${color('border')}`,
-                padding: '20px 24px 8px 24px',
+                padding: '24px 32px 8px 32px',
               }}
             >
-              <Text weight={600}>{label}</Text>
+              <Text typo="subtitle600">{label}</Text>
             </div>
           )}
           {pure ? (

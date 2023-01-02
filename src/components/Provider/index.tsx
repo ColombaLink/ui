@@ -1,4 +1,10 @@
-import React, { CSSProperties, FC, ReactNode, useEffect } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useEffect,
+  createContext,
+} from 'react'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
@@ -8,7 +14,7 @@ import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
-import { AuthProvider } from '~'
+import { AuthProvider, RouterCtx, useRouterListeners } from '~'
 
 type ProviderProps = {
   children?: ReactNode
@@ -20,8 +26,15 @@ type ProviderProps = {
     dark?: object
   }
   fill?: boolean
+  path?: string
 }
 
+export const RouterContext = createContext<RouterCtx>({
+  rootPath: [],
+  componentMap: new Map(),
+})
+
+// TODO: types!
 const mergeNested = (theme, overwrite, key) => {
   if (overwrite[key]) {
     if (theme[key]) {
@@ -34,6 +47,8 @@ const mergeNested = (theme, overwrite, key) => {
           theme[key][i] = overwrite[key][i]
         }
       }
+    } else {
+      theme[key] = overwrite[key]
     }
   }
 }
@@ -48,6 +63,7 @@ const merge = (theme, overwrite) => {
 export const Provider: FC<ProviderProps> = ({
   children,
   style,
+  path,
   client,
   themes,
   theme,
@@ -68,6 +84,8 @@ export const Provider: FC<ProviderProps> = ({
     }
   }, [theme])
 
+  const routes = useRouterListeners(path)
+
   return (
     <div
       style={{
@@ -81,12 +99,14 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        <ToastProvider>
-          <DialogProvider>
-            <AuthProvider>{children}</AuthProvider>
-            <OverlayProvider />
-          </DialogProvider>
-        </ToastProvider>
+        <RouterContext.Provider value={routes}>
+          <ToastProvider>
+            <DialogProvider>
+              <AuthProvider>{children}</AuthProvider>
+              <OverlayProvider />
+            </DialogProvider>
+          </ToastProvider>
+        </RouterContext.Provider>
       </BasedProvider>
     </div>
   )

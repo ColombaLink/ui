@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScreenIcon, GearsIcon, SettingsIcon } from '~/icons'
+import { ScreenIcon, GearsIcon, SettingsIcon } from '~'
 import { Sidebar } from '~/components/Sidebar'
 import ComponentViewer from '../ComponentViewer'
 import { Code } from '~/components/Code'
@@ -11,44 +11,29 @@ export const SideBar = () => {
   import { ScreenIcon, GearsIcon } from '~/icons'
 
   <Sidebar
-        avatar={<Avatar size={24} color="accent" label="T" />}
+        expandable
         data={[
           {
-            icon: ScreenIcon,
+            subTitle: 'Subtitle',
+          },
+          {
+            icon: <ScreenIcon/>,
             label: 'Schema',
             href: '/schema',
           },
           {
-            icon: GearsIcon,
+            icon: <GearsIcon/>,
             label: 'Content',
             href: '/content',
           },
           {
-            icon: SettingsIcon,
+            icon: <SettingsIcon/>,
             label: 'Files',
             href: '/files',
           },
         ]}
   />
   `
-
-  const exampleSidebarData = [
-    {
-      icon: ScreenIcon,
-      label: 'Schema',
-      href: '/schema',
-    },
-    {
-      icon: GearsIcon,
-      label: 'Content',
-      href: '/content',
-    },
-    {
-      icon: SettingsIcon,
-      label: 'Files',
-      href: '/files',
-    },
-  ]
 
   return (
     <>
@@ -58,7 +43,15 @@ export const SideBar = () => {
         examples={[
           {
             props: {
-              data: exampleSidebarData,
+              expandable: true,
+              data: [
+                { subTitle: 'Subtitle' },
+                {
+                  icon: SettingsIcon,
+                  label: 'Schema',
+                  href: '/schema',
+                },
+              ],
             },
           },
         ]}
@@ -67,7 +60,11 @@ export const SideBar = () => {
       <Code value={codeExample} space />
 
       <Sidebar
+        expandable
         data={[
+          {
+            subTitle: 'Subtitle',
+          },
           {
             icon: ScreenIcon,
             label: 'Schema',

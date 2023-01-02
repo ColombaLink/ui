@@ -18,6 +18,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
     <Dialog label="Create a type">
       <Dialog.Body>
         <Input
+          space
           type="text"
           placeholder="Type something here"
           label="Display name"
@@ -28,6 +29,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
           value={name}
         />
         <Input
+          space
           type="text"
           placeholder="Type something here"
           label="Display name plural"
@@ -41,6 +43,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
           }
         />
         <Input
+          space
           type="text"
           placeholder="Type something here"
           label="Type name"

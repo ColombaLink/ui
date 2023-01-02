@@ -48,7 +48,7 @@ export const SharedGeneral: FC<{
         type="text"
         placeholder="Type something here"
         label="Field name"
-        description="Api field - name used in the sdk and clients"
+        description="API field - name used in the sdk and clients"
         onChange={(value: string) => {
           // TODO make own safeName for fields (dont use type)
           options.field = safeTypeName(value)

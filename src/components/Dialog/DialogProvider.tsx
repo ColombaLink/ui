@@ -16,6 +16,7 @@ const Prompt = ({
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
+  //  const isConfirm = type === 'confirm'
 
   return (
     <Dialog
@@ -27,6 +28,7 @@ const Prompt = ({
     >
       {isPrompt ? (
         <Dialog.Body>
+          {children}
           <Input autoFocus onChange={(v) => (value.current = v)} />
         </Dialog.Body>
       ) : (
@@ -73,7 +75,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
             backgroundColor: color('backdrop'),
             display: 'flex',
             justifyContent: 'center',
-            padding: 20,
+            // padding: 20,
             position: fixed ? 'fixed' : 'absolute',
             top: 0,
             left: 0,
@@ -105,16 +107,23 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     dialog._id = null
 
-    const prompt = (type, props) => {
+    const prompt = (type, props, children) => {
       return new Promise((resolve) => {
         if (typeof props === 'string') {
           props = {
             label: props,
           }
         }
-
-        dialog.open(<Prompt {...props} type={type} onConfirm={resolve} />, () =>
-          resolve(false)
+        dialog.open(
+          <Prompt
+            {...props}
+            type={type}
+            onConfirm={resolve}
+            //     children={children}
+          >
+            {children}
+          </Prompt>,
+          () => resolve(false)
         )
       })
     }
@@ -141,9 +150,10 @@ export const DialogProvider = ({ children, fixed = true }) => {
       }
     }
 
-    dialog.prompt = (props) => prompt('prompt', props)
-    dialog.alert = (props) => prompt('alert', props)
-    dialog.confirm = (props) => prompt('confirm', props)
+    dialog.prompt = (props, children) => prompt('prompt', props, children)
+    // TODO alert add children
+    dialog.alert = (props, children) => prompt('alert', props, children)
+    dialog.confirm = (props, children) => prompt('confirm', props, children)
 
     dialog.useCount = () => {
       const [state, setState] = useState(dialogsRef.current.length)

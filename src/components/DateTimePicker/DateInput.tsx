@@ -1,16 +1,17 @@
 import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
-import { color, CalendarIcon } from '~'
+import { color, CalendarIcon, boxShadow } from '~'
 import { DatePicker } from './DatePicker'
 
 const StyledDateInput = styled('input', {
   width: 280,
-  borderRadius: 4,
+  borderRadius: 8,
   minHeight: 36,
   paddingLeft: 28,
   paddingRight: 12,
   cursor: 'text',
   border: `1px solid ${color('border')}`,
+  boxShadow: boxShadow('medium'),
 })
 
 type DateInputProps = {
@@ -65,8 +66,8 @@ export const DateInput: FC<DateInputProps> = ({
           backgroundColor: showDatePicker
             ? color('background2')
             : color('background'),
-          borderBottomLeftRadius: showDatePicker ? 0 : 4,
-          borderBottomRightRadius: showDatePicker ? 0 : 4,
+          borderBottomLeftRadius: showDatePicker ? 0 : 8,
+          borderBottomRightRadius: showDatePicker ? 0 : 8,
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,

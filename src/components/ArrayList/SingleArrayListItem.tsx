@@ -50,7 +50,7 @@ export const SingleArrayListItem = ({
       style={{
         visibility: isDragging ? 'hidden' : null,
         border: `1px solid ${color('border')}`,
-        borderRadius: 4,
+        borderRadius: 8,
         height: 50,
         display: 'flex',
         alignItems: 'center',

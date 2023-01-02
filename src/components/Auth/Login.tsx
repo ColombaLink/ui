@@ -58,16 +58,21 @@ export const Login: FC<LoginProps> = ({
           {githubClientId ? (
             <GithubButton width={width} clientId={githubClientId} />
           ) : null}
-          <Separator style={{ marginTop: 16 }}>OR</Separator>
+          <Separator space={16} style={{ marginTop: 16 }}>
+            <Text color="text2" size={14} weight={500}>
+              OR
+            </Text>
+          </Separator>
         </>
       ) : null}
 
       <Input
         large
+        label="Email"
         value={email}
         type="email"
-        icon={EmailIcon}
-        placeholder="Email address"
+        //  icon={EmailIcon}
+        placeholder="Enter your email address"
         onChange={setEmail}
       />
 
@@ -98,15 +103,16 @@ export const Login: FC<LoginProps> = ({
           type="password"
           placeholder="Password"
           onChange={setPassword}
+          passwordInput
           space
         />
       </div>
       <Button
         large
         fill
-        color="text"
         style={{
           marginBottom: 24,
+          height: 48,
         }}
         textAlign="center"
         actionKeys={['Enter']}
@@ -160,7 +166,7 @@ export const Login: FC<LoginProps> = ({
           </styled.a>
         </Text>
       ) : (
-        <Text>
+        <Text size={16}>
           Don't have an account?{' '}
           <styled.a
             style={{

@@ -16,7 +16,7 @@ type BarGraphProps = {
   value?: number
   legend?: { [key: string]: string } | string[]
   style?: CSSProperties
-  baseColor?: Color
+  color?: Color
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
@@ -26,7 +26,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   value,
   legend = null,
   style,
-  baseColor,
+  color: colorProp = 'accent',
 }) => {
   if (!data) {
     return null
@@ -76,8 +76,8 @@ export const BarGraph: FC<BarGraphProps> = ({
   const themeColorArray = []
 
   for (let i = 0; i < data.length; i++) {
-    if (baseColor) {
-      themeColorArray.push(color(baseColor))
+    if (colorProp) {
+      themeColorArray.push(color(colorProp))
     } else {
       themeColorArray.push(color('accent'))
     }
@@ -116,7 +116,7 @@ export const BarGraph: FC<BarGraphProps> = ({
           >
             {item.label || value ? (
               <div style={{ minWidth: 200, paddingRight: 24 }}>
-                <Text weight={400}>{item.label}</Text>
+                <Text>{item.label}</Text>
               </div>
             ) : null}
             <div
@@ -138,8 +138,8 @@ export const BarGraph: FC<BarGraphProps> = ({
                   borderRadius: 4,
                   backgroundColor:
                     typeof item.value !== 'object'
-                      ? baseColor
-                        ? color(baseColor)
+                      ? colorProp
+                        ? color(colorProp)
                         : color('accent')
                       : 'transparent',
                   display: 'flex',

@@ -50,10 +50,10 @@ export const ArrayList = ({
   const [inputVal, setInputVal] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
 
-  console.log('props', props)
-  console.log('value', value)
-  console.log('arr', arr)
-  console.log('id', id)
+  // console.log('props', props)
+  // console.log('value', value)
+  // console.log('arr', arr)
+  // console.log('id', id)
 
   if (ref.current !== id) {
     // if the external value changed
@@ -88,7 +88,7 @@ export const ArrayList = ({
   }
 
   const ids = idsRef.current
-  console.log('ids', ids)
+  // console.log('ids', ids)
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -177,9 +177,9 @@ export const ArrayList = ({
                 }
               }
               if (itemType === 'object' && typeof ok !== 'boolean') {
-                onChange([...arr, {}])
-                setArr([...arr, {}])
-                idsRef.current = [...idsRef.current, {}]
+                onChange([...arr, { test: 1 }])
+                setArr([...arr, { test: 1 }])
+                idsRef.current = [...idsRef.current, { test: 1 }]
               }
             }}
           />
@@ -288,7 +288,7 @@ export const ArrayList = ({
                 <SingleArrayListItem
                   id={id}
                   key={idx}
-                  item={itemType !== 'object' ? arr[idx] : arr[idx].toString()}
+                  item={itemType !== 'object' ? arr[idx] : 'objectje'}
                   idx={idx}
                   itemType={itemType}
                   deleteSpecificItem={deleteSpecificItem}

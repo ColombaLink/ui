@@ -10,36 +10,36 @@ export const updateTheme = (theme = currentTheme) => {
   const { colors, light = {} } = theme
   const toRgba = (arr) => (arr.length === 3 ? `rgb(${arr})` : `rgba(${arr})`)
   const alpha = ([r, g, b], a) => [r, g, b, a]
+  const names = new Set([...Object.keys(colors), ...Object.keys(light)])
 
-  for (const name in colors) {
+  names.forEach((name) => {
     const {
       m: main,
       a: active,
       h: hover,
       c: contrast,
       b: border,
-    } = colors[name]
+    } = colors[name] || baseTheme.colors[name] || {}
     const {
       m: lMain,
       a: lActive,
       h: lHover,
       c: lContrast,
       b: lBorder,
-    } = light[name] || {}
+    } = light[name] || baseTheme.light[name] || {}
 
     values[name] = main
     values[`${name}:active`] = active || main
     values[`${name}:hover`] = hover || main
     values[`${name}:contrast`] = contrast || main
     values[`${name}:border`] = border || main
-
     const lightName = `light${name}`
     values[lightName] = lMain || alpha(main, 0.08)
     values[`${lightName}:active`] = lActive || alpha(main, 0.16)
     values[`${lightName}:hover`] = lHover || alpha(main, 0.12)
     values[`${lightName}:contrast`] = lContrast || main
     values[`${lightName}:border`] = lBorder || alpha(main, 0.16)
-  }
+  })
 
   let cnt = 0
   for (const name in values) {

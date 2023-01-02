@@ -57,6 +57,7 @@ export const ColorInput = ({
           borderRadius: 4,
           minHeight: 36,
           cursor: disabled ? 'not-allowed' : null,
+          backgroundColor: color('background'),
         }}
       />
       <button

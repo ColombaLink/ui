@@ -9,6 +9,7 @@ import { Link } from '../Link'
 import { Logo } from '../Logo'
 import { useData, useAuth } from '@based/react'
 import { stringToIcon } from '~/utils/stringToIcon'
+import { Text } from '../Text'
 
 type TopbarTabProps = {
   href?: string
@@ -39,18 +40,20 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
       href={href}
       style={{
         display: 'flex',
-        marginLeft: 32,
+        marginLeft: 24,
+        paddingRight: 6,
         alignItems: 'center',
         height: 66,
         gap: 12,
         borderTop: '3px solid transparent',
         borderBottom: `3px solid ${isActive ? color('accent') : 'transparent'}`,
-        ...(isActive
-          ? font({ size: 15, weight: 600 })
-          : font({ size: 15, color: 'text2' })),
+        // ...(isActive
+        //   ? font({ size: 15, weight: 600 })
+        //   : font({ size: 15, color: 'text2' })),
       }}
     >
-      {icon && stringToIcon(icon)} {children}
+      {icon && stringToIcon(icon)}
+      <Text typo={isActive ? 'subtext600' : 'subtext500'}>{children}</Text>
     </Link>
   )
 }

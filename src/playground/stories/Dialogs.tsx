@@ -1,14 +1,14 @@
 import React from 'react'
-import { Dialog, DialogProvider, useDialog } from '~/components/Dialog'
-import { Text, Button } from '~'
-import ComponentViewer from '../ComponentViewer'
-import { Code } from '~'
+import { Dialog, useDialog } from '~/components/Dialog'
+import { Text, Button, WarningIcon, Callout, Code } from '~'
 
-const codeExample = `<Dialog label="label">
-    <Text weight={600} space>
+const codeExample = `import { Dialog } from '~/components/Dialog'
+
+<Dialog label="label">
+    <Text color="text2" space>
       Create a new organisation
     </Text>
-    <Text weight={400} wrap space>
+    <Text color="text2" wrap space>
       This is your organization’s name within Based. For example, you can
       use the name of your company or department.
     </Text>
@@ -16,7 +16,8 @@ const codeExample = `<Dialog label="label">
        <Dialog.Cancel />
        <Dialog.Confirm />
     </Dialog.Buttons>
-  </Dialog>`
+  </Dialog>
+  `
 
 export const Dialogs = () => {
   const { confirm, alert, prompt, open } = useDialog()
@@ -38,10 +39,10 @@ export const Dialogs = () => {
       <Dialog
         space
         label="Create a new organisation"
-        bottomLeft={'b'}
-        bottomRight={'c'}
+        bottomLeft="b"
+        bottomRight="c"
       >
-        <Text weight={400} wrap space>
+        <Text color="text2" wrap space>
           This is your organization’s name within Based. For example, you can
           use the name of your company or department.
         </Text>
@@ -49,7 +50,7 @@ export const Dialogs = () => {
       <br />
 
       <Dialog space label="Testing this here" border>
-        <Text weight={400} wrap space>
+        <Text color="text2" wrap space>
           This is your organization’s name within Based. For example, you can
           use the name of your company or department.
         </Text>
@@ -97,7 +98,14 @@ export const Dialogs = () => {
       <Button
         space
         onClick={async () => {
-          const ok = await alert('Red Alert')
+          const ok = await alert(
+            'Red Alert',
+            <Callout
+              label="Command and conquer"
+              icon={<WarningIcon />}
+              color="red"
+            />
+          )
         }}
       >
         Alert

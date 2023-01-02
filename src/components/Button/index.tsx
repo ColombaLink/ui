@@ -27,13 +27,14 @@ export type ButtonProps = {
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   loading?: boolean
-  onClick?: MouseEventHandler
+  onClick?: MouseEventHandler | boolean | (() => void)
   onPointerDown?: MouseEventHandler
   outline?: boolean
   style?: CSSProperties
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
   actionKeys?: Key[]
+  //  weight?: Weight
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
@@ -75,13 +76,14 @@ export const Button: FC<ButtonProps> = (props) => {
     onPointerDown,
     space,
     style,
+    //   weight,
     textAlign = 'left',
   } = props
 
   const [isLoading, setIsLoading] = useState(false)
   const buttonElem = useRef<HTMLElement>(null)
   const extendedOnClick = useCallback(
-    async (e) => {
+    async (e: any) => {
       e.stopPropagation()
       e.preventDefault()
       const t = buttonElem.current
@@ -92,6 +94,7 @@ export const Button: FC<ButtonProps> = (props) => {
         }
       }, 100)
       try {
+        // @ts-ignore
         await onClick?.(e)
       } catch (e) {
         console.error(`Error from async click "${e.message}"`)
@@ -147,13 +150,13 @@ export const Button: FC<ButtonProps> = (props) => {
             : !children
             ? '8px'
             : large
-            ? '4px 16px'
-            : '4px 8px',
-        borderRadius: 4,
+            ? '8px 16px'
+            : '6px 12px',
+        borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
-        height: large ? 48 : null,
+        // height: large ? 48 : 40,
         ...getButtonStyle(props, true),
         ...style,
       }}
@@ -163,14 +166,15 @@ export const Button: FC<ButtonProps> = (props) => {
           visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
-          justifyContent:
-            textAlign === 'left'
-              ? 'flex-start'
-              : textAlign === 'center'
-              ? 'center'
-              : textAlign === 'right'
-              ? 'flex-end'
-              : 'flex-start',
+          justifyContent: fill
+            ? 'space-between'
+            : textAlign === 'left'
+            ? 'flex-start'
+            : textAlign === 'center'
+            ? 'center'
+            : textAlign === 'right'
+            ? 'flex-end'
+            : 'flex-start',
         }}
       >
         {icon &&
@@ -178,17 +182,23 @@ export const Button: FC<ButtonProps> = (props) => {
             icon,
             children || iconRight
               ? {
-                  style: { marginRight: 8 },
+                  style: { marginRight: 8, minWidth: 16 },
                 }
               : null
           )}
-        <Text color="inherit">{children}</Text>
+        <Text
+          color="inherit"
+          //  weight={weight !== undefined ? weight : large ? 600 : 500}
+          typo={large ? 'subtext600' : 'body500'}
+        >
+          {children}
+        </Text>
         {iconRight &&
           renderOrCreateElement(
             iconRight,
             children || icon
               ? {
-                  style: { marginLeft: 8 },
+                  style: { marginLeft: 8, minWidth: 16 },
                 }
               : null
           )}

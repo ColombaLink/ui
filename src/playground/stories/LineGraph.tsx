@@ -80,7 +80,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG legend={someLegend} data={someData} baseColor="yellow" />
+        <LG legend={someLegend} data={someData} color="yellow" />
       </div>
       <div
         style={{
@@ -89,7 +89,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={fraction} valueFormat="number-ratio" baseColor="green" />
+        <LG data={fraction} valueFormat="number-ratio" color="green" />
       </div>
       <div
         style={{
@@ -98,7 +98,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG valueFormat="number-bytes" data={bytes} baseColor="red" />
+        <LG valueFormat="number-bytes" data={bytes} color="red" />
       </div>
       <div
         style={{
@@ -143,7 +143,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={smallData} spread={false} baseColor={'teal'} />
+        <LG data={smallData} spread={false} color={'teal'} />
       </div>
       <div
         style={{
@@ -161,6 +161,26 @@ export const LineGraph = () => {
             { x: 3, y: 30 },
             { x: 4, y: 20 },
             { x: 5, y: 25 },
+          ]}
+          spread={false}
+        />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 360,
+          marginBottom: 32,
+        }}
+      >
+        <LG
+          label="Power play"
+          format="date"
+          data={[
+            { x: Date.now() - 40e3, y: 10 },
+            { x: Date.now() - 30e3, y: 20 },
+            { x: Date.now() - 20e3, y: 30 },
+            { x: Date.now() - 10e3, y: 20 },
+            { x: Date.now(), y: 25 },
           ]}
           spread={false}
         />

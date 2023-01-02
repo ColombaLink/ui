@@ -12,6 +12,8 @@ export const Content: FC<{
   const [location] = useLocation()
   const [, type, id, field] = location.substring(prefix.length).split('/')
 
+  // console.log('This ID', id)
+
   return (
     <div
       style={{

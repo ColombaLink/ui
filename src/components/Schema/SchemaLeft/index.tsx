@@ -1,20 +1,17 @@
-import React, { FC, useEffect } from 'react'
-import {
-  Menu,
-  Text,
-  Button,
-  AddIcon,
-  useDialog,
-  Badge,
-  useLocation,
-  LoadingIcon,
-} from '~'
+import React, { FC } from 'react'
+import { Menu, Text, Button, AddIcon, useDialog, Badge, LoadingIcon } from '~'
 import { useSchema } from '~/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
       {children}
       <Badge ghost={isActive}>system</Badge>
     </div>
@@ -54,10 +51,15 @@ export const SchemaLeft: FC<{
   return (
     <Menu
       prefix={prefix}
-      style={{ paddingTop: 24, minWidth: 234 }}
+      style={{
+        paddingTop: 24,
+        minWidth: 234,
+        paddingLeft: 16,
+        paddingRight: 16,
+      }}
       header={
-        <Text size="18px" weight="700" style={{ marginBottom: 18 }}>
-          Content
+        <Text typo="title2" style={{ marginBottom: 18 }}>
+          Schema
         </Text>
       }
       data={[
@@ -71,7 +73,11 @@ export const SchemaLeft: FC<{
                 height: 32,
               }}
             >
-              <Text size="15px" weight="600">
+              <Text
+                typo="caption600"
+                color="text2"
+                style={{ textTransform: 'uppercase', letterSpacing: '0.02em' }}
+              >
                 Types
               </Text>
               <Button

@@ -17,7 +17,7 @@ export default (height, ySpread, maxY) => {
   //   const step = ySpread / labelLen
 
   if (ySpread) {
-    for (let i = 0; i < labelLen; i++) {
+    for (let i = 0; i < labelLen + 1; i++) {
       const x = maxY - (ySpread / labelLen) * i
       labels.push({
         y: i * labelHeight,

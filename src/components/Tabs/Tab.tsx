@@ -1,10 +1,11 @@
 import React, { ReactNode, CSSProperties } from 'react'
 
 type TabProps = {
+  // leave the label prop here!
   label?: string
   children?: ReactNode | ReactNode[]
   style?: CSSProperties
-  icon?: ReactNode
+  //  icon?: ReactNode
 }
 
 export const Tab = ({ children, style }: TabProps) => {

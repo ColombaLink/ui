@@ -1,6 +1,6 @@
 import React from 'react'
 import { Toast, useToast } from '~/components/Toast'
-import { CheckCircleIcon, CloseIcon } from '~/icons'
+import { CheckCircleIcon, CloseIcon, EyeIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import ComponentViewer from '../ComponentViewer'
 
@@ -39,7 +39,7 @@ const toast = useToast()
 
 const notify = () => {
   toast.add(<Toast 
-    label="TEST"
+    label="testje"
     type="success"
     description="Account created. hello" 
   >Bonjour dudes <br/> yo test</Toast>)
@@ -87,6 +87,20 @@ export const Toasts = () => {
               label: 'Error',
               description: 'Oof. 😓',
               type: 'error',
+            },
+          },
+          {
+            props: {
+              label: 'Warning',
+              description: 'Just a warning',
+              type: 'warning',
+            },
+          },
+          {
+            props: {
+              label: 'Custom icon',
+              description: 'Oh hi there',
+              icon: <EyeIcon color="green" />,
             },
           },
           {

@@ -310,13 +310,14 @@ export default ({
         width={width}
         height={height}
       >
+        <path d={`M0,0L${width},1`} stroke={color('backdrop')} />
         {labels.map((v, i) => {
-          const y = (i + 1) * labelHeight - 9
+          const y = (i + 1) * labelHeight
           return (
             <path
               key={i}
               d={`M0,${y}L${width},${y}`}
-              stroke={color('border')}
+              stroke={color('backdrop')}
             />
           )
         })}

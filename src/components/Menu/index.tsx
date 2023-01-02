@@ -38,8 +38,12 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
     >
       <Text
         weight="600"
+        color={color('text2')}
+        size={12}
         style={{
-          marginBottom: 12,
+          marginBottom: 16,
+          textTransform: 'uppercase',
+          color: color('text2'),
           ...style,
         }}
         onClick={onClick}
@@ -60,8 +64,8 @@ export const MenuItem: FC<MenuItemProps> = ({
 }) => {
   return (
     <Text
-      color={isActive ? 'lightaccent:contrast' : isNested ? 'text2' : 'text'}
-      weight={isActive ? 600 : weight}
+      color={isActive ? 'lightaccent:contrast' : isNested ? 'text' : 'text'}
+      weight={isActive ? 500 : weight}
       wrap
       style={{
         marginBottom: 8,
@@ -71,8 +75,8 @@ export const MenuItem: FC<MenuItemProps> = ({
       <Link
         href={href}
         style={{
-          padding: '4px 12px',
-          margin: '-4px -12px',
+          padding: '4px 8px',
+          margin: '-4px -4px -4px -2px',
           borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
           '&:hover': !isActive
@@ -180,12 +184,15 @@ export const Menu: FC<{
               color:
                 href && hrefIsActive(href, selected, items)
                   ? color('accent')
-                  : null,
+                  : color('text2'),
             }}
             onClick={(e) => {
               if (collapse) {
                 e.currentTarget.parentNode.nextSibling.classList.toggle(
                   'hidden'
+                )
+                e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                  'closed'
                 )
               } else if (href) {
                 setLocation(href)
@@ -193,7 +200,10 @@ export const Menu: FC<{
             }}
           >
             {label}
-            {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+            {collapse && (
+              <StyledChevron id={`${i}-menuchevron`} />
+              // <ChevronDownIcon />
+            )}
           </MenuHeader>
           <HideableStyledDiv id={`${i}-menuitems`}>
             {items.map(({ href, label }, index) => {

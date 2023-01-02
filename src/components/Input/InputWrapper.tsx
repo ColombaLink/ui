@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
 import { styled } from 'inlines'
 import { color, spaceToPx, Text, ErrorIcon } from '~'
-import { Space } from '~/types'
+import { Color, Space } from '~/types'
 
 type InputWrapperProps = {
   children: ReactNode
@@ -14,6 +14,8 @@ type InputWrapperProps = {
   disabled?: boolean
   onMouseEnter?: () => void
   onMouseLeave?: () => void
+  color?: Color
+  onClick?: () => void
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
@@ -24,6 +26,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   descriptionBottom,
   style,
   disabled,
+  color: colorProp = 'accent',
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
@@ -44,7 +47,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
           borderColor: errorMessage
             ? color('red')
             : focus
-            ? color('accent')
+            ? color(colorProp)
             : color('border'),
           paddingLeft: indent ? 12 : null,
           marginBottom: spaceToPx(space),

@@ -17,10 +17,10 @@ import { Space } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
-import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
+import { PasswordInput } from './PasswordInput'
 
 const resize = (target) => {
   if (target) {
@@ -31,19 +31,33 @@ const resize = (target) => {
 
 const Multi = ({ style, inputRef, ...props }) => {
   if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
+  const [inputFocus, setInputFocus] = useState(false)
+
   return (
-    <textarea
-      style={{
-        ...style,
-        display: 'block',
-        resize: 'none',
-        paddingTop: 8,
-        minHeight: 84,
-      }}
-      ref={resize}
-      onInput={({ target }) => resize(target)}
-      {...props}
-    />
+    <div
+      onFocus={() => setInputFocus(true)}
+      onBlur={() => setInputFocus(false)}
+    >
+      <textarea
+        style={{
+          ...style,
+          display: 'block',
+          resize: 'none',
+          paddingTop: 8,
+          minHeight: 84,
+          paddingLeft: 12,
+          outline: inputFocus
+            ? `3px solid rgba(44, 60, 234, 0.2)`
+            : `3px solid transparent`,
+          border: inputFocus
+            ? `1.5px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
+        }}
+        ref={resize}
+        onInput={({ target }) => resize(target)}
+        {...props}
+      />
+    </div>
   )
 }
 
@@ -69,11 +83,12 @@ type InputProps = {
   customRegex?: boolean
   pattern?: string
   jsonInput?: boolean
+  passwordInput?: boolean
   markdownInput?: boolean
   digest?: boolean
   description?: string
   descriptionBottom?: string
-  optional?: boolean
+  //  optional?: boolean
   value?: string | number
   // integer?: boolean
   icon?: FC | ReactNode
@@ -196,6 +211,7 @@ export const Input: FC<
   customRegex,
   pattern,
   jsonInput,
+  passwordInput,
   markdownInput,
   defaultValue,
   description,
@@ -255,21 +271,45 @@ export const Input: FC<
       onChangeProp?.(newValue)
     }
 
-    const msg = error?.(newValue)
+    // const msg = error?.(newValue)
 
-    if (msg) {
-      // add error msg
-      setErrorMessage(msg)
-    } else {
-      // remove error msg
-      setErrorMessage('')
-    }
+    // if (msg) {
+    //   // add error msg
+    //   setErrorMessage(msg)
+    // } else {
+    //   // remove error msg
+    //   setErrorMessage('')
+    // }
   }
+
+  useEffect(() => {
+    //  check for error pas als de focus weg is
+    if (!customRegex && !pattern) {
+      const msg = error?.(value)
+
+      if (msg) {
+        // add error msg
+        setErrorMessage(msg)
+      } else {
+        // remove error msg
+        setErrorMessage('')
+      }
+    }
+  }, [focused])
+
+  useEffect(() => {
+    if (customRegex && pattern) {
+      if (new RegExp(pattern).test(value) || value.length < 1) {
+        return setErrorMessage('')
+      }
+      return setErrorMessage('Does not match REGEX/pattern')
+    }
+  }, [value])
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
-  const fontSize = 16
-  const fontWeight = 500
+  const fontSize = 14
+  const fontWeight = 400
   const props = {
     name,
     type,
@@ -282,16 +322,22 @@ export const Input: FC<
     style: {
       margin: 0,
       outline: ghost
-        ? null
-        : focus
-        ? `2px solid ${color('border:active')}`
-        : `1px solid ${color(hover ? 'border:hover' : 'border')}`,
-      outlineOffset: ghost ? null : focus ? -2 : -1,
-      borderRadius: 4,
+        ? `3px solid transparent`
+        : focused
+        ? `3px solid rgba(44, 60, 234, 0.2)`
+        : `3px solid transparent`,
+      outlineOffset: ghost ? null : focus ? -1 : -1,
+      borderRadius: 8,
+      boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? null : large ? 48 : 36,
+      minHeight: ghost ? 36 : large ? 48 : 36,
       paddingLeft,
+      border: ghost
+        ? `0px solid transparent`
+        : focused
+        ? `1.5px solid ${color('accent')}`
+        : `1px solid ${color('border')}`,
       paddingRight,
       width: '100%',
       fontSize,
@@ -339,7 +385,10 @@ export const Input: FC<
                 setValue('')
               }}
               disabled={disabled}
-              style={{ height: 'fit-content' }}
+              style={{
+                height: 'fit-content',
+                marginTop: description ? 0 : -6,
+              }}
             >
               Clear
             </Button>
@@ -368,15 +417,18 @@ export const Input: FC<
             color: color('text'),
           }}
         >
-          {renderOrCreateElement(icon, {
-            style: {
-              position: 'absolute',
-              left: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+          {!jsonInput && !markdownInput && !multiline
+            ? renderOrCreateElement(icon, {
+                style: {
+                  position: 'absolute',
+                  left: 12,
+                  top: '50%',
+                  transform: 'translate3d(0,-50%,0)',
+                  pointerEvents: 'none',
+                },
+              })
+            : null}
+
           {colorInput ? (
             <ColorInput
               onChange={(e) => {
@@ -393,6 +445,8 @@ export const Input: FC<
               value={value}
               onChange={onChange}
               setShowJSONClearButton={setShowJSONClearButton}
+              setClearValue={setClearValue}
+              clearValue={clearValue}
               disabled={disabled}
             />
           ) : markdownInput ? (
@@ -401,21 +455,22 @@ export const Input: FC<
               // setErrorMessage={setErrorMessage}
               value={value}
               onChange={onChange}
-              // setShowJSONClearButton={setShowJSONClearButton}
               disabled={disabled}
             />
           ) : multiline ? (
             <Multi {...props} />
-          ) : customRegex ? (
-            <CustomRegexInput
-              pattern={pattern}
-              setErrorMessage={setErrorMessage}
-              value={value}
-              onChange={onChange}
-            />
           ) : digest ? (
             <DigestInput
               {...props}
+              disabled={!!valueProp}
+              onChange={onChange}
+              value={value}
+            />
+          ) : passwordInput ? (
+            <PasswordInput
+              {...props}
+              icon={icon}
+              large={large}
               disabled={!!valueProp}
               onChange={onChange}
               value={value}
@@ -438,6 +493,11 @@ export const Input: FC<
                   // now you can remove the zero in input fields
                   if (e.key === 'Backspace' && value === 0) {
                     setValue('')
+                  }
+                  // for some reason pressing . in number input
+                  // changed the value to one
+                  if (e.key === '.' && type === 'number') {
+                    e.preventDefault()
                   }
                   props.onKeyDown?.(e)
                 }}
@@ -501,15 +561,17 @@ export const Input: FC<
               </styled.div>
             </div>
           )}
-          {renderOrCreateElement(iconRight, {
-            style: {
-              position: 'absolute',
-              right: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+          {!jsonInput && !markdownInput && !multiline
+            ? renderOrCreateElement(iconRight, {
+                style: {
+                  position: 'absolute',
+                  right: 12,
+                  top: '50%',
+                  transform: 'translate3d(0,-50%,0)',
+                  pointerEvents: 'none',
+                },
+              })
+            : null}
         </div>
 
         {maxChars && (

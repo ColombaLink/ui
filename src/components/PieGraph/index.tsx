@@ -14,12 +14,12 @@ type PieGraphProps = {
   value?: number
   size?: number
   space?: Space
-  baseColor?: Color
+  color?: Color
 }
 
 export const PieGraph: FC<PieGraphProps> = ({
   data,
-  baseColor,
+  color: colorProp = 'accent',
   space,
   size = 280,
 }) => {
@@ -192,9 +192,9 @@ export const PieGraph: FC<PieGraphProps> = ({
                   width: size,
                   height: size,
                   borderRadius: size / 2,
-                  background: baseColor
+                  background: colorProp
                     ? `conic-gradient(${color(
-                        baseColor
+                        colorProp
                       )} calc(${percentagePerObject[
                         idx
                       ].toFixed()}*1%),#0000 0)`
@@ -300,8 +300,8 @@ export const PieGraph: FC<PieGraphProps> = ({
                 height: 12,
                 background:
                   typeof data[0].value !== 'object'
-                    ? baseColor
-                      ? color(baseColor)
+                    ? colorProp
+                      ? color(colorProp)
                       : color('accent')
                     : themeColorArray[idx],
                 opacity:

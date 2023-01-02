@@ -1,6 +1,7 @@
 import React from 'react'
 import { Label } from '~/components/Label'
-import { ErrorIcon } from '~/icons'
+import { ErrorIcon } from '~'
+
 import ComponentViewer from '../ComponentViewer'
 
 export const Labels = () => {
@@ -11,20 +12,19 @@ export const Labels = () => {
       examples={[
         {
           props: {
-            label: 'Labeltje',
-            description: 'maken toch',
-            children: 'Ach kind',
+            label: 'Label',
+            description: 'Description',
+            children: 'Children',
           },
         },
         {
           props: {
-            label: 'Bonjour',
-            labelColor: 'red',
-            description: 'have a nice day',
-            descriptionColor: 'accent',
+            label: 'Label',
+            labelColor: 'accent',
+            description: 'Description',
+            descriptionColor: 'green',
             icon: <ErrorIcon />,
-            iconColor: 'green',
-            children: 'Woman and children first',
+            iconColor: 'red',
           },
         },
       ]}

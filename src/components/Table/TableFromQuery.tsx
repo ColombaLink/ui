@@ -1,41 +1,22 @@
 // @ts-nocheck
-import React, {
-  FC,
-  CSSProperties,
-  useRef,
-  useState,
-  useEffect,
-  Fragment,
-} from 'react'
-import { border, color, parseDisplayName } from '~/utils'
+import React, { useRef, useState, useEffect, FC } from 'react'
+import { border, color } from '~/utils'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import {
-  AttachmentIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  EditIcon,
-} from '~/icons'
+import { AttachmentIcon } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
-import AutoSizer from 'react-virtualized-auto-sizer'
-import { Row } from './Row'
 import { isImage } from '~/utils/isImage'
-import {
-  HEADER_HEIGHT,
-  ITEM_HEIGHT,
-  ITEM_WIDTH,
-  ACTIONS_WIDTH,
-} from './constants'
-import { useError } from '@based/react'
+import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { toDateString } from '~/utils/date'
-import { Button } from '../Button'
 import { Badge } from '../Badge'
 import { useHover } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
+import stringifyObject from 'stringify-object'
+import { DataEventHandler } from '~/types'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -54,23 +35,18 @@ const References = ({ value: { length } }) => {
 }
 
 const Cell = ({ columnIndex, rowIndex, style, data }) => {
-  const {
-    types,
-    items,
-    fields,
-    onClick,
-    setState,
-    hoverColumnIndex,
-    hoverRowIndex,
-  } = data
+  const { types, items, fields, onClick, setState, hoverRowIndex } = data
   const item = items[rowIndex]
   let children, value, field
   const { hover, active, listeners } = useHover()
   const colIndex = columnIndex - 1
   const activeRow = hoverRowIndex === rowIndex
-  const activeColumn = hoverColumnIndex === colIndex
   const isCheckbox = columnIndex === 0
   // TODO optimize
+
+  // console.log('What the data?', data)
+  // console.log('What the item?', item)
+
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
   if (item) {
@@ -82,24 +58,60 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       hasField = schemaFields && field in schemaFields
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
+        const metaFieldType = types[item.type].fields[field]?.meta?.format
+
+        const prettierObject = (obj) => {
+          return stringifyObject(obj, {
+            indent: ' ',
+            singleQuotes: false,
+            doubleQuotes: false,
+          })
+        }
+
         if (fieldType) {
           const weight = colIndex ? 400 : 500
           if (fieldType === 'array') {
-            children = '[array]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(items[0][field]).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'json') {
-            children = '[json]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(JSON.parse(value)).substring(0, 64)}
+              </Text>
+            )
+          } else if (fieldType === 'boolean') {
+            children = <Text weight={400}>{JSON.stringify(value)}</Text>
           } else if (fieldType === 'record') {
-            children = '[record]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(items[0][field]).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'set') {
-            children = '[set]'
+            children = (
+              <Text weight={400}>
+                {prettierObject(items[0][field]).substring(0, 64)}
+              </Text>
+            )
           } else if (fieldType === 'object') {
-            children = '[object]'
+            children = (
+              <Text weight={400}>{prettierObject(value).substring(0, 64)}</Text>
+            )
           } else if (fieldType === 'id') {
             children = <Badge color="text">{value}</Badge>
           } else if (fieldType === 'references') {
             children = value.length ? <References value={value} /> : null
           } else if (fieldType === 'timestamp') {
             children = <Text weight={weight}>{toDateString(value)}</Text>
+          } else if (fieldType === 'digest') {
+            children = (
+              <Badge weight={weight}>{value.substring(0, 6) + '...'}</Badge>
+            )
+          } else if (fieldType === 'string' && metaFieldType === 'markdown') {
+            children = <Text weight={weight}>{value.substring(0, 64)}</Text>
           } else if (isImage(value)) {
             children = (
               <div
@@ -114,7 +126,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (typeof value === 'object') {
             console.warn('incorrect value:', fieldType, item, field, value)
           } else {
-            children = <Text weight={weight}>{value}</Text>
+            children = <Text weight={400}>{value}</Text>
           }
         }
       }
@@ -141,14 +153,11 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   useEffect(() => {
     cancelAnimationFrame(data.raf)
     if (hover) {
-      setState({ hoverColumnIndex: colIndex, hoverRowIndex: rowIndex })
+      setState({ hoverRowIndex: rowIndex })
     } else {
       data.raf = requestAnimationFrame(() => {
-        if (
-          data.hoverRowIndex === rowIndex &&
-          data.hoverColumnIndex === colIndex
-        ) {
-          setState({ hoverColumnIndex: null, hoverRowIndex: null })
+        if (data.hoverRowIndex === rowIndex) {
+          setState({ hoverRowIndex: null })
         }
       })
     }
@@ -171,9 +180,10 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 12,
         paddingRight: 12,
         borderBottom: border(1),
+        //  borderRight: border(1),
         backgroundColor: color(
           activeRow
-            ? activeColumn && !isCheckbox && hasField
+            ? !isCheckbox && hasField
               ? 'background:hover'
               : 'background2:hover'
             : 'background'
@@ -293,7 +303,17 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
   )
 }
 
-export const TableFromQuery = ({
+export type TableFromQueryProps = {
+  fields: string[]
+  query: { [key]: any }
+  width: number
+  height: number
+  target?: string
+  language?: string
+  onClick: DataEventHandler
+}
+
+export const TableFromQuery: FC<TableFromQueryProps> = ({
   query,
   fields,
   width,
@@ -359,9 +379,6 @@ export const TableFromQuery = ({
     if (field === 'id') {
       return 116
     }
-    // if (field === 'children' || field === 'parents') {
-    //   return 96
-    // }
     return colWidth
   }
 
@@ -406,67 +423,4 @@ export const TableFromQuery = ({
       onScroll={({ scrollTop }) => onScrollY(scrollTop)}
     />
   )
-  /*
-  const [init, setInit] = useState<boolean>()
-  const { schema, loading } = useSchema()
-  const { current: longest } = useRef({})
-  const { current: textWidths } = useRef({})
-  const [[sortField, sortOrder], setSort] = useState<string[]>([
-    'createdAt',
-    'desc',
-  ])
-
-  if (!fields) {
-    return null
-  }
-
-  const ctx = useRef<CanvasRenderingContext2D>()
-
-  const measure = (field, value) => {
-    if (!isImage.test(value)) {
-      if (isDate(value)) {
-        value = toDateString(value)
-      }
-      const { width } = ctx.current.measureText(value)
-      if (textWidths[field] >= width) return
-      textWidths[field] = width
-      longest[field] = value
-    }
-  }
-
-  if (!ctx.current) {
-    const c = document.createElement('canvas')
-    ctx.current = c.getContext('2d')
-    ctx.current.font = '500 15px Font'
-  }
-
-  return (
-    <IList
-      target={target}
-      language={language}
-      height={height - HEADER_HEIGHT}
-      query={(offset, limit) => query(offset, limit, sortField, sortOrder)}
-      itemSize={ITEM_HEIGHT}
-      width={width}
-      itemData={(items) => {
-        if (init) {
-          return { data: items, longest, fields, onClick }
-        }
-        for (const item of items) {
-          if (item) {
-            for (const field of fields) {
-              if (field in item) {
-                measure(field, item[field])
-              }
-            }
-          }
-        }
-        setTimeout(() => setInit(true))
-        return { data: items, longest, fields, onClick }
-      }}
-    >
-      {Row}
-    </IList>
-  )
-  */
 }

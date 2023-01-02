@@ -10,13 +10,13 @@ import {
   setLocation,
   Button,
   ModelIcon,
+  color,
 } from '../../'
 import * as ui from '../../'
 import { Callout } from '~/components/Callout'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 import parseCode from './parseCode'
-import { color } from '../../'
 
 export const CodeExample: FC<{
   p: any
@@ -24,12 +24,10 @@ export const CodeExample: FC<{
   name: string
   exampleCode?: string
   exampleProps?: string
-  fromComponent?: FC
-  runCode?: string
   index: number
 }> = ({ index, component, name, exampleCode, exampleProps, p }) => {
   const [cnt, update] = useState(0)
-  let [code, setCode] = useLocalStorage('code-' + name + '-' + index)
+  const [code, setCode] = useLocalStorage('code-' + name + '-' + index)
   if (code) {
     exampleCode = code
   }
@@ -42,6 +40,7 @@ export const CodeExample: FC<{
 
   let child
   try {
+    // eslint-disable-next-line
     const fn = new Function(
       'ui',
       'React',
@@ -51,7 +50,7 @@ export const CodeExample: FC<{
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
-    child = <Callout color={'red'}>{err.message}</Callout>
+    child = <Callout color="red">{err.message}</Callout>
   }
   return (
     <>
@@ -74,6 +73,7 @@ export const CodeExample: FC<{
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           borderColor: code !== exampleCode ? color('border') : color('accent'),
+          // width: 'calc(100% - 350px)',
         }}
         onChange={(c) => setCode(c)}
         value={exampleCode}
@@ -83,6 +83,7 @@ export const CodeExample: FC<{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
           borderTopWidth: 0,
+          // width: 'calc(100% - 350px)',
         }}
         space
       >
@@ -95,9 +96,10 @@ export const CodeExample: FC<{
 export const Explorer: FC<{
   p: any
   component: FC
+  title?: string
   name: string
   examples?: { code?: string; props?: any; component?: FC }[]
-}> = ({ component, p, name, examples = [{}] }) => {
+}> = ({ component, p, name, examples = [{}], title }) => {
   const showType = useSearchParam('type')
   const fuzz = useSearchParam('randomize')
 
@@ -113,8 +115,8 @@ export const Explorer: FC<{
         }}
       >
         <Link href={`src${p.file}`}>
-          <Text weight={700} size={'18px'}>
-            {p.file.slice(1).split('/').slice(1, -1)}
+          <Text weight={700} size="18px">
+            {title || p.file.slice(1).split('/').slice(1, -1)}
           </Text>
         </Link>
         <div style={{ display: 'flex' }}>
