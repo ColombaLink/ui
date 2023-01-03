@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { DateInput } from './DateInput'
+import { Text } from '~/components/Text'
 
 type DateRangeInputProps = {
   value?: string
@@ -68,7 +69,7 @@ export const DateRangeInput = ({
           marginBottom: 12,
         }}
       >
-        from:
+        <Text typo="caption500">From:</Text>
         <DateInput
           value={fromValue}
           setFocused={() => {}}
@@ -76,7 +77,7 @@ export const DateRangeInput = ({
           fromValue={fromValue}
           tillValue={tillValue}
         />
-        till:
+        <Text typo="caption500">Till:</Text>
         <DateInput
           value={tillValue}
           setFocused={() => {}}
