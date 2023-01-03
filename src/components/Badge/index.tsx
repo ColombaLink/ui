@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from 'react'
 import { border, color, renderOrCreateElement } from '~/utils'
-import { AccentColor } from '~/types'
+import { Color } from '~/types'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
@@ -16,7 +16,7 @@ type BadgeProps = {
   icon?: FC | ReactNode
   iconRight?: FC | ReactNode
   outline?: boolean
-  color?: AccentColor
+  color?: Color
   boxed?: boolean
   ghost?: boolean
   onClick?: MouseEventHandler<Element> | boolean | any

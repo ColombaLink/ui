@@ -5,7 +5,7 @@ import { Text } from '../Text'
 import { styled } from 'inlines'
 
 type ThumbnailProps = {
-  size?: 32 | 36 | 40 | 48 | 64
+  size?: Size
   img?: string
   icon?: FC | ReactNode
   color?: Color
@@ -72,7 +72,11 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         </CounterBadge>
       )}
       {label ? (
-        <Text color="inherit" size={(size / 2) as Size}>
+        <Text
+          color="inherit"
+          size={(+size / 2) as Size}
+          style={{ lineHeight: '32px' }}
+        >
           {label[0].toUpperCase() + label[1].toUpperCase()}
         </Text>
       ) : icon ? (

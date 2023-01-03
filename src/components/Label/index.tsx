@@ -6,7 +6,7 @@ import { renderOrCreateElement } from '~/utils'
 type LabelProps = {
   label?: string | number | ReactNode
   labelColor?: Color
-  description?: string | number | ReactNode
+  description?: string
   descriptionColor?: Color
   icon?: ReactNode
   iconColor?: Color
