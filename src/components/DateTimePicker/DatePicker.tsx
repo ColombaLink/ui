@@ -270,6 +270,23 @@ export const DatePicker = ({
     return Date.parse(`${year}-${month}-${day}`)
   }
 
+  // use for styling the ranged days divs
+  const isRangedDay = (year, month, day) => {
+    return (
+      makeDateForComparison(year, month, day) >
+        makeDateForComparison(fromYear, fromMonth, fromDay) &&
+      makeDateForComparison(year, month, day) <
+        makeDateForComparison(tillYear, tillMonth, tillDay) &&
+      makeDateForComparison(selectedYear, selectedMonth, selectedDay)
+    )
+  }
+  const isFromDay = (year, month, day) => {
+    return day === fromDay && month === fromMonth && year === fromYear
+  }
+  const isTillDay = (year, month, day) => {
+    return day === tillDay && month === tillMonth && year === tillYear
+  }
+
   return (
     <StyledDatePickerBox ref={datePickerRef}>
       <div
@@ -343,50 +360,56 @@ export const DatePicker = ({
                     : '',
                 background:
                   val.day === selectedDay ||
-                  (val.day === fromDay &&
-                    val.month === fromMonth &&
-                    val.year === fromYear) ||
-                  (val.day === tillDay &&
-                    val.month === tillMonth &&
-                    val.year === tillYear)
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
                     ? color('accent')
-                    : makeDateForComparison(val.year, val.month, val.day) >
-                        makeDateForComparison(fromYear, fromMonth, fromDay) &&
-                      makeDateForComparison(val.year, val.month, val.day) <
-                        makeDateForComparison(tillYear, tillMonth, tillDay) &&
-                      makeDateForComparison(
-                        selectedYear,
-                        selectedMonth,
-                        selectedDay
-                      )
+                    : isRangedDay(val.year, val.month, val.day)
                     ? color('lightaccent')
                     : '',
                 color:
                   val.day === selectedDay ||
-                  (val.day === fromDay &&
-                    val.month === fromMonth &&
-                    val.year === fromYear) ||
-                  (val.day === tillDay &&
-                    val.month === tillMonth &&
-                    val.year === tillYear)
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
                     ? color('background')
                     : color('text'),
-                borderRadius: 4,
-                width: 26,
+                borderRadius: isFromDay(val.year, val.month, val.day)
+                  ? '4px 0px 0px 4px'
+                  : isTillDay(val.year, val.month, val.day)
+                  ? '0px 4px 4px 0px'
+                  : isRangedDay(val.year, val.month, val.day)
+                  ? 0
+                  : 4,
+
+                width: isRangedDay(val.year, val.month, val.day)
+                  ? 34
+                  : isFromDay(val.year, val.month, val.day) ||
+                    isTillDay(val.year, val.month, val.day)
+                  ? 32
+                  : 26,
                 height: 26,
                 margin: 4,
+                marginLeft:
+                  isRangedDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
+                    ? 0
+                    : isFromDay(val.year, val.month, val.day)
+                    ? 2
+                    : 4,
+                marginRight:
+                  isRangedDay(val.year, val.month, val.day) ||
+                  isFromDay(val.year, val.month, val.day)
+                    ? 0
+                    : isTillDay(val.year, val.month, val.day)
+                    ? 2
+                    : 4,
+
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 '&:hover': {
                   background:
-                    val.day === selectedDay
-                      ? color('accent')
-                      : // for each of the days in between hover color light accent
-                        // try to use the map this is in
-
-                        color('border'),
+                    val.day === selectedDay ? color('accent') : color('border'),
                   cursor: 'pointer',
                 },
               }}

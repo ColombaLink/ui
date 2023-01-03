@@ -42,8 +42,6 @@ export const DateRangeInput = ({
     const month = `${val[3]}${val[4]}`
     const year = val.substring(6)
 
-    console.log('TEST: ', `${year}-${month}-${day}`)
-
     // return de datum in milliseconds
     return Date.parse(`${year}-${month}-${day}`)
   }
