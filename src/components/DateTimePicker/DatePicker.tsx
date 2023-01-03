@@ -45,7 +45,8 @@ export const DatePicker = ({
 }: DatePickerProps) => {
   const dateObj = new Date()
 
-  console.log('TILL VALUE UIT DE PICKER -->', tillValue)
+  // console.log('TILL VALUE UIT DE PICKER -->', tillValue)
+  // console.log('from VALUE UIT DE PICKER', fromValue)
 
   // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -65,8 +66,6 @@ export const DatePicker = ({
     'December',
   ]
 
-  console.log('from VALUE UIT DE PICKER', fromValue)
-
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
   const currentYear = dateObj.getFullYear()
@@ -74,20 +73,19 @@ export const DatePicker = ({
   const [selectedDay, setSelectedDay] = useState(currentDay)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
+  const [presentDay] = useState(currentDay)
 
   // FROM
   const [fromDay, setFromDay] = useState(+fromValue?.split('/')[0])
   const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
   const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
-  console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
+  // console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
 
   // TILL
   const [tillDay, setTillDay] = useState(+tillValue?.split('/')[0])
   const [tillMonth, setTillMonth] = useState(+tillValue?.split('/')[1])
   const [tillYear, setTillYear] = useState(+tillValue?.split('/')[2])
-  console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
-
-  const [presentDay] = useState(currentDay)
+  // console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
 
   const datePickerRef = useRef(null)
 
@@ -131,7 +129,22 @@ export const DatePicker = ({
     setSelectedDay(+inputValue?.split('/')[0])
     setSelectedMonth(+inputValue?.split('/')[1])
     setSelectedYear(+inputValue?.split('/')[2])
+
+    // set from and till values again
+    if (fromValue) {
+      setFromDay(+fromValue?.split('/')[0])
+      setFromMonth(+fromValue?.split('/')[1])
+      setFromYear(+fromValue?.split('/')[2])
+    }
+
+    if (tillValue) {
+      setTillDay(+tillValue?.split('/')[0])
+      setTillMonth(+tillValue?.split('/')[1])
+      setTillYear(+tillValue?.split('/')[2])
+    }
   }, [inputValue])
+
+  useEffect(() => {}, [inputValue])
 
   const [daysArr, setDaysArr] = useState([])
 
@@ -208,7 +221,7 @@ export const DatePicker = ({
     // console.log('selectedDay', selectedDay)
 
     // console.log(
-    //   'whats this than ',
+    //   'whats this?',
     //   days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
     // )
 
@@ -254,11 +267,9 @@ export const DatePicker = ({
     if (month < 10) {
       month = `0${month}`
     }
-
+    // return de datum in milliseconds
     return Date.parse(`${year}-${month}-${day}`)
   }
-
-  console.log(makeDateForComparison(2019, 1, 1))
 
   return (
     <StyledDatePickerBox ref={datePickerRef}>

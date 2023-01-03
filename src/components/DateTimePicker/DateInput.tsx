@@ -38,7 +38,7 @@ export const DateInput: FC<DateInputProps> = ({
 
   const dateObj = new Date()
 
-  console.log('from , till ---> ', fromValue, tillValue)
+  // console.log('from , till ---> ', fromValue, tillValue)
 
   if (showDatePicker) {
     setFocused(true)
