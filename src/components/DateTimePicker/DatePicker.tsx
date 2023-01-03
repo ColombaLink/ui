@@ -8,7 +8,6 @@ type DatePickerProps = {
   setShowDatePicker?: (value: boolean) => void
   setFocused?: (value: boolean) => void
   clearHandler?: () => void
-
   fromValue?: string
   tillValue?: string
 }
@@ -363,7 +362,15 @@ export const DatePicker = ({
                     ? color('lightaccent')
                     : '',
                 color:
-                  val.day === selectedDay ? color('background') : color('text'),
+                  val.day === selectedDay ||
+                  (val.day === fromDay &&
+                    val.month === fromMonth &&
+                    val.year === fromYear) ||
+                  (val.day === tillDay &&
+                    val.month === tillMonth &&
+                    val.year === tillYear)
+                    ? color('background')
+                    : color('text'),
                 borderRadius: 4,
                 width: 26,
                 height: 26,

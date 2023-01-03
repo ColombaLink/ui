@@ -19,7 +19,6 @@ type DateInputProps = {
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
   clearHandler?: () => void
-
   fromValue?: string
   tillValue?: string
 }
@@ -29,7 +28,6 @@ export const DateInput: FC<DateInputProps> = ({
   setFocused,
   dateHandler,
   clearHandler,
-
   fromValue,
   tillValue,
 }) => {
@@ -87,8 +85,14 @@ export const DateInput: FC<DateInputProps> = ({
           if (value === '') {
             dateInputHandler({
               target: {
-                value: `${dateObj.getUTCDate()}/${
-                  dateObj.getUTCMonth() + 1
+                value: `${
+                  dateObj.getUTCDate() < 10
+                    ? '0' + dateObj.getUTCDate()
+                    : dateObj.getUTCDate
+                }/${
+                  dateObj.getUTCMonth() + 1 < 10
+                    ? '0' + (dateObj.getUTCMonth() + 1)
+                    : dateObj.getUTCMonth() + 1
                 }/${dateObj.getUTCFullYear()}`,
               },
             })
