@@ -323,10 +323,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "space": {
           "optional": true,
@@ -345,7 +342,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type AvatarProps = {\n  size?: Size\n  color?: Color\n  img?: string\n  icon?: FC | ReactNode\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
+      "code": "type AvatarProps = {\n  size?: Size\n  color?: Color\n  img?: string\n  icon?: FunctionComponent<Icon>\n  space?: Space\n  label?: string\n  onClick?: (e: SyntheticEvent) => void\n  style?: CSSProperties\n}",
       "file": "/components/Avatar/index.tsx"
     },
     "BadgeProps": {
@@ -360,17 +357,11 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "outline": {
           "optional": true,
@@ -397,7 +388,7 @@
           ]
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler<Element> | boolean | any\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler<Element> | boolean | any\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -537,17 +528,11 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "loading": {
           "optional": true,
@@ -598,7 +583,7 @@
           }
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n  //  weight?: Weight\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n  //  weight?: Weight\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -610,10 +595,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "outline": {
           "optional": true,
@@ -663,7 +645,7 @@
           ]
         }
       },
-      "code": "type CalloutProps = {\n  children?: ReactNode\n  icon?: FC | ReactNode\n  outline?: boolean\n  color?: Color\n  label?: string\n  labelColor?: Color\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right'\n}",
+      "code": "type CalloutProps = {\n  children?: ReactNode\n  icon?: FunctionComponent<Icon>\n  outline?: boolean\n  color?: Color\n  label?: string\n  labelColor?: Color\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right'\n}",
       "file": "/components/Callout/index.tsx"
     },
     "CardProps": {
@@ -1371,7 +1353,7 @@
         },
         "icon": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "FunctionComponent"
         },
         "paddingLeft": {
           "optional": true,
@@ -1390,7 +1372,7 @@
           ]
         }
       },
-      "code": "type FooterProps<T = any> = {\n  label?: string\n  floating?: boolean\n  outline?: boolean\n  data?: Data<T>\n  paddingRight?: number\n  style?: CSSProperties\n  width?: number\n  icon?: ReactNode\n  paddingLeft?: number\n  items?: Object[]\n  onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>\n}",
+      "code": "type FooterProps<T = any> = {\n  label?: string\n  floating?: boolean\n  outline?: boolean\n  data?: Data<T>\n  paddingRight?: number\n  style?: CSSProperties\n  width?: number\n  icon?: FunctionComponent<Icon>\n  paddingLeft?: number\n  items?: Object[]\n  onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>\n}",
       "file": "/components/Flow/Footer.tsx"
     },
     "FooterBottomProps": {
@@ -1477,7 +1459,7 @@
         },
         "icon": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "FunctionComponent"
         },
         "weight": {
           "optional": true,
@@ -1512,7 +1494,7 @@
           "type": "function"
         }
       },
-      "code": "type HeaderProps = {\n  data?: Data<any>\n  autoFocusTitle?: boolean\n  indicator?: string\n  style?: CSSProperties\n  onEditTitle?: (value: string, data?: Data<any>) => void\n  label?: string\n  noBorderBottom?: boolean\n  isHover?: boolean\n  children?: Children<{ items?: Object[]; data?: Data<any> }>\n  outline?: boolean\n  paddingRight?: number\n  width?: number | string\n  icon?: ReactNode\n  weight?: 400 | 500 | 600\n  paddingLeft?: number\n  items?: Object[]\n  isExpanded?: boolean\n  onExpand?: () => void\n}",
+      "code": "type HeaderProps = {\n  data?: Data<any>\n  autoFocusTitle?: boolean\n  indicator?: string\n  style?: CSSProperties\n  onEditTitle?: (value: string, data?: Data<any>) => void\n  label?: string\n  noBorderBottom?: boolean\n  isHover?: boolean\n  children?: Children<{ items?: Object[]; data?: Data<any> }>\n  outline?: boolean\n  paddingRight?: number\n  width?: number | string\n  icon?: FunctionComponent<Icon>\n  weight?: 400 | 500 | 600\n  paddingLeft?: number\n  items?: Object[]\n  isExpanded?: boolean\n  onExpand?: () => void\n}",
       "file": "/components/Flow/Header.tsx"
     },
     "FlowProps": {
@@ -1978,10 +1960,11 @@
           "type": "boolean"
         },
         "icon": {
-          "optional": true
+          "optional": true,
+          "type": "FunctionComponent"
         }
       },
-      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  icon?: React.ReactNode\n}",
+      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  icon?: FunctionComponent<Icon>\n}",
       "file": "/components/Input/PasswordInput.tsx"
     },
     "SingleProps": {
@@ -2067,17 +2050,11 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "iconRight": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "indent": {
           "optional": true,
@@ -2162,7 +2139,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  //  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FC | ReactNode\n  iconRight?: FC | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  //  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2186,7 +2163,7 @@
         },
         "icon": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "FunctionComponent"
         },
         "iconColor": {
           "optional": true,
@@ -2205,7 +2182,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type LabelProps = {\n  label?: string\n  labelColor?: Color\n  description?: string\n  descriptionColor?: Color\n  icon?: ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type LabelProps = {\n  label?: string\n  labelColor?: Color\n  description?: string\n  descriptionColor?: Color\n  icon?: FunctionComponent<Icon>\n  iconColor?: Color\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {
@@ -3183,10 +3160,10 @@
         },
         "icon": {
           "optional": true,
-          "type": "ReactNode"
+          "type": "FunctionComponent"
         }
       },
-      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n  icon?: ReactNode\n}",
+      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n  icon?: FunctionComponent<Icon>\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SpacerProps": {
@@ -3447,10 +3424,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "color": {
           "optional": true,
@@ -3477,7 +3451,7 @@
           "type": "number"
         }
       },
-      "code": "type ThumbnailProps = {\n  size?: Size\n  img?: string\n  icon?: FC | ReactNode\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n  outline?: boolean\n  counter?: number\n}",
+      "code": "type ThumbnailProps = {\n  size?: Size\n  img?: string\n  icon?: FunctionComponent<Icon>\n  color?: Color\n  space?: Space\n  style?: CSSProperties\n  label?: string\n  outline?: boolean\n  counter?: number\n}",
       "file": "/components/Thumbnail/index.tsx"
     },
     "ToastProps": {
@@ -3489,10 +3463,7 @@
         },
         "icon": {
           "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
+          "type": "FunctionComponent"
         },
         "description": {
           "optional": true,
@@ -3521,7 +3492,7 @@
           ]
         }
       },
-      "code": "type ToastProps = {\n  label?: string\n  icon?: FC | ReactNode\n  // topLeft?: ReactNode\n  // topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error' | 'warning'\n}",
+      "code": "type ToastProps = {\n  label?: string\n  icon?: FunctionComponent<Icon>\n  // topLeft?: ReactNode\n  // topRight?: ReactNode\n  description?: string\n  children?: ReactNode\n  style?: CSSProperties\n  type?: 'success' | 'error' | 'warning'\n}",
       "file": "/components/Toast/Toast.tsx"
     },
     "PositionStyleProps": {

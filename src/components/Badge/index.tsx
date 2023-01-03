@@ -3,18 +3,19 @@ import React, {
   FC,
   ReactNode,
   MouseEventHandler,
+  FunctionComponent,
   useCallback,
 } from 'react'
 import { border, color, renderOrCreateElement } from '~/utils'
-import { Color } from '~/types'
+import { Color, Icon } from '~/types'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
 type BadgeProps = {
   children: ReactNode
   style?: CSSProperties
-  icon?: FC | ReactNode
-  iconRight?: FC | ReactNode
+  icon?: FunctionComponent<Icon>
+  iconRight?: FunctionComponent<Icon>
   outline?: boolean
   color?: Color
   boxed?: boolean

@@ -2,7 +2,7 @@
 import React, {
   Dispatch,
   FC,
-  ReactNode,
+  FunctionComponent,
   SetStateAction,
   CSSProperties,
   RefObject,
@@ -13,7 +13,7 @@ import { Text, Button, ChevronDownIcon, ChevronUpIcon } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
-import { Space } from '~/types'
+import { Space, Icon } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
@@ -91,8 +91,8 @@ type InputProps = {
   //  optional?: boolean
   value?: string | number
   // integer?: boolean
-  icon?: FC | ReactNode
-  iconRight?: FC | ReactNode
+  icon?: FunctionComponent<Icon>
+  iconRight?: FunctionComponent<Icon>
   indent?: boolean
   defaultValue?: string | number
   placeholder?: string

@@ -1,5 +1,5 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
-import { Color, Size, Space } from '~/types'
+import React, { FC, CSSProperties, FunctionComponent } from 'react'
+import { Color, Size, Space, Icon } from '~/types'
 import { color, spaceToPx, renderOrCreateElement, boxShadow } from '~/utils'
 import { Text } from '../Text'
 import { styled } from 'inlines'
@@ -7,7 +7,7 @@ import { styled } from 'inlines'
 type ThumbnailProps = {
   size?: Size
   img?: string
-  icon?: FC | ReactNode
+  icon?: FunctionComponent<Icon>
   color?: Color
   space?: Space
   style?: CSSProperties

@@ -1,4 +1,11 @@
-import React, { FC, ReactNode, CSSProperties, useEffect, useState } from 'react'
+import React, {
+  FC,
+  ReactNode,
+  CSSProperties,
+  useEffect,
+  useState,
+  FunctionComponent,
+} from 'react'
 import {
   border,
   boxShadow,
@@ -12,6 +19,7 @@ import { useTooltip } from '~/hooks/useTooltip'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 import { ChevronRightIcon } from '~/icons'
+import { Icon } from '~/types'
 
 type SidebarProps = {
   data: {
@@ -34,7 +42,7 @@ type SidebarItemProps = {
   href?: string
   isActive?: boolean
   expanded?: boolean
-  icon?: ReactNode
+  icon?: FunctionComponent<Icon>
 }
 
 const SidebarItem: FC<SidebarItemProps> = ({
@@ -172,7 +180,7 @@ export const Sidebar: FC<SidebarProps> = ({
         href={href}
         isActive={isActive}
         expanded={expanded}
-        icon={icon}
+        icon={renderOrCreateElement(icon)}
       >
         {renderOrCreateElement(icon, { size: 20 })}
       </SidebarItem>

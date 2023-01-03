@@ -1,11 +1,12 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
+import React, { FC, ReactNode, CSSProperties, FunctionComponent } from 'react'
 import { color, renderOrCreateElement } from '~/utils'
 import { CheckCircleIcon, CloseCircleIcon, WarningIcon } from '~/icons'
 import { Text } from '~'
+import { Icon } from '~/types'
 
 type ToastProps = {
   label?: string
-  icon?: FC | ReactNode
+  icon?: FunctionComponent<Icon>
   // topLeft?: ReactNode
   // topRight?: ReactNode
   description?: string

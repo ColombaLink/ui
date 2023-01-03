@@ -3,11 +3,11 @@ import React, {
   useCallback,
   useState,
   CSSProperties,
-  ReactNode,
+  FunctionComponent,
 } from 'react'
 import { Text, LoadingIcon } from '~'
 import { color, renderOrCreateElement, stringToIcon } from '~/utils'
-import { Data, MultiDataEventHandler, DataEventHandler } from '~/types'
+import { Data, MultiDataEventHandler, DataEventHandler, Icon } from '~/types'
 import { useFlowHover } from './useFlowHover'
 
 export type FooterProps<T = any> = {
@@ -18,7 +18,7 @@ export type FooterProps<T = any> = {
   paddingRight?: number
   style?: CSSProperties
   width?: number
-  icon?: ReactNode
+  icon?: FunctionComponent<Icon>
   paddingLeft?: number
   items?: Object[]
   onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>

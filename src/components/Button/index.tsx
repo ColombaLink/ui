@@ -8,12 +8,13 @@ import React, {
   useState,
   useEffect,
   useRef,
+  FunctionComponent,
 } from 'react'
 import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
-import { Space, Key } from '~/types'
+import { Space, Key, Icon } from '~/types'
 import { useKeyUp } from '~'
 
 export type ButtonProps = {
@@ -24,8 +25,8 @@ export type ButtonProps = {
   light?: boolean
   large?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
-  icon?: FC | ReactNode
-  iconRight?: FC | ReactNode
+  icon?: FunctionComponent<Icon>
+  iconRight?: FunctionComponent<Icon>
   loading?: boolean
   onClick?: MouseEventHandler | boolean | (() => void)
   onPointerDown?: MouseEventHandler

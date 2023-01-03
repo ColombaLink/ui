@@ -1,5 +1,10 @@
-import React, { CSSProperties, FC, ReactNode, SyntheticEvent } from 'react'
-import { Color, Size, Space } from '~/types'
+import React, {
+  CSSProperties,
+  FC,
+  SyntheticEvent,
+  FunctionComponent,
+} from 'react'
+import { Color, Size, Space, Icon } from '~/types'
 import { spaceToPx, renderOrCreateElement } from '~/utils'
 import { getButtonStyle } from '~'
 import { Text } from '../Text'
@@ -9,7 +14,7 @@ export type AvatarProps = {
   size?: Size
   color?: Color
   img?: string
-  icon?: FC | ReactNode
+  icon?: FunctionComponent<Icon>
   space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void
