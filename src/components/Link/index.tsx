@@ -1,11 +1,11 @@
-import React, { FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Link as WLink } from 'wouter'
-import { styled, Style } from 'inlines'
+import { styled } from 'inlines'
 import { parseHref } from '../../hooks/location'
 type LinkProps = {
   href?: string
   children?: ReactNode
-  style?: Style
+  style?: CSSProperties
   onClick?: () => {}
 }
 

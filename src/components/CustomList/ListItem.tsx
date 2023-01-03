@@ -1,12 +1,12 @@
-import React, { CSSProperties, ReactNode, Ref } from 'react'
-import { Color, Space } from '~/types'
+import React, { CSSProperties, ReactNode } from 'react'
+import { Space } from '~/types'
 import { spaceToPx, color } from '~/utils'
 
 type ListItemProps = {
-  itemSize: number
-  space: Space
-  children: ReactNode
-  style: CSSProperties
+  itemSize?: number
+  space?: Space
+  children?: ReactNode
+  style?: CSSProperties
 }
 
 export const ListItem = ({

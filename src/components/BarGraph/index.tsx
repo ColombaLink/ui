@@ -220,7 +220,7 @@ type BarSegmentProps = {
   width: number
   value: string | number
   style?: CSSProperties
-  label?: any
+  label?: string
   bgColor?: string
   legend?: string[] | { [key: string]: string }
 }

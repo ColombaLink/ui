@@ -13,6 +13,9 @@ import { IconProps } from '../components/Icon'
 export type { Color, ColorVariant, AccentColor } from '../utils/color'
 
 type SizeInt =
+  | 8
+  | 9
+  | 10
   | 11
   | 12
   | 13
