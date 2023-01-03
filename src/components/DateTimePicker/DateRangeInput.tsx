@@ -69,7 +69,7 @@ export const DateRangeInput = ({
           marginBottom: 12,
         }}
       >
-        <Text typo="caption500">From:</Text>
+        <Text typo="caption500">From :</Text>
         <DateInput
           value={fromValue}
           setFocused={() => {}}
@@ -77,7 +77,7 @@ export const DateRangeInput = ({
           fromValue={fromValue}
           tillValue={tillValue}
         />
-        <Text typo="caption500">Till:</Text>
+        <Text typo="caption500">Till :</Text>
         <DateInput
           value={tillValue}
           setFocused={() => {}}
