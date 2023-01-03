@@ -190,7 +190,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     >
       <Label label={label} description={description} space="12px" />
       {dateRange ? (
-        <DateRangeInput dateHandler={dateHandler} value={dateFormatInput} />
+        <DateRangeInput
+          dateHandler={dateHandler}
+          value={dateFormatInput}
+          setErrorMessage={setErrorMessage}
+        />
       ) : (
         <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>
           <DateInput

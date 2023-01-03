@@ -6,6 +6,7 @@ type DateRangeInputProps = {
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
   clearHandler?: () => void
+  setErrorMessage?: (value: string) => void
 }
 
 export const DateRangeInput = ({
@@ -13,6 +14,7 @@ export const DateRangeInput = ({
   dateHandler,
   setFocused,
   clearHandler,
+  setErrorMessage,
 }: DateRangeInputProps) => {
   const [fromValue, setFromValue] = useState<string>('')
   const [tillValue, setTillValue] = useState<string>('')
@@ -47,12 +49,14 @@ export const DateRangeInput = ({
   }
 
   useEffect(() => {
-    // compare fromValue and tillValue
+    // compare fromValue and tillValue set errormessage
     if (
       makeAnotherDateForComparison(fromValue) >
       makeAnotherDateForComparison(tillValue)
     ) {
-      console.log('ERROR: fromValue is bigger than tillValue')
+      setErrorMessage("From value can't be bigger than till value")
+    } else {
+      setErrorMessage('')
     }
   }, [fromValue, tillValue])
 
@@ -84,9 +88,9 @@ export const DateRangeInput = ({
         />
       </div>
 
-      <div style={{ background: 'yellow' }}>
+      {/* <div style={{ background: 'yellow' }}>
         FROM: {fromValue} - TILL: {tillValue}
-      </div>
+      </div> */}
     </>
   )
 }
