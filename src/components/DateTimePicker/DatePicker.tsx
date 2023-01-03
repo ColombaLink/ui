@@ -10,6 +10,7 @@ type DatePickerProps = {
   clearHandler?: () => void
 
   fromValue?: string
+  tillValue?: string
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -40,8 +41,11 @@ export const DatePicker = ({
   setFocused,
   clearHandler,
   fromValue,
+  tillValue,
 }: DatePickerProps) => {
   const dateObj = new Date()
+
+  console.log('TILL VALUE UIT DE PICKER -->', tillValue)
 
   // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -76,6 +80,12 @@ export const DatePicker = ({
   const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
   const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
   console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
+
+  // TILL
+  const [tillDay, setTillDay] = useState(+tillValue?.split('/')[0])
+  const [tillMonth, setTillMonth] = useState(+tillValue?.split('/')[1])
+  const [tillYear, setTillYear] = useState(+tillValue?.split('/')[2])
+  console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
 
   const [presentDay] = useState(currentDay)
 
@@ -193,9 +203,9 @@ export const DatePicker = ({
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 
-    console.log('selectedMonth', selectedMonth)
-    console.log('selectedYear', selectedYear)
-    console.log('selectedDay', selectedDay)
+    // console.log('selectedMonth', selectedMonth)
+    // console.log('selectedYear', selectedYear)
+    // console.log('selectedDay', selectedDay)
 
     // console.log(
     //   'whats this than ',
@@ -236,6 +246,19 @@ export const DatePicker = ({
 
     setDaysArr(tempArr)
   }, [selectedMonth])
+
+  const makeDateForComparison = (year, month, day) => {
+    if (day < 10) {
+      day = `0${day}`
+    }
+    if (month < 10) {
+      month = `0${month}`
+    }
+
+    return Date.parse(`${year}-${month}-${day}`)
+  }
+
+  console.log(makeDateForComparison(2019, 1, 1))
 
   return (
     <StyledDatePickerBox ref={datePickerRef}>
@@ -308,7 +331,26 @@ export const DatePicker = ({
                   selectedYear === currentYear
                     ? `1px solid ${color('accent')}`
                     : '',
-                background: val.day === selectedDay ? color('accent') : '',
+                background:
+                  val.day === selectedDay ||
+                  (val.day === fromDay &&
+                    val.month === fromMonth &&
+                    val.year === fromYear) ||
+                  (val.day === tillDay &&
+                    val.month === tillMonth &&
+                    val.year === tillYear)
+                    ? color('accent')
+                    : makeDateForComparison(val.year, val.month, val.day) >
+                        makeDateForComparison(fromYear, fromMonth, fromDay) &&
+                      makeDateForComparison(val.year, val.month, val.day) <
+                        makeDateForComparison(tillYear, tillMonth, tillDay) &&
+                      makeDateForComparison(
+                        selectedYear,
+                        selectedMonth,
+                        selectedDay
+                      )
+                    ? color('lightaccent')
+                    : '',
                 color:
                   val.day === selectedDay ? color('background') : color('text'),
                 borderRadius: 4,
@@ -324,10 +366,9 @@ export const DatePicker = ({
                     val.day === selectedDay
                       ? color('accent')
                       : // for each of the days in between hover color light accent
-                      // try to use the map this is in
-                      val.day > fromDay
-                      ? color('lightaccent')
-                      : color('border'),
+                        // try to use the map this is in
+
+                        color('border'),
                   cursor: 'pointer',
                 },
               }}

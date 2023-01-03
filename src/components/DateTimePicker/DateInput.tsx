@@ -116,6 +116,7 @@ export const DateInput: FC<DateInputProps> = ({
           clearHandler={clearHandler}
           // testing
           fromValue={fromValue}
+          tillValue={tillValue}
         />
       )}
     </div>
