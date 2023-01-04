@@ -22,7 +22,7 @@ type CalloutProps = {
   space?: Space
   style?: CSSProperties
   closeable?: boolean
-  textAlign?: 'center' | 'right'
+  textAlign?: 'center' | 'right' | 'left'
 }
 
 export const Callout: FC<CalloutProps> = ({

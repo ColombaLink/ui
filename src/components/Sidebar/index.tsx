@@ -23,7 +23,7 @@ import { Icon } from '~/types'
 
 type SidebarProps = {
   data: {
-    icon?: ReactNode
+    icon?: ReactNode | FunctionComponent<Icon>
     label?: string
     href?: string
     subTitle?: string
@@ -51,7 +51,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
   isActive,
   children,
   expanded,
-  icon,
+  //  icon,
 }) => {
   const tooltip = expanded ? undefined : useTooltip(label, 'right')
 

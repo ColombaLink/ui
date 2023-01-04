@@ -2,7 +2,7 @@ import React, {
   CSSProperties,
   FC,
   ReactNode,
-  MouseEventHandler,
+  SyntheticEvent,
   FunctionComponent,
   useCallback,
 } from 'react'
@@ -20,7 +20,7 @@ type BadgeProps = {
   color?: Color
   boxed?: boolean
   ghost?: boolean
-  onClick?: MouseEventHandler<Element> | boolean | any
+  onClick?: (e: SyntheticEvent) => void
 }
 
 export const Badge: FC<BadgeProps> = ({

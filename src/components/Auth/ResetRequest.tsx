@@ -3,9 +3,10 @@ import { Input } from '../Input'
 import { Button } from '../Button'
 import { Text } from '../Text'
 import { useClient } from '@based/react'
-import { EmailIcon, CheckIcon } from '~/icons'
+import { CheckIcon } from '~/icons'
 import { email as isEmail } from '@saulx/validators'
 import useGlobalState from '@based/use-global-state'
+import { renderOrCreateElement } from '~/utils'
 
 type ResetRequestProps = {
   onSuccess?: () => void
@@ -84,7 +85,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
             Check your email for the reset link.
           </Text>
           <Button
-            icon={<CheckIcon />}
+            icon={renderOrCreateElement(CheckIcon)}
             large
             actionKeys={['Enter']}
             textAlign="center"

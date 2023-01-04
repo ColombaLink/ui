@@ -216,7 +216,7 @@ export const BarGraph: FC<BarGraphProps> = ({
 }
 
 type BarSegmentProps = {
-  id: number
+  id: number | string
   width: number
   value: string | number
   style?: CSSProperties

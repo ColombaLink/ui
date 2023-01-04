@@ -381,14 +381,10 @@
         },
         "onClick": {
           "optional": true,
-          "type": [
-            "MouseEventHandler",
-            "boolean",
-            "TSAnyKeyword"
-          ]
+          "type": "function"
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: MouseEventHandler<Element> | boolean | any\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: (e: SyntheticEvent) => void\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {
@@ -436,7 +432,10 @@
       "name": "BarSegmentProps",
       "props": {
         "id": {
-          "type": "number"
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "width": {
           "type": "number"
@@ -469,7 +468,7 @@
           ]
         }
       },
-      "code": "type BarSegmentProps = {\n  id: number\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: string\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
+      "code": "type BarSegmentProps = {\n  id: number | string\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: string\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -641,11 +640,14 @@
             },
             {
               "value": "right"
+            },
+            {
+              "value": "left"
             }
           ]
         }
       },
-      "code": "type CalloutProps = {\n  children?: ReactNode\n  icon?: FunctionComponent<Icon>\n  outline?: boolean\n  color?: Color\n  label?: string\n  labelColor?: Color\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right'\n}",
+      "code": "type CalloutProps = {\n  children?: ReactNode\n  icon?: FunctionComponent<Icon>\n  outline?: boolean\n  color?: Color\n  label?: string\n  labelColor?: Color\n  description?: string\n  ghost?: boolean\n  space?: Space\n  style?: CSSProperties\n  closeable?: boolean\n  textAlign?: 'center' | 'right' | 'left'\n}",
       "file": "/components/Callout/index.tsx"
     },
     "CardProps": {
@@ -855,7 +857,10 @@
       "props": {
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": [
+            "CSSProperties",
+            "Style"
+          ]
         },
         "color": {
           "optional": true,
@@ -890,7 +895,7 @@
           "type": "ReactNode"
         }
       },
-      "code": "type ContextItemProps = {\n  style?: CSSProperties\n  color?: Color\n  onClick?: PropsEventHandler\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
+      "code": "type ContextItemProps = {\n  style?: CSSProperties | Style\n  color?: Color\n  onClick?: PropsEventHandler\n  icon?: FunctionComponent<Icon>\n  iconRight?: FunctionComponent<Icon>\n  inset?: boolean\n  noFocus?: boolean\n  tabIndex?: number\n  children?: ReactNode\n}",
       "file": "/components/ContextMenu/ContextItem.tsx"
     },
     "ContextOptionsFilterProps": {
@@ -1222,19 +1227,19 @@
         "topRight": {
           "optional": true,
           "type": [
-            "ReactNode",
-            "string"
+            "FC",
+            "ReactNode"
           ]
         },
         "topLeft": {
           "optional": true,
           "type": [
-            "ReactNode",
-            "string"
+            "FC",
+            "ReactNode"
           ]
         }
       },
-      "code": "type ExpandableListProps = {\n  style?: CSSProperties\n  data?: any\n  height?: number\n  topRight?: ReactNode | string\n  topLeft?: ReactNode | string\n}",
+      "code": "type ExpandableListProps = {\n  style?: CSSProperties\n  data?: any\n  height?: number\n  topRight?: FC | ReactNode\n  topLeft?: FC | ReactNode\n}",
       "file": "/components/ExpandableList/index.tsx"
     },
     "ExpandableListItemProps": {
@@ -1258,13 +1263,9 @@
         "total": {
           "optional": true,
           "type": "number"
-        },
-        "height": {
-          "optional": true,
-          "type": "number"
         }
       },
-      "code": "type ExpandableListItemProps = {\n  style?: CSSProperties\n  index?: number | string\n  item?: any\n  total?: number\n  height?: number\n}",
+      "code": "type ExpandableListItemProps = {\n  style?: CSSProperties\n  index?: number | string\n  item?: any\n  total?: number\n}",
       "file": "/components/ExpandableList/index.tsx"
     },
     "FileUploadProps": {
@@ -2254,14 +2255,17 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": [
+            "CSSProperties",
+            "Style"
+          ]
         },
         "onClick": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type LinkProps = {\n  href?: string\n  children?: ReactNode\n  style?: CSSProperties\n  onClick?: () => {}\n}",
+      "code": "type LinkProps = {\n  href?: string\n  children?: ReactNode\n  style?: CSSProperties | Style\n  onClick?: () => {}\n}",
       "file": "/components/Link/index.tsx"
     },
     "DraggableListWrapperProps": {
@@ -3132,7 +3136,7 @@
           "type": "boolean"
         }
       },
-      "code": "type SidebarProps = {\n  data: {\n    icon?: ReactNode\n    label?: string\n    href?: string\n    subTitle?: string\n  }[]\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n}",
+      "code": "type SidebarProps = {\n  data: {\n    icon?: ReactNode | FunctionComponent<Icon>\n    label?: string\n    href?: string\n    subTitle?: string\n  }[]\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {

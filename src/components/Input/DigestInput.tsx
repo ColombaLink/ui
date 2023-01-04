@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { CheckIcon, CopyIcon } from '~/icons'
-import { Input, Text } from '~'
+import { Input, renderOrCreateElement, Text } from '~'
 
 type DigestInputProps = {
   value?: string
@@ -53,12 +53,12 @@ export const DigestInput = ({
         {shortState ? (
           <Input
             value={value.substring(0, 6) + '...'}
-            icon=" "
+            icon={renderOrCreateElement(' ')}
             style={{ width: '100%' }}
           />
         ) : (
           <Input
-            icon=" "
+            icon={renderOrCreateElement(' ')}
             {...props}
             style={{ width: '100%' }}
             type="text"

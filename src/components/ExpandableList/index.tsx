@@ -1,14 +1,14 @@
 import React, { CSSProperties, useState, ReactNode, FC } from 'react'
 import { Text, ExpandIcon } from '~'
 import { styled } from 'inlines'
-import { border, Color, color } from '~/utils'
+import { border } from '~/utils'
 
 type ExpandableListProps = {
   style?: CSSProperties
   data?: any
   height?: number
-  topRight?: ReactNode | string
-  topLeft?: ReactNode | string
+  topRight?: FC | ReactNode
+  topLeft?: FC | ReactNode
 }
 
 type ExpandableListItemProps = {
@@ -16,7 +16,6 @@ type ExpandableListItemProps = {
   index?: number | string
   item?: any
   total?: number
-  height?: number
 }
 
 const StyledUl = styled('ul', {
@@ -121,6 +120,7 @@ export const ExpandableList: FC<ExpandableListProps> = ({
   height = 240,
   topLeft,
   topRight,
+  style,
 }) => {
   const getTotalFromData = (data) => {
     let total = 0
@@ -132,7 +132,7 @@ export const ExpandableList: FC<ExpandableListProps> = ({
   const totalValue = getTotalFromData(data)
 
   return (
-    <div style={{ overflowX: 'hidden', height: height }}>
+    <div style={{ overflowX: 'hidden', height: height, ...style }}>
       {topRight || topLeft ? (
         <div
           style={{
