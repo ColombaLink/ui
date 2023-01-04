@@ -390,10 +390,13 @@
         },
         "onClick": {
           "optional": true,
-          "type": "function"
+          "type": [
+            "TSParenthesizedType",
+            "boolean"
+          ]
         }
       },
-      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: (e: SyntheticEvent) => void\n}",
+      "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: (() => void) | boolean\n}",
       "file": "/components/Badge/index.tsx"
     },
     "BarGraphProps": {

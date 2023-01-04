@@ -20,7 +20,7 @@ type BadgeProps = {
   color?: Color
   boxed?: boolean
   ghost?: boolean
-  onClick?: (e: SyntheticEvent) => void
+  onClick?: (() => void) | boolean
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -39,22 +39,23 @@ export const Badge: FC<BadgeProps> = ({
   // make this into a hook
   return (
     <styled.div
-      onClick={
-        onClick
-          ? useCallback(
-              (e) => {
-                // TODO check with Maarten if we want this animation
-                const t = e.currentTarget
-                t.style.transform = 'scale(1.15)'
-                setTimeout(() => {
-                  t.style.transform = 'scale(1)'
-                }, 100)
-                onClick(e)
-              },
-              [onClick]
-            )
-          : null
-      }
+      // onClick={
+      //   onClick
+      //     ? useCallback(
+      //         (e) => {
+      //           // TODO check with Maarten if we want this animation
+      //           const t = e.currentTarget
+      //           t.style.transform = 'scale(1.15)'
+      //           setTimeout(() => {
+      //             t.style.transform = 'scale(1)'
+      //           }, 100)
+      //           onClick(e)
+      //         },
+      //         [onClick]
+      //       )
+      //     : null
+      // }
+      onClick={onClick}
       style={{
         transition: 'transform 0.15s',
         transform: 'scale(1)',
