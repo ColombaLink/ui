@@ -8,6 +8,7 @@ import React, {
   RefObject,
   useState,
   useEffect,
+  ReactNode,
 } from 'react'
 import { Text, Button, ChevronDownIcon, ChevronUpIcon } from '~'
 import { Label } from '../Label'
@@ -91,8 +92,8 @@ type InputProps = {
   //  optional?: boolean
   value?: string | number
   // integer?: boolean
-  icon?: FunctionComponent<Icon>
-  iconRight?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
   indent?: boolean
   defaultValue?: string | number
   placeholder?: string

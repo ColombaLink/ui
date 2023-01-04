@@ -14,8 +14,8 @@ import { styled } from 'inlines'
 type BadgeProps = {
   children: ReactNode
   style?: CSSProperties
-  icon?: FunctionComponent<Icon>
-  iconRight?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
   outline?: boolean
   color?: Color
   boxed?: boolean

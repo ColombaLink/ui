@@ -42,7 +42,7 @@ type SidebarItemProps = {
   href?: string
   isActive?: boolean
   expanded?: boolean
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
 }
 
 const SidebarItem: FC<SidebarItemProps> = ({

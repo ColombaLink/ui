@@ -12,7 +12,7 @@ import { CloseIcon } from '~/icons'
 
 type CalloutProps = {
   children?: ReactNode
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
   outline?: boolean
   color?: Color
   label?: string

@@ -290,7 +290,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
         display: 'block',
         width: width + '%',
         backgroundColor: bgColor || color('accent'),
-        opacity: `calc(1 - 0.${id * 2})`,
+        opacity: `calc(1 - 0.${(id as any) * 2})`,
         ...style,
         '&:hover': {
           opacity: 0.5,

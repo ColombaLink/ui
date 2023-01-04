@@ -6,7 +6,7 @@ import { Icon } from '~/types'
 
 type ToastProps = {
   label?: string
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
   // topLeft?: ReactNode
   // topRight?: ReactNode
   description?: string

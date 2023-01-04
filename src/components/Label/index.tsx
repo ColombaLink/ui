@@ -8,7 +8,7 @@ type LabelProps = {
   labelColor?: Color
   description?: string
   descriptionColor?: Color
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
   iconColor?: Color
   children?: ReactNode
   space?: Space

@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, FunctionComponent } from 'react'
+import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
 import {
   color,
   renderOrCreateElement,
@@ -22,7 +22,7 @@ export type HeaderProps = {
   outline?: boolean
   paddingRight?: number
   width?: number | string
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
   weight?: 400 | 500 | 600
   paddingLeft?: number
   items?: Object[]

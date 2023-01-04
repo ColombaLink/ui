@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent } from 'react'
+import React, { useState, FunctionComponent, ReactNode } from 'react'
 import {
   Input,
   EyeIcon,
@@ -14,7 +14,7 @@ type PasswordInputProps = {
   onChange?: (target) => void
   disabled?: boolean
   large?: boolean
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
 }
 
 export const PasswordInput = ({

@@ -3,6 +3,7 @@ import React, {
   FC,
   SyntheticEvent,
   FunctionComponent,
+  ReactNode,
 } from 'react'
 import { Color, Size, Space, Icon } from '~/types'
 import { spaceToPx, renderOrCreateElement } from '~/utils'
@@ -14,7 +15,7 @@ export type AvatarProps = {
   size?: Size
   color?: Color
   img?: string
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
   space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void

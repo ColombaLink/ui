@@ -25,8 +25,8 @@ export type ButtonProps = {
   light?: boolean
   large?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
-  icon?: FunctionComponent<Icon>
-  iconRight?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
   loading?: boolean
   onClick?: MouseEventHandler | boolean | (() => void)
   onPointerDown?: MouseEventHandler

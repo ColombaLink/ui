@@ -4,6 +4,7 @@ import React, {
   useState,
   CSSProperties,
   FunctionComponent,
+  ReactNode,
 } from 'react'
 import { Text, LoadingIcon } from '~'
 import { color, renderOrCreateElement, stringToIcon } from '~/utils'
@@ -18,7 +19,7 @@ export type FooterProps<T = any> = {
   paddingRight?: number
   style?: CSSProperties
   width?: number
-  icon?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
   paddingLeft?: number
   items?: Object[]
   onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>

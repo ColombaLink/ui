@@ -25,8 +25,8 @@ export type ContextItemProps = {
   style?: CSSProperties | Style
   color?: Color
   onClick?: PropsEventHandler
-  icon?: FunctionComponent<Icon>
-  iconRight?: FunctionComponent<Icon>
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
   inset?: boolean
   noFocus?: boolean
   tabIndex?: number
