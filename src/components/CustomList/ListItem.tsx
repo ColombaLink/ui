@@ -97,21 +97,19 @@ export const ListItem = ({
   console.log('drop', drop, isDragOver, isDropLoading)
 
   return (
-    <div {...drop}>
+    <div style={{ border: '1px solid grey' }} {...drop}>
       {onDrop ? (
-        <div>
-          <div
-            style={{
-              height: 40,
-              pointerEvents: 'none',
-              opacity: isDragOver ? 1 : 0,
-              transition: 'opacity 0.2s',
-              width: '100%',
-              borderTop: '2px solid purple',
-            }}
-          >
-            Drop
-          </div>
+        <div
+          style={{
+            pointerEvents: 'none',
+            opacity: isDragOver ? 1 : 0,
+            transition: 'opacity 0.2s',
+            width: '100%',
+            borderTop: '2px solid purple',
+            position: 'absolute',
+          }}
+        >
+          Drop
         </div>
       ) : null}
       <div
@@ -125,7 +123,6 @@ export const ListItem = ({
             : index % 2 === 0
             ? 'lightblue'
             : '#f6f6f6',
-          ...style,
         }}
         {...useMultipleEvents(
           drag,

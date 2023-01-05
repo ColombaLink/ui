@@ -18,12 +18,12 @@ export const CustomList = (props) => {
             <FixedSizeList
               width={width}
               height={height}
-              innerElementType={getElementType(8, 8)}
+              innerElementType={getElementType(0, 0)}
               itemCount={items.length}
               itemSize={40}
-              style={{ padding: 10 }}
+              style={{}}
               itemData={{ items, context, ...props }}
-              //  {...useDragScroll(true)}
+              {...useDragScroll(true)}
             >
               {ListItem}
             </FixedSizeList>
