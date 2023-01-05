@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SelectableCollection } from '~/hooks'
+import useDragScroll from '~/hooks/useDragScroll'
 import { ListItem } from './ListItem'
 
 const PADDING_SIZE = 10
@@ -34,6 +35,8 @@ export const CustomList = (props) => {
               itemCount={items.length}
               itemSize={40}
               style={{ padding: 10 }}
+              itemData={{ context, ...props }}
+              {...useDragScroll(true)}
             >
               {ListItem}
             </FixedSizeList>
