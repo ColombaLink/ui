@@ -122,13 +122,13 @@ export class RouteParams {
       return true
     }
 
-    if (this.parsedPath.length && this.ctx.pathChanged) {
-      const nParams = parseRoute(this.ctx, this.parsedPath, this.start)
-      if (!deepEqual(this._pathParams, nParams)) {
-        this._pathParams = nParams
-        return true
-      }
+    // if (this.parsedPath.length && this.ctx.pathChanged) {
+    const nParams = parseRoute(this.ctx, this.parsedPath, this.start)
+    if (!deepEqual(this._pathParams, nParams)) {
+      this._pathParams = nParams
+      return true
     }
+    // }
 
     if (this._usesQuery && this.ctx.queryChanged) {
       return true
@@ -138,7 +138,7 @@ export class RouteParams {
       return true
     }
 
-    return false
+    return true
   }
 
   get location(): string {
