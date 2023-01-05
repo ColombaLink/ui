@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useCallback } from 'react'
+import React, { CSSProperties, useRef, useCallback, useEffect } from 'react'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
 import { useDrag, useDrop } from '~/hooks'
 import { useSelect, useClick } from './hooks/useSelect'
@@ -15,6 +15,7 @@ export const ListItem = ({
   style,
 }: ListItemProps) => {
   let {
+    onClick,
     activeId,
     onDrop,
     exportData,
@@ -55,24 +56,94 @@ export const ListItem = ({
     { readFiles: true }
   )
 
-  console.log('isSelect', isSelected)
+  if (onDrop) {
+    useEffect(() => {
+      if (isDragOver || isDropLoading) {
+        if (!ref.current || !ref.current.dragLayerActive) {
+          const el = ref.current
+          const p = el.parentNode
+          const holder = p.parentNode
+          let foundP = false
+          holder.isDrop = el
+          for (let i = 0; i < holder.children.length; i++) {
+            const c = holder.children[i]
+            if (c === p) {
+              foundP = true
+            }
+            if (!foundP) {
+              c.children[1].style.transform = 'translate3d(0px, 0px, 0px)'
+            } else {
+              c.children[1].style.transform = 'translate3d(0px, 40px, 0px)'
+            }
+          }
+          ref.current.dragLayerActive = true
+        }
+      } else if (ref.current && ref.current.dragLayerActive) {
+        ref.current.dragLayerActive = false
+        const el = ref.current
+        const p = el.parentNode
+        const holder = p.parentNode
+        if (holder.isDrop === el) {
+          for (let i = 0; i < holder.children.length; i++) {
+            const c = holder.children[i]
+            c.children[1].style.transform = 'translate3d(0px, 0px, 0px)'
+          }
+          holder.isDrop = false
+        }
+      }
+    }, [isDragOver, onDrop, isDropLoading])
+  }
+
+  console.log('drop', drop, isDragOver, isDropLoading)
 
   return (
-    <div
-      ref={ref}
-      style={{
-        backgroundColor: isSelected
-          ? 'orange'
-          : isDragging
-          ? 'lightgreen'
-          : index % 2 === 0
-          ? 'lightblue'
-          : '#f6f6f6',
-        ...style,
-      }}
-      {...useMultipleEvents(drag, select)}
-    >
-      testing item {items[index]?.text} - {index}
+    <div {...drop}>
+      {onDrop ? (
+        <div>
+          <div
+            style={{
+              height: 40,
+              pointerEvents: 'none',
+              opacity: isDragOver ? 1 : 0,
+              transition: 'opacity 0.2s',
+              width: '100%',
+              borderTop: '2px solid purple',
+            }}
+          >
+            Drop
+          </div>
+        </div>
+      ) : null}
+      <div
+        ref={ref}
+        style={{
+          height: 40,
+          backgroundColor: isSelected
+            ? 'orange'
+            : isDragging
+            ? 'lightgreen'
+            : index % 2 === 0
+            ? 'lightblue'
+            : '#f6f6f6',
+          ...style,
+        }}
+        {...useMultipleEvents(
+          drag,
+          select,
+          onClick
+            ? {
+                onClick: useClick(
+                  (e) => {
+                    onClick(e, wrappedData)
+                  },
+                  [onClick, wrappedData]
+                ),
+              }
+            : undefined
+        )}
+      >
+        testing item {items[index]?.text} - {index}
+      </div>
     </div>
   )
 }

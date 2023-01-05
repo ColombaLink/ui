@@ -12,7 +12,12 @@ export const CustomLists = () => {
 
   return (
     <div style={{ height: 1000 }}>
-      <CustomList items={listData} />
+      <CustomList
+        items={listData}
+        onDrop={(e, data) => {
+          console.info(e, data)
+        }}
+      />
     </div>
   )
 }

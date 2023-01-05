@@ -7,7 +7,23 @@ import React, {
   EventHandler,
   SyntheticEvent,
 } from 'react'
-import { Data } from '../types'
+
+type ExportedData = {
+  file?: {
+    value: any
+    name: string
+    mime: string
+  }
+  text?: any
+}
+
+type ExportData<T = any> = (data: Data<T>) => Promise<ExportedData>
+
+type Data<T = {}> = T & {
+  data: any
+  index?: number
+  exportData?: ExportData
+}
 
 const addListeners = () => {
   document.addEventListener('click', (event) => {

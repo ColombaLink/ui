@@ -6,21 +6,8 @@ import { SelectableCollection } from '~/hooks'
 import useDragScroll from '~/hooks/useDragScroll'
 import { ListItem } from './ListItem'
 
-const PADDING_SIZE = 10
-
-// const innerElementType = forwardRef(({ style, ...rest }, ref) => (
-//   <div
-//     ref={ref}
-//     style={{
-//       background: 'yellow',
-//       height: `${parseFloat(style.height) + PADDING_SIZE * 2}px`,
-//     }}
-//     {...rest}
-//   />
-// ))
-
 export const CustomList = (props) => {
-  let { items = [] } = props
+  let { items = [], activeId } = props
   console.log('items', items)
   return (
     <AutoSizer>
@@ -31,12 +18,12 @@ export const CustomList = (props) => {
             <FixedSizeList
               width={width}
               height={height}
-              //   innerElementType={innerElementType}
+              innerElementType={getElementType(8, 8)}
               itemCount={items.length}
               itemSize={40}
               style={{ padding: 10 }}
-              itemData={{ context, ...props }}
-              {...useDragScroll(true)}
+              itemData={{ items, context, ...props }}
+              //  {...useDragScroll(true)}
             >
               {ListItem}
             </FixedSizeList>
@@ -47,16 +34,23 @@ export const CustomList = (props) => {
   )
 }
 
-const testItem = ({ index, style }) => {
-  return (
-    <div
-      style={{
-        ...style,
-        top: `${parseFloat(style.top) + PADDING_SIZE}px`,
-        backgroundColor: index % 2 === 0 ? 'lightblue' : '#f6f6f6',
-      }}
-    >
-      test {index}
-    </div>
-  )
+const mem = {}
+
+const getElementType = (paddingTop: number, paddingBottom: number) => {
+  const padding = paddingTop + paddingBottom
+  if (!(padding in mem)) {
+    mem[padding] = forwardRef<any>(({ style, ...rest }: any, ref) => {
+      return (
+        <div
+          ref={ref}
+          style={{
+            ...style,
+            height: `${parseFloat(style.height) + padding}px`,
+          }}
+          {...rest}
+        />
+      )
+    })
+  }
+  return mem[padding]
 }
