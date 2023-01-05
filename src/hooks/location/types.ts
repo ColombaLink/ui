@@ -1,8 +1,8 @@
-import { parseQuery } from '@saulx/utils'
-
 export type QueryValue = string | number | boolean
 
-export type QueryParams = ReturnType<typeof parseQuery>
+export type QueryParams = {
+  [key: string]: QueryValue | QueryValue[] | { [key: string]: any }
+}
 
 export type Value = string | number | boolean
 

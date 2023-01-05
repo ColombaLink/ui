@@ -99,7 +99,7 @@ export class RouteParams {
   constructor(ctx: RouterCtx, path?: string) {
     this.ctx = ctx
     if (!path) {
-      this.parsedPath = null
+      this.parsedPath = []
       return this
     }
 
@@ -122,9 +122,7 @@ export class RouteParams {
       return true
     }
 
-    console.info('hello', this.ctx.location, this.ctx.pathChanged)
-
-    if (this.parsedPath && this.ctx.pathChanged) {
+    if (this.parsedPath.length && this.ctx.pathChanged) {
       const nParams = parseRoute(this.ctx, this.parsedPath, this.start)
       if (!deepEqual(this._pathParams, nParams)) {
         this._pathParams = nParams
@@ -149,7 +147,7 @@ export class RouteParams {
   }
 
   get path(): { [key: string]: Value } {
-    return this.parsedPath
+    return this.parsedPath.length
       ? this._pathParams ||
           (this._pathParams = parseRoute(this.ctx, this.parsedPath, this.start))
       : {}
@@ -157,7 +155,7 @@ export class RouteParams {
 
   get query(): QueryParams {
     this._usesQuery = true
-    return this.ctx.query
+    return this.ctx.query || {}
   }
 
   get hash(): string {
@@ -196,7 +194,6 @@ export class RouteParams {
     const [pathName, q] = s.split('?')
     const x = pathName.split('/')
     results.forEach((v, k) => {
-      console.info(v, k)
       x[k + this.start + 1] = v[0]
     })
     const newLocation = parseLocation(
@@ -211,9 +208,9 @@ export class RouteParams {
     return this.setLocation(newLocation)
   }
 
-  setQuery(query: QueryParams, opts): boolean {
+  setQuery(query: QueryParams, opts?: { overwrite?: boolean }): boolean {
     if (query === null) {
-      this.ctx.query = null
+      this.ctx.query = {}
     } else {
       if (opts?.overwrite) {
         this.ctx.query = query
@@ -222,6 +219,10 @@ export class RouteParams {
       }
     }
     const q = queryToString(this.ctx.query)
+    if (this.ctx.queryString === q) {
+      return true
+    }
+    this.ctx.queryString = q
     const [s] = this.ctx.location.split('#')
     const [pathName] = s.split('?')
     this.ctx.location = parseLocation(q, this.ctx.hash, pathName)
@@ -254,7 +255,7 @@ export class RouteParams {
     const [pathName, q] = s.split('?')
     this.ctx.hash = hash
     this.ctx.pathName = pathName
-    this.ctx.query = q ? parseQuery(q) : null
+    this.ctx.query = q ? parseQuery(q) || {} : {}
     this.ctx.location = location
     this.ctx.pathChanged = true
     this.ctx.updateRoute(false)

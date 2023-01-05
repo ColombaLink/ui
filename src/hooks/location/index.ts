@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -85,7 +86,7 @@ export const useRouterListeners = (path?: string): RouterCtx => {
       pathChanged: false,
       hash,
       pathName,
-      query: q ? parseQuery(q) : null,
+      query: q ? parseQuery(q) || {} : {},
       location: parseLocation(q, hash, pathName),
       updateRoute: (fromPopState) => {
         const ordered = [...componentMap.values()].sort((a, b) => {
@@ -129,15 +130,17 @@ export const useRouterListeners = (path?: string): RouterCtx => {
           routes.queryChanged = true
         }
         routes.queryString = q
-        routes.query = q ? parseQuery(q) : null
+        routes.query = q ? parseQuery(q) || {} : {}
         const newLocation = parseLocation(q, hash, pathName)
         if (newLocation !== routes.location) {
           routes.location = newLocation
           routes.updateRoute(true)
         }
       }
+      global.addEventListener('hashchange', listener)
       global.addEventListener('popstate', listener)
       return () => {
+        global.removeEventListener('hashchange', listener)
         global.removeEventListener('popstate', listener)
       }
     }
@@ -190,14 +193,12 @@ export const useRoute = (path?: string): RouteParams => {
   ctx.componentMap.set(node, {
     path: routeParams.parsedPath,
     start: routeParams.start,
-    update: () => {
+    update: useCallback(() => {
       if (routeParams.update()) {
         update()
       }
-    },
+    }, [path]),
   })
-
-  console.info('UPDATE', path)
 
   return routeParams
 }
