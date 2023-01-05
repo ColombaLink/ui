@@ -100,7 +100,7 @@ export const useRouterListeners = (path?: string): RouterCtx => {
         routes.hashChanged = false
         routes.queryChanged = false
         if (!fromPopState) {
-          // global.history.pushState(undefined, undefined, ctx.location)
+          global.history.pushState(undefined, undefined, ctx.location)
         }
       },
       rootPath: p,
