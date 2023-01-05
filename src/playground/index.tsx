@@ -93,6 +93,7 @@ const menuItems = {
     ExpandableList: '?story=ExpandableLists',
     // InfiniteList: '?story=InfiniteLists',
     // Lists: '?story=lists',
+    CustomLists: '?story=CustomLists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',

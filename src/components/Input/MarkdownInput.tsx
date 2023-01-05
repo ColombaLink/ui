@@ -4,6 +4,7 @@ import { color, Text, usePropState } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markdown'
+import 'prismjs/components/prism-javascript'
 
 const StyledMarkdownInput = styled('div', {
   border: `1px solid ${color('border')}`,
@@ -43,7 +44,14 @@ export const MarkdownInput = ({
             // onChange(code)
             onChange({ target: { value: code } })
           }}
-          highlight={(code) => highlight(code, languages.markdown, 'markdown')}
+          highlight={(tempCode) => {
+            try {
+              const h = highlight(tempCode, languages.markdown)
+              return h
+            } catch (err) {
+              console.log(err)
+            }
+          }}
           style={{
             fontSize: 14,
             color: color('accent'),

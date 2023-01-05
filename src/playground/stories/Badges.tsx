@@ -19,14 +19,14 @@ export const Badges = () => {
             children: 'Another Badge',
             outline: true,
             ghost: true,
-            icon: DotIcon,
+            icon: <DotIcon />,
           },
         },
         {
           props: {
             children: 'Another one',
             color: 'green',
-            iconRight: CheckCircleIcon,
+            iconRight: <CheckCircleIcon />,
           },
         },
         {

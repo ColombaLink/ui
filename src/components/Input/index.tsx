@@ -2,22 +2,22 @@
 import React, {
   Dispatch,
   FC,
-  ReactNode,
+  FunctionComponent,
   SetStateAction,
   CSSProperties,
   RefObject,
   useState,
   useEffect,
+  ReactNode,
 } from 'react'
 import { Text, Button, ChevronDownIcon, ChevronUpIcon } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
-import { Space } from '~/types'
+import { Space, Icon } from '~/types'
 import { ColorInput } from './ColorInput'
 import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
-import { CustomRegexInput } from './CustomRegexInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
@@ -46,6 +46,7 @@ const Multi = ({ style, inputRef, ...props }) => {
           resize: 'none',
           paddingTop: 8,
           minHeight: 84,
+          paddingLeft: 12,
           outline: inputFocus
             ? `3px solid rgba(44, 60, 234, 0.2)`
             : `3px solid transparent`,
@@ -88,11 +89,11 @@ type InputProps = {
   digest?: boolean
   description?: string
   descriptionBottom?: string
-  optional?: boolean
+  //  optional?: boolean
   value?: string | number
   // integer?: boolean
-  icon?: FC | ReactNode
-  iconRight?: FC | ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
   indent?: boolean
   defaultValue?: string | number
   placeholder?: string
@@ -284,17 +285,27 @@ export const Input: FC<
 
   useEffect(() => {
     //  check for error pas als de focus weg is
+    if (!customRegex && !pattern) {
+      const msg = error?.(value)
 
-    const msg = error?.(value)
-
-    if (msg) {
-      // add error msg
-      setErrorMessage(msg)
-    } else {
-      // remove error msg
-      setErrorMessage('')
+      if (msg) {
+        // add error msg
+        setErrorMessage(msg)
+      } else {
+        // remove error msg
+        setErrorMessage('')
+      }
     }
   }, [focused])
+
+  useEffect(() => {
+    if (customRegex && pattern) {
+      if (new RegExp(pattern).test(value) || value.length < 1) {
+        return setErrorMessage('')
+      }
+      return setErrorMessage('Does not match REGEX/pattern')
+    }
+  }, [value])
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
@@ -321,7 +332,7 @@ export const Input: FC<
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? 6 : large ? 48 : 36,
+      minHeight: ghost ? 36 : large ? 48 : 36,
       paddingLeft,
       border: ghost
         ? `0px solid transparent`
@@ -407,15 +418,18 @@ export const Input: FC<
             color: color('text'),
           }}
         >
-          {renderOrCreateElement(icon, {
-            style: {
-              position: 'absolute',
-              left: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+          {!jsonInput && !markdownInput && !multiline
+            ? renderOrCreateElement(icon, {
+                style: {
+                  position: 'absolute',
+                  left: 12,
+                  top: '50%',
+                  transform: 'translate3d(0,-50%,0)',
+                  pointerEvents: 'none',
+                },
+              })
+            : null}
+
           {colorInput ? (
             <ColorInput
               onChange={(e) => {
@@ -446,13 +460,6 @@ export const Input: FC<
             />
           ) : multiline ? (
             <Multi {...props} />
-          ) : customRegex ? (
-            <CustomRegexInput
-              pattern={pattern}
-              errorMessage={errorMessage}
-              value={value}
-              onChange={onChange}
-            />
           ) : digest ? (
             <DigestInput
               {...props}
@@ -555,15 +562,17 @@ export const Input: FC<
               </styled.div>
             </div>
           )}
-          {renderOrCreateElement(iconRight, {
-            style: {
-              position: 'absolute',
-              right: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })}
+          {!jsonInput && !markdownInput && !multiline
+            ? renderOrCreateElement(iconRight, {
+                style: {
+                  position: 'absolute',
+                  right: 12,
+                  top: '50%',
+                  transform: 'translate3d(0,-50%,0)',
+                  pointerEvents: 'none',
+                },
+              })
+            : null}
         </div>
 
         {maxChars && (

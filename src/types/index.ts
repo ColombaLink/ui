@@ -12,7 +12,25 @@ import {
 import { IconProps } from '../components/Icon'
 export type { Color, ColorVariant, AccentColor } from '../utils/color'
 
-type SizeInt = 11 | 12 | 13 | 14 | 15 | 16 | 18 | 20 | 22 | 24 | 32 | 36
+type SizeInt =
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16
+  | 18
+  | 20
+  | 22
+  | 24
+  | 32
+  | 36
+  | 40
+  | 48
+  | 64
 export type Size = `${SizeInt}px` | SizeInt
 
 type WeightInt = 400 | 500 | 600 | 700

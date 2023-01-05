@@ -7,6 +7,8 @@ import {
   GeoMarkerIcon,
   usePropState,
   Text,
+  Callout,
+  WarningIcon,
 } from '~'
 import { styled } from 'inlines'
 import { Space } from '~/types'
@@ -37,10 +39,26 @@ type GeoInputProps = {
 }
 
 const GeoAddressInput = ({ lat, lng, token, onChange }) => {
+  const [tokenIsValid, setTokenIsValid] = useState(false)
+
   const ref = useRef()
 
+  // check if token is valid
   useEffect(() => {
-    if (token) {
+    fetch(
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/.json?access_token=${token}`
+    ).then((res) => {
+      if (res.status === 200) {
+        setTokenIsValid(true)
+        return res.json()
+      } else {
+        throw new Error('Token is not valid')
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (tokenIsValid) {
       const geocoder = new MapboxGeocoder({
         accessToken: token,
         types: 'country,region,place,postcode,locality,neighborhood',
@@ -62,21 +80,24 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
         }
       )
 
-      geocoder.addTo(ref.current)
+      geocoder.addTo(ref?.current)
     }
-  }, [token])
+  }, [tokenIsValid])
 
   useEffect(() => {
     if (typeof lat === 'number' && typeof lng === 'number') {
       fetch(
         `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${token}`
       )
-        .then((res) => res.json())
+        .then((res) => {
+          return res.json()
+        })
         .then((data) => {
           const geoInputField = document.querySelector(
             '.mapboxgl-ctrl-geocoder--input'
           )
           geoInputField?.setAttribute('value', data.features[0].place_name)
+          console.log('fire this data', data)
         })
         .catch((error) => {
           console.log('Not A Place', error)
@@ -85,67 +106,76 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
   }, [lat, lng, token])
 
   return (
-    <styled.div
-      style={{
-        marginBottom: 12,
-        border: `1px solid ${color('border')}`,
-        borderRadius: 8,
-        // maxWidth: '80%',
-        '& .mapboxgl-ctrl-geocoder': {
-          width: '100%',
-          maxWidth: '100%',
-          borderRadius: '8px',
-          backgroundColor: 'transparent',
-          boxShadow: `0px 1px 4px ${color('background2')}`,
-        },
-        '& .mapboxgl-ctrl-geocoder .suggestions': {
-          boxShadow: 'none',
-          backgroundColor: color('background'),
-          color: color('text'),
-        },
-        '& .mapboxgl-ctrl-geocoder--input': {
-          padding: '10px !important',
-          width: '100%',
-          fontSize: '14px',
-          borderRadius: '8px',
-          fontWeight: 400,
-          backgroundColor: color('background'),
-          color: color('text'),
-          // pointerEvents: disabled ? 'none' : 'auto',
-        },
-        '& .mapboxgl-ctrl-geocoder svg': {
-          display: 'none',
-        },
-        '& .mapboxgl-ctrl-geocoder--input:focus': {
-          // outline: `2px solid ${color('accent')}`,
-          border: `1px solid ${color('accent')}`,
-          borderRadius: '8px',
-          color: color('text'),
-          outline: `3px solid rgba(44, 60, 234, 0.2)`,
-        },
-        '& .suggestions': {
+    <>
+      {!tokenIsValid && (
+        <Callout
+          color="red"
+          icon={<WarningIcon />}
+          label=" Your Mapbox access token might be invalid"
+        />
+      )}
+      <styled.div
+        style={{
+          marginBottom: 12,
           border: `1px solid ${color('border')}`,
-          borderTopLeftRadius: '0px',
-          borderTopRightRadius: '0px',
-          marginTop: ' -4px',
-          paddingBottom: '6px',
-        },
-        '& .mapboxgl-ctrl-geocoder--powered-by': {
-          display: 'none !important',
-        },
-        '& .mapboxgl-ctrl-geocoder--suggestion-title': {
-          color: color('text'),
-        },
-        '& .mapboxgl-ctrl-geocoder--suggestion-address': {
-          color: color('text2'),
-        },
-        '& .mapboxgl-ctrl-geocoder .suggestions > .active > a, .mapboxgl-ctrl-geocoder .suggestions > li > a:hover':
-          {
-            backgroundColor: color('background2'),
+          borderRadius: 8,
+          // maxWidth: '80%',
+          '& .mapboxgl-ctrl-geocoder': {
+            width: '100%',
+            maxWidth: '100%',
+            borderRadius: '8px',
+            backgroundColor: 'transparent',
+            boxShadow: `0px 1px 4px ${color('background2')}`,
           },
-      }}
-      ref={ref}
-    />
+          '& .mapboxgl-ctrl-geocoder .suggestions': {
+            boxShadow: 'none',
+            backgroundColor: color('background'),
+            color: color('text'),
+          },
+          '& .mapboxgl-ctrl-geocoder--input': {
+            padding: '10px !important',
+            width: '100%',
+            fontSize: '14px',
+            borderRadius: '8px',
+            fontWeight: 400,
+            backgroundColor: color('background'),
+            color: color('text'),
+            // pointerEvents: disabled ? 'none' : 'auto',
+          },
+          '& .mapboxgl-ctrl-geocoder svg': {
+            display: 'none',
+          },
+          '& .mapboxgl-ctrl-geocoder--input:focus': {
+            // outline: `2px solid ${color('accent')}`,
+            border: `1px solid ${color('accent')}`,
+            borderRadius: '8px',
+            color: color('text'),
+            outline: `3px solid rgba(44, 60, 234, 0.2)`,
+          },
+          '& .suggestions': {
+            border: `1px solid ${color('border')}`,
+            borderTopLeftRadius: '0px',
+            borderTopRightRadius: '0px',
+            marginTop: ' -4px',
+            paddingBottom: '6px',
+          },
+          '& .mapboxgl-ctrl-geocoder--powered-by': {
+            display: 'none !important',
+          },
+          '& .mapboxgl-ctrl-geocoder--suggestion-title': {
+            color: color('text'),
+          },
+          '& .mapboxgl-ctrl-geocoder--suggestion-address': {
+            color: color('text2'),
+          },
+          '& .mapboxgl-ctrl-geocoder .suggestions > .active > a, .mapboxgl-ctrl-geocoder .suggestions > li > a:hover':
+            {
+              backgroundColor: color('background2'),
+            },
+        }}
+        ref={ref}
+      />
+    </>
   )
 }
 

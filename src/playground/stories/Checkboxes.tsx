@@ -26,7 +26,7 @@ export const Checkboxes = () => {
             label: 'Check it out',
             description: 'Checkbox description',
             checked: true,
-            size: 'sm',
+            small: true,
           },
         },
         {

@@ -29,6 +29,7 @@ type ProviderProps = {
   path?: string
 }
 
+// @ts-ignore
 export const RouterContext = createContext<RouterCtx>({
   rootPath: [],
   componentMap: new Map(),

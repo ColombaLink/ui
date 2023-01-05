@@ -1,12 +1,18 @@
-import React, { CSSProperties, FC, ReactNode, useState } from 'react'
-import { Space, Color } from '~/types'
+import React, {
+  CSSProperties,
+  FC,
+  ReactNode,
+  useState,
+  FunctionComponent,
+} from 'react'
+import { Space, Color, Icon } from '~/types'
 import { Label } from '../Label'
 import { border, color, spaceToPx } from '~/utils'
 import { CloseIcon } from '~/icons'
 
 type CalloutProps = {
   children?: ReactNode
-  icon?: FC | ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
   outline?: boolean
   color?: Color
   label?: string
@@ -16,7 +22,7 @@ type CalloutProps = {
   space?: Space
   style?: CSSProperties
   closeable?: boolean
-  textAlign?: 'center' | 'right'
+  textAlign?: 'center' | 'right' | 'left'
 }
 
 export const Callout: FC<CalloutProps> = ({

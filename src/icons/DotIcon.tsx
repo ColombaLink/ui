@@ -1,4 +1,4 @@
-import React, { CSSProperties, HTMLProps } from 'react'
+import React, { CSSProperties } from 'react'
 import { Color } from '~/types'
 import { color } from '~/utils'
 

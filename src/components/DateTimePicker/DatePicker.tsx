@@ -8,6 +8,8 @@ type DatePickerProps = {
   setShowDatePicker?: (value: boolean) => void
   setFocused?: (value: boolean) => void
   clearHandler?: () => void
+  fromValue?: string
+  tillValue?: string
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -37,8 +39,13 @@ export const DatePicker = ({
   setShowDatePicker,
   setFocused,
   clearHandler,
+  fromValue,
+  tillValue,
 }: DatePickerProps) => {
   const dateObj = new Date()
+
+  // console.log('TILL VALUE UIT DE PICKER -->', tillValue)
+  // console.log('from VALUE UIT DE PICKER', fromValue)
 
   // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -58,8 +65,6 @@ export const DatePicker = ({
     'December',
   ]
 
-  // console.log('INPUT VALUE UIT DE PICKER', inputValue)
-
   const currentDay = dateObj.getDate()
   const currentMonth = dateObj.getMonth()
   const currentYear = dateObj.getFullYear()
@@ -67,8 +72,19 @@ export const DatePicker = ({
   const [selectedDay, setSelectedDay] = useState(currentDay)
   const [selectedMonth, setSelectedMonth] = useState(currentMonth)
   const [selectedYear, setSelectedYear] = useState(currentYear)
-
   const [presentDay] = useState(currentDay)
+
+  // FROM
+  const [fromDay, setFromDay] = useState(+fromValue?.split('/')[0])
+  const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
+  const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
+  // console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
+
+  // TILL
+  const [tillDay, setTillDay] = useState(+tillValue?.split('/')[0])
+  const [tillMonth, setTillMonth] = useState(+tillValue?.split('/')[1])
+  const [tillYear, setTillYear] = useState(+tillValue?.split('/')[2])
+  // console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
 
   const datePickerRef = useRef(null)
 
@@ -112,7 +128,22 @@ export const DatePicker = ({
     setSelectedDay(+inputValue?.split('/')[0])
     setSelectedMonth(+inputValue?.split('/')[1])
     setSelectedYear(+inputValue?.split('/')[2])
+
+    // set from and till values again
+    if (fromValue) {
+      setFromDay(+fromValue?.split('/')[0])
+      setFromMonth(+fromValue?.split('/')[1])
+      setFromYear(+fromValue?.split('/')[2])
+    }
+
+    if (tillValue) {
+      setTillDay(+tillValue?.split('/')[0])
+      setTillMonth(+tillValue?.split('/')[1])
+      setTillYear(+tillValue?.split('/')[2])
+    }
   }, [inputValue])
+
+  useEffect(() => {}, [inputValue])
 
   const [daysArr, setDaysArr] = useState([])
 
@@ -184,8 +215,12 @@ export const DatePicker = ({
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
 
+    // console.log('selectedMonth', selectedMonth)
+    // console.log('selectedYear', selectedYear)
+    // console.log('selectedDay', selectedDay)
+
     // console.log(
-    //   'whats this than slut',
+    //   'whats this?',
     //   days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
     // )
 
@@ -223,6 +258,34 @@ export const DatePicker = ({
 
     setDaysArr(tempArr)
   }, [selectedMonth])
+
+  const makeDateForComparison = (year, month, day) => {
+    if (day < 10) {
+      day = `0${day}`
+    }
+    if (month < 10) {
+      month = `0${month}`
+    }
+    // return de datum in milliseconds
+    return Date.parse(`${year}-${month}-${day}`)
+  }
+
+  // use for styling the ranged days divs
+  const isRangedDay = (year, month, day) => {
+    return (
+      makeDateForComparison(year, month, day) >
+        makeDateForComparison(fromYear, fromMonth, fromDay) &&
+      makeDateForComparison(year, month, day) <
+        makeDateForComparison(tillYear, tillMonth, tillDay) &&
+      makeDateForComparison(selectedYear, selectedMonth, selectedDay)
+    )
+  }
+  const isFromDay = (year, month, day) => {
+    return day === fromDay && month === fromMonth && year === fromYear
+  }
+  const isTillDay = (year, month, day) => {
+    return day === tillDay && month === tillMonth && year === tillYear
+  }
 
   return (
     <StyledDatePickerBox ref={datePickerRef}>
@@ -295,13 +358,51 @@ export const DatePicker = ({
                   selectedYear === currentYear
                     ? `1px solid ${color('accent')}`
                     : '',
-                background: val.day === selectedDay ? color('accent') : '',
+                background:
+                  val.day === selectedDay ||
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
+                    ? color('accent')
+                    : isRangedDay(val.year, val.month, val.day)
+                    ? color('lightaccent')
+                    : '',
                 color:
-                  val.day === selectedDay ? color('background') : color('text'),
-                borderRadius: 4,
-                width: 26,
+                  val.day === selectedDay ||
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
+                    ? color('background')
+                    : color('text'),
+                borderRadius: isFromDay(val.year, val.month, val.day)
+                  ? '4px 0px 0px 4px'
+                  : isTillDay(val.year, val.month, val.day)
+                  ? '0px 4px 4px 0px'
+                  : isRangedDay(val.year, val.month, val.day)
+                  ? 0
+                  : 4,
+
+                width: isRangedDay(val.year, val.month, val.day)
+                  ? 34
+                  : isFromDay(val.year, val.month, val.day) ||
+                    isTillDay(val.year, val.month, val.day)
+                  ? 32
+                  : 26,
                 height: 26,
                 margin: 4,
+                marginLeft:
+                  isRangedDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
+                    ? 0
+                    : isFromDay(val.year, val.month, val.day)
+                    ? 2
+                    : 4,
+                marginRight:
+                  isRangedDay(val.year, val.month, val.day) ||
+                  isFromDay(val.year, val.month, val.day)
+                    ? 0
+                    : isTillDay(val.year, val.month, val.day)
+                    ? 2
+                    : 4,
+
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',

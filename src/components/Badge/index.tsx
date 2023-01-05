@@ -2,24 +2,25 @@ import React, {
   CSSProperties,
   FC,
   ReactNode,
-  MouseEventHandler,
+  SyntheticEvent,
+  FunctionComponent,
   useCallback,
 } from 'react'
 import { border, color, renderOrCreateElement } from '~/utils'
-import { AccentColor } from '~/types'
+import { Color, Icon } from '~/types'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
 type BadgeProps = {
   children: ReactNode
   style?: CSSProperties
-  icon?: FC | ReactNode
-  iconRight?: FC | ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
   outline?: boolean
-  color?: AccentColor
+  color?: Color
   boxed?: boolean
   ghost?: boolean
-  onClick?: MouseEventHandler<Element> | boolean | any
+  onClick?: (() => void) | boolean
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -38,22 +39,23 @@ export const Badge: FC<BadgeProps> = ({
   // make this into a hook
   return (
     <styled.div
-      onClick={
-        onClick
-          ? useCallback(
-              (e) => {
-                // TODO check with Maarten if we want this animation
-                const t = e.currentTarget
-                t.style.transform = 'scale(1.15)'
-                setTimeout(() => {
-                  t.style.transform = 'scale(1)'
-                }, 100)
-                onClick(e)
-              },
-              [onClick]
-            )
-          : null
-      }
+      // onClick={
+      //   onClick
+      //     ? useCallback(
+      //         (e) => {
+      //           // TODO check with Maarten if we want this animation
+      //           const t = e.currentTarget
+      //           t.style.transform = 'scale(1.15)'
+      //           setTimeout(() => {
+      //             t.style.transform = 'scale(1)'
+      //           }, 100)
+      //           onClick(e)
+      //         },
+      //         [onClick]
+      //       )
+      //     : null
+      // }
+      onClick={onClick}
       style={{
         transition: 'transform 0.15s',
         transform: 'scale(1)',

@@ -105,7 +105,9 @@ export const JsonInput = ({
               const h = highlight(tempCode, languages.json)
 
               return h
-            } catch (err) {}
+            } catch (err) {
+              console.log(err)
+            }
           }}
           style={{
             fontSize: 14,

@@ -1,13 +1,13 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
-import { Color, Size, Space } from '~/types'
+import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
+import { Color, Size, Space, Icon } from '~/types'
 import { color, spaceToPx, renderOrCreateElement, boxShadow } from '~/utils'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
 type ThumbnailProps = {
-  size?: 32 | 36 | 40 | 48 | 64
+  size?: Size
   img?: string
-  icon?: FC | ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
   color?: Color
   space?: Space
   style?: CSSProperties
@@ -72,7 +72,11 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         </CounterBadge>
       )}
       {label ? (
-        <Text color="inherit" size={(size / 2) as Size}>
+        <Text
+          color="inherit"
+          size={(+size / 2) as Size}
+          style={{ lineHeight: '32px' }}
+        >
           {label[0].toUpperCase() + label[1].toUpperCase()}
         </Text>
       ) : icon ? (

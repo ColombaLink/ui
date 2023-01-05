@@ -56,7 +56,7 @@ const Reference = ({ id }) => {
     >
       <Badge
         color="text"
-        onClick={id !== 'root' ? copy : null}
+        onClick={(id as any) !== 'root' ? (copy as any) : null}
         icon={id !== 'root' ? <CopyIcon /> : null}
       >
         {id}

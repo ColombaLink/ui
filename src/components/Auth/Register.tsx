@@ -2,10 +2,10 @@ import React, { FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { useClient } from '@based/react'
-import { EmailIcon, LockIcon, CheckIcon, CloseIcon, ErrorIcon } from '~/icons'
+import { LockIcon, CheckIcon, CloseIcon, ErrorIcon } from '~/icons'
 import { Callout } from '../Callout'
 import { email as isEmail, validatePassword } from '@saulx/validators'
-import { border, color } from '~/utils'
+import { border, color, renderOrCreateElement } from '~/utils'
 import { Separator } from '../Separator'
 import { GoogleButton } from './GoogleButton'
 import { MicrosoftButton } from './MicrosoftButton'
@@ -153,13 +153,11 @@ export const Register: FC<RegisterProps> = ({
         <Input
           large
           icon={
-            !cpassword ? (
-              LockIcon
-            ) : passwordIsValid ? (
-              <CheckIcon color="green" />
-            ) : (
-              <CloseIcon color="red" />
-            )
+            !cpassword
+              ? LockIcon
+              : passwordIsValid
+              ? renderOrCreateElement(CheckIcon, { color: 'green' })
+              : renderOrCreateElement(CloseIcon, { color: 'red' })
           }
           space
           passwordInput
@@ -191,7 +189,7 @@ export const Register: FC<RegisterProps> = ({
 
         <Callout
           space
-          icon={PasswordIcon({ color: passWordColor })}
+          icon={renderOrCreateElement(PasswordIcon, { color: passWordColor })}
           label={
             passwordScore.entropy < 50
               ? 'Password is too weak, add capitals, symbols or make it longer'
