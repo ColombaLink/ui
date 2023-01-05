@@ -1,0 +1,263 @@
+import { parseQuery, deepEqual, deepMerge } from '@saulx/utils'
+import { QueryValue, QueryParams, PathParams, RouterCtx, Value } from './types'
+
+const parseRoute = (
+  ctx: RouterCtx,
+  path: { vars: string[]; matcher: RegExp }[],
+  start: number
+): PathParams => {
+  const params = {}
+  const segs = ctx.pathName.split('/').slice(1)
+  for (let i = start; i < path.length + start; i++) {
+    const seg = segs[i]
+    const { vars, matcher } = path[i - start]
+    if (seg) {
+      const pSeg = segs[i].match(matcher)
+      if (pSeg) {
+        for (let x = 1; x < pSeg.length; x++) {
+          params[vars[x - 1]] = pSeg[x]
+        }
+      }
+    }
+  }
+  return params
+}
+
+const toQValue = (
+  q: QueryValue | QueryValue[] | { [key: string]: any }
+): string => {
+  if (typeof q === 'string') {
+    return q
+  }
+
+  if (typeof q === 'boolean') {
+    return !q ? 'false' : 'true'
+  }
+
+  if (typeof q === 'number') {
+    return String(q)
+  }
+
+  if (typeof q === 'number') {
+    return String(q)
+  }
+
+  if (q === null) {
+    return 'null'
+  }
+
+  if (Array.isArray(q)) {
+    return q
+      .map((v) => {
+        if (typeof v === 'object' && v !== null) {
+          return JSON.stringify(v)
+        }
+        return toQValue(v)
+      })
+      .join(',')
+  }
+
+  if (typeof q === 'object') {
+    return JSON.stringify(q)
+  }
+
+  return ''
+}
+
+const queryToString = (q: QueryParams): string => {
+  if (!q) {
+    return ''
+  }
+  let str = ''
+  for (const key in q) {
+    str += `&${key}=${toQValue(q[key])}`
+  }
+  return str.slice(1)
+}
+
+const parseLocation = (q: string, hash: string, pathName: string): string => {
+  return q && hash
+    ? pathName + '?' + q + '#' + hash
+    : q
+    ? pathName + '?' + q
+    : hash
+    ? pathName + '#' + hash
+    : pathName
+}
+
+const matchVars = /\[.*?\]/g
+
+export class RouteParams {
+  public start: number
+  public ctx: RouterCtx
+  private _pathParams: PathParams
+  private _usesQuery: boolean
+  private _usesLocation: boolean
+  private _usesHash: boolean
+  public parsedPath: { vars: string[]; matcher: RegExp; seg: string }[]
+
+  constructor(ctx: RouterCtx, path?: string) {
+    this.ctx = ctx
+    if (!path) {
+      this.parsedPath = null
+      return this
+    }
+
+    const p = path.split('/')
+    this.parsedPath = []
+    for (const seg of p) {
+      const matchers = seg.match(matchVars)
+      const matcher = new RegExp(seg.replace(matchVars, '(.+)'))
+      const vars = matchers ? matchers.map((v) => v.slice(1, -1)) : []
+      this.parsedPath.push({
+        vars,
+        matcher,
+        seg,
+      })
+    }
+  }
+
+  update(): boolean {
+    if (this._usesLocation) {
+      return true
+    }
+
+    console.info('hello', this.ctx.location, this.ctx.pathChanged)
+
+    if (this.parsedPath && this.ctx.pathChanged) {
+      const nParams = parseRoute(this.ctx, this.parsedPath, this.start)
+      if (!deepEqual(this._pathParams, nParams)) {
+        this._pathParams = nParams
+        return true
+      }
+    }
+
+    if (this._usesQuery && this.ctx.queryChanged) {
+      return true
+    }
+
+    if (this._usesHash && this.ctx.hashChanged) {
+      return true
+    }
+
+    return false
+  }
+
+  get location(): string {
+    this._usesLocation = true
+    return this.ctx.location
+  }
+
+  get path(): { [key: string]: Value } {
+    return this.parsedPath
+      ? this._pathParams ||
+          (this._pathParams = parseRoute(this.ctx, this.parsedPath, this.start))
+      : {}
+  }
+
+  get query(): QueryParams {
+    this._usesQuery = true
+    return this.ctx.query
+  }
+
+  get hash(): string {
+    this._usesHash = true
+    return this.ctx.hash
+  }
+
+  setPath(p: { [key: string]: Value }): boolean {
+    if (this._pathParams)
+      if (deepEqual(this._pathParams, p)) {
+        return false
+      }
+    const results: Map<number, [string, Set<string>]> = new Map()
+    for (let i = this.parsedPath.length - 1; i > -1; i--) {
+      const parsed = this.parsedPath[i]
+      for (const key in p) {
+        if (parsed.vars.includes(key)) {
+          if (!results.has(i)) {
+            results.set(i, [parsed.seg, new Set()])
+          }
+          const r = results.get(i)
+          r[0] = r[0].replaceAll(`[${key}]`, String(p[key]))
+          r[1].add(key)
+        }
+      }
+      if (results.has(i)) {
+        const r = results.get(i)
+        for (const v of parsed.vars) {
+          if (!r[1].has(v)) {
+            r[0] = r[0].replaceAll(`[${v}]`, String(this._pathParams[v] || ''))
+          }
+        }
+      }
+    }
+    const [s, hash = ''] = this.ctx.location.split('#')
+    const [pathName, q] = s.split('?')
+    const x = pathName.split('/')
+    results.forEach((v, k) => {
+      console.info(v, k)
+      x[k + this.start + 1] = v[0]
+    })
+    const newLocation = parseLocation(
+      q,
+      hash,
+      x
+        .map((v) =>
+          v === undefined ? '' : typeof v === 'object' ? JSON.stringify(v) : v
+        )
+        .join('/')
+    )
+    return this.setLocation(newLocation)
+  }
+
+  setQuery(query: QueryParams, opts): boolean {
+    if (query === null) {
+      this.ctx.query = null
+    } else {
+      if (opts?.overwrite) {
+        this.ctx.query = query
+      } else {
+        deepMerge(this.ctx.query || {}, query)
+      }
+    }
+    const q = queryToString(this.ctx.query)
+    const [s] = this.ctx.location.split('#')
+    const [pathName] = s.split('?')
+    this.ctx.location = parseLocation(q, this.ctx.hash, pathName)
+    this.ctx.queryChanged = true
+    this.ctx.updateRoute(false)
+    return true
+  }
+
+  setHash(hash: string): boolean {
+    if (hash === this.ctx.hash) {
+      return false
+    }
+    if (!hash) {
+      this.ctx.hash = ''
+    }
+    this.ctx.hash = hash
+    const [s] = this.ctx.location.split('#')
+    const [pathName, q] = s.split('?')
+    this.ctx.location = parseLocation(q, hash, pathName)
+    this.ctx.hashChanged = true
+    this.ctx.updateRoute(false)
+    return true
+  }
+
+  setLocation(location: string): boolean {
+    if (location === this.ctx.location) {
+      return false
+    }
+    const [s, hash = ''] = location.split('#')
+    const [pathName, q] = s.split('?')
+    this.ctx.hash = hash
+    this.ctx.pathName = pathName
+    this.ctx.query = q ? parseQuery(q) : null
+    this.ctx.location = location
+    this.ctx.pathChanged = true
+    this.ctx.updateRoute(false)
+    return true
+  }
+}
