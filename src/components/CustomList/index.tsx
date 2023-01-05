@@ -3,6 +3,7 @@ import React, { forwardRef } from 'react'
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { SelectableCollection } from '~/hooks'
+import { ListItem } from './ListItem'
 
 const PADDING_SIZE = 10
 
@@ -34,7 +35,7 @@ export const CustomList = (props) => {
               itemSize={40}
               style={{ padding: 10 }}
             >
-              {testItem}
+              {ListItem}
             </FixedSizeList>
           </SelectableCollection>
         )

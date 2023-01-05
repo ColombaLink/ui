@@ -1,33 +1,20 @@
-import React, { CSSProperties, ReactNode } from 'react'
-import { Space } from '~/types'
-import { spaceToPx, color } from '~/utils'
+import React, { CSSProperties } from 'react'
 
 type ListItemProps = {
-  itemSize?: number
-  space?: Space
-  children?: ReactNode
+  index?: number
+
   style?: CSSProperties
 }
 
-export const ListItem = ({
-  itemSize = 56,
-  children,
-  space = 12,
-  style,
-}: ListItemProps) => {
+export const ListItem = ({ index, style }: ListItemProps) => {
   return (
     <div
       style={{
-        borderRadius: 4,
-        display: 'flex',
-        maxHeight: itemSize - spaceToPx(space),
-        alignItems: 'center',
-        border: `1px solid ${color('border')}`,
-        background: color('background2dp'),
+        backgroundColor: index % 2 === 0 ? 'lightblue' : '#f6f6f6',
         ...style,
       }}
     >
-      {children}
+      testing item {index}
     </div>
   )
 }
