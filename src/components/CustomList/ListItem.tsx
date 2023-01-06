@@ -23,7 +23,7 @@ export const ListItem = ({
     showIndex,
     isActive: isActiveFn,
   } = context
-  console.log('data', context)
+  // console.log('data', context)
 
   const ref = useRef<any>()
 
@@ -94,10 +94,11 @@ export const ListItem = ({
     }, [isDragOver, onDrop, isDropLoading])
   }
 
-  console.log('drop', drop, isDragOver, isDropLoading)
+  // console.log('drop', drop, 'DRAGOVER???', isDragOver)
 
+  // add style here to avoid the flickering error
   return (
-    <div style={{ border: '1px solid grey' }} {...drop}>
+    <div style={{ border: '1px solid grey', ...style }} {...drop}>
       {onDrop ? (
         <div
           style={{

@@ -8,7 +8,9 @@ import { ListItem } from './ListItem'
 
 export const CustomList = (props) => {
   let { items = [], activeId } = props
-  console.log('items', items)
+  console.log('items --> from inside the list', items)
+  console.log('activeId --> from inside the list', activeId)
+
   return (
     <AutoSizer>
       {({ height, width }) => {
@@ -21,7 +23,7 @@ export const CustomList = (props) => {
               innerElementType={getElementType(0, 0)}
               itemCount={items.length}
               itemSize={40}
-              style={{}}
+              style={{ background: 'yellow' }}
               itemData={{ items, context, ...props }}
               {...useDragScroll(true)}
             >
