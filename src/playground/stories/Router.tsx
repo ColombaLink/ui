@@ -121,7 +121,7 @@ const PowerRoute = () => {
 }
 
 const TestRoute = () => {
-  const X = useRoute('flapper[snurp]/[snap]!!!!!')
+  const X = useRoute('flapper[snurp]/[snap]-myflurperions/yes/no/ok!')
   // console.info(X) -- update control
   return (
     <div>
@@ -149,6 +149,8 @@ const TestRoute = () => {
       <Button
         onClick={() => {
           X.setQuery({
+            x: [1, 2, 3, 4],
+            y: { x: 123 },
             best: Math.round(Math.random() * 1000),
           })
         }}

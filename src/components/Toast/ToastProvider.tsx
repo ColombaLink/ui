@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import { ToastContext, ToastContextType } from './ToastContext'
+import { styled } from 'inlines'
+import { color, boxShadow } from '~/utils'
+import { Text } from '../Text'
 
 export const ToastContainer = ({
   id,
@@ -64,6 +67,8 @@ export const ToastProvider = ({
   const [length, setLength] = useState(0)
   const [toastHeightY, setToastHeightY] = useState(90)
 
+  const [postionFlipped, setPositionFlipped] = useState(false)
+
   const positionRef = useRef<typeof position>()
   const positionStyleRef = useRef<PositionStyleProps>()
   const toastsRef = useRef<Toast[]>()
@@ -118,16 +123,16 @@ export const ToastProvider = ({
     }
 
     toast.useCount = () => {
-      const [state, setState] = useState(length)
+      const [toastCount, setToastCount] = useState(length)
 
       useEffect(() => {
-        listeners.add(setState)
+        listeners.add(setToastCount)
         return () => {
-          listeners.delete(setState)
+          listeners.delete(setToastCount)
         }
       }, [])
 
-      return state
+      return toastCount
     }
 
     toastRef.current = toast
@@ -155,9 +160,22 @@ export const ToastProvider = ({
     positionStyleRef.current = positionStyle
   }
 
-  const toasts = toastsRef.current.map(({ id, children }, index) => {
-    console.log(id, children, index)
+  const CounterBadge = styled('div', {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    border: `1px solid ${color('border')}`,
+    backgroundColor: color('background'),
+    position: 'absolute',
+    right: -10,
+    top: -10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: boxShadow('small'),
+  })
 
+  const toasts = toastsRef.current.map(({ id, children }, index) => {
     let y = index * toastHeightY
 
     if ('bottom' in positionStyleRef.current) {
@@ -168,19 +186,38 @@ export const ToastProvider = ({
       <div
         key={id}
         ref={toastyRef}
+        onClick={() => {
+          // close all toasts if more then 8
+          postionFlipped && toastRef.current.close()
+        }}
         style={{
           // TODO FIX THIS
-          zIndex: 99999999999,
+          //     zIndex: 99999999999,
+          top: postionFlipped ? 15 : '',
           position: fixed ? 'fixed' : 'absolute',
           transform: `translate3d(0,${y}px,0)`,
-          transition: 'transform 0.3s',
+          transition: postionFlipped ? '' : 'transform 0.3s',
           ...positionStyleRef.current,
         }}
       >
         {children}
+        {postionFlipped && (
+          <CounterBadge>
+            <Text typo="caption600">{length}</Text>
+          </CounterBadge>
+        )}
       </div>
     )
   })
+
+  useEffect(() => {
+    if (length > 8) {
+      setPositionFlipped(true)
+    }
+    if (length === 0) {
+      setPositionFlipped(false)
+    }
+  }, [length])
 
   useEffect(() => {
     // @ts-ignore

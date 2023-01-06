@@ -36,6 +36,7 @@ export const ListItem = ({
   }
 
   const [drag, isDragging] = draggable ? useDrag(wrappedData, ref) : [{}, false]
+
   const [select, isSelected] = useSelect(wrappedData)
   const [drop, isDragOver, isDropLoading] = useDrop(
     useCallback(
@@ -98,7 +99,13 @@ export const ListItem = ({
 
   // add style here to avoid the flickering error
   return (
-    <div style={{ border: '1px solid grey', ...style }} {...drop}>
+    <div
+      style={{ border: '1px solid grey', ...style }}
+      {...drop}
+      // onDragStart={() => {
+      //   console.log('dragstart', index)
+      // }}
+    >
       {onDrop ? (
         <div
           style={{

@@ -25,6 +25,9 @@ export const CustomLists = () => {
           listData.splice(data.targetIndex, 0, ...data.data)
           console.log('list length -->', listData.length)
         }}
+        onDrag={(e, data) => {
+          console.log('dragstart', e, data)
+        }}
       />
     </div>
   )
