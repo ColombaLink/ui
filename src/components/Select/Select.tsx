@@ -69,14 +69,12 @@ export const Select: FC<SelectProps> = ({
   })
   let labelValue: ReactNode = currentValue
 
-  useEffect(() => {
-    if (openedRef.current) {
-      if (currentValue !== value) {
-        // TODO: Fix this type
-        onChange?.(currentValue as Value)
-      }
-    }
-  }, [currentValue, onChange])
+    useEffect(() => {
+        if (openedRef.current) {
+            // TODO: Fix this type
+            onChange?.(currentValue as Value)
+        }
+    }, [currentValue, onChange])
 
   if (currentValue) {
     for (const opt of options) {
