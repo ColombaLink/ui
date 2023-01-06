@@ -80,6 +80,11 @@ null,
         if (openedRef.current) {
             if (isFirstRender) {
                 setIsFirstRender(false);
+                // but if user deselects the default option as a first action,
+                // then we will trigger onChange 
+                if (!currentValue) {
+                    onChange?.(currentValue as Value)
+                }
                 return
             }
             // TODO: Fix this type
