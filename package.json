@@ -1,6 +1,6 @@
 {
   "name": "@colombalink/basedui",
-  "version": "4.0.5-cl.2",
+  "version": "4.0.5-cl.4",
   "description": "",
   "main": "dist/index.js",
   "scripts": {

@@ -62,7 +62,6 @@ export const Select: FC<SelectProps> = ({
   disableReselect,
 }) => {
   const openedRef = useRef<boolean>()
-  console.log("value", value)
   const [currentValue, open] = useSelect(options, value, {
     variant: 'over',
     filterable,
@@ -75,18 +74,8 @@ null,
   )
   let labelValue: ReactNode = currentValue
 
-    const [isFirstRender, setIsFirstRender] = React.useState(true)
     useEffect(() => {
         if (openedRef.current) {
-            if (isFirstRender) {
-                setIsFirstRender(false);
-                // but if user deselects the default option as a first action,
-                // then we will trigger onChange 
-                if (!currentValue) {
-                    onChange?.(currentValue as Value)
-                }
-                return
-            }
             // TODO: Fix this type
             onChange?.(currentValue as Value)
         }
