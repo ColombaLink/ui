@@ -1,19 +1,21 @@
-import React, { CSSProperties, FC, ReactNode, SyntheticEvent } from 'react'
-import { AccentColor, Size, Space } from '~/types'
+import React, {
+  CSSProperties,
+  FC,
+  SyntheticEvent,
+  FunctionComponent,
+  ReactNode,
+} from 'react'
+import { Color, Size, Space, Icon } from '~/types'
 import { spaceToPx, renderOrCreateElement } from '~/utils'
 import { getButtonStyle } from '~'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
-type AvatarSizeInt = 24 | 32 | 36 | 40 | 64
-
-export type AvatarSize = `${AvatarSizeInt}px` | AvatarSizeInt
-
 export type AvatarProps = {
-  size?: AvatarSize
-  color?: AccentColor
+  size?: Size
+  color?: Color
   img?: string
-  icon?: FC | ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
   space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void
@@ -65,6 +67,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
           size={
             (typeof size === 'number' ? size / 2 : parseInt(size) / 2) as Size
           }
+          style={{ lineHeight: '32px' }}
         >
           {label[0].toLocaleUpperCase()}
         </Text>

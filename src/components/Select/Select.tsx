@@ -75,14 +75,17 @@ null,
   )
   let labelValue: ReactNode = currentValue
 
-  useEffect(() => {
-    if (openedRef.current) {
-      if (currentValue !== value) {
-        // TODO: Fix this type
-        onChange?.(currentValue as Value)
-      }
-    }
-  }, [currentValue, onChange])
+    const [isFirstRender, setIsFirstRender] = React.useState(true)
+    useEffect(() => {
+        if (openedRef.current) {
+            if (isFirstRender) {
+                setIsFirstRender(false);
+                return
+            }
+            // TODO: Fix this type
+            onChange?.(currentValue as Value)
+        }
+    }, [currentValue, onChange])
 
   if (currentValue) {
     for (const opt of options) {

@@ -1,7 +1,7 @@
 import React, { CSSProperties, FC, ReactNode, useEffect } from 'react'
 import { parseHref, useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
-import { color, font } from '~/utils'
+import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Avatar } from '../Avatar'
 import { Input } from '../Input'

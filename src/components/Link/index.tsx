@@ -1,22 +1,28 @@
-import React, { FC, ReactNode } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Link as WLink } from 'wouter'
 import { styled, Style } from 'inlines'
 import { parseHref } from '../../hooks/location'
 type LinkProps = {
   href?: string
   children?: ReactNode
-  style?: Style
+  style?: CSSProperties | Style
   onClick?: () => {}
 }
 
 export const Link: FC<LinkProps> = styled(
   ({ href = '/', onClick, ...props }) => {
     const parsedHref = parseHref(href)
+
     return (
       <WLink
         href={parsedHref}
         onClick={
-          parsedHref.includes('#')
+          parsedHref.includes('?')
+            ? (e) => {
+                dispatchEvent(new Event('popstate'))
+                onClick?.(e)
+              }
+            : parsedHref.includes('#')
             ? (e) => {
                 dispatchEvent(new HashChangeEvent('hashchange'))
                 onClick?.(e)

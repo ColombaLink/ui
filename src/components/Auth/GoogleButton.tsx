@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Button, GoogleIcon, color } from '~'
+import { Button, GoogleIcon } from '~'
 
 type GoogleButtonProps = {
   width?: number | string
@@ -16,7 +16,6 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
       icon={GoogleIcon}
       color="lightgrey"
       textAlign="center"
-      weight={600}
       style={{
         width,
         height: 48,

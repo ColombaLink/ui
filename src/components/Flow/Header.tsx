@@ -1,7 +1,12 @@
-import React, { FC, CSSProperties, ReactNode } from 'react'
-import { Text, ExpandIcon, ExpandRightIcon } from '~'
-import { color, renderOrCreateElement } from '~'
-import { Data, Children } from '~/types'
+import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
+import {
+  color,
+  renderOrCreateElement,
+  Text,
+  ExpandIcon,
+  ExpandRightIcon,
+} from '~'
+import { Data, Children, Icon } from '~/types'
 import { EditableTitle } from '~/components/Input/EditableTitle'
 
 export type HeaderProps = {
@@ -17,7 +22,7 @@ export type HeaderProps = {
   outline?: boolean
   paddingRight?: number
   width?: number | string
-  icon?: ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
   weight?: 400 | 500 | 600
   paddingLeft?: number
   items?: Object[]

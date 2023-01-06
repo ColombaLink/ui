@@ -5,12 +5,12 @@ import {
   Button,
   Page,
   Menu,
-  useLocation,
   Input,
   SearchIcon,
   LargeLogo,
   DarkModeIcon,
   LightModeIcon,
+  useRoute,
   ExternalLinkIcon,
   color,
 } from '../'
@@ -24,8 +24,8 @@ import basedConfig from './based.json'
 export const client = based(basedConfig)
 
 const Stories: FC = () => {
-  useLocation()
-  const story = new URLSearchParams(location.search).get('story')
+  const route = useRoute()
+  const story = route.query.story
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
@@ -93,6 +93,7 @@ const menuItems = {
     ExpandableList: '?story=ExpandableLists',
     // InfiniteList: '?story=InfiniteLists',
     // Lists: '?story=lists',
+    CustomLists: '?story=CustomLists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',

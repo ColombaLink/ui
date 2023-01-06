@@ -1,12 +1,20 @@
-import React, { useState } from 'react'
-import { Input, EyeIcon, EyeBlockedIcon, LockIcon, color } from '~'
+import React, { useState, FunctionComponent, ReactNode } from 'react'
+import {
+  Input,
+  EyeIcon,
+  EyeBlockedIcon,
+  LockIcon,
+  color,
+  renderOrCreateElement,
+} from '~'
+import { Icon } from '~/types'
 
 type PasswordInputProps = {
   value?: string
   onChange?: (target) => void
   disabled?: boolean
   large?: boolean
-  icon?: React.ReactNode
+  icon?: FunctionComponent<Icon> | ReactNode
 }
 
 export const PasswordInput = ({
@@ -30,7 +38,7 @@ export const PasswordInput = ({
       <Input
         {...props}
         large={large}
-        icon={icon || <LockIcon />}
+        icon={renderOrCreateElement(icon) || <LockIcon />}
         style={{ width: '100%' }}
         type={passwordInputType}
         value={value}

@@ -10,7 +10,7 @@ export const JsonIcon = ({
   return (
     <svg
       width={size}
-      height={size / 2}
+      height={+size / 2}
       viewBox="0 0 24 11"
       fill="none"
       {...props}

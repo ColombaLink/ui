@@ -24,7 +24,7 @@ export const Avatars = () => {
         },
         {
           props: {
-            icon: BasedIcon,
+            icon: <BasedIcon />,
             size: 40,
             color: 'red',
           },

@@ -3,6 +3,7 @@ import { Label } from '../Label'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
+import { Text } from '../Text'
 
 type CardProps = {
   label?: string
@@ -69,22 +70,10 @@ export const Card: FC<CardProps> = ({
           >
             {renderOrCreateElement(topLeft)}
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <Label
-                label={label}
-                description={
-                  <span
-                    style={{
-                      fontSize: 13,
-                      marginTop: 0,
-                      display: 'block',
-                      lineHeight: '1.25',
-                    }}
-                  >
-                    {description}
-                  </span>
-                }
-                descriptionColor="text2"
-              />
+              <Label label={label} space="2px" />
+              <Text typo="caption400" color="text2">
+                {description}
+              </Text>
             </div>
           </div>
         )}

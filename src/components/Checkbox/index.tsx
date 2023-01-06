@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
+import React, { FC, CSSProperties } from 'react'
 import { Label } from '../Label'
 import { border, color, spaceToPx } from '~/utils'
 import { CheckIcon, DashIcon } from '~/icons'
@@ -11,9 +11,9 @@ export type CheckboxProps = {
   description?: string
   style?: CSSProperties
   onChange?: (value: boolean) => void
-  label?: ReactNode | string
+  label?: string
   space?: Space
-  size?: 'sm' | 'md'
+  small?: boolean
   color?: Color
 }
 
@@ -25,7 +25,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   onChange,
   label,
   space,
-  size = 'md',
+  small,
   color: colorProp = 'accent',
   ...props
 }) => {
@@ -57,8 +57,8 @@ export const Checkbox: FC<CheckboxProps> = ({
           border: border(1, 'border', hover ? 'hover' : null),
           outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
           borderRadius: 4,
-          height: size === 'sm' ? 16 : 20,
-          width: size === 'sm' ? 16 : 20,
+          height: small ? 16 : 20,
+          width: small ? 16 : 20,
           marginRight: 12,
           flexShrink: 0,
           display: 'flex',
@@ -68,9 +68,9 @@ export const Checkbox: FC<CheckboxProps> = ({
         {...props}
       >
         {checked && indeterminate ? (
-          <DashIcon size={size === 'sm' ? 10 : 14} color="accent:contrast" />
+          <DashIcon size={small ? 10 : 14} color="accent:contrast" />
         ) : checked ? (
-          <CheckIcon size={size === 'sm' ? 12 : 14} color="accent:contrast" />
+          <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
         ) : null}
       </div>
 
