@@ -133,7 +133,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={datax} format="date" />
+        <LG label="wawa" data={datax} format="date" />
       </div>
       <div
         style={{
@@ -179,7 +179,7 @@ export const LineGraph = () => {
             { x: 4, y: 20 },
             { x: 5, y: 25 },
           ]}
-          spread={true}
+          spread={false}
         />
       </div>
       <div
