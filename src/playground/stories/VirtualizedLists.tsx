@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { VirtualizedList } from '~/components/VirtualizedList'
-import { CheckCircleIcon } from '~/icons'
-import { Thumbnail } from '~/components/Thumbnail'
 
 export const VirtualizedLists = () => {
   const listData = [
@@ -14,7 +12,7 @@ export const VirtualizedLists = () => {
   for (let i = 5; i < 50; i++) {
     listData.push({
       id: i,
-      label: 'Item 🧀 ' + i,
+      label: 'Cheese 🧀 ' + i,
     })
   }
 

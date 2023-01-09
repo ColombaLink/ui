@@ -106,7 +106,7 @@ export const ListItem = ({
         paddingTop: 3,
         paddingBottom: 3,
         '&:hover': {
-          cursor: 'pointer',
+          cursor: isDragging ? 'grabbing' : 'pointer',
         },
         ...style,
       }}
