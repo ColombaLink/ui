@@ -99,13 +99,7 @@ export const ListItem = ({
 
   // add style here to avoid the flickering error
   return (
-    <div
-      style={{ border: '1px solid grey', ...style }}
-      {...drop}
-      // onDragStart={() => {
-      //   console.log('dragstart', index)
-      // }}
-    >
+    <div style={{ border: '1px solid grey', ...style }} {...drop}>
       {onDrop ? (
         <div
           style={{
