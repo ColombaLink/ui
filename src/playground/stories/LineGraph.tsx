@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineGraph as LG, MultiLineGraph } from '~'
+import { LineGraph as LG } from '~'
 
 import ComponentViewer from '../ComponentViewer'
 
@@ -89,23 +89,6 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <MultiLineGraph
-          label="Multiline"
-          data={[
-            bytes as { x: number; y: number }[],
-            bytes as { x: number; y: number }[],
-          ]}
-          valueFormat="number-ratio"
-          color="green"
-        />
-      </div>
-      <div
-        style={{
-          width: '100%',
-          height: 300,
-          marginBottom: 32,
-        }}
-      >
         <LG data={fraction} valueFormat="number-ratio" color="green" />
       </div>
       <div
@@ -142,7 +125,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={datax.en} format="date" spread />
+        <LG data={datax.en} label="MinMax" format="date" spread />
       </div>
       <div
         style={{
