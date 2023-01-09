@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react'
+import React, { forwardRef } from 'react'
 
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -6,10 +6,8 @@ import { SelectableCollection } from '~/hooks'
 import useDragScroll from '~/hooks/useDragScroll'
 import { ListItem } from './ListItem'
 
-export const CustomList = (props) => {
+export const VirtualizedList = (props) => {
   let { items = [], activeId } = props
-  console.log('items --> from inside the list', items)
-  console.log('activeId --> from inside the list', activeId)
 
   return (
     <AutoSizer>
@@ -22,8 +20,8 @@ export const CustomList = (props) => {
               height={height}
               innerElementType={getElementType(0, 0)}
               itemCount={items.length}
-              itemSize={40}
-              style={{ background: 'yellow' }}
+              itemSize={46}
+              style={{}}
               itemData={{ items, context, ...props }}
               {...useDragScroll(true)}
             >

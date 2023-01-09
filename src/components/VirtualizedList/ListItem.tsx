@@ -2,6 +2,9 @@ import React, { CSSProperties, useRef, useCallback, useEffect } from 'react'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
 import { useDrag, useDrop } from '~/hooks'
 import { useSelect, useClick } from './hooks/useSelect'
+import { color, renderOrCreateElement, stringToIcon } from '~/utils'
+import { styled } from 'inlines'
+import { Text } from '~/components/Text'
 
 type ListItemProps = {
   index?: number
@@ -23,7 +26,6 @@ export const ListItem = ({
     showIndex,
     isActive: isActiveFn,
   } = context
-  // console.log('data', context)
 
   const ref = useRef<any>()
 
@@ -99,7 +101,17 @@ export const ListItem = ({
 
   // add style here to avoid the flickering error
   return (
-    <div style={{ border: '1px solid grey', ...style }} {...drop}>
+    <styled.div
+      style={{
+        paddingTop: 3,
+        paddingBottom: 3,
+        '&:hover': {
+          cursor: 'pointer',
+        },
+        ...style,
+      }}
+      {...drop}
+    >
       {onDrop ? (
         <div
           style={{
@@ -107,24 +119,27 @@ export const ListItem = ({
             opacity: isDragOver ? 1 : 0,
             transition: 'opacity 0.2s',
             width: '100%',
-            borderTop: '2px solid purple',
+            borderTop: `2px solid ${color('accent')}`,
             position: 'absolute',
+            height: 40,
           }}
-        >
-          Drop
-        </div>
+        />
       ) : null}
       <div
         ref={ref}
         style={{
           height: 40,
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
+          paddingLeft: 16,
+          paddingRight: 16,
+          display: 'flex',
+          alignItems: 'center',
           backgroundColor: isSelected
             ? 'orange'
             : isDragging
-            ? 'lightgreen'
-            : index % 2 === 0
-            ? 'lightblue'
-            : '#f6f6f6',
+            ? color('background2')
+            : color('background'),
         }}
         {...useMultipleEvents(
           drag,
@@ -141,8 +156,14 @@ export const ListItem = ({
             : undefined
         )}
       >
-        testing item {items[index]?.text} - {index}
+        {renderOrCreateElement(items[index]?.thumbnail)}
+        {items[index]?.icon ? (
+          <div style={{ marginRight: 8 }}>
+            {stringToIcon(items[index]?.icon)}
+          </div>
+        ) : null}
+        <Text typo="body600">{items[index]?.label}</Text> - {index}
       </div>
-    </div>
+    </styled.div>
   )
 }
