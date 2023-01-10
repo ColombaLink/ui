@@ -249,29 +249,43 @@ export const ToastProvider = ({
       setPositionFlipped(false)
     }
 
-    if (length > toastHeightsArray.length) {
-      // @ts-ignore
-      toastHeightsArray.push(toasts[length - 1]?.ref?.current?.clientHeight)
-    }
-    if (length < toastHeightsArray.length) {
-      toastHeightsArray.shift()
-    }
+    // if (toasts[length - 1].ref.current) {
+    // toasts[length - 1].ref.current.style.background = 'red'
+    // } else {
+    //   toas
+    // }
 
-    console.log('height arr-->', toastHeightsArray)
+    // if (length > toastHeightsArray.length) {
+    //   // @ts-ignore
+    //   toastHeightsArray.push(toasts[length - 1]?.ref?.current?.clientHeight)
+    // }
+    // if (length < toastHeightsArray.length) {
+    //   toastHeightsArray.shift()
+    // }
+
+    // console.log('height arr-->', toastHeightsArray)
   }, [length])
 
   useEffect(() => {
     console.log(toasts)
     // @ts-ignore
-    // toastHeightsArr.push(toasts[toasts.length - 1]?.ref?.current?.clientHeight)
+    // toastHeightsArray.push(
+    //   toasts[toasts.length - 1]?.ref?.current?.clientHeight
+    // )
     // @ts-ignore
-    if (toasts[toasts.length - 1]?.ref?.current?.clientHeight) {
+    if (toasts[0]?.ref?.current?.clientHeight) {
       // @ts-ignore
-      setToastHeightY(toasts[toasts.length - 1]?.ref?.current?.clientHeight)
+      setToastHeightY(toasts[0]?.ref?.current?.clientHeight)
     }
+
+    // if (positionFlipped) {
+    //   toasts[length - 1].ref.current[0].style.boxShadow =
+    //     '0px 8px 20px rgba(0, 0, 0, 0.12)'
+    // }
   }, [toasts])
 
   console.log('toasts', toasts)
+  // console.log('toastHeightsArray', toastHeightsArray)
 
   return (
     <ToastContext.Provider value={toastRef.current}>
@@ -279,7 +293,8 @@ export const ToastProvider = ({
       <styled.div
         style={{
           //  background: 'yellow',
-          // boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px',
+          // boxShadow:
+          //   positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px !important',
           display: 'flex',
           flexDirection: 'column',
           // justifyContent: 'flex-start',
@@ -287,30 +302,37 @@ export const ToastProvider = ({
           bottom: !positionFlipped ? 16 : '',
           right: 16,
           top: positionFlipped ? 16 : '',
-          '& div ': {
-            boxShadow: positionFlipped ? '0px 0px 0px 0px rgba(0,0,0,0.0)' : '',
-            //   background: 'pink',
-          },
+
+          // '& div ': {
+          //   boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px',
+          //   borderRadius: 8,
+          //   // background: 'pink',
+          // },
+
           '& div div': {
-            //  background: 'green',
-            boxShadow: positionFlipped
-              ? '0px 0px 0px 0px rgba(0,0,0,0.0) !important'
-              : '',
+            //    boxShadow: positionFlipped && 'rgba(0,0,0,0) 0px 0px 0px ',
+            height: positionFlipped && toastHeightY - 16,
+            maxHeight: positionFlipped && toastHeightY,
           },
         }}
       >
-        <div
+        {/* <styled.div
           style={{
-            boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px',
+            boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px ',
             width: positionFlipped && 400,
             borderRadius: positionFlipped && 8,
             marginRight: positionFlipped && 16,
             marginTop: positionFlipped && 14,
             height: positionFlipped && toastHeightY - 16,
+            maxHeight: toastHeightY,
+            '& div ': {
+              boxShadow: positionFlipped && 'rgba(0,0,0,0) 0px 0px 0px ',
+              // background: 'pink',
+            },
           }}
-        >
-          {toasts.reverse()}
-        </div>
+        > */}
+        {toasts.reverse()}
+        {/* </styled.div> */}
       </styled.div>
     </ToastContext.Provider>
   )
