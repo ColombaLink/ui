@@ -1001,25 +1001,6 @@
       "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
-    "ListItemProps": {
-      "name": "ListItemProps",
-      "props": {
-        "index": {
-          "optional": true,
-          "type": "number"
-        },
-        "data": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type ListItemProps = {\n  index?: number\n  data?: any\n  style?: CSSProperties\n}",
-      "file": "/components/CustomList/ListItem.tsx"
-    },
     "DateInputProps": {
       "name": "DateInputProps",
       "props": {
@@ -3631,6 +3612,25 @@
       },
       "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
       "file": "/components/ValueSlider/index.tsx"
+    },
+    "ListItemProps": {
+      "name": "ListItemProps",
+      "props": {
+        "index": {
+          "optional": true,
+          "type": "number"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ListItemProps = {\n  index?: number\n  data?: any\n  style?: CSSProperties\n}",
+      "file": "/components/VirtualizedList/ListItem.tsx"
     },
     "DraggableListWrapperProps": {
       "name": "DraggableListWrapperProps",
