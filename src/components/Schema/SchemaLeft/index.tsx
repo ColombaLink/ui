@@ -44,8 +44,8 @@ export const SchemaLeft: FC<{
   }
 
   const types = {
-    root: schema.rootType,
-    ...schema.types,
+    root: schema?.rootType,
+    ...schema?.types,
   }
 
   return (

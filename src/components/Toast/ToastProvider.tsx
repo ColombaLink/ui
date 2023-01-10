@@ -68,6 +68,7 @@ export const ToastProvider = ({
   const [toastHeightY, setToastHeightY] = useState(90)
 
   const [postionFlipped, setPositionFlipped] = useState(false)
+  const [toastHeightsArray, setToastHeightsArray] = useState([])
 
   const positionRef = useRef<typeof position>()
   const positionStyleRef = useRef<PositionStyleProps>()
@@ -176,7 +177,11 @@ export const ToastProvider = ({
   })
 
   const toasts = toastsRef.current.map(({ id, children }, index) => {
+    // keep an array with all the toast heights
+
     let y = index * toastHeightY
+
+    console.log('y', y)
 
     if ('bottom' in positionStyleRef.current) {
       y *= -1
@@ -217,13 +222,29 @@ export const ToastProvider = ({
     if (length === 0) {
       setPositionFlipped(false)
     }
+
+    if (length > toastHeightsArray.length) {
+      toastHeightsArray.push(toasts[length - 1]?.ref?.current?.clientHeight)
+    }
+    if (length < toastHeightsArray.length) {
+      toastHeightsArray.shift()
+    }
+
+    console.log('height arr-->', toastHeightsArray)
   }, [length])
 
   useEffect(() => {
+    console.log(toasts)
     // @ts-ignore
-    if (toasts[0]?.ref?.current?.clientHeight) {
+    // toastHeightsArr.push(toasts[toasts.length - 1]?.ref?.current?.clientHeight)
+    // @ts-ignore
+    if (toasts[toasts.length - 1]?.ref?.current?.clientHeight) {
       // @ts-ignore
-      setToastHeightY(toasts[0]?.ref?.current?.clientHeight)
+      setToastHeightY(toasts[toasts.length - 1]?.ref?.current?.clientHeight)
+      // push in an array
+
+      // @ts-ignore.
+      // toastHeightsArr.push(toasts[]?.ref?.current?.clientHeight)
     }
   }, [toasts])
 

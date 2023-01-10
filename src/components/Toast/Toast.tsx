@@ -9,6 +9,7 @@ type ToastProps = {
   icon?: FunctionComponent<Icon> | ReactNode
   // topLeft?: ReactNode
   // topRight?: ReactNode
+  stackLimit?: number
   description?: string
   children?: ReactNode
   style?: CSSProperties
@@ -20,6 +21,7 @@ export const Toast: FC<ToastProps> = ({
   icon,
   // topLeft,
   // topRight,
+  stackLimit,
   description,
   children,
   style,
