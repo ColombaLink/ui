@@ -10,6 +10,7 @@ export const ToastContainer = ({
   onClick = null,
   toast,
   first = false,
+  style,
 }) => {
   const [fade, setFade] = useState(first)
 
@@ -24,7 +25,7 @@ export const ToastContainer = ({
 
     const timer = setTimeout(() => {
       setFade(true)
-    }, 5e3)
+    }, 225e3)
 
     return () => clearTimeout(timer)
   }, [])
@@ -35,6 +36,10 @@ export const ToastContainer = ({
         opacity: fade ? 0 : 1,
         transition: `opacity 300ms`,
         cursor: 'pointer',
+
+        // borderRadius: 8,
+        // boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
+        ...style,
       }}
       onTransitionEnd={fade ? close : null}
       onClick={() => {
@@ -67,7 +72,7 @@ export const ToastProvider = ({
   const [length, setLength] = useState(0)
   const [toastHeightY, setToastHeightY] = useState(90)
 
-  const [postionFlipped, setPositionFlipped] = useState(false)
+  const [positionFlipped, setPositionFlipped] = useState(false)
   const [toastHeightsArray, setToastHeightsArray] = useState([])
 
   const positionRef = useRef<typeof position>()
@@ -97,6 +102,7 @@ export const ToastProvider = ({
               id={id}
               toast={toast}
               first={!toastsRef.current.length}
+              style={{}}
             >
               {child}
             </ToastContainer>
@@ -147,7 +153,7 @@ export const ToastProvider = ({
     const positionStyle: PositionStyleProps = {}
 
     if (y === 'bottom') {
-      positionStyle.bottom = 16
+      //   positionStyle.bottom = 16
     } else {
       positionStyle.top = 16
     }
@@ -176,16 +182,31 @@ export const ToastProvider = ({
     boxShadow: boxShadow('small'),
   })
 
+  // const littleHelperFunction = (num, arr) => {
+  //   let count = 0
+  //   for (let i = 0; i < num; i++) {
+  //     count += arr[i]
+  //   }
+  //   return count
+  // }
+
   const toasts = toastsRef.current.map(({ id, children }, index) => {
     // keep an array with all the toast heights
 
-    let y = index * toastHeightY
+    // let y = index * toastHeightY
 
-    console.log('y', y)
+    // let y = littleHelperFunction(index, toastHeightsArray)
+    // y is de som van alle toast heights in de toastHeightsArray
 
-    if ('bottom' in positionStyleRef.current) {
-      y *= -1
-    }
+    // if (length > 1) {
+    //   y = toastHeightsArray.reduce((acc, curr) => acc + curr, 0)
+    // }
+
+    // console.log('y', y)
+
+    // if ('bottom' in positionStyleRef.current) {
+    //   y *= -1
+    // }
 
     return (
       <div
@@ -193,20 +214,25 @@ export const ToastProvider = ({
         ref={toastyRef}
         onClick={() => {
           // close all toasts if more then 8
-          postionFlipped && toastRef.current.close()
+          positionFlipped && toastRef.current.close()
         }}
         style={{
           // TODO FIX THIS
           //     zIndex: 99999999999,
-          top: postionFlipped ? 15 : '',
-          position: fixed ? 'fixed' : 'absolute',
-          transform: `translate3d(0,${y}px,0)`,
-          transition: postionFlipped ? '' : 'transform 0.3s',
+          top: positionFlipped ? 15 : '',
+          // position: fixed ? 'fixed' : 'absolute',
+          //  transform: `translate3d(0,${y}px,0)`,
+          transition: positionFlipped ? '' : 'transform 0.3s',
+
+          position: positionFlipped ? 'absolute' : 'static',
+
+          marginLeft: 'auto',
+
           ...positionStyleRef.current,
         }}
       >
         {children}
-        {postionFlipped && (
+        {positionFlipped && (
           <CounterBadge>
             <Text typo="caption600">{length}</Text>
           </CounterBadge>
@@ -224,6 +250,7 @@ export const ToastProvider = ({
     }
 
     if (length > toastHeightsArray.length) {
+      // @ts-ignore
       toastHeightsArray.push(toasts[length - 1]?.ref?.current?.clientHeight)
     }
     if (length < toastHeightsArray.length) {
@@ -241,17 +268,50 @@ export const ToastProvider = ({
     if (toasts[toasts.length - 1]?.ref?.current?.clientHeight) {
       // @ts-ignore
       setToastHeightY(toasts[toasts.length - 1]?.ref?.current?.clientHeight)
-      // push in an array
-
-      // @ts-ignore.
-      // toastHeightsArr.push(toasts[]?.ref?.current?.clientHeight)
     }
   }, [toasts])
+
+  console.log('toasts', toasts)
 
   return (
     <ToastContext.Provider value={toastRef.current}>
       {children}
-      {toasts}
+      <styled.div
+        style={{
+          //  background: 'yellow',
+          // boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px',
+          display: 'flex',
+          flexDirection: 'column',
+          // justifyContent: 'flex-start',
+          position: 'absolute',
+          bottom: !positionFlipped ? 16 : '',
+          right: 16,
+          top: positionFlipped ? 16 : '',
+          '& div ': {
+            boxShadow: positionFlipped ? '0px 0px 0px 0px rgba(0,0,0,0.0)' : '',
+            //   background: 'pink',
+          },
+          '& div div': {
+            //  background: 'green',
+            boxShadow: positionFlipped
+              ? '0px 0px 0px 0px rgba(0,0,0,0.0) !important'
+              : '',
+          },
+        }}
+      >
+        <div
+          style={{
+            boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px',
+            width: positionFlipped && 400,
+            borderRadius: positionFlipped && 8,
+            marginRight: positionFlipped && 16,
+            marginTop: positionFlipped && 14,
+            height: positionFlipped && toastHeightY - 16,
+          }}
+        >
+          {toasts.reverse()}
+        </div>
+      </styled.div>
     </ToastContext.Provider>
   )
 }
