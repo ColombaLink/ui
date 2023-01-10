@@ -73,7 +73,6 @@ export const ToastProvider = ({
   const [toastHeightY, setToastHeightY] = useState(90)
 
   const [positionFlipped, setPositionFlipped] = useState(false)
-  const [toastHeightsArray, setToastHeightsArray] = useState([])
 
   const positionRef = useRef<typeof position>()
   const positionStyleRef = useRef<PositionStyleProps>()
@@ -252,9 +251,6 @@ export const ToastProvider = ({
       }
     }
   }, [toasts])
-
-  console.log('toasts', toasts)
-  // console.log('toastHeightsArray', toastHeightsArray)
 
   return (
     <ToastContext.Provider value={toastRef.current}>
