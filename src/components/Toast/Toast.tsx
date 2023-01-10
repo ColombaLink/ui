@@ -9,7 +9,6 @@ type ToastProps = {
   icon?: FunctionComponent<Icon> | ReactNode
   // topLeft?: ReactNode
   // topRight?: ReactNode
-  stackLimit?: number
   description?: string
   children?: ReactNode
   style?: CSSProperties
@@ -21,7 +20,6 @@ export const Toast: FC<ToastProps> = ({
   icon,
   // topLeft,
   // topRight,
-  stackLimit,
   description,
   children,
   style,
@@ -37,7 +35,7 @@ export const Toast: FC<ToastProps> = ({
         cursor: 'pointer',
         padding: '12px 16px',
         paddingBottom: label && !description && !children ? '8px' : '12px',
-        marginBottom: 16,
+
         width: 400,
         ...style,
       }}

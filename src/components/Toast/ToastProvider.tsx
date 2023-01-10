@@ -25,7 +25,7 @@ export const ToastContainer = ({
 
     const timer = setTimeout(() => {
       setFade(true)
-    }, 225e3)
+    }, 5e3)
 
     return () => clearTimeout(timer)
   }, [])
@@ -37,8 +37,8 @@ export const ToastContainer = ({
         transition: `opacity 300ms`,
         cursor: 'pointer',
 
-        // borderRadius: 8,
-        // boxShadow: 'rgb(0 0 0 / 12%) 0px 8px 20px',
+        borderRadius: 8,
+
         ...style,
       }}
       onTransitionEnd={fade ? close : null}
@@ -80,6 +80,7 @@ export const ToastProvider = ({
   const toastsRef = useRef<Toast[]>()
 
   const toastyRef = useRef(null)
+  const toastHolderRef = useRef(null)
 
   const toastRef = useRef<ToastContextType>()
   if (!toastRef.current) {
@@ -102,7 +103,12 @@ export const ToastProvider = ({
               id={id}
               toast={toast}
               first={!toastsRef.current.length}
-              style={{}}
+              style={{
+                marginBottom: 16,
+                boxShadow: !positionFlipped
+                  ? 'rgb(0 0 0 / 12%) 0px 8px 20px'
+                  : 'none',
+              }}
             >
               {child}
             </ToastContainer>
@@ -182,32 +188,7 @@ export const ToastProvider = ({
     boxShadow: boxShadow('small'),
   })
 
-  // const littleHelperFunction = (num, arr) => {
-  //   let count = 0
-  //   for (let i = 0; i < num; i++) {
-  //     count += arr[i]
-  //   }
-  //   return count
-  // }
-
   const toasts = toastsRef.current.map(({ id, children }, index) => {
-    // keep an array with all the toast heights
-
-    // let y = index * toastHeightY
-
-    // let y = littleHelperFunction(index, toastHeightsArray)
-    // y is de som van alle toast heights in de toastHeightsArray
-
-    // if (length > 1) {
-    //   y = toastHeightsArray.reduce((acc, curr) => acc + curr, 0)
-    // }
-
-    // console.log('y', y)
-
-    // if ('bottom' in positionStyleRef.current) {
-    //   y *= -1
-    // }
-
     return (
       <div
         key={id}
@@ -220,12 +201,8 @@ export const ToastProvider = ({
           // TODO FIX THIS
           //     zIndex: 99999999999,
           top: positionFlipped ? 15 : '',
-          // position: fixed ? 'fixed' : 'absolute',
-          //  transform: `translate3d(0,${y}px,0)`,
           transition: positionFlipped ? '' : 'transform 0.3s',
-
           position: positionFlipped ? 'absolute' : 'static',
-
           marginLeft: 'auto',
 
           ...positionStyleRef.current,
@@ -242,46 +219,38 @@ export const ToastProvider = ({
   })
 
   useEffect(() => {
-    if (length > 8) {
+    if (length > 3) {
       setPositionFlipped(true)
     }
     if (length === 0) {
       setPositionFlipped(false)
     }
-
-    // if (toasts[length - 1].ref.current) {
-    // toasts[length - 1].ref.current.style.background = 'red'
-    // } else {
-    //   toas
-    // }
-
-    // if (length > toastHeightsArray.length) {
-    //   // @ts-ignore
-    //   toastHeightsArray.push(toasts[length - 1]?.ref?.current?.clientHeight)
-    // }
-    // if (length < toastHeightsArray.length) {
-    //   toastHeightsArray.shift()
-    // }
-
-    // console.log('height arr-->', toastHeightsArray)
   }, [length])
 
   useEffect(() => {
-    console.log(toasts)
-    // @ts-ignore
-    // toastHeightsArray.push(
-    //   toasts[toasts.length - 1]?.ref?.current?.clientHeight
-    // )
     // @ts-ignore
     if (toasts[0]?.ref?.current?.clientHeight) {
       // @ts-ignore
       setToastHeightY(toasts[0]?.ref?.current?.clientHeight)
     }
 
-    // if (positionFlipped) {
-    //   toasts[length - 1].ref.current[0].style.boxShadow =
-    //     '0px 8px 20px rgba(0, 0, 0, 0.12)'
-    // }
+    if (positionFlipped) {
+      for (let i = 0; i < toastHolderRef.current.childNodes.length; i++) {
+        if (i === toastHolderRef.current.childNodes.length - 1) {
+          toastHolderRef.current.childNodes[
+            i
+          ].childNodes[0].childNodes[0].style.boxShadow =
+            'rgb(0 0 0 / 12%) 0px 8px 20px'
+        } else {
+          toastHolderRef.current.childNodes[i].style.boxShadow = 'none'
+          toastHolderRef.current.childNodes[i].childNodes[0].style.boxShadow =
+            'none'
+          toastHolderRef.current.childNodes[
+            i
+          ].childNodes[0].childNodes[0].style.boxShadow = 'none'
+        }
+      }
+    }
   }, [toasts])
 
   console.log('toasts', toasts)
@@ -291,48 +260,19 @@ export const ToastProvider = ({
     <ToastContext.Provider value={toastRef.current}>
       {children}
       <styled.div
+        ref={toastHolderRef}
         style={{
-          //  background: 'yellow',
-          // boxShadow:
-          //   positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px !important',
           display: 'flex',
           flexDirection: 'column',
-          // justifyContent: 'flex-start',
+          width: 400,
           position: 'absolute',
           bottom: !positionFlipped ? 16 : '',
-          right: 16,
-          top: positionFlipped ? 16 : '',
-
-          // '& div ': {
-          //   boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px',
-          //   borderRadius: 8,
-          //   // background: 'pink',
-          // },
-
-          '& div div': {
-            //    boxShadow: positionFlipped && 'rgba(0,0,0,0) 0px 0px 0px ',
-            height: positionFlipped && toastHeightY - 16,
-            maxHeight: positionFlipped && toastHeightY,
-          },
+          right: positionFlipped ? 0 : 16,
+          top: positionFlipped ? 0 : '',
+          minHeight: positionFlipped && toastHeightY,
         }}
       >
-        {/* <styled.div
-          style={{
-            boxShadow: positionFlipped && 'rgb(0 0 0 / 12%) 0px 8px 20px ',
-            width: positionFlipped && 400,
-            borderRadius: positionFlipped && 8,
-            marginRight: positionFlipped && 16,
-            marginTop: positionFlipped && 14,
-            height: positionFlipped && toastHeightY - 16,
-            maxHeight: toastHeightY,
-            '& div ': {
-              boxShadow: positionFlipped && 'rgba(0,0,0,0) 0px 0px 0px ',
-              // background: 'pink',
-            },
-          }}
-        > */}
         {toasts.reverse()}
-        {/* </styled.div> */}
       </styled.div>
     </ToastContext.Provider>
   )
