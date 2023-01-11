@@ -20,7 +20,6 @@ export const DateRangeInput = ({
   const [tillValue, setTillValue] = useState<string>('')
 
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
-  const [closedDatePicker, setClosedDatePicker] = useState(false)
 
   // today
   const dateObj = new Date()
@@ -77,13 +76,18 @@ export const DateRangeInput = ({
   //
   useEffect(() => {
     console.log('fromValue', fromValue, tillValue, 'tillValue')
+
+    console.log('fromValue', +fromValue[0])
     // TODO fix today date formatted
-    if (fromValue && !tillValue && fromValue !== today && closedDatePicker) {
+    if (
+      typeof +fromValue[0] === 'number' &&
+      typeof +fromValue[1] === 'number' &&
+      !isNaN(+fromValue[0])
+    ) {
+      console.log('fromValue', fromValue[0])
       setFocusOnEndDate(true)
-      setClosedDatePicker(false)
-      setTillValue(fromValue)
     }
-  }, [fromValue, closedDatePicker])
+  }, [fromValue])
 
   return (
     <>
@@ -107,7 +111,6 @@ export const DateRangeInput = ({
             width: '100%',
           }}
           placeholder="Start date"
-          setClosedDatePicker={setClosedDatePicker}
           isDateRange
         />
 

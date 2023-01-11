@@ -10,7 +10,6 @@ type DatePickerProps = {
   clearHandler?: () => void
   fromValue?: string
   tillValue?: string
-  setClosedDatePicker?: (value: boolean) => void
   isDateRange?: boolean
   style?: CSSProperties
 }
@@ -44,7 +43,6 @@ export const DatePicker = ({
   clearHandler,
   fromValue,
   tillValue,
-  setClosedDatePicker,
   isDateRange,
   style,
 }: DatePickerProps) => {
@@ -115,6 +113,9 @@ export const DatePicker = ({
 
     // setInputValue(`${year}-${month}-${day}`)
     setInputValue(`${day}/${month}/${year}`)
+    if (isDateRange && !fromValue) {
+      setFromValue(`${day}/${month}/${year}`)
+    }
   }
 
   useEffect(() => {
@@ -125,9 +126,6 @@ export const DatePicker = ({
       ) {
         setShowDatePicker(false)
         setFocused(false)
-        if (setClosedDatePicker) {
-          setClosedDatePicker(true)
-        }
       }
     }
 

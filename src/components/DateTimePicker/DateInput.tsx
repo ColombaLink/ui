@@ -13,7 +13,6 @@ type DateInputProps = {
   style?: CSSProperties
   placeholder?: string
   focusOnEndDate?: boolean
-  setClosedDatePicker?: (value: boolean) => void
   isEndDate?: boolean
   isDateRange?: boolean
 }
@@ -39,7 +38,6 @@ export const DateInput: FC<DateInputProps> = ({
   style,
   placeholder,
   focusOnEndDate,
-  setClosedDatePicker,
   isEndDate,
   isDateRange,
 }) => {
@@ -50,9 +48,29 @@ export const DateInput: FC<DateInputProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
+  console.log('focusOnEndDate', focusOnEndDate)
+
   useEffect(() => {
     if (focusOnEndDate) {
       inputRef.current.focus()
+      console.log(inputRef)
+
+      // @ts-ignore
+      inputRef.current.value = dateInputHandler({
+        target: {
+          value:
+            // `${
+            //   dateObj.getUTCDate() < 10
+            //     ? '0' + dateObj.getUTCDate()
+            //     : dateObj.getUTCDate()
+            // }
+            `--/${
+              dateObj.getUTCMonth() + 1 < 10
+                ? '0' + (dateObj.getUTCMonth() + 1)
+                : dateObj.getUTCMonth() + 1
+            }/${dateObj.getUTCFullYear()}`,
+        },
+      })
     }
   }, [focusOnEndDate])
 
@@ -143,7 +161,6 @@ export const DateInput: FC<DateInputProps> = ({
           isDateRange={isDateRange}
           fromValue={fromValue}
           tillValue={tillValue}
-          setClosedDatePicker={setClosedDatePicker}
           style={{ left: isEndDate ? '-100%' : '' }}
         />
       )}
