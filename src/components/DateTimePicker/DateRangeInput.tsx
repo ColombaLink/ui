@@ -72,6 +72,8 @@ export const DateRangeInput = ({
       closedDatePicker
     ) {
       setFocusOnEndDate(true)
+      setClosedDatePicker(false)
+      setTillValue(fromValue)
     }
   }, [fromValue])
 
@@ -113,6 +115,7 @@ export const DateRangeInput = ({
             width: '100%',
           }}
           placeholder="End date"
+          isEndDate
         />
       </div>
 

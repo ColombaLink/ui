@@ -14,6 +14,7 @@ type DateInputProps = {
   placeholder?: string
   focusOnEndDate?: boolean
   setClosedDatePicker?: (value: boolean) => void
+  isEndDate?: boolean
 }
 
 const StyledDateInput = styled('input', {
@@ -38,6 +39,7 @@ export const DateInput: FC<DateInputProps> = ({
   placeholder,
   focusOnEndDate,
   setClosedDatePicker,
+  isEndDate,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
@@ -46,22 +48,10 @@ export const DateInput: FC<DateInputProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // useEffect(() => {
-  //   console.log('------------------')
-  //   console.log('focus on endDAte', focusOnEndDate)
-  //  // console.log('closedDatePicker', closedDatePicker)
-  //   console.log('------------------')
-
-  // //   if (focusOnEndDate && closedDatePicker) {
-  // //     inputRef.current.focus()
-  // //     setClosedDatePicker(false)
-  // //   }
-  // // }, [closedDatePicker])
-
-  // // console.log('from , till ---> ', fromValue, tillValue)
-
   useEffect(() => {
-    inputRef.current.focus()
+    if (focusOnEndDate) {
+      inputRef.current.focus()
+    }
   }, [focusOnEndDate])
 
   if (showDatePicker) {
@@ -94,8 +84,6 @@ export const DateInput: FC<DateInputProps> = ({
         value={value}
         placeholder={placeholder || 'Select a date'}
         type="text"
-        // autoFocus={focusOnEndDate && closedDatePicker}
-        //  pattern="\d{1,2}/\d{1,2}/\d{4}"
         style={{
           backgroundColor: showDatePicker
             ? color('background2')
@@ -105,7 +93,6 @@ export const DateInput: FC<DateInputProps> = ({
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,
-          // border: focusOnEndDate ? '1px solid red' : '1px solid #e5e5e5',
           ...style,
         }}
         onChange={(e) => {
@@ -152,6 +139,7 @@ export const DateInput: FC<DateInputProps> = ({
           fromValue={fromValue}
           tillValue={tillValue}
           setClosedDatePicker={setClosedDatePicker}
+          style={{ left: isEndDate ? '-100%' : '' }}
         />
       )}
     </div>

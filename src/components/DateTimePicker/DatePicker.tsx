@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, CSSProperties } from 'react'
 import { ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
 import { styled } from 'inlines'
 
@@ -11,6 +11,7 @@ type DatePickerProps = {
   fromValue?: string
   tillValue?: string
   setClosedDatePicker?: (value: boolean) => void
+  style?: CSSProperties
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -43,6 +44,7 @@ export const DatePicker = ({
   fromValue,
   tillValue,
   setClosedDatePicker,
+  style,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
@@ -290,7 +292,7 @@ export const DatePicker = ({
   }
 
   return (
-    <StyledDatePickerBox ref={datePickerRef}>
+    <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
       <div
         style={{
           display: 'flex',
@@ -421,7 +423,9 @@ export const DatePicker = ({
                 // now close it
                 setShowDatePicker(false)
                 setFocused(false)
-                setClosedDatePicker(true)
+                if (setClosedDatePicker) {
+                  setClosedDatePicker(true)
+                }
               }}
             >
               {val.day}
