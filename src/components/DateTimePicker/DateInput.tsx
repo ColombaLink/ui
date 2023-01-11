@@ -15,6 +15,7 @@ type DateInputProps = {
   focusOnEndDate?: boolean
   setClosedDatePicker?: (value: boolean) => void
   isEndDate?: boolean
+  isDateRange?: boolean
 }
 
 const StyledDateInput = styled('input', {
@@ -40,6 +41,7 @@ export const DateInput: FC<DateInputProps> = ({
   focusOnEndDate,
   setClosedDatePicker,
   isEndDate,
+  isDateRange,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)

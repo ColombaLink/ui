@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { DateInput } from './DateInput'
-import { Text } from '~/components/Text'
 
 type DateRangeInputProps = {
   value?: string
@@ -65,6 +64,7 @@ export const DateRangeInput = ({
   //
   useEffect(() => {
     console.log('fromValue', fromValue, tillValue, 'tillValue')
+    // TODO fix today date formatted
     if (
       fromValue &&
       !tillValue &&
@@ -100,6 +100,7 @@ export const DateRangeInput = ({
           }}
           placeholder="Start date"
           setClosedDatePicker={setClosedDatePicker}
+          isDateRange
         />
 
         <DateInput
@@ -116,6 +117,7 @@ export const DateRangeInput = ({
           }}
           placeholder="End date"
           isEndDate
+          isDateRange
         />
       </div>
 
