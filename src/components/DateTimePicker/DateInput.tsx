@@ -1,7 +1,20 @@
-import React, { FC, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useState, useRef } from 'react'
 import { styled } from 'inlines'
 import { color, CalendarIcon, boxShadow } from '~'
 import { DatePicker } from './DatePicker'
+
+type DateInputProps = {
+  value?: string
+  dateHandler?: (value: string) => void
+  setFocused?: (value: boolean) => void
+  clearHandler?: () => void
+  fromValue?: string
+  tillValue?: string
+  style?: CSSProperties
+  placeholder?: string
+  focusOnEndDate?: boolean
+  setClosedDatePicker?: (value: boolean) => void
+}
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -14,15 +27,6 @@ const StyledDateInput = styled('input', {
   boxShadow: boxShadow('medium'),
 })
 
-type DateInputProps = {
-  value?: string
-  dateHandler?: (value: string) => void
-  setFocused?: (value: boolean) => void
-  clearHandler?: () => void
-  fromValue?: string
-  tillValue?: string
-}
-
 export const DateInput: FC<DateInputProps> = ({
   value,
   setFocused,
@@ -30,13 +34,35 @@ export const DateInput: FC<DateInputProps> = ({
   clearHandler,
   fromValue,
   tillValue,
+  style,
+  placeholder,
+  focusOnEndDate,
+  setClosedDatePicker,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
   const dateObj = new Date()
 
-  // console.log('from , till ---> ', fromValue, tillValue)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // useEffect(() => {
+  //   console.log('------------------')
+  //   console.log('focus on endDAte', focusOnEndDate)
+  //  // console.log('closedDatePicker', closedDatePicker)
+  //   console.log('------------------')
+
+  // //   if (focusOnEndDate && closedDatePicker) {
+  // //     inputRef.current.focus()
+  // //     setClosedDatePicker(false)
+  // //   }
+  // // }, [closedDatePicker])
+
+  // // console.log('from , till ---> ', fromValue, tillValue)
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [focusOnEndDate])
 
   if (showDatePicker) {
     setFocused(true)
@@ -64,9 +90,11 @@ export const DateInput: FC<DateInputProps> = ({
         }}
       />
       <StyledDateInput
+        ref={inputRef}
         value={value}
-        placeholder="Select a date"
+        placeholder={placeholder || 'Select a date'}
         type="text"
+        // autoFocus={focusOnEndDate && closedDatePicker}
         //  pattern="\d{1,2}/\d{1,2}/\d{4}"
         style={{
           backgroundColor: showDatePicker
@@ -77,6 +105,8 @@ export const DateInput: FC<DateInputProps> = ({
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,
+          // border: focusOnEndDate ? '1px solid red' : '1px solid #e5e5e5',
+          ...style,
         }}
         onChange={(e) => {
           dateInputHandler(e)
@@ -88,7 +118,7 @@ export const DateInput: FC<DateInputProps> = ({
                 value: `${
                   dateObj.getUTCDate() < 10
                     ? '0' + dateObj.getUTCDate()
-                    : dateObj.getUTCDate
+                    : dateObj.getUTCDate()
                 }/${
                   dateObj.getUTCMonth() + 1 < 10
                     ? '0' + (dateObj.getUTCMonth() + 1)
@@ -121,6 +151,7 @@ export const DateInput: FC<DateInputProps> = ({
           // testing
           fromValue={fromValue}
           tillValue={tillValue}
+          setClosedDatePicker={setClosedDatePicker}
         />
       )}
     </div>

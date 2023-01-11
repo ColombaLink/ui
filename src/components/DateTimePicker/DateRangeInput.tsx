@@ -20,6 +20,9 @@ export const DateRangeInput = ({
   const [fromValue, setFromValue] = useState<string>('')
   const [tillValue, setTillValue] = useState<string>('')
 
+  const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
+  const [closedDatePicker, setClosedDatePicker] = useState(false)
+
   const dateHandlerFrom = (val) => {
     const tempArr = []
     const day = `${val[0]}${val[1]}`
@@ -59,31 +62,57 @@ export const DateRangeInput = ({
     }
   }, [fromValue, tillValue])
 
+  //
+  useEffect(() => {
+    console.log('fromValue', fromValue, tillValue, 'tillValue')
+    if (
+      fromValue &&
+      !tillValue &&
+      fromValue !== '11/01/2023' &&
+      closedDatePicker
+    ) {
+      setFocusOnEndDate(true)
+    }
+  }, [fromValue])
+
   return (
     <>
       <div
         style={{
           display: 'flex',
-          gap: 12,
           alignItems: 'center',
           marginBottom: 12,
+          maxWidth: 278,
         }}
       >
-        <Text typo="caption500">From :</Text>
         <DateInput
           value={fromValue}
           setFocused={() => {}}
           dateHandler={dateHandlerFrom}
           fromValue={fromValue}
           tillValue={tillValue}
+          style={{
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
+            width: '100%',
+          }}
+          placeholder="Start date"
+          setClosedDatePicker={setClosedDatePicker}
         />
-        <Text typo="caption500">Till :</Text>
+
         <DateInput
           value={tillValue}
+          focusOnEndDate={focusOnEndDate}
           setFocused={() => {}}
           dateHandler={dateHandlerTill}
           fromValue={fromValue}
           tillValue={tillValue}
+          style={{
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            width: '100%',
+          }}
+          placeholder="End date"
         />
       </div>
 

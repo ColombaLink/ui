@@ -10,6 +10,7 @@ type DatePickerProps = {
   clearHandler?: () => void
   fromValue?: string
   tillValue?: string
+  setClosedDatePicker?: (value: boolean) => void
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -41,6 +42,7 @@ export const DatePicker = ({
   clearHandler,
   fromValue,
   tillValue,
+  setClosedDatePicker,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
@@ -419,6 +421,7 @@ export const DatePicker = ({
                 // now close it
                 setShowDatePicker(false)
                 setFocused(false)
+                setClosedDatePicker(true)
               }}
             >
               {val.day}
