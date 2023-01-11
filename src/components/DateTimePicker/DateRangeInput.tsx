@@ -22,6 +22,21 @@ export const DateRangeInput = ({
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
   const [closedDatePicker, setClosedDatePicker] = useState(false)
 
+  // today
+  const dateObj = new Date()
+
+  const today = `${
+    dateObj.getUTCDate() < 10
+      ? '0' + dateObj.getUTCDate()
+      : dateObj.getUTCDate()
+  }/${
+    dateObj.getUTCMonth() + 1 < 10
+      ? '0' + (dateObj.getUTCMonth() + 1)
+      : dateObj.getUTCMonth() + 1
+  }/${dateObj.getUTCFullYear()}`
+
+  console.log('TODAY BITCHES', today)
+
   const dateHandlerFrom = (val) => {
     const tempArr = []
     const day = `${val[0]}${val[1]}`
@@ -65,17 +80,12 @@ export const DateRangeInput = ({
   useEffect(() => {
     console.log('fromValue', fromValue, tillValue, 'tillValue')
     // TODO fix today date formatted
-    if (
-      fromValue &&
-      !tillValue &&
-      fromValue !== '11/01/2023' &&
-      closedDatePicker
-    ) {
+    if (fromValue && !tillValue && fromValue !== today && closedDatePicker) {
       setFocusOnEndDate(true)
       setClosedDatePicker(false)
       setTillValue(fromValue)
     }
-  }, [fromValue])
+  }, [fromValue, closedDatePicker])
 
   return (
     <>

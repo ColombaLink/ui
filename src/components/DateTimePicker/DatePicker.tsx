@@ -119,6 +119,9 @@ export const DatePicker = ({
       ) {
         setShowDatePicker(false)
         setFocused(false)
+        if (setClosedDatePicker) {
+          setClosedDatePicker(true)
+        }
       }
     }
 
