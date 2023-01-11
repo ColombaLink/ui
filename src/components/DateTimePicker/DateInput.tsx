@@ -104,15 +104,17 @@ export const DateInput: FC<DateInputProps> = ({
           if (value === '') {
             dateInputHandler({
               target: {
-                value: `${
-                  dateObj.getUTCDate() < 10
-                    ? '0' + dateObj.getUTCDate()
-                    : dateObj.getUTCDate()
-                }/${
-                  dateObj.getUTCMonth() + 1 < 10
-                    ? '0' + (dateObj.getUTCMonth() + 1)
-                    : dateObj.getUTCMonth() + 1
-                }/${dateObj.getUTCFullYear()}`,
+                value:
+                  // `${
+                  //   dateObj.getUTCDate() < 10
+                  //     ? '0' + dateObj.getUTCDate()
+                  //     : dateObj.getUTCDate()
+                  // }
+                  `--/${
+                    dateObj.getUTCMonth() + 1 < 10
+                      ? '0' + (dateObj.getUTCMonth() + 1)
+                      : dateObj.getUTCMonth() + 1
+                  }/${dateObj.getUTCFullYear()}`,
               },
             })
           }
@@ -138,6 +140,7 @@ export const DateInput: FC<DateInputProps> = ({
           setFocused={setFocused}
           clearHandler={clearHandler}
           // testing
+          isDateRange={isDateRange}
           fromValue={fromValue}
           tillValue={tillValue}
           setClosedDatePicker={setClosedDatePicker}

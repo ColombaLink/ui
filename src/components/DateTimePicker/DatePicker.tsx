@@ -11,6 +11,7 @@ type DatePickerProps = {
   fromValue?: string
   tillValue?: string
   setClosedDatePicker?: (value: boolean) => void
+  isDateRange?: boolean
   style?: CSSProperties
 }
 
@@ -44,6 +45,7 @@ export const DatePicker = ({
   fromValue,
   tillValue,
   setClosedDatePicker,
+  isDateRange,
   style,
 }: DatePickerProps) => {
   const dateObj = new Date()
@@ -89,6 +91,10 @@ export const DatePicker = ({
   const [tillMonth, setTillMonth] = useState(+tillValue?.split('/')[1])
   const [tillYear, setTillYear] = useState(+tillValue?.split('/')[2])
   // console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
+
+  const [hoverDay, setHoverDay] = useState(null)
+  const [hoverMonth, setHoverMonth] = useState(null)
+  const [hoverYear, setHoverYear] = useState(null)
 
   const datePickerRef = useRef(null)
 
@@ -294,6 +300,12 @@ export const DatePicker = ({
     return day === tillDay && month === tillMonth && year === tillYear
   }
 
+  const isHoverDay = () => {
+    return makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+  }
+  // get hover day value
+  //
+
   return (
     <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
       <div
@@ -373,6 +385,12 @@ export const DatePicker = ({
                     : isRangedDay(val.year, val.month, val.day)
                     ? color('lightaccent')
                     : '',
+
+                // background:
+                //   makeDateForComparison(fromYear, fromMonth, fromDay) <=
+                //   makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+                //     ? color('red')
+                //     : color('green'),
                 color:
                   val.day === selectedDay ||
                   isFromDay(val.year, val.month, val.day) ||
@@ -420,14 +438,20 @@ export const DatePicker = ({
                   cursor: 'pointer',
                 },
               }}
+              onMouseOver={() => {
+                setHoverDay(val.day)
+                setHoverMonth(val.month)
+                setHoverYear(val.year)
+
+                //     console.log('hover', val.day, val.month, val.year)
+              }}
               key={i}
               onClick={() => {
                 changeHandler(selectedYear, selectedMonth, val.day)
                 // now close it
-                setShowDatePicker(false)
-                setFocused(false)
-                if (setClosedDatePicker) {
-                  setClosedDatePicker(true)
+                if (!isDateRange) {
+                  setShowDatePicker(false)
+                  setFocused(false)
                 }
               }}
             >

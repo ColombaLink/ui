@@ -35,8 +35,6 @@ export const DateRangeInput = ({
       : dateObj.getUTCMonth() + 1
   }/${dateObj.getUTCFullYear()}`
 
-  console.log('TODAY BITCHES', today)
-
   const dateHandlerFrom = (val) => {
     const tempArr = []
     const day = `${val[0]}${val[1]}`
