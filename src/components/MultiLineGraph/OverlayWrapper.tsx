@@ -2,7 +2,7 @@ import React, { useState, useRef, useContext } from 'react'
 import useGraphHover from '~/hooks/useGraphHover'
 import useThrottledCallback from '~/hooks//useThrottledCallback'
 import { Color, color, Text } from '~'
-import { GraphContext } from '.'
+// import { GraphContext } from '.'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 import {
@@ -20,7 +20,7 @@ type LegendValues = {
   svgY: number
   valueFormat?: NumberFormat
 }[]
-const OverlayNested = ({
+const Legend = ({
   isHover,
   x,
   values,
@@ -106,7 +106,6 @@ const OverlayNested = ({
         <div
           style={{
             position: 'absolute',
-            transform: `translate3d(${0}px, ${0}px, 0px)`,
             borderRadius: '50%',
             width: 15,
             border: `2px solid ${color('text')} `,
@@ -119,7 +118,9 @@ const OverlayNested = ({
             key={i}
             style={{
               position: 'absolute',
-              transform: `translate3d(${0}px, ${values}px, 0px)`,
+              transform: `translate3d(${0}px, ${
+                value.svgY - values[0].svgY
+              }px, 0px)`,
               borderRadius: '50%',
               width: 15,
               border: `2px solid ${color('text')} `,
@@ -155,12 +156,22 @@ const OverlayNested = ({
           >
             {/* <Text wrap>{xInfo}</Text> */}
             <Text weight={600}>
+              <span style={{ color: color(values[0].color || 'accent') }}>
+                &#x2022;{' '}
+              </span>
               {prettyNumber(
                 values[0].value,
                 values[0].valueFormat || 'number-short'
               )}
-              {/* {{ value: selected.y, format: valueFormat || 'number-short' }} */}
             </Text>
+            {values.slice(1).map((value, i) => (
+              <Text key={i} weight={600}>
+                <span style={{ color: color(value.color || 'accent') }}>
+                  &#x2022;{' '}
+                </span>
+                {prettyNumber(value.value, value.valueFormat || 'number-short')}
+              </Text>
+            ))}
             {/* {extraInfo} */}
           </div>
         </div>
@@ -199,7 +210,8 @@ const findPointAt = (path: SVGGeometryElement, x: number) => {
     current = (from + to) / 2
     point = path.getPointAtLength(current)
   }
-  return point
+
+  return { point, position: current / path.getTotalLength() }
 }
 
 const getY = ({
@@ -227,51 +239,22 @@ const getY = ({
 
   const values = Object.keys(data)
     .reduce<LegendValues>((previous, key) => {
-      // let position = x / width
-      // const totalLength = lineRefs[key].current.getTotalLength()
-      // let pos: DOMPoint
-      // let tries = 4
-      // console.log({ x, position, totalLength })
-      // while (tries) {
-      //   try {
-      //     pos = lineRefs[key].current.getPointAtLength(position * totalLength)
-      //   } catch (error) {
-      //     console.log({ x, width, position, totalLength })
-      //     throw new Error('ops')
-      //   }
-      //   // if (pos.x < x) {
-      //   position = position * (x / pos.x)
-      //   // } else if (pos.x > x) {
-      //   //   position = position * (x / pos.x)
-      //   // }
-      //   console.log(
-      //     'x',
-      //     x,
-      //     'pos.x',
-      //     pos.x,
-      //     'position',
-      //     position,
-      //     'x/pos.x',
-      //     x / pos.x
-      //   )
-      //   tries--
-      // }
-      const pos = findPointAt(lineRefs[key].current, x)
+      const { point, position } = findPointAt(lineRefs[key].current, x)
       const value =
-        data[key].data[Math.floor((pos.x / width) * data[key].data.length)].y
+        data[key].data[Math.floor((point.x / width) * data[key].data.length)].y
       return previous.concat({
         key,
         value,
         color: data[key].color,
-        svgX: pos.x,
-        svgY: pos.y,
+        svgX: point.x,
+        svgY: point.y,
         valueFormat: data[key].valueFormat,
       })
     }, [])
     .sort((a, b) => b.value - a.value)
 
   return (
-    <OverlayNested
+    <Legend
       // legend={legend}
       // isStacked={isStacked}
       isHover={isHover}
