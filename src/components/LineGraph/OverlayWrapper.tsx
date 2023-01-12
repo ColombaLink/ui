@@ -184,7 +184,7 @@ const getY = (
       if (p.x < x) {
         u = u * (x / p.x)
       } else if (p.x > x) {
-        u = u * (p.x / x)
+        u = u * (x / p.x)
       }
       tries--
     }
