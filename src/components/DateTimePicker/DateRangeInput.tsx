@@ -19,6 +19,7 @@ export const DateRangeInput = ({
   const [fromValue, setFromValue] = useState<string>('')
   const [tillValue, setTillValue] = useState<string>('')
 
+  const [focusOnBeginDate, setFocusOnBeginDate] = useState<boolean>(false)
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
 
   // today
@@ -61,23 +62,37 @@ export const DateRangeInput = ({
     return Date.parse(`${year}-${month}-${day}`)
   }
 
-  useEffect(() => {
-    // compare fromValue and tillValue set errormessage
-    if (
-      makeAnotherDateForComparison(fromValue) >
-      makeAnotherDateForComparison(tillValue)
-    ) {
-      setErrorMessage("From value can't be bigger than till value")
-    } else {
-      setErrorMessage('')
-    }
-  }, [fromValue, tillValue])
+  // useEffect(() => {
+  //   // compare fromValue and tillValue set errormessage
+  //   // if (
+  //   //   makeAnotherDateForComparison(fromValue) >
+  //   //   makeAnotherDateForComparison(tillValue)
+  //   // ) {
+  //   //   setErrorMessage("From value can't be bigger than till value")
+  //   // } else {
+  //   //   setErrorMessage('')
+  //   // }
+  // }, [fromValue, tillValue])
 
   //
   useEffect(() => {
     console.log('fromValue', fromValue, tillValue, 'tillValue')
 
     console.log('fromValue', +fromValue[0])
+
+    // als de fromvalue veranderd en de focus op de enddate staat
+    if (
+      focusOnEndDate &&
+      makeAnotherDateForComparison(fromValue) >
+        makeAnotherDateForComparison(tillValue)
+    ) {
+      console.log('Ey yo do ')
+      setFocusOnEndDate(false)
+      setFocusOnBeginDate(true)
+      setFromValue(tillValue)
+      setTillValue(fromValue)
+    }
+
     // TODO fix today date formatted
     if (
       typeof +fromValue[0] === 'number' &&
@@ -87,7 +102,7 @@ export const DateRangeInput = ({
       console.log('fromValue', fromValue[0])
       setFocusOnEndDate(true)
     }
-  }, [fromValue])
+  }, [fromValue, tillValue])
 
   return (
     <>
@@ -101,6 +116,8 @@ export const DateRangeInput = ({
       >
         <DateInput
           value={fromValue}
+          focusOnBeginDate={focusOnBeginDate}
+          setFocusOnBeginDate={setFocusOnBeginDate}
           setFocused={() => {}}
           dateHandler={dateHandlerFrom}
           fromValue={fromValue}
@@ -117,6 +134,7 @@ export const DateRangeInput = ({
         <DateInput
           value={tillValue}
           focusOnEndDate={focusOnEndDate}
+          setFocusOnEndDate={setFocusOnEndDate}
           setFocused={() => {}}
           dateHandler={dateHandlerTill}
           fromValue={fromValue}

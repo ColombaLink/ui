@@ -12,6 +12,8 @@ type DatePickerProps = {
   tillValue?: string
   isDateRange?: boolean
   style?: CSSProperties
+  setFocusOnBeginDate?: (value: boolean) => void
+  setFocusOnEndDate?: (value: boolean) => void
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -45,11 +47,14 @@ export const DatePicker = ({
   tillValue,
   isDateRange,
   style,
+  setFocusOnBeginDate,
+  setFocusOnEndDate,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
   // console.log('TILL VALUE UIT DE PICKER -->', tillValue)
   // console.log('from VALUE UIT DE PICKER', fromValue)
+  console.log('setFocusOnBeginDate', setFocusOnBeginDate)
 
   // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -113,9 +118,6 @@ export const DatePicker = ({
 
     // setInputValue(`${year}-${month}-${day}`)
     setInputValue(`${day}/${month}/${year}`)
-    if (isDateRange && !fromValue) {
-      setFromValue(`${day}/${month}/${year}`)
-    }
   }
 
   useEffect(() => {
@@ -140,7 +142,6 @@ export const DatePicker = ({
     setSelectedMonth(+inputValue?.split('/')[1])
     setSelectedYear(+inputValue?.split('/')[2])
 
-    // set from and till values again
     if (fromValue) {
       setFromDay(+fromValue?.split('/')[0])
       setFromMonth(+fromValue?.split('/')[1])

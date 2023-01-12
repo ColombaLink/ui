@@ -12,7 +12,10 @@ type DateInputProps = {
   tillValue?: string
   style?: CSSProperties
   placeholder?: string
+  focusOnBeginDate?: boolean
+  setFocusOnBeginDate?: (value: boolean) => void
   focusOnEndDate?: boolean
+  setFocusOnEndDate?: (value: boolean) => void
   isEndDate?: boolean
   isDateRange?: boolean
 }
@@ -37,7 +40,10 @@ export const DateInput: FC<DateInputProps> = ({
   tillValue,
   style,
   placeholder,
+  focusOnBeginDate,
+  setFocusOnBeginDate,
   focusOnEndDate,
+  setFocusOnEndDate,
   isEndDate,
   isDateRange,
 }) => {
@@ -49,6 +55,7 @@ export const DateInput: FC<DateInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null)
 
   console.log('focusOnEndDate', focusOnEndDate)
+  console.log('focusOnBeginDate', focusOnBeginDate)
 
   useEffect(() => {
     if (focusOnEndDate) {
@@ -73,6 +80,12 @@ export const DateInput: FC<DateInputProps> = ({
       })
     }
   }, [focusOnEndDate])
+
+  useEffect(() => {
+    if (!isEndDate && focusOnBeginDate) {
+      inputRef.current.focus()
+    }
+  }, [focusOnBeginDate])
 
   if (showDatePicker) {
     setFocused(true)
@@ -161,6 +174,8 @@ export const DateInput: FC<DateInputProps> = ({
           isDateRange={isDateRange}
           fromValue={fromValue}
           tillValue={tillValue}
+          setFocusOnBeginDate={setFocusOnBeginDate}
+          setFocusOnEndDate={setFocusOnEndDate}
           style={{ left: isEndDate ? '-100%' : '' }}
         />
       )}
