@@ -22,6 +22,8 @@ export const DateRangeInput = ({
   const [focusOnBeginDate, setFocusOnBeginDate] = useState<boolean>(false)
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
 
+  const [renderCounter, setRenderCounter] = useState(1)
+
   // today
   const dateObj = new Date()
 
@@ -80,21 +82,26 @@ export const DateRangeInput = ({
 
     console.log('fromValue', +fromValue[0])
 
-    // als de fromvalue veranderd en de focus op de enddate staat
-    if (
-      focusOnEndDate &&
-      makeAnotherDateForComparison(fromValue) >
-        makeAnotherDateForComparison(tillValue)
-    ) {
-      console.log('Ey yo do ')
-      setFocusOnEndDate(false)
-      setFocusOnBeginDate(true)
-      setFromValue(tillValue)
-      setTillValue(fromValue)
-    }
+    // als voor de from date geklikt word...
+    // if (
+    //   focusOnEndDate &&
+    //   !focusOnBeginDate &&
+    //   makeAnotherDateForComparison(fromValue) >
+    //     makeAnotherDateForComparison(tillValue)
+    // ) {
+    //   console.log('Ey yo do ')
+    //   setFocusOnEndDate(false)
+    //   setFocusOnBeginDate(true)
+    //   setFromValue(tillValue)
+    //   // TODO
+    //   // set till value moet eigenlijk de oude till value zijn...
+    //   // van de previous state
+    //   setTillValue(fromValue)
+    // }
 
     // TODO fix today date formatted
     if (
+      !tillValue &&
       typeof +fromValue[0] === 'number' &&
       typeof +fromValue[1] === 'number' &&
       !isNaN(+fromValue[0])
@@ -102,53 +109,57 @@ export const DateRangeInput = ({
       console.log('fromValue', fromValue[0])
       setFocusOnEndDate(true)
     }
-  }, [fromValue, tillValue])
+  }, [fromValue])
 
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: 12,
-          maxWidth: 278,
-        }}
-      >
-        <DateInput
-          value={fromValue}
-          focusOnBeginDate={focusOnBeginDate}
-          setFocusOnBeginDate={setFocusOnBeginDate}
-          setFocused={() => {}}
-          dateHandler={dateHandlerFrom}
-          fromValue={fromValue}
-          tillValue={tillValue}
+      {renderCounter && (
+        <div
           style={{
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: 12,
+            maxWidth: 278,
           }}
-          placeholder="Start date"
-          isDateRange
-        />
+        >
+          <DateInput
+            value={fromValue}
+            focusOnBeginDate={focusOnBeginDate}
+            setFocused={() => {}}
+            dateHandler={dateHandlerFrom}
+            fromValue={fromValue}
+            tillValue={tillValue}
+            setFromValue={setFromValue}
+            setTillValue={setTillValue}
+            style={{
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
+              width: '100%',
+            }}
+            placeholder="Start date"
+            isDateRange
+          />
 
-        <DateInput
-          value={tillValue}
-          focusOnEndDate={focusOnEndDate}
-          setFocusOnEndDate={setFocusOnEndDate}
-          setFocused={() => {}}
-          dateHandler={dateHandlerTill}
-          fromValue={fromValue}
-          tillValue={tillValue}
-          style={{
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-            width: '100%',
-          }}
-          placeholder="End date"
-          isEndDate
-          isDateRange
-        />
-      </div>
+          <DateInput
+            value={tillValue}
+            focusOnEndDate={focusOnEndDate}
+            setFocused={() => {}}
+            dateHandler={dateHandlerTill}
+            fromValue={fromValue}
+            tillValue={tillValue}
+            setFromValue={setFromValue}
+            setTillValue={setTillValue}
+            style={{
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+              width: '100%',
+            }}
+            placeholder="End date"
+            isEndDate
+            isDateRange
+          />
+        </div>
+      )}
 
       {/* <div style={{ background: 'yellow' }}>
         FROM: {fromValue} - TILL: {tillValue}

@@ -14,6 +14,8 @@ type DatePickerProps = {
   style?: CSSProperties
   setFocusOnBeginDate?: (value: boolean) => void
   setFocusOnEndDate?: (value: boolean) => void
+  setFromValue?: (value: string) => void
+  setTillValue?: (value: string) => void
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -49,6 +51,8 @@ export const DatePicker = ({
   style,
   setFocusOnBeginDate,
   setFocusOnEndDate,
+  setFromValue,
+  setTillValue,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
@@ -117,7 +121,26 @@ export const DatePicker = ({
     setSelectedYear(year)
 
     // setInputValue(`${year}-${month}-${day}`)
-    setInputValue(`${day}/${month}/${year}`)
+
+    if (
+      makeDateForComparison(year, month, day) <
+      makeDateForComparison(fromYear, fromMonth, fromDay)
+    ) {
+      console.log('fire fire 🍟')
+      setFromDay(day)
+      setFromMonth(month)
+      setFromYear(year)
+
+      setFromValue(`${day}/${month}/${year}`)
+
+      setTillDay(tillDay)
+      setTillMonth(tillMonth)
+      setTillYear(tillYear)
+
+      setTillValue(`${tillDay}/${tillMonth}/${tillYear}`)
+    } else {
+      setInputValue(`${day}/${month}/${year}`)
+    }
   }
 
   useEffect(() => {
@@ -154,8 +177,6 @@ export const DatePicker = ({
       setTillYear(+tillValue?.split('/')[2])
     }
   }, [inputValue])
-
-  useEffect(() => {}, [inputValue])
 
   const [daysArr, setDaysArr] = useState([])
 

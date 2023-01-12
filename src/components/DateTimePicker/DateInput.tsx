@@ -13,11 +13,11 @@ type DateInputProps = {
   style?: CSSProperties
   placeholder?: string
   focusOnBeginDate?: boolean
-  setFocusOnBeginDate?: (value: boolean) => void
   focusOnEndDate?: boolean
-  setFocusOnEndDate?: (value: boolean) => void
   isEndDate?: boolean
   isDateRange?: boolean
+  setFromValue?: (value: string) => void
+  setTillValue?: (value: string) => void
 }
 
 const StyledDateInput = styled('input', {
@@ -41,11 +41,11 @@ export const DateInput: FC<DateInputProps> = ({
   style,
   placeholder,
   focusOnBeginDate,
-  setFocusOnBeginDate,
   focusOnEndDate,
-  setFocusOnEndDate,
   isEndDate,
   isDateRange,
+  setFromValue,
+  setTillValue,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
@@ -58,7 +58,7 @@ export const DateInput: FC<DateInputProps> = ({
   console.log('focusOnBeginDate', focusOnBeginDate)
 
   useEffect(() => {
-    if (focusOnEndDate) {
+    if (focusOnEndDate && !focusOnBeginDate) {
       inputRef.current.focus()
       console.log(inputRef)
 
@@ -79,13 +79,13 @@ export const DateInput: FC<DateInputProps> = ({
         },
       })
     }
-  }, [focusOnEndDate])
+  }, [focusOnEndDate, focusOnBeginDate])
 
   useEffect(() => {
-    if (!isEndDate && focusOnBeginDate) {
+    if (!focusOnEndDate && focusOnBeginDate) {
       inputRef.current.focus()
     }
-  }, [focusOnBeginDate])
+  }, [focusOnBeginDate, focusOnEndDate])
 
   if (showDatePicker) {
     setFocused(true)
@@ -126,6 +126,11 @@ export const DateInput: FC<DateInputProps> = ({
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,
+          border: focusOnBeginDate
+            ? '1px solid red'
+            : focusOnEndDate
+            ? '1px solid blue'
+            : '',
           ...style,
         }}
         onChange={(e) => {
@@ -174,8 +179,8 @@ export const DateInput: FC<DateInputProps> = ({
           isDateRange={isDateRange}
           fromValue={fromValue}
           tillValue={tillValue}
-          setFocusOnBeginDate={setFocusOnBeginDate}
-          setFocusOnEndDate={setFocusOnEndDate}
+          setFromValue={setFromValue}
+          setTillValue={setTillValue}
           style={{ left: isEndDate ? '-100%' : '' }}
         />
       )}
