@@ -1,10 +1,15 @@
 import { DateFormat } from '@based/pretty-date'
 import { NumberFormat } from '@based/pretty-number'
+import { Color } from '~'
 
 export type Point = { x: number; y: number }
 
 export type LineData = {
   data: Point[]
+  fill?: boolean
+  color?: Color
+  points?: Point[]
+  valueFormat?: NumberFormat
 }
 
 export type MultiLineGraphData = {
@@ -24,3 +29,5 @@ export type MultiLineGraphFormat =
   | 'date-time-human'
   | NumberFormat
   | DateFormat
+  | false
+  | null

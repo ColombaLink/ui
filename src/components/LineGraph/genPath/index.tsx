@@ -25,7 +25,6 @@ const genPath = (
   let paths: JSX.Element
   const points = []
   // also different for segments
-  console.log({ stepSize })
   if (stepSize < 10) {
     // MAKE AVARAGES
 

@@ -32,7 +32,7 @@ export const LineGraph = () => {
   }
 
   const bytes = []
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 50; i++) {
     bytes.push({
       x: i,
       y: Math.round(Math.random() * 2e9),
