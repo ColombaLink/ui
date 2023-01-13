@@ -51,6 +51,7 @@ export const DateInput: FC<DateInputProps> = ({
   setTillValue,
   setFocusOnBeginDate,
   setFocusOnEndDate,
+  onClick,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
@@ -133,11 +134,11 @@ export const DateInput: FC<DateInputProps> = ({
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,
-          border: focusOnBeginDate
-            ? '1px solid red'
-            : focusOnEndDate
-            ? '1px solid blue'
-            : '',
+          // border: focusOnBeginDate
+          //   ? '1px solid red'
+          //   : focusOnEndDate
+          //   ? '1px solid blue'
+          //   : '',
           ...style,
         }}
         onChange={(e) => {
@@ -163,6 +164,7 @@ export const DateInput: FC<DateInputProps> = ({
           }
           e.preventDefault()
           setShowDatePicker(true)
+          onClick()
         }}
         onFocus={() => {
           setIsFocus(true)

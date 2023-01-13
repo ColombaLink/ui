@@ -358,11 +358,19 @@ export const DatePicker = ({
     return day === tillDay && month === tillMonth && year === tillYear
   }
 
-  const isHoverDay = () => {
-    return makeDateForComparison(hoverYear, hoverMonth, hoverDay)
-  }
-  // get hover day value
-  //
+  useEffect(() => {
+    if (
+      makeDateForComparison(fromYear, fromMonth, fromDay) >
+      makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+    ) {
+      console.log('fromDay is bigger')
+    } else if (
+      makeDateForComparison(tillYear, tillMonth, tillDay) <
+      makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+    ) {
+      console.log('tillDay is smaller')
+    }
+  }, [hoverDay])
 
   return (
     <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
@@ -500,8 +508,7 @@ export const DatePicker = ({
                 setHoverDay(val.day)
                 setHoverMonth(val.month)
                 setHoverYear(val.year)
-
-                //     console.log('hover', val.day, val.month, val.year)
+                console.log('hover', val.day, val.month, val.year)
               }}
               key={i}
               onClick={() => {
