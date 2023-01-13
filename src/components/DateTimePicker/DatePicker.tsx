@@ -16,6 +16,8 @@ type DatePickerProps = {
   setFocusOnEndDate?: (value: boolean) => void
   setFromValue?: (value: string) => void
   setTillValue?: (value: string) => void
+  focusOnBeginDate?: boolean
+  focusOnEndDate?: boolean
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -53,6 +55,8 @@ export const DatePicker = ({
   setFocusOnEndDate,
   setFromValue,
   setTillValue,
+  focusOnBeginDate,
+  focusOnEndDate,
 }: DatePickerProps) => {
   const dateObj = new Date()
 
@@ -123,8 +127,9 @@ export const DatePicker = ({
     // setInputValue(`${year}-${month}-${day}`)
 
     if (
+      focusOnEndDate &&
       makeDateForComparison(year, month, day) <
-      makeDateForComparison(fromYear, fromMonth, fromDay)
+        makeDateForComparison(fromYear, fromMonth, fromDay)
     ) {
       console.log('fire fire 🍟')
       setFromDay(day)
@@ -138,6 +143,11 @@ export const DatePicker = ({
       setTillYear(tillYear)
 
       setTillValue(`${tillDay}/${tillMonth}/${tillYear}`)
+
+      //  close the datepicker and switch to the from date field picker
+      setShowDatePicker(false)
+      setFocusOnBeginDate(true)
+      setFocusOnEndDate(false)
     } else {
       setInputValue(`${day}/${month}/${year}`)
     }

@@ -125,6 +125,8 @@ export const DateRangeInput = ({
           <DateInput
             value={fromValue}
             focusOnBeginDate={focusOnBeginDate}
+            setFocusOnBeginDate={setFocusOnBeginDate}
+            setFocusOnEndDate={setFocusOnEndDate}
             setFocused={() => {}}
             dateHandler={dateHandlerFrom}
             fromValue={fromValue}
@@ -143,6 +145,8 @@ export const DateRangeInput = ({
           <DateInput
             value={tillValue}
             focusOnEndDate={focusOnEndDate}
+            setFocusOnBeginDate={setFocusOnBeginDate}
+            setFocusOnEndDate={setFocusOnEndDate}
             setFocused={() => {}}
             dateHandler={dateHandlerTill}
             fromValue={fromValue}

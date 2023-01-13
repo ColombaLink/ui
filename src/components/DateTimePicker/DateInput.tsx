@@ -18,6 +18,8 @@ type DateInputProps = {
   isDateRange?: boolean
   setFromValue?: (value: string) => void
   setTillValue?: (value: string) => void
+  setFocusOnBeginDate?: (value: boolean) => void
+  setFocusOnEndDate?: (value: boolean) => void
 }
 
 const StyledDateInput = styled('input', {
@@ -46,6 +48,8 @@ export const DateInput: FC<DateInputProps> = ({
   isDateRange,
   setFromValue,
   setTillValue,
+  setFocusOnBeginDate,
+  setFocusOnEndDate,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
@@ -181,6 +185,10 @@ export const DateInput: FC<DateInputProps> = ({
           tillValue={tillValue}
           setFromValue={setFromValue}
           setTillValue={setTillValue}
+          focusOnBeginDate={focusOnBeginDate}
+          focusOnEndDate={focusOnEndDate}
+          setFocusOnBeginDate={setFocusOnBeginDate}
+          setFocusOnEndDate={setFocusOnEndDate}
           style={{ left: isEndDate ? '-100%' : '' }}
         />
       )}
