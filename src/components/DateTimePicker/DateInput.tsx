@@ -20,6 +20,7 @@ type DateInputProps = {
   setTillValue?: (value: string) => void
   setFocusOnBeginDate?: (value: boolean) => void
   setFocusOnEndDate?: (value: boolean) => void
+  onClick?: () => void
 }
 
 const StyledDateInput = styled('input', {
@@ -58,13 +59,12 @@ export const DateInput: FC<DateInputProps> = ({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  console.log('focusOnEndDate', focusOnEndDate)
-  console.log('focusOnBeginDate', focusOnBeginDate)
+  // console.log('focusOnEndDate', focusOnEndDate)
+  // console.log('focusOnBeginDate', focusOnBeginDate)
 
   useEffect(() => {
-    if (focusOnEndDate && !focusOnBeginDate) {
+    if (focusOnEndDate && !focusOnBeginDate && !tillValue) {
       inputRef.current.focus()
-      console.log(inputRef)
 
       // @ts-ignore
       inputRef.current.value = dateInputHandler({

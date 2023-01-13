@@ -106,7 +106,7 @@ export const DateRangeInput = ({
       typeof +fromValue[1] === 'number' &&
       !isNaN(+fromValue[0])
     ) {
-      console.log('fromValue', fromValue[0])
+      //  console.log('fromValue', fromValue[0])
       setFocusOnEndDate(true)
     }
   }, [fromValue])
@@ -140,6 +140,10 @@ export const DateRangeInput = ({
             }}
             placeholder="Start date"
             isDateRange
+            onClick={() => {
+              setFocusOnBeginDate(true)
+              setFocusOnEndDate(false)
+            }}
           />
 
           <DateInput
@@ -161,6 +165,10 @@ export const DateRangeInput = ({
             placeholder="End date"
             isEndDate
             isDateRange
+            onClick={() => {
+              setFocusOnBeginDate(true)
+              setFocusOnEndDate(false)
+            }}
           />
         </div>
       )}

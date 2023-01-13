@@ -62,7 +62,6 @@ export const DatePicker = ({
 
   // console.log('TILL VALUE UIT DE PICKER -->', tillValue)
   // console.log('from VALUE UIT DE PICKER', fromValue)
-  console.log('setFocusOnBeginDate', setFocusOnBeginDate)
 
   // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -126,10 +125,10 @@ export const DatePicker = ({
 
     // setInputValue(`${year}-${month}-${day}`)
 
+    // if you press before the from date
     if (
-      focusOnEndDate &&
       makeDateForComparison(year, month, day) <
-        makeDateForComparison(fromYear, fromMonth, fromDay)
+      makeDateForComparison(fromYear, fromMonth, fromDay)
     ) {
       console.log('fire fire 🍟')
       setFromDay(day)
@@ -145,7 +144,10 @@ export const DatePicker = ({
       setTillValue(`${tillDay}/${tillMonth}/${tillYear}`)
 
       //  close the datepicker and switch to the from date field picker
-      setShowDatePicker(false)
+      if (focusOnEndDate) {
+        setShowDatePicker(false)
+      }
+
       setFocusOnBeginDate(true)
       setFocusOnEndDate(false)
     } else {
