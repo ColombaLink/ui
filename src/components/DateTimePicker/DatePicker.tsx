@@ -150,6 +150,32 @@ export const DatePicker = ({
 
       setFocusOnBeginDate(true)
       setFocusOnEndDate(false)
+    } else if (
+      tillValue &&
+      fromValue &&
+      makeDateForComparison(year, month, day) >
+        makeDateForComparison(tillYear, tillMonth, tillDay)
+    ) {
+      console.log('fire fire 🌭')
+      // setFromDay(fromDay)
+      // setFromMonth(fromMonth)
+      // setFromYear(fromYear)
+
+      //  setFromValue(`${fromDay}/${fromMonth}/${fromYear}`)
+
+      setTillDay(day)
+      setTillMonth(month)
+      setTillYear(year)
+
+      setTillValue(`${day}/${month}/${year}`)
+
+      //  close the datepicker and switch to the from date field picker
+      if (focusOnBeginDate) {
+        setShowDatePicker(false)
+      }
+
+      setFocusOnBeginDate(false)
+      setFocusOnEndDate(true)
     } else {
       setInputValue(`${day}/${month}/${year}`)
     }

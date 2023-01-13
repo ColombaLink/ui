@@ -166,8 +166,8 @@ export const DateRangeInput = ({
             isEndDate
             isDateRange
             onClick={() => {
-              setFocusOnBeginDate(true)
-              setFocusOnEndDate(false)
+              setFocusOnBeginDate(false)
+              setFocusOnEndDate(true)
             }}
           />
         </div>

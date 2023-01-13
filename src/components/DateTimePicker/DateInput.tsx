@@ -89,6 +89,9 @@ export const DateInput: FC<DateInputProps> = ({
     if (!focusOnEndDate && focusOnBeginDate) {
       inputRef.current.focus()
     }
+    if (focusOnEndDate && !focusOnBeginDate) {
+      inputRef.current.focus()
+    }
   }, [focusOnBeginDate, focusOnEndDate])
 
   if (showDatePicker) {
