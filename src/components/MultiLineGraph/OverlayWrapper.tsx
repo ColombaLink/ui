@@ -8,13 +8,14 @@ import { prettyDate } from '@based/pretty-date'
 import {
   LineData,
   MultiLineGraphData,
-  MultiLineGraphFormat,
+  MultiLineXGraphFormat,
   Point,
 } from './types'
 
 type LegendValues = {
   key: string
-  value: number
+  x: number
+  y: number
   color?: Color
   svgX: number
   svgY: number
@@ -34,6 +35,7 @@ const Legend = ({
   x: number
   values: LegendValues
 }) => {
+  if (!values[0]?.svgX) return null
   let extraInfo = null
 
   // if (isStacked) {
@@ -160,7 +162,7 @@ const Legend = ({
                 &#x2022;{' '}
               </span>
               {prettyNumber(
-                values[0].value,
+                values[0].y,
                 values[0].valueFormat || 'number-short'
               )}
             </Text>
@@ -169,9 +171,10 @@ const Legend = ({
                 <span style={{ color: color(value.color || 'accent') }}>
                   &#x2022;{' '}
                 </span>
-                {prettyNumber(value.value, value.valueFormat || 'number-short')}
+                {prettyNumber(value.y, value.valueFormat || 'number-short')}
               </Text>
             ))}
+            <Text color="text2">x: {values[0].x}</Text>
             {/* {extraInfo} */}
           </div>
         </div>
@@ -239,19 +242,23 @@ const getY = ({
 
   const values = Object.keys(data)
     .reduce<LegendValues>((previous, key) => {
+      if (!lineRefs[key]?.current) return previous
+
       const { point, position } = findPointAt(lineRefs[key].current, x)
-      const value =
-        data[key].data[Math.floor((point.x / width) * data[key].data.length)].y
+
       return previous.concat({
         key,
-        value,
+        x: data[key].data[Math.floor((point.x / width) * data[key].data.length)]
+          .x,
+        y: data[key].data[Math.floor((point.x / width) * data[key].data.length)]
+          .y,
         color: data[key].color,
         svgX: point.x,
         svgY: point.y,
         valueFormat: data[key].valueFormat,
       })
     }, [])
-    .sort((a, b) => b.value - a.value)
+    .sort((a, b) => b.y - a.y)
 
   return (
     <Legend
@@ -353,7 +360,6 @@ const Overlay = ({
   width,
   data,
   r,
-  format,
   isStacked,
   legend,
   valueFormat,
@@ -365,7 +371,6 @@ const Overlay = ({
   width: number
   data: MultiLineGraphData
   r: React.MutableRefObject<any>
-  format: MultiLineGraphFormat
   isStacked: boolean
   legend: boolean
   valueFormat: NumberFormat | string
@@ -410,7 +415,6 @@ export default ({
   isStacked,
   legend,
   valueFormat,
-  format,
   ySpread,
   lineRefs,
 }) => {
@@ -462,19 +466,18 @@ export default ({
         })}
         {children}
       </svg>
-      <Overlay
-        valueFormat={valueFormat}
-        isStacked={isStacked}
-        legend={legend}
-        format={format}
-        isHover={isHover}
-        x={mouseX}
-        width={width}
-        data={data}
-        r={ref}
-        ySpread={ySpread}
-        lineRefs={lineRefs}
-      />
+      {/* <Overlay */}
+      {/*   valueFormat={valueFormat} */}
+      {/*   isStacked={isStacked} */}
+      {/*   legend={legend} */}
+      {/*   isHover={isHover} */}
+      {/*   x={mouseX} */}
+      {/*   width={width} */}
+      {/*   data={data} */}
+      {/*   r={ref} */}
+      {/*   ySpread={ySpread} */}
+      {/*   lineRefs={lineRefs} */}
+      {/* /> */}
     </div>
   )
 }

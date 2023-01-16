@@ -11,9 +11,10 @@ import { NumberFormat } from '@based/pretty-number'
 import {
   MultiLineGraphData,
   MultiLineGraphDataInput,
-  MultiLineGraphFormat,
+  MultiLineXGraphFormat,
+  Point,
 } from './types'
-import { getMinMax } from './utils'
+import { averageData, getGlobalMinMax, getMinMax, processData } from './utils'
 import genLabels from './genLabels'
 import { genPaths } from './genPath'
 import XAxis from './XAxis'
@@ -25,7 +26,7 @@ const Graph = ({
   width,
   height,
   data: dataInput,
-  format,
+  xFormat,
   label,
   valueFormat,
   pure,
@@ -33,41 +34,48 @@ const Graph = ({
   width: number
   height: number
   data: MultiLineGraphDataInput
-  format?: MultiLineGraphFormat
+  xFormat?: MultiLineXGraphFormat
   label?: string
   valueFormat?: NumberFormat | string
   pure?: boolean
 }) => {
-  let data: MultiLineGraphData
-  if (Array.isArray(dataInput)) {
-    data = { '': { data: dataInput } }
-  } else if (Array.isArray(dataInput[0])) {
-    data = Object.keys(dataInput).reduce(
-      (newData, key) => ({ ...newData, [key]: { data: dataInput[key] } }),
-      {}
-    )
-  } else {
-    data = dataInput as MultiLineGraphData
-  }
   const labelRef = useRef<any>()
   const [labelWidth, updateLabelWidth] = useState(0)
-
-  const { minX, maxX, minY, maxY } = getMinMax(data)
   const svgWidth = width - labelWidth
-  const svgHeight = height - (label ? 66 : 32) + (format ? 0 : 16)
-  const ySpread = maxY - minY
+  const svgHeight = height - (label ? 66 : 32) + (xFormat ? 0 : 16)
+
+  const data = processData({ dataInput })
+  const { globalMaxY, globalMinY, globalMaxX, globalMinX } =
+    getGlobalMinMax(data)
+  const ySpread = globalMaxY - globalMinY
+
+  // const { minX, maxX, minY, maxY } = getMinMax(data)
+  // const ySpread = maxY - minY
 
   // TODO: Make points here if needed in multiple places
-  Object.keys(data).forEach((key) => {
-    const stepSize = svgWidth / (data[key].data.length - 1)
-    const pxValue = ySpread / svgHeight
-    data[key].points = data[key].data.map((dataItem, index) => {
-      return {
-        x: stepSize * index,
-        y: (ySpread - (dataItem.y - minY)) / pxValue,
-      }
-    })
-  })
+  // Object.keys(data).forEach((key) => {
+  //   let stepSize = svgWidth / (data[key].data.length - 1)
+  //   const pxValue = ySpread / svgHeight
+  //   const targetStepSize = 10
+
+  //   // TODO: this needs to be done before min max
+  //   if (stepSize < targetStepSize) {
+  //     const { data: newData, stepSize: newStepSize } = averageData({
+  //       data: data[key].data,
+  //       stepSize,
+  //       width: svgWidth,
+  //       targetStepSize,
+  //     })
+  //     data[key].data = newData
+  //     stepSize = newStepSize
+  //   }
+  //   data[key].points = data[key].data.map((dataItem, index) => {
+  //     return {
+  //       x: stepSize * index,
+  //       y: (ySpread - (dataItem.y - globalMinY)) / pxValue,
+  //     }
+  //   })
+  // })
 
   useEffect(() => {
     if (labelRef.current) {
@@ -75,14 +83,12 @@ const Graph = ({
     }
   }, [ySpread])
 
-  const { labels, labelHeight } = genLabels(svgHeight, ySpread, maxY)
+  const { labels, labelHeight } = genLabels(svgHeight, ySpread, globalMaxY)
 
   let { paths, lineRefs } = genPaths({
     data: data,
     width: svgWidth,
     height: svgHeight,
-    ySpread,
-    minY,
   })
 
   // if (pure) {
@@ -144,7 +150,6 @@ const Graph = ({
           labelHeight={labelHeight}
           labels={labels}
           data={data}
-          format={format}
           valueFormat={valueFormat}
           ySpread={ySpread}
           lineRefs={lineRefs}
@@ -152,13 +157,18 @@ const Graph = ({
           {paths}
         </OverlayWrapper>
       </div>
-      {format ? (
+      {xFormat ? (
         <div
           style={{
             paddingLeft: labelWidth + 'px',
           }}
         >
-          <XAxis maxX={maxX} minX={minX} format={format} width={svgWidth} />
+          <XAxis
+            maxX={globalMaxX}
+            minX={globalMinX}
+            xFormat={xFormat}
+            width={svgWidth}
+          />
         </div>
       ) : null}
     </div>
@@ -167,7 +177,7 @@ const Graph = ({
 
 export type MultiLineGraphProps = {
   data: MultiLineGraphDataInput
-  format?: MultiLineGraphFormat
+  xFormat?: MultiLineXGraphFormat
   valueFormat?: NumberFormat | string
   pure?: boolean
   label?: string
@@ -175,7 +185,7 @@ export type MultiLineGraphProps = {
 export const MultiLineGraph: FunctionComponent<MultiLineGraphProps> = ({
   data,
   label,
-  format = 'number',
+  xFormat = 'number',
   valueFormat = 'number-short',
   pure,
 }) => {
@@ -189,7 +199,7 @@ export const MultiLineGraph: FunctionComponent<MultiLineGraphProps> = ({
             height={height}
             width={width}
             pure={pure}
-            format={format}
+            xFormat={xFormat}
             valueFormat={valueFormat}
           />
         )

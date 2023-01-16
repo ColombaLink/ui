@@ -4,12 +4,19 @@ import { Color } from '~'
 
 export type Point = { x: number; y: number }
 
-export type LineData = {
+export type LineDataInput = {
   data: Point[]
   fill?: boolean
   color?: Color
-  points?: Point[]
   valueFormat?: NumberFormat
+}
+export type LineData = LineDataInput & {
+  points?: Point[]
+  minX?: number
+  maxX?: number
+  minY?: number
+  maxY?: number
+  stepSize?: number
 }
 
 export type MultiLineGraphData = {
@@ -17,13 +24,10 @@ export type MultiLineGraphData = {
 }
 
 export type MultiLineGraphDataInput =
-  | MultiLineGraphData
   | Point[]
-  | {
-      [key: string]: Point[]
-    }
+  | { [key: string]: LineDataInput | Point[] }
 
-export type MultiLineGraphFormat =
+export type MultiLineXGraphFormat =
   | 'date'
   | 'number'
   | 'date-time-human'

@@ -2176,7 +2176,9 @@
         "data": {
           "type": [
             "TSTypeLiteral",
-            "Data"
+            {
+              "array": "DataItem"
+            }
           ]
         },
         "legend": {
@@ -2223,7 +2225,7 @@
           "type": "Color"
         }
       },
-      "code": "type LineGraphProps = {\n  data: { [key: string]: Data } | Data\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  color?: Color\n}",
+      "code": "type LineGraphProps = {\n  data: { [key: string]: DataItem[] } | DataItem[]\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  color?: Color\n}",
       "file": "/components/LineGraph/index.tsx"
     },
     "LinkProps": {
@@ -2330,6 +2332,35 @@
       },
       "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
+    },
+    "MultiLineGraphProps": {
+      "name": "MultiLineGraphProps",
+      "props": {
+        "data": {
+          "type": "MultiLineGraphDataInput"
+        },
+        "format": {
+          "optional": true,
+          "type": "MultiLineGraphFormat"
+        },
+        "valueFormat": {
+          "optional": true,
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
+        },
+        "pure": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      "code": "type MultiLineGraphProps = {\n  data: MultiLineGraphDataInput\n  format?: MultiLineGraphFormat\n  valueFormat?: NumberFormat | string\n  pure?: boolean\n  label?: string\n}",
+      "file": "/components/MultiLineGraph/index.tsx"
     },
     "ObjectListProps": {
       "name": "ObjectListProps",

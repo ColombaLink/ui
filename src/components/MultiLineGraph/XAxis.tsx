@@ -3,7 +3,7 @@ import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 
-const XAxis = ({ maxX, minX, format, width }) => {
+const XAxis = ({ maxX, minX, xFormat, width }) => {
   const d = maxX - minX
   const amount = Math.floor(width / 150)
   const rW = width / amount
@@ -16,10 +16,10 @@ const XAxis = ({ maxX, minX, format, width }) => {
     // }
     // prevValue = value
 
-    if (format === 'date-time-human') {
+    if (xFormat === 'date-time-human') {
       // c.push({ value, format: 'date-time-human' })
       c.push(prettyDate(value, 'date-time-human'))
-    } else if (format === 'date') {
+    } else if (xFormat === 'date') {
       // (d * i) / amount
       c.push([
         prettyDate(value, 'time-precise'),
