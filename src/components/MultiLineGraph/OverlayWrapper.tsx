@@ -207,7 +207,9 @@ const findPointAt = (path: SVGGeometryElement, x: number) => {
   let current = (from + to) / 2
   let point = path.getPointAtLength(current)
 
-  while (Math.abs(point.x - x) > 0.5) {
+  let count = 0
+  while (Math.abs(point.x - x) > 0.5 && count < 10) {
+    count++
     if (point.x < x) from = current
     else to = current
     current = (from + to) / 2
@@ -244,6 +246,10 @@ const getY = ({
     .reduce<LegendValues>((previous, key) => {
       if (!lineRefs[key]?.current) return previous
 
+      const box = lineRefs[key].current.getBBox()
+      if (x < box.x || x > box.x + box.width) {
+        return previous
+      }
       const { point, position } = findPointAt(lineRefs[key].current, x)
 
       return previous.concat({
@@ -424,6 +430,7 @@ export default ({
   const [hover, isHover] = useGraphHover()
 
   const ref = useRef<any>()
+
   return (
     <div
       style={{
@@ -466,18 +473,18 @@ export default ({
         })}
         {children}
       </svg>
-      {/* <Overlay */}
-      {/*   valueFormat={valueFormat} */}
-      {/*   isStacked={isStacked} */}
-      {/*   legend={legend} */}
-      {/*   isHover={isHover} */}
-      {/*   x={mouseX} */}
-      {/*   width={width} */}
-      {/*   data={data} */}
-      {/*   r={ref} */}
-      {/*   ySpread={ySpread} */}
-      {/*   lineRefs={lineRefs} */}
-      {/* /> */}
+      <Overlay
+        valueFormat={valueFormat}
+        isStacked={isStacked}
+        legend={legend}
+        isHover={isHover}
+        x={mouseX}
+        width={width}
+        data={data}
+        r={ref}
+        ySpread={ySpread}
+        lineRefs={lineRefs}
+      />
     </div>
   )
 }
