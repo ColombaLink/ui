@@ -36,9 +36,7 @@ export const ToastContainer = ({
         opacity: fade ? 0 : 1,
         transition: `opacity 300ms`,
         cursor: 'pointer',
-
         borderRadius: 8,
-
         ...style,
       }}
       onTransitionEnd={fade ? close : null}
