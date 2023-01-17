@@ -135,11 +135,6 @@ export const DateInput: FC<DateInputProps> = ({
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,
-          // border: focusOnBeginDate
-          //   ? '1px solid red'
-          //   : focusOnEndDate
-          //   ? '1px solid blue'
-          //   : '',
           paddingLeft: 32,
           ...style,
         }}
@@ -188,7 +183,7 @@ export const DateInput: FC<DateInputProps> = ({
           setShowDatePicker={setShowDatePicker}
           setFocused={setFocused}
           clearHandler={clearHandler}
-          // testing
+          // voor de date range
           isDateRange={isDateRange}
           fromValue={fromValue}
           tillValue={tillValue}

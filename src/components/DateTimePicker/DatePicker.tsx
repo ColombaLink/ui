@@ -123,14 +123,12 @@ export const DatePicker = ({
     }
     setSelectedYear(year)
 
-    // setInputValue(`${year}-${month}-${day}`)
-
     // if you press before the from date
     if (
       makeDateForComparison(year, month, day) <
       makeDateForComparison(fromYear, fromMonth, fromDay)
     ) {
-      console.log('fire fire 🍟')
+      //  console.log('fire fire 🍟')
       setFromDay(day)
       setFromMonth(month)
       setFromYear(year)
@@ -149,7 +147,7 @@ export const DatePicker = ({
       makeDateForComparison(year, month, day) >
         makeDateForComparison(tillYear, tillMonth, tillDay)
     ) {
-      console.log('fire fire 🌭')
+      //  console.log('fire fire 🌭')
 
       setTillDay(day)
       setTillMonth(month)
@@ -267,6 +265,7 @@ export const DatePicker = ({
 
   const tempArr = []
 
+  // Calender layout offset
   useEffect(() => {
     tempArr.splice(0, tempArr.length)
 
@@ -359,6 +358,28 @@ export const DatePicker = ({
     }
   }
 
+  const isRangedSmallerHoverDay = (year, month, day) => {
+    if (isDateRange) {
+      return (
+        makeDateForComparison(year, month, day) <
+          makeDateForComparison(fromYear, fromMonth, fromDay) &&
+        makeDateForComparison(year, month, day) >
+          makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+      )
+    }
+  }
+
+  const isRangedBiggerHoverDay = (year, month, day) => {
+    if (isDateRange) {
+      return (
+        makeDateForComparison(year, month, day) >
+          makeDateForComparison(fromYear, fromMonth, fromDay) &&
+        makeDateForComparison(year, month, day) <
+          makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+      )
+    }
+  }
+
   return (
     <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
       <div
@@ -440,12 +461,6 @@ export const DatePicker = ({
                       isRangedHoverDay(val.year, val.month, val.day)
                     ? color('lightaccent')
                     : '',
-
-                // background:
-                //   makeDateForComparison(fromYear, fromMonth, fromDay) <=
-                //   makeDateForComparison(hoverYear, hoverMonth, hoverDay)
-                //     ? color('red')
-                //     : color('green'),
                 color:
                   val.day === selectedDay ||
                   isFromDay(val.year, val.month, val.day) ||
@@ -453,14 +468,19 @@ export const DatePicker = ({
                   isHoveredDay(val.year, val.month, val.day)
                     ? color('background')
                     : color('text'),
-                borderRadius: isFromDay(val.year, val.month, val.day)
-                  ? '4px 0px 0px 4px'
-                  : isTillDay(val.year, val.month, val.day)
-                  ? '0px 4px 4px 0px'
-                  : isRangedDay(val.year, val.month, val.day) ||
-                    isRangedHoverDay(val.year, val.month, val.day)
-                  ? 0
-                  : 4,
+                borderRadius:
+                  isHoveredDay(val.year, val.month, val.day) &&
+                  isRangedSmallerHoverDay(val.year, val.month, val.day)
+                    ? '0px 4px 4px 0px'
+                    : isFromDay(val.year, val.month, val.day) &&
+                      !isRangedSmallerHoverDay(val.year, val.month, val.day)
+                    ? '4px 0px 0px 4px'
+                    : isTillDay(val.year, val.month, val.day)
+                    ? '0px 4px 4px 0px'
+                    : isRangedDay(val.year, val.month, val.day) ||
+                      isRangedHoverDay(val.year, val.month, val.day)
+                    ? 0
+                    : 4,
 
                 width:
                   isRangedDay(val.year, val.month, val.day) ||
@@ -499,11 +519,6 @@ export const DatePicker = ({
                       ? color('accent')
                       : !isDateRange && color('border'),
                   cursor: 'pointer',
-                  // background:
-                  //   makeDateForComparison(fromYear, fromMonth, fromDay) >
-                  //   makeDateForComparison(hoverYear, hoverMonth, hoverDay)
-                  //     ? color('red')
-                  //     : color('green'),
                 },
               }}
               onMouseOver={() => {
@@ -511,11 +526,9 @@ export const DatePicker = ({
                   setHoverDay(val.day)
                   setHoverMonth(val.month)
                   setHoverYear(val.year)
-                  console.log('hover', val.day, val.month, val.year)
                 }
               }}
               onMouseLeave={() => {
-                // unset the hover day
                 if (isDateRange) {
                   setHoverDay(null)
                   setHoverMonth(null)
