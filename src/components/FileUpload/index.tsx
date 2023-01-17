@@ -74,6 +74,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const dialog = useDialog()
+  const renameDialog = useDialog()
 
   const handleClickUpload = async () => {
     // now we are gonna open new modal here
@@ -251,6 +252,38 @@ export const FileUpload: FC<FileUploadProps> = ({
     link.click()
   }
 
+  const renameFile = (file, idx) => {
+    console.log('rename file', file, idx)
+    console.log('file name', file.name)
+    const renameArr = [...uploadedFiles]
+
+    let newFileName = ''
+
+    renameDialog.open(
+      <Dialog label="Rename">
+        <Input
+          placeholder="Example.png"
+          value={fileName}
+          onChange={(e) => {
+            setFileName(e)
+            newFileName = e
+          }}
+        />
+        <Button
+          large
+          style={{ margin: '20px auto' }}
+          onClick={() => {
+            renameArr[idx].name = newFileName
+            setUploadedFiles([...renameArr])
+            renameDialog.close()
+          }}
+        >
+          Rename file
+        </Button>
+      </Dialog>
+    )
+  }
+
   const duplicateFile = (file, idx) => {
     console.log('duplicate file', file, idx)
 
@@ -301,6 +334,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               downloadFile={() => downloadFile(file)}
               duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
+              renameFile={() => renameFile(file, idx)}
               key={idx}
               id={idx}
             />
