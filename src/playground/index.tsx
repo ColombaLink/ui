@@ -13,6 +13,7 @@ import {
   useRoute,
   ExternalLinkIcon,
   color,
+  useLocation,
 } from '../'
 import based from '@based/client'
 import * as stories from './stories'
@@ -24,8 +25,8 @@ import basedConfig from './based.json'
 export const client = based(basedConfig)
 
 const Stories: FC = () => {
-  const route = useRoute()
-  const story = route.query.story
+  useLocation()
+  const story = new URLSearchParams(location.search).get('story')
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
