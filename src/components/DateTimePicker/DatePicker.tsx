@@ -576,7 +576,6 @@ export const DatePicker = ({
         style={{ padding: '8px 16px' }}
         weight={400}
         onClick={() => {
-          console.log('hellow helow')
           clearHandler()
           setShowDatePicker(false)
           setFocused(false)
