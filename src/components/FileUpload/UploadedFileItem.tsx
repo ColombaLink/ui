@@ -78,6 +78,8 @@ export const UploadedFileItem = ({
   openInNewTab,
   id,
   replaceSpecificFile,
+  duplicateFile,
+  downloadFile,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
@@ -87,6 +89,8 @@ export const UploadedFileItem = ({
       id,
       replaceSpecificFile,
       openInNewTab,
+      duplicateFile,
+      downloadFile,
     },
     { placement: 'right' }
   )
@@ -147,10 +151,12 @@ const ContextOptions = ({
   id,
   replaceSpecificFile,
   openInNewTab,
+  duplicateFile,
+  downloadFile,
 }) => {
   return (
     <>
-      <ContextItem onClick={() => {}} icon={CopyIcon}>
+      <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
         Duplicate
       </ContextItem>
       <ContextItem onClick={() => {}} icon={ZoomInIcon}>
@@ -165,7 +171,7 @@ const ContextOptions = ({
       <ContextItem onClick={() => replaceSpecificFile(id)} icon={ReplaceIcon}>
         Replace
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={DownloadIcon}>
+      <ContextItem onClick={() => downloadFile()} icon={DownloadIcon}>
         Download
       </ContextItem>
       <ContextItem

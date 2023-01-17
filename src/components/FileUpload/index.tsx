@@ -73,7 +73,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
 
-  const { open } = useDialog()
   const dialog = useDialog()
 
   const handleClickUpload = async () => {
@@ -244,6 +243,25 @@ export const FileUpload: FC<FileUploadProps> = ({
     if (newWindow) newWindow.opener = null
   }
 
+  const downloadFile = (file) => {
+    const url = window.URL.createObjectURL(file)
+    const link = document.createElement('a')
+    link.download = file.name
+    link.href = url
+    link.click()
+  }
+
+  const duplicateFile = (file, idx) => {
+    console.log('duplicate file', file, idx)
+
+    let dupliArr = [...uploadedFiles]
+    dupliArr.splice(idx, 0, file)
+
+    console.log('dupliArr', dupliArr)
+
+    setUploadedFiles([...dupliArr])
+  }
+
   return (
     <InputWrapper
       indent={indent}
@@ -280,6 +298,8 @@ export const FileUpload: FC<FileUploadProps> = ({
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}
               replaceSpecificFile={replaceSpecificFile}
+              downloadFile={() => downloadFile(file)}
+              duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
               key={idx}
               id={idx}
