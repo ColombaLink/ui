@@ -167,15 +167,16 @@ export const Button: FC<ButtonProps> = (props) => {
           visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: fill
-            ? 'space-between'
-            : textAlign === 'left'
-            ? 'flex-start'
-            : textAlign === 'center'
-            ? 'center'
-            : textAlign === 'right'
-            ? 'flex-end'
-            : 'flex-start',
+          justifyContent:
+            textAlign === 'left' && fill
+              ? 'flex-start'
+              : textAlign === 'center' && fill
+              ? 'center'
+              : textAlign === 'right' && fill
+              ? 'flex-end'
+              : fill
+              ? 'space-between'
+              : '',
         }}
       >
         {icon &&

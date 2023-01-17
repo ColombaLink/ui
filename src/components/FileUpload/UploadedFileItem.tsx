@@ -75,12 +75,19 @@ export const UploadedFileItem = ({
   file,
   handleClickUpload,
   deleteSpecificFile,
+  openInNewTab,
   id,
   replaceSpecificFile,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
-    { handleClickUpload, deleteSpecificFile, id, replaceSpecificFile },
+    {
+      handleClickUpload,
+      deleteSpecificFile,
+      id,
+      replaceSpecificFile,
+      openInNewTab,
+    },
     { placement: 'right' }
   )
 
@@ -139,6 +146,7 @@ const ContextOptions = ({
   deleteSpecificFile,
   id,
   replaceSpecificFile,
+  openInNewTab,
 }) => {
   return (
     <>
@@ -148,7 +156,7 @@ const ContextOptions = ({
       <ContextItem onClick={() => {}} icon={ZoomInIcon}>
         Full screen
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={ExternalLinkAltIcon}>
+      <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>
         Open in new tab
       </ContextItem>
       <ContextItem onClick={() => {}} icon={EditIcon}>
@@ -165,7 +173,7 @@ const ContextOptions = ({
         icon={DeleteIcon}
         style={{ borderTop: `1px solid ${color('border')}` }}
       >
-        Remove
+        Delete
       </ContextItem>
     </>
   )

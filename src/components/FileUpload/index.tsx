@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState, FC } from 'react'
+import React, { CSSProperties, useRef, useState, FC, useEffect } from 'react'
 import {
   Label,
   color,
@@ -11,6 +11,8 @@ import {
   ChevronUpIcon,
   Dialog,
   useDialog,
+  Tabs,
+  Tab,
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -72,25 +74,66 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const { open } = useDialog()
+  const dialog = useDialog()
 
   const handleClickUpload = async () => {
     // now we are gonna open new modal here
-    const ok = await open(
-      <Dialog label="blah">
-        <Dialog.Buttons border>
-          <Dialog.Cancel />
-          <Dialog.Confirm />
-        </Dialog.Buttons>
+
+    let otherUrlInputValue = ''
+
+    dialog.open(
+      <Dialog>
+        <Tabs>
+          <Tab label="Upload">
+            <Button
+              style={{ marginTop: '16px' }}
+              outline
+              color="lightaction"
+              fill
+              textAlign="center"
+              onClick={() => {
+                // upload
+                if (!disabled) {
+                  hiddenFileInput.current.click()
+                }
+              }}
+            >
+              Upload file
+            </Button>
+          </Tab>
+          <Tab label="Embed link">
+            <div
+              style={{
+                marginTop: '16px',
+              }}
+            >
+              <Input
+                space="20px"
+                placeholder="Paste the image link..."
+                onChange={(e) => {
+                  setUrlInputValue(e)
+                  otherUrlInputValue = e
+                }}
+                value={urlInputValue}
+              />
+              <Button
+                large
+                style={{ margin: '0 auto' }}
+                onClick={() => urlHandler(otherUrlInputValue)}
+              >
+                Embed image
+              </Button>
+            </div>
+          </Tab>
+        </Tabs>
       </Dialog>
     )
-
-    // this will be in modal option
-    // upload
-    if (!disabled) {
-      hiddenFileInput.current.click()
-    }
-    // embed link komt ook in modal opties
   }
+
+  // close dialog if uploadedFiles  is changed
+  useEffect(() => {
+    dialog.close()
+  }, [uploadedFiles])
 
   const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
@@ -154,6 +197,25 @@ export const FileUpload: FC<FileUploadProps> = ({
     console.log('Edit file through a modal, like name? or something??', id)
   }
 
+  const urlHandler = async (urlInput) => {
+    if (urlInput) {
+      const file = await fetch(urlInput)
+        .then(
+          (res) => res.blob()
+          //  mimetype = res.headers.get('content-type')
+          //  console.log('type is', mimetype)
+        )
+        .then(
+          (blobFile) =>
+            new File([blobFile], fileName || urlInput.split('/').pop(), {
+              type: blobFile.type,
+            })
+        )
+      console.log('file before', file)
+      urlUploadFile([file])
+    }
+  }
+
   const urlUploadFile = async (e) => {
     let files = e
     if (acceptedFileTypes) {
@@ -177,6 +239,10 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   // console.log('??? Uploaded Files?', uploadedFiles)
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
 
   return (
     <InputWrapper
@@ -214,6 +280,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}
               replaceSpecificFile={replaceSpecificFile}
+              openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
               key={idx}
               id={idx}
             />
@@ -289,16 +356,6 @@ export const FileUpload: FC<FileUploadProps> = ({
         <div>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Input
-              label="Upload from URL"
-              placeholder="Paste your url here"
-              style={{ marginRight: 12, width: '100%' }}
-              onChange={(e) => {
-                setUrlInputValue(e)
-              }}
-              value={urlInputValue}
-              space={12}
-            />
-            <Input
               label="File name"
               placeholder="Your file name"
               space={12}
@@ -309,35 +366,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               }}
             />
           </div>
-          <Button
-            icon={<UploadIcon />}
-            outline
-            style={{ minWidth: 162 }}
-            onClick={async () => {
-              if (urlInputValue) {
-                const file = await fetch(urlInputValue)
-                  .then(
-                    (res) => res.blob()
-                    //  mimetype = res.headers.get('content-type')
-                    //  console.log('type is', mimetype)
-                  )
-                  .then(
-                    (blobFile) =>
-                      new File(
-                        [blobFile],
-                        fileName || urlInputValue.split('/').pop(),
-                        {
-                          type: blobFile.type,
-                        }
-                      )
-                  )
-                // console.log('file before', file)
-                urlUploadFile([file])
-              }
-            }}
-          >
-            Upload from url
-          </Button>
         </div>
       )}
     </InputWrapper>
