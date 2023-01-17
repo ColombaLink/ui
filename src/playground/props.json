@@ -1027,9 +1027,53 @@
         "tillValue": {
           "optional": true,
           "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "focusOnBeginDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "focusOnEndDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isEndDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isDateRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocusOnBeginDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocusOnEndDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  style?: CSSProperties\n  placeholder?: string\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n  isEndDate?: boolean\n  isDateRange?: boolean\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  onClick?: () => void\n}",
       "file": "/components/DateTimePicker/DateInput.tsx"
     },
     "DatePickerProps": {
@@ -1062,9 +1106,41 @@
         "tillValue": {
           "optional": true,
           "type": "string"
+        },
+        "isDateRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "setFocusOnBeginDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocusOnEndDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "focusOnBeginDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "focusOnEndDate": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateRangeInputProps": {
