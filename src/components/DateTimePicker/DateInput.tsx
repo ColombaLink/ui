@@ -86,6 +86,7 @@ export const DateInput: FC<DateInputProps> = ({
     }
   }, [focusOnEndDate, focusOnBeginDate])
 
+  // moet er voor zorgen dat de focus wisselt
   useEffect(() => {
     if (!focusOnEndDate && focusOnBeginDate) {
       inputRef.current.focus()

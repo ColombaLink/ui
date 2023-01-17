@@ -134,14 +134,7 @@ export const DatePicker = ({
       setFromDay(day)
       setFromMonth(month)
       setFromYear(year)
-
       setFromValue(`${day}/${month}/${year}`)
-
-      setTillDay(tillDay)
-      setTillMonth(tillMonth)
-      setTillYear(tillYear)
-
-      setTillValue(`${tillDay}/${tillMonth}/${tillYear}`)
 
       //  close the datepicker and switch to the from date field picker
       if (focusOnEndDate) {
@@ -157,20 +150,14 @@ export const DatePicker = ({
         makeDateForComparison(tillYear, tillMonth, tillDay)
     ) {
       console.log('fire fire 🌭')
-      // setFromDay(fromDay)
-      // setFromMonth(fromMonth)
-      // setFromYear(fromYear)
-
-      //  setFromValue(`${fromDay}/${fromMonth}/${fromYear}`)
 
       setTillDay(day)
       setTillMonth(month)
       setTillYear(year)
-
       setTillValue(`${day}/${month}/${year}`)
 
       //  close the datepicker and switch to the from date field picker
-      if (focusOnBeginDate) {
+      if (tillValue && focusOnBeginDate) {
         setShowDatePicker(false)
       }
 
@@ -181,6 +168,7 @@ export const DatePicker = ({
     }
   }
 
+  // close the picker on click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -285,15 +273,6 @@ export const DatePicker = ({
     for (let i = 1; i <= daysInMonth(selectedMonth, selectedYear); i++) {
       tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
     }
-
-    // console.log('selectedMonth', selectedMonth)
-    // console.log('selectedYear', selectedYear)
-    // console.log('selectedDay', selectedDay)
-
-    // console.log(
-    //   'whats this?',
-    //   days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()]
-    // )
 
     // add some offset for the days layout
     if (

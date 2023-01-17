@@ -107,7 +107,10 @@ export const DateRangeInput = ({
       !isNaN(+fromValue[0])
     ) {
       //  console.log('fromValue', fromValue[0])
+      setFocusOnBeginDate(false)
       setFocusOnEndDate(true)
+
+      console.log(focusOnBeginDate, focusOnEndDate, 'focus  begin , end')
     }
   }, [fromValue])
 
