@@ -172,12 +172,12 @@ export const Menu: FC<{
     )
   })
 
-  useEffect(() => {
-    if (!hasActive && firstHref) {
-      // setLocation(firstHref)
-      window.history.replaceState({}, '', parseHref(firstHref))
-    }
-  }, [hasActive])
+  // useEffect(() => {
+  //   if (!hasActive && firstHref) {
+  //     // setLocation(firstHref)
+  //     window.history.replaceState({}, '', parseHref(firstHref))
+  //   }
+  // }, [hasActive])
 
   return (
     <ScrollArea
