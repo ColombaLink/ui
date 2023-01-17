@@ -24,6 +24,8 @@ import basedConfig from './based.json'
 
 export const client = based(basedConfig)
 
+console.log('blablablka')
+
 const Stories: FC = () => {
   useLocation()
   const story = new URLSearchParams(location.search).get('story')

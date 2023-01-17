@@ -10,7 +10,12 @@ import {
   ContextItem,
   DeleteIcon,
   EditIcon,
+  CopyIcon,
+  ExternalLinkAltIcon,
+  ReplaceIcon,
+  DownloadIcon,
 } from '~'
+import { ZoomInIcon } from '~/icons/ZoomInIcon'
 
 const StyledUploadedFile = styled('div', {
   display: 'flex',
@@ -130,13 +135,28 @@ const ContextOptions = ({
 }) => {
   return (
     <>
-      <ContextItem onClick={() => replaceSpecificFile(id)} icon={EditIcon}>
-        Edit
+      <ContextItem onClick={() => {}} icon={CopyIcon}>
+        Duplicate
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={ZoomInIcon}>
+        Full screen
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={ExternalLinkAltIcon}>
+        Open in new tab
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={EditIcon}>
+        Rename
+      </ContextItem>
+      <ContextItem onClick={() => replaceSpecificFile(id)} icon={ReplaceIcon}>
+        Replace
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={DownloadIcon}>
+        Download
       </ContextItem>
       <ContextItem
-        color="red"
         onClick={() => deleteSpecificFile(id)}
         icon={DeleteIcon}
+        style={{ borderTop: `1px solid ${color('border')}` }}
       >
         Remove
       </ContextItem>

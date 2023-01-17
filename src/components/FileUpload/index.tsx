@@ -35,7 +35,7 @@ const StyledFileInput = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: 8,
-  padding: 6,
+  padding: 9,
   paddingLeft: 12,
   backgroundColor: color('background2'),
 })
@@ -218,7 +218,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           style={{
             backgroundColor: draggingOver
               ? color('lightaccent')
-              : color('background2'),
+              : color('background'),
             border: draggingOver
               ? `1px dashed ${color('accent')}`
               : `1px dashed ${color('border')}`,
@@ -231,9 +231,9 @@ export const FileUpload: FC<FileUploadProps> = ({
           {draggingOver ? (
             <Text>Drop to upload</Text>
           ) : uploadedFiles.length > 0 && !multiple ? (
-            <Text>{!multiple ? 'Replace file' : 'Select a file'}</Text>
+            <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
           ) : (
-            <Text>{multiple ? 'Select your files' : 'Select a file'}</Text>
+            <Text>{multiple ? 'Select your files' : 'Upload new file'}</Text>
           )}
         </StyledFileInput>
         {/* hide the real input field */}
