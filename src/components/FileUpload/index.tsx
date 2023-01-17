@@ -195,10 +195,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setClearCount((clearCount) => clearCount + 1)
   }
 
-  const replaceSpecificFile = (id) => {
-    console.log('Edit file through a modal, like name? or something??', id)
-  }
-
   const urlHandler = async (urlInput) => {
     if (urlInput) {
       const file = await fetch(urlInput)
@@ -329,6 +325,11 @@ export const FileUpload: FC<FileUploadProps> = ({
     )
   }
 
+  const replaceSpecificFile = (id) => {
+    console.log('Edit file through a modal, like name? or something??', id)
+  }
+
+  // TODO: not working great yet ??
   const duplicateFile = (file, idx) => {
     console.log('duplicate file', file, idx)
 
