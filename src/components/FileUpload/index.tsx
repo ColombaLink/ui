@@ -9,6 +9,8 @@ import {
   Input,
   ChevronDownIcon,
   ChevronUpIcon,
+  Dialog,
+  useDialog,
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
@@ -69,10 +71,25 @@ export const FileUpload: FC<FileUploadProps> = ({
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
 
-  const handleClickUpload = () => {
+  const { open } = useDialog()
+
+  const handleClickUpload = async () => {
+    // now we are gonna open new modal here
+    const ok = await open(
+      <Dialog label="blah">
+        <Dialog.Buttons border>
+          <Dialog.Cancel />
+          <Dialog.Confirm />
+        </Dialog.Buttons>
+      </Dialog>
+    )
+
+    // this will be in modal option
+    // upload
     if (!disabled) {
       hiddenFileInput.current.click()
     }
+    // embed link komt ook in modal opties
   }
 
   const clearFiles = () => {

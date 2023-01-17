@@ -32,9 +32,16 @@ const StyledUploadedFile = styled('div', {
 
 const StyledMoreIcon = styled('div', {
   position: 'absolute',
+  width: 24,
+  height: 24,
   right: 16,
+  borderRadius: 4,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   '&:hover': {
     cursor: 'pointer',
+    background: color('background2'),
   },
 })
 
