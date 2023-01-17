@@ -23,6 +23,8 @@ import basedConfig from './based.json'
 
 export const client = based(basedConfig)
 
+console.log('blablablka')
+
 const Stories: FC = () => {
   const route = useRoute()
   const story = route.query.story

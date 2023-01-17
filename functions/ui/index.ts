@@ -10,7 +10,6 @@ export default async function app({ based, payload, path }) {
   <head>
     <meta charset="UTF-8" />
     ${css.map((path) => `<link rel="stylesheet" href="${path}">`).join('')}
-    <script>window.process={env:{}}</script>
   </head>
   <body>
     ${js.map((path) => `<script src="${path}"></script>`).join('')}
