@@ -65,7 +65,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
-  const [showMoreOptions, setShowMoreOptions] = useState(false)
 
   const hiddenFileInput = useRef(null)
 
@@ -75,6 +74,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const dialog = useDialog()
   const renameDialog = useDialog()
+  const fullScreenDialog = useDialog()
 
   const handleClickUpload = async () => {
     // now we are gonna open new modal here
@@ -183,6 +183,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     setErrorMessage('')
   }
 
+  // all the options for the context menu
+
   // should TODO delete file instead of the onChange([])
   const deleteSpecificFile = (id) => {
     setUploadedFiles((uploadedFiles) =>
@@ -284,6 +286,49 @@ export const FileUpload: FC<FileUploadProps> = ({
     )
   }
 
+  const fullScreenView = (file) => {
+    console.log('full screen view', file)
+    fullScreenDialog.open(
+      <Dialog style={{ padding: 0, '& div div': { padding: 0 } }}>
+        <img
+          src={file.src}
+          style={{
+            width: '100%',
+            height: '100%',
+            borderTopRightRadius: 8,
+            borderTopLeftRadius: 8,
+          }}
+        />
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '16px !important',
+              margin: '8px 16px',
+              marginBottom: ' -14px',
+            }}
+          >
+            <Text typo="body500" color="text2">
+              {file.name}
+            </Text>
+            <Button
+              ghost
+              large
+              color="text"
+              onClick={() => {
+                fullScreenDialog.close()
+              }}
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      </Dialog>
+    )
+  }
+
   const duplicateFile = (file, idx) => {
     console.log('duplicate file', file, idx)
 
@@ -335,6 +380,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
               renameFile={() => renameFile(file, idx)}
+              fullScreenView={() => fullScreenView(file)}
               key={idx}
               id={idx}
             />
@@ -385,43 +431,6 @@ export const FileUpload: FC<FileUploadProps> = ({
           multiple={multiple}
         />
       </styled.div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginTop: 12,
-          marginBottom: 12,
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          setShowMoreOptions(!showMoreOptions)
-        }}
-      >
-        <Text typo="caption500" style={{ marginRight: 12 }}>
-          More Options
-        </Text>
-        {showMoreOptions ? (
-          <ChevronDownIcon size={12} />
-        ) : (
-          <ChevronUpIcon size={12} />
-        )}
-      </div>
-      {showMoreOptions && (
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Input
-              label="File name"
-              placeholder="Your file name"
-              space={12}
-              style={{ width: '100%' }}
-              value={fileName}
-              onChange={(e) => {
-                setFileName(e)
-              }}
-            />
-          </div>
-        </div>
-      )}
     </InputWrapper>
   )
 }

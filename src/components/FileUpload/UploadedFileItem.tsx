@@ -81,6 +81,7 @@ export const UploadedFileItem = ({
   duplicateFile,
   downloadFile,
   renameFile,
+  fullScreenView,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
@@ -93,6 +94,7 @@ export const UploadedFileItem = ({
       duplicateFile,
       downloadFile,
       renameFile,
+      fullScreenView,
     },
     { placement: 'right' }
   )
@@ -156,13 +158,14 @@ const ContextOptions = ({
   duplicateFile,
   downloadFile,
   renameFile,
+  fullScreenView,
 }) => {
   return (
     <>
       <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
         Duplicate
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={ZoomInIcon}>
+      <ContextItem onClick={() => fullScreenView()} icon={ZoomInIcon}>
         Full screen
       </ContextItem>
       <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>
