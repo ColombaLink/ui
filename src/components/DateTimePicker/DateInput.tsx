@@ -1,6 +1,6 @@
 import React, { CSSProperties, FC, useEffect, useState, useRef } from 'react'
 import { styled } from 'inlines'
-import { color, CalendarIcon, boxShadow } from '~'
+import { color, CalendarAltIcon, boxShadow } from '~'
 import { DatePicker } from './DatePicker'
 
 type DateInputProps = {
@@ -112,8 +112,8 @@ export const DateInput: FC<DateInputProps> = ({
 
   return (
     <div style={{ position: 'relative' }}>
-      <CalendarIcon
-        size={14}
+      <CalendarAltIcon
+        size={16}
         style={{
           pointerEvents: 'none',
           position: 'absolute',
@@ -140,6 +140,7 @@ export const DateInput: FC<DateInputProps> = ({
           //   : focusOnEndDate
           //   ? '1px solid blue'
           //   : '',
+          paddingLeft: 32,
           ...style,
         }}
         onChange={(e) => {
@@ -165,7 +166,9 @@ export const DateInput: FC<DateInputProps> = ({
           }
           e.preventDefault()
           setShowDatePicker(true)
-          onClick()
+          if (isDateRange) {
+            onClick()
+          }
         }}
         onFocus={() => {
           setIsFocus(true)

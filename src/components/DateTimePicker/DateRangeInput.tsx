@@ -22,20 +22,18 @@ export const DateRangeInput = ({
   const [focusOnBeginDate, setFocusOnBeginDate] = useState<boolean>(false)
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
 
-  const [renderCounter, setRenderCounter] = useState(1)
-
   // today
   const dateObj = new Date()
 
-  const today = `${
-    dateObj.getUTCDate() < 10
-      ? '0' + dateObj.getUTCDate()
-      : dateObj.getUTCDate()
-  }/${
-    dateObj.getUTCMonth() + 1 < 10
-      ? '0' + (dateObj.getUTCMonth() + 1)
-      : dateObj.getUTCMonth() + 1
-  }/${dateObj.getUTCFullYear()}`
+  // const today = `${
+  //   dateObj.getUTCDate() < 10
+  //     ? '0' + dateObj.getUTCDate()
+  //     : dateObj.getUTCDate()
+  // }/${
+  //   dateObj.getUTCMonth() + 1 < 10
+  //     ? '0' + (dateObj.getUTCMonth() + 1)
+  //     : dateObj.getUTCMonth() + 1
+  // }/${dateObj.getUTCFullYear()}`
 
   const dateHandlerFrom = (val) => {
     const tempArr = []
@@ -64,117 +62,78 @@ export const DateRangeInput = ({
     return Date.parse(`${year}-${month}-${day}`)
   }
 
-  // useEffect(() => {
-  //   // compare fromValue and tillValue set errormessage
-  //   // if (
-  //   //   makeAnotherDateForComparison(fromValue) >
-  //   //   makeAnotherDateForComparison(tillValue)
-  //   // ) {
-  //   //   setErrorMessage("From value can't be bigger than till value")
-  //   // } else {
-  //   //   setErrorMessage('')
-  //   // }
-  // }, [fromValue, tillValue])
-
-  //
+  // eerste input als velden leeg zijn
   useEffect(() => {
-    console.log('fromValue', fromValue, tillValue, 'tillValue')
-
-    console.log('fromValue', +fromValue[0])
-
-    // als voor de from date geklikt word...
-    // if (
-    //   focusOnEndDate &&
-    //   !focusOnBeginDate &&
-    //   makeAnotherDateForComparison(fromValue) >
-    //     makeAnotherDateForComparison(tillValue)
-    // ) {
-    //   console.log('Ey yo do ')
-    //   setFocusOnEndDate(false)
-    //   setFocusOnBeginDate(true)
-    //   setFromValue(tillValue)
-    //   // TODO
-    //   // set till value moet eigenlijk de oude till value zijn...
-    //   // van de previous state
-    //   setTillValue(fromValue)
-    // }
-
-    // TODO fix today date formatted
     if (
       !tillValue &&
       typeof +fromValue[0] === 'number' &&
       typeof +fromValue[1] === 'number' &&
       !isNaN(+fromValue[0])
     ) {
-      //  console.log('fromValue', fromValue[0])
       setFocusOnBeginDate(false)
       setFocusOnEndDate(true)
-
-      console.log(focusOnBeginDate, focusOnEndDate, 'focus  begin , end')
     }
   }, [fromValue])
 
   return (
     <>
-      {renderCounter && (
-        <div
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          marginBottom: 12,
+          maxWidth: 278,
+        }}
+      >
+        <DateInput
+          value={fromValue}
+          focusOnBeginDate={focusOnBeginDate}
+          setFocusOnBeginDate={setFocusOnBeginDate}
+          setFocusOnEndDate={setFocusOnEndDate}
+          setFocused={() => {}}
+          dateHandler={dateHandlerFrom}
+          fromValue={fromValue}
+          tillValue={tillValue}
+          setFromValue={setFromValue}
+          setTillValue={setTillValue}
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginBottom: 12,
-            maxWidth: 278,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0,
+            width: '100%',
           }}
-        >
-          <DateInput
-            value={fromValue}
-            focusOnBeginDate={focusOnBeginDate}
-            setFocusOnBeginDate={setFocusOnBeginDate}
-            setFocusOnEndDate={setFocusOnEndDate}
-            setFocused={() => {}}
-            dateHandler={dateHandlerFrom}
-            fromValue={fromValue}
-            tillValue={tillValue}
-            setFromValue={setFromValue}
-            setTillValue={setTillValue}
-            style={{
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-              width: '100%',
-            }}
-            placeholder="Start date"
-            isDateRange
-            onClick={() => {
-              setFocusOnBeginDate(true)
-              setFocusOnEndDate(false)
-            }}
-          />
+          placeholder="Start date"
+          isDateRange
+          onClick={() => {
+            setFocusOnBeginDate(true)
+            setFocusOnEndDate(false)
+          }}
+        />
 
-          <DateInput
-            value={tillValue}
-            focusOnEndDate={focusOnEndDate}
-            setFocusOnBeginDate={setFocusOnBeginDate}
-            setFocusOnEndDate={setFocusOnEndDate}
-            setFocused={() => {}}
-            dateHandler={dateHandlerTill}
-            fromValue={fromValue}
-            tillValue={tillValue}
-            setFromValue={setFromValue}
-            setTillValue={setTillValue}
-            style={{
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-              width: '100%',
-            }}
-            placeholder="End date"
-            isEndDate
-            isDateRange
-            onClick={() => {
-              setFocusOnBeginDate(false)
-              setFocusOnEndDate(true)
-            }}
-          />
-        </div>
-      )}
+        <DateInput
+          value={tillValue}
+          focusOnEndDate={focusOnEndDate}
+          setFocusOnBeginDate={setFocusOnBeginDate}
+          setFocusOnEndDate={setFocusOnEndDate}
+          setFocused={() => {}}
+          dateHandler={dateHandlerTill}
+          fromValue={fromValue}
+          tillValue={tillValue}
+          setFromValue={setFromValue}
+          setTillValue={setTillValue}
+          style={{
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0,
+            width: '100%',
+          }}
+          placeholder="End date"
+          isEndDate
+          isDateRange
+          onClick={() => {
+            setFocusOnBeginDate(false)
+            setFocusOnEndDate(true)
+          }}
+        />
+      </div>
 
       {/* <div style={{ background: 'yellow' }}>
         FROM: {fromValue} - TILL: {tillValue}
