@@ -5,7 +5,7 @@ import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Checkbox } from '../Checkbox'
-import { AttachmentIcon } from '~/icons'
+import { AttachmentIcon, ReferenceIcon } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import { isImage } from '~/utils/isImage'
@@ -20,6 +20,24 @@ import { DataEventHandler } from '~/types'
 
 const Grid = styled(VariableSizeGrid)
 
+// single ref display
+const Reference = ({ value }) => {
+  return value.length > 0 ? (
+    <div style={{ display: 'flex' }}>
+      <div style={{ minWidth: 20, paddingTop: 4 }}>
+        <ReferenceIcon
+          color="accent"
+          style={{
+            marginRight: 6,
+          }}
+        />
+      </div>
+      <Badge>{value}</Badge>
+    </div>
+  ) : null
+}
+
+// multiple refs display
 const References = ({ value }) => {
   console.log('ref', value)
 
@@ -119,6 +137,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = <Badge color="text">{value}</Badge>
           } else if (fieldType === 'references') {
             children = value.length ? <References value={value} /> : null
+          } else if (fieldType === 'reference') {
+            children = value.length ? <Reference value={value} /> : null
           } else if (fieldType === 'timestamp') {
             children = <Text weight={weight}>{toDateString(value)}</Text>
           } else if (fieldType === 'digest') {

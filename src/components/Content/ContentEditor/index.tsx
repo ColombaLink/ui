@@ -387,6 +387,8 @@ const SingleReference = (props) => {
   //   return <FileReference {...props} />
   // }
 
+  // some sort of preview state before publishing
+
   const [refArray, setRefArray] = useState([])
   const { label, description, value, style, onChange } = props
 
@@ -412,9 +414,14 @@ const SingleReference = (props) => {
         description={description}
         style={{ marginBottom: 12 }}
       />
-      {value ? <Reference id={value} /> : null}{' '}
+      {/* // show temp refArray for render purposes */}
+      {refArray[0] ? (
+        <Reference id={refArray[0]} />
+      ) : value ? (
+        <Reference id={value} />
+      ) : null}
       <Button light icon={AddIcon} onClick={onClick}>
-        Add {label.toLowerCase()}
+        {value ? 'Change reference' : 'Add reference'}
       </Button>
     </div>
   )
