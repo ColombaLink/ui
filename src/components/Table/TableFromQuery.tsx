@@ -148,6 +148,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (fieldType === 'string' && metaFieldType === 'markdown') {
             children = <Text weight={weight}>{value.substring(0, 64)}</Text>
           } else if (isImage(value)) {
+            console.log('image', value)
             children = (
               <div
                 style={{

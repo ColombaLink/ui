@@ -11,7 +11,7 @@ import { SharedGeneral } from './SharedGeneral'
 import { useSchemaTypes } from '~/hooks'
 import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
-import { Accordion, AccordionItem, RadioButtons, Input } from '~'
+import { Input } from '~'
 
 const ReferencesGeneral = ({ types, options }) => {
   console.log('options', options)

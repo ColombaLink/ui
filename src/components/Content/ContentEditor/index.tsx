@@ -37,6 +37,7 @@ import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import { useCopyToClipboard } from '~/hooks'
 
+// This one can probably be removed, TODO: check
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
   const [copied, copy] = useCopyToClipboard(id)
@@ -72,6 +73,7 @@ const Reference = ({ id }) => {
   )
 }
 
+// FileReference is not good TODO, probably remove this , normal reference will do
 const FileReference = ({
   value,
   label,
@@ -119,6 +121,10 @@ const SelectReferencesItemDescriptor = ({ id }) => {
 
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
+
+  console.log('item ---->', item)
+  console.log('data --->', data)
+
   if (!item) {
     return (
       <div
@@ -159,6 +165,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
         {item.id}
       </Badge>
       <SelectReferencesItemDescriptor id={item.id} />
+
       <div style={{ flexGrow: 1 }} />
       <Badge style={{ marginLeft: 16 }}>{item.type}</Badge>
       <Text style={{ marginLeft: 16 }}>{toDateString(item.createdAt)}</Text>
@@ -166,7 +173,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
   )
 }
 
-const SelectReferences = ({ onChange, setRefArray, singleRef }) => {
+const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
   const [filter, setFilter] = useState('')
   const { types, loading } = useSchemaTypes()
   const [typing, setTyping] = useState(false)
@@ -222,7 +229,6 @@ const SelectReferences = ({ onChange, setRefArray, singleRef }) => {
               alignItems: 'center',
               borderRadius: 8,
               paddingTop: '4px',
-              //   paddingBottom: '6px',
               paddingLeft: '16px',
             }}
             value={filter}
@@ -309,7 +315,6 @@ const SelectReferences = ({ onChange, setRefArray, singleRef }) => {
           onConfirm={() => {
             setRefArray([...selected.current])
             if (singleRef) {
-              console.log('hellow')
               onChange(Array.from(selected.current)[0])
             } else {
               onChange(Array.from(selected.current))
@@ -388,7 +393,6 @@ const SingleReference = (props) => {
   // }
 
   // some sort of preview state before publishing
-
   const [refArray, setRefArray] = useState([])
   const { label, description, value, style, onChange } = props
 
@@ -420,8 +424,8 @@ const SingleReference = (props) => {
       ) : value ? (
         <Reference id={value} />
       ) : null}
-      <Button light icon={AddIcon} onClick={onClick}>
-        {value ? 'Change reference' : 'Add reference'}
+      <Button ghost icon={AddIcon} onClick={onClick}>
+        {value || refArray[0] ? 'Change reference' : 'Add reference'}
       </Button>
     </div>
   )
