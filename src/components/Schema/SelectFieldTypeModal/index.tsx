@@ -35,7 +35,7 @@ const {
   timestamp,
   createdBy,
   boolean,
-  // reference,
+  reference,
   references,
   file,
   // files,
@@ -82,7 +82,7 @@ const items = {
     geo,
   },
   'References and files': {
-    // reference,
+    reference,
     references,
     file,
     // files,

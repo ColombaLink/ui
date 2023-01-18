@@ -19,7 +19,18 @@ const ReferencesGeneral = ({ types, options }) => {
 
   return (
     <>
-      <Accordion>
+      <MultiSelect
+        placeholder="Type to reference"
+        filterable
+        style={{ marginTop: 16, width: 400 }}
+        values={options.meta.refTypes || []}
+        onChange={(values) => {
+          options.meta.refTypes = values
+        }}
+        options={Object.keys(types)}
+      />
+
+      {/* <Accordion>
         <AccordionItem label="1. Define relationship" active>
           <RadioButtons
             cards
@@ -37,21 +48,12 @@ const ReferencesGeneral = ({ types, options }) => {
               },
             ]}
           />
-          <MultiSelect
-            placeholder="Type to reference"
-            filterable
-            style={{ marginTop: 16, width: 400 }}
-            values={options.meta.refTypes || []}
-            onChange={(values) => {
-              options.meta.refTypes = values
-            }}
-            options={Object.keys(types)}
-          />
+          
         </AccordionItem>
         <AccordionItem label="2. Field info" />
         <AccordionItem label="3. Bi-directional" />
         <AccordionItem label="4. Target info" />
-      </Accordion>
+      </Accordion> */}
     </>
   )
 }

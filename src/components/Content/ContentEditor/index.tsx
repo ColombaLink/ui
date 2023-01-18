@@ -166,7 +166,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
   )
 }
 
-const SelectReferences = ({ onChange, setRefArray }) => {
+const SelectReferences = ({ onChange, setRefArray, singleRef }) => {
   const [filter, setFilter] = useState('')
   const { types, loading } = useSchemaTypes()
   const [typing, setTyping] = useState(false)
@@ -221,8 +221,8 @@ const SelectReferences = ({ onChange, setRefArray }) => {
               height: 40,
               alignItems: 'center',
               borderRadius: 8,
-              paddingTop: '8px',
-              paddingBottom: '6px',
+              paddingTop: '4px',
+              //   paddingBottom: '6px',
               paddingLeft: '16px',
             }}
             value={filter}
@@ -308,7 +308,13 @@ const SelectReferences = ({ onChange, setRefArray }) => {
           space="16px"
           onConfirm={() => {
             setRefArray([...selected.current])
-            onChange(Array.from(selected.current))
+            if (singleRef) {
+              console.log('hellow')
+              onChange(Array.from(selected.current)[0])
+            } else {
+              onChange(Array.from(selected.current))
+            }
+
             // console.log('aight', selected.current)
             // console.log('aight array ?', Array.from(selected.current))
           }}
@@ -326,16 +332,16 @@ const References = (props) => {
 
   const [refArray, setRefArray] = useState([])
 
-  // console.log('REF PROPS', props)
   useEffect(() => {
     setRefArray(value)
   }, [value])
 
   // console.log('value', value)
+  // console.log('some props', props)
 
-  if (props.meta?.refTypes?.includes('files')) {
-    return <FileReference {...props} multiple />
-  }
+  // if (props.meta?.refTypes?.includes('files')) {
+  //   return <FileReference {...props} multiple />
+  // }
 
   const { open } = useDialog()
 
@@ -357,14 +363,11 @@ const References = (props) => {
       />
 
       {/* if there are reftypes on the meta */}
-
       {/* {meta?.refTypes?.length > 0 &&
         meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
-
       {refArray?.map((id) => (
         <Reference key={id} id={id} />
       ))}
-
       {/* {value?.map((id) => (
         <Reference key={id} id={id} />
       ))} */}
@@ -380,10 +383,27 @@ const References = (props) => {
 }
 
 const SingleReference = (props) => {
-  if (props.meta?.refTypes?.includes('file')) {
-    return <FileReference {...props} />
+  // if (props.meta?.refTypes?.includes('file')) {
+  //   return <FileReference {...props} />
+  // }
+
+  const [refArray, setRefArray] = useState([])
+  const { label, description, value, style, onChange } = props
+
+  const { open } = useDialog()
+
+  const onClick = () => {
+    open(
+      <SelectReferences
+        onChange={onChange}
+        setRefArray={setRefArray}
+        singleRef
+      />
+    )
   }
-  const { label, description, value, style } = props
+
+  console.log('props from Single Reference component', props)
+  console.log('refArray From Single Reference component', refArray)
 
   return (
     <div style={style}>
@@ -393,7 +413,7 @@ const SingleReference = (props) => {
         style={{ marginBottom: 12 }}
       />
       {value ? <Reference id={value} /> : null}{' '}
-      <Button light icon={AddIcon}>
+      <Button light icon={AddIcon} onClick={onClick}>
         Add {label.toLowerCase()}
       </Button>
     </div>

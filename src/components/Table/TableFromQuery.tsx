@@ -20,17 +20,32 @@ import { DataEventHandler } from '~/types'
 
 const Grid = styled(VariableSizeGrid)
 
-const References = ({ value: { length } }) => {
-  return length ? (
-    <>
-      <AttachmentIcon
-        color="accent"
-        style={{
-          marginRight: 4,
-        }}
-      />
-      <Text color="accent">{length}</Text>
-    </>
+const References = ({ value }) => {
+  console.log('ref', value)
+
+  return value.length > 0 ? (
+    <div
+      style={{
+        position: 'absolute',
+        left: 6,
+        display: 'flex',
+      }}
+    >
+      <div style={{ minWidth: 32, display: 'flex' }}>
+        <AttachmentIcon
+          color="accent"
+          style={{
+            marginRight: 4,
+          }}
+        />
+        <Text color="accent">{value.length}</Text>
+      </div>
+      {value.slice(0, 3).map((ref, idx) => (
+        <Badge style={{ marginLeft: 6 }} key={idx}>
+          {ref}
+        </Badge>
+      ))}
+    </div>
   ) : null
 }
 
@@ -44,8 +59,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const isCheckbox = columnIndex === 0
   // TODO optimize
 
-  // console.log('What the data?', data)
-  // console.log('What the item?', item)
+  console.log('What the data?', data)
+  console.log('What the item?', item)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
