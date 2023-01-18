@@ -39,7 +39,7 @@ const Reference = ({ value }) => {
 
 // multiple refs display
 const References = ({ value }) => {
-  console.log('ref', value)
+  // console.log('ref', value)
 
   return value.length > 0 ? (
     <div
@@ -77,8 +77,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const isCheckbox = columnIndex === 0
   // TODO optimize
 
-  console.log('What the data?', data)
-  console.log('What the item?', item)
+  // console.log('What the data?', data)
+  // console.log('What the item?', item)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField

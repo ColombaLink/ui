@@ -74,7 +74,7 @@ const Reference = ({ id }) => {
 }
 
 // FileReference is not good TODO, probably remove this , normal reference will do
-const FileReference = ({
+const FileUploadReference = ({
   value,
   label,
   description,
@@ -344,9 +344,9 @@ const References = (props) => {
   // console.log('value', value)
   // console.log('some props', props)
 
-  // if (props.meta?.refTypes?.includes('files')) {
-  //   return <FileReference {...props} multiple />
-  // }
+  if (props.meta?.refTypes?.includes('files')) {
+    return <FileUploadReference {...props} multiple />
+  }
 
   const { open } = useDialog()
 
@@ -388,9 +388,9 @@ const References = (props) => {
 }
 
 const SingleReference = (props) => {
-  // if (props.meta?.refTypes?.includes('file')) {
-  //   return <FileReference {...props} />
-  // }
+  if (props.meta?.refTypes?.includes('file')) {
+    return <FileUploadReference {...props} />
+  }
 
   // some sort of preview state before publishing
   const [refArray, setRefArray] = useState([])
@@ -714,6 +714,8 @@ const ContentField = ({
   const isText = type === 'text'
   const [targetId, ...path] = id?.split('.') || []
 
+  console.log('schema', schema)
+
   const query = {
     $id: targetId,
   }
@@ -722,6 +724,8 @@ const ContentField = ({
     target[field] = {}
     target = target[field]
   })
+
+  console.log('target ', target)
 
   target[field] = refTypes?.includes('file')
     ? {
@@ -733,6 +737,8 @@ const ContentField = ({
     : isText
     ? { [language]: true }
     : true
+
+  console.log('target field', target[field])
 
   const { data, loading } = useData(targetId ? query : null)
 
