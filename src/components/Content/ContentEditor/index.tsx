@@ -73,7 +73,6 @@ const Reference = ({ id }) => {
   )
 }
 
-// FileReference is not good TODO, probably remove this , normal reference will do
 const FileUploadReference = ({
   value,
   label,
@@ -119,11 +118,15 @@ const SelectReferencesItemDescriptor = ({ id }) => {
   return loading ? null : <Text>{descriptor}</Text>
 }
 
-const SelectReferencesItem = ({ style, data, index }) => {
+const SelectReferencesItem = ({ style, data, index, singleRef = false }) => {
   const item = data.items[index]
 
   console.log('item ---->', item)
   console.log('data --->', data)
+
+  if (singleRef) {
+    console.log('singleRef --->', singleRef)
+  }
 
   if (!item) {
     return (
@@ -217,7 +220,7 @@ const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
       pure
       label={
         <>
-          <>Select References</>
+          <>{singleRef ? 'Select a reference' : 'Select References'}</>
           <Input
             ghost
             style={{
@@ -394,7 +397,7 @@ const SingleReference = (props) => {
 
   // some sort of preview state before publishing
   const [refArray, setRefArray] = useState([])
-  const { label, description, value, style, onChange } = props
+  const { label, description, value, style, onChange, space = 24 } = props
 
   const { open } = useDialog()
 
@@ -412,7 +415,12 @@ const SingleReference = (props) => {
   console.log('refArray From Single Reference component', refArray)
 
   return (
-    <div style={style}>
+    <InputWrapper
+      indent
+      style={style}
+      descriptionBottom={description}
+      space={space}
+    >
       <Label
         label={label}
         description={description}
@@ -427,7 +435,7 @@ const SingleReference = (props) => {
       <Button ghost icon={AddIcon} onClick={onClick}>
         {value || refArray[0] ? 'Change reference' : 'Add reference'}
       </Button>
-    </div>
+    </InputWrapper>
   )
 }
 
