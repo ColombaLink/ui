@@ -7,8 +7,6 @@ import {
   Button,
   usePropState,
   Input,
-  ChevronDownIcon,
-  ChevronUpIcon,
   Dialog,
   useDialog,
   Tabs,
@@ -333,7 +331,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const duplicateFile = (file, idx) => {
     console.log('duplicate file', file, idx)
 
-    let dupliArr = [...uploadedFiles]
+    const dupliArr = [...uploadedFiles]
     dupliArr.splice(idx, 0, file)
 
     console.log('dupliArr', dupliArr)

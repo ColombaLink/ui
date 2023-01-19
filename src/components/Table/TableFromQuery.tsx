@@ -4,15 +4,17 @@ import { border, color } from '~/utils'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
+import { Button } from '../Button'
 import { Checkbox } from '../Checkbox'
-import { AttachmentIcon, ReferenceIcon } from '~/icons'
+import { AddIcon, AttachmentIcon, ReferenceIcon } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import { isImage } from '~/utils/isImage'
 import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { toDateString } from '~/utils/date'
 import { Badge } from '../Badge'
-import { useHover } from '~/hooks'
+import { useHover, useContextMenu } from '~/hooks'
+import { ContextItem } from '../ContextMenu'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
 import stringifyObject from 'stringify-object'
@@ -79,6 +81,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   // console.log('What the data?', data)
   // console.log('What the item?', item)
+
+  // console.log('Data fields', data.fields)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
   let hasField
@@ -296,46 +300,68 @@ const HeaderDragLine = ({ index, setColWidths, colWidths }) => {
 const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
+  const [filteredFields, setFilteredFields] = useState(fields)
+
+  console.log('header', fields, colWidths)
 
   return (
-    <div
-      style={{
-        position: 'sticky',
-        left: 0,
-        paddingLeft: ACTIONS_WIDTH,
-        top: 0,
-        display: 'flex',
-        borderBottom: border(1),
-        backgroundColor: color('background'),
-        height: HEADER_HEIGHT,
-        minWidth: width,
-      }}
-      // {...listeners}
-    >
-      {fields.map((field, index) => (
-        <div
-          key={field}
-          style={{
-            width: columnWidth(index + 1),
-            height: HEADER_HEIGHT,
-            position: 'relative',
-          }}
-        >
-          <Text
-            color="text2"
-            weight="400"
-            style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
+    <>
+      <div
+        style={{
+          position: 'sticky',
+          left: 0,
+          paddingLeft: ACTIONS_WIDTH,
+          top: 0,
+          display: 'flex',
+          borderBottom: border(1),
+          backgroundColor: color('background'),
+          height: HEADER_HEIGHT,
+          minWidth: width,
+        }}
+        // {...listeners}
+      >
+        {filteredFields.map((field, index) => (
+          <div
+            key={field}
+            style={{
+              width: columnWidth(index + 1),
+              height: HEADER_HEIGHT,
+              position: 'relative',
+            }}
           >
-            {field}
-          </Text>
-          <HeaderDragLine
-            setColWidths={setColWidths}
-            colWidths={colWidths}
-            index={index}
-          />
-        </div>
-      ))}
-    </div>
+            <Text
+              color="text2"
+              weight="400"
+              style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
+            >
+              {field}
+            </Text>
+            <HeaderDragLine
+              setColWidths={setColWidths}
+              colWidths={colWidths}
+              index={index}
+            />
+          </div>
+        ))}
+      </div>
+      <Button
+        icon={<AddIcon color="text2" />}
+        color="border"
+        style={{
+          width: 24,
+          height: 24,
+          position: 'absolute',
+          right: 16,
+          top: 8,
+          padding: 0,
+        }}
+        onClick={useContextMenu(
+          SelectFieldsMenu,
+          { fields, setFilteredFields },
+          { placement: 'left' }
+        )}
+      />
+    </>
   )
 }
 
@@ -419,44 +445,89 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   return (
-    <InnerTable
-      tableRef={tableRef}
-      style={scrollAreaStyle}
-      columnCount={columnCount}
-      columnWidth={columnWidth}
-      height={height}
-      types={types}
-      items={items}
-      fields={fields}
-      onClick={onClick}
-      itemKey={({ columnIndex, data: { items, fields }, rowIndex }) =>
-        `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
-      }
-      innerElementType={({ children, style }) => {
-        return (
-          <div
-            style={{
-              ...style,
-              width: style.width + ACTIONS_WIDTH,
+    <>
+      <InnerTable
+        tableRef={tableRef}
+        style={scrollAreaStyle}
+        columnCount={columnCount}
+        columnWidth={columnWidth}
+        height={height}
+        types={types}
+        items={items}
+        fields={fields}
+        onClick={onClick}
+        itemKey={({ columnIndex, data: { items, fields }, rowIndex }) =>
+          `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
+        }
+        innerElementType={({ children, style }) => {
+          console.log('fields from innerTable', fields)
+
+          return (
+            <div
+              style={{
+                ...style,
+                width: style.width + ACTIONS_WIDTH,
+              }}
+            >
+              <div>{children}</div>
+              <Header
+                width={width}
+                colWidths={colWidths}
+                columnWidth={columnWidth}
+                fields={fields}
+                setColWidths={setColWidths}
+              />
+            </div>
+          )
+        }}
+        rowCount={itemCount}
+        estimatedColumnWidth={colWidth}
+        estimatedRowHeight={ITEM_HEIGHT}
+        rowHeight={() => ITEM_HEIGHT}
+        width={width}
+        onScroll={({ scrollTop }) => onScrollY(scrollTop)}
+      />
+    </>
+  )
+}
+
+const SelectFieldsMenu = ({ fields, setFilteredFields }) => {
+  const unCheckedArr = []
+
+  return (
+    <>
+      {fields.map((field, idx) => (
+        <ContextItem key={idx}>
+          <Checkbox
+            small
+            label={field}
+            checked
+            onChange={() => {
+              console.log(field)
+              if (!unCheckedArr.includes(field)) {
+                unCheckedArr.push(field)
+              } else {
+                unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
+              }
+
+              console.log(unCheckedArr, 'unchecked fields arr')
+              // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
+
+              setFilteredFields(
+                fields.filter((field) => !unCheckedArr.includes(field))
+              )
             }}
-          >
-            <div>{children}</div>
-            <Header
-              width={width}
-              colWidths={colWidths}
-              columnWidth={columnWidth}
-              fields={fields}
-              setColWidths={setColWidths}
-            />
-          </div>
-        )
-      }}
-      rowCount={itemCount}
-      estimatedColumnWidth={colWidth}
-      estimatedRowHeight={ITEM_HEIGHT}
-      rowHeight={() => ITEM_HEIGHT}
-      width={width}
-      onScroll={({ scrollTop }) => onScrollY(scrollTop)}
-    />
+          />
+        </ContextItem>
+      ))}
+
+      <ContextItem
+        onClick={() => {
+          console.log('the fields log', fields)
+        }}
+      >
+        Flap
+      </ContextItem>
+    </>
   )
 }
