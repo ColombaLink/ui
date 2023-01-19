@@ -85,6 +85,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // console.log('Data fields', data.fields)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
+
+  console.log(fields, '????')
+
   let hasField
   if (item) {
     if (isCheckbox) {
@@ -297,12 +300,21 @@ const HeaderDragLine = ({ index, setColWidths, colWidths }) => {
   )
 }
 
-const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
+const Header = ({
+  width,
+  fields,
+  columnWidth,
+  setColWidths,
+  colWidths,
+  setFilteredFields,
+  allFields,
+  unCheckedArr,
+  setUnCheckedArr,
+}) => {
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
-  const [filteredFields, setFilteredFields] = useState(fields)
 
-  console.log('header', fields, colWidths)
+  // console.log('header', fields, colWidths)
 
   return (
     <>
@@ -320,7 +332,7 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
         }}
         // {...listeners}
       >
-        {filteredFields.map((field, index) => (
+        {fields.map((field, index) => (
           <div
             key={field}
             style={{
@@ -357,7 +369,7 @@ const Header = ({ width, fields, columnWidth, setColWidths, colWidths }) => {
         }}
         onClick={useContextMenu(
           SelectFieldsMenu,
-          { fields, setFilteredFields },
+          { allFields, setFilteredFields, unCheckedArr, setUnCheckedArr },
           { placement: 'left' }
         )}
       />
@@ -390,6 +402,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'createdAt',
     'desc',
   ])
+
+  console.log('the schema', schema)
+
+  const [filteredFields, setFilteredFields] = useState(fields)
+  const [unCheckedArr, setUnCheckedArr] = useState([])
+
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
     query: (offset, limit) => query(offset, limit, sortField, sortOrder),
@@ -454,13 +472,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         height={height}
         types={types}
         items={items}
-        fields={fields}
+        fields={filteredFields}
         onClick={onClick}
         itemKey={({ columnIndex, data: { items, fields }, rowIndex }) =>
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
         innerElementType={({ children, style }) => {
-          console.log('fields from innerTable', fields)
+          //   console.log('fields from innerTable', fields)
 
           return (
             <div
@@ -474,8 +492,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 width={width}
                 colWidths={colWidths}
                 columnWidth={columnWidth}
-                fields={fields}
+                fields={filteredFields}
+                allFields={fields}
+                setFilteredFields={setFilteredFields}
                 setColWidths={setColWidths}
+                unCheckedArr={unCheckedArr}
+                setUnCheckedArr={setUnCheckedArr}
               />
             </div>
           )
@@ -491,17 +513,24 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   )
 }
 
-const SelectFieldsMenu = ({ fields, setFilteredFields }) => {
-  const unCheckedArr = []
+const SelectFieldsMenu = ({
+  allFields,
+  setFilteredFields,
+  unCheckedArr,
+  setUnCheckedArr,
+}) => {
+  // const unCheckedArr = []
+
+  console.log('flipping unchecked arr', unCheckedArr)
 
   return (
     <>
-      {fields.map((field, idx) => (
-        <ContextItem key={idx}>
+      {allFields.map((field, idx) => (
+        <div key={idx} style={{ padding: '6px 8px' }}>
           <Checkbox
             small
             label={field}
-            checked
+            checked={!unCheckedArr.includes(field)}
             onChange={() => {
               console.log(field)
               if (!unCheckedArr.includes(field)) {
@@ -514,20 +543,12 @@ const SelectFieldsMenu = ({ fields, setFilteredFields }) => {
               // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
 
               setFilteredFields(
-                fields.filter((field) => !unCheckedArr.includes(field))
+                allFields.filter((field) => !unCheckedArr.includes(field))
               )
             }}
           />
-        </ContextItem>
+        </div>
       ))}
-
-      <ContextItem
-        onClick={() => {
-          console.log('the fields log', fields)
-        }}
-      >
-        Flap
-      </ContextItem>
     </>
   )
 }
