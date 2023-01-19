@@ -118,15 +118,11 @@ const SelectReferencesItemDescriptor = ({ id }) => {
   return loading ? null : <Text>{descriptor}</Text>
 }
 
-const SelectReferencesItem = ({ style, data, index, singleRef = false }) => {
+const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
 
   console.log('item ---->', item)
   console.log('data --->', data)
-
-  if (singleRef) {
-    console.log('singleRef --->', singleRef)
-  }
 
   if (!item) {
     return (

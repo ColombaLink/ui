@@ -49,35 +49,40 @@ const Menu = ({ views, currentView, deletable }) => {
   )
 }
 
-const CreateMenu = ({ prefix, types }) => {
-  const [, setLocation] = useLocation()
-  return (
-    <>
-      {Object.keys(types)
-        .sort()
-        .map((type) => {
-          return type === 'root' ? null : (
-            <ContextItem
-              key={type}
-              onClick={() => {
-                setLocation(`${prefix}/create/${type}`)
-              }}
-            >
-              {type}
-            </ContextItem>
-          )
-        })}
-    </>
-  )
-}
+// const CreateMenu = ({ prefix, types }) => {
+//   const [, setLocation] = useLocation()
+//   return (
+//     <>
+//       {Object.keys(types)
+//         .sort()
+//         .map((type) => {
+//           return type === 'root' ? null : (
+//             <ContextItem
+//               key={type}
+//               onClick={() => {
+//                 setLocation(`${prefix}/create/${type}`)
+//               }}
+//             >
+//               {type}
+//             </ContextItem>
+//           )
+//         })}
+//     </>
+//   )
+// }
 
 const Header = ({ label, view, prefix }) => {
-  const { types } = useSchemaTypes()
+  const [, setLocation] = useLocation()
+  // const { types } = useSchemaTypes()
   const createBtn = (
     <Button
       large
       icon={AddIcon}
-      onClick={useContextMenu(CreateMenu, { prefix, types })}
+      onClick={() => {
+        // console.log('lable', label, 'view', view, 'prefix', prefix)
+        setLocation(`${prefix}/create/${view}`)
+      }}
+      //  onClick={useContextMenu(CreateMenu, { prefix, types })}
     >
       Create Item
     </Button>
