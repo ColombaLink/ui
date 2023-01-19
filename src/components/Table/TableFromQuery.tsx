@@ -14,11 +14,11 @@ import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { toDateString } from '~/utils/date'
 import { Badge } from '../Badge'
 import { useHover, useContextMenu } from '~/hooks'
-import { ContextItem } from '../ContextMenu'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
 import stringifyObject from 'stringify-object'
 import { DataEventHandler } from '~/types'
+import { OnAction } from './types'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -69,6 +69,8 @@ const References = ({ value }) => {
   ) : null
 }
 
+let selectedRowCheckboxes = []
+
 const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const { types, items, fields, onClick, setState, hoverRowIndex } = data
   const item = items[rowIndex]
@@ -93,9 +95,21 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         <Checkbox
           size={16}
           onClick={() => {
-            console.log('clicked checkbox?')
             // this is the correct item from row
             console.log('item', item)
+
+            if (!selectedRowCheckboxes.includes(rowIndex)) {
+              selectedRowCheckboxes.push(rowIndex)
+            } else {
+              selectedRowCheckboxes.splice(
+                selectedRowCheckboxes.indexOf(rowIndex),
+                1
+              )
+            }
+            console.log(
+              'selected index row checkboxes-->',
+              selectedRowCheckboxes
+            )
           }}
         />
       )
@@ -397,6 +411,7 @@ export type TableFromQueryProps = {
   target?: string
   language?: string
   onClick: DataEventHandler
+  onAction?: OnAction
 }
 
 export const TableFromQuery: FC<TableFromQueryProps> = ({
@@ -407,6 +422,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   target = 'root',
   language = 'en',
   onClick,
+  // onDelete,
+  onAction,
 }) => {
   const colWidth = 200
   const { schema } = useSchema()
@@ -414,6 +431,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'createdAt',
     'desc',
   ])
+
+  console.log('onAction', onAction)
 
   const [filteredFields, setFilteredFields] = useState(fields)
   const [unCheckedArr, setUnCheckedArr] = useState([])
@@ -472,6 +491,19 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     return colWidth
   }
 
+  const deleteItems = (items) => {
+    console.log('--->')
+
+    const newItemArr = []
+    for (let i = 0; i < items.length; i++) {
+      if (selectedRowCheckboxes.includes(i)) {
+        newItemArr.push(items[i])
+      }
+    }
+    onAction(newItemArr, 'delete')
+    selectedRowCheckboxes = []
+  }
+
   return (
     <>
       <InnerTable
@@ -488,7 +520,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
         innerElementType={({ children, style }) => {
-          //   console.log('fields from innerTable', fields)
+          // console.log('fields from innerTable', items)
 
           return (
             <div
@@ -498,6 +530,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
               }}
             >
               <div>{children}</div>
+
               <Header
                 width={width}
                 colWidths={colWidths}
@@ -509,6 +542,20 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 unCheckedArr={unCheckedArr}
                 setUnCheckedArr={setUnCheckedArr}
               />
+              {selectedRowCheckboxes.length > 0 && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    width: 40,
+                    height: 20,
+                    background: 'yellow',
+                  }}
+                >
+                  <Button onClick={() => deleteItems(items)}>Delete</Button>
+                </div>
+              )}
             </div>
           )
         }}

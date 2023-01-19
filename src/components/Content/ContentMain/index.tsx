@@ -217,6 +217,15 @@ export const ContentMain = ({
 
   const fields = Array.from(set) as string[]
 
+  const onAction = (items, string) => {
+    if (string === 'delete') {
+      console.log('items', items)
+      Promise.all(items.map((v) => client.delete({ $id: v.id }))).then(() => {
+        console.info('DELETE TIMES 🥨')
+      })
+    }
+  }
+
   return (
     <div
       style={{
@@ -306,6 +315,7 @@ export const ContentMain = ({
         key={fields.length}
         fields={fields}
         target={query.target}
+        onAction={(items) => onAction(items, 'delete')}
         language="en"
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {

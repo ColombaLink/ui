@@ -7,6 +7,7 @@ import { InfiniteListQueryResponse } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { HEADER_HEIGHT, ITEM_HEIGHT } from './constants'
 import { TableFromQuery } from './TableFromQuery'
+import { OnAction } from './types'
 
 type Fields =
   | {
@@ -27,6 +28,7 @@ type TableProps = {
   height?: number
   language?: string
   target?: string
+  onAction?: OnAction
   onClick?: (
     item: { [key: string]: string },
     field: string,
@@ -39,6 +41,8 @@ const TableFromData = () => {
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
+  console.log('Table', props)
+
   return (
     <styled.div
       style={{
