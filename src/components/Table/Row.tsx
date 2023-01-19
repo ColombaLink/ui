@@ -28,6 +28,7 @@ export const Row = ({
         display: 'flex',
         alignItems: 'center',
         borderBottom: `1px solid ${color('border')}`,
+
         ...style,
       }}
     >

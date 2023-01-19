@@ -86,12 +86,19 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const { fields: schemaFields } = useItemSchema(item?.id)
 
-  console.log(fields, '????')
-
   let hasField
   if (item) {
     if (isCheckbox) {
-      children = <Checkbox size={16} />
+      children = (
+        <Checkbox
+          size={16}
+          onClick={() => {
+            console.log('clicked checkbox?')
+            // this is the correct item from row
+            console.log('item', item)
+          }}
+        />
+      )
     } else {
       field = fields[colIndex]
       value = item[field]
@@ -210,7 +217,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
     <div
       {...listeners}
       onClick={() => {
-        onClick(item, field, field && types[item.type].fields[field].type)
+        if (!isCheckbox) {
+          onClick(item, field, field && types[item.type].fields[field].type)
+        }
       }}
       style={{
         ...style,
@@ -345,6 +354,9 @@ const Header = ({
               color="text2"
               weight="400"
               style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
+              onClick={() => {
+                console.log('clicked on -->', field)
+              }}
             >
               {field}
             </Text>
@@ -402,8 +414,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'createdAt',
     'desc',
   ])
-
-  console.log('the schema', schema)
 
   const [filteredFields, setFilteredFields] = useState(fields)
   const [unCheckedArr, setUnCheckedArr] = useState([])
@@ -521,8 +531,6 @@ const SelectFieldsMenu = ({
 }) => {
   // const unCheckedArr = []
 
-  console.log('flipping unchecked arr', unCheckedArr)
-
   return (
     <>
       {allFields.map((field, idx) => (
@@ -532,14 +540,14 @@ const SelectFieldsMenu = ({
             label={field}
             checked={!unCheckedArr.includes(field)}
             onChange={() => {
-              console.log(field)
+              //  console.log(field)
               if (!unCheckedArr.includes(field)) {
                 unCheckedArr.push(field)
               } else {
                 unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
               }
 
-              console.log(unCheckedArr, 'unchecked fields arr')
+              // console.log(unCheckedArr, 'unchecked fields arr')
               // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
 
               setFilteredFields(
