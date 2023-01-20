@@ -24,6 +24,8 @@ const Grid = styled(VariableSizeGrid)
 
 // single ref display
 const Reference = ({ value }) => {
+  console.log('valluuee -->', value)
+
   return value.length > 0 ? (
     <div style={{ display: 'flex' }}>
       <div style={{ minWidth: 20, paddingTop: 4 }}>
@@ -164,6 +166,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (fieldType === 'references') {
             children = value.length ? <References value={value} /> : null
           } else if (fieldType === 'reference') {
+            console.log('reference', value)
             children = value.length ? <Reference value={value} /> : null
           } else if (fieldType === 'timestamp') {
             children = <Text weight={weight}>{toDateString(value)}</Text>
@@ -174,7 +177,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (fieldType === 'string' && metaFieldType === 'markdown') {
             children = <Text weight={weight}>{value.substring(0, 64)}</Text>
           } else if (isImage(value)) {
-            console.log('image', value)
+            // console.log('image', value)
             children = (
               <div
                 style={{

@@ -41,7 +41,7 @@ const TableFromData = () => {
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
-  console.log('Table', props)
+  // console.log('Table', props)
 
   return (
     <styled.div

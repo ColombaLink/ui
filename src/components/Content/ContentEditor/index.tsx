@@ -21,12 +21,14 @@ import {
   Checkbox,
   CheckIcon,
   CopyIcon,
+  CloseIcon,
   color,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { useDescriptor } from '../hooks/useDescriptor'
+
 import { Dialog, useDialog } from '~/components/Dialog'
 import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
@@ -37,11 +39,16 @@ import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import { useCopyToClipboard } from '~/hooks'
 import { useWindowResize } from '~/hooks/useWindowResize'
+import { useThumbnail } from '../hooks/useThumbnail'
+import { getImageSrcFromID } from '~/utils/getImageSrcFromID'
+import { styled } from 'inlines'
 
 // This one can probably be removed, TODO: check
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
   const [copied, copy] = useCopyToClipboard(id)
+
+  const afbThumb = getImageSrcFromID(id)
 
   return (
     <div
@@ -63,6 +70,18 @@ const Reference = ({ id }) => {
       >
         {id}
       </Badge>
+      {type === 'file' ? (
+        <div
+          style={{
+            backgroundSize: 'cover',
+            backgroundImage: `url(${afbThumb})`,
+            width: 44,
+            height: 44,
+            marginLeft: 12,
+            marginRight: 12,
+          }}
+        />
+      ) : null}
       <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>
       {copied && (
         <div style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}>
@@ -119,6 +138,11 @@ const SelectReferencesItemDescriptor = ({ id }) => {
   return loading ? null : <Text>{descriptor}</Text>
 }
 
+const SelectReferencesItemThumbnail = ({ id }) => {
+  const { thumbnail, loading } = useThumbnail(id)
+  return loading ? null : <Text>{thumbnail}</Text>
+}
+
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
 
@@ -136,6 +160,9 @@ const SelectReferencesItem = ({ style, data, index }) => {
     )
   }
   const checked = data.selected.has(item.id)
+
+  console.log('item id', item.id)
+
   return (
     <div
       style={{
@@ -164,8 +191,17 @@ const SelectReferencesItem = ({ style, data, index }) => {
       >
         {item.id}
       </Badge>
-      <SelectReferencesItemDescriptor id={item.id} />
 
+      <SelectReferencesItemDescriptor id={item.id} />
+      {/* <SelectReferencesItemThumbnail id={item.id} /> */}
+      <div
+        style={{
+          backgroundSize: 'cover',
+          backgroundImage: `url(${getImageSrcFromID(item.id)})`,
+          width: 44,
+          height: 44,
+        }}
+      />
       <div style={{ flexGrow: 1 }} />
       <Badge style={{ marginLeft: 16 }}>{item.type}</Badge>
       <Text style={{ marginLeft: 16 }}>{toDateString(item.createdAt)}</Text>
@@ -173,15 +209,19 @@ const SelectReferencesItem = ({ style, data, index }) => {
   )
 }
 
-const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
+const SelectReferences = ({
+  onChange,
+  setRefArray,
+  singleRef = false,
+  close,
+}) => {
   const [filter, setFilter] = useState('')
   const { types, loading } = useSchemaTypes()
   const [typing, setTyping] = useState(false)
   const selected = useRef<Set<string>>()
 
   const { width, height } = useWindowResize()
-
-  console.log('width', width, height)
+  const dialogRef = useRef<HTMLDivElement>(null)
 
   if (typing) {
     if (selected.current) {
@@ -217,6 +257,7 @@ const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
 
   return (
     <Dialog
+      ref={dialogRef}
       style={{
         height: '100vh',
         width: '100vw',
@@ -228,7 +269,29 @@ const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
       pure
       label={
         <>
-          <>{singleRef ? 'Select a reference' : 'Select References'}</>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div>{singleRef ? 'Select a reference' : 'Select References'}</div>
+            <styled.div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                height: 32,
+                width: 32,
+                marginLeft: 'auto',
+                borderRadius: 16,
+                backgroundColor: color('lighttext'),
+                '&:hover': {
+                  backgroundColor: color('lighttext:hover'),
+                },
+              }}
+              onClick={() => close()}
+            >
+              <CloseIcon size={14} />
+            </styled.div>
+          </div>
+
           <Input
             ghost
             style={{
@@ -359,10 +422,16 @@ const References = (props) => {
     return <FileUploadReference {...props} multiple />
   }
 
-  const { open } = useDialog()
+  const { open, close } = useDialog()
 
   const onClick = () => {
-    open(<SelectReferences onChange={onChange} setRefArray={setRefArray} />)
+    open(
+      <SelectReferences
+        onChange={onChange}
+        setRefArray={setRefArray}
+        close={close}
+      />
+    )
   }
 
   return (
@@ -407,7 +476,7 @@ const SingleReference = (props) => {
   const [refArray, setRefArray] = useState([])
   const { label, description, value, style, onChange, space = 24 } = props
 
-  const { open } = useDialog()
+  const { open, close } = useDialog()
 
   const onClick = () => {
     open(
@@ -415,6 +484,7 @@ const SingleReference = (props) => {
         onChange={onChange}
         setRefArray={setRefArray}
         singleRef
+        close={close}
       />
     )
   }
