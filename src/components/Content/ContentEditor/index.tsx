@@ -23,6 +23,10 @@ import {
   CopyIcon,
   CloseIcon,
   color,
+  MoreIcon,
+  DeleteIcon,
+  useContextMenu,
+  ContextItem,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -39,16 +43,26 @@ import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import { useCopyToClipboard } from '~/hooks'
 import { useWindowResize } from '~/hooks/useWindowResize'
-import { useThumbnail } from '../hooks/useThumbnail'
-import { getImageSrcFromID } from '~/utils/getImageSrcFromID'
-import { styled } from 'inlines'
 
-// This one can probably be removed, TODO: check
+import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
+import { styled } from 'inlines'
+import { getNameFromId } from '~/utils/getNameFromID'
+
 const Reference = ({ id }) => {
   const { type, descriptor } = useDescriptor(id)
   const [copied, copy] = useCopyToClipboard(id)
 
-  const afbThumb = getImageSrcFromID(id)
+  const afbThumb = getImageSrcFromId(id)
+  const fileName = getNameFromId(id)
+
+  const contextHandler = useContextMenu(
+    ContextOptions,
+    {
+      deleteSpecificRef,
+      id,
+    },
+    { placement: 'right' }
+  )
 
   return (
     <div
@@ -70,12 +84,18 @@ const Reference = ({ id }) => {
       >
         {id}
       </Badge>
+      {copied && (
+        <div style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}>
+          <CheckIcon color="green" />
+          <Text size={12}>Copied!!</Text>
+        </div>
+      )}
       {type === 'file' ? (
         <div
           style={{
             backgroundSize: 'cover',
             backgroundImage: `url(${afbThumb})`,
-            width: 44,
+            minWidth: 44,
             height: 44,
             marginLeft: 12,
             marginRight: 12,
@@ -83,13 +103,42 @@ const Reference = ({ id }) => {
         />
       ) : null}
       <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>
-      {copied && (
-        <div style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}>
-          <CheckIcon color="green" />
-          <Text size={12}>Copied!!</Text>
-        </div>
-      )}
+      <Text style={{ marginLeft: 12 }}>{fileName || descriptor}</Text>
+
+      {/* // more icon for removing reference */}
+      <div
+        style={{
+          marginLeft: 'auto',
+          width: 24,
+          height: 24,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+        onClick={contextHandler}
+      >
+        <MoreIcon color="text" />
+      </div>
     </div>
+  )
+}
+
+const deleteSpecificRef = (id) => {
+  console.log('deleteSpecificRef', id)
+}
+
+const ContextOptions = ({
+  // handleClickUpload,
+  deleteSpecificRef,
+  id,
+}) => {
+  return (
+    <>
+      <ContextItem onClick={() => deleteSpecificRef(id)} icon={DeleteIcon}>
+        Delete
+      </ContextItem>
+    </>
   )
 }
 
@@ -138,11 +187,6 @@ const SelectReferencesItemDescriptor = ({ id }) => {
   return loading ? null : <Text>{descriptor}</Text>
 }
 
-const SelectReferencesItemThumbnail = ({ id }) => {
-  const { thumbnail, loading } = useThumbnail(id)
-  return loading ? null : <Text>{thumbnail}</Text>
-}
-
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
 
@@ -160,6 +204,8 @@ const SelectReferencesItem = ({ style, data, index }) => {
     )
   }
   const checked = data.selected.has(item.id)
+
+  const afbThumb = getImageSrcFromId(item.id)
 
   console.log('item id', item.id)
 
@@ -194,14 +240,17 @@ const SelectReferencesItem = ({ style, data, index }) => {
 
       <SelectReferencesItemDescriptor id={item.id} />
       {/* <SelectReferencesItemThumbnail id={item.id} /> */}
-      <div
-        style={{
-          backgroundSize: 'cover',
-          backgroundImage: `url(${getImageSrcFromID(item.id)})`,
-          width: 44,
-          height: 44,
-        }}
-      />
+      {afbThumb ? (
+        <div
+          style={{
+            backgroundSize: 'cover',
+            backgroundImage: `url(${afbThumb})`,
+            width: 44,
+            height: 44,
+          }}
+        />
+      ) : null}
+      <Text style={{ marginLeft: 16 }}>{getNameFromId(item.id)}</Text>
       <div style={{ flexGrow: 1 }} />
       <Badge style={{ marginLeft: 16 }}>{item.type}</Badge>
       <Text style={{ marginLeft: 16 }}>{toDateString(item.createdAt)}</Text>

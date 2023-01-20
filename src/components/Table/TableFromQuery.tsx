@@ -19,6 +19,7 @@ import { useItemSchema } from '../Content/hooks/useItemSchema'
 import stringifyObject from 'stringify-object'
 import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
+import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -26,17 +27,34 @@ const Grid = styled(VariableSizeGrid)
 const Reference = ({ value }) => {
   console.log('valluuee -->', value)
 
+  const afbThumb = getImageSrcFromId(value)
+
   return value.length > 0 ? (
-    <div style={{ display: 'flex' }}>
-      <div style={{ minWidth: 20, paddingTop: 4 }}>
-        <ReferenceIcon
-          color="accent"
+    <div style={{ display: 'flex', verticalAlign: 'center' }}>
+      {!afbThumb ? (
+        <div style={{ minWidth: 20, paddingTop: 4 }}>
+          <ReferenceIcon
+            color="accent"
+            style={{
+              marginRight: 6,
+            }}
+          />
+        </div>
+      ) : (
+        <div
           style={{
-            marginRight: 6,
+            backgroundSize: 'cover',
+            backgroundImage: `url(${afbThumb})`,
+            width: 34,
+            height: 34,
+            marginRight: 12,
           }}
         />
-      </div>
-      <Badge>{value}</Badge>
+      )}
+
+      <Badge style={{ maxHeight: 24, marginTop: afbThumb ? 5 : 0 }}>
+        {value}
+      </Badge>
     </div>
   ) : null
 }
