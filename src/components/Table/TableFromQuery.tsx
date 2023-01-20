@@ -6,7 +6,14 @@ import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Button } from '../Button'
 import { Checkbox } from '../Checkbox'
-import { AddIcon, AttachmentIcon, ReferenceIcon } from '~/icons'
+import {
+  AddIcon,
+  AttachmentIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  ReferenceIcon,
+  SortIcon,
+} from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import { isImage } from '~/utils/isImage'
@@ -350,6 +357,9 @@ const Header = ({
   unCheckedArr,
   setUnCheckedArr,
   setSort,
+  sortOrder,
+  activeSortField,
+  setActiveSortField,
 }) => {
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
@@ -379,21 +389,38 @@ const Header = ({
               width: columnWidth(index + 1),
               height: HEADER_HEIGHT,
               position: 'relative',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              console.log('clicked on -->', field)
+              if (field) {
+                setActiveSortField(field)
+                if (sortOrder === 'desc') {
+                  setSort([field, 'asc'])
+                } else {
+                  setSort([field, 'desc'])
+                }
+              }
             }}
           >
-            <Text
-              color="text2"
-              weight="400"
-              style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
-              onClick={() => {
-                console.log('clicked on -->', field)
-                if (field) {
-                  setSort([field, 'asc'])
-                }
-              }}
-            >
-              {field}
-            </Text>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {field === activeSortField && (
+                <SortIcon color="accent" style={{ marginRight: '-6px' }} />
+              )}
+              <Text
+                color={field === activeSortField ? 'accent' : 'text2'}
+                weight={field === activeSortField ? '600' : '400'}
+                style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
+              >
+                {field}
+              </Text>
+              {field === activeSortField && sortOrder === 'desc' && (
+                <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
+              )}
+              {field === activeSortField && sortOrder === 'asc' && (
+                <ChevronUpIcon color="accent" style={{ marginLeft: '6px' }} />
+              )}
+            </div>
             <HeaderDragLine
               setColWidths={setColWidths}
               colWidths={colWidths}
@@ -451,6 +478,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'createdAt',
     'desc',
   ])
+  const [activeSortField, setActiveSortField] = useState<string>('createdAt')
 
   //  console.log('TableFromQuery', query)
   // console.log('onAction', onAction)
@@ -563,6 +591,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 unCheckedArr={unCheckedArr}
                 setUnCheckedArr={setUnCheckedArr}
                 setSort={setSort}
+                sortOrder={sortOrder}
+                activeSortField={activeSortField}
+                setActiveSortField={setActiveSortField}
               />
               {selectedRowCheckboxes.length > 0 && (
                 <div
