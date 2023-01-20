@@ -25,8 +25,6 @@ const Grid = styled(VariableSizeGrid)
 
 // single ref display
 const Reference = ({ value }) => {
-  console.log('valluuee -->', value)
-
   const afbThumb = getImageSrcFromId(value)
 
   return value.length > 0 ? (
@@ -184,7 +182,6 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (fieldType === 'references') {
             children = value.length ? <References value={value} /> : null
           } else if (fieldType === 'reference') {
-            console.log('reference', value)
             children = value.length ? <Reference value={value} /> : null
           } else if (fieldType === 'timestamp') {
             children = <Text weight={weight}>{toDateString(value)}</Text>
@@ -352,6 +349,7 @@ const Header = ({
   allFields,
   unCheckedArr,
   setUnCheckedArr,
+  setSort,
 }) => {
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
@@ -389,6 +387,9 @@ const Header = ({
               style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
               onClick={() => {
                 console.log('clicked on -->', field)
+                if (field) {
+                  setSort([field, 'asc'])
+                }
               }}
             >
               {field}
@@ -561,6 +562,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 setColWidths={setColWidths}
                 unCheckedArr={unCheckedArr}
                 setUnCheckedArr={setUnCheckedArr}
+                setSort={setSort}
               />
               {selectedRowCheckboxes.length > 0 && (
                 <div
