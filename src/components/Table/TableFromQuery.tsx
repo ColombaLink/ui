@@ -88,6 +88,8 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const { fields: schemaFields } = useItemSchema(item?.id)
 
+  // console.log('Schema fields', schemaFields, children, item?.id, item)
+
   let hasField
   if (item) {
     if (isCheckbox) {
@@ -106,10 +108,6 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
                 1
               )
             }
-            console.log(
-              'selected index row checkboxes-->',
-              selectedRowCheckboxes
-            )
           }}
         />
       )
@@ -432,7 +430,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'desc',
   ])
 
-  console.log('onAction', onAction)
+  //  console.log('TableFromQuery', query)
+  // console.log('onAction', onAction)
 
   const [filteredFields, setFilteredFields] = useState(fields)
   const [unCheckedArr, setUnCheckedArr] = useState([])

@@ -36,6 +36,7 @@ import { toDateString } from '~/utils/date'
 import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import { useCopyToClipboard } from '~/hooks'
+import { useWindowResize } from '~/hooks/useWindowResize'
 
 // This one can probably be removed, TODO: check
 const Reference = ({ id }) => {
@@ -121,8 +122,8 @@ const SelectReferencesItemDescriptor = ({ id }) => {
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
 
-  console.log('item ---->', item)
-  console.log('data --->', data)
+  // console.log('item ---->', item)
+  // console.log('data --->', data)
 
   if (!item) {
     return (
@@ -178,6 +179,10 @@ const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
   const [typing, setTyping] = useState(false)
   const selected = useRef<Set<string>>()
 
+  const { width, height } = useWindowResize()
+
+  console.log('width', width, height)
+
   if (typing) {
     if (selected.current) {
       selected.current = null
@@ -212,7 +217,14 @@ const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
 
   return (
     <Dialog
-      style={{ height: 492, display: 'flex', flexDirection: 'column' }}
+      style={{
+        height: '100vh',
+        width: '100vw',
+        display: 'flex',
+        marginLeft: '16px',
+        marginRight: '16px',
+        flexDirection: 'column',
+      }}
       pure
       label={
         <>
@@ -259,7 +271,7 @@ const SelectReferences = ({ onChange, setRefArray, singleRef = false }) => {
         >
           <InfiniteList
             target="root"
-            height={323 - 8}
+            height={height - 210}
             itemSize={55}
             itemData={(items) => ({ items, selected: selected.current })}
             query={($offset, $limit) => {
@@ -407,8 +419,8 @@ const SingleReference = (props) => {
     )
   }
 
-  console.log('props from Single Reference component', props)
-  console.log('refArray From Single Reference component', refArray)
+  // console.log('props from Single Reference component', props)
+  // console.log('refArray From Single Reference component', refArray)
 
   return (
     <InputWrapper
@@ -718,7 +730,7 @@ const ContentField = ({
   const isText = type === 'text'
   const [targetId, ...path] = id?.split('.') || []
 
-  console.log('schema', schema)
+  //  console.log('schema', schema)
 
   const query = {
     $id: targetId,
@@ -729,7 +741,7 @@ const ContentField = ({
     target = target[field]
   })
 
-  console.log('target ', target)
+  //  console.log('target ', target)
 
   target[field] = refTypes?.includes('file')
     ? {
