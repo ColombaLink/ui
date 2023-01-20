@@ -1,7 +1,12 @@
 import React, { useRef } from 'react'
 import { Color, color } from '~/utils'
 import { MultiLineGraphData, Point } from './types'
-import { getGlobalMinMax } from './utils'
+import {
+  averageData,
+  generatePoints,
+  getGlobalMinMax,
+  getMinMax,
+} from './utils'
 
 export const genPathCurve = (points: Point[], r: number) => {
   let d = `M${points[0].x},${points[0].y}`
@@ -63,7 +68,7 @@ const makeLine = ({
           data-custom="line"
           strokeWidth={2}
         />
-        {false
+        {true
           ? points.map(({ x, y }, i) => (
               <circle key={i} cx={x} cy={y} r="2" fill="red" />
             ))
@@ -87,43 +92,77 @@ export const genPaths = ({
     [key: string]: React.MutableRefObject<SVGGeometryElement>
   } = {}
 
-  const { globalMaxX, globalMinX, globalMaxY, globalMinY } =
-    getGlobalMinMax(data)
+  let { globalMaxX, globalMinX, globalMaxY, globalMinY } = getGlobalMinMax(data)
   const xSpread = globalMaxX - globalMinX
-  const ySpread = globalMaxY - globalMinY
+  let ySpread = globalMaxY - globalMinY
 
   Object.keys(data).forEach((key) => {
     const paddingLeft = (data[key].minX - globalMinX) / xSpread
     const paddingRight = (globalMaxX - data[key].maxX) / xSpread
     const lineWidth =
-      width -
-      Math.abs(
-        (width - xSpread) * paddingLeft - (width - xSpread) * paddingRight
-      )
-    const lineStepSize = lineWidth / (data[key].data.length - 1)
+      width - Math.abs(width * paddingLeft - width * paddingRight)
+    let lineStepSize = lineWidth / (data[key].data.length - 1)
 
     data[key].stepSize = lineStepSize
 
     // let stepSize = width / (data[key].data.length - 1)
-    const pxValue = ySpread / height
+    let pxValue = ySpread / height
     const targetStepSize = 10
 
     // TODO: this needs to be done before min max
     if (lineStepSize < targetStepSize) {
-      // const { data: newData, stepSize: newStepSize } = averageData({
-      //   data: data[key].data,
-      //   stepSize,
-      //   width: svgWidth,
-      //   targetStepSize,
-      // })
-      // data[key].data = newData
-      // stepSize = newStepSize
-    }
-    data[key].points = data[key].data.map((dataItem, index) => {
-      return {
-        x: paddingLeft * width + lineStepSize * index,
-        y: (ySpread - (dataItem.y - globalMinY)) / pxValue,
+      const {
+        data: newData,
+        stepSize: newStepSize,
+        minData,
+        maxData,
+      } = averageData({
+        data: data[key].data,
+        lineStepSize,
+        width: lineWidth,
+        targetStepSize,
+      })
+      data[key].data = newData
+      lineStepSize = newStepSize
+
+      if (data[key].minMax) {
+        data[key].minData = minData
+        data[key].minPoints = generatePoints({
+          data: minData,
+          paddingLeft,
+          width,
+          lineStepSize,
+          ySpread,
+          globalMinY,
+          pxValue,
+        })
+        data[key].maxData = maxData
+        data[key].maxPoints = generatePoints({
+          data: maxData,
+          paddingLeft,
+          width,
+          lineStepSize,
+          ySpread,
+          globalMinY,
+          pxValue,
+        })
+      } else {
+        const { minY, maxY } = getMinMax(data[key].data)
+        data[key].minY = minY
+        data[key].maxY = maxY
+        ;({ globalMaxY, globalMinY } = getGlobalMinMax(data))
+        ySpread = globalMaxY - globalMinY
+        pxValue = ySpread / height
       }
+    }
+    data[key].points = generatePoints({
+      data: data[key].data,
+      paddingLeft,
+      width,
+      lineStepSize,
+      ySpread,
+      globalMinY,
+      pxValue,
     })
   })
 

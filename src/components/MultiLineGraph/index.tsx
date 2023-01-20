@@ -83,14 +83,13 @@ const Graph = ({
     }
   }, [ySpread])
 
-  const { labels, labelHeight } = genLabels(svgHeight, ySpread, globalMaxY)
-
   let { paths, lineRefs } = genPaths({
     data: data,
     width: svgWidth,
     height: svgHeight,
   })
 
+  const { labels, labelHeight } = genLabels(svgHeight, ySpread, globalMaxY)
   // if (pure) {
   //   return (
   //     <OverlayWrapper
@@ -153,6 +152,7 @@ const Graph = ({
           valueFormat={valueFormat}
           ySpread={ySpread}
           lineRefs={lineRefs}
+          xFormat={xFormat}
         >
           {paths}
         </OverlayWrapper>

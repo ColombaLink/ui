@@ -9,6 +9,7 @@ export type LineDataInput = {
   fill?: boolean
   color?: Color
   valueFormat?: NumberFormat
+  minMax?: boolean
 }
 export type LineData = LineDataInput & {
   points?: Point[]
@@ -17,6 +18,10 @@ export type LineData = LineDataInput & {
   minY?: number
   maxY?: number
   stepSize?: number
+  maxData?: Point[]
+  maxPoints?: Point[]
+  minData?: Point[]
+  minPoints?: Point[]
 }
 
 export type MultiLineGraphData = {

@@ -25,6 +25,7 @@ const Legend = ({
   isHover,
   x,
   values,
+  xFormat,
 }: // xInfo,
 // p,
 // selected,
@@ -34,6 +35,7 @@ const Legend = ({
   isHover: boolean
   x: number
   values: LegendValues
+  xFormat: MultiLineXGraphFormat
 }) => {
   if (!values[0]?.svgX) return null
   let extraInfo = null
@@ -174,7 +176,16 @@ const Legend = ({
                 {prettyNumber(value.y, value.valueFormat || 'number-short')}
               </Text>
             ))}
-            <Text color="text2">x: {values[0].x}</Text>
+            <Text color="text2">
+              x:{' '}
+              {xFormat === 'date-time-human'
+                ? prettyDate(values[0].x, 'date-time-human')
+                : xFormat === 'date'
+                ? prettyDate(values[0].x, 'time-precise') +
+                  ' - ' +
+                  prettyDate(values[0].x, 'date')
+                : prettyNumber(values[0].x, 'number-short')}
+            </Text>
             {/* {extraInfo} */}
           </div>
         </div>
@@ -229,6 +240,7 @@ const getY = ({
   legend,
   ySpread,
   lineRefs,
+  xFormat,
 }: {
   x: number
   width: number
@@ -239,6 +251,7 @@ const getY = ({
   legend: boolean
   ySpread: number
   lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
+  xFormat: MultiLineXGraphFormat
 }) => {
   if (x < 0) return null
 
@@ -276,6 +289,7 @@ const getY = ({
       // xInfo={xInfo}
       // selected={selected}
       values={values}
+      xFormat={xFormat}
     />
   )
 
@@ -371,6 +385,7 @@ const Overlay = ({
   valueFormat,
   ySpread,
   lineRefs,
+  xFormat,
 }: {
   isHover: boolean
   x: number
@@ -382,6 +397,7 @@ const Overlay = ({
   valueFormat: NumberFormat | string
   ySpread: number
   lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
+  xFormat: MultiLineXGraphFormat
 }) => {
   return (
     <div
@@ -405,6 +421,7 @@ const Overlay = ({
             legend,
             ySpread,
             lineRefs,
+            xFormat,
           })
         : null}
     </div>
@@ -423,6 +440,7 @@ export default ({
   valueFormat,
   ySpread,
   lineRefs,
+  xFormat,
 }) => {
   // need format
   const [mouseX, setMouseX] = useState()
@@ -484,6 +502,7 @@ export default ({
         r={ref}
         ySpread={ySpread}
         lineRefs={lineRefs}
+        xFormat={xFormat}
       />
     </div>
   )
