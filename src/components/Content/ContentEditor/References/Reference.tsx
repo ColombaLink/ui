@@ -35,7 +35,7 @@ export const Reference = ({
 
     if (singleRef) {
       onChange(null)
-      setRefArray(null)
+      setRefArray([])
     } else {
       const newRefArray = refArray.filter((ref) => ref !== id)
 

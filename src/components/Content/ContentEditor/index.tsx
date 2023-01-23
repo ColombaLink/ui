@@ -30,11 +30,12 @@ import { Reference } from './References/Reference'
 import { FileUploadReference } from './References/FileUploadReference'
 import { SelectReferences } from './References/SelectReferences'
 
-// let once
 const References = (props) => {
   const client = useClient()
 
   const { label, description, value, style, onChange, space = 24 } = props
+
+  console.log('multi ref', props)
 
   const [refArray, setRefArray] = useState([])
 
@@ -103,11 +104,25 @@ const SingleReference = (props) => {
     return <FileUploadReference {...props} client={client} />
   }
 
+  console.log('single ref', props)
+
   // some sort of preview state before publishing
-  const [refArray, setRefArray] = useState()
+  const [refArray, setRefArray] = useState([])
   const { label, description, value, style, onChange, space = 24 } = props
 
   const { open, close } = useDialog()
+
+  useEffect(() => {
+    if (props.value) {
+      setRefArray(Array.from(props.value))
+    }
+  }, [props.value])
+
+  // useEffect(() => {
+  //   if (refArray?.length > 0) {
+  //     onChange(refArray[0])
+  //   }
+  // }, [refArray])
 
   const onClick = () => {
     open(
@@ -119,8 +134,6 @@ const SingleReference = (props) => {
       />
     )
   }
-
-  // console.log('props from Single Reference component', props)
 
   return (
     <InputWrapper
@@ -135,13 +148,13 @@ const SingleReference = (props) => {
         style={{ marginBottom: 12 }}
       />
       {/* // show temp refArray for render purposes */}
-      {refArray || value ? (
+      {refArray.length > 0 ? (
         <Reference
-          id={value}
+          id={props.value || refArray[0]}
           onChange={onChange}
           setRefArray={setRefArray}
           refArray={refArray}
-          singleRef={true}
+          singleRef
         />
       ) : null}
       <Button ghost icon={AddIcon} onClick={onClick}>

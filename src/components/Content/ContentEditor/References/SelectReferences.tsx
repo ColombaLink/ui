@@ -29,9 +29,6 @@ const SelectReferencesItemDescriptor = ({ id }) => {
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
 
-  // console.log('item ---->', item)
-  // console.log('data --->', data)
-
   if (!item) {
     return (
       <div
@@ -43,10 +40,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
     )
   }
   const checked = data.selected.has(item.id)
-
   const afbThumb = getImageSrcFromId(item.id)
-
-  console.log('item id', item.id)
 
   return (
     <div
@@ -78,7 +72,7 @@ const SelectReferencesItem = ({ style, data, index }) => {
       </Badge>
 
       <SelectReferencesItemDescriptor id={item.id} />
-      {/* <SelectReferencesItemThumbnail id={item.id} /> */}
+
       {afbThumb ? (
         <div
           style={{
