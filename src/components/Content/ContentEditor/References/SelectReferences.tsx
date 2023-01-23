@@ -28,6 +28,11 @@ const SelectReferencesItemDescriptor = ({ id }) => {
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
 
+  // console.log(data.checkedIds, '🍯')
+  // console.log(data.dialogRef.current.childNodes[1], '🍯')
+
+  const refToScrollDiv = data.dialogRef.current.childNodes[1].childNodes[0]
+
   if (!item) {
     return (
       <div
@@ -52,15 +57,31 @@ const SelectReferencesItem = ({ style, data, index }) => {
       }}
     >
       <Checkbox
-        checked={checked}
+        checked={data.singleRef ? index === data.checkedIds[0] : checked}
         onChange={() => {
-          if (checked) {
-            data.selected.delete(item.id)
+          // if het single reference is
+          if (data.singleRef) {
+            if (checked) {
+              data.selected.delete(item.id)
+              data.dialogRef.current.childNodes[1].childNodes[0].scroll(0, 1)
+            } else {
+              data.selected.add(item.id)
+              data.checkedIds.push(index)
+              data.checkedIds.shift()
+
+              // Scroll to force a rerender 1!!
+              refToScrollDiv.scrollBy(0, 5)
+            }
           } else {
-            data.selected.add(item.id)
+            if (checked) {
+              data.selected.delete(item.id)
+            } else {
+              data.selected.add(item.id)
+            }
           }
         }}
       />
+
       <Badge
         style={{
           marginRight: 16,
@@ -103,6 +124,8 @@ export const SelectReferences = ({
 
   const { width, height } = useWindowResize()
   const dialogRef = useRef<HTMLDivElement>(null)
+
+  const checkedIds = [3]
 
   if (typing) {
     if (selected.current) {
@@ -217,7 +240,13 @@ export const SelectReferences = ({
             target="root"
             height={height - 210}
             itemSize={55}
-            itemData={(items) => ({ items, selected: selected.current })}
+            itemData={(items) => ({
+              items,
+              selected: selected.current,
+              singleRef: singleRef,
+              checkedIds: checkedIds,
+              dialogRef: dialogRef,
+            })}
             query={($offset, $limit) => {
               const query = {
                 id: true,
@@ -274,9 +303,6 @@ export const SelectReferences = ({
             } else {
               onChange(Array.from(selected.current))
             }
-
-            // console.log('aight', selected.current)
-            // console.log('aight array ?', Array.from(selected.current))
           }}
         >
           Confirm
