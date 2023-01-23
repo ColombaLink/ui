@@ -2,473 +2,48 @@ import { useClient, useData } from '@based/react'
 import React, { useEffect, useRef, useState } from 'react'
 import {
   Input,
-  Text,
   Label,
-  Badge,
-  border,
   Button,
   AddIcon,
   EditIcon,
   Toggle,
   DateTimePicker,
-  FileUpload,
   GeoInput,
   useSchemaTypes,
   LoadingIcon,
   ArrayList,
   useLocation,
-  InfiniteList,
-  Checkbox,
-  CheckIcon,
-  CopyIcon,
-  CloseIcon,
-  color,
-  MoreIcon,
-  DeleteIcon,
-  useContextMenu,
-  ContextItem,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
-import { useDescriptor } from '../hooks/useDescriptor'
-
-import { Dialog, useDialog } from '~/components/Dialog'
+import { useDialog } from '~/components/Dialog'
 import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
-import { toDateString } from '~/utils/date'
+
 import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
-import { useCopyToClipboard } from '~/hooks'
-import { useWindowResize } from '~/hooks/useWindowResize'
 
-import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
-import { styled } from 'inlines'
-import { getNameFromId } from '~/utils/getNameFromID'
-
-const Reference = ({ id }) => {
-  const { type, descriptor } = useDescriptor(id)
-  const [copied, copy] = useCopyToClipboard(id)
-
-  const afbThumb = getImageSrcFromId(id)
-  const fileName = getNameFromId(id)
-
-  const contextHandler = useContextMenu(
-    ContextOptions,
-    {
-      deleteSpecificRef,
-      id,
-    },
-    { placement: 'right' }
-  )
-
-  return (
-    <div
-      style={{
-        height: 48,
-        border: border(1),
-        color: 'white',
-        borderRadius: 4,
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 16px',
-        marginBottom: 8,
-      }}
-    >
-      <Badge
-        color="text"
-        onClick={(id as any) !== 'root' ? (copy as any) : null}
-        icon={id !== 'root' ? <CopyIcon /> : null}
-      >
-        {id}
-      </Badge>
-      {copied && (
-        <div style={{ display: 'flex', marginLeft: 6, marginTop: 4 }}>
-          <CheckIcon color="green" />
-          <Text size={12}>Copied!!</Text>
-        </div>
-      )}
-      {type === 'file' ? (
-        <div
-          style={{
-            backgroundSize: 'cover',
-            backgroundImage: `url(${afbThumb})`,
-            minWidth: 44,
-            height: 44,
-            marginLeft: 12,
-            marginRight: 12,
-          }}
-        />
-      ) : null}
-      <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>
-      <Text style={{ marginLeft: 12 }}>{fileName || descriptor}</Text>
-
-      {/* // more icon for removing reference */}
-      <div
-        style={{
-          marginLeft: 'auto',
-          width: 24,
-          height: 24,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-        }}
-        onClick={contextHandler}
-      >
-        <MoreIcon color="text" />
-      </div>
-    </div>
-  )
-}
-
-const deleteSpecificRef = (id) => {
-  console.log('deleteSpecificRef', id)
-}
-
-const ContextOptions = ({
-  // handleClickUpload,
-  deleteSpecificRef,
-  id,
-}) => {
-  return (
-    <>
-      <ContextItem onClick={() => deleteSpecificRef(id)} icon={DeleteIcon}>
-        Delete
-      </ContextItem>
-    </>
-  )
-}
-
-const FileUploadReference = ({
-  value,
-  label,
-  description,
-  style,
-  onChange,
-  multiple,
-  meta,
-}) => {
-  const client = useClient()
-  if (value?.mimeType) {
-    value.type = value.mimeType
-  }
-
-  return (
-    <FileUpload
-      style={style}
-      label={label}
-      indent
-      descriptionBottom={description}
-      space
-      multiple={meta.multiple}
-      onChange={async (files) => {
-        const result = await Promise.all(
-          files?.map((file) => {
-            return client.file(file)
-          })
-        )
-
-        onChange(
-          multiple
-            ? result.map((file) => file?.id) || { $delete: true }
-            : result[0]?.id || { $delete: true }
-        )
-      }}
-      value={value}
-    />
-  )
-}
-
-const SelectReferencesItemDescriptor = ({ id }) => {
-  const { descriptor, loading } = useDescriptor(id)
-  return loading ? null : <Text>{descriptor}</Text>
-}
-
-const SelectReferencesItem = ({ style, data, index }) => {
-  const item = data.items[index]
-
-  // console.log('item ---->', item)
-  // console.log('data --->', data)
-
-  if (!item) {
-    return (
-      <div
-        style={{
-          borderBottom: border(1),
-          ...style,
-        }}
-      />
-    )
-  }
-  const checked = data.selected.has(item.id)
-
-  const afbThumb = getImageSrcFromId(item.id)
-
-  console.log('item id', item.id)
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        borderBottom: border(1),
-        alignItems: 'center',
-        padding: '0 24px',
-        ...style,
-      }}
-    >
-      <Checkbox
-        checked={checked}
-        onChange={() => {
-          if (checked) {
-            data.selected.delete(item.id)
-          } else {
-            data.selected.add(item.id)
-          }
-        }}
-      />
-      <Badge
-        style={{
-          marginRight: 16,
-          fontFamily: 'monospace',
-        }}
-      >
-        {item.id}
-      </Badge>
-
-      <SelectReferencesItemDescriptor id={item.id} />
-      {/* <SelectReferencesItemThumbnail id={item.id} /> */}
-      {afbThumb ? (
-        <div
-          style={{
-            backgroundSize: 'cover',
-            backgroundImage: `url(${afbThumb})`,
-            width: 44,
-            height: 44,
-          }}
-        />
-      ) : null}
-      <Text style={{ marginLeft: 16 }}>{getNameFromId(item.id)}</Text>
-      <div style={{ flexGrow: 1 }} />
-      <Badge style={{ marginLeft: 16 }}>{item.type}</Badge>
-      <Text style={{ marginLeft: 16 }}>{toDateString(item.createdAt)}</Text>
-    </div>
-  )
-}
-
-const SelectReferences = ({
-  onChange,
-  setRefArray,
-  singleRef = false,
-  close,
-}) => {
-  const [filter, setFilter] = useState('')
-  const { types, loading } = useSchemaTypes()
-  const [typing, setTyping] = useState(false)
-  const selected = useRef<Set<string>>()
-
-  const { width, height } = useWindowResize()
-  const dialogRef = useRef<HTMLDivElement>(null)
-
-  if (typing) {
-    if (selected.current) {
-      selected.current = null
-    }
-  } else if (!selected.current) {
-    selected.current = new Set()
-  }
-
-  useEffect(() => {
-    if (filter) {
-      setTyping(true)
-      const timer = setTimeout(() => {
-        setTyping(false)
-      }, 500)
-      return () => clearTimeout(timer)
-    } else {
-      setTyping(false)
-    }
-  }, [filter])
-
-  if (loading) return null
-
-  const queryFields = Object.keys(types).reduce((set, type) => {
-    for (const key in types[type].fields) {
-      const field = types[type].fields[key]
-      if (field.type === 'string' || field.type === 'id') {
-        set.add(key)
-      }
-    }
-    return set
-  }, new Set())
-
-  return (
-    <Dialog
-      ref={dialogRef}
-      style={{
-        height: '100vh',
-        width: '100vw',
-        display: 'flex',
-        marginLeft: '16px',
-        marginRight: '16px',
-        flexDirection: 'column',
-      }}
-      pure
-      label={
-        <>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div>{singleRef ? 'Select a reference' : 'Select References'}</div>
-            <styled.div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                height: 32,
-                width: 32,
-                marginLeft: 'auto',
-                borderRadius: 16,
-                backgroundColor: color('lighttext'),
-                '&:hover': {
-                  backgroundColor: color('lighttext:hover'),
-                },
-              }}
-              onClick={() => close()}
-            >
-              <CloseIcon size={14} />
-            </styled.div>
-          </div>
-
-          <Input
-            ghost
-            style={{
-              marginTop: 12,
-              backgroundColor: color('background2'),
-              boxShadow: '0px',
-              outline: 'none',
-              height: 40,
-              alignItems: 'center',
-              borderRadius: 8,
-              paddingTop: '4px',
-              paddingLeft: '16px',
-            }}
-            value={filter}
-            onChange={(val) => {
-              setFilter(val.trim())
-            }}
-          />
-        </>
-      }
-    >
-      {typing ? (
-        <div
-          style={{
-            flexGrow: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <LoadingIcon />
-        </div>
-      ) : (
-        <div
-          style={{
-            flexGrow: 1,
-            paddingLeft: 16,
-            paddingRight: 16,
-          }}
-        >
-          <InfiniteList
-            target="root"
-            height={height - 210}
-            itemSize={55}
-            itemData={(items) => ({ items, selected: selected.current })}
-            query={($offset, $limit) => {
-              const query = {
-                id: true,
-                createdAt: true,
-                type: true,
-                $list: {
-                  $offset,
-                  $limit,
-                  $find: {
-                    $traverse: 'descendants',
-                    //  $filter: {},
-                  } as any,
-                },
-              }
-
-              if (filter) {
-                let f
-                queryFields.forEach(($field) => {
-                  const obj = {
-                    $field,
-                    $operator: 'includes',
-                    $value: filter,
-                  }
-                  if (f) {
-                    f = f.$or = obj
-                  } else {
-                    f = query.$list.$find.$filter = obj
-                  }
-                })
-              }
-
-              return query
-            }}
-          >
-            {SelectReferencesItem}
-          </InfiniteList>
-        </div>
-      )}
-      <div
-        style={{
-          padding: 24,
-          paddingTop: 14,
-          display: 'flex',
-          justifyContent: 'flex-end',
-          borderTop: border(1),
-        }}
-      >
-        <Dialog.Confirm
-          space="16px"
-          onConfirm={() => {
-            setRefArray([...selected.current])
-            if (singleRef) {
-              onChange(Array.from(selected.current)[0])
-            } else {
-              onChange(Array.from(selected.current))
-            }
-
-            // console.log('aight', selected.current)
-            // console.log('aight array ?', Array.from(selected.current))
-          }}
-        >
-          Confirm
-        </Dialog.Confirm>
-      </div>
-    </Dialog>
-  )
-}
+import { Reference } from './References/Reference'
+import { FileUploadReference } from './References/FileUploadReference'
+import { SelectReferences } from './References/SelectReferences'
 
 // let once
 const References = (props) => {
+  const client = useClient()
+
   const { label, description, value, style, onChange, space = 24 } = props
 
   const [refArray, setRefArray] = useState([])
 
   useEffect(() => {
     setRefArray(value)
-  }, [value])
-
-  // console.log('value', value)
-  // console.log('some props', props)
+  }, [value, refArray])
 
   if (props.meta?.refTypes?.includes('files')) {
-    return <FileUploadReference {...props} multiple />
+    return <FileUploadReference {...props} multiple client={client} />
   }
 
   const { open, close } = useDialog()
@@ -495,12 +70,17 @@ const References = (props) => {
         // description={description}
         style={{ marginBottom: 12 }}
       />
-
       {/* if there are reftypes on the meta */}
       {/* {meta?.refTypes?.length > 0 &&
         meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
       {refArray?.map((id) => (
-        <Reference key={id} id={id} />
+        <Reference
+          key={id}
+          id={id}
+          onChange={onChange}
+          setRefArray={setRefArray}
+          refArray={refArray}
+        />
       ))}
       {/* {value?.map((id) => (
         <Reference key={id} id={id} />
@@ -517,13 +97,17 @@ const References = (props) => {
 }
 
 const SingleReference = (props) => {
+  const client = useClient()
+
   if (props.meta?.refTypes?.includes('file')) {
-    return <FileUploadReference {...props} />
+    return <FileUploadReference {...props} client={client} />
   }
 
   // some sort of preview state before publishing
-  const [refArray, setRefArray] = useState([])
+  const [refArray, setRefArray] = useState()
   const { label, description, value, style, onChange, space = 24 } = props
+
+  console.log(props)
 
   const { open, close } = useDialog()
 
@@ -539,7 +123,6 @@ const SingleReference = (props) => {
   }
 
   // console.log('props from Single Reference component', props)
-  // console.log('refArray From Single Reference component', refArray)
 
   return (
     <InputWrapper
@@ -554,13 +137,17 @@ const SingleReference = (props) => {
         style={{ marginBottom: 12 }}
       />
       {/* // show temp refArray for render purposes */}
-      {refArray[0] ? (
-        <Reference id={refArray[0]} />
-      ) : value ? (
-        <Reference id={value} />
+      {refArray || value ? (
+        <Reference
+          id={value}
+          onChange={onChange}
+          setRefArray={setRefArray}
+          refArray={refArray}
+          singleRef={true}
+        />
       ) : null}
       <Button ghost icon={AddIcon} onClick={onClick}>
-        {value || refArray[0] ? 'Change reference' : 'Add reference'}
+        {value || refArray?.[0] ? 'Change reference' : 'Add reference'}
       </Button>
     </InputWrapper>
   )
