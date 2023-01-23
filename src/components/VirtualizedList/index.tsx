@@ -6,7 +6,7 @@ import { SelectableCollection } from '~/hooks'
 import useDragScroll from '~/hooks/useDragScroll'
 import { ListItem } from './ListItem'
 
-export const VirtualizedList = (props) => {
+export const VirtualizedList = (props, style) => {
   let { items = [], activeId } = props
 
   return (
@@ -22,7 +22,7 @@ export const VirtualizedList = (props) => {
               itemCount={items.length}
               itemSize={46}
               style={{}}
-              itemData={{ items, context, ...props }}
+              itemData={{ items, context, ...props, ...style }}
               {...useDragScroll(true)}
             >
               {ListItem}

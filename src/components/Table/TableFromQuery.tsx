@@ -15,6 +15,7 @@ import {
   SortIcon,
 } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
+import { VirtualizedList } from '../VirtualizedList'
 import { useInfiniteScroll } from '../InfiniteList'
 import { isImage } from '~/utils/isImage'
 import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
@@ -28,6 +29,7 @@ import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
 import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
+import { Thumbnail } from '../Thumbnail'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -86,11 +88,11 @@ const References = ({ value }) => {
         />
         <Text color="accent">{value.length}</Text>
       </div>
-      {value.slice(0, 3).map((ref, idx) => (
+      {/* {value.slice(0, 3).map((ref, idx) => (
         <Badge style={{ marginLeft: 6 }} key={idx}>
           {ref}
         </Badge>
-      ))}
+      ))} */}
     </div>
   ) : null
 }
@@ -497,10 +499,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const colWidth = 200
   const { schema } = useSchema()
   const [[sortField, sortOrder], setSort] = useState<string[]>([
-    'createdAt',
+    'updatedAt',
     'desc',
   ])
-  const [activeSortField, setActiveSortField] = useState<string>('createdAt')
+  const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
 
   // before you delete modal to confirm
   const { confirm } = useDialog()
@@ -509,7 +511,19 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // console.log('onAction', onAction)
 
   const [filteredFields, setFilteredFields] = useState(fields)
-  const [unCheckedArr, setUnCheckedArr] = useState([])
+  const [unCheckedArr, setUnCheckedArr] = useState([
+    'type',
+    'parents',
+    'createdAt',
+    'children',
+  ])
+
+  console.log('filteredFields', filteredFields)
+
+  // run once to filter out the fields that are not checked by default
+  useEffect(() => {
+    setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
+  }, [])
 
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
@@ -566,8 +580,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   const deleteItems = async (items) => {
-    console.log('---> items', items)
-
     const ok = await confirm(`Are you sure you want to delete this item?`)
     if (ok) {
       const newItemArr = []
@@ -595,7 +607,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         onClick={onClick}
         selectedRowCheckboxes={selectedRowCheckboxes}
         setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-        itemKey={({ columnIndex, data: { items, fields }, rowIndex }) =>
+        itemKey={({ columnIndex, data: { items, filteredFields }, rowIndex }) =>
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
         innerElementType={({ children, style }) => {
@@ -625,6 +637,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 activeSortField={activeSortField}
                 setActiveSortField={setActiveSortField}
               />
+              {/* TODO: add filter menu */}
               {selectedRowCheckboxes.length > 0 && (
                 <div
                   style={{
@@ -660,32 +673,29 @@ const SelectFieldsMenu = ({
   unCheckedArr,
   // setUnCheckedArr,
 }) => {
-  return (
-    <>
-      {allFields.map((field, idx) => (
-        <div key={idx} style={{ padding: '6px 8px' }}>
-          <Checkbox
-            small
-            label={field}
-            checked={!unCheckedArr.includes(field)}
-            onChange={() => {
-              //  console.log(field)
-              if (!unCheckedArr.includes(field)) {
-                unCheckedArr.push(field)
-              } else {
-                unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
-              }
+  return allFields.map((field, idx) => (
+    <div key={idx} style={{ padding: '6px 8px' }}>
+      <Checkbox
+        small
+        label={field + ': ' + idx}
+        checked={!unCheckedArr.includes(field)}
+        onChange={() => {
+          //  console.log(field)
+          if (!unCheckedArr.includes(field)) {
+            unCheckedArr.push(field)
+            //   console.log(unCheckedArr, 'unchecked arr')
+          } else {
+            unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
+          }
 
-              // console.log(unCheckedArr, 'unchecked fields arr')
-              // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
+          // console.log(unCheckedArr, 'unchecked fields arr')
+          // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
 
-              setFilteredFields(
-                allFields.filter((field) => !unCheckedArr.includes(field))
-              )
-            }}
-          />
-        </div>
-      ))}
-    </>
-  )
+          setFilteredFields(
+            allFields.filter((field) => !unCheckedArr.includes(field))
+          )
+        }}
+      />
+    </div>
+  ))
 }

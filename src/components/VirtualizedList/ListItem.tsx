@@ -25,6 +25,7 @@ export const ListItem = ({
     draggable = true,
     showIndex,
     isActive: isActiveFn,
+    children,
   } = context
 
   const ref = useRef<any>()
@@ -108,7 +109,7 @@ export const ListItem = ({
         '&:hover': {
           cursor: isDragging ? 'grabbing' : 'pointer',
         },
-        ...style,
+        //   ...style,
       }}
       {...drop}
     >
@@ -122,6 +123,7 @@ export const ListItem = ({
             borderTop: `2px solid ${color('accent')}`,
             position: 'absolute',
             height: 40,
+            ...style,
           }}
         />
       ) : null}
@@ -157,6 +159,7 @@ export const ListItem = ({
         )}
       >
         {renderOrCreateElement(items[index]?.thumbnail)}
+        {renderOrCreateElement(items[index]?.children)}
         {items[index]?.icon ? (
           <div style={{ marginRight: 8 }}>
             {stringToIcon(items[index]?.icon)}
