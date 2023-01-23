@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 
@@ -43,6 +43,10 @@ const TableFromData = () => {
 export const Table: FC<TableProps> = ({ style, ...props }) => {
   // console.log('Table', props)
 
+  const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
+
+  console.log(selectedRowCheckboxes)
+
   return (
     <styled.div
       style={{
@@ -57,7 +61,13 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
       <AutoSizer>
         {({ width, height }) => {
           return props.query ? (
-            <TableFromQuery width={width} height={height} {...props} />
+            <TableFromQuery
+              width={width}
+              height={height}
+              {...props}
+              selectedRowCheckboxes={selectedRowCheckboxes}
+              setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+            />
           ) : (
             <TableFromData width={width} height={height} {...props} />
           )

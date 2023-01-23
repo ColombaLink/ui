@@ -95,7 +95,7 @@ const References = ({ value }) => {
   ) : null
 }
 
-let selectedRowCheckboxes = []
+// let selectedRowCheckboxes = []
 
 const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const { types, items, fields, onClick, setState, hoverRowIndex } = data
@@ -122,15 +122,21 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       children = (
         <Checkbox
           size={16}
+          checked={data.selectedRowCheckboxes?.includes(rowIndex)}
           onClick={() => {
             // this is the correct item from row
             console.log('item', item)
 
-            if (!selectedRowCheckboxes.includes(rowIndex)) {
-              selectedRowCheckboxes.push(rowIndex)
+            if (!data.selectedRowCheckboxes?.includes(rowIndex)) {
+              data.setSelectedRowCheckboxes([
+                ...data.selectedRowCheckboxes,
+                rowIndex,
+              ])
+              //   selectedRowCheckboxes.push(rowIndex)
+              console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
             } else {
-              selectedRowCheckboxes.splice(
-                selectedRowCheckboxes.indexOf(rowIndex),
+              data.selectedRowCheckboxes?.splice(
+                data.selectedRowCheckboxes.indexOf(rowIndex),
                 1
               )
             }
@@ -285,7 +291,16 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   )
 }
 
-const InnerTable = ({ tableRef, types, items, fields, onClick, ...props }) => {
+const InnerTable = ({
+  tableRef,
+  types,
+  items,
+  fields,
+  onClick,
+  selectedRowCheckboxes,
+  setSelectedRowCheckboxes,
+  ...props
+}) => {
   const [state, setState] = useState({})
   const { current: itemData } = useRef({})
 
@@ -294,6 +309,8 @@ const InnerTable = ({ tableRef, types, items, fields, onClick, ...props }) => {
     items,
     fields,
     onClick,
+    selectedRowCheckboxes,
+    setSelectedRowCheckboxes,
     setState,
     ...state,
   })
@@ -460,6 +477,8 @@ export type TableFromQueryProps = {
   language?: string
   onClick: DataEventHandler
   onAction?: OnAction
+  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void
+  selectedRowCheckboxes?: Array<number>
 }
 
 export const TableFromQuery: FC<TableFromQueryProps> = ({
@@ -472,6 +491,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   onClick,
   // onDelete,
   onAction,
+  setSelectedRowCheckboxes,
+  selectedRowCheckboxes,
 }) => {
   const colWidth = 200
   const { schema } = useSchema()
@@ -556,7 +577,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         }
       }
       onAction(newItemArr, 'delete')
-      selectedRowCheckboxes = []
+      setSelectedRowCheckboxes([])
     }
   }
 
@@ -572,6 +593,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         items={items}
         fields={filteredFields}
         onClick={onClick}
+        selectedRowCheckboxes={selectedRowCheckboxes}
+        setSelectedRowCheckboxes={setSelectedRowCheckboxes}
         itemKey={({ columnIndex, data: { items, fields }, rowIndex }) =>
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
@@ -630,14 +653,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   )
 }
 
+// smaller fields filter menuutje
 const SelectFieldsMenu = ({
   allFields,
   setFilteredFields,
   unCheckedArr,
   // setUnCheckedArr,
 }) => {
-  // const unCheckedArr = []
-
   return (
     <>
       {allFields.map((field, idx) => (
