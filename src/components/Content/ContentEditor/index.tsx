@@ -22,26 +22,82 @@ import isUrl from 'is-url-superb'
 import isEmail from 'is-email'
 import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
-
 import { RecordList } from '~/components/RecordList'
 import { RecordPage } from '~/components/RecordList/RecordPage'
-
 import { Reference } from './References/Reference'
 import { FileUploadReference } from './References/FileUploadReference'
 import { SelectReferences } from './References/SelectReferences'
+
+const SingleReference = (props) => {
+  const client = useClient()
+
+  if (props.meta?.refTypes?.includes('file')) {
+    return <FileUploadReference {...props} client={client} />
+  }
+
+  // some sort of preview state before publishing
+  const [refArray, setRefArray] = useState([])
+  const { label, description, value, style, onChange, space = 24 } = props
+
+  const { open, close } = useDialog()
+
+  useEffect(() => {
+    if (props.value) {
+      setRefArray(Array.from(props.value))
+    }
+  }, [props.value])
+
+  const onClick = () => {
+    open(
+      <SelectReferences
+        onChange={onChange}
+        setRefArray={setRefArray}
+        singleRef={true}
+        close={close}
+      />
+    )
+  }
+
+  return (
+    <InputWrapper
+      indent
+      style={style}
+      descriptionBottom={description}
+      space={space}
+    >
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 12 }}
+      />
+
+      {refArray.length > 0 ? (
+        <Reference
+          id={props.value || refArray[0]}
+          onChange={onChange}
+          setRefArray={setRefArray}
+          refArray={refArray}
+          singleRef
+        />
+      ) : null}
+      <Button ghost icon={AddIcon} onClick={onClick}>
+        {value || refArray?.[0] ? 'Change reference' : 'Add reference'}
+      </Button>
+    </InputWrapper>
+  )
+}
 
 const References = (props) => {
   const client = useClient()
 
   const { label, description, value, style, onChange, space = 24 } = props
-
-  console.log('multi ref', props)
-
   const [refArray, setRefArray] = useState([])
 
   useEffect(() => {
-    setRefArray(value)
-  }, [value, refArray])
+    if (props.value) {
+      setRefArray(Array.from(props.value))
+    }
+  }, [props.value])
 
   if (props.meta?.refTypes?.includes('files')) {
     return <FileUploadReference {...props} multiple client={client} />
@@ -66,14 +122,7 @@ const References = (props) => {
       descriptionBottom={description}
       space={space}
     >
-      <Label
-        label={label}
-        // description={description}
-        style={{ marginBottom: 12 }}
-      />
-      {/* if there are reftypes on the meta */}
-      {/* {meta?.refTypes?.length > 0 &&
-        meta?.refTypes?.map((ref) => <Reference id={ref} key={ref} />)} */}
+      <Label label={label} style={{ marginBottom: 12 }} />
       {refArray?.map((id) => (
         <Reference
           key={id}
@@ -83,9 +132,6 @@ const References = (props) => {
           refArray={refArray}
         />
       ))}
-      {/* {value?.map((id) => (
-        <Reference key={id} id={id} />
-      ))} */}
       <Button
         ghost
         icon={value?.length > 0 ? EditIcon : AddIcon}
@@ -97,76 +143,8 @@ const References = (props) => {
   )
 }
 
-const SingleReference = (props) => {
-  const client = useClient()
-
-  if (props.meta?.refTypes?.includes('file')) {
-    return <FileUploadReference {...props} client={client} />
-  }
-
-  console.log('single ref', props)
-
-  // some sort of preview state before publishing
-  const [refArray, setRefArray] = useState([])
-  const { label, description, value, style, onChange, space = 24 } = props
-
-  const { open, close } = useDialog()
-
-  useEffect(() => {
-    if (props.value) {
-      setRefArray(Array.from(props.value))
-    }
-  }, [props.value])
-
-  // useEffect(() => {
-  //   if (refArray?.length > 0) {
-  //     onChange(refArray[0])
-  //   }
-  // }, [refArray])
-
-  const onClick = () => {
-    open(
-      <SelectReferences
-        onChange={onChange}
-        setRefArray={setRefArray}
-        singleRef
-        close={close}
-      />
-    )
-  }
-
-  return (
-    <InputWrapper
-      indent
-      style={style}
-      descriptionBottom={description}
-      space={space}
-    >
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 12 }}
-      />
-      {/* // show temp refArray for render purposes */}
-      {refArray.length > 0 ? (
-        <Reference
-          id={props.value || refArray[0]}
-          onChange={onChange}
-          setRefArray={setRefArray}
-          refArray={refArray}
-          singleRef
-        />
-      ) : null}
-      <Button ghost icon={AddIcon} onClick={onClick}>
-        {value || refArray?.[0] ? 'Change reference' : 'Add reference'}
-      </Button>
-    </InputWrapper>
-  )
-}
-
 const object = {
   default: ({ prefix, schema, field, ...props }) => {
-    // console.log('object', { prefix })
     const [, setLocation] = useLocation()
     return (
       <ObjectList

@@ -14,7 +14,6 @@ import {
 } from '~'
 import { useDescriptor } from '../../hooks/useDescriptor'
 import { Dialog } from '~/components/Dialog'
-
 import { useWindowResize } from '~/hooks/useWindowResize'
 import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { styled } from 'inlines'

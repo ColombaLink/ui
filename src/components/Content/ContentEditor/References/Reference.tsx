@@ -29,18 +29,11 @@ export const Reference = ({
   const fileName = getNameFromId(id)
 
   const deleteSpecificRef = (id) => {
-    console.log('deleteSpecificRef', id)
-
-    console.log('refArray before deleteSpecificRef', refArray)
-
     if (singleRef) {
       onChange(null)
       setRefArray([])
     } else {
       const newRefArray = refArray.filter((ref) => ref !== id)
-
-      console.log('newRefArray', newRefArray)
-
       onChange(newRefArray)
       setRefArray(newRefArray)
     }
@@ -96,7 +89,6 @@ export const Reference = ({
       <Text style={{ marginLeft: 12 }}>{type || 'reference'}</Text>
       <Text style={{ marginLeft: 12 }}>{fileName || descriptor}</Text>
 
-      {/* // more icon for removing reference */}
       <div
         style={{
           marginLeft: 'auto',
