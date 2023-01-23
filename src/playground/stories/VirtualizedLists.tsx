@@ -5,9 +5,12 @@ export const VirtualizedLists = () => {
   const listData = [
     { id: 0, label: 'Appkes 0 🍎', icon: 'CheckCircleIcon' },
     { id: 1, label: 'Citroen 1 🍋', icon: 'EyeIcon' },
-    { id: 2, label: 'Druiven 2 🍇' },
+    { id: 2, label: 'Druiven 2 🍇', child: <div>hello</div> },
     { id: 3, label: 'Eieren 3 🥚' },
-    { id: 4, label: 'Hamburger 4 🍔' },
+    {
+      id: 4,
+      label: 'Hamburger 4 🍔',
+    },
   ]
   for (let i = 5; i < 50; i++) {
     listData.push({

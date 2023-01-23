@@ -26,6 +26,7 @@ export const ListItem = ({
     showIndex,
     isActive: isActiveFn,
     children,
+    child,
   } = context
 
   const ref = useRef<any>()
@@ -37,6 +38,9 @@ export const ListItem = ({
     data: itemData,
     exportData,
   }
+
+  console.log(child)
+  console.log('DATA', itemData)
 
   const [drag, isDragging] = draggable ? useDrag(wrappedData, ref) : [{}, false]
 

@@ -15,7 +15,6 @@ import {
   SortIcon,
 } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
-import { VirtualizedList } from '../VirtualizedList'
 import { useInfiniteScroll } from '../InfiniteList'
 import { isImage } from '~/utils/isImage'
 import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
@@ -29,7 +28,6 @@ import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
 import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
-import { Thumbnail } from '../Thumbnail'
 
 const Grid = styled(VariableSizeGrid)
 
