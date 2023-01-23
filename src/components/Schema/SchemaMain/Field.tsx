@@ -114,6 +114,7 @@ const EditMenu: FC<{
 }
 
 const AddObjectFieldButton = ({ type, path }) => {
+  console.log('the type to be added???', type)
   const openSelectField = useContextMenu(
     SelectFieldTypeModal,
     {

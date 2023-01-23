@@ -27,6 +27,7 @@ import stringifyObject from 'stringify-object'
 import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
 import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
+import { useDialog } from '~/components/Dialog'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -480,6 +481,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('createdAt')
 
+  // before you delete modal to confirm
+  const { confirm } = useDialog()
+
   //  console.log('TableFromQuery', query)
   // console.log('onAction', onAction)
 
@@ -540,17 +544,20 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     return colWidth
   }
 
-  const deleteItems = (items) => {
-    console.log('--->')
+  const deleteItems = async (items) => {
+    console.log('---> items', items)
 
-    const newItemArr = []
-    for (let i = 0; i < items.length; i++) {
-      if (selectedRowCheckboxes.includes(i)) {
-        newItemArr.push(items[i])
+    const ok = await confirm(`Are you sure you want to delete this item?`)
+    if (ok) {
+      const newItemArr = []
+      for (let i = 0; i < items.length; i++) {
+        if (selectedRowCheckboxes.includes(i)) {
+          newItemArr.push(items[i])
+        }
       }
+      onAction(newItemArr, 'delete')
+      selectedRowCheckboxes = []
     }
-    onAction(newItemArr, 'delete')
-    selectedRowCheckboxes = []
   }
 
   return (
@@ -627,7 +634,7 @@ const SelectFieldsMenu = ({
   allFields,
   setFilteredFields,
   unCheckedArr,
-  setUnCheckedArr,
+  // setUnCheckedArr,
 }) => {
   // const unCheckedArr = []
 

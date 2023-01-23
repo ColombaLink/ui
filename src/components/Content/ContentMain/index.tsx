@@ -219,7 +219,6 @@ export const ContentMain = ({
 
   const onAction = (items, string) => {
     if (string === 'delete') {
-      console.log('items', items)
       Promise.all(items.map((v) => client.delete({ $id: v.id }))).then(() => {
         console.info('DELETE TIMES 🥨')
       })
