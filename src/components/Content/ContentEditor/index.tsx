@@ -107,8 +107,6 @@ const SingleReference = (props) => {
   const [refArray, setRefArray] = useState()
   const { label, description, value, style, onChange, space = 24 } = props
 
-  console.log(props)
-
   const { open, close } = useDialog()
 
   const onClick = () => {
@@ -459,8 +457,6 @@ const ContentField = ({
     : isText
     ? { [language]: true }
     : true
-
-  console.log('target field', target[field])
 
   const { data, loading } = useData(targetId ? query : null)
 
