@@ -377,6 +377,8 @@ const Header = ({
   setUnCheckedArr,
   setSort,
   sortOrder,
+  lijst,
+  setLijst,
   activeSortField,
   setActiveSortField,
 }) => {
@@ -461,7 +463,14 @@ const Header = ({
         }}
         onClick={useContextMenu(
           SelectFieldsMenu,
-          { allFields, setFilteredFields, unCheckedArr, setUnCheckedArr },
+          {
+            allFields,
+            setFilteredFields,
+            unCheckedArr,
+            setUnCheckedArr,
+            lijst,
+            setLijst,
+          },
           { placement: 'left' }
         )}
       />
@@ -517,12 +526,40 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'children',
   ])
 
+  const newListOrderArr = []
+  const newListOrder = fields.map((field, idx) =>
+    newListOrderArr.push({
+      label: field,
+      id: idx,
+      checkbox: !unCheckedArr.includes(field),
+    })
+  )
+
+  const [lijst, setLijst] = useState(newListOrderArr)
+
+  useEffect(() => {
+    let tempUnCheckedArr = []
+    // setFilteredFields
+    if (lijst.length > 0) {
+      lijst.map(
+        (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
+      )
+
+      console.log('tempUnCheckedArr -->', tempUnCheckedArr)
+
+      setUnCheckedArr(tempUnCheckedArr)
+    }
+  }, [lijst])
+
+  console.log('fields', fields)
   console.log('filteredFields', filteredFields)
+  console.log(unCheckedArr, 'al;rjeainfr')
+  console.log('📟', lijst)
 
   // run once to filter out the fields that are not checked by default
   useEffect(() => {
     setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
-  }, [])
+  }, [unCheckedArr])
 
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
@@ -631,6 +668,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 setColWidths={setColWidths}
                 unCheckedArr={unCheckedArr}
                 setUnCheckedArr={setUnCheckedArr}
+                lijst={lijst}
+                setLijst={setLijst}
                 setSort={setSort}
                 sortOrder={sortOrder}
                 activeSortField={activeSortField}
@@ -704,18 +743,42 @@ const SelectFieldsMenu = ({
   allFields,
   setFilteredFields,
   unCheckedArr,
-  // setUnCheckedArr,
+  setUnCheckedArr,
+  lijst,
+  setLijst,
 }) => {
-  const newListOrderArr = []
-  const newListOrder = allFields.map((field, idx) =>
-    newListOrderArr.push({
-      label: field,
-      id: idx,
-      checkbox: !unCheckedArr.includes(field),
-    })
-  )
+  console.log('allFields -->', allFields)
+  // console.log('filteredFields -->', filteredFields)
+  console.log('unCheckedArr -->', unCheckedArr)
+  console.log('set unchecked arr??', setUnCheckedArr)
 
-  const [lijst, setLijst] = useState(newListOrderArr)
+  useEffect(() => {
+    console.log('📀')
+    setFilteredFields(
+      allFields.filter((field) => !unCheckedArr.includes(field))
+    )
+  }, [unCheckedArr])
+
+  // const newListOrderArr = []
+  // const newListOrder = allFields.map((field, idx) =>
+  //   newListOrderArr.push({
+  //     label: field,
+  //     id: idx,
+  //     checkbox: !unCheckedArr.includes(field),
+  //   })
+  // )
+
+  // const [lijst, setLijst] = useState(newListOrderArr)
+
+  console.log('lijst -->', lijst)
+
+  useEffect(() => {
+    console.log('something in the list changed')
+
+    console.log('unCheckedArr -->', unCheckedArr)
+
+    console.log('allFields -->', allFields)
+  }, [lijst])
 
   return (
     <div style={{ height: 360 }}>
@@ -732,6 +795,10 @@ const SelectFieldsMenu = ({
 
           setLijst([...lijst])
           // console.log('list length -->', listData.length)
+        }}
+        onClick={() => {
+          console.log('click--->', lijst)
+          setLijst([...lijst])
         }}
       />
     </div>

@@ -40,7 +40,8 @@ export const ListItem = ({
     exportData,
   }
 
-  // console.log('DATA', itemData)
+  // console.log('ITEMDATA', itemData, items, context)
+
   // console.log('items', items)
 
   const [drag, isDragging] = draggable ? useDrag(wrappedData, ref) : [{}, false]
@@ -163,7 +164,14 @@ export const ListItem = ({
             : undefined
         )}
       >
-        <Checkbox small checked={items[index]?.checkbox} />
+        <Checkbox
+          small
+          checked={items[index]?.checkbox}
+          onChange={() => {
+            console.log('CHECKBOX CHANGE', index, items[index]?.checkbox)
+            items[index].checkbox = !items[index]?.checkbox
+          }}
+        />
         {renderOrCreateElement(items[index]?.thumbnail)}
         {/* {renderOrCreateElement(items[index]?.child)} */}
         {items[index]?.icon ? (
