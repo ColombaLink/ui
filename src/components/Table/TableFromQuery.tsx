@@ -29,6 +29,7 @@ import { OnAction } from './types'
 import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
 import { VirtualizedList } from '../VirtualizedList'
+import { removeOverlay } from '../Overlay'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -769,7 +770,7 @@ const SelectFieldsMenu = ({
           newList.splice(data.targetIndex, 0, removedItem[0])
           //  console.log('new list -->????', newList)
           setLijst([...newList])
-
+          removeOverlay()
           //  setLijst([...lijst.splice(data.targetIndex, 0, removedItem[0])])
 
           // resetAfterIndex()
