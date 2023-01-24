@@ -41,8 +41,6 @@ export const ListItem = ({
     exportData,
   }
 
-  // console.log('ITEMDATA', itemData, items, context)
-
   // console.log('items', items)
 
   const [drag, isDragging] = draggable ? useDrag(wrappedData, ref) : [{}, false]

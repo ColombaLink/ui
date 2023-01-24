@@ -567,10 +567,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [lijst])
 
-  console.log('fields', fields)
+  // console.log('fields', fields)
   // console.log('filteredFields', filteredFields)
   // console.log(unCheckedArr, 'al;rjeainfr')
-  console.log('📟', lijst)
+  // console.log('📟', lijst)
 
   // run once to filter out the fields that are not checked by default
   useEffect(() => {
@@ -586,7 +586,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
 
-  console.log('newWorldOrder 🐸', newWorldOrder)
+  // console.log('newWorldOrder 🐸', newWorldOrder)
 
   const [newFields, setNewFields] = useState(newWorldOrder)
 
@@ -735,41 +735,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   )
 }
 
-// smaller fields filter menuutje
-// const SelectFieldsMenu = ({
-//   allFields,
-//   setFilteredFields,
-//   unCheckedArr,
-//   // setUnCheckedArr,
-// }) => {
-//   return allFields.map((field, idx) => (
-//     <div key={idx} style={{ padding: '6px 8px' }}>
-//       <Checkbox
-//         small
-//         label={field + ': ' + idx}
-//         checked={!unCheckedArr.includes(field)}
-//         onChange={() => {
-//           //  console.log(field)
-//           if (!unCheckedArr.includes(field)) {
-//             unCheckedArr.push(field)
-//             //   console.log(unCheckedArr, 'unchecked arr')
-//           } else {
-//             unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
-//           }
-
-//           // console.log(unCheckedArr, 'unchecked fields arr')
-//           // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
-
-//           setFilteredFields(
-//             allFields.filter((field) => !unCheckedArr.includes(field))
-//           )
-//         }}
-//       />
-//     </div>
-//   ))
-// }
-
-// smaller fields filter menuutje
 const SelectFieldsMenu = ({
   allFields,
   setFilteredFields,
@@ -783,29 +748,6 @@ const SelectFieldsMenu = ({
   // console.log('filteredFields -->', filteredFields)
   // console.log('unCheckedArr -->', unCheckedArr)
   // console.log('set unchecked arr??', setUnCheckedArr)
-
-  // useEffect(() => {
-  //   console.log('📀')
-  //   setFilteredFields(
-  //     allFields.filter((field) => !unCheckedArr.includes(field))
-  //   )
-  // }, [unCheckedArr])
-
-  // const newListOrderArr = []
-  // const newListOrder = allFields.map((field, idx) =>
-  //   newListOrderArr.push({
-  //     label: field,
-  //     id: idx,
-  //     checkbox: !unCheckedArr.includes(field),
-  //   })
-  // )
-
-  // const [lijst, setLijst] = useState(newListOrderArr)
-
-  useEffect(() => {
-    console.log('something wicked changed in the list')
-    console.log('new list', lijst)
-  }, [lijst])
 
   return (
     <div style={{ height: allFields.length * 30 }}>
@@ -824,46 +766,20 @@ const SelectFieldsMenu = ({
           // insert the removed item at the target index
 
           let newList = [...lijst]
-
           newList.splice(data.targetIndex, 0, removedItem[0])
-
-          console.log('new list -->????', newList)
-
-          //setLijst([...lijst.splice(data.targetIndex, 0, removedItem[0])])
-
+          //  console.log('new list -->????', newList)
           setLijst([...newList])
 
+          //  setLijst([...lijst.splice(data.targetIndex, 0, removedItem[0])])
+
+          // resetAfterIndex()
           // console.log('list length -->', listData.length)
         }}
         onClick={() => {
           console.log('click--->', lijst)
-          //  setLijst([...lijst])
+          setLijst([...lijst])
         }}
       />
     </div>
-
-    // <div key={idx} style={{ padding: '6px 8px' }}>
-    //   <Checkbox
-    //     small
-    //     label={field + ': ' + idx}
-    //     checked={!unCheckedArr.includes(field)}
-    //     onChange={() => {
-    //       //  console.log(field)
-    //       if (!unCheckedArr.includes(field)) {
-    //         unCheckedArr.push(field)
-    //         //   console.log(unCheckedArr, 'unchecked arr')
-    //       } else {
-    //         unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
-    //       }
-
-    //       // console.log(unCheckedArr, 'unchecked fields arr')
-    //       // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
-
-    //       setFilteredFields(
-    //         allFields.filter((field) => !unCheckedArr.includes(field))
-    //       )
-    //     }}
-    //   />
-    // </div>
   )
 }

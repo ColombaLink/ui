@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useRef } from 'react'
 
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -8,6 +8,8 @@ import { ListItem } from './ListItem'
 
 export const VirtualizedList = (props, style) => {
   let { items = [], activeId } = props
+
+  // const fixedSizeListRef = useRef()
 
   return (
     <AutoSizer>
