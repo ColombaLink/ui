@@ -28,6 +28,7 @@ import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
 import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
+import { VirtualizedList } from '../VirtualizedList'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -665,35 +666,98 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 }
 
 // smaller fields filter menuutje
+// const SelectFieldsMenu = ({
+//   allFields,
+//   setFilteredFields,
+//   unCheckedArr,
+//   // setUnCheckedArr,
+// }) => {
+//   return allFields.map((field, idx) => (
+//     <div key={idx} style={{ padding: '6px 8px' }}>
+//       <Checkbox
+//         small
+//         label={field + ': ' + idx}
+//         checked={!unCheckedArr.includes(field)}
+//         onChange={() => {
+//           //  console.log(field)
+//           if (!unCheckedArr.includes(field)) {
+//             unCheckedArr.push(field)
+//             //   console.log(unCheckedArr, 'unchecked arr')
+//           } else {
+//             unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
+//           }
+
+//           // console.log(unCheckedArr, 'unchecked fields arr')
+//           // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
+
+//           setFilteredFields(
+//             allFields.filter((field) => !unCheckedArr.includes(field))
+//           )
+//         }}
+//       />
+//     </div>
+//   ))
+// }
+
+// smaller fields filter menuutje
 const SelectFieldsMenu = ({
   allFields,
   setFilteredFields,
   unCheckedArr,
   // setUnCheckedArr,
 }) => {
-  return allFields.map((field, idx) => (
-    <div key={idx} style={{ padding: '6px 8px' }}>
-      <Checkbox
-        small
-        label={field + ': ' + idx}
-        checked={!unCheckedArr.includes(field)}
-        onChange={() => {
-          //  console.log(field)
-          if (!unCheckedArr.includes(field)) {
-            unCheckedArr.push(field)
-            //   console.log(unCheckedArr, 'unchecked arr')
-          } else {
-            unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
-          }
+  const newListOrderArr = []
+  const newListOrder = allFields.map((field, idx) =>
+    newListOrderArr.push({
+      label: field,
+      id: idx,
+      checkbox: !unCheckedArr.includes(field),
+    })
+  )
 
-          // console.log(unCheckedArr, 'unchecked fields arr')
-          // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
+  const [lijst, setLijst] = useState(newListOrderArr)
 
-          setFilteredFields(
-            allFields.filter((field) => !unCheckedArr.includes(field))
-          )
+  return (
+    <div style={{ height: 360 }}>
+      <VirtualizedList
+        items={lijst}
+        onDrop={(e, data) => {
+          console.info('yo waht-->', e, data)
+          console.log('Target index -->', data.targetIndex)
+
+          console.log('Data regfe-->', data?.data)
+
+          lijst.splice(data?.data[0]?.index, 1)
+          lijst.splice(data.targetIndex, 0, data.data[0].data)
+
+          setLijst([...lijst])
+          // console.log('list length -->', listData.length)
         }}
       />
     </div>
-  ))
+
+    // <div key={idx} style={{ padding: '6px 8px' }}>
+    //   <Checkbox
+    //     small
+    //     label={field + ': ' + idx}
+    //     checked={!unCheckedArr.includes(field)}
+    //     onChange={() => {
+    //       //  console.log(field)
+    //       if (!unCheckedArr.includes(field)) {
+    //         unCheckedArr.push(field)
+    //         //   console.log(unCheckedArr, 'unchecked arr')
+    //       } else {
+    //         unCheckedArr.splice(unCheckedArr.indexOf(field), 1)
+    //       }
+
+    //       // console.log(unCheckedArr, 'unchecked fields arr')
+    //       // let filteredArrayFields = fields.filter((field) => !unCheckedArr.includes(field))
+
+    //       setFilteredFields(
+    //         allFields.filter((field) => !unCheckedArr.includes(field))
+    //       )
+    //     }}
+    //   />
+    // </div>
+  )
 }

@@ -5,6 +5,7 @@ import { useSelect, useClick } from './hooks/useSelect'
 import { color, renderOrCreateElement, stringToIcon } from '~/utils'
 import { styled } from 'inlines'
 import { Text } from '~/components/Text'
+import { Checkbox } from '../Checkbox'
 
 type ListItemProps = {
   index?: number
@@ -39,8 +40,8 @@ export const ListItem = ({
     exportData,
   }
 
-  console.log(child)
-  console.log('DATA', itemData)
+  // console.log('DATA', itemData)
+  // console.log('items', items)
 
   const [drag, isDragging] = draggable ? useDrag(wrappedData, ref) : [{}, false]
 
@@ -108,8 +109,8 @@ export const ListItem = ({
   return (
     <styled.div
       style={{
-        paddingTop: 3,
-        paddingBottom: 3,
+        // paddingTop: 3,
+        // paddingBottom: 3,
         '&:hover': {
           cursor: isDragging ? 'grabbing' : 'pointer',
         },
@@ -126,7 +127,7 @@ export const ListItem = ({
             width: '100%',
             borderTop: `2px solid ${color('accent')}`,
             position: 'absolute',
-            height: 40,
+            height: 30,
             ...style,
           }}
         />
@@ -134,7 +135,7 @@ export const ListItem = ({
       <div
         ref={ref}
         style={{
-          height: 40,
+          height: 30,
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           paddingLeft: 16,
@@ -162,8 +163,9 @@ export const ListItem = ({
             : undefined
         )}
       >
+        <Checkbox small checked={items[index]?.checkbox} />
         {renderOrCreateElement(items[index]?.thumbnail)}
-        {renderOrCreateElement(items[index]?.children)}
+        {/* {renderOrCreateElement(items[index]?.child)} */}
         {items[index]?.icon ? (
           <div style={{ marginRight: 8 }}>
             {stringToIcon(items[index]?.icon)}
