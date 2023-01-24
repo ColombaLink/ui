@@ -372,7 +372,9 @@ const Header = ({
   setColWidths,
   colWidths,
   setFilteredFields,
+  filteredFields,
   allFields,
+  newWorldOrder,
   unCheckedArr,
   setUnCheckedArr,
   setSort,
@@ -386,6 +388,19 @@ const Header = ({
   // const [dragging, setDragging] = useState(false)
 
   // console.log('header', fields, colWidths)
+
+  // console.log('filteredFields 🐸', filteredFields)
+
+  // // field order
+  // const newWorldOrder = []
+  // lijst.map(
+  //   (item, idx) =>
+  //     filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
+  // )
+
+  // console.log('newWorldOrder 🐸', newWorldOrder)
+
+  // const [newFields, setNewFields] = useState(newWorldOrder)
 
   return (
     <>
@@ -403,9 +418,9 @@ const Header = ({
         }}
         // {...listeners}
       >
-        {fields.map((field, index) => (
+        {newWorldOrder.map((field, index) => (
           <div
-            key={field}
+            key={index}
             style={{
               width: columnWidth(index + 1),
               height: HEADER_HEIGHT,
@@ -530,7 +545,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const newListOrder = fields.map((field, idx) =>
     newListOrderArr.push({
       label: field,
-      id: idx,
+      // id: idx,
       checkbox: !unCheckedArr.includes(field),
     })
   )
@@ -560,6 +575,19 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   useEffect(() => {
     setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
   }, [unCheckedArr])
+
+  console.log('filteredFields 🐸', filteredFields)
+
+  // field order
+  const newWorldOrder = []
+  lijst.map(
+    (item, idx) =>
+      filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
+  )
+
+  console.log('newWorldOrder 🐸', newWorldOrder)
+
+  const [newFields, setNewFields] = useState(newWorldOrder)
 
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
@@ -639,7 +667,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         height={height}
         types={types}
         items={items}
-        fields={filteredFields}
+        fields={newWorldOrder}
         onClick={onClick}
         selectedRowCheckboxes={selectedRowCheckboxes}
         setSelectedRowCheckboxes={setSelectedRowCheckboxes}
@@ -665,6 +693,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 fields={filteredFields}
                 allFields={fields}
                 setFilteredFields={setFilteredFields}
+                filteredFields={filteredFields}
+                newWorldOrder={newWorldOrder}
                 setColWidths={setColWidths}
                 unCheckedArr={unCheckedArr}
                 setUnCheckedArr={setUnCheckedArr}
@@ -752,12 +782,12 @@ const SelectFieldsMenu = ({
   console.log('unCheckedArr -->', unCheckedArr)
   console.log('set unchecked arr??', setUnCheckedArr)
 
-  useEffect(() => {
-    console.log('📀')
-    setFilteredFields(
-      allFields.filter((field) => !unCheckedArr.includes(field))
-    )
-  }, [unCheckedArr])
+  // useEffect(() => {
+  //   console.log('📀')
+  //   setFilteredFields(
+  //     allFields.filter((field) => !unCheckedArr.includes(field))
+  //   )
+  // }, [unCheckedArr])
 
   // const newListOrderArr = []
   // const newListOrder = allFields.map((field, idx) =>
@@ -781,7 +811,7 @@ const SelectFieldsMenu = ({
   }, [lijst])
 
   return (
-    <div style={{ height: 360 }}>
+    <div style={{ height: allFields.length * 30 }}>
       <VirtualizedList
         items={lijst}
         onDrop={(e, data) => {

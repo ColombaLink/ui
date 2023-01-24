@@ -20,7 +20,7 @@ export const VirtualizedList = (props, style) => {
               height={height}
               innerElementType={getElementType(0, 0)}
               itemCount={items.length}
-              itemSize={46}
+              itemSize={30}
               style={{}}
               itemData={{ items, context, ...props, ...style }}
               {...useDragScroll(true)}

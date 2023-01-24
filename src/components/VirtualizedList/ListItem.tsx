@@ -6,6 +6,7 @@ import { color, renderOrCreateElement, stringToIcon } from '~/utils'
 import { styled } from 'inlines'
 import { Text } from '~/components/Text'
 import { Checkbox } from '../Checkbox'
+import { DragDropIcon } from '~/icons'
 
 type ListItemProps = {
   index?: number
@@ -137,10 +138,10 @@ export const ListItem = ({
         ref={ref}
         style={{
           height: 30,
-          border: `1px solid ${color('border')}`,
+          border: `0px solid ${color('border')}`,
           borderRadius: 4,
-          paddingLeft: 16,
-          paddingRight: 16,
+          paddingLeft: 8,
+          paddingRight: 8,
           display: 'flex',
           alignItems: 'center',
           backgroundColor: isSelected
@@ -164,6 +165,7 @@ export const ListItem = ({
             : undefined
         )}
       >
+        <DragDropIcon size={16} style={{ marginRight: 8 }} />
         <Checkbox
           small
           checked={items[index]?.checkbox}
@@ -179,7 +181,7 @@ export const ListItem = ({
             {stringToIcon(items[index]?.icon)}
           </div>
         ) : null}
-        <Text typo="body600">{items[index]?.label}</Text> - {index}
+        <Text typo="body600">{items[index]?.label}</Text>
       </div>
     </styled.div>
   )
