@@ -485,6 +485,7 @@ const Header = ({
             setUnCheckedArr,
             lijst,
             setLijst,
+            newWorldOrder,
           },
           { placement: 'left' }
         )}
@@ -560,15 +561,15 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
       )
 
-      console.log('tempUnCheckedArr -->', tempUnCheckedArr)
+      //  console.log('tempUnCheckedArr -->', tempUnCheckedArr)
 
       setUnCheckedArr(tempUnCheckedArr)
     }
   }, [lijst])
 
   console.log('fields', fields)
-  console.log('filteredFields', filteredFields)
-  console.log(unCheckedArr, 'al;rjeainfr')
+  // console.log('filteredFields', filteredFields)
+  // console.log(unCheckedArr, 'al;rjeainfr')
   console.log('📟', lijst)
 
   // run once to filter out the fields that are not checked by default
@@ -576,7 +577,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
   }, [unCheckedArr])
 
-  console.log('filteredFields 🐸', filteredFields)
+  //  console.log('filteredFields 🐸', filteredFields)
 
   // field order
   const newWorldOrder = []
@@ -776,11 +777,12 @@ const SelectFieldsMenu = ({
   setUnCheckedArr,
   lijst,
   setLijst,
+  newWorldOrder,
 }) => {
-  console.log('allFields -->', allFields)
+  // console.log('allFields -->', allFields)
   // console.log('filteredFields -->', filteredFields)
-  console.log('unCheckedArr -->', unCheckedArr)
-  console.log('set unchecked arr??', setUnCheckedArr)
+  // console.log('unCheckedArr -->', unCheckedArr)
+  // console.log('set unchecked arr??', setUnCheckedArr)
 
   // useEffect(() => {
   //   console.log('📀')
@@ -800,14 +802,9 @@ const SelectFieldsMenu = ({
 
   // const [lijst, setLijst] = useState(newListOrderArr)
 
-  console.log('lijst -->', lijst)
-
   useEffect(() => {
-    console.log('something in the list changed')
-
-    console.log('unCheckedArr -->', unCheckedArr)
-
-    console.log('allFields -->', allFields)
+    console.log('something wicked changed in the list')
+    console.log('new list', lijst)
   }, [lijst])
 
   return (
@@ -815,20 +812,32 @@ const SelectFieldsMenu = ({
       <VirtualizedList
         items={lijst}
         onDrop={(e, data) => {
-          console.info('yo waht-->', e, data)
+          //   console.info('yo waht-->', e, data)
           console.log('Target index -->', data.targetIndex)
 
-          console.log('Data regfe-->', data?.data)
+          //   console.log('Data regfe-->', data?.data)
 
-          lijst.splice(data?.data[0]?.index, 1)
-          lijst.splice(data.targetIndex, 0, data.data[0].data)
+          let removedItem = lijst.splice(data.data[0]?.index, 1)
 
-          setLijst([...lijst])
+          console.log('removed item -->', removedItem)
+
+          // insert the removed item at the target index
+
+          let newList = [...lijst]
+
+          newList.splice(data.targetIndex, 0, removedItem[0])
+
+          console.log('new list -->????', newList)
+
+          //setLijst([...lijst.splice(data.targetIndex, 0, removedItem[0])])
+
+          setLijst([...newList])
+
           // console.log('list length -->', listData.length)
         }}
         onClick={() => {
           console.log('click--->', lijst)
-          setLijst([...lijst])
+          //  setLijst([...lijst])
         }}
       />
     </div>
