@@ -16,6 +16,7 @@ import {
   DownloadIcon,
 } from '~'
 import { ZoomInIcon } from '~/icons/ZoomInIcon'
+import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 
 const StyledUploadedFile = styled('div', {
   display: 'flex',
@@ -50,6 +51,9 @@ const CacheBackground = ({ file }) => {
     file.src = URL.createObjectURL(file)
   }
   const [url, setUrl] = useState(file.src)
+
+  console.log('url', url)
+  console.log('file 🐤', file)
 
   return (
     <div
@@ -98,6 +102,11 @@ export const UploadedFileItem = ({
     },
     { placement: 'right' }
   )
+
+  console.log(file, 'file??')
+
+  // screenshot
+  console.log(getImageSrcFromId(file?.id))
 
   return (
     <StyledUploadedFile>
@@ -162,9 +171,10 @@ const ContextOptions = ({
 }) => {
   return (
     <>
-      <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
+      {/* TODO if multiple file upload works or if multiple file then option to duplicate */}
+      {/* <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
         Duplicate
-      </ContextItem>
+      </ContextItem> */}
       <ContextItem onClick={() => fullScreenView()} icon={ZoomInIcon}>
         Full screen
       </ContextItem>
@@ -174,9 +184,10 @@ const ContextOptions = ({
       <ContextItem onClick={() => renameFile()} icon={EditIcon}>
         Rename
       </ContextItem>
-      <ContextItem onClick={() => replaceSpecificFile(id)} icon={ReplaceIcon}>
+      {/* TODO if multiple file upload works or if multiple file then option to replace specific id file */}
+      {/* <ContextItem onClick={() => replaceSpecificFile(id)} icon={ReplaceIcon}>
         Replace
-      </ContextItem>
+      </ContextItem> */}
       <ContextItem onClick={() => downloadFile()} icon={DownloadIcon}>
         Download
       </ContextItem>

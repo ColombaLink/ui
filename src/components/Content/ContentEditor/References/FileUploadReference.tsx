@@ -26,6 +26,9 @@ export const FileUploadReference = ({
       onChange={async (files) => {
         const result = await Promise.all(
           files?.map((file) => {
+            console.log('file 🐤', file)
+            console.log(client.file(file), 'client.file(file) 🐤')
+
             return client.file(file)
           })
         )

@@ -71,7 +71,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const dialog = useDialog()
-  const renameDialog = useDialog()
+  const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
 
   const handleClickUpload = async () => {
@@ -117,7 +117,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               <Button
                 large
                 style={{ margin: '0 auto' }}
-                onClick={() => urlHandler(otherUrlInputValue)}
+                onClick={() => urlHandler(urlInputValue)}
               >
                 Embed image
               </Button>
@@ -194,6 +194,8 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const urlHandler = async (urlInput) => {
+    console.log('does this fire???', urlInput)
+
     if (urlInput) {
       const file = await fetch(urlInput)
         .then(
@@ -248,36 +250,23 @@ export const FileUpload: FC<FileUploadProps> = ({
     link.click()
   }
 
-  const renameFile = (file, idx) => {
+  const renameFile = async (file, idx) => {
     console.log('rename file', file, idx)
     console.log('file name', file.name)
+
+    const extension = file.name.split('.').pop()
+
     const renameArr = [...uploadedFiles]
 
-    let newFileName = ''
+    const ok = await prompt('Rename file')
 
-    renameDialog.open(
-      <Dialog label="Rename">
-        <Input
-          placeholder="Example.png"
-          value={fileName}
-          onChange={(e) => {
-            setFileName(e)
-            newFileName = e
-          }}
-        />
-        <Button
-          large
-          style={{ margin: '20px auto' }}
-          onClick={() => {
-            renameArr[idx].name = newFileName
-            setUploadedFiles([...renameArr])
-            renameDialog.close()
-          }}
-        >
-          Rename file
-        </Button>
-      </Dialog>
-    )
+    if (ok && ok !== undefined) {
+      setFileName(ok + '.' + extension)
+
+      renameArr[idx].name = ok + '.' + extension
+      setUploadedFiles([...renameArr])
+    }
+    console.log('ok --->??', ok)
   }
 
   const fullScreenView = (file) => {

@@ -35,7 +35,11 @@ const Grid = styled(VariableSizeGrid)
 
 // single ref display
 const Reference = ({ value }) => {
+  // console.log('value', value)
+
   const afbThumb = getImageSrcFromId(value)
+
+  // console.log(afbThumb, 'afbThumb')
 
   return value.length > 0 ? (
     <div style={{ display: 'flex', verticalAlign: 'center' }}>
