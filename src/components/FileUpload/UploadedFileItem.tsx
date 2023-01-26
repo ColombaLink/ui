@@ -52,8 +52,8 @@ const CacheBackground = ({ file }) => {
   }
   const [url, setUrl] = useState(file.src)
 
-  console.log('url', url)
-  console.log('file 🐤', file)
+  // console.log('url', url)
+  // console.log('file 🐤', file)
 
   return (
     <div
@@ -103,7 +103,7 @@ export const UploadedFileItem = ({
     { placement: 'right' }
   )
 
-  console.log(file, 'file??')
+  // console.log(file, 'file??')
 
   // screenshot
   console.log(getImageSrcFromId(file?.id))

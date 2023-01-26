@@ -66,6 +66,8 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const hiddenFileInput = useRef(null)
 
+  console.log('---->', value)
+
   if (!Array.isArray(uploadedFiles)) {
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
@@ -166,7 +168,9 @@ export const FileUpload: FC<FileUploadProps> = ({
       if (!multiple) {
         newValue = [files[0]]
       }
+
       setUploadedFiles(newValue)
+
       onChange(newValue)
     }
   }
@@ -248,23 +252,17 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const downloadFile = (file) => {
-    const url = window.URL.createObjectURL(file)
     const link = document.createElement('a')
     link.download = file.name
-    link.href = url
+    link.href = file.url
     link.click()
   }
 
   const renameFile = async (file, idx) => {
-    console.log('rename file', file, idx)
-    console.log('file name', file.name)
-
     const extension = file.name.split('.').pop()
-
     const renameArr = [...uploadedFiles]
 
     const ok = await prompt('Rename file')
-
     if (ok && ok !== undefined) {
       setFileName(ok + '.' + extension)
 
@@ -272,6 +270,7 @@ export const FileUpload: FC<FileUploadProps> = ({
       setUploadedFiles([...renameArr])
     }
     console.log('ok --->??', ok)
+    console.log('the file again???', file)
   }
 
   const fullScreenView = (file) => {
@@ -368,7 +367,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               file={file}
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}
-              replaceSpecificFile={replaceSpecificFile}
+              replaceSpecificFile={() => replaceSpecificFile(idx)}
               downloadFile={() => downloadFile(file)}
               duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
