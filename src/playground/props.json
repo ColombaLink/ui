@@ -3180,9 +3180,25 @@
         },
         "onClick": {
           "type": "DataEventHandler"
+        },
+        "onAction": {
+          "optional": true,
+          "type": "OnAction"
+        },
+        "setSelectedRowCheckboxes": {
+          "optional": true,
+          "type": "function"
+        },
+        "selectedRowCheckboxes": {
+          "optional": true,
+          "type": "Array"
+        },
+        "setTableIsEmpty": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n}",
+      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n}",
       "file": "/components/Table/TableFromQuery.tsx"
     },
     "TableProps": {
@@ -3218,12 +3234,20 @@
           "optional": true,
           "type": "string"
         },
+        "setTableIsEmpty": {
+          "optional": true,
+          "type": "function"
+        },
+        "onAction": {
+          "optional": true,
+          "type": "OnAction"
+        },
         "onClick": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  setTableIsEmpty?: (isEmpty: boolean) => void\n  onAction?: OnAction\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
