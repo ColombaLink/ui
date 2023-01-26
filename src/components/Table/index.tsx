@@ -28,6 +28,7 @@ type TableProps = {
   height?: number
   language?: string
   target?: string
+  setTableIsEmpty?: (isEmpty: boolean) => void
   onAction?: OnAction
   onClick?: (
     item: { [key: string]: string },
@@ -41,8 +42,6 @@ const TableFromData = () => {
 }
 
 export const Table: FC<TableProps> = ({ style, ...props }) => {
-  console.log('Table', props)
-
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
 
   // console.log(selectedRowCheckboxes)

@@ -586,6 +586,7 @@ export type TableFromQueryProps = {
   onAction?: OnAction
   setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void
   selectedRowCheckboxes?: Array<number>
+  setTableIsEmpty?: (tableIsEmpty: boolean) => void
 }
 
 export const TableFromQuery: FC<TableFromQueryProps> = ({
@@ -596,7 +597,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   target = 'root',
   language = 'en',
   onClick,
-  // onDelete,
+  setTableIsEmpty,
   onAction,
   setSelectedRowCheckboxes,
   selectedRowCheckboxes,
@@ -682,6 +683,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   })
   const [colWidths, setColWidths] = useState([])
 
+  if (items.length < 1) {
+    setTableIsEmpty(true)
+  } else {
+    setTableIsEmpty(false)
+  }
+
   useEffect(() => {
     if (tableRef.current) {
       const prevColWidths = tableRef.current.colWidths || []
@@ -758,8 +765,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
         innerElementType={({ children, style }) => {
-          console.log(' items fields from innerTable', items)
-
           return (
             <div
               style={{

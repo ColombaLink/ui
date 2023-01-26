@@ -1,6 +1,6 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
@@ -153,7 +153,7 @@ export const ContentMain = ({
   const { confirm, prompt } = useDialog()
   const client = useClient()
 
-  const theTableRef = useRef(null)
+  const [tableIsEmpty, setTableIsEmpty] = useState(false)
 
   const { data: views } = useData('basedObserveViews')
   let currentView
@@ -227,10 +227,6 @@ export const ContentMain = ({
       })
     }
   }
-
-  console.log('fields 🪲', fields)
-  console.log('fieldTypes 🪲', fieldTypes)
-  console.log('view??', view)
 
   return (
     <div
@@ -317,7 +313,7 @@ export const ContentMain = ({
         </div>
       </div>
 
-      {/* {fields && (
+      {tableIsEmpty && (
         <div
           style={{
             display: 'flex',
@@ -327,10 +323,10 @@ export const ContentMain = ({
             height: '100%',
           }}
         >
-          <Text space="8px">
-            Hey it looks like there are no items created yet.
-          </Text>
-          <Text space="20px">You can start by creating one.</Text>
+          <div style={{ display: 'flex', marginBottom: '20px', gap: 4 }}>
+            <Text>Create a new item for </Text>
+            <Text typo="body600"> {`${view}`}.</Text>
+          </div>
           <Button
             large
             icon={AddIcon}
@@ -343,15 +339,15 @@ export const ContentMain = ({
             Create Item
           </Button>
         </div>
-      )} */}
+      )}
 
       <Table
-        ref={theTableRef}
         key={fields.length}
         fields={fields}
         target={query.target}
         onAction={(items) => onAction(items, 'delete')}
         language="en"
+        setTableIsEmpty={setTableIsEmpty}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
             setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
