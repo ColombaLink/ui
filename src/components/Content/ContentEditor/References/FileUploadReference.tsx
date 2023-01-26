@@ -15,8 +15,6 @@ export const FileUploadReference = ({
     value.type = value.mimeType
   }
 
-  console.log('client??? ', client)
-
   return (
     <FileUpload
       style={style}
@@ -26,6 +24,11 @@ export const FileUploadReference = ({
       space
       multiple={meta.multiple}
       onChange={async (files) => {
+        if (!files) {
+          onChange({ $delete: true })
+          return
+        }
+
         const result = await Promise.all(
           files?.map((file) => {
             console.log('file 🐤', file)

@@ -106,7 +106,7 @@ export const UploadedFileItem = ({
   // console.log(file, 'file??')
 
   // screenshot
-  console.log(getImageSrcFromId(file?.id))
+  // console.log(getImageSrcFromId(file?.id))
 
   return (
     <StyledUploadedFile>

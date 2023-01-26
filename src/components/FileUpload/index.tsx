@@ -66,8 +66,6 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const hiddenFileInput = useRef(null)
 
-  console.log('---->', value)
-
   if (!Array.isArray(uploadedFiles)) {
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
@@ -194,14 +192,12 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles((uploadedFiles) =>
       Array.isArray(uploadedFiles)
         ? uploadedFiles?.filter((_, index) => index !== id)
-        : onChange([])
+        : onChange(undefined)
     )
     setClearCount((clearCount) => clearCount + 1)
   }
 
   const urlHandler = async (urlInput) => {
-    console.log('does this fire???', urlInput)
-
     if (urlInput) {
       const file = await fetch(urlInput)
         .then(
@@ -215,7 +211,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               type: blobFile.type,
             })
         )
-      console.log('file before', file)
       urlUploadFile([file])
     }
   }
@@ -271,6 +266,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     }
     console.log('ok --->??', ok)
     console.log('the file again???', file)
+    onChange([...renameArr])
   }
 
   const fullScreenView = (file) => {
