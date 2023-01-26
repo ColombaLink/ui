@@ -94,7 +94,8 @@ const menuItems = {
     ExpandableList: '?story=ExpandableLists',
     // InfiniteList: '?story=InfiniteLists',
     // Lists: '?story=lists',
-    VirtualizedList: '?story=VirtualizedLists',
+    // this list is being used for the little table menu now
+    //  VirtualizedList: '?story=VirtualizedLists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',

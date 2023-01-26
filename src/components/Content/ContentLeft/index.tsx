@@ -47,11 +47,12 @@ export const ContentLeft: FC<{
     }
   })
 
-  // const rootType = 'root'
+  const rootType = 'root'
 
-  // data['Root Type'] = {
-  //   root: `/${rootType}?filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${rootType}%22%7D%5D&target=root&field=descendants`,
-  // }
+  // TODO fix query url here
+  data['Root Type'] = {
+    root: `/${rootType}?filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${rootType}%22%7D%5D&target=root&field=descendants`,
+  }
 
   return loading ? (
     <div

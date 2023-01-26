@@ -6,7 +6,8 @@ export const useItemSchema = (id) => {
     return { loading }
   }
   if (id === 'root') {
-    return { schema, type: 'root', ...schema.rootType }
+    // return { schema, type: 'root', ...schema.rootType }
+    return { schema, type: 'root', ...schema.types.root }
   } else {
     const type = schema.prefixToTypeMapping[id.substring(0, 2)]
     return { schema, type, ...schema.types[type] }

@@ -705,7 +705,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   const types = {
-    root: schema.rootType,
+    // root: schema.rootType,
+    root: schema.types.root,
     ...schema.types,
   }
 

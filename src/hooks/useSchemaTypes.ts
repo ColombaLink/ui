@@ -9,7 +9,8 @@ export const useSchemaTypes = () => {
       ? {}
       : {
           ...res.schema.types,
-          root: res.schema.rootType,
+          // root: res.schema.rootType,
+          root: res.schema.types.root,
         },
   }
 }
