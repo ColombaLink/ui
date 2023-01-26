@@ -9,6 +9,9 @@ export const scrollAreaStyle = {
   overflow: 'auto',
   overflowY: 'overlay',
   overflowX: 'overlay',
+
+  // backgroundColor: 'pink',
+
   // firefox
   scrollbarColor: `${scrollbarColor} transparent`,
   scrollbarWidth: 'thin',

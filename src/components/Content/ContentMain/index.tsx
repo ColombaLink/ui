@@ -217,6 +217,7 @@ export const ContentMain = ({
 
   const fields = Array.from(set) as string[]
 
+  // onAction for table selected items ... more actions will follow
   const onAction = (items, string) => {
     if (string === 'delete') {
       Promise.all(items.map((v) => client.delete({ $id: v.id }))).then(() => {

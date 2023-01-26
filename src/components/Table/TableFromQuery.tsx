@@ -31,8 +31,6 @@ import { useDialog } from '~/components/Dialog'
 import { VirtualizedList } from '../VirtualizedList'
 import { removeOverlay } from '../Overlay'
 
-import { useWindowResize } from '~/hooks/useWindowResize'
-
 const Grid = styled(VariableSizeGrid)
 
 // single ref display
@@ -463,6 +461,7 @@ const Header = ({
   setLijst,
   activeSortField,
   setActiveSortField,
+  scrollLeft,
 }) => {
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
@@ -482,8 +481,10 @@ const Header = ({
 
   // const [newFields, setNewFields] = useState(newWorldOrder)
 
+  // console.log('---->>>>', scrollLeft, '<<<----')
+
   return (
-    <>
+    <div style={{ position: 'relative' }}>
       <div
         style={{
           position: 'sticky',
@@ -547,12 +548,12 @@ const Header = ({
       </div>
       <Button
         icon={<AddIcon color="text2" />}
-        color="border"
+        color="lightgrey"
         style={{
           width: 24,
           height: 24,
           position: 'absolute',
-          right: 16,
+          left: scrollLeft ? width + scrollLeft - 36 : width - 36,
           top: 8,
           padding: 0,
         }}
@@ -570,7 +571,7 @@ const Header = ({
           { placement: 'left' }
         )}
       />
-    </>
+    </div>
   )
 }
 
@@ -785,6 +786,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 sortOrder={sortOrder}
                 activeSortField={activeSortField}
                 setActiveSortField={setActiveSortField}
+                scrollLeft={tableRef.current?.state?.scrollLeft}
               />
               {/* TODO: add filter menu */}
               {selectedRowCheckboxes.length > 0 && (
@@ -809,7 +811,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         estimatedRowHeight={ITEM_HEIGHT}
         rowHeight={() => ITEM_HEIGHT}
         width={width}
-        onScroll={({ scrollTop }) => onScrollY(scrollTop)}
+        // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
+        onScroll={({ scrollTop }) => {
+          onScrollY(scrollTop)
+        }}
       />
     </>
   )
