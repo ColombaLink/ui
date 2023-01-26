@@ -156,6 +156,8 @@ export const ContentMain = ({
   const { data: views } = useData('basedObserveViews')
   let currentView
 
+  console.log('views', views)
+
   const parse = () => {
     // TODO FIX the redirect!!
     for (const viewKey in views) {
@@ -226,6 +228,10 @@ export const ContentMain = ({
     }
   }
 
+  console.log('fields 🪲', fields)
+  console.log('fieldTypes 🪲', fieldTypes)
+  console.log('view??', view)
+
   return (
     <div
       style={{
@@ -244,7 +250,6 @@ export const ContentMain = ({
         }}
       >
         <Header label={label} view={view} prefix={prefix} />
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flexGrow: 1 }}>
             {queryOverwrite ? null : (
@@ -311,6 +316,35 @@ export const ContentMain = ({
           </div>
         </div>
       </div>
+
+      {fields && (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            height: '100%',
+          }}
+        >
+          <Text space="8px">
+            Hey it looks like there are no items created yet.
+          </Text>
+          <Text space="20px">You can start by creating one.</Text>
+          <Button
+            large
+            icon={AddIcon}
+            onClick={() => {
+              // console.log('lable', label, 'view', view, 'prefix', prefix)
+              setLocation(`${prefix}/create/${view}`)
+            }}
+            //  onClick={useContextMenu(CreateMenu, { prefix, types })}
+          >
+            Create Item
+          </Button>
+        </div>
+      )}
+
       <Table
         key={fields.length}
         fields={fields}
@@ -345,6 +379,7 @@ export const ContentMain = ({
                         return false
                       }
                     }
+
                     return true
                   }
                 ),

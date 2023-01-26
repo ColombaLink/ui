@@ -1,6 +1,21 @@
-import { useClient, useData } from '@based/react'
+import { useData } from '@based/react'
 import React, { FC } from 'react'
-import { border, LoadingIcon, Menu, Text, useSchema, useSchemaTypes } from '~'
+import { border, LoadingIcon, Menu, Text, useSchema, Badge } from '~'
+
+export const SystemLabel = ({ isActive = false, children }) => {
+  return (
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      {children}
+      <Badge ghost={isActive}>system</Badge>
+    </div>
+  )
+}
 
 export const ContentLeft: FC<{
   prefix: string
@@ -41,18 +56,17 @@ export const ContentLeft: FC<{
   }
 
   data['Default Views'] = views.default?.map(({ id, query, label }) => {
+    if (label === 'file' || label === 'root') {
+      const children = label
+      label = ({ isActive }) => (
+        <SystemLabel isActive={isActive}>{children}</SystemLabel>
+      )
+    }
     return {
       label,
       href: `/${id}?${query}`,
     }
   })
-
-  const rootType = 'root'
-
-  // TODO fix query url here
-  data['Root Type'] = {
-    root: `/${rootType}?filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${rootType}%22%7D%5D&target=root&field=descendants`,
-  }
 
   return loading ? (
     <div

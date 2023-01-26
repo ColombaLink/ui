@@ -45,7 +45,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
 
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
 
-  console.log(selectedRowCheckboxes)
+  // console.log(selectedRowCheckboxes)
 
   return (
     <styled.div

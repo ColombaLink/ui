@@ -10,7 +10,6 @@ import {
   LargeLogo,
   DarkModeIcon,
   LightModeIcon,
-  useRoute,
   ExternalLinkIcon,
   color,
   useLocation,
