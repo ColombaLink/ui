@@ -93,6 +93,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                 // upload
                 if (!disabled) {
                   hiddenFileInput.current.click()
+                  dialog.close()
                 }
               }}
             >
@@ -131,7 +132,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   // close dialog if uploadedFiles  is changed
   useEffect(() => {
     console.log('uploadedFiles 🥝', uploadedFiles)
-    // dialog.close()
+    //   dialog.close()
   }, [uploadedFiles])
 
   const clearFiles = () => {
@@ -200,7 +201,6 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const urlHandler = async (urlInput) => {
     if (urlInput) {
-      console.log('CRAZE')
       const file = await fetch(urlInput)
         .then(
           (res) => res.blob()
