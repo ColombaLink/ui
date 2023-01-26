@@ -1,6 +1,6 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
-import React from 'react'
+import React, { useRef } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
@@ -153,10 +153,10 @@ export const ContentMain = ({
   const { confirm, prompt } = useDialog()
   const client = useClient()
 
+  const theTableRef = useRef(null)
+
   const { data: views } = useData('basedObserveViews')
   let currentView
-
-  console.log('views', views)
 
   const parse = () => {
     // TODO FIX the redirect!!
@@ -317,7 +317,7 @@ export const ContentMain = ({
         </div>
       </div>
 
-      {fields && (
+      {/* {fields && (
         <div
           style={{
             display: 'flex',
@@ -343,9 +343,10 @@ export const ContentMain = ({
             Create Item
           </Button>
         </div>
-      )}
+      )} */}
 
       <Table
+        ref={theTableRef}
         key={fields.length}
         fields={fields}
         target={query.target}

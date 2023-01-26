@@ -758,7 +758,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
         innerElementType={({ children, style }) => {
-          // console.log('fields from innerTable', items)
+          console.log(' items fields from innerTable', items)
 
           return (
             <div
