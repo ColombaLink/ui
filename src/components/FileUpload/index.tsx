@@ -110,7 +110,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                 placeholder="Paste the image link..."
                 onChange={(e) => {
                   setUrlInputValue(e)
-                  otherUrlInputValue = e
+                  //    otherUrlInputValue = e
                 }}
                 value={urlInputValue}
               />
@@ -176,6 +176,8 @@ export const FileUpload: FC<FileUploadProps> = ({
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
+    console.log('e.target.files', e.target.files)
+
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
@@ -228,6 +230,9 @@ export const FileUpload: FC<FileUploadProps> = ({
     }
 
     let newValue = [...uploadedFiles, ...files]
+
+    console.log('new value', newValue)
+
     if (!multiple) {
       newValue = [files[0]]
     }

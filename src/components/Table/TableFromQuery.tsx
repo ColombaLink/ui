@@ -31,6 +31,8 @@ import { useDialog } from '~/components/Dialog'
 import { VirtualizedList } from '../VirtualizedList'
 import { removeOverlay } from '../Overlay'
 
+import { useWindowResize } from '~/hooks/useWindowResize'
+
 const Grid = styled(VariableSizeGrid)
 
 // single ref display
@@ -129,11 +131,46 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         <Checkbox
           size={16}
           checked={data.selectedRowCheckboxes?.includes(rowIndex)}
-          onClick={() => {
+          onClick={(e) => {
             // this is the correct item from row
             console.log('item', item)
 
-            if (!data.selectedRowCheckboxes?.includes(rowIndex)) {
+            // if shift is being held down, select all items between the last selected item and the current item
+            if (e.shiftKey) {
+              console.log('shift key pressed is down')
+              const prevClick =
+                data.selectedRowCheckboxes[
+                  data.selectedRowCheckboxes.length - 1
+                ]
+              console.log('prevClick', prevClick)
+              console.log('rowIndex', rowIndex)
+
+              const newNumbersInBetween = []
+              if (prevClick < rowIndex) {
+                for (let i = prevClick + 1; i < rowIndex + 1; i++) {
+                  newNumbersInBetween.push(i)
+                }
+              }
+
+              if (prevClick > rowIndex) {
+                for (let i = prevClick - 1; i > rowIndex - 1; i--) {
+                  newNumbersInBetween.push(i)
+                }
+              }
+
+              data.setSelectedRowCheckboxes([
+                ...data.selectedRowCheckboxes,
+                ...newNumbersInBetween,
+              ])
+
+              console.log('newNumbersInBetween', newNumbersInBetween)
+              console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
+            }
+
+            if (
+              !e.shiftKey &&
+              !data.selectedRowCheckboxes?.includes(rowIndex)
+            ) {
               data.setSelectedRowCheckboxes([
                 ...data.selectedRowCheckboxes,
                 rowIndex,
