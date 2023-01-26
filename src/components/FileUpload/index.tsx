@@ -110,14 +110,14 @@ export const FileUpload: FC<FileUploadProps> = ({
                 placeholder="Paste the image link..."
                 onChange={(e) => {
                   setUrlInputValue(e)
-                  //    otherUrlInputValue = e
+                  otherUrlInputValue = e
                 }}
                 value={urlInputValue}
               />
               <Button
                 large
                 style={{ margin: '0 auto' }}
-                onClick={() => urlHandler(urlInputValue)}
+                onClick={() => urlHandler(otherUrlInputValue)}
               >
                 Embed image
               </Button>
@@ -130,7 +130,8 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   // close dialog if uploadedFiles  is changed
   useEffect(() => {
-    dialog.close()
+    console.log('uploadedFiles 🥝', uploadedFiles)
+    // dialog.close()
   }, [uploadedFiles])
 
   const clearFiles = () => {
@@ -199,6 +200,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const urlHandler = async (urlInput) => {
     if (urlInput) {
+      console.log('CRAZE')
       const file = await fetch(urlInput)
         .then(
           (res) => res.blob()
@@ -211,7 +213,9 @@ export const FileUpload: FC<FileUploadProps> = ({
               type: blobFile.type,
             })
         )
+
       urlUploadFile([file])
+      dialog.close()
     }
   }
 
@@ -224,6 +228,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           setErrorMessage(`File type: ${file?.type} is not allowed.`)
           setDraggingOver(false)
         }
+
         return accepted
       })
     }
@@ -264,8 +269,8 @@ export const FileUpload: FC<FileUploadProps> = ({
       renameArr[idx].name = ok + '.' + extension
       setUploadedFiles([...renameArr])
     }
-    console.log('ok --->??', ok)
-    console.log('the file again???', file)
+    // console.log('ok --->??', ok)
+    // console.log('the file again???', file)
     onChange([...renameArr])
   }
 

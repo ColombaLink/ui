@@ -176,7 +176,7 @@ const ContextOptions = ({
         Duplicate
       </ContextItem> */}
       <ContextItem onClick={() => fullScreenView()} icon={ZoomInIcon}>
-        Full screen
+        Expand
       </ContextItem>
       <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>
         Open in new tab
