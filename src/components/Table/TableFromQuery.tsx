@@ -30,7 +30,7 @@ import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
 import { VirtualizedList } from '../VirtualizedList'
 import { removeOverlay } from '../Overlay'
-
+import { Toast, useToast } from '../Toast'
 import { useClient, useData } from '@based/react'
 
 const Grid = styled(VariableSizeGrid)
@@ -615,6 +615,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // for file drop upload
   const client = useClient()
   const [draggingOver, setDraggingOver] = useState(false)
+  const toast = useToast()
 
   // before you delete modal to confirm
   const { confirm } = useDialog()
@@ -764,19 +765,28 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const handleFileDrop = async (e) => {
     if (locationIsFile && draggingOver) {
       setDraggingOver(false)
-
       e.preventDefault()
       e.stopPropagation()
 
       const files = Array.from(e.dataTransfer.files)
-
       console.log(files)
 
       const test = await Promise.all(
         files?.map((file) => {
           console.log('file 🐤', file)
-          // make a toast pop for each file ??
+          // make a toast pop for each file
+          // TODO check if successfull upload i guess
+          const notify = () => {
+            toast.add(
+              <Toast
+                label="File uploaded"
+                type="success"
+                description={file.name}
+              />
+            )
+          }
 
+          notify()
           return client.file(file)
         })
       )
@@ -786,8 +796,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       return null
     }
   }
-
-  console.log('types??', types)
 
   return (
     <div
