@@ -46,6 +46,8 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
 
   // console.log(selectedRowCheckboxes)
 
+  console.log('Table ---> ', props)
+
   return (
     <styled.div
       style={{

@@ -75,7 +75,7 @@ const Reference = ({ value }) => {
 
 // multiple refs display
 const References = ({ value }) => {
-  console.log('ref', value)
+  // console.log('ref', value)
 
   return value.length > 0 ? (
     <div
@@ -83,6 +83,9 @@ const References = ({ value }) => {
         position: 'absolute',
         left: 6,
         display: 'flex',
+      }}
+      onClick={() => {
+        console.log('Clicked a multiRef field')
       }}
     >
       <div style={{ minWidth: 32, display: 'flex' }}>
@@ -381,6 +384,7 @@ const InnerTable = ({
   onClick,
   selectedRowCheckboxes,
   setSelectedRowCheckboxes,
+  //  setRelevantFields,
   ...props
 }) => {
   const [state, setState] = useState({})
@@ -397,8 +401,9 @@ const InnerTable = ({
     ...state,
   })
 
-  // put this higher up the food chain
-
+  // food chain
+  // TODO : if multirefs are clicked
+  // if inside of multiple references has been clicked
   const fieldsOfRelevance = []
 
   itemData.items?.forEach((element) => {
@@ -415,13 +420,11 @@ const InnerTable = ({
   console.log('InnerTable ---> ', itemData)
   console.log('fieldsOfRelevance 🐸', fieldsOfRelevance)
 
-  // now compare fields of relevance to all fields  set this
+  // // now compare fields of relevance to all fields  set this
 
-  itemData.fields = [...fieldsOfRelevance]
+  // itemData.fields = [...fieldsOfRelevance]
 
-  console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
-
-  // TODO : if multirefs are clicked
+  // console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
 
   return (
     <Grid {...props} itemData={itemData} ref={tableRef}>
@@ -494,8 +497,6 @@ const Header = ({
 }) => {
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
-
-  console.log('header', fields, colWidths)
 
   // console.log('filteredFields 🐸', filteredFields)
 
@@ -639,6 +640,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
 
+  // for the multireferences // clicked in
+  // const [relevantFields, setRelevantFields] = useState<string[]>([])
+  // console.log('relevantFields ---*** --->', relevantFields)
+
   // for file drop upload
   const client = useClient()
   const [draggingOver, setDraggingOver] = useState(false)
@@ -649,7 +654,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // console.log('onAction', onAction)
 
-  console.log('TAble from query fields: ', fields)
+  console.log('fields', fields)
+  // console.log('TAble from query fields: ', fields)
 
   const [filteredFields, setFilteredFields] = useState(fields)
   const [unCheckedArr, setUnCheckedArr] = useState([
@@ -862,6 +868,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         onClick={onClick}
         selectedRowCheckboxes={selectedRowCheckboxes}
         setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+        // setRelevantFields={setRelevantFields}
         itemKey={({ columnIndex, data: { items, filteredFields }, rowIndex }) =>
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
