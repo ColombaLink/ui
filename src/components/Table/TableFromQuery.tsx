@@ -771,19 +771,29 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
     console.log(files.name)
 
-    // onChange(files)
-    const result = await client.set({
-      //  $alias: '/hello',
-      type: 'file',
-      //  $id: 'muASxsd3',
-      name: files[0].name,
-      size: files[0].size,
-      mimeType: files[0].type,
-    })
+    // // onChange(files)
+    // const result = await client.set({
+    //   //  $alias: '/hello',
+    //   type: 'file',
+    //   //  $id: 'muASxsd3',
+    //   name: files[0].name,
+    //   size: files[0].size,
+    //   mimeType: files[0].type,
+    // })
 
-    console.log(result, 'result??')
+    // console.log(result, 'result??')
 
-    return result
+    const test = await Promise.all(
+      files?.map((file) => {
+        console.log('file 🐤', file)
+
+        return client.file(file)
+      })
+    )
+
+    console.log(test, 'test??')
+
+    // return result
 
     // so create a new item from the file??
   }
