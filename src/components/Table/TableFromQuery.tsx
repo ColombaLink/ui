@@ -31,6 +31,8 @@ import { useDialog } from '~/components/Dialog'
 import { VirtualizedList } from '../VirtualizedList'
 import { removeOverlay } from '../Overlay'
 
+import { useClient, useData } from '@based/react'
+
 const Grid = styled(VariableSizeGrid)
 
 // single ref display
@@ -610,6 +612,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
 
+  // for file drop upload
+  const client = useClient()
   const [draggingOver, setDraggingOver] = useState(false)
 
   // before you delete modal to confirm
@@ -752,7 +756,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   // file drop
-  const handleFileDrop = (e) => {
+  const handleFileDrop = async (e) => {
     setDraggingOver(false)
 
     e.preventDefault()
@@ -761,14 +765,33 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     const files = Array.from(e.dataTransfer.files)
 
     console.log(files)
+    console.log(client, 'client ??? access??')
 
-    // onChange(newValue)
+    console.log(types, 'types??')
+
+    console.log(files.name)
+
+    // onChange(files)
+    const result = await client.set({
+      //  $alias: '/hello',
+      type: 'file',
+      //  $id: 'muASxsd3',
+      name: files[0].name,
+      size: files[0].size,
+      mimeType: files[0].type,
+    })
+
+    console.log(result, 'result??')
+
+    return result
+
+    // so create a new item from the file??
   }
 
   return (
     <div
       style={{
-        background: draggingOver ? 'orange' : 'red',
+        background: draggingOver ? 'green' : 'red',
         border: draggingOver ? '1px solid green' : '1px solid red',
       }}
       onDragOver={(e) => {
@@ -900,7 +923,7 @@ const SelectFieldsMenu = ({
           // console.log('list length -->', listData.length)
         }}
         onClick={() => {
-          console.log('click--->', lijst)
+          //     console.log('click--->', lijst)
           setLijst([...lijst])
         }}
       />
