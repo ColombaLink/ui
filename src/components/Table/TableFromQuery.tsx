@@ -610,6 +610,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
 
+  const [draggingOver, setDraggingOver] = useState(false)
+
   // before you delete modal to confirm
   const { confirm } = useDialog()
 
@@ -681,13 +683,15 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     itemSize: ITEM_HEIGHT,
     // treshold: 15,
   })
+
   const [colWidths, setColWidths] = useState([])
 
-  if (items.length < 1) {
-    setTableIsEmpty(true)
-  } else {
-    setTableIsEmpty(false)
-  }
+  // table is empty setting
+  // if (items.length < 1) {
+  //   setTableIsEmpty(true)
+  // } else {
+  //   setTableIsEmpty(false)
+  // }
 
   useEffect(() => {
     if (tableRef.current) {
@@ -747,8 +751,36 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }
 
+  // file drop
+  const handleFileDrop = (e) => {
+    setDraggingOver(false)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    const files = Array.from(e.dataTransfer.files)
+
+    console.log(files)
+
+    // onChange(newValue)
+  }
+
   return (
-    <>
+    <div
+      style={{
+        background: draggingOver ? 'orange' : 'red',
+        border: draggingOver ? '1px solid green' : '1px solid red',
+      }}
+      onDragOver={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDraggingOver(true)
+      }}
+      onDrop={handleFileDrop}
+      onDragLeave={() => {
+        setDraggingOver(false)
+      }}
+    >
       <InnerTable
         tableRef={tableRef}
         style={scrollAreaStyle}
@@ -769,6 +801,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
             <div
               style={{
                 ...style,
+
                 width: style.width + ACTIONS_WIDTH,
               }}
             >
@@ -822,7 +855,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           onScrollY(scrollTop)
         }}
       />
-    </>
+    </div>
   )
 }
 
