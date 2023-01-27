@@ -125,7 +125,7 @@ export const SelectReferences = ({
   const { width, height } = useWindowResize()
   const dialogRef = useRef<HTMLDivElement>(null)
 
-  const checkedIds = [3]
+  const checkedIds = []
 
   if (typing) {
     if (selected.current) {

@@ -20,7 +20,7 @@ import { isImage } from '~/utils/isImage'
 import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { toDateString } from '~/utils/date'
 import { Badge } from '../Badge'
-import { useHover, useContextMenu } from '~/hooks'
+import { useHover, useContextMenu, useLocation } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
 import stringifyObject from 'stringify-object'
@@ -30,6 +30,8 @@ import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
 import { VirtualizedList } from '../VirtualizedList'
 import { removeOverlay } from '../Overlay'
+
+import { useClient, useData } from '@based/react'
 
 const Grid = styled(VariableSizeGrid)
 
@@ -361,7 +363,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             ? !isCheckbox && hasField
               ? 'background:hover'
               : 'background2:hover'
-            : 'background'
+            : 'transparent'
         ),
       }}
     >
@@ -610,10 +612,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
 
+  // for file drop upload
+  const client = useClient()
+  const [draggingOver, setDraggingOver] = useState(false)
+
   // before you delete modal to confirm
   const { confirm } = useDialog()
 
-  //  console.log('TableFromQuery', query)
   // console.log('onAction', onAction)
 
   const [filteredFields, setFilteredFields] = useState(fields)
@@ -672,6 +677,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [newFields, setNewFields] = useState(newWorldOrder)
 
+  const [location] = useLocation()
+
+  console.log('location', location)
+
+  const locationIsFile = location.split('/').pop() === 'file'
+
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
     query: (offset, limit) => query(offset, limit, sortField, sortOrder),
@@ -681,13 +692,15 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     itemSize: ITEM_HEIGHT,
     // treshold: 15,
   })
+
   const [colWidths, setColWidths] = useState([])
 
-  if (items.length < 1) {
-    setTableIsEmpty(true)
-  } else {
-    setTableIsEmpty(false)
-  }
+  // table is empty setting
+  // if (items.length < 1) {
+  //   setTableIsEmpty(true)
+  // } else {
+  //   setTableIsEmpty(false)
+  // }
 
   useEffect(() => {
     if (tableRef.current) {
@@ -747,11 +760,62 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }
 
+  // file drop
+  const handleFileDrop = async (e) => {
+    if (locationIsFile && draggingOver) {
+      setDraggingOver(false)
+
+      e.preventDefault()
+      e.stopPropagation()
+
+      const files = Array.from(e.dataTransfer.files)
+
+      console.log(files)
+
+      const test = await Promise.all(
+        files?.map((file) => {
+          console.log('file 🐤', file)
+          // make a toast pop for each file ??
+
+          return client.file(file)
+        })
+      )
+
+      console.log(test, 'test??')
+    } else {
+      return null
+    }
+  }
+
+  console.log('types??', types)
+
   return (
-    <>
+    <div
+      onDragOver={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setDraggingOver(true)
+      }}
+      onDrop={handleFileDrop}
+      onDragLeave={() => {
+        setDraggingOver(false)
+      }}
+    >
       <InnerTable
         tableRef={tableRef}
-        style={scrollAreaStyle}
+        style={{
+          background:
+            locationIsFile && draggingOver
+              ? color('lightaccent')
+              : color('background'),
+          border:
+            locationIsFile && draggingOver
+              ? `1px dashed ${color('accent')}`
+              : locationIsFile
+              ? `1px dashed ${color('border')}`
+              : 'none',
+          scrollAreaStyle,
+        }}
         columnCount={columnCount}
         columnWidth={columnWidth}
         height={height}
@@ -769,6 +833,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
             <div
               style={{
                 ...style,
+
                 width: style.width + ACTIONS_WIDTH,
               }}
             >
@@ -822,7 +887,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           onScrollY(scrollTop)
         }}
       />
-    </>
+    </div>
   )
 }
 
@@ -867,7 +932,7 @@ const SelectFieldsMenu = ({
           // console.log('list length -->', listData.length)
         }}
         onClick={() => {
-          console.log('click--->', lijst)
+          //     console.log('click--->', lijst)
           setLijst([...lijst])
         }}
       />

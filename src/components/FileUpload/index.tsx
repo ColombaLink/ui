@@ -169,6 +169,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         newValue = [files[0]]
       }
 
+      console.log('what is the newest value?', newValue)
       setUploadedFiles(newValue)
 
       onChange(newValue)
