@@ -20,7 +20,7 @@ import { isImage } from '~/utils/isImage'
 import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { toDateString } from '~/utils/date'
 import { Badge } from '../Badge'
-import { useHover, useContextMenu } from '~/hooks'
+import { useHover, useContextMenu, useLocation } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
 import stringifyObject from 'stringify-object'
@@ -619,7 +619,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // before you delete modal to confirm
   const { confirm } = useDialog()
 
-  //  console.log('TableFromQuery', query)
   // console.log('onAction', onAction)
 
   const [filteredFields, setFilteredFields] = useState(fields)
@@ -677,6 +676,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // console.log('newWorldOrder 🐸', newWorldOrder)
 
   const [newFields, setNewFields] = useState(newWorldOrder)
+
+  const [location] = useLocation()
+
+  console.log('location', location)
+
+  const locationIsFile = location.split('/').pop() === 'file'
 
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
@@ -757,34 +762,35 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // file drop
   const handleFileDrop = async (e) => {
-    setDraggingOver(false)
+    if (locationIsFile && draggingOver) {
+      setDraggingOver(false)
 
-    e.preventDefault()
-    e.stopPropagation()
+      e.preventDefault()
+      e.stopPropagation()
 
-    const files = Array.from(e.dataTransfer.files)
+      const files = Array.from(e.dataTransfer.files)
 
-    console.log(files)
+      console.log(files)
 
-    const test = await Promise.all(
-      files?.map((file) => {
-        console.log('file 🐤', file)
-        // make a toast pop for each file ??
+      const test = await Promise.all(
+        files?.map((file) => {
+          console.log('file 🐤', file)
+          // make a toast pop for each file ??
 
-        return client.file(file)
-      })
-    )
+          return client.file(file)
+        })
+      )
 
-    console.log(test, 'test??')
+      console.log(test, 'test??')
+    } else {
+      return null
+    }
   }
+
+  console.log('types??', types)
 
   return (
     <div
-      // style={{
-      //   background: draggingOver ? 'green' : 'red',
-      //   border: draggingOver ? '1px solid green' : '1px solid red',
-      //   margin: 1,
-      // }}
       onDragOver={(e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -798,10 +804,16 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       <InnerTable
         tableRef={tableRef}
         style={{
-          background: draggingOver ? color('lightaccent') : color('background'),
-          border: draggingOver
-            ? `1px dashed ${color('accent')}`
-            : `1px dashed ${color('border')}`,
+          background:
+            locationIsFile && draggingOver
+              ? color('lightaccent')
+              : color('background'),
+          border:
+            locationIsFile && draggingOver
+              ? `1px dashed ${color('accent')}`
+              : locationIsFile
+              ? `1px dashed ${color('border')}`
+              : 'none',
           scrollAreaStyle,
         }}
         columnCount={columnCount}
