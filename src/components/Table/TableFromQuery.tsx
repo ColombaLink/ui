@@ -75,7 +75,7 @@ const Reference = ({ value }) => {
 
 // multiple refs display
 const References = ({ value }) => {
-  // console.log('ref', value)
+  console.log('ref', value)
 
   return value.length > 0 ? (
     <div
@@ -343,6 +343,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       {...listeners}
       onClick={() => {
         if (!isCheckbox) {
+          console.log(item, field, field && types[item.type].fields[field].type)
           onClick(item, field, field && types[item.type].fields[field].type)
         }
       }}
@@ -395,6 +396,32 @@ const InnerTable = ({
     setState,
     ...state,
   })
+
+  // put this higher up the food chain
+
+  const fieldsOfRelevance = []
+
+  itemData.items?.forEach((element) => {
+    const keys = Object.keys(element)
+    console.log('the keys 🔑', keys)
+
+    keys.forEach((key) => {
+      if (!fieldsOfRelevance.includes(key)) {
+        fieldsOfRelevance.push(key)
+      }
+    })
+  })
+
+  console.log('InnerTable ---> ', itemData)
+  console.log('fieldsOfRelevance 🐸', fieldsOfRelevance)
+
+  // now compare fields of relevance to all fields  set this
+
+  itemData.fields = [...fieldsOfRelevance]
+
+  console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
+
+  // TODO : if multirefs are clicked
 
   return (
     <Grid {...props} itemData={itemData} ref={tableRef}>
@@ -468,7 +495,7 @@ const Header = ({
   // const { hover, active, listeners } = useHover()
   // const [dragging, setDragging] = useState(false)
 
-  // console.log('header', fields, colWidths)
+  console.log('header', fields, colWidths)
 
   // console.log('filteredFields 🐸', filteredFields)
 
@@ -621,6 +648,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const { confirm } = useDialog()
 
   // console.log('onAction', onAction)
+
+  console.log('TAble from query fields: ', fields)
 
   const [filteredFields, setFilteredFields] = useState(fields)
   const [unCheckedArr, setUnCheckedArr] = useState([
