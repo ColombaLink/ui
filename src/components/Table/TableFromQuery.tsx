@@ -363,7 +363,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             ? !isCheckbox && hasField
               ? 'background:hover'
               : 'background2:hover'
-            : 'background'
+            : 'transparent'
         ),
       }}
     >
@@ -765,45 +765,26 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     const files = Array.from(e.dataTransfer.files)
 
     console.log(files)
-    console.log(client, 'client ??? access??')
-
-    console.log(types, 'types??')
-
-    console.log(files.name)
-
-    // // onChange(files)
-    // const result = await client.set({
-    //   //  $alias: '/hello',
-    //   type: 'file',
-    //   //  $id: 'muASxsd3',
-    //   name: files[0].name,
-    //   size: files[0].size,
-    //   mimeType: files[0].type,
-    // })
-
-    // console.log(result, 'result??')
 
     const test = await Promise.all(
       files?.map((file) => {
         console.log('file 🐤', file)
+        // make a toast pop for each file ??
 
         return client.file(file)
       })
     )
 
     console.log(test, 'test??')
-
-    // return result
-
-    // so create a new item from the file??
   }
 
   return (
     <div
-      style={{
-        background: draggingOver ? 'green' : 'red',
-        border: draggingOver ? '1px solid green' : '1px solid red',
-      }}
+      // style={{
+      //   background: draggingOver ? 'green' : 'red',
+      //   border: draggingOver ? '1px solid green' : '1px solid red',
+      //   margin: 1,
+      // }}
       onDragOver={(e) => {
         e.preventDefault()
         e.stopPropagation()
@@ -816,7 +797,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     >
       <InnerTable
         tableRef={tableRef}
-        style={scrollAreaStyle}
+        style={{
+          background: draggingOver ? color('lightaccent') : color('background'),
+          border: draggingOver
+            ? `1px dashed ${color('accent')}`
+            : `1px dashed ${color('border')}`,
+          scrollAreaStyle,
+        }}
         columnCount={columnCount}
         columnWidth={columnWidth}
         height={height}
