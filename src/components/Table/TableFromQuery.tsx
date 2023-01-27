@@ -511,7 +511,7 @@ const Header = ({
               cursor: 'pointer',
             }}
             onClick={() => {
-              console.log('clicked on -->', field)
+              //  console.log('clicked on -->', field)
               if (field) {
                 setActiveSortField(field)
                 if (sortOrder === 'desc') {
@@ -680,7 +680,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [location] = useLocation()
 
-  console.log('location', location)
+  // console.log('location', location)
 
   const locationIsFile = location.split('/').pop() === 'file'
 

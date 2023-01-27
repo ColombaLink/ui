@@ -1,7 +1,6 @@
 // @ts-nocheck
 import React, { FC, ReactNode } from 'react'
 import { Color } from '~/types'
-import { color } from '~/utils'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { ITEM_HEIGHT, ITEM_WIDTH } from './constants'
