@@ -382,9 +382,9 @@ const InnerTable = ({
   items,
   fields,
   onClick,
+  setRelevantFields,
   selectedRowCheckboxes,
   setSelectedRowCheckboxes,
-  //  setRelevantFields,
   ...props
 }) => {
   const [state, setState] = useState({})
@@ -395,6 +395,7 @@ const InnerTable = ({
     items,
     fields,
     onClick,
+    setRelevantFields,
     selectedRowCheckboxes,
     setSelectedRowCheckboxes,
     setState,
@@ -408,7 +409,7 @@ const InnerTable = ({
 
   itemData.items?.forEach((element) => {
     const keys = Object.keys(element)
-    console.log('the keys 🔑', keys)
+    // console.log('the keys 🔑', keys)
 
     keys.forEach((key) => {
       if (!fieldsOfRelevance.includes(key)) {
@@ -417,14 +418,14 @@ const InnerTable = ({
     })
   })
 
-  console.log('InnerTable ---> ', itemData)
-  console.log('fieldsOfRelevance 🐸', fieldsOfRelevance)
+  console.log('can we filter these fields then --> ', fieldsOfRelevance)
+  console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
+  // setRelevantFields(fieldsOfRelevance)
 
-  // // now compare fields of relevance to all fields  set this
-
-  // itemData.fields = [...fieldsOfRelevance]
-
-  // console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
+  useEffect(() => {
+    console.log('fire')
+    setRelevantFields(fieldsOfRelevance)
+  }, [])
 
   return (
     <Grid {...props} itemData={itemData} ref={tableRef}>
@@ -477,16 +478,11 @@ const HeaderDragLine = ({ index, setColWidths, colWidths }) => {
 
 const Header = ({
   width,
-  fields,
   columnWidth,
   setColWidths,
   colWidths,
-  setFilteredFields,
-  filteredFields,
   allFields,
   newWorldOrder,
-  unCheckedArr,
-  setUnCheckedArr,
   setSort,
   sortOrder,
   lijst,
@@ -495,23 +491,8 @@ const Header = ({
   setActiveSortField,
   scrollLeft,
 }) => {
-  // const { hover, active, listeners } = useHover()
-  // const [dragging, setDragging] = useState(false)
-
-  // console.log('filteredFields 🐸', filteredFields)
-
-  // // field order
-  // const newWorldOrder = []
-  // lijst.map(
-  //   (item, idx) =>
-  //     filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
-  // )
-
-  // console.log('newWorldOrder 🐸', newWorldOrder)
-
-  // const [newFields, setNewFields] = useState(newWorldOrder)
-
-  // console.log('---->>>>', scrollLeft, '<<<----')
+  console.log('from header', lijst)
+  console.log('all fields', allFields)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -590,13 +571,8 @@ const Header = ({
         onClick={useContextMenu(
           SelectFieldsMenu,
           {
-            allFields,
-            setFilteredFields,
-            unCheckedArr,
-            setUnCheckedArr,
             lijst,
             setLijst,
-            newWorldOrder,
           },
           { placement: 'left' }
         )}
@@ -640,9 +616,27 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
 
-  // for the multireferences // clicked in
-  // const [relevantFields, setRelevantFields] = useState<string[]>([])
-  // console.log('relevantFields ---*** --->', relevantFields)
+  const [relevantFields, setRelevantFields] = useState(fields)
+
+  console.log('relevantFields', relevantFields)
+
+  useEffect(() => {
+    // set the filtered fields dan
+    setFilteredFields(
+      relevantFields.filter((field) => !unCheckedArr.includes(field))
+    )
+    // maak nieuw list order
+    const newListOrderArr2 = []
+    const newListOrder2 = relevantFields.map((field, idx) =>
+      newListOrderArr2.push({
+        label: field,
+        // id: idx,
+        checkbox: !unCheckedArr.includes(field),
+      })
+    )
+
+    setLijst(newListOrderArr2)
+  }, [relevantFields])
 
   // for file drop upload
   const client = useClient()
@@ -651,11 +645,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // before you delete modal to confirm
   const { confirm } = useDialog()
-
-  // console.log('onAction', onAction)
-
-  console.log('fields', fields)
-  // console.log('TAble from query fields: ', fields)
 
   const [filteredFields, setFilteredFields] = useState(fields)
   const [unCheckedArr, setUnCheckedArr] = useState([
@@ -697,6 +686,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // run once to filter out the fields that are not checked by default
   useEffect(() => {
+    // console.log('😱', fields)
     setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
   }, [unCheckedArr])
 
@@ -708,8 +698,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     (item, idx) =>
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
-
-  // console.log('newWorldOrder 🐸', newWorldOrder)
 
   const [newFields, setNewFields] = useState(newWorldOrder)
 
@@ -825,8 +813,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           return client.file(file)
         })
       )
-
-      console.log(test, 'test??')
     } else {
       return null
     }
@@ -866,9 +852,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         items={items}
         fields={newWorldOrder}
         onClick={onClick}
+        setRelevantFields={setRelevantFields}
         selectedRowCheckboxes={selectedRowCheckboxes}
         setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-        // setRelevantFields={setRelevantFields}
         itemKey={({ columnIndex, data: { items, filteredFields }, rowIndex }) =>
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
@@ -935,48 +921,22 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   )
 }
 
-const SelectFieldsMenu = ({
-  allFields,
-  setFilteredFields,
-  unCheckedArr,
-  setUnCheckedArr,
-  lijst,
-  setLijst,
-  newWorldOrder,
-}) => {
-  // console.log('allFields -->', allFields)
-  // console.log('filteredFields -->', filteredFields)
-  // console.log('unCheckedArr -->', unCheckedArr)
-  // console.log('set unchecked arr??', setUnCheckedArr)
-
+const SelectFieldsMenu = ({ lijst, setLijst }) => {
   return (
-    <div style={{ height: allFields.length * 30 }}>
+    <div style={{ height: lijst.length * 30 }}>
       <VirtualizedList
         items={lijst}
         onDrop={(e, data) => {
-          //   console.info('yo waht-->', e, data)
-          console.log('Target index -->', data.targetIndex)
-
-          //   console.log('Data regfe-->', data?.data)
-
-          let removedItem = lijst.splice(data.data[0]?.index, 1)
-
-          console.log('removed item -->', removedItem)
+          const removedItem = lijst.splice(data.data[0]?.index, 1)
 
           // insert the removed item at the target index
-
-          let newList = [...lijst]
+          const newList = [...lijst]
           newList.splice(data.targetIndex, 0, removedItem[0])
           //  console.log('new list -->????', newList)
           setLijst([...newList])
           removeOverlay()
-          //  setLijst([...lijst.splice(data.targetIndex, 0, removedItem[0])])
-
-          // resetAfterIndex()
-          // console.log('list length -->', listData.length)
         }}
         onClick={() => {
-          //     console.log('click--->', lijst)
           setLijst([...lijst])
         }}
       />
