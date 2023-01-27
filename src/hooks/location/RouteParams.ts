@@ -1,5 +1,5 @@
-import { parseQuery, deepEqual, deepMerge } from '@saulx/utils'
-import { QueryValue, QueryParams, PathParams, RouterCtx, Value } from './types'
+import { parseQuery, deepEqual, deepMerge, serializeQuery } from '@saulx/utils'
+import { QueryParams, PathParams, RouterCtx, Value } from './types'
 
 const parseRoute = (
   ctx: RouterCtx,
@@ -21,58 +21,6 @@ const parseRoute = (
     }
   }
   return params
-}
-
-const toQValue = (
-  q: QueryValue | QueryValue[] | { [key: string]: any }
-): string => {
-  if (typeof q === 'string') {
-    return q
-  }
-
-  if (typeof q === 'boolean') {
-    return !q ? 'false' : 'true'
-  }
-
-  if (typeof q === 'number') {
-    return String(q)
-  }
-
-  if (typeof q === 'number') {
-    return String(q)
-  }
-
-  if (q === null) {
-    return 'null'
-  }
-
-  if (Array.isArray(q)) {
-    return q
-      .map((v) => {
-        if (typeof v === 'object' && v !== null) {
-          return JSON.stringify(v)
-        }
-        return toQValue(v)
-      })
-      .join(',')
-  }
-
-  if (typeof q === 'object') {
-    return JSON.stringify(q)
-  }
-
-  return ''
-}
-
-const queryToString = (q: QueryParams): string => {
-  if (!q) {
-    return ''
-  }
-  let str = ''
-  for (const key in q) {
-    str += `&${key}=${toQValue(q[key])}`
-  }
-  return str.slice(1)
 }
 
 const parseLocation = (q: string, hash: string, pathName: string): string => {
@@ -218,7 +166,7 @@ export class RouteParams {
         deepMerge(this.ctx.query || {}, query)
       }
     }
-    const q = queryToString(this.ctx.query)
+    const q = serializeQuery(this.ctx.query)
     if (this.ctx.queryString === q) {
       return true
     }
