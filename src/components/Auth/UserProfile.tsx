@@ -10,6 +10,9 @@ export const UserProfile = ({ id }) => {
     <>
       <ContextItem
         onClick={async () => {
+          if (!id) {
+            console.error('id must be passed to UserProfile component')
+          }
           const url =
             (
               await getService(
