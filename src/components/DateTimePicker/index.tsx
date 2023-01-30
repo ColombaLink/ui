@@ -174,17 +174,25 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }, [focus])
 
   // zet de onChange op de nieuwe waarde als de focus er af is
+
   useEffect(() => {
     if (
       dateRange &&
       fromValue &&
       tillValue &&
       !isNaN(+newMsFromAll(fromValue, '00:00')) &&
-      !isNaN(+newMsFromAll(tillValue, '00:00'))
+      !isNaN(+newMsFromAll(tillValue, '00:00')) &&
+      !focus
     ) {
       console.log('FROM VALUE', fromValue, 'TILL VALUE', tillValue)
+      // now set these values in a timestamp
+      onClose()
     }
-    if (!dateRange && !focus) {
+    if (
+      !dateRange &&
+      !focus &&
+      !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput))
+    ) {
       onChange(+newMsFromAll(dateFormatInput, dateTimeInput))
     }
   }, [dateFormatInput, fromValue, tillValue])

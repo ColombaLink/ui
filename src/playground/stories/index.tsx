@@ -77,3 +77,5 @@ export * from './Upload'
 export * from './ValueSliders'
 
 export * from './Router'
+
+export * from './KylesPlayground'

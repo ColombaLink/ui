@@ -21,6 +21,7 @@ export const DateTime = () => {
             style: {
               marginBottom: 420,
             },
+            onClose: () => console.log('Closed dateRange picker ??'),
           },
         },
         {
@@ -37,6 +38,7 @@ export const DateTime = () => {
                 return 'Not a number error!'
               }
             },
+            onClose: () => console.log('closed the picker'),
           },
         },
       ]}

@@ -140,6 +140,7 @@ const menuItems = {
     // ProfileSettings: '?story=profile-settings',
     // ProjectSettings: '?story=project-settings',
     // Tally: '?story=tally-screens',
+    Kyles: '?story=KylesPlayground',
   },
 }
 
