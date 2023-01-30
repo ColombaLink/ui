@@ -21,6 +21,7 @@ type DateTimePickerProps = {
   time?: boolean
   utc?: boolean
   dateRange?: boolean
+  onClose?: () => void
 }
 
 // const formatYmd = (date) => date?.toISOString().slice(0, 10)
@@ -52,6 +53,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   value,
   time,
   utc,
+  onClose = () => {},
 }) => {
   const [incomingValue, setIncomingValue] = usePropState(value)
 
@@ -62,6 +64,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [dateUtcInput, setDateUtcInput] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
+
+  const [fromValue, setFromValue] = useState<string>('')
+  const [tillValue, setTillValue] = useState<string>('')
 
   useEffect(() => {
     let incomingTime = new Date(incomingValue)
@@ -93,24 +98,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     }
   }, [dateFormatInput])
 
-  // console.log('From -->', from, new Date(from).getTime())
-  // console.log('Till -->', till, new Date(till).getTime())
-  // console.log('Onchange from datetimepicker', onChange)
-
-  // useEffect(() => {
-  //   if (value) {
-  //     setDateTimeInput(new Date(value).toString().split(' ')[4].substring(0, 5))
-  //     setDateUtcInput(dateUtcInput)
-
-  //     const startDate = new Date(value)
-  //     setDateFormatInput(
-  //       startDate.toLocaleString('en-GB').split(',')[0].split('-').join('/')
-  //     )
-  //   }
-  // }, [value])
-
   // functions to get the values back
-  const newMsFromAll = (dateInput, timeInput) => {
+  const newMsFromAll = (dateInput, timeInput = '00:00') => {
     const dateString = `${dateInput
       .split('/')
       .reverse()
@@ -137,7 +126,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     // if (!errorMessage) {
     //   onChange(outPutInMs)
     // }
-    onChange(+outputMs)
+
+    // if (!dateRange) {
+    //   onChange(+outputMs)
+    // }
+
     return outputMs
   }
 
@@ -171,6 +164,31 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     onChange(null)
   }
 
+  useEffect(() => {
+    if (!focus) {
+      // this makes sure the onClose fires only once
+      setFocus(false)
+      console.log('no more focus 💡, closed???')
+      onClose()
+    }
+  }, [focus])
+
+  // zet de onChange op de nieuwe waarde als de focus er af is
+  useEffect(() => {
+    if (
+      dateRange &&
+      fromValue &&
+      tillValue &&
+      !isNaN(+newMsFromAll(fromValue, '00:00')) &&
+      !isNaN(+newMsFromAll(tillValue, '00:00'))
+    ) {
+      console.log('FROM VALUE', fromValue, 'TILL VALUE', tillValue)
+    }
+    if (!dateRange && !focus) {
+      onChange(+newMsFromAll(dateFormatInput, dateTimeInput))
+    }
+  }, [dateFormatInput, fromValue, tillValue])
+
   return (
     <InputWrapper
       descriptionBottom={descriptionBottom}
@@ -179,16 +197,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
-      // @ts-ignore
-      onBlur={() => {
-        // console.log('de tijd is: ', dateTimeInput)
-        // console.log('de datum is: ', dateFormatInput)
-        // console.log(
-        //   'output of this:',
-        //   newMsFromAll(dateFormatInput, dateTimeInput)
-        // )
-        newMsFromAll(dateFormatInput, dateTimeInput)
-      }}
     >
       <Label label={label} description={description} space="12px" />
       {dateRange ? (
@@ -196,6 +204,11 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           dateHandler={dateHandler}
           value={dateFormatInput}
           setErrorMessage={setErrorMessage}
+          setFromValue={setFromValue}
+          setTillValue={setTillValue}
+          fromValue={fromValue}
+          tillValue={tillValue}
+          setFocused={setFocus}
         />
       ) : (
         <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>
@@ -221,7 +234,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           )}
         </div>
       )}
-      {/* <div>miliseconds: {value}</div> */}
+      {/* <div>miliseconds: {incomingValue}</div> */}
     </InputWrapper>
   )
 }

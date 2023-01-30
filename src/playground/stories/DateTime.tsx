@@ -21,12 +21,6 @@ export const DateTime = () => {
             style: {
               marginBottom: 420,
             },
-
-            error: (e) => {
-              if (Number.isNaN(e)) {
-                return 'Not a number error!'
-              }
-            },
           },
         },
         {
@@ -37,6 +31,11 @@ export const DateTime = () => {
             onChange: (e) => console.log(e),
             style: {
               marginBottom: 420,
+            },
+            error: (e) => {
+              if (Number.isNaN(e)) {
+                return 'Not a number error!'
+              }
             },
           },
         },

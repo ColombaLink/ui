@@ -5,8 +5,11 @@ type DateRangeInputProps = {
   value?: string
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
-  //  clearHandler?: () => void
   setErrorMessage?: (value: string) => void
+  setFromValue?: (value: string) => void
+  setTillValue?: (value: string) => void
+  fromValue?: string
+  tillValue?: string
 }
 
 export const DateRangeInput = ({
@@ -15,9 +18,13 @@ export const DateRangeInput = ({
   setFocused,
   // clearHandler,
   setErrorMessage,
+  setFromValue,
+  setTillValue,
+  fromValue,
+  tillValue,
 }: DateRangeInputProps) => {
-  const [fromValue, setFromValue] = useState<string>('')
-  const [tillValue, setTillValue] = useState<string>('')
+  // const [fromValue, setFromValue] = useState<string>('')
+  // const [tillValue, setTillValue] = useState<string>('')
 
   const [focusOnBeginDate, setFocusOnBeginDate] = useState<boolean>(false)
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
