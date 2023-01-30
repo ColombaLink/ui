@@ -329,7 +329,6 @@ const timestamp = {
   default: ({ description, ...props }) => (
     <DateTimePicker
       descriptionBottom={description}
-      dateRange
       indent
       {...props}
       value={props.value}

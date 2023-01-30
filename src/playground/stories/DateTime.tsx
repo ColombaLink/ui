@@ -22,6 +22,8 @@ export const DateTime = () => {
               marginBottom: 420,
             },
             onClose: () => console.log('Closed dateRange picker ??'),
+            startValue: 1620000000000,
+            endValue: 1420000000000,
           },
         },
         {

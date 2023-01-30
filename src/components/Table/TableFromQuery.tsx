@@ -814,6 +814,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           }
 
           notify()
+
           return client.file(file)
         })
       )

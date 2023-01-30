@@ -11,7 +11,7 @@ export const FileOrderSystem = () => {
   const client = useClient()
 
   const { schema, loading: loadingSchema } = useSchema()
-  const { data: views, loading } = useData('basedObserveViews')
+  const { data: views } = useData('basedObserveViews')
 
   console.log('client', client)
   console.log('data', views)
@@ -22,7 +22,17 @@ export const FileOrderSystem = () => {
       <Text typo="body600" space="24px">
         hello file order system branchje
       </Text>
-      <Button space="24px">Add Reference/folder</Button>
+      <Button
+        space="24px"
+        onClick={async () => {
+          const result = await client.set({
+            $language: 'en',
+            type: 'testing',
+          })
+        }}
+      >
+        Add Reference/folder
+      </Button>
       <div>map through them here ??</div>
     </Page>
   )
