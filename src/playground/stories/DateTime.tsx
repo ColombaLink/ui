@@ -12,10 +12,7 @@ export const DateTime = () => {
       examples={[
         {
           props: {
-            // value: 1662656400000,
-            label: 'Date Time',
-            // description: 'Description',
-            //   utc: true,
+            label: 'Date Range',
             dateRange: true,
             descriptionBottom: 'Onchange (e) returns value in milliseconds',
             onChange: (e) => console.log(e),
@@ -29,6 +26,17 @@ export const DateTime = () => {
               if (Number.isNaN(e)) {
                 return 'Not a number error!'
               }
+            },
+          },
+        },
+        {
+          props: {
+            label: 'Date / Time ',
+            description: 'Optional to show time and utc',
+            space: '32px',
+            onChange: (e) => console.log(e),
+            style: {
+              marginBottom: 420,
             },
           },
         },

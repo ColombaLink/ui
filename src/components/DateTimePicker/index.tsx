@@ -18,6 +18,7 @@ type DateTimePickerProps = {
   error?: (value: boolean | string | number) => string
   disabled?: boolean
   value?: string | number
+  time?: boolean
   utc?: boolean
   dateRange?: boolean
 }
@@ -49,6 +50,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   dateRange,
   disabled,
   value,
+  time,
   utc,
 }) => {
   const [incomingValue, setIncomingValue] = usePropState(value)
@@ -203,12 +205,14 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
             setFocused={setFocus}
             clearHandler={clearHandler}
           />
-          <TimeInput
-            timeInputHandler={timeInputHandler}
-            value={dateTimeInput}
-            onFocus={setFocus}
-            placeholder={dateTimeInput || 'hh:mm'}
-          />
+          {time && (
+            <TimeInput
+              timeInputHandler={timeInputHandler}
+              value={dateTimeInput}
+              onFocus={setFocus}
+              placeholder={dateTimeInput || 'hh:mm'}
+            />
+          )}
           {utc && (
             <UtcInput
               utcInputHandler={utcInputHandler}

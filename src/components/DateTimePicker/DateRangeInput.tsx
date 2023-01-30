@@ -65,6 +65,7 @@ export const DateRangeInput = ({
   // eerste input als velden leeg zijn
   useEffect(() => {
     console.log('fromValue', fromValue)
+    console.log('tillValue', tillValue)
 
     // bij start
     if (

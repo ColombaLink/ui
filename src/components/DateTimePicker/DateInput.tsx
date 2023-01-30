@@ -115,6 +115,16 @@ export const DateInput: FC<DateInputProps> = ({
         },
       })
     }
+
+    // Fulco's birthday
+    if (
+      value[0] === '2' &&
+      value[1] === '9' &&
+      value[3] === '0' &&
+      value[4] === '2'
+    ) {
+      console.log("Fulco's birthday 🎉🎁🎈")
+    }
   }, [value])
 
   const dateInputHandler = (e) => {

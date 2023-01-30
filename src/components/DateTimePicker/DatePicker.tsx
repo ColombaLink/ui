@@ -497,12 +497,12 @@ export const DatePicker = ({
                     : 4,
 
                 width:
-                  isRangedDay(val.year, val.month, val.day) ||
-                  isRangedHoverDay(val.year, val.month, val.day)
-                    ? 34
-                    : isFromDay(val.year, val.month, val.day) ||
-                      isTillDay(val.year, val.month, val.day)
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
                     ? 32
+                    : isRangedDay(val.year, val.month, val.day) ||
+                      isRangedHoverDay(val.year, val.month, val.day)
+                    ? 34
                     : 26,
                 height: 26,
                 margin: 4,
@@ -520,7 +520,7 @@ export const DatePicker = ({
                   isFromDay(val.year, val.month, val.day)
                     ? 0
                     : isTillDay(val.year, val.month, val.day)
-                    ? 2
+                    ? 1
                     : 4,
 
                 textAlign: 'center',
