@@ -100,6 +100,23 @@ export const DateInput: FC<DateInputProps> = ({
     setFocused(true)
   }
 
+  // lister for the value of the input
+  useEffect(() => {
+    if (value[0] === 'N') {
+      inputRef.current.value = dateInputHandler({
+        target: {
+          value:
+            // `${
+            //   dateObj.getUTCDate() < 10
+            //     ? '0' + dateObj.getUTCDate()
+            //     : dateObj.getUTCDate()
+            // }
+            `--${value?.substr(3)}`,
+        },
+      })
+    }
+  }, [value])
+
   const dateInputHandler = (e) => {
     if (e.target.value.length === 2) {
       e.target.value = e.target.value + '/'

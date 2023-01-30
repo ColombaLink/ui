@@ -217,8 +217,22 @@ export const DatePicker = ({
   }
 
   const oneMonthBack = () => {
+    if (focusOnBeginDate) {
+      setFocusOnBeginDate(true)
+      setFocusOnEndDate(false)
+    } else if (focusOnEndDate) {
+      setFocusOnBeginDate(false)
+      setFocusOnEndDate(true)
+    }
+
     if (selectedMonth === +'01') {
-      changeHandler(selectedYear - 1, 12, selectedDay)
+      if (selectedDay) {
+        console.log('selectedDay', selectedDay)
+        changeHandler(selectedYear - 1, 12, selectedDay)
+      } else {
+        // fire an Nan error for day
+        changeHandler(selectedYear - 1, 12, +'-X')
+      }
     } else {
       changeHandler(selectedYear, selectedMonth - 1, selectedDay)
     }
@@ -542,6 +556,11 @@ export const DatePicker = ({
                 if (!isDateRange) {
                   setShowDatePicker(false)
                   setFocused(false)
+                }
+                if (focusOnEndDate) {
+                  setShowDatePicker(false)
+                  setFocused(false)
+                  setFocusOnEndDate(false)
                 }
               }}
             >

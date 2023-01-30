@@ -64,6 +64,13 @@ export const DateRangeInput = ({
 
   // eerste input als velden leeg zijn
   useEffect(() => {
+    console.log('fromValue', fromValue)
+
+    if (fromValue[0] === 'N') {
+      console.log('fire')
+    }
+
+    // bij start
     if (
       !tillValue &&
       typeof +fromValue[0] === 'number' &&
