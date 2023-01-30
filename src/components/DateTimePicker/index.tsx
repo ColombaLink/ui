@@ -188,6 +188,12 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     ) {
       console.log('FROM VALUE', fromValue, 'TILL VALUE', tillValue)
       // now set these values in a timestamp
+      // @ts-ignore
+      onChange({
+        from: +newMsFromAll(fromValue, '00:00'),
+        till: +newMsFromAll(tillValue, '00:00'),
+      })
+
       onClose()
     }
 

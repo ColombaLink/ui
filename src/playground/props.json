@@ -1158,16 +1158,28 @@
           "optional": true,
           "type": "function"
         },
-        "clearHandler": {
-          "optional": true,
-          "type": "function"
-        },
         "setErrorMessage": {
           "optional": true,
           "type": "function"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "fromValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "tillValue": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  setErrorMessage?: (value: string) => void\n}",
+      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
       "file": "/components/DateTimePicker/DateRangeInput.tsx"
     },
     "DateTimePickerProps": {
@@ -1227,9 +1239,13 @@
         "dateRange": {
           "optional": true,
           "type": "boolean"
+        },
+        "onClose": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "ExpandableListProps": {
