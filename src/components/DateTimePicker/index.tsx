@@ -68,6 +68,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   const [fromValue, setFromValue] = useState<string>('')
   const [tillValue, setTillValue] = useState<string>('')
 
+  const [blurred, setBlurred] = useState(false)
+
   useEffect(() => {
     let incomingTime = new Date(incomingValue)
       .toString()
@@ -165,7 +167,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   useEffect(() => {
-    if (!focus) {
+    if (!focus && blurred) {
       // this makes sure the onClose fires only once
       setFocus(false)
       console.log('no more focus 💡, closed???')
@@ -174,7 +176,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }, [focus])
 
   // zet de onChange op de nieuwe waarde als de focus er af is
-
   useEffect(() => {
     if (
       dateRange &&
@@ -182,20 +183,28 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       tillValue &&
       !isNaN(+newMsFromAll(fromValue, '00:00')) &&
       !isNaN(+newMsFromAll(tillValue, '00:00')) &&
-      !focus
+      !focus &&
+      blurred
     ) {
       console.log('FROM VALUE', fromValue, 'TILL VALUE', tillValue)
       // now set these values in a timestamp
       onClose()
     }
+
     if (
       !dateRange &&
       !focus &&
-      !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput))
+      !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput)) &&
+      blurred
     ) {
+      console.log('FIRES????')
       onChange(+newMsFromAll(dateFormatInput, dateTimeInput))
     }
   }, [dateFormatInput, fromValue, tillValue])
+
+  const InputWrapperBlurHandler = () => {
+    setBlurred(true)
+  }
 
   return (
     <InputWrapper
@@ -205,6 +214,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      onBlur={() => {
+        InputWrapperBlurHandler()
+      }}
     >
       <Label label={label} description={description} space="12px" />
       {dateRange ? (
