@@ -66,10 +66,6 @@ export const DateRangeInput = ({
   useEffect(() => {
     console.log('fromValue', fromValue)
 
-    if (fromValue[0] === 'N') {
-      console.log('fire')
-    }
-
     // bij start
     if (
       !tillValue &&

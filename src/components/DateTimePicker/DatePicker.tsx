@@ -557,7 +557,11 @@ export const DatePicker = ({
                   setShowDatePicker(false)
                   setFocused(false)
                 }
-                if (focusOnEndDate) {
+                if (focusOnBeginDate) {
+                  setFocusOnBeginDate(false)
+                  setShowDatePicker(false)
+                  setFocusOnEndDate(true)
+                } else if (focusOnEndDate) {
                   setShowDatePicker(false)
                   setFocused(false)
                   setFocusOnEndDate(false)
