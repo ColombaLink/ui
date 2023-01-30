@@ -170,7 +170,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     if (!focus && blurred) {
       // this makes sure the onClose fires only once
       setFocus(false)
-      console.log('no more focus 💡, closed???')
+      console.log('no more focus 💡, onClose FIRES')
       onClose()
     }
   }, [focus])
@@ -197,7 +197,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput)) &&
       blurred
     ) {
-      console.log('FIRES????')
+      console.log('onchange FIRES')
       onChange(+newMsFromAll(dateFormatInput, dateTimeInput))
     }
   }, [dateFormatInput, fromValue, tillValue])
