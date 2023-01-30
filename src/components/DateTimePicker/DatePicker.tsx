@@ -596,7 +596,7 @@ export const DatePicker = ({
       <div style={{ borderBottom: `1px solid ${color('border')}` }} />
 
       <Text
-        style={{ padding: '8px 16px' }}
+        style={{ padding: '8px 16px', cursor: 'pointer' }}
         weight={400}
         onClick={() => {
           clearHandler()

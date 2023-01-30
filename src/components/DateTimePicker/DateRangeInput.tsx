@@ -5,7 +5,7 @@ type DateRangeInputProps = {
   value?: string
   dateHandler?: (value: string) => void
   setFocused?: (value: boolean) => void
-  clearHandler?: () => void
+  //  clearHandler?: () => void
   setErrorMessage?: (value: string) => void
 }
 
@@ -13,7 +13,7 @@ export const DateRangeInput = ({
   value,
   dateHandler,
   setFocused,
-  clearHandler,
+  // clearHandler,
   setErrorMessage,
 }: DateRangeInputProps) => {
   const [fromValue, setFromValue] = useState<string>('')
@@ -34,6 +34,12 @@ export const DateRangeInput = ({
   //     ? '0' + (dateObj.getUTCMonth() + 1)
   //     : dateObj.getUTCMonth() + 1
   // }/${dateObj.getUTCFullYear()}`
+
+  // dataRange ClearHandler
+  const clearHandlerDateRange = () => {
+    setFromValue('')
+    setTillValue('')
+  }
 
   const dateHandlerFrom = (val) => {
     const tempArr = []
@@ -111,6 +117,7 @@ export const DateRangeInput = ({
             setFocusOnBeginDate(true)
             setFocusOnEndDate(false)
           }}
+          clearHandler={clearHandlerDateRange}
         />
 
         <DateInput
@@ -136,6 +143,7 @@ export const DateRangeInput = ({
             setFocusOnBeginDate(false)
             setFocusOnEndDate(true)
           }}
+          clearHandler={clearHandlerDateRange}
         />
       </div>
 
