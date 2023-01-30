@@ -20,6 +20,7 @@ import { Select } from '~/components/Select'
 import { Label } from '~/components/Label'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
+import { FileOrderSystem } from '~/components/FileOrderSystem'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
@@ -148,7 +149,7 @@ const Settings = ({ prefix, style }) => {
 
 const components = {
   content: Content,
-  files: () => 'todo files?',
+  files: FileOrderSystem,
   schema: Schema,
   settings: Settings,
 }

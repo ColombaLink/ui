@@ -402,18 +402,22 @@ const InnerTable = ({
     ...state,
   })
 
+  console.log(itemData, 'itemData 🛎')
   // food chain
-  // TODO : if multirefs are clicked
-  // if inside of multiple references has been clicked
+  // TODO : if field is empty now it's not showing up , in reference this is cool but otherwise not
+  // so if it is defined in the schema it should be shown
+  // so check if you are on main type and not on reference
+  // TODO ask Youzi //
+
   const fieldsOfRelevance = []
 
   itemData.items?.forEach((element) => {
     const keys = Object.keys(element)
-    // console.log('the keys 🔑', keys)
 
     keys.forEach((key) => {
       if (!fieldsOfRelevance.includes(key)) {
         fieldsOfRelevance.push(key)
+        console.log('KEY ', key)
       }
     })
   })
@@ -423,7 +427,7 @@ const InnerTable = ({
   // setRelevantFields(fieldsOfRelevance)
 
   useEffect(() => {
-    console.log('fire')
+    console.log('fire ')
     setRelevantFields(fieldsOfRelevance)
   }, [])
 
@@ -634,9 +638,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         checkbox: !unCheckedArr.includes(field),
       })
     )
-
+    console.log('newListOrderArr2', newListOrderArr2)
     setLijst(newListOrderArr2)
-  }, [relevantFields])
+  }, [relevantFields, fields.length])
 
   // for file drop upload
   const client = useClient()
