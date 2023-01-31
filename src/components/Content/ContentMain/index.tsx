@@ -153,7 +153,6 @@ export const ContentMain = ({
   const { confirm, prompt } = useDialog()
   const client = useClient()
 
-  const [tableIsEmpty, setTableIsEmpty] = useState(false)
   const [isMultiref, setIsMultiref] = useState(false)
 
   const { data: views } = useData('basedObserveViews')
@@ -245,6 +244,8 @@ export const ContentMain = ({
     }
   }
 
+  // console.log('query', query, fields, types, fieldTypes, currentView)
+
   return (
     <div
       style={{
@@ -330,42 +331,15 @@ export const ContentMain = ({
         </div>
       </div>
 
-      {tableIsEmpty && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          <div style={{ display: 'flex', marginBottom: '20px', gap: 4 }}>
-            <Text>Create a new item for </Text>
-            <Text typo="body600"> {`${view}`}.</Text>
-          </div>
-          <Button
-            large
-            icon={AddIcon}
-            onClick={() => {
-              // console.log('lable', label, 'view', view, 'prefix', prefix)
-              setLocation(`${prefix}/create/${view}`)
-            }}
-            //  onClick={useContextMenu(CreateMenu, { prefix, types })}
-          >
-            Create Item
-          </Button>
-        </div>
-      )}
-
       <Table
         key={fields.length}
         fields={fields}
         target={query.target}
         onAction={(items) => onAction(items, 'delete')}
         language="en"
-        setTableIsEmpty={setTableIsEmpty}
         isMultiref={isMultiref}
+        prefix={prefix}
+        view={view}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
             setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)

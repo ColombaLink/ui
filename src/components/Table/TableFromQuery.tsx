@@ -769,12 +769,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [colWidths, setColWidths] = useState([])
 
-  // table is empty setting
-  if (items.length < 1) {
-    setTableIsEmpty(true)
-  } else {
-    setTableIsEmpty(false)
-  }
+  useEffect(() => {
+    if (itemCount < 1) {
+      setTableIsEmpty(true)
+    } else {
+      setTableIsEmpty(false)
+    }
+  }, [itemCount])
 
   useEffect(() => {
     if (tableRef.current) {
@@ -870,110 +871,113 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   return (
-    <div
-      onDragOver={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setDraggingOver(true)
-      }}
-      onDrop={handleFileDrop}
-      onDragLeave={() => {
-        setDraggingOver(false)
-      }}
-    >
-      <InnerTable
-        tableRef={tableRef}
-        style={{
-          background:
-            locationIsFile && draggingOver
-              ? color('lightaccent')
-              : color('background'),
-          border:
-            locationIsFile && draggingOver
-              ? `1px dashed ${color('accent')}`
-              : locationIsFile
-              ? `1px dashed ${color('border')}`
-              : 'none',
-          scrollAreaStyle,
+    <>
+      <div
+        onDragOver={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setDraggingOver(true)
         }}
-        columnCount={columnCount}
-        columnWidth={columnWidth}
-        height={height}
-        types={types}
-        items={items}
-        fields={newWorldOrder}
-        onClick={onClick}
-        setRelevantFields={setRelevantFields}
-        selectedRowCheckboxes={selectedRowCheckboxes}
-        setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-        isMultiref={isMultiref}
-        itemKey={({ columnIndex, data: { items, filteredFields }, rowIndex }) =>
-          `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
-        }
-        innerElementType={({ children, style }) => {
-          return (
-            <div
-              style={{
-                ...style,
-
-                width: style.width + ACTIONS_WIDTH,
-              }}
-            >
-              <div>{children}</div>
-
-              <Header
-                width={width}
-                colWidths={colWidths}
-                columnWidth={columnWidth}
-                fields={filteredFields}
-                allFields={fields}
-                setFilteredFields={setFilteredFields}
-                filteredFields={filteredFields}
-                newWorldOrder={newWorldOrder}
-                setColWidths={setColWidths}
-                unCheckedArr={unCheckedArr}
-                setUnCheckedArr={setUnCheckedArr}
-                lijst={lijst}
-                setLijst={setLijst}
-                setSort={setSort}
-                sortOrder={sortOrder}
-                activeSortField={activeSortField}
-                setActiveSortField={setActiveSortField}
-                scrollLeft={tableRef.current?.state?.scrollLeft}
-                setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-                selectedRowCheckboxes={selectedRowCheckboxes}
-                items={items}
-              />
-              {/* TODO: add filter menu */}
-
-              {selectedRowCheckboxes.length > 0 && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: -30,
-                    top: 0,
-                    width: 40,
-                    height: 20,
-                    background: 'yellow',
-                  }}
-                >
-                  <Button onClick={() => deleteItems(items)}>Delete</Button>
-                </div>
-              )}
-            </div>
-          )
+        onDrop={handleFileDrop}
+        onDragLeave={() => {
+          setDraggingOver(false)
         }}
-        rowCount={itemCount}
-        estimatedColumnWidth={colWidth}
-        estimatedRowHeight={ITEM_HEIGHT}
-        rowHeight={() => ITEM_HEIGHT}
-        width={width}
-        // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
-        onScroll={({ scrollTop }) => {
-          onScrollY(scrollTop)
-        }}
-      />
-    </div>
+      >
+        <InnerTable
+          tableRef={tableRef}
+          style={{
+            background:
+              locationIsFile && draggingOver
+                ? color('lightaccent')
+                : color('background'),
+            border:
+              locationIsFile && draggingOver
+                ? `1px dashed ${color('accent')}`
+                : locationIsFile
+                ? `1px dashed ${color('border')}`
+                : 'none',
+            scrollAreaStyle,
+          }}
+          columnCount={columnCount}
+          columnWidth={columnWidth}
+          height={height}
+          types={types}
+          items={items}
+          fields={newWorldOrder}
+          onClick={onClick}
+          setRelevantFields={setRelevantFields}
+          selectedRowCheckboxes={selectedRowCheckboxes}
+          setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+          isMultiref={isMultiref}
+          itemKey={({
+            columnIndex,
+            data: { items, filteredFields },
+            rowIndex,
+          }) => `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`}
+          innerElementType={({ children, style }) => {
+            return (
+              <div
+                style={{
+                  ...style,
+                  width: style.width + ACTIONS_WIDTH,
+                }}
+              >
+                <div>{children}</div>
+
+                <Header
+                  width={width}
+                  colWidths={colWidths}
+                  columnWidth={columnWidth}
+                  fields={filteredFields}
+                  allFields={fields}
+                  setFilteredFields={setFilteredFields}
+                  filteredFields={filteredFields}
+                  newWorldOrder={newWorldOrder}
+                  setColWidths={setColWidths}
+                  unCheckedArr={unCheckedArr}
+                  setUnCheckedArr={setUnCheckedArr}
+                  lijst={lijst}
+                  setLijst={setLijst}
+                  setSort={setSort}
+                  sortOrder={sortOrder}
+                  activeSortField={activeSortField}
+                  setActiveSortField={setActiveSortField}
+                  scrollLeft={tableRef.current?.state?.scrollLeft}
+                  setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+                  selectedRowCheckboxes={selectedRowCheckboxes}
+                  items={items}
+                />
+                {/* TODO: add filter menu */}
+
+                {selectedRowCheckboxes.length > 0 && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: -30,
+                      top: 0,
+                      width: 40,
+                      height: 20,
+                      background: 'yellow',
+                    }}
+                  >
+                    <Button onClick={() => deleteItems(items)}>Delete</Button>
+                  </div>
+                )}
+              </div>
+            )
+          }}
+          rowCount={itemCount}
+          estimatedColumnWidth={colWidth}
+          estimatedRowHeight={ITEM_HEIGHT}
+          rowHeight={() => ITEM_HEIGHT}
+          width={width}
+          // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
+          onScroll={({ scrollTop }) => {
+            onScrollY(scrollTop)
+          }}
+        />
+      </div>
+    </>
   )
 }
 
