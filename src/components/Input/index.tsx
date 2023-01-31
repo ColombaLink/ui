@@ -321,12 +321,7 @@ export const Input: FC<
     onChange,
     autoFocus,
     style: {
-      margin: 0,
-      outline: ghost
-        ? `3px solid transparent`
-        : focused
-        ? `3px solid rgba(44, 60, 234, 0.2)`
-        : `3px solid transparent`,
+      outlineRadius: '8',
       outlineOffset: ghost ? null : focus ? -1 : -1,
       borderRadius: 8,
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
@@ -416,6 +411,12 @@ export const Input: FC<
           style={{
             position: 'relative',
             color: color('text'),
+            border: ghost
+              ? `2px solid transparent`
+              : focused
+              ? `2px solid rgba(44, 60, 234, 0.2)`
+              : `2px solid transparent`,
+            borderRadius: 10,
           }}
         >
           {!jsonInput && !markdownInput && !multiline
