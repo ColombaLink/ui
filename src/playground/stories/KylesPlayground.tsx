@@ -43,6 +43,7 @@ export const KylesPlayground = () => {
             <ColorPicker onChange={handleChange} />
             <Separator />
             <BarGraph
+              scale={255}
               data={[
                 { label: 'red', value: { red }, color: '#FF0000' },
                 { label: 'green', value: { green }, color: '#00FF00' },
