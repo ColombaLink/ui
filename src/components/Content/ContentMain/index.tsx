@@ -188,7 +188,7 @@ export const ContentMain = ({
     } else {
       setIsMultiref(false)
     }
-  }, [currentView])
+  }, [query.field])
 
   if (loading) return null
 
@@ -372,6 +372,7 @@ export const ContentMain = ({
             setIsMultiref(true)
           } else {
             setLocation(`${prefix}/${item.id}/${field}`)
+            setIsMultiref(false)
           }
         }}
         query={($offset, $limit, $field, $order) => {
