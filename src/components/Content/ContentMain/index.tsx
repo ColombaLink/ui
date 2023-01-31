@@ -1,6 +1,6 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
@@ -154,6 +154,7 @@ export const ContentMain = ({
   const client = useClient()
 
   const [tableIsEmpty, setTableIsEmpty] = useState(false)
+  const [isMultiref, setIsMultiref] = useState(false)
 
   const { data: views } = useData('basedObserveViews')
   let currentView
@@ -172,6 +173,22 @@ export const ContentMain = ({
   }
 
   parse()
+
+  // console.log('------>>>>>', currentView, types, query)
+
+  /// THIS CHECKS IF THE FIELD IS A REFERENCE
+  useEffect(() => {
+    // console.log('currentView changed', currentView)
+    if (
+      types[currentView?.id]?.fields[query.field].type === 'references' &&
+      query.field !== 'descendants'
+    ) {
+      console.log('yoloo ')
+      setIsMultiref(true)
+    } else {
+      setIsMultiref(false)
+    }
+  }, [currentView])
 
   if (loading) return null
 
@@ -348,9 +365,11 @@ export const ContentMain = ({
         onAction={(items) => onAction(items, 'delete')}
         language="en"
         setTableIsEmpty={setTableIsEmpty}
+        isMultiref={isMultiref}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
             setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+            setIsMultiref(true)
           } else {
             setLocation(`${prefix}/${item.id}/${field}`)
           }

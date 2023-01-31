@@ -30,6 +30,7 @@ type TableProps = {
   target?: string
   setTableIsEmpty?: (isEmpty: boolean) => void
   onAction?: OnAction
+  isMultiref?: boolean
   onClick?: (
     item: { [key: string]: string },
     field: string,
@@ -45,8 +46,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
 
   // console.log(selectedRowCheckboxes)
-
-  console.log('Table ---> ', props)
+  // console.log('Table ---> ', props)
 
   return (
     <styled.div

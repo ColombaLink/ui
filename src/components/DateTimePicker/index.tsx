@@ -226,6 +226,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
       // console.log(onChange)
 
+      // TODO: fix this think about this
       onChange()
 
       // // @ts-ignore

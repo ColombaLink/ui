@@ -75,7 +75,7 @@ const Reference = ({ value }) => {
 
 // multiple refs display
 const References = ({ value }) => {
-  // console.log('ref', value)
+  ///  console.log('ref', value)
 
   return value.length > 0 ? (
     <div
@@ -85,7 +85,7 @@ const References = ({ value }) => {
         display: 'flex',
       }}
       onClick={() => {
-        console.log('Clicked a multiRef field')
+        console.log('Clicked a multiRef field 🔫', value)
       }}
     >
       <div style={{ minWidth: 32, display: 'flex' }}>
@@ -109,7 +109,15 @@ const References = ({ value }) => {
 // let selectedRowCheckboxes = []
 
 const Cell = ({ columnIndex, rowIndex, style, data }) => {
-  const { types, items, fields, onClick, setState, hoverRowIndex } = data
+  const {
+    types,
+    items,
+    fields,
+    onClick,
+    setState,
+    hoverRowIndex,
+    setIsMultiref,
+  } = data
   const item = items[rowIndex]
   let children, value, field
   const { hover, active, listeners } = useHover()
@@ -119,6 +127,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // TODO optimize
 
   // console.log('What the data?', data)
+  // console.log(data.setIsMultiref, 'setIsMultiref')
   // console.log('What the item?', item)
 
   // console.log('Data fields', data.fields)
@@ -385,6 +394,7 @@ const InnerTable = ({
   setRelevantFields,
   selectedRowCheckboxes,
   setSelectedRowCheckboxes,
+  isMultiref,
   ...props
 }) => {
   const [state, setState] = useState({})
@@ -402,34 +412,38 @@ const InnerTable = ({
     ...state,
   })
 
-  console.log(itemData, 'itemData 🛎')
-  // food chain
-  // TODO : if field is empty now it's not showing up , in reference this is cool but otherwise not
-  // so if it is defined in the schema it should be shown
-  // so check if you are on main type and not on reference
+  // console.log(itemData, 'itemData 🛎')
+
   // TODO ask Youzi //
+  // get location and field and if field is of type references then set isMultiref to true
 
-  const fieldsOfRelevance = []
+  let fieldsOfRelevance
 
-  itemData.items?.forEach((element) => {
-    const keys = Object.keys(element)
+  if (isMultiref) {
+    fieldsOfRelevance = []
 
-    keys.forEach((key) => {
-      if (!fieldsOfRelevance.includes(key)) {
-        fieldsOfRelevance.push(key)
-        console.log('KEY ', key)
-      }
+    itemData.items?.forEach((element) => {
+      const keys = Object.keys(element)
+
+      keys.forEach((key) => {
+        if (!fieldsOfRelevance.includes(key)) {
+          fieldsOfRelevance.push(key)
+          //  console.log('KEY ', key)
+        }
+      })
     })
-  })
-
-  console.log('can we filter these fields then --> ', fieldsOfRelevance)
-  console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
-  // setRelevantFields(fieldsOfRelevance)
+  } else {
+    // console.log('all fields??', fields)
+    fieldsOfRelevance = [...fields]
+  }
 
   useEffect(() => {
-    console.log('fire ')
     setRelevantFields(fieldsOfRelevance)
-  }, [])
+  }, [isMultiref])
+
+  // console.log('can we filter these fields then --> ', fieldsOfRelevance)
+  // console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
+  // setRelevantFields(fieldsOfRelevance)
 
   return (
     <Grid {...props} itemData={itemData} ref={tableRef}>
@@ -495,8 +509,8 @@ const Header = ({
   setActiveSortField,
   scrollLeft,
 }) => {
-  console.log('from header', lijst)
-  console.log('all fields', allFields)
+  // console.log('from header', lijst)
+  // console.log('all fields', allFields)
 
   return (
     <div style={{ position: 'relative' }}>
@@ -597,6 +611,7 @@ export type TableFromQueryProps = {
   setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void
   selectedRowCheckboxes?: Array<number>
   setTableIsEmpty?: (tableIsEmpty: boolean) => void
+  isMultiref?: boolean
 }
 
 export const TableFromQuery: FC<TableFromQueryProps> = ({
@@ -611,6 +626,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   onAction,
   setSelectedRowCheckboxes,
   selectedRowCheckboxes,
+  isMultiref,
 }) => {
   const colWidth = 200
   const { schema } = useSchema()
@@ -622,7 +638,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [relevantFields, setRelevantFields] = useState(fields)
 
-  console.log('relevantFields', relevantFields)
+  // console.log('relevantFields', relevantFields)
 
   useEffect(() => {
     // set the filtered fields dan
@@ -638,7 +654,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         checkbox: !unCheckedArr.includes(field),
       })
     )
-    console.log('newListOrderArr2', newListOrderArr2)
+    // console.log('newListOrderArr2', newListOrderArr2)
     setLijst(newListOrderArr2)
   }, [relevantFields, fields.length])
 
@@ -724,11 +740,11 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [colWidths, setColWidths] = useState([])
 
   // table is empty setting
-  // if (items.length < 1) {
-  //   setTableIsEmpty(true)
-  // } else {
-  //   setTableIsEmpty(false)
-  // }
+  if (items.length < 1) {
+    setTableIsEmpty(true)
+  } else {
+    setTableIsEmpty(false)
+  }
 
   useEffect(() => {
     if (tableRef.current) {
@@ -860,6 +876,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         setRelevantFields={setRelevantFields}
         selectedRowCheckboxes={selectedRowCheckboxes}
         setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+        isMultiref={isMultiref}
         itemKey={({ columnIndex, data: { items, filteredFields }, rowIndex }) =>
           `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
         }
