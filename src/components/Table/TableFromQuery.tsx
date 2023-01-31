@@ -508,9 +508,24 @@ const Header = ({
   activeSortField,
   setActiveSortField,
   scrollLeft,
+  setSelectedRowCheckboxes,
+  selectedRowCheckboxes,
+  items,
 }) => {
   // console.log('from header', lijst)
   // console.log('all fields', allFields)
+
+  const checkAllHandler = (e) => {
+    if (e) {
+      const allIndexesArr = []
+      for (let i = 0; i < items.length; i++) {
+        allIndexesArr.push(i)
+      }
+      setSelectedRowCheckboxes(allIndexesArr)
+    } else {
+      setSelectedRowCheckboxes([])
+    }
+  }
 
   return (
     <div style={{ position: 'relative' }}>
@@ -518,7 +533,7 @@ const Header = ({
         style={{
           position: 'sticky',
           left: 0,
-          paddingLeft: ACTIONS_WIDTH,
+          paddingLeft: 44,
           top: 0,
           display: 'flex',
           borderBottom: border(1),
@@ -528,6 +543,21 @@ const Header = ({
         }}
         // {...listeners}
       >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Checkbox
+            onChange={(e) => {
+              checkAllHandler(e)
+            }}
+            // do this so it doesn't go false and rerender
+            checked={selectedRowCheckboxes.length === items.length}
+          />
+        </div>
         {newWorldOrder.map((field, index) => (
           <div
             key={index}
@@ -693,7 +723,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
       )
 
-      //  console.log('tempUnCheckedArr -->', tempUnCheckedArr)
+      // console.log('tempUnCheckedArr -->', tempUnCheckedArr)
 
       setUnCheckedArr(tempUnCheckedArr)
     }
@@ -910,13 +940,17 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 activeSortField={activeSortField}
                 setActiveSortField={setActiveSortField}
                 scrollLeft={tableRef.current?.state?.scrollLeft}
+                setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+                selectedRowCheckboxes={selectedRowCheckboxes}
+                items={items}
               />
               {/* TODO: add filter menu */}
+
               {selectedRowCheckboxes.length > 0 && (
                 <div
                   style={{
                     position: 'absolute',
-                    left: 0,
+                    left: -30,
                     top: 0,
                     width: 40,
                     height: 20,
