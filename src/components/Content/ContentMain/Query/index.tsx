@@ -56,12 +56,20 @@ const ScopePill = ({ query, setOverlay, setLocation }) => {
 }
 
 const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
+  console.log('QUERY FILTERS', query.filters)
+
   return query.filters.map(({ $field, $operator, $value }, index) => {
+    console.log('FILTER from map', $field, $operator, $value)
+
+    console.log('the types', types)
+
     return (
       <Fragment key={index}>
         {index ? <Text color="accent">AND</Text> : null}
         <Pill>
+          {/* left side of the pill */}
           <Text color="text2">{$field}</Text>
+          {/* center of the pill */}
           <SelectInput
             // TODO remove
             key={$operator}
@@ -77,6 +85,7 @@ const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
               )
             }}
           />
+          {/* right side of the pill */}
           <ValueInput
             types={types}
             field={$field}
