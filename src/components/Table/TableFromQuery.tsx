@@ -134,7 +134,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const { fields: schemaFields } = useItemSchema(item?.id)
 
-  console.log('Schema fields', schemaFields, children, item?.id, item)
+  //  console.log('Schema fields', schemaFields, children, item?.id, item)
 
   let hasField
   if (item) {
