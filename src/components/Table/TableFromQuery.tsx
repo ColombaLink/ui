@@ -303,7 +303,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = (
               <div
                 style={{
-                  backgroundImage: `url(${value})`,
+                  backgroundImage: `url(${value}?w=100&h=100)`,
                   backgroundSize: 'cover',
                   height: style.height,
                   width: style.height,
