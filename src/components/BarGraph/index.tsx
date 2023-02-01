@@ -17,6 +17,7 @@ type BarGraphProps = {
   legend?: { [key: string]: string } | string[]
   style?: CSSProperties
   color?: Color
+  scale?: number
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
@@ -27,6 +28,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   legend = null,
   style,
   color: colorProp = 'accent',
+  scale,
 }) => {
   if (!data) {
     return null
@@ -47,7 +49,7 @@ export const BarGraph: FC<BarGraphProps> = ({
     totalPerObject = data.map((item) =>
       Object.values(item.value).reduce((t, value) => t + value, 0)
     )
-    highestVal = Math.max(...totalPerObject)
+    scale ? (highestVal = scale) : (highestVal = Math.max(...totalPerObject))
     normalizedData = totalPerObject.map((item) => (item / highestVal) * 100)
 
     normalizedDataPerObject = data.map((item, idx) =>
@@ -59,7 +61,9 @@ export const BarGraph: FC<BarGraphProps> = ({
     typeof data[0].value === 'number' ||
     typeof data[0].value === 'string'
   ) {
-    highestVal = Math.max(...data.map((item) => +item.value))
+    scale
+      ? (highestVal = scale)
+      : (highestVal = Math.max(...data.map((item) => +item.value)))
 
     normalizedData = data.map((item) => (+item.value / highestVal) * 100)
   }
