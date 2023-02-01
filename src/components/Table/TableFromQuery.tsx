@@ -84,9 +84,9 @@ const References = ({ value }) => {
         left: 6,
         display: 'flex',
       }}
-      onClick={() => {
-        console.log('Clicked a multiRef field 🔫', value)
-      }}
+      // onClick={() => {
+      //   console.log('Clicked a multiRef field 🔫', value)
+      // }}
     >
       <div style={{ minWidth: 32, display: 'flex' }}>
         <AttachmentIcon
@@ -130,11 +130,11 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // console.log(data.setIsMultiref, 'setIsMultiref')
   // console.log('What the item?', item)
 
-  // console.log('Data fields', data.fields)
+  //  console.log('Data fields', data.fields)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
 
-  // console.log('Schema fields', schemaFields, children, item?.id, item)
+  console.log('Schema fields', schemaFields, children, item?.id, item)
 
   let hasField
   if (item) {
@@ -226,7 +226,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
                 rowIndex,
               ])
               //   selectedRowCheckboxes.push(rowIndex)
-              console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
+              //  console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
             } else if (!e.shiftKey) {
               data.selectedRowCheckboxes?.splice(
                 data.selectedRowCheckboxes.indexOf(rowIndex),
@@ -413,9 +413,6 @@ const InnerTable = ({
   })
 
   // console.log(itemData, 'itemData 🛎')
-
-  // TODO ask Youzi //
-  // get location and field and if field is of type references then set isMultiref to true
 
   let fieldsOfRelevance
 
