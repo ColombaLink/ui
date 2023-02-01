@@ -182,7 +182,6 @@ export const ContentMain = ({
       types[currentView?.id]?.fields[query.field].type === 'references' &&
       query.field !== 'descendants'
     ) {
-      console.log('yoloo ')
       setIsMultiref(true)
     } else {
       setIsMultiref(false)
@@ -244,7 +243,84 @@ export const ContentMain = ({
     }
   }
 
-  // console.log('query', query, fields, types, fieldTypes, currentView)
+  /*
+
+
+  
+
+  
+
+  $filter: {
+    $field: 'bla'
+    $operator: '=',
+    $value: 'blub',
+    $or: {
+      $field: 'bla',
+      $operator: '=',
+      $value: 'blub',
+    }
+  }
+  // 1
+  const a = b && c || d
+  $filter: {
+    $field: 'type',
+    $operator: '=',
+    $value: 'yvestype',
+    $and: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'yves',  
+    },
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'youri',
+    }
+  }
+
+  // 2
+  const a = b || c && d
+    $filter: {
+    $field: 'type',
+    $operator: '=',
+    $value: 'yvestype',
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'yves',
+      $and: {
+        $field: 'name',
+        $operator: '=',
+        $value: 'youri',
+      }
+    }
+  }
+
+  $filter: [{
+    $field: 'type',
+    $operator: '=',
+    $value: 'yves',
+    $and: {
+      $field: 'name',
+
+    }
+  }, {
+    $field: 'name',
+    $operator: '=',
+    $value: 'yves',
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'youri',
+    }
+  }]
+
+  this AND (taht OR smurf)
+  (this AND taht) OR smurf
+
+
+  */
+  console.log('query', query, fields, types, fieldTypes, currentView)
 
   return (
     <div

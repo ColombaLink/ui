@@ -1,5 +1,5 @@
 import { ArrowRightIcon, AttachmentIcon, LayersIcon, MoreIcon } from '~/icons'
-import { border } from '~/utils'
+import { border, color } from '~/utils'
 import { Button } from '~/components/Button'
 import { deepEqual } from '@saulx/utils'
 import { FilterInput } from './FilterInput'
@@ -26,6 +26,16 @@ const operatorByType = {
   references: 'has',
   set: 'has',
 }
+
+const logicalOperatorsMap = {
+  AND: 'AND',
+  OR: 'OR',
+  NOT: 'NOT',
+}
+
+// bigger than 1
+// smaller than
+// bigger than or equal to
 
 const ScopePill = ({ query, setOverlay, setLocation }) => {
   return (
@@ -57,15 +67,35 @@ const ScopePill = ({ query, setOverlay, setLocation }) => {
 
 const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
   console.log('QUERY FILTERS', query.filters)
+  console.log('complete query', query)
 
   return query.filters.map(({ $field, $operator, $value }, index) => {
     console.log('FILTER from map', $field, $operator, $value)
 
-    console.log('the types', types)
+    //  console.log('the types', types)
 
     return (
       <Fragment key={index}>
-        {index ? <Text color="accent">AND</Text> : null}
+        {index ? (
+          <div
+            style={{
+              border: `1px solid ${color('border')}`,
+              borderRadius: 4,
+              padding: '4px 8px',
+            }}
+          >
+            <SelectInput
+              value="AND"
+              options={Object.keys(logicalOperatorsMap).map((value) => {
+                return { value, label: operatorMap[value] }
+              })}
+              onOverlay={setOverlay}
+              onSubmit={(value) => {
+                console.log(value)
+              }}
+            />
+          </div>
+        ) : null}
         <Pill>
           {/* left side of the pill */}
           <Text color="text2">{$field}</Text>
@@ -152,7 +182,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           display: 'flex',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '4px 12px',
+          gap: '4px 8px',
         }}
       >
         <ScopePill
@@ -229,6 +259,18 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           )
         })}
       </div>
+      <pre
+        style={{
+          bottom: 0,
+          right: 0,
+          position: 'fixed',
+          background: 'black',
+          color: 'white',
+          zIndex: 9999,
+        }}
+      >
+        {JSON.stringify(query, null, 2)}
+      </pre>
     </>
   )
 }
