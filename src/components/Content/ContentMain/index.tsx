@@ -320,7 +320,7 @@ export const ContentMain = ({
 
 
   */
-  console.log('query', query, fields, types, fieldTypes, currentView)
+  // console.log('query', query, fields, types, fieldTypes, currentView)
 
   return (
     <div

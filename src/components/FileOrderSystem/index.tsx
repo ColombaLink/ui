@@ -5,6 +5,7 @@ import { Button } from '~/components/Button'
 import { Input } from '~/components/Input'
 
 import { useClient, useSchema, useData } from '@based/react'
+import { useLocation } from '~/hooks'
 
 export const FileOrderSystem = () => {
   // now gotta set up some references to files...
@@ -13,14 +14,16 @@ export const FileOrderSystem = () => {
 
   const [files, setFiles] = useState<any>([])
   const [folders, setFolders] = useState<any>([])
+  const [, setLocation] = useLocation()
 
   const [newRefName, setNewRefName] = useState<string>('')
 
   const { schema, loading: loadingSchema } = useSchema()
   const { data: views } = useData('basedObserveViews')
+  const client = useClient()
 
-  // console.log('client', client)
-  // console.log('data', views)
+  console.log('client', client)
+  console.log('data', views)
   console.log("schema's languages", schema)
 
   const mediaFolderFields = schema?.types?.mediafolder?.fields
@@ -46,20 +49,37 @@ export const FileOrderSystem = () => {
     }
   }
 
+  // mediafolder?story=based-app&filter=%5B%5D&target=70bff050cb&field=animals
+  //  setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+
+  //  /content/mediafolder?story=based-app&filter=%5B%5D&target=70bff050cb&field=animals
+
   //  setFolders([...folderArr])
   // console.log('files --->', schema?.types?.file)
-
-  const client = useClient()
 
   return (
     <Page>
       <Text typo="body600" space="24px">
-        hello file order system branchje
+        hello - type(mediafolder) for link need target id , field name
       </Text>
       {/* show references in media folder */}
       {folderArr.length > 0 &&
         folderArr.map((name, idx) => (
-          <div key={idx} style={{ border: '1px solid blue', margin: 4 }}>
+          <div
+            key={idx}
+            style={{
+              border: '1px solid blue',
+              margin: 4,
+              width: 100,
+              height: 100,
+              display: 'inline-block',
+            }}
+            onDoubleClick={() => {
+              setLocation(
+                `/content/mediafolder?story=based-app&filter=%5B%5D&target=70bff050cb&field=${name}`
+              )
+            }}
+          >
             {name}
           </div>
         ))}
@@ -77,7 +97,7 @@ export const FileOrderSystem = () => {
           setFiles(moreData.children)
         }}
       >
-        Show file ids
+        Show all file ids
       </Button>
       {files?.length > 0 ? (
         <div>

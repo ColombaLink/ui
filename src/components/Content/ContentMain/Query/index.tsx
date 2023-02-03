@@ -28,9 +28,9 @@ const operatorByType = {
 }
 
 const logicalOperatorsMap = {
-  AND: 'AND',
-  OR: 'OR',
-  NOT: 'NOT',
+  and: 'AND',
+  or: 'OR',
+  not: 'NOT',
 }
 
 // bigger than 1
@@ -85,13 +85,19 @@ const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
             }}
           >
             <SelectInput
-              value="AND"
+              value={'and'}
               options={Object.keys(logicalOperatorsMap).map((value) => {
                 return { value, label: operatorMap[value] }
               })}
               onOverlay={setOverlay}
               onSubmit={(value) => {
                 console.log(value)
+                console.log(index)
+
+                const operator = '$' + value
+
+                // so now add this operator at the end of this index
+                query.filters[index - 1][operator] = query.filters[index]
               }}
             />
           </div>
