@@ -18,10 +18,6 @@ export const FilterPill = ({
   const [customValue, setCustomValue] = useState('')
 
   console.log('incoming array of operators', arrayOfOperators)
-  console.log(
-    "this, arrayOfOperators.join('.')",
-    arrayOfOperators.forEach((item) => [item])
-  )
 
   return (
     <div style={{ display: 'flex', border: '1px solid blue' }}>
@@ -33,6 +29,7 @@ export const FilterPill = ({
           console.log('value', value)
           setAndOrValue(value)
 
+          // also change in the right place in the array TODO
           // als het bestaat
           if (value === '$or') {
             query.filters[0].$or = query.filters[0].$and
@@ -49,7 +46,6 @@ export const FilterPill = ({
           // }
 
           setQuery({ ...query })
-          console.log('query', query)
         }}
         style={{ width: 96 }}
       />
@@ -64,17 +60,16 @@ export const FilterPill = ({
       <Button
         onClick={() => {
           if (index === 1) {
-            console.log('arrayOfOperators', arrayOfOperators)
-            setArrayOfOperators([...arrayOfOperators, andOrValue])
-
             query.filters[0][arrayOfOperators[0]][andOrValue] = {
               $field: field,
               $operator: operator,
               $value: customValue,
             }
-          } else if (index === 2) {
-            setArrayOfOperators([...arrayOfOperators, andOrValue])
 
+            console.log('arrayOfOperators', arrayOfOperators)
+            setArrayOfOperators([...arrayOfOperators, andOrValue])
+          } else if (index >= 2) {
+            // index is 2 get all of this before the index
             query.filters[0][arrayOfOperators[0]][arrayOfOperators[1]][
               andOrValue
             ] = {
@@ -82,8 +77,12 @@ export const FilterPill = ({
               $operator: operator,
               $value: customValue,
             }
+
+            //   console.log('testje ⌛️', testje.join('.'))
+
+            setArrayOfOperators([...arrayOfOperators, andOrValue])
           } else {
-            console.log('first')
+            console.log('first index = 0')
             query.filters[0][andOrValue] = {
               $field: field,
               $operator: operator,
