@@ -1,6 +1,6 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
@@ -153,7 +153,7 @@ export const ContentMain = ({
   const { confirm, prompt } = useDialog()
   const client = useClient()
 
-  const [tableIsEmpty, setTableIsEmpty] = useState(false)
+  const [isMultiref, setIsMultiref] = useState(false)
 
   const { data: views } = useData('basedObserveViews')
   let currentView
@@ -172,6 +172,21 @@ export const ContentMain = ({
   }
 
   parse()
+
+  // console.log('------>>>>>', currentView, types, query)
+
+  /// THIS CHECKS IF THE FIELD IS A REFERENCE
+  useEffect(() => {
+    // console.log('currentView changed', currentView)
+    if (
+      types[currentView?.id]?.fields[query.field].type === 'references' &&
+      query.field !== 'descendants'
+    ) {
+      setIsMultiref(true)
+    } else {
+      setIsMultiref(false)
+    }
+  }, [query.field])
 
   if (loading) return null
 
@@ -227,6 +242,85 @@ export const ContentMain = ({
       })
     }
   }
+
+  /*
+
+
+  
+
+  
+
+  $filter: {
+    $field: 'bla'
+    $operator: '=',
+    $value: 'blub',
+    $or: {
+      $field: 'bla',
+      $operator: '=',
+      $value: 'blub',
+    }
+  }
+  // 1
+  const a = b && c || d
+  $filter: {
+    $field: 'type',
+    $operator: '=',
+    $value: 'yvestype',
+    $and: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'yves',  
+    },
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'youri',
+    }
+  }
+
+  // 2
+  const a = b || c && d
+    $filter: {
+    $field: 'type',
+    $operator: '=',
+    $value: 'yvestype',
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'yves',
+      $and: {
+        $field: 'name',
+        $operator: '=',
+        $value: 'youri',
+      }
+    }
+  }
+
+  $filter: [{
+    $field: 'type',
+    $operator: '=',
+    $value: 'yves',
+    $and: {
+      $field: 'name',
+
+    }
+  }, {
+    $field: 'name',
+    $operator: '=',
+    $value: 'yves',
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'youri',
+    }
+  }]
+
+  this AND (taht OR smurf)
+  (this AND taht) OR smurf
+
+
+  */
+  // console.log('query', query, fields, types, fieldTypes, currentView)
 
   return (
     <div
@@ -313,46 +407,22 @@ export const ContentMain = ({
         </div>
       </div>
 
-      {tableIsEmpty && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          <div style={{ display: 'flex', marginBottom: '20px', gap: 4 }}>
-            <Text>Create a new item for </Text>
-            <Text typo="body600"> {`${view}`}.</Text>
-          </div>
-          <Button
-            large
-            icon={AddIcon}
-            onClick={() => {
-              // console.log('lable', label, 'view', view, 'prefix', prefix)
-              setLocation(`${prefix}/create/${view}`)
-            }}
-            //  onClick={useContextMenu(CreateMenu, { prefix, types })}
-          >
-            Create Item
-          </Button>
-        </div>
-      )}
-
       <Table
         key={fields.length}
         fields={fields}
         target={query.target}
         onAction={(items) => onAction(items, 'delete')}
         language="en"
-        setTableIsEmpty={setTableIsEmpty}
+        isMultiref={isMultiref}
+        prefix={prefix}
+        view={view}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
             setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+            setIsMultiref(true)
           } else {
             setLocation(`${prefix}/${item.id}/${field}`)
+            setIsMultiref(false)
           }
         }}
         query={($offset, $limit, $field, $order) => {

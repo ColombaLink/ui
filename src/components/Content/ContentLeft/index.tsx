@@ -21,15 +21,22 @@ export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
   const { schema, loading: loadingSchema } = useSchema()
+
   const { data: views, loading } = useData('basedObserveViews')
+
   if (!loading && !loadingSchema) {
     const types = Object.keys(schema.types)
+
     if (!views.default) {
       views.default = []
     }
 
+    // reset this everytime so it syncs with the schema
+    views.default = []
+
     if (views.default.length < types.length) {
       const viewTypes = new Set(views.default.map(({ id }) => id))
+
       for (const type of types) {
         if (!viewTypes.has(type)) {
           views.default.push({

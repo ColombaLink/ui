@@ -1232,6 +1232,20 @@
             "number"
           ]
         },
+        "startValue": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "endValue": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
         "time": {
           "optional": true,
           "type": "boolean"
@@ -1249,7 +1263,7 @@
           "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  startValue?: string | number\n  endValue?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "DrawerProps": {
@@ -3280,9 +3294,13 @@
         "setTableIsEmpty": {
           "optional": true,
           "type": "function"
+        },
+        "isMultiref": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n}",
+      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
       "file": "/components/Table/TableFromQuery.tsx"
     },
     "TableProps": {
@@ -3318,20 +3336,28 @@
           "optional": true,
           "type": "string"
         },
-        "setTableIsEmpty": {
-          "optional": true,
-          "type": "function"
-        },
         "onAction": {
           "optional": true,
           "type": "OnAction"
         },
+        "isMultiref": {
+          "optional": true,
+          "type": "boolean"
+        },
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "view": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  setTableIsEmpty?: (isEmpty: boolean) => void\n  onAction?: OnAction\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onAction?: OnAction\n  isMultiref?: boolean\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n  prefix?: string\n  view?: string\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {

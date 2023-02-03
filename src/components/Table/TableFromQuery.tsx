@@ -75,7 +75,7 @@ const Reference = ({ value }) => {
 
 // multiple refs display
 const References = ({ value }) => {
-  // console.log('ref', value)
+  ///  console.log('ref', value)
 
   return value.length > 0 ? (
     <div
@@ -84,9 +84,9 @@ const References = ({ value }) => {
         left: 6,
         display: 'flex',
       }}
-      onClick={() => {
-        console.log('Clicked a multiRef field')
-      }}
+      // onClick={() => {
+      //   console.log('Clicked a multiRef field 🔫', value)
+      // }}
     >
       <div style={{ minWidth: 32, display: 'flex' }}>
         <AttachmentIcon
@@ -109,7 +109,15 @@ const References = ({ value }) => {
 // let selectedRowCheckboxes = []
 
 const Cell = ({ columnIndex, rowIndex, style, data }) => {
-  const { types, items, fields, onClick, setState, hoverRowIndex } = data
+  const {
+    types,
+    items,
+    fields,
+    onClick,
+    setState,
+    hoverRowIndex,
+    setIsMultiref,
+  } = data
   const item = items[rowIndex]
   let children, value, field
   const { hover, active, listeners } = useHover()
@@ -119,13 +127,14 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // TODO optimize
 
   // console.log('What the data?', data)
+  // console.log(data.setIsMultiref, 'setIsMultiref')
   // console.log('What the item?', item)
 
-  // console.log('Data fields', data.fields)
+  //  console.log('Data fields', data.fields)
 
   const { fields: schemaFields } = useItemSchema(item?.id)
 
-  // console.log('Schema fields', schemaFields, children, item?.id, item)
+  //  console.log('Schema fields', schemaFields, children, item?.id, item)
 
   let hasField
   if (item) {
@@ -217,7 +226,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
                 rowIndex,
               ])
               //   selectedRowCheckboxes.push(rowIndex)
-              console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
+              //  console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
             } else if (!e.shiftKey) {
               data.selectedRowCheckboxes?.splice(
                 data.selectedRowCheckboxes.indexOf(rowIndex),
@@ -294,7 +303,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = (
               <div
                 style={{
-                  backgroundImage: `url(${value})`,
+                  backgroundImage: `url(${value}?w=100&h=100)`,
                   backgroundSize: 'cover',
                   height: style.height,
                   width: style.height,
@@ -385,6 +394,7 @@ const InnerTable = ({
   setRelevantFields,
   selectedRowCheckboxes,
   setSelectedRowCheckboxes,
+  isMultiref,
   ...props
 }) => {
   const [state, setState] = useState({})
@@ -402,34 +412,35 @@ const InnerTable = ({
     ...state,
   })
 
-  console.log(itemData, 'itemData 🛎')
-  // food chain
-  // TODO : if field is empty now it's not showing up , in reference this is cool but otherwise not
-  // so if it is defined in the schema it should be shown
-  // so check if you are on main type and not on reference
-  // TODO ask Youzi //
+  // console.log(itemData, 'itemData 🛎')
 
-  const fieldsOfRelevance = []
+  let fieldsOfRelevance
 
-  itemData.items?.forEach((element) => {
-    const keys = Object.keys(element)
+  if (isMultiref) {
+    fieldsOfRelevance = []
 
-    keys.forEach((key) => {
-      if (!fieldsOfRelevance.includes(key)) {
-        fieldsOfRelevance.push(key)
-        console.log('KEY ', key)
-      }
+    itemData.items?.forEach((element) => {
+      const keys = Object.keys(element)
+
+      keys.forEach((key) => {
+        if (!fieldsOfRelevance.includes(key)) {
+          fieldsOfRelevance.push(key)
+          //  console.log('KEY ', key)
+        }
+      })
     })
-  })
-
-  console.log('can we filter these fields then --> ', fieldsOfRelevance)
-  console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
-  // setRelevantFields(fieldsOfRelevance)
+  } else {
+    // console.log('all fields??', fields)
+    fieldsOfRelevance = [...fields]
+  }
 
   useEffect(() => {
-    console.log('fire ')
     setRelevantFields(fieldsOfRelevance)
-  }, [])
+  }, [isMultiref])
+
+  // console.log('can we filter these fields then --> ', fieldsOfRelevance)
+  // console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
+  // setRelevantFields(fieldsOfRelevance)
 
   return (
     <Grid {...props} itemData={itemData} ref={tableRef}>
@@ -494,9 +505,24 @@ const Header = ({
   activeSortField,
   setActiveSortField,
   scrollLeft,
+  setSelectedRowCheckboxes,
+  selectedRowCheckboxes,
+  items,
 }) => {
-  console.log('from header', lijst)
-  console.log('all fields', allFields)
+  // console.log('from header', lijst)
+  // console.log('all fields', allFields)
+
+  const checkAllHandler = (e) => {
+    if (e) {
+      const allIndexesArr = []
+      for (let i = 0; i < items.length; i++) {
+        allIndexesArr.push(i)
+      }
+      setSelectedRowCheckboxes(allIndexesArr)
+    } else {
+      setSelectedRowCheckboxes([])
+    }
+  }
 
   return (
     <div style={{ position: 'relative' }}>
@@ -504,7 +530,7 @@ const Header = ({
         style={{
           position: 'sticky',
           left: 0,
-          paddingLeft: ACTIONS_WIDTH,
+          paddingLeft: 44,
           top: 0,
           display: 'flex',
           borderBottom: border(1),
@@ -514,6 +540,21 @@ const Header = ({
         }}
         // {...listeners}
       >
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Checkbox
+            onChange={(e) => {
+              checkAllHandler(e)
+            }}
+            // do this so it doesn't go false and rerender
+            checked={selectedRowCheckboxes.length === items.length}
+          />
+        </div>
         {newWorldOrder.map((field, index) => (
           <div
             key={index}
@@ -597,6 +638,7 @@ export type TableFromQueryProps = {
   setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void
   selectedRowCheckboxes?: Array<number>
   setTableIsEmpty?: (tableIsEmpty: boolean) => void
+  isMultiref?: boolean
 }
 
 export const TableFromQuery: FC<TableFromQueryProps> = ({
@@ -611,6 +653,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   onAction,
   setSelectedRowCheckboxes,
   selectedRowCheckboxes,
+  isMultiref,
 }) => {
   const colWidth = 200
   const { schema } = useSchema()
@@ -622,7 +665,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [relevantFields, setRelevantFields] = useState(fields)
 
-  console.log('relevantFields', relevantFields)
+  // console.log('relevantFields', relevantFields)
 
   useEffect(() => {
     // set the filtered fields dan
@@ -638,7 +681,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         checkbox: !unCheckedArr.includes(field),
       })
     )
-    console.log('newListOrderArr2', newListOrderArr2)
+    // console.log('newListOrderArr2', newListOrderArr2)
     setLijst(newListOrderArr2)
   }, [relevantFields, fields.length])
 
@@ -677,7 +720,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
       )
 
-      //  console.log('tempUnCheckedArr -->', tempUnCheckedArr)
+      // console.log('tempUnCheckedArr -->', tempUnCheckedArr)
 
       setUnCheckedArr(tempUnCheckedArr)
     }
@@ -723,12 +766,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [colWidths, setColWidths] = useState([])
 
-  // table is empty setting
-  // if (items.length < 1) {
-  //   setTableIsEmpty(true)
-  // } else {
-  //   setTableIsEmpty(false)
-  // }
+  useEffect(() => {
+    if (itemCount < 1) {
+      setTableIsEmpty(true)
+    } else {
+      setTableIsEmpty(false)
+    }
+  }, [itemCount])
 
   useEffect(() => {
     if (tableRef.current) {
@@ -814,6 +858,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           }
 
           notify()
+
           return client.file(file)
         })
       )
@@ -823,105 +868,113 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   return (
-    <div
-      onDragOver={(e) => {
-        e.preventDefault()
-        e.stopPropagation()
-        setDraggingOver(true)
-      }}
-      onDrop={handleFileDrop}
-      onDragLeave={() => {
-        setDraggingOver(false)
-      }}
-    >
-      <InnerTable
-        tableRef={tableRef}
-        style={{
-          background:
-            locationIsFile && draggingOver
-              ? color('lightaccent')
-              : color('background'),
-          border:
-            locationIsFile && draggingOver
-              ? `1px dashed ${color('accent')}`
-              : locationIsFile
-              ? `1px dashed ${color('border')}`
-              : 'none',
-          scrollAreaStyle,
+    <>
+      <div
+        onDragOver={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setDraggingOver(true)
         }}
-        columnCount={columnCount}
-        columnWidth={columnWidth}
-        height={height}
-        types={types}
-        items={items}
-        fields={newWorldOrder}
-        onClick={onClick}
-        setRelevantFields={setRelevantFields}
-        selectedRowCheckboxes={selectedRowCheckboxes}
-        setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-        itemKey={({ columnIndex, data: { items, filteredFields }, rowIndex }) =>
-          `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
-        }
-        innerElementType={({ children, style }) => {
-          return (
-            <div
-              style={{
-                ...style,
+        onDrop={handleFileDrop}
+        onDragLeave={() => {
+          setDraggingOver(false)
+        }}
+      >
+        <InnerTable
+          tableRef={tableRef}
+          style={{
+            background:
+              locationIsFile && draggingOver
+                ? color('lightaccent')
+                : color('background'),
+            border:
+              locationIsFile && draggingOver
+                ? `1px dashed ${color('accent')}`
+                : locationIsFile
+                ? `1px dashed ${color('border')}`
+                : 'none',
+            scrollAreaStyle,
+          }}
+          columnCount={columnCount}
+          columnWidth={columnWidth}
+          height={height}
+          types={types}
+          items={items}
+          fields={newWorldOrder}
+          onClick={onClick}
+          setRelevantFields={setRelevantFields}
+          selectedRowCheckboxes={selectedRowCheckboxes}
+          setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+          isMultiref={isMultiref}
+          itemKey={({
+            columnIndex,
+            data: { items, filteredFields },
+            rowIndex,
+          }) => `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`}
+          innerElementType={({ children, style }) => {
+            return (
+              <div
+                style={{
+                  ...style,
+                  width: style.width + ACTIONS_WIDTH,
+                }}
+              >
+                <div>{children}</div>
 
-                width: style.width + ACTIONS_WIDTH,
-              }}
-            >
-              <div>{children}</div>
+                <Header
+                  width={width}
+                  colWidths={colWidths}
+                  columnWidth={columnWidth}
+                  fields={filteredFields}
+                  allFields={fields}
+                  setFilteredFields={setFilteredFields}
+                  filteredFields={filteredFields}
+                  newWorldOrder={newWorldOrder}
+                  setColWidths={setColWidths}
+                  unCheckedArr={unCheckedArr}
+                  setUnCheckedArr={setUnCheckedArr}
+                  lijst={lijst}
+                  setLijst={setLijst}
+                  setSort={setSort}
+                  sortOrder={sortOrder}
+                  activeSortField={activeSortField}
+                  setActiveSortField={setActiveSortField}
+                  scrollLeft={tableRef.current?.state?.scrollLeft}
+                  setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+                  selectedRowCheckboxes={selectedRowCheckboxes}
+                  items={items}
+                />
+                {/* TODO: add filter menu */}
 
-              <Header
-                width={width}
-                colWidths={colWidths}
-                columnWidth={columnWidth}
-                fields={filteredFields}
-                allFields={fields}
-                setFilteredFields={setFilteredFields}
-                filteredFields={filteredFields}
-                newWorldOrder={newWorldOrder}
-                setColWidths={setColWidths}
-                unCheckedArr={unCheckedArr}
-                setUnCheckedArr={setUnCheckedArr}
-                lijst={lijst}
-                setLijst={setLijst}
-                setSort={setSort}
-                sortOrder={sortOrder}
-                activeSortField={activeSortField}
-                setActiveSortField={setActiveSortField}
-                scrollLeft={tableRef.current?.state?.scrollLeft}
-              />
-              {/* TODO: add filter menu */}
-              {selectedRowCheckboxes.length > 0 && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: 0,
-                    width: 40,
-                    height: 20,
-                    background: 'yellow',
-                  }}
-                >
-                  <Button onClick={() => deleteItems(items)}>Delete</Button>
-                </div>
-              )}
-            </div>
-          )
-        }}
-        rowCount={itemCount}
-        estimatedColumnWidth={colWidth}
-        estimatedRowHeight={ITEM_HEIGHT}
-        rowHeight={() => ITEM_HEIGHT}
-        width={width}
-        // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
-        onScroll={({ scrollTop }) => {
-          onScrollY(scrollTop)
-        }}
-      />
-    </div>
+                {selectedRowCheckboxes.length > 0 && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: -30,
+                      top: 0,
+                      width: 40,
+                      height: 20,
+                      background: 'yellow',
+                    }}
+                  >
+                    <Button onClick={() => deleteItems(items)}>Delete</Button>
+                  </div>
+                )}
+              </div>
+            )
+          }}
+          rowCount={itemCount}
+          estimatedColumnWidth={colWidth}
+          estimatedRowHeight={ITEM_HEIGHT}
+          rowHeight={() => ITEM_HEIGHT}
+          width={width}
+          // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
+          onScroll={({ scrollTop }) => {
+            onScrollY(scrollTop)
+          }}
+        />
+      </div>
+    </>
   )
 }
 

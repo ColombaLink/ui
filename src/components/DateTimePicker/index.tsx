@@ -6,6 +6,7 @@ import { TimeInput } from './TimeInput'
 import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
 import { DateRangeInput } from './DateRangeInput'
+import { start } from 'repl'
 
 type DateTimePickerProps = {
   label?: string
@@ -18,6 +19,8 @@ type DateTimePickerProps = {
   error?: (value: boolean | string | number) => string
   disabled?: boolean
   value?: string | number
+  startValue?: string | number
+  endValue?: string | number
   time?: boolean
   utc?: boolean
   dateRange?: boolean
@@ -51,6 +54,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   dateRange,
   disabled,
   value,
+  startValue,
+  endValue,
   time,
   utc,
   onClose = () => {},
@@ -65,8 +70,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  const [fromValue, setFromValue] = useState<string>('')
-  const [tillValue, setTillValue] = useState<string>('')
+  const [fromValue, setFromValue] = useState<string>(startValue || '')
+  const [tillValue, setTillValue] = useState<string>(endValue || '')
+
+  const [blurred, setBlurred] = useState(false)
 
   useEffect(() => {
     let incomingTime = new Date(incomingValue)
@@ -84,11 +91,39 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       incomingDate = ''
     }
 
-    //  console.log(incomingDate, incomingTime)
+    console.log(incomingDate, incomingTime)
 
     setDateFormatInput(incomingDate)
     setDateTimeInput(incomingTime)
   }, [incomingValue])
+
+  useEffect(() => {
+    let incomingStart = new Date(fromValue)
+      .toLocaleString('en-GB')
+      .split(',')[0]
+      .split('-')
+      .join('/')
+
+    if (incomingStart === 'Invalid Date') {
+      incomingStart = ''
+    }
+
+    setFromValue(incomingStart)
+  }, [startValue])
+
+  useEffect(() => {
+    let incomingEnd = new Date(endValue)
+      .toLocaleString('en-GB')
+      .split(',')[0]
+      .split('-')
+      .join('/')
+
+    if (incomingEnd === 'Invalid Date') {
+      incomingEnd = ''
+    }
+
+    setTillValue(incomingEnd)
+  }, [endValue])
 
   useEffect(() => {
     if (!dateTimeInput) {
@@ -100,38 +135,40 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   // functions to get the values back
   const newMsFromAll = (dateInput, timeInput = '00:00') => {
-    const dateString = `${dateInput
-      .split('/')
-      .reverse()
-      .join('-')}T${timeInput}`
+    if (isNaN(dateInput)) {
+      const dateString = `${dateInput
+        .split('/')
+        .reverse()
+        .join('-')}T${timeInput}`
 
-    const outputMs = new Date(dateString).getTime().toString()
+      const outputMs = new Date(dateString).getTime().toString()
 
-    // console.log('this flippin ', new Date(dateString).getTime().toString())
+      // console.log('this flippin ', new Date(dateString).getTime().toString())
 
-    //  const msg = error?.(outPutInMs)
+      //  const msg = error?.(outPutInMs)
 
-    // if (msg && dateTimeInput !== '') {
-    //   setErrorMessage(msg)
-    // } else {
-    //   setErrorMessage('')
-    // }
+      // if (msg && dateTimeInput !== '') {
+      //   setErrorMessage(msg)
+      // } else {
+      //   setErrorMessage('')
+      // }
 
-    // if (outPutInMs < new Date(from).getTime()) {
-    //   setErrorMessage('Date is before the from date')
-    // } else if (outPutInMs > new Date(till).getTime()) {
-    //   setErrorMessage('Date is after the till date')
-    // }
+      // if (outPutInMs < new Date(from).getTime()) {
+      //   setErrorMessage('Date is before the from date')
+      // } else if (outPutInMs > new Date(till).getTime()) {
+      //   setErrorMessage('Date is after the till date')
+      // }
 
-    // if (!errorMessage) {
-    //   onChange(outPutInMs)
-    // }
+      // if (!errorMessage) {
+      //   onChange(outPutInMs)
+      // }
 
-    // if (!dateRange) {
-    //   onChange(+outputMs)
-    // }
+      // if (!dateRange) {
+      //   onChange(+outputMs)
+      // }
 
-    return outputMs
+      return outputMs
+    }
   }
 
   const dateHandler = (val) => {
@@ -165,16 +202,15 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   useEffect(() => {
-    if (!focus) {
+    if (!focus && blurred) {
       // this makes sure the onClose fires only once
       setFocus(false)
-      console.log('no more focus 💡, closed???')
+      console.log('no more focus 💡, onClose FIRES')
       onClose()
     }
   }, [focus])
 
   // zet de onChange op de nieuwe waarde als de focus er af is
-
   useEffect(() => {
     if (
       dateRange &&
@@ -182,20 +218,40 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       tillValue &&
       !isNaN(+newMsFromAll(fromValue, '00:00')) &&
       !isNaN(+newMsFromAll(tillValue, '00:00')) &&
-      !focus
+      !focus &&
+      blurred
     ) {
       console.log('FROM VALUE', fromValue, 'TILL VALUE', tillValue)
       // now set these values in a timestamp
+
+      // console.log(onChange)
+
+      // TODO: fix this think about this
+      onChange()
+
+      // // @ts-ignore
+      // onChange({
+      //   // from: +newMsFromAll(fromValue, '00:00'),
+      //   // till: +newMsFromAll(tillValue, '00:00'),
+      // })
+
       onClose()
     }
+
     if (
       !dateRange &&
       !focus &&
-      !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput))
+      !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput)) &&
+      blurred
     ) {
+      console.log('onchange FIRES')
       onChange(+newMsFromAll(dateFormatInput, dateTimeInput))
     }
   }, [dateFormatInput, fromValue, tillValue])
+
+  const InputWrapperBlurHandler = () => {
+    setBlurred(true)
+  }
 
   return (
     <InputWrapper
@@ -205,6 +261,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      onBlur={() => {
+        InputWrapperBlurHandler()
+      }}
     >
       <Label label={label} description={description} space="12px" />
       {dateRange ? (
