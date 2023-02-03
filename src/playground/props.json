@@ -1266,6 +1266,66 @@
       "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  startValue?: string | number\n  endValue?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
+    "DrawerProps": {
+      "name": "DrawerProps",
+      "props": {
+        "label": {
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "isRendered": {
+          "type": "boolean"
+        },
+        "sidebar": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "sidebarElem": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "noBoxShadow": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "height": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "closeFunc": {
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type DrawerProps = {\n  label: string\n  children?: ReactNode | ReactNode[]\n  isRendered: boolean\n  sidebar?: boolean\n  sidebarElem?: ReactNode | ReactNode[]\n  noBoxShadow?: boolean\n  width?: string | number\n  height?: string | number\n  closeFunc: any\n  //   color?: Color\n  style?: CSSProperties\n}",
+      "file": "/components/Drawer/index.tsx"
+    },
     "ExpandableListProps": {
       "name": "ExpandableListProps",
       "props": {
