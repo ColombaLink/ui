@@ -435,9 +435,13 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "scale": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n}",
+      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n  scale?: number\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BarSegmentProps": {
@@ -1158,16 +1162,28 @@
           "optional": true,
           "type": "function"
         },
-        "clearHandler": {
-          "optional": true,
-          "type": "function"
-        },
         "setErrorMessage": {
           "optional": true,
           "type": "function"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "fromValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "tillValue": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  setErrorMessage?: (value: string) => void\n}",
+      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
       "file": "/components/DateTimePicker/DateRangeInput.tsx"
     },
     "DateTimePickerProps": {
@@ -1227,10 +1243,74 @@
         "dateRange": {
           "optional": true,
           "type": "boolean"
+        },
+        "onClose": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
       "file": "/components/DateTimePicker/index.tsx"
+    },
+    "DrawerProps": {
+      "name": "DrawerProps",
+      "props": {
+        "label": {
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "isRendered": {
+          "type": "boolean"
+        },
+        "sidebar": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "sidebarElem": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "noBoxShadow": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "height": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "closeFunc": {
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type DrawerProps = {\n  label: string\n  children?: ReactNode | ReactNode[]\n  isRendered: boolean\n  sidebar?: boolean\n  sidebarElem?: ReactNode | ReactNode[]\n  noBoxShadow?: boolean\n  width?: string | number\n  height?: string | number\n  closeFunc: any\n  //   color?: Color\n  style?: CSSProperties\n}",
+      "file": "/components/Drawer/index.tsx"
     },
     "ExpandableListProps": {
       "name": "ExpandableListProps",

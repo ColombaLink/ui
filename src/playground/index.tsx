@@ -141,6 +141,7 @@ const menuItems = {
     // ProjectSettings: '?story=project-settings',
     // Tally: '?story=tally-screens',
     Kyles: '?story=KylesPlayground',
+    Drawer: '?story=Drawers',
   },
 }
 
