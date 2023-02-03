@@ -3,14 +3,25 @@ import { Input } from '~/components/Input'
 import { Select } from '~/components/Select'
 import { Button } from '~/components/Button'
 
-export const FilterPill = ({ query, setQuery, index }) => {
+export const FilterPill = ({
+  query,
+  setQuery,
+  index,
+  setNumberOfFilterPills,
+  numberOfFilterPills,
+  setArrayOfOperators,
+  arrayOfOperators,
+}) => {
   const [andOrValue, setAndOrValue] = useState('$and')
   const [field, setField] = useState('')
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
 
+  console.log('incoming array of operators', arrayOfOperators)
+
   return (
     <div style={{ display: 'flex', border: '1px solid blue' }}>
+      index: {index}
       <Select
         value={andOrValue}
         options={['$and', '$or']}
@@ -48,13 +59,27 @@ export const FilterPill = ({ query, setQuery, index }) => {
       <Input value={customValue} onChange={(e) => setCustomValue(e)} />
       <Button
         onClick={() => {
-          query.filters[0][andOrValue] = {
-            $field: field,
-            $operator: operator,
-            $value: customValue,
+          if (index > 0) {
+            setArrayOfOperators([...arrayOfOperators, andOrValue])
+
+            query.filters[0][arrayOfOperators.map((item) => item)][andOrValue] =
+              {
+                $field: field,
+                $operator: operator,
+                $value: customValue,
+              }
+          } else {
+            query.filters[0][andOrValue] = {
+              $field: field,
+              $operator: operator,
+              $value: customValue,
+            }
+            setArrayOfOperators([...arrayOfOperators, andOrValue])
           }
 
+          //   console.log('ARRAY OF OPERATORS', arrayOfOperators)
           setQuery({ ...query })
+          setNumberOfFilterPills(numberOfFilterPills + 1)
         }}
       >
         test

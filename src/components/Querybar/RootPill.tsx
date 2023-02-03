@@ -13,7 +13,7 @@ export const RootPill = ({ query, setQuery }) => {
       }}
     >
       <Text wrap>IN</Text>
-      <Text wrap>ROOT</Text>
+      <Text wrap>ROOT OR ID</Text>
       <Select
         value={query.field}
         options={['ancestors', 'descendants', 'children', 'parents']}

@@ -11,6 +11,15 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
+  // count and or ors in the query
+  const [numberOfFilterPills, setNumberOfFilterPills] = useState(0)
+  // to track nested operators
+  const [arrayOfOperators, setArrayOfOperators] = useState([])
+
+  useEffect(() => {
+    console.log('query', Object.keys(query))
+  }, [query])
+
   return (
     <>
       <div
@@ -20,27 +29,24 @@ export const QueryBar = () => {
         }}
       >
         <RootPill query={query} setQuery={setQuery} />
-        <FirstFilterPill query={query} setQuery={setQuery} />
-        <FilterPill query={query} setQuery={setQuery} />
+        <FirstFilterPill
+          query={query}
+          setQuery={setQuery}
+          setNumberOfFilterPills={setNumberOfFilterPills}
+        />
 
-        <div style={{ display: 'flex', gap: 8 }}>
-          <Text>Name</Text>
-          <Text>includes</Text>
-          <Text>jan</Text>
-        </div>
-        <Button
-          onClick={() => {
-            query.filters[0].$and = {
-              $field: 'name',
-              $operator: 'includes',
-              $value: 'jan',
-            }
-            setQuery({ ...query })
-            console.log('query', query)
-          }}
-        >
-          test
-        </Button>
+        {[...Array(numberOfFilterPills)]?.map((item, index) => (
+          <FilterPill
+            query={query}
+            setQuery={setQuery}
+            index={index}
+            key={index}
+            numberOfFilterPills={numberOfFilterPills}
+            setNumberOfFilterPills={setNumberOfFilterPills}
+            setArrayOfOperators={setArrayOfOperators}
+            arrayOfOperators={arrayOfOperators}
+          />
+        ))}
       </div>
 
       <pre

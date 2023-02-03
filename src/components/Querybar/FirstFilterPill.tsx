@@ -3,7 +3,11 @@ import { Input } from '~/components/Input'
 import { Select } from '~/components/Select'
 import { Button } from '~/components/Button'
 
-export const FirstFilterPill = ({ query, setQuery }) => {
+export const FirstFilterPill = ({
+  query,
+  setQuery,
+  setNumberOfFilterPills,
+}) => {
   const [firstField, setFirstField] = useState('')
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
@@ -35,6 +39,7 @@ export const FirstFilterPill = ({ query, setQuery }) => {
           }
 
           setQuery({ ...query })
+          setNumberOfFilterPills(1)
         }}
       >
         test
