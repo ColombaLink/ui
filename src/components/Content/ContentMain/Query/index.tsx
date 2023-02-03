@@ -97,7 +97,7 @@ const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
                 const operator = '$' + value
 
                 // so now add this operator at the end of this index
-                query.filters[index - 1][operator] = query.filters[index]
+                query.filters[index - 1].$and = {}
               }}
             />
           </div>

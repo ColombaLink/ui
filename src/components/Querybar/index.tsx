@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowRightIcon, Select, Text, Button } from '~'
-import { AndOrPill } from './AndOrPill'
+import { Text, Button } from '~'
 import { RootPill } from './RootPill'
+import { FirstFilterPill } from './FirstFilterPill'
+import { FilterPill } from './FilterPill'
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -19,31 +20,8 @@ export const QueryBar = () => {
         }}
       >
         <RootPill query={query} setQuery={setQuery} />
-
-        {/* filter object next -> 3 parameters (field, operator, value) */}
-        <div style={{ display: 'flex', gap: 8 }}>
-          <Text>Type</Text>
-          <Text>=</Text>
-          <Text>yvestype</Text>
-        </div>
-        <Button
-          onClick={() => {
-            query.filters.push({
-              $field: 'type',
-              $operator: '=',
-              $value: 'yvestype',
-              //   $and: {},
-              //   $or: {},
-            })
-            setQuery({ ...query })
-          }}
-        >
-          test
-        </Button>
-
-        {/* { test this} */}
-
-        <AndOrPill query={query} setQuery={setQuery} />
+        <FirstFilterPill query={query} setQuery={setQuery} />
+        <FilterPill query={query} setQuery={setQuery} />
 
         <div style={{ display: 'flex', gap: 8 }}>
           <Text>Name</Text>
