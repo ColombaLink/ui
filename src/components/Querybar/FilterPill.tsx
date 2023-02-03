@@ -18,6 +18,10 @@ export const FilterPill = ({
   const [customValue, setCustomValue] = useState('')
 
   console.log('incoming array of operators', arrayOfOperators)
+  console.log(
+    "this, arrayOfOperators.join('.')",
+    arrayOfOperators.forEach((item) => [item])
+  )
 
   return (
     <div style={{ display: 'flex', border: '1px solid blue' }}>
@@ -59,22 +63,33 @@ export const FilterPill = ({
       <Input value={customValue} onChange={(e) => setCustomValue(e)} />
       <Button
         onClick={() => {
-          if (index > 0) {
+          if (index === 1) {
+            console.log('arrayOfOperators', arrayOfOperators)
             setArrayOfOperators([...arrayOfOperators, andOrValue])
 
-            query.filters[0][arrayOfOperators.map((item) => item)][andOrValue] =
-              {
-                $field: field,
-                $operator: operator,
-                $value: customValue,
-              }
+            query.filters[0][arrayOfOperators[0]][andOrValue] = {
+              $field: field,
+              $operator: operator,
+              $value: customValue,
+            }
+          } else if (index === 2) {
+            setArrayOfOperators([...arrayOfOperators, andOrValue])
+
+            query.filters[0][arrayOfOperators[0]][arrayOfOperators[1]][
+              andOrValue
+            ] = {
+              $field: field,
+              $operator: operator,
+              $value: customValue,
+            }
           } else {
+            console.log('first')
             query.filters[0][andOrValue] = {
               $field: field,
               $operator: operator,
               $value: customValue,
             }
-            setArrayOfOperators([...arrayOfOperators, andOrValue])
+            setArrayOfOperators([andOrValue])
           }
 
           //   console.log('ARRAY OF OPERATORS', arrayOfOperators)
