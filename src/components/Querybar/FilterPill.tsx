@@ -17,7 +17,32 @@ export const FilterPill = ({
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
 
-  //   console.log('incoming array of operators', arrayOfOperators)
+  //  make a flippin string out the query to modify the object/query
+
+  const changeAndOr = (obj, index, operator) => {
+    let stringifiedObj = JSON.stringify(obj)
+
+    // count number of $and and $or at indexes
+    for (let i = 0; i < stringifiedObj.length; i++) {
+      console.log()
+    }
+  }
+
+  const changeOperator = (index, operator) => {}
+
+  const nestFilters = (object, arr) => {
+    const query = {}
+    let target = query
+    object.forEach((obj, index) => {
+      Object.assign(target, obj)
+      const l = arr[index]
+      if (l) {
+        target = target[l] = {}
+      }
+    })
+    console.log('query 🐸', query)
+    setQuery({ ...query })
+  }
 
   return (
     <div style={{ display: 'flex', border: '1px solid blue' }}>
@@ -30,21 +55,19 @@ export const FilterPill = ({
           setAndOrValue(value)
 
           // also change in the right place in the array TODO
+          console.log(index, 'index 🌞')
+
           // als het bestaat
           if (value === '$or') {
-            query.filters[0].$or = query.filters[0].$and
+            query.filters[index + 1].$or = query.filters[index + 1].$and
             delete query.filters[0].$and
           } else if (value === '$and') {
-            query.filters[0].$and = query.filters[0].$or
+            query.filters[index + 1].$and = query.filters[index + 1].$or
             delete query.filters[0].$or
           }
 
-          // if (value === '$and') {
-          //   let tempObj = query.filters[0].$or
-          //   query.filters[0].$and = tempObj
-          //   delete query.filters[0].$or
-          // }
-
+          arrayOfOperators[index] = value
+          setArrayOfOperators([...arrayOfOperators])
           setQuery({ ...query })
         }}
         style={{ width: 96 }}
@@ -54,98 +77,86 @@ export const FilterPill = ({
         value={operator}
         options={['=', '!=', 'includes', 'has']}
         style={{ width: 100 }}
-        onChange={(e) => setOperator(e)}
+        onChange={(e) => {
+          console.log('index', index)
+
+          query.filters[index + 1].$operator = e
+          setQuery({ ...query })
+          setOperator(e)
+        }}
       />
       <Input value={customValue} onChange={(e) => setCustomValue(e)} />
       <Button
         onClick={() => {
           // add new filter to the query
 
-          if (index === 1) {
-            query.filters[0][arrayOfOperators[0]][andOrValue] = {
-              $field: field,
-              $operator: operator,
-              $value: customValue,
-            }
+          query.filters.push({
+            $field: field,
+            $operator: operator,
+            $value: customValue,
+          })
 
-            console.log('arrayOfOperators', arrayOfOperators)
-            setArrayOfOperators([...arrayOfOperators, andOrValue])
-          } else if (index >= 2) {
-            // index is 2 get all of this before the index
-            query.filters[0][arrayOfOperators[0]][arrayOfOperators[1]][
-              andOrValue
-            ] = {
-              $field: field,
-              $operator: operator,
-              $value: customValue,
-            }
-
-            //   console.log('testje ⌛️', testje.join('.'))
-
-            setArrayOfOperators([...arrayOfOperators, andOrValue])
-          } else {
-            console.log('first index = 0')
-            query.filters[0][andOrValue] = {
-              $field: field,
-              $operator: operator,
-              $value: customValue,
-            }
-            setArrayOfOperators([andOrValue])
-          }
-
-          //   console.log('ARRAY OF OPERATORS', arrayOfOperators)
+          setArrayOfOperators([...arrayOfOperators, andOrValue])
           setQuery({ ...query })
           setNumberOfFilterPills(numberOfFilterPills + 1)
         }}
       >
-        test
+        Add
       </Button>
       <Button
         onClick={() => {
           // loopThroughObj(query.filters[0])
-
-          stringifyObjects(query.filters[0])
+          nestFilters(query.filters, arrayOfOperators)
         }}
       >
-        LOG CONSOLE
-      </Button>
-      <Button
-        onClick={() => {
-          // loopThroughObj(query.filters[0])
-
-          stringifyObjects(query.filters[0])
-        }}
-      >
-        TEST REPLACE
+        COMBINE
       </Button>
     </div>
   )
 }
 
-const loopThroughObj = (obj) => {
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      console.log('key', key, '---->', obj[key])
-      if (key === '$or' || key === '$and') {
-        console.log('flark 🩸', obj[key])
-      }
-      if (typeof obj[key] === 'object') {
-        loopThroughObj(obj[key])
-      }
-    }
+// const loopThroughObj = (obj) => {
+//   for (let key in obj) {
+//     if (obj.hasOwnProperty(key)) {
+//       console.log('key', key, '---->', obj[key])
+//       if (key === '$or' || key === '$and') {
+//         console.log('flark 🩸', obj[key])
+//       }
+//       if (typeof obj[key] === 'object') {
+//         loopThroughObj(obj[key])
+//       }
+//     }
+//   }
+// }
+
+const filters = [
+  {
+    $field: '',
+    $operator: '=',
+  },
+  {
+    $field: '',
+    $operator: '=',
+  },
+  {
+    $field: '',
+    $operator: '=',
+  },
+  {
+    $field: '',
+    $operator: '=',
+  },
+]
+
+const logics = ['$or', '$and', '$or']
+
+// nest filters
+const query = {}
+let target = query
+filters.forEach((obj, index) => {
+  Object.assign(target, obj)
+  const l = logics[index]
+  if (l) {
+    target = target[l] = {}
   }
-}
-
-const stringifyObjects = (obj) => {
-  let stringifiedObj = JSON.stringify(obj)
-
-  if (stringifiedObj.includes('$or') || stringifiedObj.includes('$and')) {
-    console.log('hallo 🌞')
-
-    stringifiedObj = stringifiedObj.replace(/"\$and"/g, '"$or"')
-  }
-
-  console.log(stringifiedObj.toUpperCase(), 'stringie 🌞')
-
-  console.log(JSON.parse(stringifiedObj), 'parsed 🪩')
-}
+})

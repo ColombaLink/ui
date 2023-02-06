@@ -16,6 +16,10 @@ export const QueryBar = () => {
   // to track nested operators
   const [arrayOfOperators, setArrayOfOperators] = useState([])
 
+  useEffect(() => {
+    console.log('query changed -->', arrayOfOperators)
+  }, [query])
+
   return (
     <>
       <div
