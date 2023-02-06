@@ -170,6 +170,25 @@ const ContentModalInner = ({ prefix, id, field }) => {
       setLocation(prefix)
     }
   }
+  const publishKey = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      const blabla = async () => {
+        parseBasedSetPayload(changes)
+        console.log(JSON.stringify(changes, null, 2))
+        await client.set({
+          $id: id?.split('.')[0] || undefined,
+          type,
+          ...changes,
+        })
+        published.current = true
+        ref.current = {}
+        setDisabled(true)
+      }
+      blabla()
+    } else if (e.keyCode === 27) {
+      onClose()
+    }
+  }
 
   return (
     <div
@@ -192,6 +211,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
         }}
       />
       <styled.div
+        onKeyDown={publishKey}
         style={{
           width: 1200,
           margin: 24,
@@ -270,6 +290,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
             </styled.div>
             <SideHeader title="Status" />
             <Button
+              // actionKeys={['Enter']}
               large
               disabled={disabled}
               textAlign="center"

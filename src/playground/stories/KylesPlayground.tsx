@@ -39,8 +39,9 @@ export const KylesPlayground = () => {
         label="Label"
         isRendered={drawer}
         closeFunc={() => setDrawer(false)}
-        // sidebar
+        sidebar
         // style={{ backgroundColor: 'red' }}
+        fullscreen
       >
         <Tabs activeTab={0} sameHeight>
           <Tab label="Colors">
