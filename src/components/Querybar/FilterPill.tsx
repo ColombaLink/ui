@@ -12,7 +12,7 @@ export const FilterPill = ({
   setArrayOfLogics,
   arrayOfLogics,
 }) => {
-  const [andOrValue, setAndOrValue] = useState('$and')
+  const [andOrValue, setAndOrValue] = useState<string | number>('$and')
   const [field, setField] = useState('')
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
@@ -83,7 +83,6 @@ export const FilterPill = ({
         value={andOrValue}
         options={['$and', '$or']}
         onChange={(value) => {
-          console.log('value', value)
           setAndOrValue(value)
           changeAndOr(value, index)
         }}
