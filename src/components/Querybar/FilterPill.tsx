@@ -59,6 +59,8 @@ export const FilterPill = ({
       <Input value={customValue} onChange={(e) => setCustomValue(e)} />
       <Button
         onClick={() => {
+          // add new filter to the query
+
           if (index === 1) {
             query.filters[0][arrayOfOperators[0]][andOrValue] = {
               $field: field,
@@ -98,6 +100,24 @@ export const FilterPill = ({
       >
         test
       </Button>
+      <Button
+        onClick={() => {
+          loopThroughObj(query.filters[0])
+        }}
+      >
+        LOG CONSOLE
+      </Button>
     </div>
   )
+}
+
+const loopThroughObj = (obj) => {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      console.log('key', key, '---->', obj[key])
+      if (typeof obj[key] === 'object') {
+        loopThroughObj(obj[key])
+      }
+    }
+  }
 }
