@@ -17,7 +17,7 @@ export const FilterPill = ({
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
 
-  console.log('incoming array of operators', arrayOfOperators)
+  //   console.log('incoming array of operators', arrayOfOperators)
 
   return (
     <div style={{ display: 'flex', border: '1px solid blue' }}>
@@ -102,22 +102,50 @@ export const FilterPill = ({
       </Button>
       <Button
         onClick={() => {
-          loopThroughObj(query.filters[0])
+          // loopThroughObj(query.filters[0])
+
+          stringifyObjects(query.filters[0])
         }}
       >
         LOG CONSOLE
+      </Button>
+      <Button
+        onClick={() => {
+          // loopThroughObj(query.filters[0])
+
+          stringifyObjects(query.filters[0])
+        }}
+      >
+        TEST REPLACE
       </Button>
     </div>
   )
 }
 
 const loopThroughObj = (obj) => {
-  for (const key in obj) {
+  for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
       console.log('key', key, '---->', obj[key])
+      if (key === '$or' || key === '$and') {
+        console.log('flark 🩸', obj[key])
+      }
       if (typeof obj[key] === 'object') {
         loopThroughObj(obj[key])
       }
     }
   }
+}
+
+const stringifyObjects = (obj) => {
+  let stringifiedObj = JSON.stringify(obj)
+
+  if (stringifiedObj.includes('$or') || stringifiedObj.includes('$and')) {
+    console.log('hallo 🌞')
+
+    stringifiedObj = stringifiedObj.replace(/"\$and"/g, '"$or"')
+  }
+
+  console.log(stringifiedObj.toUpperCase(), 'stringie 🌞')
+
+  console.log(JSON.parse(stringifiedObj), 'parsed 🪩')
 }
