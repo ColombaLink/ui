@@ -14,10 +14,10 @@ export const QueryBar = () => {
   // count and or ors in the query
   const [numberOfFilterPills, setNumberOfFilterPills] = useState(0)
   // to track nested operators
-  const [arrayOfOperators, setArrayOfOperators] = useState([])
+  const [arrayOfLogics, setArrayOfLogics] = useState([])
 
   useEffect(() => {
-    console.log('query changed -->', arrayOfOperators)
+    console.log('query changed -->', arrayOfLogics)
   }, [query])
 
   return (
@@ -43,8 +43,8 @@ export const QueryBar = () => {
             key={index + 1}
             numberOfFilterPills={numberOfFilterPills}
             setNumberOfFilterPills={setNumberOfFilterPills}
-            setArrayOfOperators={setArrayOfOperators}
-            arrayOfOperators={arrayOfOperators}
+            setArrayOfLogics={setArrayOfLogics}
+            arrayOfLogics={arrayOfLogics}
           />
         ))}
       </div>

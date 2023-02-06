@@ -9,8 +9,8 @@ export const FilterPill = ({
   index,
   setNumberOfFilterPills,
   numberOfFilterPills,
-  setArrayOfOperators,
-  arrayOfOperators,
+  setArrayOfLogics,
+  arrayOfLogics,
 }) => {
   const [andOrValue, setAndOrValue] = useState('$and')
   const [field, setField] = useState('')
@@ -24,11 +24,11 @@ export const FilterPill = ({
     setQuery({ ...query })
 
     // change arrayOfLogics // index correctie
-    arrayOfOperators[index - 1] = value
-    setArrayOfOperators([...arrayOfOperators])
+    arrayOfLogics[index - 1] = value
+    setArrayOfLogics([...arrayOfLogics])
 
     // now combine again
-    nestFilters(query, arrayOfOperators)
+    nestFilters(query, arrayOfLogics)
   }
 
   const changeOperator = () => {}
@@ -113,16 +113,14 @@ export const FilterPill = ({
             $value: customValue,
           })
 
-          setArrayOfOperators([...arrayOfOperators, andOrValue])
+          setArrayOfLogics([...arrayOfLogics, andOrValue])
           setQuery({ ...query })
           setNumberOfFilterPills(numberOfFilterPills + 1)
         }}
       >
         Add
       </Button>
-      <Button onClick={() => nestFilters(query, arrayOfOperators)}>
-        COMBINE
-      </Button>
+      <Button onClick={() => nestFilters(query, arrayOfLogics)}>COMBINE</Button>
       <Button
         onClick={() => {
           flattenFilters(query.filters)
