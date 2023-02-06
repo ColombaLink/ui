@@ -31,7 +31,20 @@ export const FilterPill = ({
     nestFilters(query, arrayOfLogics)
   }
 
-  const changeOperator = () => {}
+  const changeOperator = (operator, index) => {
+    // flatten
+    flattenFilters(query.filters)
+    query.filters = snurpArr.reverse()
+    setQuery({ ...query })
+
+    console.log('index', index)
+    query.filters[index].$operator = operator
+    setQuery({ ...query })
+    setOperator(operator)
+
+    // now combine again
+    nestFilters(query, arrayOfLogics)
+  }
 
   /* /////////  To combine and to unCombine the query object ///////// */
   let snurpArr = []
@@ -79,40 +92,39 @@ export const FilterPill = ({
   return (
     <div style={{ display: 'flex', border: '1px solid blue' }}>
       index: {index}
-      <Select
-        value={andOrValue}
-        options={['$and', '$or']}
-        onChange={(value) => {
-          setAndOrValue(value)
-          changeAndOr(value, index)
-        }}
-        style={{ width: 96 }}
-      />
+      {index !== 0 && (
+        <Select
+          value={andOrValue}
+          options={['$and', '$or']}
+          onChange={(value) => {
+            setAndOrValue(value)
+            changeAndOr(value, index)
+          }}
+          style={{ width: 96 }}
+        />
+      )}
       <Input value={field} onChange={(e) => setField(e)} />
       <Select
         value={operator}
         options={['=', '!=', 'includes', 'has']}
         style={{ width: 100 }}
         onChange={(e) => {
-          console.log('index', index)
-
-          query.filters[index].$operator = e
-          setQuery({ ...query })
-          setOperator(e)
+          changeOperator(e, index)
         }}
       />
       <Input value={customValue} onChange={(e) => setCustomValue(e)} />
       <Button
         onClick={() => {
           // add new filter to the query
-
           query.filters.push({
             $field: field,
             $operator: operator,
             $value: customValue,
           })
 
-          setArrayOfLogics([...arrayOfLogics, andOrValue])
+          if (index !== 0) {
+            setArrayOfLogics([...arrayOfLogics, andOrValue])
+          }
           setQuery({ ...query })
           setNumberOfFilterPills(numberOfFilterPills + 1)
         }}

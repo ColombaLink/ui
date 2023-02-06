@@ -3,6 +3,8 @@ import { Text, Button } from '~'
 import { RootPill } from './RootPill'
 import { FirstFilterPill } from './FirstFilterPill'
 import { FilterPill } from './FilterPill'
+import { color } from '~'
+import { styled } from 'inlines'
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -12,7 +14,7 @@ export const QueryBar = () => {
   })
 
   // count and or ors in the query
-  const [numberOfFilterPills, setNumberOfFilterPills] = useState(0)
+  const [numberOfFilterPills, setNumberOfFilterPills] = useState(1)
   // to track nested operators
   const [arrayOfLogics, setArrayOfLogics] = useState([])
 
@@ -22,32 +24,33 @@ export const QueryBar = () => {
 
   return (
     <>
-      <div
+      <styled.div
         style={{
-          border: '1px solid red',
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
           padding: 6,
         }}
       >
         <RootPill query={query} setQuery={setQuery} />
-        <FirstFilterPill
+        {/* <FirstFilterPill
           query={query}
           setQuery={setQuery}
           setNumberOfFilterPills={setNumberOfFilterPills}
-        />
+        /> */}
 
         {[...Array(numberOfFilterPills)]?.map((item, index) => (
           <FilterPill
             query={query}
             setQuery={setQuery}
-            index={index + 1}
-            key={index + 1}
+            index={index}
+            key={index}
             numberOfFilterPills={numberOfFilterPills}
             setNumberOfFilterPills={setNumberOfFilterPills}
             setArrayOfLogics={setArrayOfLogics}
             arrayOfLogics={arrayOfLogics}
           />
         ))}
-      </div>
+      </styled.div>
 
       <pre
         style={{

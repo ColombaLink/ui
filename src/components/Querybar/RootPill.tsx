@@ -1,6 +1,15 @@
 import React from 'react'
 import { Select, Text, ArrowRightIcon, StackIcon } from '~'
 import { color } from '~/utils'
+import { styled } from 'inlines'
+
+const StyledSelect = styled(Select, {
+  backgroundColor: color('lighttext'),
+
+  '& svg': {
+    display: 'none',
+  },
+})
 
 export const RootPill = ({ query, setQuery }) => {
   return (
@@ -18,10 +27,12 @@ export const RootPill = ({ query, setQuery }) => {
         color="text2"
         style={{
           height: 30,
-          padding: 8,
+          padding: 10,
+          display: 'flex',
+          alignItems: 'center',
           borderTopLeftRadius: 4,
           borderBottomLeftRadius: 4,
-          backgroundColor: color('background2'),
+          backgroundColor: color('lighttext'),
           borderRight: `1px solid ${color('border')}`,
         }}
       >
@@ -30,26 +41,31 @@ export const RootPill = ({ query, setQuery }) => {
       <Text
         style={{
           display: 'flex',
+          alignItems: 'center',
           gap: 8,
           height: 30,
-          padding: 8,
-          minWidth: 96,
-          backgroundColor: color('background2'),
+          padding: 10,
+          minWidth: 74,
+          backgroundColor: color('lighttext'),
           borderRight: `1px solid ${color('border')}`,
         }}
       >
         <StackIcon size={16} color="accent" />
         Root
       </Text>
-      <Select
+      <StyledSelect
         style={{
-          width: 96,
+          width: 140,
           height: 30,
-          backgroundColor: color('background2'),
+          //   backgroundColor: color('lighttext'),
           borderTopLeftRadius: 0,
           borderBottomLeftRadius: 0,
           borderTopRightRadius: 4,
           borderBottomRightRadius: 4,
+          border: `1px solid transparent`,
+          '&:hover': {
+            background: 'purple',
+          },
         }}
         value={query.field}
         options={['ancestors', 'descendants', 'children', 'parents']}
@@ -60,7 +76,7 @@ export const RootPill = ({ query, setQuery }) => {
           console.log('query', query)
         }}
       />
-      <ArrowRightIcon size={32} />
+      <ArrowRightIcon size={16} style={{ marginLeft: 8, marginRight: 8 }} />
     </div>
   )
 }
