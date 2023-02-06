@@ -20,22 +20,27 @@ export const FilterPill = ({
   const changeAndOr = (obj, index, operator) => {
     let stringifiedObj = JSON.stringify(obj)
 
+    // replace $and or $or at index
+    stringifiedObj = stringifiedObj.replace(/"\$and"/g, `"${'snupr'}"`)
+
     // count number of $and and $or at indexes
-    console.log(stringifiedObj, 'stringifiedObj 🌞 from and or')
+    console.log('ANDOR', stringifiedObj, obj, index, operator)
   }
 
   const changeOperator = (index, operator) => {}
 
-  const nestFilters = (object, arr) => {
-    const query = {}
-    let target = query
-    object.forEach((obj, index) => {
+  const nestFilters = (query, arr) => {
+    const snurp = {}
+    let target = snurp
+    query.filters.forEach((obj, index) => {
       Object.assign(target, obj)
       const l = arr[index]
       if (l) {
         target = target[l] = {}
       }
     })
+
+    query.filters = { ...snurp }
     console.log('query 🐸', query)
     setQuery({ ...query })
   }
@@ -67,7 +72,7 @@ export const FilterPill = ({
         onChange={(e) => {
           console.log('index', index)
 
-          query.filters[index + 1].$operator = e
+          query.filters[index].$operator = e
           setQuery({ ...query })
           setOperator(e)
         }}
@@ -93,7 +98,7 @@ export const FilterPill = ({
       <Button
         onClick={() => {
           // loopThroughObj(query.filters[0])
-          nestFilters(query.filters, arrayOfOperators)
+          nestFilters(query, arrayOfOperators)
         }}
       >
         COMBINE

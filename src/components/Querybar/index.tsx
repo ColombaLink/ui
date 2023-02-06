@@ -39,8 +39,8 @@ export const QueryBar = () => {
           <FilterPill
             query={query}
             setQuery={setQuery}
-            index={index}
-            key={index}
+            index={index + 1}
+            key={index + 1}
             numberOfFilterPills={numberOfFilterPills}
             setNumberOfFilterPills={setNumberOfFilterPills}
             setArrayOfOperators={setArrayOfOperators}

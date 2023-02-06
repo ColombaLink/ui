@@ -1270,6 +1270,7 @@
       "name": "DrawerProps",
       "props": {
         "label": {
+          "optional": true,
           "type": "string"
         },
         "children": {
@@ -1282,6 +1283,7 @@
           ]
         },
         "isRendered": {
+          "optional": true,
           "type": "boolean"
         },
         "sidebar": {
@@ -1316,14 +1318,19 @@
           ]
         },
         "closeFunc": {
+          "optional": true,
           "type": "TSAnyKeyword"
         },
         "style": {
           "optional": true,
           "type": "CSSProperties"
+        },
+        "fullscreen": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DrawerProps = {\n  label: string\n  children?: ReactNode | ReactNode[]\n  isRendered: boolean\n  sidebar?: boolean\n  sidebarElem?: ReactNode | ReactNode[]\n  noBoxShadow?: boolean\n  width?: string | number\n  height?: string | number\n  closeFunc: any\n  //   color?: Color\n  style?: CSSProperties\n}",
+      "code": "type DrawerProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  isRendered?: boolean\n  sidebar?: boolean\n  sidebarElem?: ReactNode | ReactNode[]\n  noBoxShadow?: boolean\n  width?: string | number\n  height?: string | number\n  closeFunc?: any\n  style?: CSSProperties\n  fullscreen?: boolean\n}",
       "file": "/components/Drawer/index.tsx"
     },
     "ExpandableListProps": {
