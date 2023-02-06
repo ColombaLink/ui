@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Text, Button } from '~'
-import { RootPill } from './RootPill'
-import { FirstFilterPill } from './FirstFilterPill'
-import { FilterPill } from './FilterPill'
 import { color } from '~'
+import { RootPill } from './RootPill'
+import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
 
 export const QueryBar = () => {
