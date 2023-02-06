@@ -17,41 +17,29 @@ export const FilterPill = ({
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
 
-  const loopThroughObj = (obj) => {
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        console.log('key', key, '---->', obj[key])
-        if (key === '$or' || key === '$and') {
-          console.log('flark 🩸', obj[key])
-        }
-        if (typeof obj[key] === 'object') {
-          loopThroughObj(obj[key])
-        }
-      }
-    }
+  const changeAndOr = (value, index) => {
+    // flatten
+    flattenFilters(query.filters)
+    query.filters = snurpArr.reverse()
+    setQuery({ ...query })
+
+    // change arrayOfLogics // index correctie
+    arrayOfOperators[index - 1] = value
+    setArrayOfOperators([...arrayOfOperators])
+
+    // now combine again
+    nestFilters(query, arrayOfOperators)
   }
 
-  const changeAndOr = (obj, index, operator) => {
-    let stringifiedObj = JSON.stringify(obj)
+  const changeOperator = () => {}
 
-    let arrOfPositions = []
-    let pos = stringifiedObj.indexOf('$and')
-
-    while (pos !== -1) {
-      arrOfPositions.push(pos)
-      pos = stringifiedObj.indexOf('$and', pos + 1)
-    }
-
-    console.log(arrOfPositions)
-
-    // zet weer terug als parsed object query.filters
-
-    // setQuery({ ...query })
-  }
-
-  const changeOperator = (index, operator) => {}
+  /* /////////  To combine and to unCombine the query object ///////// */
+  let snurpArr = []
 
   const nestFilters = (query, arr) => {
+    // empty the snurpArr
+    snurpArr = []
+
     const snurp = {}
     let target = snurp
     query.filters.forEach((obj, index) => {
@@ -67,10 +55,8 @@ export const FilterPill = ({
     setQuery({ ...query })
   }
 
-  const snurpArr = []
-
   const flattenFilters = (obj) => {
-    let tempObj = {}
+    const tempObj = {}
 
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
@@ -81,14 +67,9 @@ export const FilterPill = ({
           console.log('tempObj 🐸', tempObj)
         }
 
-        // if (key === '$or' || key === '$and') {
-        //   console.log('flark 🩸', obj[key])
-        // }
-
         if (typeof obj[key] === 'object') {
           flattenFilters(obj[key])
           console.log('snurp 🐸', snurpArr)
-          //   snurpArr.push(obj[key])
         }
       }
     }
@@ -104,13 +85,7 @@ export const FilterPill = ({
         onChange={(value) => {
           console.log('value', value)
           setAndOrValue(value)
-
-          // also change in the right place in the array TODO
-          console.log(index, 'index 🌞')
-
-          changeAndOr(query.filters, index, value)
-          arrayOfOperators[index] = value
-          setArrayOfOperators([...arrayOfOperators])
+          changeAndOr(value, index)
         }}
         style={{ width: 96 }}
       />
@@ -148,53 +123,61 @@ export const FilterPill = ({
       <Button onClick={() => nestFilters(query, arrayOfOperators)}>
         COMBINE
       </Button>
-      <Button onClick={() => flattenFilters(query.filters)}>FLATTEN</Button>
+      <Button
+        onClick={() => {
+          flattenFilters(query.filters)
+          query.filters = snurpArr.reverse()
+          setQuery({ ...query })
+        }}
+      >
+        FLATTEN
+      </Button>
     </div>
   )
 }
 
-const loopThroughObj = (obj) => {
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      console.log('key', key, '---->', obj[key])
-      if (key === '$or' || key === '$and') {
-        console.log('flark 🩸', obj[key])
-      }
-      if (typeof obj[key] === 'object') {
-        loopThroughObj(obj[key])
-      }
-    }
-  }
-}
+// const loopThroughObj = (obj) => {
+//   for (let key in obj) {
+//     if (obj.hasOwnProperty(key)) {
+//       console.log('key', key, '---->', obj[key])
+//       if (key === '$or' || key === '$and') {
+//         console.log('flark ', obj[key])
+//       }
+//       if (typeof obj[key] === 'object') {
+//         loopThroughObj(obj[key])
+//       }
+//     }
+//   }
+// }
 
-const filters = [
-  {
-    $field: '',
-    $operator: '=',
-  },
-  {
-    $field: '',
-    $operator: '=',
-  },
-  {
-    $field: '',
-    $operator: '=',
-  },
-  {
-    $field: '',
-    $operator: '=',
-  },
-]
+// const filters = [
+//   {
+//     $field: '',
+//     $operator: '=',
+//   },
+//   {
+//     $field: '',
+//     $operator: '=',
+//   },
+//   {
+//     $field: '',
+//     $operator: '=',
+//   },
+//   {
+//     $field: '',
+//     $operator: '=',
+//   },
+// ]
 
-const logics = ['$or', '$and', '$or']
+// const logics = ['$or', '$and', '$or']
 
-// nest filters
-const query = {}
-let target = query
-filters.forEach((obj, index) => {
-  Object.assign(target, obj)
-  const l = logics[index]
-  if (l) {
-    target = target[l] = {}
-  }
-})
+// // nest filters
+// const query = {}
+// let target = query
+// filters.forEach((obj, index) => {
+//   Object.assign(target, obj)
+//   const l = logics[index]
+//   if (l) {
+//     target = target[l] = {}
+//   }
+// })
