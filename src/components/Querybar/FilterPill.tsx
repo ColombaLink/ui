@@ -17,15 +17,11 @@ export const FilterPill = ({
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
 
-  //  make a flippin string out the query to modify the object/query
-
   const changeAndOr = (obj, index, operator) => {
     let stringifiedObj = JSON.stringify(obj)
 
     // count number of $and and $or at indexes
-    for (let i = 0; i < stringifiedObj.length; i++) {
-      console.log()
-    }
+    console.log(stringifiedObj, 'stringifiedObj 🌞 from and or')
   }
 
   const changeOperator = (index, operator) => {}
@@ -57,18 +53,9 @@ export const FilterPill = ({
           // also change in the right place in the array TODO
           console.log(index, 'index 🌞')
 
-          // als het bestaat
-          if (value === '$or') {
-            query.filters[index + 1].$or = query.filters[index + 1].$and
-            delete query.filters[0].$and
-          } else if (value === '$and') {
-            query.filters[index + 1].$and = query.filters[index + 1].$or
-            delete query.filters[0].$or
-          }
-
+          changeAndOr(query.filters, index, value)
           arrayOfOperators[index] = value
           setArrayOfOperators([...arrayOfOperators])
-          setQuery({ ...query })
         }}
         style={{ width: 96 }}
       />
