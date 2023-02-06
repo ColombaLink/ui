@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { Avatar } from '~/components/Avatar'
+import React from 'react'
+
 import { Drawer } from '~/components/Drawer'
-import { Code } from '~/components/Code'
+
 import ComponentViewer from '../ComponentViewer'
 
 // const codeExample = ` import { Drawer } from '~/components/Drawer'
@@ -15,35 +15,32 @@ import ComponentViewer from '../ComponentViewer'
 //       <div>I am a drawer</div>
 //     </Drawer>`
 
-export const Drawers = () => {
-  const [drawer, setDrawer] = useState(false)
+const children = () => {
+  return <div>asdasldkasjd</div>
+}
 
+export const Drawers = () => {
   return (
     <div>
-      {/* <Code value={codeExample} space /> */}
       <ComponentViewer
         component={Drawer}
         propsName="DrawerProps"
-        // examples={[
-        //   {
-        //     props: {
-        //       label: 'Label',
-        //       isRendered: true,
-        //       closeFunc: () => console.log('asdasd'),
-        //     },
-        //   },
-        // ]}
+        examples={[
+          {
+            props: {
+              // label: 'Label',
+              isRendered: true,
+              sidebar: true,
+              closeFunc: () => console.log('asdasd'),
+              style: {
+                // minHeight: 500,
+              },
+              children: { children },
+              sidebarElem: children,
+            },
+          },
+        ]}
       />
-
-      {/* <div>
-        <Drawer
-          isRendered={drawer}
-          closeFunc={() => setDrawer(false)}
-          label="asdasd"
-        >
-          asdasd
-        </Drawer>
-      </div> */}
     </div>
   )
 }
