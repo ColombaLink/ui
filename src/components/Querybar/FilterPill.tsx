@@ -17,14 +17,36 @@ export const FilterPill = ({
   const [operator, setOperator] = useState('=')
   const [customValue, setCustomValue] = useState('')
 
+  const loopThroughObj = (obj) => {
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        console.log('key', key, '---->', obj[key])
+        if (key === '$or' || key === '$and') {
+          console.log('flark 🩸', obj[key])
+        }
+        if (typeof obj[key] === 'object') {
+          loopThroughObj(obj[key])
+        }
+      }
+    }
+  }
+
   const changeAndOr = (obj, index, operator) => {
     let stringifiedObj = JSON.stringify(obj)
 
-    // replace $and or $or at index
-    stringifiedObj = stringifiedObj.replace(/"\$and"/g, `"${'snupr'}"`)
+    let arrOfPositions = []
+    let pos = stringifiedObj.indexOf('$and')
 
-    // count number of $and and $or at indexes
-    console.log('ANDOR', stringifiedObj, obj, index, operator)
+    while (pos !== -1) {
+      arrOfPositions.push(pos)
+      pos = stringifiedObj.indexOf('$and', pos + 1)
+    }
+
+    console.log(arrOfPositions)
+
+    // zet weer terug als parsed object query.filters
+
+    // setQuery({ ...query })
   }
 
   const changeOperator = (index, operator) => {}
@@ -43,6 +65,34 @@ export const FilterPill = ({
     query.filters = { ...snurp }
     console.log('query 🐸', query)
     setQuery({ ...query })
+  }
+
+  const snurpArr = []
+
+  const flattenFilters = (obj) => {
+    let tempObj = {}
+
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        console.log('key', key, '---->', obj[key])
+
+        if (key !== '$and' && key !== '$or') {
+          tempObj[key] = obj[key]
+          console.log('tempObj 🐸', tempObj)
+        }
+
+        // if (key === '$or' || key === '$and') {
+        //   console.log('flark 🩸', obj[key])
+        // }
+
+        if (typeof obj[key] === 'object') {
+          flattenFilters(obj[key])
+          console.log('snurp 🐸', snurpArr)
+          //   snurpArr.push(obj[key])
+        }
+      }
+    }
+    snurpArr.push(tempObj)
   }
 
   return (
@@ -95,31 +145,27 @@ export const FilterPill = ({
       >
         Add
       </Button>
-      <Button
-        onClick={() => {
-          // loopThroughObj(query.filters[0])
-          nestFilters(query, arrayOfOperators)
-        }}
-      >
+      <Button onClick={() => nestFilters(query, arrayOfOperators)}>
         COMBINE
       </Button>
+      <Button onClick={() => flattenFilters(query.filters)}>FLATTEN</Button>
     </div>
   )
 }
 
-// const loopThroughObj = (obj) => {
-//   for (let key in obj) {
-//     if (obj.hasOwnProperty(key)) {
-//       console.log('key', key, '---->', obj[key])
-//       if (key === '$or' || key === '$and') {
-//         console.log('flark 🩸', obj[key])
-//       }
-//       if (typeof obj[key] === 'object') {
-//         loopThroughObj(obj[key])
-//       }
-//     }
-//   }
-// }
+const loopThroughObj = (obj) => {
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      console.log('key', key, '---->', obj[key])
+      if (key === '$or' || key === '$and') {
+        console.log('flark 🩸', obj[key])
+      }
+      if (typeof obj[key] === 'object') {
+        loopThroughObj(obj[key])
+      }
+    }
+  }
+}
 
 const filters = [
   {
