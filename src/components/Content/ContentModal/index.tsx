@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -143,6 +143,33 @@ const ContentModalInner = ({ prefix, id, field }) => {
 
   const [copied, copy] = useCopyToClipboard(id)
 
+  useEffect(() => {
+    async function handleKeyUp(e) {
+      if (e.keyCode === 13 && !e.shiftKey) {
+        const blabla = async () => {
+          parseBasedSetPayload(changes)
+          console.log(JSON.stringify(changes, null, 2))
+          await client.set({
+            $id: id?.split('.')[0] || undefined,
+            type,
+            ...changes,
+          })
+          published.current = true
+          ref.current = {}
+          setDisabled(true)
+        }
+        blabla()
+      }
+
+      if (e.keyCode === 27) {
+        await onClose()
+      }
+    }
+
+    window.addEventListener('keyup', handleKeyUp)
+    return () => window.removeEventListener('keyup', handleKeyUp)
+  }, [])
+
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
 
@@ -170,25 +197,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
       setLocation(prefix)
     }
   }
-  const publishKey = (e) => {
-    if (e.keyCode === 13 && !e.shiftKey) {
-      const blabla = async () => {
-        parseBasedSetPayload(changes)
-        console.log(JSON.stringify(changes, null, 2))
-        await client.set({
-          $id: id?.split('.')[0] || undefined,
-          type,
-          ...changes,
-        })
-        published.current = true
-        ref.current = {}
-        setDisabled(true)
-      }
-      blabla()
-    } else if (e.keyCode === 27) {
-      onClose()
-    }
-  }
 
   return (
     <div
@@ -211,7 +219,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
         }}
       />
       <styled.div
-        onKeyDown={publishKey}
         style={{
           width: 1200,
           margin: 24,
@@ -290,7 +297,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
             </styled.div>
             <SideHeader title="Status" />
             <Button
-              // actionKeys={['Enter']}
               large
               disabled={disabled}
               textAlign="center"
