@@ -67,11 +67,14 @@ export const Drawer = ({
               boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.24)',
               zIndex: '10',
               overflow: 'auto',
+
               ...style,
             }}
           >
             <div
               style={{
+                paddingTop: 30,
+                paddingBottom: 30,
                 display: 'flex',
                 flexDirection: 'row',
                 height: '7.5%',
@@ -94,7 +97,11 @@ export const Drawer = ({
                   justifyContent: 'space-evenly',
                 }}
               >
-                <MoreIcon style={{ cursor: 'pointer' }} size={24} />
+                <MoreIcon
+                  style={{ cursor: 'pointer' }}
+                  size={24}
+                  // onClick={open options menu or something?}
+                />
                 <CloseIcon
                   size={24}
                   onClick={closeFunc}
