@@ -55,6 +55,8 @@ const sortAndFlatten = (fields) => {
     }
   }
 
+  console.log('sortedFields', sortedFields)
+
   return sortedFields
 }
 
@@ -214,6 +216,8 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
 
     return true
   })
+
+  console.log('filtered', filtered)
 
   return (
     <DndContext

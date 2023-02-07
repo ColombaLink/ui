@@ -221,6 +221,11 @@ export const Field = ({
         <Badge color="text" style={{ marginLeft: 12 }}>
           {fieldType}
         </Badge>
+        {systemFields.has(field) && (
+          <Badge color="text" style={{ marginLeft: 12 }}>
+            System Field
+          </Badge>
+        )}
         {nestedType ? (
           <Badge color="text" style={{ marginLeft: 12 }}>
             {nestedType}

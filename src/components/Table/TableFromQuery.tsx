@@ -361,7 +361,7 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       {...listeners}
       onClick={() => {
         if (!isCheckbox) {
-          console.log(item, field, field && types[item.type].fields[field].type)
+          //        console.log(item, field, field && types[item.type].fields[field].type)
           onClick(item, field, field && types[item.type].fields[field].type)
         }
       }}
@@ -517,7 +517,7 @@ const Header = ({
 }) => {
   // console.log('from header', lijst)
   // console.log('all fields', allFields)
-  console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
+  // console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
 
   const checkAllHandler = (e) => {
     if (e) {
