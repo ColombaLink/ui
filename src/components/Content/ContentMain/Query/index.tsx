@@ -265,7 +265,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           )
         })}
       </div>
-      <pre
+      {/* <pre
         style={{
           bottom: 0,
           right: 0,
@@ -276,7 +276,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
         }}
       >
         {JSON.stringify(query, null, 2)}
-      </pre>
+      </pre> */}
     </>
   )
 }

@@ -880,6 +880,57 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           setDraggingOver(false)
         }}
       >
+        {/* acces this selectedRowCheckboxes  */}
+        {selectedRowCheckboxes.length > 0 && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              height: 34,
+              marginBottom: 8,
+              marginLeft: 26,
+            }}
+          >
+            <div>
+              <Text>{selectedRowCheckboxes.length} items selected</Text>
+            </div>
+            <Button
+              onClick={() => setSelectedRowCheckboxes([])}
+              color="lightaction"
+              outline
+              style={{
+                // @ts-ignore
+                '&:hover': {
+                  backgroundColor: color('lightaction:hover'),
+                  boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+                },
+              }}
+            >
+              Clear selection
+            </Button>
+            <Button
+              onClick={() => {
+                console.log('items', items)
+              }}
+              color="lightaction"
+              outline
+              style={{
+                // @ts-ignore
+                '&:hover': {
+                  backgroundColor: color('lightaction:hover'),
+                  boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+                },
+              }}
+            >
+              Show selected items
+            </Button>
+            <Button color="red" onClick={() => deleteItems(items)}>
+              Delete items
+            </Button>
+          </div>
+        )}
+
         <InnerTable
           tableRef={tableRef}
           style={{
@@ -945,21 +996,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                   items={items}
                 />
                 {/* TODO: add filter menu */}
-
-                {selectedRowCheckboxes.length > 0 && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: -30,
-                      top: 0,
-                      width: 40,
-                      height: 20,
-                      background: 'yellow',
-                    }}
-                  >
-                    <Button onClick={() => deleteItems(items)}>Delete</Button>
-                  </div>
-                )}
               </div>
             )
           }}
