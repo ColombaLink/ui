@@ -118,17 +118,19 @@ const Header = ({ label, view, prefix }) => {
   parse()
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
-      <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
-        {currentView?.label}
-      </Text>
-      <div style={{ padding: '0 16px' }}>
-        <MoreIcon
-          onClick={useContextMenu(Menu, { views, currentView, deletable })}
-          style={{
-            cursor: 'pointer',
-          }}
-        />
+    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
+          {currentView?.label}
+        </Text>
+        <div style={{ padding: '0 16px' }}>
+          <MoreIcon
+            onClick={useContextMenu(Menu, { views, currentView, deletable })}
+            style={{
+              cursor: 'pointer',
+            }}
+          />
+        </div>
       </div>
 
       {/* old buttons place */}
@@ -336,7 +338,7 @@ export const ContentMain = ({
           display: 'flex',
           flexDirection: 'column',
           gap: 16,
-          padding: '16px 24px',
+          padding: '24px 32px 16px',
         }}
       >
         <Header label={label} view={view} prefix={prefix} />

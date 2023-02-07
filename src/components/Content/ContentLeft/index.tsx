@@ -94,7 +94,12 @@ export const ContentLeft: FC<{
     <Menu
       prefix={prefix}
       collapse
-      style={{ paddingTop: 24, width: 234 }}
+      style={{
+        paddingTop: 24,
+        minWidth: 234,
+        paddingLeft: 16,
+        paddingRight: 16,
+      }}
       header={
         <Text
           size="22px"

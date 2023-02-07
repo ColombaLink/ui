@@ -11,13 +11,19 @@ import {
   AttachmentIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  LinkIcon,
   ReferenceIcon,
   SortIcon,
 } from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import { isImage } from '~/utils/isImage'
-import { HEADER_HEIGHT, ITEM_HEIGHT, ACTIONS_WIDTH } from './constants'
+import {
+  HEADER_HEIGHT,
+  ITEM_HEIGHT,
+  ACTIONS_WIDTH,
+  ITEM_WIDTH,
+} from './constants'
 import { toDateString } from '~/utils/date'
 import { Badge } from '../Badge'
 import { useHover, useContextMenu, useLocation } from '~/hooks'
@@ -89,7 +95,7 @@ const References = ({ value }) => {
       // }}
     >
       <div style={{ minWidth: 32, display: 'flex' }}>
-        <AttachmentIcon
+        <LinkIcon
           color="accent"
           style={{
             marginRight: 4,
@@ -246,6 +252,9 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       field = fields[colIndex]
       value = item[field]
       hasField = schemaFields && field in schemaFields
+
+      console.log(value)
+
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
@@ -305,7 +314,6 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
           } else if (fieldType === 'string' && metaFieldType === 'markdown') {
             children = <Text weight={weight}>{value.substring(0, 64)}</Text>
           } else if (isImage(value)) {
-            // console.log('image', value)
             children = (
               <div
                 style={{
@@ -324,22 +332,22 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         }
       }
 
-      if (!children) {
-        children =
-          activeRow && hasField ? (
-            <Text
-              color="text"
-              style={{
-                pointerEvents: 'none',
-                opacity: 0.5,
-              }}
-            >
-              {field}
-            </Text>
-          ) : (
-            ''
-          )
-      }
+      // if (!children) {
+      //   children =
+      //     activeRow && hasField ? (
+      //       <Text
+      //         color="text"
+      //         style={{
+      //           pointerEvents: 'none',
+      //           opacity: 0.5,
+      //         }}
+      //       >
+      //         {field}
+      //       </Text>
+      //     ) : (
+      //       ''
+      //     )
+      // }
     }
   }
 
@@ -373,15 +381,15 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
         display: 'flex',
         alignItems: 'center',
         cursor: isCheckbox ? null : hasField ? 'pointer' : 'not-allowed',
-        paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 12,
+        paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 8,
         paddingRight: 12,
         borderBottom: border(1),
         //  borderRight: border(1),
         backgroundColor: color(
           activeRow
             ? !isCheckbox && hasField
-              ? 'background:hover'
-              : 'background2:hover'
+              ? 'lightaccent'
+              : 'lightaccent'
             : 'transparent'
         ),
       }}
@@ -634,19 +642,18 @@ const Header = ({
                 <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
               )}
             </div>
-            {hover && (
-              <HeaderDragLine
-                setColWidths={setColWidths}
-                colWidths={colWidths}
-                index={index}
-                hovering={hover}
-                style={{
-                  '&>div': {
-                    backgroundColor: hover ? color('border') : 'transparent',
-                  },
-                }}
-              />
-            )}
+
+            <HeaderDragLine
+              setColWidths={setColWidths}
+              colWidths={colWidths}
+              index={index}
+              hovering={hover}
+              style={{
+                '&>div': {
+                  backgroundColor: hover ? color('border') : 'transparent',
+                },
+              }}
+            />
           </div>
         ))}
       </div>
@@ -703,7 +710,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   selectedRowCheckboxes,
   isMultiref,
 }) => {
-  const colWidth = 200
+  const colWidth = ITEM_WIDTH
   const { schema } = useSchema()
   const [[sortField, sortOrder], setSort] = useState<string[]>([
     'updatedAt',
@@ -742,6 +749,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const { confirm } = useDialog()
 
   const [filteredFields, setFilteredFields] = useState(fields)
+
   const [unCheckedArr, setUnCheckedArr] = useState([
     'type',
     'parents',
@@ -937,7 +945,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
               gap: 12,
               height: 34,
               marginBottom: 8,
-              marginLeft: 26,
+              marginLeft: 32,
             }}
           >
             <div>
