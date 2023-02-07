@@ -147,6 +147,12 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
             // this is the correct item from row
             console.log('item', item)
 
+            if (data.selectedRowCheckboxes?.includes(rowIndex)) {
+              const newSelectedRowCheckboxes =
+                data.selectedRowCheckboxes.filter((el) => el !== rowIndex)
+              data.setSelectedRowCheckboxes(newSelectedRowCheckboxes)
+            }
+
             // if shift is being held down, select all items between the last selected item and the current item
             // all this for logic for if the shift key is pressed down
             if (e.shiftKey) {
@@ -511,6 +517,7 @@ const Header = ({
 }) => {
   // console.log('from header', lijst)
   // console.log('all fields', allFields)
+  console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
 
   const checkAllHandler = (e) => {
     if (e) {
@@ -520,6 +527,7 @@ const Header = ({
       }
       setSelectedRowCheckboxes(allIndexesArr)
     } else {
+      // setSelectedRowCheckboxes(selectedRowCheckboxes)
       setSelectedRowCheckboxes([])
     }
   }
