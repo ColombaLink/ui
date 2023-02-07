@@ -455,8 +455,14 @@ const InnerTable = ({
   )
 }
 
-const HeaderDragLine = ({ index, setColWidths, colWidths }) => {
-  const width = 8
+const HeaderDragLine = ({
+  index,
+  setColWidths,
+  colWidths,
+  style,
+  hovering,
+}) => {
+  const width = 4
   return (
     <styled.div
       onMouseDown={({ currentTarget, clientX: startX }) => {
@@ -476,14 +482,18 @@ const HeaderDragLine = ({ index, setColWidths, colWidths }) => {
       style={{
         zIndex: 1,
         position: 'absolute',
-        right: -width / 2,
+        // right: -width / 2,
+        right: width,
         height: 32,
         bottom: 0,
         width,
         cursor: 'col-resize',
+        backgroundColor: hovering ? color('background') : 'transparent',
         '&:hover>div': {
-          backgroundColor: color('border'),
+          //   backgroundColor: color('border'),
+          backgroundColor: color('accent'),
         },
+        ...style,
       }}
     >
       <div
@@ -518,6 +528,7 @@ const Header = ({
   // console.log('from header', lijst)
   // console.log('all fields', allFields)
   // console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
+  const { listeners, hover } = useHover()
 
   const checkAllHandler = (e) => {
     if (e) {
@@ -546,7 +557,7 @@ const Header = ({
           height: HEADER_HEIGHT,
           minWidth: width,
         }}
-        // {...listeners}
+        {...listeners}
       >
         <div
           style={{
@@ -585,28 +596,57 @@ const Header = ({
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              {field === activeSortField && (
-                <SortIcon color="accent" style={{ marginRight: '-6px' }} />
-              )}
-              <Text
-                color={field === activeSortField ? 'accent' : 'text2'}
-                weight={field === activeSortField ? '600' : '400'}
-                style={{ paddingLeft: 12, lineHeight: `${HEADER_HEIGHT}px` }}
-              >
-                {field}
-              </Text>
               {field === activeSortField && sortOrder === 'desc' && (
-                <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
+                <SortIcon
+                  color="accent"
+                  style={{ marginRight: '-6px', marginLeft: 9 }}
+                />
               )}
               {field === activeSortField && sortOrder === 'asc' && (
-                <ChevronUpIcon color="accent" style={{ marginLeft: '6px' }} />
+                <SortIcon
+                  color="accent"
+                  style={{ marginRight: '-6px', marginLeft: 9 }}
+                />
+              )}
+              <styled.div
+                style={{
+                  '&:hover >div': {
+                    color:
+                      field === activeSortField
+                        ? `${color('accent')} !important`
+                        : `${color('text')} !important`,
+                    fontWeight: '600 !important',
+                  },
+                }}
+              >
+                <Text
+                  color={field === activeSortField ? 'accent' : 'text2'}
+                  weight={field === activeSortField ? '600' : '400'}
+                  style={{
+                    paddingLeft: 12,
+                    lineHeight: `${HEADER_HEIGHT}px`,
+                  }}
+                >
+                  {field}
+                </Text>
+              </styled.div>
+              {field === activeSortField && (
+                <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
               )}
             </div>
-            <HeaderDragLine
-              setColWidths={setColWidths}
-              colWidths={colWidths}
-              index={index}
-            />
+            {hover && (
+              <HeaderDragLine
+                setColWidths={setColWidths}
+                colWidths={colWidths}
+                index={index}
+                hovering={hover}
+                style={{
+                  '&>div': {
+                    backgroundColor: hover ? color('border') : 'transparent',
+                  },
+                }}
+              />
+            )}
           </div>
         ))}
       </div>
