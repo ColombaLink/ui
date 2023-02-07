@@ -253,8 +253,6 @@ const Cell = ({ columnIndex, rowIndex, style, data }) => {
       value = item[field]
       hasField = schemaFields && field in schemaFields
 
-      console.log(value)
-
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
@@ -721,6 +719,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [relevantFields, setRelevantFields] = useState(fields)
 
   // console.log('relevantFields', relevantFields)
+  const [, setLocation] = useLocation()
 
   useEffect(() => {
     // set the filtered fields dan
@@ -767,6 +766,38 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   )
 
   const [lijst, setLijst] = useState(newListOrderArr)
+
+  const checkedItems = []
+  console.log('lijst--->', lijst)
+
+  /// TODO zet lijst in url
+  // wellicht alleen de item die true zijn in de url zetten
+  // kan misschien ook korter?? korter door alleen label namen te gebruiken
+  for (let i = 0; i < lijst.length; i++) {
+    if (lijst[i].checkbox) {
+      checkedItems.push(lijst[i].label)
+    }
+  }
+
+  useEffect(() => {
+    setLocation(
+      `?checkedFields=${encodeURIComponent(JSON.stringify(checkedItems))}`
+    )
+  }, [checkedItems])
+
+  console.log(checkedItems, '🛑')
+  console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
+
+  // test the reverse %5B%22name%22%2C%22id%22%5D
+  // get this part from the url if there is??
+  console.log(
+    'DECODED -->',
+    decodeURIComponent(
+      '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
+    )
+  )
+
+  // TODO als er dus een URL is moet het er weer uitgehaald worden en dat word de startlijst
 
   useEffect(() => {
     let tempUnCheckedArr = []
