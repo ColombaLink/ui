@@ -1,11 +1,7 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect, FC } from 'react'
 import { color } from '~/utils'
-import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
-import { Text } from '../Text'
-import { Button } from '../Button'
-import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
 import { ITEM_HEIGHT, ACTIONS_WIDTH, ITEM_WIDTH } from './constants'
 import { useLocation } from '~/hooks'
@@ -15,76 +11,9 @@ import { OnAction } from './types'
 import { useDialog } from '~/components/Dialog'
 import { Toast, useToast } from '../Toast'
 import { useClient } from '@based/react'
-import { Cell } from './Cell'
 import { Header } from './Header'
-
-const Grid = styled(VariableSizeGrid)
-
-// let selectedRowCheckboxes = []
-
-const InnerTable = ({
-  tableRef,
-  types,
-  items,
-  fields,
-  onClick,
-  setRelevantFields,
-  selectedRowCheckboxes,
-  setSelectedRowCheckboxes,
-  isMultiref,
-  ...props
-}) => {
-  const [state, setState] = useState({})
-  const { current: itemData } = useRef({})
-
-  Object.assign(itemData, {
-    types,
-    items,
-    fields,
-    onClick,
-    setRelevantFields,
-    selectedRowCheckboxes,
-    setSelectedRowCheckboxes,
-    setState,
-    ...state,
-  })
-
-  // console.log(itemData, 'itemData 🛎')
-
-  let fieldsOfRelevance
-
-  if (isMultiref) {
-    fieldsOfRelevance = []
-
-    itemData.items?.forEach((element) => {
-      const keys = Object.keys(element)
-
-      keys.forEach((key) => {
-        if (!fieldsOfRelevance.includes(key)) {
-          fieldsOfRelevance.push(key)
-          //  console.log('KEY ', key)
-        }
-      })
-    })
-  } else {
-    // console.log('all fields??', fields)
-    fieldsOfRelevance = [...fields]
-  }
-
-  useEffect(() => {
-    setRelevantFields(fieldsOfRelevance)
-  }, [isMultiref])
-
-  // console.log('can we filter these fields then --> ', fieldsOfRelevance)
-  // console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
-  // setRelevantFields(fieldsOfRelevance)
-
-  return (
-    <Grid {...props} itemData={itemData} ref={tableRef}>
-      {Cell}
-    </Grid>
-  )
-}
+import { InnerTable } from './InnerTable'
+import { SelectedOptionsSubMenu } from './SelectedOptionsSubMenu'
 
 export type TableFromQueryProps = {
   fields: string[]
@@ -122,14 +51,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'desc',
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
-
   const [relevantFields, setRelevantFields] = useState(fields)
 
   // console.log('relevantFields', relevantFields)
   const [, setLocation] = useLocation()
 
   useEffect(() => {
-    // set the filtered fields dan
     setFilteredFields(
       relevantFields.filter((field) => !unCheckedArr.includes(field))
     )
@@ -172,10 +99,11 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     })
   )
 
+  // WORK ON SAVING TO URL CUSTOM VIEWS
   const [lijst, setLijst] = useState(newListOrderArr)
 
   const checkedItems = []
-  console.log('lijst--->', lijst)
+  // console.log('lijst--->', lijst)
 
   /// TODO zet lijst in url
   // wellicht alleen de item die true zijn in de url zetten
@@ -192,17 +120,17 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     )
   }, [checkedItems])
 
-  console.log(checkedItems, '🛑')
-  console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
+  // console.log(checkedItems, '🛑')
+  // console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
 
   // test the reverse %5B%22name%22%2C%22id%22%5D
   // get this part from the url if there is??
-  console.log(
-    'DECODED -->',
-    decodeURIComponent(
-      '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
-    )
-  )
+  //  console.log(
+  //     'DECODED -->',
+  //     decodeURIComponent(
+  //       '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
+  //     )
+  //   )
 
   // TODO als er dus een URL is moet het er weer uitgehaald worden en dat word de startlijst
 
@@ -240,7 +168,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
 
-  const [newFields, setNewFields] = useState(newWorldOrder)
+  // const [newFields, setNewFields] = useState(newWorldOrder)
 
   const [location] = useLocation()
 
@@ -374,57 +302,14 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           setDraggingOver(false)
         }}
       >
-        {/* acces this selectedRowCheckboxes  */}
         {selectedRowCheckboxes.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              height: 34,
-              marginBottom: 8,
-              marginLeft: 32,
-            }}
-          >
-            <div>
-              <Text>{selectedRowCheckboxes.length} items selected</Text>
-            </div>
-            <Button
-              onClick={() => setSelectedRowCheckboxes([])}
-              color="lightaction"
-              outline
-              style={{
-                // @ts-ignore
-                '&:hover': {
-                  backgroundColor: color('lightaction:hover'),
-                  boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
-                },
-              }}
-            >
-              Clear selection
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('items', items)
-              }}
-              color="lightaction"
-              outline
-              style={{
-                // @ts-ignore
-                '&:hover': {
-                  backgroundColor: color('lightaction:hover'),
-                  boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
-                },
-              }}
-            >
-              Show selected items
-            </Button>
-            <Button color="red" onClick={() => deleteItems(items)}>
-              Delete items
-            </Button>
-          </div>
+          <SelectedOptionsSubMenu
+            selectedRowCheckboxes={selectedRowCheckboxes}
+            setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+            items={items}
+            deleteItems={deleteItems}
+          />
         )}
-
         <InnerTable
           tableRef={tableRef}
           style={{
@@ -489,7 +374,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                   selectedRowCheckboxes={selectedRowCheckboxes}
                   items={items}
                 />
-                {/* TODO: add filter menu */}
               </div>
             )
           }}
