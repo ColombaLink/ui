@@ -31,6 +31,17 @@ export type TableFromQueryProps = {
   isMultiref?: boolean
 }
 
+const getLijstFromQueryParams = () => {
+  const urlParams = new URLSearchParams(window.location.search)
+  const checked = urlParams.get('checked')
+  // if (checked) {
+  //   return JSON.parse(decodeURIComponent(checked))
+  // }
+  // return []
+
+  return []
+}
+
 export const TableFromQuery: FC<TableFromQueryProps> = ({
   query,
   fields,
@@ -53,6 +64,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
   const [relevantFields, setRelevantFields] = useState(fields)
+
+  // const mijnLijst = getLijstFromQueryParams()
 
   // console.log('relevantFields', relevantFields)
   const [location, setLocation] = useLocation()
@@ -135,6 +148,24 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
     //  console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
   }, [checkedItems])
+
+  useEffect(() => {
+    // clean my state from par
+    return () => {
+      history.replaceState(
+        null,
+        '',
+        '?' +
+          window.location.search
+            .split('&')
+            .filter(
+              (str) =>
+                !str.startsWith('?checked=') && !str.startsWith('checked=')
+            )
+            .join('&')
+      )
+    }
+  }, [])
 
   // let removePartUrl
   // useEffect(() => {
