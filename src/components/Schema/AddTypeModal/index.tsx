@@ -1,5 +1,5 @@
 import { Input, Dialog, useLocation } from '~'
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
 import { useClient, useSchema } from '@based/react'
@@ -13,6 +13,15 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
   const [, setLocation] = useLocation()
+  const [filled, setFilled] = useState(false)
+
+  useEffect(() => {
+    if (name !== '') {
+      setFilled(true)
+    } else if (name === '') {
+      setFilled(false)
+    }
+  })
 
   return (
     <Dialog label="Create a type">
@@ -20,6 +29,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
         <Input
           space
           type="text"
+          autoFocus
           placeholder="Type something here"
           label="Display name"
           description="Name that will be displayed in the interface"
@@ -65,34 +75,44 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
       </Dialog.Body>
       <Dialog.Buttons border>
         <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
-        <Dialog.Confirm
-          onConfirm={async () => {
-            const type = typeName || safeTypeName(name)
-            const typeSchema = {
-              meta: {
-                name: name,
-                description,
-                pluralName,
-              },
+        <div style={filled ? {} : { cursor: 'not-allowed' }}>
+          <Dialog.Confirm
+            style={
+              filled
+                ? {}
+                : {
+                    pointerEvents: 'none',
+                    cursor: 'not-allowed',
+                  }
             }
-            if (schema) {
-              schema.types[type] = typeSchema
-            }
-
-            await client.updateSchema({
-              schema: {
-                types: {
-                  [type]: typeSchema,
+            onConfirm={async () => {
+              const type = typeName || safeTypeName(name)
+              const typeSchema = {
+                meta: {
+                  name: name,
+                  description,
+                  pluralName,
                 },
-              },
-              db,
-            })
+              }
+              if (schema) {
+                schema.types[type] = typeSchema
+              }
 
-            setLocation(`${prefix}/${type}`)
-          }}
-        >
-          Create Model (Enter)
-        </Dialog.Confirm>
+              await client.updateSchema({
+                schema: {
+                  types: {
+                    [type]: typeSchema,
+                  },
+                },
+                db,
+              })
+
+              setLocation(`${prefix}/${type}`)
+            }}
+          >
+            Create Model (Enter)
+          </Dialog.Confirm>
+        </div>
       </Dialog.Buttons>
     </Dialog>
   )

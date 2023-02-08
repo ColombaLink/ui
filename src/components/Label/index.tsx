@@ -54,14 +54,14 @@ export const Label = ({
         )}
         <Text
           wrap
-          style={{ marginBottom: description ? 4 : 0 }}
+          style={{ marginBottom: description ? 0 : 0 }}
           color={labelColor || 'text'}
         >
           {label}
         </Text>
       </div>
       {description && (
-        <Text wrap typo="body400" color={descriptionColor || 'text2'}>
+        <Text wrap typo="body500" color={descriptionColor || 'text2'}>
           {description}
         </Text>
       )}
