@@ -133,7 +133,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   useEffect(() => {
     setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
-    console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
+    //  console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
   }, [checkedItems])
 
   // let removePartUrl
@@ -151,7 +151,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   //   }
   // }, [location])
 
-  console.log(checkedItems, '🛑')
+  // console.log(checkedItems, '🛑')
 
   // 1 check the url to see if there is a custom view
   // let newListArrayFromUrl = []

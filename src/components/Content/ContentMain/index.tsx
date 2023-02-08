@@ -149,7 +149,7 @@ export const ContentMain = ({
   label = null,
 }) => {
   const { loading, types } = useSchemaTypes()
-  const [, setLocation] = useLocation()
+  const [location, setLocation] = useLocation()
   const query = useQuery(queryOverwrite)
 
   const { confirm, prompt } = useDialog()
@@ -246,12 +246,6 @@ export const ContentMain = ({
   }
 
   /*
-
-
-  
-
-  
-
   $filter: {
     $field: 'bla'
     $operator: '=',
@@ -353,6 +347,10 @@ export const ContentMain = ({
               />
             )}
           </div>
+
+          {/*  only display if either the query changes or the selected boxes 
+             so if something in the url changes i guess  */}
+
           <div style={{ display: 'flex', gap: 4, marginLeft: 16 }}>
             <Button
               style={{ maxHeight: 32, marginTop: 4 }}

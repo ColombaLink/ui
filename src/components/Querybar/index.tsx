@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { color } from '~'
+import { ArrowRightIcon, color, Input, Text, StackIcon } from '~'
 import { RootPill } from './RootPill'
 import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
@@ -20,6 +20,14 @@ export const QueryBar = () => {
     console.log('query changed -->', arrayOfLogics)
   }, [query])
 
+  const [inputValue, setInputValue] = useState('')
+  const [splittedInputValue, setSplittedInputValue] = useState([])
+
+  useEffect(() => {
+    setSplittedInputValue(inputValue.split(' '))
+    console.log('splittedInputValue', splittedInputValue)
+  }, [inputValue])
+
   return (
     <>
       <styled.div
@@ -29,12 +37,71 @@ export const QueryBar = () => {
           padding: 6,
         }}
       >
+        <Input
+          space="12px"
+          value={inputValue}
+          onChange={(e) => {
+            setSplittedInputValue(e.split(' '))
+            setInputValue(e)
+          }}
+        />
+        <div
+          style={{ marginBottom: 12, display: 'flex', alignItems: 'center' }}
+        >
+          {/* harcode the first three options in there after that repeat */}
+          {splittedInputValue.map((text, idx) => (
+            <React.Fragment key={idx}>
+              {idx === 0 ? (
+                <Text
+                  wrap
+                  color="text2"
+                  style={{
+                    height: 30,
+                    padding: 10,
+                    display: 'flex',
+                    alignItems: 'center',
+                    borderTopLeftRadius: 4,
+                    borderBottomLeftRadius: 4,
+                    backgroundColor: color('lighttext'),
+                    borderRight: `1px solid ${color('border')}`,
+                  }}
+                >
+                  {text}
+                </Text>
+              ) : idx === 1 ? (
+                <Text
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    height: 30,
+                    padding: 10,
+                    minWidth: 74,
+                    backgroundColor: color('lighttext'),
+                    borderRight: `1px solid ${color('border')}`,
+                  }}
+                >
+                  <StackIcon size={16} color="accent" />
+                  {text}
+                </Text>
+              ) : (
+                <div
+                  style={{
+                    background: 'lightgrey',
+                    padding: 5,
+                    borderRight: idx % 3 === 0 ? 'none' : '1px solid grey',
+                    borderTopRightRadius: idx % 3 === 0 ? 4 : 0,
+                    borderBottomRightRadius: idx % 3 === 0 ? 4 : 0,
+                  }}
+                >
+                  {text}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+
         <RootPill query={query} setQuery={setQuery} />
-        {/* <FirstFilterPill
-          query={query}
-          setQuery={setQuery}
-          setNumberOfFilterPills={setNumberOfFilterPills}
-        /> */}
 
         {[...Array(numberOfFilterPills)]?.map((item, index) => (
           <FilterPill
