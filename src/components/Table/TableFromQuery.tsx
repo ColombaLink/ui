@@ -1,683 +1,19 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect, FC } from 'react'
-import { border, color } from '~/utils'
-import { styled } from 'inlines'
+import { color } from '~/utils'
 import { scrollAreaStyle } from '../ScrollArea'
-import { Text } from '../Text'
-import { Button } from '../Button'
-import { Checkbox } from '../Checkbox'
-import {
-  AddIcon,
-  AttachmentIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  LinkIcon,
-  ReferenceIcon,
-  SortIcon,
-} from '~/icons'
-import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
-import { isImage } from '~/utils/isImage'
-import {
-  HEADER_HEIGHT,
-  ITEM_HEIGHT,
-  ACTIONS_WIDTH,
-  ITEM_WIDTH,
-} from './constants'
-import { toDateString } from '~/utils/date'
-import { Badge } from '../Badge'
-import { useHover, useContextMenu, useLocation } from '~/hooks'
+import { ITEM_HEIGHT, ACTIONS_WIDTH, ITEM_WIDTH } from './constants'
+import { useLocation } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
-import { useItemSchema } from '../Content/hooks/useItemSchema'
-import stringifyObject from 'stringify-object'
 import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
-import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
-import { VirtualizedList } from '../VirtualizedList'
-import { removeOverlay } from '../Overlay'
 import { Toast, useToast } from '../Toast'
-import { useClient, useData } from '@based/react'
-
-const Grid = styled(VariableSizeGrid)
-
-// single ref display
-const Reference = ({ value }) => {
-  // console.log('value', value)
-
-  const afbThumb = getImageSrcFromId(value)
-
-  // console.log(afbThumb, 'afbThumb')
-
-  return value.length > 0 ? (
-    <div style={{ display: 'flex', verticalAlign: 'center' }}>
-      {!afbThumb ? (
-        <div style={{ minWidth: 20, paddingTop: 4 }}>
-          <ReferenceIcon
-            color="accent"
-            style={{
-              marginRight: 6,
-            }}
-          />
-        </div>
-      ) : (
-        <div
-          style={{
-            backgroundSize: 'cover',
-            backgroundImage: `url(${afbThumb})`,
-            width: 34,
-            height: 34,
-            marginRight: 12,
-          }}
-        />
-      )}
-
-      <Badge style={{ maxHeight: 24, marginTop: afbThumb ? 5 : 0 }}>
-        {value}
-      </Badge>
-    </div>
-  ) : null
-}
-
-// multiple refs display
-const References = ({ value }) => {
-  ///  console.log('ref', value)
-
-  return value.length > 0 ? (
-    <div
-      style={{
-        position: 'absolute',
-        left: 6,
-        display: 'flex',
-      }}
-      // onClick={() => {
-      //   console.log('Clicked a multiRef field 🔫', value)
-      // }}
-    >
-      <div style={{ minWidth: 32, display: 'flex' }}>
-        <LinkIcon
-          color="accent"
-          style={{
-            marginRight: 4,
-          }}
-        />
-        <Text color="accent">{value.length}</Text>
-      </div>
-      {/* {value.slice(0, 3).map((ref, idx) => (
-        <Badge style={{ marginLeft: 6 }} key={idx}>
-          {ref}
-        </Badge>
-      ))} */}
-    </div>
-  ) : null
-}
-
-// let selectedRowCheckboxes = []
-
-const Cell = ({ columnIndex, rowIndex, style, data }) => {
-  const {
-    types,
-    items,
-    fields,
-    onClick,
-    setState,
-    hoverRowIndex,
-    setIsMultiref,
-  } = data
-  const item = items[rowIndex]
-  let children, value, field
-  const { hover, active, listeners } = useHover()
-  const colIndex = columnIndex - 1
-  const activeRow = hoverRowIndex === rowIndex
-  const isCheckbox = columnIndex === 0
-  // TODO optimize
-
-  // console.log('What the data?', data)
-  // console.log(data.setIsMultiref, 'setIsMultiref')
-  // console.log('What the item?', item)
-
-  //  console.log('Data fields', data.fields)
-
-  const { fields: schemaFields } = useItemSchema(item?.id)
-
-  //  console.log('Schema fields', schemaFields, children, item?.id, item)
-
-  let hasField
-  if (item) {
-    if (isCheckbox) {
-      children = (
-        <Checkbox
-          size={16}
-          checked={data.selectedRowCheckboxes?.includes(rowIndex)}
-          onClick={(e) => {
-            // this is the correct item from row
-            console.log('item', item)
-
-            if (data.selectedRowCheckboxes?.includes(rowIndex)) {
-              const newSelectedRowCheckboxes =
-                data.selectedRowCheckboxes.filter((el) => el !== rowIndex)
-              data.setSelectedRowCheckboxes(newSelectedRowCheckboxes)
-            }
-
-            // if shift is being held down, select all items between the last selected item and the current item
-            // all this for logic for if the shift key is pressed down
-            if (e.shiftKey) {
-              console.log('shift key pressed is down')
-              const prevClick =
-                data.selectedRowCheckboxes[
-                  data.selectedRowCheckboxes.length - 1
-                ]
-
-              const newNumbersInBetween = []
-
-              if (
-                prevClick < rowIndex &&
-                data.selectedRowCheckboxes?.includes(rowIndex) &&
-                data.selectedRowCheckboxes?.includes(prevClick)
-              ) {
-                const tempNewArr = []
-                for (let i = prevClick; i < rowIndex + 1; i++) {
-                  if (data.selectedRowCheckboxes?.includes(i)) {
-                    tempNewArr.push(i)
-                  }
-                }
-
-                const diffArr = data.selectedRowCheckboxes?.filter(
-                  (el) => !tempNewArr.includes(el)
-                )
-
-                data.setSelectedRowCheckboxes([...diffArr])
-              } else if (
-                prevClick > rowIndex &&
-                data.selectedRowCheckboxes?.includes(rowIndex) &&
-                data.selectedRowCheckboxes?.includes(prevClick)
-              ) {
-                const tempNewArr = []
-                for (let i = prevClick; i > rowIndex - 1; i--) {
-                  if (data.selectedRowCheckboxes?.includes(i)) {
-                    tempNewArr.push(i)
-                  }
-                }
-
-                const diffArr = data.selectedRowCheckboxes?.filter(
-                  (el) => !tempNewArr.includes(el)
-                )
-
-                data.setSelectedRowCheckboxes([...diffArr])
-              } else if (prevClick < rowIndex) {
-                for (let i = prevClick + 1; i < rowIndex + 1; i++) {
-                  if (!data.selectedRowCheckboxes?.includes(i)) {
-                    newNumbersInBetween.push(i)
-                  }
-                }
-
-                data.setSelectedRowCheckboxes([
-                  ...data.selectedRowCheckboxes,
-                  ...newNumbersInBetween,
-                ])
-              } else if (prevClick > rowIndex) {
-                for (let i = prevClick - 1; i > rowIndex - 1; i--) {
-                  if (!data.selectedRowCheckboxes?.includes(i)) {
-                    newNumbersInBetween.push(i)
-                  }
-                }
-
-                data.setSelectedRowCheckboxes([
-                  ...data.selectedRowCheckboxes,
-                  ...newNumbersInBetween,
-                ])
-              }
-            }
-
-            if (
-              !e.shiftKey &&
-              !data.selectedRowCheckboxes?.includes(rowIndex)
-            ) {
-              data.setSelectedRowCheckboxes([
-                ...data.selectedRowCheckboxes,
-                rowIndex,
-              ])
-              //   selectedRowCheckboxes.push(rowIndex)
-              //  console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
-            } else if (!e.shiftKey) {
-              data.selectedRowCheckboxes?.splice(
-                data.selectedRowCheckboxes.indexOf(rowIndex),
-                1
-              )
-            }
-          }}
-        />
-      )
-    } else {
-      field = fields[colIndex]
-      value = item[field]
-      hasField = schemaFields && field in schemaFields
-
-      if (value) {
-        const fieldType = types[item.type].fields[field]?.type
-        const metaFieldType = types[item.type].fields[field]?.meta?.format
-
-        const prettierObject = (obj) => {
-          return stringifyObject(obj, {
-            indent: ' ',
-            singleQuotes: false,
-            doubleQuotes: false,
-          })
-        }
-
-        if (fieldType) {
-          const weight = colIndex ? 400 : 500
-          if (fieldType === 'array') {
-            children = (
-              <Text weight={400}>
-                {prettierObject(items[0][field]).substring(0, 64)}
-              </Text>
-            )
-          } else if (fieldType === 'json') {
-            children = (
-              <Text weight={400}>
-                {prettierObject(JSON.parse(value)).substring(0, 64)}
-              </Text>
-            )
-          } else if (fieldType === 'boolean') {
-            children = <Text weight={400}>{JSON.stringify(value)}</Text>
-          } else if (fieldType === 'record') {
-            children = (
-              <Text weight={400}>
-                {prettierObject(items[0][field]).substring(0, 64)}
-              </Text>
-            )
-          } else if (fieldType === 'set') {
-            children = (
-              <Text weight={400}>
-                {prettierObject(items[0][field]).substring(0, 64)}
-              </Text>
-            )
-          } else if (fieldType === 'object') {
-            children = (
-              <Text weight={400}>{prettierObject(value).substring(0, 64)}</Text>
-            )
-          } else if (fieldType === 'id') {
-            children = <Badge color="text">{value}</Badge>
-          } else if (fieldType === 'references') {
-            children = value.length ? <References value={value} /> : null
-          } else if (fieldType === 'reference') {
-            children = value.length ? <Reference value={value} /> : null
-          } else if (fieldType === 'timestamp') {
-            children = <Text weight={weight}>{toDateString(value)}</Text>
-          } else if (fieldType === 'digest') {
-            children = (
-              <Badge weight={weight}>{value.substring(0, 6) + '...'}</Badge>
-            )
-          } else if (fieldType === 'string' && metaFieldType === 'markdown') {
-            children = <Text weight={weight}>{value.substring(0, 64)}</Text>
-          } else if (isImage(value)) {
-            children = (
-              <div
-                style={{
-                  backgroundImage: `url(${value}?w=100&h=100)`,
-                  backgroundSize: 'cover',
-                  height: style.height,
-                  width: style.height,
-                }}
-              />
-            )
-          } else if (typeof value === 'object') {
-            console.warn('incorrect value:', fieldType, item, field, value)
-          } else {
-            children = <Text weight={400}>{value}</Text>
-          }
-        }
-      }
-
-      // if (!children) {
-      //   children =
-      //     activeRow && hasField ? (
-      //       <Text
-      //         color="text"
-      //         style={{
-      //           pointerEvents: 'none',
-      //           opacity: 0.5,
-      //         }}
-      //       >
-      //         {field}
-      //       </Text>
-      //     ) : (
-      //       ''
-      //     )
-      // }
-    }
-  }
-
-  useEffect(() => {
-    cancelAnimationFrame(data.raf)
-    if (hover) {
-      setState({ hoverRowIndex: rowIndex })
-    } else {
-      data.raf = requestAnimationFrame(() => {
-        if (data.hoverRowIndex === rowIndex) {
-          setState({ hoverRowIndex: null })
-        }
-      })
-    }
-  }, [hover])
-
-  return (
-    <div
-      {...listeners}
-      onClick={() => {
-        if (!isCheckbox) {
-          //        console.log(item, field, field && types[item.type].fields[field].type)
-          onClick(item, field, field && types[item.type].fields[field].type)
-        }
-      }}
-      style={{
-        ...style,
-        top: style.top + HEADER_HEIGHT,
-        width: style.width,
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: isCheckbox ? null : hasField ? 'pointer' : 'not-allowed',
-        paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 8,
-        paddingRight: 12,
-        borderBottom: border(1),
-        //  borderRight: border(1),
-        backgroundColor: color(
-          activeRow
-            ? !isCheckbox && hasField
-              ? 'lightaccent'
-              : 'lightaccent'
-            : 'transparent'
-        ),
-      }}
-    >
-      {children}
-    </div>
-  )
-}
-
-const InnerTable = ({
-  tableRef,
-  types,
-  items,
-  fields,
-  onClick,
-  setRelevantFields,
-  selectedRowCheckboxes,
-  setSelectedRowCheckboxes,
-  isMultiref,
-  ...props
-}) => {
-  const [state, setState] = useState({})
-  const { current: itemData } = useRef({})
-
-  Object.assign(itemData, {
-    types,
-    items,
-    fields,
-    onClick,
-    setRelevantFields,
-    selectedRowCheckboxes,
-    setSelectedRowCheckboxes,
-    setState,
-    ...state,
-  })
-
-  // console.log(itemData, 'itemData 🛎')
-
-  let fieldsOfRelevance
-
-  if (isMultiref) {
-    fieldsOfRelevance = []
-
-    itemData.items?.forEach((element) => {
-      const keys = Object.keys(element)
-
-      keys.forEach((key) => {
-        if (!fieldsOfRelevance.includes(key)) {
-          fieldsOfRelevance.push(key)
-          //  console.log('KEY ', key)
-        }
-      })
-    })
-  } else {
-    // console.log('all fields??', fields)
-    fieldsOfRelevance = [...fields]
-  }
-
-  useEffect(() => {
-    setRelevantFields(fieldsOfRelevance)
-  }, [isMultiref])
-
-  // console.log('can we filter these fields then --> ', fieldsOfRelevance)
-  // console.log('NEW ?? 🍇 InnerTable ---> ', itemData)
-  // setRelevantFields(fieldsOfRelevance)
-
-  return (
-    <Grid {...props} itemData={itemData} ref={tableRef}>
-      {Cell}
-    </Grid>
-  )
-}
-
-const HeaderDragLine = ({
-  index,
-  setColWidths,
-  colWidths,
-  style,
-  hovering,
-}) => {
-  const width = 4
-  return (
-    <styled.div
-      onMouseDown={({ currentTarget, clientX: startX }) => {
-        // @ts-ignore
-        const { offsetWidth } = currentTarget.parentNode
-        const onUp = () => {
-          removeEventListener('mouseup', onUp)
-          removeEventListener('mousemove', onMove)
-        }
-        const onMove = ({ clientX }) => {
-          colWidths[index] = Math.max(40, offsetWidth - (startX - clientX))
-          setColWidths([...colWidths])
-        }
-        addEventListener('mousemove', onMove)
-        addEventListener('mouseup', onUp)
-      }}
-      style={{
-        zIndex: 1,
-        position: 'absolute',
-        // right: -width / 2,
-        right: width,
-        height: 32,
-        bottom: 0,
-        width,
-        cursor: 'col-resize',
-        backgroundColor: hovering ? color('background') : 'transparent',
-        '&:hover>div': {
-          //   backgroundColor: color('border'),
-          backgroundColor: color('accent'),
-        },
-        ...style,
-      }}
-    >
-      <div
-        style={{
-          marginLeft: width / 2,
-          width: 2,
-          height: '100%',
-        }}
-      />
-    </styled.div>
-  )
-}
-
-const Header = ({
-  width,
-  columnWidth,
-  setColWidths,
-  colWidths,
-  allFields,
-  newWorldOrder,
-  setSort,
-  sortOrder,
-  lijst,
-  setLijst,
-  activeSortField,
-  setActiveSortField,
-  scrollLeft,
-  setSelectedRowCheckboxes,
-  selectedRowCheckboxes,
-  items,
-}) => {
-  // console.log('from header', lijst)
-  // console.log('all fields', allFields)
-  // console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
-  const { listeners, hover } = useHover()
-
-  const checkAllHandler = (e) => {
-    if (e) {
-      const allIndexesArr = []
-      for (let i = 0; i < items.length; i++) {
-        allIndexesArr.push(i)
-      }
-      setSelectedRowCheckboxes(allIndexesArr)
-    } else {
-      // setSelectedRowCheckboxes(selectedRowCheckboxes)
-      setSelectedRowCheckboxes([])
-    }
-  }
-
-  return (
-    <div style={{ position: 'relative' }}>
-      <div
-        style={{
-          position: 'sticky',
-          left: 0,
-          paddingLeft: 44,
-          top: 0,
-          display: 'flex',
-          borderBottom: border(1),
-          backgroundColor: color('background'),
-          height: HEADER_HEIGHT,
-          minWidth: width,
-        }}
-        {...listeners}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Checkbox
-            onChange={(e) => {
-              checkAllHandler(e)
-            }}
-            // do this so it doesn't go false and rerender
-            checked={selectedRowCheckboxes.length === items.length}
-          />
-        </div>
-        {newWorldOrder.map((field, index) => (
-          <div
-            key={index}
-            style={{
-              width: columnWidth(index + 1),
-              height: HEADER_HEIGHT,
-              position: 'relative',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              //  console.log('clicked on -->', field)
-              if (field) {
-                setActiveSortField(field)
-                if (sortOrder === 'desc') {
-                  setSort([field, 'asc'])
-                } else {
-                  setSort([field, 'desc'])
-                }
-              }
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {field === activeSortField && sortOrder === 'desc' && (
-                <SortIcon
-                  color="accent"
-                  style={{ marginRight: '-6px', marginLeft: 9 }}
-                />
-              )}
-              {field === activeSortField && sortOrder === 'asc' && (
-                <SortIcon
-                  color="accent"
-                  style={{ marginRight: '-6px', marginLeft: 9 }}
-                />
-              )}
-              <styled.div
-                style={{
-                  '&:hover >div': {
-                    color:
-                      field === activeSortField
-                        ? `${color('accent')} !important`
-                        : `${color('text')} !important`,
-                    fontWeight: '600 !important',
-                  },
-                }}
-              >
-                <Text
-                  color={field === activeSortField ? 'accent' : 'text2'}
-                  weight={field === activeSortField ? '600' : '400'}
-                  style={{
-                    paddingLeft: 12,
-                    lineHeight: `${HEADER_HEIGHT}px`,
-                  }}
-                >
-                  {field}
-                </Text>
-              </styled.div>
-              {field === activeSortField && (
-                <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
-              )}
-            </div>
-
-            <HeaderDragLine
-              setColWidths={setColWidths}
-              colWidths={colWidths}
-              index={index}
-              hovering={hover}
-              style={{
-                '&>div': {
-                  backgroundColor: hover ? color('border') : 'transparent',
-                },
-              }}
-            />
-          </div>
-        ))}
-      </div>
-      <Button
-        icon={<AddIcon color="text2" />}
-        color="lightgrey"
-        style={{
-          width: 24,
-          height: 24,
-          position: 'absolute',
-          left: scrollLeft ? width + scrollLeft - 36 : width - 36,
-          top: 8,
-          padding: 0,
-        }}
-        onClick={useContextMenu(
-          SelectFieldsMenu,
-          {
-            lijst,
-            setLijst,
-          },
-          { placement: 'left' }
-        )}
-      />
-    </div>
-  )
-}
+import { useClient } from '@based/react'
+import { Header } from './Header'
+import { InnerTable } from './InnerTable'
+import { SelectedOptionsSubMenu } from './SelectedOptionsSubMenu'
 
 export type TableFromQueryProps = {
   fields: string[]
@@ -715,14 +51,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'desc',
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
-
   const [relevantFields, setRelevantFields] = useState(fields)
 
   // console.log('relevantFields', relevantFields)
   const [, setLocation] = useLocation()
 
   useEffect(() => {
-    // set the filtered fields dan
     setFilteredFields(
       relevantFields.filter((field) => !unCheckedArr.includes(field))
     )
@@ -765,10 +99,11 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     })
   )
 
+  // WORK ON SAVING TO URL CUSTOM VIEWS
   const [lijst, setLijst] = useState(newListOrderArr)
 
   const checkedItems = []
-  console.log('lijst--->', lijst)
+  // console.log('lijst--->', lijst)
 
   /// TODO zet lijst in url
   // wellicht alleen de item die true zijn in de url zetten
@@ -785,17 +120,17 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     )
   }, [checkedItems])
 
-  console.log(checkedItems, '🛑')
-  console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
+  // console.log(checkedItems, '🛑')
+  // console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
 
   // test the reverse %5B%22name%22%2C%22id%22%5D
   // get this part from the url if there is??
-  console.log(
-    'DECODED -->',
-    decodeURIComponent(
-      '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
-    )
-  )
+  //  console.log(
+  //     'DECODED -->',
+  //     decodeURIComponent(
+  //       '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
+  //     )
+  //   )
 
   // TODO als er dus een URL is moet het er weer uitgehaald worden en dat word de startlijst
 
@@ -833,7 +168,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
 
-  const [newFields, setNewFields] = useState(newWorldOrder)
+  // const [newFields, setNewFields] = useState(newWorldOrder)
 
   const [location] = useLocation()
 
@@ -967,57 +302,14 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           setDraggingOver(false)
         }}
       >
-        {/* acces this selectedRowCheckboxes  */}
         {selectedRowCheckboxes.length > 0 && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              height: 34,
-              marginBottom: 8,
-              marginLeft: 32,
-            }}
-          >
-            <div>
-              <Text>{selectedRowCheckboxes.length} items selected</Text>
-            </div>
-            <Button
-              onClick={() => setSelectedRowCheckboxes([])}
-              color="lightaction"
-              outline
-              style={{
-                // @ts-ignore
-                '&:hover': {
-                  backgroundColor: color('lightaction:hover'),
-                  boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
-                },
-              }}
-            >
-              Clear selection
-            </Button>
-            <Button
-              onClick={() => {
-                console.log('items', items)
-              }}
-              color="lightaction"
-              outline
-              style={{
-                // @ts-ignore
-                '&:hover': {
-                  backgroundColor: color('lightaction:hover'),
-                  boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
-                },
-              }}
-            >
-              Show selected items
-            </Button>
-            <Button color="red" onClick={() => deleteItems(items)}>
-              Delete items
-            </Button>
-          </div>
+          <SelectedOptionsSubMenu
+            selectedRowCheckboxes={selectedRowCheckboxes}
+            setSelectedRowCheckboxes={setSelectedRowCheckboxes}
+            items={items}
+            deleteItems={deleteItems}
+          />
         )}
-
         <InnerTable
           tableRef={tableRef}
           style={{
@@ -1082,7 +374,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                   selectedRowCheckboxes={selectedRowCheckboxes}
                   items={items}
                 />
-                {/* TODO: add filter menu */}
               </div>
             )
           }}
@@ -1098,28 +389,5 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         />
       </div>
     </>
-  )
-}
-
-const SelectFieldsMenu = ({ lijst, setLijst }) => {
-  return (
-    <div style={{ height: lijst.length * 30 }}>
-      <VirtualizedList
-        items={lijst}
-        onDrop={(e, data) => {
-          const removedItem = lijst.splice(data.data[0]?.index, 1)
-
-          // insert the removed item at the target index
-          const newList = [...lijst]
-          newList.splice(data.targetIndex, 0, removedItem[0])
-          //  console.log('new list -->????', newList)
-          setLijst([...newList])
-          removeOverlay()
-        }}
-        onClick={() => {
-          setLijst([...lijst])
-        }}
-      />
-    </div>
   )
 }

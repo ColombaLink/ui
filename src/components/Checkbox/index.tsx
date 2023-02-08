@@ -15,6 +15,7 @@ export type CheckboxProps = {
   space?: Space
   small?: boolean
   color?: Color
+  onClick?: (e: any) => void
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -23,6 +24,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   description,
   style,
   onChange,
+  onClick,
   label,
   space,
   small,
@@ -32,7 +34,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
 
-  const onClick = () => {
+  const clickHandler = () => {
     const newChecked = !checked
     setChecked(newChecked)
     onChange?.(newChecked)
@@ -40,7 +42,12 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        clickHandler()
+        if (onClick) {
+          onClick(e)
+        }
+      }}
       style={{
         display: 'flex',
         alignItems: !description ? 'center' : '',
