@@ -28,15 +28,16 @@ export const Drawers = () => {
         examples={[
           {
             props: {
-              // label: 'Label',
+              label: 'Label',
               isRendered: true,
               sidebar: true,
               closeFunc: () => console.log('asdasd'),
               style: {
-                // minHeight: 500,
+                height: 500,
+                // paddingBottom: 20,
               },
-              children: { children },
-              sidebarElem: children,
+              // children: { children },
+              // sidebarElem: children,
             },
           },
         ]}

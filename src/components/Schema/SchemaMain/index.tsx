@@ -89,6 +89,7 @@ const Header = ({ back = null, children, type, path }) => {
           style={{
             userSelect: 'none',
             lineHeight: '32px',
+            marginRight: 16,
             // textTransform: 'capitalize',
           }}
         >
@@ -99,7 +100,8 @@ const Header = ({ back = null, children, type, path }) => {
           style={{
             marginTop: 3,
             cursor: 'pointer',
-            marginLeft: 16,
+            // marginLeft: 20,
+            // marginLeft: 16,
           }}
         />
       </div>
