@@ -129,6 +129,7 @@ const parseBasedSetPayload = (payload) => {
     }
   }
 }
+let dialog = false
 
 const ContentModalInner = ({ prefix, id, field }) => {
   const client = useClient()
@@ -140,11 +141,18 @@ const ContentModalInner = ({ prefix, id, field }) => {
   const [language, setLanguage] = useLocalStorage('bui_lang')
   const { open } = useDialog()
   const type = id ? null : field
-
+  // const [dialog, setDialog] = useState(false)
+  // let dialog = false
   const [copied, copy] = useCopyToClipboard(id)
-
+  const dialogRef = useRef()
   useEffect(() => {
-    async function handleKeyUp(e) {
+    // function handleKeyUp(e) {
+    //   // if (e.keyCode === 27) {
+    //   //   dialog = false
+    //   // }
+    // }
+    async function handleKeyDown(e) {
+      // const changedFields = Object.keys(ref.current).length
       if (e.keyCode === 13 && !e.shiftKey) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
@@ -159,16 +167,32 @@ const ContentModalInner = ({ prefix, id, field }) => {
           setDisabled(true)
         }
         blabla()
+        dialog = false
       }
-
-      if (e.keyCode === 27) {
+      if (e.keyCode === 27 && dialog === false) {
+        dialog = true
         await onClose()
       }
     }
+    window.addEventListener('keydown', handleKeyDown)
+    // window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      // window.removeEventListener('keyup', handleKeyUp)
+    }
+  })
+  const dialogTime = () => (dialog = false)
 
-    window.addEventListener('keyup', handleKeyUp)
-    return () => window.removeEventListener('keyup', handleKeyUp)
-  }, [])
+  // useEffect(() => {
+  //   async function handleKeyUp(e) {
+  //     if (e.keyCode === 27) {
+  //       dialog = false
+  //     }
+  //   }
+
+  //   window.addEventListener('keyup', handleKeyUp)
+  //   return () => window.removeEventListener('keyup', handleKeyUp)
+  // }, [dialog])
 
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
@@ -176,15 +200,23 @@ const ContentModalInner = ({ prefix, id, field }) => {
     if (changedFields) {
       open(
         <Dialog
+          ref={dialogRef}
           label={`You have ${changedFields} unpublished change${
             changedFields === 1 ? '' : 's'
           }`}
         >
           Are you sure you want to exit?
           <Dialog.Buttons>
-            <Dialog.Cancel />
+            <Dialog.Cancel
+              onCancel={() => {
+                setTimeout(dialogTime, 10)
+                const dialogTimeOut = setTimeout(dialogTime, 5000)
+                clearTimeout(dialogTimeOut)
+              }}
+            />
             <Dialog.Confirm
               onConfirm={() => {
+                dialog = false
                 setLocation(prefix)
               }}
             >
@@ -194,6 +226,9 @@ const ContentModalInner = ({ prefix, id, field }) => {
         </Dialog>
       )
     } else {
+      setTimeout(dialogTime, 10)
+      const dialogTimeOut = setTimeout(dialogTime, 5000)
+      clearTimeout(dialogTimeOut)
       setLocation(prefix)
     }
   }

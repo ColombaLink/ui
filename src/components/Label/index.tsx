@@ -54,7 +54,7 @@ export const Label = ({
         )}
         <Text
           wrap
-          style={{ marginBottom: description ? 2 : 0 }}
+          style={{ marginBottom: description ? 0 : 0 }}
           color={labelColor || 'text'}
           typo="body600"
         >
