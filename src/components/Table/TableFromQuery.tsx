@@ -14,6 +14,7 @@ import { useClient } from '@based/react'
 import { Header } from './Header'
 import { InnerTable } from './InnerTable'
 import { SelectedOptionsSubMenu } from './SelectedOptionsSubMenu'
+import { systemFields } from '../Schema/templates'
 
 export type TableFromQueryProps = {
   fields: string[]
@@ -57,6 +58,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [location, setLocation] = useLocation()
   // console.log('all fields', fields)
 
+  let systemFieldsArr = Array.from(systemFields)
   // for file drop upload
   const client = useClient()
   const [draggingOver, setDraggingOver] = useState(false)
@@ -106,9 +108,14 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
       //  console.log(newListArrayFromUrl, '🌀')
     } else {
-      fields.map((field, idx) =>
-        relFields.push({ label: field, checkbox: idx < 5 })
-      )
+      fields
+        .filter((field) => !systemFieldsArr.includes(field))
+        .map((field, idx) =>
+          relFields.push({
+            label: field,
+            checkbox: idx < 5,
+          })
+        )
     }
 
     setLijst(relFields)
