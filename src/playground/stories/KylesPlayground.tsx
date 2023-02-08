@@ -10,6 +10,7 @@ import { Page } from '~/components/Page'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Separator } from '~/components/Separator'
 import { Drawer } from '~/components/Drawer'
+import { Input } from '~/components/Input'
 export const KylesPlayground = () => {
   const [color, setColor] = useState('rgba(255,0,0,1)')
   const [drawer, setDrawer] = useState(false)
@@ -49,6 +50,7 @@ export const KylesPlayground = () => {
               <Text capitalize style={{ color: color }}>
                 Anime girls
               </Text>
+              <Input type="password" />
               <ColorPicker onChange={handleChange} />
               <Separator />
               <BarGraph

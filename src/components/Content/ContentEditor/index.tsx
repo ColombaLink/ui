@@ -198,6 +198,8 @@ const string = {
         descriptionBottom={description}
         indent
         space
+        // type="text" is for safari fix maybe it breaks smth
+        type="text"
         //  noInterrupt
       />
     )

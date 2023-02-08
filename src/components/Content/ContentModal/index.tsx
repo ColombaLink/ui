@@ -144,7 +144,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
   // const [dialog, setDialog] = useState(false)
   // let dialog = false
   const [copied, copy] = useCopyToClipboard(id)
-  const dialogRef = useRef()
   useEffect(() => {
     // function handleKeyUp(e) {
     //   // if (e.keyCode === 27) {
@@ -200,7 +199,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
     if (changedFields) {
       open(
         <Dialog
-          ref={dialogRef}
           label={`You have ${changedFields} unpublished change${
             changedFields === 1 ? '' : 's'
           }`}
