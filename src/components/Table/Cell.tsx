@@ -6,28 +6,15 @@ import { border, color } from '~/utils'
 import stringifyObject from 'stringify-object'
 import { isImage } from '~/utils/isImage'
 import { toDateString } from '~/utils/date'
-import {
-  HEADER_HEIGHT,
-  ITEM_HEIGHT,
-  ACTIONS_WIDTH,
-  ITEM_WIDTH,
-} from './constants'
+import { HEADER_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { Reference } from './Reference'
 import { References } from './References'
 
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
-  const {
-    types,
-    items,
-    fields,
-    onClick,
-    setState,
-    hoverRowIndex,
-    setIsMultiref,
-  } = data
+  const { types, items, fields, onClick, setState, hoverRowIndex } = data
   const item = items[rowIndex]
   let children, value, field
-  const { hover, active, listeners } = useHover()
+  const { hover, listeners } = useHover()
   const colIndex = columnIndex - 1
   const activeRow = hoverRowIndex === rowIndex
   const isCheckbox = columnIndex === 0
@@ -281,13 +268,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingRight: 12,
         borderBottom: border(1),
         //  borderRight: border(1),
-        backgroundColor: color(
-          activeRow
-            ? !isCheckbox && hasField
-              ? 'lightaccent'
-              : 'lightaccent'
-            : 'transparent'
-        ),
+        backgroundColor: activeRow ? color('lightaccent') : 'transparent',
       }}
     >
       {children}

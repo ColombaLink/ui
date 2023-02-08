@@ -1,51 +1,26 @@
 // @ts-nocheck
 import React, { useRef, useState, useEffect, FC } from 'react'
-import { border, color } from '~/utils'
+import { color } from '~/utils'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import { Text } from '../Text'
 import { Button } from '../Button'
-import { Checkbox } from '../Checkbox'
-import {
-  AddIcon,
-  AttachmentIcon,
-  ChevronDownIcon,
-  ChevronUpIcon,
-  LinkIcon,
-  ReferenceIcon,
-  SortIcon,
-} from '~/icons'
 import { VariableSizeGrid } from 'react-window'
 import { useInfiniteScroll } from '../InfiniteList'
-import { isImage } from '~/utils/isImage'
-import {
-  HEADER_HEIGHT,
-  ITEM_HEIGHT,
-  ACTIONS_WIDTH,
-  ITEM_WIDTH,
-} from './constants'
-import { toDateString } from '~/utils/date'
-import { Badge } from '../Badge'
-import { useHover, useContextMenu, useLocation } from '~/hooks'
+import { ITEM_HEIGHT, ACTIONS_WIDTH, ITEM_WIDTH } from './constants'
+import { useLocation } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
-import { useItemSchema } from '../Content/hooks/useItemSchema'
-import stringifyObject from 'stringify-object'
 import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
-import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 import { useDialog } from '~/components/Dialog'
-import { VirtualizedList } from '../VirtualizedList'
-import { removeOverlay } from '../Overlay'
 import { Toast, useToast } from '../Toast'
-import { useClient, useData } from '@based/react'
-
+import { useClient } from '@based/react'
 import { Cell } from './Cell'
+import { Header } from './Header'
 
 const Grid = styled(VariableSizeGrid)
 
 // let selectedRowCheckboxes = []
-
-// cell stond hier
 
 const InnerTable = ({
   tableRef,
@@ -108,224 +83,6 @@ const InnerTable = ({
     <Grid {...props} itemData={itemData} ref={tableRef}>
       {Cell}
     </Grid>
-  )
-}
-
-const HeaderDragLine = ({
-  index,
-  setColWidths,
-  colWidths,
-  style,
-  hovering,
-}) => {
-  const width = 4
-  return (
-    <styled.div
-      onMouseDown={({ currentTarget, clientX: startX }) => {
-        // @ts-ignore
-        const { offsetWidth } = currentTarget.parentNode
-        const onUp = () => {
-          removeEventListener('mouseup', onUp)
-          removeEventListener('mousemove', onMove)
-        }
-        const onMove = ({ clientX }) => {
-          colWidths[index] = Math.max(40, offsetWidth - (startX - clientX))
-          setColWidths([...colWidths])
-        }
-        addEventListener('mousemove', onMove)
-        addEventListener('mouseup', onUp)
-      }}
-      style={{
-        zIndex: 1,
-        position: 'absolute',
-        // right: -width / 2,
-        right: width,
-        height: 32,
-        bottom: 0,
-        width,
-        cursor: 'col-resize',
-        backgroundColor: hovering ? color('background') : 'transparent',
-        '&:hover>div': {
-          //   backgroundColor: color('border'),
-          backgroundColor: color('accent'),
-        },
-        ...style,
-      }}
-    >
-      <div
-        style={{
-          marginLeft: width / 2,
-          width: 2,
-          height: '100%',
-        }}
-      />
-    </styled.div>
-  )
-}
-
-const Header = ({
-  width,
-  columnWidth,
-  setColWidths,
-  colWidths,
-  allFields,
-  newWorldOrder,
-  setSort,
-  sortOrder,
-  lijst,
-  setLijst,
-  activeSortField,
-  setActiveSortField,
-  scrollLeft,
-  setSelectedRowCheckboxes,
-  selectedRowCheckboxes,
-  items,
-}) => {
-  // console.log('from header', lijst)
-  // console.log('all fields', allFields)
-  // console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
-  const { listeners, hover } = useHover()
-
-  const checkAllHandler = (e) => {
-    if (e) {
-      const allIndexesArr = []
-      for (let i = 0; i < items.length; i++) {
-        allIndexesArr.push(i)
-      }
-      setSelectedRowCheckboxes(allIndexesArr)
-    } else {
-      // setSelectedRowCheckboxes(selectedRowCheckboxes)
-      setSelectedRowCheckboxes([])
-    }
-  }
-
-  return (
-    <div style={{ position: 'relative' }}>
-      <div
-        style={{
-          position: 'sticky',
-          left: 0,
-          paddingLeft: 44,
-          top: 0,
-          display: 'flex',
-          borderBottom: border(1),
-          backgroundColor: color('background'),
-          height: HEADER_HEIGHT,
-          minWidth: width,
-        }}
-        {...listeners}
-      >
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Checkbox
-            onChange={(e) => {
-              checkAllHandler(e)
-            }}
-            // do this so it doesn't go false and rerender
-            checked={selectedRowCheckboxes.length === items.length}
-          />
-        </div>
-        {newWorldOrder.map((field, index) => (
-          <div
-            key={index}
-            style={{
-              width: columnWidth(index + 1),
-              height: HEADER_HEIGHT,
-              position: 'relative',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              //  console.log('clicked on -->', field)
-              if (field) {
-                setActiveSortField(field)
-                if (sortOrder === 'desc') {
-                  setSort([field, 'asc'])
-                } else {
-                  setSort([field, 'desc'])
-                }
-              }
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {field === activeSortField && sortOrder === 'desc' && (
-                <SortIcon
-                  color="accent"
-                  style={{ marginRight: '-6px', marginLeft: 9 }}
-                />
-              )}
-              {field === activeSortField && sortOrder === 'asc' && (
-                <SortIcon
-                  color="accent"
-                  style={{ marginRight: '-6px', marginLeft: 9 }}
-                />
-              )}
-              <styled.div
-                style={{
-                  '&:hover >div': {
-                    color:
-                      field === activeSortField
-                        ? `${color('accent')} !important`
-                        : `${color('text')} !important`,
-                    fontWeight: '600 !important',
-                  },
-                }}
-              >
-                <Text
-                  color={field === activeSortField ? 'accent' : 'text2'}
-                  weight={field === activeSortField ? '600' : '400'}
-                  style={{
-                    paddingLeft: 12,
-                    lineHeight: `${HEADER_HEIGHT}px`,
-                  }}
-                >
-                  {field}
-                </Text>
-              </styled.div>
-              {field === activeSortField && (
-                <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
-              )}
-            </div>
-
-            <HeaderDragLine
-              setColWidths={setColWidths}
-              colWidths={colWidths}
-              index={index}
-              hovering={hover}
-              style={{
-                '&>div': {
-                  backgroundColor: hover ? color('border') : 'transparent',
-                },
-              }}
-            />
-          </div>
-        ))}
-      </div>
-      <Button
-        icon={<AddIcon color="text2" />}
-        color="lightgrey"
-        style={{
-          width: 24,
-          height: 24,
-          position: 'absolute',
-          left: scrollLeft ? width + scrollLeft - 36 : width - 36,
-          top: 8,
-          padding: 0,
-        }}
-        onClick={useContextMenu(
-          SelectFieldsMenu,
-          {
-            lijst,
-            setLijst,
-          },
-          { placement: 'left' }
-        )}
-      />
-    </div>
   )
 }
 
@@ -748,28 +505,5 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         />
       </div>
     </>
-  )
-}
-
-const SelectFieldsMenu = ({ lijst, setLijst }) => {
-  return (
-    <div style={{ height: lijst.length * 30 }}>
-      <VirtualizedList
-        items={lijst}
-        onDrop={(e, data) => {
-          const removedItem = lijst.splice(data.data[0]?.index, 1)
-
-          // insert the removed item at the target index
-          const newList = [...lijst]
-          newList.splice(data.targetIndex, 0, removedItem[0])
-          //  console.log('new list -->????', newList)
-          setLijst([...newList])
-          removeOverlay()
-        }}
-        onClick={() => {
-          setLijst([...lijst])
-        }}
-      />
-    </div>
   )
 }
