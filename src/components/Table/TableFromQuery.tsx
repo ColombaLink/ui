@@ -102,6 +102,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // WORK ON SAVING TO URL CUSTOM VIEWS
   const [lijst, setLijst] = useState(newListOrderArr)
 
+  console.log('lijst', lijst)
+
   const checkedItems = []
   // console.log('lijst--->', lijst)
 
@@ -119,19 +121,15 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }, [checkedItems])
 
   console.log(checkedItems, '🛑')
-  console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
+  // console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
 
   // test the reverse %5B%22name%22%2C%22id%22%5D
-  // get this part from the url if there is??
-  console.log(
-    'DECODED -->',
-    decodeURIComponent(
-      '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
-    )
-  )
 
   // 1 check the url to see if there is a custom view
+
+  let newListArrayFromUrl = []
   let checkedFieldsPartOfUrl
+
   if (window.location.href.includes('checked=')) {
     checkedFieldsPartOfUrl = window.location.href
       .split('&')
@@ -139,9 +137,21 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       .toString()
       .substring(8)
     console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
+
+    const parsedArr = JSON.parse(decodeURIComponent(checkedFieldsPartOfUrl))
+
+    parsedArr.forEach((item) => {
+      newListArrayFromUrl.push({
+        label: item,
+        checkbox: true,
+      })
+    })
+
+    console.log(newListArrayFromUrl, '🌀')
   }
 
   // 2 if there is a custom view then set the list to that
+
   // 3 if there is no custom view then set the list to the default list default show 4 or 5 first items
 
   // TODO als er dus een URL is moet het er weer uitgehaald worden en dat word de startlijst
