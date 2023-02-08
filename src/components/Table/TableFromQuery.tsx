@@ -54,7 +54,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [relevantFields, setRelevantFields] = useState(fields)
 
   // console.log('relevantFields', relevantFields)
-  const [, setLocation] = useLocation()
+  const [location, setLocation] = useLocation()
 
   useEffect(() => {
     setFilteredFields(
@@ -115,22 +115,34 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   useEffect(() => {
-    setLocation(
-      `?checkedFields=${encodeURIComponent(JSON.stringify(checkedItems))}`
-    )
+    setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
   }, [checkedItems])
 
-  // console.log(checkedItems, '🛑')
-  // console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
+  console.log(checkedItems, '🛑')
+  console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
 
   // test the reverse %5B%22name%22%2C%22id%22%5D
   // get this part from the url if there is??
-  //  console.log(
-  //     'DECODED -->',
-  //     decodeURIComponent(
-  //       '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
-  //     )
-  //   )
+  console.log(
+    'DECODED -->',
+    decodeURIComponent(
+      '%5B%22name%22%2C%22testingarray%22%2C%22updatedAt%22%5D'
+    )
+  )
+
+  // 1 check the url to see if there is a custom view
+  let checkedFieldsPartOfUrl
+  if (window.location.href.includes('checked=')) {
+    checkedFieldsPartOfUrl = window.location.href
+      .split('&')
+      .filter((item) => (item.includes('checked=') ? item : null))
+      .toString()
+      .substring(8)
+    console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
+  }
+
+  // 2 if there is a custom view then set the list to that
+  // 3 if there is no custom view then set the list to the default list default show 4 or 5 first items
 
   // TODO als er dus een URL is moet het er weer uitgehaald worden en dat word de startlijst
 
@@ -169,8 +181,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   )
 
   // const [newFields, setNewFields] = useState(newWorldOrder)
-
-  const [location] = useLocation()
 
   // console.log('location', location)
 
