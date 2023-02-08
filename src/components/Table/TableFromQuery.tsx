@@ -55,25 +55,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // console.log('relevantFields', relevantFields)
   const [location, setLocation] = useLocation()
-
   console.log('all fields', fields)
-
-  // useEffect(() => {
-  //   // setFilteredFields(
-  //   //   relevantFields.filter((field) => !unCheckedArr.includes(field))
-  //   // )
-  //   // maak nieuw list order
-  //   // const newListOrderArr2 = []
-  //   // const newListOrder2 = relevantFields.map((field, idx) =>
-  //   //   newListOrderArr2.push({
-  //   //     label: field,
-  //   //     // id: idx,
-  //   //     checkbox: !unCheckedArr.includes(field),
-  //   //   })
-  //   // )
-  //   // console.log('newListOrderArr2', newListOrderArr2)
-  //   // setLijst(newListOrderArr2)
-  // }, [relevantFields, fields.length])
 
   // for file drop upload
   const client = useClient()
@@ -84,27 +66,55 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const { confirm } = useDialog()
 
   const [filteredFields, setFilteredFields] = useState(fields)
-
   const [unCheckedArr, setUnCheckedArr] = useState([])
 
   let newListOrderArr = []
 
   // WORK ON SAVING TO URL CUSTOM VIEWS
-  const [lijst, setLijst] = useState(newListOrderArr)
+  const [lijst, setLijst] = useState([])
 
   console.log('lijst', lijst)
 
   // zet de lijst eerst alles is checked
   useEffect(() => {
     const relFields = []
-    fields.map((field, idx) => {
-      relFields.push({ label: field, checkbox: idx < 5 })
-    })
+
+    if (window.location.href.includes('checked=')) {
+      checkedFieldsPartOfUrl = window.location.href
+        .split('&')
+        .filter((item) => (item.includes('checked=') ? item : null))
+        .toString()
+        .substring(8)
+      console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
+
+      const parsedArr = JSON.parse(decodeURIComponent(checkedFieldsPartOfUrl))
+
+      // parsedArr.forEach((item) => {
+      //   relFields.push({
+      //     label: item,
+      //     checkbox: true,
+      //   })
+      // })
+
+      fields.map((field, idx) => {
+        if (parsedArr.includes(field)) {
+          relFields.push({ label: field, checkbox: true })
+        } else {
+          relFields.push({ label: field, checkbox: false })
+        }
+      })
+
+      //  console.log(newListArrayFromUrl, '🌀')
+    } else {
+      fields.map((field, idx) =>
+        relFields.push({ label: field, checkbox: idx < 5 })
+      )
+    }
+
     setLijst(relFields)
     console.log('relFields', relFields)
   }, [])
 
-  ////////////////////////  doe dit pas als er een box gechecked word
   const checkedItems = []
   // console.log('lijst--->', lijst)
 
@@ -115,7 +125,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   useEffect(() => {
-    //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
+    setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
   }, [checkedItems])
 
   console.log(checkedItems, '🛑')
