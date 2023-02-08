@@ -56,22 +56,24 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // console.log('relevantFields', relevantFields)
   const [location, setLocation] = useLocation()
 
-  useEffect(() => {
-    setFilteredFields(
-      relevantFields.filter((field) => !unCheckedArr.includes(field))
-    )
-    // maak nieuw list order
-    const newListOrderArr2 = []
-    const newListOrder2 = relevantFields.map((field, idx) =>
-      newListOrderArr2.push({
-        label: field,
-        // id: idx,
-        checkbox: !unCheckedArr.includes(field),
-      })
-    )
-    // console.log('newListOrderArr2', newListOrderArr2)
-    setLijst(newListOrderArr2)
-  }, [relevantFields, fields.length])
+  console.log('all fields', fields)
+
+  // useEffect(() => {
+  //   // setFilteredFields(
+  //   //   relevantFields.filter((field) => !unCheckedArr.includes(field))
+  //   // )
+  //   // maak nieuw list order
+  //   // const newListOrderArr2 = []
+  //   // const newListOrder2 = relevantFields.map((field, idx) =>
+  //   //   newListOrderArr2.push({
+  //   //     label: field,
+  //   //     // id: idx,
+  //   //     checkbox: !unCheckedArr.includes(field),
+  //   //   })
+  //   // )
+  //   // console.log('newListOrderArr2', newListOrderArr2)
+  //   // setLijst(newListOrderArr2)
+  // }, [relevantFields, fields.length])
 
   // for file drop upload
   const client = useClient()
@@ -83,51 +85,43 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [filteredFields, setFilteredFields] = useState(fields)
 
-  const [unCheckedArr, setUnCheckedArr] = useState([
-    'type',
-    'parents',
-    'createdAt',
-    'children',
-  ])
+  const [unCheckedArr, setUnCheckedArr] = useState([])
 
-  const newListOrderArr = []
-  const newListOrder = fields.map((field, idx) =>
-    newListOrderArr.push({
-      label: field,
-      // id: idx,
-      checkbox: !unCheckedArr.includes(field),
-    })
-  )
+  let newListOrderArr = []
 
   // WORK ON SAVING TO URL CUSTOM VIEWS
   const [lijst, setLijst] = useState(newListOrderArr)
 
   console.log('lijst', lijst)
 
+  // zet de lijst eerst alles is checked
+  useEffect(() => {
+    const relFields = []
+    fields.map((field, idx) => {
+      relFields.push({ label: field, checkbox: idx < 5 })
+    })
+    setLijst(relFields)
+    console.log('relFields', relFields)
+  }, [])
+
+  ////////////////////////  doe dit pas als er een box gechecked word
   const checkedItems = []
   // console.log('lijst--->', lijst)
 
-  /// TODO zet lijst in url
-  // wellicht alleen de item die true zijn in de url zetten
-  // kan misschien ook korter?? korter door alleen label namen te gebruiken
-  for (let i = 0; i < lijst.length; i++) {
+  for (let i = 0; i < lijst?.length; i++) {
     if (lijst[i].checkbox) {
       checkedItems.push(lijst[i].label)
     }
   }
 
   useEffect(() => {
-    setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
+    //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
   }, [checkedItems])
 
   console.log(checkedItems, '🛑')
-  // console.log(encodeURIComponent(JSON.stringify(checkedItems)), '🈂️')
-
-  // test the reverse %5B%22name%22%2C%22id%22%5D
 
   // 1 check the url to see if there is a custom view
-
-  let newListArrayFromUrl = []
+  // let newListArrayFromUrl = []
   let checkedFieldsPartOfUrl
 
   if (window.location.href.includes('checked=')) {
@@ -141,13 +135,23 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     const parsedArr = JSON.parse(decodeURIComponent(checkedFieldsPartOfUrl))
 
     parsedArr.forEach((item) => {
-      newListArrayFromUrl.push({
+      newListOrderArr.push({
         label: item,
         checkbox: true,
       })
     })
 
-    console.log(newListArrayFromUrl, '🌀')
+    //  console.log(newListArrayFromUrl, '🌀')
+  } else {
+    newListOrderArr = []
+    console.log('fire all fields', fields)
+    const newListOrder = fields.map((field, idx) =>
+      newListOrderArr.push({
+        label: field,
+        // id: idx,
+        checkbox: idx < 5,
+      })
+    )
   }
 
   // 2 if there is a custom view then set the list to that
@@ -185,7 +189,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // field order
   const newWorldOrder = []
-  lijst.map(
+  lijst?.map(
     (item, idx) =>
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
