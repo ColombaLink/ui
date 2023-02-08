@@ -285,12 +285,14 @@ export const templates: {
   },
   id: {
     label: 'Identifier',
+    color: 'lightgrey',
     description: 'IDs you know it',
     icon: IdIcon,
     schema: { type: 'id' },
   },
   type: {
     label: 'Type',
+    color: 'lightgrey',
     description: 'Types you know it',
     icon: ListIcon,
     schema: { type: 'type' },

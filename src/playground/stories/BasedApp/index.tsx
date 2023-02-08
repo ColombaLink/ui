@@ -20,7 +20,6 @@ import { Select } from '~/components/Select'
 import { Label } from '~/components/Label'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
-import { FileOrderSystem } from '~/components/FileOrderSystem'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
@@ -149,7 +148,7 @@ const Settings = ({ prefix, style }) => {
 
 const components = {
   content: Content,
-  files: FileOrderSystem,
+  // files: '',
   schema: Schema,
   settings: Settings,
 }
@@ -190,7 +189,8 @@ const Project = ({ style }) => {
             {
               icon: AttachmentIcon,
               label: 'Files',
-              href: '/files',
+              //  href: '/files',
+              href: '/content/file?story=based-app&filter=%5B%7B"%24field"%3A"type"%2C"%24operator"%3A"%3D"%2C"%24value"%3A"file"%7D%5D&target=root&field=descendants&type=file',
             },
             {
               subTitle: 'General',

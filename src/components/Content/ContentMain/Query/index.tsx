@@ -66,11 +66,11 @@ const ScopePill = ({ query, setOverlay, setLocation }) => {
 }
 
 const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
-  console.log('QUERY FILTERS', query.filters)
-  console.log('complete query', query)
+  // console.log('QUERY FILTERS', query.filters)
+  // console.log('complete query', query)
 
   return query.filters.map(({ $field, $operator, $value }, index) => {
-    console.log('FILTER from map', $field, $operator, $value)
+    // console.log('FILTER from map', $field, $operator, $value)
 
     //  console.log('the types', types)
 
@@ -265,7 +265,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           )
         })}
       </div>
-      <pre
+      {/* <pre
         style={{
           bottom: 0,
           right: 0,
@@ -276,7 +276,7 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
         }}
       >
         {JSON.stringify(query, null, 2)}
-      </pre>
+      </pre> */}
     </>
   )
 }

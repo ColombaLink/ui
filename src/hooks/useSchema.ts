@@ -10,10 +10,10 @@ export const sortFields = (fields) => {
         if (indexB === undefined) {
           if (systemFields.has(a)) {
             if (!systemFields.has(b)) {
-              return 1
+              return -1
             }
           } else if (systemFields.has(b)) {
-            return -1
+            return 1
           }
           return a < b ? -1 : 1
         }

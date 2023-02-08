@@ -62,20 +62,11 @@ const items = {
     createdBy,
     boolean,
   },
-  Numbers: {
+  'Numbers and ID': {
     number,
     float,
     int,
   },
-
-  'Complex data structures': {
-    array,
-    object,
-    record,
-    set,
-    json,
-  },
-
   'Rich formatted data': {
     email,
     url,
@@ -86,6 +77,14 @@ const items = {
     references,
     file,
     // files,
+  },
+
+  'Complex data structures': {
+    array,
+    object,
+    record,
+    set,
+    json,
   },
 }
 

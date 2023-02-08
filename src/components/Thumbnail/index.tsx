@@ -47,7 +47,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
     <div
       style={{
         backgroundColor: color(colorProp),
-        borderRadius: 8,
+        borderRadius: 4,
         color: color(colorProp, 'contrast'),
         // @ts-ignore
         border: outline ? `1px solid ${color(colorProp + ':hover')}` : 'none',
