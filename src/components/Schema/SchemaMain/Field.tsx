@@ -23,6 +23,8 @@ import { useLocation } from 'wouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
 import { useSchema } from '~/hooks/useSchema'
+import { Dialog } from '~/components/Dialog'
+import { WarningIcon } from '~/icons/WarningIcon'
 
 const stopPropagation = (e) => e.stopPropagation()
 
@@ -40,6 +42,7 @@ const EditMenu: FC<{
   const { open } = useDialog()
 
   // console.log('client', client)
+  console.log(field)
 
   return (
     <>
@@ -73,38 +76,91 @@ const EditMenu: FC<{
       <ContextDivider />
       <ContextItem
         onClick={async () => {
-          if (
-            await confirm(
-              `Are you sure you want to remove the field ${field} from ${schema.types[type].meta.name}?`
-            )
-          ) {
-            const path = field.split('.')
-            const currentFields = schema.types[type].fields
-            const fields = {}
-            let from = currentFields
-            let dest = fields
-            let i = 0
-            const l = path.length
+          await open(
+            <Dialog label="Delete Type" style={{ paddingTop: 20 }}>
+              <div style={{}}>
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    flexDirection: 'row',
+                    width: '100%',
+                    marginBottom: 20,
+                  }}
+                >
+                  <Text style={{ paddingRight: 4 }}>
+                    Are you sure you want to delete the field{' '}
+                  </Text>
+                  <Text weight={700}>{field}</Text>
+                </div>
+                <Button
+                  light
+                  large
+                  color="reddish"
+                  style={{
+                    display: 'inline-flex',
+                    flexDirection: 'row',
+                    width: '100%',
+                    margin: '0 auto',
+                    pointerEvents: 'none',
+                    height: 40,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'inline-flex',
+                      flexDirection: 'row',
+                      alignContent: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <WarningIcon
+                      color="red"
+                      style={{ marginTop: 1.5, marginRight: 8 }}
+                    />
+                    <Text color="text">
+                      Warning: Data stored in this field will be lost.
+                    </Text>
+                  </div>
+                </Button>
+                <Dialog.Buttons border>
+                  <Dialog.Cancel />
+                  <Dialog.Confirm
+                    color="red"
+                    onConfirm={async () => {
+                      const path = field.split('.')
+                      const currentFields = schema.types[type].fields
+                      const fields = {}
+                      let from = currentFields
+                      let dest = fields
+                      let i = 0
+                      const l = path.length
 
-            while (i < l) {
-              const key = path[i++]
-              dest[key] = { ...from[key] }
-              dest = dest[key]
-              from = from[key]
-            }
+                      while (i < l) {
+                        const key = path[i++]
+                        dest[key] = { ...from[key] }
+                        dest = dest[key]
+                        from = from[key]
+                      }
 
-            // @ts-ignore
-            dest.$delete = true
+                      // @ts-ignore
+                      dest.$delete = true
 
-            await client.call('basedUpdateSchema', {
-              types: {
-                [type]: {
-                  fields,
-                },
-              },
-            })
-            // await client.removeField(type, field.split('.'))
-          }
+                      await client.call('basedUpdateSchema', {
+                        types: {
+                          [type]: {
+                            fields,
+                          },
+                        },
+                      })
+                      // await client.removeField(type, field.split('.'))
+                    }}
+                  >
+                    {`Delete ${field}`}
+                  </Dialog.Confirm>
+                </Dialog.Buttons>
+              </div>
+            </Dialog>
+          )
         }}
       >
         Delete

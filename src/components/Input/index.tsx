@@ -327,7 +327,7 @@ export const Input: FC<
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? '' : large ? 48 : 40,
+      minHeight: ghost ? '' : large ? 48 : 36,
       paddingLeft,
       border: ghost
         ? `0px solid transparent`
@@ -490,7 +490,9 @@ export const Input: FC<
               onChange={onChange}
             >
               <Single
+                type="text"
                 {...props}
+                // safari fix maybe it breaks smth
                 onKeyDown={(e) => {
                   // now you can remove the zero in input fields
                   if (e.key === 'Backspace' && value === 0) {
