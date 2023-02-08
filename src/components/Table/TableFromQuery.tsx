@@ -55,7 +55,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   // console.log('relevantFields', relevantFields)
   const [location, setLocation] = useLocation()
-  console.log('all fields', fields)
+  // console.log('all fields', fields)
 
   // for file drop upload
   const client = useClient()
@@ -73,7 +73,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // WORK ON SAVING TO URL CUSTOM VIEWS
   const [lijst, setLijst] = useState([])
 
-  console.log('lijst', lijst)
+  // console.log('lijst', lijst)
 
   // zet de lijst eerst alles is checked
   useEffect(() => {
@@ -126,7 +126,23 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   useEffect(() => {
     setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
+    console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
   }, [checkedItems])
+
+  // let removePartUrl
+  // useEffect(() => {
+  //   console.log('location changed')
+  //   // remove the checked part of the url
+  //   if (window.location.href.includes('checked=')) {
+  //     removePartUrl = window.location.href
+  //       .split('&')
+  //       .filter((item) => (!item.includes('checked=') ? item : null))
+  //       .join('&')
+
+  //     setLocation(removePartUrl)
+  //     console.log('removePartUrl', removePartUrl)
+  //   }
+  // }, [location])
 
   console.log(checkedItems, '🛑')
 
@@ -140,7 +156,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       .filter((item) => (item.includes('checked=') ? item : null))
       .toString()
       .substring(8)
-    console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
+    // console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
 
     const parsedArr = JSON.parse(decodeURIComponent(checkedFieldsPartOfUrl))
 
@@ -151,10 +167,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       })
     })
 
-    //  console.log(newListArrayFromUrl, '🌀')
+    // TODO: save to custom view
+    // TODO: If you change location remove the checked part of the url
+
+    // show eerste paar items by default..
   } else {
     newListOrderArr = []
-    console.log('fire all fields', fields)
+    //  console.log('fire all fields', fields)
     const newListOrder = fields.map((field, idx) =>
       newListOrderArr.push({
         label: field,
@@ -164,12 +183,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     )
   }
 
-  // 2 if there is a custom view then set the list to that
-
-  // 3 if there is no custom view then set the list to the default list default show 4 or 5 first items
-
-  // TODO als er dus een URL is moet het er weer uitgehaald worden en dat word de startlijst
-
   useEffect(() => {
     let tempUnCheckedArr = []
     // setFilteredFields
@@ -177,9 +190,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       lijst.map(
         (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
       )
-
-      // console.log('tempUnCheckedArr -->', tempUnCheckedArr)
-
       setUnCheckedArr(tempUnCheckedArr)
     }
   }, [lijst])
