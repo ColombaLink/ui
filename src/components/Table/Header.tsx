@@ -14,8 +14,6 @@ export const Header = ({
   columnWidth,
   setColWidths,
   colWidths,
-
-  newWorldOrder,
   setSort,
   sortOrder,
   lijst,
@@ -27,7 +25,6 @@ export const Header = ({
   selectedRowCheckboxes,
   items,
 }) => {
-  // console.log('from header', lijst)
   // console.log('all fields', allFields)
   // console.log(selectedRowCheckboxes, 'selectedRowCheckboxes')
   const { listeners, hover } = useHover()
@@ -76,80 +73,85 @@ export const Header = ({
             checked={selectedRowCheckboxes.length === items.length}
           />
         </div>
-        {newWorldOrder.map((field, index) => (
-          <div
-            key={index}
-            style={{
-              width: columnWidth(index + 1),
-              height: HEADER_HEIGHT,
-              position: 'relative',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              //  console.log('clicked on -->', field)
-              if (field) {
-                setActiveSortField(field)
-                if (sortOrder === 'desc') {
-                  setSort([field, 'asc'])
-                } else {
-                  setSort([field, 'desc'])
+        {lijst.map((field, index) =>
+          field.checkbox ? (
+            <div
+              key={index}
+              style={{
+                width: columnWidth(index + 1),
+                height: HEADER_HEIGHT,
+                position: 'relative',
+                cursor: 'pointer',
+              }}
+              onClick={() => {
+                //  console.log('clicked on -->', field)
+                if (field.label) {
+                  setActiveSortField(field.label)
+                  if (sortOrder === 'desc') {
+                    setSort([field.label, 'asc'])
+                  } else {
+                    setSort([field.label, 'desc'])
+                  }
                 }
-              }
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              {field === activeSortField && sortOrder === 'desc' && (
-                <SortIcon
-                  color="accent"
-                  style={{ marginRight: '-6px', marginLeft: 9 }}
-                />
-              )}
-              {field === activeSortField && sortOrder === 'asc' && (
-                <SortIcon
-                  color="accent"
-                  style={{ marginRight: '-6px', marginLeft: 9 }}
-                />
-              )}
-              <styled.div
-                style={{
-                  '&:hover >div': {
-                    color:
-                      field === activeSortField
-                        ? `${color('accent')} !important`
-                        : `${color('text')} !important`,
-                    fontWeight: '600 !important',
-                  },
-                }}
-              >
-                <Text
-                  color={field === activeSortField ? 'accent' : 'text2'}
-                  weight={field === activeSortField ? '600' : '400'}
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {field.label === activeSortField && sortOrder === 'desc' && (
+                  <SortIcon
+                    color="accent"
+                    style={{ marginRight: '-6px', marginLeft: 9 }}
+                  />
+                )}
+                {field.label === activeSortField && sortOrder === 'asc' && (
+                  <SortIcon
+                    color="accent"
+                    style={{ marginRight: '-6px', marginLeft: 9 }}
+                  />
+                )}
+                <styled.div
                   style={{
-                    paddingLeft: 12,
-                    lineHeight: `${HEADER_HEIGHT}px`,
+                    '&:hover >div': {
+                      color:
+                        field.label === activeSortField
+                          ? `${color('accent')} !important`
+                          : `${color('text')} !important`,
+                      fontWeight: '600 !important',
+                    },
                   }}
                 >
-                  {field}
-                </Text>
-              </styled.div>
-              {field === activeSortField && (
-                <ChevronDownIcon color="accent" style={{ marginLeft: '6px' }} />
-              )}
-            </div>
+                  <Text
+                    color={field.label === activeSortField ? 'accent' : 'text2'}
+                    weight={field.label === activeSortField ? '600' : '400'}
+                    style={{
+                      paddingLeft: 12,
+                      lineHeight: `${HEADER_HEIGHT}px`,
+                    }}
+                  >
+                    {field.label}
+                  </Text>
+                </styled.div>
+                {field.label === activeSortField && (
+                  <ChevronDownIcon
+                    color="accent"
+                    style={{ marginLeft: '6px' }}
+                  />
+                )}
+              </div>
 
-            <HeaderDragLine
-              setColWidths={setColWidths}
-              colWidths={colWidths}
-              index={index}
-              hovering={hover}
-              style={{
-                '&>div': {
-                  backgroundColor: hover ? color('border') : 'transparent',
-                },
-              }}
-            />
-          </div>
-        ))}
+              <HeaderDragLine
+                setColWidths={setColWidths}
+                colWidths={colWidths}
+                index={index}
+                hovering={hover}
+                style={{
+                  '&>div': {
+                    backgroundColor: hover ? color('border') : 'transparent',
+                  },
+                }}
+              />
+            </div>
+          ) : null
+        )}
       </div>
       <Button
         icon={<AddIcon color="text2" />}
@@ -186,12 +188,13 @@ const SelectFieldsMenu = ({ lijst, setLijst }) => {
           // insert the removed item at the target index
           const newList = [...lijst]
           newList.splice(data.targetIndex, 0, removedItem[0])
-          //  console.log('new list -->????', newList)
+          console.log('new list -->???? for the order', newList)
           setLijst([...newList])
           removeOverlay()
         }}
         onClick={() => {
-          setLijst([...lijst])
+          const newList = [...lijst]
+          setLijst([...newList])
         }}
       />
     </div>

@@ -25,7 +25,7 @@ export const InnerTable = ({
   Object.assign(itemData, {
     types,
     items,
-    fields,
+    fields: fields.filter((item) => item.checkbox).map((item) => item.label),
     onClick,
     setRelevantFields,
     selectedRowCheckboxes,
