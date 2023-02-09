@@ -87,7 +87,6 @@ export const useInfiniteScroll = ({
       }
     }
   }, [client, current])
-
   useEffect(() => {
     if (client) {
       const subs = {}
