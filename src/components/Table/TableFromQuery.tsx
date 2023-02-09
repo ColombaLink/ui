@@ -77,20 +77,46 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     // als er params zijn
     if (checked) {
       const checkedItems = JSON.parse(decodeURIComponent(checked))
-      console.log('And this-->', JSON.parse(decodeURIComponent(checked)))
       console.log('And this-->', checkedItems)
-      return fields.map((field, idx) => {
-        return {
-          label: field,
-          checkbox: checkedItems.includes(field),
+
+      // sort so it matches the parameters order
+      fields.sort((a, b) => checkedItems.indexOf(a) - checkedItems.indexOf(b))
+
+      const checkedArrObj = []
+      fields.map((field, idx) => {
+        if (checkedItems.includes(field)) {
+          checkedArrObj.push({
+            label: field,
+            checkbox: true,
+          })
         }
       })
+
+      const unCheckedArrObj = []
+      fields.map((field, idx) => {
+        if (!checkedItems.includes(field)) {
+          unCheckedArrObj.push({
+            label: field,
+            checkbox: false,
+          })
+        }
+      })
+
+      console.log('checkedArrObj', checkedArrObj)
+      console.log('unCheckedArrObj', unCheckedArrObj)
+
+      return checkedArrObj.concat(unCheckedArrObj)
     } else {
+      // dont return to much by default
+      let sillyCounter = 0
       return fields
         .map((field, idx) => {
+          if (!systemFieldsArr.includes(field)) {
+            sillyCounter++
+          }
           return {
             label: field,
-            checkbox: !systemFieldsArr.includes(field),
+            checkbox: sillyCounter < 6 && !systemFieldsArr.includes(field),
           }
         })
         .reverse()
@@ -103,20 +129,21 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   useEffect(() => {
     console.log('something changed in the list 😱')
+    console.log('LIJST 🚒', lijst)
+
     setLocation(
       `?checked=${encodeURIComponent(
         JSON.stringify(
-          lijst.filter((item) => item.checkbox).map((item) => item.label)
+          lijst.filter((item) => item?.checkbox).map((item) => item.label)
         )
       )}`
     )
   }, [lijst])
 
-  console.log('--->', window.location.search)
-  console.log('--->', location)
+  // console.log('--->', window.location.search)
+  // console.log('--->', location)
 
   useEffect(() => {
-    // clean my state from par
     return () => {
       history.replaceState(
         null,
