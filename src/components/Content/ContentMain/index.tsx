@@ -361,7 +361,7 @@ export const ContentMain = ({
                   `Update '${currentView.label}'`,
                   <Callout
                     icon={<WarningIcon />}
-                    color="orange"
+                    color="red"
                     label=" You are about to update the default view for all users."
                     labelColor="text"
                   />
