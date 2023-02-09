@@ -68,18 +68,15 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const { confirm } = useDialog()
 
   const [filteredFields, setFilteredFields] = useState([])
-  const [unCheckedArr, setUnCheckedArr] = useState([])
-  const [newWorldOrder, setNewWorldOrder] = useState([])
+  // const [unCheckedArr, setUnCheckedArr] = useState([])
 
   // lijst determines order and wich fields are shown
   const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
 
   // run once to filter out the fields that are not checked by default
-  useEffect(() => {
-    setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
-  }, [unCheckedArr])
-
-  console.log(newWorldOrder, 'newworldorder')
+  // useEffect(() => {
+  //   setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
+  // }, [unCheckedArr])
 
   const getLijstFromQueryParams = () => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -89,38 +86,34 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     if (checked) {
       const checkedItems = JSON.parse(decodeURIComponent(checked))
       console.log('And this-->', JSON.parse(decodeURIComponent(checked)))
-      //  console.log('And this-->', checkedItems)
-      return checkedItems
+      console.log('And this-->', checkedItems)
+      return fields.map((field, idx) => {
+        return {
+          label: field,
+          checkbox: checkedItems.includes(field),
+        }
+      })
     } else {
-      // als er geen params zijn
-      console.log('no paramsS?')
-      const firstFiveFields = fields
-        .filter((item) => !systemFieldsArr.includes(item))
-        .map((field, idx) => {
-          if (idx < 5) {
-            return field
-            // newWorldOrder.push(field)
-            // console.log(field)
-          }
-        })
-      console.log('firstFiveFields', firstFiveFields)
-      return firstFiveFields
+      return fields.map((field, idx) => {
+        return {
+          label: field,
+          checkbox: !systemFieldsArr.includes(field),
+        }
+      })
     }
   }
 
   useEffect(() => {
-    setNewWorldOrder(getLijstFromQueryParams())
-    let a = getLijstFromQueryParams().map((item) => ({
-      label: item,
-      checkbox: true,
-    }))
-    console.log('A', a)
-    let b = fields
-      .filter((item) => !a.includes(item))
-      .map((item) => ({ label: item, checkbox: false }))
-    setLijst(a.concat(b))
-    console.log(fields)
+    console.log('FIRE?')
+    setLijst(getLijstFromQueryParams())
   }, [])
+
+  useEffect(() => {
+    console.log('something changed in the list 😱')
+    console.log("I'm the list", lijst)
+  }, [lijst])
+
+  // TODO:  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`)
 
   useEffect(() => {
     // clean my state from par
@@ -139,30 +132,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       )
     }
   }, [])
-
-  // useEffect(() => {
-  //   if (newWorldOrder.length > 0) {
-  //     setLocation(
-  //       `?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`
-  //     )
-  //   }
-  // }, [newWorldOrder])
-
-  useEffect(() => {
-    const tempUnCheckedArr = []
-    // setFilteredFields
-    if (lijst.length > 0) {
-      lijst.map(
-        (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
-      )
-      setUnCheckedArr(tempUnCheckedArr)
-    }
-    if (lijst.length > 0) {
-      setNewWorldOrder(
-        lijst.filter((item) => item.checkbox).map((item) => item.label)
-      )
-    }
-  }, [lijst])
 
   const locationIsFile = location.split('/').pop() === 'file'
 
@@ -320,7 +289,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           height={height}
           types={types}
           items={items}
-          fields={newWorldOrder}
+          fields={lijst}
           onClick={onClick}
           setRelevantFields={setRelevantFields}
           selectedRowCheckboxes={selectedRowCheckboxes}
@@ -345,14 +314,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                   width={width}
                   colWidths={colWidths}
                   columnWidth={columnWidth}
-                  fields={filteredFields}
-                  allFields={fields}
-                  setFilteredFields={setFilteredFields}
-                  filteredFields={filteredFields}
-                  newWorldOrder={newWorldOrder}
+                  // fields={filteredFields}
+                  // setFilteredFields={setFilteredFields}
+                  // filteredFields={filteredFields}
                   setColWidths={setColWidths}
-                  unCheckedArr={unCheckedArr}
-                  setUnCheckedArr={setUnCheckedArr}
                   lijst={lijst}
                   setLijst={setLijst}
                   setSort={setSort}

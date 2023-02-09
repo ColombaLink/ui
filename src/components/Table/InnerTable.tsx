@@ -22,6 +22,8 @@ export const InnerTable = ({
   const [state, setState] = useState({})
   const { current: itemData } = useRef({})
 
+  fields = Array.from(fields.map((field) => field.label))
+
   Object.assign(itemData, {
     types,
     items,
