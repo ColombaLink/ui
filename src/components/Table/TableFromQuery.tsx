@@ -31,17 +31,6 @@ export type TableFromQueryProps = {
   isMultiref?: boolean
 }
 
-const getLijstFromQueryParams = () => {
-  const urlParams = new URLSearchParams(window.location.search)
-  const checked = urlParams.get('checked')
-  // if (checked) {
-  //   return JSON.parse(decodeURIComponent(checked))
-  // }
-  // return []
-
-  return []
-}
-
 export const TableFromQuery: FC<TableFromQueryProps> = ({
   query,
   fields,
@@ -64,14 +53,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
   const [relevantFields, setRelevantFields] = useState(fields)
-
-  // const mijnLijst = getLijstFromQueryParams()
-
-  // console.log('relevantFields', relevantFields)
   const [location, setLocation] = useLocation()
+
   // console.log('all fields', fields)
 
   let systemFieldsArr = Array.from(systemFields)
+
   // for file drop upload
   const client = useClient()
   const [draggingOver, setDraggingOver] = useState(false)
@@ -86,68 +73,61 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   let newListOrderArr = []
 
   // WORK ON SAVING TO URL CUSTOM VIEWS
-  const [lijst, setLijst] = useState([])
+
+  // lijst determines order and wich fields are shown
+  const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
 
   // console.log('lijst', lijst)
+  // console.log('All fields', fields)
 
-  // zet de lijst eerst alles is checked
-  useEffect(() => {
-    const relFields = []
+  const getLijstFromQueryParams = () => {
+    let checkedItemsAsObjectsArr = []
+    let checkedItems = []
+    const urlParams = new URLSearchParams(window.location.search)
+    const checked = urlParams.get('checked')
 
-    if (window.location.href.includes('checked=')) {
-      checkedFieldsPartOfUrl = window.location.href
-        .split('&')
-        .filter((item) => (item.includes('checked=') ? item : null))
-        .toString()
-        .substring(8)
-      console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
-
-      const parsedArr = JSON.parse(decodeURIComponent(checkedFieldsPartOfUrl))
-
-      // parsedArr.forEach((item) => {
-      //   relFields.push({
-      //     label: item,
-      //     checkbox: true,
-      //   })
-      // })
-
-      fields.map((field, idx) => {
-        if (parsedArr.includes(field)) {
-          relFields.push({ label: field, checkbox: true })
-        } else {
-          relFields.push({ label: field, checkbox: false })
-        }
-      })
-
-      //  console.log(newListArrayFromUrl, '🌀')
+    // als er params zijn
+    if (checked) {
+      checkedItems = JSON.parse(decodeURIComponent(checked))
+      console.log('And this-->', JSON.parse(decodeURIComponent(checked)))
+      console.log('And this-->', checkedItems)
     } else {
+      // als er geen params zijn
       fields
-        .filter((field) => !systemFieldsArr.includes(field))
-        .map((field, idx) =>
-          relFields.push({
-            label: field,
-            checkbox: idx < 5,
-          })
-        )
+        .filter((item) => !systemFieldsArr.includes(item))
+        .map((field, idx) => {
+          if (idx < 5) {
+            checkedItems.push(field)
+          }
+        })
     }
 
-    setLijst(relFields)
-    console.log('relFields', relFields)
-  }, [])
+    // van alle velden stop in de lijst
+    fields.forEach((field) => {
+      checkedItemsAsObjectsArr.push({
+        label: field,
+        checkbox: checkedItems.includes(field),
+      })
+    })
 
-  const checkedItems = []
-  // console.log('lijst--->', lijst)
-
-  for (let i = 0; i < lijst?.length; i++) {
-    if (lijst[i].checkbox) {
-      checkedItems.push(lijst[i].label)
-    }
+    console.log('checkedItemsAsObjectsArr', checkedItemsAsObjectsArr)
+    setLijst([...checkedItemsAsObjectsArr])
   }
 
+  // fire once
   useEffect(() => {
-    setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
-    //  console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
-  }, [checkedItems])
+    getLijstFromQueryParams()
+  }, [])
+
+  // useEffect(() => {
+  //   //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
+  //   //  console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
+  // }, [checkedItems])
+
+  // order gets messed up
+  useEffect(() => {
+    //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newCheckedArr))}`)
+  }, [unCheckedArr])
 
   useEffect(() => {
     // clean my state from par
@@ -167,60 +147,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [])
 
-  // let removePartUrl
-  // useEffect(() => {
-  //   console.log('location changed')
-  //   // remove the checked part of the url
-  //   if (window.location.href.includes('checked=')) {
-  //     removePartUrl = window.location.href
-  //       .split('&')
-  //       .filter((item) => (!item.includes('checked=') ? item : null))
-  //       .join('&')
-
-  //     setLocation(removePartUrl)
-  //     console.log('removePartUrl', removePartUrl)
-  //   }
-  // }, [location])
-
-  // console.log(checkedItems, '🛑')
-
-  // 1 check the url to see if there is a custom view
-  // let newListArrayFromUrl = []
-  let checkedFieldsPartOfUrl
-
-  if (window.location.href.includes('checked=')) {
-    checkedFieldsPartOfUrl = window.location.href
-      .split('&')
-      .filter((item) => (item.includes('checked=') ? item : null))
-      .toString()
-      .substring(8)
-    // console.log('checkedFieldsPartOfUrl', checkedFieldsPartOfUrl)
-
-    const parsedArr = JSON.parse(decodeURIComponent(checkedFieldsPartOfUrl))
-
-    parsedArr.forEach((item) => {
-      newListOrderArr.push({
-        label: item,
-        checkbox: true,
-      })
-    })
-
-    // TODO: save to custom view
-    // TODO: If you change location remove the checked part of the url
-
-    // show eerste paar items by default..
-  } else {
-    newListOrderArr = []
-    //  console.log('fire all fields', fields)
-    const newListOrder = fields.map((field, idx) =>
-      newListOrderArr.push({
-        label: field,
-        // id: idx,
-        checkbox: idx < 5,
-      })
-    )
-  }
-
   useEffect(() => {
     let tempUnCheckedArr = []
     // setFilteredFields
@@ -232,7 +158,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [lijst])
 
-  // console.log('fields', fields)
   // console.log('filteredFields', filteredFields)
   // console.log(unCheckedArr, 'al;rjeainfr')
   // console.log('📟', lijst)
@@ -251,10 +176,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     (item, idx) =>
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
-
-  // const [newFields, setNewFields] = useState(newWorldOrder)
-
-  // console.log('location', location)
 
   const locationIsFile = location.split('/').pop() === 'file'
 
