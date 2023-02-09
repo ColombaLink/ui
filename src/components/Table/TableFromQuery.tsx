@@ -69,6 +69,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   const [filteredFields, setFilteredFields] = useState([])
   const [unCheckedArr, setUnCheckedArr] = useState([])
+  const [newWorldOrder, setNewWorldOrder] = useState([])
 
   // lijst determines order and wich fields are shown
   const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
@@ -83,6 +84,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   useEffect(() => {
     setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
   }, [unCheckedArr])
+
+  // field order zorgt voor de drag drop order
+  console.log(newWorldOrder, 'newworldorder')
+  // lijst?.filter(
+  //   (item, idx) =>
+  //     filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
+  // )
 
   const getLijstFromQueryParams = () => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -114,6 +122,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
     console.log('checkedItems', checkedItems)
     console.log('checkedItemsAsObjectsArr', checkedItemsAsObjectsArr)
+    setNewWorldOrder([...checkedItems])
     setFilteredFields([...checkedItems])
     setLijst([...checkedItemsAsObjectsArr])
   }
@@ -123,12 +132,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     getLijstFromQueryParams()
   }, [])
 
-  // TODO set location
-  //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newCheckedArr))}`)
-
   useEffect(() => {
     // clean my state from par
     return () => {
+      setNewWorldOrder([])
       history.replaceState(
         null,
         '',
@@ -145,6 +152,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }, [])
 
   useEffect(() => {
+    console.log('lijst FiRE 🐸')
+
     let tempUnCheckedArr = []
     // setFilteredFields
     if (lijst.length > 0) {
@@ -153,20 +162,21 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       )
       setUnCheckedArr(tempUnCheckedArr)
     }
+    console.log('unchecked??', tempUnCheckedArr)
+
+    if (lijst.length > 0) {
+      setNewWorldOrder(
+        lijst.filter((item) => item.checkbox).map((item) => item.label)
+      )
+    }
   }, [lijst])
 
-  //  console.log('filteredFields 🐸', filteredFields)
+  // TODO: set location search params to newWorldOrder
+  //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newCheckedArr))}`)
 
-  // field order zorgt voor de drag drop order
-  const newWorldOrder = []
-  console.log(filteredFields, 'filteredfields')
-  console.log(newWorldOrder, 'newworldorder')
-  lijst?.map(
-    (item, idx) =>
-      filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
-  )
-
-  // console.log('filteredfieldds', filteredFields)
+  useEffect(() => {
+    setLocation(`?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`)
+  }, [newWorldOrder])
 
   const locationIsFile = location.split('/').pop() === 'file'
 
