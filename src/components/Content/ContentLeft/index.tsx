@@ -1,10 +1,20 @@
 import { useData } from '@based/react'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { border, LoadingIcon, Menu, Text, useSchema, Badge } from '~'
 
 export const SystemLabel = ({ isActive = false, children }) => {
+  const [hover, setHover] = useState(false)
+  let thingy: boolean
+  if (hover || isActive) {
+    thingy = false
+  } else {
+    thingy = true
+  }
+
   return (
     <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -12,7 +22,7 @@ export const SystemLabel = ({ isActive = false, children }) => {
       }}
     >
       {children}
-      <Badge ghost={isActive}>system</Badge>
+      <Badge ghost={thingy}>system</Badge>
     </div>
   )
 }
