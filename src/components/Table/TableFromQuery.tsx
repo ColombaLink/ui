@@ -111,6 +111,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   useEffect(() => {
     console.log('something changed in the list 😱')
     console.log("I'm the list", lijst)
+    setFilteredFields(
+      lijst.filter((item) => item.checkbox).map((item) => item.label)
+    )
   }, [lijst])
 
   // TODO:  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`)

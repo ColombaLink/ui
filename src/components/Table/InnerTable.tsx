@@ -22,12 +22,14 @@ export const InnerTable = ({
   const [state, setState] = useState({})
   const { current: itemData } = useRef({})
 
-  fields = Array.from(fields.map((field) => field.label))
+  console.log('---------------------------innerTAble')
+  console.log('fields', fields)
+  console.log('items', items)
 
   Object.assign(itemData, {
     types,
     items,
-    fields,
+    fields: fields.filter((item) => item.checkbox).map((item) => item.label),
     onClick,
     setRelevantFields,
     selectedRowCheckboxes,
