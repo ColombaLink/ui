@@ -55,9 +55,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [relevantFields, setRelevantFields] = useState(fields)
   const [location, setLocation] = useLocation()
 
-  // console.log('all fields', fields)
-
-  let systemFieldsArr = Array.from(systemFields)
+  const systemFieldsArr = Array.from(systemFields)
 
   // for file drop upload
   const client = useClient()
@@ -68,15 +66,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const { confirm } = useDialog()
 
   const [filteredFields, setFilteredFields] = useState([])
-  // const [unCheckedArr, setUnCheckedArr] = useState([])
 
   // lijst determines order and wich fields are shown
   const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
-
-  // run once to filter out the fields that are not checked by default
-  // useEffect(() => {
-  //   setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
-  // }, [unCheckedArr])
 
   const getLijstFromQueryParams = () => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -94,29 +86,34 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         }
       })
     } else {
-      return fields.map((field, idx) => {
-        return {
-          label: field,
-          checkbox: !systemFieldsArr.includes(field),
-        }
-      })
+      return fields
+        .map((field, idx) => {
+          return {
+            label: field,
+            checkbox: !systemFieldsArr.includes(field),
+          }
+        })
+        .reverse()
     }
   }
 
   useEffect(() => {
-    console.log('FIRE?')
     setLijst(getLijstFromQueryParams())
   }, [])
 
   useEffect(() => {
     console.log('something changed in the list 😱')
-    console.log("I'm the list", lijst)
-    setFilteredFields(
-      lijst.filter((item) => item.checkbox).map((item) => item.label)
+    setLocation(
+      `?checked=${encodeURIComponent(
+        JSON.stringify(
+          lijst.filter((item) => item.checkbox).map((item) => item.label)
+        )
+      )}`
     )
   }, [lijst])
 
-  // TODO:  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`)
+  console.log('--->', window.location.search)
+  console.log('--->', location)
 
   useEffect(() => {
     // clean my state from par

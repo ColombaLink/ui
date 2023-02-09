@@ -22,10 +22,6 @@ export const InnerTable = ({
   const [state, setState] = useState({})
   const { current: itemData } = useRef({})
 
-  console.log('---------------------------innerTAble')
-  console.log('fields', fields)
-  console.log('items', items)
-
   Object.assign(itemData, {
     types,
     items,
