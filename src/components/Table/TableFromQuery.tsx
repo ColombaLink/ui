@@ -67,12 +67,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // before you delete modal to confirm
   const { confirm } = useDialog()
 
-  const [filteredFields, setFilteredFields] = useState(fields)
+  const [filteredFields, setFilteredFields] = useState([])
   const [unCheckedArr, setUnCheckedArr] = useState([])
-
-  let newListOrderArr = []
-
-  // WORK ON SAVING TO URL CUSTOM VIEWS
 
   // lijst determines order and wich fields are shown
   const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
@@ -80,9 +76,15 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // console.log('lijst', lijst)
   // console.log('All fields', fields)
 
+  let checkedItemsAsObjectsArr = []
+  let checkedItems = []
+
+  // run once to filter out the fields that are not checked by default
+  useEffect(() => {
+    setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
+  }, [unCheckedArr])
+
   const getLijstFromQueryParams = () => {
-    let checkedItemsAsObjectsArr = []
-    let checkedItems = []
     const urlParams = new URLSearchParams(window.location.search)
     const checked = urlParams.get('checked')
 
@@ -110,7 +112,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       })
     })
 
+    console.log('checkedItems', checkedItems)
     console.log('checkedItemsAsObjectsArr', checkedItemsAsObjectsArr)
+    setFilteredFields([...checkedItems])
     setLijst([...checkedItemsAsObjectsArr])
   }
 
@@ -119,15 +123,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     getLijstFromQueryParams()
   }, [])
 
-  // useEffect(() => {
-  //   //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
-  //   //  console.log(`checked=${encodeURIComponent(JSON.stringify(checkedItems))}`)
-  // }, [checkedItems])
-
-  // order gets messed up
-  useEffect(() => {
-    //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newCheckedArr))}`)
-  }, [unCheckedArr])
+  // TODO set location
+  //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newCheckedArr))}`)
 
   useEffect(() => {
     // clean my state from par
@@ -158,24 +155,18 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [lijst])
 
-  // console.log('filteredFields', filteredFields)
-  // console.log(unCheckedArr, 'al;rjeainfr')
-  // console.log('📟', lijst)
-
-  // run once to filter out the fields that are not checked by default
-  useEffect(() => {
-    // console.log('😱', fields)
-    setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
-  }, [unCheckedArr])
-
   //  console.log('filteredFields 🐸', filteredFields)
 
-  // field order
+  // field order zorgt voor de drag drop order
   const newWorldOrder = []
+  console.log(filteredFields, 'filteredfields')
+  console.log(newWorldOrder, 'newworldorder')
   lijst?.map(
     (item, idx) =>
       filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
   )
+
+  // console.log('filteredfieldds', filteredFields)
 
   const locationIsFile = location.split('/').pop() === 'file'
 
