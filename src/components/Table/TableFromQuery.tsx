@@ -144,21 +144,21 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [newWorldOrder])
 
-  // useEffect(() => {
-  //   const tempUnCheckedArr = []
-  //   // setFilteredFields
-  //   if (lijst.length > 0) {
-  //     lijst.map(
-  //       (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
-  //     )
-  //     setUnCheckedArr(tempUnCheckedArr)
-  //   }
-  //   if (lijst.length > 0) {
-  //     setNewWorldOrder(
-  //       lijst.filter((item) => item.checkbox).map((item) => item.label)
-  //     )
-  //   }
-  // }, [lijst])
+  useEffect(() => {
+    const tempUnCheckedArr = []
+    // setFilteredFields
+    if (lijst.length > 0) {
+      lijst.map(
+        (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
+      )
+      setUnCheckedArr(tempUnCheckedArr)
+    }
+    if (lijst.length > 0) {
+      setNewWorldOrder(
+        lijst.filter((item) => item.checkbox).map((item) => item.label)
+      )
+    }
+  }, [lijst])
 
   const locationIsFile = location.split('/').pop() === 'file'
 
