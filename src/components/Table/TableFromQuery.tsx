@@ -93,14 +93,17 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       return checkedItems
     } else {
       // als er geen params zijn
+      console.log('no paramsS?')
       const firstFiveFields = fields
         .filter((item) => !systemFieldsArr.includes(item))
         .map((field, idx) => {
           if (idx < 5) {
-            newWorldOrder.push(field)
-            console.log(field)
+            return field
+            // newWorldOrder.push(field)
+            // console.log(field)
           }
         })
+      console.log('firstFiveFields', firstFiveFields)
       return firstFiveFields
     }
   }
@@ -111,6 +114,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       label: item,
       checkbox: true,
     }))
+    console.log('A', a)
     let b = fields
       .filter((item) => !a.includes(item))
       .map((item) => ({ label: item, checkbox: false }))
@@ -136,13 +140,13 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [])
 
-  useEffect(() => {
-    if (newWorldOrder.length > 0) {
-      setLocation(
-        `?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`
-      )
-    }
-  }, [newWorldOrder])
+  // useEffect(() => {
+  //   if (newWorldOrder.length > 0) {
+  //     setLocation(
+  //       `?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`
+  //     )
+  //   }
+  // }, [newWorldOrder])
 
   useEffect(() => {
     const tempUnCheckedArr = []
