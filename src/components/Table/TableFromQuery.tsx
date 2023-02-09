@@ -74,23 +74,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // lijst determines order and wich fields are shown
   const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
 
-  // console.log('lijst', lijst)
-  // console.log('All fields', fields)
-
-  let checkedItemsAsObjectsArr = []
-  let checkedItems = []
-
   // run once to filter out the fields that are not checked by default
   useEffect(() => {
     setFilteredFields(fields.filter((field) => !unCheckedArr.includes(field)))
   }, [unCheckedArr])
 
-  // field order zorgt voor de drag drop order
   console.log(newWorldOrder, 'newworldorder')
-  // lijst?.filter(
-  //   (item, idx) =>
-  //     filteredFields?.includes(item.label) && newWorldOrder.push(item.label)
-  // )
 
   const getLijstFromQueryParams = () => {
     const urlParams = new URLSearchParams(window.location.search)
@@ -98,44 +87,40 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
     // als er params zijn
     if (checked) {
-      checkedItems = JSON.parse(decodeURIComponent(checked))
+      const checkedItems = JSON.parse(decodeURIComponent(checked))
       console.log('And this-->', JSON.parse(decodeURIComponent(checked)))
-      console.log('And this-->', checkedItems)
+      //  console.log('And this-->', checkedItems)
+      return checkedItems
     } else {
       // als er geen params zijn
-      fields
+      const firstFiveFields = fields
         .filter((item) => !systemFieldsArr.includes(item))
         .map((field, idx) => {
           if (idx < 5) {
-            checkedItems.push(field)
+            newWorldOrder.push(field)
+            console.log(field)
           }
         })
+      return firstFiveFields
     }
-
-    // van alle velden stop in de lijst
-    fields.forEach((field) => {
-      checkedItemsAsObjectsArr.push({
-        label: field,
-        checkbox: checkedItems.includes(field),
-      })
-    })
-
-    console.log('checkedItems', checkedItems)
-    console.log('checkedItemsAsObjectsArr', checkedItemsAsObjectsArr)
-    setNewWorldOrder([...checkedItems])
-    setFilteredFields([...checkedItems])
-    setLijst([...checkedItemsAsObjectsArr])
   }
 
-  // fire once
   useEffect(() => {
-    getLijstFromQueryParams()
+    setNewWorldOrder(getLijstFromQueryParams())
+    let a = getLijstFromQueryParams().map((item) => ({
+      label: item,
+      checkbox: true,
+    }))
+    let b = fields
+      .filter((item) => !a.includes(item))
+      .map((item) => ({ label: item, checkbox: false }))
+    setLijst(a.concat(b))
+    console.log(fields)
   }, [])
 
   useEffect(() => {
     // clean my state from par
     return () => {
-      setNewWorldOrder([])
       history.replaceState(
         null,
         '',
@@ -152,31 +137,28 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }, [])
 
   useEffect(() => {
-    console.log('lijst FiRE 🐸')
-
-    let tempUnCheckedArr = []
-    // setFilteredFields
-    if (lijst.length > 0) {
-      lijst.map(
-        (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
-      )
-      setUnCheckedArr(tempUnCheckedArr)
-    }
-    console.log('unchecked??', tempUnCheckedArr)
-
-    if (lijst.length > 0) {
-      setNewWorldOrder(
-        lijst.filter((item) => item.checkbox).map((item) => item.label)
+    if (newWorldOrder.length > 0) {
+      setLocation(
+        `?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`
       )
     }
-  }, [lijst])
-
-  // TODO: set location search params to newWorldOrder
-  //  setLocation(`?checked=${encodeURIComponent(JSON.stringify(newCheckedArr))}`)
-
-  useEffect(() => {
-    setLocation(`?checked=${encodeURIComponent(JSON.stringify(newWorldOrder))}`)
   }, [newWorldOrder])
+
+  // useEffect(() => {
+  //   const tempUnCheckedArr = []
+  //   // setFilteredFields
+  //   if (lijst.length > 0) {
+  //     lijst.map(
+  //       (item, idx) => !item.checkbox && tempUnCheckedArr.push(item.label)
+  //     )
+  //     setUnCheckedArr(tempUnCheckedArr)
+  //   }
+  //   if (lijst.length > 0) {
+  //     setNewWorldOrder(
+  //       lijst.filter((item) => item.checkbox).map((item) => item.label)
+  //     )
+  //   }
+  // }, [lijst])
 
   const locationIsFile = location.split('/').pop() === 'file'
 
