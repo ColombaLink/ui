@@ -29,9 +29,12 @@ export const QueryBar = () => {
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
     console.log('splittedInputValue', splittedInputValue)
+    console.log('inputValue FIRED', inputValue)
   }, [inputValue])
 
   useEffect(() => {
+    console.log('SplittedInputValue FIRED??', inputValue)
+
     query.target = splittedInputValue[1]
     query.field = splittedInputValue[2]
 
@@ -172,9 +175,9 @@ export const QueryBar = () => {
                     value={text}
                     style={{ '& svg': { display: 'none' } }}
                     onChange={(e) => {
-                      // splittedInputValue[idx] = e
-                      // setSplittedInputValue([...splittedInputValue])
-                      // now this must also change the input value then splitted will follow??
+                      const tempSplitted = [...splittedInputValue]
+                      tempSplitted[idx] = e
+                      setInputValue(tempSplitted.join(' '))
                     }}
                     options={[
                       '=',
@@ -225,7 +228,24 @@ export const QueryBar = () => {
                 }}
               >
                 <Text color="accent">
-                  {text[0] === '$' ? text : '$' + text}
+                  {/* {text[0] === '$' ? text : '$' + text} */}
+
+                  <Select
+                    ghost
+                    value={text[0] === '$' ? text : '$' + text}
+                    style={{
+                      // @ts-ignore
+                      '& div': { color: `${color('accent')} !important` },
+                      '& svg': { display: 'none' },
+                    }}
+                    onChange={(e) => {
+                      const tempSplitted = [...splittedInputValue]
+                      tempSplitted[idx] = e
+                      setInputValue(tempSplitted.join(' '))
+                    }}
+                    options={['$and', '$or']}
+                    placeholder=""
+                  />
                 </Text>
               </div>
             ) : (
