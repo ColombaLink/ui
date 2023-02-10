@@ -23,6 +23,7 @@ export const QueryBar = () => {
     console.log('query changed -->', arrayOfLogics)
   }, [query])
 
+  // settting splittedInputValue twice to sync up
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
     console.log('splittedInputValue', splittedInputValue)
@@ -58,6 +59,7 @@ export const QueryBar = () => {
           space="12px"
           value={inputValue}
           onChange={(e) => {
+            // set twice to sync with useeffect
             setSplittedInputValue(e.split(' '))
             setInputValue(e)
           }}
@@ -154,7 +156,7 @@ export const QueryBar = () => {
           ))}
         </div>
 
-        <RootPill query={query} setQuery={setQuery} />
+        {/* <RootPill query={query} setQuery={setQuery} /> */}
 
         {[...Array(numberOfFilterPills)]?.map((item, index) => (
           <FilterPill
