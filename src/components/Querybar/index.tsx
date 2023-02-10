@@ -84,6 +84,24 @@ export const QueryBar = () => {
                   <StackIcon size={16} color="accent" />
                   {text}
                 </Text>
+              ) : idx === 2 ? (
+                <>
+                  <Text
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      height: 30,
+                      padding: 10,
+                      backgroundColor: color('lighttext'),
+                      borderTopRightRadius: 4,
+                      borderBottomRightRadius: 4,
+                    }}
+                  >
+                    {text}
+                  </Text>
+                  <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
+                </>
               ) : (
                 <div
                   style={{
