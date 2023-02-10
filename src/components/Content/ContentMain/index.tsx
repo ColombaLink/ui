@@ -1,7 +1,7 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
 import React, { useState, useEffect } from 'react'
-import { alwaysIgnore } from '~/components/Schema/templates'
+import { alwaysIgnore } from '~/components/Schema/templates/old'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
 import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'

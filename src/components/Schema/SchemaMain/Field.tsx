@@ -37,12 +37,8 @@ const EditMenu: FC<{
 }> = ({ type, field, template, isObject, path }) => {
   const { schema } = useSchema()
   const client = useClient()
-  const { confirm } = useDialog()
   const [location, setLocation] = useLocation()
   const { open } = useDialog()
-
-  // console.log('client', client)
-  console.log(field)
 
   return (
     <>

@@ -14,7 +14,7 @@ import { useClient } from '@based/react'
 import { Header } from './Header'
 import { InnerTable } from './InnerTable'
 import { SelectedOptionsSubMenu } from './SelectedOptionsSubMenu'
-import { systemFields } from '../Schema/templates'
+import { systemFields } from '../Schema/templates/old'
 
 export type TableFromQueryProps = {
   fields: string[]

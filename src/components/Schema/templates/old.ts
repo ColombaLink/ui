@@ -1,4 +1,3 @@
-import { Color } from '~/types'
 import {
   TextIcon,
   AddIcon,
@@ -24,6 +23,7 @@ import {
   SetIcon,
   ToggleIcon,
 } from '~/icons'
+import { Field } from '../types'
 
 export const systemFields = new Set([
   'id',
@@ -61,60 +61,12 @@ export type FieldTemplates =
   | 'url'
   | 'set'
   | 'json'
+  | 'bytes'
 
 export const templates: {
-  [K in FieldTemplates]: {
-    label?: string
-    description: string
-    color?: Color
-    hidden?: boolean
-    icon: any
-    schema: {
-      type: string
-      properties?: object
-      values?: object
-      items?: object
-      meta?: {
-        format?: 'url' | 'email' | 'geo' | 'file' | 'files' | 'markdown'
-        refTypes?: string[]
-      }
-    }
-  }
+  [K in FieldTemplates]: Field
 } = {
   // keys have to represent types or formats TODO add ts
-  string: {
-    label: 'String',
-    color: 'lightpurple',
-    description: 'Non internationalized string',
-    icon: TextIcon,
-    schema: { type: 'string' },
-  },
-  markdown: {
-    label: 'Markdown',
-    color: 'lightpurple',
-    description: 'Markdown editor',
-    icon: AddIcon,
-    schema: {
-      type: 'string',
-      meta: {
-        format: 'markdown',
-      },
-    },
-  },
-  text: {
-    label: 'Text',
-    description: 'Editor with formatting',
-    color: 'lightpurple',
-    icon: PenIcon,
-    schema: { type: 'text' },
-  },
-  digest: {
-    label: 'Digest',
-    color: 'lightpurple',
-    description: 'Digests for secrets',
-    icon: LockIcon,
-    schema: { type: 'digest' },
-  },
 
   email: {
     label: 'Email',
@@ -140,7 +92,6 @@ export const templates: {
       },
     },
   },
-
   geo: {
     label: 'Geo',
     color: 'lightbabyblue',
@@ -157,7 +108,6 @@ export const templates: {
       },
     },
   },
-
   dateTime: {
     label: 'Date-Time',
     color: 'lightteal',
@@ -186,7 +136,6 @@ export const templates: {
     icon: ToggleIcon,
     schema: { type: 'boolean' },
   },
-
   reference: {
     label: 'Reference',
     color: 'lightyellow',

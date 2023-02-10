@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC } from 'react'
 import { SchemaMain } from './SchemaMain'
 import { SchemaLeft } from './SchemaLeft'
-import { SchemaRight } from './SchemaRight'
 import { useLocation } from '~'
 import { useSchemaTypes } from '~/hooks'
 
@@ -46,7 +45,6 @@ export const Schema: FC<{
     <div style={{ display: 'flex', ...style }}>
       <SchemaLeft prefix={prefix} />
       <SchemaMain db={db} type={type} path={path} prefix={prefix} />
-      {/* <SchemaRight type={type} path={path} /> */}
     </div>
   )
 }

@@ -11,7 +11,7 @@ import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { prettyDate } from '@based/pretty-date'
-import { Select, StyledSelect } from '~/components/Select'
+import { Select } from '~/components/Select'
 import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
@@ -20,7 +20,7 @@ import { styled } from 'inlines'
 
 const Topbar = ({ id, type, onClose }) => {
   const [location, setLocation] = useLocation()
-  const { descriptor, type: schemaType, loading } = useDescriptor(id)
+  const { type: schemaType, loading } = useDescriptor(id)
 
   return (
     <div
@@ -141,21 +141,13 @@ const ContentModalInner = ({ prefix, id, field }) => {
   const [language, setLanguage] = useLocalStorage('bui_lang')
   const { open } = useDialog()
   const type = id ? null : field
-  // const [dialog, setDialog] = useState(false)
-  // let dialog = false
+
   const [copied, copy] = useCopyToClipboard(id)
   useEffect(() => {
-    // function handleKeyUp(e) {
-    //   // if (e.keyCode === 27) {
-    //   //   dialog = false
-    //   // }
-    // }
     async function handleKeyDown(e) {
-      // const changedFields = Object.keys(ref.current).length
       if (e.keyCode === 13 && !e.shiftKey) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
-          console.log(JSON.stringify(changes, null, 2))
           await client.set({
             $id: id?.split('.')[0] || undefined,
             type,
@@ -181,17 +173,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
     }
   })
   const dialogTime = () => (dialog = false)
-
-  // useEffect(() => {
-  //   async function handleKeyUp(e) {
-  //     if (e.keyCode === 27) {
-  //       dialog = false
-  //     }
-  //   }
-
-  //   window.addEventListener('keyup', handleKeyUp)
-  //   return () => window.removeEventListener('keyup', handleKeyUp)
-  // }, [dialog])
 
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
@@ -336,7 +317,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
-                console.log(JSON.stringify(changes, null, 2))
                 await client.set({
                   $id: id?.split('.')[0] || undefined,
                   type,

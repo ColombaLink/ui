@@ -12,8 +12,8 @@ import {
 } from '~'
 import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
-import { FieldTemplates, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
+import { groups, FieldTemplates, templates } from '../templates'
 
 const Section = styled('div', {
   marginTop: 20,
@@ -23,74 +23,11 @@ const Section = styled('div', {
   marginBottom: 10,
 })
 
-const {
-  string,
-  text,
-  markdown,
-  digest,
-  email,
-  url,
-  geo,
-  dateTime,
-  timestamp,
-  createdBy,
-  boolean,
-  reference,
-  references,
-  file,
-  // files,
-  number,
-  float,
-  int,
-  array,
-  object,
-  record,
-  set,
-  json,
-} = templates
-const items = {
-  'Text and String': {
-    string,
-    text,
-    markdown,
-    digest,
-  },
-
-  'Plain formatted data': {
-    dateTime,
-    timestamp,
-    createdBy,
-    boolean,
-  },
-  'Numbers and ID': {
-    number,
-    float,
-    int,
-  },
-  'Rich formatted data': {
-    email,
-    url,
-    geo,
-  },
-  'References and files': {
-    reference,
-    references,
-    file,
-    // files,
-  },
-
-  'Complex data structures': {
-    array,
-    object,
-    record,
-    set,
-    json,
-  },
-}
-
 const Template = ({ template, type, path }) => {
   const { label, description, icon, color } = templates[template]
   const { open } = useDialog()
+
+  console.log(label, '??', templates[template])
 
   return (
     <styled.div
@@ -141,8 +78,8 @@ export const SelectFieldTypeModal: FC<{
     }
 
     const filteredArr = []
-    for (const header in items) {
-      for (const template in items[header]) {
+    for (const header in groups) {
+      for (const template in groups[header]) {
         if (template.toLowerCase().includes(value.toLowerCase())) {
           filteredArr.push(template)
         }
@@ -196,7 +133,7 @@ export const SelectFieldTypeModal: FC<{
                   />
                 )
               })
-            : Object.keys(items).map((header) => {
+            : Object.keys(groups).map((header) => {
                 return (
                   <Fragment key={header}>
                     <Text
@@ -206,7 +143,7 @@ export const SelectFieldTypeModal: FC<{
                     >
                       {header}
                     </Text>
-                    {Object.keys(items[header]).map(
+                    {Object.keys(groups[header]).map(
                       (template: FieldTemplates) => {
                         // put template
                         return (
