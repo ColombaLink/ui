@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useItemSchema } from '../Content/hooks/useItemSchema'
 import { useHover } from '~/hooks'
-import { Checkbox, Text, Badge } from '~'
+import { Checkbox, Text, Badge, CheckIcon } from '~'
 import { border, color } from '~/utils'
 import stringifyObject from 'stringify-object'
 import { isImage } from '~/utils/isImage'
@@ -9,6 +9,7 @@ import { toDateString } from '~/utils/date'
 import { HEADER_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { Reference } from './Reference'
 import { References } from './References'
+import { ProgressBar } from '../ProgressBar'
 
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const { types, items, fields, onClick, setState, hoverRowIndex } = data
@@ -143,7 +144,9 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
-
+        const videoThing = data.items[3]
+        console.log(videoThing)
+        console.log('------->', items[0][field])
         const prettierObject = (obj) => {
           return stringifyObject(obj, {
             indent: ' ',
@@ -159,6 +162,15 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
               <Text weight={400}>
                 {prettierObject(items[0][field]).substring(0, 64)}
               </Text>
+            )
+          } else if (field === 'origin') {
+            children = (
+              <div
+                style={{
+                  backgroundImage:
+                    'url(https://di-xgz6bmm5.leasewebultracdn.com/fi68bd48b9/aae4b80e-8c73-4db5-a212-a758cdaa9596-679b8c59-9a3e-42e4-a509-158440d7ce63-6f1405fc-b611-4f04-9387-c86d484cbca6/video.m3u8?w=100&h=100)',
+                }}
+              />
             )
           } else if (fieldType === 'json') {
             children = (
@@ -209,6 +221,27 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             )
           } else if (typeof value === 'object') {
             console.warn('incorrect value:', fieldType, item, field, value)
+          } else if (field === 'progress') {
+            children = (
+              <div
+                style={{
+                  justifyContent: 'center',
+                  display: 'flex',
+                  width: '100%',
+                  marginRight: 12,
+                  // transform: 'position(-12)',
+                  // margin: '0 auto',
+                }}
+              >
+                {value !== 1 ? (
+                  <div style={{ width: '100%' }}>
+                    <ProgressBar progress={value} />
+                  </div>
+                ) : (
+                  <CheckIcon style={{ margin: '0 auto' }} />
+                )}
+              </div>
+            )
           } else {
             children = <Text weight={400}>{value}</Text>
           }

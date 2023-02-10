@@ -24,10 +24,8 @@ const SelectReferencesItemDescriptor = ({ id }) => {
   const { descriptor, loading } = useDescriptor(id)
   return loading ? null : <Text>{descriptor}</Text>
 }
-
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
-
   // console.log(data.checkedIds, '🍯')
   // console.log(data.dialogRef.current.childNodes[1], '🍯')
 
@@ -43,8 +41,13 @@ const SelectReferencesItem = ({ style, data, index }) => {
       />
     )
   }
+  // data.checkedIds = []
   const checked = data.selected.has(item.id)
   const afbThumb = getImageSrcFromId(item.id)
+  // if (checked) {
+  //   console.log(data.selected)
+  // data.checkedIds.push(data.selected)
+  // }
 
   return (
     <div
@@ -58,14 +61,18 @@ const SelectReferencesItem = ({ style, data, index }) => {
     >
       <Checkbox
         checked={data.singleRef ? index === data.checkedIds[0] : checked}
+        // checked={data.singleRef ? data.singleRef === checked : checked}
         onChange={() => {
           // if het single reference is
           if (data.singleRef) {
             if (checked) {
+              // console.log
               data.selected.delete(item.id)
+              data.checkedIds[0] = data.selected
               data.dialogRef.current.childNodes[1].childNodes[0].scroll(0, 1)
             } else {
               data.selected.add(item.id)
+              data.checkedIds[0] = data.selected
               data.checkedIds.push(index)
               data.checkedIds.shift()
 
@@ -124,7 +131,6 @@ export const SelectReferences = ({
 
   const { width, height } = useWindowResize()
   const dialogRef = useRef<HTMLDivElement>(null)
-
   const checkedIds = []
 
   if (typing) {
@@ -148,7 +154,6 @@ export const SelectReferences = ({
   }, [filter])
 
   if (loading) return null
-
   const queryFields = Object.keys(types).reduce((set, type) => {
     for (const key in types[type].fields) {
       const field = types[type].fields[key]
