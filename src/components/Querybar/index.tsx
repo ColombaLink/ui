@@ -7,6 +7,7 @@ import {
   StackIcon,
   LinkIcon,
   Button,
+  Select,
 } from '~'
 import { RootPill } from './RootPill'
 import { FilterPill } from './FilterPill'
@@ -21,15 +22,8 @@ export const QueryBar = () => {
 
   const [inputValue, setInputValue] = useState('')
   const [splittedInputValue, setSplittedInputValue] = useState([])
-
   // count and or ors in the query
-  const [numberOfFilterPills, setNumberOfFilterPills] = useState(1)
-  // to track nested operators
   const [arrayOfLogics, setArrayOfLogics] = useState([])
-
-  useEffect(() => {
-    console.log('query changed -->', arrayOfLogics)
-  }, [query])
 
   // settting splittedInputValue twice to sync up
   useEffect(() => {
@@ -53,7 +47,11 @@ export const QueryBar = () => {
       }
     }
 
-    arrayOfLogics[0] = splittedInputValue[6]
+    // dont forget the dollar sign for the query
+    arrayOfLogics[0] =
+      splittedInputValue[6]?.charAt(0) === '$'
+        ? splittedInputValue[6]
+        : `$${splittedInputValue[6]}`
 
     if (query.filters[1] && splittedInputValue.length < 7) {
       query.filters.pop()
@@ -71,7 +69,7 @@ export const QueryBar = () => {
   /* /////////  To combine and to unCombine the query object ///////// */
   let snurpArr = []
 
-  const nestFilters = (query, arr) => {
+  const NestFilters = (query, arr) => {
     // empty the snurpArr
     snurpArr = []
 
@@ -90,7 +88,7 @@ export const QueryBar = () => {
     setQuery({ ...query })
   }
 
-  const flattenFilters = (obj) => {
+  const FlattenFilters = (obj) => {
     const tempObj = {}
 
     for (let key in obj) {
@@ -104,7 +102,7 @@ export const QueryBar = () => {
         }
 
         if (typeof obj[key] === 'object') {
-          flattenFilters(obj[key])
+          FlattenFilters(obj[key])
           console.log('snurp 🐸', snurpArr)
         }
       }
@@ -165,10 +163,32 @@ export const QueryBar = () => {
                   backgroundColor: color('lighttext'),
                   borderRight: `1px solid ${color('border')}`,
                 }}
-                onClick={() => console.log('clicked my index is ', idx)}
               >
                 {idx === 1 && <StackIcon size={16} color="accent" />}
-                {text}
+                {idx === 1 && text}
+                {idx !== 1 && (
+                  <Select
+                    ghost
+                    value={text}
+                    style={{ '& svg': { display: 'none' } }}
+                    onChange={(e) => {
+                      // splittedInputValue[idx] = e
+                      // setSplittedInputValue([...splittedInputValue])
+                      // now this must also change the input value then splitted will follow??
+                    }}
+                    options={[
+                      '=',
+                      '!=',
+                      '>',
+                      '<',
+                      '>=',
+                      '<=',
+                      'has',
+                      'includes',
+                    ]}
+                    placeholder=""
+                  />
+                )}
               </Text>
             ) : idx === 2 || idx === 5 || idx === 9 || idx === 13 ? (
               <>
@@ -225,13 +245,13 @@ export const QueryBar = () => {
         ))}
       </styled.div>
       <div style={{ display: 'flex', gap: 12 }}>
-        <Button onClick={() => nestFilters(query, arrayOfLogics)}>
+        <Button onClick={() => NestFilters(query, arrayOfLogics)}>
           COMBINE
         </Button>
         <Button
           outline
           onClick={() => {
-            flattenFilters(query.filters)
+            FlattenFilters(query.filters)
             query.filters = snurpArr.reverse()
             setQuery({ ...query })
           }}
