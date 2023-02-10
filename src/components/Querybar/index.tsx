@@ -30,6 +30,7 @@ export const QueryBar = () => {
 
   return (
     <>
+      in root desc type is yvestype
       <styled.div
         style={{
           border: `1px solid ${color('border')}`,
@@ -48,10 +49,10 @@ export const QueryBar = () => {
         <div
           style={{ marginBottom: 12, display: 'flex', alignItems: 'center' }}
         >
-          {/* harcode the first three options in there after that repeat */}
+          {/* harcode the first six options in there after that repeat */}
           {splittedInputValue.map((text, idx) => (
             <React.Fragment key={idx}>
-              {idx === 0 ? (
+              {idx === 0 || idx === 3 || idx === 7 ? (
                 <Text
                   wrap
                   color="text2"
@@ -68,7 +69,7 @@ export const QueryBar = () => {
                 >
                   {text}
                 </Text>
-              ) : idx === 1 ? (
+              ) : idx === 1 || idx === 4 || idx === 8 ? (
                 <Text
                   style={{
                     display: 'flex',
@@ -76,15 +77,15 @@ export const QueryBar = () => {
                     gap: 8,
                     height: 30,
                     padding: 10,
-                    minWidth: 74,
+                    minWidth: idx === 1 ? 74 : 'auto',
                     backgroundColor: color('lighttext'),
                     borderRight: `1px solid ${color('border')}`,
                   }}
                 >
-                  <StackIcon size={16} color="accent" />
+                  {idx === 1 && <StackIcon size={16} color="accent" />}
                   {text}
                 </Text>
-              ) : idx === 2 ? (
+              ) : idx === 2 || idx === 5 || idx === 9 ? (
                 <>
                   <Text
                     style={{
@@ -100,8 +101,25 @@ export const QueryBar = () => {
                   >
                     {text}
                   </Text>
-                  <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
+                  {idx === 2 && (
+                    <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
+                  )}
                 </>
+              ) : idx === 6 || idx === 10 ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 10,
+                    height: 30,
+                    margin: '0 8px',
+                    backgroundColor: 'transparent',
+                    border: `1px solid ${color('accent')}`,
+                    borderRadius: 4,
+                  }}
+                >
+                  <Text color="accent">{text}</Text>
+                </div>
               ) : (
                 <div
                   style={{
@@ -134,7 +152,6 @@ export const QueryBar = () => {
           />
         ))}
       </styled.div>
-
       <pre
         style={{
           bottom: 0,
