@@ -30,17 +30,32 @@ export const QueryBar = () => {
   }, [inputValue])
 
   useEffect(() => {
-    if (splittedInputValue.length === 2) {
-      query.target = splittedInputValue[1]
+    query.target = splittedInputValue[1]
+    query.field = splittedInputValue[2]
+
+    if (query.filters[0] && splittedInputValue.length < 4) {
+      query.filters.pop()
     }
-    if (splittedInputValue.length === 3) {
-      query.field = splittedInputValue[2]
-    }
-    if (splittedInputValue.length === 6) {
+
+    if (splittedInputValue.length > 4) {
       query.filters[0] = {
         $field: splittedInputValue[3],
         $operator: splittedInputValue[4],
         $value: splittedInputValue[5],
+      }
+    }
+
+    arrayOfLogics[0] = splittedInputValue[6]
+
+    if (query.filters[1] && splittedInputValue.length < 7) {
+      query.filters.pop()
+    }
+
+    if (splittedInputValue.length > 7) {
+      query.filters[1] = {
+        $field: splittedInputValue[7],
+        $operator: splittedInputValue[8],
+        $value: splittedInputValue[9],
       }
     }
   }, [splittedInputValue])
