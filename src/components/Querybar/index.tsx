@@ -13,6 +13,10 @@ import { RootPill } from './RootPill'
 import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
 
+// TODO: fake overlay cursor
+// TODO: tab to autocomplete
+// TODO: when will submit happen
+
 export const QueryBar = () => {
   const [query, setQuery] = useState({
     filters: [],
@@ -29,12 +33,9 @@ export const QueryBar = () => {
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
     console.log('splittedInputValue', splittedInputValue)
-    console.log('inputValue FIRED', inputValue)
   }, [inputValue])
 
   useEffect(() => {
-    console.log('SplittedInputValue FIRED??', inputValue)
-
     query.target = splittedInputValue[1]
     query.field = splittedInputValue[2]
 
@@ -173,6 +174,7 @@ export const QueryBar = () => {
                   <Select
                     ghost
                     value={text}
+                    // @ts-ignore
                     style={{ '& svg': { display: 'none' } }}
                     onChange={(e) => {
                       const tempSplitted = [...splittedInputValue]
@@ -229,7 +231,6 @@ export const QueryBar = () => {
               >
                 <Text color="accent">
                   {/* {text[0] === '$' ? text : '$' + text} */}
-
                   <Select
                     ghost
                     value={text[0] === '$' ? text : '$' + text}
