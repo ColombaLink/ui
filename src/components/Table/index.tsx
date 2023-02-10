@@ -50,9 +50,11 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
 
   const [, setLocation] = useLocation()
 
+  console.log('---------->', { ...props })
+
   // console.log(selectedRowCheckboxes)
   // console.log('Table ---> ', props)
-
+  // console.log(Field)
   return (
     <styled.div
       style={{
