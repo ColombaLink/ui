@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowRightIcon, color, Input, Text, StackIcon, LinkIcon } from '~'
+import {
+  ArrowRightIcon,
+  color,
+  Input,
+  Text,
+  StackIcon,
+  LinkIcon,
+  Button,
+} from '~'
 import { RootPill } from './RootPill'
 import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
@@ -59,6 +67,50 @@ export const QueryBar = () => {
       }
     }
   }, [splittedInputValue])
+
+  /* /////////  To combine and to unCombine the query object ///////// */
+  let snurpArr = []
+
+  const nestFilters = (query, arr) => {
+    // empty the snurpArr
+    snurpArr = []
+
+    const snurp = {}
+    let target = snurp
+    query.filters.forEach((obj, index) => {
+      Object.assign(target, obj)
+      const l = arr[index]
+      if (l) {
+        target = target[l] = {}
+      }
+    })
+
+    query.filters = { ...snurp }
+    console.log('query 🐸', query)
+    setQuery({ ...query })
+  }
+
+  const flattenFilters = (obj) => {
+    const tempObj = {}
+
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        console.log('key', key, '---->', obj[key])
+
+        // only works if key is exactly $and or $or
+        if (key !== '$and' && key !== '$or') {
+          tempObj[key] = obj[key]
+          console.log('tempObj 🐸', tempObj)
+        }
+
+        if (typeof obj[key] === 'object') {
+          flattenFilters(obj[key])
+          console.log('snurp 🐸', snurpArr)
+        }
+      }
+    }
+    snurpArr.push(tempObj)
+  }
 
   return (
     <>
@@ -171,8 +223,24 @@ export const QueryBar = () => {
           ))}
         </div>
 
-        {/* <RootPill query={query} setQuery={setQuery} /> */}
+        <div style={{ display: 'flex', gap: 12 }}>
+          <Button onClick={() => nestFilters(query, arrayOfLogics)}>
+            COMBINE
+          </Button>
+          <Button
+            outline
+            onClick={() => {
+              flattenFilters(query.filters)
+              query.filters = snurpArr.reverse()
+              setQuery({ ...query })
+            }}
+          >
+            FLATTEN
+          </Button>
+        </div>
 
+        {/* <RootPill query={query} setQuery={setQuery} /> */}
+        {/* 
         {[...Array(numberOfFilterPills)]?.map((item, index) => (
           <FilterPill
             query={query}
@@ -184,7 +252,7 @@ export const QueryBar = () => {
             setArrayOfLogics={setArrayOfLogics}
             arrayOfLogics={arrayOfLogics}
           />
-        ))}
+        ))} */}
       </styled.div>
       <pre
         style={{
