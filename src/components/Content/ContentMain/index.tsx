@@ -214,7 +214,7 @@ export const ContentMain = ({
   const fieldTypes = {}
 
   includedTypes.forEach((type) => {
-    const { fields } = types[type]
+    const { fields = {} } = types[type] || {}
     for (const field in fields) {
       if (!alwaysIgnore.has(field)) {
         const index = fields[field].meta?.index
