@@ -165,6 +165,7 @@ export const QueryBar = () => {
                   backgroundColor: color('lighttext'),
                   borderRight: `1px solid ${color('border')}`,
                 }}
+                onClick={() => console.log('clicked my index is ', idx)}
               >
                 {idx === 1 && <StackIcon size={16} color="accent" />}
                 {text}
@@ -203,7 +204,9 @@ export const QueryBar = () => {
                   borderRadius: 4,
                 }}
               >
-                <Text color="accent">{text}</Text>
+                <Text color="accent">
+                  {text[0] === '$' ? text : '$' + text}
+                </Text>
               </div>
             ) : (
               <div
