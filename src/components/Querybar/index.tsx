@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowRightIcon, color, Input, Text, StackIcon } from '~'
+import { ArrowRightIcon, color, Input, Text, StackIcon, LinkIcon } from '~'
 import { RootPill } from './RootPill'
 import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
@@ -11,6 +11,9 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
+  const [inputValue, setInputValue] = useState('')
+  const [splittedInputValue, setSplittedInputValue] = useState([])
+
   // count and or ors in the query
   const [numberOfFilterPills, setNumberOfFilterPills] = useState(1)
   // to track nested operators
@@ -20,13 +23,26 @@ export const QueryBar = () => {
     console.log('query changed -->', arrayOfLogics)
   }, [query])
 
-  const [inputValue, setInputValue] = useState('')
-  const [splittedInputValue, setSplittedInputValue] = useState([])
-
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
     console.log('splittedInputValue', splittedInputValue)
   }, [inputValue])
+
+  useEffect(() => {
+    if (splittedInputValue.length === 2) {
+      query.target = splittedInputValue[1]
+    }
+    if (splittedInputValue.length === 3) {
+      query.field = splittedInputValue[2]
+    }
+    if (splittedInputValue.length === 6) {
+      query.filters[0] = {
+        $field: splittedInputValue[3],
+        $operator: splittedInputValue[4],
+        $value: splittedInputValue[5],
+      }
+    }
+  }, [splittedInputValue])
 
   return (
     <>
@@ -52,7 +68,7 @@ export const QueryBar = () => {
           {/* harcode the first six options in there after that repeat */}
           {splittedInputValue.map((text, idx) => (
             <React.Fragment key={idx}>
-              {idx === 0 || idx === 3 || idx === 7 ? (
+              {idx === 0 || idx === 3 || idx === 7 || idx === 11 ? (
                 <Text
                   wrap
                   color="text2"
@@ -67,9 +83,9 @@ export const QueryBar = () => {
                     borderRight: `1px solid ${color('border')}`,
                   }}
                 >
-                  {text}
+                  {idx === 0 ? text.toUpperCase() : text}
                 </Text>
-              ) : idx === 1 || idx === 4 || idx === 8 ? (
+              ) : idx === 1 || idx === 4 || idx === 8 || idx === 12 ? (
                 <Text
                   style={{
                     display: 'flex',
@@ -85,7 +101,7 @@ export const QueryBar = () => {
                   {idx === 1 && <StackIcon size={16} color="accent" />}
                   {text}
                 </Text>
-              ) : idx === 2 || idx === 5 || idx === 9 ? (
+              ) : idx === 2 || idx === 5 || idx === 9 || idx === 13 ? (
                 <>
                   <Text
                     style={{
@@ -99,13 +115,14 @@ export const QueryBar = () => {
                       borderBottomRightRadius: 4,
                     }}
                   >
+                    {idx === 2 && <LinkIcon size={16} color="accent" />}
                     {text}
                   </Text>
                   {idx === 2 && (
                     <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
                   )}
                 </>
-              ) : idx === 6 || idx === 10 ? (
+              ) : idx === 6 || idx === 10 || idx === 14 ? (
                 <div
                   style={{
                     display: 'flex',
