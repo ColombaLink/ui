@@ -131,7 +131,10 @@ export const Select: FC<SelectProps> = ({
         openedRef.current = true
         open(e)
       }}
-      style={{ boxShadow: ghost ? null : boxShadow('medium'), ...style }}
+      style={{
+        boxShadow: ghost ? null : boxShadow('medium'),
+        ...style,
+      }}
       id={id}
     >
       {children}

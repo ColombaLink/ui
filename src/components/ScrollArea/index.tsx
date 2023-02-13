@@ -9,6 +9,7 @@ export const scrollAreaStyle = {
   overflow: 'auto',
   overflowY: 'overlay',
   overflowX: 'overlay',
+  minWidth: 'fit-content',
 
   // backgroundColor: 'pink',
 

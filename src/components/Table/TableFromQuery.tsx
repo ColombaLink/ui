@@ -278,6 +278,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   return (
     <>
       <div
+        style={{ minHeight: 200 }}
         onDragOver={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -310,6 +311,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 ? `1px dashed ${color('border')}`
                 : 'none',
             scrollAreaStyle,
+            minHeight: 200,
           }}
           columnCount={columnCount}
           columnWidth={columnWidth}
