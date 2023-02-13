@@ -14,9 +14,6 @@ import { Checkbox } from '~/components/Checkbox'
 import { Input } from '~'
 
 const ReferencesGeneral = ({ types, options }) => {
-  console.log('options', options)
-  console.log('the types', types)
-
   return (
     <>
       <MultiSelect
@@ -244,8 +241,8 @@ export const FieldModal: FC<
         ...fields[field],
       }
     } else {
+      // @ts-ignore
       optionsRef.current = {
-        // @ts-ignore
         meta: {},
         ...templates[template].schema,
       }
@@ -314,6 +311,14 @@ export const FieldModal: FC<
                 label="Limit character count"
                 description="Specifies the maximum number of characters allowed in this field"
                 onChange={(e) => console.log('this is checked now --->', e)}
+              />
+              <Checkbox
+                space
+                label="Read only"
+                description="Read only for you and me"
+                onChange={(e) => {
+                  options.meta.readOnly = e
+                }}
               />
               {true && (
                 <div
