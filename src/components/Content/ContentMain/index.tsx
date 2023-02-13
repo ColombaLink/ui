@@ -219,7 +219,7 @@ export const ContentMain = ({
     for (const field in fields) {
       if (!alwaysIgnore.has(field)) {
         const index = fields[field].meta?.index
-        fieldTypes[field] = fields[field].type
+        fieldTypes[field] = fields[field]?.type
         if (index === undefined) {
           other.add(field)
         } else if (!(index in indexed)) {
