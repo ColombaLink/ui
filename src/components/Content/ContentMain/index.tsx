@@ -214,6 +214,7 @@ export const ContentMain = ({
   const fieldTypes = {}
 
   includedTypes.forEach((type) => {
+    if (!types[type]) return
     const { fields } = types[type]
     for (const field in fields) {
       if (!alwaysIgnore.has(field)) {
