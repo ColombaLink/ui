@@ -45,6 +45,7 @@ export const QueryBar = () => {
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState([])
   const [carretPosition, setCarretPosition] = useState(0)
+  const [filtersAreNested, setFiltersAreNested] = useState(false)
 
   const InputFieldRef = useRef()
 
@@ -97,7 +98,7 @@ export const QueryBar = () => {
 
     const snurp = {}
     let target = snurp
-    query.filters.forEach((obj, index) => {
+    query?.filters?.forEach((obj, index) => {
       Object.assign(target, obj)
       const l = arr[index]
       if (l) {
@@ -312,7 +313,23 @@ export const QueryBar = () => {
                     onChange={(e) => {
                       const tempSplitted = [...splittedInputValue]
                       tempSplitted[idx] = e
-                      setInputValue(tempSplitted.join(' '))
+
+                      if (!filtersAreNested) {
+                        setInputValue(tempSplitted.join(' '))
+                        setSplittedInputValue([...tempSplitted])
+                      } else {
+                        //flatten the array first
+                        FlattenFilters(query.filters)
+                        query.filters = snurpArr.reverse()
+                        setQuery({ ...query })
+
+                        // dan pas veranderen
+                        setInputValue(tempSplitted.join(' '))
+                        setSplittedInputValue([...tempSplitted])
+
+                        // zet nested filters to false
+                        setFiltersAreNested(false)
+                      }
                     }}
                     options={[
                       '=',
@@ -404,10 +421,25 @@ export const QueryBar = () => {
                       '& svg': { display: 'none' },
                     }}
                     onChange={(e) => {
-                      console.log('Flurp')
                       const tempSplitted = [...splittedInputValue]
                       tempSplitted[idx] = e
-                      setInputValue(tempSplitted.join(' '))
+
+                      if (!filtersAreNested) {
+                        setInputValue(tempSplitted.join(' '))
+                        setSplittedInputValue([...tempSplitted])
+                      } else {
+                        //flatten the array first
+                        FlattenFilters(query.filters)
+                        query.filters = snurpArr.reverse()
+                        setQuery({ ...query })
+
+                        // dan pas veranderen
+                        setInputValue(tempSplitted.join(' '))
+                        setSplittedInputValue([...tempSplitted])
+
+                        // zet nested filters to false
+                        setFiltersAreNested(false)
+                      }
                     }}
                     options={['$and', '$or']}
                     placeholder=""
@@ -434,7 +466,7 @@ export const QueryBar = () => {
         <Button
           onClick={() => {
             NestFilters(query, arrayOfLogics)
-            setFiltersAreNested(false)
+            setFiltersAreNested(true)
           }}
         >
           COMBINE
@@ -445,7 +477,6 @@ export const QueryBar = () => {
             FlattenFilters(query.filters)
             query.filters = snurpArr.reverse()
             setQuery({ ...query })
-            setFiltersAreNested(false)
           }}
         >
           FLATTEN
