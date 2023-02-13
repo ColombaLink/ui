@@ -2,15 +2,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import {
   ArrowRightIcon,
   color,
-  Input,
   Text,
   StackIcon,
   LinkIcon,
   Button,
   Select,
 } from '~'
-import { RootPill } from './RootPill'
-import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
 
 // TODO: fake overlay cursor -> CaretPosition
@@ -94,7 +91,6 @@ export const QueryBar = () => {
 
   /* /////////  To combine and to unCombine the query object ///////// */
   let snurpArr = []
-
   const NestFilters = (query, arr) => {
     // empty the snurpArr
     snurpArr = []
@@ -198,13 +194,9 @@ export const QueryBar = () => {
           // set twice to sync with useeffect
           setSplittedInputValue(e.target.value.split(' '))
           setInputValue(e.target.value)
-          //   console.log('inputFieldRef', InputFieldRef)
-          //   console.log('Caret is at position: 🥕', e.target.selectionStart)
           setCarretPosition(e.target.selectionStart)
         }}
         onClick={(e) => {
-          // listen for mouse position
-          //  console.log('inputFieldRef', InputFieldRef.current?.selectionStart)
           setCarretPosition(e.target.selectionStart)
         }}
       />
@@ -244,7 +236,6 @@ export const QueryBar = () => {
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
               >
-                {/* {inputValue.length === 0 && <FakeCarret />} */}
                 {carretPosition === 0 || inputValue.length === 0 ? (
                   <FakeCarret />
                 ) : null}
@@ -285,23 +276,6 @@ export const QueryBar = () => {
                       )
                     )
                   : null}
-
-                {/* {idx === 0 ? (
-                  <div style={{ display: 'flex' }}>
-                    <span>{text?.substr(0, carretPosition).toUpperCase()}</span>
-                    {carretIsInBlockIndex === 0 && <FakeCarret />}
-                    <span>{text?.substr(carretPosition).toUpperCase()}</span>
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex' }}>
-                    <span>{text?.substr(0, carretInBlockSubPos)}</span>
-                    {(carretIsInBlockIndex === 3 && idx === 3) ||
-                    (carretIsInBlockIndex === 7 && idx === 7) ? (
-                      <FakeCarret />
-                    ) : null}
-                    <span>{text?.substr(carretInBlockSubPos)}</span>
-                  </div>
-                )} */}
               </Text>
             ) : idx === 1 ||
               idx === 4 ||
@@ -401,16 +375,6 @@ export const QueryBar = () => {
                       </span>
                     )
                   )}
-
-                  {/* <div style={{ display: 'flex' }}>
-                    <span>{text?.substr(0, carretInBlockSubPos)}</span>
-                    {(carretIsInBlockIndex === 2 && idx === 2) ||
-                    (carretIsInBlockIndex === 5 && idx === 5) ||
-                    (carretIsInBlockIndex === 9 && idx === 9) ? (
-                      <FakeCarret />
-                    ) : null}
-                    <span>{text?.substr(carretInBlockSubPos)}</span>
-                  </div> */}
                 </Text>
                 {idx === 2 && (
                   <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
@@ -440,6 +404,7 @@ export const QueryBar = () => {
                       '& svg': { display: 'none' },
                     }}
                     onChange={(e) => {
+                      console.log('Flurp')
                       const tempSplitted = [...splittedInputValue]
                       tempSplitted[idx] = e
                       setInputValue(tempSplitted.join(' '))
@@ -466,7 +431,12 @@ export const QueryBar = () => {
         ))}
       </styled.div>
       <div style={{ display: 'flex', gap: 12 }}>
-        <Button onClick={() => NestFilters(query, arrayOfLogics)}>
+        <Button
+          onClick={() => {
+            NestFilters(query, arrayOfLogics)
+            setFiltersAreNested(false)
+          }}
+        >
           COMBINE
         </Button>
         <Button
@@ -475,25 +445,12 @@ export const QueryBar = () => {
             FlattenFilters(query.filters)
             query.filters = snurpArr.reverse()
             setQuery({ ...query })
+            setFiltersAreNested(false)
           }}
         >
           FLATTEN
         </Button>
       </div>
-      {/* <RootPill query={query} setQuery={setQuery} /> */}
-      {/* 
-        {[...Array(numberOfFilterPills)]?.map((item, index) => (
-          <FilterPill
-            query={query}
-            setQuery={setQuery}
-            index={index}
-            key={index}
-            numberOfFilterPills={numberOfFilterPills}
-            setNumberOfFilterPills={setNumberOfFilterPills}
-            setArrayOfLogics={setArrayOfLogics}
-            arrayOfLogics={arrayOfLogics}
-          />
-        ))} */}
       <pre
         style={{
           bottom: 0,
