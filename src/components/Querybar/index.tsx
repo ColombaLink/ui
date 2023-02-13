@@ -148,16 +148,35 @@ export const QueryBar = () => {
     ) {
       carretIsInBlockIndex = idx
       carretInBlockSubPos = carretPosition - counter
-      //   console.log('carret is in block 🧀', idx)
-      // console.log(
-      //   'Sub position in block 🥕',
-      //   idx,
-      //   '=',
-      //   carretPosition - counter
-      // )
     }
     counter += text.length + 1
   })
+
+  const PutCursorInRightPlaceOnClick = (e, idx) => {
+    console.log('E ', e, 'IDX ', idx)
+
+    // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
+    let countedBlocksLength = splittedInputValue.reduce((acc, curr, index) => {
+      if (index < idx) {
+        return acc + curr.length + 1
+      } else {
+        return acc
+      }
+    }, 0)
+
+    console.log('E.TARGET.ID', e.target.id)
+    console.log('*_*', countedBlocksLength)
+
+    carretIsInBlockIndex = idx
+
+    let newSelectedCarretPosition = countedBlocksLength + +e.target.id
+    console.log('newSelectedCarretPosition', newSelectedCarretPosition)
+
+    setCarretPosition(newSelectedCarretPosition)
+    InputFieldRef?.current?.focus()
+    InputFieldRef.current.selectionStart = newSelectedCarretPosition
+    InputFieldRef.current.selectionEnd = newSelectedCarretPosition
+  }
 
   return (
     <>
@@ -222,26 +241,41 @@ export const QueryBar = () => {
                   position: 'relative',
                   cursor: 'text',
                 }}
+                // @ts-ignore
                 onClick={(e) => {
-                  console.log('click on block', idx)
-                  console.log(InputFieldRef)
-                  console.log(e.target.id)
                   carretIsInBlockIndex = idx
-                  setCarretPosition(e.target.id)
-                  InputFieldRef?.current?.focus()
-                  InputFieldRef.current.selectionStart = e.target.id
-                  InputFieldRef.current.selectionEnd = e.target.id
+                  PutCursorInRightPlaceOnClick(e, idx)
                 }}
               >
-                {inputValue.length === 0 && <FakeCarret />}
+                {/* {inputValue.length === 0 && <FakeCarret />} */}
+                {carretPosition === 0 || inputValue.length === 0 ? (
+                  <FakeCarret />
+                ) : null}
                 {idx === 0
+                  ? text?.split('')?.map((letter, index) =>
+                      index === carretInBlockSubPos - 1 ? (
+                        <div style={{ display: 'flex' }}>
+                          <span id={index} key={index}>
+                            {letter.toUpperCase()}
+                          </span>
+                          {carretIsInBlockIndex === 0 && <FakeCarret />}
+                        </div>
+                      ) : (
+                        <span id={index} key={index}>
+                          {letter.toUpperCase()}
+                        </span>
+                      )
+                    )
+                  : null}
+
+                {idx === 3
                   ? text?.split('')?.map((letter, index) =>
                       index === carretInBlockSubPos - 1 ? (
                         <div style={{ display: 'flex' }}>
                           <span id={index} key={index}>
                             {letter}
                           </span>
-                          {carretIsInBlockIndex === 0 && <FakeCarret />}
+                          {carretIsInBlockIndex === 3 && <FakeCarret />}
                         </div>
                       ) : (
                         <span id={index} key={index}>
