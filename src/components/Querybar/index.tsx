@@ -62,7 +62,7 @@ export const QueryBar = () => {
     query.field = splittedInputValue[2]
 
     if (query.filters[0] && splittedInputValue.length < 4) {
-      query.filters.pop()
+      query.filters?.pop()
     }
 
     if (splittedInputValue.length > 4) {
@@ -80,7 +80,7 @@ export const QueryBar = () => {
         : `$${splittedInputValue[6]}`
 
     if (query.filters[1] && splittedInputValue.length < 7) {
-      query.filters.pop()
+      query.filters?.pop()
     }
 
     if (splittedInputValue.length > 7) {
@@ -265,14 +265,18 @@ export const QueryBar = () => {
                     )
                   : null}
 
-                {idx === 3
+                {idx === 3 || idx === 7 || idx === 11 || idx === 15
                   ? text?.split('')?.map((letter, index) =>
                       index === carretInBlockSubPos - 1 ? (
                         <div style={{ display: 'flex' }}>
                           <span id={index} key={index}>
                             {letter}
                           </span>
-                          {carretIsInBlockIndex === 3 && <FakeCarret />}
+
+                          {(carretIsInBlockIndex === 3 && idx === 3) ||
+                          (carretIsInBlockIndex === 7 && idx === 7) ? (
+                            <FakeCarret />
+                          ) : null}
                         </div>
                       ) : (
                         <span id={index} key={index}>
