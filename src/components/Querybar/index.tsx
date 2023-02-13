@@ -156,22 +156,19 @@ export const QueryBar = () => {
     console.log('E ', e, 'IDX ', idx)
 
     // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
-    let countedBlocksLength = splittedInputValue.reduce((acc, curr, index) => {
-      if (index < idx) {
-        return acc + curr.length + 1
-      } else {
-        return acc
-      }
-    }, 0)
-
-    console.log('E.TARGET.ID', e.target.id)
-    console.log('*_*', countedBlocksLength)
+    const countedBlocksLength = splittedInputValue.reduce(
+      (acc, curr, index) => {
+        if (index < idx) {
+          return acc + curr.length + 1
+        } else {
+          return acc
+        }
+      },
+      0
+    )
 
     carretIsInBlockIndex = idx
-
-    let newSelectedCarretPosition = countedBlocksLength + +e.target.id
-    console.log('newSelectedCarretPosition', newSelectedCarretPosition)
-
+    const newSelectedCarretPosition = countedBlocksLength + +e.target.id
     setCarretPosition(newSelectedCarretPosition)
     InputFieldRef?.current?.focus()
     InputFieldRef.current.selectionStart = newSelectedCarretPosition
@@ -363,17 +360,45 @@ export const QueryBar = () => {
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 8,
                     height: 30,
                     padding: 10,
                     backgroundColor: color('lighttext'),
                     borderTopRightRadius: 4,
                     borderBottomRightRadius: 4,
+                    cursor: 'text',
+                  }}
+                  onClick={(e) => {
+                    carretIsInBlockIndex = idx
+                    PutCursorInRightPlaceOnClick(e, idx)
                   }}
                 >
-                  {idx === 2 && <LinkIcon size={16} color="accent" />}
+                  {idx === 2 && (
+                    <LinkIcon
+                      size={16}
+                      color="accent"
+                      style={{ marginRight: 8 }}
+                    />
+                  )}
 
-                  <div style={{ display: 'flex' }}>
+                  {text?.split('')?.map((letter, index) =>
+                    index === carretInBlockSubPos - 1 ? (
+                      <div style={{ display: 'flex' }}>
+                        <span id={index} key={index}>
+                          {letter}
+                        </span>
+                        {(carretIsInBlockIndex === 2 && idx === 2) ||
+                        (carretIsInBlockIndex === 5 && idx === 5) ? (
+                          <FakeCarret />
+                        ) : null}
+                      </div>
+                    ) : (
+                      <span id={index} key={index}>
+                        {letter}
+                      </span>
+                    )
+                  )}
+
+                  {/* <div style={{ display: 'flex' }}>
                     <span>{text?.substr(0, carretInBlockSubPos)}</span>
                     {(carretIsInBlockIndex === 2 && idx === 2) ||
                     (carretIsInBlockIndex === 5 && idx === 5) ||
@@ -381,7 +406,7 @@ export const QueryBar = () => {
                       <FakeCarret />
                     ) : null}
                     <span>{text?.substr(carretInBlockSubPos)}</span>
-                  </div>
+                  </div> */}
                 </Text>
                 {idx === 2 && (
                   <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
