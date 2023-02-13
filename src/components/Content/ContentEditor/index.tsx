@@ -15,7 +15,7 @@ import {
   useLocation,
 } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
-import { alwaysIgnore } from '~/components/Schema/templates/old'
+import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { useDialog } from '~/components/Dialog'
 import isUrl from 'is-url-superb'
@@ -52,7 +52,7 @@ const SingleReference = (props) => {
       <SelectReferences
         onChange={onChange}
         setRefArray={setRefArray}
-        singleRef
+        singleRef={true}
         close={close}
       />
     )
@@ -192,12 +192,10 @@ const record = {
 
 const string = {
   default: ({ description, ...props }) => {
-    const readOnly = props.schema.meta?.readOnly
     return (
       <Input
         {...props}
         descriptionBottom={description}
-        disabled={readOnly}
         indent
         space
         // type="text" is for safari fix maybe it breaks smth
@@ -297,13 +295,6 @@ const float = {
 }
 
 const int = {
-  bytes: ({ description, ...props }) => {
-    console.info('NUMBER', description, props.schema.meta?.readOnly)
-
-    const isReadOnly = props.schema.meta?.readOnly
-
-    return <div>HELLO BYTES {isReadOnly ? 'READ ONLY SHIII' : '!'}</div>
-  },
   default: ({ description, ...props }) => {
     return (
       <Input
@@ -438,7 +429,7 @@ const ContentField = ({
   const isText = type === 'text'
   const [targetId, ...path] = id?.split('.') || []
 
-  console.info('schema', name, ui, format, description)
+  //  console.log('schema', schema)
 
   const query = {
     $id: targetId,

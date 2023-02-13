@@ -1,7 +1,14 @@
-import { TwentyThreeIcon, DashIcon } from '~/icons'
+import { TwentyThreeIcon, DashIcon, CalculatorIcon, IntegerIcon } from '~/icons'
 import { Field } from '../types'
 
 export const numbers: { [key: string]: Field } = {
+  number: {
+    label: 'Number',
+    color: 'lightsailorblue',
+    description: 'Numbers you know it',
+    icon: TwentyThreeIcon,
+    schema: { type: 'number' },
+  },
   bytes: {
     label: 'Bytes',
     color: 'babyblue',
@@ -25,5 +32,19 @@ export const numbers: { [key: string]: Field } = {
         format: 'progress',
       },
     },
+  },
+  float: {
+    label: 'Float',
+    color: 'lightsailorblue',
+    description: 'Any number',
+    icon: CalculatorIcon,
+    schema: { type: 'float' },
+  },
+  int: {
+    label: 'Integer',
+    color: 'lightsailorblue',
+    description: 'A whole number',
+    icon: IntegerIcon,
+    schema: { type: 'int' },
   },
 }

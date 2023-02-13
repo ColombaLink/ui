@@ -1,5 +1,5 @@
 import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
-import { systemFields } from '~/components/Schema/templates/old'
+import { systemFields } from '~/components/Schema/templates/index'
 
 export const sortFields = (fields) => {
   try {

@@ -1,11 +1,21 @@
 import { text } from './text'
 import { numbers } from './number'
+import { complexDataStructures } from './complexDataStructures'
 import { Field } from '../types'
+import { plainFormattedData } from './plainFormattedData'
+import { richFormattedData } from './richFormattedData'
+import { referencesFiles } from './referencesFiles'
+import { system } from './system'
 export * from '../types'
 
 export const groups = {
   'Text and String': text,
+  'Plain Formatted Data': plainFormattedData,
   Numbers: numbers,
+  'Complex Data Structures': complexDataStructures,
+  'Rich Formatted Data': richFormattedData,
+  'References and Files': referencesFiles,
+  System: system,
 }
 
 export const templates: {
