@@ -136,9 +136,25 @@ export const QueryBar = () => {
     snurpArr.push(tempObj)
   }
 
+  let carretIsInBlockIndex = 0
+  let counter = 0
+  splittedInputValue?.map((text, idx) => {
+    console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
+    if (
+      carretPosition > counter &&
+      carretPosition < counter + text.length + 1
+    ) {
+      carretIsInBlockIndex = idx
+      console.log('carret is in block 🧀', idx)
+    }
+    counter += text.length + 1
+  })
+
   return (
     <>
       <Text>CarretPOs: {carretPosition}</Text>
+      <Text>CarretPosition in index block {carretIsInBlockIndex} </Text>
+      <Text>inputvalue length : {inputValue.length}</Text>
       <input
         style={{
           border: '1px solid purple',
