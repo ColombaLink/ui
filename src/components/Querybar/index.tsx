@@ -136,16 +136,25 @@ export const QueryBar = () => {
     snurpArr.push(tempObj)
   }
 
+  // about the Carret position
   let carretIsInBlockIndex = 0
+  let carretInBlockSubPos = 0
   let counter = 0
   splittedInputValue?.map((text, idx) => {
-    console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
+    //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
     if (
       carretPosition > counter &&
       carretPosition < counter + text.length + 1
     ) {
       carretIsInBlockIndex = idx
-      console.log('carret is in block 🧀', idx)
+      carretInBlockSubPos = carretPosition - counter
+      //   console.log('carret is in block 🧀', idx)
+      // console.log(
+      //   'Sub position in block 🥕',
+      //   idx,
+      //   '=',
+      //   carretPosition - counter
+      // )
     }
     counter += text.length + 1
   })
@@ -153,6 +162,10 @@ export const QueryBar = () => {
   return (
     <>
       <Text>CarretPOs: {carretPosition}</Text>
+      <Text>
+        Carret SUB Pos in block:{carretPosition} - {counter} ={' '}
+        {counter - carretPosition}
+      </Text>
       <Text>CarretPosition in index block {carretIsInBlockIndex} </Text>
       <Text>inputvalue length : {inputValue.length}</Text>
       <input
@@ -169,13 +182,13 @@ export const QueryBar = () => {
           // set twice to sync with useeffect
           setSplittedInputValue(e.target.value.split(' '))
           setInputValue(e.target.value)
-          console.log('inputFieldRef', InputFieldRef)
-          console.log('Caret is at position: 🥕', e.target.selectionStart)
+          //   console.log('inputFieldRef', InputFieldRef)
+          //   console.log('Caret is at position: 🥕', e.target.selectionStart)
           setCarretPosition(e.target.selectionStart)
         }}
         onClick={(e) => {
           // listen for mouse position
-          console.log('inputFieldRef', InputFieldRef.current?.selectionStart)
+          //  console.log('inputFieldRef', InputFieldRef.current?.selectionStart)
           setCarretPosition(e.target.selectionStart)
         }}
       />
@@ -207,17 +220,53 @@ export const QueryBar = () => {
                   backgroundColor: color('lighttext'),
                   borderRight: `1px solid ${color('border')}`,
                   position: 'relative',
+                  cursor: 'text',
+                }}
+                onClick={(e) => {
+                  console.log('click on block', idx)
+                  console.log(InputFieldRef)
+                  console.log(e.target.id)
+                  carretIsInBlockIndex = idx
+                  setCarretPosition(e.target.id)
+                  InputFieldRef?.current?.focus()
+                  InputFieldRef.current.selectionStart = e.target.id
+                  InputFieldRef.current.selectionEnd = e.target.id
                 }}
               >
-                {idx === 0 ? (
+                {inputValue.length === 0 && <FakeCarret />}
+                {idx === 0
+                  ? text?.split('')?.map((letter, index) =>
+                      index === carretInBlockSubPos - 1 ? (
+                        <div style={{ display: 'flex' }}>
+                          <span id={index} key={index}>
+                            {letter}
+                          </span>
+                          {carretIsInBlockIndex === 0 && <FakeCarret />}
+                        </div>
+                      ) : (
+                        <span id={index} key={index}>
+                          {letter}
+                        </span>
+                      )
+                    )
+                  : null}
+
+                {/* {idx === 0 ? (
                   <div style={{ display: 'flex' }}>
                     <span>{text?.substr(0, carretPosition).toUpperCase()}</span>
-                    <FakeCarret />
+                    {carretIsInBlockIndex === 0 && <FakeCarret />}
                     <span>{text?.substr(carretPosition).toUpperCase()}</span>
                   </div>
                 ) : (
-                  text
-                )}
+                  <div style={{ display: 'flex' }}>
+                    <span>{text?.substr(0, carretInBlockSubPos)}</span>
+                    {(carretIsInBlockIndex === 3 && idx === 3) ||
+                    (carretIsInBlockIndex === 7 && idx === 7) ? (
+                      <FakeCarret />
+                    ) : null}
+                    <span>{text?.substr(carretInBlockSubPos)}</span>
+                  </div>
+                )} */}
               </Text>
             ) : idx === 1 ||
               idx === 4 ||
@@ -238,7 +287,13 @@ export const QueryBar = () => {
                 }}
               >
                 {idx === 1 && <StackIcon size={16} color="accent" />}
-                {idx === 1 && text}
+                {idx === 1 && (
+                  <div style={{ display: 'flex' }}>
+                    <span>{text?.substr(0, carretInBlockSubPos)}</span>
+                    {carretIsInBlockIndex === 1 && <FakeCarret />}
+                    <span>{text?.substr(carretInBlockSubPos)}</span>
+                  </div>
+                )}
                 {idx !== 1 && (
                   <Select
                     ghost
@@ -283,7 +338,16 @@ export const QueryBar = () => {
                   }}
                 >
                   {idx === 2 && <LinkIcon size={16} color="accent" />}
-                  {text}
+
+                  <div style={{ display: 'flex' }}>
+                    <span>{text?.substr(0, carretInBlockSubPos)}</span>
+                    {(carretIsInBlockIndex === 2 && idx === 2) ||
+                    (carretIsInBlockIndex === 5 && idx === 5) ||
+                    (carretIsInBlockIndex === 9 && idx === 9) ? (
+                      <FakeCarret />
+                    ) : null}
+                    <span>{text?.substr(carretInBlockSubPos)}</span>
+                  </div>
                 </Text>
                 {idx === 2 && (
                   <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
