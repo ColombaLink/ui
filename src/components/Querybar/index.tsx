@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   ArrowRightIcon,
   color,
@@ -13,9 +13,28 @@ import { RootPill } from './RootPill'
 import { FilterPill } from './FilterPill'
 import { styled } from 'inlines'
 
-// TODO: fake overlay cursor
+// TODO: fake overlay cursor -> CaretPosition
+// add event listeners for left and right arrows
 // TODO: tab to autocomplete
 // TODO: when will submit happen
+// TODO: in useEffect keep adding more after length?? can be better
+
+const FakeCarret = styled('div', {
+  width: 1,
+  marginLeft: 1.5,
+  marginRight: 1.5,
+  marginTop: 2,
+  height: 15,
+  backgroundColor: color('accent'),
+  '@keyframes': {
+    '0%': { opacity: 0 },
+    '50%': { opacity: 1 },
+    '100%': { opacity: 0 },
+  },
+  animationDuration: '1s',
+  animationEffect: 'step-start',
+  animationIterationCount: 'infinite',
+})
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -28,6 +47,9 @@ export const QueryBar = () => {
   const [splittedInputValue, setSplittedInputValue] = useState([])
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState([])
+  const [carretPosition, setCarretPosition] = useState(0)
+
+  const InputFieldRef = useRef()
 
   // settting splittedInputValue twice to sync up
   useEffect(() => {
@@ -116,13 +138,29 @@ export const QueryBar = () => {
 
   return (
     <>
-      <Input
-        space="12px"
+      <Text>CarretPOs: {carretPosition}</Text>
+      <input
+        style={{
+          border: '1px solid purple',
+          marginBottom: 12,
+          padding: 8,
+          width: '100%',
+        }}
+        type="text"
+        ref={InputFieldRef}
         value={inputValue}
         onChange={(e) => {
           // set twice to sync with useeffect
-          setSplittedInputValue(e.split(' '))
-          setInputValue(e)
+          setSplittedInputValue(e.target.value.split(' '))
+          setInputValue(e.target.value)
+          console.log('inputFieldRef', InputFieldRef)
+          console.log('Caret is at position: 🥕', e.target.selectionStart)
+          setCarretPosition(e.target.selectionStart)
+        }}
+        onClick={(e) => {
+          // listen for mouse position
+          console.log('inputFieldRef', InputFieldRef.current?.selectionStart)
+          setCarretPosition(e.target.selectionStart)
         }}
       />
       <styled.div
@@ -133,12 +171,13 @@ export const QueryBar = () => {
           display: 'flex',
           alignItems: 'center',
           marginBottom: 12,
+          position: 'relative',
         }}
       >
         {/* harcode the first six options in there after that repeat */}
         {splittedInputValue.map((text, idx) => (
           <React.Fragment key={idx}>
-            {idx === 0 || idx === 3 || idx === 7 || idx === 11 ? (
+            {idx === 0 || idx === 3 || idx === 7 || idx === 11 || idx === 15 ? (
               <Text
                 wrap
                 color="text2"
@@ -151,11 +190,24 @@ export const QueryBar = () => {
                   borderBottomLeftRadius: 4,
                   backgroundColor: color('lighttext'),
                   borderRight: `1px solid ${color('border')}`,
+                  position: 'relative',
                 }}
               >
-                {idx === 0 ? text.toUpperCase() : text}
+                {idx === 0 ? (
+                  <div style={{ display: 'flex' }}>
+                    <span>{text?.substr(0, carretPosition).toUpperCase()}</span>
+                    <FakeCarret />
+                    <span>{text?.substr(carretPosition).toUpperCase()}</span>
+                  </div>
+                ) : (
+                  text
+                )}
               </Text>
-            ) : idx === 1 || idx === 4 || idx === 8 || idx === 12 ? (
+            ) : idx === 1 ||
+              idx === 4 ||
+              idx === 8 ||
+              idx === 12 ||
+              idx === 16 ? (
               <Text
                 style={{
                   display: 'flex',
@@ -166,6 +218,7 @@ export const QueryBar = () => {
                   minWidth: idx === 1 ? 74 : 'auto',
                   backgroundColor: color('lighttext'),
                   borderRight: `1px solid ${color('border')}`,
+                  position: 'relative',
                 }}
               >
                 {idx === 1 && <StackIcon size={16} color="accent" />}
@@ -195,7 +248,11 @@ export const QueryBar = () => {
                   />
                 )}
               </Text>
-            ) : idx === 2 || idx === 5 || idx === 9 || idx === 13 ? (
+            ) : idx === 2 ||
+              idx === 5 ||
+              idx === 9 ||
+              idx === 13 ||
+              idx === 17 ? (
               <>
                 <Text
                   style={{
