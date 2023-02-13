@@ -104,7 +104,7 @@ export const SchemaLeft: FC<{
           items: Object.keys(types)
             .sort()
             .map((key) => {
-              let label = types[key].meta?.name
+              let label = types[key]?.meta?.name
               if (key === 'file' || key === 'root') {
                 const children = label
                 label = ({ isActive }) => (
