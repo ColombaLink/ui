@@ -1,7 +1,7 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
 import React, { useState, useEffect } from 'react'
-import { alwaysIgnore } from '~/components/Schema/templates/old'
+import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
 import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
@@ -214,7 +214,6 @@ export const ContentMain = ({
   const fieldTypes = {}
 
   includedTypes.forEach((type) => {
-
     const { fields = {} } = types[type] || {}
 
     for (const field in fields) {
@@ -369,6 +368,7 @@ export const ContentMain = ({
                   />
                 )
                 if (ok) {
+                  // @ts-ignore TODO: will be replaced later with useRoute
                   currentView.query = location.search.substring(1)
                   await client.call('basedSetViews', views)
                 }
@@ -396,6 +396,7 @@ export const ContentMain = ({
                   }
                   views.custom.push({
                     id,
+                    // @ts-ignore TODO: will be replaced later with useRoute
                     query: location.search.substring(1),
                     label,
                   })

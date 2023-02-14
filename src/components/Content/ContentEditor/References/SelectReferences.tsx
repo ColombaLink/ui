@@ -24,6 +24,7 @@ const SelectReferencesItemDescriptor = ({ id }) => {
   const { descriptor, loading } = useDescriptor(id)
   return loading ? null : <Text>{descriptor}</Text>
 }
+
 const SelectReferencesItem = ({ style, data, index }) => {
   const item = data.items[index]
   // console.log(data.checkedIds, '🍯')
@@ -128,8 +129,7 @@ export const SelectReferences = ({
   const { types, loading } = useSchemaTypes()
   const [typing, setTyping] = useState(false)
   const selected = useRef<Set<string>>()
-
-  const { width, height } = useWindowResize()
+  const { height } = useWindowResize()
   const dialogRef = useRef<HTMLDivElement>(null)
   const checkedIds = []
 
