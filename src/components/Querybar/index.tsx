@@ -16,16 +16,16 @@ import { SuggestionTags } from './SuggestionTags'
 // TODO: tab to autocomplete
 // TODO: when will submit happen
 // TODO: paste in query
-// TODO: pop logic querys and ors
+// TODO: pop logic querys And Or
 
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
 
-// console.log('arithmeticProgression', arithmeticProgression(4, 15))
-// console.log(
-//   'arithmeticProgression',
-//   arithmeticProgression(4, 140).map((v) => v + 3)
-// )
+console.log('arithmeticProgression', arithmeticProgression(4, 15))
+console.log(
+  'arithmeticProgression',
+  arithmeticProgression(4, 140).map((v) => v + 2)
+)
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -113,9 +113,6 @@ export const QueryBar = () => {
             $field: splittedInputValue[i * 4 + 3],
             $operator: splittedInputValue[i * 4 + 4],
             $value: splittedInputValue[i * 4 + 5],
-          }
-          if (arrayOfLogics[i]) {
-            //   arrayOfLogics.pop()
           }
         }
 
@@ -297,7 +294,7 @@ export const QueryBar = () => {
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
               >
-                {carretPosition === 0 || inputValue.length === 0 ? (
+                {carretPosition === 0 && inputValue.length === 0 ? (
                   <FakeCarret />
                 ) : null}
                 {idx === 0
@@ -491,22 +488,27 @@ export const QueryBar = () => {
                       '& svg': { display: 'none' },
                     }}
                     onChange={(e) => {
+                      const arr = arithmeticProgression(4, 140).map(
+                        (v) => v + 2
+                      )
+                      // calculate back so idx 6 -> [0]
+                      // idx 10 -> [1]
+                      arrayOfLogics[arr.indexOf(idx)] = e
+
                       const tempSplitted = [...splittedInputValue]
                       tempSplitted[idx] = e
 
                       if (!filtersAreNested) {
                         setInputValue(tempSplitted.join(' '))
-                        setSplittedInputValue([...tempSplitted])
+                        //   setSplittedInputValue([...tempSplitted])
                       } else {
                         // flatten the array first
                         FlattenFilters(query.filters)
                         query.filters = snurpArr.reverse()
                         setQuery({ ...query })
-
                         // dan pas veranderen
                         setInputValue(tempSplitted.join(' '))
-                        setSplittedInputValue([...tempSplitted])
-
+                        //   setSplittedInputValue([...tempSplitted])
                         // zet nested filters to false
                         setFiltersAreNested(false)
                       }
