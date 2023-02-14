@@ -1,5 +1,5 @@
 import { Field } from '../types'
-import { EmailIconFilled, UrlIcon, GeoMarkerIcon } from '~/icons'
+import { EmailIconFilled, UrlIcon, GeoMarkerIcon, FileIcon } from '~/icons'
 
 export const richFormattedData: { [key: string]: Field } = {
   email: {
@@ -23,6 +23,18 @@ export const richFormattedData: { [key: string]: Field } = {
       type: 'string',
       meta: {
         format: 'url',
+      },
+    },
+  },
+  src: {
+    label: 'File Source',
+    color: 'lightbabyblue',
+    description: 'A string value for a file',
+    icon: FileIcon,
+    schema: {
+      type: 'string',
+      meta: {
+        format: 'src',
       },
     },
   },

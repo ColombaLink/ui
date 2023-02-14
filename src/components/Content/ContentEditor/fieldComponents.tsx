@@ -5,6 +5,7 @@ import {
   DateTimePicker,
   GeoInput,
   ArrayList,
+  FileUpload,
   useLocation,
 } from '~'
 import { SingleReference } from './References/SingleReference'
@@ -13,6 +14,7 @@ import { SetList } from '~/components/SetList'
 import { ObjectList } from '~/components/ObjectList'
 import { RecordList } from '~/components/RecordList'
 import isUrl from 'is-url-superb'
+import { useClient } from '@based/react'
 import isEmail from 'is-email'
 
 const object = {
@@ -202,6 +204,49 @@ const string = {
         // type="text" is for safari fix maybe it breaks smth
         type="text"
         //  noInterrupt
+      />
+    )
+  },
+  src: ({ description, meta, onChange, ...props }) => {
+    console.info(props, '---', meta, props.value)
+
+    // meta.mimeType
+
+    const client = useClient()
+    // meta for mime tyype fuck off
+    return (
+      <FileUpload
+        {...props.style}
+        label={props.label}
+        indent
+        descriptionBottom={description}
+        space
+        onChange={async (files) => {
+          if (!files) {
+            onChange({ $delete: true })
+            return
+          }
+
+          if (files.length !== 1) {
+            return
+          }
+
+          // TODO: refactor to stream api when based cloud v1 is live!
+          const x = await client.file(files[0])
+
+          const { src } = await client.observeUntil(
+            {
+              $id: x.id,
+              src: true,
+            },
+            (d) => {
+              return d?.src
+            }
+          )
+          console.info('SRC', src)
+          onChange(src)
+        }}
+        value={props.value}
       />
     )
   },
