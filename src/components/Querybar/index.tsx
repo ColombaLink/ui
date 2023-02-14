@@ -28,10 +28,6 @@ const arithmeticProgression = (n, lim) =>
 //   arithmeticProgression(4, 140).map((v) => v + 2)
 // )
 
-const SuggestionBlock = styled('div', {
-  display: 'flex',
-})
-
 export const QueryBar = () => {
   const [query, setQuery] = useState({
     filters: [],
@@ -51,10 +47,10 @@ export const QueryBar = () => {
   const InputFieldRef = useRef()
 
   // //////////////////////////////////////////// TO SYNC INPUT VALUE WITH SPLITTED INPUT VALUE
-  useEffect(() => {
-    setSplittedInputValue(inputValue.split(' '))
-    console.log('splittedInputValue', splittedInputValue)
-  }, [inputValue])
+  // useEffect(() => {
+  //   setSplittedInputValue(inputValue.split(' '))
+  //   console.log('splittedInputValue', splittedInputValue)
+  // }, [inputValue])
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
@@ -72,39 +68,95 @@ export const QueryBar = () => {
 
   // TODO: dit hieronder kan misschien in een functie
   useEffect(() => {
+    setSplittedInputValue(inputValue.split(' '))
+
     query.target = splittedInputValue[1]
     query.field = splittedInputValue[2]
 
-    if (query.filters[0] && splittedInputValue.length < 4) {
-      query.filters?.pop()
-    }
+    SetQueryFilterProperties(inputValue.split(' '))
 
-    if (splittedInputValue.length > 4) {
+    // if (query.filters[0] && splittedInputValue.length < 4) {
+    //   query.filters?.pop()
+    // }
+
+    // if (splittedInputValue.length > 4) {
+    //   query.filters[0] = {
+    //     $field: splittedInputValue[3],
+    //     $operator: '' || splittedInputValue[4],
+    //     $value: splittedInputValue[5],
+    //   }
+    // }
+
+    // // dont forget the dollar sign for the query
+    // arrayOfLogics[0] =
+    //   splittedInputValue[6]?.charAt(0) === '$'
+    //     ? splittedInputValue[6]
+    //     : `$${splittedInputValue[6]}`
+
+    // if (query.filters[1] && splittedInputValue.length < 7) {
+    //   query.filters?.pop()
+    // }
+
+    // if (splittedInputValue.length > 7) {
+    //   query.filters[1] = {
+    //     $field: splittedInputValue[7],
+    //     $operator: splittedInputValue[8],
+    //     $value: splittedInputValue[9],
+    //   }
+    // }
+  }, [inputValue])
+
+  // set query filter properties based on length of splittedInputValue
+  const SetQueryFilterProperties = (splittedInputValue) => {
+    const length = splittedInputValue.length
+
+    console.log('LENGTH ', length, 'SPLITTED ', splittedInputValue)
+
+    if (length === 6) {
       query.filters[0] = {
         $field: splittedInputValue[3],
         $operator: '' || splittedInputValue[4],
         $value: splittedInputValue[5],
       }
+      if (arrayOfLogics[0]) {
+        arrayOfLogics.pop()
+      }
+    }
+    if (length === 3) {
+      if (query.filters[0]) {
+        query.filters?.pop()
+      }
+    }
+    if (length === 7) {
+      arrayOfLogics[0] =
+        splittedInputValue[6]?.charAt(0) === '$'
+          ? splittedInputValue[6]
+          : `$${splittedInputValue[6]}`
     }
 
-    // dont forget the dollar sign for the query
-    arrayOfLogics[0] =
-      splittedInputValue[6]?.charAt(0) === '$'
-        ? splittedInputValue[6]
-        : `$${splittedInputValue[6]}`
-
-    if (query.filters[1] && splittedInputValue.length < 7) {
-      query.filters?.pop()
-    }
-
-    if (splittedInputValue.length > 7) {
+    // repeating with different values
+    if (length === 10) {
       query.filters[1] = {
         $field: splittedInputValue[7],
         $operator: splittedInputValue[8],
         $value: splittedInputValue[9],
       }
+      if (arrayOfLogics[1]) {
+        arrayOfLogics.pop()
+      }
     }
-  }, [splittedInputValue])
+    if (length === 7) {
+      if (query.filters[1]) {
+        query.filters?.pop()
+      }
+    }
+    if (length === 11) {
+      arrayOfLogics[1] =
+        splittedInputValue[10]?.charAt(0) === '$'
+          ? splittedInputValue[10]
+          : `$${splittedInputValue[10]}`
+    }
+  }
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
   let carretIsInBlockIndex = 0
@@ -219,6 +271,7 @@ export const QueryBar = () => {
         onBlur={() => {
           setIsFocused(false)
           setCarretPosition(undefined)
+          console.log('on Blur 🌶--->', query)
           NestFilters(query, arrayOfLogics)
           setFiltersAreNested(true)
         }}
@@ -293,8 +346,10 @@ export const QueryBar = () => {
                             {letter}
                           </span>
 
-                          {(carretIsInBlockIndex === 3 && idx === 3) ||
-                          (carretIsInBlockIndex === 7 && idx === 7) ? (
+                          {carretIsInBlockIndex === idx &&
+                          arithmeticProgression(4, 140)
+                            .map((v) => v - 1)
+                            .includes(idx) ? (
                             <FakeCarret />
                           ) : null}
                         </div>
@@ -342,8 +397,8 @@ export const QueryBar = () => {
 
                       if (!filtersAreNested) {
                         // deze uit gecomment laten anders crash
-                        //  setInputValue(tempSplitted.join(' '))
-                        setSplittedInputValue([...tempSplitted])
+                        setInputValue(tempSplitted.join(' '))
+                        // setSplittedInputValue([...tempSplitted])
                       } else {
                         //  flatten the array first
                         FlattenFilters(query.filters)
@@ -352,7 +407,7 @@ export const QueryBar = () => {
 
                         // dan pas veranderen
                         setInputValue(tempSplitted.join(' '))
-                        setSplittedInputValue([...tempSplitted])
+                        //     setSplittedInputValue([...tempSplitted])
 
                         // zet nested filters to false
                         setFiltersAreNested(false)
@@ -407,8 +462,10 @@ export const QueryBar = () => {
                         <span id={index} key={index}>
                           {letter}
                         </span>
-                        {(carretIsInBlockIndex === 2 && idx === 2) ||
-                        (carretIsInBlockIndex === 5 && idx === 5) ? (
+                        {carretIsInBlockIndex === idx &&
+                        arithmeticProgression(4, 140)
+                          .map((v) => v + 1)
+                          .includes(idx) ? (
                           <FakeCarret />
                         ) : null}
                       </div>
