@@ -9,29 +9,24 @@ import {
   Select,
 } from '~'
 import { styled } from 'inlines'
+import { FakeCarret } from './FakeCarret'
 
 // TODO: fake overlay cursor -> CaretPosition
 // add event listeners for left and right arrows
 // TODO: tab to autocomplete
 // TODO: when will submit happen
+// TODO: paste in query
 // TODO: in useEffect keep adding more after length?? can be better
+// TODO: test undefined in comibined query??
 
-const FakeCarret = styled('div', {
-  width: 1,
-  marginLeft: 1.5,
-  marginRight: 1.5,
-  marginTop: 2,
-  height: 15,
-  backgroundColor: color('accent'),
-  '@keyframes': {
-    '0%': { opacity: 0 },
-    '50%': { opacity: 1 },
-    '100%': { opacity: 0 },
-  },
-  animationDuration: '1s',
-  animationEffect: 'step-start',
-  animationIterationCount: 'infinite',
-})
+const arithmeticProgression = (n, lim) =>
+  Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
+
+// console.log('arithmeticProgression', arithmeticProgression(4, 15))
+// console.log(
+//   'arithmeticProgression',
+//   arithmeticProgression(4, 140).map((v) => v + 2)
+// )
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -47,14 +42,31 @@ export const QueryBar = () => {
   const [carretPosition, setCarretPosition] = useState(0)
   const [filtersAreNested, setFiltersAreNested] = useState(false)
 
+  // focused on input field
+  const [isFocused, setIsFocused] = useState(false)
   const InputFieldRef = useRef()
 
-  // settting splittedInputValue twice to sync up
+  // //////////////////////////////////////////// TO SYNC INPUT VALUE WITH SPLITTED INPUT VALUE
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
     console.log('splittedInputValue', splittedInputValue)
   }, [inputValue])
 
+  // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
+  useEffect(() => {
+    if (filtersAreNested && isFocused && splittedInputValue.length > 3) {
+      FlattenFilters(query.filters)
+      query.filters = snurpArr.reverse()
+      setQuery({ ...query })
+
+      setFiltersAreNested(false)
+    } else if (!isFocused) {
+      // zet nested filters to false
+      setFiltersAreNested(true)
+    }
+  }, [isFocused])
+
+  // TODO: dit hieronder kan misschien in een functie
   useEffect(() => {
     query.target = splittedInputValue[1]
     query.field = splittedInputValue[2]
@@ -90,50 +102,7 @@ export const QueryBar = () => {
     }
   }, [splittedInputValue])
 
-  /* /////////  To combine and to unCombine the query object ///////// */
-  let snurpArr = []
-  const NestFilters = (query, arr) => {
-    // empty the snurpArr
-    snurpArr = []
-
-    const snurp = {}
-    let target = snurp
-    query?.filters?.forEach((obj, index) => {
-      Object.assign(target, obj)
-      const l = arr[index]
-      if (l) {
-        target = target[l] = {}
-      }
-    })
-
-    query.filters = { ...snurp }
-    console.log('query 🐸', query)
-    setQuery({ ...query })
-  }
-
-  const FlattenFilters = (obj) => {
-    const tempObj = {}
-
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        console.log('key', key, '---->', obj[key])
-
-        // only works if key is exactly $and or $or
-        if (key !== '$and' && key !== '$or') {
-          tempObj[key] = obj[key]
-          console.log('tempObj 🐸', tempObj)
-        }
-
-        if (typeof obj[key] === 'object') {
-          FlattenFilters(obj[key])
-          console.log('snurp 🐸', snurpArr)
-        }
-      }
-    }
-    snurpArr.push(tempObj)
-  }
-
-  // about the Carret position
+  // //////////////////////////////////////////// CARRET POSITION LOGIC
   let carretIsInBlockIndex = 0
   let carretInBlockSubPos = 0
   let counter = 0
@@ -172,6 +141,40 @@ export const QueryBar = () => {
     InputFieldRef.current.selectionEnd = newSelectedCarretPosition
   }
 
+  // //////////////////////////////////////////// COMBINE AND FLATTER FILTERS QUERY LOGIC
+  let snurpArr = []
+  const NestFilters = (query, arr) => {
+    // empty the snurpArr
+    snurpArr = []
+    const snurp = {}
+    let target = snurp
+    query?.filters?.forEach((obj, index) => {
+      Object.assign(target, obj)
+      const l = arr[index]
+      if (l) {
+        target = target[l] = {}
+      }
+    })
+    query.filters = { ...snurp }
+    setQuery({ ...query })
+  }
+
+  const FlattenFilters = (obj) => {
+    const tempObj = {}
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        // only works if key is exactly $and or $or
+        if (key !== '$and' && key !== '$or') {
+          tempObj[key] = obj[key]
+        }
+        if (typeof obj[key] === 'object') {
+          FlattenFilters(obj[key])
+        }
+      }
+    }
+    snurpArr.push(tempObj)
+  }
+
   return (
     <>
       <Text>CarretPOs: {carretPosition}</Text>
@@ -181,6 +184,12 @@ export const QueryBar = () => {
       </Text>
       <Text>CarretPosition in index block {carretIsInBlockIndex} </Text>
       <Text>inputvalue length : {inputValue.length}</Text>
+      <Text>
+        $and $or array :{' '}
+        {arrayOfLogics.map((item) => (
+          <span style={{ border: '1px solid blue', margin: 4 }}>{item},</span>
+        ))}
+      </Text>
       <input
         style={{
           border: '1px solid purple',
@@ -200,10 +209,21 @@ export const QueryBar = () => {
         onClick={(e) => {
           setCarretPosition(e.target.selectionStart)
         }}
+        onFocus={() => {
+          setIsFocused(true)
+        }}
+        onBlur={() => {
+          setIsFocused(false)
+          setCarretPosition(undefined)
+          NestFilters(query, arrayOfLogics)
+          setFiltersAreNested(true)
+        }}
       />
       <styled.div
         style={{
-          border: `1px solid ${color('border')}`,
+          border: isFocused
+            ? `1px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
           borderRadius: 4,
           padding: 6,
           display: 'flex',
@@ -212,10 +232,12 @@ export const QueryBar = () => {
           position: 'relative',
         }}
       >
-        {/* harcode the first six options in there after that repeat */}
         {splittedInputValue.map((text, idx) => (
           <React.Fragment key={idx}>
-            {idx === 0 || idx === 3 || idx === 7 || idx === 11 || idx === 15 ? (
+            {idx === 0 ||
+            arithmeticProgression(4, 140)
+              .map((v) => v - 1)
+              .includes(idx) ? (
               <Text
                 wrap
                 color="text2"
@@ -231,8 +253,8 @@ export const QueryBar = () => {
                   position: 'relative',
                   cursor: 'text',
                 }}
-                // @ts-ignore
                 onClick={(e) => {
+                  // @ts-ignore
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
@@ -257,7 +279,9 @@ export const QueryBar = () => {
                     )
                   : null}
 
-                {idx === 3 || idx === 7 || idx === 11 || idx === 15
+                {arithmeticProgression(4, 140)
+                  .map((v) => v - 1)
+                  .includes(idx)
                   ? text?.split('')?.map((letter, index) =>
                       index === carretInBlockSubPos - 1 ? (
                         <div style={{ display: 'flex' }}>
@@ -278,11 +302,7 @@ export const QueryBar = () => {
                     )
                   : null}
               </Text>
-            ) : idx === 1 ||
-              idx === 4 ||
-              idx === 8 ||
-              idx === 12 ||
-              idx === 16 ? (
+            ) : idx === 1 || arithmeticProgression(4, 140).includes(idx) ? (
               <Text
                 style={{
                   display: 'flex',
@@ -318,7 +338,7 @@ export const QueryBar = () => {
                         setInputValue(tempSplitted.join(' '))
                         setSplittedInputValue([...tempSplitted])
                       } else {
-                        //flatten the array first
+                        //  flatten the array first
                         FlattenFilters(query.filters)
                         query.filters = snurpArr.reverse()
                         setQuery({ ...query })
@@ -346,10 +366,9 @@ export const QueryBar = () => {
                 )}
               </Text>
             ) : idx === 2 ||
-              idx === 5 ||
-              idx === 9 ||
-              idx === 13 ||
-              idx === 17 ? (
+              arithmeticProgression(4, 140)
+                .map((v) => v + 1)
+                .includes(idx) ? (
               <>
                 <Text
                   style={{
@@ -397,7 +416,9 @@ export const QueryBar = () => {
                   <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
                 )}
               </>
-            ) : idx === 6 || idx === 10 || idx === 14 ? (
+            ) : arithmeticProgression(4, 140)
+                .map((v) => v + 2)
+                .includes(idx) ? (
               <div
                 style={{
                   display: 'flex',
@@ -428,7 +449,7 @@ export const QueryBar = () => {
                         setInputValue(tempSplitted.join(' '))
                         setSplittedInputValue([...tempSplitted])
                       } else {
-                        //flatten the array first
+                        // flatten the array first
                         FlattenFilters(query.filters)
                         query.filters = snurpArr.reverse()
                         setQuery({ ...query })
@@ -462,7 +483,7 @@ export const QueryBar = () => {
           </React.Fragment>
         ))}
       </styled.div>
-      <div style={{ display: 'flex', gap: 12 }}>
+      {/* <div style={{ display: 'flex', gap: 12 }}>
         <Button
           onClick={() => {
             NestFilters(query, arrayOfLogics)
@@ -481,7 +502,7 @@ export const QueryBar = () => {
         >
           FLATTEN
         </Button>
-      </div>
+      </div> */}
       <pre
         style={{
           bottom: 0,
