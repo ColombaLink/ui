@@ -28,6 +28,10 @@ const arithmeticProgression = (n, lim) =>
 //   arithmeticProgression(4, 140).map((v) => v + 2)
 // )
 
+const SuggestionBlock = styled('div', {
+  display: 'flex',
+})
+
 export const QueryBar = () => {
   const [query, setQuery] = useState({
     filters: [],
@@ -78,7 +82,7 @@ export const QueryBar = () => {
     if (splittedInputValue.length > 4) {
       query.filters[0] = {
         $field: splittedInputValue[3],
-        $operator: splittedInputValue[4],
+        $operator: '' || splittedInputValue[4],
         $value: splittedInputValue[5],
       }
     }
@@ -331,11 +335,14 @@ export const QueryBar = () => {
                     // @ts-ignore
                     style={{ '& svg': { display: 'none' } }}
                     onChange={(e) => {
+                      console.log(e, 'E')
+
                       const tempSplitted = [...splittedInputValue]
                       tempSplitted[idx] = e
 
                       if (!filtersAreNested) {
-                        setInputValue(tempSplitted.join(' '))
+                        // deze uit gecomment laten anders crash
+                        //  setInputValue(tempSplitted.join(' '))
                         setSplittedInputValue([...tempSplitted])
                       } else {
                         //  flatten the array first
