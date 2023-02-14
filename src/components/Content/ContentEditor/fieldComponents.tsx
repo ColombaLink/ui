@@ -194,10 +194,13 @@ const record = {
 }
 
 const string = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
+    const readOnly = meta?.readOnly
+
     return (
       <Input
         {...props}
+        disabled={readOnly}
         descriptionBottom={description}
         indent
         space
