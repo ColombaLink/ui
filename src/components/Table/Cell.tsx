@@ -26,15 +26,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const isCheckbox = columnIndex === 0
   // TODO optimize
 
-  // console.log('What the data?', data)
-  // console.log(data.setIsMultiref, 'setIsMultiref')
-  // console.log('What the item?', item)
-
-  //  console.log('Data fields', data.fields)
-
   const { fields: schemaFields } = useItemSchema(item?.id)
-
-  //  console.log('Schema fields', schemaFields, children, item?.id, item)
 
   let hasField
   if (item) {
@@ -44,8 +36,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           checked={data.selectedRowCheckboxes?.includes(rowIndex)}
           onClick={(e) => {
             // this is the correct item from row
-            console.log('item', item)
-
             if (data.selectedRowCheckboxes?.includes(rowIndex)) {
               const newSelectedRowCheckboxes =
                 data.selectedRowCheckboxes.filter((el) => el !== rowIndex)
@@ -55,7 +45,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             // if shift is being held down, select all items between the last selected item and the current item
             // all this for logic for if the shift key is pressed down
             if (e.shiftKey) {
-              console.log('shift key pressed is down')
               const prevClick =
                 data.selectedRowCheckboxes[
                   data.selectedRowCheckboxes.length - 1
@@ -130,8 +119,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
                 ...data.selectedRowCheckboxes,
                 rowIndex,
               ])
-              //   selectedRowCheckboxes.push(rowIndex)
-              //  console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
             } else if (!e.shiftKey) {
               data.selectedRowCheckboxes?.splice(
                 data.selectedRowCheckboxes.indexOf(rowIndex),
@@ -149,9 +136,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
-
-        const mimeType = types[item.type].fields.mimeType
-        console.log(mimeType)
 
         const prettierObject = (obj) => {
           return stringifyObject(obj, {
@@ -271,23 +255,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           }
         }
       }
-
-      // if (!children) {
-      //   children =
-      //     activeRow && hasField ? (
-      //       <Text
-      //         color="text"
-      //         style={{
-      //           pointerEvents: 'none',
-      //           opacity: 0.5,
-      //         }}
-      //       >
-      //         {field}
-      //       </Text>
-      //     ) : (
-      //       ''
-      //     )
-      // }
     }
   }
 
@@ -309,7 +276,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       {...listeners}
       onClick={() => {
         if (!isCheckbox) {
-          //        console.log(item, field, field && types[item.type].fields[field].type)
           onClick(item, field, field && types[item.type].fields[field].type)
         }
       }}
@@ -324,7 +290,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 8,
         paddingRight: 12,
         borderBottom: border(1),
-        //  borderRight: border(1),
         backgroundColor: activeRow ? color('lightaccent') : 'transparent',
       }}
     >

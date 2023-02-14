@@ -1,4 +1,9 @@
-import { TwentyThreeIcon, DashIcon, CalculatorIcon, IntegerIcon } from '~/icons'
+import {
+  TwentyThreeIcon,
+  CalculatorIcon,
+  IntegerIcon,
+  LoadingIcon,
+} from '~/icons'
 import { Field } from '../types'
 
 export const numbers: { [key: string]: Field } = {
@@ -11,7 +16,7 @@ export const numbers: { [key: string]: Field } = {
   },
   bytes: {
     label: 'Bytes',
-    color: 'babyblue',
+    color: 'lightsailorblue',
     description: 'Bytes stored as an integer',
     icon: TwentyThreeIcon,
     schema: {
@@ -23,11 +28,11 @@ export const numbers: { [key: string]: Field } = {
   },
   progress: {
     label: 'Progress',
-    color: 'border',
+    color: 'lightsailorblue',
     description: 'Progress',
-    icon: DashIcon,
+    icon: LoadingIcon,
     schema: {
-      type: 'int',
+      type: 'float',
       meta: {
         format: 'progress',
       },

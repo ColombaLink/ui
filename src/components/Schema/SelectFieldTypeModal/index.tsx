@@ -27,8 +27,6 @@ const Template = ({ template, type, path }) => {
   const { label, description, icon, color } = templates[template]
   const { open } = useDialog()
 
-  console.log(label, '??', templates[template])
-
   return (
     <styled.div
       onClick={() => {
@@ -76,16 +74,17 @@ export const SelectFieldTypeModal: FC<{
       setFilteredItems(null)
       return
     }
-
     const filteredArr = []
     for (const header in groups) {
+      if (header === 'System') {
+        continue
+      }
       for (const template in groups[header]) {
         if (template.toLowerCase().includes(value.toLowerCase())) {
           filteredArr.push(template)
         }
       }
     }
-
     setFilteredItems(filteredArr)
   }
 
@@ -133,32 +132,34 @@ export const SelectFieldTypeModal: FC<{
                   />
                 )
               })
-            : Object.keys(groups).map((header) => {
-                return (
-                  <Fragment key={header}>
-                    <Text
-                      color="text2"
-                      space="12px"
-                      style={{ paddingLeft: 20, marginTop: 12 }}
-                    >
-                      {header}
-                    </Text>
-                    {Object.keys(groups[header]).map(
-                      (template: FieldTemplates) => {
-                        // put template
-                        return (
-                          <Template
-                            key={template}
-                            type={type}
-                            path={path}
-                            template={template}
-                          />
-                        )
-                      }
-                    )}
-                  </Fragment>
-                )
-              })}
+            : Object.keys(groups)
+                .filter((t) => t !== 'System')
+                .map((header) => {
+                  return (
+                    <Fragment key={header}>
+                      <Text
+                        color="text2"
+                        space="12px"
+                        style={{ paddingLeft: 20, marginTop: 12 }}
+                      >
+                        {header}
+                      </Text>
+                      {Object.keys(groups[header]).map(
+                        (template: FieldTemplates) => {
+                          // put template
+                          return (
+                            <Template
+                              key={template}
+                              type={type}
+                              path={path}
+                              template={template}
+                            />
+                          )
+                        }
+                      )}
+                    </Fragment>
+                  )
+                })}
         </Grid>
       </Section>
     </div>
