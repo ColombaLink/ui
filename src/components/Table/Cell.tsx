@@ -10,6 +10,11 @@ import { HEADER_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { Reference } from './Reference'
 import { References } from './References'
 import { ProgressBar } from '../ProgressBar'
+import { prettyNumber } from '@based/pretty-number'
+import { VideoIcon } from '~/icons/VideoIcon'
+import { isVideo } from '~/utils/isVideo'
+import { isAudio } from '~/utils/isAudio'
+import { AudioIcon } from '~/icons/AudioIcon'
 
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const { types, items, fields, onClick, setState, hoverRowIndex } = data
@@ -144,9 +149,10 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
-        const videoThing = data.items[3]
-        console.log(videoThing)
-        console.log('------->', items[0][field])
+
+        const mimeType = types[item.type].fields.mimeType
+        console.log(mimeType)
+
         const prettierObject = (obj) => {
           return stringifyObject(obj, {
             indent: ' ',
@@ -208,6 +214,24 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = <Badge>{value.substring(0, 6) + '...'}</Badge>
           } else if (fieldType === 'string' && metaFieldType === 'markdown') {
             children = <Text weight={weight}>{value.substring(0, 64)}</Text>
+          } else if (fieldType === 'number' && metaFieldType === 'bytes') {
+            children = (
+              <Text weight={weight}>{prettyNumber(value, 'number-bytes')}</Text>
+            )
+          } else if (field === 'src' && isVideo(value)) {
+            children = (
+              <VideoIcon
+                size={48}
+                style={{ marginLeft: 'auto', marginRight: '56' }}
+              />
+            )
+          } else if (field === 'src' && isAudio(value)) {
+            children = (
+              <AudioIcon
+                size={48}
+                style={{ marginLeft: 'auto', marginRight: '56' }}
+              />
+            )
           } else if (isImage(value)) {
             children = (
               <div
@@ -235,7 +259,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
               >
                 {value !== 1 ? (
                   <div style={{ width: '100%' }}>
-                    <ProgressBar progress={value} />
+                    <ProgressBar progress={value} circle />
                   </div>
                 ) : (
                   <CheckIcon style={{ margin: '0 auto' }} />
