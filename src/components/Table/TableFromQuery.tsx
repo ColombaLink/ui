@@ -81,24 +81,25 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
       const checkedArrObj = []
 
-      fields.forEach((field) => {
+      for (const field of fields) {
         if (checkedItems.includes(field)) {
           checkedArrObj.push({
             label: field,
             checkbox: true,
           })
         }
-      })
+      }
 
       const unCheckedArrObj = []
-      fields.forEach((field) => {
+
+      for (const field of fields) {
         if (!checkedItems.includes(field)) {
           unCheckedArrObj.push({
             label: field,
             checkbox: false,
           })
         }
-      })
+      }
 
       return checkedArrObj.concat(unCheckedArrObj)
     } else {
@@ -132,9 +133,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     )
   }, [lijst])
 
-  // console.log('--->', window.location.search)
-  // console.log('--->', location)
-
   useEffect(() => {
     return () => {
       history.replaceState(
@@ -161,7 +159,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     target,
     language,
     itemSize: ITEM_HEIGHT,
-    // treshold: 15,
   })
 
   const [colWidths, setColWidths] = useState([])
@@ -197,7 +194,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   const types = {
-    // root: schema.rootType,
     root: schema.types.root,
     ...schema.types,
   }
@@ -348,7 +344,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           estimatedRowHeight={ITEM_HEIGHT}
           rowHeight={() => ITEM_HEIGHT}
           width={width}
-          // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
           onScroll={({ scrollTop }) => {
             onScrollY(scrollTop)
           }}
