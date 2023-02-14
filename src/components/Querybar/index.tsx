@@ -10,13 +10,13 @@ import {
 } from '~'
 import { styled } from 'inlines'
 import { FakeCarret } from './FakeCarret'
+import { SuggestionTags } from './SuggestionTags'
 
-// TODO: fake overlay cursor -> CaretPosition
-// add event listeners for left and right arrows
+// TODO: Caret postion in begin of block
 // TODO: tab to autocomplete
 // TODO: when will submit happen
 // TODO: paste in query
-// TODO: test undefined in comibined query??
+// TODO: pop logic querys and ors
 
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
@@ -47,7 +47,7 @@ export const QueryBar = () => {
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
-    if (filtersAreNested && isFocused && splittedInputValue.length > 3) {
+    if (filtersAreNested && isFocused) {
       FlattenFilters(query.filters)
       query.filters = snurpArr.reverse()
       setQuery({ ...query })
@@ -61,6 +61,8 @@ export const QueryBar = () => {
 
   // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
+    console.log('input value changed  🛎 🧸 ')
+
     setSplittedInputValue(inputValue.split(' '))
 
     query.target = splittedInputValue[1]
@@ -104,10 +106,12 @@ export const QueryBar = () => {
         console.log('loop fired 🚴🏼', i)
 
         // use the i value
-        if (length === i * 4 + 6) {
+        if (length >= i * 4 + 6) {
+          console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
+
           query.filters[i] = {
             $field: splittedInputValue[i * 4 + 3],
-            $operator: '' || splittedInputValue[i * 4 + 4],
+            $operator: splittedInputValue[i * 4 + 4],
             $value: splittedInputValue[i * 4 + 5],
           }
           if (arrayOfLogics[i]) {
@@ -242,6 +246,16 @@ export const QueryBar = () => {
           NestFilters(query, arrayOfLogics)
           setFiltersAreNested(true)
         }}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowLeft' && carretPosition > 0) {
+            setCarretPosition(carretPosition - 1)
+          } else if (
+            e.key === 'ArrowRight' &&
+            carretPosition < inputValue.length
+          ) {
+            setCarretPosition(carretPosition + 1)
+          }
+        }}
       />
       <styled.div
         style={{
@@ -363,10 +377,14 @@ export const QueryBar = () => {
                       tempSplitted[idx] = e
 
                       if (!filtersAreNested) {
+                        // const tempSplitted = [...splittedInputValue]
+                        // tempSplitted[idx] = e
                         // deze uit gecomment laten anders crash
                         setInputValue(tempSplitted.join(' '))
                         // setSplittedInputValue([...tempSplitted])
                       } else {
+                        // const tempSplitted = [...splittedInputValue]
+                        // tempSplitted[idx] = e
                         //  flatten the array first
                         FlattenFilters(query.filters)
                         query.filters = snurpArr.reverse()
@@ -514,6 +532,7 @@ export const QueryBar = () => {
           </React.Fragment>
         ))}
       </styled.div>
+      <SuggestionTags suggestion="testje" />
       {/* <div style={{ display: 'flex', gap: 12 }}>
         <Button
           onClick={() => {
