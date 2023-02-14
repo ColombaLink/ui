@@ -17,6 +17,9 @@ import { SuggestionTags } from './SuggestionTags'
 // TODO: when will submit happen
 // TODO: paste in query
 // TODO: pop logic querys And Or
+// TODO: clear completeley
+// TODO: typescript
+// TODO: Tab to cycly through suggestions
 
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
@@ -34,7 +37,7 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState('In root descendants')
   const [splittedInputValue, setSplittedInputValue] = useState([])
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState([])
@@ -103,8 +106,6 @@ export const QueryBar = () => {
     ) {
       // if put loop here in a while
       for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
-        console.log('loop fired 🚴🏼', i)
-
         // use the i value
         if (length >= i * 4 + 6) {
           console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
@@ -260,7 +261,7 @@ export const QueryBar = () => {
             ? `1px solid ${color('accent')}`
             : `1px solid ${color('border')}`,
           borderRadius: 4,
-          padding: 6,
+          padding: 3,
           display: 'flex',
           alignItems: 'center',
           marginBottom: 12,
@@ -346,7 +347,7 @@ export const QueryBar = () => {
                   alignItems: 'center',
                   gap: 8,
                   height: 30,
-                  padding: 10,
+                  padding: idx === 1 ? 10 : 0,
                   minWidth: idx === 1 ? 74 : 'auto',
                   backgroundColor: color('lighttext'),
                   borderRight: `1px solid ${color('border')}`,
@@ -366,32 +367,24 @@ export const QueryBar = () => {
                     ghost
                     value={text}
                     // @ts-ignore
-                    style={{ '& svg': { display: 'none' } }}
+                    style={{
+                      '& div': { padding: '10px' },
+                      '& svg': { display: 'none' },
+                    }}
                     onChange={(e) => {
-                      console.log(e, 'E')
-
                       const tempSplitted = [...splittedInputValue]
                       tempSplitted[idx] = e
 
                       if (!filtersAreNested) {
-                        // const tempSplitted = [...splittedInputValue]
-                        // tempSplitted[idx] = e
-                        // deze uit gecomment laten anders crash
                         setInputValue(tempSplitted.join(' '))
                         // setSplittedInputValue([...tempSplitted])
                       } else {
-                        // const tempSplitted = [...splittedInputValue]
-                        // tempSplitted[idx] = e
-                        //  flatten the array first
                         FlattenFilters(query.filters)
                         query.filters = snurpArr.reverse()
                         setQuery({ ...query })
 
                         // dan pas veranderen
                         setInputValue(tempSplitted.join(' '))
-                        //     setSplittedInputValue([...tempSplitted])
-
-                        // zet nested filters to false
                         setFiltersAreNested(false)
                       }
                     }}
@@ -534,7 +527,24 @@ export const QueryBar = () => {
           </React.Fragment>
         ))}
       </styled.div>
-      <SuggestionTags suggestion="testje" />
+
+      {/* on tab to cycle through selections, add a suggestion to the input shizzle */}
+      <div style={{ display: 'flex' }}>
+        <SuggestionTags
+          suggestion="testje"
+          onClick={() => {
+            console.log('last known carretPosition --', carretPosition)
+            InputFieldRef.current.focus()
+          }}
+        />
+        <SuggestionTags
+          suggestion="snurp"
+          onClick={() => {
+            console.log('last known carretPosition --', carretPosition)
+            InputFieldRef.current.focus()
+          }}
+        />
+      </div>
       {/* <div style={{ display: 'flex', gap: 12 }}>
         <Button
           onClick={() => {

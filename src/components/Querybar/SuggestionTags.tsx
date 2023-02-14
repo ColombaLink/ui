@@ -4,22 +4,31 @@ import { styled } from 'inlines'
 
 type SuggestionTagsProps = {
   suggestion: string
+  onClick: () => void
 }
 
-const SuggestionHolders = styled('div', {
-  padding: '3px 6px',
-  marginLeft: 3,
-  marginRight: 3,
-  border: `1px solid ${color('border')}`,
-  backgroundColor: color('background'),
-  borderRadius: 4,
-  width: 'fit-content',
-})
-
-export const SuggestionTags = ({ suggestion }: SuggestionTagsProps) => {
+export const SuggestionTags = ({
+  suggestion,
+  onClick,
+}: SuggestionTagsProps) => {
   return (
-    <SuggestionHolders>
+    <styled.div
+      style={{
+        padding: '3px 6px',
+        marginLeft: 3,
+        marginRight: 3,
+        border: `1px solid ${color('border')}`,
+        backgroundColor: color('background'),
+        borderRadius: 4,
+        width: 'fit-content',
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: color('background2'),
+        },
+      }}
+      onClick={onClick}
+    >
       <Text color="text2">{suggestion}</Text>
-    </SuggestionHolders>
+    </styled.div>
   )
 }
