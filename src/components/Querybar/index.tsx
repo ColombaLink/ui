@@ -16,7 +16,6 @@ import { FakeCarret } from './FakeCarret'
 // TODO: tab to autocomplete
 // TODO: when will submit happen
 // TODO: paste in query
-// TODO: in useEffect keep adding more after length?? can be better
 // TODO: test undefined in comibined query??
 
 const arithmeticProgression = (n, lim) =>
@@ -25,7 +24,7 @@ const arithmeticProgression = (n, lim) =>
 // console.log('arithmeticProgression', arithmeticProgression(4, 15))
 // console.log(
 //   'arithmeticProgression',
-//   arithmeticProgression(4, 140).map((v) => v + 2)
+//   arithmeticProgression(4, 140).map((v) => v + 3)
 // )
 
 export const QueryBar = () => {
@@ -46,12 +45,6 @@ export const QueryBar = () => {
   const [isFocused, setIsFocused] = useState(false)
   const InputFieldRef = useRef()
 
-  // //////////////////////////////////////////// TO SYNC INPUT VALUE WITH SPLITTED INPUT VALUE
-  // useEffect(() => {
-  //   setSplittedInputValue(inputValue.split(' '))
-  //   console.log('splittedInputValue', splittedInputValue)
-  // }, [inputValue])
-
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
     if (filtersAreNested && isFocused && splittedInputValue.length > 3) {
@@ -66,7 +59,7 @@ export const QueryBar = () => {
     }
   }, [isFocused])
 
-  // TODO: dit hieronder kan misschien in een functie
+  // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
 
@@ -74,37 +67,23 @@ export const QueryBar = () => {
     query.field = splittedInputValue[2]
 
     SetQueryFilterProperties(inputValue.split(' '))
-
-    // if (query.filters[0] && splittedInputValue.length < 4) {
-    //   query.filters?.pop()
-    // }
-
-    // if (splittedInputValue.length > 4) {
-    //   query.filters[0] = {
-    //     $field: splittedInputValue[3],
-    //     $operator: '' || splittedInputValue[4],
-    //     $value: splittedInputValue[5],
-    //   }
-    // }
-
-    // // dont forget the dollar sign for the query
-    // arrayOfLogics[0] =
-    //   splittedInputValue[6]?.charAt(0) === '$'
-    //     ? splittedInputValue[6]
-    //     : `$${splittedInputValue[6]}`
-
-    // if (query.filters[1] && splittedInputValue.length < 7) {
-    //   query.filters?.pop()
-    // }
-
-    // if (splittedInputValue.length > 7) {
-    //   query.filters[1] = {
-    //     $field: splittedInputValue[7],
-    //     $operator: splittedInputValue[8],
-    //     $value: splittedInputValue[9],
-    //   }
-    // }
+    setAndOrValues(inputValue.split(' '))
   }, [inputValue])
+
+  const setAndOrValues = (splittedInputValue) => {
+    const length = splittedInputValue.length
+    const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 3)
+
+    if (arrWithValues.includes(length)) {
+      for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
+        arrayOfLogics[i] =
+          inputValue.split(' ')[i * 4 + 6]?.charAt(0) === '$'
+            ? inputValue.split(' ')[i * 4 + 6]
+            : `$${inputValue.split(' ')[i * 4 + 6]}`
+        setArrayOfLogics([...arrayOfLogics])
+      }
+    }
+  }
 
   // set query filter properties based on length of splittedInputValue
   const SetQueryFilterProperties = (splittedInputValue) => {
@@ -112,50 +91,38 @@ export const QueryBar = () => {
 
     console.log('LENGTH ', length, 'SPLITTED ', splittedInputValue)
 
-    if (length === 6) {
-      query.filters[0] = {
-        $field: splittedInputValue[3],
-        $operator: '' || splittedInputValue[4],
-        $value: splittedInputValue[5],
-      }
-      if (arrayOfLogics[0]) {
-        arrayOfLogics.pop()
-      }
-    }
-    if (length === 3) {
-      if (query.filters[0]) {
-        query.filters?.pop()
-      }
-    }
-    if (length === 7) {
-      arrayOfLogics[0] =
-        splittedInputValue[6]?.charAt(0) === '$'
-          ? splittedInputValue[6]
-          : `$${splittedInputValue[6]}`
-    }
+    // if length is 6 loop 1 keer
+    // if length is 10 do loop 2 keer
+    const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 2)
 
-    // repeating with different values
-    if (length === 10) {
-      query.filters[1] = {
-        $field: splittedInputValue[7],
-        $operator: splittedInputValue[8],
-        $value: splittedInputValue[9],
-      }
-      if (arrayOfLogics[1]) {
-        arrayOfLogics.pop()
+    if (
+      arrWithValues.includes(length) &&
+      splittedInputValue[length - 1] !== ''
+    ) {
+      // if put loop here in a while
+      for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
+        console.log('loop fired 🚴🏼', i)
+
+        // use the i value
+        if (length === i * 4 + 6) {
+          query.filters[i] = {
+            $field: splittedInputValue[i * 4 + 3],
+            $operator: '' || splittedInputValue[i * 4 + 4],
+            $value: splittedInputValue[i * 4 + 5],
+          }
+          if (arrayOfLogics[i]) {
+            //   arrayOfLogics.pop()
+          }
+        }
+
+        if (length === i * 4 + 3) {
+          if (query.filters[i]) {
+            query.filters?.pop()
+          }
+        }
       }
     }
-    if (length === 7) {
-      if (query.filters[1]) {
-        query.filters?.pop()
-      }
-    }
-    if (length === 11) {
-      arrayOfLogics[1] =
-        splittedInputValue[10]?.charAt(0) === '$'
-          ? splittedInputValue[10]
-          : `$${splittedInputValue[10]}`
-    }
+    setQuery({ ...query })
   }
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
