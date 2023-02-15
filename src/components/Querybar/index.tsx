@@ -330,6 +330,20 @@ export const QueryBar = () => {
               splittedInputValue[splittedInputValue.length - 1] =
                 suggestionsArr[selectedSuggestion]
               setInputValue(splittedInputValue.join(' ') + ' ')
+              // if and or not update the logic array as well dont forgetti
+
+              if (
+                Object.keys(logicalOperatorsMap).includes(
+                  suggestionsArr[selectedSuggestion]
+                )
+              ) {
+                const newIndex = arithmeticProgression(4, AP_LIMIT)
+                  .map((v) => v + 2)
+                  .indexOf(carretIsInBlockIndex)
+                arrayOfLogics[newIndex] = suggestionsArr[selectedSuggestion]
+                setArrayOfLogics([...arrayOfLogics])
+                console.log('AND OR NOT 🪱')
+              }
             }
           }
 
