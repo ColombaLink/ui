@@ -305,23 +305,19 @@ export const QueryBar = () => {
           if (e.key === 'Enter') {
             e.preventDefault()
 
-            // you are in the right pill then fire submit
+            // you are in the right pill then fire submit and ONLY on the last one
             if (
               arithmeticProgression(4, AP_LIMIT)
                 .map((v) => v + 1)
                 .includes(carretIsInBlockIndex) &&
-              splittedInputValue[carretIsInBlockIndex] !== ''
+              splittedInputValue[carretIsInBlockIndex] !== '' &&
+              splittedInputValue.length === carretIsInBlockIndex + 1
             ) {
-              console.log('carretis in block ', carretIsInBlockIndex)
-              console.log('MEGA FIRE 🔥')
-
+              console.log('MEGA FIRE SUBMIT THROUGH ENTER 🔥')
               setIsFocused(false)
               setCarretPosition(undefined)
-
-              console.log('on Blur 🌶--->', query)
               NestFilters(query, arrayOfLogics)
               setFiltersAreNested(true)
-
               InputFieldRef?.current?.blur()
             }
 
@@ -403,18 +399,10 @@ export const QueryBar = () => {
           marginBottom: 12,
           position: 'relative',
         }}
-        onClick={() => {
-          InputFieldRef?.current?.focus()
-          // focus is leuk maar flat ook de filter anders raar
-          if (filtersAreNested) {
-            FlattenFilters(query.filters)
-            query.filters = snurpArr.reverse()
-            setQuery({ ...query })
-
-            setFiltersAreNested(false)
-          }
-
-          //  setCarretPosition(inputValue.length)
+        onClick={(e) => {
+          // TODO --> this function should put the cursor on the end if clicked
+          /// TODO-->  on empty area
+          PutCursorInRightPlaceOnClick(e, carretIsInBlockIndex)
         }}
       >
         {splittedInputValue.map((text, idx) => (
