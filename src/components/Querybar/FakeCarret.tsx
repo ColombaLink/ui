@@ -7,7 +7,7 @@ export const FakeCarret = styled('div', {
   marginRight: 1.5,
   marginTop: 2,
   height: 15,
-  backgroundColor: color('accent'),
+  backgroundColor: color('text'),
   '@keyframes': {
     '0%': { opacity: 0 },
     '50%': { opacity: 1 },

@@ -11,15 +11,16 @@ import {
 import { styled } from 'inlines'
 import { FakeCarret } from './FakeCarret'
 import { SuggestionTags } from './SuggestionTags'
+import { logicalOperatorsMap, operatorMap } from './Operators'
 
+// TODO: remove query filters if they get cleared with backspace
 // TODO: Caret postion in begin of block
 // TODO: tab to autocomplete
 // TODO: when will submit happen
 // TODO: paste in query
-// TODO: pop logic querys And Or
 // TODO: clear completeley
 // TODO: typescript
-// TODO: Tab to cycly through suggestions
+// TODO: Tab to cycle through suggestions
 
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
@@ -64,7 +65,7 @@ export const QueryBar = () => {
 
   // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
-    console.log('input value changed  🛎 🧸 ')
+    // console.log('input value changed  🛎 🧸 ')
 
     setSplittedInputValue(inputValue.split(' '))
 
@@ -75,9 +76,13 @@ export const QueryBar = () => {
     setAndOrValues(inputValue.split(' '))
   }, [inputValue])
 
+  // //////////////////////////////////////////// SET AND OR NOT VALUES
+
   const setAndOrValues = (splittedInputValue) => {
     const length = splittedInputValue.length
+
     const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 3)
+    const arrWithLesserValues = arithmeticProgression(4, 140).map((v) => v + 2)
 
     if (arrWithValues.includes(length)) {
       for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
@@ -87,6 +92,12 @@ export const QueryBar = () => {
             : `$${inputValue.split(' ')[i * 4 + 6]}`
         setArrayOfLogics([...arrayOfLogics])
       }
+    } else if (arrWithLesserValues.includes(length)) {
+      for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
+        if (length <= i * 4 + 6) {
+          setArrayOfLogics([...arrayOfLogics.slice(0, i)])
+        }
+      }
     }
   }
 
@@ -94,11 +105,13 @@ export const QueryBar = () => {
   const SetQueryFilterProperties = (splittedInputValue) => {
     const length = splittedInputValue.length
 
-    console.log('LENGTH ', length, 'SPLITTED ', splittedInputValue)
+    // console.log('LENGTH ', length, 'SPLITTED ', splittedInputValue)
 
     // if length is 6 loop 1 keer
     // if length is 10 do loop 2 keer
     const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 2)
+    const arrWithLesserValues = arithmeticProgression(4, 140).map((v) => v + 3)
+    console.log('whats this than ', arrWithLesserValues)
 
     if (
       arrWithValues.includes(length) &&
@@ -108,22 +121,27 @@ export const QueryBar = () => {
       for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
         // use the i value
         if (length >= i * 4 + 6) {
-          console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
-
+          //   console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
           query.filters[i] = {
             $field: splittedInputValue[i * 4 + 3],
             $operator: splittedInputValue[i * 4 + 4],
             $value: splittedInputValue[i * 4 + 5],
           }
         }
-
-        if (length === i * 4 + 3) {
-          if (query.filters[i]) {
-            query.filters?.pop()
-          }
+      }
+    } else if (length <= 3) {
+      console.log('FIRE --> 🐯', length)
+      query.filters = [{}]
+      console.log('FIRE HARDER--> ', length)
+    } else if (arrWithLesserValues.includes(length)) {
+      for (let i = 1; i <= arrWithLesserValues.indexOf(length); i++) {
+        if (length <= i * 4 + 7) {
+          console.log('FIRE  🐸--> 🐯', length)
+          query.filters = query.filters.slice(0, i)
         }
       }
     }
+
     setQuery({ ...query })
   }
 
@@ -189,7 +207,7 @@ export const QueryBar = () => {
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
         // only works if key is exactly $and or $or
-        if (key !== '$and' && key !== '$or') {
+        if (key !== '$and' && key !== '$or' && key !== '$not') {
           tempObj[key] = obj[key]
         }
         if (typeof obj[key] === 'object') {
@@ -203,6 +221,7 @@ export const QueryBar = () => {
   return (
     <>
       <Text>CarretPOs: {carretPosition}</Text>
+      <Text color="accent">{splittedInputValue.length}</Text>
       <Text>
         Carret SUB Pos in block:{carretPosition} - {counter} ={' '}
         {counter - carretPosition}
@@ -266,6 +285,10 @@ export const QueryBar = () => {
           alignItems: 'center',
           marginBottom: 12,
           position: 'relative',
+        }}
+        onClick={() => {
+          InputFieldRef?.current?.focus()
+          setCarretPosition(inputValue.length)
         }}
       >
         {splittedInputValue.map((text, idx) => (
@@ -388,16 +411,7 @@ export const QueryBar = () => {
                         setFiltersAreNested(false)
                       }
                     }}
-                    options={[
-                      '=',
-                      '!=',
-                      '>',
-                      '<',
-                      '>=',
-                      '<=',
-                      'has',
-                      'includes',
-                    ]}
+                    options={Object.keys(operatorMap)}
                     placeholder=""
                   />
                 )}
@@ -506,7 +520,7 @@ export const QueryBar = () => {
                         setFiltersAreNested(false)
                       }
                     }}
-                    options={['$and', '$or']}
+                    options={Object.keys(logicalOperatorsMap)}
                     placeholder=""
                   />
                 </Text>
