@@ -8,10 +8,12 @@ import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 
-// TODO: Caret postion in begin of block -> caretn position since splitting up on mouse Click
+// TODO: Caret position in middle block or open selection?? maybe on a key
 // TODO: when will submit happen // maybe on enter if you are on the right pill??
 // TODO: paste in query
 // TODO: clear completeley
+// TODO: suggestions from schema/ table
+// TODO: third block ? selection field or just suggest fields
 // TODO: typescript
 // TODO: check in and out of focus what happens
 // TODO: bug testing 🪲

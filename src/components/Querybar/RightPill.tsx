@@ -38,23 +38,32 @@ export const RightPill = ({
           <LinkIcon size={16} color="accent" style={{ marginRight: 8 }} />
         )}
 
-        {text?.split('')?.map((letter, index) =>
-          index === carretInBlockSubPos - 1 ? (
-            <div style={{ display: 'flex' }} key={index}>
-              <span id={index} key={index}>
-                {letter}
-              </span>
-              {carretIsInBlockIndex === idx &&
-              arithmeticProgression(4, 140)
-                .map((v) => v + 1)
-                .includes(idx) ? (
-                <FakeCarret />
-              ) : null}
-            </div>
-          ) : (
-            <span id={index} key={index}>
-              {letter}
-            </span>
+        {!text ? (
+          <FakeCarret />
+        ) : (
+          text?.split('')?.map((letter, index) =>
+            index === carretInBlockSubPos - 1 ? (
+              <div style={{ display: 'flex' }} key={index}>
+                <span id={index} key={index}>
+                  {letter}
+                </span>
+                {carretIsInBlockIndex === idx &&
+                arithmeticProgression(4, 140)
+                  .map((v) => v + 1)
+                  .includes(idx) ? (
+                  <FakeCarret />
+                ) : null}
+              </div>
+            ) : (
+              <>
+                {carretInBlockSubPos === 0 &&
+                  carretIsInBlockIndex === idx &&
+                  index === 0 && <FakeCarret />}
+                <span id={index} key={index}>
+                  {letter}
+                </span>
+              </>
+            )
           )
         )}
       </Text>
