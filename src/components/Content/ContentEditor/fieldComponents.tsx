@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Input,
   Toggle,
@@ -106,12 +106,16 @@ const int = {
   },
   bytes: ({ description, meta, ...props }) => {
     const readOnly = meta?.readOnly
+    const [focus, setFocus] = useState(false)
+
     return (
       <div
         style={{
           margin: '20 0',
           position: 'relative',
         }}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
       >
         <Input
           {...props}
@@ -119,21 +123,15 @@ const int = {
           space
           // integer
           //    noInterrupt
-          // placeholder={prettyNumber(props.value, 'number-bytes')}
+          placeholder={prettyNumber(props.value, 'number-bytes')}
+          // type={focus ? 'number' : 'text'}
           type="number"
+          value={
+            focus ? props.value : prettyNumber(props.value, 'number-bytes')
+          }
           disabled={readOnly}
           indent
         />
-        <div
-          style={{
-            alignSelf: 'start',
-            position: 'absolute',
-            bottom: 0,
-            left: 20,
-          }}
-        >
-          {prettyNumber(props.value, 'number-bytes')}
-        </div>
       </div>
     )
   },
@@ -263,7 +261,6 @@ const string = {
 
     const client = useClient()
     // meta for mime tyype fuck off
-
     const value = props.value
       ? [
           {

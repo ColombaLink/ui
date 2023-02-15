@@ -770,9 +770,13 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: string\n  space?: Space\n  small?: boolean\n  color?: Color\n}",
+      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: string\n  space?: Space\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1439,10 +1443,10 @@
         },
         "value": {
           "optional": true,
-          "type": "TSAnyKeyword"
+          "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: any\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -2664,6 +2668,20 @@
       },
       "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  color?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
+    },
+    "ProgressBarProps": {
+      "name": "ProgressBarProps",
+      "props": {
+        "progress": {
+          "type": "number"
+        },
+        "circle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ProgressBarProps = {\n  progress: number\n  circle?: boolean\n}",
+      "file": "/components/ProgressBar/index.tsx"
     },
     "ProviderProps": {
       "name": "ProviderProps",
