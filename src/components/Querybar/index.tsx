@@ -1,21 +1,39 @@
-import React, { useState, useEffect } from 'react'
-import {
-  ArrowRightIcon,
-  color,
-  Input,
-  Text,
-  StackIcon,
-  LinkIcon,
-  Button,
-  Select,
-} from '~'
-import { RootPill } from './RootPill'
-import { FilterPill } from './FilterPill'
+import React, { useState, useEffect, useRef } from 'react'
+import { color, Text } from '~'
 import { styled } from 'inlines'
+import { SuggestionTags } from './SuggestionTags'
+import { logicalOperatorsMap, operatorMap } from './Operators'
+import { LeftPill } from './LeftPill'
+import { MiddlePill } from './MiddlePill'
+import { RightPill } from './RightPill'
+import { LogicalOperatorPill } from './LogicalOperatorPill'
 
-// TODO: fake overlay cursor
-// TODO: tab to autocomplete
-// TODO: when will submit happen
+// TODO: Caret position in middle block indicator
+// TODO: when will submit happen // maybe on enter if you are on the right pill??
+// make a submit function ?????!!
+// TODO: on submit or nest remove non finished blocks
+// TODO: paste in query
+// TODO: clear completeley
+// TODO: suggestions from schema/ table
+// TODO: third block ? selection field or just suggest fields
+// TODO: typescript
+// TODO: check in and out of focus what happens
+// TODO: show query button
+// TODO: copy query button
+// TODO: check default keypress options for input field (like arrows etc)
+// TODO: Refactor / Clean up code / keypress handler and more
+// TODO: bug testing 🪲
+
+const AP_LIMIT = 140
+
+const arithmeticProgression = (n, lim) =>
+  Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
+
+console.log('arithmeticProgression', arithmeticProgression(4, 15))
+console.log(
+  'arithmeticProgression',
+  arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
+)
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -24,249 +42,469 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
-  const [inputValue, setInputValue] = useState('')
+  const [inputValue, setInputValue] = useState('In root descendants type ')
   const [splittedInputValue, setSplittedInputValue] = useState([])
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState([])
+  const [carretPosition, setCarretPosition] = useState(0)
+  const [filtersAreNested, setFiltersAreNested] = useState(false)
 
-  // settting splittedInputValue twice to sync up
+  // focused on input field
+  const [isFocused, setIsFocused] = useState(false)
+  const InputFieldRef = useRef()
+
+  // suggestions
+  const [selectedSuggestion, setSelectedSuggestion] = useState(0)
+  let suggestionsLength
+  let suggestionsArr = []
+
+  const [openSelectBox, setOpenSelectBox] = useState<{
+    num: number
+    open: boolean
+  }>({ num: 0, open: false })
+
+  // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
+  useEffect(() => {
+    if (filtersAreNested && isFocused) {
+      FlattenFilters(query.filters)
+      query.filters = snurpArr.reverse()
+      setQuery({ ...query })
+
+      setFiltersAreNested(false)
+    } else if (!isFocused) {
+      // zet nested filters to false
+      setFiltersAreNested(true)
+    }
+  }, [isFocused])
+
+  // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
-    console.log('splittedInputValue', splittedInputValue)
-  }, [inputValue])
 
-  useEffect(() => {
     query.target = splittedInputValue[1]
     query.field = splittedInputValue[2]
 
-    if (query.filters[0] && splittedInputValue.length < 4) {
-      query.filters.pop()
-    }
+    SetQueryFilterProperties(inputValue.split(' '))
+    setAndOrValues(inputValue.split(' '))
+  }, [inputValue])
 
-    if (splittedInputValue.length > 4) {
-      query.filters[0] = {
-        $field: splittedInputValue[3],
-        $operator: splittedInputValue[4],
-        $value: splittedInputValue[5],
+  // reset selected suggestion index
+  useEffect(() => {
+    setSelectedSuggestion(0)
+    suggestionsArr = []
+  }, [splittedInputValue.length])
+
+  // //////////////////////////////////////////// SET AND OR NOT VALUES
+
+  const setAndOrValues = (splittedInputValue) => {
+    const length = splittedInputValue.length
+
+    const arrWithValues = arithmeticProgression(4, AP_LIMIT).map((v) => v + 3)
+    const arrWithLesserValues = arithmeticProgression(4, AP_LIMIT).map(
+      (v) => v + 2
+    )
+
+    if (arrWithValues.includes(length)) {
+      for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
+        arrayOfLogics[i] =
+          inputValue.split(' ')[i * 4 + 6]?.charAt(0) === '$'
+            ? inputValue.split(' ')[i * 4 + 6]
+            : `$${inputValue.split(' ')[i * 4 + 6]}`
+        setArrayOfLogics([...arrayOfLogics])
+      }
+    } else if (arrWithLesserValues.includes(length)) {
+      for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
+        if (length <= i * 4 + 6) {
+          setArrayOfLogics([...arrayOfLogics.slice(0, i)])
+        }
+      }
+    }
+  }
+
+  // //////////////////////////////////////////// SET QUERY FILTER PROPERTIES
+  const SetQueryFilterProperties = (splittedInputValue) => {
+    const length = splittedInputValue.length
+    const arrWithValues = arithmeticProgression(4, AP_LIMIT).map((v) => v + 2)
+    const arrWithLesserValues = arithmeticProgression(4, AP_LIMIT).map(
+      (v) => v + 3
+    )
+    arrWithLesserValues.unshift(3)
+
+    if (
+      arrWithValues.includes(length) &&
+      splittedInputValue[length - 1] !== ''
+    ) {
+      // if put loop here in a while
+      for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
+        // use the i value
+        if (length >= i * 4 + 6) {
+          //   console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
+          query.filters[i] = {
+            $field: splittedInputValue[i * 4 + 3],
+            $operator: splittedInputValue[i * 4 + 4],
+            $value: splittedInputValue[i * 4 + 5],
+          }
+        }
+      }
+    } else if (arrWithLesserValues.includes(length)) {
+      for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
+        if (length <= i * 4 + 3) {
+          if (query.filters.length > 0) {
+            console.log('FIRE  🐸--> 🐯', length)
+            query.filters = query.filters?.slice(0, i)
+          }
+        }
       }
     }
 
-    // dont forget the dollar sign for the query
-    arrayOfLogics[0] =
-      splittedInputValue[6]?.charAt(0) === '$'
-        ? splittedInputValue[6]
-        : `$${splittedInputValue[6]}`
+    setQuery({ ...query })
+  }
 
-    if (query.filters[1] && splittedInputValue.length < 7) {
-      query.filters.pop()
+  // //////////////////////////////////////////// CARRET POSITION LOGIC
+  let carretIsInBlockIndex = 0
+  let carretInBlockSubPos = 0
+  let counter = 0
+  splittedInputValue?.map((text, idx) => {
+    //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
+    if (
+      carretPosition >= counter &&
+      carretPosition <= counter + text.length + 1
+    ) {
+      carretIsInBlockIndex = idx
+      carretInBlockSubPos = carretPosition - counter
     }
+    counter += text.length + 1
+  })
 
-    if (splittedInputValue.length > 7) {
-      query.filters[1] = {
-        $field: splittedInputValue[7],
-        $operator: splittedInputValue[8],
-        $value: splittedInputValue[9],
-      }
-    }
-  }, [splittedInputValue])
+  const PutCursorInRightPlaceOnClick = (e, idx) => {
+    console.log('E ', e, 'IDX ', idx)
+    // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
+    const countedBlocksLength = splittedInputValue.reduce(
+      (acc, curr, index) => {
+        if (index < idx) {
+          return acc + curr.length + 1
+        } else {
+          return acc
+        }
+      },
+      0
+    )
 
-  /* /////////  To combine and to unCombine the query object ///////// */
+    carretIsInBlockIndex = idx
+    const newSelectedCarretPosition = countedBlocksLength + +e.target.id
+    setCarretPosition(newSelectedCarretPosition)
+    InputFieldRef?.current?.focus()
+    InputFieldRef.current.selectionStart = newSelectedCarretPosition
+    InputFieldRef.current.selectionEnd = newSelectedCarretPosition
+  }
+
+  // //////////////////////////////////////////// COMBINE AND FLATTER FILTERS QUERY LOGIC
   let snurpArr = []
-
   const NestFilters = (query, arr) => {
     // empty the snurpArr
     snurpArr = []
-
     const snurp = {}
     let target = snurp
-    query.filters.forEach((obj, index) => {
+    query?.filters?.forEach((obj, index) => {
       Object.assign(target, obj)
       const l = arr[index]
       if (l) {
         target = target[l] = {}
       }
     })
-
     query.filters = { ...snurp }
-    console.log('query 🐸', query)
     setQuery({ ...query })
   }
 
   const FlattenFilters = (obj) => {
     const tempObj = {}
-
     for (let key in obj) {
       if (obj.hasOwnProperty(key)) {
-        console.log('key', key, '---->', obj[key])
-
         // only works if key is exactly $and or $or
-        if (key !== '$and' && key !== '$or') {
+        if (key !== '$and' && key !== '$or' && key !== '$not') {
           tempObj[key] = obj[key]
-          console.log('tempObj 🐸', tempObj)
         }
-
         if (typeof obj[key] === 'object') {
           FlattenFilters(obj[key])
-          console.log('snurp 🐸', snurpArr)
         }
       }
     }
     snurpArr.push(tempObj)
   }
 
+  // //////////////////////////////////////////// SUGGESTION TAGS
+  const setSuggestions = () => {
+    if (
+      arithmeticProgression(4, AP_LIMIT)
+        .map((v) => v + 1)
+        .includes(inputValue.split(' ').length)
+    ) {
+      suggestionsLength = Object.keys(operatorMap).length
+      suggestionsArr = Object.keys(operatorMap)
+      return suggestionsArr
+    } else if (
+      arithmeticProgression(4, AP_LIMIT)
+        .map((v) => v + 3)
+        .includes(inputValue.split(' ').length)
+    ) {
+      suggestionsLength = Object.keys(logicalOperatorsMap).length
+      suggestionsArr = Object.keys(logicalOperatorsMap)
+      return suggestionsArr
+    } else {
+      return []
+    }
+  }
+
   return (
-    <>
-      <Input
-        space="12px"
+    <div>
+      <Text>CarretPOs: {carretPosition}</Text>
+      <Text color="accent">{splittedInputValue.length}</Text>
+      <Text>
+        Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
+      </Text>
+      <Text color="green">
+        CarretPosition in index block {carretIsInBlockIndex}{' '}
+      </Text>
+      <Text>inputvalue length : {inputValue.length}</Text>
+      <Text>
+        $and $or array :{' '}
+        {arrayOfLogics.map((item) => (
+          <span style={{ border: '1px solid blue', margin: 4 }}>{item},</span>
+        ))}
+      </Text>
+      <input
+        style={{
+          border: '1px solid purple',
+          marginBottom: 12,
+          padding: 8,
+          width: '100%',
+        }}
+        type="text"
+        ref={InputFieldRef}
         value={inputValue}
         onChange={(e) => {
           // set twice to sync with useeffect
-          setSplittedInputValue(e.split(' '))
-          setInputValue(e)
+          setSplittedInputValue(e.target.value.split(' '))
+          setInputValue(e.target.value)
+          setCarretPosition(e.target.selectionStart)
+        }}
+        onClick={(e) => {
+          setCarretPosition(e.target.selectionStart)
+        }}
+        onFocus={() => {
+          setIsFocused(true)
+        }}
+        onBlur={() => {
+          setIsFocused(false)
+          setCarretPosition(undefined)
+          console.log('on Blur 🌶--->', query)
+          NestFilters(query, arrayOfLogics)
+          setFiltersAreNested(true)
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+
+            // you are in the right pill then fire submit and ONLY on the last one
+            if (
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 1)
+                .includes(carretIsInBlockIndex) &&
+              splittedInputValue[carretIsInBlockIndex] !== '' &&
+              splittedInputValue.length === carretIsInBlockIndex + 1
+            ) {
+              console.log('MEGA FIRE SUBMIT THROUGH ENTER 🔥')
+              setIsFocused(false)
+              setCarretPosition(undefined)
+              NestFilters(query, arrayOfLogics)
+              setFiltersAreNested(true)
+              InputFieldRef?.current?.blur()
+            }
+
+            // op welke positie plak je de suggestie
+            if (suggestionsArr.length > 0) {
+              splittedInputValue[splittedInputValue.length - 1] =
+                suggestionsArr[selectedSuggestion]
+              setInputValue(splittedInputValue.join(' ') + ' ')
+              // if and or not update the logic array as well dont forgetti
+
+              if (
+                Object.keys(logicalOperatorsMap).includes(
+                  suggestionsArr[selectedSuggestion]
+                )
+              ) {
+                const newIndex = arithmeticProgression(4, AP_LIMIT)
+                  .map((v) => v + 2)
+                  .indexOf(carretIsInBlockIndex)
+                arrayOfLogics[newIndex] = suggestionsArr[selectedSuggestion]
+                setArrayOfLogics([...arrayOfLogics])
+                console.log('AND OR NOT 🪱')
+              }
+            }
+          }
+
+          if (e.key === 'Tab') {
+            e.preventDefault()
+
+            if (selectedSuggestion >= suggestionsLength - 1) {
+              setSelectedSuggestion(0)
+            } else {
+              setSelectedSuggestion(selectedSuggestion + 1)
+            }
+          }
+
+          if (e.key === 'ArrowLeft' && carretPosition > 0) {
+            setCarretPosition(carretPosition - 1)
+          } else if (
+            e.key === 'ArrowRight' &&
+            carretPosition < inputValue.length
+          ) {
+            setCarretPosition(carretPosition + 1)
+          }
+
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault()
+            // 4 , 8 , 12 , 16
+            // of and or or not
+            // 7, 11, 15, 19
+            if (
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v)
+                .includes(carretIsInBlockIndex) ||
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 2)
+                .includes(carretIsInBlockIndex)
+            ) {
+              console.log('boomshakalaka')
+              setOpenSelectBox({ num: carretIsInBlockIndex, open: true })
+
+              // open de selectie box
+            }
+          }
         }}
       />
+
       <styled.div
         style={{
-          border: `1px solid ${color('border')}`,
+          outline: isFocused
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
+          border: isFocused
+            ? `1px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
           borderRadius: 4,
-          padding: 6,
+          padding: 3,
           display: 'flex',
           alignItems: 'center',
           marginBottom: 12,
+          position: 'relative',
+        }}
+        onClick={(e) => {
+          // TODO --> this function should put the cursor on the end if clicked
+          /// TODO-->  on empty area
+          PutCursorInRightPlaceOnClick(e, carretIsInBlockIndex)
         }}
       >
-        {/* harcode the first six options in there after that repeat */}
         {splittedInputValue.map((text, idx) => (
           <React.Fragment key={idx}>
-            {idx === 0 || idx === 3 || idx === 7 || idx === 11 ? (
-              <Text
-                wrap
-                color="text2"
-                style={{
-                  height: 30,
-                  padding: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  borderTopLeftRadius: 4,
-                  borderBottomLeftRadius: 4,
-                  backgroundColor: color('lighttext'),
-                  borderRight: `1px solid ${color('border')}`,
+            {idx === 0 ||
+            arithmeticProgression(4, AP_LIMIT)
+              .map((v) => v - 1)
+              .includes(idx) ? (
+              <LeftPill
+                idx={idx}
+                inputValue={inputValue}
+                arithmeticProgression={arithmeticProgression}
+                carretInBlockSubPos={carretInBlockSubPos}
+                carretIsInBlockIndex={carretIsInBlockIndex}
+                carretPosition={carretPosition}
+                text={text}
+                onClick={(e) => {
+                  carretIsInBlockIndex = idx
+                  PutCursorInRightPlaceOnClick(e, idx)
                 }}
-              >
-                {idx === 0 ? text.toUpperCase() : text}
-              </Text>
-            ) : idx === 1 || idx === 4 || idx === 8 || idx === 12 ? (
-              <Text
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  height: 30,
-                  padding: 10,
-                  minWidth: idx === 1 ? 74 : 'auto',
-                  backgroundColor: color('lighttext'),
-                  borderRight: `1px solid ${color('border')}`,
+                apLimit={AP_LIMIT}
+              />
+            ) : idx === 1 ||
+              arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
+              <MiddlePill
+                idx={idx}
+                FlattenFilters={FlattenFilters}
+                carretInBlockSubPos={carretInBlockSubPos}
+                carretIsInBlockIndex={carretIsInBlockIndex}
+                filtersAreNested={filtersAreNested}
+                query={query}
+                setFiltersAreNested={setFiltersAreNested}
+                setInputValue={setInputValue}
+                setQuery={setQuery}
+                snurpArr={snurpArr}
+                text={text}
+                splittedInputValue={splittedInputValue}
+                openSelectBox={openSelectBox}
+                setOpenSelectBox={setOpenSelectBox}
+              />
+            ) : idx === 2 ||
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 1)
+                .includes(idx) ? (
+              <RightPill
+                idx={idx}
+                text={text}
+                arithmeticProgression={arithmeticProgression}
+                carretInBlockSubPos={carretInBlockSubPos}
+                carretIsInBlockIndex={carretIsInBlockIndex}
+                onClick={(e) => {
+                  carretIsInBlockIndex = idx
+                  PutCursorInRightPlaceOnClick(e, idx)
                 }}
-              >
-                {idx === 1 && <StackIcon size={16} color="accent" />}
-                {idx === 1 && text}
-                {idx !== 1 && (
-                  <Select
-                    ghost
-                    value={text}
-                    // @ts-ignore
-                    style={{ '& svg': { display: 'none' } }}
-                    onChange={(e) => {
-                      const tempSplitted = [...splittedInputValue]
-                      tempSplitted[idx] = e
-                      setInputValue(tempSplitted.join(' '))
-                    }}
-                    options={[
-                      '=',
-                      '!=',
-                      '>',
-                      '<',
-                      '>=',
-                      '<=',
-                      'has',
-                      'includes',
-                    ]}
-                    placeholder=""
-                  />
-                )}
-              </Text>
-            ) : idx === 2 || idx === 5 || idx === 9 || idx === 13 ? (
-              <>
-                <Text
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                    height: 30,
-                    padding: 10,
-                    backgroundColor: color('lighttext'),
-                    borderTopRightRadius: 4,
-                    borderBottomRightRadius: 4,
-                  }}
-                >
-                  {idx === 2 && <LinkIcon size={16} color="accent" />}
-                  {text}
-                </Text>
-                {idx === 2 && (
-                  <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
-                )}
-              </>
-            ) : idx === 6 || idx === 10 || idx === 14 ? (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: 10,
-                  height: 30,
-                  margin: '0 8px',
-                  backgroundColor: 'transparent',
-                  border: `1px solid ${color('accent')}`,
-                  borderRadius: 4,
-                }}
-              >
-                <Text color="accent">
-                  {/* {text[0] === '$' ? text : '$' + text} */}
-                  <Select
-                    ghost
-                    value={text[0] === '$' ? text : '$' + text}
-                    style={{
-                      // @ts-ignore
-                      '& div': { color: `${color('accent')} !important` },
-                      '& svg': { display: 'none' },
-                    }}
-                    onChange={(e) => {
-                      const tempSplitted = [...splittedInputValue]
-                      tempSplitted[idx] = e
-                      setInputValue(tempSplitted.join(' '))
-                    }}
-                    options={['$and', '$or']}
-                    placeholder=""
-                  />
-                </Text>
-              </div>
-            ) : (
-              <div
-                style={{
-                  background: 'lightgrey',
-                  padding: 5,
-                  borderRight: idx % 3 === 0 ? 'none' : '1px solid grey',
-                  borderTopRightRadius: idx % 3 === 0 ? 4 : 0,
-                  borderBottomRightRadius: idx % 3 === 0 ? 4 : 0,
-                }}
-              >
-                {text}
-              </div>
-            )}
+                apLimit={AP_LIMIT}
+              />
+            ) : arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 2)
+                .includes(idx) ? (
+              <LogicalOperatorPill
+                idx={idx}
+                text={text}
+                arithmeticProgression={arithmeticProgression}
+                FlattenFilters={FlattenFilters}
+                arrayOfLogics={arrayOfLogics}
+                filtersAreNested={filtersAreNested}
+                query={query}
+                setFiltersAreNested={setFiltersAreNested}
+                setInputValue={setInputValue}
+                setQuery={setQuery}
+                snurpArr={snurpArr}
+                splittedInputValue={splittedInputValue}
+                openSelectBox={openSelectBox}
+                setOpenSelectBox={setOpenSelectBox}
+              />
+            ) : null}
           </React.Fragment>
         ))}
       </styled.div>
-      <div style={{ display: 'flex', gap: 12 }}>
-        <Button onClick={() => NestFilters(query, arrayOfLogics)}>
+
+      <div style={{ display: 'flex' }}>
+        {setSuggestions()?.map((item, idx) => (
+          <SuggestionTags
+            key={idx}
+            suggestion={item}
+            selected={selectedSuggestion === idx}
+            onClick={() => {
+              setSelectedSuggestion(idx)
+              splittedInputValue[4] = item
+              setInputValue(splittedInputValue.join(' '))
+            }}
+          />
+        ))}
+      </div>
+
+      {/* <div style={{ display: 'flex', gap: 12 }}>
+        <Button
+          onClick={() => {
+            NestFilters(query, arrayOfLogics)
+            setFiltersAreNested(true)
+          }}
+        >
           COMBINE
         </Button>
         <Button
@@ -279,21 +517,7 @@ export const QueryBar = () => {
         >
           FLATTEN
         </Button>
-      </div>
-      {/* <RootPill query={query} setQuery={setQuery} /> */}
-      {/* 
-        {[...Array(numberOfFilterPills)]?.map((item, index) => (
-          <FilterPill
-            query={query}
-            setQuery={setQuery}
-            index={index}
-            key={index}
-            numberOfFilterPills={numberOfFilterPills}
-            setNumberOfFilterPills={setNumberOfFilterPills}
-            setArrayOfLogics={setArrayOfLogics}
-            arrayOfLogics={arrayOfLogics}
-          />
-        ))} */}
+      </div> */}
       <pre
         style={{
           bottom: 0,
@@ -306,6 +530,6 @@ export const QueryBar = () => {
       >
         {JSON.stringify(query, null, 2)}
       </pre>
-    </>
+    </div>
   )
 }
