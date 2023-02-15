@@ -56,6 +56,14 @@ export const FileUpload: FC<FileUploadProps> = ({
   multiple,
   value,
 }) => {
+  // value = [
+  //   {
+  //     type: 'image',
+  //     name: 'https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg',
+  //     src: 'https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg',
+  //   },
+  // ]
+  // console.log({ value })
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -334,7 +342,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles([...dupliArr])
   }
   const mimeTypeInput = acceptedFileTypes + '/*'
-  console.log(mimeTypeInput)
+  console.log('???', uploadedFiles)
 
   return (
     <InputWrapper

@@ -264,42 +264,50 @@ const string = {
     const client = useClient()
     // meta for mime tyype fuck off
 
+    const value = props.value
+      ? [
+          {
+            name: props.value,
+            src: props.value,
+            type: meta.mimeType,
+          },
+        ]
+      : []
+
     return (
-      <div>
-        <FileUpload
-          {...props.style}
-          label={props.label}
-          indent
-          acceptedFileTypes={meta.mimeType}
-          descriptionBottom={description}
-          space
-          onChange={async (files) => {
-            if (!files) {
-              onChange({ $delete: true })
-              return
-            }
+      <FileUpload
+        {...props.style}
+        label={props.label}
+        indent
+        acceptedFileTypes={meta.mimeType}
+        descriptionBottom={description}
+        space
+        onChange={async (files) => {
+          if (!files) {
+            onChange({ $delete: true })
+            return
+          }
 
-            if (files.length !== 1) {
-              return
-            }
+          if (files.length !== 1) {
+            return
+          }
 
-            // TODO: refactor to stream api when based cloud v1 is live!
-            const x = await client.file(files[0])
-            const { src } = await client.observeUntil(
-              {
-                $id: x.id,
-                src: true,
-              },
-              (d) => {
-                return d?.src
-              }
-            )
-            console.info('SRC', src)
-            onChange(src)
-          }}
-          value={props.value}
-        />
-      </div>
+          // TODO: refactor to stream api when based cloud v1 is live!
+          const x = await client.file(files[0])
+          const { src } = await client.observeUntil(
+            {
+              $id: x.id,
+              src: true,
+            },
+            (d) => {
+              return d?.src
+            }
+          )
+          console.info('SRC', src)
+          onChange(src)
+        }}
+        value={value}
+      />
     )
   },
   url: ({ description, meta, onChange, ...props }) => (
