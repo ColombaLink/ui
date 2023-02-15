@@ -104,14 +104,9 @@ export const QueryBar = () => {
   // set query filter properties based on length of splittedInputValue
   const SetQueryFilterProperties = (splittedInputValue) => {
     const length = splittedInputValue.length
-
-    // console.log('LENGTH ', length, 'SPLITTED ', splittedInputValue)
-
-    // if length is 6 loop 1 keer
-    // if length is 10 do loop 2 keer
     const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 2)
     const arrWithLesserValues = arithmeticProgression(4, 140).map((v) => v + 3)
-    console.log('whats this than ', arrWithLesserValues)
+    arrWithLesserValues.unshift(3)
 
     if (
       arrWithValues.includes(length) &&
@@ -129,13 +124,9 @@ export const QueryBar = () => {
           }
         }
       }
-    } else if (length <= 3) {
-      console.log('FIRE --> 🐯', length)
-      query.filters = [{}]
-      console.log('FIRE HARDER--> ', length)
     } else if (arrWithLesserValues.includes(length)) {
-      for (let i = 1; i <= arrWithLesserValues.indexOf(length); i++) {
-        if (length <= i * 4 + 7) {
+      for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
+        if (length <= i * 4 + 3) {
           console.log('FIRE  🐸--> 🐯', length)
           query.filters = query.filters.slice(0, i)
         }
