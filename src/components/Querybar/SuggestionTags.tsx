@@ -5,11 +5,13 @@ import { styled } from 'inlines'
 type SuggestionTagsProps = {
   suggestion: string
   onClick: () => void
+  selected?: boolean
 }
 
 export const SuggestionTags = ({
   suggestion,
   onClick,
+  selected,
 }: SuggestionTagsProps) => {
   return (
     <styled.div
@@ -18,7 +20,7 @@ export const SuggestionTags = ({
         marginLeft: 3,
         marginRight: 3,
         border: `1px solid ${color('border')}`,
-        backgroundColor: color('background'),
+        backgroundColor: selected ? color('background2') : color('background'),
         borderRadius: 4,
         width: 'fit-content',
         cursor: 'pointer',

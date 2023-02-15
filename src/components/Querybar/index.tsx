@@ -1,15 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import {
-  ArrowRightIcon,
-  color,
-  Text,
-  StackIcon,
-  LinkIcon,
-  Button,
-  Select,
-} from '~'
+import { color, Text } from '~'
 import { styled } from 'inlines'
-import { FakeCarret } from './FakeCarret'
 import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
 import { LeftPill } from './LeftPill'
@@ -28,11 +19,11 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
 
-console.log('arithmeticProgression', arithmeticProgression(4, 15))
-console.log(
-  'arithmeticProgression',
-  arithmeticProgression(4, 140).map((v) => v + 2)
-)
+// console.log('arithmeticProgression', arithmeticProgression(4, 15))
+// console.log(
+//   'arithmeticProgression',
+//   arithmeticProgression(4, 140).map((v) => v + 2)
+// )
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -41,7 +32,7 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
-  const [inputValue, setInputValue] = useState('In root descendants')
+  const [inputValue, setInputValue] = useState('In root descendants type ')
   const [splittedInputValue, setSplittedInputValue] = useState([])
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState([])
@@ -51,6 +42,9 @@ export const QueryBar = () => {
   // focused on input field
   const [isFocused, setIsFocused] = useState(false)
   const InputFieldRef = useRef()
+
+  // suggestions
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null)
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
@@ -128,8 +122,10 @@ export const QueryBar = () => {
     } else if (arrWithLesserValues.includes(length)) {
       for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
         if (length <= i * 4 + 3) {
-          console.log('FIRE  🐸--> 🐯', length)
-          query.filters = query.filters.slice(0, i)
+          if (query.filters.length > 0) {
+            console.log('FIRE  🐸--> 🐯', length)
+            query.filters = query.filters?.slice(0, i)
+          }
         }
       }
     }
@@ -256,6 +252,11 @@ export const QueryBar = () => {
           setFiltersAreNested(true)
         }}
         onKeyDown={(e) => {
+          if (e.key === 'Tab') {
+            e.preventDefault()
+            console.log('tab pressed')
+            setSelectedSuggestion(selectedSuggestion + 1)
+          }
           if (e.key === 'ArrowLeft' && carretPosition > 0) {
             setCarretPosition(carretPosition - 1)
           } else if (
@@ -359,10 +360,49 @@ export const QueryBar = () => {
 
       <div style={{ display: 'flex' }}>
         {inputValue.split(' ').length === 5 &&
-          Object.keys(operatorMap).map((item) => (
-            <SuggestionTags suggestion={item} />
+          Object.keys(operatorMap).map((item, idx) => (
+            <SuggestionTags
+              suggestion={item}
+              selected={selectedSuggestion === idx}
+              onClick={() => {
+                setSelectedSuggestion(idx)
+                splittedInputValue[4] = item
+                setInputValue(splittedInputValue.join(' '))
+              }}
+            />
           ))}
       </div>
+
+      <div style={{ display: 'flex' }}>
+        {inputValue.split(' ').length === 7 &&
+          Object.keys(logicalOperatorsMap).map((item, idx) => (
+            <SuggestionTags
+              suggestion={item}
+              selected={selectedSuggestion === idx}
+              onClick={() => {
+                setSelectedSuggestion(idx)
+                splittedInputValue[6] = item
+                setInputValue(splittedInputValue.join(' '))
+              }}
+            />
+          ))}
+      </div>
+
+      <div style={{ display: 'flex' }}>
+        {inputValue.split(' ').length === 11 &&
+          Object.keys(logicalOperatorsMap).map((item, idx) => (
+            <SuggestionTags
+              suggestion={item}
+              selected={selectedSuggestion === idx}
+              onClick={() => {
+                setSelectedSuggestion(idx)
+                splittedInputValue[10] = item
+                setInputValue(splittedInputValue.join(' '))
+              }}
+            />
+          ))}
+      </div>
+
       {/* <div style={{ display: 'flex', gap: 12 }}>
         <Button
           onClick={() => {
