@@ -61,8 +61,11 @@ export const LeftPill = ({
 
       {arithmeticProgression(4, 140)
         .map((v) => v - 1)
-        .includes(idx)
-        ? text?.split('')?.map((letter, index) =>
+        .includes(idx) ? (
+        !text ? (
+          <FakeCarret />
+        ) : (
+          text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
               <div style={{ display: 'flex' }} key={index}>
                 {carretInBlockSubPos === 0 && carretIsInBlockIndex === idx && (
@@ -91,7 +94,8 @@ export const LeftPill = ({
               </>
             )
           )
-        : null}
+        )
+      ) : null}
     </Text>
   )
 }
