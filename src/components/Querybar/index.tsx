@@ -13,6 +13,7 @@ import { FakeCarret } from './FakeCarret'
 import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
 import { LeftPill } from './LeftPill'
+import { MiddlePill } from './MiddlePill'
 
 // TODO: remove query filters if they get cleared with backspace
 // TODO: Caret postion in begin of block
@@ -304,58 +305,20 @@ export const QueryBar = () => {
                 }}
               />
             ) : idx === 1 || arithmeticProgression(4, 140).includes(idx) ? (
-              <Text
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  height: 30,
-                  padding: idx === 1 ? 10 : 0,
-                  minWidth: idx === 1 ? 74 : 'auto',
-                  backgroundColor: color('lighttext'),
-                  borderRight: `1px solid ${color('border')}`,
-                  position: 'relative',
-                }}
-              >
-                {idx === 1 && <StackIcon size={16} color="accent" />}
-                {idx === 1 && (
-                  <div style={{ display: 'flex' }}>
-                    <span>{text?.substr(0, carretInBlockSubPos)}</span>
-                    {carretIsInBlockIndex === 1 && <FakeCarret />}
-                    <span>{text?.substr(carretInBlockSubPos)}</span>
-                  </div>
-                )}
-                {idx !== 1 && (
-                  <Select
-                    ghost
-                    value={text}
-                    // @ts-ignore
-                    style={{
-                      '& div': { padding: '10px' },
-                      '& svg': { display: 'none' },
-                    }}
-                    onChange={(e) => {
-                      const tempSplitted = [...splittedInputValue]
-                      tempSplitted[idx] = e
-
-                      if (!filtersAreNested) {
-                        setInputValue(tempSplitted.join(' '))
-                        // setSplittedInputValue([...tempSplitted])
-                      } else {
-                        FlattenFilters(query.filters)
-                        query.filters = snurpArr.reverse()
-                        setQuery({ ...query })
-
-                        // dan pas veranderen
-                        setInputValue(tempSplitted.join(' '))
-                        setFiltersAreNested(false)
-                      }
-                    }}
-                    options={Object.keys(operatorMap)}
-                    placeholder=""
-                  />
-                )}
-              </Text>
+              <MiddlePill
+                idx={idx}
+                FlattenFilters={FlattenFilters}
+                carretInBlockSubPos={carretInBlockSubPos}
+                carretIsInBlockIndex={carretIsInBlockIndex}
+                filtersAreNested={filtersAreNested}
+                query={query}
+                setFiltersAreNested={setFiltersAreNested}
+                setInputValue={setInputValue}
+                setQuery={setQuery}
+                snurpArr={snurpArr}
+                text={text}
+                splittedInputValue={splittedInputValue}
+              />
             ) : idx === 2 ||
               arithmeticProgression(4, 140)
                 .map((v) => v + 1)
