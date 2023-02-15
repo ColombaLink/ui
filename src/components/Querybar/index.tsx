@@ -12,6 +12,7 @@ import { styled } from 'inlines'
 import { FakeCarret } from './FakeCarret'
 import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
+import { LeftPill } from './LeftPill'
 
 // TODO: remove query filters if they get cleared with backspace
 // TODO: Caret postion in begin of block
@@ -288,72 +289,20 @@ export const QueryBar = () => {
             arithmeticProgression(4, 140)
               .map((v) => v - 1)
               .includes(idx) ? (
-              <Text
-                wrap
-                color="text2"
-                style={{
-                  height: 30,
-                  padding: 10,
-                  display: 'flex',
-                  alignItems: 'center',
-                  borderTopLeftRadius: 4,
-                  borderBottomLeftRadius: 4,
-                  backgroundColor: color('lighttext'),
-                  borderRight: `1px solid ${color('border')}`,
-                  position: 'relative',
-                  cursor: 'text',
-                }}
+              <LeftPill
+                idx={idx}
+                inputValue={inputValue}
+                arithmeticProgression={arithmeticProgression}
+                carretInBlockSubPos={carretInBlockSubPos}
+                carretIsInBlockIndex={carretIsInBlockIndex}
+                carretPosition={carretPosition}
+                text={text}
                 onClick={(e) => {
                   // @ts-ignore
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
-              >
-                {carretPosition === 0 && inputValue.length === 0 ? (
-                  <FakeCarret />
-                ) : null}
-                {idx === 0
-                  ? text?.split('')?.map((letter, index) =>
-                      index === carretInBlockSubPos - 1 ? (
-                        <div style={{ display: 'flex' }}>
-                          <span id={index} key={index}>
-                            {letter.toUpperCase()}
-                          </span>
-                          {carretIsInBlockIndex === 0 && <FakeCarret />}
-                        </div>
-                      ) : (
-                        <span id={index} key={index}>
-                          {letter.toUpperCase()}
-                        </span>
-                      )
-                    )
-                  : null}
-
-                {arithmeticProgression(4, 140)
-                  .map((v) => v - 1)
-                  .includes(idx)
-                  ? text?.split('')?.map((letter, index) =>
-                      index === carretInBlockSubPos - 1 ? (
-                        <div style={{ display: 'flex' }}>
-                          <span id={index} key={index}>
-                            {letter}
-                          </span>
-
-                          {carretIsInBlockIndex === idx &&
-                          arithmeticProgression(4, 140)
-                            .map((v) => v - 1)
-                            .includes(idx) ? (
-                            <FakeCarret />
-                          ) : null}
-                        </div>
-                      ) : (
-                        <span id={index} key={index}>
-                          {letter}
-                        </span>
-                      )
-                    )
-                  : null}
-              </Text>
+              />
             ) : idx === 1 || arithmeticProgression(4, 140).includes(idx) ? (
               <Text
                 style={{
