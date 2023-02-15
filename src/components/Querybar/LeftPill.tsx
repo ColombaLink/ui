@@ -11,6 +11,7 @@ type LeftPillProps = {
   carretIsInBlockIndex: number
   arithmeticProgression: (start: number, end: number) => number[]
   text: string
+  apLimit: number
 }
 
 export const LeftPill = ({
@@ -22,6 +23,7 @@ export const LeftPill = ({
   carretIsInBlockIndex,
   arithmeticProgression,
   text,
+  apLimit,
 }: LeftPillProps) => {
   return (
     <Text
@@ -59,7 +61,7 @@ export const LeftPill = ({
           )
         : null}
 
-      {arithmeticProgression(4, 140)
+      {arithmeticProgression(4, apLimit)
         .map((v) => v - 1)
         .includes(idx) ? (
         !text ? (
@@ -77,7 +79,7 @@ export const LeftPill = ({
                 </span>
 
                 {carretIsInBlockIndex === idx &&
-                arithmeticProgression(4, 140)
+                arithmeticProgression(4, apLimit)
                   .map((v) => v - 1)
                   .includes(idx) ? (
                   <FakeCarret />

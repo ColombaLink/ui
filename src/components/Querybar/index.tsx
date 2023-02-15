@@ -16,7 +16,12 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 // TODO: third block ? selection field or just suggest fields
 // TODO: typescript
 // TODO: check in and out of focus what happens
+// TODO: show query button
+// TODO: copy query button
+// TODO: check default keypress options for input field (like arrows etc)
 // TODO: bug testing 🪲
+
+const AP_LIMIT = 140
 
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
@@ -24,7 +29,7 @@ const arithmeticProgression = (n, lim) =>
 console.log('arithmeticProgression', arithmeticProgression(4, 15))
 console.log(
   'arithmeticProgression',
-  arithmeticProgression(4, 140).map((v) => v + 3)
+  arithmeticProgression(4, AP_LIMIT).map((v) => v + 3)
 )
 
 export const QueryBar = () => {
@@ -86,8 +91,10 @@ export const QueryBar = () => {
   const setAndOrValues = (splittedInputValue) => {
     const length = splittedInputValue.length
 
-    const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 3)
-    const arrWithLesserValues = arithmeticProgression(4, 140).map((v) => v + 2)
+    const arrWithValues = arithmeticProgression(4, AP_LIMIT).map((v) => v + 3)
+    const arrWithLesserValues = arithmeticProgression(4, AP_LIMIT).map(
+      (v) => v + 2
+    )
 
     if (arrWithValues.includes(length)) {
       for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
@@ -109,8 +116,10 @@ export const QueryBar = () => {
   // //////////////////////////////////////////// SET QUERY FILTER PROPERTIES
   const SetQueryFilterProperties = (splittedInputValue) => {
     const length = splittedInputValue.length
-    const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 2)
-    const arrWithLesserValues = arithmeticProgression(4, 140).map((v) => v + 3)
+    const arrWithValues = arithmeticProgression(4, AP_LIMIT).map((v) => v + 2)
+    const arrWithLesserValues = arithmeticProgression(4, AP_LIMIT).map(
+      (v) => v + 3
+    )
     arrWithLesserValues.unshift(3)
 
     if (
@@ -218,7 +227,7 @@ export const QueryBar = () => {
   // //////////////////////////////////////////// SUGGESTION TAGS
   const setSuggestions = () => {
     if (
-      arithmeticProgression(4, 140)
+      arithmeticProgression(4, AP_LIMIT)
         .map((v) => v + 1)
         .includes(inputValue.split(' ').length)
     ) {
@@ -226,7 +235,7 @@ export const QueryBar = () => {
       suggestionsArr = Object.keys(operatorMap)
       return suggestionsArr
     } else if (
-      arithmeticProgression(4, 140)
+      arithmeticProgression(4, AP_LIMIT)
         .map((v) => v + 3)
         .includes(inputValue.split(' ').length)
     ) {
@@ -310,11 +319,21 @@ export const QueryBar = () => {
           ) {
             setCarretPosition(carretPosition + 1)
           }
+
+          if (e.key === 'ArrowUp') {
+            e.preventDefault()
+          }
+          if (e.key === 'ArrowDown') {
+            e.preventDefault()
+          }
         }}
       />
 
       <styled.div
         style={{
+          outline: isFocused
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
           border: isFocused
             ? `1px solid ${color('accent')}`
             : `1px solid ${color('border')}`,
@@ -333,7 +352,7 @@ export const QueryBar = () => {
         {splittedInputValue.map((text, idx) => (
           <React.Fragment key={idx}>
             {idx === 0 ||
-            arithmeticProgression(4, 140)
+            arithmeticProgression(4, AP_LIMIT)
               .map((v) => v - 1)
               .includes(idx) ? (
               <LeftPill
@@ -348,8 +367,10 @@ export const QueryBar = () => {
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
+                apLimit={AP_LIMIT}
               />
-            ) : idx === 1 || arithmeticProgression(4, 140).includes(idx) ? (
+            ) : idx === 1 ||
+              arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
               <MiddlePill
                 idx={idx}
                 FlattenFilters={FlattenFilters}
@@ -365,7 +386,7 @@ export const QueryBar = () => {
                 splittedInputValue={splittedInputValue}
               />
             ) : idx === 2 ||
-              arithmeticProgression(4, 140)
+              arithmeticProgression(4, AP_LIMIT)
                 .map((v) => v + 1)
                 .includes(idx) ? (
               <RightPill
@@ -378,8 +399,9 @@ export const QueryBar = () => {
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
+                apLimit={AP_LIMIT}
               />
-            ) : arithmeticProgression(4, 140)
+            ) : arithmeticProgression(4, AP_LIMIT)
                 .map((v) => v + 2)
                 .includes(idx) ? (
               <LogicalOperatorPill

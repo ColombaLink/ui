@@ -54,36 +54,39 @@ export const MiddlePill = ({
           <span>{text?.substr(carretInBlockSubPos)}</span>
         </div>
       )}
-      {idx !== 1 && (
-        <Select
-          ghost
-          value={text}
-          // @ts-ignore
-          style={{
-            '& div': { padding: '10px' },
-            '& svg': { display: 'none' },
-          }}
-          onChange={(e) => {
-            const tempSplitted = [...splittedInputValue]
-            tempSplitted[idx] = e
+      {idx !== 1 &&
+        (!text ? (
+          <FakeCarret style={{ marginRight: 10, marginLeft: 10 }} />
+        ) : (
+          <Select
+            ghost
+            value={text}
+            // @ts-ignore
+            style={{
+              '& div': { padding: '10px' },
+              '& svg': { display: 'none' },
+            }}
+            onChange={(e) => {
+              const tempSplitted = [...splittedInputValue]
+              tempSplitted[idx] = e
 
-            if (!filtersAreNested) {
-              setInputValue(tempSplitted.join(' '))
-              // setSplittedInputValue([...tempSplitted])
-            } else {
-              FlattenFilters(query.filters)
-              query.filters = snurpArr.reverse()
-              setQuery({ ...query })
+              if (!filtersAreNested) {
+                setInputValue(tempSplitted.join(' '))
+                // setSplittedInputValue([...tempSplitted])
+              } else {
+                FlattenFilters(query.filters)
+                query.filters = snurpArr.reverse()
+                setQuery({ ...query })
 
-              // dan pas veranderen
-              setInputValue(tempSplitted.join(' '))
-              setFiltersAreNested(false)
-            }
-          }}
-          options={Object.keys(operatorMap)}
-          placeholder=""
-        />
-      )}
+                // dan pas veranderen
+                setInputValue(tempSplitted.join(' '))
+                setFiltersAreNested(false)
+              }
+            }}
+            options={Object.keys(operatorMap)}
+            placeholder=""
+          />
+        ))}
     </Text>
   )
 }

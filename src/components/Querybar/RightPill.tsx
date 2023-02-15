@@ -9,6 +9,7 @@ type RightPillProps = {
   carretIsInBlockIndex: number
   arithmeticProgression: (start: number, end: number) => number[]
   text: string
+  apLimit: number
 }
 
 export const RightPill = ({
@@ -18,6 +19,7 @@ export const RightPill = ({
   carretIsInBlockIndex,
   arithmeticProgression,
   text,
+  apLimit,
 }: RightPillProps) => {
   return (
     <>
@@ -48,7 +50,7 @@ export const RightPill = ({
                   {letter}
                 </span>
                 {carretIsInBlockIndex === idx &&
-                arithmeticProgression(4, 140)
+                arithmeticProgression(4, apLimit)
                   .map((v) => v + 1)
                   .includes(idx) ? (
                   <FakeCarret />
