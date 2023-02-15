@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { color, Text, Select } from '~'
 import { logicalOperatorsMap } from './Operators'
 
@@ -15,6 +15,8 @@ type LogicalOperatorPillProps = {
   setQuery: (value: any) => void
   query: any
   setFiltersAreNested: (value: boolean) => void
+  openSelectBox: { num: number; open: boolean }
+  setOpenSelectBox: (value: { num: number; open: boolean }) => void
 }
 
 export const LogicalOperatorPill = ({
@@ -30,7 +32,22 @@ export const LogicalOperatorPill = ({
   setQuery,
   query,
   setFiltersAreNested,
+  openSelectBox,
+  setOpenSelectBox,
 }: LogicalOperatorPillProps) => {
+  const selectRef = useRef(null)
+
+  if (openSelectBox.open) {
+    // selectRef.current.focus()
+    if (idx === openSelectBox.num) {
+      console.log(
+        selectRef.current.childNodes[0].childNodes[0].childNodes[0].click()
+      )
+    }
+
+    setOpenSelectBox({ num: idx, open: false })
+  }
+
   return (
     <div
       style={{
@@ -43,6 +60,7 @@ export const LogicalOperatorPill = ({
         border: `1px solid ${color('accent')}`,
         borderRadius: 4,
       }}
+      ref={selectRef}
     >
       <Text color="accent">
         {/* {text[0] === '$' ? text : '$' + text} */}

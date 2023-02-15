@@ -352,9 +352,14 @@ export const QueryBar = () => {
           if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             e.preventDefault()
             // 4 , 8 , 12 , 16
+            // of and or or not
+            // 7, 11, 15, 19
             if (
               arithmeticProgression(4, AP_LIMIT)
                 .map((v) => v)
+                .includes(carretIsInBlockIndex) ||
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 2)
                 .includes(carretIsInBlockIndex)
             ) {
               console.log('boomshakalaka')
@@ -456,6 +461,8 @@ export const QueryBar = () => {
                 setQuery={setQuery}
                 snurpArr={snurpArr}
                 splittedInputValue={splittedInputValue}
+                openSelectBox={openSelectBox}
+                setOpenSelectBox={setOpenSelectBox}
               />
             ) : null}
           </React.Fragment>
