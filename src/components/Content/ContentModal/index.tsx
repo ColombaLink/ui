@@ -144,6 +144,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
 
   const [copied, copy] = useCopyToClipboard(id)
   useEffect(() => {
+    // event.preventDefault()
     async function handleKeyDown(e) {
       if (e.keyCode === 13 && !e.shiftKey) {
         const blabla = async () => {

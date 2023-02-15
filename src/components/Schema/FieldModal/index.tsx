@@ -295,6 +295,7 @@ export const FieldModal: FC<
             )}
             {options.meta.format === 'src' && (
               <Select
+                style={{ marginTop: 40 }}
                 label="Mime type"
                 // @ts-ignore TODO: why is mimetype not allowed
                 value={options.meta.mimeType}
@@ -306,7 +307,14 @@ export const FieldModal: FC<
               />
             )}
             {options.meta.format === 'progress' && (
-              <div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  marginTop: 40,
+                }}
+              >
                 <Input
                   type="number"
                   style={{ minWidth: 100 }}
