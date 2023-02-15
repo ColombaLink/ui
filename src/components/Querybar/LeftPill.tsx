@@ -86,14 +86,14 @@ export const LeftPill = ({
                 ) : null}
               </div>
             ) : (
-              <>
+              <React.Fragment key={index}>
                 {carretInBlockSubPos === 0 &&
                   carretIsInBlockIndex === idx &&
                   index === 0 && <FakeCarret />}
                 <span id={index} key={index}>
                   {letter}
                 </span>
-              </>
+              </React.Fragment>
             )
           )
         )

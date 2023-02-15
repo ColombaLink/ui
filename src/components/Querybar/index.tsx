@@ -10,6 +10,8 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 
 // TODO: Caret position in middle block or open selection?? maybe on a key
 // TODO: when will submit happen // maybe on enter if you are on the right pill??
+// make a submit function ?????!!
+// TODO: on submit or nest remove non finished blocks
 // TODO: paste in query
 // TODO: clear completeley
 // TODO: suggestions from schema/ table
@@ -19,6 +21,7 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 // TODO: show query button
 // TODO: copy query button
 // TODO: check default keypress options for input field (like arrows etc)
+// TODO: Refactor / Clean up code / keypress handler and more
 // TODO: bug testing 🪲
 
 const AP_LIMIT = 140
@@ -29,7 +32,7 @@ const arithmeticProgression = (n, lim) =>
 console.log('arithmeticProgression', arithmeticProgression(4, 15))
 console.log(
   'arithmeticProgression',
-  arithmeticProgression(4, AP_LIMIT).map((v) => v + 3)
+  arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
 )
 
 export const QueryBar = () => {
@@ -54,6 +57,11 @@ export const QueryBar = () => {
   const [selectedSuggestion, setSelectedSuggestion] = useState(0)
   let suggestionsLength
   let suggestionsArr = []
+
+  const [openSelectBox, setOpenSelectBox] = useState<{
+    num: number
+    open: boolean
+  }>({ num: 0, open: false })
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
@@ -254,7 +262,9 @@ export const QueryBar = () => {
       <Text>
         Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
       </Text>
-      <Text>CarretPosition in index block {carretIsInBlockIndex} </Text>
+      <Text color="green">
+        CarretPosition in index block {carretIsInBlockIndex}{' '}
+      </Text>
       <Text>inputvalue length : {inputValue.length}</Text>
       <Text>
         $and $or array :{' '}
@@ -292,13 +302,32 @@ export const QueryBar = () => {
           setFiltersAreNested(true)
         }}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' && suggestionsArr.length > 0) {
+          if (e.key === 'Enter') {
             e.preventDefault()
-            // setCarretPosition(carretPosition + 1)
+
+            // you are in the right pill then fire submit
+            if (
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 1)
+                .includes(carretIsInBlockIndex) &&
+              splittedInputValue[carretIsInBlockIndex] !== ''
+            ) {
+              console.log('carretis in block ', carretIsInBlockIndex)
+              console.log('MEGA FIRE 🔥')
+
+              setIsFocused(false)
+              setCarretPosition(undefined)
+              console.log('on Blur 🌶--->', query)
+              NestFilters(query, arrayOfLogics)
+              setFiltersAreNested(true)
+            }
+
             // op welke positie plak je de suggestie
-            splittedInputValue[splittedInputValue.length - 1] =
-              suggestionsArr[selectedSuggestion]
-            setInputValue(splittedInputValue.join(' ') + ' ')
+            if (suggestionsArr.length > 0) {
+              splittedInputValue[splittedInputValue.length - 1] =
+                suggestionsArr[selectedSuggestion]
+              setInputValue(splittedInputValue.join(' ') + ' ')
+            }
           }
 
           if (e.key === 'Tab') {
@@ -320,11 +349,19 @@ export const QueryBar = () => {
             setCarretPosition(carretPosition + 1)
           }
 
-          if (e.key === 'ArrowUp') {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             e.preventDefault()
-          }
-          if (e.key === 'ArrowDown') {
-            e.preventDefault()
+            // 4 , 8 , 12 , 16
+            if (
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v)
+                .includes(carretIsInBlockIndex)
+            ) {
+              console.log('boomshakalaka')
+              setOpenSelectBox({ num: carretIsInBlockIndex, open: true })
+
+              // open de selectie box
+            }
           }
         }}
       />
@@ -384,6 +421,8 @@ export const QueryBar = () => {
                 snurpArr={snurpArr}
                 text={text}
                 splittedInputValue={splittedInputValue}
+                openSelectBox={openSelectBox}
+                setOpenSelectBox={setOpenSelectBox}
               />
             ) : idx === 2 ||
               arithmeticProgression(4, AP_LIMIT)
