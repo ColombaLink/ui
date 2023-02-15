@@ -65,7 +65,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
   const client = useClient()
   const locationIsFile = location.split('/').pop() === 'file'
 
-  console.log('---------->', { ...props })
+  // console.log('---------->', { ...props })
 
   // console.log(selectedRowCheckboxes)
   // console.log('Table ---> ', props)

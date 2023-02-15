@@ -10,6 +10,11 @@ import { HEADER_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { Reference } from './Reference'
 import { References } from './References'
 import { ProgressBar } from '../ProgressBar'
+import { prettyNumber } from '@based/pretty-number'
+import { VideoIcon } from '~/icons/VideoIcon'
+import { isVideo } from '~/utils/isVideo'
+import { isAudio } from '~/utils/isAudio'
+import { AudioIcon } from '~/icons/AudioIcon'
 
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const { types, items, fields, onClick, setState, hoverRowIndex } = data
@@ -21,15 +26,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const isCheckbox = columnIndex === 0
   // TODO optimize
 
-  // console.log('What the data?', data)
-  // console.log(data.setIsMultiref, 'setIsMultiref')
-  // console.log('What the item?', item)
-
-  //  console.log('Data fields', data.fields)
-
   const { fields: schemaFields } = useItemSchema(item?.id)
-
-  //  console.log('Schema fields', schemaFields, children, item?.id, item)
 
   let hasField
   if (item) {
@@ -39,8 +36,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           checked={data.selectedRowCheckboxes?.includes(rowIndex)}
           onClick={(e) => {
             // this is the correct item from row
-            console.log('item', item)
-
             if (data.selectedRowCheckboxes?.includes(rowIndex)) {
               const newSelectedRowCheckboxes =
                 data.selectedRowCheckboxes.filter((el) => el !== rowIndex)
@@ -50,7 +45,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             // if shift is being held down, select all items between the last selected item and the current item
             // all this for logic for if the shift key is pressed down
             if (e.shiftKey) {
-              console.log('shift key pressed is down')
               const prevClick =
                 data.selectedRowCheckboxes[
                   data.selectedRowCheckboxes.length - 1
@@ -125,8 +119,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
                 ...data.selectedRowCheckboxes,
                 rowIndex,
               ])
-              //   selectedRowCheckboxes.push(rowIndex)
-              //  console.log('selectedRowCheckboxes', data.selectedRowCheckboxes)
             } else if (!e.shiftKey) {
               data.selectedRowCheckboxes?.splice(
                 data.selectedRowCheckboxes.indexOf(rowIndex),
@@ -144,9 +136,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       if (value) {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
-        const videoThing = data.items[3]
-        console.log(videoThing)
-        console.log('------->', items[0][field])
+
         const prettierObject = (obj) => {
           return stringifyObject(obj, {
             indent: ' ',
@@ -208,6 +198,24 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = <Badge>{value.substring(0, 6) + '...'}</Badge>
           } else if (fieldType === 'string' && metaFieldType === 'markdown') {
             children = <Text weight={weight}>{value.substring(0, 64)}</Text>
+          } else if (fieldType === 'number' && metaFieldType === 'bytes') {
+            children = (
+              <Text weight={weight}>{prettyNumber(value, 'number-bytes')}</Text>
+            )
+          } else if (field === 'src' && isVideo(value)) {
+            children = (
+              <VideoIcon
+                size={48}
+                style={{ marginLeft: 'auto', marginRight: '56' }}
+              />
+            )
+          } else if (field === 'src' && isAudio(value)) {
+            children = (
+              <AudioIcon
+                size={48}
+                style={{ marginLeft: 'auto', marginRight: '56' }}
+              />
+            )
           } else if (isImage(value)) {
             children = (
               <div
@@ -235,7 +243,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
               >
                 {value !== 1 ? (
                   <div style={{ width: '100%' }}>
-                    <ProgressBar progress={value} />
+                    <ProgressBar progress={value} circle />
                   </div>
                 ) : (
                   <CheckIcon style={{ margin: '0 auto' }} />
@@ -247,23 +255,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           }
         }
       }
-
-      // if (!children) {
-      //   children =
-      //     activeRow && hasField ? (
-      //       <Text
-      //         color="text"
-      //         style={{
-      //           pointerEvents: 'none',
-      //           opacity: 0.5,
-      //         }}
-      //       >
-      //         {field}
-      //       </Text>
-      //     ) : (
-      //       ''
-      //     )
-      // }
     }
   }
 
@@ -285,7 +276,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       {...listeners}
       onClick={() => {
         if (!isCheckbox) {
-          //        console.log(item, field, field && types[item.type].fields[field].type)
           onClick(item, field, field && types[item.type].fields[field].type)
         }
       }}
@@ -300,7 +290,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 8,
         paddingRight: 12,
         borderBottom: border(1),
-        //  borderRight: border(1),
         backgroundColor: activeRow ? color('lightaccent') : 'transparent',
       }}
     >

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FileUpload } from '~'
 
 export const FileUploadReference = ({
@@ -7,14 +7,12 @@ export const FileUploadReference = ({
   description,
   style,
   onChange,
-  multiple,
   meta,
   client,
 }) => {
   if (value?.mimeType) {
     value.type = value.mimeType
   }
-
   return (
     <FileUpload
       style={style}
@@ -28,22 +26,12 @@ export const FileUploadReference = ({
           onChange({ $delete: true })
           return
         }
-
         const result = await Promise.all(
           files?.map((file) => {
-            console.log('file 🐤', file)
-
             return client.file(file)
           })
         )
-
         onChange(result[0]?.id)
-
-        // onChange(
-        //   multiple
-        //     ? result.map((file) => file?.id) || { $delete: true }
-        //     : result[0]?.id || { $delete: true }
-        // )
       }}
       value={value}
     />

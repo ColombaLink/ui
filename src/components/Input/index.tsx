@@ -38,6 +38,12 @@ const Multi = ({ style, inputRef, ...props }) => {
     <div
       onFocus={() => setInputFocus(true)}
       onBlur={() => setInputFocus(false)}
+      style={{
+        border: inputFocus
+          ? `3px solid rgba(44, 60, 234, 0.2)`
+          : `3px solid transparent`,
+        borderRadius: 10,
+      }}
     >
       <textarea
         style={{
@@ -47,9 +53,9 @@ const Multi = ({ style, inputRef, ...props }) => {
           paddingTop: 8,
           minHeight: 84,
           paddingLeft: 12,
-          outline: inputFocus
-            ? `3px solid rgba(44, 60, 234, 0.2)`
-            : `3px solid transparent`,
+          // outline: inputFocus
+          //   ? `3px solid rgba(44, 60, 234, 0.2)`
+          //   : `3px solid transparent`,
           border: inputFocus
             ? `1.5px solid ${color('accent')}`
             : `1px solid ${color('border')}`,

@@ -10,6 +10,9 @@ export type Format =
   | 'markdown'
   | 'bytes'
   | 'progress'
+  | 'src'
+
+export type MimeType = 'image' | 'video' | 'audio' | 'document'
 
 export type FieldMeta = {
   name?: string
@@ -17,6 +20,9 @@ export type FieldMeta = {
   format?: Format
   refTypes?: string[]
   readOnly?: boolean
+  mimeType?: MimeType[]
+  progressMin?: number
+  progressMax?: number
 }
 
 export type Field = {

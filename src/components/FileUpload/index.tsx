@@ -16,6 +16,7 @@ import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
+import { MimeType } from '../Schema/types'
 
 type FileUploadProps = {
   label?: string
@@ -29,7 +30,7 @@ type FileUploadProps = {
   disabled?: boolean
   acceptedFileTypes?: string[]
   multiple?: boolean
-  value?: any
+  value?: [{ name?: string; type?: MimeType; src: string }]
 }
 
 const StyledFileInput = styled('div', {
@@ -56,6 +57,14 @@ export const FileUpload: FC<FileUploadProps> = ({
   multiple,
   value,
 }) => {
+  // value = [
+  //   {
+  //     type: 'image',
+  //     name: 'https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg',
+  //     src: 'https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg',
+  //   },
+  // ]
+  // console.log({ value })
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
   const [draggingOver, setDraggingOver] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -129,9 +138,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     )
   }
 
-  // close dialog if uploadedFiles  is changed
+  // TODO? :close dialog if uploadedFiles  is changed
   useEffect(() => {
-    console.log('uploadedFiles 🥝', uploadedFiles)
     //   dialog.close()
   }, [uploadedFiles])
 
@@ -270,13 +278,10 @@ export const FileUpload: FC<FileUploadProps> = ({
       renameArr[idx].name = ok + '.' + extension
       setUploadedFiles([...renameArr])
     }
-    // console.log('ok --->??', ok)
-    // console.log('the file again???', file)
     onChange([...renameArr])
   }
 
   const fullScreenView = (file) => {
-    console.log('full screen view', file)
     fullScreenDialog.open(
       <Dialog style={{ padding: 0, '& div div': { padding: 0 } }}>
         <img
@@ -333,6 +338,8 @@ export const FileUpload: FC<FileUploadProps> = ({
 
     setUploadedFiles([...dupliArr])
   }
+  const mimeTypeInput = acceptedFileTypes + '/*'
+  // console.log('???', uploadedFiles)
 
   return (
     <InputWrapper
@@ -415,12 +422,13 @@ export const FileUpload: FC<FileUploadProps> = ({
           )}
         </StyledFileInput>
         {/* hide the real input field */}
+
         <input
           ref={hiddenFileInput}
           onChange={(e) => changeHandler(e)}
           type="file"
           style={{ display: 'none' }}
-          accept={acceptedFileTypes && acceptedFileTypes.join(',')}
+          accept={mimeTypeInput}
           key={clearCount}
           multiple={multiple}
         />

@@ -14,7 +14,7 @@ import { useClient } from '@based/react'
 import { Header } from './Header'
 import { InnerTable } from './InnerTable'
 import { SelectedOptionsSubMenu } from './SelectedOptionsSubMenu'
-import { systemFields } from '../Schema/templates/old'
+import { systemFields } from '../Schema/templates'
 
 export type TableFromQueryProps = {
   fields: string[]
@@ -52,7 +52,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     'desc',
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
-  const [relevantFields, setRelevantFields] = useState(fields)
+  const [, setRelevantFields] = useState(fields)
   const [location, setLocation] = useLocation()
 
   const systemFieldsArr = Array.from(systemFields)
@@ -65,8 +65,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   // before you delete modal to confirm
   const { confirm } = useDialog()
 
-  const [filteredFields, setFilteredFields] = useState([])
-
   // lijst determines order and wich fields are shown
   const [lijst, setLijst] = useState<{ label: string; checkbox: boolean }[]>([])
 
@@ -77,40 +75,38 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     // als er params zijn
     if (checked) {
       const checkedItems = JSON.parse(decodeURIComponent(checked))
-      console.log('And this-->', checkedItems)
 
       // sort so it matches the parameters order
       fields.sort((a, b) => checkedItems.indexOf(a) - checkedItems.indexOf(b))
 
       const checkedArrObj = []
-      fields.map((field, idx) => {
+
+      for (const field of fields) {
         if (checkedItems.includes(field)) {
           checkedArrObj.push({
             label: field,
             checkbox: true,
           })
         }
-      })
+      }
 
       const unCheckedArrObj = []
-      fields.map((field, idx) => {
+
+      for (const field of fields) {
         if (!checkedItems.includes(field)) {
           unCheckedArrObj.push({
             label: field,
             checkbox: false,
           })
         }
-      })
-
-      console.log('checkedArrObj', checkedArrObj)
-      console.log('unCheckedArrObj', unCheckedArrObj)
+      }
 
       return checkedArrObj.concat(unCheckedArrObj)
     } else {
       // dont return to much by default
       let sillyCounter = 0
       return fields
-        .map((field, idx) => {
+        .map((field) => {
           if (!systemFieldsArr.includes(field)) {
             sillyCounter++
           }
@@ -128,9 +124,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }, [])
 
   useEffect(() => {
-    console.log('something changed in the list 😱')
-    console.log('LIJST 🚒', lijst)
-
     setLocation(
       `?checked=${encodeURIComponent(
         JSON.stringify(
@@ -139,9 +132,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       )}`
     )
   }, [lijst])
-
-  // console.log('--->', window.location.search)
-  // console.log('--->', location)
 
   useEffect(() => {
     return () => {
@@ -169,7 +159,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     target,
     language,
     itemSize: ITEM_HEIGHT,
-    // treshold: 15,
   })
 
   const [colWidths, setColWidths] = useState([])
@@ -205,7 +194,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }
 
   const types = {
-    // root: schema.rootType,
     root: schema.types.root,
     ...schema.types,
   }
@@ -248,11 +236,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       e.stopPropagation()
 
       const files = Array.from(e.dataTransfer.files)
-      console.log(files)
 
-      const test = await Promise.all(
+      await Promise.all(
         files?.map((file) => {
-          console.log('file 🐤', file)
           // make a toast pop for each file
           // TODO check if successfull upload i guess
           const notify = () => {
@@ -264,9 +250,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
               />
             )
           }
-
           notify()
-
           return client.file(file)
         })
       )
@@ -324,11 +308,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           selectedRowCheckboxes={selectedRowCheckboxes}
           setSelectedRowCheckboxes={setSelectedRowCheckboxes}
           isMultiref={isMultiref}
-          itemKey={({
-            columnIndex,
-            data: { items, filteredFields },
-            rowIndex,
-          }) => `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`}
+          itemKey={({ columnIndex, data: { items }, rowIndex }) =>
+            `${items[rowIndex]?.id || rowIndex}-${fields[columnIndex]}`
+          }
           innerElementType={({ children, style }) => {
             return (
               <div
@@ -338,14 +320,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                 }}
               >
                 <div>{children}</div>
-
                 <Header
                   width={width}
                   colWidths={colWidths}
                   columnWidth={columnWidth}
-                  // fields={filteredFields}
-                  // setFilteredFields={setFilteredFields}
-                  // filteredFields={filteredFields}
                   setColWidths={setColWidths}
                   lijst={lijst}
                   setLijst={setLijst}
@@ -366,7 +344,6 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           estimatedRowHeight={ITEM_HEIGHT}
           rowHeight={() => ITEM_HEIGHT}
           width={width}
-          // onScroll={({ scrollTop }) => onScrollY(scrollTop)}
           onScroll={({ scrollTop }) => {
             onScrollY(scrollTop)
           }}

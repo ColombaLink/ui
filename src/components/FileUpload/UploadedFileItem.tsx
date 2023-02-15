@@ -10,13 +10,10 @@ import {
   ContextItem,
   DeleteIcon,
   EditIcon,
-  CopyIcon,
   ExternalLinkAltIcon,
-  ReplaceIcon,
   DownloadIcon,
 } from '~'
 import { ZoomInIcon } from '~/icons/ZoomInIcon'
-import { getImageSrcFromId } from '~/utils/getImageSrcFromId'
 
 const StyledUploadedFile = styled('div', {
   display: 'flex',
@@ -148,7 +145,10 @@ export const UploadedFileItem = ({
       file?.type?.includes('audio') ? null : (
         <AttachmentIcon />
       )}
-      <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
+      <Text
+        style={{ marginTop: 6, marginBottom: 6, maxWidth: '30vw' }}
+        weight={400}
+      >
         {file?.name}
       </Text>
       <StyledMoreIcon onClick={contextHandler}>
@@ -162,9 +162,7 @@ const ContextOptions = ({
   // handleClickUpload,
   deleteSpecificFile,
   id,
-  replaceSpecificFile,
   openInNewTab,
-  duplicateFile,
   downloadFile,
   renameFile,
   fullScreenView,
