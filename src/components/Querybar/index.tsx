@@ -8,7 +8,7 @@ import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 
-// TODO: Caret position in middle block or open selection?? maybe on a key
+// TODO: Caret position in middle block indicator
 // TODO: when will submit happen // maybe on enter if you are on the right pill??
 // make a submit function ?????!!
 // TODO: on submit or nest remove non finished blocks
@@ -317,9 +317,12 @@ export const QueryBar = () => {
 
               setIsFocused(false)
               setCarretPosition(undefined)
+
               console.log('on Blur 🌶--->', query)
               NestFilters(query, arrayOfLogics)
               setFiltersAreNested(true)
+
+              InputFieldRef?.current?.blur()
             }
 
             // op welke positie plak je de suggestie
@@ -388,6 +391,15 @@ export const QueryBar = () => {
         }}
         onClick={() => {
           InputFieldRef?.current?.focus()
+          // focus is leuk maar flat ook de filter anders raar
+          if (filtersAreNested) {
+            FlattenFilters(query.filters)
+            query.filters = snurpArr.reverse()
+            setQuery({ ...query })
+
+            setFiltersAreNested(false)
+          }
+
           //  setCarretPosition(inputValue.length)
         }}
       >
