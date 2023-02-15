@@ -8,13 +8,13 @@ import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 
-// TODO: Caret postion in begin of block
-// TODO: tab to autocomplete
+// TODO: Caret postion in begin of block -> caretn position since splitting up on mouse Click
+// TODO: Keypress? to autocomplete
 // TODO: when will submit happen
 // TODO: paste in query
 // TODO: clear completeley
 // TODO: typescript
-// TODO: Tab to cycle through suggestions
+// TODO: bug testing 🪲
 
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
@@ -44,7 +44,8 @@ export const QueryBar = () => {
   const InputFieldRef = useRef()
 
   // suggestions
-  const [selectedSuggestion, setSelectedSuggestion] = useState(null)
+  const [selectedSuggestion, setSelectedSuggestion] = useState(0)
+  let suggestionsLength
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
@@ -96,7 +97,7 @@ export const QueryBar = () => {
     }
   }
 
-  // set query filter properties based on length of splittedInputValue
+  // //////////////////////////////////////////// SET QUERY FILTER PROPERTIES
   const SetQueryFilterProperties = (splittedInputValue) => {
     const length = splittedInputValue.length
     const arrWithValues = arithmeticProgression(4, 140).map((v) => v + 2)
@@ -151,7 +152,6 @@ export const QueryBar = () => {
 
   const PutCursorInRightPlaceOnClick = (e, idx) => {
     console.log('E ', e, 'IDX ', idx)
-
     // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
     const countedBlocksLength = splittedInputValue.reduce(
       (acc, curr, index) => {
@@ -206,6 +206,22 @@ export const QueryBar = () => {
     snurpArr.push(tempObj)
   }
 
+  // //////////////////////////////////////////// SUGGESTION TAGS
+  const setSuggestions = () => {
+    const currentLength = splittedInputValue.length
+
+    if (inputValue.split(' ').length === 5 || carretIsInBlockIndex === 4) {
+      // set suggestion length
+      suggestionsLength = Object.keys(operatorMap).length
+      return Object.keys(operatorMap)
+    } else if (inputValue.split(' ').length === 7) {
+      suggestionsLength = Object.keys(logicalOperatorsMap).length
+      return Object.keys(logicalOperatorsMap)
+    } else {
+      return []
+    }
+  }
+
   return (
     <div>
       <Text>CarretPOs: {carretPosition}</Text>
@@ -255,8 +271,14 @@ export const QueryBar = () => {
           if (e.key === 'Tab') {
             e.preventDefault()
             console.log('tab pressed')
-            setSelectedSuggestion(selectedSuggestion + 1)
+
+            if (selectedSuggestion >= suggestionsLength - 1) {
+              setSelectedSuggestion(0)
+            } else {
+              setSelectedSuggestion(selectedSuggestion + 1)
+            }
           }
+
           if (e.key === 'ArrowLeft' && carretPosition > 0) {
             setCarretPosition(carretPosition - 1)
           } else if (
@@ -359,33 +381,17 @@ export const QueryBar = () => {
       {/* on tab to cycle through selections, add a suggestion to the input shizzle */}
 
       <div style={{ display: 'flex' }}>
-        {inputValue.split(' ').length === 5 &&
-          Object.keys(operatorMap).map((item, idx) => (
-            <SuggestionTags
-              suggestion={item}
-              selected={selectedSuggestion === idx}
-              onClick={() => {
-                setSelectedSuggestion(idx)
-                splittedInputValue[4] = item
-                setInputValue(splittedInputValue.join(' '))
-              }}
-            />
-          ))}
-      </div>
-
-      <div style={{ display: 'flex' }}>
-        {inputValue.split(' ').length === 7 &&
-          Object.keys(logicalOperatorsMap).map((item, idx) => (
-            <SuggestionTags
-              suggestion={item}
-              selected={selectedSuggestion === idx}
-              onClick={() => {
-                setSelectedSuggestion(idx)
-                splittedInputValue[6] = item
-                setInputValue(splittedInputValue.join(' '))
-              }}
-            />
-          ))}
+        {setSuggestions()?.map((item, idx) => (
+          <SuggestionTags
+            suggestion={item}
+            selected={selectedSuggestion === idx}
+            onClick={() => {
+              setSelectedSuggestion(idx)
+              splittedInputValue[4] = item
+              setInputValue(splittedInputValue.join(' '))
+            }}
+          />
+        ))}
       </div>
 
       <div style={{ display: 'flex' }}>
