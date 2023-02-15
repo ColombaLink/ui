@@ -65,6 +65,10 @@ export const LeftPill = ({
         ? text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
               <div style={{ display: 'flex' }} key={index}>
+                {carretInBlockSubPos === 0 && carretIsInBlockIndex === idx && (
+                  <FakeCarret />
+                )}
+                {carretInBlockSubPos === 0 && <FakeCarret />}
                 <span id={index} key={index}>
                   {letter}
                 </span>
@@ -77,9 +81,14 @@ export const LeftPill = ({
                 ) : null}
               </div>
             ) : (
-              <span id={index} key={index}>
-                {letter}
-              </span>
+              <>
+                {carretInBlockSubPos === 0 &&
+                  carretIsInBlockIndex === idx &&
+                  index === 0 && <FakeCarret />}
+                <span id={index} key={index}>
+                  {letter}
+                </span>
+              </>
             )
           )
         : null}

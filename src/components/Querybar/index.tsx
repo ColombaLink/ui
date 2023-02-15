@@ -9,7 +9,7 @@ import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 
 // TODO: Caret postion in begin of block -> caretn position since splitting up on mouse Click
-// TODO: when will submit happen
+// TODO: when will submit happen // maybe on enter if you are on the right pill??
 // TODO: paste in query
 // TODO: clear completeley
 // TODO: typescript
@@ -148,8 +148,8 @@ export const QueryBar = () => {
   splittedInputValue?.map((text, idx) => {
     //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
     if (
-      carretPosition > counter &&
-      carretPosition < counter + text.length + 1
+      carretPosition >= counter &&
+      carretPosition <= counter + text.length + 1
     ) {
       carretIsInBlockIndex = idx
       carretInBlockSubPos = carretPosition - counter
@@ -241,8 +241,7 @@ export const QueryBar = () => {
       <Text>CarretPOs: {carretPosition}</Text>
       <Text color="accent">{splittedInputValue.length}</Text>
       <Text>
-        Carret SUB Pos in block:{carretPosition} - {counter} ={' '}
-        {counter - carretPosition}
+        Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
       </Text>
       <Text>CarretPosition in index block {carretIsInBlockIndex} </Text>
       <Text>inputvalue length : {inputValue.length}</Text>
@@ -284,7 +283,7 @@ export const QueryBar = () => {
         onKeyDown={(e) => {
           if (e.key === 'Enter' && suggestionsArr.length > 0) {
             e.preventDefault()
-            setCarretPosition(carretPosition + 1)
+            // setCarretPosition(carretPosition + 1)
             // op welke positie plak je de suggestie
             splittedInputValue[splittedInputValue.length - 1] =
               suggestionsArr[selectedSuggestion]
@@ -326,7 +325,7 @@ export const QueryBar = () => {
         }}
         onClick={() => {
           InputFieldRef?.current?.focus()
-          setCarretPosition(inputValue.length)
+          //  setCarretPosition(inputValue.length)
         }}
       >
         {splittedInputValue.map((text, idx) => (
@@ -399,8 +398,6 @@ export const QueryBar = () => {
           </React.Fragment>
         ))}
       </styled.div>
-
-      {/* on tab to cycle through selections, add a suggestion to the input shizzle */}
 
       <div style={{ display: 'flex' }}>
         {setSuggestions()?.map((item, idx) => (
