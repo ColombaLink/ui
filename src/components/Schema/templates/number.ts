@@ -26,6 +26,13 @@ export const numbers: { [key: string]: Field } = {
       },
     },
   },
+  float: {
+    label: 'Float',
+    color: 'lightsailorblue',
+    description: 'Any number',
+    icon: CalculatorIcon,
+    schema: { type: 'float' },
+  },
   progress: {
     label: 'Progress',
     color: 'lightsailorblue',
@@ -37,13 +44,6 @@ export const numbers: { [key: string]: Field } = {
         format: 'progress',
       },
     },
-  },
-  float: {
-    label: 'Float',
-    color: 'lightsailorblue',
-    description: 'Any number',
-    icon: CalculatorIcon,
-    schema: { type: 'float' },
   },
   int: {
     label: 'Integer',

@@ -333,6 +333,8 @@ export const FileUpload: FC<FileUploadProps> = ({
 
     setUploadedFiles([...dupliArr])
   }
+  const mimeTypeInput = acceptedFileTypes + '/*'
+  console.log(mimeTypeInput)
 
   return (
     <InputWrapper
@@ -415,12 +417,13 @@ export const FileUpload: FC<FileUploadProps> = ({
           )}
         </StyledFileInput>
         {/* hide the real input field */}
+
         <input
           ref={hiddenFileInput}
           onChange={(e) => changeHandler(e)}
           type="file"
           style={{ display: 'none' }}
-          accept={acceptedFileTypes && acceptedFileTypes.join(',')}
+          accept={mimeTypeInput}
           key={clearCount}
           multiple={multiple}
         />

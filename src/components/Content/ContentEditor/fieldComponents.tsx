@@ -16,6 +16,7 @@ import { RecordList } from '~/components/RecordList'
 import isUrl from 'is-url-superb'
 import { useClient } from '@based/react'
 import isEmail from 'is-email'
+import { prettyNumber } from '@based/pretty-number'
 
 const object = {
   default: ({ prefix, schema, field, ...props }) => {
@@ -74,6 +75,19 @@ const float = {
       />
     )
   },
+  progress: ({ description, meta, ...props }) => {
+    return (
+      <Input
+        space
+        type="number"
+        indent
+        {...props}
+        descriptionBottom={description}
+        max={meta.progressMax}
+        min={meta.progressMin}
+      />
+    )
+  },
 }
 
 const int = {
@@ -88,6 +102,39 @@ const int = {
         type="number"
         indent
       />
+    )
+  },
+  bytes: ({ description, meta, ...props }) => {
+    const readOnly = meta?.readOnly
+    return (
+      <div
+        style={{
+          margin: '20 0',
+          position: 'relative',
+        }}
+      >
+        <Input
+          {...props}
+          descriptionBottom={description}
+          space
+          // integer
+          //    noInterrupt
+          // placeholder={prettyNumber(props.value, 'number-bytes')}
+          type="number"
+          disabled={readOnly}
+          indent
+        />
+        <div
+          style={{
+            alignSelf: 'start',
+            position: 'absolute',
+            bottom: 0,
+            left: 20,
+          }}
+        >
+          {prettyNumber(props.value, 'number-bytes')}
+        </div>
+      </div>
     )
   },
 }
@@ -211,46 +258,48 @@ const string = {
     )
   },
   src: ({ description, meta, onChange, ...props }) => {
-    console.info(props, '---', meta, props.value)
-
-    // meta.mimeType
+    // console.info(props)
+    // console.info(props, '---', meta, props.value)
 
     const client = useClient()
     // meta for mime tyype fuck off
+
     return (
-      <FileUpload
-        {...props.style}
-        label={props.label}
-        indent
-        descriptionBottom={description}
-        space
-        onChange={async (files) => {
-          if (!files) {
-            onChange({ $delete: true })
-            return
-          }
-
-          if (files.length !== 1) {
-            return
-          }
-
-          // TODO: refactor to stream api when based cloud v1 is live!
-          const x = await client.file(files[0])
-
-          const { src } = await client.observeUntil(
-            {
-              $id: x.id,
-              src: true,
-            },
-            (d) => {
-              return d?.src
+      <div>
+        <FileUpload
+          {...props.style}
+          label={props.label}
+          indent
+          acceptedFileTypes={meta.mimeType}
+          descriptionBottom={description}
+          space
+          onChange={async (files) => {
+            if (!files) {
+              onChange({ $delete: true })
+              return
             }
-          )
-          console.info('SRC', src)
-          onChange(src)
-        }}
-        value={props.value}
-      />
+
+            if (files.length !== 1) {
+              return
+            }
+
+            // TODO: refactor to stream api when based cloud v1 is live!
+            const x = await client.file(files[0])
+            const { src } = await client.observeUntil(
+              {
+                $id: x.id,
+                src: true,
+              },
+              (d) => {
+                return d?.src
+              }
+            )
+            console.info('SRC', src)
+            onChange(src)
+          }}
+          value={props.value}
+        />
+      </div>
     )
   },
   url: ({ description, meta, onChange, ...props }) => (

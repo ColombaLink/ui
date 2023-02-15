@@ -253,7 +253,7 @@ export const FieldModal: FC<
 
   const { label, icon, color } = templates[template]
   const TypeSpecificGeneral = general[template]
-
+  console.log(options.meta.format)
   return (
     <Dialog>
       <Dialog.Body>
@@ -293,6 +293,39 @@ export const FieldModal: FC<
                 types={types}
               />
             )}
+            {options.meta.format === 'src' && (
+              <Select
+                label="Mime type"
+                // @ts-ignore TODO: why is mimetype not allowed
+                value={options.meta.mimeType}
+                options={['image', 'video', 'audio', 'document']}
+                onChange={(e) => {
+                  // @ts-ignore TODO: why is mimetype not allowed
+                  options.meta.mimeType = e
+                }}
+              />
+            )}
+            {options.meta.format === 'progress' && (
+              <div>
+                <Input
+                  type="number"
+                  style={{ minWidth: 100 }}
+                  placeholder="Min"
+                  onChange={(e) => {
+                    options.meta.progressMin = e
+                  }}
+                />
+                <Text wrap>&</Text>
+                <Input
+                  type="number"
+                  style={{ minWidth: 100 }}
+                  placeholder="Max"
+                  onChange={(e) => {
+                    options.meta.progressMax = e
+                  }}
+                />
+              </div>
+            )}
           </Tab>
           <Tab label="Settings">
             <div style={{ marginTop: 24, marginBottom: 24, paddingLeft: 16 }}>
@@ -320,6 +353,7 @@ export const FieldModal: FC<
                   options.meta.readOnly = e
                 }}
               />
+
               {true && (
                 <div
                   style={{

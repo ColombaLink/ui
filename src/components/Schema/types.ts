@@ -21,6 +21,8 @@ export type FieldMeta = {
   refTypes?: string[]
   readOnly?: boolean
   mimeType?: MimeType[]
+  progressMin?: number
+  progressMax?: number
 }
 
 export type Field = {
