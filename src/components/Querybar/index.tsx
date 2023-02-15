@@ -14,8 +14,9 @@ import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
 import { LeftPill } from './LeftPill'
 import { MiddlePill } from './MiddlePill'
+import { RightPill } from './RightPill'
+import { LogicalOperatorPill } from './LogicalOperatorPill'
 
-// TODO: remove query filters if they get cleared with backspace
 // TODO: Caret postion in begin of block
 // TODO: tab to autocomplete
 // TODO: when will submit happen
@@ -67,8 +68,6 @@ export const QueryBar = () => {
 
   // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
-    // console.log('input value changed  🛎 🧸 ')
-
     setSplittedInputValue(inputValue.split(' '))
 
     query.target = splittedInputValue[1]
@@ -212,7 +211,7 @@ export const QueryBar = () => {
   }
 
   return (
-    <>
+    <div>
       <Text>CarretPOs: {carretPosition}</Text>
       <Text color="accent">{splittedInputValue.length}</Text>
       <Text>
@@ -267,6 +266,7 @@ export const QueryBar = () => {
           }
         }}
       />
+
       <styled.div
         style={{
           border: isFocused
@@ -299,7 +299,6 @@ export const QueryBar = () => {
                 carretPosition={carretPosition}
                 text={text}
                 onClick={(e) => {
-                  // @ts-ignore
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
@@ -323,144 +322,46 @@ export const QueryBar = () => {
               arithmeticProgression(4, 140)
                 .map((v) => v + 1)
                 .includes(idx) ? (
-              <>
-                <Text
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: 30,
-                    padding: 10,
-                    backgroundColor: color('lighttext'),
-                    borderTopRightRadius: 4,
-                    borderBottomRightRadius: 4,
-                    cursor: 'text',
-                  }}
-                  onClick={(e) => {
-                    carretIsInBlockIndex = idx
-                    PutCursorInRightPlaceOnClick(e, idx)
-                  }}
-                >
-                  {idx === 2 && (
-                    <LinkIcon
-                      size={16}
-                      color="accent"
-                      style={{ marginRight: 8 }}
-                    />
-                  )}
-
-                  {text?.split('')?.map((letter, index) =>
-                    index === carretInBlockSubPos - 1 ? (
-                      <div style={{ display: 'flex' }}>
-                        <span id={index} key={index}>
-                          {letter}
-                        </span>
-                        {carretIsInBlockIndex === idx &&
-                        arithmeticProgression(4, 140)
-                          .map((v) => v + 1)
-                          .includes(idx) ? (
-                          <FakeCarret />
-                        ) : null}
-                      </div>
-                    ) : (
-                      <span id={index} key={index}>
-                        {letter}
-                      </span>
-                    )
-                  )}
-                </Text>
-                {idx === 2 && (
-                  <ArrowRightIcon size={16} style={{ margin: 'auto 8px' }} />
-                )}
-              </>
+              <RightPill
+                idx={idx}
+                text={text}
+                arithmeticProgression={arithmeticProgression}
+                carretInBlockSubPos={carretInBlockSubPos}
+                carretIsInBlockIndex={carretIsInBlockIndex}
+                onClick={(e) => {
+                  carretIsInBlockIndex = idx
+                  PutCursorInRightPlaceOnClick(e, idx)
+                }}
+              />
             ) : arithmeticProgression(4, 140)
                 .map((v) => v + 2)
                 .includes(idx) ? (
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: 10,
-                  height: 30,
-                  margin: '0 8px',
-                  backgroundColor: 'transparent',
-                  border: `1px solid ${color('accent')}`,
-                  borderRadius: 4,
-                }}
-              >
-                <Text color="accent">
-                  {/* {text[0] === '$' ? text : '$' + text} */}
-                  <Select
-                    ghost
-                    value={text[0] === '$' ? text : '$' + text}
-                    style={{
-                      // @ts-ignore
-                      '& div': { color: `${color('accent')} !important` },
-                      '& svg': { display: 'none' },
-                    }}
-                    onChange={(e) => {
-                      const arr = arithmeticProgression(4, 140).map(
-                        (v) => v + 2
-                      )
-                      // calculate back so idx 6 -> [0]
-                      // idx 10 -> [1]
-                      arrayOfLogics[arr.indexOf(idx)] = e
-
-                      const tempSplitted = [...splittedInputValue]
-                      tempSplitted[idx] = e
-
-                      if (!filtersAreNested) {
-                        setInputValue(tempSplitted.join(' '))
-                        //   setSplittedInputValue([...tempSplitted])
-                      } else {
-                        // flatten the array first
-                        FlattenFilters(query.filters)
-                        query.filters = snurpArr.reverse()
-                        setQuery({ ...query })
-                        // dan pas veranderen
-                        setInputValue(tempSplitted.join(' '))
-                        //   setSplittedInputValue([...tempSplitted])
-                        // zet nested filters to false
-                        setFiltersAreNested(false)
-                      }
-                    }}
-                    options={Object.keys(logicalOperatorsMap)}
-                    placeholder=""
-                  />
-                </Text>
-              </div>
-            ) : (
-              <div
-                style={{
-                  background: 'lightgrey',
-                  padding: 5,
-                  borderRight: idx % 3 === 0 ? 'none' : '1px solid grey',
-                  borderTopRightRadius: idx % 3 === 0 ? 4 : 0,
-                  borderBottomRightRadius: idx % 3 === 0 ? 4 : 0,
-                }}
-              >
-                {text}
-              </div>
-            )}
+              <LogicalOperatorPill
+                idx={idx}
+                text={text}
+                arithmeticProgression={arithmeticProgression}
+                FlattenFilters={FlattenFilters}
+                arrayOfLogics={arrayOfLogics}
+                filtersAreNested={filtersAreNested}
+                query={query}
+                setFiltersAreNested={setFiltersAreNested}
+                setInputValue={setInputValue}
+                setQuery={setQuery}
+                snurpArr={snurpArr}
+                splittedInputValue={splittedInputValue}
+              />
+            ) : null}
           </React.Fragment>
         ))}
       </styled.div>
 
       {/* on tab to cycle through selections, add a suggestion to the input shizzle */}
+
       <div style={{ display: 'flex' }}>
-        <SuggestionTags
-          suggestion="testje"
-          onClick={() => {
-            console.log('last known carretPosition --', carretPosition)
-            InputFieldRef.current.focus()
-          }}
-        />
-        <SuggestionTags
-          suggestion="snurp"
-          onClick={() => {
-            console.log('last known carretPosition --', carretPosition)
-            InputFieldRef.current.focus()
-          }}
-        />
+        {inputValue.split(' ').length === 5 &&
+          Object.keys(operatorMap).map((item) => (
+            <SuggestionTags suggestion={item} />
+          ))}
       </div>
       {/* <div style={{ display: 'flex', gap: 12 }}>
         <Button
@@ -494,6 +395,6 @@ export const QueryBar = () => {
       >
         {JSON.stringify(query, null, 2)}
       </pre>
-    </>
+    </div>
   )
 }

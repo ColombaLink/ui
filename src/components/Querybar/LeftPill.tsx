@@ -45,7 +45,7 @@ export const LeftPill = ({
       {idx === 0
         ? text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex' }} key={index}>
                 <span id={index} key={index}>
                   {letter.toUpperCase()}
                 </span>
@@ -64,7 +64,7 @@ export const LeftPill = ({
         .includes(idx)
         ? text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
-              <div style={{ display: 'flex' }}>
+              <div style={{ display: 'flex' }} key={index}>
                 <span id={index} key={index}>
                   {letter}
                 </span>
