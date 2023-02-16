@@ -21,6 +21,10 @@ export const RightPill = ({
   text,
   apLimit,
 }: RightPillProps) => {
+  const arithmeticIndexCheck = arithmeticProgression(4, apLimit)
+    .map((v) => v + 1)
+    .includes(idx)
+
   return (
     <>
       <Text
@@ -46,13 +50,10 @@ export const RightPill = ({
           text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
               <div style={{ display: 'flex' }} key={index}>
-                <span id={index} key={index}>
+                <span id={index.toString()} key={index}>
                   {letter}
                 </span>
-                {carretIsInBlockIndex === idx &&
-                arithmeticProgression(4, apLimit)
-                  .map((v) => v + 1)
-                  .includes(idx) ? (
+                {carretIsInBlockIndex === idx && arithmeticIndexCheck ? (
                   <FakeCarret />
                 ) : null}
               </div>
@@ -61,7 +62,7 @@ export const RightPill = ({
                 {carretInBlockSubPos === 0 &&
                   carretIsInBlockIndex === idx &&
                   index === 0 && <FakeCarret />}
-                <span id={index} key={index}>
+                <span id={index.toString()} key={index}>
                   {letter}
                 </span>
               </React.Fragment>

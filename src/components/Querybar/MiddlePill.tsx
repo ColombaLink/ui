@@ -41,9 +41,7 @@ export const MiddlePill = ({
   if (openSelectBox.open) {
     // selectRef.current.focus()
     if (idx === openSelectBox.num) {
-      console.log(
-        selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
-      )
+      selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
     }
 
     setOpenSelectBox({ num: idx, open: false })
@@ -81,11 +79,14 @@ export const MiddlePill = ({
               value={text}
               // @ts-ignore
               style={{
+                // @ts-ignore
                 '& div': { padding: '10px' },
                 '& svg': { display: 'none' },
               }}
               onChange={(e) => {
-                const tempSplitted = [...splittedInputValue]
+                const tempSplitted = [...splittedInputValue] as
+                  | string[]
+                  | number[]
                 tempSplitted[idx] = e
 
                 if (!filtersAreNested) {

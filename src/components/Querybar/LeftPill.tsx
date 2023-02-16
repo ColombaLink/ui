@@ -4,7 +4,7 @@ import { FakeCarret } from './FakeCarret'
 
 type LeftPillProps = {
   idx: number
-  onClick: () => void
+  onClick: (e) => void
   inputValue: string
   carretPosition: number
   carretInBlockSubPos: number
@@ -25,6 +25,10 @@ export const LeftPill = ({
   text,
   apLimit,
 }: LeftPillProps) => {
+  const arithmeticIndexCheck = arithmeticProgression(4, apLimit)
+    .map((v) => v - 1)
+    .includes(idx)
+
   return (
     <Text
       wrap
@@ -48,22 +52,20 @@ export const LeftPill = ({
         ? text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
               <div style={{ display: 'flex' }} key={index}>
-                <span id={index} key={index}>
+                <span id={index.toString()} key={index}>
                   {letter.toUpperCase()}
                 </span>
                 {carretIsInBlockIndex === 0 && <FakeCarret />}
               </div>
             ) : (
-              <span id={index} key={index}>
+              <span id={index.toString()} key={index}>
                 {letter.toUpperCase()}
               </span>
             )
           )
         : null}
 
-      {arithmeticProgression(4, apLimit)
-        .map((v) => v - 1)
-        .includes(idx) ? (
+      {arithmeticIndexCheck ? (
         !text ? (
           <FakeCarret />
         ) : (
@@ -74,14 +76,11 @@ export const LeftPill = ({
                   <FakeCarret />
                 )}
                 {carretInBlockSubPos === 0 && <FakeCarret />}
-                <span id={index} key={index}>
+                <span id={index.toString()} key={index}>
                   {letter}
                 </span>
 
-                {carretIsInBlockIndex === idx &&
-                arithmeticProgression(4, apLimit)
-                  .map((v) => v - 1)
-                  .includes(idx) ? (
+                {carretIsInBlockIndex === idx && arithmeticIndexCheck ? (
                   <FakeCarret />
                 ) : null}
               </div>
@@ -90,7 +89,7 @@ export const LeftPill = ({
                 {carretInBlockSubPos === 0 &&
                   carretIsInBlockIndex === idx &&
                   index === 0 && <FakeCarret />}
-                <span id={index} key={index}>
+                <span id={index.toString()} key={index}>
                   {letter}
                 </span>
               </React.Fragment>

@@ -5,7 +5,7 @@ import { logicalOperatorsMap } from './Operators'
 type LogicalOperatorPillProps = {
   text: string
   arithmeticProgression: (start: number, end: number) => number[]
-  arrayOfLogics: string[]
+  arrayOfLogics: any[]
   idx: number
   splittedInputValue: string[]
   filtersAreNested: boolean
@@ -78,7 +78,7 @@ export const LogicalOperatorPill = ({
             // idx 10 -> [1]
             arrayOfLogics[arr.indexOf(idx)] = e
 
-            const tempSplitted = [...splittedInputValue]
+            const tempSplitted = [...splittedInputValue] as string[] | number[]
             tempSplitted[idx] = e
 
             if (!filtersAreNested) {

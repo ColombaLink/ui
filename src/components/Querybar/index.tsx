@@ -22,13 +22,14 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 // TODO: Caret position in middle block indicator
 // make a submit function ?????!!
 // TODO: on submit or nest remove non finished blocks -> warning maybe??
-// TODO: after selecting operator put cursor in beginning of next block
+// TODO: after selecting operator put cursor in beginning of next block , maybe
 // TODO: paste in query
-// TODO: clear completeley
+
 // TODO: suggestions from schema/ table, third block ? selection field or just suggest fields
 // TODO: typescript
 // TODO: check in and out of focus what happens
 // TODO: check default keypress options for input field (like arrows etc)
+// TODO: Hoookup to url location to use query in table
 // TODO: Refactor / Clean up code / keypress handler and more
 // TODO: index.tsx:210 Uncaught TypeError: _a2.forEach is not a function nested filter ts error
 // TODO: bug testing 🪲
@@ -54,9 +55,9 @@ export const QueryBar = () => {
   })
 
   const [inputValue, setInputValue] = useState('In root descendants type ')
-  const [splittedInputValue, setSplittedInputValue] = useState([])
+  const [splittedInputValue, setSplittedInputValue] = useState<string[]>([])
   // count and or ors in the query
-  const [arrayOfLogics, setArrayOfLogics] = useState([])
+  const [arrayOfLogics, setArrayOfLogics] = useState<any[]>([])
   const [carretPosition, setCarretPosition] = useState(0)
   const [filtersAreNested, setFiltersAreNested] = useState(false)
 
@@ -317,8 +318,9 @@ export const QueryBar = () => {
           setInputValue(e.target.value)
           setCarretPosition(e.target.selectionStart)
         }}
-        onClick={(e) => {
-          setCarretPosition(e.target.selectionStart)
+        onClick={(e: React.SyntheticEvent<HTMLDivElement, Event>) => {
+          const target = e.target as HTMLInputElement
+          setCarretPosition(target.selectionStart)
         }}
         onFocus={() => {
           setIsFocused(true)
@@ -585,7 +587,7 @@ export const QueryBar = () => {
 }
 
 const QueryContextMenu = ({ query, setQuery, setInputValue, inputValue }) => {
-  const [copied, copy] = useCopyToClipboard(JSON.stringify(query))
+  const [, copy] = useCopyToClipboard(JSON.stringify(query))
 
   return (
     <>
