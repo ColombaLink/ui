@@ -19,15 +19,20 @@ import { LeftPill } from './LeftPill'
 import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
+import { FromQueryToText } from './FromQueryToText'
 
 // TODO: Caret position in middle block indicator
 // make a submit function ?????!!
 // TODO: on submit or nest make sure there is not a empty $ operator , if so remove it
+// TODO: make little query segments that can be copied , pasted and saved
+// TODO: show query in box , but also be able to edit it there...
 
-// TODO: paste in query
 // TODO: check in and out of focus what happens
+
+// TODO: after a paste do submit to nest
+
 // TODO: check default keypress options for input field (like arrows etc)
-// TODO: Hoookup to url location to use query in table
+// TODO: Hoookup to url location to use query in table --> URL encode the filters etc
 // TODO: Refactor / Clean up code / keypress handler and more
 // TODO: index.tsx:210 Uncaught TypeError: _a2.forEach is not a function nested filter ts error
 // TODO: bug testing 🪲
@@ -79,9 +84,8 @@ export const QueryBar = () => {
       FlattenFilters(query.filters)
       query.filters = snurpArr.reverse()
       setQuery({ ...query })
-
       setFiltersAreNested(false)
-    } else if (!isFocused) {
+    } else {
       // strip the empty space first
       setInputValue(inputValue.trim())
       // zet nested filters to false
@@ -91,6 +95,8 @@ export const QueryBar = () => {
 
   // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
+    console.log('INPUT VALUE CHANGES 🦋', inputValue)
+
     setSplittedInputValue(inputValue.split(' '))
 
     if (inputValue.split(' ').length > 0) {
@@ -104,6 +110,8 @@ export const QueryBar = () => {
 
   // reset selected suggestion index
   useEffect(() => {
+    console.log('SPLITTEEDD INPUT VALUE CHANGES 🐤', inputValue)
+
     setSelectedSuggestion(0)
     suggestionsArr = []
   }, [splittedInputValue.length])
@@ -275,7 +283,13 @@ export const QueryBar = () => {
 
   const openContextMenu = useContextMenu(
     QueryContextMenu,
-    { query, setQuery, setInputValue, inputValue },
+    {
+      query,
+      setQuery,
+      setInputValue,
+      inputValue,
+      setIsFocused,
+    },
     { placement: 'right' }
   )
 
@@ -416,6 +430,9 @@ export const QueryBar = () => {
           }
         }}
       />
+
+      {/*** Query raw input field  */}
+      <FromQueryToText />
 
       <div style={{ display: 'flex', gap: 8 }}>
         <styled.div
@@ -591,7 +608,13 @@ export const QueryBar = () => {
   )
 }
 
-const QueryContextMenu = ({ query, setQuery, setInputValue, inputValue }) => {
+const QueryContextMenu = ({
+  query,
+  setQuery,
+  setInputValue,
+  inputValue,
+  setIsFocused,
+}) => {
   const [, copy] = useCopyToClipboard(JSON.stringify(query))
 
   return (
@@ -623,6 +646,7 @@ const QueryContextMenu = ({ query, setQuery, setInputValue, inputValue }) => {
           query.field = null
           setQuery({})
           setInputValue('')
+          setIsFocused(false)
         }}
         icon={DeleteIcon}
       >
