@@ -31,6 +31,7 @@ export const MarkdownInput = ({
   return (
     <StyledMarkdownInput>
       <div
+        className="markdown"
         style={{
           backgroundColor: color('background2'),
           borderRadius: 4,
