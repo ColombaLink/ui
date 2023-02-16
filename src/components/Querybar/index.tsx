@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from 'react'
 import {
   Button,
   color,
-  DuplicateIcon,
+  CopyIcon,
+  ClipboardIcon,
   EyeIcon,
+  DeleteIcon,
   Text,
   useContextMenu,
   ContextItem,
@@ -19,6 +21,7 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 // TODO: Caret position in middle block indicator
 // make a submit function ?????!!
 // TODO: on submit or nest remove non finished blocks -> warning maybe??
+// TODO: after selecting operator put cursor in beginning of next block
 // TODO: paste in query
 // TODO: clear completeley
 // TODO: suggestions from schema/ table, third block ? selection field or just suggest fields
@@ -268,7 +271,7 @@ export const QueryBar = () => {
   const openContextMenu = useContextMenu(
     QueryContextMenu,
     { query },
-    { placement: 'center' }
+    { placement: 'right' }
   )
 
   return (
@@ -433,9 +436,7 @@ export const QueryBar = () => {
             InputFieldRef.current.selectionStart = inputValue.length
             InputFieldRef.current.selectionEnd = inputValue.length
             PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
-            // open custom context menu with copy paste
             openContextMenu(e)
-            console.log('WAFEAFAEWFAWEF')
           }}
         >
           {splittedInputValue.map((text, idx) => (
@@ -587,14 +588,14 @@ const QueryContextMenu = ({ query }) => {
         onClick={() => {
           console.log(JSON.stringify(query))
         }}
-        icon={DuplicateIcon}
+        icon={CopyIcon}
       >
         Copy
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={DuplicateIcon}>
+      <ContextItem onClick={() => {}} icon={ClipboardIcon}>
         Paste
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={DuplicateIcon}>
+      <ContextItem onClick={() => {}} icon={DeleteIcon}>
         Clear
       </ContextItem>
     </>
