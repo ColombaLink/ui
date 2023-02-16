@@ -62,7 +62,7 @@ export const QueryBar = () => {
 
   // focused on input field
   const [isFocused, setIsFocused] = useState(false)
-  const InputFieldRef = useRef()
+  const InputFieldRef = useRef<HTMLInputElement>()
 
   // suggestions
   const [selectedSuggestion, setSelectedSuggestion] = useState(0)
@@ -187,6 +187,7 @@ export const QueryBar = () => {
       carretInBlockSubPos = carretPosition - counter
     }
     counter += text.length + 1
+    return counter
   })
 
   const PutCursorInRightPlaceOnClick = (e, idx, offset = 0) => {
@@ -232,8 +233,8 @@ export const QueryBar = () => {
 
   const FlattenFilters = (obj) => {
     const tempObj = {}
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         // only works if key is exactly $and or $or
         if (key !== '$and' && key !== '$or' && key !== '$not') {
           tempObj[key] = obj[key]
@@ -293,8 +294,10 @@ export const QueryBar = () => {
         <Text>inputvalue length : {inputValue.length}</Text>
         <Text>
           $and $or array :{' '}
-          {arrayOfLogics.map((item) => (
-            <span style={{ border: '1px solid blue', margin: 4 }}>{item},</span>
+          {arrayOfLogics.map((item, idx) => (
+            <span key={idx} style={{ border: '1px solid blue', margin: 4 }}>
+              {item},
+            </span>
           ))}
         </Text>
       </div>
@@ -527,7 +530,7 @@ export const QueryBar = () => {
             console.log('Toggle the query in a json viewer or pre block')
           }
           style={{ height: 38 }}
-        ></Button>
+        />
       </div>
 
       <div style={{ display: 'flex' }}>
