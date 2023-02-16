@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { color, Text } from '~'
+import { Button, color, DuplicateIcon, EyeIcon, Text } from '~'
 import { styled } from 'inlines'
 import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
@@ -9,20 +9,19 @@ import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 
 // TODO: Caret position in middle block indicator
-// TODO: when will submit happen // maybe on enter if you are on the right pill??
 // make a submit function ?????!!
-// TODO: on submit or nest remove non finished blocks
+// TODO: on submit or nest remove non finished blocks -> warning maybe??
 // TODO: paste in query
 // TODO: clear completeley
-// TODO: suggestions from schema/ table
-// TODO: third block ? selection field or just suggest fields
+// TODO: suggestions from schema/ table, third block ? selection field or just suggest fields
 // TODO: typescript
 // TODO: check in and out of focus what happens
-// TODO: show query button
-// TODO: copy query button
 // TODO: check default keypress options for input field (like arrows etc)
 // TODO: Refactor / Clean up code / keypress handler and more
+// TODO: index.tsx:210 Uncaught TypeError: _a2.forEach is not a function nested filter ts error
 // TODO: bug testing 🪲
+
+// when will submit happen -> enter in right pill & on blur at the moment
 
 const AP_LIMIT = 140
 
@@ -257,22 +256,26 @@ export const QueryBar = () => {
   }
 
   return (
-    <div>
-      <Text>CarretPOs: {carretPosition}</Text>
-      <Text color="accent">{splittedInputValue.length}</Text>
-      <Text>
-        Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
-      </Text>
-      <Text color="green">
-        CarretPosition in index block {carretIsInBlockIndex}{' '}
-      </Text>
-      <Text>inputvalue length : {inputValue.length}</Text>
-      <Text>
-        $and $or array :{' '}
-        {arrayOfLogics.map((item) => (
-          <span style={{ border: '1px solid blue', margin: 4 }}>{item},</span>
-        ))}
-      </Text>
+    <>
+      <div
+        style={{ backgroundColor: '#e4f8ff', padding: 10, marginBottom: 12 }}
+      >
+        <Text>CarretPOs: {carretPosition}</Text>
+        <Text color="accent">{splittedInputValue.length}</Text>
+        <Text>
+          Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
+        </Text>
+        <Text color="green">
+          CarretPosition in index block {carretIsInBlockIndex}{' '}
+        </Text>
+        <Text>inputvalue length : {inputValue.length}</Text>
+        <Text>
+          $and $or array :{' '}
+          {arrayOfLogics.map((item) => (
+            <span style={{ border: '1px solid blue', margin: 4 }}>{item},</span>
+          ))}
+        </Text>
+      </div>
       <input
         style={{
           border: '1px solid purple',
@@ -385,110 +388,129 @@ export const QueryBar = () => {
         }}
       />
 
-      <styled.div
-        style={{
-          outline: isFocused
-            ? `2px solid rgba(44, 60, 234, 0.2)`
-            : `2px solid transparent`,
-          border: isFocused
-            ? `1px solid ${color('accent')}`
-            : `1px solid ${color('border')}`,
-          borderRadius: 4,
-          padding: 3,
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: 12,
-          position: 'relative',
-        }}
-        onClick={(e) => {
-          // TODO --> this function should put the cursor on the end if clicked
-          /// TODO-->  on empty area
+      <div style={{ display: 'flex', gap: 8 }}>
+        <styled.div
+          style={{
+            outline: isFocused
+              ? `2px solid rgba(44, 60, 234, 0.2)`
+              : `2px solid transparent`,
+            border: isFocused
+              ? `1px solid ${color('accent')}`
+              : `1px solid ${color('border')}`,
+            borderRadius: 4,
+            padding: 3,
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: 12,
+            position: 'relative',
+            flexGrow: 1,
+          }}
+          onClick={(e) => {
+            // TODO --> this function should put the cursor on the end if clicked
+            /// TODO-->  on empty area
 
-          InputFieldRef.current.selectionStart = inputValue.length
-          InputFieldRef.current.selectionEnd = inputValue.length
+            InputFieldRef.current.selectionStart = inputValue.length
+            InputFieldRef.current.selectionEnd = inputValue.length
 
-          PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
-        }}
-      >
-        {splittedInputValue.map((text, idx) => (
-          <React.Fragment key={idx}>
-            {idx === 0 ||
-            arithmeticProgression(4, AP_LIMIT)
-              .map((v) => v - 1)
-              .includes(idx) ? (
-              <LeftPill
-                idx={idx}
-                inputValue={inputValue}
-                arithmeticProgression={arithmeticProgression}
-                carretInBlockSubPos={carretInBlockSubPos}
-                carretIsInBlockIndex={carretIsInBlockIndex}
-                carretPosition={carretPosition}
-                text={text}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  carretIsInBlockIndex = idx
-                  PutCursorInRightPlaceOnClick(e, idx)
-                }}
-                apLimit={AP_LIMIT}
-              />
-            ) : idx === 1 ||
-              arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
-              <MiddlePill
-                idx={idx}
-                FlattenFilters={FlattenFilters}
-                carretInBlockSubPos={carretInBlockSubPos}
-                carretIsInBlockIndex={carretIsInBlockIndex}
-                filtersAreNested={filtersAreNested}
-                query={query}
-                setFiltersAreNested={setFiltersAreNested}
-                setInputValue={setInputValue}
-                setQuery={setQuery}
-                snurpArr={snurpArr}
-                text={text}
-                splittedInputValue={splittedInputValue}
-                openSelectBox={openSelectBox}
-                setOpenSelectBox={setOpenSelectBox}
-              />
-            ) : idx === 2 ||
+            PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
+          }}
+        >
+          {splittedInputValue.map((text, idx) => (
+            <React.Fragment key={idx}>
+              {idx === 0 ||
               arithmeticProgression(4, AP_LIMIT)
-                .map((v) => v + 1)
+                .map((v) => v - 1)
                 .includes(idx) ? (
-              <RightPill
-                idx={idx}
-                text={text}
-                arithmeticProgression={arithmeticProgression}
-                carretInBlockSubPos={carretInBlockSubPos}
-                carretIsInBlockIndex={carretIsInBlockIndex}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  carretIsInBlockIndex = idx
-                  PutCursorInRightPlaceOnClick(e, idx)
-                }}
-                apLimit={AP_LIMIT}
-              />
-            ) : arithmeticProgression(4, AP_LIMIT)
-                .map((v) => v + 2)
-                .includes(idx) ? (
-              <LogicalOperatorPill
-                idx={idx}
-                text={text}
-                arithmeticProgression={arithmeticProgression}
-                FlattenFilters={FlattenFilters}
-                arrayOfLogics={arrayOfLogics}
-                filtersAreNested={filtersAreNested}
-                query={query}
-                setFiltersAreNested={setFiltersAreNested}
-                setInputValue={setInputValue}
-                setQuery={setQuery}
-                snurpArr={snurpArr}
-                splittedInputValue={splittedInputValue}
-                openSelectBox={openSelectBox}
-                setOpenSelectBox={setOpenSelectBox}
-              />
-            ) : null}
-          </React.Fragment>
-        ))}
-      </styled.div>
+                <LeftPill
+                  idx={idx}
+                  inputValue={inputValue}
+                  arithmeticProgression={arithmeticProgression}
+                  carretInBlockSubPos={carretInBlockSubPos}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                  carretPosition={carretPosition}
+                  text={text}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    carretIsInBlockIndex = idx
+                    PutCursorInRightPlaceOnClick(e, idx)
+                  }}
+                  apLimit={AP_LIMIT}
+                />
+              ) : idx === 1 ||
+                arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
+                <MiddlePill
+                  idx={idx}
+                  FlattenFilters={FlattenFilters}
+                  carretInBlockSubPos={carretInBlockSubPos}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                  filtersAreNested={filtersAreNested}
+                  query={query}
+                  setFiltersAreNested={setFiltersAreNested}
+                  setInputValue={setInputValue}
+                  setQuery={setQuery}
+                  snurpArr={snurpArr}
+                  text={text}
+                  splittedInputValue={splittedInputValue}
+                  openSelectBox={openSelectBox}
+                  setOpenSelectBox={setOpenSelectBox}
+                />
+              ) : idx === 2 ||
+                arithmeticProgression(4, AP_LIMIT)
+                  .map((v) => v + 1)
+                  .includes(idx) ? (
+                <RightPill
+                  idx={idx}
+                  text={text}
+                  arithmeticProgression={arithmeticProgression}
+                  carretInBlockSubPos={carretInBlockSubPos}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    carretIsInBlockIndex = idx
+                    PutCursorInRightPlaceOnClick(e, idx)
+                  }}
+                  apLimit={AP_LIMIT}
+                />
+              ) : arithmeticProgression(4, AP_LIMIT)
+                  .map((v) => v + 2)
+                  .includes(idx) ? (
+                <LogicalOperatorPill
+                  idx={idx}
+                  text={text}
+                  arithmeticProgression={arithmeticProgression}
+                  FlattenFilters={FlattenFilters}
+                  arrayOfLogics={arrayOfLogics}
+                  filtersAreNested={filtersAreNested}
+                  query={query}
+                  setFiltersAreNested={setFiltersAreNested}
+                  setInputValue={setInputValue}
+                  setQuery={setQuery}
+                  snurpArr={snurpArr}
+                  splittedInputValue={splittedInputValue}
+                  openSelectBox={openSelectBox}
+                  setOpenSelectBox={setOpenSelectBox}
+                />
+              ) : null}
+            </React.Fragment>
+          ))}
+        </styled.div>
+        <Button
+          outline
+          color="border"
+          icon={<DuplicateIcon color="text2" />}
+          onClick={() => console.log(JSON.stringify(query))}
+          style={{ height: 38 }}
+        ></Button>
+        <Button
+          outline
+          color="border"
+          icon={<EyeIcon color="text2" />}
+          onClick={() =>
+            console.log('Toggle the query in a json viewer or pre block')
+          }
+          style={{ height: 38 }}
+        ></Button>
+      </div>
 
       <div style={{ display: 'flex' }}>
         {setSuggestions()?.map((item, idx) => (
@@ -537,6 +559,6 @@ export const QueryBar = () => {
       >
         {JSON.stringify(query, null, 2)}
       </pre>
-    </div>
+    </>
   )
 }
