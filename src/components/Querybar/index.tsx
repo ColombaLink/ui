@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Button, color, DuplicateIcon, EyeIcon, Text } from '~'
+import {
+  Button,
+  color,
+  DuplicateIcon,
+  EyeIcon,
+  Text,
+  useContextMenu,
+  ContextItem,
+} from '~'
 import { styled } from 'inlines'
 import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
@@ -255,6 +263,14 @@ export const QueryBar = () => {
     }
   }
 
+  //  /////////////////////////////////////////// CONTEXT MENU
+
+  const openContextMenu = useContextMenu(
+    QueryContextMenu,
+    { query },
+    { placement: 'center' }
+  )
+
   return (
     <>
       <div
@@ -406,13 +422,20 @@ export const QueryBar = () => {
             flexGrow: 1,
           }}
           onClick={(e) => {
-            // TODO --> this function should put the cursor on the end if clicked
-            /// TODO-->  on empty area
-
+            // if left button clickie
             InputFieldRef.current.selectionStart = inputValue.length
             InputFieldRef.current.selectionEnd = inputValue.length
-
             PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
+          }}
+          onContextMenu={(e) => {
+            // if right button clickie
+            e.preventDefault()
+            InputFieldRef.current.selectionStart = inputValue.length
+            InputFieldRef.current.selectionEnd = inputValue.length
+            PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
+            // open custom context menu with copy paste
+            openContextMenu(e)
+            console.log('WAFEAFAEWFAWEF')
           }}
         >
           {splittedInputValue.map((text, idx) => (
@@ -494,13 +517,7 @@ export const QueryBar = () => {
             </React.Fragment>
           ))}
         </styled.div>
-        <Button
-          outline
-          color="border"
-          icon={<DuplicateIcon color="text2" />}
-          onClick={() => console.log(JSON.stringify(query))}
-          style={{ height: 38 }}
-        ></Button>
+
         <Button
           outline
           color="border"
@@ -559,6 +576,27 @@ export const QueryBar = () => {
       >
         {JSON.stringify(query, null, 2)}
       </pre>
+    </>
+  )
+}
+
+const QueryContextMenu = ({ query }) => {
+  return (
+    <>
+      <ContextItem
+        onClick={() => {
+          console.log(JSON.stringify(query))
+        }}
+        icon={DuplicateIcon}
+      >
+        Copy
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={DuplicateIcon}>
+        Paste
+      </ContextItem>
+      <ContextItem onClick={() => {}} icon={DuplicateIcon}>
+        Clear
+      </ContextItem>
     </>
   )
 }
