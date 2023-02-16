@@ -29,7 +29,7 @@ import { FromQueryToText } from './FromQueryToText'
 
 // TODO: check in and out of focus what happens
 
-// TODO: after a paste do submit to nest
+// TODO: after a paste do submit to nest --> Array of logics are not updated
 
 // TODO: check default keypress options for input field (like arrows etc)
 // TODO: Hoookup to url location to use query in table --> URL encode the filters etc
@@ -95,8 +95,6 @@ export const QueryBar = () => {
 
   // //////////////////////////////////////////// REPEATING FILTERS LOGIC
   useEffect(() => {
-    console.log('INPUT VALUE CHANGES 🦋', inputValue)
-
     setSplittedInputValue(inputValue.split(' '))
 
     if (inputValue.split(' ').length > 0) {
@@ -105,13 +103,12 @@ export const QueryBar = () => {
     }
 
     SetQueryFilterProperties(inputValue.split(' '))
+    // dus..??
     setAndOrValues(inputValue.split(' '))
   }, [inputValue])
 
   // reset selected suggestion index
   useEffect(() => {
-    console.log('SPLITTEEDD INPUT VALUE CHANGES 🐤', inputValue)
-
     setSelectedSuggestion(0)
     suggestionsArr = []
   }, [splittedInputValue.length])
@@ -119,6 +116,7 @@ export const QueryBar = () => {
   // //////////////////////////////////////////// SET AND OR NOT VALUES
 
   const setAndOrValues = (splittedInputValue) => {
+    console.log('setAndOrValues', splittedInputValue)
     const length = splittedInputValue.length
 
     const arrWithValues = arithmeticProgression(4, AP_LIMIT).map((v) => v + 3)
@@ -126,18 +124,22 @@ export const QueryBar = () => {
       (v) => v + 2
     )
 
-    if (arrWithValues.includes(length)) {
-      for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
-        arrayOfLogics[i] =
-          inputValue.split(' ')[i * 4 + 6]?.charAt(0) === '$'
-            ? inputValue.split(' ')[i * 4 + 6]
-            : `$${inputValue.split(' ')[i * 4 + 6]}`
-        setArrayOfLogics([...arrayOfLogics])
-      }
-    } else if (arrWithLesserValues.includes(length)) {
-      for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
-        if (length <= i * 4 + 6) {
-          setArrayOfLogics([...arrayOfLogics.slice(0, i)])
+    //TODO:  if the length changes at once with a paste this is not firing
+
+    for (let j = 0; j < length; j++) {
+      if (arrWithValues.includes(j)) {
+        for (let i = 0; i <= arrWithValues.indexOf(j); i++) {
+          arrayOfLogics[i] =
+            inputValue.split(' ')[i * 4 + 6]?.charAt(0) === '$'
+              ? inputValue.split(' ')[i * 4 + 6]
+              : `$${inputValue.split(' ')[i * 4 + 6]}`
+          setArrayOfLogics([...arrayOfLogics])
+        }
+      } else if (arrWithLesserValues.includes(j)) {
+        for (let i = 0; i <= arrWithLesserValues.indexOf(j); i++) {
+          if (j <= i * 4 + 6) {
+            setArrayOfLogics([...arrayOfLogics.slice(0, i)])
+          }
         }
       }
     }
@@ -289,6 +291,7 @@ export const QueryBar = () => {
       setInputValue,
       inputValue,
       setIsFocused,
+      setArrayOfLogics,
     },
     { placement: 'right' }
   )
@@ -614,6 +617,7 @@ const QueryContextMenu = ({
   setInputValue,
   inputValue,
   setIsFocused,
+  setArrayOfLogics,
 }) => {
   const [, copy] = useCopyToClipboard(JSON.stringify(query))
 
@@ -642,11 +646,10 @@ const QueryContextMenu = ({
       </ContextItem>
       <ContextItem
         onClick={() => {
-          query.target = null
-          query.field = null
-          setQuery({})
           setInputValue('')
           setIsFocused(false)
+          setArrayOfLogics([])
+          setQuery({})
         }}
         icon={DeleteIcon}
       >
