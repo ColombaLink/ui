@@ -1,11 +1,9 @@
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react'
 import {
-  Button,
   color,
   CopyIcon,
   ClipboardIcon,
-  EyeIcon,
   DeleteIcon,
   Text,
   useContextMenu,
@@ -22,12 +20,13 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 import { FromQueryToText } from './FromQueryToText'
 
 // TODO: Caret position in middle block indicator
-// make a submit function ?????!!
-// TODO: on submit or nest make sure there is not a empty $ operator , if so remove it
-// TODO: make little query segments that can be copied , pasted and saved
-// TODO: show query in box , but also be able to edit it there...
 
-// TODO: check in and out of focus what happens
+// TODO: on submit or nest make sure there is not a empty $ operator , if so remove it
+/// now there is a bug if you try to nest a filter with an empty $ operator
+
+// TODO: show query in box , but also be able to edit it there...
+// Might have to split up the first 3 blocks and the rest as repeatable component blocks..
+// TODO: make little query segments that can be copied , pasted and saved which will become filters
 
 // TODO: check default keypress options for input field (like arrows etc)
 // TODO: Hoookup to url location to use query in table --> URL encode the filters etc
@@ -546,16 +545,6 @@ export const QueryBar = () => {
             </React.Fragment>
           ))}
         </styled.div>
-
-        <Button
-          outline
-          color="border"
-          icon={<EyeIcon color="text2" />}
-          onClick={() =>
-            console.log('Toggle the query in a json viewer or pre block')
-          }
-          style={{ height: 38 }}
-        />
       </div>
 
       <div style={{ display: 'flex' }}>

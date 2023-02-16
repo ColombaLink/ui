@@ -11,7 +11,7 @@ export const FromQueryToText = () => {
 
   let filterString = ''
 
-  let flatArr = []
+  const flatArr = []
   const FlatIt = (obj) => {
     const tempObj = {}
     for (const key in obj) {
@@ -55,9 +55,13 @@ export const FromQueryToText = () => {
 
   return (
     <div style={{ marginBottom: 16, maxWidth: 1000 }}>
+      <Text space wrap>
+        raw: {rawInputValue}
+      </Text>
       <Input
         jsonInput
         indent
+        space
         placeholder=""
         value={rawInputValue}
         onChange={(e) => {
@@ -66,9 +70,6 @@ export const FromQueryToText = () => {
         }}
       />
 
-      <Text space wrap>
-        raw: {rawInputValue}
-      </Text>
       <Text space>normal: {readableText}</Text>
       <Button
         onClick={() => {
