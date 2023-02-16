@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 import React, { useState, useEffect, useRef } from 'react'
 import {
   Button,
@@ -309,6 +308,11 @@ export const QueryBar = () => {
           marginBottom: 12,
           padding: 8,
           width: '100%',
+          height: 0,
+          width: 0,
+          opacity: 0,
+          position: 'absolute',
+          pointerEvents: 'none',
         }}
         type="text"
         ref={InputFieldRef}
