@@ -176,7 +176,7 @@ export const QueryBar = () => {
     counter += text.length + 1
   })
 
-  const PutCursorInRightPlaceOnClick = (e, idx) => {
+  const PutCursorInRightPlaceOnClick = (e, idx, offset = 0) => {
     console.log('E ', e, 'IDX ', idx)
     // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
     const countedBlocksLength = splittedInputValue.reduce(
@@ -191,7 +191,8 @@ export const QueryBar = () => {
     )
 
     carretIsInBlockIndex = idx
-    const newSelectedCarretPosition = countedBlocksLength + +e.target.id
+    const newSelectedCarretPosition =
+      countedBlocksLength + +e.target.id + offset
     setCarretPosition(newSelectedCarretPosition)
     InputFieldRef?.current?.focus()
     InputFieldRef.current.selectionStart = newSelectedCarretPosition
@@ -402,7 +403,11 @@ export const QueryBar = () => {
         onClick={(e) => {
           // TODO --> this function should put the cursor on the end if clicked
           /// TODO-->  on empty area
-          PutCursorInRightPlaceOnClick(e, carretIsInBlockIndex)
+
+          InputFieldRef.current.selectionStart = inputValue.length
+          InputFieldRef.current.selectionEnd = inputValue.length
+
+          PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
         }}
       >
         {splittedInputValue.map((text, idx) => (
@@ -420,6 +425,7 @@ export const QueryBar = () => {
                 carretPosition={carretPosition}
                 text={text}
                 onClick={(e) => {
+                  e.stopPropagation()
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
@@ -454,6 +460,7 @@ export const QueryBar = () => {
                 carretInBlockSubPos={carretInBlockSubPos}
                 carretIsInBlockIndex={carretIsInBlockIndex}
                 onClick={(e) => {
+                  e.stopPropagation()
                   carretIsInBlockIndex = idx
                   PutCursorInRightPlaceOnClick(e, idx)
                 }}
