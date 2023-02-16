@@ -9,6 +9,7 @@ import {
   Text,
   useContextMenu,
   ContextItem,
+  useCopyToClipboard,
 } from '~'
 import { styled } from 'inlines'
 import { SuggestionTags } from './SuggestionTags'
@@ -91,8 +92,10 @@ export const QueryBar = () => {
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
 
-    query.target = splittedInputValue[1]
-    query.field = splittedInputValue[2]
+    if (inputValue.split(' ').length > 0) {
+      query.target = splittedInputValue[1]
+      query.field = splittedInputValue[2]
+    }
 
     SetQueryFilterProperties(inputValue.split(' '))
     setAndOrValues(inputValue.split(' '))
@@ -270,7 +273,7 @@ export const QueryBar = () => {
 
   const openContextMenu = useContextMenu(
     QueryContextMenu,
-    { query },
+    { query, setQuery, setInputValue, inputValue },
     { placement: 'right' }
   )
 
@@ -398,10 +401,7 @@ export const QueryBar = () => {
                 .map((v) => v + 2)
                 .includes(carretIsInBlockIndex)
             ) {
-              console.log('boomshakalaka')
               setOpenSelectBox({ num: carretIsInBlockIndex, open: true })
-
-              // open de selectie box
             }
           }
         }}
@@ -581,21 +581,41 @@ export const QueryBar = () => {
   )
 }
 
-const QueryContextMenu = ({ query }) => {
+const QueryContextMenu = ({ query, setQuery, setInputValue, inputValue }) => {
+  const [copied, copy] = useCopyToClipboard(JSON.stringify(query))
+
   return (
     <>
       <ContextItem
-        onClick={() => {
-          console.log(JSON.stringify(query))
-        }}
+        // @ts-ignore
+        onClick={copy}
         icon={CopyIcon}
       >
         Copy
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={ClipboardIcon}>
+      <ContextItem
+        onClick={() => {
+          if (!navigator.clipboard) return
+          // normal text
+          // should work on https environment
+          navigator.clipboard
+            .readText()
+            .then((clipText) => setInputValue(inputValue + clipText))
+          // TODO: paste query
+        }}
+        icon={ClipboardIcon}
+      >
         Paste
       </ContextItem>
-      <ContextItem onClick={() => {}} icon={DeleteIcon}>
+      <ContextItem
+        onClick={() => {
+          query.target = null
+          query.field = null
+          setQuery({})
+          setInputValue('')
+        }}
+        icon={DeleteIcon}
+      >
         Clear
       </ContextItem>
     </>

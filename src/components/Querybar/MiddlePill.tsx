@@ -42,7 +42,7 @@ export const MiddlePill = ({
     // selectRef.current.focus()
     if (idx === openSelectBox.num) {
       console.log(
-        selectRef.current.childNodes[0].childNodes[0].childNodes[0].click()
+        selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
       )
     }
 
