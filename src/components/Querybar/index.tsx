@@ -29,8 +29,6 @@ import { FromQueryToText } from './FromQueryToText'
 
 // TODO: check in and out of focus what happens
 
-// TODO: after a paste do submit to nest --> Array of logics are not updated
-
 // TODO: check default keypress options for input field (like arrows etc)
 // TODO: Hoookup to url location to use query in table --> URL encode the filters etc
 // TODO: Refactor / Clean up code / keypress handler and more

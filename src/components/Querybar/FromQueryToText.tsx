@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, Button } from '~'
+import { Text, Button, Input } from '~'
 import { logicalOperatorsMap } from './Operators'
 
 export const FromQueryToText = () => {
@@ -54,21 +54,21 @@ export const FromQueryToText = () => {
   }
 
   return (
-    <div style={{ background: '#ffffed', padding: 10, marginBottom: 12 }}>
-      <input
-        placeholder="paste a query in here"
+    <div style={{ marginBottom: 16, maxWidth: 1000 }}>
+      <Input
+        jsonInput
+        indent
+        placeholder=""
         value={rawInputValue}
-        style={{
-          padding: 6,
-          border: '1px solid orange',
-          marginBottom: 8,
-          width: '100%',
-        }}
         onChange={(e) => {
-          setRawInputValue(e.target.value)
+          setRawInputValue(e)
+          setReadableText(readableTextFromQuery(e))
         }}
       />
-      <Text space>raw: {rawInputValue}</Text>
+
+      <Text space wrap>
+        raw: {rawInputValue}
+      </Text>
       <Text space>normal: {readableText}</Text>
       <Button
         onClick={() => {
