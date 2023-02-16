@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState, useEffect, useRef } from 'react'
 import {
   Button,
@@ -21,12 +23,9 @@ import { LogicalOperatorPill } from './LogicalOperatorPill'
 
 // TODO: Caret position in middle block indicator
 // make a submit function ?????!!
-// TODO: on submit or nest remove non finished blocks -> warning maybe??
-// TODO: after selecting operator put cursor in beginning of next block , maybe
-// TODO: paste in query
+// TODO: on submit or nest make sure there is not a empty $ operator , if so remove it
 
-// TODO: suggestions from schema/ table, third block ? selection field or just suggest fields
-// TODO: typescript
+// TODO: paste in query
 // TODO: check in and out of focus what happens
 // TODO: check default keypress options for input field (like arrows etc)
 // TODO: Hoookup to url location to use query in table
@@ -41,11 +40,11 @@ const AP_LIMIT = 140
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
 
-console.log('arithmeticProgression', arithmeticProgression(4, 15))
-console.log(
-  'arithmeticProgression',
-  arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
-)
+// console.log('arithmeticProgression', arithmeticProgression(4, 15))
+// console.log(
+//   'arithmeticProgression',
+//   arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
+// )
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -84,6 +83,8 @@ export const QueryBar = () => {
 
       setFiltersAreNested(false)
     } else if (!isFocused) {
+      // strip the empty space first
+      setInputValue(inputValue.trim())
       // zet nested filters to false
       setFiltersAreNested(true)
     }
@@ -164,7 +165,7 @@ export const QueryBar = () => {
       for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
         if (length <= i * 4 + 3) {
           if (query.filters.length > 0) {
-            console.log('FIRE  🐸--> 🐯', length)
+            //    console.log('FIRE  🐸--> 🐯', length)
             query.filters = query.filters?.slice(0, i)
           }
         }
@@ -192,7 +193,7 @@ export const QueryBar = () => {
   })
 
   const PutCursorInRightPlaceOnClick = (e, idx, offset = 0) => {
-    console.log('E ', e, 'IDX ', idx)
+    //  console.log('E ', e, 'IDX ', idx)
     // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
     const countedBlocksLength = splittedInputValue.reduce(
       (acc, curr, index) => {

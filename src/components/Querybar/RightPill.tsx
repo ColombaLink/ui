@@ -4,7 +4,7 @@ import { FakeCarret } from './FakeCarret'
 
 type RightPillProps = {
   idx: number
-  onClick: () => void
+  onClick: (e) => void
   carretInBlockSubPos: number
   carretIsInBlockIndex: number
   arithmeticProgression: (start: number, end: number) => number[]
