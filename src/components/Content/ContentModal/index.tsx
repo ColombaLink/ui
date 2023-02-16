@@ -146,7 +146,12 @@ const ContentModalInner = ({ prefix, id, field }) => {
   useEffect(() => {
     // event.preventDefault()
     async function handleKeyDown(e) {
-      if (e.keyCode === 13 && !e.shiftKey) {
+      if (
+        e.keyCode === 13 &&
+        !e.shiftKey &&
+        document.activeElement.className !==
+          'npm__react-simple-code-editor__textarea'
+      ) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
           await client.set({
