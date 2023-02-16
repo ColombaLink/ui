@@ -18,6 +18,8 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
 import { styled } from 'inlines'
 
+// onclose can be used
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Topbar = ({ id, type, onClose }) => {
   const [location, setLocation] = useLocation()
   const { type: schemaType, loading } = useDescriptor(id)

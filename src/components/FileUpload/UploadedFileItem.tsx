@@ -146,7 +146,7 @@ export const UploadedFileItem = ({
         <AttachmentIcon />
       )}
       <Text
-        style={{ marginTop: 6, marginBottom: 6, maxWidth: '30vw' }}
+        style={{ marginTop: 6, marginBottom: 6, maxWidth: '25vw' }}
         weight={400}
       >
         {file?.name}
