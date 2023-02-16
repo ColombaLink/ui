@@ -309,7 +309,7 @@ export const QueryBar = () => {
           padding: 8,
           width: '100%',
           height: 0,
-          width: 0,
+          maxWidth: 0,
           opacity: 0,
           position: 'absolute',
           pointerEvents: 'none',
