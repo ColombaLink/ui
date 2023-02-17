@@ -84,23 +84,27 @@ export const MiddlePill = ({
                 '& svg': { display: 'none' },
               }}
               onChange={(e) => {
-                console.log('Change -->', e)
+                // setValueText(e)
+                console.log('Change -->', e, 'type of e -->', typeof e)
 
-                const tempSplitted = [...splittedInputValue] as
-                  | string[]
-                  | number[]
-                tempSplitted[idx] = e
-
-                if (!filtersAreNested) {
-                  setInputValue(tempSplitted.join(' '))
-                } else {
-                  FlattenFilters(query.filters)
-                  query.filters = snurpArr.reverse()
-                  setQuery({ ...query })
-
-                  //   // dan pas veranderen
-                  setInputValue(tempSplitted.join(' '))
-                  setFiltersAreNested(false)
+                if (
+                  Object.keys(operatorMap).includes(e) &&
+                  carretIsInBlockIndex !== idx
+                ) {
+                  const tempSplitted = [...splittedInputValue] as
+                    | string[]
+                    | number[]
+                  tempSplitted[idx] = e
+                  if (!filtersAreNested) {
+                    setInputValue(tempSplitted.join(' '))
+                  } else {
+                    FlattenFilters(query.filters)
+                    query.filters = snurpArr.reverse()
+                    setQuery({ ...query })
+                    //   // dan pas veranderen
+                    setInputValue(tempSplitted.join(' '))
+                    setFiltersAreNested(false)
+                  }
                 }
               }}
               options={Object.keys(operatorMap)}

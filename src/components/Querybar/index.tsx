@@ -161,7 +161,7 @@ export const QueryBar = () => {
       for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
         // use the i value
         if (length >= i * 4 + 6) {
-          //   console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
+          console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
           query.filters[i] = {
             $field: splittedInputValue[i * 4 + 3],
             $operator: splittedInputValue[i * 4 + 4],
@@ -437,18 +437,22 @@ export const QueryBar = () => {
             }
           }
 
-          if (e.key === 'Backspace') {
-            if (
-              arithmeticProgression(4, AP_LIMIT)
-                .map((v) => v)
-                .includes(carretIsInBlockIndex) ||
-              arithmeticProgression(4, AP_LIMIT)
-                .map((v) => v + 2)
-                .includes(carretIsInBlockIndex)
-            ) {
-              console.log('backspace in block')
-            }
-          }
+          // if (e.key === 'Backspace') {
+          //   if (
+          //     arithmeticProgression(4, AP_LIMIT)
+          //       .map((v) => v)
+          //       .includes(carretIsInBlockIndex) ||
+          //     arithmeticProgression(4, AP_LIMIT)
+          //       .map((v) => v + 2)
+          //       .includes(carretIsInBlockIndex)
+          //   ) {
+          //     e.preventDefault()
+          //     console.log('backspace in block', carretIsInBlockIndex)
+          //     let tempSplittedArr = [...splittedInputValue]
+          //     tempSplittedArr[carretIsInBlockIndex] = ''
+          //     setInputValue(tempSplittedArr.join(' '))
+          //   }
+          // }
         }}
       />
 
