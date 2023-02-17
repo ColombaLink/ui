@@ -565,6 +565,7 @@ export const QueryBar = () => {
                   splittedInputValue={splittedInputValue}
                   openSelectBox={openSelectBox}
                   setOpenSelectBox={setOpenSelectBox}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
                 />
               ) : null}
             </React.Fragment>

@@ -17,6 +17,7 @@ type LogicalOperatorPillProps = {
   setFiltersAreNested: (value: boolean) => void
   openSelectBox: { num: number; open: boolean }
   setOpenSelectBox: (value: { num: number; open: boolean }) => void
+  carretIsInBlockIndex: number
 }
 
 export const LogicalOperatorPill = ({
@@ -34,6 +35,7 @@ export const LogicalOperatorPill = ({
   setFiltersAreNested,
   openSelectBox,
   setOpenSelectBox,
+  carretIsInBlockIndex,
 }: LogicalOperatorPillProps) => {
   const selectRef = useRef(null)
 
@@ -70,28 +72,33 @@ export const LogicalOperatorPill = ({
           '& svg': { display: 'none' },
         }}
         onChange={(e) => {
-          const arr = arithmeticProgression(4, 140).map((v) => v + 2)
-          // calculate back so idx 6 -> [0]
-          // idx 10 -> [1]
-          arrayOfLogics[arr.indexOf(idx)] = e
+          if (
+            Object.keys(logicalOperatorsMap).includes(e) &&
+            carretIsInBlockIndex !== idx
+          ) {
+            const arr = arithmeticProgression(4, 140).map((v) => v + 2)
+            // calculate back so idx 6 -> [0]
+            // idx 10 -> [1]
+            arrayOfLogics[arr.indexOf(idx)] = e
 
-          const tempSplitted = [...splittedInputValue] as string[] | number[]
-          tempSplitted[idx] = e
+            const tempSplitted = [...splittedInputValue] as string[] | number[]
+            tempSplitted[idx] = e
 
-          if (!filtersAreNested) {
-            setInputValue(tempSplitted.join(' '))
-            //   setSplittedInputValue([...tempSplitted])
-            // arrayOfLogics[arr.indexOf(idx)] = e
-          } else {
-            // flatten the array first
-            FlattenFilters(query.filters)
-            query.filters = snurpArr.reverse()
-            setQuery({ ...query })
-            // dan pas veranderen
-            setInputValue(tempSplitted.join(' '))
-            //   setSplittedInputValue([...tempSplitted])
-            // zet nested filters to false
-            setFiltersAreNested(false)
+            if (!filtersAreNested) {
+              setInputValue(tempSplitted.join(' '))
+              //   setSplittedInputValue([...tempSplitted])
+              // arrayOfLogics[arr.indexOf(idx)] = e
+            } else {
+              // flatten the array first
+              FlattenFilters(query.filters)
+              query.filters = snurpArr.reverse()
+              setQuery({ ...query })
+              // dan pas veranderen
+              setInputValue(tempSplitted.join(' '))
+              //   setSplittedInputValue([...tempSplitted])
+              // zet nested filters to false
+              setFiltersAreNested(false)
+            }
           }
         }}
         options={Object.keys(logicalOperatorsMap)}
