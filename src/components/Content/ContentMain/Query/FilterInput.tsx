@@ -27,7 +27,7 @@ export const FilterInput = ({
         height: 30,
         // maxWidth: 'calc(100% - 4px)',
         // border: '1px solid red',
-        lineHeight: '30px',
+        lineHeight: '1.6',
         // alignSelf: 'flex-end',
       }}
       onBlur={() => {

@@ -12,32 +12,87 @@ import {
   AddIcon,
 } from '~'
 import { Fields } from './Fields'
-import { ChevronLeftIcon, ChevronRightIcon } from '~/icons'
-import { border } from '~/utils'
-import { useDialog } from '~/components/Dialog'
+import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
+import { border, color } from '~/utils'
+import { Dialog, useDialog } from '~/components/Dialog'
+
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 
 const EditMenu = ({ type, path }) => {
   const { types } = useSchemaTypes()
   const { confirm } = useDialog()
+  const { open } = useDialog()
   const client = useClient()
   return (
     <ContextItem
       onClick={async () => {
-        if (path.length) {
-        } else if (
-          await confirm(
-            `Are you sure you want to remove ${types[type].meta?.name || type}?`
-          )
-        ) {
-          await client.call('basedUpdateSchema', {
-            types: {
-              [type]: {
-                $delete: true,
-              },
-            },
-          })
-        }
+        // const ok = await open(
+        await open(
+          <Dialog label="Delete Type" style={{ paddingTop: 20 }}>
+            <div style={{}}>
+              <div
+                style={{
+                  display: 'inline-flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  marginBottom: 20,
+                }}
+              >
+                <Text style={{ paddingRight: 4 }}>
+                  Are you sure you want to delete the type{' '}
+                </Text>
+                <Text weight={700}>{type}</Text>
+              </div>
+              <Button
+                light
+                large
+                color="reddish"
+                style={{
+                  display: 'inline-flex',
+                  flexDirection: 'row',
+                  width: '100%',
+                  margin: '0 auto',
+                  pointerEvents: 'none',
+                  height: 40,
+                }}
+              >
+                <div
+                  style={{
+                    display: 'inline-flex',
+                    flexDirection: 'row',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <WarningIcon
+                    color="red"
+                    style={{ marginTop: 1.5, marginRight: 8 }}
+                  />
+                  <Text color="text">
+                    Warning: Data stored in this field will be lost.
+                  </Text>
+                </div>
+              </Button>
+              <Dialog.Buttons border>
+                <Dialog.Cancel />
+                <Dialog.Confirm
+                  color="red"
+                  onConfirm={async () =>
+                    await client.call('basedUpdateSchema', {
+                      types: {
+                        [type]: {
+                          $delete: true,
+                        },
+                      },
+                    })
+                  }
+                >
+                  {`Delete ${type}`}
+                </Dialog.Confirm>
+              </Dialog.Buttons>
+            </div>
+          </Dialog>
+        )
       }}
     >
       Delete
@@ -89,6 +144,7 @@ const Header = ({ back = null, children, type, path }) => {
           style={{
             userSelect: 'none',
             lineHeight: '32px',
+            marginRight: 16,
             // textTransform: 'capitalize',
           }}
         >
@@ -99,7 +155,8 @@ const Header = ({ back = null, children, type, path }) => {
           style={{
             marginTop: 3,
             cursor: 'pointer',
-            marginLeft: 16,
+            // marginLeft: 20,
+            // marginLeft: 16,
           }}
         />
       </div>

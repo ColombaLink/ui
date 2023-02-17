@@ -150,11 +150,11 @@ export const Topbar: FC<TopbarProps> = ({
     )
   })
 
-  useEffect(() => {
-    if (!hasActive && firstHref) {
-      window.history.replaceState({}, '', parseHref(firstHref))
-    }
-  }, [hasActive])
+  // useEffect(() => {
+  //   if (!hasActive && firstHref) {
+  //     window.history.replaceState({}, '', parseHref(firstHref))
+  //   }
+  // }, [hasActive])
 
   return (
     <div

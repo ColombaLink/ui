@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, ReactNode } from 'react'
 import { ToastContext, ToastContextType } from './ToastContext'
+import { styled } from 'inlines'
+import { color, boxShadow } from '~/utils'
+import { Text } from '../Text'
 
 export const ToastContainer = ({
   id,
@@ -7,6 +10,7 @@ export const ToastContainer = ({
   onClick = null,
   toast,
   first = false,
+  style,
 }) => {
   const [fade, setFade] = useState(first)
 
@@ -32,6 +36,8 @@ export const ToastContainer = ({
         opacity: fade ? 0 : 1,
         transition: `opacity 300ms`,
         cursor: 'pointer',
+        borderRadius: 8,
+        ...style,
       }}
       onTransitionEnd={fade ? close : null}
       onClick={() => {
@@ -64,11 +70,14 @@ export const ToastProvider = ({
   const [length, setLength] = useState(0)
   const [toastHeightY, setToastHeightY] = useState(90)
 
+  const [positionFlipped, setPositionFlipped] = useState(false)
+
   const positionRef = useRef<typeof position>()
   const positionStyleRef = useRef<PositionStyleProps>()
   const toastsRef = useRef<Toast[]>()
 
   const toastyRef = useRef(null)
+  const toastHolderRef = useRef(null)
 
   const toastRef = useRef<ToastContextType>()
   if (!toastRef.current) {
@@ -91,6 +100,12 @@ export const ToastProvider = ({
               id={id}
               toast={toast}
               first={!toastsRef.current.length}
+              style={{
+                marginBottom: 16,
+                boxShadow: !positionFlipped
+                  ? 'rgb(0 0 0 / 12%) 0px 8px 20px'
+                  : 'none',
+              }}
             >
               {child}
             </ToastContainer>
@@ -118,16 +133,16 @@ export const ToastProvider = ({
     }
 
     toast.useCount = () => {
-      const [state, setState] = useState(length)
+      const [toastCount, setToastCount] = useState(length)
 
       useEffect(() => {
-        listeners.add(setState)
+        listeners.add(setToastCount)
         return () => {
-          listeners.delete(setState)
+          listeners.delete(setToastCount)
         }
       }, [])
 
-      return state
+      return toastCount
     }
 
     toastRef.current = toast
@@ -141,7 +156,7 @@ export const ToastProvider = ({
     const positionStyle: PositionStyleProps = {}
 
     if (y === 'bottom') {
-      positionStyle.bottom = 16
+      //   positionStyle.bottom = 16
     } else {
       positionStyle.top = 16
     }
@@ -155,32 +170,59 @@ export const ToastProvider = ({
     positionStyleRef.current = positionStyle
   }
 
+  const CounterBadge = styled('div', {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    border: `1px solid ${color('border')}`,
+    backgroundColor: color('background'),
+    position: 'absolute',
+    right: -10,
+    top: -10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    boxShadow: boxShadow('small'),
+  })
+
   const toasts = toastsRef.current.map(({ id, children }, index) => {
-    console.log(id, children, index)
-
-    let y = index * toastHeightY
-
-    if ('bottom' in positionStyleRef.current) {
-      y *= -1
-    }
-
     return (
       <div
         key={id}
         ref={toastyRef}
+        onClick={() => {
+          // close all toasts if more then 8
+          positionFlipped && toastRef.current.close()
+        }}
         style={{
           // TODO FIX THIS
-          zIndex: 99999999999,
-          position: fixed ? 'fixed' : 'absolute',
-          transform: `translate3d(0,${y}px,0)`,
-          transition: 'transform 0.3s',
+          //     zIndex: 99999999999,
+          top: positionFlipped ? 15 : '',
+          transition: positionFlipped ? '' : 'transform 0.3s',
+          position: positionFlipped ? 'absolute' : 'static',
+          marginLeft: 'auto',
+
           ...positionStyleRef.current,
         }}
       >
         {children}
+        {positionFlipped && (
+          <CounterBadge>
+            <Text typo="caption600">{length}</Text>
+          </CounterBadge>
+        )}
       </div>
     )
   })
+
+  useEffect(() => {
+    if (length > 3) {
+      setPositionFlipped(true)
+    }
+    if (length === 0) {
+      setPositionFlipped(false)
+    }
+  }, [length])
 
   useEffect(() => {
     // @ts-ignore
@@ -188,12 +230,44 @@ export const ToastProvider = ({
       // @ts-ignore
       setToastHeightY(toasts[0]?.ref?.current?.clientHeight)
     }
+
+    if (positionFlipped) {
+      for (let i = 0; i < toastHolderRef.current.childNodes.length; i++) {
+        if (i === toastHolderRef.current.childNodes.length - 1) {
+          toastHolderRef.current.childNodes[
+            i
+          ].childNodes[0].childNodes[0].style.boxShadow =
+            'rgb(0 0 0 / 12%) 0px 8px 20px'
+        } else {
+          toastHolderRef.current.childNodes[i].style.boxShadow = 'none'
+          toastHolderRef.current.childNodes[i].childNodes[0].style.boxShadow =
+            'none'
+          toastHolderRef.current.childNodes[
+            i
+          ].childNodes[0].childNodes[0].style.boxShadow = 'none'
+        }
+      }
+    }
   }, [toasts])
 
   return (
     <ToastContext.Provider value={toastRef.current}>
       {children}
-      {toasts}
+      <styled.div
+        ref={toastHolderRef}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: 400,
+          position: 'absolute',
+          bottom: !positionFlipped ? 16 : '',
+          right: positionFlipped ? 0 : 16,
+          top: positionFlipped ? 0 : '',
+          minHeight: positionFlipped && toastHeightY,
+        }}
+      >
+        {toasts.reverse()}
+      </styled.div>
     </ToastContext.Provider>
   )
 }

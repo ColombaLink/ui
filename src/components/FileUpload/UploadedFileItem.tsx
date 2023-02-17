@@ -10,7 +10,10 @@ import {
   ContextItem,
   DeleteIcon,
   EditIcon,
+  ExternalLinkAltIcon,
+  DownloadIcon,
 } from '~'
+import { ZoomInIcon } from '~/icons/ZoomInIcon'
 
 const StyledUploadedFile = styled('div', {
   display: 'flex',
@@ -27,9 +30,16 @@ const StyledUploadedFile = styled('div', {
 
 const StyledMoreIcon = styled('div', {
   position: 'absolute',
+  width: 24,
+  height: 24,
   right: 16,
+  borderRadius: 4,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   '&:hover': {
     cursor: 'pointer',
+    background: color('background2'),
   },
 })
 
@@ -38,6 +48,9 @@ const CacheBackground = ({ file }) => {
     file.src = URL.createObjectURL(file)
   }
   const [url, setUrl] = useState(file.src)
+
+  // console.log('url', url)
+  // console.log('file 🐤', file)
 
   return (
     <div
@@ -63,14 +76,34 @@ export const UploadedFileItem = ({
   file,
   handleClickUpload,
   deleteSpecificFile,
+  openInNewTab,
   id,
   replaceSpecificFile,
+  duplicateFile,
+  downloadFile,
+  renameFile,
+  fullScreenView,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
-    { handleClickUpload, deleteSpecificFile, id, replaceSpecificFile },
+    {
+      handleClickUpload,
+      deleteSpecificFile,
+      id,
+      replaceSpecificFile,
+      openInNewTab,
+      duplicateFile,
+      downloadFile,
+      renameFile,
+      fullScreenView,
+    },
     { placement: 'right' }
   )
+
+  // console.log(file, 'file??')
+
+  // screenshot
+  // console.log(getImageSrcFromId(file?.id))
 
   return (
     <StyledUploadedFile>
@@ -112,7 +145,10 @@ export const UploadedFileItem = ({
       file?.type?.includes('audio') ? null : (
         <AttachmentIcon />
       )}
-      <Text style={{ marginTop: 6, marginBottom: 6 }} weight={400}>
+      <Text
+        style={{ marginTop: 6, marginBottom: 6, maxWidth: '30vw' }}
+        weight={400}
+      >
         {file?.name}
       </Text>
       <StyledMoreIcon onClick={contextHandler}>
@@ -126,19 +162,39 @@ const ContextOptions = ({
   // handleClickUpload,
   deleteSpecificFile,
   id,
-  replaceSpecificFile,
+  openInNewTab,
+  downloadFile,
+  renameFile,
+  fullScreenView,
 }) => {
   return (
     <>
-      <ContextItem onClick={() => replaceSpecificFile(id)} icon={EditIcon}>
-        Edit
+      {/* TODO if multiple file upload works or if multiple file then option to duplicate */}
+      {/* <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
+        Duplicate
+      </ContextItem> */}
+      <ContextItem onClick={() => fullScreenView()} icon={ZoomInIcon}>
+        Expand
+      </ContextItem>
+      <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>
+        Open in new tab
+      </ContextItem>
+      <ContextItem onClick={() => renameFile()} icon={EditIcon}>
+        Rename
+      </ContextItem>
+      {/* TODO if multiple file upload works or if multiple file then option to replace specific id file */}
+      {/* <ContextItem onClick={() => replaceSpecificFile(id)} icon={ReplaceIcon}>
+        Replace
+      </ContextItem> */}
+      <ContextItem onClick={() => downloadFile()} icon={DownloadIcon}>
+        Download
       </ContextItem>
       <ContextItem
-        color="red"
         onClick={() => deleteSpecificFile(id)}
         icon={DeleteIcon}
+        style={{ borderTop: `1px solid ${color('border')}` }}
       >
-        Remove
+        Delete
       </ContextItem>
     </>
   )

@@ -30,7 +30,7 @@ export const ResizableInput = ({
       value={value}
       onChange={setValue}
       autoFocus={!valueProp}
-      style={{ width }}
+      style={{ width, minWidth: 42 }}
       onKeyDown={(e) => {
         console.log('------- ! -------')
         if (e.key === 'Backspace') {

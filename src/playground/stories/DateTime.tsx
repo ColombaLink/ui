@@ -12,10 +12,8 @@ export const DateTime = () => {
       examples={[
         {
           props: {
-            value: 1662656400000,
-            label: 'Date Time',
-            // description: 'Description',
-            utc: true,
+            label: 'Date Range',
+            dateRange: true,
             descriptionBottom: 'Onchange (e) returns value in milliseconds',
             onChange: (e) => console.log(e),
             indent: true,
@@ -23,13 +21,26 @@ export const DateTime = () => {
             style: {
               marginBottom: 420,
             },
-            till: '2022, 12, 31',
-            from: '2021, 01, 01',
+            onClose: () => console.log('Closed dateRange picker ??'),
+            startValue: 1620000000000,
+            endValue: 1420000000000,
+          },
+        },
+        {
+          props: {
+            label: 'Date / Time ',
+            description: 'Optional to show time and utc',
+            space: '32px',
+            onChange: (e) => console.log(e),
+            style: {
+              marginBottom: 420,
+            },
             error: (e) => {
               if (Number.isNaN(e)) {
                 return 'Not a number error!'
               }
             },
+            onClose: () => console.log('closed the picker'),
           },
         },
       ]}

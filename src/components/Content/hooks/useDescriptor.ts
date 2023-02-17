@@ -17,6 +17,9 @@ export const useDescriptor = (id) => {
   const descriptorFields = schema.fields
     ? getDescriptors(schema.fields, schema.meta)
     : []
+
+  // console.log(descriptorFields, 'descriptorFields')
+
   const { data, loading } = useData(
     schema.fields
       ? {
@@ -31,7 +34,7 @@ export const useDescriptor = (id) => {
 
   return {
     ...schema,
-    descriptor: data.descriptor || '-',
+    descriptor: data.descriptor || '',
     loading: schema.loading || loading,
     descriptorFields,
   }

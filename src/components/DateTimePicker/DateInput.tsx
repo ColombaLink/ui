@@ -1,7 +1,27 @@
-import React, { FC, useState } from 'react'
+import React, { CSSProperties, FC, useEffect, useState, useRef } from 'react'
 import { styled } from 'inlines'
-import { color, CalendarIcon, boxShadow } from '~'
+import { color, CalendarAltIcon, boxShadow } from '~'
 import { DatePicker } from './DatePicker'
+
+type DateInputProps = {
+  value?: string
+  dateHandler?: (value: string) => void
+  setFocused?: (value: boolean) => void
+  clearHandler?: () => void
+  fromValue?: string
+  tillValue?: string
+  style?: CSSProperties
+  placeholder?: string
+  focusOnBeginDate?: boolean
+  focusOnEndDate?: boolean
+  isEndDate?: boolean
+  isDateRange?: boolean
+  setFromValue?: (value: string) => void
+  setTillValue?: (value: string) => void
+  setFocusOnBeginDate?: (value: boolean) => void
+  setFocusOnEndDate?: (value: boolean) => void
+  onClick?: () => void
+}
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -14,15 +34,6 @@ const StyledDateInput = styled('input', {
   boxShadow: boxShadow('medium'),
 })
 
-type DateInputProps = {
-  value?: string
-  dateHandler?: (value: string) => void
-  setFocused?: (value: boolean) => void
-  clearHandler?: () => void
-  fromValue?: string
-  tillValue?: string
-}
-
 export const DateInput: FC<DateInputProps> = ({
   value,
   setFocused,
@@ -30,17 +41,91 @@ export const DateInput: FC<DateInputProps> = ({
   clearHandler,
   fromValue,
   tillValue,
+  style,
+  placeholder,
+  focusOnBeginDate,
+  focusOnEndDate,
+  isEndDate,
+  isDateRange,
+  setFromValue,
+  setTillValue,
+  setFocusOnBeginDate,
+  setFocusOnEndDate,
+  onClick,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
   const dateObj = new Date()
 
-  // console.log('from , till ---> ', fromValue, tillValue)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // console.log('focusOnEndDate', focusOnEndDate)
+  // console.log('focusOnBeginDate', focusOnBeginDate)
+
+  useEffect(() => {
+    if (focusOnEndDate && !focusOnBeginDate && !tillValue) {
+      inputRef.current.focus()
+
+      // @ts-ignore
+      inputRef.current.value = dateInputHandler({
+        target: {
+          value:
+            // `${
+            //   dateObj.getUTCDate() < 10
+            //     ? '0' + dateObj.getUTCDate()
+            //     : dateObj.getUTCDate()
+            // }
+            `--/${
+              dateObj.getUTCMonth() + 1 < 10
+                ? '0' + (dateObj.getUTCMonth() + 1)
+                : dateObj.getUTCMonth() + 1
+            }/${dateObj.getUTCFullYear()}`,
+        },
+      })
+    }
+  }, [focusOnEndDate, focusOnBeginDate])
+
+  // moet er voor zorgen dat de focus wisselt
+  useEffect(() => {
+    if (!focusOnEndDate && focusOnBeginDate) {
+      inputRef.current.focus()
+    }
+    if (focusOnEndDate && !focusOnBeginDate) {
+      inputRef.current.focus()
+    }
+  }, [focusOnBeginDate, focusOnEndDate])
 
   if (showDatePicker) {
     setFocused(true)
   }
+
+  // lister for the value of the input
+  useEffect(() => {
+    if (value[0] === 'N') {
+      inputRef.current.value = dateInputHandler({
+        target: {
+          value:
+            // `${
+            //   dateObj.getUTCDate() < 10
+            //     ? '0' + dateObj.getUTCDate()
+            //     : dateObj.getUTCDate()
+            // }
+            `--${value?.substr(3)}`,
+        },
+      })
+    }
+
+    // Fulco's birthday
+    if (
+      value[0] === '2' &&
+      value[1] === '9' &&
+      value[3] === '0' &&
+      value[4] === '2'
+    ) {
+      console.log("Fulco's birthday 🎉🎁🎈")
+    }
+  }, [value])
 
   const dateInputHandler = (e) => {
     if (e.target.value.length === 2) {
@@ -54,8 +139,8 @@ export const DateInput: FC<DateInputProps> = ({
 
   return (
     <div style={{ position: 'relative' }}>
-      <CalendarIcon
-        size={14}
+      <CalendarAltIcon
+        size={16}
         style={{
           pointerEvents: 'none',
           position: 'absolute',
@@ -64,10 +149,10 @@ export const DateInput: FC<DateInputProps> = ({
         }}
       />
       <StyledDateInput
+        ref={inputRef}
         value={value}
-        placeholder="Select a date"
+        placeholder={placeholder || 'Select a date'}
         type="text"
-        //  pattern="\d{1,2}/\d{1,2}/\d{4}"
         style={{
           backgroundColor: showDatePicker
             ? color('background2')
@@ -77,6 +162,8 @@ export const DateInput: FC<DateInputProps> = ({
           borderBottom: showDatePicker
             ? '0px solid'
             : `1px solid ${color('border')}`,
+          paddingLeft: 32,
+          ...style,
         }}
         onChange={(e) => {
           dateInputHandler(e)
@@ -85,20 +172,25 @@ export const DateInput: FC<DateInputProps> = ({
           if (value === '') {
             dateInputHandler({
               target: {
-                value: `${
-                  dateObj.getUTCDate() < 10
-                    ? '0' + dateObj.getUTCDate()
-                    : dateObj.getUTCDate
-                }/${
-                  dateObj.getUTCMonth() + 1 < 10
-                    ? '0' + (dateObj.getUTCMonth() + 1)
-                    : dateObj.getUTCMonth() + 1
-                }/${dateObj.getUTCFullYear()}`,
+                value:
+                  // `${
+                  //   dateObj.getUTCDate() < 10
+                  //     ? '0' + dateObj.getUTCDate()
+                  //     : dateObj.getUTCDate()
+                  // }
+                  `--/${
+                    dateObj.getUTCMonth() + 1 < 10
+                      ? '0' + (dateObj.getUTCMonth() + 1)
+                      : dateObj.getUTCMonth() + 1
+                  }/${dateObj.getUTCFullYear()}`,
               },
             })
           }
           e.preventDefault()
           setShowDatePicker(true)
+          if (isDateRange) {
+            onClick()
+          }
         }}
         onFocus={() => {
           setIsFocus(true)
@@ -118,9 +210,17 @@ export const DateInput: FC<DateInputProps> = ({
           setShowDatePicker={setShowDatePicker}
           setFocused={setFocused}
           clearHandler={clearHandler}
-          // testing
+          // voor de date range
+          isDateRange={isDateRange}
           fromValue={fromValue}
           tillValue={tillValue}
+          setFromValue={setFromValue}
+          setTillValue={setTillValue}
+          focusOnBeginDate={focusOnBeginDate}
+          focusOnEndDate={focusOnEndDate}
+          setFocusOnBeginDate={setFocusOnBeginDate}
+          setFocusOnEndDate={setFocusOnEndDate}
+          style={{ left: isEndDate ? '-100%' : '' }}
         />
       )}
     </div>

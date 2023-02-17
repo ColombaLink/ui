@@ -187,14 +187,14 @@ export const Sidebar: FC<SidebarProps> = ({
     )
   })
 
-  useEffect(() => {
-    if (!hasActive) {
-      const firstHref = parsedData[0].href
-      if (firstHref) {
-        window.history.replaceState({}, '', parseHref(parsedData[0].href))
-      }
-    }
-  }, [hasActive])
+  // useEffect(() => {
+  //   if (!hasActive) {
+  //     const firstHref = parsedData[0].href
+  //     if (firstHref) {
+  //       window.history.replaceState({}, '', parseHref(parsedData[0].href))
+  //     }
+  //   }
+  // }, [hasActive])
 
   return (
     <div

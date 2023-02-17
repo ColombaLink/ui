@@ -1,6 +1,6 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
 import { useQuery } from './useQuery'
@@ -49,35 +49,40 @@ const Menu = ({ views, currentView, deletable }) => {
   )
 }
 
-const CreateMenu = ({ prefix, types }) => {
-  const [, setLocation] = useLocation()
-  return (
-    <>
-      {Object.keys(types)
-        .sort()
-        .map((type) => {
-          return type === 'root' ? null : (
-            <ContextItem
-              key={type}
-              onClick={() => {
-                setLocation(`${prefix}/create/${type}`)
-              }}
-            >
-              {type}
-            </ContextItem>
-          )
-        })}
-    </>
-  )
-}
+// const CreateMenu = ({ prefix, types }) => {
+//   const [, setLocation] = useLocation()
+//   return (
+//     <>
+//       {Object.keys(types)
+//         .sort()
+//         .map((type) => {
+//           return type === 'root' ? null : (
+//             <ContextItem
+//               key={type}
+//               onClick={() => {
+//                 setLocation(`${prefix}/create/${type}`)
+//               }}
+//             >
+//               {type}
+//             </ContextItem>
+//           )
+//         })}
+//     </>
+//   )
+// }
 
 const Header = ({ label, view, prefix }) => {
-  const { types } = useSchemaTypes()
+  const [, setLocation] = useLocation()
+  // const { types } = useSchemaTypes()
   const createBtn = (
     <Button
       large
       icon={AddIcon}
-      onClick={useContextMenu(CreateMenu, { prefix, types })}
+      onClick={() => {
+        // console.log('lable', label, 'view', view, 'prefix', prefix)
+        setLocation(`${prefix}/create/${view}`)
+      }}
+      //  onClick={useContextMenu(CreateMenu, { prefix, types })}
     >
       Create Item
     </Button>
@@ -113,17 +118,19 @@ const Header = ({ label, view, prefix }) => {
   parse()
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginTop: '5px' }}>
-      <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
-        {currentView?.label}
-      </Text>
-      <div style={{ padding: '0 16px' }}>
-        <MoreIcon
-          onClick={useContextMenu(Menu, { views, currentView, deletable })}
-          style={{
-            cursor: 'pointer',
-          }}
-        />
+    <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
+          {currentView?.label}
+        </Text>
+        <div style={{ padding: '0 16px' }}>
+          <MoreIcon
+            onClick={useContextMenu(Menu, { views, currentView, deletable })}
+            style={{
+              cursor: 'pointer',
+            }}
+          />
+        </div>
       </div>
 
       {/* old buttons place */}
@@ -142,11 +149,13 @@ export const ContentMain = ({
   label = null,
 }) => {
   const { loading, types } = useSchemaTypes()
-  const [, setLocation] = useLocation()
+  const [location, setLocation] = useLocation()
   const query = useQuery(queryOverwrite)
 
   const { confirm, prompt } = useDialog()
   const client = useClient()
+
+  const [isMultiref, setIsMultiref] = useState(false)
 
   const { data: views } = useData('basedObserveViews')
   let currentView
@@ -165,6 +174,21 @@ export const ContentMain = ({
   }
 
   parse()
+
+  // console.log('------>>>>>', currentView, types, query)
+
+  /// THIS CHECKS IF THE FIELD IS A REFERENCE
+  useEffect(() => {
+    // console.log('currentView changed', currentView)
+    if (
+      types[currentView?.id]?.fields[query.field].type === 'references' &&
+      query.field !== 'descendants'
+    ) {
+      setIsMultiref(true)
+    } else {
+      setIsMultiref(false)
+    }
+  }, [query.field])
 
   if (loading) return null
 
@@ -190,11 +214,12 @@ export const ContentMain = ({
   const fieldTypes = {}
 
   includedTypes.forEach((type) => {
-    const { fields } = types[type]
+    const { fields = {} } = types[type] || {}
+
     for (const field in fields) {
       if (!alwaysIgnore.has(field)) {
         const index = fields[field].meta?.index
-        fieldTypes[field] = fields[field].type
+        fieldTypes[field] = fields[field]?.type
         if (index === undefined) {
           other.add(field)
         } else if (!(index in indexed)) {
@@ -212,6 +237,88 @@ export const ContentMain = ({
 
   const fields = Array.from(set) as string[]
 
+  // onAction for table selected items ... more actions will follow
+  const onAction = (items, string) => {
+    if (string === 'delete') {
+      Promise.all(items.map((v) => client.delete({ $id: v.id }))).then(() => {
+        console.info('DELETE TIMES 🥨')
+      })
+    }
+  }
+
+  /*
+  $filter: {
+    $field: 'bla'
+    $operator: '=',
+    $value: 'blub',
+    $or: {
+      $field: 'bla',
+      $operator: '=',
+      $value: 'blub',
+    }
+  }
+  // 1
+  const a = b && c || d
+  $filter: {
+    $field: 'type',
+    $operator: '=',
+    $value: 'yvestype',
+    $and: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'yves',  
+    },
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'youri',
+    }
+  }
+
+  // 2
+  const a = b || c && d
+    $filter: {
+    $field: 'type',
+    $operator: '=',
+    $value: 'yvestype',
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'yves',
+      $and: {
+        $field: 'name',
+        $operator: '=',
+        $value: 'youri',
+      }
+    }
+  }
+
+  $filter: [{
+    $field: 'type',
+    $operator: '=',
+    $value: 'yves',
+    $and: {
+      $field: 'name',
+
+    }
+  }, {
+    $field: 'name',
+    $operator: '=',
+    $value: 'yves',
+    $or: {
+      $field: 'name',
+      $operator: '=',
+      $value: 'youri',
+    }
+  }]
+
+  this AND (taht OR smurf)
+  (this AND taht) OR smurf
+
+
+  */
+  // console.log('query', query, fields, types, fieldTypes, currentView)
+
   return (
     <div
       style={{
@@ -226,11 +333,10 @@ export const ContentMain = ({
           display: 'flex',
           flexDirection: 'column',
           gap: 16,
-          padding: '16px 24px',
+          padding: '24px 32px 16px',
         }}
       >
         <Header label={label} view={view} prefix={prefix} />
-
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flexGrow: 1 }}>
             {queryOverwrite ? null : (
@@ -242,6 +348,10 @@ export const ContentMain = ({
               />
             )}
           </div>
+
+          {/*  only display if either the query changes or the selected boxes 
+             so if something in the url changes i guess  */}
+
           <div style={{ display: 'flex', gap: 4, marginLeft: 16 }}>
             <Button
               style={{ maxHeight: 32, marginTop: 4 }}
@@ -252,12 +362,13 @@ export const ContentMain = ({
                   `Update '${currentView.label}'`,
                   <Callout
                     icon={<WarningIcon />}
-                    color="orange"
+                    color="red"
                     label=" You are about to update the default view for all users."
                     labelColor="text"
                   />
                 )
                 if (ok) {
+                  // @ts-ignore TODO: will be replaced later with useRoute
                   currentView.query = location.search.substring(1)
                   await client.call('basedSetViews', views)
                 }
@@ -285,6 +396,7 @@ export const ContentMain = ({
                   }
                   views.custom.push({
                     id,
+                    // @ts-ignore TODO: will be replaced later with useRoute
                     query: location.search.substring(1),
                     label,
                   })
@@ -297,16 +409,23 @@ export const ContentMain = ({
           </div>
         </div>
       </div>
+
       <Table
         key={fields.length}
         fields={fields}
         target={query.target}
+        onAction={(items) => onAction(items, 'delete')}
         language="en"
+        isMultiref={isMultiref}
+        prefix={prefix}
+        view={view}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
             setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+            setIsMultiref(true)
           } else {
             setLocation(`${prefix}/${item.id}/${field}`)
+            setIsMultiref(false)
           }
         }}
         query={($offset, $limit, $field, $order) => {
@@ -330,6 +449,7 @@ export const ContentMain = ({
                         return false
                       }
                     }
+
                     return true
                   }
                 ),

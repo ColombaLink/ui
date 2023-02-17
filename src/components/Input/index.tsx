@@ -38,6 +38,12 @@ const Multi = ({ style, inputRef, ...props }) => {
     <div
       onFocus={() => setInputFocus(true)}
       onBlur={() => setInputFocus(false)}
+      style={{
+        border: inputFocus
+          ? `3px solid rgba(44, 60, 234, 0.2)`
+          : `3px solid transparent`,
+        borderRadius: 10,
+      }}
     >
       <textarea
         style={{
@@ -47,9 +53,9 @@ const Multi = ({ style, inputRef, ...props }) => {
           paddingTop: 8,
           minHeight: 84,
           paddingLeft: 12,
-          outline: inputFocus
-            ? `3px solid rgba(44, 60, 234, 0.2)`
-            : `3px solid transparent`,
+          // outline: inputFocus
+          //   ? `3px solid rgba(44, 60, 234, 0.2)`
+          //   : `3px solid transparent`,
           border: inputFocus
             ? `1.5px solid ${color('accent')}`
             : `1px solid ${color('border')}`,
@@ -321,18 +327,13 @@ export const Input: FC<
     onChange,
     autoFocus,
     style: {
-      margin: 0,
-      outline: ghost
-        ? `3px solid transparent`
-        : focused
-        ? `3px solid rgba(44, 60, 234, 0.2)`
-        : `3px solid transparent`,
+      outlineRadius: '8',
       outlineOffset: ghost ? null : focus ? -1 : -1,
       borderRadius: 8,
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
-      minHeight: ghost ? 36 : large ? 48 : 36,
+      minHeight: ghost ? '' : large ? 48 : 36,
       paddingLeft,
       border: ghost
         ? `0px solid transparent`
@@ -416,6 +417,12 @@ export const Input: FC<
           style={{
             position: 'relative',
             color: color('text'),
+            border: ghost
+              ? `2px solid transparent`
+              : focused
+              ? `2px solid rgba(44, 60, 234, 0.2)`
+              : `2px solid transparent`,
+            borderRadius: 10,
           }}
         >
           {!jsonInput && !markdownInput && !multiline
@@ -489,7 +496,9 @@ export const Input: FC<
               onChange={onChange}
             >
               <Single
+                type="text"
                 {...props}
+                // safari fix maybe it breaks smth
                 onKeyDown={(e) => {
                   // now you can remove the zero in input fields
                   if (e.key === 'Backspace' && value === 0) {

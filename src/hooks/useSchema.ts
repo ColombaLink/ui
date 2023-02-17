@@ -1,5 +1,5 @@
 import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
-import { systemFields } from '~/components/Schema/templates'
+import { systemFields } from '~/components/Schema/templates/index'
 
 export const sortFields = (fields) => {
   try {
@@ -10,10 +10,10 @@ export const sortFields = (fields) => {
         if (indexB === undefined) {
           if (systemFields.has(a)) {
             if (!systemFields.has(b)) {
-              return 1
+              return -1
             }
           } else if (systemFields.has(b)) {
-            return -1
+            return 1
           }
           return a < b ? -1 : 1
         }
