@@ -86,18 +86,6 @@ export const FromQueryToText = () => {
         }}
       />
 
-      <Text space>
-        {JSON.stringify(
-          {
-            $field: 'x',
-            $operator: '!=',
-            $value: 'xxx',
-            $or: { $field: 'c', $operator: '!=', $value: 'c' },
-          },
-          null,
-          2
-        )}
-      </Text>
       <Text space>normal: {readableText}</Text>
       <Button
         onClick={() => {

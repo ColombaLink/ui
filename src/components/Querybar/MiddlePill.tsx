@@ -83,7 +83,7 @@ export const MiddlePill = ({
                 '& div': { padding: '10px' },
                 '& svg': { display: 'none' },
               }}
-              onChange={(e) => {
+              onChange={(e: string) => {
                 // setValueText(e)
                 console.log('Change -->', e, 'type of e -->', typeof e)
 

@@ -18,15 +18,10 @@ import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 import { FromQueryToText } from './FromQueryToText'
+import { useLocation } from '~/hooks'
 
-// TODO: Caret position in middle block indicator
+// TODO: Caret position in and around middle block indicator
 
-// TODO: on submit or nest make sure there is not a empty $ operator , if so remove it
-/// now there is a bug if you try to nest a filter with an empty $ operator
-
-// TODO on $ operator backspace remove pop the whole operator and value
-
-// TODO: show query in box , but also be able to edit it there...
 // Might have to split up the first 3 blocks and the rest as repeatable component blocks..
 // TODO: make little query segments that can be copied , pasted and saved which will become filters
 
@@ -35,8 +30,6 @@ import { FromQueryToText } from './FromQueryToText'
 // TODO: Refactor / Clean up code / keypress handler and more
 // TODO: index.tsx:210 Uncaught TypeError: _a2.forEach is not a function nested filter ts error
 // TODO: bug testing 🪲
-
-// when will submit happen -> enter in right pill & on blur at the moment
 
 const AP_LIMIT = 140
 
@@ -77,6 +70,9 @@ export const QueryBar = () => {
     open: boolean
   }>({ num: 0, open: false })
 
+  // url location
+  const [, setLocation] = useLocation()
+
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
     if (filtersAreNested && isFocused) {
@@ -96,9 +92,14 @@ export const QueryBar = () => {
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
 
-    if (inputValue.split(' ').length > 0) {
+    if (inputValue.split(' ').length > 1) {
       query.target = splittedInputValue[1]
+      setLocation(`?target=${inputValue.split(' ')[1]?.toString()}`)
+    }
+
+    if (inputValue.split(' ').length > 2) {
       query.field = splittedInputValue[2]
+      setLocation(`?field=${inputValue.split(' ')[2]?.toString()}`)
     }
 
     SetQueryFilterProperties(inputValue.split(' '))
@@ -256,6 +257,9 @@ export const QueryBar = () => {
     }
     snurpArr.push(tempObj)
   }
+
+  // //////////////////////////////////////////// URL SEARCH LOCATION LOGIC
+  const urlSearch = useLocation().search
 
   // //////////////////////////////////////////// SUGGESTION TAGS
   const setSuggestions = () => {
@@ -415,13 +419,7 @@ export const QueryBar = () => {
             setCarretPosition(carretPosition + 1)
           }
 
-          if (
-            e.key === 'ArrowUp' ||
-            e.key === 'ArrowDown'
-            // ||
-            // e.key === 'ArrowLeft' ||
-            // e.key === 'ArrowRight'
-          ) {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
             // 4 , 8 , 12 , 16
             // of and or or not
             // 7, 11, 15, 19

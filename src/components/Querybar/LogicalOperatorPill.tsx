@@ -71,7 +71,7 @@ export const LogicalOperatorPill = ({
           '& div': { color: `${color('accent')} !important`, padding: '10px' },
           '& svg': { display: 'none' },
         }}
-        onChange={(e) => {
+        onChange={(e: string) => {
           if (
             Object.keys(logicalOperatorsMap).includes(e) &&
             carretIsInBlockIndex !== idx
