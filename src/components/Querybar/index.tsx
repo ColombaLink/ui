@@ -24,6 +24,8 @@ import { FromQueryToText } from './FromQueryToText'
 // TODO: on submit or nest make sure there is not a empty $ operator , if so remove it
 /// now there is a bug if you try to nest a filter with an empty $ operator
 
+// TODO on $ operator backspace remove pop the whole operator and value
+
 // TODO: show query in box , but also be able to edit it there...
 // Might have to split up the first 3 blocks and the rest as repeatable component blocks..
 // TODO: make little query segments that can be copied , pasted and saved which will become filters
@@ -54,7 +56,7 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
-  const [inputValue, setInputValue] = useState('In root descendants type ')
+  const [inputValue, setInputValue] = useState('In root parents')
   const [splittedInputValue, setSplittedInputValue] = useState<string[]>([])
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState<any[]>([])

@@ -5,13 +5,13 @@ import { logicalOperatorsMap } from './Operators'
 export const FromQueryToText = () => {
   // Input field for queries
   const [rawInputValue, setRawInputValue] = useState(
-    '{"target":"root","field":"descendants","filters":{"$field":"a","$operator":"=","$value":"a","$and":{"$field":"b","$operator":"=","$value":"b","$or":{"$field":"c","$operator":"!=","$value":"c"}}}}'
+    `{"$field":"x","$operator":"!=","$value":"xxx","$or":{"$field":"c","$operator":"!=","$value":"c"}}`
   )
   const [readableText, setReadableText] = useState('')
 
   let filterString = ''
-
   const flatArr = []
+
   const FlatIt = (obj) => {
     const tempObj = {}
     for (const key in obj) {
@@ -33,10 +33,22 @@ export const FromQueryToText = () => {
     filterString = ''
     const parsed = JSON.parse(input)
 
-    const target = parsed.target
-    const field = parsed.field
+    let target = ''
+    let field = ''
 
-    FlatIt(parsed.filters)
+    if (parsed.target) {
+      target = parsed.target + ' '
+    }
+
+    if (parsed.field) {
+      field = parsed.field + ' '
+    }
+
+    if (parsed.filters) {
+      FlatIt(parsed.filters)
+    } else {
+      FlatIt(parsed)
+    }
 
     flatArr.reverse().forEach((obj) => {
       const logicalOperator = Object.keys(obj)
@@ -49,8 +61,8 @@ export const FromQueryToText = () => {
         filterString += `${obj.$field} ${obj.$operator} ${obj.$value}`
       }
     })
-    console.log(`in ${target} ${field} ${filterString}`)
-    return `in ${target} ${field} ${filterString}`
+    console.log(`${target}${field}${filterString}`)
+    return `${target}${field}${filterString}`
   }
 
   return (
@@ -83,3 +95,9 @@ export const FromQueryToText = () => {
 }
 
 // {"filters":{"$field":"flip","$operator":"=","$value":"flap"},"target":"root","field":"descendants"}
+
+// {"$field":"c","$operator":"!=","$value":"c"}
+
+// {"target":"root","field":"descendants","filters":{"$field":"a","$operator":"=","$value":"a","$and":{"$field":"b","$operator":"=","$value":"b","$or":{"$field":"c","$operator":"!=","$value":"c"}}}}
+
+// {"$field":"x","$operator":"!=","$value":"xxx","$or":{"$field":"c","$operator":"!=","$value":"c"}}
