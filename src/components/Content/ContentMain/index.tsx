@@ -380,6 +380,8 @@ export const ContentMain = ({
               style={{ maxHeight: 32, marginTop: 4 }}
               ghost
               onClick={async () => {
+                console.log('location', location.search)
+
                 const label = (await prompt(
                   'What would you like to call this view?'
                 )) as string
@@ -397,7 +399,7 @@ export const ContentMain = ({
                   views.custom.push({
                     id,
                     // @ts-ignore TODO: will be replaced later with useRoute
-                    query: location.search.substring(1),
+                    query: location.substring(1),
                     label,
                   })
                   await client.call('basedSetViews', views)
