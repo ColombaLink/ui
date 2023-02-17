@@ -215,6 +215,8 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     return true
   })
 
+  // console.log('filtered', filtered)
+
   return (
     <DndContext
       sensors={sensors}

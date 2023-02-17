@@ -1,5 +1,5 @@
 import { useClient, useData } from '@based/react'
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -11,7 +11,7 @@ import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
 import { useDescriptor } from '../hooks/useDescriptor'
 import { prettyDate } from '@based/pretty-date'
-import { Select, StyledSelect } from '~/components/Select'
+import { Select } from '~/components/Select'
 import useLocalStorage from '@based/use-local-storage'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
@@ -20,7 +20,7 @@ import { styled } from 'inlines'
 
 const Topbar = ({ id, type, onClose }) => {
   const [location, setLocation] = useLocation()
-  const { descriptor, type: schemaType, loading } = useDescriptor(id)
+  const { type: schemaType, loading } = useDescriptor(id)
 
   return (
     <div
@@ -129,6 +129,7 @@ const parseBasedSetPayload = (payload) => {
     }
   }
 }
+let dialog = false
 
 const ContentModalInner = ({ prefix, id, field }) => {
   const client = useClient()
@@ -142,6 +143,42 @@ const ContentModalInner = ({ prefix, id, field }) => {
   const type = id ? null : field
 
   const [copied, copy] = useCopyToClipboard(id)
+  useEffect(() => {
+    // event.preventDefault()
+    async function handleKeyDown(e) {
+      if (
+        e.keyCode === 13 &&
+        !e.shiftKey &&
+        document.activeElement.className !==
+          'npm__react-simple-code-editor__textarea'
+      ) {
+        const blabla = async () => {
+          parseBasedSetPayload(changes)
+          await client.set({
+            $id: id?.split('.')[0] || undefined,
+            type,
+            ...changes,
+          })
+          published.current = true
+          ref.current = {}
+          setDisabled(true)
+        }
+        blabla()
+        dialog = false
+      }
+      if (e.keyCode === 27 && dialog === false) {
+        dialog = true
+        await onClose()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    // window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      // window.removeEventListener('keyup', handleKeyUp)
+    }
+  })
+  const dialogTime = () => (dialog = false)
 
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
@@ -155,9 +192,16 @@ const ContentModalInner = ({ prefix, id, field }) => {
         >
           Are you sure you want to exit?
           <Dialog.Buttons>
-            <Dialog.Cancel />
+            <Dialog.Cancel
+              onCancel={() => {
+                setTimeout(dialogTime, 10)
+                const dialogTimeOut = setTimeout(dialogTime, 5000)
+                clearTimeout(dialogTimeOut)
+              }}
+            />
             <Dialog.Confirm
               onConfirm={() => {
+                dialog = false
                 setLocation(prefix)
               }}
             >
@@ -167,6 +211,9 @@ const ContentModalInner = ({ prefix, id, field }) => {
         </Dialog>
       )
     } else {
+      setTimeout(dialogTime, 10)
+      const dialogTimeOut = setTimeout(dialogTime, 5000)
+      clearTimeout(dialogTimeOut)
       setLocation(prefix)
     }
   }
@@ -276,7 +323,6 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
-                console.log(JSON.stringify(changes, null, 2))
                 await client.set({
                   $id: id?.split('.')[0] || undefined,
                   type,

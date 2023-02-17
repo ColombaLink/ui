@@ -18,6 +18,7 @@ export const useToast = ({ attached = false } = {}) => {
       const extendedToast = Object.assign((child) => {
         const id = toast(child)
         attachedIds.current.add(id)
+
         return id
       }, toast)
 

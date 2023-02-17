@@ -9,7 +9,7 @@ export type DialogContextType = open & {
   alert: (id?: string | number, children?: JSX.Element) => boolean
   prompt: (id?: string | number, children?: JSX.Element) => boolean | string
   useCount: () => number
-  _id: number
+  _id?: number
 }
 
 export const DialogContext = createContext<DialogContextType>(undefined)

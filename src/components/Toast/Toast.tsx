@@ -35,7 +35,6 @@ export const Toast: FC<ToastProps> = ({
         cursor: 'pointer',
         padding: '12px 16px',
         paddingBottom: label && !description && !children ? '8px' : '12px',
-        marginBottom: 16,
         width: 400,
         ...style,
       }}

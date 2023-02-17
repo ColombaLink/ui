@@ -6,7 +6,7 @@ import { Checkbox } from '../Checkbox'
 import { EditIcon } from '~/icons'
 import { ACTIONS_WIDTH, ITEM_HEIGHT } from './constants'
 import { isDate, toDateString } from '~/utils/date'
-import { Cell } from './Cell'
+import { Cell } from './_Cell'
 
 const Edit = styled(EditIcon, {
   cursor: 'pointer',
@@ -28,6 +28,7 @@ export const Row = ({
         display: 'flex',
         alignItems: 'center',
         borderBottom: `1px solid ${color('border')}`,
+
         ...style,
       }}
     >

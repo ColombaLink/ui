@@ -435,9 +435,13 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "scale": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n}",
+      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n  scale?: number\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BarSegmentProps": {
@@ -766,9 +770,13 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: string\n  space?: Space\n  small?: boolean\n  color?: Color\n}",
+      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: CSSProperties\n  onChange?: (value: boolean) => void\n  label?: string\n  space?: Space\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1001,25 +1009,6 @@
       "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
-    "ListItemProps": {
-      "name": "ListItemProps",
-      "props": {
-        "index": {
-          "optional": true,
-          "type": "number"
-        },
-        "data": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        }
-      },
-      "code": "type ListItemProps = {\n  index?: number\n  data?: any\n  style?: CSSProperties\n}",
-      "file": "/components/CustomList/ListItem.tsx"
-    },
     "DateInputProps": {
       "name": "DateInputProps",
       "props": {
@@ -1046,9 +1035,53 @@
         "tillValue": {
           "optional": true,
           "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "placeholder": {
+          "optional": true,
+          "type": "string"
+        },
+        "focusOnBeginDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "focusOnEndDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isEndDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isDateRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocusOnBeginDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocusOnEndDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  style?: CSSProperties\n  placeholder?: string\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n  isEndDate?: boolean\n  isDateRange?: boolean\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  onClick?: () => void\n}",
       "file": "/components/DateTimePicker/DateInput.tsx"
     },
     "DatePickerProps": {
@@ -1081,9 +1114,41 @@
         "tillValue": {
           "optional": true,
           "type": "string"
+        },
+        "isDateRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "setFocusOnBeginDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFocusOnEndDate": {
+          "optional": true,
+          "type": "function"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "focusOnBeginDate": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "focusOnEndDate": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateRangeInputProps": {
@@ -1101,16 +1166,28 @@
           "optional": true,
           "type": "function"
         },
-        "clearHandler": {
-          "optional": true,
-          "type": "function"
-        },
         "setErrorMessage": {
           "optional": true,
           "type": "function"
+        },
+        "setFromValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "setTillValue": {
+          "optional": true,
+          "type": "function"
+        },
+        "fromValue": {
+          "optional": true,
+          "type": "string"
+        },
+        "tillValue": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  setErrorMessage?: (value: string) => void\n}",
+      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
       "file": "/components/DateTimePicker/DateRangeInput.tsx"
     },
     "DateTimePickerProps": {
@@ -1159,6 +1236,24 @@
             "number"
           ]
         },
+        "startValue": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "endValue": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "time": {
+          "optional": true,
+          "type": "boolean"
+        },
         "utc": {
           "optional": true,
           "type": "boolean"
@@ -1166,10 +1261,81 @@
         "dateRange": {
           "optional": true,
           "type": "boolean"
+        },
+        "onClose": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  utc?: boolean\n  dateRange?: boolean\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  startValue?: string | number\n  endValue?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
       "file": "/components/DateTimePicker/index.tsx"
+    },
+    "DrawerProps": {
+      "name": "DrawerProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "isRendered": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "sidebar": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "sidebarElem": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "noBoxShadow": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "width": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "height": {
+          "optional": true,
+          "type": [
+            "string",
+            "number"
+          ]
+        },
+        "closeFunc": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "fullscreen": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type DrawerProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  isRendered?: boolean\n  sidebar?: boolean\n  sidebarElem?: ReactNode | ReactNode[]\n  noBoxShadow?: boolean\n  width?: string | number\n  height?: string | number\n  closeFunc?: any\n  style?: CSSProperties\n  fullscreen?: boolean\n}",
+      "file": "/components/Drawer/index.tsx"
     },
     "ExpandableListProps": {
       "name": "ExpandableListProps",
@@ -1277,10 +1443,10 @@
         },
         "value": {
           "optional": true,
-          "type": "TSAnyKeyword"
+          "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: any\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -2503,6 +2669,20 @@
       "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  color?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
     },
+    "ProgressBarProps": {
+      "name": "ProgressBarProps",
+      "props": {
+        "progress": {
+          "type": "number"
+        },
+        "circle": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type ProgressBarProps = {\n  progress: number\n  circle?: boolean\n}",
+      "file": "/components/ProgressBar/index.tsx"
+    },
     "ProviderProps": {
       "name": "ProviderProps",
       "props": {
@@ -3123,9 +3303,29 @@
         },
         "onClick": {
           "type": "DataEventHandler"
+        },
+        "onAction": {
+          "optional": true,
+          "type": "OnAction"
+        },
+        "setSelectedRowCheckboxes": {
+          "optional": true,
+          "type": "function"
+        },
+        "selectedRowCheckboxes": {
+          "optional": true,
+          "type": "Array"
+        },
+        "setTableIsEmpty": {
+          "optional": true,
+          "type": "function"
+        },
+        "isMultiref": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n}",
+      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
       "file": "/components/Table/TableFromQuery.tsx"
     },
     "TableProps": {
@@ -3161,12 +3361,28 @@
           "optional": true,
           "type": "string"
         },
+        "onAction": {
+          "optional": true,
+          "type": "OnAction"
+        },
+        "isMultiref": {
+          "optional": true,
+          "type": "boolean"
+        },
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "prefix": {
+          "optional": true,
+          "type": "string"
+        },
+        "view": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onAction?: OnAction\n  isMultiref?: boolean\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n  prefix?: string\n  view?: string\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
@@ -3631,6 +3847,25 @@
       },
       "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
       "file": "/components/ValueSlider/index.tsx"
+    },
+    "ListItemProps": {
+      "name": "ListItemProps",
+      "props": {
+        "index": {
+          "optional": true,
+          "type": "number"
+        },
+        "data": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type ListItemProps = {\n  index?: number\n  data?: any\n  style?: CSSProperties\n}",
+      "file": "/components/VirtualizedList/ListItem.tsx"
     },
     "DraggableListWrapperProps": {
       "name": "DraggableListWrapperProps",

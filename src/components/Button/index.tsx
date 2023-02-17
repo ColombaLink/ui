@@ -155,6 +155,7 @@ export const Button: FC<ButtonProps> = (props) => {
             : '6px 12px',
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
+        maxHeight: large ? 40 : '',
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
         // height: large ? 48 : 40,
@@ -167,15 +168,16 @@ export const Button: FC<ButtonProps> = (props) => {
           visibility: loading ? 'hidden' : null,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: fill
-            ? 'space-between'
-            : textAlign === 'left'
-            ? 'flex-start'
-            : textAlign === 'center'
-            ? 'center'
-            : textAlign === 'right'
-            ? 'flex-end'
-            : 'flex-start',
+          justifyContent:
+            textAlign === 'left' && fill
+              ? 'flex-start'
+              : textAlign === 'center' && fill
+              ? 'center'
+              : textAlign === 'right' && fill
+              ? 'flex-end'
+              : fill
+              ? 'space-between'
+              : 'center',
         }}
       >
         {icon &&

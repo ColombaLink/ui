@@ -64,7 +64,7 @@ export const MenuItem: FC<MenuItemProps> = ({
 }) => {
   return (
     <Text
-      color={isActive ? 'lightaccent:contrast' : isNested ? 'text' : 'text'}
+      color={isActive ? 'lightaccent:contrast' : 'text'}
       weight={isActive ? 500 : weight}
       wrap
       style={{

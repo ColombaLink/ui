@@ -2,6 +2,11 @@ import React, { CSSProperties, useRef, useCallback, useEffect } from 'react'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
 import { useDrag, useDrop } from '~/hooks'
 import { useSelect, useClick } from './hooks/useSelect'
+import { color, renderOrCreateElement, stringToIcon } from '~/utils'
+import { styled } from 'inlines'
+import { Text } from '~/components/Text'
+import { Checkbox } from '../Checkbox'
+import { DragDropIcon } from '~/icons'
 
 type ListItemProps = {
   index?: number
@@ -22,8 +27,9 @@ export const ListItem = ({
     draggable = true,
     showIndex,
     isActive: isActiveFn,
+    children,
+    child,
   } = context
-  console.log('data', context)
 
   const ref = useRef<any>()
 
@@ -35,7 +41,10 @@ export const ListItem = ({
     exportData,
   }
 
+  // console.log('items', items)
+
   const [drag, isDragging] = draggable ? useDrag(wrappedData, ref) : [{}, false]
+
   const [select, isSelected] = useSelect(wrappedData)
   const [drop, isDragOver, isDropLoading] = useDrop(
     useCallback(
@@ -94,10 +103,21 @@ export const ListItem = ({
     }, [isDragOver, onDrop, isDropLoading])
   }
 
-  console.log('drop', drop, isDragOver, isDropLoading)
+  // console.log('drop', drop, 'DRAGOVER???', isDragOver)
 
+  // add style here to avoid the flickering error
   return (
-    <div style={{ border: '1px solid grey' }} {...drop}>
+    <styled.div
+      style={{
+        // paddingTop: 3,
+        // paddingBottom: 3,
+        '&:hover': {
+          cursor: isDragging ? 'grabbing' : 'pointer',
+        },
+        //   ...style,
+      }}
+      {...drop}
+    >
       {onDrop ? (
         <div
           style={{
@@ -105,24 +125,28 @@ export const ListItem = ({
             opacity: isDragOver ? 1 : 0,
             transition: 'opacity 0.2s',
             width: '100%',
-            borderTop: '2px solid purple',
+            borderTop: `2px solid ${color('accent')}`,
             position: 'absolute',
+            height: 30,
+            ...style,
           }}
-        >
-          Drop
-        </div>
+        />
       ) : null}
       <div
         ref={ref}
         style={{
-          height: 40,
+          height: 30,
+          border: `0px solid ${color('border')}`,
+          borderRadius: 4,
+          paddingLeft: 8,
+          paddingRight: 8,
+          display: 'flex',
+          alignItems: 'center',
           backgroundColor: isSelected
             ? 'orange'
             : isDragging
-            ? 'lightgreen'
-            : index % 2 === 0
-            ? 'lightblue'
-            : '#f6f6f6',
+            ? color('background2')
+            : color('background'),
         }}
         {...useMultipleEvents(
           drag,
@@ -139,8 +163,24 @@ export const ListItem = ({
             : undefined
         )}
       >
-        testing item {items[index]?.text} - {index}
+        <DragDropIcon size={16} style={{ marginRight: 8 }} />
+        <Checkbox
+          small
+          checked={items[index]?.checkbox}
+          onChange={() => {
+            console.log('CHECKBOX CHANGE', index, items[index]?.checkbox)
+            items[index].checkbox = !items[index]?.checkbox
+          }}
+        />
+        {renderOrCreateElement(items[index]?.thumbnail)}
+        {/* {renderOrCreateElement(items[index]?.child)} */}
+        {items[index]?.icon ? (
+          <div style={{ marginRight: 8 }}>
+            {stringToIcon(items[index]?.icon)}
+          </div>
+        ) : null}
+        <Text typo="body600">{items[index]?.label}</Text>
       </div>
-    </div>
+    </styled.div>
   )
 }

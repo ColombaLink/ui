@@ -11,15 +11,23 @@ import { SharedGeneral } from './SharedGeneral'
 import { useSchemaTypes } from '~/hooks'
 import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
-import { Accordion, AccordionItem, RadioButtons, Input } from '~'
+import { Input } from '~'
 
 const ReferencesGeneral = ({ types, options }) => {
-  console.log('options', options)
-  console.log('the types', types)
-
   return (
     <>
-      <Accordion>
+      <MultiSelect
+        placeholder="Type to reference"
+        filterable
+        style={{ marginTop: 16, width: 400 }}
+        values={options.meta.refTypes || []}
+        onChange={(values) => {
+          options.meta.refTypes = values
+        }}
+        options={Object.keys(types)}
+      />
+
+      {/* <Accordion>
         <AccordionItem label="1. Define relationship" active>
           <RadioButtons
             cards
@@ -37,21 +45,12 @@ const ReferencesGeneral = ({ types, options }) => {
               },
             ]}
           />
-          <MultiSelect
-            placeholder="Type to reference"
-            filterable
-            style={{ marginTop: 16, width: 400 }}
-            values={options.meta.refTypes || []}
-            onChange={(values) => {
-              options.meta.refTypes = values
-            }}
-            options={Object.keys(types)}
-          />
+          
         </AccordionItem>
         <AccordionItem label="2. Field info" />
         <AccordionItem label="3. Bi-directional" />
         <AccordionItem label="4. Target info" />
-      </Accordion>
+      </Accordion> */}
     </>
   )
 }
@@ -242,8 +241,8 @@ export const FieldModal: FC<
         ...fields[field],
       }
     } else {
+      // @ts-ignore
       optionsRef.current = {
-        // @ts-ignore
         meta: {},
         ...templates[template].schema,
       }
@@ -254,7 +253,7 @@ export const FieldModal: FC<
 
   const { label, icon, color } = templates[template]
   const TypeSpecificGeneral = general[template]
-
+  console.log(options.meta.format)
   return (
     <Dialog>
       <Dialog.Body>
@@ -294,6 +293,47 @@ export const FieldModal: FC<
                 types={types}
               />
             )}
+            {options.meta.format === 'src' && (
+              <Select
+                style={{ marginTop: 40 }}
+                label="Mime type"
+                // @ts-ignore TODO: why is mimetype not allowed
+                value={options.meta.mimeType}
+                options={['image', 'video', 'audio', 'document']}
+                onChange={(e) => {
+                  // @ts-ignore TODO: why is mimetype not allowed
+                  options.meta.mimeType = e
+                }}
+              />
+            )}
+            {options.meta.format === 'progress' && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  marginTop: 40,
+                }}
+              >
+                <Input
+                  type="number"
+                  style={{ minWidth: 100 }}
+                  placeholder="Min"
+                  onChange={(e) => {
+                    options.meta.progressMin = e
+                  }}
+                />
+                <Text wrap>&</Text>
+                <Input
+                  type="number"
+                  style={{ minWidth: 100 }}
+                  placeholder="Max"
+                  onChange={(e) => {
+                    options.meta.progressMax = e
+                  }}
+                />
+              </div>
+            )}
           </Tab>
           <Tab label="Settings">
             <div style={{ marginTop: 24, marginBottom: 24, paddingLeft: 16 }}>
@@ -313,6 +353,15 @@ export const FieldModal: FC<
                 description="Specifies the maximum number of characters allowed in this field"
                 onChange={(e) => console.log('this is checked now --->', e)}
               />
+              <Checkbox
+                space
+                label="Read only"
+                description="Read only for you and me"
+                onChange={(e) => {
+                  options.meta.readOnly = e
+                }}
+              />
+
               {true && (
                 <div
                   style={{

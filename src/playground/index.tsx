@@ -10,9 +10,9 @@ import {
   LargeLogo,
   DarkModeIcon,
   LightModeIcon,
-  useRoute,
   ExternalLinkIcon,
   color,
+  useLocation,
 } from '../'
 import based from '@based/client'
 import * as stories from './stories'
@@ -24,8 +24,8 @@ import basedConfig from './based.json'
 export const client = based(basedConfig)
 
 const Stories: FC = () => {
-  const route = useRoute()
-  const story = route.query.story
+  useLocation()
+  const story = new URLSearchParams(location.search).get('story')
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
@@ -49,6 +49,7 @@ const menuItems = {
   Schema: {
     Schema: '?story=schema',
     SchemaModals: '?story=schema-modals',
+    QueryBar: '?story=QuerySearchBar',
   },
   Input: {
     Buttons: '?story=buttons',
@@ -93,7 +94,8 @@ const menuItems = {
     ExpandableList: '?story=ExpandableLists',
     // InfiniteList: '?story=InfiniteLists',
     // Lists: '?story=lists',
-    CustomLists: '?story=CustomLists',
+    // this list is being used for the little table menu now
+    //  VirtualizedList: '?story=VirtualizedLists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',
@@ -139,6 +141,8 @@ const menuItems = {
     // ProfileSettings: '?story=profile-settings',
     // ProjectSettings: '?story=project-settings',
     // Tally: '?story=tally-screens',
+    Kyles: '?story=KylesPlayground',
+    Drawer: '?story=Drawers',
   },
 }
 

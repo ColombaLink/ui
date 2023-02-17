@@ -14,7 +14,9 @@ import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
-import { AuthProvider, RouterCtx, useRouterListeners } from '~'
+import { AuthProvider, useRouterListeners } from '~'
+
+import { RouterCtx } from '~/hooks/location/types'
 
 type ProviderProps = {
   children?: ReactNode

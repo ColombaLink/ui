@@ -60,6 +60,8 @@ export const useLocation = (): [string, (href: string) => void] => {
   ]
 }
 
+// TODO remove this!
+window.ITS_OK_DONT_WORRY = ITS_OK_DONT_WORRY
 // ----------------------------------------------------------------------
 
 const parseLocation = (q: string, hash: string, pathName: string): string => {
@@ -156,15 +158,11 @@ export const useRoute = (path?: string): RouteParams => {
   const ctx = useContext(RouterContext)
   const node = ITS_OK_DONT_WORRY.ReactCurrentOwner.current
 
-  // ref also?
-  if (!node._id) {
-    node._id = ++cnt
-  }
-
   const routeParams = useMemo(() => {
     return new RouteParams(ctx, path)
   }, [path])
 
+  // ref also?
   useEffect(() => {
     return () => {
       ctx.componentMap.delete(node)
@@ -173,32 +171,38 @@ export const useRoute = (path?: string): RouteParams => {
 
   const update = useUpdate()
 
-  // on update
-
-  let parent = node.return
-  let parentStore = ctx.componentMap.get(parent)
-  while (!parentStore) {
-    parent = parent.return
-    if (parent) {
-      parentStore = ctx.componentMap.get(parent)
-    } else {
-      break
+  if (node) {
+    if (!node._id) {
+      node._id = ++cnt
     }
+
+    let parent = node.return
+    let parentStore = ctx.componentMap.get(parent)
+    while (!parentStore) {
+      parent = parent.return
+      if (parent) {
+        parentStore = ctx.componentMap.get(parent)
+      } else {
+        break
+      }
+    }
+
+    routeParams.start = parentStore
+      ? parentStore.start + parentStore.path.length
+      : ctx.rootPath.length
+
+    ctx.componentMap.set(node, {
+      path: routeParams.parsedPath,
+      start: routeParams.start,
+      update: useCallback(() => {
+        if (routeParams.update()) {
+          update()
+        }
+      }, [path]),
+    })
   }
 
-  routeParams.start = parentStore
-    ? parentStore.start + parentStore.path.length
-    : ctx.rootPath.length
-
-  ctx.componentMap.set(node, {
-    path: routeParams.parsedPath,
-    start: routeParams.start,
-    update: useCallback(() => {
-      if (routeParams.update()) {
-        update()
-      }
-    }, [path]),
-  })
+  // on update
 
   return routeParams
 }
