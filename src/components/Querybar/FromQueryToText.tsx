@@ -7,6 +7,10 @@ export const FromQueryToText = () => {
   const [rawInputValue, setRawInputValue] = useState(
     `{"$field":"x","$operator":"!=","$value":"xxx","$or":{"$field":"c","$operator":"!=","$value":"c"}}`
   )
+
+  const [prettyInputValue, setPrettyInputValue] = useState(
+    JSON.stringify(JSON.parse(rawInputValue), null, 2)
+  )
   const [readableText, setReadableText] = useState('')
 
   let filterString = ''
@@ -75,13 +79,25 @@ export const FromQueryToText = () => {
         indent
         space
         placeholder=""
-        value={rawInputValue}
+        value={prettyInputValue}
         onChange={(e) => {
           setRawInputValue(e)
           setReadableText(readableTextFromQuery(e))
         }}
       />
 
+      <Text space>
+        {JSON.stringify(
+          {
+            $field: 'x',
+            $operator: '!=',
+            $value: 'xxx',
+            $or: { $field: 'c', $operator: '!=', $value: 'c' },
+          },
+          null,
+          2
+        )}
+      </Text>
       <Text space>normal: {readableText}</Text>
       <Button
         onClick={() => {

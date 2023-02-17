@@ -354,6 +354,7 @@ export const QueryBar = () => {
           setFiltersAreNested(true)
         }}
         onKeyDown={(e) => {
+          //  console.log('e.key', e.key)
           if (e.key === 'Enter') {
             e.preventDefault()
 
@@ -414,8 +415,13 @@ export const QueryBar = () => {
             setCarretPosition(carretPosition + 1)
           }
 
-          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-            e.preventDefault()
+          if (
+            e.key === 'ArrowUp' ||
+            e.key === 'ArrowDown'
+            // ||
+            // e.key === 'ArrowLeft' ||
+            // e.key === 'ArrowRight'
+          ) {
             // 4 , 8 , 12 , 16
             // of and or or not
             // 7, 11, 15, 19
@@ -428,6 +434,19 @@ export const QueryBar = () => {
                 .includes(carretIsInBlockIndex)
             ) {
               setOpenSelectBox({ num: carretIsInBlockIndex, open: true })
+            }
+          }
+
+          if (e.key === 'Backspace') {
+            if (
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v)
+                .includes(carretIsInBlockIndex) ||
+              arithmeticProgression(4, AP_LIMIT)
+                .map((v) => v + 2)
+                .includes(carretIsInBlockIndex)
+            ) {
+              console.log('backspace in block')
             }
           }
         }}

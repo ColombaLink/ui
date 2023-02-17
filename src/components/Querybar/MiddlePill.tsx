@@ -84,6 +84,8 @@ export const MiddlePill = ({
                 '& svg': { display: 'none' },
               }}
               onChange={(e) => {
+                console.log('Change -->', e)
+
                 const tempSplitted = [...splittedInputValue] as
                   | string[]
                   | number[]
@@ -91,13 +93,12 @@ export const MiddlePill = ({
 
                 if (!filtersAreNested) {
                   setInputValue(tempSplitted.join(' '))
-                  // setSplittedInputValue([...tempSplitted])
                 } else {
                   FlattenFilters(query.filters)
                   query.filters = snurpArr.reverse()
                   setQuery({ ...query })
 
-                  // dan pas veranderen
+                  //   // dan pas veranderen
                   setInputValue(tempSplitted.join(' '))
                   setFiltersAreNested(false)
                 }

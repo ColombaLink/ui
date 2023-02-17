@@ -81,6 +81,7 @@ export const LogicalOperatorPill = ({
           if (!filtersAreNested) {
             setInputValue(tempSplitted.join(' '))
             //   setSplittedInputValue([...tempSplitted])
+            // arrayOfLogics[arr.indexOf(idx)] = e
           } else {
             // flatten the array first
             FlattenFilters(query.filters)
