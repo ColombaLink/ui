@@ -79,7 +79,7 @@ export const Authorize: FC<AuthProps> = ({
           <Tab label="Sign in">
             <Login
               onLogin={onLogin}
-              onRegisterRequest={(_email) => {
+              onRegisterRequest={() => {
                 setActiveTab(1)
               }}
               onResetRequest={() => {

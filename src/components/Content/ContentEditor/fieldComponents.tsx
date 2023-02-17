@@ -47,11 +47,12 @@ const object = {
 }
 
 const number = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
     return (
       <Input
         {...props}
         descriptionBottom={description}
+        maxChars={meta.maxChar}
         indent
         //   noInterrupt
         space
@@ -62,7 +63,7 @@ const number = {
 }
 
 const float = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
     return (
       <Input
         {...props}
@@ -70,6 +71,7 @@ const float = {
         space
         //   noInterrupt
         type="number"
+        maxChars={meta.maxChar}
         indent
         //  onChange={(e) => console.log(typeof e)}
       />
@@ -91,11 +93,12 @@ const float = {
 }
 
 const int = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
     return (
       <Input
         {...props}
         descriptionBottom={description}
+        maxChars={meta.maxChar}
         space
         // integer
         //    noInterrupt
@@ -247,6 +250,10 @@ const string = {
         {...props}
         disabled={readOnly}
         descriptionBottom={description}
+        customRegex
+        // pattern="^[0-9]*$"
+        pattern={meta.regex}
+        maxChars={meta.maxChar}
         indent
         space
         // type="text" is for safari fix maybe it breaks smth
@@ -352,13 +359,22 @@ const string = {
       />
     )
   },
-  markdown: ({ description, ...props }) => {
+  markdown: ({ description, meta, ...props }) => {
+    // console.log(meta.mustFill)
+    // const consoleValue = (data) => console.log(data)
+    function consoleValue(x) {
+      console.log(x)
+    }
     return (
       <Input
         {...props}
         descriptionBottom={description}
+        customRegex={meta.regex}
+        // @ts-ignore
+        // consoleFunc={consoleValue}
         space
         indent
+        maxChars={meta.maxChar}
         markdownInput
         //    noInterrupt
       />

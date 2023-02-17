@@ -23,6 +23,9 @@ export type FieldMeta = {
   mimeType?: MimeType[]
   progressMin?: number
   progressMax?: number
+  mustFill?: boolean
+  maxChar?: number
+  regex?: string
 }
 
 export type Field = {

@@ -84,6 +84,7 @@ const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
 }
 
 type InputProps = {
+  // consoleFunc?: any
   style?: CSSProperties
   label?: string
   colorInput?: boolean
@@ -212,6 +213,7 @@ export const Input: FC<
   InputPropsChange &
     Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
 > = ({
+  // consoleFunc,
   autoFocus,
   bg,
   colorInput,
@@ -260,7 +262,9 @@ export const Input: FC<
   // to clear json value
   const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
-
+  if (maxChars === -1) {
+    maxChars = null
+  }
   useEffect(() => {
     if (maxChars && value.length > maxChars) {
       setValue(value.slice(0, maxChars))
@@ -289,35 +293,12 @@ export const Input: FC<
     // }
   }
 
-  useEffect(() => {
-    //  check for error pas als de focus weg is
-    if (!customRegex && !pattern) {
-      const msg = error?.(value)
-
-      if (msg) {
-        // add error msg
-        setErrorMessage(msg)
-      } else {
-        // remove error msg
-        setErrorMessage('')
-      }
-    }
-  }, [focused])
-
-  useEffect(() => {
-    if (customRegex && pattern) {
-      if (new RegExp(pattern).test(value) || value.length < 1) {
-        return setErrorMessage('')
-      }
-      return setErrorMessage('Does not match REGEX/pattern')
-    }
-  }, [value])
-
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
   const fontSize = 14
   const fontWeight = 400
   const props = {
+    // consoleFunc,
     name,
     type,
     value,
@@ -353,6 +334,43 @@ export const Input: FC<
     ...hoverListeners,
     ...otherProps,
   }
+
+  useEffect(() => {
+    //  check for error pas als de focus weg is
+    if (!customRegex && !pattern) {
+      const msg = error?.(value)
+
+      if (msg) {
+        // add error msg
+        // console.log('blablabal')
+        setErrorMessage(msg)
+      } else {
+        // remove error msg
+        setErrorMessage('')
+      }
+    }
+  }, [focused])
+
+  useEffect(() => {
+    // console.log(
+    //   'customRegex:',
+    //   customRegex,
+    //   'pattern:',
+    //   pattern,
+    //   'value:',
+    //   value
+    // )
+    // console.log('value', value)
+    // consoleFunc(value)
+    if (customRegex && pattern) {
+      if (new RegExp(pattern).test(value) || value.length < 1) {
+        // console.log(new RegExp(pattern).test('123'))
+        // console.log('valuevaluevalue', value)
+        return setErrorMessage('')
+      }
+      return setErrorMessage('Does not match REGEX/pattern')
+    }
+  }, [value])
 
   return (
     <InputWrapper
