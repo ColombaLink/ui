@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { color, Text } from '~'
 import { FakeCarret } from './FakeCarret'
 
 type LeftPillProps = {
   idx: number
-  onClick: () => void
+  onClick: (e) => void
   inputValue: string
   carretPosition: number
   carretInBlockSubPos: number
@@ -12,6 +12,7 @@ type LeftPillProps = {
   arithmeticProgression: (start: number, end: number) => number[]
   text: string
   apLimit: number
+  SelectAllTextInBlock: (blockIndex: number, textLength: number) => void
 }
 
 export const LeftPill = ({
@@ -24,7 +25,14 @@ export const LeftPill = ({
   arithmeticProgression,
   text,
   apLimit,
+  SelectAllTextInBlock,
 }: LeftPillProps) => {
+  const arithmeticIndexCheck = arithmeticProgression(4, apLimit)
+    .map((v) => v - 1)
+    .includes(idx)
+
+  const [selectedAllText, setSelectedAllText] = useState(false)
+
   return (
     <Text
       wrap
@@ -42,46 +50,68 @@ export const LeftPill = ({
         cursor: 'text',
       }}
       onClick={onClick}
+      onDoubleClick={(e) => {
+        // e.stopPropagation()
+        SelectAllTextInBlock(idx, text.length)
+        console.log('double click', idx)
+        console.log(' --> block index', idx, 'textlenght', text.length)
+        setSelectedAllText(true)
+      }}
     >
+      {/* {idx === 0 && 'IN'} */}
       {carretPosition === 0 && inputValue.length === 0 ? <FakeCarret /> : null}
       {idx === 0
         ? text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
-              <div style={{ display: 'flex' }} key={index}>
-                <span id={index} key={index}>
+              <div
+                style={{
+                  display: 'flex',
+                }}
+                key={index}
+              >
+                <span id={index.toString()} key={index}>
                   {letter.toUpperCase()}
                 </span>
                 {carretIsInBlockIndex === 0 && <FakeCarret />}
               </div>
             ) : (
-              <span id={index} key={index}>
+              <span id={index.toString()} key={index}>
                 {letter.toUpperCase()}
               </span>
             )
           )
         : null}
-
-      {arithmeticProgression(4, apLimit)
-        .map((v) => v - 1)
-        .includes(idx) ? (
+      {arithmeticIndexCheck ? (
         !text ? (
           <FakeCarret />
         ) : (
           text?.split('')?.map((letter, index) =>
             index === carretInBlockSubPos - 1 ? (
-              <div style={{ display: 'flex' }} key={index}>
+              <div
+                style={{
+                  display: 'flex',
+                }}
+                key={index}
+              >
                 {carretInBlockSubPos === 0 && carretIsInBlockIndex === idx && (
                   <FakeCarret />
                 )}
                 {carretInBlockSubPos === 0 && <FakeCarret />}
-                <span id={index} key={index}>
+                <span
+                  id={index.toString()}
+                  key={index}
+                  style={{
+                    backgroundColor: selectedAllText
+                      ? color('babyblue:hover')
+                      : 'transparent',
+                  }}
+                >
                   {letter}
                 </span>
 
                 {carretIsInBlockIndex === idx &&
-                arithmeticProgression(4, apLimit)
-                  .map((v) => v - 1)
-                  .includes(idx) ? (
+                arithmeticIndexCheck &&
+                !selectedAllText ? (
                   <FakeCarret />
                 ) : null}
               </div>
@@ -90,7 +120,15 @@ export const LeftPill = ({
                 {carretInBlockSubPos === 0 &&
                   carretIsInBlockIndex === idx &&
                   index === 0 && <FakeCarret />}
-                <span id={index} key={index}>
+                <span
+                  id={index.toString()}
+                  key={index}
+                  style={{
+                    backgroundColor: selectedAllText
+                      ? color('babyblue:hover')
+                      : 'transparent',
+                  }}
+                >
                   {letter}
                 </span>
               </React.Fragment>

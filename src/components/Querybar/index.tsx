@@ -1,5 +1,15 @@
+/* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react'
-import { color, Text } from '~'
+import {
+  color,
+  CopyIcon,
+  ClipboardIcon,
+  DeleteIcon,
+  Text,
+  useContextMenu,
+  ContextItem,
+  useCopyToClipboard,
+} from '~'
 import { styled } from 'inlines'
 import { SuggestionTags } from './SuggestionTags'
 import { logicalOperatorsMap, operatorMap } from './Operators'
@@ -7,21 +17,20 @@ import { LeftPill } from './LeftPill'
 import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
+import { FromQueryToText } from './FromQueryToText'
+import { useLocation } from '~/hooks'
 
-// TODO: Caret position in middle block indicator
-// TODO: when will submit happen // maybe on enter if you are on the right pill??
-// make a submit function ?????!!
-// TODO: on submit or nest remove non finished blocks
-// TODO: paste in query
-// TODO: clear completeley
-// TODO: suggestions from schema/ table
-// TODO: third block ? selection field or just suggest fields
-// TODO: typescript
-// TODO: check in and out of focus what happens
-// TODO: show query button
-// TODO: copy query button
+// TODO: Caret position in and around middle block indicator
+
+// Might have to split up the first 3 blocks and the rest as repeatable component blocks..
+// TODO: make little query segments that can be copied , pasted and saved which will become filters
+
+// TODO: double click to select all text in a block
 // TODO: check default keypress options for input field (like arrows etc)
+// TODO: submit after mouse selected selectbox
+// TODO: Hoookup to url location to use query in table --> URL encode the filters etc
 // TODO: Refactor / Clean up code / keypress handler and more
+// TODO: index.tsx:210 Uncaught TypeError: _a2.forEach is not a function nested filter ts error
 // TODO: bug testing 🪲
 
 const AP_LIMIT = 140
@@ -42,16 +51,16 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
-  const [inputValue, setInputValue] = useState('In root descendants type ')
-  const [splittedInputValue, setSplittedInputValue] = useState([])
+  const [inputValue, setInputValue] = useState('In root parents type = dope')
+  const [splittedInputValue, setSplittedInputValue] = useState<string[]>([])
   // count and or ors in the query
-  const [arrayOfLogics, setArrayOfLogics] = useState([])
+  const [arrayOfLogics, setArrayOfLogics] = useState<any[]>([])
   const [carretPosition, setCarretPosition] = useState(0)
   const [filtersAreNested, setFiltersAreNested] = useState(false)
 
   // focused on input field
   const [isFocused, setIsFocused] = useState(false)
-  const InputFieldRef = useRef()
+  const InputFieldRef = useRef<HTMLInputElement>()
 
   // suggestions
   const [selectedSuggestion, setSelectedSuggestion] = useState(0)
@@ -63,15 +72,19 @@ export const QueryBar = () => {
     open: boolean
   }>({ num: 0, open: false })
 
+  // url location
+  const [, setLocation] = useLocation()
+
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
     if (filtersAreNested && isFocused) {
       FlattenFilters(query.filters)
       query.filters = snurpArr.reverse()
       setQuery({ ...query })
-
       setFiltersAreNested(false)
-    } else if (!isFocused) {
+    } else {
+      // strip the empty space first
+      setInputValue(inputValue.trim())
       // zet nested filters to false
       setFiltersAreNested(true)
     }
@@ -81,10 +94,18 @@ export const QueryBar = () => {
   useEffect(() => {
     setSplittedInputValue(inputValue.split(' '))
 
-    query.target = splittedInputValue[1]
-    query.field = splittedInputValue[2]
+    if (inputValue.split(' ').length > 1) {
+      query.target = splittedInputValue[1]
+      setLocation(`?target=${inputValue.split(' ')[1]?.toString()}`)
+    }
+
+    if (inputValue.split(' ').length > 2) {
+      query.field = splittedInputValue[2]
+      setLocation(`?field=${inputValue.split(' ')[2]?.toString()}`)
+    }
 
     SetQueryFilterProperties(inputValue.split(' '))
+    // dus..??
     setAndOrValues(inputValue.split(' '))
   }, [inputValue])
 
@@ -97,6 +118,7 @@ export const QueryBar = () => {
   // //////////////////////////////////////////// SET AND OR NOT VALUES
 
   const setAndOrValues = (splittedInputValue) => {
+    console.log('setAndOrValues', splittedInputValue)
     const length = splittedInputValue.length
 
     const arrWithValues = arithmeticProgression(4, AP_LIMIT).map((v) => v + 3)
@@ -104,18 +126,22 @@ export const QueryBar = () => {
       (v) => v + 2
     )
 
-    if (arrWithValues.includes(length)) {
-      for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
-        arrayOfLogics[i] =
-          inputValue.split(' ')[i * 4 + 6]?.charAt(0) === '$'
-            ? inputValue.split(' ')[i * 4 + 6]
-            : `$${inputValue.split(' ')[i * 4 + 6]}`
-        setArrayOfLogics([...arrayOfLogics])
-      }
-    } else if (arrWithLesserValues.includes(length)) {
-      for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
-        if (length <= i * 4 + 6) {
-          setArrayOfLogics([...arrayOfLogics.slice(0, i)])
+    //TODO:  if the length changes at once with a paste this is not firing
+
+    for (let j = 0; j < length; j++) {
+      if (arrWithValues.includes(j)) {
+        for (let i = 0; i <= arrWithValues.indexOf(j); i++) {
+          arrayOfLogics[i] =
+            inputValue.split(' ')[i * 4 + 6]?.charAt(0) === '$'
+              ? inputValue.split(' ')[i * 4 + 6]
+              : `$${inputValue.split(' ')[i * 4 + 6]}`
+          setArrayOfLogics([...arrayOfLogics])
+        }
+      } else if (arrWithLesserValues.includes(j)) {
+        for (let i = 0; i <= arrWithLesserValues.indexOf(j); i++) {
+          if (j <= i * 4 + 6) {
+            setArrayOfLogics([...arrayOfLogics.slice(0, i)])
+          }
         }
       }
     }
@@ -138,7 +164,7 @@ export const QueryBar = () => {
       for (let i = 0; i <= arrWithValues.indexOf(length); i++) {
         // use the i value
         if (length >= i * 4 + 6) {
-          //   console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
+          console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
           query.filters[i] = {
             $field: splittedInputValue[i * 4 + 3],
             $operator: splittedInputValue[i * 4 + 4],
@@ -150,7 +176,7 @@ export const QueryBar = () => {
       for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
         if (length <= i * 4 + 3) {
           if (query.filters.length > 0) {
-            console.log('FIRE  🐸--> 🐯', length)
+            //    console.log('FIRE  🐸--> 🐯', length)
             query.filters = query.filters?.slice(0, i)
           }
         }
@@ -174,10 +200,11 @@ export const QueryBar = () => {
       carretInBlockSubPos = carretPosition - counter
     }
     counter += text.length + 1
+    return counter
   })
 
-  const PutCursorInRightPlaceOnClick = (e, idx) => {
-    console.log('E ', e, 'IDX ', idx)
+  const PutCursorInRightPlaceOnClick = (e, idx, offset = 0) => {
+    //  console.log('E ', e, 'IDX ', idx)
     // tell de lengte op van de blocken ervoor en dat plus e.target.id is de carret position
     const countedBlocksLength = splittedInputValue.reduce(
       (acc, curr, index) => {
@@ -191,11 +218,32 @@ export const QueryBar = () => {
     )
 
     carretIsInBlockIndex = idx
-    const newSelectedCarretPosition = countedBlocksLength + +e.target.id
+    const newSelectedCarretPosition =
+      countedBlocksLength + +e.target.id + offset
     setCarretPosition(newSelectedCarretPosition)
     InputFieldRef?.current?.focus()
     InputFieldRef.current.selectionStart = newSelectedCarretPosition
     InputFieldRef.current.selectionEnd = newSelectedCarretPosition
+  }
+
+  const SelectAllTextInBlock = (blockIndex, textLength) => {
+    const countedBlocksLength = splittedInputValue.reduce(
+      (acc, curr, index) => {
+        if (index < blockIndex) {
+          return acc + curr.length + 1
+        } else {
+          return acc
+        }
+      },
+      0
+    )
+
+    carretIsInBlockIndex = blockIndex
+    const newSelectedCarretPosition = countedBlocksLength
+    setCarretPosition(newSelectedCarretPosition + textLength)
+    InputFieldRef?.current?.focus()
+    InputFieldRef.current.selectionStart = newSelectedCarretPosition
+    InputFieldRef.current.selectionEnd = newSelectedCarretPosition + textLength
   }
 
   // //////////////////////////////////////////// COMBINE AND FLATTER FILTERS QUERY LOGIC
@@ -218,8 +266,8 @@ export const QueryBar = () => {
 
   const FlattenFilters = (obj) => {
     const tempObj = {}
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         // only works if key is exactly $and or $or
         if (key !== '$and' && key !== '$or' && key !== '$not') {
           tempObj[key] = obj[key]
@@ -231,6 +279,9 @@ export const QueryBar = () => {
     }
     snurpArr.push(tempObj)
   }
+
+  // //////////////////////////////////////////// URL SEARCH LOCATION LOGIC
+  const urlSearch = useLocation().search
 
   // //////////////////////////////////////////// SUGGESTION TAGS
   const setSuggestions = () => {
@@ -255,29 +306,55 @@ export const QueryBar = () => {
     }
   }
 
+  //  /////////////////////////////////////////// CONTEXT MENU
+
+  const openContextMenu = useContextMenu(
+    QueryContextMenu,
+    {
+      query,
+      setQuery,
+      setInputValue,
+      inputValue,
+      setIsFocused,
+      setArrayOfLogics,
+    },
+    { placement: 'right' }
+  )
+
   return (
-    <div>
-      <Text>CarretPOs: {carretPosition}</Text>
-      <Text color="accent">{splittedInputValue.length}</Text>
-      <Text>
-        Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
-      </Text>
-      <Text color="green">
-        CarretPosition in index block {carretIsInBlockIndex}{' '}
-      </Text>
-      <Text>inputvalue length : {inputValue.length}</Text>
-      <Text>
-        $and $or array :{' '}
-        {arrayOfLogics.map((item) => (
-          <span style={{ border: '1px solid blue', margin: 4 }}>{item},</span>
-        ))}
-      </Text>
+    <>
+      <div
+        style={{ backgroundColor: '#e4f8ff', padding: 10, marginBottom: 12 }}
+      >
+        <Text>CarretPOs: {carretPosition}</Text>
+        <Text color="accent">{splittedInputValue.length}</Text>
+        <Text>
+          Carret SUB Pos in block:{carretInBlockSubPos} = {counter}
+        </Text>
+        <Text color="green">
+          CarretPosition in index block {carretIsInBlockIndex}{' '}
+        </Text>
+        <Text>inputvalue length : {inputValue.length}</Text>
+        <Text>
+          $and $or array :{' '}
+          {arrayOfLogics.map((item, idx) => (
+            <span key={idx} style={{ border: '1px solid blue', margin: 4 }}>
+              {item},
+            </span>
+          ))}
+        </Text>
+      </div>
       <input
         style={{
           border: '1px solid purple',
           marginBottom: 12,
           padding: 8,
           width: '100%',
+          // height: 0,
+          // maxWidth: 0,
+          // opacity: 0,
+          // position: 'absolute',
+          // pointerEvents: 'none',
         }}
         type="text"
         ref={InputFieldRef}
@@ -288,8 +365,9 @@ export const QueryBar = () => {
           setInputValue(e.target.value)
           setCarretPosition(e.target.selectionStart)
         }}
-        onClick={(e) => {
-          setCarretPosition(e.target.selectionStart)
+        onClick={(e: React.SyntheticEvent<HTMLDivElement, Event>) => {
+          const target = e.target as HTMLInputElement
+          setCarretPosition(target.selectionStart)
         }}
         onFocus={() => {
           setIsFocused(true)
@@ -302,6 +380,7 @@ export const QueryBar = () => {
           setFiltersAreNested(true)
         }}
         onKeyDown={(e) => {
+          //  console.log('e.key', e.key)
           if (e.key === 'Enter') {
             e.preventDefault()
 
@@ -363,7 +442,6 @@ export const QueryBar = () => {
           }
 
           if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-            e.preventDefault()
             // 4 , 8 , 12 , 16
             // of and or or not
             // 7, 11, 15, 19
@@ -375,113 +453,146 @@ export const QueryBar = () => {
                 .map((v) => v + 2)
                 .includes(carretIsInBlockIndex)
             ) {
-              console.log('boomshakalaka')
               setOpenSelectBox({ num: carretIsInBlockIndex, open: true })
-
-              // open de selectie box
             }
           }
+
+          // if (e.key === 'Backspace') {
+          //   if (
+          //     arithmeticProgression(4, AP_LIMIT)
+          //       .map((v) => v)
+          //       .includes(carretIsInBlockIndex) ||
+          //     arithmeticProgression(4, AP_LIMIT)
+          //       .map((v) => v + 2)
+          //       .includes(carretIsInBlockIndex)
+          //   ) {
+          //     e.preventDefault()
+          //     console.log('backspace in block', carretIsInBlockIndex)
+          //     let tempSplittedArr = [...splittedInputValue]
+          //     tempSplittedArr[carretIsInBlockIndex] = ''
+          //     setInputValue(tempSplittedArr.join(' '))
+          //   }
+          // }
         }}
       />
 
-      <styled.div
-        style={{
-          outline: isFocused
-            ? `2px solid rgba(44, 60, 234, 0.2)`
-            : `2px solid transparent`,
-          border: isFocused
-            ? `1px solid ${color('accent')}`
-            : `1px solid ${color('border')}`,
-          borderRadius: 4,
-          padding: 3,
-          display: 'flex',
-          alignItems: 'center',
-          marginBottom: 12,
-          position: 'relative',
-        }}
-        onClick={(e) => {
-          // TODO --> this function should put the cursor on the end if clicked
-          /// TODO-->  on empty area
-          PutCursorInRightPlaceOnClick(e, carretIsInBlockIndex)
-        }}
-      >
-        {splittedInputValue.map((text, idx) => (
-          <React.Fragment key={idx}>
-            {idx === 0 ||
-            arithmeticProgression(4, AP_LIMIT)
-              .map((v) => v - 1)
-              .includes(idx) ? (
-              <LeftPill
-                idx={idx}
-                inputValue={inputValue}
-                arithmeticProgression={arithmeticProgression}
-                carretInBlockSubPos={carretInBlockSubPos}
-                carretIsInBlockIndex={carretIsInBlockIndex}
-                carretPosition={carretPosition}
-                text={text}
-                onClick={(e) => {
-                  carretIsInBlockIndex = idx
-                  PutCursorInRightPlaceOnClick(e, idx)
-                }}
-                apLimit={AP_LIMIT}
-              />
-            ) : idx === 1 ||
-              arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
-              <MiddlePill
-                idx={idx}
-                FlattenFilters={FlattenFilters}
-                carretInBlockSubPos={carretInBlockSubPos}
-                carretIsInBlockIndex={carretIsInBlockIndex}
-                filtersAreNested={filtersAreNested}
-                query={query}
-                setFiltersAreNested={setFiltersAreNested}
-                setInputValue={setInputValue}
-                setQuery={setQuery}
-                snurpArr={snurpArr}
-                text={text}
-                splittedInputValue={splittedInputValue}
-                openSelectBox={openSelectBox}
-                setOpenSelectBox={setOpenSelectBox}
-              />
-            ) : idx === 2 ||
+      {/*** Query raw input field  */}
+      <FromQueryToText />
+
+      <div style={{ display: 'flex', gap: 8 }}>
+        <styled.div
+          style={{
+            outline: isFocused
+              ? `2px solid rgba(44, 60, 234, 0.2)`
+              : `2px solid transparent`,
+            border: isFocused
+              ? `1px solid ${color('accent')}`
+              : `1px solid ${color('border')}`,
+            borderRadius: 4,
+            padding: 3,
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: 12,
+            position: 'relative',
+            flexGrow: 1,
+          }}
+          onClick={(e) => {
+            // if left button clickie
+            InputFieldRef.current.selectionStart = inputValue.length
+            InputFieldRef.current.selectionEnd = inputValue.length
+            PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
+          }}
+          onContextMenu={(e) => {
+            // if right button clickie
+            e.preventDefault()
+            InputFieldRef.current.selectionStart = inputValue.length
+            InputFieldRef.current.selectionEnd = inputValue.length
+            PutCursorInRightPlaceOnClick(e, splittedInputValue.length, -1)
+            openContextMenu(e)
+          }}
+        >
+          {splittedInputValue.map((text, idx) => (
+            <React.Fragment key={idx}>
+              {idx === 0 ||
               arithmeticProgression(4, AP_LIMIT)
-                .map((v) => v + 1)
+                .map((v) => v - 1)
                 .includes(idx) ? (
-              <RightPill
-                idx={idx}
-                text={text}
-                arithmeticProgression={arithmeticProgression}
-                carretInBlockSubPos={carretInBlockSubPos}
-                carretIsInBlockIndex={carretIsInBlockIndex}
-                onClick={(e) => {
-                  carretIsInBlockIndex = idx
-                  PutCursorInRightPlaceOnClick(e, idx)
-                }}
-                apLimit={AP_LIMIT}
-              />
-            ) : arithmeticProgression(4, AP_LIMIT)
-                .map((v) => v + 2)
-                .includes(idx) ? (
-              <LogicalOperatorPill
-                idx={idx}
-                text={text}
-                arithmeticProgression={arithmeticProgression}
-                FlattenFilters={FlattenFilters}
-                arrayOfLogics={arrayOfLogics}
-                filtersAreNested={filtersAreNested}
-                query={query}
-                setFiltersAreNested={setFiltersAreNested}
-                setInputValue={setInputValue}
-                setQuery={setQuery}
-                snurpArr={snurpArr}
-                splittedInputValue={splittedInputValue}
-                openSelectBox={openSelectBox}
-                setOpenSelectBox={setOpenSelectBox}
-              />
-            ) : null}
-          </React.Fragment>
-        ))}
-      </styled.div>
+                <LeftPill
+                  idx={idx}
+                  inputValue={inputValue}
+                  arithmeticProgression={arithmeticProgression}
+                  carretInBlockSubPos={carretInBlockSubPos}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                  carretPosition={carretPosition}
+                  text={text}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    carretIsInBlockIndex = idx
+                    PutCursorInRightPlaceOnClick(e, idx)
+                  }}
+                  apLimit={AP_LIMIT}
+                  SelectAllTextInBlock={SelectAllTextInBlock}
+                />
+              ) : idx === 1 ||
+                arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
+                <MiddlePill
+                  idx={idx}
+                  FlattenFilters={FlattenFilters}
+                  carretInBlockSubPos={carretInBlockSubPos}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                  filtersAreNested={filtersAreNested}
+                  query={query}
+                  setFiltersAreNested={setFiltersAreNested}
+                  setInputValue={setInputValue}
+                  setQuery={setQuery}
+                  snurpArr={snurpArr}
+                  text={text}
+                  splittedInputValue={splittedInputValue}
+                  openSelectBox={openSelectBox}
+                  setOpenSelectBox={setOpenSelectBox}
+                />
+              ) : idx === 2 ||
+                arithmeticProgression(4, AP_LIMIT)
+                  .map((v) => v + 1)
+                  .includes(idx) ? (
+                <RightPill
+                  idx={idx}
+                  text={text}
+                  arithmeticProgression={arithmeticProgression}
+                  carretInBlockSubPos={carretInBlockSubPos}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    carretIsInBlockIndex = idx
+                    PutCursorInRightPlaceOnClick(e, idx)
+                  }}
+                  apLimit={AP_LIMIT}
+                />
+              ) : arithmeticProgression(4, AP_LIMIT)
+                  .map((v) => v + 2)
+                  .includes(idx) ? (
+                <LogicalOperatorPill
+                  idx={idx}
+                  text={text}
+                  arithmeticProgression={arithmeticProgression}
+                  FlattenFilters={FlattenFilters}
+                  arrayOfLogics={arrayOfLogics}
+                  filtersAreNested={filtersAreNested}
+                  query={query}
+                  setFiltersAreNested={setFiltersAreNested}
+                  setInputValue={setInputValue}
+                  setQuery={setQuery}
+                  snurpArr={snurpArr}
+                  splittedInputValue={splittedInputValue}
+                  openSelectBox={openSelectBox}
+                  setOpenSelectBox={setOpenSelectBox}
+                  carretIsInBlockIndex={carretIsInBlockIndex}
+                />
+              ) : null}
+            </React.Fragment>
+          ))}
+        </styled.div>
+      </div>
 
       <div style={{ display: 'flex' }}>
         {setSuggestions()?.map((item, idx) => (
@@ -530,6 +641,54 @@ export const QueryBar = () => {
       >
         {JSON.stringify(query, null, 2)}
       </pre>
-    </div>
+    </>
+  )
+}
+
+const QueryContextMenu = ({
+  query,
+  setQuery,
+  setInputValue,
+  inputValue,
+  setIsFocused,
+  setArrayOfLogics,
+}) => {
+  const [, copy] = useCopyToClipboard(JSON.stringify(query))
+
+  return (
+    <>
+      <ContextItem
+        // @ts-ignore
+        onClick={copy}
+        icon={CopyIcon}
+      >
+        Copy
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          if (!navigator.clipboard) return
+          // normal text
+          // should work on https environment
+          navigator.clipboard
+            .readText()
+            .then((clipText) => setInputValue(inputValue + clipText))
+          // TODO: paste query
+        }}
+        icon={ClipboardIcon}
+      >
+        Paste
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          setInputValue('')
+          setIsFocused(false)
+          setArrayOfLogics([])
+          setQuery({})
+        }}
+        icon={DeleteIcon}
+      >
+        Clear
+      </ContextItem>
+    </>
   )
 }
