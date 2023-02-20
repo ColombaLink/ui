@@ -84,8 +84,6 @@ const Single: FC<SingleProps> = ({
   style,
   ...props
 }) => {
-  console.log('SINGLE props', props)
-
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }

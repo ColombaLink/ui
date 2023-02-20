@@ -55,6 +55,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [, setRelevantFields] = useState(fields)
   const [location, setLocation] = useLocation()
 
+  const [shownItems, setShownItems] = useState([])
+
   const systemFieldsArr = Array.from(systemFields)
 
   // for file drop upload
@@ -214,7 +216,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     return colWidth
   }
 
-  const deleteItems = async (items) => {
+  const DeleteItems = async (items) => {
     const ok = await confirm(`Are you sure you want to delete this item?`)
     if (ok) {
       const newItemArr = []
@@ -225,11 +227,38 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       }
       onAction(newItemArr, 'delete')
       setSelectedRowCheckboxes([])
+
+      setShownItems([])
     }
   }
 
+  const ShowSelectedItemsOnly = () => {
+    // selectedRowCheckboxes.forEach((rowIdx) => {
+    //   shownItems.push(rowIdx)
+    // })
+    console.log('slctedrow chek,s', selectedRowCheckboxes)
+
+    // console.log('TEMP obj', shownItems)
+
+    const showTheseIndexes = []
+    selectedRowCheckboxes.forEach((rowIdx) => {
+      showTheseIndexes.push(items[rowIdx])
+    })
+
+    console.log(showTheseIndexes, 'showTheseIndexes')
+
+    setShownItems(showTheseIndexes)
+
+    const newSelectedRowsIndexes = []
+    for (let i = 0; i < showTheseIndexes.length; i++) {
+      newSelectedRowsIndexes.push(i)
+    }
+    setSelectedRowCheckboxes([])
+    setSelectedRowCheckboxes([...newSelectedRowsIndexes])
+  }
+
   // file drop
-  const handleFileDrop = async (e) => {
+  const HandleFileDrop = async (e) => {
     if (locationIsFile && draggingOver) {
       setDraggingOver(false)
       e.preventDefault()
@@ -259,6 +288,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }
 
+  console.log('--> times ', items)
+  console.log('--> fields', fields)
+
   return (
     <>
       <div
@@ -268,7 +300,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           e.stopPropagation()
           setDraggingOver(true)
         }}
-        onDrop={handleFileDrop}
+        onDrop={HandleFileDrop}
         onDragLeave={() => {
           setDraggingOver(false)
         }}
@@ -277,8 +309,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           <SelectedOptionsSubMenu
             selectedRowCheckboxes={selectedRowCheckboxes}
             setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-            items={items}
-            deleteItems={deleteItems}
+            items={shownItems.length > 0 ? shownItems : items}
+            deleteItems={DeleteItems}
+            showSelectedItemsOnly={ShowSelectedItemsOnly}
           />
         )}
         <InnerTable
@@ -301,7 +334,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
           columnWidth={columnWidth}
           height={height}
           types={types}
-          items={items}
+          items={shownItems.length > 0 ? shownItems : items}
           fields={lijst}
           onClick={onClick}
           setRelevantFields={setRelevantFields}
@@ -334,7 +367,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                   scrollLeft={tableRef.current?.state?.scrollLeft}
                   setSelectedRowCheckboxes={setSelectedRowCheckboxes}
                   selectedRowCheckboxes={selectedRowCheckboxes}
-                  items={items}
+                  items={shownItems.length > 0 ? shownItems : items}
                 />
               </div>
             )

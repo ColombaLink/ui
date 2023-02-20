@@ -137,6 +137,9 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         const fieldType = types[item.type].fields[field]?.type
         const metaFieldType = types[item.type].fields[field]?.meta?.format
 
+        // console.log('FIELD TYPES ', fieldType)
+        // console.log('META FIELD TYEO', metaFieldType)
+
         const prettierObject = (obj) => {
           return stringifyObject(obj, {
             indent: ' ',
@@ -198,7 +201,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
             children = <Badge>{value.substring(0, 6) + '...'}</Badge>
           } else if (fieldType === 'string' && metaFieldType === 'markdown') {
             children = <Text weight={weight}>{value.substring(0, 64)}</Text>
-          } else if (fieldType === 'number' && metaFieldType === 'bytes') {
+          } else if (fieldType === 'int' && metaFieldType === 'bytes') {
             children = (
               <Text weight={weight}>{prettyNumber(value, 'number-bytes')}</Text>
             )

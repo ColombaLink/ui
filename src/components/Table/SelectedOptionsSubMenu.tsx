@@ -5,9 +5,13 @@ import { Text, Button } from '~'
 export const SelectedOptionsSubMenu = ({
   selectedRowCheckboxes,
   setSelectedRowCheckboxes,
+  showSelectedItemsOnly,
   items,
   deleteItems,
 }) => {
+  console.log('--->', selectedRowCheckboxes)
+  console.log('items', items)
+
   return (
     <div
       style={{
@@ -20,7 +24,12 @@ export const SelectedOptionsSubMenu = ({
       }}
     >
       <div>
-        <Text>{selectedRowCheckboxes.length} items selected</Text>
+        <Text>
+          {selectedRowCheckboxes.length}
+          {selectedRowCheckboxes.length === 1
+            ? ' item selected'
+            : ' items selected'}
+        </Text>
       </div>
       <Button
         onClick={() => setSelectedRowCheckboxes([])}
@@ -39,6 +48,7 @@ export const SelectedOptionsSubMenu = ({
       <Button
         onClick={() => {
           console.log('items', items)
+          showSelectedItemsOnly()
         }}
         color="lightaction"
         outline
