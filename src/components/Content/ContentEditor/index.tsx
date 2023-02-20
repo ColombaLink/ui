@@ -5,7 +5,6 @@ import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import * as components from './fieldComponents'
-import useGlobalState
 
 const ContentField = ({
   inputGood,
@@ -27,6 +26,7 @@ const ContentField = ({
   const query = {
     $id: targetId,
   }
+
   let target = query
   path.forEach((field) => {
     target[field] = {}
@@ -78,6 +78,7 @@ const ContentField = ({
       </div>
     )
   }
+
   return (
     <Component
       onClick={() => inputGood()}
@@ -193,7 +194,9 @@ export const ContentEditor = ({
       />
     )
   }
+
   console.log('asdasdasd', inputGood)
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {fields &&
