@@ -241,6 +241,47 @@ const record = {
   },
 }
 
+const url = {
+  default: ({ description, meta, onChange, ...props }) => {
+    console.log('url yo', description, meta, onChange, props)
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          ...props.style,
+          alignItems: 'center',
+        }}
+      >
+        {meta.name === 'thumb' && (
+          <div style={{ height: 62, width: 62, backgroundColor: 'yellow' }} />
+        )}
+        <Input
+          {...props}
+          style={{ width: '100%' }}
+          descriptionBottom={description}
+          indent
+          space
+          // noInterrupt
+          error={(value) => {
+            if (!isUrl(value) && value.length > 0) {
+              return `Please enter a valid url https://...`
+            }
+          }}
+          onChange={(value) => {
+            if (meta.format === 'url') {
+              if (isUrl(value) || value.length < 1) {
+                onChange(value)
+              }
+            }
+          }}
+        />
+      </div>
+    )
+  },
+}
+
 const string = {
   default: ({ description, meta, ...props }) => {
     const readOnly = meta?.readOnly
@@ -314,27 +355,27 @@ const string = {
       />
     )
   },
-  url: ({ description, meta, onChange, ...props }) => (
-    <Input
-      {...props}
-      descriptionBottom={description}
-      indent
-      space
-      // noInterrupt
-      error={(value) => {
-        if (!isUrl(value) && value.length > 0) {
-          return `Please enter a valid url https://...`
-        }
-      }}
-      onChange={(value) => {
-        if (meta.format === 'url') {
-          if (isUrl(value) || value.length < 1) {
-            onChange(value)
-          }
-        }
-      }}
-    />
-  ),
+  // url: ({ description, meta, onChange, ...props }) => (
+  //   <Input
+  //     {...props}
+  //     descriptionBottom={description}
+  //     indent
+  //     space
+  //     // noInterrupt
+  //     error={(value) => {
+  //       if (!isUrl(value) && value.length > 0) {
+  //         return `Please enter a valid url https://...`
+  //       }
+  //     }}
+  //     onChange={(value) => {
+  //       if (meta.format === 'url') {
+  //         if (isUrl(value) || value.length < 1) {
+  //           onChange(value)
+  //         }
+  //       }
+  //     }}
+  //   />
+  // ),
   email: ({ description, meta, onChange, ...props }) => {
     return (
       <Input
@@ -397,6 +438,7 @@ export {
   digest,
   object,
   text,
+  url,
   timestamp,
   json,
   array,
