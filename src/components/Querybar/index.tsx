@@ -38,11 +38,11 @@ const AP_LIMIT = 140
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
 
-console.log('arithmeticProgression', arithmeticProgression(4, 15))
-console.log(
-  'arithmeticProgression',
-  arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
-)
+// console.log('arithmeticProgression', arithmeticProgression(4, 15))
+// console.log(
+//   'arithmeticProgression',
+//   arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
+// )
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({

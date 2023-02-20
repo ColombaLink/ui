@@ -40,8 +40,8 @@ const Multi = ({ style, inputRef, ...props }) => {
       onBlur={() => setInputFocus(false)}
       style={{
         border: inputFocus
-          ? `3px solid rgba(44, 60, 234, 0.2)`
-          : `3px solid transparent`,
+          ? `2px solid rgba(44, 60, 234, 0.2)`
+          : `2px solid transparent`,
         borderRadius: 10,
       }}
     >
@@ -74,13 +74,36 @@ type SingleProps = {
   pattern?: string
   props?: any
   onKeyDown?: (e: any) => void
+  style?: CSSProperties
 }
 
-const Single: FC<SingleProps> = ({ type, inputRef, pattern, ...props }) => {
+const Single: FC<SingleProps> = ({
+  type,
+  inputRef,
+  pattern,
+  style,
+  ...props
+}) => {
+  console.log('SINGLE props', props)
+
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
-  return <input {...props} type={type} ref={inputRef} pattern={pattern} />
+  return (
+    <input
+      {...props}
+      type={type}
+      ref={inputRef}
+      pattern={pattern}
+      style={{
+        width: '100%',
+        userSelect: 'text',
+        MozUserSelect: 'text',
+        WebkitUserSelect: 'text',
+        ...style,
+      }}
+    />
+  )
 }
 
 type InputProps = {
@@ -529,6 +552,7 @@ export const Input: FC<
                   }
                   props.onKeyDown?.(e)
                 }}
+                style={props.style}
                 // @ts-ignore
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}

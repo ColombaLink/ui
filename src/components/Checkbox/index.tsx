@@ -1,6 +1,6 @@
 import React, { FC, CSSProperties } from 'react'
 import { Label } from '../Label'
-import { border, color, spaceToPx } from '~/utils'
+import { color, spaceToPx } from '~/utils'
 import { CheckIcon, DashIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 import { Color, Space } from '~/types'
@@ -61,10 +61,14 @@ export const Checkbox: FC<CheckboxProps> = ({
           border: hover
             ? 'rgba(44,60,234,0.2) solid 2px'
             : 'rgba(00,00,00,00) solid 2px',
-          borderRadius: 6,
-          height: small ? 14 : 24,
-          width: small ? 14 : 24,
-          marginRight: 10,
+          borderRadius: 4,
+          boxSizing: 'border-box',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          height: small ? 18 : 22,
+          width: small ? 18 : 22,
+          marginRight: 12,
         }}
       >
         <div
@@ -72,12 +76,15 @@ export const Checkbox: FC<CheckboxProps> = ({
             backgroundColor: checked
               ? color(colorProp, hover ? 'hover' : null)
               : null,
-            border: border(1, 'border', hover ? 'hover' : null),
+            border: hover
+              ? `1px solid ${color('accent:hover')}`
+              : `1px solid ${color('border')}`,
             // outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
             borderRadius: 4,
             height: small ? 16 : 20,
             width: small ? 16 : 20,
             marginRight: 12,
+            marginLeft: -1,
             flexShrink: 0,
             display: 'flex',
             alignItems: 'center',
