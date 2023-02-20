@@ -383,16 +383,16 @@ export const DatePicker = ({
     }
   }
 
-  const isRangedBiggerHoverDay = (year, month, day) => {
-    if (isDateRange) {
-      return (
-        makeDateForComparison(year, month, day) >
-          makeDateForComparison(fromYear, fromMonth, fromDay) &&
-        makeDateForComparison(year, month, day) <
-          makeDateForComparison(hoverYear, hoverMonth, hoverDay)
-      )
-    }
-  }
+  // const isRangedBiggerHoverDay = (year, month, day) => {
+  //   if (isDateRange) {
+  //     return (
+  //       makeDateForComparison(year, month, day) >
+  //         makeDateForComparison(fromYear, fromMonth, fromDay) &&
+  //       makeDateForComparison(year, month, day) <
+  //         makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+  //     )
+  //   }
+  // }
 
   return (
     <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>

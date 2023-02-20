@@ -54,11 +54,11 @@ export const DateInput: FC<DateInputProps> = ({
   onClick,
 }) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
-  const [isFocus, setIsFocus] = useState(false)
+  const [, setIsFocus] = useState(false)
 
   const dateObj = new Date()
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement | any>(null)
 
   // console.log('focusOnEndDate', focusOnEndDate)
   // console.log('focusOnBeginDate', focusOnBeginDate)

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { DateInput } from './DateInput'
 
 type DateRangeInputProps = {
-  value?: string
-  dateHandler?: (value: string) => void
-  setFocused?: (value: boolean) => void
-  setErrorMessage?: (value: string) => void
+  // value?: string
+  // dateHandler?: (value: string) => void
+  // setFocused?: (value: boolean) => void
+  // setErrorMessage?: (value: string) => void
   setFromValue?: (value: string) => void
   setTillValue?: (value: string) => void
   fromValue?: string
@@ -13,11 +13,11 @@ type DateRangeInputProps = {
 }
 
 export const DateRangeInput = ({
-  value,
-  dateHandler,
-  setFocused,
+  // value,
+  // dateHandler,
+  // setFocused,
   // clearHandler,
-  setErrorMessage,
+  // setErrorMessage,
   setFromValue,
   setTillValue,
   fromValue,
@@ -30,7 +30,7 @@ export const DateRangeInput = ({
   const [focusOnEndDate, setFocusOnEndDate] = useState<boolean>(false)
 
   // today
-  const dateObj = new Date()
+  // const dateObj = new Date()
 
   // const today = `${
   //   dateObj.getUTCDate() < 10
@@ -66,14 +66,14 @@ export const DateRangeInput = ({
     setTillValue(val)
   }
 
-  const makeAnotherDateForComparison = (val) => {
-    const day = `${val[0]}${val[1]}`
-    const month = `${val[3]}${val[4]}`
-    const year = val.substring(6)
+  // const makeAnotherDateForComparison = (val) => {
+  //   const day = `${val[0]}${val[1]}`
+  //   const month = `${val[3]}${val[4]}`
+  //   const year = val.substring(6)
 
-    // return de datum in milliseconds
-    return Date.parse(`${year}-${month}-${day}`)
-  }
+  //   // return de datum in milliseconds
+  //   return Date.parse(`${year}-${month}-${day}`)
+  // }
 
   // eerste input als velden leeg zijn
   useEffect(() => {
