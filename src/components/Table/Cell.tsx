@@ -293,7 +293,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: isCheckbox ? ACTIONS_WIDTH - 36 : 8,
         paddingRight: 12,
         borderBottom: border(1),
-        backgroundColor: activeRow ? color('lightaccent') : 'transparent',
+        backgroundColor: activeRow ? color('background2') : 'transparent',
       }}
     >
       {children}
