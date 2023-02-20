@@ -4,6 +4,7 @@ import { color, spaceToPx } from '~/utils'
 import { CheckIcon, DashIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 import { Color, Space } from '~/types'
+import { styled } from 'inlines'
 
 export type CheckboxProps = {
   checked?: boolean
@@ -56,11 +57,9 @@ export const Checkbox: FC<CheckboxProps> = ({
       }}
       {...listeners}
     >
-      <div
+      <styled.div
         style={{
-          border: hover
-            ? 'rgba(44,60,234,0.2) solid 2px'
-            : 'rgba(00,00,00,00) solid 2px',
+          border: 'rgba(00,00,00,00) solid 2px',
           borderRadius: 4,
           boxSizing: 'border-box',
           display: 'flex',
@@ -69,6 +68,9 @@ export const Checkbox: FC<CheckboxProps> = ({
           height: small ? 18 : 22,
           width: small ? 18 : 22,
           marginRight: 12,
+          '&:hover': {
+            border: 'rgba(44,60,234,0.2) solid 2px',
+          },
         }}
       >
         <div
@@ -76,9 +78,7 @@ export const Checkbox: FC<CheckboxProps> = ({
             backgroundColor: checked
               ? color(colorProp, hover ? 'hover' : null)
               : null,
-            border: hover
-              ? `1px solid ${color('accent:hover')}`
-              : `1px solid ${color('border')}`,
+            border: `1px solid ${color('border')}`,
             // outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
             borderRadius: 4,
             height: small ? 16 : 20,
@@ -98,7 +98,7 @@ export const Checkbox: FC<CheckboxProps> = ({
             <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
           ) : null}
         </div>
-      </div>
+      </styled.div>
 
       <Label
         label={label}
