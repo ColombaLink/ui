@@ -15,7 +15,7 @@ type DateTimePickerProps = {
   onChange?: (value: number) => void
   space?: Space
   style?: CSSProperties
-  // error?: (value: boolean | string | number) => string
+  error?: (value: boolean | string | number) => string
   disabled?: boolean
   value?: string | number
   startValue?: string
@@ -49,7 +49,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   onChange,
   space,
   style,
-  // error,
+  error,
   dateRange,
   disabled,
   value,
@@ -142,6 +142,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
         .join('-')}T${timeInput}`
 
       const outputMs = new Date(dateString).getTime().toString()
+
+      /// TODO: when error message
+      console.log('Error log -->', error)
 
       // console.log('this flippin ', new Date(dateString).getTime().toString())
 

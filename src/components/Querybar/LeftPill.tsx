@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { color, Text } from '~'
 import { FakeCarret } from './FakeCarret'
 
@@ -50,7 +50,7 @@ export const LeftPill = ({
         cursor: 'text',
       }}
       onClick={onClick}
-      onDoubleClick={(e) => {
+      onDoubleClick={() => {
         // e.stopPropagation()
         SelectAllTextInBlock(idx, text.length)
         console.log('double click', idx)

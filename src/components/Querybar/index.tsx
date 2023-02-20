@@ -73,7 +73,7 @@ export const QueryBar = () => {
   }>({ num: 0, open: false })
 
   // url location
-  const [, setLocation] = useLocation()
+  const [location, setLocation] = useLocation()
 
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
@@ -281,7 +281,7 @@ export const QueryBar = () => {
   }
 
   // //////////////////////////////////////////// URL SEARCH LOCATION LOGIC
-  const urlSearch = useLocation().search
+  const urlSearch = location.search
 
   // //////////////////////////////////////////// SUGGESTION TAGS
   const setSuggestions = () => {

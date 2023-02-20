@@ -8,6 +8,7 @@ type TextProps = {
   color?: Color
   italic?: boolean
   onClick?: (e) => void
+  onDoubleClick?: (e) => void
   selectable?: boolean
   size?: Size
   space?: Space

@@ -1154,22 +1154,6 @@
     "DateRangeInputProps": {
       "name": "DateRangeInputProps",
       "props": {
-        "value": {
-          "optional": true,
-          "type": "string"
-        },
-        "dateHandler": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFocused": {
-          "optional": true,
-          "type": "function"
-        },
-        "setErrorMessage": {
-          "optional": true,
-          "type": "function"
-        },
         "setFromValue": {
           "optional": true,
           "type": "function"
@@ -1187,7 +1171,7 @@
           "type": "string"
         }
       },
-      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DateRangeInputProps = {\n  // value?: string\n  // dateHandler?: (value: string) => void\n  // setFocused?: (value: boolean) => void\n  // setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
       "file": "/components/DateTimePicker/DateRangeInput.tsx"
     },
     "DateTimePickerProps": {
@@ -1238,17 +1222,11 @@
         },
         "startValue": {
           "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": "string"
         },
         "endValue": {
           "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": "string"
         },
         "time": {
           "optional": true,
@@ -1267,7 +1245,7 @@
           "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  startValue?: string | number\n  endValue?: string | number\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
+      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  space?: Space\n  style?: CSSProperties\n  error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  startValue?: string\n  endValue?: string\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
       "file": "/components/DateTimePicker/index.tsx"
     },
     "DrawerProps": {
@@ -2016,9 +1994,13 @@
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  space?: Space\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n}",
+      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  space?: Space\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n  onBlur?: () => void\n}",
       "file": "/components/Input/InputWrapper.tsx"
     },
     "JsonInputProps": {
@@ -3662,6 +3644,10 @@
           "optional": true,
           "type": "function"
         },
+        "onDoubleClick": {
+          "optional": true,
+          "type": "function"
+        },
         "selectable": {
           "optional": true,
           "type": "boolean"
@@ -3709,7 +3695,7 @@
           "type": "Typo"
         }
       },
-      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typo?: Typo\n}",
+      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e) => void\n  onDoubleClick?: (e) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typo?: Typo\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
