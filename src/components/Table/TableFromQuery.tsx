@@ -257,6 +257,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     setSelectedRowCheckboxes([...newSelectedRowsIndexes])
   }
 
+  const ShowAllItemsAgain = () => {
+    setShownItems([])
+  }
+
   // file drop
   const HandleFileDrop = async (e) => {
     if (locationIsFile && draggingOver) {
@@ -312,6 +316,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
             items={shownItems.length > 0 ? shownItems : items}
             deleteItems={DeleteItems}
             showSelectedItemsOnly={ShowSelectedItemsOnly}
+            showAllItemsAgain={ShowAllItemsAgain}
+            setShownItems={setShownItems}
+            shownItems={shownItems}
           />
         )}
         <InnerTable
