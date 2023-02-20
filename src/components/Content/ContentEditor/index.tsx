@@ -5,8 +5,10 @@ import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import * as components from './fieldComponents'
+import useGlobalState
 
 const ContentField = ({
+  inputGood,
   id,
   type,
   schema,
@@ -76,9 +78,9 @@ const ContentField = ({
       </div>
     )
   }
-
   return (
     <Component
+      onClick={() => inputGood()}
       // TODO is this ok? why do we neeed? otherwise we have to handle nested objects here as well
       // id={targetId}
       prefix={prefix}
@@ -111,6 +113,7 @@ export const ContentEditor = ({
   autoFocus = null,
   language = 'en',
   prefix = '',
+  inputGood,
 }) => {
   let fields, loading, recordValueType
 
@@ -190,13 +193,14 @@ export const ContentEditor = ({
       />
     )
   }
-
+  console.log('asdasdasd', inputGood)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', ...style }}>
       {fields &&
         Object.keys(fields).map((field) => {
           const fieldSchema = fields[field]
           const { type, meta } = fields[field]
+          // console.log('meta', fields[field].meta)
 
           if (
             type === 'id' ||
@@ -211,6 +215,7 @@ export const ContentEditor = ({
 
           return (
             <ContentField
+              inputGood={inputGood}
               prefix={`${prefix}/${id}`}
               autoFocus={autoFocus === field}
               field={field}
