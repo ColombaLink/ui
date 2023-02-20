@@ -25,7 +25,9 @@ import { useLocation } from '~/hooks'
 // Might have to split up the first 3 blocks and the rest as repeatable component blocks..
 // TODO: make little query segments that can be copied , pasted and saved which will become filters
 
+// TODO: double click to select all text in a block
 // TODO: check default keypress options for input field (like arrows etc)
+// TODO: submit after mouse selected selectbox
 // TODO: Hoookup to url location to use query in table --> URL encode the filters etc
 // TODO: Refactor / Clean up code / keypress handler and more
 // TODO: index.tsx:210 Uncaught TypeError: _a2.forEach is not a function nested filter ts error
@@ -36,11 +38,11 @@ const AP_LIMIT = 140
 const arithmeticProgression = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
 
-// console.log('arithmeticProgression', arithmeticProgression(4, 15))
-// console.log(
-//   'arithmeticProgression',
-//   arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
-// )
+console.log('arithmeticProgression', arithmeticProgression(4, 15))
+console.log(
+  'arithmeticProgression',
+  arithmeticProgression(4, AP_LIMIT).map((v) => v + 1)
+)
 
 export const QueryBar = () => {
   const [query, setQuery] = useState({
@@ -49,7 +51,7 @@ export const QueryBar = () => {
     field: 'descendants',
   })
 
-  const [inputValue, setInputValue] = useState('In root parents')
+  const [inputValue, setInputValue] = useState('In root parents type = dope')
   const [splittedInputValue, setSplittedInputValue] = useState<string[]>([])
   // count and or ors in the query
   const [arrayOfLogics, setArrayOfLogics] = useState<any[]>([])
@@ -224,6 +226,26 @@ export const QueryBar = () => {
     InputFieldRef.current.selectionEnd = newSelectedCarretPosition
   }
 
+  const SelectAllTextInBlock = (blockIndex, textLength) => {
+    const countedBlocksLength = splittedInputValue.reduce(
+      (acc, curr, index) => {
+        if (index < blockIndex) {
+          return acc + curr.length + 1
+        } else {
+          return acc
+        }
+      },
+      0
+    )
+
+    carretIsInBlockIndex = blockIndex
+    const newSelectedCarretPosition = countedBlocksLength
+    setCarretPosition(newSelectedCarretPosition + textLength)
+    InputFieldRef?.current?.focus()
+    InputFieldRef.current.selectionStart = newSelectedCarretPosition
+    InputFieldRef.current.selectionEnd = newSelectedCarretPosition + textLength
+  }
+
   // //////////////////////////////////////////// COMBINE AND FLATTER FILTERS QUERY LOGIC
   let snurpArr = []
   const NestFilters = (query, arr) => {
@@ -328,11 +350,11 @@ export const QueryBar = () => {
           marginBottom: 12,
           padding: 8,
           width: '100%',
-          height: 0,
-          maxWidth: 0,
-          opacity: 0,
-          position: 'absolute',
-          pointerEvents: 'none',
+          // height: 0,
+          // maxWidth: 0,
+          // opacity: 0,
+          // position: 'absolute',
+          // pointerEvents: 'none',
         }}
         type="text"
         ref={InputFieldRef}
@@ -509,6 +531,7 @@ export const QueryBar = () => {
                     PutCursorInRightPlaceOnClick(e, idx)
                   }}
                   apLimit={AP_LIMIT}
+                  SelectAllTextInBlock={SelectAllTextInBlock}
                 />
               ) : idx === 1 ||
                 arithmeticProgression(4, AP_LIMIT).includes(idx) ? (
