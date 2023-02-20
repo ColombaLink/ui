@@ -80,6 +80,7 @@ export const JsonInput = ({
               setErrorMessage('Invalid JSON')
               // console.log(code.length)
             } else {
+              setCode(JSON.stringify(JSON.parse(code), null, 2))
               setErrorMessage('')
             }
           }}
