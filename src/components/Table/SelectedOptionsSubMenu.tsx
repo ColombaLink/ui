@@ -9,11 +9,10 @@ export const SelectedOptionsSubMenu = ({
   showAllItemsAgain,
   items,
   deleteItems,
-  setShownItems,
   shownItems,
 }) => {
-  console.log('--->', selectedRowCheckboxes)
-  console.log('items', items)
+  // console.log('--->', selectedRowCheckboxes)
+  // console.log('items', items)
 
   return (
     <div

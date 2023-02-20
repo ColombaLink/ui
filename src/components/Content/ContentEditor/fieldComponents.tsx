@@ -362,9 +362,9 @@ const string = {
   markdown: ({ description, meta, ...props }) => {
     // console.log(meta.mustFill)
     // const consoleValue = (data) => console.log(data)
-    function consoleValue(x) {
-      console.log(x)
-    }
+    // function consoleValue(x) {
+    //   console.log(x)
+    // }
     return (
       <Input
         {...props}

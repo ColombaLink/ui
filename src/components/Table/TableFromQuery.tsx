@@ -55,6 +55,9 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   const [, setRelevantFields] = useState(fields)
   const [location, setLocation] = useLocation()
 
+  const [prevStateSelectedRowCheckboxes, setPrevStateSelectedRowCheckboxes] =
+    useState(selectedRowCheckboxes)
+
   const [shownItems, setShownItems] = useState([])
 
   const systemFieldsArr = Array.from(systemFields)
@@ -236,7 +239,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     // selectedRowCheckboxes.forEach((rowIdx) => {
     //   shownItems.push(rowIdx)
     // })
-    console.log('slctedrow chek,s', selectedRowCheckboxes)
+
+    setPrevStateSelectedRowCheckboxes([...selectedRowCheckboxes])
 
     // console.log('TEMP obj', shownItems)
 
@@ -245,19 +249,18 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       showTheseIndexes.push(items[rowIdx])
     })
 
-    console.log(showTheseIndexes, 'showTheseIndexes')
-
     setShownItems(showTheseIndexes)
 
     const newSelectedRowsIndexes = []
     for (let i = 0; i < showTheseIndexes.length; i++) {
       newSelectedRowsIndexes.push(i)
     }
-    setSelectedRowCheckboxes([])
+    // setSelectedRowCheckboxes([])
     setSelectedRowCheckboxes([...newSelectedRowsIndexes])
   }
 
   const ShowAllItemsAgain = () => {
+    setSelectedRowCheckboxes(prevStateSelectedRowCheckboxes)
     setShownItems([])
   }
 
@@ -292,8 +295,8 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }
 
-  console.log('--> times ', items)
-  console.log('--> fields', fields)
+  // console.log('--> times ', items)
+  // console.log('--> fields', fields)
 
   return (
     <>
