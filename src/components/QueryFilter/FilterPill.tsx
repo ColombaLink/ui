@@ -144,11 +144,8 @@ const MiddlePill = ({
           '& svg': { display: 'none' },
         }}
         onChange={(e: string) => {
-          // setValueText(e)
-          console.log('Change -->', e, 'type of e -->', typeof e)
           const temp = inputValue.split(' ')
           temp[index] = e
-          console.log('----> TEMP ', temp)
           setInputValue(temp.join(' '))
           InputToFilters(temp.join(' '))
         }}
@@ -193,11 +190,8 @@ const OperatorPill = ({
           '& svg': { display: 'none' },
         }}
         onChange={(e: string) => {
-          // setValueText(e)
-          console.log('Change -->', e, 'type of e -->', typeof e)
           const temp = inputValue.split(' ')
           temp[index] = e
-          console.log('----> TEMP ', temp)
           setInputValue(temp.join(' '))
           InputToFilters(temp.join(' '))
         }}

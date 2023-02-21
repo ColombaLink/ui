@@ -3,7 +3,8 @@ import { Text, Select, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
 
-// TODO if you change selected operator change the input value
+// TODO after using a select you can backspace it..
+// TODO finish InputToFilters function
 
 export const QueryFilter = () => {
   const [inputValue, setInputValue] = useState<string>('')
@@ -46,6 +47,13 @@ export const QueryFilter = () => {
     console.log('filters -->', filters)
   }
 
+  const KeyPressLogic = (e) => {
+    console.log('key pressed -->', e.key)
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault()
+    }
+  }
+
   return (
     <div>
       <input
@@ -56,6 +64,7 @@ export const QueryFilter = () => {
           setInputValue(e.target.value)
           InputToFilters(e.target.value)
         }}
+        onKeyDown={(e) => KeyPressLogic(e)}
         style={{ border: '1px solid', padding: 6, marginBottom: 12 }}
       />
 
