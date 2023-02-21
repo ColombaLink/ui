@@ -50,6 +50,7 @@ const menuItems = {
     Schema: '?story=schema',
     SchemaModals: '?story=schema-modals',
     QueryBar: '?story=QuerySearchBar',
+    QueryFilters: '?story=QueryFilterBar',
   },
   Input: {
     Buttons: '?story=buttons',
