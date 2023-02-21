@@ -6,6 +6,7 @@ type FilterPillProps = {
   value: string
   setInputValue: (e) => void
   InputToFilters: (e) => void
+  caretPosition: number
 }
 
 export const compareOperators = [
@@ -31,7 +32,10 @@ export const FilterPill = ({
   value,
   setInputValue,
   InputToFilters,
+  caretPosition,
 }: FilterPillProps) => {
+  // bepaal in welk index block je de carret terecht komt
+
   return (
     <>
       {value.split(' ').map((item, idx) =>

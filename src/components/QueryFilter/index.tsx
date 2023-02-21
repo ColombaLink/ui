@@ -12,6 +12,8 @@ export const QueryFilter = () => {
     { $field: string; $operator: string; $value: string }[]
   >([])
 
+  const [caretPosition, setCaretPosition] = useState<number>(null)
+
   const inputRef = useRef<HTMLInputElement>()
 
   const InputToFilters = (input: string) => {
@@ -51,11 +53,53 @@ export const QueryFilter = () => {
     console.log('key pressed -->', e.key)
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
       e.preventDefault()
+      if (carretIsInBlockIndex === 1) {
+        console.log('open this')
+      }
+    }
+
+    if (e.key === 'ArrowLeft' && caretPosition > 0) {
+      setCaretPosition(caretPosition - 1)
+    }
+    if (e.key === 'ArrowRight' && caretPosition < inputValue.length) {
+      setCaretPosition(caretPosition + 1)
+    }
+
+    if (e.key === 'Backspace') {
+      if (carretIsInBlockIndex === 3) {
+        const temp = inputValue.split(' ')
+        temp.splice(carretIsInBlockIndex, 1)
+        setInputValue(temp.join(' '))
+      }
+      console.log('backspacie')
     }
   }
 
+  // //////////////////////////////////////////// CARRET POSITION LOGIC
+  let carretIsInBlockIndex = 0
+  let carretInBlockSubPos = 0
+  let counter = 0
+  inputValue.split(' ')?.map((text, idx) => {
+    //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
+    if (
+      caretPosition >= counter &&
+      caretPosition <= counter + text.length + 1
+    ) {
+      carretIsInBlockIndex = idx
+      carretInBlockSubPos = caretPosition - counter
+    }
+    counter += text.length + 1
+    return counter
+  })
+
   return (
     <div>
+      <Text color="accent">
+        {carretInBlockSubPos} - in block nr : {carretIsInBlockIndex}
+      </Text>
+      <Text>input length = {inputValue.length}</Text>
+      <Text>Carret pos? select start: {caretPosition}</Text>
+      <Text>Carret pos in index block: {}</Text>
       <input
         ref={inputRef}
         placeholder="type something here"
@@ -64,13 +108,19 @@ export const QueryFilter = () => {
           setInputValue(e.target.value)
           InputToFilters(e.target.value)
         }}
-        onKeyDown={(e) => KeyPressLogic(e)}
+        onKeyDown={(e) => {
+          setCaretPosition(e.currentTarget?.selectionStart)
+          KeyPressLogic(e)
+        }}
+        onClick={(e) => setCaretPosition(e.currentTarget.selectionStart)}
         style={{ border: '1px solid', padding: 6, marginBottom: 12 }}
       />
 
       <styled.div
         onClick={() => {
           inputRef.current.focus()
+          inputRef.current.selectionStart = inputValue.length
+          setCaretPosition(inputValue.length)
         }}
         style={{
           border: `1px solid ${color('border')}`,
@@ -84,6 +134,7 @@ export const QueryFilter = () => {
           value={inputValue}
           setInputValue={setInputValue}
           InputToFilters={InputToFilters}
+          caretPosition={caretPosition}
         />
       </styled.div>
 
