@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { Text, Select, color } from '~'
+import React, { useState, useRef } from 'react'
+import { Text, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
+import { SuggestionTag } from './SuggestionTag'
 
-// TODO after using a select you can backspace it..
 // TODO finish InputToFilters function
 
 export const QueryFilter = () => {
@@ -13,6 +13,12 @@ export const QueryFilter = () => {
   >([])
 
   const [caretPosition, setCaretPosition] = useState<number>(null)
+  const [openSelectBox, setOpenSelectBox] = useState<{
+    num: number
+    open: boolean
+  }>({ num: 0, open: false })
+
+  const [suggestions, setSuggestions] = useState<string[]>([])
 
   const inputRef = useRef<HTMLInputElement>()
 
@@ -50,14 +56,6 @@ export const QueryFilter = () => {
   }
 
   const KeyPressLogic = (e) => {
-    console.log('key pressed -->', e.key)
-    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-      e.preventDefault()
-      if (caretIsInBlockIndex === 1) {
-        console.log('open this')
-      }
-    }
-
     if (e.key === 'ArrowLeft' && caretPosition > 0) {
       setCaretPosition(caretPosition - 1)
     }
@@ -65,14 +63,12 @@ export const QueryFilter = () => {
       setCaretPosition(caretPosition + 1)
     }
 
-    // if (e.key === 'Backspace') {
-    //   if (carretIsInBlockIndex === 3) {
-    //     const temp = inputValue.split(' ')
-    //     temp[carretIsInBlockIndex] = ' '
-    //     setInputValue(temp.join(' '))
-    //   }
-    //   console.log('backspacie')
-    // }
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      e.preventDefault()
+      setOpenSelectBox({ num: caretIsInBlockIndex, open: true })
+
+      // TODO zet cursor weer ergens in input
+    }
   }
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
@@ -128,6 +124,7 @@ export const QueryFilter = () => {
           padding: 3,
           display: 'flex',
           alignItems: 'center',
+          marginBottom: 12,
         }}
       >
         <FilterPill
@@ -135,8 +132,16 @@ export const QueryFilter = () => {
           setInputValue={setInputValue}
           InputToFilters={InputToFilters}
           caretIsInBlockIndex={caretIsInBlockIndex}
+          carretInBlockSubPos={carretInBlockSubPos}
+          openSelectBox={openSelectBox}
+          setOpenSelectBox={setOpenSelectBox}
         />
       </styled.div>
+
+      <div style={{ display: 'flex' }}>
+        <SuggestionTag suggestion="lbub" selected onClick={() => {}} />
+        <SuggestionTag suggestion="snupr" onClick={() => {}} />
+      </div>
 
       <pre
         style={{

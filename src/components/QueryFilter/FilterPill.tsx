@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { color, Text, Select } from '~'
 import { styled } from 'inlines'
 
@@ -7,6 +7,9 @@ type FilterPillProps = {
   setInputValue: (e) => void
   InputToFilters: (e) => void
   caretIsInBlockIndex: number
+  carretInBlockSubPos: number
+  openSelectBox: { num: number; open: boolean }
+  setOpenSelectBox: (value: { num: number; open: boolean }) => void
 }
 
 export const compareOperators = [
@@ -21,18 +24,21 @@ export const compareOperators = [
 ]
 export const logicalOperators = ['$and', '$or', '$not']
 
-const AP_LIMIT = 70
 //  arithmetic progression
+const AP_LIMIT = 70
 const aProgress = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
 
-console.log('arithmeticProgression', aProgress(7, 90))
+console.log('arithmeticProgression', aProgress(7, AP_LIMIT))
 
 export const FilterPill = ({
   value,
   setInputValue,
   InputToFilters,
   caretIsInBlockIndex,
+  carretInBlockSubPos,
+  openSelectBox,
+  setOpenSelectBox,
 }: FilterPillProps) => {
   // bepaal in welk index block je de carret terecht komt
 
@@ -53,6 +59,8 @@ export const FilterPill = ({
             InputToFilters={InputToFilters}
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
+            openSelectBox={openSelectBox}
+            setOpenSelectBox={setOpenSelectBox}
           />
         ) : idx === 2 ||
           aProgress(4, AP_LIMIT)
@@ -68,6 +76,8 @@ export const FilterPill = ({
             InputToFilters={InputToFilters}
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
+            openSelectBox={openSelectBox}
+            setOpenSelectBox={setOpenSelectBox}
           />
         )
       )}
@@ -126,42 +136,57 @@ const MiddlePill = ({
   index,
   InputToFilters,
   caretIsInBlockIndex,
+  openSelectBox,
+  setOpenSelectBox,
 }) => {
+  const selectRef = useRef(null)
+
+  if (openSelectBox.open) {
+    // selectRef.current.focus()
+    if (index === openSelectBox.num) {
+      selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
+    }
+
+    setOpenSelectBox({ num: index, open: false })
+  }
+
   return (
-    <Text
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        height: 30,
-        //  padding: 10,
-        minWidth: 'auto',
-        backgroundColor: color('lighttext'),
-        borderRight: `1px solid ${color('border')}`,
-        position: 'relative',
-      }}
-    >
-      <Select
-        ghost
-        value={value}
-        // @ts-ignore
+    <div ref={selectRef}>
+      <Text
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          height: 30,
+          //  padding: 10,
+          minWidth: 'auto',
+          backgroundColor: color('lighttext'),
+          borderRight: `1px solid ${color('border')}`,
+          position: 'relative',
+        }}
+      >
+        <Select
+          ghost
+          value={value}
           // @ts-ignore
-          '& div': { padding: '10px' },
-          '& svg': { display: 'none' },
-        }}
-        onChange={(e: string) => {
-          const temp = inputValue.split(' ')
-          temp[index] = e
-          if (caretIsInBlockIndex !== index) {
-            setInputValue(temp.join(' '))
-            InputToFilters(temp.join(' '))
-          }
-        }}
-        options={compareOperators}
-        placeholder=""
-      />
-    </Text>
+          style={{
+            // @ts-ignore
+            '& div': { padding: '10px' },
+            '& svg': { display: 'none' },
+          }}
+          onChange={(e: string) => {
+            const temp = inputValue.split(' ')
+            temp[index] = e
+            if (caretIsInBlockIndex !== index || index === openSelectBox.num) {
+              setInputValue(temp.join(' '))
+              InputToFilters(temp.join(' '))
+            }
+          }}
+          options={compareOperators}
+          placeholder=""
+        />
+      </Text>
+    </div>
   )
 }
 
@@ -172,44 +197,62 @@ const OperatorPill = ({
   index,
   InputToFilters,
   caretIsInBlockIndex,
+  openSelectBox,
+  setOpenSelectBox,
 }) => {
+  const selectRef = useRef(null)
+
+  if (openSelectBox.open) {
+    // selectRef.current.focus()
+    if (index === openSelectBox.num) {
+      selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
+    }
+
+    setOpenSelectBox({ num: index, open: false })
+  }
+
   return (
-    <Text
-      color="accent"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        height: 30,
-        minWidth: 'auto',
-        backgroundColor: color('background'),
-        border: `1px solid ${color('accent')}`,
-        borderRadius: 4,
-        position: 'relative',
-        marginLeft: 6,
-        marginRight: 6,
-      }}
-    >
-      <Select
-        ghost
-        value={value}
-        // @ts-ignore
+    <div ref={selectRef}>
+      <Text
+        color="accent"
         style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          height: 30,
+          minWidth: 'auto',
+          backgroundColor: color('background'),
+          border: `1px solid ${color('accent')}`,
+          borderRadius: 4,
+          position: 'relative',
+          marginLeft: 6,
+          marginRight: 6,
+        }}
+      >
+        <Select
+          ghost
+          value={value}
           // @ts-ignore
-          '& div': { padding: '10px', color: `${color('accent')} !important` },
-          '& svg': { display: 'none' },
-        }}
-        onChange={(e: string) => {
-          const temp = inputValue.split(' ')
-          temp[index] = e
-          if (caretIsInBlockIndex !== index) {
-            setInputValue(temp.join(' '))
-            InputToFilters(temp.join(' '))
-          }
-        }}
-        options={logicalOperators}
-        placeholder=""
-      />
-    </Text>
+          style={{
+            // @ts-ignore
+            '& div': {
+              padding: '10px',
+              color: `${color('accent')} !important`,
+            },
+            '& svg': { display: 'none' },
+          }}
+          onChange={(e: string) => {
+            const temp = inputValue.split(' ')
+            temp[index] = e
+            if (caretIsInBlockIndex !== index || index === openSelectBox.num) {
+              setInputValue(temp.join(' '))
+              InputToFilters(temp.join(' '))
+            }
+          }}
+          options={logicalOperators}
+          placeholder=""
+        />
+      </Text>
+    </div>
   )
 }
