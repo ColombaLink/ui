@@ -4,6 +4,8 @@ import { styled } from 'inlines'
 
 type FilterPillProps = {
   value: string
+  setInputValue: (e) => void
+  InputToFilters: (e) => void
 }
 
 export const compareOperators = [
@@ -25,7 +27,11 @@ const aProgress = (n, lim) =>
 
 console.log('arithmeticProgression', aProgress(7, 90))
 
-export const FilterPill = ({ value }: FilterPillProps) => {
+export const FilterPill = ({
+  value,
+  setInputValue,
+  InputToFilters,
+}: FilterPillProps) => {
   return (
     <>
       {value.split(' ').map((item, idx) =>
@@ -35,7 +41,14 @@ export const FilterPill = ({ value }: FilterPillProps) => {
           aProgress(4, AP_LIMIT)
             .map((v) => v + 1)
             .includes(idx) ? (
-          <MiddlePill key={idx} value={item} />
+          <MiddlePill
+            key={idx}
+            value={item}
+            setInputValue={setInputValue}
+            inputValue={value}
+            InputToFilters={InputToFilters}
+            index={idx}
+          />
         ) : idx === 2 ||
           aProgress(4, AP_LIMIT)
             .map((v) => v + 2)
@@ -93,7 +106,13 @@ const RightPill = ({ value }) => {
   )
 }
 
-const MiddlePill = ({ value }) => {
+const MiddlePill = ({
+  value,
+  setInputValue,
+  inputValue,
+  index,
+  InputToFilters,
+}) => {
   return (
     <Text
       style={{
@@ -120,6 +139,11 @@ const MiddlePill = ({ value }) => {
         onChange={(e: string) => {
           // setValueText(e)
           console.log('Change -->', e, 'type of e -->', typeof e)
+          const temp = inputValue.split(' ')
+          temp[index] = e
+          console.log('----> TEMP ', temp)
+          setInputValue(temp.join(' '))
+          InputToFilters(temp.join(' '))
         }}
         options={compareOperators}
         placeholder=""

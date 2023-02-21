@@ -71,7 +71,11 @@ export const QueryFilter = () => {
           alignItems: 'center',
         }}
       >
-        <FilterPill value={inputValue} />
+        <FilterPill
+          value={inputValue}
+          setInputValue={setInputValue}
+          InputToFilters={InputToFilters}
+        />
       </styled.div>
 
       <pre
