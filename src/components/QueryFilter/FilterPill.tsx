@@ -6,7 +6,7 @@ type FilterPillProps = {
   value: string
   setInputValue: (e) => void
   InputToFilters: (e) => void
-  caretPosition: number
+  caretIsInBlockIndex: number
 }
 
 export const compareOperators = [
@@ -32,7 +32,7 @@ export const FilterPill = ({
   value,
   setInputValue,
   InputToFilters,
-  caretPosition,
+  caretIsInBlockIndex,
 }: FilterPillProps) => {
   // bepaal in welk index block je de carret terecht komt
 
@@ -52,6 +52,7 @@ export const FilterPill = ({
             inputValue={value}
             InputToFilters={InputToFilters}
             index={idx}
+            caretIsInBlockIndex={caretIsInBlockIndex}
           />
         ) : idx === 2 ||
           aProgress(4, AP_LIMIT)
@@ -66,6 +67,7 @@ export const FilterPill = ({
             inputValue={value}
             InputToFilters={InputToFilters}
             index={idx}
+            caretIsInBlockIndex={caretIsInBlockIndex}
           />
         )
       )}
@@ -123,6 +125,7 @@ const MiddlePill = ({
   inputValue,
   index,
   InputToFilters,
+  caretIsInBlockIndex,
 }) => {
   return (
     <Text
@@ -150,8 +153,10 @@ const MiddlePill = ({
         onChange={(e: string) => {
           const temp = inputValue.split(' ')
           temp[index] = e
-          setInputValue(temp.join(' '))
-          InputToFilters(temp.join(' '))
+          if (caretIsInBlockIndex !== index) {
+            setInputValue(temp.join(' '))
+            InputToFilters(temp.join(' '))
+          }
         }}
         options={compareOperators}
         placeholder=""
@@ -166,6 +171,7 @@ const OperatorPill = ({
   inputValue,
   index,
   InputToFilters,
+  caretIsInBlockIndex,
 }) => {
   return (
     <Text
@@ -196,8 +202,10 @@ const OperatorPill = ({
         onChange={(e: string) => {
           const temp = inputValue.split(' ')
           temp[index] = e
-          setInputValue(temp.join(' '))
-          InputToFilters(temp.join(' '))
+          if (caretIsInBlockIndex !== index) {
+            setInputValue(temp.join(' '))
+            InputToFilters(temp.join(' '))
+          }
         }}
         options={logicalOperators}
         placeholder=""

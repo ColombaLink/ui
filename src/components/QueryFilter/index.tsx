@@ -53,7 +53,7 @@ export const QueryFilter = () => {
     console.log('key pressed -->', e.key)
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
       e.preventDefault()
-      if (carretIsInBlockIndex === 1) {
+      if (caretIsInBlockIndex === 1) {
         console.log('open this')
       }
     }
@@ -65,18 +65,18 @@ export const QueryFilter = () => {
       setCaretPosition(caretPosition + 1)
     }
 
-    if (e.key === 'Backspace') {
-      if (carretIsInBlockIndex === 3) {
-        const temp = inputValue.split(' ')
-        temp.splice(carretIsInBlockIndex, 1)
-        setInputValue(temp.join(' '))
-      }
-      console.log('backspacie')
-    }
+    // if (e.key === 'Backspace') {
+    //   if (carretIsInBlockIndex === 3) {
+    //     const temp = inputValue.split(' ')
+    //     temp[carretIsInBlockIndex] = ' '
+    //     setInputValue(temp.join(' '))
+    //   }
+    //   console.log('backspacie')
+    // }
   }
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
-  let carretIsInBlockIndex = 0
+  let caretIsInBlockIndex = 0
   let carretInBlockSubPos = 0
   let counter = 0
   inputValue.split(' ')?.map((text, idx) => {
@@ -85,7 +85,7 @@ export const QueryFilter = () => {
       caretPosition >= counter &&
       caretPosition <= counter + text.length + 1
     ) {
-      carretIsInBlockIndex = idx
+      caretIsInBlockIndex = idx
       carretInBlockSubPos = caretPosition - counter
     }
     counter += text.length + 1
@@ -95,7 +95,7 @@ export const QueryFilter = () => {
   return (
     <div>
       <Text color="accent">
-        {carretInBlockSubPos} - in block nr : {carretIsInBlockIndex}
+        {carretInBlockSubPos} - in block nr : {caretIsInBlockIndex}
       </Text>
       <Text>input length = {inputValue.length}</Text>
       <Text>Carret pos? select start: {caretPosition}</Text>
@@ -134,7 +134,7 @@ export const QueryFilter = () => {
           value={inputValue}
           setInputValue={setInputValue}
           InputToFilters={InputToFilters}
-          caretPosition={caretPosition}
+          caretIsInBlockIndex={caretIsInBlockIndex}
         />
       </styled.div>
 
