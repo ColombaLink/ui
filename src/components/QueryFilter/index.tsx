@@ -36,6 +36,14 @@ export const QueryFilter = () => {
           $value: splitted[6],
         }
       }
+
+      if (i === 10) {
+        filters[0][splitted[3]][splitted[7]] = {
+          $field: splitted[8],
+          $operator: splitted[9],
+          $value: splitted[10],
+        }
+      }
     }
 
     console.log('filters -->', filters)
