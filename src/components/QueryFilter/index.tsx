@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Text, Select } from '~'
+import { Text, Select, color } from '~'
 import { styled } from 'inlines'
+import { FilterPill } from './FilterPill'
 
 export const QueryFilter = () => {
   const [inputValue, setInputValue] = useState<string>('')
@@ -59,9 +60,31 @@ export const QueryFilter = () => {
           setInputValue(e.target.value)
           InputToFilters(e.target.value)
         }}
-        style={{ border: '1px solid blue', padding: 6, width: 800 }}
+        style={{
+          border: '1px solid blue',
+          padding: 6,
+          width: 800,
+          marginBottom: 12,
+        }}
       />
-      <Text>{inputValue}</Text>
+
+      <styled.div
+        style={{
+          // outline: isFocused
+          //   ? `2px solid rgba(44, 60, 234, 0.2)`
+          //   : `2px solid transparent`,
+          // border: isFocused
+          //   ? `1px solid ${color('accent')}`
+          //   : `1px solid ${color('border')}`,
+          border: `1px solid ${color('border')}`,
+          borderRadius: 4,
+          padding: 3,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <FilterPill value={inputValue} />
+      </styled.div>
 
       <pre
         style={{
