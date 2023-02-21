@@ -55,7 +55,14 @@ export const FilterPill = ({
             .includes(idx) ? (
           <RightPill key={idx} value={item} />
         ) : (
-          <OperatorPill key={idx} value={item} />
+          <OperatorPill
+            key={idx}
+            value={item}
+            setInputValue={setInputValue}
+            inputValue={value}
+            InputToFilters={InputToFilters}
+            index={idx}
+          />
         )
       )}
     </>
@@ -152,7 +159,13 @@ const MiddlePill = ({
   )
 }
 
-const OperatorPill = ({ value }) => {
+const OperatorPill = ({
+  value,
+  setInputValue,
+  inputValue,
+  index,
+  InputToFilters,
+}) => {
   return (
     <Text
       color="accent"
@@ -182,6 +195,11 @@ const OperatorPill = ({ value }) => {
         onChange={(e: string) => {
           // setValueText(e)
           console.log('Change -->', e, 'type of e -->', typeof e)
+          const temp = inputValue.split(' ')
+          temp[index] = e
+          console.log('----> TEMP ', temp)
+          setInputValue(temp.join(' '))
+          InputToFilters(temp.join(' '))
         }}
         options={logicalOperators}
         placeholder=""
