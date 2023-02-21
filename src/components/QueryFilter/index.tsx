@@ -3,20 +3,16 @@ import { Text, Select, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
 
+// TODO if you change selected operator change the input value
+
 export const QueryFilter = () => {
   const [inputValue, setInputValue] = useState<string>('')
   const [filters, setFilters] = useState<
     { $field: string; $operator: string; $value: string }[]
   >([])
+
   const inputRef = useRef<HTMLInputElement>()
 
-  const arithmeticProgression = (n, lim) =>
-    Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
-
-  // console.log('arithmeticProgression', arithmeticProgression(4, 90))
-
-  // om de drie zet een filter,
-  // met of zonder and or not operator
   const InputToFilters = (input: string) => {
     const splitted = input.split(' ')
 
@@ -60,22 +56,14 @@ export const QueryFilter = () => {
           setInputValue(e.target.value)
           InputToFilters(e.target.value)
         }}
-        style={{
-          border: '1px solid blue',
-          padding: 6,
-          width: 800,
-          marginBottom: 12,
-        }}
+        style={{ border: '1px solid', padding: 6, marginBottom: 12 }}
       />
 
       <styled.div
+        onClick={() => {
+          inputRef.current.focus()
+        }}
         style={{
-          // outline: isFocused
-          //   ? `2px solid rgba(44, 60, 234, 0.2)`
-          //   : `2px solid transparent`,
-          // border: isFocused
-          //   ? `1px solid ${color('accent')}`
-          //   : `1px solid ${color('border')}`,
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           padding: 3,

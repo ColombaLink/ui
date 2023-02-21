@@ -18,22 +18,33 @@ export const compareOperators = [
 ]
 export const logicalOperators = ['$and', '$or', '$not']
 
+const AP_LIMIT = 70
+//  arithmetic progression
+const aProgress = (n, lim) =>
+  Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
+
+console.log('arithmeticProgression', aProgress(7, 90))
+
 export const FilterPill = ({ value }: FilterPillProps) => {
   return (
     <>
-      {value
-        .split(' ')
-        .map((item, idx) =>
-          idx === 0 ? (
-            <LeftPill key={idx} value={item} />
-          ) : idx === 1 ? (
-            <MiddlePill key={idx} value={item} />
-          ) : idx === 2 ? (
-            <RightPill key={idx} value={item} />
-          ) : (
-            <OperatorPill key={idx} value={item} />
-          )
-        )}
+      {value.split(' ').map((item, idx) =>
+        idx === 0 || aProgress(4, AP_LIMIT).includes(idx) ? (
+          <LeftPill key={idx} value={item} />
+        ) : idx === 1 ||
+          aProgress(4, AP_LIMIT)
+            .map((v) => v + 1)
+            .includes(idx) ? (
+          <MiddlePill key={idx} value={item} />
+        ) : idx === 2 ||
+          aProgress(4, AP_LIMIT)
+            .map((v) => v + 2)
+            .includes(idx) ? (
+          <RightPill key={idx} value={item} />
+        ) : (
+          <OperatorPill key={idx} value={item} />
+        )
+      )}
     </>
   )
 }
