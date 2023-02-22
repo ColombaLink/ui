@@ -5,6 +5,9 @@ import { FilterPill } from './FilterPill'
 import { SuggestionTag } from './SuggestionTag'
 
 // TODO finish InputToFilters function
+// TODO carretposition indicator
+// TODO on arrow up down open filter menu
+// TODO sync carret positions
 
 export const QueryFilter = () => {
   const [inputValue, setInputValue] = useState<string>('')
@@ -73,7 +76,7 @@ export const QueryFilter = () => {
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
   let caretIsInBlockIndex = 0
-  let carretInBlockSubPos = 0
+  let caretInBlockSubPos = 0
   let counter = 0
   inputValue.split(' ')?.map((text, idx) => {
     //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
@@ -82,7 +85,7 @@ export const QueryFilter = () => {
       caretPosition <= counter + text.length + 1
     ) {
       caretIsInBlockIndex = idx
-      carretInBlockSubPos = caretPosition - counter
+      caretInBlockSubPos = caretPosition - counter
     }
     counter += text.length + 1
     return counter
@@ -91,11 +94,10 @@ export const QueryFilter = () => {
   return (
     <div>
       <Text color="accent">
-        {carretInBlockSubPos} - in block nr : {caretIsInBlockIndex}
+        subpos: {caretInBlockSubPos} - in block nr : {caretIsInBlockIndex}
       </Text>
       <Text>input length = {inputValue.length}</Text>
       <Text>Carret pos? select start: {caretPosition}</Text>
-      <Text>Carret pos in index block: {}</Text>
       <input
         ref={inputRef}
         placeholder="type something here"
@@ -132,7 +134,7 @@ export const QueryFilter = () => {
           setInputValue={setInputValue}
           InputToFilters={InputToFilters}
           caretIsInBlockIndex={caretIsInBlockIndex}
-          carretInBlockSubPos={carretInBlockSubPos}
+          caretInBlockSubPos={caretInBlockSubPos}
           openSelectBox={openSelectBox}
           setOpenSelectBox={setOpenSelectBox}
         />

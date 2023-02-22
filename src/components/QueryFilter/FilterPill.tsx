@@ -2,27 +2,25 @@ import React, { useRef } from 'react'
 import { color, Text, Select } from '~'
 import { styled } from 'inlines'
 
-type FilterPillProps = {
-  value: string
-  setInputValue: (e) => void
-  InputToFilters: (e) => void
-  caretIsInBlockIndex: number
-  carretInBlockSubPos: number
-  openSelectBox: { num: number; open: boolean }
-  setOpenSelectBox: (value: { num: number; open: boolean }) => void
-}
+const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
+const logicalOperators = ['$and', '$or', '$not']
 
-export const compareOperators = [
-  '=',
-  '!=',
-  '>',
-  '<',
-  '>=',
-  '<=',
-  'includes',
-  'has',
-]
-export const logicalOperators = ['$and', '$or', '$not']
+const FakeCarret = styled('div', {
+  width: 1,
+  marginLeft: 1.5,
+  marginRight: 1.5,
+  marginTop: 2,
+  height: 15,
+  backgroundColor: color('text'),
+  '@keyframes': {
+    '0%': { opacity: 0 },
+    '50%': { opacity: 1 },
+    '100%': { opacity: 0 },
+  },
+  animationDuration: '1s',
+  animationEffect: 'step-start',
+  animationIterationCount: 'infinite',
+})
 
 //  arithmetic progression
 const AP_LIMIT = 70
@@ -31,12 +29,22 @@ const aProgress = (n, lim) =>
 
 console.log('arithmeticProgression', aProgress(7, AP_LIMIT))
 
+type FilterPillProps = {
+  value: string
+  setInputValue: (e) => void
+  InputToFilters: (e) => void
+  caretIsInBlockIndex: number
+  caretInBlockSubPos: number
+  openSelectBox: { num: number; open: boolean }
+  setOpenSelectBox: (value: { num: number; open: boolean }) => void
+}
+
 export const FilterPill = ({
   value,
   setInputValue,
   InputToFilters,
   caretIsInBlockIndex,
-  carretInBlockSubPos,
+  caretInBlockSubPos,
   openSelectBox,
   setOpenSelectBox,
 }: FilterPillProps) => {
@@ -46,7 +54,13 @@ export const FilterPill = ({
     <>
       {value.split(' ').map((item, idx) =>
         idx === 0 || aProgress(4, AP_LIMIT).includes(idx) ? (
-          <LeftPill key={idx} value={item} />
+          <LeftPill
+            key={idx}
+            value={item}
+            index={idx}
+            caretIsInBlockIndex={caretIsInBlockIndex}
+            caretInBlockSubPos={caretInBlockSubPos}
+          />
         ) : idx === 1 ||
           aProgress(4, AP_LIMIT)
             .map((v) => v + 1)
@@ -85,7 +99,12 @@ export const FilterPill = ({
   )
 }
 
-const LeftPill = ({ value }) => {
+const LeftPill = ({
+  value,
+  index,
+  caretIsInBlockIndex,
+  caretInBlockSubPos,
+}) => {
   return (
     <Text
       color="text2"
@@ -102,7 +121,18 @@ const LeftPill = ({ value }) => {
         cursor: 'text',
       }}
     >
-      {value}
+      {caretIsInBlockIndex === index
+        ? value.split('').map((letter, idx) =>
+            idx === caretInBlockSubPos ? (
+              <>
+                <span>{letter}</span>
+                <FakeCarret />
+              </>
+            ) : (
+              <span>{letter}</span>
+            )
+          )
+        : value}
     </Text>
   )
 }
