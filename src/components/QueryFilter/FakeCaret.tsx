@@ -1,7 +1,7 @@
 import { color } from '~'
 import { styled } from 'inlines'
 
-export const FakeCarret = styled('span', {
+export const FakeCaret = styled('span', {
   width: 1,
   marginLeft: 1.5,
   marginRight: 1.5,
