@@ -97,14 +97,14 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
               if (schema) {
                 schema.types[type] = typeSchema
               }
-
-              await client.updateSchema({
+              // @ts-ignore
+              await client.call('db:set-schema', {
+                db,
                 schema: {
                   types: {
                     [type]: typeSchema,
                   },
                 },
-                db,
               })
 
               setLocation(`${prefix}/${type}`)

@@ -1,5 +1,5 @@
 // import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
-import { useQuery } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import { systemFields } from '~/components/Schema/templates/index'
 
 export const sortFields = (fields) => {
@@ -69,7 +69,7 @@ const walkType = (obj, key) => {
 
 export const useSchema = (db = 'default') => {
   const { data, loading } = useQuery('db:schema', { db })
-  console.log('yesh!!', loading, data)
+  console.log('schema', db, loading, data, useClient())
   if (!loading) {
     // if (!('_buiSha' in ctx)) {
     //   ctx._buiSha = {}

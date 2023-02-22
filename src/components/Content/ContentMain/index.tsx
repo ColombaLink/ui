@@ -240,6 +240,7 @@ export const ContentMain = ({
   // onAction for table selected items ... more actions will follow
   const onAction = (items, string) => {
     if (string === 'delete') {
+      // @ts-ignore
       Promise.all(items.map((v) => client.delete({ $id: v.id }))).then(() => {
         console.info('DELETE TIMES 🥨')
       })

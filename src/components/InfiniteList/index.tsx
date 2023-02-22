@@ -77,7 +77,7 @@ export const useInfiniteScroll = ({
           $language: language,
           items: query(start, limit),
         }
-        const q = client.query(payload)
+        const q = client.query('db', payload)
         subs[q.id] =
           current.subs[q.id] ||
           q.subscribe(({ items }, checksum) => {

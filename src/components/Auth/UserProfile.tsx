@@ -22,6 +22,7 @@ export const UserProfile = ({ id }) => {
               )
             ).url.replace('ws', 'http') +
             `/get?token=${encodeURIComponent(
+              // @ts-ignore
               client.getToken()
             )}&q=${encodeURIComponent(
               JSON.stringify({
@@ -48,7 +49,9 @@ export const UserProfile = ({ id }) => {
               'Are you sure you want to remove your account?'
             )
           ) {
+            // @ts-ignore
             await client.delete({ $id: id })
+            // @ts-ignore
             await client.logout()
           }
         }}
@@ -58,6 +61,7 @@ export const UserProfile = ({ id }) => {
       <ContextDivider />
       <ContextItem
         onClick={async () => {
+          // @ts-ignore
           await client.logout()
         }}
       >

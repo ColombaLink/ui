@@ -53,7 +53,7 @@ const AddLocaleModal = ({ languages = [] }) => {
           disabled={!selected}
           onConfirm={() => {
             languages.push(selected)
-            return client.updateSchema({
+            return client.call('db:set-schema', {
               schema: {
                 languages,
               },

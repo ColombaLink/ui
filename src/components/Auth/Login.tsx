@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { EmailIcon, LockIcon } from '~/icons'
+import { LockIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
@@ -120,6 +120,7 @@ export const Login: FC<LoginProps> = ({
         onClick={
           passwordExpanded
             ? async () => {
+                // @ts-ignore
                 const result = await client.login({
                   email,
                   password,
