@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Text, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
@@ -15,7 +15,7 @@ export const QueryFilter = () => {
     { $field: string; $operator: string; $value: string }[]
   >([])
 
-  const [caretPosition, setCaretPosition] = useState<number>(null)
+  const [caretPosition, setCaretPosition] = useState<number>('')
   const [openSelectBox, setOpenSelectBox] = useState<{
     num: number
     open: boolean
@@ -59,10 +59,10 @@ export const QueryFilter = () => {
   }
 
   const KeyPressLogic = (e) => {
-    if (e.key === 'ArrowLeft' && caretPosition > 0) {
+    if (e.key === 'ArrowLeft' && caretPosition > -1) {
       setCaretPosition(caretPosition - 1)
     }
-    if (e.key === 'ArrowRight' && caretPosition < inputValue.length) {
+    if (e.key === 'ArrowRight' && caretPosition < inputValue.length - 1) {
       setCaretPosition(caretPosition + 1)
     }
 
@@ -118,8 +118,9 @@ export const QueryFilter = () => {
       <styled.div
         onClick={() => {
           inputRef.current.focus()
-          inputRef.current.selectionStart = inputValue.length
-          setCaretPosition(inputValue.length)
+          inputRef.current.selectionStart = inputValue.length - 1
+          inputRef.current.selectionEnd = inputValue.length - 1
+          setCaretPosition(inputValue.length - 1)
         }}
         style={{
           border: `1px solid ${color('border')}`,
