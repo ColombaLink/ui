@@ -28,7 +28,7 @@ export const QueryFilter = () => {
   const InputToFilters = (input: string) => {
     const splitted = input.split(' ')
 
-    console.log(splitted)
+    // console.log(splitted)
     for (let i = 0; i < splitted.length; i++) {
       if (i === 2) {
         filters[0] = {
@@ -55,7 +55,7 @@ export const QueryFilter = () => {
       }
     }
 
-    console.log('filters -->', filters)
+    // console.log('filters -->', filters)
   }
 
   const KeyPressLogic = (e) => {
@@ -71,6 +71,7 @@ export const QueryFilter = () => {
       setOpenSelectBox({ num: caretIsInBlockIndex, open: true })
 
       // TODO zet cursor weer ergens in input
+      setCaretPosition(caretPosition)
     }
   }
 
@@ -137,6 +138,8 @@ export const QueryFilter = () => {
           caretInBlockSubPos={caretInBlockSubPos}
           openSelectBox={openSelectBox}
           setOpenSelectBox={setOpenSelectBox}
+          caretPosition={caretPosition}
+          setCaretPosition={setCaretPosition}
         />
       </styled.div>
 

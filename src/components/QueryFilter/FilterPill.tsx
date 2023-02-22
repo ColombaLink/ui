@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
-import { color, Text, Select } from '~'
+import { color, Text, Select, usePropState } from '~'
 import { FakeCarret } from './FakeCarret'
-import { styled } from 'inlines'
 
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 const logicalOperators = ['$and', '$or', '$not']
@@ -10,8 +9,7 @@ const logicalOperators = ['$and', '$or', '$not']
 const AP_LIMIT = 70
 const aProgress = (n, lim) =>
   Array.from({ length: Math.ceil(lim / n) }, (_, i) => (i + 1) * n)
-
-console.log('arithmeticProgression', aProgress(7, AP_LIMIT))
+// console.log('arithmeticProgression', aProgress(7, AP_LIMIT))
 
 type FilterPillProps = {
   value: string
@@ -21,6 +19,8 @@ type FilterPillProps = {
   caretInBlockSubPos: number
   openSelectBox: { num: number; open: boolean }
   setOpenSelectBox: (value: { num: number; open: boolean }) => void
+  caretPosition: number
+  setCaretPosition: (e) => void
 }
 
 export const FilterPill = ({
@@ -31,6 +31,8 @@ export const FilterPill = ({
   caretInBlockSubPos,
   openSelectBox,
   setOpenSelectBox,
+  caretPosition,
+  setCaretPosition,
 }: FilterPillProps) => {
   // bepaal in welk index block je de carret terecht komt
 
@@ -60,6 +62,8 @@ export const FilterPill = ({
             caretInBlockSubPos={caretInBlockSubPos}
             openSelectBox={openSelectBox}
             setOpenSelectBox={setOpenSelectBox}
+            caretPosition={caretPosition}
+            setCaretPosition={setCaretPosition}
           />
         ) : idx === 2 ||
           aProgress(4, AP_LIMIT)
@@ -115,12 +119,12 @@ const LeftPill = ({
       {caretIsInBlockIndex === index
         ? value.split('').map((letter, idx) =>
             idx === caretInBlockSubPos ? (
-              <>
+              <React.Fragment key={idx}>
                 <span>{letter}</span>
                 <FakeCarret />
-              </>
+              </React.Fragment>
             ) : (
-              <span>{letter}</span>
+              <span key={idx}>{letter}</span>
             )
           )
         : value}
@@ -153,12 +157,12 @@ const RightPill = ({
       {caretIsInBlockIndex === index
         ? value.split('').map((letter, idx) =>
             idx === caretInBlockSubPos ? (
-              <>
+              <React.Fragment key={idx}>
                 <span>{letter}</span>
                 <FakeCarret />
-              </>
+              </React.Fragment>
             ) : (
-              <span>{letter}</span>
+              <span key={idx}>{letter}</span>
             )
           )
         : value}
@@ -176,17 +180,30 @@ const MiddlePill = ({
   caretInBlockSubPos,
   openSelectBox,
   setOpenSelectBox,
+  caretPosition,
+  setCaretPosition,
 }) => {
   const selectRef = useRef(null)
+
+  const [tempVal, setTempVal] = usePropState(inputValue)
 
   if (openSelectBox.open) {
     // selectRef.current.focus()
     if (index === openSelectBox.num) {
-      selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
+      console.log('NANI??')
+      document.getElementById(`selectid-${index}`).click()
     }
 
     setOpenSelectBox({ num: index, open: false })
+    setCaretPosition(inputValue.length)
   }
+
+  console.log(selectRef.current)
+
+  console.log(
+    'flippie -->',
+    document.getElementById(`selectid-${index}`)?.childNodes[0]
+  )
 
   return (
     <div ref={selectRef}>
@@ -194,44 +211,59 @@ const MiddlePill = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
+          // gap: 8,
           height: 30,
-          //  padding: 10,
+          padding: 10,
           minWidth: 'auto',
           backgroundColor: color('lighttext'),
           borderRight: `1px solid ${color('border')}`,
           position: 'relative',
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          // open selectbox
+          // openSelectBox.num = index
+          // openSelectBox.open = true
+          setOpenSelectBox({ num: index, open: true })
+          //  selectRef.current.childNodes[0].childNodes[0].nextSibling.click()
         }}
       >
+        {caretIsInBlockIndex === index
+          ? value.split('').map((letter, idx) =>
+              idx === caretInBlockSubPos ? (
+                <React.Fragment key={idx}>
+                  <span>{letter}</span>
+                  <FakeCarret />
+                </React.Fragment>
+              ) : (
+                <span key={idx}>{letter}</span>
+              )
+            )
+          : value}
+
         <Select
+          id={`selectid-${index}`}
           ghost
-          value={
-            caretIsInBlockIndex === index
-              ? value.split('').map((letter, idx) =>
-                  idx === caretInBlockSubPos ? (
-                    <>
-                      <span>{letter}</span>
-                      <FakeCarret />
-                    </>
-                  ) : (
-                    <span>{letter}</span>
-                  )
-                )
-              : value
-          }
+          value={tempVal.split(' ')[index]}
           // @ts-ignore
           style={{
             // @ts-ignore
+            background: 'yellow',
+            width: 0,
             '& div': { padding: '10px', display: 'flex' },
             '& svg': { display: 'none' },
           }}
           onChange={(e: string) => {
-            const temp = inputValue.split(' ')
-            temp[index] = e
-            if (caretIsInBlockIndex !== index || index === openSelectBox.num) {
+            if (caretIsInBlockIndex !== index) {
+              const temp = tempVal.split(' ')
+              temp[index] = e
               setInputValue(temp.join(' '))
               InputToFilters(temp.join(' '))
+              setCaretPosition(caretPosition)
             }
+
+            // document.getElementById(`selectid-${index}`).childNodes[0].value =
+            //   inputValue.split(' ')[index]
           }}
           options={compareOperators}
           placeholder=""
@@ -282,7 +314,7 @@ const OperatorPill = ({
       >
         <Select
           ghost
-          value={value}
+          value={' '}
           // @ts-ignore
           style={{
             // @ts-ignore
@@ -301,7 +333,7 @@ const OperatorPill = ({
             }
           }}
           options={logicalOperators}
-          placeholder=""
+          placeholder={value}
         />
       </Text>
     </div>
