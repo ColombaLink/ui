@@ -61,6 +61,7 @@ export const useLocation = (): [string, (href: string) => void] => {
 }
 
 // TODO remove this!
+// @ts-ignore
 window.ITS_OK_DONT_WORRY = ITS_OK_DONT_WORRY
 // ----------------------------------------------------------------------
 

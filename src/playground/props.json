@@ -1180,14 +1180,20 @@
         },
         "fromValue": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "tillValue": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
         }
       },
-      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DateRangeInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string | number\n  tillValue?: string | number\n}",
       "file": "/components/DateTimePicker/DateRangeInput.tsx"
     },
     "DateTimePickerProps": {
@@ -2283,7 +2289,7 @@
           ]
         }
       },
-      "code": "type InputProps = {\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  //  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
+      "code": "type InputProps = {\n  // consoleFunc?: any\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  //  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2696,7 +2702,7 @@
         },
         "client": {
           "optional": true,
-          "type": "Based"
+          "type": "BasedClient"
         },
         "theme": {
           "optional": true,
@@ -2722,8 +2728,201 @@
           "type": "string"
         }
       },
-      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: BasedClient\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
       "file": "/components/Provider/index.tsx"
+    },
+    "LeftPillProps": {
+      "name": "LeftPillProps",
+      "props": {
+        "idx": {
+          "type": "number"
+        },
+        "onClick": {
+          "type": "function"
+        },
+        "inputValue": {
+          "type": "string"
+        },
+        "carretPosition": {
+          "type": "number"
+        },
+        "carretInBlockSubPos": {
+          "type": "number"
+        },
+        "carretIsInBlockIndex": {
+          "type": "number"
+        },
+        "arithmeticProgression": {
+          "type": "function"
+        },
+        "text": {
+          "type": "string"
+        },
+        "apLimit": {
+          "type": "number"
+        },
+        "SelectAllTextInBlock": {
+          "type": "function"
+        }
+      },
+      "code": "type LeftPillProps = {\n  idx: number\n  onClick: (e) => void\n  inputValue: string\n  carretPosition: number\n  carretInBlockSubPos: number\n  carretIsInBlockIndex: number\n  arithmeticProgression: (start: number, end: number) => number[]\n  text: string\n  apLimit: number\n  SelectAllTextInBlock: (blockIndex: number, textLength: number) => void\n}",
+      "file": "/components/Querybar/LeftPill.tsx"
+    },
+    "LogicalOperatorPillProps": {
+      "name": "LogicalOperatorPillProps",
+      "props": {
+        "text": {
+          "type": "string"
+        },
+        "arithmeticProgression": {
+          "type": "function"
+        },
+        "arrayOfLogics": {
+          "type": {
+            "array": "TSAnyKeyword"
+          }
+        },
+        "idx": {
+          "type": "number"
+        },
+        "splittedInputValue": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "filtersAreNested": {
+          "type": "boolean"
+        },
+        "setInputValue": {
+          "type": "function"
+        },
+        "FlattenFilters": {
+          "type": "function"
+        },
+        "snurpArr": {
+          "type": {
+            "array": "TSAnyKeyword"
+          }
+        },
+        "setQuery": {
+          "type": "function"
+        },
+        "query": {
+          "type": "TSAnyKeyword"
+        },
+        "setFiltersAreNested": {
+          "type": "function"
+        },
+        "openSelectBox": {
+          "type": "TSTypeLiteral"
+        },
+        "setOpenSelectBox": {
+          "type": "function"
+        },
+        "carretIsInBlockIndex": {
+          "type": "number"
+        }
+      },
+      "code": "type LogicalOperatorPillProps = {\n  text: string\n  arithmeticProgression: (start: number, end: number) => number[]\n  arrayOfLogics: any[]\n  idx: number\n  splittedInputValue: string[]\n  filtersAreNested: boolean\n  setInputValue: (value: string) => void\n  FlattenFilters: (filters: any) => void\n  snurpArr: any[]\n  setQuery: (value: any) => void\n  query: any\n  setFiltersAreNested: (value: boolean) => void\n  openSelectBox: { num: number; open: boolean }\n  setOpenSelectBox: (value: { num: number; open: boolean }) => void\n  carretIsInBlockIndex: number\n}",
+      "file": "/components/Querybar/LogicalOperatorPill.tsx"
+    },
+    "MiddlePillProps": {
+      "name": "MiddlePillProps",
+      "props": {
+        "idx": {
+          "type": "number"
+        },
+        "text": {
+          "type": "string"
+        },
+        "carretInBlockSubPos": {
+          "type": "number"
+        },
+        "carretIsInBlockIndex": {
+          "type": "number"
+        },
+        "splittedInputValue": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "setInputValue": {
+          "type": "function"
+        },
+        "setQuery": {
+          "type": "function"
+        },
+        "query": {
+          "type": "TSAnyKeyword"
+        },
+        "filtersAreNested": {
+          "type": "boolean"
+        },
+        "setFiltersAreNested": {
+          "type": "function"
+        },
+        "FlattenFilters": {
+          "type": "function"
+        },
+        "snurpArr": {
+          "type": {
+            "array": "TSAnyKeyword"
+          }
+        },
+        "openSelectBox": {
+          "type": "TSTypeLiteral"
+        },
+        "setOpenSelectBox": {
+          "type": "function"
+        }
+      },
+      "code": "type MiddlePillProps = {\n  idx: number\n  text: string\n  carretInBlockSubPos: number\n  carretIsInBlockIndex: number\n  splittedInputValue: string[]\n  setInputValue: (value: string) => void\n  setQuery: (value: any) => void\n  query: any\n  filtersAreNested: boolean\n  setFiltersAreNested: (value: boolean) => void\n  FlattenFilters: (filters: any) => void\n  snurpArr: any[]\n  openSelectBox: { num: number; open: boolean }\n  setOpenSelectBox: (value: { num: number; open: boolean }) => void\n}",
+      "file": "/components/Querybar/MiddlePill.tsx"
+    },
+    "RightPillProps": {
+      "name": "RightPillProps",
+      "props": {
+        "idx": {
+          "type": "number"
+        },
+        "onClick": {
+          "type": "function"
+        },
+        "carretInBlockSubPos": {
+          "type": "number"
+        },
+        "carretIsInBlockIndex": {
+          "type": "number"
+        },
+        "arithmeticProgression": {
+          "type": "function"
+        },
+        "text": {
+          "type": "string"
+        },
+        "apLimit": {
+          "type": "number"
+        }
+      },
+      "code": "type RightPillProps = {\n  idx: number\n  onClick: (e) => void\n  carretInBlockSubPos: number\n  carretIsInBlockIndex: number\n  arithmeticProgression: (start: number, end: number) => number[]\n  text: string\n  apLimit: number\n}",
+      "file": "/components/Querybar/RightPill.tsx"
+    },
+    "SuggestionTagsProps": {
+      "name": "SuggestionTagsProps",
+      "props": {
+        "suggestion": {
+          "type": "string"
+        },
+        "onClick": {
+          "type": "function"
+        },
+        "selected": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type SuggestionTagsProps = {\n  suggestion: string\n  onClick: () => void\n  selected?: boolean\n}",
+      "file": "/components/Querybar/SuggestionTags.tsx"
     },
     "RadioButtonsProps": {
       "name": "RadioButtonsProps",

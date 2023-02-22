@@ -6,7 +6,7 @@ import { TimeInput } from './TimeInput'
 import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
 import { DateRangeInput } from './DateRangeInput'
-import { start } from 'repl'
+// import { start } from 'repl'
 
 type DateTimePickerProps = {
   label?: string
@@ -70,8 +70,8 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
   const [errorMessage, setErrorMessage] = useState('')
 
-  const [fromValue, setFromValue] = useState<string>(startValue || '')
-  const [tillValue, setTillValue] = useState<string>(endValue || '')
+  const [fromValue, setFromValue] = useState<string | number>(startValue || '')
+  const [tillValue, setTillValue] = useState<string | number>(endValue || '')
 
   const [blurred, setBlurred] = useState(false)
 
@@ -187,7 +187,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     }
   }
 
-  const utcInputHandler = (val) => {
+  const utcInputHandler = () => {
     // onthoud de utc value
     // placeholder is huidige timezone
     // const tempMs = +val.substring(3) * 60 * 60000
@@ -227,6 +227,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       // console.log(onChange)
 
       // TODO: fix this think about this
+      // @ts-ignore
       onChange()
 
       // // @ts-ignore
@@ -261,6 +262,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      // @ts-ignore
       onBlur={() => {
         InputWrapperBlurHandler()
       }}

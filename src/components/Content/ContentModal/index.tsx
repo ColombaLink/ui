@@ -1,4 +1,4 @@
-import { useClient, useData } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
@@ -77,7 +77,7 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
 const LastSaved = ({ id }) => {
   const {
     data: { updatedAt },
-  } = useData({
+  } = useQuery('db', {
     $id: id,
     updatedAt: true,
   })

@@ -50,13 +50,13 @@ export const LeftPill = ({
         cursor: 'text',
       }}
       onClick={onClick}
-      onDoubleClick={(e) => {
-        // e.stopPropagation()
-        SelectAllTextInBlock(idx, text.length)
-        console.log('double click', idx)
-        console.log(' --> block index', idx, 'textlenght', text.length)
-        setSelectedAllText(true)
-      }}
+      // onDoubleClick={(e) => {
+      //   // e.stopPropagation()
+      //   SelectAllTextInBlock(idx, text.length)
+      //   console.log('double click', idx)
+      //   console.log(' --> block index', idx, 'textlenght', text.length)
+      //   setSelectedAllText(true)
+      // }}
     >
       {/* {idx === 0 && 'IN'} */}
       {carretPosition === 0 && inputValue.length === 0 ? <FakeCarret /> : null}

@@ -8,8 +8,8 @@ type DateRangeInputProps = {
   setErrorMessage?: (value: string) => void
   setFromValue?: (value: string) => void
   setTillValue?: (value: string) => void
-  fromValue?: string
-  tillValue?: string
+  fromValue?: string | number
+  tillValue?: string | number
 }
 
 export const DateRangeInput = ({
@@ -103,13 +103,16 @@ export const DateRangeInput = ({
         }}
       >
         <DateInput
+          // @ts-ignore
           value={fromValue}
           focusOnBeginDate={focusOnBeginDate}
           setFocusOnBeginDate={setFocusOnBeginDate}
           setFocusOnEndDate={setFocusOnEndDate}
           setFocused={() => {}}
           dateHandler={dateHandlerFrom}
+          // @ts-ignore
           fromValue={fromValue}
+          // @ts-ignore
           tillValue={tillValue}
           setFromValue={setFromValue}
           setTillValue={setTillValue}
@@ -128,13 +131,16 @@ export const DateRangeInput = ({
         />
 
         <DateInput
+          // @ts-ignore
           value={tillValue}
           focusOnEndDate={focusOnEndDate}
           setFocusOnBeginDate={setFocusOnBeginDate}
           setFocusOnEndDate={setFocusOnEndDate}
           setFocused={() => {}}
           dateHandler={dateHandlerTill}
+          // @ts-ignore
           fromValue={fromValue}
+          // @ts-ignore
           tillValue={tillValue}
           setFromValue={setFromValue}
           setTillValue={setTillValue}

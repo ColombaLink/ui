@@ -281,7 +281,7 @@ export const QueryBar = () => {
   }
 
   // //////////////////////////////////////////// URL SEARCH LOCATION LOGIC
-  const urlSearch = useLocation().search
+  // const urlSearch = useLocation().search
 
   // //////////////////////////////////////////// SUGGESTION TAGS
   const setSuggestions = () => {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { ContextDivider, useDialog, ContextItem } from '~'
-import { useClient, useData } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import getService from '@based/get-service'
 
 export const UserProfile = ({ id }) => {

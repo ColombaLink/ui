@@ -1,4 +1,5 @@
-import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
+// import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
+import { useQuery } from '@based/react'
 import { systemFields } from '~/components/Schema/templates/index'
 
 export const sortFields = (fields) => {
@@ -67,27 +68,21 @@ const walkType = (obj, key) => {
 }
 
 export const useSchema = (db = 'default') => {
-  const res = useBasedSchema(db)
-  const ctx = useBasedContext() as any
+  const { data, loading } = useQuery('db:schema', { db })
+  console.log('yesh!!', loading, data)
+  if (!loading) {
+    // if (!('_buiSha' in ctx)) {
+    //   ctx._buiSha = {}
+    // }
+    // if (res.schema.sha !== ctx._buiSha[db]) {
+    //   ctx._buiSha[db] = res.schema.sha
 
-  // console.log(
-  //   'res.schema:',
-  //   JSON.stringify(res.schema?.rootType?.meta || {}, null, 2)
-  // )
-
-  if (!res.loading) {
-    if (!('_buiSha' in ctx)) {
-      ctx._buiSha = {}
+    walkType(data.rootType, 'root')
+    for (const key in data.types) {
+      walkType(data.types[key], key)
     }
-    if (res.schema.sha !== ctx._buiSha[db]) {
-      ctx._buiSha[db] = res.schema.sha
-
-      walkType(res.schema.rootType, 'root')
-      for (const key in res.schema.types) {
-        walkType(res.schema.types[key], key)
-      }
-    }
+    // }
   }
 
-  return res
+  return { loading, schema: data || {} }
 }

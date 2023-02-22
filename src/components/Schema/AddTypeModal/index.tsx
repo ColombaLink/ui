@@ -1,8 +1,8 @@
-import { Input, Dialog, useLocation } from '~'
+import { Input, Dialog, useLocation, useSchema } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
-import { useClient, useSchema } from '@based/react'
+import { useClient } from '@based/react'
 
 export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
   const { schema } = useSchema()

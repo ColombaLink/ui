@@ -14,12 +14,13 @@ import { useLocation } from '~/hooks'
 import { border, color } from '~/utils'
 import { Menu } from '~/components/Menu'
 import { Button } from '~/components/Button'
-import { useClient, useSchema } from '@based/react'
+import { useClient } from '@based/react'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { Select } from '~/components/Select'
 import { Label } from '~/components/Label'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
+import { useSchema } from '~'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
