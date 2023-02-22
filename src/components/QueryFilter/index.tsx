@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { Text, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
@@ -15,7 +15,7 @@ export const QueryFilter = () => {
     { $field: string; $operator: string; $value: string }[]
   >([])
 
-  const [caretPosition, setCaretPosition] = useState<number>('')
+  const [caretPosition, setCaretPosition] = useState<number>(0)
   const [openSelectBox, setOpenSelectBox] = useState<{
     num: number
     open: boolean
@@ -71,7 +71,7 @@ export const QueryFilter = () => {
       setOpenSelectBox({ num: caretIsInBlockIndex, open: true })
 
       // TODO zet cursor weer ergens in input
-      setCaretPosition((prevPos) => prevPos)
+      //  setCaretPosition((prevPos) => prevPos)
     }
   }
 
