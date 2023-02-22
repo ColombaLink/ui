@@ -71,7 +71,7 @@ export const QueryFilter = () => {
       setOpenSelectBox({ num: caretIsInBlockIndex, open: true })
 
       // TODO zet cursor weer ergens in input
-      setCaretPosition(caretPosition)
+      setCaretPosition((prevPos) => prevPos)
     }
   }
 

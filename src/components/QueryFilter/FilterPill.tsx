@@ -85,8 +85,11 @@ export const FilterPill = ({
             InputToFilters={InputToFilters}
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
+            caretInBlockSubPos={caretInBlockSubPos}
             openSelectBox={openSelectBox}
             setOpenSelectBox={setOpenSelectBox}
+            caretPosition={caretPosition}
+            setCaretPosition={setCaretPosition}
           />
         )
       )}
@@ -222,10 +225,7 @@ const MiddlePill = ({
         }}
         onClick={() => {
           // open selectbox
-          // openSelectBox.num = index
-          // openSelectBox.open = true
           setOpenSelectBox({ num: index, open: true })
-          //  selectRef.current.childNodes[0].childNodes[0].nextSibling.click()
         }}
       >
         {caretIsInBlockIndex === index
@@ -280,19 +280,33 @@ const OperatorPill = ({
   index,
   InputToFilters,
   caretIsInBlockIndex,
+  caretInBlockSubPos,
   openSelectBox,
   setOpenSelectBox,
+  caretPosition,
+  setCaretPosition,
 }) => {
   const selectRef = useRef(null)
+
+  const [tempVal, setTempVal] = usePropState(inputValue)
 
   if (openSelectBox.open) {
     // selectRef.current.focus()
     if (index === openSelectBox.num) {
-      selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
+      console.log('NANI??')
+      document.getElementById(`selectid-${index}`).click()
     }
 
     setOpenSelectBox({ num: index, open: false })
+    setCaretPosition(inputValue.length)
   }
+
+  console.log(selectRef.current)
+
+  console.log(
+    'flippie -->',
+    document.getElementById(`selectid-${index}`)?.childNodes[0]
+  )
 
   return (
     <div ref={selectRef}>
@@ -301,7 +315,8 @@ const OperatorPill = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 8,
+          // gap: 8,
+          padding: 10,
           height: 30,
           minWidth: 'auto',
           backgroundColor: color('background'),
@@ -310,13 +325,34 @@ const OperatorPill = ({
           position: 'relative',
           marginLeft: 6,
           marginRight: 6,
+          cursor: 'pointer',
+        }}
+        onClick={() => {
+          // open selectbox
+          setOpenSelectBox({ num: index, open: true })
         }}
       >
+        {caretIsInBlockIndex === index
+          ? value.split('').map((letter, idx) =>
+              idx === caretInBlockSubPos ? (
+                <React.Fragment key={idx}>
+                  <span>{letter}</span>
+                  <FakeCarret />
+                </React.Fragment>
+              ) : (
+                <span key={idx}>{letter}</span>
+              )
+            )
+          : value}
+
         <Select
+          id={`selectid-${index}`}
           ghost
-          value={' '}
+          value={tempVal.split(' ')[index]}
           // @ts-ignore
           style={{
+            background: 'yellow',
+            width: 0,
             // @ts-ignore
             '& div': {
               padding: '10px',
@@ -325,11 +361,12 @@ const OperatorPill = ({
             '& svg': { display: 'none' },
           }}
           onChange={(e: string) => {
-            const temp = inputValue.split(' ')
-            temp[index] = e
-            if (caretIsInBlockIndex !== index || index === openSelectBox.num) {
+            if (caretIsInBlockIndex !== index) {
+              const temp = tempVal.split(' ')
+              temp[index] = e
               setInputValue(temp.join(' '))
               InputToFilters(temp.join(' '))
+              setCaretPosition(caretPosition)
             }
           }}
           options={logicalOperators}
