@@ -1,26 +1,10 @@
 import React, { useRef } from 'react'
 import { color, Text, Select } from '~'
+import { FakeCarret } from './FakeCarret'
 import { styled } from 'inlines'
 
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 const logicalOperators = ['$and', '$or', '$not']
-
-const FakeCarret = styled('div', {
-  width: 1,
-  marginLeft: 1.5,
-  marginRight: 1.5,
-  marginTop: 2,
-  height: 15,
-  backgroundColor: color('text'),
-  '@keyframes': {
-    '0%': { opacity: 0 },
-    '50%': { opacity: 1 },
-    '100%': { opacity: 0 },
-  },
-  animationDuration: '1s',
-  animationEffect: 'step-start',
-  animationIterationCount: 'infinite',
-})
 
 //  arithmetic progression
 const AP_LIMIT = 70
@@ -73,6 +57,7 @@ export const FilterPill = ({
             InputToFilters={InputToFilters}
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
+            caretInBlockSubPos={caretInBlockSubPos}
             openSelectBox={openSelectBox}
             setOpenSelectBox={setOpenSelectBox}
           />
@@ -80,7 +65,13 @@ export const FilterPill = ({
           aProgress(4, AP_LIMIT)
             .map((v) => v + 2)
             .includes(idx) ? (
-          <RightPill key={idx} value={item} />
+          <RightPill
+            key={idx}
+            value={item}
+            index={idx}
+            caretIsInBlockIndex={caretIsInBlockIndex}
+            caretInBlockSubPos={caretInBlockSubPos}
+          />
         ) : (
           <OperatorPill
             key={idx}
@@ -137,7 +128,12 @@ const LeftPill = ({
   )
 }
 
-const RightPill = ({ value }) => {
+const RightPill = ({
+  value,
+  index,
+  caretIsInBlockIndex,
+  caretInBlockSubPos,
+}) => {
   return (
     <Text
       color="text2"
@@ -154,7 +150,18 @@ const RightPill = ({ value }) => {
         cursor: 'text',
       }}
     >
-      {value}
+      {caretIsInBlockIndex === index
+        ? value.split('').map((letter, idx) =>
+            idx === caretInBlockSubPos ? (
+              <>
+                <span>{letter}</span>
+                <FakeCarret />
+              </>
+            ) : (
+              <span>{letter}</span>
+            )
+          )
+        : value}
     </Text>
   )
 }
@@ -166,6 +173,7 @@ const MiddlePill = ({
   index,
   InputToFilters,
   caretIsInBlockIndex,
+  caretInBlockSubPos,
   openSelectBox,
   setOpenSelectBox,
 }) => {
@@ -197,11 +205,24 @@ const MiddlePill = ({
       >
         <Select
           ghost
-          value={value}
+          value={
+            caretIsInBlockIndex === index
+              ? value.split('').map((letter, idx) =>
+                  idx === caretInBlockSubPos ? (
+                    <>
+                      <span>{letter}</span>
+                      <FakeCarret />
+                    </>
+                  ) : (
+                    <span>{letter}</span>
+                  )
+                )
+              : value
+          }
           // @ts-ignore
           style={{
             // @ts-ignore
-            '& div': { padding: '10px' },
+            '& div': { padding: '10px', display: 'flex' },
             '& svg': { display: 'none' },
           }}
           onChange={(e: string) => {
