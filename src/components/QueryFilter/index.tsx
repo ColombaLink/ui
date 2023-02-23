@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Text, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
@@ -6,7 +6,7 @@ import { SuggestionTag } from './SuggestionTag'
 
 // TODO finish InputToFilters function
 // TODO carretposition indicator
-// TODO on arrow up down open filter menu
+// TODO on arrow up down open filter menu right pill
 // TODO sync carret positions
 
 export const QueryFilter = () => {
@@ -59,12 +59,12 @@ export const QueryFilter = () => {
   }
 
   const KeyPressLogic = (e) => {
-    if (e.key === 'ArrowLeft' && caretPosition > -1) {
-      setCaretPosition(caretPosition - 1)
-    }
-    if (e.key === 'ArrowRight' && caretPosition < inputValue.length - 1) {
-      setCaretPosition(caretPosition + 1)
-    }
+    // if (e.key === 'ArrowLeft' && caretPosition > -1) {
+    //   setCaretPosition(caretPosition - 1)
+    // }
+    // if (e.key === 'ArrowRight' && caretPosition < inputValue.length - 1) {
+    //   setCaretPosition(caretPosition + 1)
+    // }
 
     if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
       e.preventDefault()
@@ -74,6 +74,14 @@ export const QueryFilter = () => {
       //  setCaretPosition((prevPos) => prevPos)
     }
   }
+
+  // useEffect(() => {
+  //   if (caretPosition === inputValue.length) {
+  //     setCaretPosition(inputValue.length - 1)
+  //   } else {
+  //     setCaretPosition(inputRef.current?.selectionStart)
+  //   }
+  // }, [inputRef.current])
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
   let caretIsInBlockIndex = 0
@@ -99,6 +107,7 @@ export const QueryFilter = () => {
       </Text>
       <Text>input length = {inputValue.length}</Text>
       <Text>Carret pos? select start: {caretPosition}</Text>
+
       <input
         ref={inputRef}
         placeholder="type something here"
@@ -108,7 +117,30 @@ export const QueryFilter = () => {
           InputToFilters(e.target.value)
         }}
         onKeyDown={(e) => {
-          setCaretPosition(e.currentTarget?.selectionStart)
+          //  setCaretPosition(e.currentTarget?.selectionStart)
+          if (
+            e.key === 'ArrowRight' &&
+            e.currentTarget?.selectionEnd === inputValue.length
+          ) {
+            console.log('RIGHT -->')
+            setCaretPosition(inputValue.length - 1)
+            e.currentTarget.selectionEnd = inputValue.length - 1
+          } else if (
+            e.key === 'ArrowLeft' &&
+            e.currentTarget?.selectionEnd === inputValue.length
+          ) {
+            console.log('LEFT <--')
+            setCaretPosition(caretPosition - 1)
+            //     setCaretPosition(e.currentTarget.selectionStart)
+          } else if (e.key === 'ArrowLeft') {
+            console.log('LEFT AGIAN <--')
+            setCaretPosition(caretPosition - 1)
+          } else {
+            setCaretPosition(e.currentTarget?.selectionStart)
+          }
+
+          //   setCaretPosition(e.currentTarget?.selectionStart)
+
           KeyPressLogic(e)
         }}
         onClick={(e) => setCaretPosition(e.currentTarget.selectionStart)}
@@ -118,8 +150,8 @@ export const QueryFilter = () => {
       <styled.div
         onClick={() => {
           inputRef.current.focus()
-          inputRef.current.selectionStart = inputValue.length - 1
-          inputRef.current.selectionEnd = inputValue.length - 1
+          inputRef.current.selectionStart = inputValue.length
+          // inputRef.current.selectionEnd = inputValue.length - 1
           setCaretPosition(inputValue.length - 1)
         }}
         style={{
