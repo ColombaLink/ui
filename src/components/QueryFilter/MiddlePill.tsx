@@ -16,6 +16,7 @@ export const MiddlePill = ({
   setOpenSelectBox,
   caretPosition,
   setCaretPosition,
+  inputReference,
 }) => {
   const selectRef = useRef(null)
 
@@ -28,7 +29,6 @@ export const MiddlePill = ({
     }
 
     setOpenSelectBox({ num: index, open: false })
-    setCaretPosition(inputValue.length)
   }
 
   return (
@@ -84,6 +84,13 @@ export const MiddlePill = ({
               InputToFilters(temp.join(' '))
               setCaretPosition(caretPosition)
             }
+
+            inputReference?.current.focus()
+            if (inputReference) {
+              inputReference.current.selectionStart = inputValue.length
+            }
+
+            setCaretPosition(inputValue.length - 1)
 
             // document.getElementById(`selectid-${index}`).childNodes[0].value =
             //   inputValue.split(' ')[index]

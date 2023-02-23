@@ -16,6 +16,7 @@ export const OperatorPill = ({
   setOpenSelectBox,
   caretPosition,
   setCaretPosition,
+  inputReference,
 }) => {
   const selectRef = useRef(null)
 
@@ -90,6 +91,13 @@ export const OperatorPill = ({
               InputToFilters(temp.join(' '))
               setCaretPosition(caretPosition)
             }
+
+            inputReference?.current.focus()
+            if (inputReference) {
+              inputReference.current.selectionStart = inputValue.length
+            }
+
+            setCaretPosition(inputValue.length - 1)
           }}
           options={logicalOperators}
           placeholder={value}

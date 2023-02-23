@@ -25,6 +25,8 @@ export const QueryFilter = () => {
     open: boolean
   }>({ num: 0, open: false })
 
+  const [isFocus, setIsFocus] = useState(false)
+
   const [suggestions, setSuggestions] = useState<string[]>([])
 
   const inputRef = useRef<HTMLInputElement>()
@@ -95,7 +97,7 @@ export const QueryFilter = () => {
   // //////////////////////////////////////////// CARRET POSITION LOGIC
   let caretIsInBlockIndex = 0
   let caretInBlockSubPos = 0
-  let counter = -1
+  let counter = 0
   inputValue.split(' ')?.map((text, idx) => {
     //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
     if (
@@ -130,6 +132,8 @@ export const QueryFilter = () => {
         }}
         onClick={(e) => setCaretPosition(e.currentTarget.selectionStart)}
         style={{ border: '1px solid', padding: 6, marginBottom: 12 }}
+        onFocus={() => setIsFocus(true)}
+        onBlur={() => setIsFocus(false)}
       />
 
       <styled.div
@@ -139,7 +143,12 @@ export const QueryFilter = () => {
           setCaretPosition(inputValue.length - 1)
         }}
         style={{
-          border: `1px solid ${color('border')}`,
+          border: isFocus
+            ? `1px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
+          outline: isFocus
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
           borderRadius: 4,
           padding: 3,
           display: 'flex',

@@ -96,6 +96,7 @@ export const FilterPill = ({
             setOpenSelectBox={setOpenSelectBox}
             caretPosition={caretPosition}
             setCaretPosition={setCaretPosition}
+            inputReference={inputReference}
           />
         ) : idx === 2 ||
           aProgress(4, AP_LIMIT)
@@ -127,6 +128,7 @@ export const FilterPill = ({
             setOpenSelectBox={setOpenSelectBox}
             caretPosition={caretPosition}
             setCaretPosition={setCaretPosition}
+            inputReference={inputReference}
           />
         )
       )}
