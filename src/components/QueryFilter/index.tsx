@@ -95,7 +95,7 @@ export const QueryFilter = () => {
   // //////////////////////////////////////////// CARRET POSITION LOGIC
   let caretIsInBlockIndex = 0
   let caretInBlockSubPos = 0
-  let counter = 0
+  let counter = -1
   inputValue.split(' ')?.map((text, idx) => {
     //   console.log('blok -->', idx, 'is long', text.length + 1, 'counter', counter)
     if (
