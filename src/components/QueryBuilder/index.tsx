@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { color } from '~'
 import { styled } from 'inlines'
 import { FirstFilterPill } from './FirstFilterPill'
+import { RootPill } from './RootPill'
 
 export const QueryBuilder = () => {
   const [isFocus, setIsFocus] = useState<boolean>(false)
@@ -24,7 +25,8 @@ export const QueryBuilder = () => {
         cursor: 'text',
       }}
     >
-      Rootpill - <FirstFilterPill />
+      <RootPill />
+      <FirstFilterPill />
     </styled.div>
   )
 }

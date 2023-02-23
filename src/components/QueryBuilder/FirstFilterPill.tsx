@@ -31,6 +31,7 @@ export const FirstFilterPill = () => {
     }
     if (e.key === 'Backspace' && pillIsSelected) {
       console.log('Op je Bek Space')
+      deletePill()
     }
   }
 
