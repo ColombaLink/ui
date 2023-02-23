@@ -22,6 +22,7 @@ type FilterPillProps = {
   setOpenSelectBox: (value: { num: number; open: boolean }) => void
   caretPosition: number
   setCaretPosition: (e) => void
+  inputReference?
 }
 
 export const FilterPill = ({
@@ -34,7 +35,34 @@ export const FilterPill = ({
   setOpenSelectBox,
   caretPosition,
   setCaretPosition,
+  inputReference,
 }: FilterPillProps) => {
+  ///
+  const PutCursorInRightPlaceOnClick = (e, idx, offset = 0) => {
+    // if you do not click the div.
+    if (e.target.tagName !== 'div') {
+      const countedBlocksLength = value
+        .split(' ')
+        .reduce((acc, curr, index) => {
+          if (index < idx) {
+            return acc + curr.length + 1
+          } else {
+            return acc
+          }
+        }, 0)
+
+      caretIsInBlockIndex = idx
+
+      const newSelectedCarretPosition =
+        countedBlocksLength + +e.target.id.substr(9) + offset
+      setCaretPosition(newSelectedCarretPosition)
+
+      inputReference?.current?.focus()
+      inputReference.current.selectionStart = newSelectedCarretPosition + 1
+      inputReference.current.selectionEnd = newSelectedCarretPosition + 1
+    }
+  }
+
   return (
     <>
       {value.split(' ').map((item, idx) =>
@@ -45,6 +73,11 @@ export const FilterPill = ({
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
             caretInBlockSubPos={caretInBlockSubPos}
+            onClick={(e) => {
+              e.stopPropagation()
+              caretIsInBlockIndex = idx
+              PutCursorInRightPlaceOnClick(e, idx)
+            }}
           />
         ) : idx === 1 ||
           aProgress(4, AP_LIMIT)
@@ -74,6 +107,11 @@ export const FilterPill = ({
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
             caretInBlockSubPos={caretInBlockSubPos}
+            onClick={(e) => {
+              e.stopPropagation()
+              caretIsInBlockIndex = idx
+              PutCursorInRightPlaceOnClick(e, idx)
+            }}
           />
         ) : (
           <OperatorPill

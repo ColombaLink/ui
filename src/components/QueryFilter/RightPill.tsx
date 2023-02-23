@@ -7,6 +7,7 @@ export const RightPill = ({
   index,
   caretIsInBlockIndex,
   caretInBlockSubPos,
+  onClick,
 }) => {
   return (
     <Text
@@ -23,16 +24,19 @@ export const RightPill = ({
         position: 'relative',
         cursor: 'text',
       }}
+      onClick={onClick}
     >
       {caretIsInBlockIndex === index
         ? value.split('').map((letter, idx) =>
             idx === caretInBlockSubPos ? (
               <React.Fragment key={idx}>
-                <span>{letter}</span>
+                <span id={`letterid-${idx}`}>{letter}</span>
                 <FakeCaret />
               </React.Fragment>
             ) : (
-              <span key={idx}>{letter}</span>
+              <span id={`letterid-${idx}`} key={idx}>
+                {letter}
+              </span>
             )
           )
         : value}
