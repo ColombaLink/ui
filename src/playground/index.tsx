@@ -51,6 +51,7 @@ const menuItems = {
     SchemaModals: '?story=schema-modals',
     QueryBar: '?story=QuerySearchBar',
     QueryFilters: '?story=QueryFilterBar',
+    QueryBuilder: '?story=QueryBuilders',
   },
   Input: {
     Buttons: '?story=buttons',

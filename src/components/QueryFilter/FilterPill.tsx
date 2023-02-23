@@ -13,7 +13,7 @@ const aProgress = (n, lim) =>
 // console.log('arithmeticProgression', aProgress(7, AP_LIMIT))
 
 type FilterPillProps = {
-  value: string
+  inputValue: string
   setInputValue: (e) => void
   InputToFilters: (e) => void
   caretIsInBlockIndex: number
@@ -23,10 +23,11 @@ type FilterPillProps = {
   caretPosition: number
   setCaretPosition: (e) => void
   inputReference?
+  blockIsSelected?: boolean
 }
 
 export const FilterPill = ({
-  value,
+  inputValue,
   setInputValue,
   InputToFilters,
   caretIsInBlockIndex,
@@ -36,12 +37,13 @@ export const FilterPill = ({
   caretPosition,
   setCaretPosition,
   inputReference,
+  blockIsSelected,
 }: FilterPillProps) => {
   ///
   const PutCursorInRightPlaceOnClick = (e, idx, offset = 0) => {
     // if you do not click the div.
     if (e.target.tagName !== 'div') {
-      const countedBlocksLength = value
+      const countedBlocksLength = inputValue
         .split(' ')
         .reduce((acc, curr, index) => {
           if (index < idx) {
@@ -65,7 +67,7 @@ export const FilterPill = ({
 
   return (
     <>
-      {value.split(' ').map((item, idx) =>
+      {inputValue.split(' ').map((item, idx) =>
         idx === 0 || aProgress(4, AP_LIMIT).includes(idx) ? (
           <LeftPill
             key={idx}
@@ -87,7 +89,7 @@ export const FilterPill = ({
             key={idx}
             value={item}
             setInputValue={setInputValue}
-            inputValue={value}
+            inputValue={inputValue}
             InputToFilters={InputToFilters}
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
@@ -108,18 +110,13 @@ export const FilterPill = ({
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}
             caretInBlockSubPos={caretInBlockSubPos}
-            onClick={(e) => {
-              e.stopPropagation()
-              caretIsInBlockIndex = idx
-              PutCursorInRightPlaceOnClick(e, idx)
-            }}
           />
         ) : (
           <OperatorPill
             key={idx}
             value={item}
             setInputValue={setInputValue}
-            inputValue={value}
+            inputValue={inputValue}
             InputToFilters={InputToFilters}
             index={idx}
             caretIsInBlockIndex={caretIsInBlockIndex}

@@ -1,13 +1,11 @@
 import React from 'react'
 import { Text, color } from '~'
-import { FakeCaret } from './FakeCaret'
 
 export const RightPill = ({
   value,
   index,
   caretIsInBlockIndex,
   caretInBlockSubPos,
-  onClick,
 }) => {
   return (
     <Text
@@ -24,19 +22,15 @@ export const RightPill = ({
         position: 'relative',
         cursor: 'text',
       }}
-      onClick={onClick}
     >
       {caretIsInBlockIndex === index
         ? value.split('').map((letter, idx) =>
             idx === caretInBlockSubPos ? (
               <React.Fragment key={idx}>
-                <span id={`letterid-${idx}`}>{letter}</span>
-                <FakeCaret />
+                <span>{letter}</span>
               </React.Fragment>
             ) : (
-              <span id={`letterid-${idx}`} key={idx}>
-                {letter}
-              </span>
+              <span key={idx}>{letter}</span>
             )
           )
         : value}

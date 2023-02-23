@@ -3,6 +3,7 @@ import { Text, color } from '~'
 import { styled } from 'inlines'
 import { FilterPill } from './FilterPill'
 import { SuggestionTag } from './SuggestionTag'
+import { FakeCaret } from './FakeCaret'
 
 // TODO finish InputToFilters function
 // TODO carretposition indicator
@@ -14,8 +15,8 @@ import { SuggestionTag } from './SuggestionTag'
 // TODO on focus and on blur
 
 export const QueryFilter = () => {
-  const [inputValue, setInputValue] = useState<string>('')
-  const [filters, setFilters] = useState<
+  const [inputValue, setInputValue] = useState<string>('Type Is dopie')
+  const [filters] = useState<
     { $field: string; $operator: string; $value: string }[]
   >([])
 
@@ -26,8 +27,9 @@ export const QueryFilter = () => {
   }>({ num: 0, open: false })
 
   const [isFocus, setIsFocus] = useState(false)
+  const [blockIsSelected, setBlockIsSelected] = useState(false)
 
-  const [suggestions, setSuggestions] = useState<string[]>([])
+  // const [suggestions, setSuggestions] = useState<string[]>([])
 
   const inputRef = useRef<HTMLInputElement>()
 
@@ -154,10 +156,11 @@ export const QueryFilter = () => {
           display: 'flex',
           alignItems: 'center',
           marginBottom: 12,
+          cursor: 'text',
         }}
       >
         <FilterPill
-          value={inputValue}
+          inputValue={inputValue}
           setInputValue={setInputValue}
           InputToFilters={InputToFilters}
           caretIsInBlockIndex={caretIsInBlockIndex}
@@ -167,7 +170,11 @@ export const QueryFilter = () => {
           caretPosition={caretPosition}
           setCaretPosition={setCaretPosition}
           inputReference={inputRef}
+          blockIsSelected={blockIsSelected}
         />
+        {caretPosition === inputValue.length - 1 && (
+          <FakeCaret style={{ marginLeft: 4 }} />
+        )}
       </styled.div>
 
       <div style={{ display: 'flex' }}>
