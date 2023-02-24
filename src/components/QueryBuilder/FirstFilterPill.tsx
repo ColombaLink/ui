@@ -21,39 +21,39 @@ export const FirstFilterPill = () => {
     }
   }
 
-  useEffect(() => {
-    let counter = 0
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        e.preventDefault()
-        counter++
-        setTabCount(counter)
-        console.log('Counter 🎃', counter)
-      } else {
-        setPillIsSelected(false)
-        setOpenOnePill(false)
-        setOpenSecondPill(false)
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   let counter = 0
+  //   window.addEventListener('keydown', (e) => {
+  //     if (e.key === 'Tab') {
+  //       e.preventDefault()
+  //       counter++
+  //       setTabCount(counter)
+  //       console.log('Counter 🎃', counter)
+  //     } else {
+  //       setPillIsSelected(false)
+  //       setOpenOnePill(false)
+  //       setOpenSecondPill(false)
+  //     }
+  //   })
+  // }, [])
 
-  useEffect(() => {
-    if (pillIsSelected && !openOnePill && !openSecondPill) {
-      inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-      setOpenOnePill(true)
-    }
-    if (openOnePill && pillIsSelected) {
-      removeAllOverlays()
-      inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
-      setOpenSecondPill(true)
-      setOpenOnePill(false)
-    }
-    if (openSecondPill && pillIsSelected) {
-      removeAllOverlays()
-      setPillIsSelected(false)
-      setOpenSecondPill(false)
-    }
-  }, [tabCount])
+  // useEffect(() => {
+  //   if (pillIsSelected && !openOnePill && !openSecondPill) {
+  //     inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+  //     setOpenOnePill(true)
+  //   }
+  //   if (openOnePill && pillIsSelected) {
+  //     removeAllOverlays()
+  //     inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+  //     setOpenSecondPill(true)
+  //     setOpenOnePill(false)
+  //   }
+  //   if (openSecondPill && pillIsSelected) {
+  //     removeAllOverlays()
+  //     setPillIsSelected(false)
+  //     setOpenSecondPill(false)
+  //   }
+  // }, [tabCount])
 
   // const tabHand = () => {
   //   inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
@@ -69,10 +69,44 @@ export const FirstFilterPill = () => {
   //   }
   // )
 
+  // const [tabbieCount, setTabbieCount] = useState(1)
+  // // let tabbieCount = 0
+  useEffect(() => {
+    console.log('flappe')
+    window.addEventListener('keydown', (e) => onKeyHandler(e))
+  }, [])
+
+  // console.log('Tabbie count 👻', tabbieCount)
+  // useEffect(() => {
+  //   inputRef.current.focus()
+  // }, [tabbieCount])
+
+  let cnt = 0
   const onKeyHandler = (e) => {
+    // tabbieCount++
     e.preventDefault()
-    if (e.key === 'Tab' && pillIsSelected) {
-      console.log('tab was pressed and selected is true')
+    e.stopPropagation()
+    if (e.key === 'Tab') {
+      cnt++
+      if (cnt === 1) {
+        console.log('tab was pressed and selected is true')
+        console.log('cunt  ===> 👻', cnt)
+        inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+      }
+      if (cnt === 2) {
+        removeAllOverlays()
+        console.log('DOSS', cnt)
+        inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+      }
+      if (cnt === 3) {
+        removeAllOverlays()
+        inputRef.current.focus()
+        cnt = 0
+      }
+      // window.addEventListener('keydown', (e) =>
+      //   e.key === 'Tab' ? removeAllOverlays() : null
+      // )
+      console.log('Count', cnt)
       // tabHand()
     }
 
@@ -94,7 +128,7 @@ export const FirstFilterPill = () => {
         value={pillInputValue}
         onChange={(e) => setPillInputValue(e.target.value)}
         style={{ border: '1px solid green', position: 'absolute', top: 20 }}
-        onKeyDown={(e) => onKeyHandler(e)}
+        //  onKeyDown={(e) => onKeyHandler(e)}
       />
       <div style={{ display: 'flex', position: 'relative' }}>
         {pillInputValue.split(' ').map((item, idx) => (
