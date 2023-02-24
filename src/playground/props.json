@@ -86,9 +86,17 @@
           "type": {
             "array": "TSAnyKeyword"
           }
+        },
+        "schema": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "label": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type ArrayListProps = {\n  description?: string\n  indent?: boolean\n  disabled?: boolean\n  style?: CSSProperties\n  space?: Space\n  onChange?(ids: string[] | number[]): void\n  value?: any[]\n}",
+      "code": "type ArrayListProps = {\n  description?: string\n  indent?: boolean\n  disabled?: boolean\n  style?: CSSProperties\n  space?: Space\n  onChange?(ids: string[] | number[]): void\n  value?: any[]\n  schema?: any\n  label?: string\n}",
       "file": "/components/ArrayList/index.tsx"
     },
     "AuthProps": {
@@ -112,7 +120,10 @@
         },
         "logo": {
           "optional": true,
-          "type": ["boolean", "ReactChild"]
+          "type": [
+            "boolean",
+            "ReactChild"
+          ]
         },
         "overlay": {
           "optional": true,
@@ -157,7 +168,10 @@
       "props": {
         "width": {
           "optional": true,
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "label": {
           "optional": true,
@@ -175,7 +189,10 @@
       "props": {
         "width": {
           "optional": true,
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "label": {
           "optional": true,
@@ -228,7 +245,10 @@
       "props": {
         "width": {
           "optional": true,
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "label": {
           "optional": true,
@@ -246,7 +266,10 @@
       "props": {
         "width": {
           "optional": true,
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "email": {
           "optional": true,
@@ -308,7 +331,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "space": {
           "optional": true,
@@ -342,11 +368,17 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "iconRight": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "outline": {
           "optional": true,
@@ -366,7 +398,10 @@
         },
         "onClick": {
           "optional": true,
-          "type": ["TSParenthesizedType", "boolean"]
+          "type": [
+            "TSParenthesizedType",
+            "boolean"
+          ]
         }
       },
       "code": "type BadgeProps = {\n  children: ReactNode\n  style?: CSSProperties\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  outline?: boolean\n  color?: Color\n  boxed?: boolean\n  ghost?: boolean\n  onClick?: (() => void) | boolean\n}",
@@ -421,13 +456,19 @@
       "name": "BarSegmentProps",
       "props": {
         "id": {
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "width": {
           "type": "number"
         },
         "value": {
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "style": {
           "optional": true,
@@ -510,11 +551,17 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "iconRight": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "loading": {
           "optional": true,
@@ -522,7 +569,11 @@
         },
         "onClick": {
           "optional": true,
-          "type": ["MouseEventHandler", "boolean", "TSParenthesizedType"]
+          "type": [
+            "MouseEventHandler",
+            "boolean",
+            "TSParenthesizedType"
+          ]
         },
         "onPointerDown": {
           "optional": true,
@@ -573,7 +624,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "outline": {
           "optional": true,
@@ -650,11 +704,17 @@
         },
         "topLeft": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "topRight": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "bottomRight": {
           "optional": true,
@@ -744,11 +804,17 @@
         },
         "onChange": {
           "optional": true,
-          "type": ["TSParenthesizedType", "Dispatch"]
+          "type": [
+            "TSParenthesizedType",
+            "Dispatch"
+          ]
         },
         "topRight": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         }
       },
       "code": "type CodeProps = {\n  style?: CSSProperties\n  value?: string\n  space?: Space\n  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>\n  topRight?: FC | ReactNode\n}",
@@ -789,19 +855,31 @@
         },
         "topLeft": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "topRight": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "bottomLeft": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "bottomRight": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "wrap": {
           "optional": true,
@@ -816,7 +894,10 @@
       "props": {
         "style": {
           "optional": true,
-          "type": ["CSSProperties", "Style"]
+          "type": [
+            "CSSProperties",
+            "Style"
+          ]
         },
         "color": {
           "optional": true,
@@ -828,11 +909,17 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "iconRight": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "inset": {
           "optional": true,
@@ -1136,7 +1223,10 @@
         },
         "value": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "startValue": {
           "optional": true,
@@ -1205,11 +1295,17 @@
         },
         "width": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "height": {
           "optional": true,
-          "type": ["string", "number"]
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "closeFunc": {
           "optional": true,
@@ -1244,11 +1340,17 @@
         },
         "topRight": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "topLeft": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         }
       },
       "code": "type ExpandableListProps = {\n  style?: CSSProperties\n  data?: any\n  height?: number\n  topRight?: FC | ReactNode\n  topLeft?: FC | ReactNode\n}",
@@ -1263,7 +1365,10 @@
         },
         "index": {
           "optional": true,
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "item": {
           "optional": true,
@@ -1363,7 +1468,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "paddingLeft": {
           "optional": true,
@@ -1376,7 +1484,10 @@
           }
         },
         "onClick": {
-          "type": ["MultiDataEventHandler", "DataEventHandler"]
+          "type": [
+            "MultiDataEventHandler",
+            "DataEventHandler"
+          ]
         }
       },
       "code": "type FooterProps<T = any> = {\n  label?: string\n  floating?: boolean\n  outline?: boolean\n  data?: Data<T>\n  paddingRight?: number\n  style?: CSSProperties\n  width?: number\n  icon?: FunctionComponent<Icon> | ReactNode\n  paddingLeft?: number\n  items?: Object[]\n  onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>\n}",
@@ -1459,11 +1570,17 @@
         },
         "width": {
           "optional": true,
-          "type": ["number", "string"]
+          "type": [
+            "number",
+            "string"
+          ]
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "weight": {
           "optional": true,
@@ -1969,7 +2086,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         }
       },
       "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n}",
@@ -2006,142 +2126,6 @@
       "code": "type SingleProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  style?: CSSProperties\n}",
       "file": "/components/Input/index.tsx"
     },
-    "InputProps": {
-      "name": "InputProps",
-      "props": {
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "colorInput": {
-          "optional": true,
-          "type": "boolean"
-        },
-
-        "pattern": {
-          "optional": true,
-          "type": "string"
-        },
-        "jsonInput": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "passwordInput": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "markdownInput": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "digest": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "descriptionBottom": {
-          "optional": true,
-          "type": "string"
-        },
-        "value": {
-          "optional": true,
-          "type": ["string", "number"]
-        },
-        "icon": {
-          "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
-        },
-        "iconRight": {
-          "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
-        },
-        "indent": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "defaultValue": {
-          "optional": true,
-          "type": ["string", "number"]
-        },
-        "placeholder": {
-          "optional": true,
-          "type": "string"
-        },
-        "maxChars": {
-          "optional": true,
-          "type": "number"
-        },
-        "multiline": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "bg": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "ghost": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "autoFocus": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "name": {
-          "optional": true,
-          "type": "string"
-        },
-        "space": {
-          "optional": true,
-          "type": "Space"
-        },
-        "inputRef": {
-          "optional": true,
-          "type": "RefObject"
-        },
-        "large": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "suggest": {
-          "optional": true,
-          "type": "function"
-        },
-        "error": {
-          "optional": true,
-          "type": "function"
-        },
-        "transform": {
-          "optional": true,
-          "type": "function"
-        },
-        "forceSuggestion": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "noInterrupt": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "onChange": {
-          "optional": true,
-          "type": ["TSParenthesizedType", "Dispatch"]
-        }
-      },
-      "code": "type InputProps = {\n  // consoleFunc?: any\n  style?: CSSProperties\n  label?: string\n  colorInput?: boolean\n  customRegex?: boolean\n  pattern?: string\n  jsonInput?: boolean\n  passwordInput?: boolean\n  markdownInput?: boolean\n  digest?: boolean\n  description?: string\n  descriptionBottom?: string\n  //  optional?: boolean\n  value?: string | number\n  // integer?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  indent?: boolean\n  defaultValue?: string | number\n  placeholder?: string\n  maxChars?: number\n  multiline?: boolean\n  bg?: boolean\n  ghost?: boolean\n  autoFocus?: boolean\n  name?: string\n  space?: Space\n  inputRef?: RefObject<HTMLDivElement>\n  large?: boolean\n  disabled?: boolean\n  suggest?: (str: string) => string // show suggestion => Enter to complete\n  error?: (str: string) => string // show error\n  transform?: (str: string) => string // transform string\n  forceSuggestion?: boolean // apply suggestion on blur\n  noInterrupt?: boolean // dont use external state while focused\n  onChange?:\n    | ((value: string | number) => void)\n    | Dispatch<SetStateAction<string | number>>\n}",
-      "file": "/components/Input/index.tsx"
-    },
     "LabelProps": {
       "name": "LabelProps",
       "props": {
@@ -2163,7 +2147,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "iconColor": {
           "optional": true,
@@ -2189,7 +2176,10 @@
       "name": "LineGraphProps",
       "props": {
         "data": {
-          "type": ["TSTypeLiteral", "Data"]
+          "type": [
+            "TSTypeLiteral",
+            "Data"
+          ]
         },
         "legend": {
           "optional": true,
@@ -2213,7 +2203,10 @@
         },
         "valueFormat": {
           "optional": true,
-          "type": ["NumberFormat", "string"]
+          "type": [
+            "NumberFormat",
+            "string"
+          ]
         },
         "spread": {
           "optional": true,
@@ -2248,7 +2241,10 @@
         },
         "style": {
           "optional": true,
-          "type": ["CSSProperties", "Style"]
+          "type": [
+            "CSSProperties",
+            "Style"
+          ]
         },
         "onClick": {
           "optional": true,
@@ -2262,7 +2258,10 @@
       "name": "MasonryGridProps",
       "props": {
         "children": {
-          "type": ["ReactNode", "ReactChildren"]
+          "type": [
+            "ReactNode",
+            "ReactChildren"
+          ]
         },
         "columns": {
           "optional": true,
@@ -2822,7 +2821,11 @@
       "props": {
         "value": {
           "optional": true,
-          "type": ["string", "boolean", "number"]
+          "type": [
+            "string",
+            "boolean",
+            "number"
+          ]
         },
         "data": {
           "optional": true,
@@ -2989,7 +2992,10 @@
         },
         "value": {
           "optional": true,
-          "type": ["number", "TSTypeLiteral"]
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
         },
         "style": {
           "optional": true,
@@ -3032,11 +3038,19 @@
         },
         "xLabel": {
           "optional": true,
-          "type": ["string", "number", "NumberFormat"]
+          "type": [
+            "string",
+            "number",
+            "NumberFormat"
+          ]
         },
         "yLabel": {
           "optional": true,
-          "type": ["string", "number", "NumberFormat"]
+          "type": [
+            "string",
+            "number",
+            "NumberFormat"
+          ]
         },
         "info": {
           "optional": true,
@@ -3302,7 +3316,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         }
       },
       "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n}",
@@ -3349,6 +3366,52 @@
       },
       "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n  color?: Color\n}",
       "file": "/components/Steps/index.tsx"
+    },
+    "SystemMenuHeaderProps": {
+      "name": "SystemMenuHeaderProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        }
+      },
+      "code": "type SystemMenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n}",
+      "file": "/components/SystemLabel/index.tsx"
+    },
+    "SystemMenuItemProps": {
+      "name": "SystemMenuItemProps",
+      "props": {
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "href": {
+          "optional": true,
+          "type": "string"
+        },
+        "isActive": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isNested": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "weight": {
+          "optional": true,
+          "type": "Weight"
+        }
+      },
+      "code": "type SystemMenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
+      "file": "/components/SystemLabel/index.tsx"
     },
     "TableFromQueryProps": {
       "name": "TableFromQueryProps",
@@ -3606,7 +3669,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "color": {
           "optional": true,
@@ -3645,7 +3711,10 @@
         },
         "icon": {
           "optional": true,
-          "type": ["FunctionComponent", "ReactNode"]
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
         },
         "description": {
           "optional": true,
@@ -3756,7 +3825,10 @@
       "props": {
         "data": {
           "optional": true,
-          "type": ["Array", "Array"]
+          "type": [
+            "Array",
+            "Array"
+          ]
         },
         "space": {
           "optional": true,
@@ -3831,7 +3903,10 @@
         },
         "logo": {
           "optional": true,
-          "type": ["FC", "ReactNode"]
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "children": {
           "optional": true,
@@ -3847,7 +3922,10 @@
         },
         "icons": {
           "optional": true,
-          "type": ["ReactNode", "string"]
+          "type": [
+            "ReactNode",
+            "string"
+          ]
         },
         "avatar": {
           "optional": true,

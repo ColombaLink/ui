@@ -11,23 +11,31 @@ export const FirstFilterPill = ({ setIsFocus }) => {
 
   const inputRef = useRef(null)
 
+  const controller = new AbortController()
+
   useEffect(() => {
     console.log('flappe')
     if (pillIsSelected) {
       setIsFocus(true)
-      window.addEventListener('keydown', (e) => onKeyHandler(e))
-    } else {
+      document.addEventListener('keydown', (e) => onKeyHandler(e), {
+        signal: controller.signal,
+      })
+    } else if (!pillIsSelected) {
       setIsFocus(false)
+      controller.abort()
     }
     //  TODO else remove event listener??
   }, [pillIsSelected])
 
+  useEffect(() => {
+    setPillIsSelected(false)
+    setIsFocus(false)
+    controller.abort()
+  }, [pillInputValue])
+
   let cnt = 0
 
   const onKeyHandler = (e) => {
-    // tabbieCount++
-    // e.preventDefault()
-
     if (e.key === 'Tab' && pillIsSelected) {
       cnt++
       if (cnt === 1) {
@@ -44,14 +52,14 @@ export const FirstFilterPill = ({ setIsFocus }) => {
       if (cnt === 3) {
         removeAllOverlays()
         setPillIsSelected(false)
-        inputRef.current.focus()
+        setIsFocus(false)
         cnt = 0
+        //   document.removeEventListener('keydown', onKeyHandler)
+        controller.abort()
+
+        // inputRef.current.focus()
       }
-      // window.addEventListener('keydown', (e) =>
-      //   e.key === 'Tab' ? removeAllOverlays() : null
-      // )
       console.log('Count', cnt)
-      // tabHand()
     }
 
     if (e.key === 'Backspace' && pillIsSelected) {
@@ -62,6 +70,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
     if (e.key !== 'Tab') {
       setPillIsSelected(false)
       cnt = 0
+      controller.abort()
     }
   }
 
@@ -105,9 +114,11 @@ export const FirstFilterPill = ({ setIsFocus }) => {
               },
             }}
             key={idx}
-            onClick={(e) => {
-              setPillIsSelected(true)
+            onClick={() => {
               inputRef.current.focus()
+              setIsFocus(true)
+              setPillIsSelected(true)
+
               //   onClickHandler(e, idx)
             }}
           >
@@ -131,6 +142,9 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                   const temp = pillInputValue.split(' ')
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
+                  setPillIsSelected(false)
+                  // setIsFocus(false)
+                  controller.abort()
                 }}
                 options={
                   idx === 1
@@ -138,6 +152,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                     : ['Snurpie', 'Flurpie', 'Snorkies']
                 }
                 placeholder=""
+                onClick={() => {
+                  console.log('naniniiinin')
+                  //   inputRef.current.focus()
+                  setIsFocus(true)
+                  //  setPillIsSelected(true)
+                }}
               />
             )}
           </styled.div>

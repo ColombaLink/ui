@@ -43,6 +43,7 @@ export type SelectProps = {
   style?: CSSProperties
   id?: string
   ghost?: boolean
+  onClick?: () => void
 }
 
 export const Select: FC<SelectProps> = ({
@@ -58,6 +59,7 @@ export const Select: FC<SelectProps> = ({
   name,
   id,
   ghost,
+  onClick,
 }) => {
   const openedRef = useRef<boolean>()
   const [currentValue, open] = useSelect(options, value, {
@@ -128,6 +130,7 @@ export const Select: FC<SelectProps> = ({
   ) : (
     <StyledSelect
       onClick={(e) => {
+        onClick()
         openedRef.current = true
         open(e)
       }}
