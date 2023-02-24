@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { Text, Select, color, CloseCircleIcon } from '~'
+import React, { useState, useRef, useEffect } from 'react'
+import { Text, Select, color, CloseCircleIcon, removeAllOverlays } from '~'
 import { styled } from 'inlines'
 
 // move this
@@ -8,6 +8,9 @@ const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 export const FirstFilterPill = () => {
   const [pillInputValue, setPillInputValue] = useState('Type Is Flappie')
   const [pillIsSelected, setPillIsSelected] = useState(false)
+  const [tabCount, setTabCount] = useState(0)
+  const [openOnePill, setOpenOnePill] = useState(false)
+  const [openSecondPill, setOpenSecondPill] = useState(false)
 
   const inputRef = useRef(null)
 
@@ -18,17 +21,61 @@ export const FirstFilterPill = () => {
     }
   }
 
+  useEffect(() => {
+    let counter = 0
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        e.preventDefault()
+        counter++
+        setTabCount(counter)
+        console.log('Counter 🎃', counter)
+      } else {
+        setPillIsSelected(false)
+        setOpenOnePill(false)
+        setOpenSecondPill(false)
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (pillIsSelected && !openOnePill && !openSecondPill) {
+      inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+      setOpenOnePill(true)
+    }
+    if (openOnePill && pillIsSelected) {
+      removeAllOverlays()
+      inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+      setOpenSecondPill(true)
+      setOpenOnePill(false)
+    }
+    if (openSecondPill && pillIsSelected) {
+      removeAllOverlays()
+      setPillIsSelected(false)
+      setOpenSecondPill(false)
+    }
+  }, [tabCount])
+
+  // const tabHand = () => {
+  //   inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
+  //   console.log(tabCount, '<__tabCount___--')
+
+  //   inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+  // }
+
+  // inputRef.current.nextElementSibling.childNodes[1].childNodes[0].addEventListener(
+  //   'keydown',
+  //   (e) => {
+  //     console.log('ARR ', e)
+  //   }
+  // )
+
   const onKeyHandler = (e) => {
     e.preventDefault()
-    if (e.key === 'Tab') {
-      console.log('tab was pressed')
-      if (pillIsSelected) {
-        console.log('tab was pressed and selected is true')
-        console.log(inputRef.current.nextElementSibling.childNodes[1])
-        inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-        setPillIsSelected(false)
-      }
+    if (e.key === 'Tab' && pillIsSelected) {
+      console.log('tab was pressed and selected is true')
+      // tabHand()
     }
+
     if (e.key === 'Backspace' && pillIsSelected) {
       console.log('Op je Bek Space')
       deletePill()
@@ -85,8 +132,6 @@ export const FirstFilterPill = () => {
                 filterable
                 // @ts-ignore
                 style={{
-                  //  background: 'yellow',
-
                   // @ts-ignore
                   '& div': { padding: '8px', display: 'flex' },
                   '& svg': { display: 'none' },
@@ -94,6 +139,7 @@ export const FirstFilterPill = () => {
                 onChange={(e: string) => {
                   // document.getElementById(`selectid-${index}`).childNodes[0].value =
                   //   inputValue.split(' ')[index]
+                  console.log('Change --> ', e)
                   const temp = pillInputValue.split(' ')
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
