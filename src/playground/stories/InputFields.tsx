@@ -49,15 +49,15 @@ export const InputFields = () => {
           },
         },
 
-        {
-          props: {
-            jsonInput: true,
-            label: 'Label for JSON',
-            description: 'Description for JSON',
-            descriptionBottom: 'this is bottom description',
-            indent: true,
-          },
-        },
+        // {
+        //   props: {
+        //     jsonInput: true,
+        //     label: 'Label for JSON',
+        //     description: 'Description for JSON',
+        //     descriptionBottom: 'this is bottom description',
+        //     indent: true,
+        //   },
+        // },
         {
           props: {
             markdownInput: true,

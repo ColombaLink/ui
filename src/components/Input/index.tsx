@@ -178,6 +178,7 @@ type InputType =
   | 'markdown'
   | 'number'
   | 'date'
+  | 'json'
 
 type OnChange<T extends InputType> = (
   value: T extends 'number' ? number : T extends 'date' ? number : string
@@ -450,7 +451,7 @@ export const Input = <T extends InputType>({
               value={colorValue}
               style={{ width: '100%' }}
             />
-          ) : jsonInput ? (
+          ) : jsonInput || type === 'json' ? (
             <JsonInput
               {...props}
               setErrorMessage={setErrorMessage}
