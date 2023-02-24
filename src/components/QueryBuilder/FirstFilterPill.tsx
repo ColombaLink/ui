@@ -5,7 +5,7 @@ import { styled } from 'inlines'
 // move this
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
-export const FirstFilterPill = () => {
+export const FirstFilterPill = ({ setIsFocus }) => {
   const [pillInputValue, setPillInputValue] = useState('Type Is Flappie')
   const [pillIsSelected, setPillIsSelected] = useState(false)
 
@@ -14,7 +14,10 @@ export const FirstFilterPill = () => {
   useEffect(() => {
     console.log('flappe')
     if (pillIsSelected) {
+      setIsFocus(true)
       window.addEventListener('keydown', (e) => onKeyHandler(e))
+    } else {
+      setIsFocus(false)
     }
     //  TODO else remove event listener??
   }, [pillIsSelected])
@@ -65,6 +68,7 @@ export const FirstFilterPill = () => {
   const deletePill = () => {
     console.log('delete this')
     setPillIsSelected(false)
+    setPillInputValue('')
   }
 
   return (
@@ -103,7 +107,7 @@ export const FirstFilterPill = () => {
             key={idx}
             onClick={(e) => {
               setPillIsSelected(true)
-
+              inputRef.current.focus()
               //   onClickHandler(e, idx)
             }}
           >
@@ -128,7 +132,11 @@ export const FirstFilterPill = () => {
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
                 }}
-                options={idx === 1 ? compareOperators : ['blha', 'bjha']}
+                options={
+                  idx === 1
+                    ? compareOperators
+                    : ['Snurpie', 'Flurpie', 'Snorkies']
+                }
                 placeholder=""
               />
             )}
