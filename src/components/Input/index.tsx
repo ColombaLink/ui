@@ -357,11 +357,10 @@ export const Input = <T extends InputType>({
         ? ''
         : 'Does not match pattern'
       if (msg) {
-        return setErrorMessage('')
-
         setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
       }
-      setErrorMessage('')
     }
   }, [value])
 
