@@ -26,7 +26,7 @@ export const QueryBuilder = () => {
       }}
     >
       <RootPill />
-      <FirstFilterPill />
+      <FirstFilterPill setIsFocus={setIsFocus} />
     </styled.div>
   )
 }
