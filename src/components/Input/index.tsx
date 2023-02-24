@@ -348,9 +348,8 @@ export const Input = <T extends InputType>({
 
   useEffect(() => {
     if (pattern) {
-      const reOk = new RegExp(pattern).test(
-        typeof value === 'number' ? String(value) : value
-      )
+      const v = typeof value === 'number' ? String(value) : value
+      const reOk = v === '' || new RegExp(pattern).test(v)
       const msg = error
         ? error(value, reOk)
         : reOk
