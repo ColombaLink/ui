@@ -251,7 +251,7 @@ export const Input = <T extends InputType>({
   large?: boolean
   disabled?: boolean
   suggest?: (str: string) => string // show suggestion => Enter to complete
-  error?: (str: string) => string // show error
+  error?: (str: string, patternMatches?: boolean) => string // show error
   transform?: (str: string) => string // transform string
   forceSuggestion?: boolean // apply suggestion on blur
   noInterrupt?: boolean // dont use external state while focused
@@ -336,7 +336,7 @@ export const Input = <T extends InputType>({
   }
 
   useEffect(() => {
-    //  check for error pas als de focus weg is
+    //  check for when blurred
     if (!pattern) {
       const msg = error?.(value)
       if (msg) {
@@ -349,11 +349,18 @@ export const Input = <T extends InputType>({
 
   useEffect(() => {
     if (pattern) {
-      const msg = error?.(value) || 'Wrongly formatted!'
-      if (new RegExp(pattern).test(value) || value.length < 1) {
-        return setErrorMessage('')
+      const v = typeof value === 'number' ? String(value) : value
+      const reOk = v === '' || new RegExp(pattern).test(v)
+      const msg = error
+        ? error(value, reOk)
+        : reOk
+        ? ''
+        : 'Does not match pattern'
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
       }
-      return setErrorMessage(msg)
     }
   }, [value])
 
