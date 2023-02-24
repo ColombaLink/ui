@@ -8,89 +8,29 @@ const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 export const FirstFilterPill = () => {
   const [pillInputValue, setPillInputValue] = useState('Type Is Flappie')
   const [pillIsSelected, setPillIsSelected] = useState(false)
-  const [tabCount, setTabCount] = useState(0)
-  const [openOnePill, setOpenOnePill] = useState(false)
-  const [openSecondPill, setOpenSecondPill] = useState(false)
 
   const inputRef = useRef(null)
 
-  const onClickHandler = (e, idx) => {
-    if (idx === 0) {
-      setPillIsSelected(true)
-      inputRef.current.focus()
-    }
-  }
-
-  // useEffect(() => {
-  //   let counter = 0
-  //   window.addEventListener('keydown', (e) => {
-  //     if (e.key === 'Tab') {
-  //       e.preventDefault()
-  //       counter++
-  //       setTabCount(counter)
-  //       console.log('Counter 🎃', counter)
-  //     } else {
-  //       setPillIsSelected(false)
-  //       setOpenOnePill(false)
-  //       setOpenSecondPill(false)
-  //     }
-  //   })
-  // }, [])
-
-  // useEffect(() => {
-  //   if (pillIsSelected && !openOnePill && !openSecondPill) {
-  //     inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-  //     setOpenOnePill(true)
-  //   }
-  //   if (openOnePill && pillIsSelected) {
-  //     removeAllOverlays()
-  //     inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
-  //     setOpenSecondPill(true)
-  //     setOpenOnePill(false)
-  //   }
-  //   if (openSecondPill && pillIsSelected) {
-  //     removeAllOverlays()
-  //     setPillIsSelected(false)
-  //     setOpenSecondPill(false)
-  //   }
-  // }, [tabCount])
-
-  // const tabHand = () => {
-  //   inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-  //   console.log(tabCount, '<__tabCount___--')
-
-  //   inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
-  // }
-
-  // inputRef.current.nextElementSibling.childNodes[1].childNodes[0].addEventListener(
-  //   'keydown',
-  //   (e) => {
-  //     console.log('ARR ', e)
-  //   }
-  // )
-
-  // const [tabbieCount, setTabbieCount] = useState(1)
-  // // let tabbieCount = 0
   useEffect(() => {
     console.log('flappe')
-    window.addEventListener('keydown', (e) => onKeyHandler(e))
-  }, [])
-
-  // console.log('Tabbie count 👻', tabbieCount)
-  // useEffect(() => {
-  //   inputRef.current.focus()
-  // }, [tabbieCount])
+    if (pillIsSelected) {
+      window.addEventListener('keydown', (e) => onKeyHandler(e))
+    }
+    //  TODO else remove event listener??
+  }, [pillIsSelected])
 
   let cnt = 0
+
   const onKeyHandler = (e) => {
     // tabbieCount++
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.key === 'Tab') {
+    // e.preventDefault()
+
+    if (e.key === 'Tab' && pillIsSelected) {
       cnt++
       if (cnt === 1) {
-        console.log('tab was pressed and selected is true')
-        console.log('cunt  ===> 👻', cnt)
+        removeAllOverlays()
+        console.log('tab was pressed ')
+        console.log('cnt  ===> 👻', cnt)
         inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
       }
       if (cnt === 2) {
@@ -100,6 +40,7 @@ export const FirstFilterPill = () => {
       }
       if (cnt === 3) {
         removeAllOverlays()
+        setPillIsSelected(false)
         inputRef.current.focus()
         cnt = 0
       }
@@ -113,6 +54,11 @@ export const FirstFilterPill = () => {
     if (e.key === 'Backspace' && pillIsSelected) {
       console.log('Op je Bek Space')
       deletePill()
+    }
+
+    if (e.key !== 'Tab') {
+      setPillIsSelected(false)
+      cnt = 0
     }
   }
 
@@ -155,7 +101,11 @@ export const FirstFilterPill = () => {
               },
             }}
             key={idx}
-            onClick={(e) => onClickHandler(e, idx)}
+            onClick={(e) => {
+              setPillIsSelected(true)
+
+              //   onClickHandler(e, idx)
+            }}
           >
             {idx === 0 && <Text color="text2">{item}</Text>}
 
