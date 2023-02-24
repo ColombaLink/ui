@@ -551,8 +551,10 @@ export const Input = <T extends InputType>({
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 10,
-                  '&:hover': {
-                    backgroundColor: color('border'),
+                  '@media (hover: hover)': {
+                    '&:hover': {
+                      backgroundColor: color('border'),
+                    },
                   },
                 }}
                 onClick={() => {
@@ -570,8 +572,10 @@ export const Input = <T extends InputType>({
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 10,
-                  '&:hover': {
-                    backgroundColor: color('border'),
+                  '@media (hover: hover)': {
+                    '&:hover': {
+                      backgroundColor: color('border'),
+                    },
                   },
                 }}
                 onClick={() => {

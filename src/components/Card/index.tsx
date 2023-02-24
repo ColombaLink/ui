@@ -42,11 +42,13 @@ export const Card: FC<CardProps> = ({
         maxWidth: small ? 280 : 302,
         marginBottom: spaceToPx(space),
         cursor: props.onClick ? 'pointer' : null,
-        '&:hover': props.onClick
-          ? {
-              backgroundColor: color('background:hover'),
-            }
-          : null,
+        '@media (hover: hover)': {
+          '&:hover': props.onClick
+            ? {
+                backgroundColor: color('background:hover'),
+              }
+            : null,
+        },
         ...style,
       }}
       {...props}

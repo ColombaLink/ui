@@ -38,7 +38,9 @@ const StyledChevronHolders = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': { background: color('border'), cursor: 'pointer' },
+  '@media (hover: hover)': {
+    '&:hover': { background: color('border'), cursor: 'pointer' },
+  },
 })
 
 export const DatePicker = ({
@@ -527,12 +529,14 @@ export const DatePicker = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                '&:hover': {
-                  background:
-                    val.day === selectedDay
-                      ? color('accent')
-                      : !isDateRange && color('border'),
-                  cursor: 'pointer',
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    background:
+                      val.day === selectedDay
+                        ? color('accent')
+                        : !isDateRange && color('border'),
+                    cursor: 'pointer',
+                  },
                 },
               }}
               onMouseOver={() => {
@@ -578,8 +582,10 @@ export const DatePicker = ({
       <styled.div
         style={{
           padding: '12px 16px',
-          '& div': {
-            '&:hover': { cursor: 'pointer' },
+          '@media (hover: hover)': {
+            '& div': {
+              '&:hover': { cursor: 'pointer' },
+            },
           },
         }}
       >

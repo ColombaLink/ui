@@ -17,8 +17,10 @@ export const RootPill = () => {
           borderRight: `1px solid ${color('border')}`,
           position: 'relative',
           cursor: 'text',
-          '&:hover': {
-            backgroundColor: color('lightgrey:hover'),
+          '@media (hover: hover)': {
+            '&:hover': {
+              backgroundColor: color('lightgrey:hover'),
+            },
           },
         }}
       >
@@ -34,8 +36,10 @@ export const RootPill = () => {
           borderRight: `1px solid ${color('border')}`,
           position: 'relative',
           cursor: 'text',
-          '&:hover': {
-            backgroundColor: color('lightgrey:hover'),
+          '@media (hover: hover)': {
+            '&:hover': {
+              backgroundColor: color('lightgrey:hover'),
+            },
           },
         }}
       >
@@ -54,8 +58,10 @@ export const RootPill = () => {
           borderRight: `1px solid ${color('border')}`,
           position: 'relative',
           cursor: 'text',
-          '&:hover': {
-            backgroundColor: color('lightgrey:hover'),
+          '@media (hover: hover)': {
+            '&:hover': {
+              backgroundColor: color('lightgrey:hover'),
+            },
           },
         }}
       >

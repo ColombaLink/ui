@@ -25,12 +25,14 @@ export const Pill = ({ children }) => {
               padding: '0 8px',
               borderLeft: index ? border(1) : null,
               cursor: index ? 'pointer' : null,
-              '&:hover': index
-                ? {
-                    backgroundColor: color('lighttext:hover'),
-                    borderLeft: '1px solid transparent',
-                  }
-                : null,
+              '@media (hover: hover)': {
+                '&:hover': index
+                  ? {
+                      backgroundColor: color('lighttext:hover'),
+                      borderLeft: '1px solid transparent',
+                    }
+                  : null,
+              },
             }}
           >
             {child}

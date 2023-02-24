@@ -61,12 +61,14 @@ export const MenuItem: FC<SystemMenuItemProps> = ({
           margin: '-4px -12px',
           borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
-          '&:hover': !isActive
-            ? {
-                backgroundColor: color('background:hover'),
-                color: `${color('text')} !important`,
-              }
-            : null,
+          '@media (hover: hover)': {
+            '&:hover': !isActive
+              ? {
+                  backgroundColor: color('background:hover'),
+                  color: `${color('text')} !important`,
+                }
+              : null,
+          },
         }}
       >
         {typeof children === 'function' ? children({ isActive }) : children}

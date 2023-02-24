@@ -296,9 +296,11 @@ export const BarSegment: FC<BarSegmentProps> = ({
         backgroundColor: bgColor || color('accent'),
         opacity: `calc(1 - 0.${(id as any) * 2})`,
         ...style,
-        '&:hover': {
-          opacity: 0.5,
-          backgroundColor: bgColor,
+        '@media (hover: hover)': {
+          '&:hover': {
+            opacity: 0.5,
+            backgroundColor: bgColor,
+          },
         },
       }}
       {...props}

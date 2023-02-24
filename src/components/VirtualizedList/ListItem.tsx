@@ -19,17 +19,7 @@ export const ListItem = ({
   index,
   style,
 }: ListItemProps) => {
-  let {
-    onClick,
-    activeId,
-    onDrop,
-    exportData,
-    draggable = true,
-    showIndex,
-    isActive: isActiveFn,
-    children,
-    child,
-  } = context
+  const { onClick, onDrop, exportData, draggable = true } = context
 
   const ref = useRef<any>()
 
@@ -103,18 +93,15 @@ export const ListItem = ({
     }, [isDragOver, onDrop, isDropLoading])
   }
 
-  // console.log('drop', drop, 'DRAGOVER???', isDragOver)
-
   // add style here to avoid the flickering error
   return (
     <styled.div
       style={{
-        // paddingTop: 3,
-        // paddingBottom: 3,
-        '&:hover': {
-          cursor: isDragging ? 'grabbing' : 'pointer',
+        '@media (hover: hover)': {
+          '&:hover': {
+            cursor: isDragging ? 'grabbing' : 'pointer',
+          },
         },
-        //   ...style,
       }}
       {...drop}
     >
@@ -168,7 +155,6 @@ export const ListItem = ({
           small
           checked={items[index]?.checkbox}
           onChange={() => {
-            console.log('CHECKBOX CHANGE', index, items[index]?.checkbox)
             items[index].checkbox = !items[index]?.checkbox
           }}
         />

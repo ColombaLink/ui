@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, {
-  CSSProperties,
   FC,
   MouseEventHandler,
   ReactNode,
@@ -31,11 +30,10 @@ export type ButtonProps = {
   onClick?: MouseEventHandler | boolean | (() => void)
   onPointerDown?: MouseEventHandler
   outline?: boolean
-  style?: CSSProperties
+  style?: Style
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
   actionKeys?: Key[]
-  //  weight?: Weight
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {

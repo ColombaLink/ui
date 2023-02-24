@@ -72,10 +72,11 @@ export const SchemaTopbar = () => {
           color="lightaction"
           outline
           style={{
-            // @ts-ignore
-            '&:hover': {
-              backgroundColor: color('lightaction:hover'),
-              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            '@media (hover: hover)': {
+              '&:hover': {
+                backgroundColor: color('lightaction:hover'),
+                boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+              },
             },
           }}
         >

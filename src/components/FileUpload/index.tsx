@@ -400,8 +400,10 @@ export const FileUpload: FC<FileUploadProps> = ({
             border: draggingOver
               ? `1px dashed ${color('accent')}`
               : `1px dashed ${color('border')}`,
-            '&:hover': {
-              cursor: disabled ? 'not-allowed' : 'pointer',
+            '@media (hover: hover)': {
+              '&:hover': {
+                cursor: disabled ? 'not-allowed' : 'pointer',
+              },
             },
           }}
         >
