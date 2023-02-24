@@ -151,8 +151,10 @@ export const Login: FC<LoginProps> = ({
             style={{
               color: color('accent'),
               cursor: 'pointer',
-              '&:hover': {
-                color: color('accent:hover'),
+              '@media (hover: hover)': {
+                '&:hover': {
+                  color: color('accent:hover'),
+                },
               },
             }}
             onClick={() => {
