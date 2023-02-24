@@ -10,7 +10,6 @@ export const InputFields = () => {
       examples={[
         {
           props: {
-            customRegex: true,
             pattern: '^([a-z0-9]{4,7})$',
             label: 'Custom regex label',
             description: 'Custom regex description',

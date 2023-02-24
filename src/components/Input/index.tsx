@@ -187,7 +187,6 @@ export const Input = <T extends InputType>({
   autoFocus,
   bg,
   colorInput,
-  customRegex,
   pattern,
   jsonInput,
   passwordInput,
@@ -225,7 +224,6 @@ export const Input = <T extends InputType>({
   style?: CSSProperties
   label?: string
   colorInput?: boolean
-  customRegex?: boolean
   pattern?: string
   jsonInput?: boolean
   passwordInput?: boolean
@@ -338,7 +336,7 @@ export const Input = <T extends InputType>({
 
   useEffect(() => {
     //  check for error pas als de focus weg is
-    if (!customRegex && !pattern) {
+    if (!pattern) {
       const msg = error?.(value)
       if (msg) {
         setErrorMessage(msg)
@@ -349,11 +347,12 @@ export const Input = <T extends InputType>({
   }, [focused])
 
   useEffect(() => {
-    if (customRegex && pattern) {
+    if (pattern) {
+      const msg = error?.(value) || 'Wrongly formatted!'
       if (new RegExp(pattern).test(value) || value.length < 1) {
         return setErrorMessage('')
       }
-      return setErrorMessage('Does not match REGEX/pattern')
+      return setErrorMessage(msg)
     }
   }, [value])
 

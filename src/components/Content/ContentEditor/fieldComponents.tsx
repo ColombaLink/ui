@@ -300,7 +300,6 @@ const string = {
         {...props}
         disabled={readOnly}
         descriptionBottom={description}
-        customRegex
         // pattern="^[0-9]*$"
         pattern={meta.regex}
         maxChars={meta.maxChar}
@@ -421,7 +420,7 @@ const string = {
         type="markdown"
         {...props}
         descriptionBottom={description}
-        customRegex={meta.regex}
+        pattern={meta.regex}
         // @ts-ignore
         // consoleFunc={consoleValue}
         space
