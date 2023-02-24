@@ -3,13 +3,13 @@ import { Text } from '~/components/Text'
 import React, { useState, useEffect } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { Query } from './Query'
-import { useQuery } from './useQuery'
+import { useQuery as useQueryStuff } from './useQuery'
 import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
 import { AddIcon, MoreIcon, WarningIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
-import { useClient, useData } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import { Callout } from '~/components/Callout'
 
 const Menu = ({ views, currentView, deletable }) => {
@@ -99,7 +99,7 @@ const Header = ({ label, view, prefix }) => {
 
   // const { confirm, prompt } = useDialog()
   // const client = useClient()
-  const { data: views } = useData('basedObserveViews')
+  const { data: views } = useQuery('basedObserveViews')
   let currentView, deletable
 
   const parse = () => {
@@ -150,14 +150,14 @@ export const ContentMain = ({
 }) => {
   const { loading, types } = useSchemaTypes()
   const [location, setLocation] = useLocation()
-  const query = useQuery(queryOverwrite)
+  const query = useQueryStuff(queryOverwrite)
 
   const { confirm, prompt } = useDialog()
   const client = useClient()
 
   const [isMultiref, setIsMultiref] = useState(false)
 
-  const { data: views } = useData('basedObserveViews')
+  const { data: views } = useQuery('basedObserveViews')
   let currentView
 
   const parse = () => {
@@ -240,6 +240,7 @@ export const ContentMain = ({
   // onAction for table selected items ... more actions will follow
   const onAction = (items, string) => {
     if (string === 'delete') {
+      // @ts-ignore
       Promise.all(items.map((v) => client.delete({ $id: v.id }))).then(() => {
         console.info('DELETE TIMES 🥨')
       })

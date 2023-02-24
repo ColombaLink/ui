@@ -7,6 +7,7 @@ import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
 import { DateRangeInput } from './DateRangeInput'
 
+
 type DateTimePickerProps = {
   label?: string
   description?: string
@@ -268,6 +269,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      // @ts-ignore
       onBlur={() => {
         InputWrapperBlurHandler()
       }}

@@ -346,7 +346,9 @@ const string = {
           }
 
           // TODO: refactor to stream api when based cloud v1 is live!
+          // @ts-ignore
           const x = await client.file(files[0])
+          // @ts-ignore
           const { src } = await client.observeUntil(
             {
               $id: x.id,
@@ -412,6 +414,7 @@ const string = {
   markdown: ({ description, meta, ...props }) => {
     // console.log(meta.mustFill)
     // const consoleValue = (data) => console.log(data)
+    // @ts-ignore
     // function consoleValue(x) {
     //   console.log(x)
     // }

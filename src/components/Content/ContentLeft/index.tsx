@@ -1,4 +1,4 @@
-import { useData } from '@based/react'
+import { useQuery } from '@based/react'
 import React, { FC, useState } from 'react'
 import { border, LoadingIcon, Menu, Text, useSchema, Badge } from '~'
 
@@ -31,8 +31,8 @@ export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
   const { schema, loading: loadingSchema } = useSchema()
-
-  const { data: views, loading } = useData('basedObserveViews')
+  const { data: viewData, loading } = useQuery('basedObserveViews')
+  const views = viewData || {}
 
   if (!loading && !loadingSchema) {
     const types = Object.keys(schema.types)

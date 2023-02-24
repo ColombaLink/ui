@@ -103,6 +103,7 @@ export const DateInput: FC<DateInputProps> = ({
   // lister for the value of the input
   useEffect(() => {
     if (value[0] === 'N') {
+      // @ts-ignore
       inputRef.current.value = dateInputHandler({
         target: {
           value:

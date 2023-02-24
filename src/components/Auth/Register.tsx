@@ -208,6 +208,7 @@ export const Register: FC<RegisterProps> = ({
         onClick={async () => {
           setWaitingForEmailConfirmation(true)
           try {
+            // @ts-ignore
             const result = await client.register({
               email,
               password,

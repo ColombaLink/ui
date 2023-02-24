@@ -12,7 +12,7 @@
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
     "build-app": "npx @based/cli build-app -nm -t src/playground/index.tsx -d functions/ui",
     "deploy": "npx @based/cli deploy",
-    "_build-docs": "aristotle bundle -t ./src/playground/index.tsx -d docs -b /ui -ti 'Based UI' -k -m"
+    "link-based": "npm link ../based/packages/client ../based/packages/react"
   },
   "files": [
     "assets",
@@ -27,8 +27,8 @@
   },
   "peerDependencies": {
     "@based/client": "^4.0.2",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react": "17||18",
+    "react-dom": "17||18"
   },
   "dependencies": {
     "@based/get-service": "^2.4.3",
@@ -69,7 +69,6 @@
     "@babel/traverse": "^7.18.6",
     "@based/cli": "^4.1.4",
     "@based/client": "^4.0.2",
-    "@based/server": "^3.3.2",
     "@saulx/aristotle": "^4.6.0",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",

@@ -1,4 +1,4 @@
-import { useClient, useData } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import React, { FC, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
@@ -77,7 +77,7 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
 const LastSaved = ({ id }) => {
   const {
     data: { updatedAt },
-  } = useData({
+  } = useQuery('db', {
     $id: id,
     updatedAt: true,
   })
@@ -157,6 +157,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
       ) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
+          // @ts-ignore
           await client.set({
             $id: id?.split('.')[0] || undefined,
             type,
@@ -330,6 +331,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
+                // @ts-ignore
                 await client.set({
                   $id: id?.split('.')[0] || undefined,
                   type,

@@ -12,7 +12,6 @@ export const Schema: FC<{
   const [location] = useLocation()
   const [, type, ...p] = location.substring(prefix.length).split('/')
   const { types, loading } = useSchemaTypes()
-
   const path = []
 
   if (p.length) {

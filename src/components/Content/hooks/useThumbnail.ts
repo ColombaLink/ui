@@ -1,4 +1,4 @@
-import { useData } from '@based/react'
+import { useQuery } from '@based/react'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { useLanguage } from '../hooks/useLanguage'
 
@@ -21,7 +21,8 @@ export const useThumbnail = (id) => {
 
   //   console.log(thumbFields, 'thumbFields')
 
-  const { data, loading } = useData(
+  const { data, loading } = useQuery(
+    'db',
     schema.fields
       ? {
           $id: id,

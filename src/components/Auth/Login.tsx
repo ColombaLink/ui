@@ -119,6 +119,7 @@ export const Login: FC<LoginProps> = ({
         onClick={
           passwordExpanded
             ? async () => {
+                // @ts-ignore
                 const result = await client.login({
                   email,
                   password,

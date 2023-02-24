@@ -77,15 +77,17 @@ const EditMenu = ({ type, path }) => {
                 <Dialog.Cancel />
                 <Dialog.Confirm
                   color="red"
-                  onConfirm={async () =>
-                    await client.call('basedUpdateSchema', {
-                      types: {
-                        [type]: {
-                          $delete: true,
+                  onConfirm={async () => {
+                    await client.call('db:set-schema', {
+                      schema: {
+                        types: {
+                          [type]: {
+                            $delete: true,
+                          },
                         },
                       },
                     })
-                  }
+                  }}
                 >
                   {`Delete ${type}`}
                 </Dialog.Confirm>
