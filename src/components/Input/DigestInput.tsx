@@ -52,6 +52,7 @@ export const DigestInput = ({
       >
         {shortState ? (
           <Input
+            type="text"
             value={value.substring(0, 6) + '...'}
             icon={renderOrCreateElement(' ')}
             style={{ width: '100%' }}

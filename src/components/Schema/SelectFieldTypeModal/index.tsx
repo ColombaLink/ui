@@ -91,6 +91,7 @@ export const SelectFieldTypeModal: FC<{
   return (
     <div>
       <Input
+        type="text"
         icon={<SearchIcon />}
         placeholder="Search and discover"
         space="0px"

@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Label, Button, AddIcon, Dialog, Input, usePropState, Text } from '~'
+import { Label, Button, AddIcon, Dialog, Input, Text } from '~'
 import { useDialog } from '~/components/Dialog'
 import {
   DndContext,
@@ -29,6 +29,8 @@ type ArrayListProps = {
   space?: Space
   onChange?(ids: string[] | number[]): void
   value?: any[]
+  schema?: any
+  label?: string
 }
 
 export const ArrayList = ({
@@ -47,13 +49,8 @@ export const ArrayList = ({
   const [draggingIndex, setDraggingIndex] = useState<number>()
   const ref = useRef<string>()
   const idsRef = useRef<any[]>()
-  const [inputVal, setInputVal] = useState('')
+  const [inputVal] = useState('')
   const [renderCounter, setRenderCounter] = useState(1)
-
-  // console.log('props', props)
-  // console.log('value', value)
-  // console.log('arr', arr)
-  // console.log('id', id)
 
   if (ref.current !== id) {
     // if the external value changed
@@ -70,8 +67,6 @@ export const ArrayList = ({
       idsRef.current = null
     }
   }
-
-  // console.log('render', arr)
 
   if (!idsRef.current) {
     // if no ids cache
@@ -122,11 +117,12 @@ export const ArrayList = ({
     setDraggingIndex(-1)
   }
 
-  // @ts-ignore
   const itemType = props.schema?.items.type
 
   const addItemHandler = async () => {
-    let inputVAL = ''
+    let inputChanged: string | number = ''
+    let inputToNumber: number
+
     const ok = await open(
       <Dialog
         label={`Add new ${
@@ -142,7 +138,13 @@ export const ArrayList = ({
             autoFocus
             value={inputVal}
             onChange={(e) => {
-              inputVAL = e
+              inputChanged = e
+              inputToNumber =
+                typeof inputChanged === 'number'
+                  ? inputChanged
+                  : itemType === 'float'
+                  ? parseFloat(inputChanged)
+                  : parseInt(inputChanged)
             }}
           />
         )}
@@ -157,23 +159,23 @@ export const ArrayList = ({
           <Dialog.Cancel />
           <Dialog.Confirm
             onConfirm={() => {
-              if (inputVAL && typeof ok !== 'boolean') {
+              if (inputChanged && typeof ok !== 'boolean') {
                 if (itemType === 'string') {
-                  onChange([...arr, inputVAL])
-                  setArr([...arr, inputVAL])
-                  idsRef.current = [...idsRef.current, inputVAL]
+                  onChange([...arr, inputChanged])
+                  setArr([...arr, inputChanged])
+                  idsRef.current = [...idsRef.current, inputChanged]
                 } else if (itemType === 'int') {
-                  onChange([...arr, parseInt(inputVAL)])
-                  setArr([...arr, parseInt(inputVAL)])
-                  idsRef.current = [...idsRef.current, parseInt(inputVAL)]
+                  onChange([...arr, inputToNumber])
+                  setArr([...arr, inputToNumber])
+                  idsRef.current = [...idsRef.current, inputToNumber]
                 } else if (itemType === 'float') {
-                  onChange([...arr, parseFloat(inputVAL)])
-                  setArr([...arr, parseFloat(inputVAL)])
-                  idsRef.current = [...idsRef.current, parseFloat(inputVAL)]
+                  onChange([...arr, inputToNumber])
+                  setArr([...arr, inputToNumber])
+                  idsRef.current = [...idsRef.current, inputToNumber]
                 } else if (itemType === 'digest') {
-                  onChange([...arr, inputVAL])
-                  setArr([...arr, inputVAL])
-                  idsRef.current = [...idsRef.current, inputVAL]
+                  onChange([...arr, inputChanged])
+                  setArr([...arr, inputChanged])
+                  idsRef.current = [...idsRef.current, inputChanged]
                 }
               }
               if (itemType === 'object' && typeof ok !== 'boolean') {
@@ -189,17 +191,13 @@ export const ArrayList = ({
   }
 
   const deleteSpecificItem = async (item, idx) => {
-    // console.log('delete this', item, idx)
     arr.splice(idx, 1)
     idsRef.current = [...arr]
-    // console.log('idsREF current --> ', idsRef.current)
     onChange(arr)
     setRenderCounter((c) => c + 1)
-    //  console.log('delete fire', renderCounter)
   }
 
   const editSpecificItem = async (item, idx, arr) => {
-    // const value = await prompt(`Edit ${arr[idx]} `)
     let inputVAL = ''
     await open(
       <Dialog label={`Edit ${arr[idx]} `}>
@@ -209,12 +207,10 @@ export const ArrayList = ({
           }
           digest={itemType === 'digest'}
           autoFocus
-          // label="input shizzle"
           value={inputVal}
           onChange={(e) => {
-            //    console.log(e)
-            inputVAL = e
-            //   console.log(inputVal)
+            // TODO: fix this the same...
+            inputVAL = String(e)
           }}
         />
         <Dialog.Buttons border>
@@ -222,9 +218,7 @@ export const ArrayList = ({
           <Dialog.Confirm
             onConfirm={() => {
               if (inputVAL) {
-                //   console.log('current:', arr)
                 // make a extra array to track the editid items
-                // let editTempArr = [...arr]
                 if (itemType === 'string') {
                   const editTempArr = arr.map((item, id) => {
                     if (idx === id && item === arr[idx]) {
@@ -234,11 +228,9 @@ export const ArrayList = ({
                   })
                   setArr(editTempArr)
                   onChange(editTempArr)
-                  //  console.log('editTempArr', JSON.stringify(editTempArr))
                 } else if (itemType === 'int') {
                   const editTempArr = arr.map((item, id) => {
                     if (idx === id && item === arr[idx]) {
-                      // @ts-ignore
                       return parseInt(inputVAL)
                     }
                     return item
@@ -248,7 +240,6 @@ export const ArrayList = ({
                 } else if (itemType === 'float') {
                   const editTempArr = arr.map((item, id) => {
                     if (idx === id && item === arr[idx]) {
-                      // @ts-ignore
                       return parseFloat(inputVAL)
                     }
                     return item
@@ -272,9 +263,7 @@ export const ArrayList = ({
       descriptionBottom={description}
       style={style}
     >
-      {/** @ts-ignore  **/}
       <Label label={props.label} space={12} />
-
       {renderCounter ? (
         <DndContext
           sensors={sensors}

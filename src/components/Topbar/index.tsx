@@ -1,5 +1,5 @@
-import React, { CSSProperties, FC, ReactNode, useEffect } from 'react'
-import { parseHref, useLocation } from '~/hooks'
+import React, { CSSProperties, FC, ReactNode } from 'react'
+import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
@@ -62,6 +62,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
   return (
     <>
       <Input
+        type="text"
         placeholder="Search and discover"
         icon={SearchIcon}
         onChange={onFilter}
@@ -121,7 +122,7 @@ export const Topbar: FC<TopbarProps> = ({
     )
   }
 
-  let hasActive, firstHref
+  let firstHref
   const items = Object.keys(data).map((label) => {
     const href = prefix + data[label]
     if (!firstHref) {
@@ -135,9 +136,6 @@ export const Topbar: FC<TopbarProps> = ({
 
   const elements = items.map(({ label, href }, i) => {
     const isActive = hrefIsActive(href, location, items)
-    if (isActive) {
-      hasActive = true
-    }
     return (
       <TopbarTab
         key={href}
@@ -149,12 +147,6 @@ export const Topbar: FC<TopbarProps> = ({
       </TopbarTab>
     )
   })
-
-  // useEffect(() => {
-  //   if (!hasActive && firstHref) {
-  //     window.history.replaceState({}, '', parseHref(firstHref))
-  //   }
-  // }, [hasActive])
 
   return (
     <div

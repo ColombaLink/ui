@@ -8,7 +8,7 @@ export const FromQueryToText = () => {
     `{"$field":"x","$operator":"!=","$value":"xxx","$or":{"$field":"c","$operator":"!=","$value":"c"}}`
   )
 
-  const [prettyInputValue, setPrettyInputValue] = useState(
+  const [prettyInputValue] = useState(
     JSON.stringify(JSON.parse(rawInputValue), null, 2)
   )
   const [readableText, setReadableText] = useState('')
@@ -75,6 +75,7 @@ export const FromQueryToText = () => {
         raw: {rawInputValue}
       </Text>
       <Input
+        type="text"
         jsonInput
         indent
         space

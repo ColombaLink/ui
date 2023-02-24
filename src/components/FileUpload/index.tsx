@@ -108,6 +108,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               }}
             >
               <Input
+                type="text"
                 space="20px"
                 placeholder="Paste the image link..."
                 onChange={(e) => {

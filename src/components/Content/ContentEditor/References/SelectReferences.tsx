@@ -202,6 +202,7 @@ export const SelectReferences = ({
           </div>
 
           <Input
+            type="text"
             ghost
             style={{
               marginTop: 12,

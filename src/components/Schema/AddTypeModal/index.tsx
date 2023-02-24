@@ -64,6 +64,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
           value={typeName || safeTypeName(name)}
         />
         <Input
+          type="text"
           multiline
           label="Description"
           description="Displays a hint for content editors"

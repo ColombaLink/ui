@@ -411,6 +411,7 @@ export const FieldModal: FC<
                 </div>
               )}
               <Input
+                type="text"
                 space
                 label="Match a specific pattern"
                 description="Only accepts values that match a specific regular exporession"

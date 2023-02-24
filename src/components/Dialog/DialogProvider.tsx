@@ -28,7 +28,7 @@ const Prompt = ({
       {isPrompt ? (
         <Dialog.Body>
           {children}
-          <Input autoFocus onChange={(v) => (value.current = v)} />
+          <Input type="text" autoFocus onChange={(v) => (value.current = v)} />
         </Dialog.Body>
       ) : (
         children

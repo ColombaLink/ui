@@ -1,14 +1,15 @@
 // TODO yves en youri fix this
 import React, {
-  Dispatch,
   FC,
   FunctionComponent,
-  SetStateAction,
   CSSProperties,
   RefObject,
   useState,
   useEffect,
+  KeyboardEvent,
   ReactNode,
+  ReactEventHandler,
+  useCallback,
 } from 'react'
 import { Text, Button, ChevronDownIcon, ChevronUpIcon } from '~'
 import { Label } from '../Label'
@@ -104,68 +105,7 @@ const Single: FC<SingleProps> = ({
   )
 }
 
-type InputProps = {
-  // consoleFunc?: any
-  style?: CSSProperties
-  label?: string
-  colorInput?: boolean
-  customRegex?: boolean
-  pattern?: string
-  jsonInput?: boolean
-  passwordInput?: boolean
-  markdownInput?: boolean
-  digest?: boolean
-  description?: string
-  descriptionBottom?: string
-  //  optional?: boolean
-  value?: string | number
-  // integer?: boolean
-  icon?: FunctionComponent<Icon> | ReactNode
-  iconRight?: FunctionComponent<Icon> | ReactNode
-  indent?: boolean
-  defaultValue?: string | number
-  placeholder?: string
-  maxChars?: number
-  multiline?: boolean
-  bg?: boolean
-  ghost?: boolean
-  autoFocus?: boolean
-  name?: string
-  space?: Space
-  inputRef?: RefObject<HTMLDivElement>
-  large?: boolean
-  disabled?: boolean
-  suggest?: (str: string) => string // show suggestion => Enter to complete
-  error?: (str: string) => string // show error
-  transform?: (str: string) => string // transform string
-  forceSuggestion?: boolean // apply suggestion on blur
-  noInterrupt?: boolean // dont use external state while focused
-  onChange?:
-    | ((value: string | number) => void)
-    | Dispatch<SetStateAction<string | number>>
-}
-
-// to coorece the on change (skips having to make conversions or ts ignores)
-type InputTypeString = {
-  type: 'text' | 'password' | 'email' | 'phone' | 'color' | 'markdown'
-  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-}
-type InputNameString = {
-  name: 'password' | 'email' | 'name'
-  onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
-}
-type InputTypeNumber = {
-  type: 'number' | 'date'
-  onChange?: ((value: number) => void) | Dispatch<SetStateAction<number>>
-}
-type InputTypeOther = {
-  type?: string
-  onChange?:
-    | ((value: string | number) => void)
-    | Dispatch<SetStateAction<string | number>>
-}
-type InputPropsChange = InputProps &
-  (InputTypeString | InputNameString | InputTypeNumber | InputTypeOther)
+// type InputProps<T extends InputType = InputType> =
 
 const MaybeSuggest = (props) =>
   props.suggest ? <Suggestor {...props} /> : props.children
@@ -229,12 +169,21 @@ const Suggestor = ({
   )
 }
 
-// TODO need to clean this whole thing up...
-export const Input: FC<
-  InputPropsChange &
-    Omit<React.HTMLProps<HTMLInputElement>, keyof InputPropsChange>
-> = ({
-  // consoleFunc,
+type InputType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'phone'
+  | 'color'
+  | 'markdown'
+  | 'number'
+  | 'date'
+
+type OnChange<T extends InputType> = (
+  value: T extends 'number' ? number : T extends 'date' ? number : string
+) => void
+
+export const Input = <T extends InputType>({
   autoFocus,
   bg,
   colorInput,
@@ -262,7 +211,6 @@ export const Input: FC<
   name,
   noInterrupt,
   onChange: onChangeProp,
-  // optional,
   placeholder = 'Type something here',
   space,
   style,
@@ -271,6 +219,46 @@ export const Input: FC<
   type,
   value: valueProp,
   ...otherProps
+}: {
+  type: T
+  onChange?: OnChange<T>
+  style?: CSSProperties
+  label?: string
+  colorInput?: boolean
+  customRegex?: boolean
+  pattern?: string
+  jsonInput?: boolean
+  passwordInput?: boolean
+  markdownInput?: boolean
+  digest?: boolean
+  description?: string
+  descriptionBottom?: string
+  value?: string | number
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
+  indent?: boolean
+  defaultValue?: string | number
+  placeholder?: string
+  maxChars?: number
+  multiline?: boolean
+  bg?: boolean
+  ghost?: boolean
+  autoFocus?: boolean
+  name?: string
+  space?: Space
+  min?: number
+  max?: number
+  inputRef?: RefObject<HTMLDivElement>
+  large?: boolean
+  disabled?: boolean
+  suggest?: (str: string) => string // show suggestion => Enter to complete
+  error?: (str: string) => string // show error
+  transform?: (str: string) => string // transform string
+  forceSuggestion?: boolean // apply suggestion on blur
+  noInterrupt?: boolean // dont use external state while focused
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onBlur?: ReactEventHandler
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
@@ -279,8 +267,6 @@ export const Input: FC<
   // TODO Why is there always a color value!?
   const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
   const [errorMessage, setErrorMessage] = useState('')
-
-  // to clear json value
   const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
   if (maxChars === -1) {
@@ -292,27 +278,21 @@ export const Input: FC<
     }
   }, [value])
 
-  const onChange = (e) => {
-    const newValue = transform ? transform(e.target.value) : e.target.value
-
-    if (type === 'number') {
-      setValue(+e.target.value)
-      onChangeProp?.(+newValue)
-    } else {
-      setValue(newValue)
-      onChangeProp?.(newValue)
-    }
-
-    // const msg = error?.(newValue)
-
-    // if (msg) {
-    //   // add error msg
-    //   setErrorMessage(msg)
-    // } else {
-    //   // remove error msg
-    //   setErrorMessage('')
-    // }
-  }
+  const onChange = useCallback(
+    (e: { target: { value: string } }) => {
+      const newValue = transform ? transform(e.target.value) : e.target.value
+      if (type === 'number') {
+        setValue(+e.target.value)
+        // @ts-ignore
+        onChangeProp?.(+newValue)
+      } else {
+        setValue(newValue)
+        // @ts-ignore
+        onChangeProp?.(newValue)
+      }
+    },
+    [onChangeProp]
+  )
 
   const paddingLeft = ghost && icon ? 36 : ghost ? 0 : icon ? 36 : 12
   const paddingRight = ghost ? 0 : iconRight ? 36 : 12
@@ -360,33 +340,17 @@ export const Input: FC<
     //  check for error pas als de focus weg is
     if (!customRegex && !pattern) {
       const msg = error?.(value)
-
       if (msg) {
-        // add error msg
-        // console.log('blablabal')
         setErrorMessage(msg)
       } else {
-        // remove error msg
         setErrorMessage('')
       }
     }
   }, [focused])
 
   useEffect(() => {
-    // console.log(
-    //   'customRegex:',
-    //   customRegex,
-    //   'pattern:',
-    //   pattern,
-    //   'value:',
-    //   value
-    // )
-    // console.log('value', value)
-    // consoleFunc(value)
     if (customRegex && pattern) {
       if (new RegExp(pattern).test(value) || value.length < 1) {
-        // console.log(new RegExp(pattern).test('123'))
-        // console.log('valuevaluevalue', value)
         return setErrorMessage('')
       }
       return setErrorMessage('Does not match REGEX/pattern')
@@ -422,6 +386,7 @@ export const Input: FC<
             <Button
               ghost
               onClick={() => {
+                // @ts-ignore
                 onChangeProp?.('')
                 setValue('')
               }}
@@ -441,6 +406,7 @@ export const Input: FC<
               onClick={() => {
                 setShowJSONClearButton(false)
                 setValue('')
+                // @ts-ignore
                 onChangeProp?.('')
                 setClearValue(true)
                 setErrorMessage('')
@@ -499,7 +465,6 @@ export const Input: FC<
           ) : markdownInput ? (
             <MarkdownInput
               {...props}
-              // setErrorMessage={setErrorMessage}
               value={value}
               onChange={onChange}
               disabled={disabled}
@@ -584,8 +549,7 @@ export const Input: FC<
                   },
                 }}
                 onClick={() => {
-                  onChange({ target: { value: +value + 1 } })
-                  // setValue(+value + 1)
+                  onChange({ target: { value: String(+value + 1) } })
                 }}
               >
                 <ChevronUpIcon size={9} strokeWidth={2.5} />
@@ -604,7 +568,7 @@ export const Input: FC<
                   },
                 }}
                 onClick={() => {
-                  onChange({ target: { value: +value - 1 } })
+                  onChange({ target: { value: String(+value - 1) } })
                 }}
               >
                 <ChevronDownIcon size={9} strokeWidth={2.5} />

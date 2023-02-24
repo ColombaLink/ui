@@ -21,6 +21,7 @@ export const FilterInput = ({
 
   return (
     <Input
+      type="text"
       inputRef={inputRef}
       style={{
         flexGrow: 1,
@@ -36,7 +37,7 @@ export const FilterInput = ({
       ghost
       placeholder="Type to search and filter"
       value={value}
-      onChange={setValue}
+      onChange={(v) => setValue(v)}
       onKeyDown={(e) => {
         if (e.key === 'Backspace') {
           if (!e.currentTarget.value) {

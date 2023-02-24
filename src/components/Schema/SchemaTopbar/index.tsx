@@ -48,6 +48,7 @@ export const SchemaTopbar = () => {
       </div>
       <div style={{ maxWidth: 492, width: '100%' }}>
         <Input
+          type="text"
           placeholder="Search & navigate"
           ghost
           icon={SearchIcon}

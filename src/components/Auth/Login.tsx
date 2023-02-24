@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from 'react'
-import { EmailIcon, LockIcon } from '~/icons'
+import { LockIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
 import { Text } from '../Text'
@@ -32,8 +32,8 @@ export const Login: FC<LoginProps> = ({
   microsoftClientId,
   githubClientId,
 }) => {
-  const [email = '', setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email = '', setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
   const [emailValidationMessage, setEmailValidationMessage] =
     useState<string>(null)
   const [passwordExpanded, setPasswordExpanded] = useState(false)
@@ -71,9 +71,8 @@ export const Login: FC<LoginProps> = ({
         label="Email"
         value={email}
         type="email"
-        //  icon={EmailIcon}
         placeholder="Enter your email address"
-        onChange={setEmail}
+        onChange={(str) => setEmail(str)}
       />
 
       <div

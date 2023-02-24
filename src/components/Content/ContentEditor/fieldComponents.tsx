@@ -144,7 +144,14 @@ const digest = {
   default: ({ description, ...props }) => {
     // TODO make it type: digest
     return (
-      <Input {...props} descriptionBottom={description} indent digest space />
+      <Input
+        type="text"
+        {...props}
+        descriptionBottom={description}
+        indent
+        digest
+        space
+      />
     )
   },
 }
@@ -185,6 +192,7 @@ const json = {
   default: ({ description, ...props }) => {
     return (
       <Input
+        type="text"
         {...props}
         descriptionBottom={description}
         space
@@ -258,6 +266,7 @@ const url = {
           <div style={{ height: 62, width: 62, backgroundColor: 'yellow' }} />
         )}
         <Input
+          type="text"
           {...props}
           style={{ width: '100%' }}
           descriptionBottom={description}
@@ -379,6 +388,7 @@ const string = {
   email: ({ description, meta, onChange, ...props }) => {
     return (
       <Input
+        type="email"
         {...props}
         maxChars={200}
         descriptionBottom={description}
@@ -408,6 +418,7 @@ const string = {
     // }
     return (
       <Input
+        type="markdown"
         {...props}
         descriptionBottom={description}
         customRegex={meta.regex}
