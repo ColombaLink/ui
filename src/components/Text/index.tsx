@@ -44,7 +44,11 @@ export const Text: FC<TextProps> = ({
   s.letterSpacing = '-0.015em'
   s.fontSize = size || '14px'
   s.fontWeight = weight || '500'
-  s.lineHeight = '20px'
+  s.lineHeight = size
+    ? typeof size === 'string'
+      ? ~~(parseInt(size) * 1.42) + 'px'
+      : ~~(size * 1.42) + 'px'
+    : '20px'
 
   if (!wrap) {
     s.textOverflow = 'ellipsis'
