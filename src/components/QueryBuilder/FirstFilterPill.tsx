@@ -30,15 +30,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   useEffect(() => {
     setPillIsSelected(false)
     setIsFocus(false)
+    controller.abort()
   }, [pillInputValue])
 
   let cnt = 0
 
   const onKeyHandler = (e) => {
-    // tabbieCount++
-    if (!pillIsSelected) {
-      console.log('TRUE STORY')
-    }
     if (e.key === 'Tab' && pillIsSelected) {
       cnt++
       if (cnt === 1) {
@@ -63,8 +60,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
         // inputRef.current.focus()
       }
       console.log('Count', cnt)
-    } else {
-      setPillIsSelected(false)
     }
 
     if (e.key === 'Backspace' && pillIsSelected) {
@@ -73,8 +68,9 @@ export const FirstFilterPill = ({ setIsFocus }) => {
     }
 
     if (e.key !== 'Tab') {
-      // setPillIsSelected(false)
+      setPillIsSelected(false)
       cnt = 0
+      controller.abort()
     }
   }
 
@@ -147,7 +143,8 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
                   setPillIsSelected(false)
-                  setIsFocus(false)
+                  // setIsFocus(false)
+                  controller.abort()
                 }}
                 options={
                   idx === 1
@@ -179,8 +176,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
           />
         )}
       </div>
-
-      <Text>Pill is selected ?? : {pillIsSelected ? 'TRUE' : 'FALSE'}</Text>
     </>
   )
 }
