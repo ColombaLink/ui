@@ -16,7 +16,6 @@ const Prompt = ({
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
-  //  const isConfirm = type === 'confirm'
 
   return (
     <Dialog
