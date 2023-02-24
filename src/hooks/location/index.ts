@@ -61,7 +61,8 @@ export const useLocation = (): [string, (href: string) => void] => {
 }
 
 // TODO remove this!
-window.ITS_OK_DONT_WORRY = ITS_OK_DONT_WORRY
+// @ts-ignore
+global.ITS_OK_DONT_WORRY = ITS_OK_DONT_WORRY
 // ----------------------------------------------------------------------
 
 const parseLocation = (q: string, hash: string, pathName: string): string => {

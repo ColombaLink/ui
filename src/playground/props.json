@@ -2711,6 +2711,64 @@
       "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
       "file": "/components/Provider/index.tsx"
     },
+    "FilterPillProps": {
+      "name": "FilterPillProps",
+      "props": {
+        "inputValue": {
+          "type": "string"
+        },
+        "setInputValue": {
+          "type": "function"
+        },
+        "InputToFilters": {
+          "type": "function"
+        },
+        "caretIsInBlockIndex": {
+          "type": "number"
+        },
+        "caretInBlockSubPos": {
+          "type": "number"
+        },
+        "openSelectBox": {
+          "type": "TSTypeLiteral"
+        },
+        "setOpenSelectBox": {
+          "type": "function"
+        },
+        "caretPosition": {
+          "type": "number"
+        },
+        "setCaretPosition": {
+          "type": "function"
+        },
+        "inputReference": {
+          "optional": true
+        },
+        "blockIsSelected": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type FilterPillProps = {\n  inputValue: string\n  setInputValue: (e) => void\n  InputToFilters: (e) => void\n  caretIsInBlockIndex: number\n  caretInBlockSubPos: number\n  openSelectBox: { num: number; open: boolean }\n  setOpenSelectBox: (value: { num: number; open: boolean }) => void\n  caretPosition: number\n  setCaretPosition: (e) => void\n  inputReference?\n  blockIsSelected?: boolean\n}",
+      "file": "/components/QueryFilter/FilterPill.tsx"
+    },
+    "SuggestionTagProps": {
+      "name": "SuggestionTagProps",
+      "props": {
+        "suggestion": {
+          "type": "string"
+        },
+        "onClick": {
+          "type": "function"
+        },
+        "selected": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type SuggestionTagProps = {\n  suggestion: string\n  onClick: () => void\n  selected?: boolean\n}",
+      "file": "/components/QueryFilter/SuggestionTag.tsx"
+    },
     "LeftPillProps": {
       "name": "LeftPillProps",
       "props": {
