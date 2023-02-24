@@ -1,43 +1,74 @@
-import React, { useState, useRef } from 'react'
-import { Text, Select, color, CloseCircleIcon } from '~'
+import React, { useState, useRef, useEffect } from 'react'
+import { Text, Select, color, CloseCircleIcon, removeAllOverlays } from '~'
 import { styled } from 'inlines'
 
 // move this
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
-export const FirstFilterPill = () => {
+export const FirstFilterPill = ({ setIsFocus }) => {
   const [pillInputValue, setPillInputValue] = useState('Type Is Flappie')
   const [pillIsSelected, setPillIsSelected] = useState(false)
 
   const inputRef = useRef(null)
 
-  const onClickHandler = (e, idx) => {
-    if (idx === 0) {
-      setPillIsSelected(true)
-      inputRef.current.focus()
+  useEffect(() => {
+    console.log('flappe')
+    if (pillIsSelected) {
+      setIsFocus(true)
+      window.addEventListener('keydown', (e) => onKeyHandler(e))
+    } else {
+      setIsFocus(false)
     }
-  }
+    //  TODO else remove event listener??
+  }, [pillIsSelected])
+
+  let cnt = 0
 
   const onKeyHandler = (e) => {
-    e.preventDefault()
-    if (e.key === 'Tab') {
-      console.log('tab was pressed')
-      if (pillIsSelected) {
-        console.log('tab was pressed and selected is true')
-        console.log(inputRef.current.nextElementSibling.childNodes[1])
+    // tabbieCount++
+    // e.preventDefault()
+
+    if (e.key === 'Tab' && pillIsSelected) {
+      cnt++
+      if (cnt === 1) {
+        removeAllOverlays()
+        console.log('tab was pressed ')
+        console.log('cnt  ===> 👻', cnt)
         inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
-        setPillIsSelected(false)
       }
+      if (cnt === 2) {
+        removeAllOverlays()
+        console.log('DOSS', cnt)
+        inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
+      }
+      if (cnt === 3) {
+        removeAllOverlays()
+        setPillIsSelected(false)
+        inputRef.current.focus()
+        cnt = 0
+      }
+      // window.addEventListener('keydown', (e) =>
+      //   e.key === 'Tab' ? removeAllOverlays() : null
+      // )
+      console.log('Count', cnt)
+      // tabHand()
     }
+
     if (e.key === 'Backspace' && pillIsSelected) {
       console.log('Op je Bek Space')
       deletePill()
+    }
+
+    if (e.key !== 'Tab') {
+      setPillIsSelected(false)
+      cnt = 0
     }
   }
 
   const deletePill = () => {
     console.log('delete this')
     setPillIsSelected(false)
+    setPillInputValue('')
   }
 
   return (
@@ -47,7 +78,7 @@ export const FirstFilterPill = () => {
         value={pillInputValue}
         onChange={(e) => setPillInputValue(e.target.value)}
         style={{ border: '1px solid green', position: 'absolute', top: 20 }}
-        onKeyDown={(e) => onKeyHandler(e)}
+        //  onKeyDown={(e) => onKeyHandler(e)}
       />
       <div style={{ display: 'flex', position: 'relative' }}>
         {pillInputValue.split(' ').map((item, idx) => (
@@ -74,7 +105,11 @@ export const FirstFilterPill = () => {
               },
             }}
             key={idx}
-            onClick={(e) => onClickHandler(e, idx)}
+            onClick={(e) => {
+              setPillIsSelected(true)
+              inputRef.current.focus()
+              //   onClickHandler(e, idx)
+            }}
           >
             {idx === 0 && <Text color="text2">{item}</Text>}
 
@@ -85,8 +120,6 @@ export const FirstFilterPill = () => {
                 filterable
                 // @ts-ignore
                 style={{
-                  //  background: 'yellow',
-
                   // @ts-ignore
                   '& div': { padding: '8px', display: 'flex' },
                   '& svg': { display: 'none' },
@@ -94,11 +127,16 @@ export const FirstFilterPill = () => {
                 onChange={(e: string) => {
                   // document.getElementById(`selectid-${index}`).childNodes[0].value =
                   //   inputValue.split(' ')[index]
+                  console.log('Change --> ', e)
                   const temp = pillInputValue.split(' ')
                   temp[idx] = e
                   setPillInputValue(temp.join(' '))
                 }}
-                options={idx === 1 ? compareOperators : ['blha', 'bjha']}
+                options={
+                  idx === 1
+                    ? compareOperators
+                    : ['Snurpie', 'Flurpie', 'Snorkies']
+                }
                 placeholder=""
               />
             )}
