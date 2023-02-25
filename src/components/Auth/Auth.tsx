@@ -1,10 +1,4 @@
-import React, {
-  FC,
-  useState,
-  CSSProperties,
-  ReactChild,
-  useEffect,
-} from 'react'
+import React, { FC, useState, CSSProperties, ReactNode, useEffect } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
@@ -17,13 +11,14 @@ type AuthProps = {
   onRegister?: (data: { email: string; password: string; name: string }) => void
   register?: boolean
   onResetRequest?: () => void
-  logo?: boolean | ReactChild
+  logo?: boolean | ReactNode
   overlay?: boolean
   style?: CSSProperties
   app?: FC<any | { user: { id: string; email: string } }>
   googleClientId?: string
   microsoftClientId?: string
   githubClientId?: string
+  children?: ReactNode
 }
 
 export const Authorize: FC<AuthProps> = ({
@@ -42,7 +37,7 @@ export const Authorize: FC<AuthProps> = ({
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   // TODO nuno fix
-  const [email = '', setEmail] = useGlobalState('email')
+  const [email = ''] = useGlobalState('email')
   const [fadeIn, setFade] = useState(false)
 
   useEffect(() => {

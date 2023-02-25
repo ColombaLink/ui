@@ -17,7 +17,7 @@ import { Space, Key, Icon } from '~/types'
 import { useKeyUp } from '~'
 
 export type ButtonProps = {
-  children?: ReactNode
+  children?: ReactNode | ReactNode[]
   disabled?: boolean
   color?: Color
   ghost?: boolean

@@ -120,7 +120,7 @@ const Buttons = ({ children, border = null }) => {
 
 const Confirm: FC<
   Omit<ButtonProps, 'onClick'> & {
-    onConfirm: () => Promise<void> | (() => void)
+    onConfirm?: ((val?: any) => Promise<void>) | ((val?: any) => void)
   }
 > = ({ children = 'OK', onConfirm, ...props }) => {
   const dialog = useDialog()
@@ -149,7 +149,7 @@ const Confirm: FC<
 
 const Cancel: FC<
   Omit<ButtonProps, 'onClick'> & {
-    onCancel: () => Promise<void> | (() => void)
+    onCancel?: (() => Promise<void>) | (() => void)
   }
 > = ({
   children = `Cancel${isTouchDevice() ? '' : 'Esc'}`,

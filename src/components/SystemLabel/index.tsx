@@ -14,7 +14,7 @@ type SystemMenuHeaderProps = {
 }
 
 type SystemMenuItemProps = {
-  children?: ReactNode
+  children?: ReactNode | FC
   style?: CSSProperties
   href?: string
   isActive?: boolean

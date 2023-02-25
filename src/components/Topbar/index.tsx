@@ -164,20 +164,21 @@ export const Topbar: FC<TopbarProps> = ({
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {logo}
-          {breadcrumbs}
-          <div
-            style={{
-              display: 'flex',
-              gap: icons ? 12 : 0,
-            }}
-          >
-            {elements}
-
-            {children ? (
-              <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
-            ) : null}
-          </div>
+          <>
+            {logo}
+            {breadcrumbs}
+            <div
+              style={{
+                display: 'flex',
+                gap: icons ? 12 : 0,
+              }}
+            >
+              {elements}
+              {children ? (
+                <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
+              ) : null}
+            </div>
+          </>
         </div>
       </div>
 

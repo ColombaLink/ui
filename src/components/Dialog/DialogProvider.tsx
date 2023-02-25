@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useRef, ReactNode } from 'react'
+import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
 import { Dialog } from './Dialog'
 import { Input } from '../Input'
 import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
 import { color } from '~/utils'
+import { Style } from 'inlines'
 
-const Prompt = ({
-  type = 'prompt',
-  onCancel,
-  onConfirm,
-  style,
-  children,
-  ...props
-}) => {
+const Prompt: FC<{
+  type?: 'prompt' | 'alert'
+  onCancel?: () => Promise<void> | (() => void)
+  onConfirm?: ((val?: any) => Promise<void>) | ((val?: any) => void)
+  style?: Style
+  children?: ReactNode
+}> = ({ type = 'prompt', onCancel, onConfirm, style, children, ...props }) => {
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
-
   return (
     <Dialog
       {...props}

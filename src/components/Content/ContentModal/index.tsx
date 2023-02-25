@@ -1,5 +1,5 @@
 import { useClient, useQuery } from '@based/react'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -56,7 +56,10 @@ const Topbar = ({ id, type }) => {
   )
 }
 
-const SideHeader: FC<{ title: string }> = ({ title, children }) => {
+const SideHeader: FC<{ title: string; children?: ReactNode }> = ({
+  title,
+  children,
+}) => {
   return (
     <div
       style={{

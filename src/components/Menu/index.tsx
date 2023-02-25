@@ -18,7 +18,7 @@ type MenuHeaderProps = {
 }
 
 type MenuItemProps = {
-  children?: ReactNode
+  children?: ReactNode | FC
   style?: CSSProperties
   href?: string
   isActive?: boolean
