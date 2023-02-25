@@ -40,19 +40,21 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
   const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
 
   const isLight = light || ghost || outline
-  const style = {
+  const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     backgroundColor: ghost || outline ? null : color(colorProp, null, isLight),
     color: color(colorProp, 'contrast', isLight),
     border: border(outline && 1, colorProp, 'border', light),
     opacity: disabled ? 0.6 : 1,
-  } as Style
+  }
 
   if (isButton) {
     style.cursor = 'pointer'
-    style['&:hover'] = {
-      backgroundColor: color(colorProp, 'hover', isLight),
-      cursor: disabled ? 'not-allowed' : 'pointer',
+    style['@media (hover:hover)'] = {
+      '&:hover': {
+        backgroundColor: color(colorProp, 'hover', isLight),
+        cursor: disabled ? 'not-allowed' : 'pointer',
+      },
     }
     style['&:active'] = {
       backgroundColor: color(colorProp, 'active', isLight),

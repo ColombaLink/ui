@@ -1,8 +1,9 @@
-// import { useBasedContext, useSchema as useBasedSchema } from '@based/react'
 import { useClient, useQuery } from '@based/react'
-import { systemFields } from '~/components/Schema/templates/index'
+import { systemFields, FieldSchema } from '~/components/Schema/templates'
 
-export const sortFields = (fields) => {
+// TODO: Export schema & based types
+
+export const sortFields = (fields: FieldSchema[]) => {
   try {
     return Object.keys(fields).sort((a, b) => {
       const indexA = fields[a].meta?.index
@@ -23,12 +24,11 @@ export const sortFields = (fields) => {
       return indexA < indexB ? -1 : 1
     })
   } catch (e) {
-    console.log(e, fields)
     return Object.keys(fields)
   }
 }
 
-const addMeta = (obj, key) => {
+const addMeta = (obj: FieldSchema, key: string) => {
   if (!('meta' in obj)) {
     obj.meta = {}
   }
@@ -37,7 +37,7 @@ const addMeta = (obj, key) => {
   }
 }
 
-const walkField = (obj, key) => {
+const walkField = (obj: FieldSchema, key: string) => {
   addMeta(obj, key)
   const target = obj.items || obj.values || obj
   if (target.properties) {

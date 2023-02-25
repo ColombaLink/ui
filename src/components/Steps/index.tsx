@@ -43,8 +43,7 @@ export const Steps: FC<StepsProps> = ({
             style={{
               alignItems: 'center',
               backgroundColor: isActive
-                ? // @ts-ignore
-                  color(`light${colorProp}:active`)
+                ? color(colorProp, 'active', true)
                 : null,
               borderRadius: 8,
               display: 'flex',
@@ -56,7 +55,7 @@ export const Steps: FC<StepsProps> = ({
             <Text
               color={colorProp}
               style={{
-                backgroundColor: color('accent:contrast'),
+                backgroundColor: color(colorProp, 'contrast'),
                 borderRadius: 13,
                 height: 26,
                 lineHeight: '26px',
