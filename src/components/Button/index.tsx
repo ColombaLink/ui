@@ -16,6 +16,7 @@ import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 import { Space, Key, Icon } from '~/types'
 import { useKeyboardShortcut } from '~/hooks/useKeyboard'
+import { KeyBoardshortcut } from '../KeyBoardShortcut'
 
 export type ButtonProps = {
   children?: ReactNode | ReactNode[]
@@ -90,6 +91,7 @@ export const Button: FC<ButtonProps> = (props) => {
     onPointerDown,
     space,
     keyboardShortcut,
+    displayShortcut,
     style,
     textAlign = 'left',
   } = props
@@ -207,6 +209,9 @@ export const Button: FC<ButtonProps> = (props) => {
           typo={large ? 'subtext600' : 'body500'}
         >
           {children}
+          {displayShortcut && keyboardShortcut ? (
+            <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
+          ) : null}
         </Text>
         {iconRight &&
           renderOrCreateElement(

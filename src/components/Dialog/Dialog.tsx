@@ -181,6 +181,7 @@ const Cancel: FC<
       color="text"
       light
       keyboardShortcut="Esc"
+      displayShortcut
       style={{
         borderColor: color('border'),
         ...style,
