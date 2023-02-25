@@ -2,6 +2,7 @@ import { styled } from 'inlines'
 import React, {
   forwardRef,
   ElementRef,
+  FC,
   ComponentProps,
   ReactNode,
   Fragment,
@@ -12,9 +13,9 @@ import React, {
 import { useDialog } from './useDialog'
 import { Text } from '../Text'
 import { useHotkeys } from '~/hooks'
-import { Button } from '../Button'
+import { Button, ButtonProps } from '../Button'
 import { ScrollArea } from '../ScrollArea'
-import { color } from '~/utils'
+import { color, isTouchDevice } from '~/utils'
 
 const Container = styled('div', {
   width: 632,
@@ -117,7 +118,11 @@ const Buttons = ({ children, border = null }) => {
   )
 }
 
-const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
+const Confirm: FC<
+  Omit<ButtonProps, 'onClick'> & {
+    onConfirm: () => Promise<void> | (() => void)
+  }
+> = ({ children = 'OK', onConfirm, ...props }) => {
   const dialog = useDialog()
 
   const { current: myId } = useRef(dialog._id)
@@ -142,8 +147,12 @@ const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
   )
 }
 
-const Cancel = ({
-  children = 'Cancel (Esc)',
+const Cancel: FC<
+  Omit<ButtonProps, 'onClick'> & {
+    onCancel: () => Promise<void> | (() => void)
+  }
+> = ({
+  children = `Cancel${isTouchDevice() ? '' : 'Esc'}`,
   onCancel = null,
   style = null,
   ...props
@@ -230,7 +239,6 @@ export const Dialog = Object.assign(
           {label && (
             <div
               style={{
-                // borderBottom: `1px solid ${color('border')}`,
                 padding: '24px 32px 8px 32px',
               }}
             >

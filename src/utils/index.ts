@@ -11,3 +11,6 @@ export * from './spaceToPx'
 export * from './setLocation'
 export * from './copyToClipboard'
 export * from './generatePlural'
+export * from './isTouchDevice'
+export * from './isPhone'
+// TODO: export all util files in the same way

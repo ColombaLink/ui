@@ -1,4 +1,5 @@
 import { useRef, useState, MouseEventHandler, TouchEventHandler } from 'react'
+import { isTouchDevice } from '~/utils/isTouchDevice'
 
 type HoverState = {
   hover: boolean
@@ -19,15 +20,6 @@ type HoverState = {
         onMouseUp: MouseEventHandler
         onMouseLeave: MouseEventHandler
       }
-}
-
-function isTouchDevice(): boolean {
-  return (
-    (typeof 'window' !== undefined && 'ontouchstart' in window) ||
-    navigator.maxTouchPoints > 0 ||
-    // @ts-ignore
-    navigator.msMaxTouchPoints > 0
-  )
 }
 
 export const useHover: () => HoverState = isTouchDevice()
