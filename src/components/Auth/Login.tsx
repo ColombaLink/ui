@@ -114,7 +114,7 @@ export const Login: FC<LoginProps> = ({
           height: 48,
         }}
         textAlign="center"
-        actionKeys={['Enter']}
+        keyboardShortcut="Enter"
         disabled={!passwordExpanded ? !isEmail(email) : !valid}
         onClick={
           passwordExpanded

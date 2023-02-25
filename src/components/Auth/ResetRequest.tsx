@@ -44,18 +44,16 @@ export const ResetRequest: FC<ResetRequestProps> = ({
           <Button
             large
             style={{ height: 48 }}
-            actionKeys={['Enter']}
+            keyboardShortcut="Enter"
             fill
             space="16px"
             disabled={!isEmail(email)}
             onClick={async () => {
-              let result: any
               try {
-                result = await client.call('resetRequest', {
+                await client.call('resetRequest', {
                   email,
                   redirectUrl: window.location.href,
                 })
-                // console.log({ result })
               } catch (err) {
                 console.error(err)
               }
@@ -67,7 +65,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
 
           {onCancel ? (
             <Button
-              actionKeys={['Esc']}
+              keyboardShortcut="Esc"
               outline
               onClick={onCancel}
               large
@@ -87,7 +85,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
           <Button
             icon={renderOrCreateElement(CheckIcon)}
             large
-            actionKeys={['Enter']}
+            keyboardShortcut="Enter"
             textAlign="center"
             onClick={async () => {
               if (typeof onSuccess === 'function') onSuccess()

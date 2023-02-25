@@ -13,4 +13,5 @@ export * from './copyToClipboard'
 export * from './generatePlural'
 export * from './isTouchDevice'
 export * from './isPhone'
+export * from './isMac'
 // TODO: export all util files in the same way

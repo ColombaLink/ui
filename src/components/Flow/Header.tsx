@@ -1,12 +1,6 @@
 import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
-import {
-  color,
-  renderOrCreateElement,
-  Text,
-  ExpandIcon,
-  ExpandRightIcon,
-} from '~'
-import { Data, Children, Icon } from '~/types'
+import { color, renderOrCreateElement, Text, ExpandIcon } from '~'
+import { Data, Icon } from '~/types'
 import { EditableTitle } from '~/components/Input/EditableTitle'
 
 export type HeaderProps = {
@@ -18,12 +12,11 @@ export type HeaderProps = {
   label?: string
   noBorderBottom?: boolean
   isHover?: boolean
-  children?: Children<{ items?: Object[]; data?: Data<any> }>
+  children?: FC<{ items?: Object[]; data?: Data<any> }> | ReactNode
   outline?: boolean
   paddingRight?: number
   width?: number | string
   icon?: FunctionComponent<Icon> | ReactNode
-  weight?: 400 | 500 | 600
   paddingLeft?: number
   items?: Object[]
   isExpanded?: boolean
@@ -35,11 +28,9 @@ export const Header: FC<HeaderProps> = ({
   children,
   width,
   outline,
-  icon,
   items,
   data,
   style,
-  weight = 600,
   onEditTitle,
   autoFocusTitle,
   paddingLeft,
@@ -51,7 +42,6 @@ export const Header: FC<HeaderProps> = ({
   onExpand,
   ...props
 }) => {
-  const Icon = onExpand ? <ExpandRightIcon /> : icon ? <ExpandIcon /> : null
   return (
     <div
       style={{

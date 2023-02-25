@@ -12,10 +12,9 @@ import React, {
 } from 'react'
 import { useDialog } from './useDialog'
 import { Text } from '../Text'
-import { useHotkeys } from '~/hooks'
 import { Button, ButtonProps } from '../Button'
 import { ScrollArea } from '../ScrollArea'
-import { color, isTouchDevice } from '~/utils'
+import { color } from '~/utils'
 
 const Container = styled('div', {
   width: 632,
@@ -141,7 +140,13 @@ const Confirm: FC<
       }
 
   return (
-    <Button large onClick={onClick} {...props} actionKeys={['Enter']}>
+    <Button
+      large
+      onClick={onClick}
+      keyboardShortcut="Enter"
+      displayShortcut
+      {...props}
+    >
       {children}
     </Button>
   )
@@ -151,12 +156,7 @@ const Cancel: FC<
   Omit<ButtonProps, 'onClick'> & {
     onCancel?: (() => Promise<void>) | (() => void)
   }
-> = ({
-  children = `Cancel${isTouchDevice() ? '' : 'Esc'}`,
-  onCancel = null,
-  style = null,
-  ...props
-}) => {
+> = ({ children = `Cancel`, onCancel = null, style = null, ...props }) => {
   const dialog = useDialog()
   const { current: myId } = useRef(dialog._id)
 
@@ -173,8 +173,6 @@ const Cancel: FC<
         }
       }
 
-  useHotkeys([['escape', onClick]])
-
   return (
     <Button
       large
@@ -182,6 +180,7 @@ const Cancel: FC<
       outline
       color="text"
       light
+      keyboardShortcut="Esc"
       style={{
         borderColor: color('border'),
         ...style,

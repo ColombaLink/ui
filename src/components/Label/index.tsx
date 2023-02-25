@@ -4,7 +4,7 @@ import { Space, Icon } from '~/types'
 import { renderOrCreateElement } from '~/utils'
 
 type LabelProps = {
-  label?: string
+  label?: ReactNode
   labelColor?: Color
   description?: string
   descriptionColor?: Color

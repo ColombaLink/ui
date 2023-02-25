@@ -223,7 +223,7 @@ export const Input = <T extends InputType>({
   type: T
   onChange?: OnChange<T>
   style?: CSSProperties
-  label?: string
+  label?: ReactNode
   colorInput?: boolean
   pattern?: string
   jsonInput?: boolean
