@@ -131,7 +131,9 @@ export const Select: FC<SelectProps> = ({
   ) : (
     <StyledSelect
       onClick={(e) => {
-        onClick()
+        if (onClick) {
+          onClick()
+        }
         openedRef.current = true
         open(e)
       }}

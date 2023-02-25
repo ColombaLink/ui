@@ -19,6 +19,7 @@ import { color } from '~/utils'
 const Container = styled('div', {
   width: 632,
   maxHeight: 'calc(100vh - 30px)',
+  maxWidth: 'calc(100vw - 30px)',
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 8,
