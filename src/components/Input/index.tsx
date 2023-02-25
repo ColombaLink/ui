@@ -387,7 +387,7 @@ export const Input = <T extends InputType>({
           <Label
             label={label}
             description={description}
-            style={{ marginBottom: 12 }}
+            style={{ marginBottom: 6, marginLeft: 4 }}
           />
           {value !== '' && indent && !jsonInput && (
             <Button

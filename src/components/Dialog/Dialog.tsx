@@ -31,6 +31,12 @@ const ScrollBody = styled('div', {
   paddingTop: '16px',
   paddingLeft: '32px',
   paddingRight: '32px',
+  '--dialogPadding': `32px`,
+  '@media only screen and (max-width: 680px)': {
+    '--dialogPadding': `16px`,
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  },
   paddingBottom: '0px',
   width: '100%',
   '&>:last-child': {
@@ -44,6 +50,9 @@ const StyledButtons = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
+  '@media only screen and (max-width: 680px)': {
+    justifyContent: 'space-between',
+  },
   paddingTop: 'var(--dialogPadding)',
   backgroundColor: color('background2dp'),
   paddingBottom: 'var(--dialogPadding)',
@@ -52,11 +61,15 @@ const StyledButtons = styled('div', {
 const ButtonsWithBorder = styled(StyledButtons, {
   borderTop: `1px solid ${color('border')}`,
   marginTop: 48,
-  paddingTop: 24,
-  paddingLeft: 24,
+  // position: 'relative',
+  paddingLeft: '32px',
+  paddingRight: '32px',
+  '@media only screen and (max-width: 680px)': {
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  },
   borderBottomLeftRadius: 8,
   borderBottomRightRadius: 8,
-  paddingRight: 24,
   marginLeft: 'calc(-1 * var(--dialogPadding))',
   marginRight: 'calc(-1 * var(--dialogPadding))',
 })
@@ -196,16 +209,12 @@ const Cancel: FC<
 export interface DialogProps extends ComponentProps<typeof Container> {
   children?: ReactNode
   label?: string
-  padding?: number
   pure?: boolean
 }
 
 export const Dialog = Object.assign(
   forwardRef<ElementRef<typeof Container>, DialogProps>(
-    (
-      { children, label, padding = 24, style, pure, ...props },
-      forwardedRef
-    ) => {
+    ({ children, label, style, pure, ...props }, forwardedRef) => {
       if (typeof children === 'string') {
         if (!label) {
           label = children
@@ -237,25 +246,22 @@ export const Dialog = Object.assign(
           {...props}
         >
           {label && (
-            <div
+            <styled.div
               style={{
                 padding: '24px 32px 8px 32px',
+                '@media only screen and (max-width: 680px)': {
+                  padding: '24px 16px 8px 16px',
+                },
               }}
             >
               <Text typo="subtitle600">{label}</Text>
-            </div>
+            </styled.div>
           )}
           {pure ? (
             children
           ) : (
             <ScrollArea>
-              <ScrollBody
-                style={{
-                  '--dialogPadding': `${padding}px`,
-                }}
-              >
-                {children}
-              </ScrollBody>
+              <ScrollBody style={{}}>{children}</ScrollBody>
             </ScrollArea>
           )}
         </Container>
