@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
@@ -8,29 +8,15 @@ export const MoreIcon = ({
   style,
   ...props
 }: Icon) => {
-  const [hover, setHover] = useState(false)
   return (
     <svg
-      onMouseEnter={() => {
-        setHover(true)
-      }}
-      onMouseLeave={() => setHover(false)}
-      // onMouseOver={() => setHover(true)}
-      // onMouseOut={() => setHover(false)}
       width={size}
       height={size}
       viewBox="0 0 20 20"
       {...props}
       style={{
         boxSizing: 'border-box',
-        backgroundColor: hover ? color('background2') : '',
-        border: hover
-          ? `2px solid  ${color('background2')}`
-          : '2px solid transparent',
-        // outline: hover ? `3px solid  ${color('background2')}` : '',
         borderRadius: '2px',
-        // transform: 'translateZ(0)',
-        // WebkitBorderRadius: '10%',
         ...style,
       }}
     >
