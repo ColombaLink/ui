@@ -108,9 +108,7 @@ export const useInfiniteScroll = ({
     treshold,
   ])
 
-  const {
-    data: { itemCount },
-  } = useQuery('db', {
+  const { data } = useQuery('db', {
     $id: target as string,
     $language: language,
     itemCount: {
@@ -120,6 +118,8 @@ export const useInfiniteScroll = ({
       },
     },
   })
+
+  const itemCount = data?.itemCount
 
   return {
     loading: !itemCount || !current.items.length,

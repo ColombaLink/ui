@@ -123,14 +123,18 @@ const Header = ({ label, view, prefix }) => {
         <Text weight={700} size="22px" style={{ lineHeight: '32px' }}>
           {currentView?.label}
         </Text>
-        <div style={{ padding: '0 16px' }}>
-          <MoreIcon
-            onClick={useContextMenu(Menu, { views, currentView, deletable })}
-            style={{
-              cursor: 'pointer',
-            }}
-          />
-        </div>
+        <Button
+          color="text"
+          ghost
+          icon={
+            <MoreIcon
+              onClick={useContextMenu(Menu, { views, currentView, deletable })}
+              style={{
+                cursor: 'pointer',
+              }}
+            />
+          }
+        />
       </div>
 
       {/* old buttons place */}
