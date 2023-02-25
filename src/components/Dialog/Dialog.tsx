@@ -61,7 +61,6 @@ const StyledButtons = styled('div', {
 const ButtonsWithBorder = styled(StyledButtons, {
   borderTop: `1px solid ${color('border')}`,
   marginTop: 48,
-  // position: 'relative',
   paddingLeft: '32px',
   paddingRight: '32px',
   '@media only screen and (max-width: 680px)': {
@@ -260,8 +259,8 @@ export const Dialog = Object.assign(
           {pure ? (
             children
           ) : (
-            <ScrollArea>
-              <ScrollBody style={{}}>{children}</ScrollBody>
+            <ScrollArea style={{ overflow: go ? null : 'hidden' }}>
+              <ScrollBody>{children}</ScrollBody>
             </ScrollArea>
           )}
         </Container>
