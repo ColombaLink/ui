@@ -106,7 +106,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     dialog._id = null
 
-    const prompt = (type, props, children) => {
+    const prompt = (type, props, children): Promise<any | false> => {
       return new Promise((resolve) => {
         if (typeof props === 'string') {
           props = {
@@ -129,8 +129,8 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     dialog.open = dialog
 
-    dialog.close = (id) => {
-      if (typeof id === 'number') {
+    dialog.close = (id?: number) => {
+      if (id) {
         const index = dialogsRef.current.findIndex(
           ({ id: dialogId }) => dialogId === id
         )

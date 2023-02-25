@@ -31,7 +31,6 @@
     "react-dom": "17||18"
   },
   "dependencies": {
-    "@based/get-service": "^2.4.3",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.0.3",
     "@based/react": "^4.2.0",
@@ -41,8 +40,8 @@
     "@dnd-kit/sortable": "^7.0.1",
     "@dnd-kit/utilities": "^3.2.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
-    "@saulx/hash": "^1.1.0",
-    "@saulx/utils": "^3.0.0",
+    "@saulx/hash": "^2.0.0",
+    "@saulx/utils": "^3.2.1",
     "@saulx/validators": "^1.2.0",
     "countries-list": "^2.6.1",
     "crypto-js": "^4.1.1",
