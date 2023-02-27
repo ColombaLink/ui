@@ -2,6 +2,11 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Text, Select, color, CloseCircleIcon, removeAllOverlays } from '~'
 import { styled } from 'inlines'
 
+// TODO: Onclick altijd focus op filter typ veld.
+// TODO: CLick on middle en dan tab should move to next
+// TODO: Mag nooit leeg zijn of iets wat niet bestaat.
+// TODO: auto hover focus on eerste resultaat en submit met enter
+
 // move this
 const compareOperators = ['=', '!=', '>', '<', '>=', '<=', 'includes', 'has']
 
@@ -14,7 +19,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   const controller = new AbortController()
 
   useEffect(() => {
-    console.log('flappe')
     if (pillIsSelected) {
       setIsFocus(true)
       document.addEventListener('keydown', (e) => onKeyHandler(e), {
@@ -24,7 +28,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
       setIsFocus(false)
       controller.abort()
     }
-    //  TODO else remove event listener??
   }, [pillIsSelected])
 
   useEffect(() => {
@@ -40,13 +43,11 @@ export const FirstFilterPill = ({ setIsFocus }) => {
       cnt++
       if (cnt === 1) {
         removeAllOverlays()
-        console.log('tab was pressed ')
-        console.log('cnt  ===> 👻', cnt)
+        console.log('TAB cnt  ===> 👻', cnt)
         inputRef.current.nextElementSibling.childNodes[1].childNodes[0].click()
       }
       if (cnt === 2) {
         removeAllOverlays()
-        console.log('DOSS', cnt)
         inputRef.current.nextElementSibling.childNodes[2].childNodes[0].click()
       }
       if (cnt === 3) {
@@ -54,16 +55,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
         setPillIsSelected(false)
         setIsFocus(false)
         cnt = 0
-        //   document.removeEventListener('keydown', onKeyHandler)
         controller.abort()
-
-        // inputRef.current.focus()
       }
       console.log('Count', cnt)
     }
 
     if (e.key === 'Backspace' && pillIsSelected) {
-      console.log('Op je Bek Space')
       deletePill()
     }
 
@@ -75,7 +72,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
   }
 
   const deletePill = () => {
-    console.log('delete this')
     setPillIsSelected(false)
     setPillInputValue('')
   }
@@ -87,7 +83,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
         value={pillInputValue}
         onChange={(e) => setPillInputValue(e.target.value)}
         style={{ border: '1px solid green', position: 'absolute', top: 20 }}
-        //  onKeyDown={(e) => onKeyHandler(e)}
       />
       <div style={{ display: 'flex', position: 'relative' }}>
         {pillInputValue.split(' ').map((item, idx) => (
@@ -118,8 +113,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
               inputRef.current.focus()
               setIsFocus(true)
               setPillIsSelected(true)
-
-              //   onClickHandler(e, idx)
             }}
           >
             {idx === 0 && <Text color="text2">{item}</Text>}
@@ -136,8 +129,6 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                   '& svg': { display: 'none' },
                 }}
                 onChange={(e: string) => {
-                  // document.getElementById(`selectid-${index}`).childNodes[0].value =
-                  //   inputValue.split(' ')[index]
                   console.log('Change --> ', e)
                   const temp = pillInputValue.split(' ')
                   temp[idx] = e
@@ -153,10 +144,7 @@ export const FirstFilterPill = ({ setIsFocus }) => {
                 }
                 placeholder=""
                 onClick={() => {
-                  console.log('naniniiinin')
-                  //   inputRef.current.focus()
                   setIsFocus(true)
-                  //  setPillIsSelected(true)
                 }}
               />
             )}
