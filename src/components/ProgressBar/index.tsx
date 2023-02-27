@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { FC } from 'react'
 
-export type ProgressBarProps = {
-  progress: number
+type ProgressBarProps = {
+  progress?: number
   circle?: boolean
 }
 
-export const ProgressBar = ({ progress, circle }: ProgressBarProps) => {
+export const ProgressBar: FC<ProgressBarProps> = ({
+  progress,
+  circle,
+}: ProgressBarProps) => {
   const barProg = progress * 100
 
   return (

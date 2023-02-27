@@ -83,3 +83,4 @@ export * from './ValueSliders'
 export * from './Router'
 
 export * from './KylesPlayground'
+export * from './ProgressIndicators'

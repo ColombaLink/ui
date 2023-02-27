@@ -15,10 +15,6 @@ import ComponentViewer from '../ComponentViewer'
 //       <div>I am a drawer</div>
 //     </Drawer>`
 
-const children = () => {
-  return <div>asdasldkasjd</div>
-}
-
 export const Drawers = () => {
   return (
     <div>
