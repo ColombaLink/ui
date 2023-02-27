@@ -31,7 +31,7 @@ export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
   const { schema, loading: loadingSchema } = useSchema()
-  const { data: viewData, loading } = useQuery('basedObserveViews')
+  const { data: viewData, loading } = useQuery('based:observe-views')
   const views = viewData || {}
 
   if (!loading && !loadingSchema) {

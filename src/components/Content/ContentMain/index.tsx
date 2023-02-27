@@ -99,7 +99,7 @@ const Header = ({ label, view, prefix }) => {
 
   // const { confirm, prompt } = useDialog()
   // const client = useClient()
-  const { data: views } = useQuery('basedObserveViews')
+  const { data: views } = useQuery('based:observe-views')
   let currentView, deletable
 
   const parse = () => {
@@ -161,7 +161,7 @@ export const ContentMain = ({
 
   const [isMultiref, setIsMultiref] = useState(false)
 
-  const { data: views } = useQuery('basedObserveViews')
+  const { data: views } = useQuery('based:observe-views')
   let currentView
 
   const parse = () => {
