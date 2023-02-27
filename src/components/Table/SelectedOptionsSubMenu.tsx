@@ -40,10 +40,11 @@ export const SelectedOptionsSubMenu = ({
         color="lightaction"
         outline
         style={{
-          // @ts-ignore
-          '&:hover': {
-            backgroundColor: color('lightaction:hover'),
-            boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+          '@media (hover: hover)': {
+            '&:hover': {
+              backgroundColor: color('lightaction:hover'),
+              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            },
           },
         }}
       >
@@ -58,10 +59,11 @@ export const SelectedOptionsSubMenu = ({
           color="lightaction"
           outline
           style={{
-            // @ts-ignore
-            '&:hover': {
-              backgroundColor: color('lightaction:hover'),
-              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            '@media (hover: hover)': {
+              '&:hover': {
+                backgroundColor: color('lightaction:hover'),
+                boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+              },
             },
           }}
         >
@@ -71,16 +73,16 @@ export const SelectedOptionsSubMenu = ({
       {shownItems.length > 0 && (
         <Button
           onClick={() => {
-            console.log('ckikc')
             showAllItemsAgain()
           }}
           color="lightaction"
           outline
           style={{
-            // @ts-ignore
-            '&:hover': {
-              backgroundColor: color('lightaction:hover'),
-              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            '@media (hover: hover)': {
+              '&:hover': {
+                backgroundColor: color('lightaction:hover'),
+                boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+              },
             },
           }}
         >

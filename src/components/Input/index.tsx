@@ -223,7 +223,7 @@ export const Input = <T extends InputType>({
   type: T
   onChange?: OnChange<T>
   style?: CSSProperties
-  label?: string
+  label?: ReactNode
   colorInput?: boolean
   pattern?: string
   jsonInput?: boolean
@@ -387,7 +387,7 @@ export const Input = <T extends InputType>({
           <Label
             label={label}
             description={description}
-            style={{ marginBottom: 12 }}
+            style={{ marginBottom: 6, marginLeft: 4 }}
           />
           {value !== '' && indent && !jsonInput && (
             <Button
@@ -551,8 +551,10 @@ export const Input = <T extends InputType>({
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 10,
-                  '&:hover': {
-                    backgroundColor: color('border'),
+                  '@media (hover: hover)': {
+                    '&:hover': {
+                      backgroundColor: color('border'),
+                    },
                   },
                 }}
                 onClick={() => {
@@ -570,8 +572,10 @@ export const Input = <T extends InputType>({
                   justifyContent: 'center',
                   alignItems: 'center',
                   height: 10,
-                  '&:hover': {
-                    backgroundColor: color('border'),
+                  '@media (hover: hover)': {
+                    '&:hover': {
+                      backgroundColor: color('border'),
+                    },
                   },
                 }}
                 onClick={() => {

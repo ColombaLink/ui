@@ -24,8 +24,10 @@ export const SuggestionTag = ({
         borderRadius: 4,
         width: 'fit-content',
         cursor: 'pointer',
-        '&:hover': {
-          backgroundColor: color('background2'),
+        '@media (hover: hover)': {
+          '&:hover': {
+            backgroundColor: color('background2'),
+          },
         },
       }}
       onClick={onClick}

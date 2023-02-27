@@ -18,7 +18,7 @@ type MenuHeaderProps = {
 }
 
 type MenuItemProps = {
-  children?: ReactNode
+  children?: ReactNode | FC
   style?: CSSProperties
   href?: string
   isActive?: boolean
@@ -79,12 +79,14 @@ export const MenuItem: FC<MenuItemProps> = ({
           margin: '-4px -4px -4px -2px',
           borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
-          '&:hover': !isActive
-            ? {
-                backgroundColor: color('background:hover'),
-                color: `${color('text')} !important`,
-              }
-            : null,
+          '@media (hover: hover)': {
+            '&:hover': !isActive
+              ? {
+                  backgroundColor: color('background:hover'),
+                  color: `${color('text')} !important`,
+                }
+              : null,
+          },
         }}
       >
         {typeof children === 'function' ? children({ isActive }) : children}

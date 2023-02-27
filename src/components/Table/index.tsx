@@ -153,7 +153,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
             e.stopPropagation()
             setDraggingOver(true)
           }}
-          onDragLeave={(e) => {
+          onDragLeave={() => {
             setDraggingOver(false)
           }}
           style={{

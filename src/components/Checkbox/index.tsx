@@ -68,8 +68,10 @@ export const Checkbox: FC<CheckboxProps> = ({
           height: small ? 18 : 22,
           width: small ? 18 : 22,
           marginRight: 12,
-          '&:hover': {
-            border: 'rgba(44,60,234,0.2) solid 2px',
+          '@media (hover: hover)': {
+            '&:hover': {
+              border: 'rgba(44,60,234,0.2) solid 2px',
+            },
           },
         }}
       >

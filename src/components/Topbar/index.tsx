@@ -7,7 +7,7 @@ import { Avatar } from '../Avatar'
 import { Input } from '../Input'
 import { Link } from '../Link'
 import { Logo } from '../Logo'
-import { useData, useAuth } from '@based/react'
+import { useQuery, useAuthState } from '@based/react'
 import { stringToIcon } from '~/utils/stringToIcon'
 import { Text } from '../Text'
 
@@ -73,10 +73,10 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
 }
 
 const Profile = ({ onProfile }) => {
-  const user = useAuth()
+  const user = useAuthState()
   const {
     data: { email },
-  } = useData(
+  } = useQuery(
     // @ts-ignore
     user
       ? {
@@ -164,20 +164,21 @@ export const Topbar: FC<TopbarProps> = ({
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {logo}
-          {breadcrumbs}
-          <div
-            style={{
-              display: 'flex',
-              gap: icons ? 12 : 0,
-            }}
-          >
-            {elements}
-
-            {children ? (
-              <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
-            ) : null}
-          </div>
+          <>
+            {logo}
+            {breadcrumbs}
+            <div
+              style={{
+                display: 'flex',
+                gap: icons ? 12 : 0,
+              }}
+            >
+              {elements}
+              {children ? (
+                <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
+              ) : null}
+            </div>
+          </>
         </div>
       </div>
 

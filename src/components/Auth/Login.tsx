@@ -114,11 +114,12 @@ export const Login: FC<LoginProps> = ({
           height: 48,
         }}
         textAlign="center"
-        actionKeys={['Enter']}
+        keyboardShortcut="Enter"
         disabled={!passwordExpanded ? !isEmail(email) : !valid}
         onClick={
           passwordExpanded
             ? async () => {
+                // @ts-ignore
                 const result = await client.login({
                   email,
                   password,
@@ -151,8 +152,10 @@ export const Login: FC<LoginProps> = ({
             style={{
               color: color('accent'),
               cursor: 'pointer',
-              '&:hover': {
-                color: color('accent:hover'),
+              '@media (hover: hover)': {
+                '&:hover': {
+                  color: color('accent:hover'),
+                },
               },
             }}
             onClick={() => {
@@ -171,8 +174,10 @@ export const Login: FC<LoginProps> = ({
             style={{
               color: color('accent'),
               cursor: 'pointer',
-              '&:hover': {
-                color: color('accent:hover'),
+              '@media (hover: hover)': {
+                '&:hover': {
+                  color: color('accent:hover'),
+                },
               },
             }}
             onClick={() => {

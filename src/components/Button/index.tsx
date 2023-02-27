@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
 import React, {
-  CSSProperties,
   FC,
   MouseEventHandler,
   ReactNode,
@@ -9,16 +8,18 @@ import React, {
   useEffect,
   useRef,
   FunctionComponent,
+  MouseEvent,
 } from 'react'
 import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
 import { styled, Style } from 'inlines'
 import { LoadingIcon } from '~/icons'
 import { Text } from '../Text'
 import { Space, Key, Icon } from '~/types'
-import { useKeyUp } from '~'
+import { useKeyboardShortcut } from '~/hooks/useKeyboard'
+import { KeyBoardshortcut } from '../KeyBoardShortcut'
 
 export type ButtonProps = {
-  children?: ReactNode
+  children?: ReactNode | ReactNode[]
   disabled?: boolean
   color?: Color
   ghost?: boolean
@@ -28,33 +29,47 @@ export type ButtonProps = {
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
   loading?: boolean
-  onClick?: MouseEventHandler | boolean | (() => void)
+  onClick?:
+    | MouseEventHandler
+    | (() => void)
+    | ((e: MouseEvent) => Promise<void>)
+    | (() => Promise<void>)
   onPointerDown?: MouseEventHandler
   outline?: boolean
-  style?: CSSProperties
+  style?: Style
   space?: Space
   textAlign?: 'center' | 'right' | 'left'
-  actionKeys?: Key[]
-  //  weight?: Weight
+  /** 
+   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
+  
+   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`
+   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`
+  */
+  keyboardShortcut?: Key
+  /** Parses action keys string and displays it if not on a touchdevice
+   */
+  displayShortcut?: boolean
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
   const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
 
   const isLight = light || ghost || outline
-  const style = {
+  const style: Style = {
     transition: 'width 0.15s, transform 0.1s, opacity 0.15s',
     backgroundColor: ghost || outline ? null : color(colorProp, null, isLight),
     color: color(colorProp, 'contrast', isLight),
     border: border(outline && 1, colorProp, 'border', light),
     opacity: disabled ? 0.6 : 1,
-  } as Style
+  }
 
   if (isButton) {
     style.cursor = 'pointer'
-    style['&:hover'] = {
-      backgroundColor: color(colorProp, 'hover', isLight),
-      cursor: disabled ? 'not-allowed' : 'pointer',
+    style['@media (hover:hover)'] = {
+      '&:hover': {
+        backgroundColor: color(colorProp, 'hover', isLight),
+        cursor: disabled ? 'not-allowed' : 'pointer',
+      },
     }
     style['&:active'] = {
       backgroundColor: color(colorProp, 'active', isLight),
@@ -66,7 +81,6 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
 
 export const Button: FC<ButtonProps> = (props) => {
   let {
-    actionKeys,
     children,
     fill,
     icon,
@@ -76,8 +90,9 @@ export const Button: FC<ButtonProps> = (props) => {
     onClick,
     onPointerDown,
     space,
+    keyboardShortcut,
+    displayShortcut,
     style,
-    //   weight,
     textAlign = 'left',
   } = props
 
@@ -95,7 +110,6 @@ export const Button: FC<ButtonProps> = (props) => {
         }
       }, 100)
       try {
-        // @ts-ignore
         await onClick?.(e)
       } catch (e) {
         console.error(`Error from async click "${e.message}"`)
@@ -114,7 +128,7 @@ export const Button: FC<ButtonProps> = (props) => {
     [onClick]
   )
 
-  if (actionKeys) {
+  if (keyboardShortcut) {
     const timeRef = useRef<any>()
     useEffect(() => {
       return () => {
@@ -127,7 +141,7 @@ export const Button: FC<ButtonProps> = (props) => {
       },
       [extendedOnClick, timeRef]
     )
-    useKeyUp(onKeyUp, buttonElem, actionKeys)
+    useKeyboardShortcut(keyboardShortcut, onKeyUp, buttonElem)
   }
 
   if (isLoading) {
@@ -195,6 +209,9 @@ export const Button: FC<ButtonProps> = (props) => {
           typo={large ? 'subtext600' : 'body500'}
         >
           {children}
+          {displayShortcut && keyboardShortcut ? (
+            <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />
+          ) : null}
         </Text>
         {iconRight &&
           renderOrCreateElement(

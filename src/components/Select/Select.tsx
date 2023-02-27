@@ -1,8 +1,8 @@
-import React, { FC, useEffect, ReactNode, CSSProperties, useRef } from 'react'
+import React, { FC, useEffect, ReactNode, useRef } from 'react'
 import { useSelect } from '~/hooks/useSelect'
 import { Value, Option } from '~/components/ContextMenu'
 import { Text } from '~/components/Text'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { PositionProps } from '../Overlay'
 import { Color } from '~/types'
 import { ChevronDownIcon } from '~/icons'
@@ -25,8 +25,10 @@ export const StyledSelect = styled('div', {
   overflow: 'hidden',
   display: 'flex',
   width: '100%',
-  '&:hover': {
-    border: `1px solid ${color('border:hover')}`,
+  '@media (hover: hover)': {
+    '&:hover': {
+      border: `1px solid ${color('border:hover')}`,
+    },
   },
 })
 
@@ -40,7 +42,7 @@ export type SelectProps = {
   label?: string
   name?: string
   color?: Color
-  style?: CSSProperties
+  style?: Style
   id?: string
   ghost?: boolean
   onClick?: () => void
@@ -111,7 +113,6 @@ export const Select: FC<SelectProps> = ({
       backgroundColor: null,
       border: null,
       padding: 0,
-      // @ts-ignore
       '&:hover': null,
     }
   }
@@ -130,7 +131,9 @@ export const Select: FC<SelectProps> = ({
   ) : (
     <StyledSelect
       onClick={(e) => {
-        onClick()
+        if (onClick) {
+          onClick()
+        }
         openedRef.current = true
         open(e)
       }}

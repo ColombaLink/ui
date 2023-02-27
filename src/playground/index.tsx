@@ -14,14 +14,19 @@ import {
   color,
   useLocation,
 } from '../'
-import based from '@based/client'
+import { BasedClient } from '@based/client'
 import * as stories from './stories'
 import { toPascalCase } from './utils'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import basedConfig from './based.json'
 
-export const client = based(basedConfig)
+export const client = new BasedClient({
+  project: 'YOUZI',
+  url: 'ws://localhost:8297',
+})
+
+console.log('??', client.opts)
 
 const Stories: FC = () => {
   useLocation()

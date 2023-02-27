@@ -204,10 +204,11 @@ export const Register: FC<RegisterProps> = ({
         textAlign="center"
         large
         style={{ height: 48 }}
-        actionKeys={['Enter']}
+        keyboardShortcut="Enter"
         onClick={async () => {
           setWaitingForEmailConfirmation(true)
           try {
+            // @ts-ignore
             const result = await client.register({
               email,
               password,

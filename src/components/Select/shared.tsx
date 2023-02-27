@@ -21,8 +21,10 @@ export const StyledSelect = styled('div', {
   overflow: 'hidden',
   display: 'flex',
   width: '100%',
-  '&:hover': {
-    border: `1px solid ${color('border:hover')}`,
+  '@media (hover: hover)': {
+    '&:hover': {
+      border: `1px solid ${color('border:hover')}`,
+    },
   },
 })
 export const SelectLabel: FC<{
@@ -46,8 +48,10 @@ export const SelectLabel: FC<{
         overflow: 'hidden',
         display: 'flex',
         width: '100%',
-        '&:hover': {
-          border: `1px solid ${color('border:hover')}`,
+        '@media (hover: hover)': {
+          '&:hover': {
+            border: `1px solid ${color('border:hover')}`,
+          },
         },
         ...style,
       }}

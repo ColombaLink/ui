@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useRef, ReactNode } from 'react'
+import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
 import { Dialog } from './Dialog'
 import { Input } from '../Input'
 import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
 import { color } from '~/utils'
+import { Style } from 'inlines'
 
-const Prompt = ({
-  type = 'prompt',
-  onCancel,
-  onConfirm,
-  style,
-  children,
-  ...props
-}) => {
+const Prompt: FC<{
+  type?: 'prompt' | 'alert'
+  onCancel?: () => Promise<void> | (() => void)
+  onConfirm?: ((val?: any) => Promise<void>) | ((val?: any) => void)
+  style?: Style
+  children?: ReactNode
+}> = ({ type = 'prompt', onCancel, onConfirm, style, children, ...props }) => {
   const value = useRef<string | number>()
   const isPrompt = type === 'prompt'
   const isAlert = type === 'alert'
-
   return (
     <Dialog
       {...props}
@@ -106,7 +105,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     dialog._id = null
 
-    const prompt = (type, props, children) => {
+    const prompt = (type, props, children): Promise<any | false> => {
       return new Promise((resolve) => {
         if (typeof props === 'string') {
           props = {
@@ -129,8 +128,8 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     dialog.open = dialog
 
-    dialog.close = (id) => {
-      if (typeof id === 'number') {
+    dialog.close = (id?: number) => {
+      if (id) {
         const index = dialogsRef.current.findIndex(
           ({ id: dialogId }) => dialogId === id
         )

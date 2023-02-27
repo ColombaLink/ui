@@ -37,9 +37,11 @@ const StyledMoreIcon = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': {
-    cursor: 'pointer',
-    background: color('background2'),
+  '@media (hover: hover)': {
+    '&:hover': {
+      cursor: 'pointer',
+      background: color('background2'),
+    },
   },
 })
 

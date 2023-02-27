@@ -57,8 +57,10 @@ const TabWrapper: FC<{
           index === activeTabState
             ? `3px solid ${color('text')}`
             : '3px solid transparent',
-        '&:hover': {
-          color: index !== activeTabState && color('text'),
+        '@media (hover: hover)': {
+          '&:hover': {
+            color: index !== activeTabState && color('text'),
+          },
         },
       }}
       onClick={() => {

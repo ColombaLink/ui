@@ -585,7 +585,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "space": {
           "optional": true,
@@ -612,7 +612,7 @@
           }
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: CSSProperties\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n  //  weight?: Weight\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -700,7 +700,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "topLeft": {
           "optional": true,
@@ -737,7 +737,7 @@
           "type": "function"
         }
       },
-      "code": "type CardProps = {\n  label?: string\n  description?: string\n  space?: Space\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n  onClick?: () => void\n}",
+      "code": "type CardProps = {\n  label?: string\n  description?: string\n  space?: Space\n  style?: Style\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n  onClick?: () => void\n}",
       "file": "/components/Card/index.tsx"
     },
     "CheckboxProps": {
@@ -1172,14 +1172,20 @@
         },
         "fromValue": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
         },
         "tillValue": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "number"
+          ]
         }
       },
-      "code": "type DateRangeInputProps = {\n  // value?: string\n  // dateHandler?: (value: string) => void\n  // setFocused?: (value: boolean) => void\n  // setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string\n  tillValue?: string\n}",
+      "code": "type DateRangeInputProps = {\n  // value?: string\n  // dateHandler?: (value: string) => void\n  // setFocused?: (value: boolean) => void\n  // setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string | number\n  tillValue?: string | number\n}",
       "file": "/components/DateTimePicker/DateRangeInput.tsx"
     },
     "DateTimePickerProps": {
@@ -2536,7 +2542,7 @@
         },
         "client": {
           "optional": true,
-          "type": "Based"
+          "type": "BasedClient"
         },
         "theme": {
           "optional": true,
@@ -2562,7 +2568,7 @@
           "type": "string"
         }
       },
-      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: Based\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
+      "code": "type ProviderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  client?: BasedClient\n  theme?: 'light' | 'dark'\n  themes?: {\n    base?: object\n    dark?: object\n  }\n  fill?: boolean\n  path?: string\n}",
       "file": "/components/Provider/index.tsx"
     },
     "FilterPillProps": {
@@ -3118,7 +3124,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "values": {
           "optional": true,
@@ -3131,7 +3137,7 @@
           "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: CSSProperties\n  values?: Value[]\n  ghost?: boolean\n}",
+      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: Style\n  values?: Value[]\n  ghost?: boolean\n}",
       "file": "/components/Select/MultiSelect.tsx"
     },
     "SelectProps": {
@@ -3181,7 +3187,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "id": {
           "optional": true,
@@ -3190,9 +3196,13 @@
         "ghost": {
           "optional": true,
           "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  name?: string\n  color?: Color\n  style?: CSSProperties\n  id?: string\n  ghost?: boolean\n}",
+      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: string\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n}",
       "file": "/components/Select/Select.tsx"
     },
     "SeparatorProps": {

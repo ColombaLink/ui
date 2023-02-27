@@ -3,7 +3,7 @@ import { Button } from '~/components/Button'
 import { SingleRecordListItem } from './SingleRecordListItem'
 import { addSingleRecordItem } from './AddSingleRecordItem'
 import { useDialog } from '~/components/Dialog'
-import { useData } from '@based/react'
+import { useQuery } from '@based/react'
 import { AddIcon } from '~/icons'
 
 type RecordPageProps = {
@@ -32,7 +32,6 @@ export const RecordPage = ({
 
   // for record fields
   const { open } = useDialog()
-
   const targetId = id.split('.')[0]
   const field = id.split('.').pop()
 
@@ -41,7 +40,7 @@ export const RecordPage = ({
     [field]: true,
   }
 
-  const { data } = useData(targetId ? query : null)
+  const { data } = useQuery(targetId ? 'db' : null, query)
 
   useEffect(() => {
     setTempObj(data?.[field])

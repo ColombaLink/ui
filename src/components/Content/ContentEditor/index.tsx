@@ -1,4 +1,4 @@
-import { useData } from '@based/react'
+import { useQuery } from '@based/react'
 import React, { useRef } from 'react'
 import { useSchemaTypes, LoadingIcon } from '~'
 import { alwaysIgnore } from '~/components/Schema/templates'
@@ -44,7 +44,7 @@ const ContentField = ({
     ? { [language]: true }
     : true
 
-  const { data, loading } = useData(targetId ? query : null)
+  const { data, loading } = useQuery(targetId ? 'db' : null, query)
 
   if (!loading) {
     dataRef.current = path.reduce((data, field) => data[field] || {}, data)

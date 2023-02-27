@@ -1,5 +1,5 @@
-import { useClient, useData } from '@based/react'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { useClient, useQuery } from '@based/react'
+import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -56,7 +56,10 @@ const Topbar = ({ id, type }) => {
   )
 }
 
-const SideHeader: FC<{ title: string }> = ({ title, children }) => {
+const SideHeader: FC<{ title: string; children?: ReactNode }> = ({
+  title,
+  children,
+}) => {
   return (
     <div
       style={{
@@ -77,7 +80,7 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
 const LastSaved = ({ id }) => {
   const {
     data: { updatedAt },
-  } = useData({
+  } = useQuery('db', {
     $id: id,
     updatedAt: true,
   })
@@ -157,6 +160,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
       ) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
+          // @ts-ignore
           await client.set({
             $id: id?.split('.')[0] || undefined,
             type,
@@ -312,8 +316,10 @@ const ContentModalInner = ({ prefix, id, field }) => {
                 marginLeft: 'auto',
                 borderRadius: 16,
                 backgroundColor: color('lighttext'),
-                '&:hover': {
-                  backgroundColor: color('lighttext:hover'),
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('lighttext:hover'),
+                  },
                 },
               }}
               onClick={onClose}
@@ -328,6 +334,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
+                // @ts-ignore
                 await client.set({
                   $id: id?.split('.')[0] || undefined,
                   type,

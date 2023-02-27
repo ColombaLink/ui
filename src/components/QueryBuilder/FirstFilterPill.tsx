@@ -102,10 +102,12 @@ export const FirstFilterPill = ({ setIsFocus }) => {
               borderRight: `1px solid ${color('border')}`,
               position: 'relative',
               cursor: 'text',
-              '&:hover': {
-                backgroundColor: pillIsSelected
-                  ? 'rgba(44, 60, 234, 0.08)'
-                  : color('lightgrey:hover'),
+              '@media (hover: hover)': {
+                '&:hover': {
+                  backgroundColor: pillIsSelected
+                    ? 'rgba(44, 60, 234, 0.08)'
+                    : color('lightgrey:hover'),
+                },
               },
             }}
             key={idx}

@@ -132,10 +132,12 @@ export const ContextOptionItem = ({
         inset={!noInset}
         tabIndex={tabIndex}
         style={{
-          backgroundColor:
-            isSelected === 1 ? color('lightbackground2:contrast') : null,
-          '&:active': {
-            backgroundColor: color('lightbackground2:contrast'),
+          '@media (hover:hover)': {
+            backgroundColor:
+              isSelected === 1 ? color('lightbackground2:contrast') : null,
+            '&:active': {
+              backgroundColor: color('lightbackground2:contrast'),
+            },
           },
         }}
         icon={option.icon || (!noInset && selected ? CheckIcon : null)}

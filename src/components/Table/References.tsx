@@ -4,8 +4,6 @@ import { Text } from '~'
 
 // multiple refs display
 export const References = ({ value }) => {
-  ///  console.log('ref', value)
-
   return value.length > 0 ? (
     <div
       style={{
@@ -13,9 +11,6 @@ export const References = ({ value }) => {
         left: 6,
         display: 'flex',
       }}
-      // onClick={() => {
-      //   console.log('Clicked a multiRef field 🔫', value)
-      // }}
     >
       <div style={{ minWidth: 32, display: 'flex' }}>
         <LinkIcon
@@ -26,11 +21,6 @@ export const References = ({ value }) => {
         />
         <Text color="accent">{value.length}</Text>
       </div>
-      {/* {value.slice(0, 3).map((ref, idx) => (
-          <Badge style={{ marginLeft: 6 }} key={idx}>
-            {ref}
-          </Badge>
-        ))} */}
     </div>
   ) : null
 }
