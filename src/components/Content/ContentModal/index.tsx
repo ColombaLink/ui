@@ -160,8 +160,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
       ) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
-          // @ts-ignore
-          await client.set({
+          await client.call('db:set', {
             $id: id?.split('.')[0] || undefined,
             type,
             ...changes,
@@ -334,8 +333,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
-                // @ts-ignore
-                await client.set({
+                await client.call('db:set', {
                   $id: id?.split('.')[0] || undefined,
                   type,
                   ...changes,

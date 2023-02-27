@@ -18,6 +18,8 @@ export const useDescriptor = (id) => {
     ? getDescriptors(schema.fields, schema.meta)
     : []
 
+  console.info(schema.fields, id)
+
   const { data, loading } = useQuery(schema.fields ? 'db' : null, {
     $id: id,
     $language: language,
@@ -28,7 +30,7 @@ export const useDescriptor = (id) => {
 
   return {
     ...schema,
-    descriptor: data.descriptor || '',
+    descriptor: data?.descriptor || '',
     loading: schema.loading || loading,
     descriptorFields,
   }
