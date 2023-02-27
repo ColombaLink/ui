@@ -1,4 +1,4 @@
-import { useClient, useQuery } from '@based/react'
+import { useQuery } from '@based/react'
 import { systemFields, FieldSchema } from '~/components/Schema/templates'
 
 // TODO: Export schema & based types
@@ -69,19 +69,11 @@ const walkType = (obj, key) => {
 
 export const useSchema = (db = 'default') => {
   const { data, loading } = useQuery('db:schema', { db })
-  console.log('schema', db, loading, data, useClient())
   if (!loading) {
-    // if (!('_buiSha' in ctx)) {
-    //   ctx._buiSha = {}
-    // }
-    // if (res.schema.sha !== ctx._buiSha[db]) {
-    //   ctx._buiSha[db] = res.schema.sha
-
     walkType(data.rootType, 'root')
     for (const key in data.types) {
       walkType(data.types[key], key)
     }
-    // }
   }
 
   return { loading, schema: data || {} }
