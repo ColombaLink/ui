@@ -71,7 +71,12 @@ export const MenuItem: FC<SystemMenuItemProps> = ({
           },
         }}
       >
-        {typeof children === 'function' ? children({ isActive }) : children}
+        {typeof children === 'function'
+          ? children({
+              // @ts-ignore
+              isActive,
+            })
+          : children}
       </Link>
     </Text>
   )

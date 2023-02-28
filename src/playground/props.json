@@ -122,7 +122,7 @@
           "optional": true,
           "type": [
             "boolean",
-            "ReactChild"
+            "ReactNode"
           ]
         },
         "overlay": {
@@ -148,9 +148,13 @@
         "githubClientId": {
           "optional": true,
           "type": "string"
+        },
+        "children": {
+          "optional": true,
+          "type": "ReactNode"
         }
       },
-      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactChild\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n}",
+      "code": "type AuthProps = {\n  onLogin?: (props: { token: string; refreshToken: string }) => void\n  onRegister?: (data: { email: string; password: string; name: string }) => void\n  register?: boolean\n  onResetRequest?: () => void\n  logo?: boolean | ReactNode\n  overlay?: boolean\n  style?: CSSProperties\n  app?: FC<any | { user: { id: string; email: string } }>\n  googleClientId?: string\n  microsoftClientId?: string\n  githubClientId?: string\n  children?: ReactNode\n}",
       "file": "/components/Auth/Auth.tsx"
     },
     "AuthProviderProps": {
@@ -484,15 +488,10 @@
         },
         "legend": {
           "optional": true,
-          "type": [
-            {
-              "array": "string"
-            },
-            "TSTypeLiteral"
-          ]
+          "type": "ReactNode"
         }
       },
-      "code": "type BarSegmentProps = {\n  id: number | string\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: string\n  bgColor?: string\n  legend?: string[] | { [key: string]: string }\n}",
+      "code": "type BarSegmentProps = {\n  id: number | string\n  width: number\n  value: string | number\n  style?: CSSProperties\n  label?: string\n  bgColor?: string\n  legend?: ReactNode\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BreadcrumbsProps": {
@@ -523,7 +522,12 @@
       "props": {
         "children": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
         },
         "disabled": {
           "optional": true,
@@ -571,7 +575,8 @@
           "optional": true,
           "type": [
             "MouseEventHandler",
-            "boolean",
+            "TSParenthesizedType",
+            "TSParenthesizedType",
             "TSParenthesizedType"
           ]
         },
@@ -605,14 +610,16 @@
             }
           ]
         },
-        "actionKeys": {
+        "keyboardShortcut": {
           "optional": true,
-          "type": {
-            "array": "Key"
-          }
+          "type": "Key"
+        },
+        "displayShortcut": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?: MouseEventHandler | boolean | (() => void)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  actionKeys?: Key[]\n}",
+      "code": "type ButtonProps = {\n  children?: ReactNode | ReactNode[]\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?:\n    | MouseEventHandler\n    | (() => void)\n    | ((e: MouseEvent) => Promise<void>)\n    | (() => Promise<void>)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  /** \n   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n  \n   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n  */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -1446,7 +1453,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "floating": {
           "optional": true,
@@ -1496,7 +1503,7 @@
           ]
         }
       },
-      "code": "type FooterProps<T = any> = {\n  label?: string\n  floating?: boolean\n  outline?: boolean\n  data?: Data<T>\n  paddingRight?: number\n  style?: CSSProperties\n  width?: number\n  icon?: FunctionComponent<Icon> | ReactNode\n  paddingLeft?: number\n  items?: Object[]\n  onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>\n}",
+      "code": "type FooterProps<T = any> = {\n  label?: ReactNode\n  floating?: boolean\n  outline?: boolean\n  data?: Data<T>\n  paddingRight?: number\n  style?: CSSProperties\n  width?: number\n  icon?: FunctionComponent<Icon> | ReactNode\n  paddingLeft?: number\n  items?: Object[]\n  onClick: MultiDataEventHandler<Object> | DataEventHandler<Data<T>>\n}",
       "file": "/components/Flow/Footer.tsx"
     },
     "FooterBottomProps": {
@@ -1564,7 +1571,10 @@
         },
         "children": {
           "optional": true,
-          "type": "Children"
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "outline": {
           "optional": true,
@@ -1588,20 +1598,6 @@
             "ReactNode"
           ]
         },
-        "weight": {
-          "optional": true,
-          "type": [
-            {
-              "value": 400
-            },
-            {
-              "value": 500
-            },
-            {
-              "value": 600
-            }
-          ]
-        },
         "paddingLeft": {
           "optional": true,
           "type": "number"
@@ -1621,7 +1617,7 @@
           "type": "function"
         }
       },
-      "code": "type HeaderProps = {\n  data?: Data<any>\n  autoFocusTitle?: boolean\n  indicator?: string\n  style?: CSSProperties\n  onEditTitle?: (value: string, data?: Data<any>) => void\n  label?: string\n  noBorderBottom?: boolean\n  isHover?: boolean\n  children?: Children<{ items?: Object[]; data?: Data<any> }>\n  outline?: boolean\n  paddingRight?: number\n  width?: number | string\n  icon?: FunctionComponent<Icon> | ReactNode\n  weight?: 400 | 500 | 600\n  paddingLeft?: number\n  items?: Object[]\n  isExpanded?: boolean\n  onExpand?: () => void\n}",
+      "code": "type HeaderProps = {\n  data?: Data<any>\n  autoFocusTitle?: boolean\n  indicator?: string\n  style?: CSSProperties\n  onEditTitle?: (value: string, data?: Data<any>) => void\n  label?: string\n  noBorderBottom?: boolean\n  isHover?: boolean\n  children?: FC<{ items?: Object[]; data?: Data<any> }> | ReactNode\n  outline?: boolean\n  paddingRight?: number\n  width?: number | string\n  icon?: FunctionComponent<Icon> | ReactNode\n  paddingLeft?: number\n  items?: Object[]\n  isExpanded?: boolean\n  onExpand?: () => void\n}",
       "file": "/components/Flow/Header.tsx"
     },
     "FlowProps": {
@@ -1738,7 +1734,10 @@
         },
         "children": {
           "optional": true,
-          "type": "Children"
+          "type": [
+            "FC",
+            "ReactNode"
+          ]
         },
         "header": {
           "optional": true,
@@ -1749,7 +1748,7 @@
           "type": "Color"
         }
       },
-      "code": "type FlowProps = {\n  indicator?: boolean\n  onDropData?: DataEventHandler\n  onDropFile?: DataEventHandler\n  onDrop?: DataEventHandler<\n    | { data: Data[]; targetIndex: number; targetData: Data }\n    | { files: File[]; targetIndex: number; targetData: Data }\n  > // i think this is an order change - if this is not there dont allow order change\n  onDropSequence?: DataEventHandler<\n    | { data: Data[]; targetIndex: number }\n    | { files: File[]; targetIndex: number }\n  > // i think this is an order change - if this is not there dont allow order change\n  paddingRight?: number\n  paddingLeft?: number\n  sequenceSpacing?: number\n  paddingTop?: number\n  expandable?: boolean\n  defaultIsExpanded?: boolean\n  paddingBottom?: number\n  width?: number\n  items: Object[]\n  draggable?: boolean\n  Actions?: ComponentType<OptionsComponentProps>\n  itemProps?: SequenceitemProps\n  onClick?: DataEventHandler\n  actionIcon?: string\n  onAction?: DataEventHandler\n  footer?: FooterProps\n  stepFooter?: FooterProps\n  exportData?: ExportData\n  exportDataSequence?: ExportData\n  onOptions?: DataEventHandler // select options\n  optionsIcon?: string\n  contextualMenu?: boolean\n  children?: Children<OptionsComponentProps>\n  header?: HeaderProps\n  color?: Color\n}",
+      "code": "type FlowProps = {\n  indicator?: boolean\n  onDropData?: DataEventHandler\n  onDropFile?: DataEventHandler\n  onDrop?: DataEventHandler<\n    | { data: Data[]; targetIndex: number; targetData: Data }\n    | { files: File[]; targetIndex: number; targetData: Data }\n  > // i think this is an order change - if this is not there dont allow order change\n  onDropSequence?: DataEventHandler<\n    | { data: Data[]; targetIndex: number }\n    | { files: File[]; targetIndex: number }\n  > // i think this is an order change - if this is not there dont allow order change\n  paddingRight?: number\n  paddingLeft?: number\n  sequenceSpacing?: number\n  paddingTop?: number\n  expandable?: boolean\n  defaultIsExpanded?: boolean\n  paddingBottom?: number\n  width?: number\n  items: Object[]\n  draggable?: boolean\n  Actions?: ComponentType<OptionsComponentProps>\n  itemProps?: SequenceitemProps\n  onClick?: DataEventHandler\n  actionIcon?: string\n  onAction?: DataEventHandler\n  footer?: FooterProps\n  stepFooter?: FooterProps\n  exportData?: ExportData\n  exportDataSequence?: ExportData\n  onOptions?: DataEventHandler // select options\n  optionsIcon?: string\n  contextualMenu?: boolean\n  children?: FC<OptionsComponentProps> | ReactNode\n  header?: HeaderProps\n  color?: Color\n}",
       "file": "/components/Flow/index.tsx"
     },
     "FormProps": {
@@ -2137,7 +2136,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "labelColor": {
           "optional": true,
@@ -2175,7 +2174,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type LabelProps = {\n  label?: string\n  labelColor?: Color\n  description?: string\n  descriptionColor?: Color\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
+      "code": "type LabelProps = {\n  label?: ReactNode\n  labelColor?: Color\n  description?: string\n  descriptionColor?: Color\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  space?: Space\n  style?: CSSProperties\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {
@@ -2313,7 +2312,10 @@
       "props": {
         "children": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "ReactNode",
+            "FC"
+          ]
         },
         "style": {
           "optional": true,
@@ -2336,7 +2338,7 @@
           "type": "Weight"
         }
       },
-      "code": "type MenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
+      "code": "type MenuItemProps = {\n  children?: ReactNode | FC\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
     },
     "ObjectListProps": {
@@ -2519,6 +2521,7 @@
       "name": "ProgressBarProps",
       "props": {
         "progress": {
+          "optional": true,
           "type": "number"
         },
         "circle": {
@@ -2526,7 +2529,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ProgressBarProps = {\n  progress: number\n  circle?: boolean\n}",
+      "code": "type ProgressBarProps = {\n  progress?: number\n  circle?: boolean\n}",
       "file": "/components/ProgressBar/index.tsx"
     },
     "ProviderProps": {
@@ -3397,7 +3400,10 @@
       "props": {
         "children": {
           "optional": true,
-          "type": "ReactNode"
+          "type": [
+            "ReactNode",
+            "FC"
+          ]
         },
         "style": {
           "optional": true,
@@ -3420,7 +3426,7 @@
           "type": "Weight"
         }
       },
-      "code": "type SystemMenuItemProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
+      "code": "type SystemMenuItemProps = {\n  children?: ReactNode | FC\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/SystemLabel/index.tsx"
     },
     "TableFromQueryProps": {
@@ -4340,8 +4346,255 @@
       "code": "type Icon = SVGProps<SVGSVGElement> & IconProps",
       "file": "/types/index.ts"
     },
-    "Key": {
-      "name": "Key",
+    "Char": {
+      "name": "Char",
+      "types": [
+        {
+          "type": {
+            "value": "A"
+          }
+        },
+        {
+          "type": {
+            "value": "B"
+          }
+        },
+        {
+          "type": {
+            "value": "C"
+          }
+        },
+        {
+          "type": {
+            "value": "D"
+          }
+        },
+        {
+          "type": {
+            "value": "E"
+          }
+        },
+        {
+          "type": {
+            "value": "F"
+          }
+        },
+        {
+          "type": {
+            "value": "G"
+          }
+        },
+        {
+          "type": {
+            "value": "H"
+          }
+        },
+        {
+          "type": {
+            "value": "I"
+          }
+        },
+        {
+          "type": {
+            "value": "J"
+          }
+        },
+        {
+          "type": {
+            "value": "K"
+          }
+        },
+        {
+          "type": {
+            "value": "L"
+          }
+        },
+        {
+          "type": {
+            "value": "M"
+          }
+        },
+        {
+          "type": {
+            "value": "N"
+          }
+        },
+        {
+          "type": {
+            "value": "O"
+          }
+        },
+        {
+          "type": {
+            "value": "P"
+          }
+        },
+        {
+          "type": {
+            "value": "Q"
+          }
+        },
+        {
+          "type": {
+            "value": "R"
+          }
+        },
+        {
+          "type": {
+            "value": "S"
+          }
+        },
+        {
+          "type": {
+            "value": "T"
+          }
+        },
+        {
+          "type": {
+            "value": "U"
+          }
+        },
+        {
+          "type": {
+            "value": "V"
+          }
+        },
+        {
+          "type": {
+            "value": "W"
+          }
+        },
+        {
+          "type": {
+            "value": "X"
+          }
+        },
+        {
+          "type": {
+            "value": "Y"
+          }
+        },
+        {
+          "type": {
+            "value": "Z"
+          }
+        },
+        {
+          "type": {
+            "value": "0"
+          }
+        },
+        {
+          "type": {
+            "value": "1"
+          }
+        },
+        {
+          "type": {
+            "value": "2"
+          }
+        },
+        {
+          "type": {
+            "value": "3"
+          }
+        },
+        {
+          "type": {
+            "value": "4"
+          }
+        },
+        {
+          "type": {
+            "value": "5"
+          }
+        },
+        {
+          "type": {
+            "value": "6"
+          }
+        },
+        {
+          "type": {
+            "value": "7"
+          }
+        },
+        {
+          "type": {
+            "value": "8"
+          }
+        },
+        {
+          "type": {
+            "value": "9"
+          }
+        },
+        {
+          "type": {
+            "value": "`"
+          }
+        },
+        {
+          "type": {
+            "value": "§"
+          }
+        },
+        {
+          "type": {
+            "value": ","
+          }
+        },
+        {
+          "type": {
+            "value": "."
+          }
+        },
+        {
+          "type": {
+            "value": "/"
+          }
+        },
+        {
+          "type": {
+            "value": ";"
+          }
+        },
+        {
+          "type": {
+            "value": "'"
+          }
+        },
+        {
+          "type": {
+            "value": "\\"
+          }
+        },
+        {
+          "type": {
+            "value": "["
+          }
+        },
+        {
+          "type": {
+            "value": "]"
+          }
+        },
+        {
+          "type": {
+            "value": "-"
+          }
+        },
+        {
+          "type": {
+            "value": "="
+          }
+        }
+      ],
+      "code": "type Char =\n  | 'A'\n  | 'B'\n  | 'C'\n  | 'D'\n  | 'E'\n  | 'F'\n  | 'G'\n  | 'H'\n  | 'I'\n  | 'J'\n  | 'K'\n  | 'L'\n  | 'M'\n  | 'N'\n  | 'O'\n  | 'P'\n  | 'Q'\n  | 'R'\n  | 'S'\n  | 'T'\n  | 'U'\n  | 'V'\n  | 'W'\n  | 'X'\n  | 'Y'\n  | 'Z'\n  | '0'\n  | '1'\n  | '2'\n  | '3'\n  | '4'\n  | '5'\n  | '6'\n  | '7'\n  | '8'\n  | '9'\n  | '`'\n  | '§'\n  | ','\n  | '.'\n  | '/'\n  | ';'\n  | \"'\"\n  | '\\\\'\n  | '['\n  | ']'\n  | '-'\n  | '='",
+      "file": "/types/index.ts"
+    },
+    "InputKey": {
+      "name": "InputKey",
       "types": [
         {
           "type": {
@@ -4377,9 +4630,50 @@
           "type": {
             "value": "Tab"
           }
+        },
+        {
+          "type": "Char"
         }
       ],
-      "code": "type Key =\n  | 'Enter'\n  | 'Esc'\n  | 'ArrowUp'\n  | 'ArrowDown'\n  | 'ArrowLeft'\n  | 'ArrowRight'\n  | 'Tab'",
+      "code": "type InputKey =\n  | 'Enter'\n  | 'Esc'\n  | 'ArrowUp'\n  | 'ArrowDown'\n  | 'ArrowLeft'\n  | 'ArrowRight'\n  | 'Tab'\n  | Char",
+      "file": "/types/index.ts"
+    },
+    "ModKeys": {
+      "name": "ModKeys",
+      "types": [
+        {
+          "type": {}
+        },
+        {
+          "type": {}
+        },
+        {
+          "type": {}
+        }
+      ],
+      "code": "type ModKeys = `Cmd` | `Alt` | `Shift`",
+      "file": "/types/index.ts"
+    },
+    "Key": {
+      "name": "Key",
+      "types": [
+        {
+          "type": "InputKey"
+        },
+        {
+          "type": {}
+        },
+        {
+          "type": "DoubleMod"
+        },
+        {
+          "type": "DoubleMod"
+        },
+        {
+          "type": "DoubleMod"
+        }
+      ],
+      "code": "type Key =\n  | InputKey\n  | `${ModKeys}+${InputKey}`\n  | DoubleMod<'Cmd'>\n  | DoubleMod<'Alt'>\n  | DoubleMod<'Shift'>",
       "file": "/types/index.ts"
     },
     "Data": {
@@ -4393,54 +4687,6 @@
         }
       ],
       "code": "type Data<T = {}> = T & {\n  data: any\n  index?: number\n  exportData?: ExportData\n}",
-      "file": "/types/index.ts"
-    },
-    "Children": {
-      "name": "Children",
-      "types": [
-        {
-          "type": "ReactChild"
-        },
-        {
-          "type": "ReactChildren"
-        },
-        {
-          "type": "ComponentType"
-        },
-        {
-          "type": "ReactText"
-        },
-        {
-          "type": {
-            "array": "ReactText"
-          }
-        },
-        {
-          "type": "ReactNode"
-        },
-        {
-          "type": {
-            "array": "ReactNode"
-          }
-        },
-        {
-          "type": "number"
-        },
-        {
-          "type": "string"
-        },
-        {
-          "type": {
-            "array": "number"
-          }
-        },
-        {
-          "type": {
-            "array": "string"
-          }
-        }
-      ],
-      "code": "type Children<T = PropsWithChildren<any>> =\n  | ReactChild\n  | ReactChildren\n  | ComponentType<T>\n  | ReactText\n  | ReactText[]\n  | ReactNode\n  | ReactNode[]\n  | number\n  | string\n  | number[]\n  | string[]",
       "file": "/types/index.ts"
     }
   }
