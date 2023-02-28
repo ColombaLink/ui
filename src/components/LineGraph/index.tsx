@@ -6,8 +6,7 @@ import StackedGraph from './StackedGraph'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
 import { Color } from '~/types'
-
-type Data = { x: number; y: number }[]
+import { DataItem } from './types'
 
 type Ctx = { hover?: (key: string) => void }
 
@@ -20,7 +19,7 @@ export const GraphContext = createContext(defCtx)
 GraphContext.displayName = 'GraphContext'
 
 export type LineGraphProps = {
-  data: { [key: string]: Data } | Data
+  data: { [key: string]: DataItem[] } | DataItem[]
   legend?: { [key: string]: string }
   format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat
   valueFormat?: NumberFormat | string
@@ -32,7 +31,7 @@ export type LineGraphProps = {
 
 // multi line
 
-const LineGraph: FunctionComponent<LineGraphProps> = ({
+export const LineGraph: FunctionComponent<LineGraphProps> = ({
   data,
   label,
   spread = true,
@@ -78,5 +77,3 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
     </AutoSizer>
   )
 }
-
-export { LineGraph }

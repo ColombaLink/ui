@@ -32,7 +32,7 @@ export const LineGraph = () => {
   }
 
   const bytes = []
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 50; i++) {
     bytes.push({
       x: i,
       y: Math.round(Math.random() * 2e9),
@@ -116,7 +116,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={datax} format="date" />
+        <LG label="wawa" data={datax} format="date" />
       </div>
       <div
         style={{
@@ -125,7 +125,7 @@ export const LineGraph = () => {
           marginBottom: 32,
         }}
       >
-        <LG data={datax.en} format="date" spread />
+        <LG data={datax.en} label="MinMax" format="date" spread />
       </div>
       <div
         style={{
