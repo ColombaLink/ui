@@ -1,7 +1,7 @@
 import React from 'react'
 import HoverPath from '../HoverPath'
 import { Color, color } from '~/utils'
-import { Data } from '../types'
+import { DataItem } from '../types'
 
 type Point = [x: number, y: number]
 
@@ -177,7 +177,7 @@ export const normalLineWithSegments = ({
   )
 }
 
-type DataItemWithSegments = Data & { segments: { [key: string]: number } }
+type DataItemWithSegments = DataItem & { segments: { [key: string]: number } }
 export const bigStepSizeLineWithSegments = ({
   points,
   data,
