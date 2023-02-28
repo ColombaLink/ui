@@ -1,173 +1,188 @@
 import React from 'react'
 import { LineGraph as LG } from '~'
 
-const genRandomPoints = (
-  formula: (i: number) => { x: number; y: number },
-  start: number = 0,
-  end: number = 50,
-  step: number = 1
-) => {
-  const points: { x: number; y: number }[] = []
-  for (let i = start; i <= end; i = i + step) {
-    points.push(formula(i))
-  }
-  return points
-}
+import ComponentViewer from '../ComponentViewer'
 
 export const LineGraph = () => {
+  // some data
+  const datax = { de: [], en: [], nl: [] }
+
+  for (let i = 0; i < 1000; i++) {
+    const x = Date.now() - i * 1000000
+    datax.de.push({
+      y: i * i + Math.random() * i * 1e3,
+      x,
+    })
+    datax.en.push({
+      y: i * i + Math.random() * i * 1e3,
+      x,
+    })
+    datax.nl.push({
+      y: i * i + Math.random() * i * 1e3 * 0.1,
+      x,
+    })
+  }
+
+  const fraction = []
+  for (let i = 0; i < 200; i++) {
+    fraction.push({
+      x: i,
+      y: Math.random(),
+    })
+  }
+
+  const bytes = []
+  for (let i = 0; i < 50; i++) {
+    bytes.push({
+      x: i,
+      y: Math.round(Math.random() * 2e9),
+    })
+  }
+
+  const smallData = []
+  for (let i = 0; i < 50000; i++) {
+    smallData.push({
+      x: i,
+      y: ~~(Math.random() * 10000000) + i * 100,
+    })
+  }
+
+  const someData = {
+    en: [
+      { x: 10, y: 10 },
+      { x: 20, y: 30 },
+      { x: 30, y: 40 },
+    ],
+    nl: [
+      { x: 10, y: 10 },
+      { x: 20, y: 30 },
+      { x: 30, y: 40 },
+    ],
+    de: [
+      { x: 10, y: 20 },
+      { x: 20, y: 40 },
+      { x: 30, y: 43 },
+    ],
+  }
+
+  const someLegend = {
+    nl: 'Netherlands',
+    de: 'Germany',
+    en: 'Uk',
+  }
+
   return (
     <>
-      {/* <div */}
-      {/*   style={{ */}
-      {/*     width: '100%', */}
-      {/*     height: 300, */}
-      {/*     marginBottom: 24, */}
-      {/*     // boxShadow: '0 0 0 1px red', */}
-      {/*   }} */}
-      {/* > */}
-      {/*   <MLG */}
-      {/*     data={genRandomPoints( */}
-      {/*       (i) => ({ x: i, y: ~~(Math.random() * 10000000) + i * 100 }), */}
-      {/*       0, */}
-      {/*       50 */}
-      {/*     )} */}
-      {/*     label="Single line 50" */}
-      {/*   /> */}
-      {/* </div> */}
       <div
         style={{
           width: '100%',
-          height: 300,
-          marginBottom: 24,
-          // boxShadow: '0 0 0 1px red',
+          height: 360,
+          marginBottom: 32,
         }}
       >
-        <LG
-          data={{
-            en: {
-              data: genRandomPoints(
-                (i) => ({ x: i, y: ~~(Math.random() * 10000000) + i * 100 }),
-                0,
-                50000
-              ),
-              minMax: true,
-            },
-          }}
-          label="Single line 50000"
-        />
+        <LG legend={someLegend} data={someData} color="yellow" />
       </div>
       <div
         style={{
           width: '100%',
           height: 300,
-          marginBottom: 24,
-          // boxShadow: '0 0 0 1px red',
+          marginBottom: 32,
         }}
       >
-        <LG
-          data={{
-            en: {
-              data: genRandomPoints(
-                (i) => ({ x: i, y: i * i + Math.random() * 1e3 }),
-                0,
-                50
-              ),
-              color: 'teal',
-            },
-            nl: {
-              data: genRandomPoints(
-                (i) => ({ x: i, y: i * i * 1.4 + Math.random() * 1e3 }),
-                0,
-                40
-              ),
-              color: 'green',
-            },
-            de: {
-              data: genRandomPoints(
-                (i) => ({ x: i, y: i * i * 1.2 + Math.random() * 1e3 }),
-                10,
-                50
-              ),
-            },
-          }}
-          label="Multiline scatteered"
-        />
+        <LG data={fraction} valueFormat="number-ratio" color="green" />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 280,
+          marginBottom: 32,
+        }}
+      >
+        <LG valueFormat="number-bytes" data={bytes} color="red" />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 200,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={[{ x: 10, y: 10 }]} />
       </div>
       <div
         style={{
           width: '100%',
           height: 300,
-          marginBottom: 24,
-          // boxShadow: '0 0 0 1px red',
+          marginBottom: 32,
         }}
       >
-        <LG
-          data={{
-            en: {
-              data: genRandomPoints(
-                (i) => ({
-                  x: new Date('2020-1-1').getTime() + 20 * 60 * 60 * i,
-                  y: Math.sin(i * 0.007) * 10 + 20 + Math.random() * 10,
-                }),
-                0,
-                2000
-              ),
-            },
-            pt: {
-              data: genRandomPoints(
-                (i) => ({
-                  x: new Date('2020-1-1').getTime() + 20 * 60 * 60 * i,
-                  y: Math.sin((i + 300) * 0.007) * 10 + 20 + Math.random() * 10,
-                }),
-                0,
-                2000
-              ),
-              color: 'teal',
-            },
-            // de: {
-            //   data: genRandomPoints(
-            //     (i) => ({
-            //       x: new Date('2020-1-2').getTime() + 20 * 60 * 60 * i,
-            //       y: i * i + Math.random() * i * 1e3,
-            //     }),
-            //     0,
-            //     2000
-            //   ),
-            //   color: 'teal',
-            // },
-          }}
-          xFormat="date"
-          label="Date multiple stepsize scatteered"
-        />
+        <LG label="wawa" data={datax} format="date" />
       </div>
       <div
         style={{
           width: '100%',
           height: 300,
-          // marginBottom: 24,
-          // boxShadow: '0 0 0 1px red',
+          marginBottom: 32,
+        }}
+      >
+        <LG data={datax.en} label="MinMax" format="date" spread />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={datax} format="date-time-human" spread />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 300,
+          marginBottom: 32,
+        }}
+      >
+        <LG data={smallData} spread={false} color={'teal'} />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 360,
+          marginBottom: 32,
         }}
       >
         <LG
-          data={{
-            line1: {
-              data: genRandomPoints(
-                (i) => ({ x: i, y: ~~(Math.random() * 10000000) + i * 100 }),
-                0,
-                50
-              ),
-              fill: true,
-              color: 'teal',
-            },
-            line2: {
-              data: genRandomPoints(
-                (i) => ({ x: i, y: ~~(Math.random() * 10000000) + i * 100 }),
-                0,
-                50
-              ),
-            },
-          }}
-          label="Two lines 50"
+          label="Cool party"
+          data={[
+            { x: 0, y: 10 },
+            { x: 1, y: 10 },
+            { x: 2, y: 20 },
+            { x: 3, y: 30 },
+            { x: 4, y: 20 },
+            { x: 5, y: 25 },
+          ]}
+          spread={false}
+        />
+      </div>
+      <div
+        style={{
+          width: '100%',
+          height: 360,
+          marginBottom: 32,
+        }}
+      >
+        <LG
+          label="Power play"
+          format="date"
+          data={[
+            { x: Date.now() - 40e3, y: 10 },
+            { x: Date.now() - 30e3, y: 20 },
+            { x: Date.now() - 20e3, y: 30 },
+            { x: Date.now() - 10e3, y: 20 },
+            { x: Date.now(), y: 25 },
+          ]}
+          spread={false}
         />
       </div>
     </>
