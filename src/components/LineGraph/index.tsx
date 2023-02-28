@@ -1,20 +1,9 @@
-import React, {
-  FunctionComponent,
-  createContext,
-  useRef,
-  useState,
-  useEffect,
-} from 'react'
+import React, { FunctionComponent, useRef, useState, useEffect } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
 import { NumberFormat } from '@based/pretty-number'
-import {
-  MultiLineGraphData,
-  MultiLineGraphDataInput,
-  MultiLineXGraphFormat,
-  Point,
-} from './types'
-import { averageData, getGlobalMinMax, getMinMax, processData } from './utils'
+import { LineGraphDataInput, LineXGraphFormat } from './types'
+import { getGlobalMinMax, processData } from './utils'
 import genLabels from './genLabels'
 import { genPaths } from './genPath'
 import XAxis from './XAxis'
@@ -29,12 +18,12 @@ const Graph = ({
   xFormat,
   label,
   valueFormat,
-  pure,
-}: {
+}: // pure,
+{
   width: number
   height: number
-  data: MultiLineGraphDataInput
-  xFormat?: MultiLineXGraphFormat
+  data: LineGraphDataInput
+  xFormat?: LineXGraphFormat
   label?: string
   valueFormat?: NumberFormat | string
   pure?: boolean
@@ -175,14 +164,14 @@ const Graph = ({
   )
 }
 
-export type MultiLineGraphProps = {
-  data: MultiLineGraphDataInput
-  xFormat?: MultiLineXGraphFormat
+export type LineGraphProps = {
+  data: LineGraphDataInput
+  xFormat?: LineXGraphFormat
   valueFormat?: NumberFormat | string
   pure?: boolean
   label?: string
 }
-export const MultiLineGraph: FunctionComponent<MultiLineGraphProps> = ({
+export const LineGraph: FunctionComponent<LineGraphProps> = ({
   data,
   label,
   xFormat = 'number',

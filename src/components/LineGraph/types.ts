@@ -24,15 +24,15 @@ export type LineData = LineDataInput & {
   minPoints?: Point[]
 }
 
-export type MultiLineGraphData = {
+export type LineGraphData = {
   [key: string]: LineData
 }
 
-export type MultiLineGraphDataInput =
+export type LineGraphDataInput =
   | Point[]
   | { [key: string]: LineDataInput | Point[] }
 
-export type MultiLineXGraphFormat =
+export type LineXGraphFormat =
   | 'date'
   | 'number'
   | 'date-time-human'

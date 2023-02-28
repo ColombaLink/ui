@@ -1,9 +1,4 @@
-import {
-  LineData,
-  MultiLineGraphData,
-  MultiLineGraphDataInput,
-  Point,
-} from './types'
+import { LineGraphData, LineGraphDataInput, Point } from './types'
 
 export const getMinMax = (data: Point[]) => {
   let maxY: number
@@ -81,7 +76,7 @@ export const averageData = ({
   return { data: newData, minData, maxData, stepSize: newStepSize }
 }
 
-export const getGlobalMinMax = (data: MultiLineGraphData) => ({
+export const getGlobalMinMax = (data: LineGraphData) => ({
   globalMinX: Math.min(...Object.values(data).map((l) => l.minX)),
   globalMaxX: Math.max(...Object.values(data).map((l) => l.maxX)),
   globalMinY: Math.min(...Object.values(data).map((l) => l.minY)),
@@ -91,10 +86,10 @@ export const getGlobalMinMax = (data: MultiLineGraphData) => ({
 export const processData = ({
   dataInput,
 }: {
-  dataInput: MultiLineGraphDataInput
+  dataInput: LineGraphDataInput
 }) => {
   // Unify data format
-  let data: MultiLineGraphData
+  let data: LineGraphData
   if (Array.isArray(dataInput)) {
     data = { '': { data: dataInput } }
   } else if (Array.isArray(dataInput[Object.keys(dataInput)[0]])) {
@@ -103,7 +98,7 @@ export const processData = ({
       {}
     )
   } else {
-    data = dataInput as MultiLineGraphData
+    data = dataInput as LineGraphData
   }
 
   // calculate mins and maxs

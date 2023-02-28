@@ -126,7 +126,7 @@ const menuItems = {
   },
   Insights: {
     BarGraphs: '?story=BarGraphs',
-    MultiLineGraph: '?story=multiLineGraph',
+    LineGraph: '?story=lineGraph',
     PieGraph: '?story=PieGraphs',
     ResultCards: '?story=ResultCards',
     // ScatterResults: '?story=ScatterResults',

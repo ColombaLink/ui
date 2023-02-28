@@ -5,12 +5,7 @@ import { Color, color, Text } from '~'
 // import { GraphContext } from '.'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
-import {
-  LineData,
-  MultiLineGraphData,
-  MultiLineXGraphFormat,
-  Point,
-} from './types'
+import { LineGraphData, LineXGraphFormat } from './types'
 
 type LegendValues = {
   key: string
@@ -35,7 +30,7 @@ const Legend = ({
   isHover: boolean
   x: number
   values: LegendValues
-  xFormat: MultiLineXGraphFormat
+  xFormat: LineXGraphFormat
 }) => {
   if (!values[0]?.svgX) return null
   let extraInfo = null
@@ -246,12 +241,12 @@ const getY = ({
   width: number
   r: React.MutableRefObject<any>
   isHover: boolean
-  data: MultiLineGraphData
+  data: LineGraphData
   isStacked: boolean
   legend: boolean
   ySpread: number
   lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
-  xFormat: MultiLineXGraphFormat
+  xFormat: LineXGraphFormat
 }) => {
   if (x < 0) return null
 
@@ -390,14 +385,14 @@ const Overlay = ({
   isHover: boolean
   x: number
   width: number
-  data: MultiLineGraphData
+  data: LineGraphData
   r: React.MutableRefObject<any>
   isStacked: boolean
   legend: boolean
   valueFormat: NumberFormat | string
   ySpread: number
   lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
-  xFormat: MultiLineXGraphFormat
+  xFormat: LineXGraphFormat
 }) => {
   return (
     <div

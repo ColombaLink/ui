@@ -1,5 +1,5 @@
 import React from 'react'
-import { MultiLineGraph as MLG } from '~'
+import { LineGraph as LG } from '~'
 
 const genRandomPoints = (
   formula: (i: number) => { x: number; y: number },
@@ -14,7 +14,7 @@ const genRandomPoints = (
   return points
 }
 
-export const MultiLineGraph = () => {
+export const LineGraph = () => {
   return (
     <>
       {/* <div */}
@@ -42,7 +42,7 @@ export const MultiLineGraph = () => {
           // boxShadow: '0 0 0 1px red',
         }}
       >
-        <MLG
+        <LG
           data={{
             en: {
               data: genRandomPoints(
@@ -64,7 +64,7 @@ export const MultiLineGraph = () => {
           // boxShadow: '0 0 0 1px red',
         }}
       >
-        <MLG
+        <LG
           data={{
             en: {
               data: genRandomPoints(
@@ -101,7 +101,7 @@ export const MultiLineGraph = () => {
           // boxShadow: '0 0 0 1px red',
         }}
       >
-        <MLG
+        <LG
           data={{
             en: {
               data: genRandomPoints(
@@ -148,7 +148,7 @@ export const MultiLineGraph = () => {
           // boxShadow: '0 0 0 1px red',
         }}
       >
-        <MLG
+        <LG
           data={{
             line1: {
               data: genRandomPoints(
