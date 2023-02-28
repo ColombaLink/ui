@@ -53,12 +53,14 @@ const makeLine = ({
     path: [
       fill ? (
         <path
+          key={p}
           d={p + `L${width},${height},L0,${height}`}
           fill={color(baseColor)}
           fillOpacity={0.08}
         />
       ) : null,
       <path
+        key={p}
         ref={lineRef}
         d={p}
         fill="none"
@@ -67,11 +69,11 @@ const makeLine = ({
         data-custom="line"
         strokeWidth={2}
       />,
-      false
-        ? points.map(({ x, y }, i) => (
-            <circle key={i} cx={x} cy={y} r="2" fill="red" />
-          ))
-        : null,
+      // false,
+      // ? points.map(({ x, y }, i) => (
+      //     <circle key={i} cx={x} cy={y} r="2" fill="red" />
+      //   ))
+      // : null,
     ],
     lineRef,
   }
@@ -166,7 +168,9 @@ export const genPaths = ({
 
   let paths = []
   Object.keys(data).map((key) => {
-    if (!data[key].points.length) return null
+    if (!data[key].points.length) {
+      return null
+    }
     const result = makeLine({
       points: data[key].points,
       fill: data[key].fill,
@@ -180,6 +184,7 @@ export const genPaths = ({
       ...lineRefs,
       [key]: result.lineRef,
     }
+    return null
   })
   return {
     paths,
