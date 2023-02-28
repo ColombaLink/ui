@@ -1,9 +1,10 @@
 import React, { FC, CSSProperties } from 'react'
 import { Label } from '../Label'
-import { border, color, spaceToPx } from '~/utils'
+import { color, spaceToPx } from '~/utils'
 import { CheckIcon, DashIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 import { Color, Space } from '~/types'
+import { styled } from 'inlines'
 
 export type CheckboxProps = {
   checked?: boolean
@@ -15,6 +16,7 @@ export type CheckboxProps = {
   space?: Space
   small?: boolean
   color?: Color
+  onClick?: (e: any) => void
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
@@ -23,6 +25,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   description,
   style,
   onChange,
+  onClick,
   label,
   space,
   small,
@@ -32,7 +35,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   const [checked, setChecked] = usePropState(checkedProp)
   const { listeners, hover } = useHover()
 
-  const onClick = () => {
+  const clickHandler = () => {
     const newChecked = !checked
     setChecked(newChecked)
     onChange?.(newChecked)
@@ -40,7 +43,12 @@ export const Checkbox: FC<CheckboxProps> = ({
 
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        clickHandler()
+        if (onClick) {
+          onClick(e)
+        }
+      }}
       style={{
         display: 'flex',
         alignItems: !description ? 'center' : '',
@@ -49,30 +57,50 @@ export const Checkbox: FC<CheckboxProps> = ({
       }}
       {...listeners}
     >
-      <div
+      <styled.div
         style={{
-          backgroundColor: checked
-            ? color(colorProp, hover ? 'hover' : null)
-            : null,
-          border: border(1, 'border', hover ? 'hover' : null),
-          outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
+          border: 'rgba(00,00,00,00) solid 2px',
           borderRadius: 4,
-          height: small ? 16 : 20,
-          width: small ? 16 : 20,
-          marginRight: 12,
-          flexShrink: 0,
+          boxSizing: 'border-box',
           display: 'flex',
+          justifyContent: 'flex-start',
           alignItems: 'center',
-          justifyContent: 'center',
+          height: small ? 18 : 22,
+          width: small ? 18 : 22,
+          marginRight: 12,
+          '@media (hover: hover)': {
+            '&:hover': {
+              border: 'rgba(44,60,234,0.2) solid 2px',
+            },
+          },
         }}
-        {...props}
       >
-        {checked && indeterminate ? (
-          <DashIcon size={small ? 10 : 14} color="accent:contrast" />
-        ) : checked ? (
-          <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
-        ) : null}
-      </div>
+        <div
+          style={{
+            backgroundColor: checked
+              ? color(colorProp, hover ? 'hover' : null)
+              : null,
+            border: `1px solid ${color('border')}`,
+            // outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
+            borderRadius: 4,
+            height: small ? 16 : 20,
+            width: small ? 16 : 20,
+            marginRight: 12,
+            marginLeft: -1,
+            flexShrink: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          {...props}
+        >
+          {checked && indeterminate ? (
+            <DashIcon size={small ? 10 : 14} color="accent:contrast" />
+          ) : checked ? (
+            <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
+          ) : null}
+        </div>
+      </styled.div>
 
       <Label
         label={label}

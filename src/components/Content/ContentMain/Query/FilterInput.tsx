@@ -21,13 +21,14 @@ export const FilterInput = ({
 
   return (
     <Input
+      type="text"
       inputRef={inputRef}
       style={{
         flexGrow: 1,
         height: 30,
         // maxWidth: 'calc(100% - 4px)',
         // border: '1px solid red',
-        lineHeight: '30px',
+        lineHeight: '1.6',
         // alignSelf: 'flex-end',
       }}
       onBlur={() => {
@@ -36,7 +37,7 @@ export const FilterInput = ({
       ghost
       placeholder="Type to search and filter"
       value={value}
-      onChange={setValue}
+      onChange={(v) => setValue(v)}
       onKeyDown={(e) => {
         if (e.key === 'Backspace') {
           if (!e.currentTarget.value) {

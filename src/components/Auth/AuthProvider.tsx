@@ -54,6 +54,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         )
         .then(async (response) => {
           const { token, refreshToken, email, id } = response
+          // @ts-ignore
           await client.auth(token, { id, refreshToken })
           toast.add(<Toast label={'Signedin as ' + email} type="success" />)
           window.sessionStorage.removeItem('client_id')

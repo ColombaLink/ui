@@ -122,7 +122,7 @@ const updateFieldSchema = (
     throw Error('Field name is required')
   }
 
-  return client.updateSchema({
+  return client.call('db:set-schema', {
     schema: {
       types: {
         [type]: {

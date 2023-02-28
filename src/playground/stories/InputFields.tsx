@@ -10,7 +10,6 @@ export const InputFields = () => {
       examples={[
         {
           props: {
-            customRegex: true,
             pattern: '^([a-z0-9]{4,7})$',
             label: 'Custom regex label',
             description: 'Custom regex description',
@@ -50,15 +49,15 @@ export const InputFields = () => {
           },
         },
 
-        {
-          props: {
-            jsonInput: true,
-            label: 'Label for JSON',
-            description: 'Description for JSON',
-            descriptionBottom: 'this is bottom description',
-            indent: true,
-          },
-        },
+        // {
+        //   props: {
+        //     jsonInput: true,
+        //     label: 'Label for JSON',
+        //     description: 'Description for JSON',
+        //     descriptionBottom: 'this is bottom description',
+        //     indent: true,
+        //   },
+        // },
         {
           props: {
             markdownInput: true,

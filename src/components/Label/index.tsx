@@ -4,7 +4,7 @@ import { Space, Icon } from '~/types'
 import { renderOrCreateElement } from '~/utils'
 
 type LabelProps = {
-  label?: string
+  label?: ReactNode
   labelColor?: Color
   description?: string
   descriptionColor?: Color
@@ -44,7 +44,7 @@ export const Label = ({
             style={{
               display: 'inline-block',
               marginRight: 8,
-              marginBottom: description ? 4 : 0,
+              marginBottom: description ? 2 : 0,
             }}
           >
             {renderOrCreateElement(icon, {
@@ -54,14 +54,15 @@ export const Label = ({
         )}
         <Text
           wrap
-          style={{ marginBottom: description ? 4 : 0 }}
+          style={{ marginBottom: description ? 0 : 0 }}
           color={labelColor || 'text'}
+          typo="body600"
         >
           {label}
         </Text>
       </div>
       {description && (
-        <Text wrap typo="body400" color={descriptionColor || 'text2'}>
+        <Text wrap typo="body500" color={descriptionColor || 'text2'}>
           {description}
         </Text>
       )}

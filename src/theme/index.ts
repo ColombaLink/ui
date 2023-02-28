@@ -42,6 +42,7 @@ export const updateTheme = (theme = currentTheme) => {
   })
 
   let cnt = 0
+
   for (const name in values) {
     const varName =
       process.env.NODE_ENV === 'dev'

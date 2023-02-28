@@ -20,13 +20,14 @@ const StyledSchemaTopbar = styled('div', {
 
 export const SchemaTopbar = () => {
   const client = useClient()
+  const { opts = {} } = client
 
   return (
     <StyledSchemaTopbar>
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
         <Thumbnail
           size={40}
-          label={client.opts.project}
+          label={opts.project}
           style={{
             borderRadius: 12,
             boxShadow: '0px 2px 8px rgba(15, 16, 19, 0.06)',
@@ -39,15 +40,16 @@ export const SchemaTopbar = () => {
             size="16px"
             style={{ lineHeight: '20px' }}
           >
-            {client.opts.project}
+            {opts.project}
           </Text>
           <Text color="accent" weight={600} size="14px">
-            {client.opts.env}
+            {opts.env}
           </Text>
         </div>
       </div>
       <div style={{ maxWidth: 492, width: '100%' }}>
         <Input
+          type="text"
           placeholder="Search & navigate"
           ghost
           icon={SearchIcon}
@@ -71,10 +73,11 @@ export const SchemaTopbar = () => {
           color="lightaction"
           outline
           style={{
-            // @ts-ignore
-            '&:hover': {
-              backgroundColor: color('lightaction:hover'),
-              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            '@media (hover: hover)': {
+              '&:hover': {
+                backgroundColor: color('lightaction:hover'),
+                boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+              },
             },
           }}
         >

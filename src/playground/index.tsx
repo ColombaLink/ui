@@ -5,7 +5,6 @@ import {
   Button,
   Page,
   Menu,
-  useLocation,
   Input,
   SearchIcon,
   LargeLogo,
@@ -13,15 +12,21 @@ import {
   LightModeIcon,
   ExternalLinkIcon,
   color,
+  useLocation,
 } from '../'
-import based from '@based/client'
+import { BasedClient } from '@based/client'
 import * as stories from './stories'
 import { toPascalCase } from './utils'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import basedConfig from './based.json'
 
-export const client = based(basedConfig)
+export const client = new BasedClient({
+  project: 'YOUZI',
+  url: 'ws://localhost:8297',
+})
+
+console.log('??', client.opts)
 
 const Stories: FC = () => {
   useLocation()
@@ -49,6 +54,9 @@ const menuItems = {
   Schema: {
     Schema: '?story=schema',
     SchemaModals: '?story=schema-modals',
+    QueryBar: '?story=QuerySearchBar',
+    QueryFilters: '?story=QueryFilterBar',
+    QueryBuilder: '?story=QueryBuilders',
   },
   Input: {
     Buttons: '?story=buttons',
@@ -93,7 +101,8 @@ const menuItems = {
     ExpandableList: '?story=ExpandableLists',
     // InfiniteList: '?story=InfiniteLists',
     // Lists: '?story=lists',
-    CustomLists: '?story=CustomLists',
+    // this list is being used for the little table menu now
+    //  VirtualizedList: '?story=VirtualizedLists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',
@@ -140,6 +149,9 @@ const menuItems = {
     // ProfileSettings: '?story=profile-settings',
     // ProjectSettings: '?story=project-settings',
     // Tally: '?story=tally-screens',
+    Kyles: '?story=KylesPlayground',
+    ProgressBar: '?story=ProgressIndicators',
+    Drawer: '?story=Drawers',
   },
 }
 

@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState, FC } from 'react'
+import React, { CSSProperties, useRef, useState, FC, useEffect } from 'react'
 import {
   Label,
   color,
@@ -7,13 +7,16 @@ import {
   Button,
   usePropState,
   Input,
-  ChevronDownIcon,
-  ChevronUpIcon,
+  Dialog,
+  useDialog,
+  Tabs,
+  Tab,
 } from '~'
 import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
+import { MimeType } from '../Schema/types'
 
 type FileUploadProps = {
   label?: string
@@ -27,7 +30,7 @@ type FileUploadProps = {
   disabled?: boolean
   acceptedFileTypes?: string[]
   multiple?: boolean
-  value?: any
+  value?: [{ name?: string; type?: MimeType; src: string }]
 }
 
 const StyledFileInput = styled('div', {
@@ -35,7 +38,7 @@ const StyledFileInput = styled('div', {
   display: 'flex',
   alignItems: 'center',
   gap: 8,
-  padding: 6,
+  padding: 9,
   paddingLeft: 12,
   backgroundColor: color('background2'),
 })
@@ -61,7 +64,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
-  const [showMoreOptions, setShowMoreOptions] = useState(false)
 
   const hiddenFileInput = useRef(null)
 
@@ -69,11 +71,70 @@ export const FileUpload: FC<FileUploadProps> = ({
     uploadedFiles = uploadedFiles ? [uploadedFiles] : []
   }
 
-  const handleClickUpload = () => {
-    if (!disabled) {
-      hiddenFileInput.current.click()
-    }
+  const dialog = useDialog()
+  const { prompt } = useDialog()
+  const fullScreenDialog = useDialog()
+
+  const handleClickUpload = async () => {
+    // now we are gonna open new modal here
+
+    let otherUrlInputValue = ''
+
+    dialog.open(
+      <Dialog>
+        <Tabs>
+          <Tab label="Upload">
+            <Button
+              style={{ marginTop: '16px' }}
+              outline
+              color="lightaction"
+              fill
+              textAlign="center"
+              onClick={() => {
+                // upload
+                if (!disabled) {
+                  hiddenFileInput.current.click()
+                  dialog.close()
+                }
+              }}
+            >
+              Upload file
+            </Button>
+          </Tab>
+          <Tab label="Embed link">
+            <div
+              style={{
+                marginTop: '16px',
+              }}
+            >
+              <Input
+                type="text"
+                space="20px"
+                placeholder="Paste the image link..."
+                onChange={(e) => {
+                  setUrlInputValue(e)
+                  otherUrlInputValue = e
+                }}
+                value={urlInputValue}
+              />
+              <Button
+                large
+                style={{ margin: '0 auto' }}
+                onClick={() => urlHandler(otherUrlInputValue)}
+              >
+                Embed image
+              </Button>
+            </div>
+          </Tab>
+        </Tabs>
+      </Dialog>
+    )
   }
+
+  // TODO? :close dialog if uploadedFiles  is changed
+  useEffect(() => {
+    //   dialog.close()
+  }, [uploadedFiles])
 
   const clearFiles = () => {
     setClearCount((clearCount) => clearCount + 1)
@@ -108,7 +169,10 @@ export const FileUpload: FC<FileUploadProps> = ({
       if (!multiple) {
         newValue = [files[0]]
       }
+
+      console.log('what is the newest value?', newValue)
       setUploadedFiles(newValue)
+
       onChange(newValue)
     }
   }
@@ -118,23 +182,43 @@ export const FileUpload: FC<FileUploadProps> = ({
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
+    console.log('e.target.files', e.target.files)
+
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
   }
+
+  // all the options for the context menu
 
   // should TODO delete file instead of the onChange([])
   const deleteSpecificFile = (id) => {
     setUploadedFiles((uploadedFiles) =>
       Array.isArray(uploadedFiles)
         ? uploadedFiles?.filter((_, index) => index !== id)
-        : onChange([])
+        : onChange(undefined)
     )
     setClearCount((clearCount) => clearCount + 1)
   }
 
-  const replaceSpecificFile = (id) => {
-    console.log('Edit file through a modal, like name? or something??', id)
+  const urlHandler = async (urlInput) => {
+    if (urlInput) {
+      const file = await fetch(urlInput)
+        .then(
+          (res) => res.blob()
+          //  mimetype = res.headers.get('content-type')
+          //  console.log('type is', mimetype)
+        )
+        .then(
+          (blobFile) =>
+            new File([blobFile], fileName || urlInput.split('/').pop(), {
+              type: blobFile.type,
+            })
+        )
+
+      urlUploadFile([file])
+      dialog.close()
+    }
   }
 
   const urlUploadFile = async (e) => {
@@ -146,11 +230,15 @@ export const FileUpload: FC<FileUploadProps> = ({
           setErrorMessage(`File type: ${file?.type} is not allowed.`)
           setDraggingOver(false)
         }
+
         return accepted
       })
     }
 
     let newValue = [...uploadedFiles, ...files]
+
+    console.log('new value', newValue)
+
     if (!multiple) {
       newValue = [files[0]]
     }
@@ -160,6 +248,91 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   // console.log('??? Uploaded Files?', uploadedFiles)
+  const openInNewTab = (url) => {
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
+
+  const downloadFile = (file) => {
+    const link = document.createElement('a')
+    link.download = file.name
+    link.href = file.url
+    link.click()
+  }
+
+  const renameFile = async (file, idx) => {
+    const extension = file.name.split('.').pop()
+    const renameArr = [...uploadedFiles]
+
+    const ok = await prompt('Rename file')
+    if (ok && ok !== undefined) {
+      setFileName(ok + '.' + extension)
+
+      renameArr[idx].name = ok + '.' + extension
+      setUploadedFiles([...renameArr])
+    }
+    onChange([...renameArr])
+  }
+
+  const fullScreenView = (file) => {
+    fullScreenDialog.open(
+      <Dialog style={{ padding: 0, '& div div': { padding: 0 } }}>
+        <img
+          src={file.src}
+          style={{
+            width: '100%',
+            height: '100%',
+            borderTopRightRadius: 8,
+            borderTopLeftRadius: 8,
+          }}
+        />
+        <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '16px !important',
+              margin: '8px 16px',
+              marginBottom: ' -14px',
+            }}
+          >
+            <Text typo="body500" color="text2">
+              {file.name}
+            </Text>
+            <Button
+              ghost
+              large
+              color="text"
+              onClick={() => {
+                fullScreenDialog.close()
+              }}
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      </Dialog>
+    )
+  }
+
+  const replaceSpecificFile = (id) => {
+    console.log('Edit file through a modal, like name? or something??', id)
+  }
+
+  // TODO: not working great yet ??
+  const duplicateFile = (file, idx) => {
+    console.log('duplicate file', file, idx)
+
+    const dupliArr = [...uploadedFiles]
+    dupliArr.splice(idx, 0, file)
+
+    console.log('dupliArr', dupliArr)
+
+    setUploadedFiles([...dupliArr])
+  }
+  const mimeTypeInput = acceptedFileTypes + '/*'
+  // console.log('???', uploadedFiles)
 
   return (
     <InputWrapper
@@ -196,7 +369,12 @@ export const FileUpload: FC<FileUploadProps> = ({
               file={file}
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}
-              replaceSpecificFile={replaceSpecificFile}
+              replaceSpecificFile={() => replaceSpecificFile(idx)}
+              downloadFile={() => downloadFile(file)}
+              duplicateFile={() => duplicateFile(file, idx)}
+              openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
+              renameFile={() => renameFile(file, idx)}
+              fullScreenView={() => fullScreenView(file)}
               key={idx}
               id={idx}
             />
@@ -218,12 +396,14 @@ export const FileUpload: FC<FileUploadProps> = ({
           style={{
             backgroundColor: draggingOver
               ? color('lightaccent')
-              : color('background2'),
+              : color('background'),
             border: draggingOver
               ? `1px dashed ${color('accent')}`
               : `1px dashed ${color('border')}`,
-            '&:hover': {
-              cursor: disabled ? 'not-allowed' : 'pointer',
+            '@media (hover: hover)': {
+              '&:hover': {
+                cursor: disabled ? 'not-allowed' : 'pointer',
+              },
             },
           }}
         >
@@ -231,98 +411,23 @@ export const FileUpload: FC<FileUploadProps> = ({
           {draggingOver ? (
             <Text>Drop to upload</Text>
           ) : uploadedFiles.length > 0 && !multiple ? (
-            <Text>{!multiple ? 'Replace file' : 'Select a file'}</Text>
+            <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
           ) : (
-            <Text>{multiple ? 'Select your files' : 'Select a file'}</Text>
+            <Text>{multiple ? 'Select your files' : 'Upload new file'}</Text>
           )}
         </StyledFileInput>
         {/* hide the real input field */}
+
         <input
           ref={hiddenFileInput}
           onChange={(e) => changeHandler(e)}
           type="file"
           style={{ display: 'none' }}
-          accept={acceptedFileTypes && acceptedFileTypes.join(',')}
+          accept={mimeTypeInput}
           key={clearCount}
           multiple={multiple}
         />
       </styled.div>
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          marginTop: 12,
-          marginBottom: 12,
-          cursor: 'pointer',
-        }}
-        onClick={() => {
-          setShowMoreOptions(!showMoreOptions)
-        }}
-      >
-        <Text typo="caption500" style={{ marginRight: 12 }}>
-          More Options
-        </Text>
-        {showMoreOptions ? (
-          <ChevronDownIcon size={12} />
-        ) : (
-          <ChevronUpIcon size={12} />
-        )}
-      </div>
-      {showMoreOptions && (
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <Input
-              label="Upload from URL"
-              placeholder="Paste your url here"
-              style={{ marginRight: 12, width: '100%' }}
-              onChange={(e) => {
-                setUrlInputValue(e)
-              }}
-              value={urlInputValue}
-              space={12}
-            />
-            <Input
-              label="File name"
-              placeholder="Your file name"
-              space={12}
-              style={{ width: '100%' }}
-              value={fileName}
-              onChange={(e) => {
-                setFileName(e)
-              }}
-            />
-          </div>
-          <Button
-            icon={<UploadIcon />}
-            outline
-            style={{ minWidth: 162 }}
-            onClick={async () => {
-              if (urlInputValue) {
-                const file = await fetch(urlInputValue)
-                  .then(
-                    (res) => res.blob()
-                    //  mimetype = res.headers.get('content-type')
-                    //  console.log('type is', mimetype)
-                  )
-                  .then(
-                    (blobFile) =>
-                      new File(
-                        [blobFile],
-                        fileName || urlInputValue.split('/').pop(),
-                        {
-                          type: blobFile.type,
-                        }
-                      )
-                  )
-                // console.log('file before', file)
-                urlUploadFile([file])
-              }
-            }}
-          >
-            Upload from url
-          </Button>
-        </div>
-      )}
     </InputWrapper>
   )
 }

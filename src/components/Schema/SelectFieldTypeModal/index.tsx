@@ -12,8 +12,8 @@ import {
 } from '~'
 import { color as colorFn } from '~/utils'
 import { styled } from 'inlines'
-import { FieldTemplates, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
+import { groups, FieldTemplates, templates } from '../templates'
 
 const Section = styled('div', {
   marginTop: 20,
@@ -22,72 +22,6 @@ const Section = styled('div', {
   flexWrap: 'wrap',
   marginBottom: 10,
 })
-
-const {
-  string,
-  text,
-  markdown,
-  digest,
-  email,
-  url,
-  geo,
-  dateTime,
-  timestamp,
-  createdBy,
-  boolean,
-  // reference,
-  references,
-  file,
-  // files,
-  number,
-  float,
-  int,
-  array,
-  object,
-  record,
-  set,
-  json,
-} = templates
-const items = {
-  'Text and String': {
-    string,
-    text,
-    markdown,
-    digest,
-  },
-
-  'Plain formatted data': {
-    dateTime,
-    timestamp,
-    createdBy,
-    boolean,
-  },
-  Numbers: {
-    number,
-    float,
-    int,
-  },
-
-  'Complex data structures': {
-    array,
-    object,
-    record,
-    set,
-    json,
-  },
-
-  'Rich formatted data': {
-    email,
-    url,
-    geo,
-  },
-  'References and files': {
-    // reference,
-    references,
-    file,
-    // files,
-  },
-}
 
 const Template = ({ template, type, path }) => {
   const { label, description, icon, color } = templates[template]
@@ -110,8 +44,10 @@ const Template = ({ template, type, path }) => {
         userSelect: 'none',
         width: 284,
         padding: '8px 16px',
-        '&:hover': {
-          background: colorFn('border'),
+        '@media (hover: hover)': {
+          '&:hover': {
+            background: colorFn('border'),
+          },
         },
       }}
     >
@@ -140,22 +76,24 @@ export const SelectFieldTypeModal: FC<{
       setFilteredItems(null)
       return
     }
-
     const filteredArr = []
-    for (const header in items) {
-      for (const template in items[header]) {
+    for (const header in groups) {
+      if (header === 'System') {
+        continue
+      }
+      for (const template in groups[header]) {
         if (template.toLowerCase().includes(value.toLowerCase())) {
           filteredArr.push(template)
         }
       }
     }
-
     setFilteredItems(filteredArr)
   }
 
   return (
     <div>
       <Input
+        type="text"
         icon={<SearchIcon />}
         placeholder="Search and discover"
         space="0px"
@@ -197,32 +135,34 @@ export const SelectFieldTypeModal: FC<{
                   />
                 )
               })
-            : Object.keys(items).map((header) => {
-                return (
-                  <Fragment key={header}>
-                    <Text
-                      color="text2"
-                      space="12px"
-                      style={{ paddingLeft: 20, marginTop: 12 }}
-                    >
-                      {header}
-                    </Text>
-                    {Object.keys(items[header]).map(
-                      (template: FieldTemplates) => {
-                        // put template
-                        return (
-                          <Template
-                            key={template}
-                            type={type}
-                            path={path}
-                            template={template}
-                          />
-                        )
-                      }
-                    )}
-                  </Fragment>
-                )
-              })}
+            : Object.keys(groups)
+                .filter((t) => t !== 'System')
+                .map((header) => {
+                  return (
+                    <Fragment key={header}>
+                      <Text
+                        color="text2"
+                        space="12px"
+                        style={{ paddingLeft: 20, marginTop: 12 }}
+                      >
+                        {header}
+                      </Text>
+                      {Object.keys(groups[header]).map(
+                        (template: FieldTemplates) => {
+                          // put template
+                          return (
+                            <Template
+                              key={template}
+                              type={type}
+                              path={path}
+                              template={template}
+                            />
+                          )
+                        }
+                      )}
+                    </Fragment>
+                  )
+                })}
         </Grid>
       </Section>
     </div>

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useRef } from 'react'
+import React, { CSSProperties, FC, ReactNode, useRef } from 'react'
 import { color } from '~'
 import { useSortable } from '@dnd-kit/sortable'
 
@@ -10,6 +10,7 @@ export const Draggable: FC<{
   properties: object
   objects: object
   overIdRef: any
+  children?: ReactNode
 }> = ({ id, children, properties, objects, overIdRef }) => {
   const {
     attributes,

@@ -1,5 +1,5 @@
-import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
-import { parseHref, useLocation } from '~/hooks'
+import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
+import { useLocation } from '~/hooks'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
@@ -8,13 +8,13 @@ import { Link } from '../Link'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 
-type MenuHeaderProps = {
+type SystemMenuHeaderProps = {
   children?: ReactNode
   style?: CSSProperties
 }
 
-type MenuItemProps = {
-  children?: ReactNode
+type SystemMenuItemProps = {
+  children?: ReactNode | FC
   style?: CSSProperties
   href?: string
   isActive?: boolean
@@ -22,7 +22,7 @@ type MenuItemProps = {
   weight?: Weight
 }
 
-const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
+const MenuHeader: FC<SystemMenuHeaderProps> = ({ children, style }) => {
   return (
     <Text
       weight="600"
@@ -36,7 +36,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style }) => {
   )
 }
 
-export const MenuItem: FC<MenuItemProps> = ({
+export const MenuItem: FC<SystemMenuItemProps> = ({
   children,
   style,
   href,
@@ -61,15 +61,22 @@ export const MenuItem: FC<MenuItemProps> = ({
           margin: '-4px -12px',
           borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
-          '&:hover': !isActive
-            ? {
-                backgroundColor: color('background:hover'),
-                color: `${color('text')} !important`,
-              }
-            : null,
+          '@media (hover: hover)': {
+            '&:hover': !isActive
+              ? {
+                  backgroundColor: color('background:hover'),
+                  color: `${color('text')} !important`,
+                }
+              : null,
+          },
         }}
       >
-        {typeof children === 'function' ? children({ isActive }) : children}
+        {typeof children === 'function'
+          ? children({
+              // @ts-ignore
+              isActive,
+            })
+          : children}
       </Link>
     </Text>
   )
@@ -96,7 +103,7 @@ export const Menu: FC<{
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
 }> = ({ data = {}, selected, prefix = '', style, children, header }) => {
-  const [location, setLocation] = useLocation()
+  const [location] = useLocation()
 
   if (!selected) {
     selected = location
@@ -118,7 +125,6 @@ export const Menu: FC<{
   }
 
   let firstHref
-  let hasActive
   const items = data.map(({ label, href, items }, i) => {
     if (items) {
       if (!Array.isArray(items)) {
@@ -139,9 +145,7 @@ export const Menu: FC<{
               firstHref = href
             }
             const isActive = hrefIsActive(href, selected, items)
-            if (isActive) {
-              hasActive = true
-            }
+
             return (
               <MenuItem key={index} href={href} isActive={isActive} isNested>
                 {label}
@@ -161,9 +165,6 @@ export const Menu: FC<{
     }
 
     const isActive = hrefIsActive(href, selected, data)
-    if (isActive) {
-      hasActive = true
-    }
 
     return (
       <MenuItem key={i} href={href} isActive={isActive} weight={500}>
@@ -171,13 +172,6 @@ export const Menu: FC<{
       </MenuItem>
     )
   })
-
-  useEffect(() => {
-    if (!hasActive && firstHref) {
-      // setLocation(firstHref)
-      window.history.replaceState({}, '', parseHref(firstHref))
-    }
-  }, [hasActive])
 
   return (
     <ScrollArea

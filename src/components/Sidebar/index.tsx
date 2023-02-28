@@ -2,7 +2,6 @@ import React, {
   FC,
   ReactNode,
   CSSProperties,
-  useEffect,
   useState,
   FunctionComponent,
 } from 'react'
@@ -14,7 +13,7 @@ import {
   renderOrCreateElement,
 } from '~/utils'
 import { Link } from '../Link'
-import { parseHref, useLocation } from '~/hooks'
+import { useLocation } from '~/hooks'
 import { useTooltip } from '~/hooks/useTooltip'
 import { Text } from '../Text'
 import { styled } from 'inlines'
@@ -51,7 +50,6 @@ const SidebarItem: FC<SidebarItemProps> = ({
   isActive,
   children,
   expanded,
-  //  icon,
 }) => {
   const tooltip = expanded ? undefined : useTooltip(label, 'right')
 
@@ -70,14 +68,15 @@ const SidebarItem: FC<SidebarItemProps> = ({
         borderRadius: 8,
         transition: 'width 0.24s ease-out',
         paddingLeft: 10,
-        //   paddingRight: 10,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
         backgroundColor: isActive ? color('lightaccent:active') : null,
-        '&:hover': isActive
-          ? null
-          : {
-              backgroundColor: color('background:hover'),
-            },
+        '@media (hover: hover)': {
+          '&:hover': isActive
+            ? null
+            : {
+                backgroundColor: color('background:hover'),
+              },
+        },
         '& svg': {
           minWidth: '20px',
         },
@@ -114,7 +113,7 @@ export const Sidebar: FC<SidebarProps> = ({
   children,
   expandable,
 }) => {
-  const [location, setLocation] = useLocation()
+  const [location] = useLocation()
   const [expanded, setExpanded] = useState(false)
   const [hoverForExpansion, setHoverForExpansion] = useState(false)
   const [menuHeight, setMenuHeight] = useState(null)
@@ -123,7 +122,6 @@ export const Sidebar: FC<SidebarProps> = ({
     selected = location
   }
 
-  let hasActive
   const parsedData = data.map(({ label, href, icon, subTitle }) => {
     if (subTitle) {
       label = ''
@@ -141,21 +139,15 @@ export const Sidebar: FC<SidebarProps> = ({
   const elements = parsedData.map(({ label, href, icon, subTitle }, i) => {
     const isActive = hrefIsActive(href, location, parsedData)
 
-    if (isActive) {
-      hasActive = true
-    }
-
     if (subTitle) {
       return (
         <div key={i} style={{ position: 'relative', height: 52 }}>
           <Text
             wrap
-            // key={i}
             space={16}
             typo="caption600"
             color="text2"
             style={{
-              // letterSpacing: '0.02em',
               textTransform: 'uppercase',
               marginTop: 16,
               position: 'absolute',
@@ -187,15 +179,6 @@ export const Sidebar: FC<SidebarProps> = ({
     )
   })
 
-  useEffect(() => {
-    if (!hasActive) {
-      const firstHref = parsedData[0].href
-      if (firstHref) {
-        window.history.replaceState({}, '', parseHref(parsedData[0].href))
-      }
-    }
-  }, [hasActive])
-
   return (
     <div
       style={{
@@ -224,9 +207,11 @@ export const Sidebar: FC<SidebarProps> = ({
             height: '100%',
             width: 10,
             borderRight: '2px solid transparent',
-            '&:hover': {
-              borderRight: `2px solid ${color('accent')}`,
-              cursor: 'pointer',
+            '@media (hover: hover)': {
+              '&:hover': {
+                borderRight: `2px solid ${color('accent')}`,
+                cursor: 'pointer',
+              },
             },
           }}
           onMouseOver={(e) => {
@@ -254,8 +239,10 @@ export const Sidebar: FC<SidebarProps> = ({
                 top: menuHeight / 2 - 14,
                 cursor: 'pointer',
                 boxShadow: boxShadow('small'),
-                '&:hover': {
-                  backgroundColor: color('background2'),
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('background2'),
+                  },
                 },
               }}
               onClick={(e) => {

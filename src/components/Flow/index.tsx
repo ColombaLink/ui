@@ -1,26 +1,14 @@
-import React, { useRef, useEffect, ComponentType } from 'react'
+import React, { useRef, useEffect, ComponentType, ReactNode, FC } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
-import { Footer, FooterProps } from './Footer'
-import { FooterBottom } from './FooterBottom'
+import { FooterProps } from './Footer'
 import { Sequence } from './Sequence'
-import { Header, HeaderProps } from './Header'
-import { wait } from '@saulx/utils'
-import { AddIcon } from '~'
+import { HeaderProps } from './Header'
 import { getData } from './getData'
 import useDragScroll from '~/hooks/useDragScroll'
-import {
-  DataEventHandler,
-  Data,
-  ExportData,
-  File,
-  Children,
-  Color,
-} from '~/types'
+import { DataEventHandler, Data, ExportData, File, Color } from '~/types'
 import { color } from '~'
 import { OptionsComponentProps, SequenceitemProps } from './types'
-
-// flow props types
 
 type FlowProps = {
   indicator?: boolean
@@ -56,7 +44,7 @@ type FlowProps = {
   onOptions?: DataEventHandler // select options
   optionsIcon?: string
   contextualMenu?: boolean
-  children?: Children<OptionsComponentProps>
+  children?: FC<OptionsComponentProps> | ReactNode
   header?: HeaderProps
   color?: Color
 }

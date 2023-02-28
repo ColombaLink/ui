@@ -1,5 +1,5 @@
-import React, { CSSProperties, FC, ReactNode, useEffect } from 'react'
-import { parseHref, useLocation } from '~/hooks'
+import React, { CSSProperties, FC, ReactNode } from 'react'
+import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
@@ -7,7 +7,7 @@ import { Avatar } from '../Avatar'
 import { Input } from '../Input'
 import { Link } from '../Link'
 import { Logo } from '../Logo'
-import { useData, useAuth } from '@based/react'
+import { useQuery, useAuthState } from '@based/react'
 import { stringToIcon } from '~/utils/stringToIcon'
 import { Text } from '../Text'
 
@@ -62,6 +62,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
   return (
     <>
       <Input
+        type="text"
         placeholder="Search and discover"
         icon={SearchIcon}
         onChange={onFilter}
@@ -72,10 +73,10 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
 }
 
 const Profile = ({ onProfile }) => {
-  const user = useAuth()
+  const user = useAuthState()
   const {
     data: { email },
-  } = useData(
+  } = useQuery(
     // @ts-ignore
     user
       ? {
@@ -121,7 +122,7 @@ export const Topbar: FC<TopbarProps> = ({
     )
   }
 
-  let hasActive, firstHref
+  let firstHref
   const items = Object.keys(data).map((label) => {
     const href = prefix + data[label]
     if (!firstHref) {
@@ -135,9 +136,6 @@ export const Topbar: FC<TopbarProps> = ({
 
   const elements = items.map(({ label, href }, i) => {
     const isActive = hrefIsActive(href, location, items)
-    if (isActive) {
-      hasActive = true
-    }
     return (
       <TopbarTab
         key={href}
@@ -149,12 +147,6 @@ export const Topbar: FC<TopbarProps> = ({
       </TopbarTab>
     )
   })
-
-  useEffect(() => {
-    if (!hasActive && firstHref) {
-      window.history.replaceState({}, '', parseHref(firstHref))
-    }
-  }, [hasActive])
 
   return (
     <div
@@ -172,20 +164,21 @@ export const Topbar: FC<TopbarProps> = ({
     >
       <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {logo}
-          {breadcrumbs}
-          <div
-            style={{
-              display: 'flex',
-              gap: icons ? 12 : 0,
-            }}
-          >
-            {elements}
-
-            {children ? (
-              <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
-            ) : null}
-          </div>
+          <>
+            {logo}
+            {breadcrumbs}
+            <div
+              style={{
+                display: 'flex',
+                gap: icons ? 12 : 0,
+              }}
+            >
+              {elements}
+              {children ? (
+                <div style={{ marginLeft: icons ? 42 : 24 }}>{children}</div>
+              ) : null}
+            </div>
+          </>
         </div>
       </div>
 

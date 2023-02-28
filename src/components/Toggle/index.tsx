@@ -87,8 +87,10 @@ export const Toggle: FC<ToggleProps> = ({
               cursor: 'pointer',
               border: border('1px', 'border'),
               backgroundColor: color(checked ? colorProp : 'lightbackdrop'),
-              '&:hover': {
-                backgroundColor: checked ? color(colorProp, 'active') : null,
+              '@media (hover: hover)': {
+                '&:hover': {
+                  backgroundColor: checked ? color(colorProp, 'active') : null,
+                },
               },
               '&:before': {
                 content: '" "',

@@ -1,14 +1,8 @@
-import React, {
-  FC,
-  useState,
-  CSSProperties,
-  ReactChild,
-  useEffect,
-} from 'react'
+import React, { FC, useState, CSSProperties, ReactNode, useEffect } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
-import { useAuth } from '@based/react'
+import { useAuthState } from '@based/react'
 import useGlobalState from '@based/use-global-state'
 
 export type ThirdPartyProvider = 'google' | 'microsoft' | 'github'
@@ -17,13 +11,14 @@ type AuthProps = {
   onRegister?: (data: { email: string; password: string; name: string }) => void
   register?: boolean
   onResetRequest?: () => void
-  logo?: boolean | ReactChild
+  logo?: boolean | ReactNode
   overlay?: boolean
   style?: CSSProperties
   app?: FC<any | { user: { id: string; email: string } }>
   googleClientId?: string
   microsoftClientId?: string
   githubClientId?: string
+  children?: ReactNode
 }
 
 export const Authorize: FC<AuthProps> = ({
@@ -42,7 +37,7 @@ export const Authorize: FC<AuthProps> = ({
 }) => {
   const [showResetRequest, setShowResetRequest] = useState(false)
   // TODO nuno fix
-  const [email = '', setEmail] = useGlobalState('email')
+  const [email = ''] = useGlobalState('email')
   const [fadeIn, setFade] = useState(false)
 
   useEffect(() => {
@@ -57,7 +52,7 @@ export const Authorize: FC<AuthProps> = ({
     }
   }, [])
 
-  const user = useAuth()
+  const user = useAuthState()
   const [activeTab, setActiveTab] = useState(0)
 
   const auth = (
@@ -79,7 +74,7 @@ export const Authorize: FC<AuthProps> = ({
           <Tab label="Sign in">
             <Login
               onLogin={onLogin}
-              onRegisterRequest={(_email) => {
+              onRegisterRequest={() => {
                 setActiveTab(1)
               }}
               onResetRequest={() => {

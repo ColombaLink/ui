@@ -12,7 +12,7 @@ import { Data, MultiDataEventHandler, DataEventHandler, Icon } from '~/types'
 import { useFlowHover } from './useFlowHover'
 
 export type FooterProps<T = any> = {
-  label?: string
+  label?: ReactNode
   floating?: boolean
   outline?: boolean
   data?: Data<T>
@@ -33,7 +33,7 @@ export const Footer: FC<FooterProps> = ({
   data,
   floating,
   paddingLeft,
-  label = { en: 'Add item' },
+  label = 'Add item',
   onClick,
   items,
   style,
@@ -65,7 +65,6 @@ export const Footer: FC<FooterProps> = ({
       onClick={useCallback(
         (e) => {
           setLoading(true)
-
           const p = onClick(e, data || items)
           if (p instanceof Promise) {
             p.then(() => {
@@ -91,8 +90,7 @@ export const Footer: FC<FooterProps> = ({
               style: { marginRight: 15 },
               size: 14,
             })
-          : //   <Icon style={{ marginRight: 15, marginLeft: 1 }} color="text" />
-            null}
+          : null}
         <Text
           style={{ color: isHover ? color('text') : color('text2') }}
           weight={600}

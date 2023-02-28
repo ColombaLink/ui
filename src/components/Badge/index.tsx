@@ -1,11 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  ReactNode,
-  SyntheticEvent,
-  FunctionComponent,
-  useCallback,
-} from 'react'
+import React, { CSSProperties, FC, ReactNode, FunctionComponent } from 'react'
 import { border, color, renderOrCreateElement } from '~/utils'
 import { Color, Icon } from '~/types'
 import { Text } from '../Text'
@@ -35,26 +28,8 @@ export const Badge: FC<BadgeProps> = ({
   ghost,
   ...props
 }) => {
-  // TODO implement ghost!
-  // make this into a hook
   return (
     <styled.div
-      // onClick={
-      //   onClick
-      //     ? useCallback(
-      //         (e) => {
-      //           // TODO check with Maarten if we want this animation
-      //           const t = e.currentTarget
-      //           t.style.transform = 'scale(1.15)'
-      //           setTimeout(() => {
-      //             t.style.transform = 'scale(1)'
-      //           }, 100)
-      //           onClick(e)
-      //         },
-      //         [onClick]
-      //       )
-      //     : null
-      // }
       onClick={onClick}
       style={{
         transition: 'transform 0.15s',
@@ -71,11 +46,13 @@ export const Badge: FC<BadgeProps> = ({
         color: color(colorProp, 'contrast', true),
         border: border(outline && 1, colorProp, 'border', true),
         backgroundColor: ghost ? 'transparent' : color(colorProp, true),
-        '&:hover': onClick
-          ? {
-              backgroundColor: color(colorProp, 'hover', true),
-            }
-          : null,
+        '@media (hover: hover)': {
+          '&:hover': onClick
+            ? {
+                backgroundColor: color(colorProp, 'hover', true),
+              }
+            : null,
+        },
         ...style,
       }}
       {...props}

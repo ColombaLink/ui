@@ -1,12 +1,11 @@
-import { Text } from '~/components/Text'
 import { baseTheme } from '~/theme/baseTheme'
 import { darkTheme } from '~/theme/darkTheme'
 import { values } from '~/theme'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { styled } from 'inlines'
 import { border, Color, color, font } from '~/utils'
 import { transparent } from '~/components/ColorPicker/bg'
-import { useColorPicker, useHover } from '~/hooks'
+import { useColorPicker } from '~/hooks'
 import useLocalStorage from '@based/use-local-storage'
 import { rgbaToArr } from '~/components/ColorPicker/utils'
 import { ChevronDownIcon, DeleteIcon } from '~/icons'
@@ -40,14 +39,17 @@ const ColorCell = ({ name, variant = null, onChange }) => {
           alignItems: 'center',
           ...font({
             color: name,
-            variant: variant == 'contrast' ? null : 'contrast',
+            variant: variant === 'contrast' ? null : 'contrast',
           }),
-          '&:hover': {
-            background: color(name, 'hover'),
-            color: color(name, 'contrast'),
-          },
-          '&:active': {
-            background: color(name, 'active'),
+          '@media (hover: hover)': {
+            '&:hover': {
+              background: color(name, 'hover'),
+              color: color(name, 'contrast'),
+            },
+
+            '&:active': {
+              background: color(name, 'active'),
+            },
           },
         }}
       >

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { styled } from 'inlines'
 import { color, Text, usePropState } from '~'
 import Editor from '../Code/ReactSImpleEditor'
@@ -23,10 +23,15 @@ export const MarkdownInput = ({
   disabled,
 }: MarkdownInputProps) => {
   const [code, setCode] = usePropState(value)
+  useEffect(() => {
+    event.stopPropagation()
+    event.preventDefault()
+  })
 
   return (
     <StyledMarkdownInput>
       <div
+        className="markdown"
         style={{
           backgroundColor: color('background2'),
           borderRadius: 4,

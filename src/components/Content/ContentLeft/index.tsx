@@ -1,20 +1,52 @@
-import { useClient, useData } from '@based/react'
-import React, { FC } from 'react'
-import { border, LoadingIcon, Menu, Text, useSchema, useSchemaTypes } from '~'
+import { useQuery } from '@based/react'
+import React, { FC, useState } from 'react'
+import { border, LoadingIcon, Menu, Text, useSchema, Badge } from '~'
+
+export const SystemLabel = ({ isActive = false, children }) => {
+  const [hover, setHover] = useState(false)
+  let thingy: boolean
+  if (hover || isActive) {
+    thingy = false
+  } else {
+    thingy = true
+  }
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }}
+    >
+      {children}
+      <Badge ghost={thingy}>system</Badge>
+    </div>
+  )
+}
 
 export const ContentLeft: FC<{
   prefix: string
 }> = ({ prefix }) => {
   const { schema, loading: loadingSchema } = useSchema()
-  const { data: views, loading } = useData('basedObserveViews')
+  const { data: viewData, loading } = useQuery('based:observe-views')
+  const views = viewData || {}
+
   if (!loading && !loadingSchema) {
     const types = Object.keys(schema.types)
+
     if (!views.default) {
       views.default = []
     }
 
+    // reset this everytime so it syncs with the schema
+    views.default = []
+
     if (views.default.length < types.length) {
       const viewTypes = new Set(views.default.map(({ id }) => id))
+
       for (const type of types) {
         if (!viewTypes.has(type)) {
           views.default.push({
@@ -41,6 +73,12 @@ export const ContentLeft: FC<{
   }
 
   data['Default Views'] = views.default?.map(({ id, query, label }) => {
+    if (label === 'file' || label === 'root') {
+      const children = label
+      label = ({ isActive }) => (
+        <SystemLabel isActive={isActive}>{children}</SystemLabel>
+      )
+    }
     return {
       label,
       href: `/${id}?${query}`,
@@ -66,7 +104,12 @@ export const ContentLeft: FC<{
     <Menu
       prefix={prefix}
       collapse
-      style={{ paddingTop: 24, width: 234 }}
+      style={{
+        paddingTop: 24,
+        minWidth: 234,
+        paddingLeft: 16,
+        paddingRight: 16,
+      }}
       header={
         <Text
           size="22px"

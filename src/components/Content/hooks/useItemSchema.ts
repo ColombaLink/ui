@@ -5,8 +5,10 @@ export const useItemSchema = (id) => {
   if (loading || !id) {
     return { loading }
   }
+  console.info(id)
   if (id === 'root') {
-    return { schema, type: 'root', ...schema.rootType }
+    // return { schema, type: 'root', ...schema.rootType }
+    return { schema, type: 'root', ...schema.types.root }
   } else {
     const type = schema.prefixToTypeMapping[id.substring(0, 2)]
     return { schema, type, ...schema.types[type] }

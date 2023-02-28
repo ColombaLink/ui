@@ -11,15 +11,23 @@ import { SharedGeneral } from './SharedGeneral'
 import { useSchemaTypes } from '~/hooks'
 import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
-import { Accordion, AccordionItem, RadioButtons, Input } from '~'
+import { Input } from '~'
 
 const ReferencesGeneral = ({ types, options }) => {
-  console.log('options', options)
-  console.log('the types', types)
-
   return (
     <>
-      <Accordion>
+      <MultiSelect
+        placeholder="Type to reference"
+        filterable
+        style={{ marginTop: 16, width: 400 }}
+        values={options.meta.refTypes || []}
+        onChange={(values) => {
+          options.meta.refTypes = values
+        }}
+        options={Object.keys(types)}
+      />
+
+      {/* <Accordion>
         <AccordionItem label="1. Define relationship" active>
           <RadioButtons
             cards
@@ -37,21 +45,12 @@ const ReferencesGeneral = ({ types, options }) => {
               },
             ]}
           />
-          <MultiSelect
-            placeholder="Type to reference"
-            filterable
-            style={{ marginTop: 16, width: 400 }}
-            values={options.meta.refTypes || []}
-            onChange={(values) => {
-              options.meta.refTypes = values
-            }}
-            options={Object.keys(types)}
-          />
+          
         </AccordionItem>
         <AccordionItem label="2. Field info" />
         <AccordionItem label="3. Bi-directional" />
         <AccordionItem label="4. Target info" />
-      </Accordion>
+      </Accordion> */}
     </>
   )
 }
@@ -242,19 +241,26 @@ export const FieldModal: FC<
         ...fields[field],
       }
     } else {
+      // @ts-ignore
       optionsRef.current = {
-        // @ts-ignore
         meta: {},
         ...templates[template].schema,
       }
     }
   }
-
+  const isRegex = (value) => {
+    try {
+      const theRegex = new RegExp(value)
+      return theRegex
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const options = optionsRef.current
 
   const { label, icon, color } = templates[template]
   const TypeSpecificGeneral = general[template]
-
+  console.log(options.meta.format)
   return (
     <Dialog>
       <Dialog.Body>
@@ -294,25 +300,83 @@ export const FieldModal: FC<
                 types={types}
               />
             )}
+            {options.meta.format === 'src' && (
+              <Select
+                style={{ marginTop: 40 }}
+                label="Mime type"
+                // @ts-ignore TODO: why is mimetype not allowed
+                value={options.meta.mimeType}
+                options={['image', 'video', 'audio', 'document']}
+                onChange={(e) => {
+                  // @ts-ignore TODO: why is mimetype not allowed
+                  options.meta.mimeType = e
+                }}
+              />
+            )}
+            {options.meta.format === 'progress' && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-around',
+                  alignItems: 'center',
+                  marginTop: 40,
+                }}
+              >
+                <Input
+                  type="number"
+                  style={{ minWidth: 100 }}
+                  placeholder="Min"
+                  onChange={(e) => {
+                    options.meta.progressMin = e
+                  }}
+                />
+                <Text wrap>&</Text>
+                <Input
+                  type="number"
+                  style={{ minWidth: 100 }}
+                  placeholder="Max"
+                  onChange={(e) => {
+                    options.meta.progressMax = e
+                  }}
+                />
+              </div>
+            )}
           </Tab>
-          <Tab label="Settings">
+          <Tab label="Settings" style={{ overflow: 'auto' }}>
             <div style={{ marginTop: 24, marginBottom: 24, paddingLeft: 16 }}>
               <Checkbox
                 space
                 label="Can't be empty"
                 description="Prevents saving an entry if this field is empty"
+                onChange={(e) => {
+                  options.meta.mustFill = e
+                }}
               />
               <Checkbox
                 space
                 label="Set field as unique"
                 description="Ensures that multiple entries can't have the same value for this field"
               />
-              <Checkbox
+              <Input
+                type="number"
                 space
                 label="Limit character count"
                 description="Specifies the maximum number of characters allowed in this field"
-                onChange={(e) => console.log('this is checked now --->', e)}
+                onChange={(e) => {
+                  options.meta.maxChar = e
+                }}
+
+                // input max chars = this
               />
+              <Checkbox
+                space
+                label="Read only"
+                description="Read only for you and me"
+                onChange={(e) => {
+                  options.meta.readOnly = e
+                }}
+              />
+
               {true && (
                 <div
                   style={{
@@ -346,10 +410,15 @@ export const FieldModal: FC<
                   />
                 </div>
               )}
-              <Checkbox
+              <Input
+                type="text"
                 space
                 label="Match a specific pattern"
                 description="Only accepts values that match a specific regular exporession"
+                onChange={(e) => {
+                  console.log(isRegex(e))
+                  options.meta.regex = e
+                }}
               />
               <Checkbox
                 space

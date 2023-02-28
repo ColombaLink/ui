@@ -1,13 +1,4 @@
-import {
-  ReactChild,
-  ReactChildren,
-  ComponentType,
-  ReactText,
-  PropsWithChildren,
-  ReactNode,
-  SyntheticEvent,
-  SVGProps,
-} from 'react'
+import { SyntheticEvent, SVGProps } from 'react'
 
 import { IconProps } from '../components/Icon'
 export type { Color, ColorVariant, AccentColor } from '../utils/color'
@@ -62,7 +53,57 @@ export type PropsEventHandler<E = SyntheticEvent, P = any> = (
   props?: P
 ) => void | Promise<void> | boolean | Promise<boolean>
 
-export type Key =
+type Char =
+  | 'A'
+  | 'B'
+  | 'C'
+  | 'D'
+  | 'E'
+  | 'F'
+  | 'G'
+  | 'H'
+  | 'I'
+  | 'J'
+  | 'K'
+  | 'L'
+  | 'M'
+  | 'N'
+  | 'O'
+  | 'P'
+  | 'Q'
+  | 'R'
+  | 'S'
+  | 'T'
+  | 'U'
+  | 'V'
+  | 'W'
+  | 'X'
+  | 'Y'
+  | 'Z'
+  | '0'
+  | '1'
+  | '2'
+  | '3'
+  | '4'
+  | '5'
+  | '6'
+  | '7'
+  | '8'
+  | '9'
+  | '`'
+  | '§'
+  | ','
+  | '.'
+  | '/'
+  | ';'
+  | "'"
+  | '\\'
+  | '['
+  | ']'
+  | '-'
+  | '='
+
+export type InputKey =
   | 'Enter'
   | 'Esc'
   | 'ArrowUp'
@@ -70,6 +111,18 @@ export type Key =
   | 'ArrowLeft'
   | 'ArrowRight'
   | 'Tab'
+  | Char
+
+export type ModKeys = `Cmd` | `Alt` | `Shift`
+
+type DoubleMod<M extends ModKeys> = `${M}+${Exclude<ModKeys, M>}+${InputKey}`
+
+export type Key =
+  | InputKey
+  | `${ModKeys}+${InputKey}`
+  | DoubleMod<'Cmd'>
+  | DoubleMod<'Alt'>
+  | DoubleMod<'Shift'>
 
 export type Data<T = {}> = T & {
   data: any
@@ -78,19 +131,6 @@ export type Data<T = {}> = T & {
 }
 
 export type ExportData<T = any> = (data: Data<T>) => Promise<ExportedData>
-
-export type Children<T = PropsWithChildren<any>> =
-  | ReactChild
-  | ReactChildren
-  | ComponentType<T>
-  | ReactText
-  | ReactText[]
-  | ReactNode
-  | ReactNode[]
-  | number
-  | string
-  | number[]
-  | string[]
 
 export type ExportedData = {
   file?: {

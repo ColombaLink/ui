@@ -1,11 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { useMultiSelect } from '~/hooks/useSelect'
 import { Text } from '~/components/Text'
 import { deepEqual } from '@saulx/utils'
@@ -18,7 +11,7 @@ import {
 } from '../ContextMenu'
 import { Color } from '~/types'
 import { PositionProps } from '../Overlay'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { ChevronDownIcon } from '~/icons'
 
 export type MultiSelectProps = {
@@ -29,7 +22,7 @@ export type MultiSelectProps = {
   options: (Option | Value)[]
   overlay?: PositionProps
   placeholder?: string
-  style?: CSSProperties
+  style?: Style
   values?: Value[]
   ghost?: boolean
 }
@@ -172,8 +165,9 @@ export const MultiSelect: FC<MultiSelectProps> = ({
       backgroundColor: null,
       border: null,
       padding: 0,
-      // @ts-ignore
-      '&:hover': null,
+      '@media (hover: hover)': {
+        '&:hover': null,
+      },
       boxShadow: null,
     }
   }
