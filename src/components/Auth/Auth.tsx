@@ -2,7 +2,7 @@ import React, { FC, useState, CSSProperties, ReactNode, useEffect } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
-import { useAuthState } from '@based/react'
+import { useAuth } from '@based/react'
 import useGlobalState from '@based/use-global-state'
 
 export type ThirdPartyProvider = 'google' | 'microsoft' | 'github'
@@ -52,7 +52,7 @@ export const Authorize: FC<AuthProps> = ({
     }
   }, [])
 
-  const user = useAuthState()
+  const user = useAuth()
   const [activeTab, setActiveTab] = useState(0)
 
   const auth = (
