@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { usePropState } from '~/hooks'
 import { Input } from '~/components/Input'
 
+// TODO: needs more props - shared with input
 export const ResizableInput = ({
   value: valueProp,
   onSubmit,
@@ -25,6 +26,7 @@ export const ResizableInput = ({
 
   return (
     <Input
+      type="text"
       placeholder=""
       ghost
       value={value}
@@ -32,7 +34,6 @@ export const ResizableInput = ({
       autoFocus={!valueProp}
       style={{ width, minWidth: 42 }}
       onKeyDown={(e) => {
-        console.log('------- ! -------')
         if (e.key === 'Backspace') {
           if (!value) {
             onDelete?.()

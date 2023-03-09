@@ -14,14 +14,19 @@ import {
   color,
   useLocation,
 } from '../'
-import based from '@based/client'
+import { BasedClient } from '@based/client'
 import * as stories from './stories'
 import { toPascalCase } from './utils'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import basedConfig from './based.json'
 
-export const client = based(basedConfig)
+export const client = new BasedClient({
+  project: 'YOUZI',
+  url: 'ws://localhost:8297',
+})
+
+console.log('??', client.opts)
 
 const Stories: FC = () => {
   useLocation()
@@ -50,6 +55,8 @@ const menuItems = {
     Schema: '?story=schema',
     SchemaModals: '?story=schema-modals',
     QueryBar: '?story=QuerySearchBar',
+    QueryFilters: '?story=QueryFilterBar',
+    QueryBuilder: '?story=QueryBuilders',
   },
   Input: {
     Buttons: '?story=buttons',
@@ -120,6 +127,7 @@ const menuItems = {
   Insights: {
     BarGraphs: '?story=BarGraphs',
     LineGraph: '?story=lineGraph',
+    MultiLineGraph: '?story=multiLineGraph',
     PieGraph: '?story=PieGraphs',
     ResultCards: '?story=ResultCards',
     // ScatterResults: '?story=ScatterResults',
@@ -142,6 +150,7 @@ const menuItems = {
     // ProjectSettings: '?story=project-settings',
     // Tally: '?story=tally-screens',
     Kyles: '?story=KylesPlayground',
+    ProgressBar: '?story=ProgressIndicators',
     Drawer: '?story=Drawers',
   },
 }

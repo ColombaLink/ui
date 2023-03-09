@@ -5,8 +5,6 @@ import { Cell } from './Cell'
 
 const Grid = styled(VariableSizeGrid)
 
-// let selectedRowCheckboxes = []
-
 export const InnerTable = ({
   tableRef,
   types,

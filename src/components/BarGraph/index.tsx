@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { CSSProperties, FC, ReactNode } from 'react'
 import { Color, color } from '~/utils'
 import { Text, Label } from '~'
 import { useTooltip } from '~/hooks'
@@ -226,7 +226,7 @@ type BarSegmentProps = {
   style?: CSSProperties
   label?: string
   bgColor?: string
-  legend?: string[] | { [key: string]: string }
+  legend?: ReactNode
 }
 
 export const BarSegment: FC<BarSegmentProps> = ({
@@ -296,9 +296,11 @@ export const BarSegment: FC<BarSegmentProps> = ({
         backgroundColor: bgColor || color('accent'),
         opacity: `calc(1 - 0.${(id as any) * 2})`,
         ...style,
-        '&:hover': {
-          opacity: 0.5,
-          backgroundColor: bgColor,
+        '@media (hover: hover)': {
+          '&:hover': {
+            opacity: 0.5,
+            backgroundColor: bgColor,
+          },
         },
       }}
       {...props}

@@ -37,9 +37,11 @@ const StyledMoreIcon = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  '&:hover': {
-    cursor: 'pointer',
-    background: color('background2'),
+  '@media (hover: hover)': {
+    '&:hover': {
+      cursor: 'pointer',
+      background: color('background2'),
+    },
   },
 })
 
@@ -146,7 +148,7 @@ export const UploadedFileItem = ({
         <AttachmentIcon />
       )}
       <Text
-        style={{ marginTop: 6, marginBottom: 6, maxWidth: '30vw' }}
+        style={{ marginTop: 6, marginBottom: 6, maxWidth: '25vw' }}
         weight={400}
       >
         {file?.name}

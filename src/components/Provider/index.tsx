@@ -10,7 +10,7 @@ import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
 import { Provider as BasedProvider } from '@based/react'
-import { Based } from '@based/client'
+import { BasedClient } from '@based/client'
 import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
@@ -22,7 +22,7 @@ import { RouterCtx } from '~/hooks/location/types'
 type ProviderProps = {
   children?: ReactNode
   style?: CSSProperties
-  client?: Based
+  client?: BasedClient
   theme?: 'light' | 'dark'
   themes?: {
     base?: object

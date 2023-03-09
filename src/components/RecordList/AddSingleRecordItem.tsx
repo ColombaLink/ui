@@ -36,7 +36,7 @@ export const addSingleRecordItem = async (
         autoFocus
         value={inputValue}
         onChange={(e) => {
-          inputValue = e
+          inputValue = String(e)
         }}
       />
 

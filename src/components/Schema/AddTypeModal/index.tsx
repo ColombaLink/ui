@@ -1,8 +1,8 @@
-import { Input, Dialog, useLocation } from '~'
+import { Input, Dialog, useLocation, useSchema } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
-import { useClient, useSchema } from '@based/react'
+import { useClient } from '@based/react'
 
 export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
   const { schema } = useSchema()
@@ -64,6 +64,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
           value={typeName || safeTypeName(name)}
         />
         <Input
+          type="text"
           multiline
           label="Description"
           description="Displays a hint for content editors"
@@ -97,14 +98,14 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
               if (schema) {
                 schema.types[type] = typeSchema
               }
-
-              await client.updateSchema({
+              // @ts-ignore
+              await client.call('db:set-schema', {
+                db,
                 schema: {
                   types: {
                     [type]: typeSchema,
                   },
                 },
-                db,
               })
 
               setLocation(`${prefix}/${type}`)

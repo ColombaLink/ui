@@ -1,11 +1,11 @@
-import { useAuth } from '@based/react'
+import { useAuthState } from '@based/react'
 import React, { FC } from 'react'
 import { Avatar, useContextMenu } from '~'
 import { UserProfile } from '~/components/Auth'
 import { Authorize } from '../../../components/Auth/Auth'
 
 const AuthorizedCompoent: FC = () => {
-  const user = useAuth()
+  const user = useAuthState()
   const onProfile = useContextMenu(
     UserProfile,
     { id: user && user.id },

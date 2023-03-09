@@ -6,7 +6,7 @@ import { TimeInput } from './TimeInput'
 import { DateInput } from './DateInput'
 import { UtcInput } from './UtcInput'
 import { DateRangeInput } from './DateRangeInput'
-import { start } from 'repl'
+
 
 type DateTimePickerProps = {
   label?: string
@@ -19,8 +19,8 @@ type DateTimePickerProps = {
   error?: (value: boolean | string | number) => string
   disabled?: boolean
   value?: string | number
-  startValue?: string | number
-  endValue?: string | number
+  startValue?: string
+  endValue?: string
   time?: boolean
   utc?: boolean
   dateRange?: boolean
@@ -60,23 +60,24 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   utc,
   onClose = () => {},
 }) => {
-  const [incomingValue, setIncomingValue] = usePropState(value)
+  const [incomingValue] = usePropState(value)
 
   const [focus, setFocus] = useState(false)
 
   const [dateFormatInput, setDateFormatInput] = useState('')
   const [dateTimeInput, setDateTimeInput] = useState<string>('')
-  const [dateUtcInput, setDateUtcInput] = useState('')
+  // UTC
+  // const [dateUtcInput, setDateUtcInput] = useState('')
 
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage] = useState('')
 
-  const [fromValue, setFromValue] = useState<string>(startValue || '')
-  const [tillValue, setTillValue] = useState<string>(endValue || '')
+  const [fromValue, setFromValue] = useState<string | number>(startValue || '')
+  const [tillValue, setTillValue] = useState<string | number>(endValue || '')
 
   const [blurred, setBlurred] = useState(false)
 
   useEffect(() => {
-    let incomingTime = new Date(incomingValue)
+    const incomingTime = new Date(incomingValue)
       .toString()
       .split(' ')[4]
       ?.substring(0, 5)
@@ -143,6 +144,9 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
 
       const outputMs = new Date(dateString).getTime().toString()
 
+      /// TODO: when error message
+      console.log('Error log -->', error)
+
       // console.log('this flippin ', new Date(dateString).getTime().toString())
 
       //  const msg = error?.(outPutInMs)
@@ -187,13 +191,16 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     }
   }
 
-  const utcInputHandler = (val) => {
-    // onthoud de utc value
-    // placeholder is huidige timezone
-    // const tempMs = +val.substring(3) * 60 * 60000
-    // setUtcInputInMs(tempMs)
-    // newMsFromAll(dateFormatInput, dateTimeInput, temp)
-  }
+  // temp utc functie
+  const utcInputHandler = () => {}
+
+  // const utcInputHandler = (val ) => {
+  // onthoud de utc value
+  // placeholder is huidige timezone
+  // const tempMs = +val.substring(3) * 60 * 60000
+  // setUtcInputInMs(tempMs)
+  // newMsFromAll(dateFormatInput, dateTimeInput, temp)
+  // }
 
   const clearHandler = () => {
     setDateFormatInput('')
@@ -227,6 +234,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       // console.log(onChange)
 
       // TODO: fix this think about this
+      // @ts-ignore
       onChange()
 
       // // @ts-ignore
@@ -261,6 +269,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       errorMessage={errorMessage}
       disabled={disabled}
       style={style}
+      // @ts-ignore
       onBlur={() => {
         InputWrapperBlurHandler()
       }}
@@ -268,14 +277,14 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       <Label label={label} description={description} space="12px" />
       {dateRange ? (
         <DateRangeInput
-          dateHandler={dateHandler}
-          value={dateFormatInput}
-          setErrorMessage={setErrorMessage}
+          // dateHandler={dateHandler}
+          //  value={dateFormatInput}
+          //  setErrorMessage={setErrorMessage}
           setFromValue={setFromValue}
           setTillValue={setTillValue}
-          fromValue={fromValue}
-          tillValue={tillValue}
-          setFocused={setFocus}
+          fromValue={fromValue as string}
+          tillValue={tillValue as string}
+          //  setFocused={setFocus}
         />
       ) : (
         <div style={{ display: 'flex', justifyContent: 'flex-start', gap: 12 }}>

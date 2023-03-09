@@ -51,8 +51,8 @@ export const KylesPlayground = () => {
               <Text capitalize style={{ color: color }}>
                 Anime girls
               </Text>
-              <ProgressBar />
-              <Input type="password" />
+              <ProgressBar progress={0} />
+              <Input type="password" onChange={(v) => console.info(v)} />
               <ColorPicker onChange={handleChange} />
               <Separator />
               <BarGraph

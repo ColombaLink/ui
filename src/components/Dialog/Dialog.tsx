@@ -2,6 +2,7 @@ import { styled } from 'inlines'
 import React, {
   forwardRef,
   ElementRef,
+  FC,
   ComponentProps,
   ReactNode,
   Fragment,
@@ -11,14 +12,14 @@ import React, {
 } from 'react'
 import { useDialog } from './useDialog'
 import { Text } from '../Text'
-import { useHotkeys } from '~/hooks'
-import { Button } from '../Button'
+import { Button, ButtonProps } from '../Button'
 import { ScrollArea } from '../ScrollArea'
 import { color } from '~/utils'
 
 const Container = styled('div', {
   width: 632,
   maxHeight: 'calc(100vh - 30px)',
+  maxWidth: 'calc(100vw - 30px)',
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 8,
@@ -30,6 +31,12 @@ const ScrollBody = styled('div', {
   paddingTop: '16px',
   paddingLeft: '32px',
   paddingRight: '32px',
+  '--dialogPadding': `32px`,
+  '@media only screen and (max-width: 680px)': {
+    '--dialogPadding': `16px`,
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  },
   paddingBottom: '0px',
   width: '100%',
   '&>:last-child': {
@@ -43,6 +50,9 @@ const StyledButtons = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
+  '@media only screen and (max-width: 680px)': {
+    justifyContent: 'space-between',
+  },
   paddingTop: 'var(--dialogPadding)',
   backgroundColor: color('background2dp'),
   paddingBottom: 'var(--dialogPadding)',
@@ -51,11 +61,14 @@ const StyledButtons = styled('div', {
 const ButtonsWithBorder = styled(StyledButtons, {
   borderTop: `1px solid ${color('border')}`,
   marginTop: 48,
-  paddingTop: 24,
-  paddingLeft: 24,
+  paddingLeft: '32px',
+  paddingRight: '32px',
+  '@media only screen and (max-width: 680px)': {
+    paddingLeft: '16px',
+    paddingRight: '16px',
+  },
   borderBottomLeftRadius: 8,
   borderBottomRightRadius: 8,
-  paddingRight: 24,
   marginLeft: 'calc(-1 * var(--dialogPadding))',
   marginRight: 'calc(-1 * var(--dialogPadding))',
 })
@@ -116,7 +129,11 @@ const Buttons = ({ children, border = null }) => {
   )
 }
 
-const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
+const Confirm: FC<
+  Omit<ButtonProps, 'onClick'> & {
+    onConfirm?: ((val?: any) => Promise<void>) | ((val?: any) => void)
+  }
+> = ({ children = 'OK', onConfirm, ...props }) => {
   const dialog = useDialog()
 
   const { current: myId } = useRef(dialog._id)
@@ -135,18 +152,23 @@ const Confirm = ({ children = 'OK', onConfirm, ...props }) => {
       }
 
   return (
-    <Button large onClick={onClick} {...props} actionKeys={['Enter']}>
+    <Button
+      large
+      onClick={onClick}
+      keyboardShortcut="Enter"
+      displayShortcut
+      {...props}
+    >
       {children}
     </Button>
   )
 }
 
-const Cancel = ({
-  children = 'Cancel (Esc)',
-  onCancel = null,
-  style = null,
-  ...props
-}) => {
+const Cancel: FC<
+  Omit<ButtonProps, 'onClick'> & {
+    onCancel?: (() => Promise<void>) | (() => void)
+  }
+> = ({ children = `Cancel`, onCancel = null, style = null, ...props }) => {
   const dialog = useDialog()
   const { current: myId } = useRef(dialog._id)
 
@@ -163,8 +185,6 @@ const Cancel = ({
         }
       }
 
-  useHotkeys([['escape', onClick]])
-
   return (
     <Button
       large
@@ -172,6 +192,8 @@ const Cancel = ({
       outline
       color="text"
       light
+      keyboardShortcut="Esc"
+      displayShortcut
       style={{
         borderColor: color('border'),
         ...style,
@@ -186,16 +208,12 @@ const Cancel = ({
 export interface DialogProps extends ComponentProps<typeof Container> {
   children?: ReactNode
   label?: string
-  padding?: number
   pure?: boolean
 }
 
 export const Dialog = Object.assign(
   forwardRef<ElementRef<typeof Container>, DialogProps>(
-    (
-      { children, label, padding = 24, style, pure, ...props },
-      forwardedRef
-    ) => {
+    ({ children, label, style, pure, ...props }, forwardedRef) => {
       if (typeof children === 'string') {
         if (!label) {
           label = children
@@ -227,26 +245,22 @@ export const Dialog = Object.assign(
           {...props}
         >
           {label && (
-            <div
+            <styled.div
               style={{
-                // borderBottom: `1px solid ${color('border')}`,
                 padding: '24px 32px 8px 32px',
+                '@media only screen and (max-width: 680px)': {
+                  padding: '24px 16px 8px 16px',
+                },
               }}
             >
               <Text typo="subtitle600">{label}</Text>
-            </div>
+            </styled.div>
           )}
           {pure ? (
             children
           ) : (
-            <ScrollArea>
-              <ScrollBody
-                style={{
-                  '--dialogPadding': `${padding}px`,
-                }}
-              >
-                {children}
-              </ScrollBody>
+            <ScrollArea style={{ overflow: go ? null : 'hidden' }}>
+              <ScrollBody>{children}</ScrollBody>
             </ScrollArea>
           )}
         </Container>

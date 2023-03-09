@@ -248,7 +248,14 @@ export const FieldModal: FC<
       }
     }
   }
-
+  const isRegex = (value) => {
+    try {
+      const theRegex = new RegExp(value)
+      return theRegex
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const options = optionsRef.current
 
   const { label, icon, color } = templates[template]
@@ -335,23 +342,31 @@ export const FieldModal: FC<
               </div>
             )}
           </Tab>
-          <Tab label="Settings">
+          <Tab label="Settings" style={{ overflow: 'auto' }}>
             <div style={{ marginTop: 24, marginBottom: 24, paddingLeft: 16 }}>
               <Checkbox
                 space
                 label="Can't be empty"
                 description="Prevents saving an entry if this field is empty"
+                onChange={(e) => {
+                  options.meta.mustFill = e
+                }}
               />
               <Checkbox
                 space
                 label="Set field as unique"
                 description="Ensures that multiple entries can't have the same value for this field"
               />
-              <Checkbox
+              <Input
+                type="number"
                 space
                 label="Limit character count"
                 description="Specifies the maximum number of characters allowed in this field"
-                onChange={(e) => console.log('this is checked now --->', e)}
+                onChange={(e) => {
+                  options.meta.maxChar = e
+                }}
+
+                // input max chars = this
               />
               <Checkbox
                 space
@@ -395,10 +410,15 @@ export const FieldModal: FC<
                   />
                 </div>
               )}
-              <Checkbox
+              <Input
+                type="text"
                 space
                 label="Match a specific pattern"
                 description="Only accepts values that match a specific regular exporession"
+                onChange={(e) => {
+                  console.log(isRegex(e))
+                  options.meta.regex = e
+                }}
               />
               <Checkbox
                 space

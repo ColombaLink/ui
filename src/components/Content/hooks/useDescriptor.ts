@@ -1,4 +1,4 @@
-import { useData } from '@based/react'
+import { useQuery } from '@based/react'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { useLanguage } from '../hooks/useLanguage'
 
@@ -18,23 +18,19 @@ export const useDescriptor = (id) => {
     ? getDescriptors(schema.fields, schema.meta)
     : []
 
-  // console.log(descriptorFields, 'descriptorFields')
+  console.info(schema.fields, id)
 
-  const { data, loading } = useData(
-    schema.fields
-      ? {
-          $id: id,
-          $language: language,
-          descriptor: {
-            $field: descriptorFields,
-          },
-        }
-      : null
-  )
+  const { data, loading } = useQuery(schema.fields ? 'db' : null, {
+    $id: id,
+    $language: language,
+    descriptor: {
+      $field: descriptorFields,
+    },
+  })
 
   return {
     ...schema,
-    descriptor: data.descriptor || '',
+    descriptor: data?.descriptor || '',
     loading: schema.loading || loading,
     descriptorFields,
   }

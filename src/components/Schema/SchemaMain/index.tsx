@@ -13,14 +13,12 @@ import {
 } from '~'
 import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
-import { border, color } from '~/utils'
+import { border } from '~/utils'
 import { Dialog, useDialog } from '~/components/Dialog'
 
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 
-const EditMenu = ({ type, path }) => {
-  const { types } = useSchemaTypes()
-  const { confirm } = useDialog()
+const EditMenu = ({ type }) => {
   const { open } = useDialog()
   const client = useClient()
   return (
@@ -77,15 +75,17 @@ const EditMenu = ({ type, path }) => {
                 <Dialog.Cancel />
                 <Dialog.Confirm
                   color="red"
-                  onConfirm={async () =>
-                    await client.call('basedUpdateSchema', {
-                      types: {
-                        [type]: {
-                          $delete: true,
+                  onConfirm={async () => {
+                    await client.call('db:set-schema', {
+                      schema: {
+                        types: {
+                          [type]: {
+                            $delete: true,
+                          },
                         },
                       },
                     })
-                  }
+                  }}
                 >
                   {`Delete ${type}`}
                 </Dialog.Confirm>
@@ -144,20 +144,26 @@ const Header = ({ back = null, children, type, path }) => {
           style={{
             userSelect: 'none',
             lineHeight: '32px',
-            marginRight: 16,
+            marginRight: 8,
             // textTransform: 'capitalize',
           }}
         >
           {children}
         </Text>
-        <MoreIcon
-          onClick={openEditMenu}
-          style={{
-            marginTop: 3,
-            cursor: 'pointer',
-            // marginLeft: 20,
-            // marginLeft: 16,
-          }}
+        <Button
+          ghost
+          color="text"
+          icon={
+            <MoreIcon
+              onClick={openEditMenu}
+              style={{
+                marginTop: 3,
+                cursor: 'pointer',
+                // marginLeft: 20,
+                // marginLeft: 16,
+              }}
+            />
+          }
         />
       </div>
 

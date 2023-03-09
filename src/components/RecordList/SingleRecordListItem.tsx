@@ -12,8 +12,6 @@ import {
 } from '~'
 import { useDialog } from '~/components/Dialog'
 
-// const stopPropagation = (e) => e.stopPropagation()
-
 type SingleRecordListItemProps = {
   index?: number
   objectKey?: string
@@ -92,17 +90,14 @@ const editSpecificItem = async (
   setTempObj,
   itemType
 ) => {
-  console.log('EDIT ITEM', index, objectKey, objectValue)
-
   let newObjKey = objectKey
   let newObjVal = objectValue
-
   const oldObjKey = objectKey
-  // const oldObjVal = objectValue
 
   await open(
     <Dialog label={`Edit ${objectKey} : ${objectValue} `}>
       <Input
+        type="text"
         label="Object Key"
         value={newObjKey}
         space

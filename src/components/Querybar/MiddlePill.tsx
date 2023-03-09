@@ -41,9 +41,7 @@ export const MiddlePill = ({
   if (openSelectBox.open) {
     // selectRef.current.focus()
     if (idx === openSelectBox.num) {
-      console.log(
-        selectRef.current.childNodes[0].childNodes[0].childNodes[0].click()
-      )
+      selectRef.current?.childNodes[0].childNodes[0].childNodes[0]?.click()
     }
 
     setOpenSelectBox({ num: idx, open: false })
@@ -81,24 +79,32 @@ export const MiddlePill = ({
               value={text}
               // @ts-ignore
               style={{
+                // @ts-ignore
                 '& div': { padding: '10px' },
                 '& svg': { display: 'none' },
               }}
-              onChange={(e) => {
-                const tempSplitted = [...splittedInputValue]
-                tempSplitted[idx] = e
+              onChange={(e: string) => {
+                // setValueText(e)
+                console.log('Change -->', e, 'type of e -->', typeof e)
 
-                if (!filtersAreNested) {
-                  setInputValue(tempSplitted.join(' '))
-                  // setSplittedInputValue([...tempSplitted])
-                } else {
-                  FlattenFilters(query.filters)
-                  query.filters = snurpArr.reverse()
-                  setQuery({ ...query })
-
-                  // dan pas veranderen
-                  setInputValue(tempSplitted.join(' '))
-                  setFiltersAreNested(false)
+                if (
+                  Object.keys(operatorMap).includes(e) &&
+                  carretIsInBlockIndex !== idx
+                ) {
+                  const tempSplitted = [...splittedInputValue] as
+                    | string[]
+                    | number[]
+                  tempSplitted[idx] = e
+                  if (!filtersAreNested) {
+                    setInputValue(tempSplitted.join(' '))
+                  } else {
+                    FlattenFilters(query.filters)
+                    query.filters = snurpArr.reverse()
+                    setQuery({ ...query })
+                    //   // dan pas veranderen
+                    setInputValue(tempSplitted.join(' '))
+                    setFiltersAreNested(false)
+                  }
                 }
               }}
               options={Object.keys(operatorMap)}

@@ -1,5 +1,5 @@
-import { useClient, useData } from '@based/react'
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { useClient, useQuery } from '@based/react'
+import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { Badge } from '~/components/Badge'
 import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
@@ -17,8 +17,9 @@ import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
 import { styled } from 'inlines'
+import useGlobalState from '@based/use-global-state'
 
-const Topbar = ({ id, type, onClose }) => {
+const Topbar = ({ id, type }) => {
   const [location, setLocation] = useLocation()
   const { type: schemaType, loading } = useDescriptor(id)
 
@@ -55,7 +56,10 @@ const Topbar = ({ id, type, onClose }) => {
   )
 }
 
-const SideHeader: FC<{ title: string }> = ({ title, children }) => {
+const SideHeader: FC<{ title: string; children?: ReactNode }> = ({
+  title,
+  children,
+}) => {
   return (
     <div
       style={{
@@ -76,7 +80,7 @@ const SideHeader: FC<{ title: string }> = ({ title, children }) => {
 const LastSaved = ({ id }) => {
   const {
     data: { updatedAt },
-  } = useData({
+  } = useQuery('db', {
     $id: id,
     updatedAt: true,
   })
@@ -141,6 +145,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
   const [language, setLanguage] = useLocalStorage('bui_lang')
   const { open } = useDialog()
   const type = id ? null : field
+  const [inputGood, setInputGood] = useGlobalState('input')
 
   const [copied, copy] = useCopyToClipboard(id)
   useEffect(() => {
@@ -150,11 +155,12 @@ const ContentModalInner = ({ prefix, id, field }) => {
         e.keyCode === 13 &&
         !e.shiftKey &&
         document.activeElement.className !==
-          'npm__react-simple-code-editor__textarea'
+          'npm__react-simple-code-editor__textarea' &&
+        inputGood
       ) {
         const blabla = async () => {
           parseBasedSetPayload(changes)
-          await client.set({
+          await client.call('db:set', {
             $id: id?.split('.')[0] || undefined,
             type,
             ...changes,
@@ -182,7 +188,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
 
   const onClose = async () => {
     const changedFields = Object.keys(ref.current).length
-
+    // make so if dialog open enter doesnt publish
     if (changedFields) {
       open(
         <Dialog
@@ -217,7 +223,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
       setLocation(prefix)
     }
   }
-
+  console.log(inputGood)
   return (
     <div
       style={{
@@ -256,7 +262,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <Topbar id={id} type={type} onClose={onClose} />
+        <Topbar id={id} type={type} />
         <div
           style={{
             display: 'flex',
@@ -265,6 +271,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
         >
           <ScrollArea style={{ flexGrow: 1 }}>
             <ContentEditor
+              inputGood={() => setInputGood(true)}
               id={id}
               type={type}
               language={language}
@@ -272,13 +279,14 @@ const ContentModalInner = ({ prefix, id, field }) => {
               autoFocus={id ? field : null}
               prefix={prefix}
               onChange={(data) => {
+                // console.log('data')
                 setDisabled(false)
 
                 if (
                   typeof data === 'object' &&
                   !Array.isArray(data[Object.keys(data)[0]])
                 ) {
-                  console.warn('doing deep merge!', changes, data)
+                  // console.warn('doing deep merge!', changes, data)
                   deepMerge(changes, data)
                 } else {
                   //    console.log('array ', data, changes)
@@ -307,8 +315,10 @@ const ContentModalInner = ({ prefix, id, field }) => {
                 marginLeft: 'auto',
                 borderRadius: 16,
                 backgroundColor: color('lighttext'),
-                '&:hover': {
-                  backgroundColor: color('lighttext:hover'),
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('lighttext:hover'),
+                  },
                 },
               }}
               onClick={onClose}
@@ -323,7 +333,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
               style={{ width: '100%' }}
               onClick={async () => {
                 parseBasedSetPayload(changes)
-                await client.set({
+                await client.call('db:set', {
                   $id: id?.split('.')[0] || undefined,
                   type,
                   ...changes,

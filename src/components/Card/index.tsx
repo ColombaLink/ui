@@ -1,15 +1,15 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { Label } from '../Label'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { Text } from '../Text'
 
 type CardProps = {
   label?: string
   description?: string
   space?: Space
-  style?: CSSProperties
+  style?: Style
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
   bottomRight?: ReactNode
@@ -42,11 +42,13 @@ export const Card: FC<CardProps> = ({
         maxWidth: small ? 280 : 302,
         marginBottom: spaceToPx(space),
         cursor: props.onClick ? 'pointer' : null,
-        '&:hover': props.onClick
-          ? {
-              backgroundColor: color('background:hover'),
-            }
-          : null,
+        '@media (hover: hover)': {
+          '&:hover': props.onClick
+            ? {
+                backgroundColor: color('background:hover'),
+              }
+            : null,
+        },
         ...style,
       }}
       {...props}

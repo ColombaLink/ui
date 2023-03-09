@@ -44,8 +44,10 @@ const Template = ({ template, type, path }) => {
         userSelect: 'none',
         width: 284,
         padding: '8px 16px',
-        '&:hover': {
-          background: colorFn('border'),
+        '@media (hover: hover)': {
+          '&:hover': {
+            background: colorFn('border'),
+          },
         },
       }}
     >
@@ -91,6 +93,7 @@ export const SelectFieldTypeModal: FC<{
   return (
     <div>
       <Input
+        type="text"
         icon={<SearchIcon />}
         placeholder="Search and discover"
         space="0px"

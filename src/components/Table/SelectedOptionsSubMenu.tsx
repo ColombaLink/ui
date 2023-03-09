@@ -5,9 +5,15 @@ import { Text, Button } from '~'
 export const SelectedOptionsSubMenu = ({
   selectedRowCheckboxes,
   setSelectedRowCheckboxes,
+  showSelectedItemsOnly,
+  showAllItemsAgain,
   items,
   deleteItems,
+  shownItems,
 }) => {
+  // console.log('--->', selectedRowCheckboxes)
+  // console.log('items', items)
+
   return (
     <div
       style={{
@@ -20,38 +26,69 @@ export const SelectedOptionsSubMenu = ({
       }}
     >
       <div>
-        <Text>{selectedRowCheckboxes.length} items selected</Text>
+        <Text>
+          {selectedRowCheckboxes.length}
+          {selectedRowCheckboxes.length === 1
+            ? ' item selected'
+            : ' items selected'}
+        </Text>
       </div>
       <Button
-        onClick={() => setSelectedRowCheckboxes([])}
+        onClick={() => {
+          setSelectedRowCheckboxes([])
+        }}
         color="lightaction"
         outline
         style={{
-          // @ts-ignore
-          '&:hover': {
-            backgroundColor: color('lightaction:hover'),
-            boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+          '@media (hover: hover)': {
+            '&:hover': {
+              backgroundColor: color('lightaction:hover'),
+              boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+            },
           },
         }}
       >
         Clear selection
       </Button>
-      <Button
-        onClick={() => {
-          console.log('items', items)
-        }}
-        color="lightaction"
-        outline
-        style={{
-          // @ts-ignore
-          '&:hover': {
-            backgroundColor: color('lightaction:hover'),
-            boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
-          },
-        }}
-      >
-        Show selected items
-      </Button>
+      {shownItems.length < 1 && (
+        <Button
+          onClick={() => {
+            console.log('items', items)
+            showSelectedItemsOnly()
+          }}
+          color="lightaction"
+          outline
+          style={{
+            '@media (hover: hover)': {
+              '&:hover': {
+                backgroundColor: color('lightaction:hover'),
+                boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+              },
+            },
+          }}
+        >
+          Show selected items
+        </Button>
+      )}
+      {shownItems.length > 0 && (
+        <Button
+          onClick={() => {
+            showAllItemsAgain()
+          }}
+          color="lightaction"
+          outline
+          style={{
+            '@media (hover: hover)': {
+              '&:hover': {
+                backgroundColor: color('lightaction:hover'),
+                boxShadow: '0px 2px 4px rgba(156, 156, 156, 0.08)',
+              },
+            },
+          }}
+        >
+          Show all items
+        </Button>
+      )}
       <Button color="red" onClick={() => deleteItems(items)}>
         Delete items
       </Button>

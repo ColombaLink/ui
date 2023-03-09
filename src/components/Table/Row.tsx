@@ -10,8 +10,10 @@ import { Cell } from './_Cell'
 
 const Edit = styled(EditIcon, {
   cursor: 'pointer',
-  '&:hover': {
-    opacity: 0.6,
+  '@media (hover: hover)': {
+    '&:hover': {
+      opacity: 0.6,
+    },
   },
 })
 

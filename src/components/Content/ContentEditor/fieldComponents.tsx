@@ -47,11 +47,12 @@ const object = {
 }
 
 const number = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
     return (
       <Input
         {...props}
         descriptionBottom={description}
+        maxChars={meta.maxChar}
         indent
         //   noInterrupt
         space
@@ -62,7 +63,7 @@ const number = {
 }
 
 const float = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
     return (
       <Input
         {...props}
@@ -70,6 +71,7 @@ const float = {
         space
         //   noInterrupt
         type="number"
+        maxChars={meta.maxChar}
         indent
         //  onChange={(e) => console.log(typeof e)}
       />
@@ -91,11 +93,12 @@ const float = {
 }
 
 const int = {
-  default: ({ description, ...props }) => {
+  default: ({ description, meta, ...props }) => {
     return (
       <Input
         {...props}
         descriptionBottom={description}
+        maxChars={meta.maxChar}
         space
         // integer
         //    noInterrupt
@@ -141,7 +144,14 @@ const digest = {
   default: ({ description, ...props }) => {
     // TODO make it type: digest
     return (
-      <Input {...props} descriptionBottom={description} indent digest space />
+      <Input
+        type="text"
+        {...props}
+        descriptionBottom={description}
+        indent
+        digest
+        space
+      />
     )
   },
 }
@@ -182,6 +192,7 @@ const json = {
   default: ({ description, ...props }) => {
     return (
       <Input
+        type="text"
         {...props}
         descriptionBottom={description}
         space
@@ -238,6 +249,48 @@ const record = {
   },
 }
 
+const url = {
+  default: ({ description, meta, onChange, ...props }) => {
+    console.log('url yo', description, meta, onChange, props)
+
+    return (
+      <div
+        style={{
+          display: 'flex',
+          width: '100%',
+          ...props.style,
+          alignItems: 'center',
+        }}
+      >
+        {meta.name === 'thumb' && (
+          <div style={{ height: 62, width: 62, backgroundColor: 'yellow' }} />
+        )}
+        <Input
+          type="text"
+          {...props}
+          style={{ width: '100%' }}
+          descriptionBottom={description}
+          indent
+          space
+          // noInterrupt
+          error={(value) => {
+            if (!isUrl(value) && value.length > 0) {
+              return `Please enter a valid url https://...`
+            }
+          }}
+          onChange={(value) => {
+            if (meta.format === 'url') {
+              if (isUrl(value) || value.length < 1) {
+                onChange(value)
+              }
+            }
+          }}
+        />
+      </div>
+    )
+  },
+}
+
 const string = {
   default: ({ description, meta, ...props }) => {
     const readOnly = meta?.readOnly
@@ -247,6 +300,9 @@ const string = {
         {...props}
         disabled={readOnly}
         descriptionBottom={description}
+        // pattern="^[0-9]*$"
+        pattern={meta.regex}
+        maxChars={meta.maxChar}
         indent
         space
         // type="text" is for safari fix maybe it breaks smth
@@ -290,7 +346,9 @@ const string = {
           }
 
           // TODO: refactor to stream api when based cloud v1 is live!
+          // @ts-ignore
           const x = await client.file(files[0])
+          // @ts-ignore
           const { src } = await client.observeUntil(
             {
               $id: x.id,
@@ -307,30 +365,31 @@ const string = {
       />
     )
   },
-  url: ({ description, meta, onChange, ...props }) => (
-    <Input
-      {...props}
-      descriptionBottom={description}
-      indent
-      space
-      // noInterrupt
-      error={(value) => {
-        if (!isUrl(value) && value.length > 0) {
-          return `Please enter a valid url https://...`
-        }
-      }}
-      onChange={(value) => {
-        if (meta.format === 'url') {
-          if (isUrl(value) || value.length < 1) {
-            onChange(value)
-          }
-        }
-      }}
-    />
-  ),
+  // url: ({ description, meta, onChange, ...props }) => (
+  //   <Input
+  //     {...props}
+  //     descriptionBottom={description}
+  //     indent
+  //     space
+  //     // noInterrupt
+  //     error={(value) => {
+  //       if (!isUrl(value) && value.length > 0) {
+  //         return `Please enter a valid url https://...`
+  //       }
+  //     }}
+  //     onChange={(value) => {
+  //       if (meta.format === 'url') {
+  //         if (isUrl(value) || value.length < 1) {
+  //           onChange(value)
+  //         }
+  //       }
+  //     }}
+  //   />
+  // ),
   email: ({ description, meta, onChange, ...props }) => {
     return (
       <Input
+        type="email"
         {...props}
         maxChars={200}
         descriptionBottom={description}
@@ -352,13 +411,24 @@ const string = {
       />
     )
   },
-  markdown: ({ description, ...props }) => {
+  markdown: ({ description, meta, ...props }) => {
+    // console.log(meta.mustFill)
+    // const consoleValue = (data) => console.log(data)
+    // @ts-ignore
+    // function consoleValue(x) {
+    //   console.log(x)
+    // }
     return (
       <Input
+        type="markdown"
         {...props}
         descriptionBottom={description}
+        pattern={meta.regex}
+        // @ts-ignore
+        // consoleFunc={consoleValue}
         space
         indent
+        maxChars={meta.maxChar}
         markdownInput
         //    noInterrupt
       />
@@ -381,6 +451,7 @@ export {
   digest,
   object,
   text,
+  url,
   timestamp,
   json,
   array,

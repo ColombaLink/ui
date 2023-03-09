@@ -191,8 +191,10 @@ export const SelectReferences = ({
                 marginLeft: 'auto',
                 borderRadius: 16,
                 backgroundColor: color('lighttext'),
-                '&:hover': {
-                  backgroundColor: color('lighttext:hover'),
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('lighttext:hover'),
+                  },
                 },
               }}
               onClick={() => close()}
@@ -202,6 +204,7 @@ export const SelectReferences = ({
           </div>
 
           <Input
+            type="text"
             ghost
             style={{
               marginTop: 12,

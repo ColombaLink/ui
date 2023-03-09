@@ -242,16 +242,11 @@ const OverlayItem: FunctionComponent<OverlayItemProps> = ({
 
   const hidden = options && options.overlay === false
 
-  // const transparent = options && options.transparent
-
   return (
     <OverlayItemStyled
       ref={ref}
       style={{
         opacity: visible ? 1 : 0,
-
-        // backgroundColor: hidden || transparent ? undefined : '$Background0dp',
-
         pointerEvents: hidden ? 'none' : 'all',
       }}
       onMouseDown={
@@ -300,7 +295,7 @@ export const OverlayProvider = () => {
   }, [])
 
   if (providers[providers.length - 1] !== ref) {
-    console.warn('overlays are using the deepest context')
+    // console.warn('overlays are using the deepest context')
     return null
   }
 

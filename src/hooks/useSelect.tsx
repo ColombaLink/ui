@@ -31,7 +31,7 @@ export function useSelect<T = any>(
   handler?: (selection: Data<T> | Event | any) => () => void | undefined,
   disableReselect?: boolean,
 ): [
-  SelectEvents | boolean | string | number | undefined,
+  boolean | string | number | undefined,
   PropsEventHandler,
   (value: Value) => void
 ] {

@@ -6,24 +6,8 @@ import XAxis from './XAxis'
 import OverlayWrapper from './OverlayWrapper'
 import Labels from './Labels'
 import { averageOrAddData } from './utils'
-import { NumberFormat } from '@based/pretty-number'
-import { DateFormat } from '@based/pretty-date'
-import { Data } from './types'
-import { Color } from '~/types'
 
-type MultilineGraphProps = {
-  width: number
-  height: number
-  data: Data[]
-  legend?: { [key: string]: string }
-  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat
-  valueFormat?: NumberFormat | string
-  spread?: boolean
-  pure?: boolean
-  label?: string
-  baseColor?: Color
-}
-const MultilineGraph = ({
+const MultiLineGraph = ({
   width,
   height,
   data,
@@ -33,34 +17,30 @@ const MultilineGraph = ({
   valueFormat,
   pure,
   baseColor,
-}: MultilineGraphProps) => {
+}) => {
   const ref = useRef<any>()
-  let maxY: number, minY: number
-  let maxX: number, minX: number
+  let maxY, minY
+  let maxX, minX
 
   const [xWidth, updateW] = useState(0)
 
-  data = data.map((d) => averageOrAddData(d, width, spread))
+  data = averageOrAddData(data, width, spread)
 
-  data.forEach((d) => {
-    for (let i = 0; i < d.length; i++) {
-      const { x, y } = d[i]
-      if (maxY === undefined || y > maxY) {
-        maxY = y
-      }
-      if (minY === undefined || y < minY) {
-        minY = y
-      }
-      if (maxX === undefined || x > maxX) {
-        maxX = x
-      }
-      if (minX === undefined || x < minX) {
-        minX = x
-      }
+  for (let i = 0; i < data.length; i++) {
+    const { x, y } = data[i]
+    if (maxY === undefined || y > maxY) {
+      maxY = y
     }
-  })
-
-  const lineData = data[0]
+    if (minY === undefined || y < minY) {
+      minY = y
+    }
+    if (maxX === undefined || x > maxX) {
+      maxX = x
+    }
+    if (minX === undefined || x < minX) {
+      minX = x
+    }
+  }
 
   const svgWidth = width - xWidth
   const svgHeight = height - 50 - (label ? 36 : 0)
@@ -73,14 +53,14 @@ const MultilineGraph = ({
   }, [ySpread])
 
   const { labels, labelHeight } = genLabels(svgHeight, ySpread, maxY)
-  const notEnoughData = lineData.length < 2
+  const notEnoughData = data.length < 2
   const [paths] = notEnoughData
     ? []
     : xWidth || pure
     ? genPath(
         svgWidth,
         svgHeight,
-        lineData,
+        data,
         minY,
         ySpread,
         spread,
@@ -89,7 +69,6 @@ const MultilineGraph = ({
       )
     : [null, []]
 
-  console.log(paths)
   if (pure) {
     return (
       <OverlayWrapper
@@ -98,7 +77,7 @@ const MultilineGraph = ({
         width={svgWidth}
         height={svgHeight}
         labels={labels}
-        data={data[0]}
+        data={data}
         format={format}
         valueFormat={valueFormat}
         baseColor={baseColor}
@@ -147,7 +126,7 @@ const MultilineGraph = ({
           height={svgHeight}
           labelHeight={labelHeight}
           labels={labels}
-          data={data[0]}
+          data={data}
           format={format}
           valueFormat={valueFormat}
           baseColor={baseColor}
@@ -166,4 +145,4 @@ const MultilineGraph = ({
   )
 }
 
-export default MultilineGraph
+export default MultiLineGraph

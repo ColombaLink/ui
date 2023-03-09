@@ -1,4 +1,10 @@
-import React, { ReactNode, FunctionComponent, FC, CSSProperties } from 'react'
+import React, {
+  ReactNode,
+  FunctionComponent,
+  FC,
+  CSSProperties,
+  ReactChild,
+} from 'react'
 import { Text } from '~/components/Text'
 import { Color, Icon, PropsEventHandler } from '~/types'
 import { styled, Style } from 'inlines'
@@ -42,7 +48,7 @@ export const ContextDivider = styled('div', {
 export const ContextItem: FC<ContextItemProps> = ({
   onClick,
   style,
-  color,
+  color: colorProps,
   children,
   icon,
   inset,
@@ -68,10 +74,14 @@ export const ContextItem: FC<ContextItemProps> = ({
     }
   }
 
-  let child
+  let child: ReactChild
+
   if (icon) {
     child = (
-      <Text color={color} style={{ display: 'flex', alignItems: 'center' }}>
+      <Text
+        color={colorProps}
+        style={{ display: 'flex', alignItems: 'center' }}
+      >
         {renderOrCreateElement(icon, {
           size: 16,
           style: { marginRight: 8 },
@@ -81,7 +91,7 @@ export const ContextItem: FC<ContextItemProps> = ({
     )
   } else {
     child = (
-      <Text color={color} style={inset ? { paddingLeft: 24 } : null}>
+      <Text color={colorProps} style={inset ? { paddingLeft: 24 } : null}>
         {children}
       </Text>
     )

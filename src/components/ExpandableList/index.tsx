@@ -146,12 +146,14 @@ export const ExpandableList: FC<ExpandableListProps> = ({
           {typeof topLeft === 'string' ? (
             <Text weight={600}>{topLeft}</Text>
           ) : (
-            <div>{topLeft}</div>
+            <div>{typeof topLeft === 'function' ? topLeft({}) : topLeft}</div>
           )}
           {typeof topRight === 'string' ? (
             <Text weight={600}>{topRight}</Text>
           ) : (
-            <div>{topRight}</div>
+            <div>
+              {typeof topRight === 'function' ? topRight({}) : topRight}
+            </div>
           )}
         </div>
       ) : null}

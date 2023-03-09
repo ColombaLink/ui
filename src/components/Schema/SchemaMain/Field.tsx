@@ -141,14 +141,15 @@ const EditMenu: FC<{
                       // @ts-ignore
                       dest.$delete = true
 
-                      await client.call('basedUpdateSchema', {
-                        types: {
-                          [type]: {
-                            fields,
+                      await client.call('db:set-schema', {
+                        schema: {
+                          types: {
+                            [type]: {
+                              fields,
+                            },
                           },
                         },
                       })
-                      // await client.removeField(type, field.split('.'))
                     }}
                   >
                     {`Delete ${field}`}

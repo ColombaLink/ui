@@ -25,7 +25,9 @@ export const PasswordInput = ({
   icon,
   ...props
 }: PasswordInputProps) => {
-  const [passwordInputType, setPasswordInputType] = useState('password')
+  const [passwordInputType, setPasswordInputType] = useState<
+    'text' | 'password'
+  >('password')
 
   return (
     <div

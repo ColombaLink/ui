@@ -1,32 +1,10 @@
-import {
-  addSubscriber,
-  removeSubscriber,
-  generateSubscriptionId,
-} from '@based/client'
 import React, { useRef, useState, useEffect } from 'react'
 import { FixedSizeList } from 'react-window'
-import { useData, useClient } from '@based/react'
+import { useQuery, useClient } from '@based/react'
 import { styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
-
-const addScrollSub = (client, subId, payload, offset, current, setChecksum) => {
-  const [, subscriberId] = addSubscriber(
-    client.client,
-    payload,
-    ({ items }, checksum) => {
-      for (let i = 0; i < items.length; i++) {
-        current.items[i + offset] = items[i]
-      }
-      setChecksum(`${offset}-${checksum}`)
-    },
-    (err) => err && console.error(err),
-    console.error,
-    subId
-  )
-  return subscriberId
-}
 
 export type InfiniteListQueryResponse = {
   [key: string]: any
@@ -63,7 +41,7 @@ export const useInfiniteScroll = ({
     return blocks
   })
 
-  const [, setChecksum] = useState()
+  const [, setChecksum] = useState<string>()
   const { current } = useRef({
     offset,
     blocks,
@@ -78,10 +56,10 @@ export const useInfiniteScroll = ({
       return () => {
         const { subs } = current
         current.subs = {}
+        // TODO youri check if we can remove this with the new client
         setTimeout(() => {
           for (const subId in subs) {
-            const subscriberId = current.subs[subId]
-            removeSubscriber(client.client, Number(subId), subscriberId)
+            current.subs[subId]()
           }
         })
       }
@@ -99,16 +77,20 @@ export const useInfiniteScroll = ({
           $language: language,
           items: query(start, limit),
         }
-        const subId = generateSubscriptionId(payload)
-        subs[subId] =
-          current.subs[subId] ||
-          addScrollSub(client, subId, payload, start, current, setChecksum)
+        const q = client.query('db', payload)
+        subs[q.id] =
+          current.subs[q.id] ||
+          q.subscribe(({ items }, checksum) => {
+            for (let i = 0; i < items.length; i++) {
+              current.items[i + offset] = items[i]
+            }
+            setChecksum(`${offset}-${checksum}`)
+          })
       }
 
       for (const subId in current.subs) {
         if (!(subId in subs)) {
-          const subscriberId = current.subs[subId]
-          removeSubscriber(client.client, Number(subId), subscriberId)
+          current.subs[subId]()
         }
       }
 
@@ -126,9 +108,7 @@ export const useInfiniteScroll = ({
     treshold,
   ])
 
-  const {
-    data: { itemCount },
-  } = useData({
+  const { data } = useQuery('db', {
     $id: target as string,
     $language: language,
     itemCount: {
@@ -138,6 +118,8 @@ export const useInfiniteScroll = ({
       },
     },
   })
+
+  const itemCount = data?.itemCount
 
   return {
     loading: !itemCount || !current.items.length,

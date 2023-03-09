@@ -23,6 +23,9 @@ export type FieldMeta = {
   mimeType?: MimeType[]
   progressMin?: number
   progressMax?: number
+  mustFill?: boolean
+  maxChar?: number
+  regex?: string
 }
 
 export type Field = {
@@ -51,6 +54,8 @@ export type FieldOptions = {
 export type FieldSchema = {
   type: string
   meta?: FieldMeta
+  items?: any
+  values?: any
 }
 
 export type FieldTemplates =
