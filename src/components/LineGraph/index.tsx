@@ -6,8 +6,8 @@ import StackedGraph from './StackedGraph'
 import { NumberFormat } from '@based/pretty-number'
 import { DateFormat } from '@based/pretty-date'
 import { Color } from '~/types'
-
-type Data = { x: number; y: number }[]
+import { DataItem } from './types'
+import MultilineGraph from './MultilineGraph'
 
 type Ctx = { hover?: (key: string) => void }
 
@@ -20,7 +20,7 @@ export const GraphContext = createContext(defCtx)
 GraphContext.displayName = 'GraphContext'
 
 export type LineGraphProps = {
-  data: { [key: string]: Data } | Data
+  data: { [key: string]: DataItem[] } | DataItem[]
   legend?: { [key: string]: string }
   format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat
   valueFormat?: NumberFormat | string
@@ -32,7 +32,7 @@ export type LineGraphProps = {
 
 // multi line
 
-const LineGraph: FunctionComponent<LineGraphProps> = ({
+export const LineGraph: FunctionComponent<LineGraphProps> = ({
   data,
   label,
   spread = true,
@@ -79,4 +79,53 @@ const LineGraph: FunctionComponent<LineGraphProps> = ({
   )
 }
 
-export { LineGraph }
+export type MultiLineGraphProps = Omit<LineGraphProps, 'data'> & {
+  // data: { [key: string]: Data }[] | Data[]
+  data: DataItem[][]
+}
+
+export const MultiLineGraph: FunctionComponent<MultiLineGraphProps> = ({
+  data,
+  label,
+  spread = true,
+  format = 'number',
+  valueFormat = 'number-short',
+  legend,
+  pure,
+  color: colorProp = 'accent',
+}) => {
+  const isStacked = data && typeof data === 'object' && !Array.isArray(data)
+
+  return (
+    <AutoSizer>
+      {({ height, width }) => (
+        // return isStacked ? (
+        //   <GraphContext.Provider value={{}}>
+        //     <StackedGraph
+        //       format={format}
+        //       spread={spread}
+        //       label={label}
+        //       legend={legend}
+        //       data={data}
+        //       height={height}
+        //       width={width}
+        //       valueFormat={valueFormat}
+        //       baseColor={colorProp}
+        //     />
+        //   </GraphContext.Provider>
+        // ) : (
+        <MultilineGraph
+          format={format}
+          spread={spread}
+          label={label}
+          data={data}
+          height={height}
+          width={width}
+          valueFormat={valueFormat}
+          pure={pure}
+          baseColor={colorProp}
+        />
+      )}
+    </AutoSizer>
+  )
+}
