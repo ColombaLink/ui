@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Color, color } from '~/utils'
-import { MultiLineGraphData, Point } from './types'
+import { LineGraphData, Point } from './types'
 import {
   averageData,
   generatePoints,
@@ -82,7 +82,7 @@ export const genPaths = ({
   width,
   height,
 }: {
-  data: MultiLineGraphData
+  data: LineGraphData
   width: number
   height: number
 }) => {

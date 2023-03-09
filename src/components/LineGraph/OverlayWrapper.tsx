@@ -1,72 +1,87 @@
 import React, { useState, useRef, useContext } from 'react'
-import { color } from '~/utils'
 import useGraphHover from '~/hooks/useGraphHover'
 import useThrottledCallback from '~/hooks//useThrottledCallback'
-import { Text } from '~'
-import { GraphContext } from '.'
-import { prettyNumber } from '@based/pretty-number'
+import { Color, color, Text } from '~'
+// import { GraphContext } from '.'
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
+import { LineGraphData, LineXGraphFormat } from './types'
 
-const OverlayNested = ({
+type LegendValues = {
+  key: string
+  x: number
+  y: number
+  color?: Color
+  svgX: number
+  svgY: number
+  valueFormat?: NumberFormat
+}[]
+const Legend = ({
   isHover,
   x,
-  xInfo,
-  p,
-  selected,
-  legend,
-  isStacked,
-  valueFormat,
-  baseColor,
+  values,
+  xFormat,
+}: // xInfo,
+// p,
+// selected,
+// legend,
+// isStacked,
+{
+  isHover: boolean
+  x: number
+  values: LegendValues
+  xFormat: LineXGraphFormat
 }) => {
+  if (!values[0]?.svgX) return null
   let extraInfo = null
 
-  if (isStacked) {
-    const [selectedKey, setSelected] = useState<string>('')
-    const ctx = useContext(GraphContext)
-    ctx.hover = setSelected
+  // if (isStacked) {
+  //   const [selectedKey, setSelected] = useState<string>('')
+  //   const ctx = useContext(GraphContext)
+  //   ctx.hover = setSelected
 
-    extraInfo = (
-      <div
-        style={{
-          marginTop: 10,
-        }}
-      >
-        {selectedKey ? (
-          <div
-            style={{
-              marginTop: 12,
-              paddingTop: 12,
-              borderTop: `1px solid ${color('border')}`,
-            }}
-          >
-            <Text weight={600}>
-              {legend ? legend[selectedKey] : selectedKey}
-            </Text>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text>
-                {prettyNumber(
-                  selected.segments[selectedKey],
-                  valueFormat || 'number-short'
-                )}
-              </Text>
-              {/* @ts-ignore */}
-              <Text color={color(baseColor)}>
-                {Math.round(
-                  (selected.segments[selectedKey] / selected.y) * 100
-                )}
-                %
-              </Text>
-            </div>
-          </div>
-        ) : null}
-      </div>
-    )
-  }
+  //   extraInfo = (
+  //     <div
+  //       style={{
+  //         marginTop: 10,
+  //       }}
+  //     >
+  //       {selectedKey ? (
+  //         <div
+  //           style={{
+  //             marginTop: 12,
+  //             paddingTop: 12,
+  //             borderTop: `1px solid ${color('border')}`,
+  //           }}
+  //         >
+  //           <Text weight={600}>
+  //             {legend ? legend[selectedKey] : selectedKey}
+  //           </Text>
+  //           <div
+  //             style={{
+  //               display: 'flex',
+  //               justifyContent: 'space-between',
+  //             }}
+  //           >
+  //             <Text>
+  //               {prettyNumber(
+  //                 selected.segments[selectedKey],
+  //                 valueFormat || 'number-short'
+  //               )}
+  //             </Text>
+  //             {/* @ts-ignore */}
+  //             <Text color={color(baseColor)}>
+  //               {Math.round(
+  //                 (selected.segments[selectedKey] / selected.y) * 100
+  //               )}
+  //               %
+  //             </Text>
+  //           </div>
+  //         </div>
+  //       ) : null}
+  //     </div>
+  //   )
+  // }
 
   return (
     <div
@@ -74,7 +89,7 @@ const OverlayNested = ({
         opacity: x && isHover ? 1 : 0,
         transition: 'opacity 0.5s',
         transform: x
-          ? `translate3d(${p.x}px,0px,0px)`
+          ? `translate3d(${values[0].svgX}px,0px,0px)`
           : 'translate3d(0px,0px,0px)',
         width: '1px',
         height: '100%',
@@ -84,18 +99,35 @@ const OverlayNested = ({
       <div
         style={{
           position: 'relative',
-          transform: `translate3d(${-7.5}px, ${p.y - 7.5}px, 0px)`,
+          transform: `translate3d(${-7.5}px, ${values[0].svgY - 7.5}px, 0px)`,
         }}
       >
         <div
           style={{
+            position: 'absolute',
             borderRadius: '50%',
             width: 15,
             border: `2px solid ${color('text')} `,
-            backgroundColor: color('background'),
+            backgroundColor: color(values[0].color || 'accent'),
             height: 15,
           }}
         />
+        {values.slice(1).map((value, i) => (
+          <div
+            key={i}
+            style={{
+              position: 'absolute',
+              transform: `translate3d(${0}px, ${
+                value.svgY - values[0].svgY
+              }px, 0px)`,
+              borderRadius: '50%',
+              width: 15,
+              border: `2px solid ${color('text')} `,
+              backgroundColor: color(value.color || 'accent'),
+              height: 15,
+            }}
+          />
+        ))}
 
         <div
           style={{
@@ -108,7 +140,7 @@ const OverlayNested = ({
             borderRadius: 4,
             width: 'auto',
             top: -30,
-            minWidth: isStacked && extraInfo ? 175 : 100,
+            minWidth: /*isStacked*/ false && extraInfo ? 175 : 100,
             transform:
               isFlippedX && extraInfo ? 'translateX(-44%)' : 'translateX(0%)',
           }}
@@ -121,12 +153,35 @@ const OverlayNested = ({
               paddingBottom: 5,
             }}
           >
-            <Text wrap>{xInfo}</Text>
+            {/* <Text wrap>{xInfo}</Text> */}
             <Text weight={600}>
-              {prettyNumber(selected.y, valueFormat || 'number-short')}
-              {/* {{ value: selected.y, format: valueFormat || 'number-short' }} */}
+              <span style={{ color: color(values[0].color || 'accent') }}>
+                &#x2022;{' '}
+              </span>
+              {prettyNumber(
+                values[0].y,
+                values[0].valueFormat || 'number-short'
+              )}
             </Text>
-            {extraInfo}
+            {values.slice(1).map((value, i) => (
+              <Text key={i} weight={600}>
+                <span style={{ color: color(value.color || 'accent') }}>
+                  &#x2022;{' '}
+                </span>
+                {prettyNumber(value.y, value.valueFormat || 'number-short')}
+              </Text>
+            ))}
+            <Text color="text2">
+              x:{' '}
+              {xFormat === 'date-time-human'
+                ? prettyDate(values[0].x, 'date-time-human')
+                : xFormat === 'date'
+                ? prettyDate(values[0].x, 'time-precise') +
+                  ' - ' +
+                  prettyDate(values[0].x, 'date')
+                : prettyNumber(values[0].x, 'number-short')}
+            </Text>
+            {/* {extraInfo} */}
           </div>
         </div>
       </div>
@@ -136,88 +191,181 @@ const OverlayNested = ({
 
 let isFlippedX = false
 
-const getY = (
+// const findClosestIndex = (lineData: LineData, target: number) => {
+//   if (!lineData.points?.length) return null
+//   if (lineData.points?.length === 1) return 0
+
+//   for (let index = 0; index < lineData.points.length; index++) {
+//     if (lineData.points[index].x > target) {
+//       const previous = lineData.points[index - 1].x
+//       const current = lineData.points[index].x
+//       return Math.abs(previous - target) < Math.abs(current - target)
+//         ? index - 1
+//         : index
+//     }
+//   }
+//   return lineData.points.length - 1
+// }
+
+const findPointAt = (path: SVGGeometryElement, x: number) => {
+  let from = 0
+  let to = path.getTotalLength()
+  let current = (from + to) / 2
+  let point = path.getPointAtLength(current)
+
+  let count = 0
+  while (Math.abs(point.x - x) > 0.5 && count < 10) {
+    count++
+    if (point.x < x) from = current
+    else to = current
+    current = (from + to) / 2
+    point = path.getPointAtLength(current)
+  }
+
+  return { point, position: current / path.getTotalLength() }
+}
+
+const getY = ({
   x,
   width,
   r,
   isHover,
   data,
-  format,
   isStacked,
   legend,
-  valueFormat,
-  baseColor
-) => {
-  let u = x / width
-  const s = Math.floor(u * data.length)
+  ySpread,
+  lineRefs,
+  xFormat,
+}: {
+  x: number
+  width: number
+  r: React.MutableRefObject<any>
+  isHover: boolean
+  data: LineGraphData
+  isStacked: boolean
+  legend: boolean
+  ySpread: number
+  lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
+  xFormat: LineXGraphFormat
+}) => {
+  if (x < 0) return null
 
-  if (u < 0) {
-    return null
-  }
+  const values = Object.keys(data)
+    .reduce<LegendValues>((previous, key) => {
+      if (!lineRefs[key]?.current) return previous
 
-  const selected = data[s]
-
-  let curve = r.current.curve
-  if (!curve) {
-    for (let i = 0; i < r.current.children.length; i++) {
-      const c = r.current.children[i]
-      if (c.getAttribute('data') === 'line') {
-        curve = c
-        r.current.curve = c
-        break
+      const box = lineRefs[key].current.getBBox()
+      if (x < box.x || x > box.x + box.width) {
+        return previous
       }
-    }
-  }
+      const { point, position } = findPointAt(lineRefs[key].current, x)
 
-  if (curve && selected) {
-    const totalLength = curve.getTotalLength()
+      return previous.concat({
+        key,
+        x: data[key].data[Math.floor((point.x / width) * data[key].data.length)]
+          .x,
+        y: data[key].data[Math.floor((point.x / width) * data[key].data.length)]
+          .y,
+        color: data[key].color,
+        svgX: point.x,
+        svgY: point.y,
+        valueFormat: data[key].valueFormat,
+      })
+    }, [])
+    .sort((a, b) => b.y - a.y)
 
-    if (!totalLength) {
-      return null
-    }
+  return (
+    <Legend
+      // legend={legend}
+      // isStacked={isStacked}
+      isHover={isHover}
+      x={x}
+      // p={p}
+      // xInfo={xInfo}
+      // selected={selected}
+      values={values}
+      xFormat={xFormat}
+    />
+  )
 
-    let tries = 4
-    let p
+  // // position on graph as a ratio
+  // let u = x / width
+  // const biggestLength = Object.keys(data).reduce(
+  //   (previousValue, key) =>
+  //     data[key].data.length > previousValue
+  //       ? data[key].data.length
+  //       : previousValue,
+  //   0
+  // )
+  // // currentDataIndex
+  // const s = Math.floor(u * biggestLength)
 
-    while (tries) {
-      p = curve.getPointAtLength(u * totalLength)
-      if (p.x < x) {
-        u = u * (x / p.x)
-      } else if (p.x > x) {
-        u = u * (x / p.x)
-      }
-      tries--
-    }
+  // if (u < 0) {
+  //   return null
+  // }
 
-    let xInfo
+  // const selected = data[Object.keys(data)[0]].data[s]
 
-    if (format === 'date' || format === 'date-time-human') {
-      xInfo = [
-        prettyDate(selected.x, 'time-precise'),
-        // { value: selected.x, format: 'time-precise' },
-        ' - ',
-        prettyDate(selected.x, 'date'),
-        // { value: selected.x, format: 'date' },
-      ]
-    } else {
-      xInfo = 'x: ' + selected.x
-    }
+  // let curve = r.current.curve
+  // if (!curve) {
+  //   for (let i = 0; i < r.current.children.length; i++) {
+  //     const c = r.current.children[i]
+  //     if (c.getAttribute('data-custom') === 'line') {
+  //       curve = c
+  //       r.current.curve = c
+  //       break
+  //     }
+  //   }
+  // }
+  // console.log(curve)
 
-    return (
-      <OverlayNested
-        legend={legend}
-        isStacked={isStacked}
-        isHover={isHover}
-        x={x}
-        p={p}
-        xInfo={xInfo}
-        selected={selected}
-        valueFormat={valueFormat}
-        baseColor={baseColor}
-      />
-    )
-  }
+  // if (curve && selected) {
+  //   const totalLength = curve.getTotalLength()
 
+  //   if (!totalLength) {
+  //     return null
+  //   }
+
+  //   let tries = 4
+  //   let p
+
+  //   while (tries) {
+  //     p = curve.getPointAtLength(u * totalLength)
+  //     if (p.x < x) {
+  //       u = u * (x / p.x)
+  //     } else if (p.x > x) {
+  //       u = u * (x / p.x)
+  //     }
+  //     tries--
+  //   }
+
+  //   let xInfo
+
+  //   if (format === 'date' || format === 'date-time-human') {
+  //     xInfo = [
+  //       prettyDate(selected.x, 'time-precise'),
+  //       // { value: selected.x, format: 'time-precise' },
+  //       ' - ',
+  //       prettyDate(selected.x, 'date'),
+  //       // { value: selected.x, format: 'date' },
+  //     ]
+  //   } else {
+  //     xInfo = 'x: ' + selected.x
+  //   }
+
+  //   return (
+  //     <OverlayNested
+  //       legend={legend}
+  //       isStacked={isStacked}
+  //       isHover={isHover}
+  //       x={x}
+  //       p={p}
+  //       xInfo={xInfo}
+  //       selected={selected}
+  //       valueFormat={valueFormat}
+  //     />
+  //   )
+  // }
   return null
 }
 
@@ -227,11 +375,24 @@ const Overlay = ({
   width,
   data,
   r,
-  format,
   isStacked,
   legend,
   valueFormat,
-  baseColor = 'accent',
+  ySpread,
+  lineRefs,
+  xFormat,
+}: {
+  isHover: boolean
+  x: number
+  width: number
+  data: LineGraphData
+  r: React.MutableRefObject<any>
+  isStacked: boolean
+  legend: boolean
+  valueFormat: NumberFormat | string
+  ySpread: number
+  lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
+  xFormat: LineXGraphFormat
 }) => {
   return (
     <div
@@ -245,18 +406,18 @@ const Overlay = ({
       }}
     >
       {x
-        ? getY(
+        ? getY({
             x,
             width,
             r,
             isHover,
             data,
-            format,
             isStacked,
             legend,
-            valueFormat,
-            baseColor
-          )
+            ySpread,
+            lineRefs,
+            xFormat,
+          })
         : null}
     </div>
   )
@@ -272,15 +433,17 @@ export default ({
   isStacked,
   legend,
   valueFormat,
-  format,
-  baseColor,
+  ySpread,
+  lineRefs,
+  xFormat,
 }) => {
   // need format
-  const [x, setCoord] = useState()
+  const [mouseX, setMouseX] = useState()
 
   const [hover, isHover] = useGraphHover()
 
   const ref = useRef<any>()
+
   return (
     <div
       style={{
@@ -300,7 +463,7 @@ export default ({
         }
 
         // @ts-ignore
-        setCoord(event.pageX - x)
+        setMouseX(event.pageX - x)
       }, [])}
       {...hover}
     >
@@ -327,13 +490,14 @@ export default ({
         valueFormat={valueFormat}
         isStacked={isStacked}
         legend={legend}
-        format={format}
         isHover={isHover}
-        x={x}
+        x={mouseX}
         width={width}
         data={data}
         r={ref}
-        baseColor={baseColor}
+        ySpread={ySpread}
+        lineRefs={lineRefs}
+        xFormat={xFormat}
       />
     </div>
   )
