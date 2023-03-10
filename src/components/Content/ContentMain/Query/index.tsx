@@ -8,9 +8,11 @@ import { ReferencesInput } from './ReferencesInput'
 import { ResizableInput } from './ResizableInput'
 import { SelectInput } from './SelectInput'
 import { Text } from '~/components/Text'
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
 import { ValueInput } from './ValueInput'
 import React, { Fragment, useRef, useState } from 'react'
+import { isFilter, Filter } from './types'
+export * from './types'
 
 const operatorMap = {
   '=': 'is',
@@ -33,145 +35,145 @@ const logicalOperatorsMap = {
   not: 'NOT',
 }
 
-// bigger than 1
-// smaller than
-// bigger than or equal to
+const ScopePill = ({ setOverlay }) => {
+  const route = useRoute()
+  const query = route.query
 
-const ScopePill = ({ query, setOverlay, setLocation }) => {
+  const target = typeof query.target === 'string' ? query.target : 'root'
+  const field = typeof query.field === 'string' ? query.field : 'descendants'
+
   return (
     <Pill>
       <Text color="text2">IN</Text>
       <>
         <LayersIcon color="accent" style={{ marginRight: 8 }} />
         <ResizableInput
-          value={query.target}
-          onSubmit={(value) => {
-            setLocation(`?target=${value.trim()}`)
-          }}
+          value={target}
+          onSubmit={(value) =>
+            route.setQuery({
+              target: value.trim(),
+            })
+          }
         />
       </>
       <>
         <AttachmentIcon color="accent" style={{ marginRight: 8 }} />
         <ReferencesInput
-          target={query.target}
+          target={target}
           onOverlay={setOverlay}
-          value={query.field}
-          onSubmit={(val) => {
-            setLocation(`?field=${val}`)
-          }}
+          value={field}
+          onSubmit={(field) =>
+            route.setQuery({
+              field,
+            })
+          }
         />
       </>
     </Pill>
   )
 }
 
-const Filters = ({ query, types, inputRef, setOverlay, setLocation }) => {
-  // console.log('QUERY FILTERS', query.filters)
-  // console.log('complete query', query)
+const Filters = ({ types, inputRef, setOverlay }) => {
+  const route = useRoute()
+  const filters: Filter[] = Array.isArray(route.query.filters)
+    ? route.query.filters.filter(isFilter)
+    : []
 
-  return query.filters.map(({ $field, $operator, $value }, index) => {
-    // console.log('FILTER from map', $field, $operator, $value)
-
-    //  console.log('the types', types)
-
-    return (
-      <Fragment key={index}>
-        {index ? (
-          <div
-            style={{
-              border: `1px solid ${color('border')}`,
-              borderRadius: 4,
-              padding: '4px 8px',
-            }}
-          >
-            <SelectInput
-              value={'and'}
-              options={Object.keys(logicalOperatorsMap).map((value) => {
-                return { value, label: operatorMap[value] }
-              })}
-              onOverlay={setOverlay}
-              onSubmit={(value) => {
-                console.log(value)
-                console.log(index)
-
-                const operator = '$' + value
-
-                // so now add this operator at the end of this index
-                query.filters[index - 1].$and = {}
-              }}
-            />
-          </div>
-        ) : null}
-        <Pill>
-          {/* left side of the pill */}
-          <Text color="text2">{$field}</Text>
-          {/* center of the pill */}
-          <SelectInput
-            // TODO remove
-            key={$operator}
-            options={Object.keys(operatorMap).map((value) => {
-              return { value, label: operatorMap[value] }
-            })}
-            value={$operator}
-            onOverlay={setOverlay}
-            onSubmit={(value) => {
-              query.filters[index].$operator = value
-              setLocation(
-                `?filter=${encodeURIComponent(JSON.stringify(query.filters))}`
-              )
-            }}
-          />
-          {/* right side of the pill */}
-          <ValueInput
-            types={types}
-            field={$field}
-            nextInputRef={inputRef}
-            value={$value}
-            onOverlay={setOverlay}
-            onSubmit={(value) => {
-              query.filters[index].$value = value
-              setLocation(
-                `?filter=${encodeURIComponent(JSON.stringify(query.filters))}`
-              )
-            }}
-            onDelete={() => {
-              inputRef.current.focus()
-              setLocation(
-                `?filter=${encodeURIComponent(
-                  JSON.stringify(
-                    query.filters.filter((_, i) => {
+  return (
+    <>
+      {filters.map(({ $field, $operator, $value }, index) => {
+        return (
+          <Fragment key={index}>
+            {index ? (
+              <div
+                style={{
+                  border: `1px solid ${color('border')}`,
+                  borderRadius: 4,
+                  padding: '4px 8px',
+                }}
+              >
+                <SelectInput
+                  value="and"
+                  options={Object.keys(logicalOperatorsMap).map((value) => {
+                    return { value, label: operatorMap[value] }
+                  })}
+                  onOverlay={setOverlay}
+                  onSubmit={() => {
+                    // const operator = '$' + value
+                    // so now add this operator at the end of this index
+                    filters[index - 1].$and = {}
+                  }}
+                />
+              </div>
+            ) : null}
+            <Pill>
+              {/* left side of the pill */}
+              <Text color="text2">{$field}</Text>
+              {/* center of the pill */}
+              <SelectInput
+                // TODO remove
+                key={$operator}
+                options={Object.keys(operatorMap).map((value) => {
+                  return { value, label: operatorMap[value] }
+                })}
+                value={$operator}
+                onOverlay={setOverlay}
+                onSubmit={(value) => {
+                  const newFilters = [...filters]
+                  newFilters[index].$operator = value
+                  route.setQuery({ filters: newFilters })
+                }}
+              />
+              {/* right side of the pill */}
+              <ValueInput
+                types={types}
+                field={$field}
+                nextInputRef={inputRef}
+                value={$value}
+                onOverlay={setOverlay}
+                onSubmit={(value) => {
+                  const newFilters = [...filters]
+                  newFilters[index].$value = value
+                  route.setQuery({ filters: newFilters })
+                }}
+                onDelete={() => {
+                  inputRef.current.focus()
+                  route.setQuery({
+                    filters: filters.filter((_, i) => {
                       return i !== index
-                    })
-                  )
-                )}`
-              )
-            }}
-          />
-        </Pill>
-      </Fragment>
-    )
-  })
+                    }),
+                  })
+                }}
+              />
+            </Pill>
+          </Fragment>
+        )
+      })}
+    </>
+  )
 }
 
-export const Query = ({ types, fields, fieldTypes, query }) => {
-  const [, setLocation] = useLocation()
+export const Query = ({ types, fields, fieldTypes }) => {
+  const route = useRoute()
   const [options, setOptions] = useState('')
   const [focused, setFocused] = useState(false)
   const [overlay, setOverlay] = useState(false)
   const clearRef = useRef<Function>()
   const inputRef = useRef()
 
-  const addFieldFilter = (field) => {
+  const filters: Filter[] = Array.isArray(route.query.filters)
+    ? route.query.filters.filter(isFilter)
+    : []
+
+  const addFieldFilter = (field: string) => {
     const filter = {
       $field: field,
       $operator: operatorByType[fieldTypes[field]] || '=',
     }
-    if (!query.filters.find((f) => deepEqual(f, filter))) {
-      setLocation(
-        `?filter=${encodeURIComponent(
-          JSON.stringify([...query.filters, filter])
-        )}`
-      )
+    if (filters.find((f) => deepEqual(f, filter))) {
+      route.setQuery({
+        filter: [...filters, filter],
+      })
     }
     clearRef.current?.()
   }
@@ -191,32 +193,20 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           gap: '4px 8px',
         }}
       >
-        <ScopePill
-          query={query}
-          setOverlay={setOverlay}
-          setLocation={setLocation}
-        />
+        <ScopePill setOverlay={setOverlay} />
         <ArrowRightIcon size={20} />
-        <Filters
-          query={query}
-          types={types}
-          inputRef={inputRef}
-          setOverlay={setOverlay}
-          setLocation={setLocation}
-        />
+        <Filters types={types} inputRef={inputRef} setOverlay={setOverlay} />
         <FilterInput
           clearRef={clearRef}
           inputRef={inputRef}
           fields={fields}
           setOptions={setOptions}
-          onDelete={() => {
-            query.filters.pop()
-            setLocation(
-              `?filter=${encodeURIComponent(JSON.stringify(query.filters))}`
-            )
-          }}
+          onDelete={() =>
+            route.setQuery({
+              filter: filters.slice(0, -1),
+            })
+          }
           onSubmit={(value) => {
-            console.log('------>', value || fields[0])
             addFieldFilter(value || fields[0])
           }}
         />
@@ -235,7 +225,6 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
                   padding: '2px 8px',
                   border: border(1),
                   marginRight: 8,
-                  // textTransform: 'capitalize',
                 }}
                 outline
                 key={field}
@@ -252,7 +241,6 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
                 padding: '2px 8px',
                 border: border(1),
                 marginRight: 8,
-                // textTransform: 'capitalize',
               }}
               outline
               key={field}
@@ -265,18 +253,6 @@ export const Query = ({ types, fields, fieldTypes, query }) => {
           )
         })}
       </div>
-      {/* <pre
-        style={{
-          bottom: 0,
-          right: 0,
-          position: 'fixed',
-          background: 'black',
-          color: 'white',
-          zIndex: 9999,
-        }}
-      >
-        {JSON.stringify(query, null, 2)}
-      </pre> */}
     </>
   )
 }

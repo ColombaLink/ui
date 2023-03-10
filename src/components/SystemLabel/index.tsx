@@ -1,12 +1,12 @@
 import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
-import { useLocation } from '~/hooks'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
-import { Link } from '../Link'
+import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
+import { styled } from 'inlines'
 
 type SystemMenuHeaderProps = {
   children?: ReactNode
@@ -36,6 +36,12 @@ const MenuHeader: FC<SystemMenuHeaderProps> = ({ children, style }) => {
   )
 }
 
+const StyledLink = styled(Link, {
+  padding: '4px 12px',
+  margin: '-4px -12px',
+  borderRadius: 4,
+})
+
 export const MenuItem: FC<SystemMenuItemProps> = ({
   children,
   style,
@@ -54,12 +60,9 @@ export const MenuItem: FC<SystemMenuItemProps> = ({
         ...style,
       }}
     >
-      <Link
+      <StyledLink
         href={href}
         style={{
-          padding: '4px 12px',
-          margin: '-4px -12px',
-          borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
           '@media (hover: hover)': {
             '&:hover': !isActive
@@ -73,11 +76,10 @@ export const MenuItem: FC<SystemMenuItemProps> = ({
       >
         {typeof children === 'function'
           ? children({
-              // @ts-ignore
               isActive,
             })
           : children}
-      </Link>
+      </StyledLink>
     </Text>
   )
 }
@@ -103,10 +105,10 @@ export const Menu: FC<{
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
 }> = ({ data = {}, selected, prefix = '', style, children, header }) => {
-  const [location] = useLocation()
+  const route = useRoute()
 
   if (!selected) {
-    selected = location
+    selected = route.location
   }
 
   if (!Array.isArray(data)) {

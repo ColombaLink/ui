@@ -1,11 +1,10 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { useLocation } from '~/hooks'
 import { SearchIcon } from '~/icons'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Avatar } from '../Avatar'
 import { Input } from '../Input'
-import { Link } from '../Link'
+import { Link, useRoute } from 'kabouter'
 import { Logo } from '../Logo'
 import { useQuery, useAuthState } from '@based/react'
 import { stringToIcon } from '~/utils/stringToIcon'
@@ -105,10 +104,10 @@ export const Topbar: FC<TopbarProps> = ({
   style,
   onClick,
 }) => {
-  const [location] = useLocation()
+  const route = useRoute()
 
   if (!selected) {
-    selected = location
+    selected = route.location
   }
 
   if (!logo && !noLogo) {
@@ -135,7 +134,7 @@ export const Topbar: FC<TopbarProps> = ({
   })
 
   const elements = items.map(({ label, href }, i) => {
-    const isActive = hrefIsActive(href, location, items)
+    const isActive = hrefIsActive(href, route.location, items)
     return (
       <TopbarTab
         key={href}

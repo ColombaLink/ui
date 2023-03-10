@@ -1,14 +1,42 @@
 import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
-import { parseHref, useLocation } from '~/hooks'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
-import { Link } from '../Link'
+import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
 import { styled } from 'inlines'
+
+// maybe make this into a seperate pkg? or make sure parsing works well
+export const parseHref = (href = '/') => {
+  if (href !== '/' && href[href.length - 1] === '/') {
+    href = href.slice(0, -1)
+  }
+  const { search } = location
+  if (search) {
+    const i = href.indexOf('?')
+    if (i !== -1) {
+      const a = new URLSearchParams(search)
+      const b = new URLSearchParams(href.substring(i))
+
+      b.forEach((value, key) => {
+        a.set(key, value)
+      })
+      href = `${href.substring(0, i)}?${a.toString()}`
+    } else {
+      href = `${href}${search}`
+    }
+  }
+  return href
+}
+
+const StyledLink = styled(Link, {
+  padding: '4px 8px',
+  margin: '-4px -4px -4px -2px',
+  borderRadius: 4,
+})
 
 type MenuHeaderProps = {
   children?: ReactNode
@@ -72,12 +100,9 @@ export const MenuItem: FC<MenuItemProps> = ({
         ...style,
       }}
     >
-      <Link
+      <StyledLink
         href={href}
         style={{
-          padding: '4px 8px',
-          margin: '-4px -4px -4px -2px',
-          borderRadius: 4,
           backgroundColor: isActive ? color('lightaccent:active') : null,
           '@media (hover: hover)': {
             '&:hover': !isActive
@@ -95,7 +120,7 @@ export const MenuItem: FC<MenuItemProps> = ({
               isActive,
             })
           : children}
-      </Link>
+      </StyledLink>
     </Text>
   )
 }
@@ -146,10 +171,10 @@ export const Menu: FC<{
   collapse,
   forceActive = true,
 }) => {
-  const [location, setLocation] = useLocation()
+  const route = useRoute()
 
   if (!selected) {
-    selected = location
+    selected = route.location
   }
 
   if (!Array.isArray(data)) {
@@ -202,7 +227,7 @@ export const Menu: FC<{
                   'closed'
                 )
               } else if (href) {
-                setLocation(href)
+                route.setLocation(href)
               }
             }}
           >

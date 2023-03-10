@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import { useClient } from '@based/react'
-import { useRoute } from 'wouter'
+import { useRoute } from 'kabouter'
 import { LoadingIcon } from '~/icons'
 import { Toast, useToast } from '../Toast'
 
@@ -12,9 +12,13 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const client = useClient()
   const toast = useToast()
   const [showLoader, setShowLoader] = useState(false)
-  const [isGoogleRedirect] = useRoute('/auth-google')
-  const [isMicrosoftRedirect] = useRoute('/auth-microsoft')
-  const [isGithubRedirect] = useRoute('/auth-github')
+
+  const { authType } = useRoute('auth-[authType]').path
+
+  const isGoogleRedirect = authType === 'google'
+  const isMicrosoftRedirect = authType === 'microsoft'
+  const isGithubRedirect = authType === 'github'
+
   const thirdPartyRedirect = isGoogleRedirect
     ? 'google'
     : isMicrosoftRedirect

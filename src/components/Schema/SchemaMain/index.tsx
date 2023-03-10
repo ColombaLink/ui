@@ -1,6 +1,6 @@
 import { useClient } from '@based/react'
 import React, { FC, Fragment, useState } from 'react'
-import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
+import { useContextMenu, useSchemaTypes } from '~/hooks'
 import {
   Checkbox,
   MoreIcon,
@@ -15,7 +15,7 @@ import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
 import { border } from '~/utils'
 import { Dialog, useDialog } from '~/components/Dialog'
-
+import { useRoute } from 'kabouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 
 const EditMenu = ({ type }) => {
@@ -101,10 +101,10 @@ const EditMenu = ({ type }) => {
 }
 
 const BackButton = () => {
-  const [location] = useLocation()
+  const route = useRoute()
   return (
     <Link
-      href={location.split('/').slice(0, -1).join('/')}
+      href={route.location.split('/').slice(0, -1).join('/')}
       style={{ paddingRight: 8 }}
     >
       <ChevronLeftIcon />
@@ -183,8 +183,10 @@ const Header = ({ back = null, children, type, path }) => {
 }
 
 const Footer = ({ type, prefix, name }) => {
-  const [location] = useLocation()
-  const path = location.substring(prefix.length + type.length + 2).split('/')
+  const route = useRoute()
+  const path = route.location
+    .substring(prefix.length + type.length + 2)
+    .split('/')
 
   return (
     <div

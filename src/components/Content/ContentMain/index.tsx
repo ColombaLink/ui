@@ -2,9 +2,9 @@ import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
 import React, { useState, useEffect } from 'react'
 import { alwaysIgnore } from '~/components/Schema/templates'
-import { Query } from './Query'
-import { useQuery as useQueryStuff } from './useQuery'
-import { useContextMenu, useLocation, useSchemaTypes } from '~/hooks'
+import { Query, Filter, isFilter } from './Query'
+import { useContextMenu, useSchemaTypes } from '~/hooks'
+import { useRoute } from 'kabouter'
 import { AddIcon, MoreIcon, WarningIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
@@ -49,40 +49,15 @@ const Menu = ({ views, currentView, deletable }) => {
   )
 }
 
-// const CreateMenu = ({ prefix, types }) => {
-//   const [, setLocation] = useLocation()
-//   return (
-//     <>
-//       {Object.keys(types)
-//         .sort()
-//         .map((type) => {
-//           return type === 'root' ? null : (
-//             <ContextItem
-//               key={type}
-//               onClick={() => {
-//                 setLocation(`${prefix}/create/${type}`)
-//               }}
-//             >
-//               {type}
-//             </ContextItem>
-//           )
-//         })}
-//     </>
-//   )
-// }
-
 const Header = ({ label, view, prefix }) => {
-  const [, setLocation] = useLocation()
-  // const { types } = useSchemaTypes()
+  const route = useRoute()
   const createBtn = (
     <Button
       large
       icon={AddIcon}
       onClick={() => {
-        // console.log('lable', label, 'view', view, 'prefix', prefix)
-        setLocation(`${prefix}/create/${view}`)
+        route.setLocation(`${prefix}/create/${view}`)
       }}
-      //  onClick={useContextMenu(CreateMenu, { prefix, types })}
     >
       Create Item
     </Button>
@@ -97,10 +72,11 @@ const Header = ({ label, view, prefix }) => {
     )
   }
 
-  // const { confirm, prompt } = useDialog()
-  // const client = useClient()
   const { data: views } = useQuery('based:observe-views')
-  let currentView, deletable
+  let currentView: {
+    label?: string
+  }
+  let isDeletable: boolean
 
   const parse = () => {
     // TODO FIX the redirect!!
@@ -108,7 +84,7 @@ const Header = ({ label, view, prefix }) => {
       for (const v of views[viewKey]) {
         if (String(v.id) === view) {
           currentView = v
-          deletable = viewKey !== 'default'
+          isDeletable = viewKey !== 'default'
           return
         }
       }
@@ -128,7 +104,11 @@ const Header = ({ label, view, prefix }) => {
           ghost
           icon={
             <MoreIcon
-              onClick={useContextMenu(Menu, { views, currentView, deletable })}
+              onClick={useContextMenu(Menu, {
+                views,
+                currentView,
+                deletable: isDeletable,
+              })}
               style={{
                 cursor: 'pointer',
               }}
@@ -136,9 +116,6 @@ const Header = ({ label, view, prefix }) => {
           }
         />
       </div>
-
-      {/* old buttons place */}
-
       <div style={{ flexGrow: 1 }} />
       {createBtn}
     </div>
@@ -152,9 +129,17 @@ export const ContentMain = ({
   query: queryOverwrite = undefined,
   label = null,
 }) => {
+  const route = useRoute()
+  const query = route.query
+
+  const target = typeof query.target === 'string' ? query.target : 'root'
+  const field = typeof query.field === 'string' ? query.field : 'descendants'
+
+  const filters: Filter[] = Array.isArray(route.query.filters)
+    ? route.query.filters.filter(isFilter)
+    : []
+
   const { loading, types } = useSchemaTypes()
-  const [location, setLocation] = useLocation()
-  const query = useQueryStuff(queryOverwrite)
 
   const { confirm, prompt } = useDialog()
   const client = useClient()
@@ -170,7 +155,6 @@ export const ContentMain = ({
       for (const v of views[viewKey]) {
         if (String(v.id) === view) {
           currentView = v
-          //  deletable = viewKey !== 'default'
           return
         }
       }
@@ -179,13 +163,11 @@ export const ContentMain = ({
 
   parse()
 
-  // console.log('------>>>>>', currentView, types, query)
-
   /// THIS CHECKS IF THE FIELD IS A REFERENCE
   useEffect(() => {
     // console.log('currentView changed', currentView)
     if (
-      types[currentView?.id]?.fields[query.field].type === 'references' &&
+      types[currentView?.id]?.fields[field].type === 'references' &&
       query.field !== 'descendants'
     ) {
       setIsMultiref(true)
@@ -199,7 +181,7 @@ export const ContentMain = ({
   const set = new Set()
   const indexed = []
   const other = new Set()
-  const typeFilter = query?.filters?.find(
+  const typeFilter = filters.find(
     ({ $field, $operator }) => $field === 'type' && $operator === '='
   )
   let includedTypes
@@ -345,12 +327,7 @@ export const ContentMain = ({
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flexGrow: 1 }}>
             {queryOverwrite ? null : (
-              <Query
-                types={types}
-                fields={fields}
-                fieldTypes={fieldTypes}
-                query={query}
-              />
+              <Query types={types} fields={fields} fieldTypes={fieldTypes} />
             )}
           </div>
 
@@ -420,7 +397,7 @@ export const ContentMain = ({
       <Table
         key={fields.length}
         fields={fields}
-        target={query.target}
+        target={target}
         onAction={(items) => onAction(items, 'delete')}
         language="en"
         isMultiref={isMultiref}
@@ -428,10 +405,10 @@ export const ContentMain = ({
         view={view}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
-            setLocation(`?target=${item.id}&field=${field}&filter=%5B%5D`)
+            route.setQuery({ target: item.id, field: field, filter: '%5B%5D' })
             setIsMultiref(true)
           } else {
-            setLocation(`${prefix}/${item.id}/${field}`)
+            route.setLocation(`${prefix}/${item.id}/${field}`)
             setIsMultiref(false)
           }
         }}
@@ -445,21 +422,19 @@ export const ContentMain = ({
                 $order,
               },
               $find: {
-                $traverse: query.field,
-                $filter: query.filters.filter(
-                  ({ $field, $operator, $value }) => {
-                    if (!$field || !$operator) {
+                $traverse: field,
+                $filter: filters.filter(({ $field, $operator, $value }) => {
+                  if (!$field || !$operator) {
+                    return false
+                  }
+                  if (!$value) {
+                    if ($operator !== 'exists' && $operator !== 'notExists') {
                       return false
                     }
-                    if (!$value) {
-                      if ($operator !== 'exists' && $operator !== 'notExists') {
-                        return false
-                      }
-                    }
-
-                    return true
                   }
-                ),
+
+                  return true
+                }),
               },
             },
           }

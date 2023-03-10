@@ -19,7 +19,7 @@ import {
 
 import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
-import { useLocation } from 'wouter'
+import { useRoute } from 'kabouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
 import { useSchema } from '~/hooks/useSchema'
@@ -37,7 +37,7 @@ const EditMenu: FC<{
 }> = ({ type, field, template, isObject, path }) => {
   const { schema } = useSchema()
   const client = useClient()
-  const [location, setLocation] = useLocation()
+  const route = useRoute()
   const { open } = useDialog()
 
   return (
@@ -63,7 +63,7 @@ const EditMenu: FC<{
               }
               return false
             })
-            setLocation(`${location}/${filteredPath.join('/')}`)
+            route.setLocation(`${route.location}/${filteredPath.join('/')}`)
           }}
         >
           Configure Object
@@ -167,7 +167,6 @@ const EditMenu: FC<{
 }
 
 const AddObjectFieldButton = ({ type, path }) => {
-  console.log('the type to be added???', type)
   const openSelectField = useContextMenu(
     SelectFieldTypeModal,
     {

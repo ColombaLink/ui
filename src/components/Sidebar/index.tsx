@@ -12,8 +12,7 @@ import {
   hrefIsActive,
   renderOrCreateElement,
 } from '~/utils'
-import { Link } from '../Link'
-import { useLocation } from '~/hooks'
+import { Link, useRoute } from 'kabouter'
 import { useTooltip } from '~/hooks/useTooltip'
 import { Text } from '../Text'
 import { styled } from 'inlines'
@@ -44,6 +43,19 @@ type SidebarItemProps = {
   icon?: FunctionComponent<Icon> | ReactNode
 }
 
+const StyledLink = styled(Link, {
+  height: 40,
+  display: 'flex',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+  marginBottom: 8,
+  borderRadius: 8,
+  transition: 'width 0.24s ease-out',
+  paddingLeft: 10,
+})
+
 const SidebarItem: FC<SidebarItemProps> = ({
   label,
   href,
@@ -54,20 +66,10 @@ const SidebarItem: FC<SidebarItemProps> = ({
   const tooltip = expanded ? undefined : useTooltip(label, 'right')
 
   return (
-    <Link
+    <StyledLink
       href={href}
       style={{
         width: expanded ? 216 : 40,
-        height: 40,
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginBottom: 8,
-        borderRadius: 8,
-        transition: 'width 0.24s ease-out',
-        paddingLeft: 10,
         color: color(isActive ? 'lightaccent:contrast' : 'text'),
         backgroundColor: isActive ? color('lightaccent:active') : null,
         '@media (hover: hover)': {
@@ -84,7 +86,6 @@ const SidebarItem: FC<SidebarItemProps> = ({
       {...tooltip}
     >
       {children}
-
       <styled.div
         style={{
           overflowX: 'hidden',
@@ -100,7 +101,7 @@ const SidebarItem: FC<SidebarItemProps> = ({
           {label}
         </Text>
       </styled.div>
-    </Link>
+    </StyledLink>
   )
 }
 
@@ -113,13 +114,13 @@ export const Sidebar: FC<SidebarProps> = ({
   children,
   expandable,
 }) => {
-  const [location] = useLocation()
+  const route = useRoute()
   const [expanded, setExpanded] = useState(false)
   const [hoverForExpansion, setHoverForExpansion] = useState(false)
   const [menuHeight, setMenuHeight] = useState(null)
 
   if (!selected) {
-    selected = location
+    selected = route.location
   }
 
   const parsedData = data.map(({ label, href, icon, subTitle }) => {
@@ -137,7 +138,7 @@ export const Sidebar: FC<SidebarProps> = ({
   })
 
   const elements = parsedData.map(({ label, href, icon, subTitle }, i) => {
-    const isActive = hrefIsActive(href, location, parsedData)
+    const isActive = hrefIsActive(href, route.location, parsedData)
 
     if (subTitle) {
       return (

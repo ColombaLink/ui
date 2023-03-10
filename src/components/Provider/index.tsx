@@ -14,9 +14,8 @@ import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
-import { AuthProvider, useRouterListeners } from '~'
-
-import { RouterCtx } from '~/hooks/location/types'
+import { AuthProvider } from '~'
+import { Router } from 'kabouter'
 
 type ProviderProps = {
   children?: ReactNode
@@ -87,8 +86,6 @@ export const Provider: FC<ProviderProps> = ({
     }
   }, [theme])
 
-  const routes = useRouterListeners(path)
-
   return (
     <div
       style={{
@@ -102,14 +99,14 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        <RouterContext.Provider value={routes}>
+        <Router path={path || ''}>
           <ToastProvider>
             <DialogProvider>
               <AuthProvider>{children}</AuthProvider>
               <OverlayProvider />
             </DialogProvider>
           </ToastProvider>
-        </RouterContext.Provider>
+        </Router>
       </BasedProvider>
     </div>
   )

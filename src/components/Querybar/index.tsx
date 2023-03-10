@@ -18,7 +18,8 @@ import { MiddlePill } from './MiddlePill'
 import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 import { FromQueryToText } from './FromQueryToText'
-import { useLocation } from '~/hooks'
+import { useRoute } from 'kabouter'
+import { Filter, isFilter } from '../Content/ContentMain/Query'
 
 // TODO: Caret position in and around middle block indicator
 
@@ -45,11 +46,14 @@ const arithmeticProgression = (n, lim) =>
 // )
 
 export const QueryBar = () => {
-  const [query, setQuery] = useState({
-    filters: [],
-    target: 'root',
-    field: 'descendants',
-  })
+  const route = useRoute()
+  const query = route.query
+  const target = typeof query.target === 'string' ? query.target : 'root'
+  const field = typeof query.field === 'string' ? query.field : 'descendants'
+
+  const filters: Filter[] = Array.isArray(route.query.filters)
+    ? route.query.filters.filter(isFilter)
+    : []
 
   const [inputValue, setInputValue] = useState('In root parents type = dope')
   const [splittedInputValue, setSplittedInputValue] = useState<string[]>([])
@@ -72,15 +76,14 @@ export const QueryBar = () => {
     open: boolean
   }>({ num: 0, open: false })
 
-  // url location
-  const [location, setLocation] = useLocation()
-
   // //////////////////////////////////////////// FOCUS AND BLUR LOGIC
   useEffect(() => {
     if (filtersAreNested && isFocused) {
-      FlattenFilters(query.filters)
+      FlattenFilters(filters)
       query.filters = snurpArr.reverse()
-      setQuery({ ...query })
+
+      route.setQuery({ filters: snurpArr.reverse() })
+
       setFiltersAreNested(false)
     } else {
       // strip the empty space first
@@ -96,12 +99,12 @@ export const QueryBar = () => {
 
     if (inputValue.split(' ').length > 1) {
       query.target = splittedInputValue[1]
-      setLocation(`?target=${inputValue.split(' ')[1]?.toString()}`)
+      route.setLocation(`?target=${inputValue.split(' ')[1]?.toString()}`)
     }
 
     if (inputValue.split(' ').length > 2) {
       query.field = splittedInputValue[2]
-      setLocation(`?field=${inputValue.split(' ')[2]?.toString()}`)
+      route.setLocation(`?field=${inputValue.split(' ')[2]?.toString()}`)
     }
 
     SetQueryFilterProperties(inputValue.split(' '))
@@ -156,6 +159,8 @@ export const QueryBar = () => {
     )
     arrWithLesserValues.unshift(3)
 
+    let newFilter: Filter[] = [...filters]
+
     if (
       arrWithValues.includes(length) &&
       splittedInputValue[length - 1] !== ''
@@ -165,7 +170,7 @@ export const QueryBar = () => {
         // use the i value
         if (length >= i * 4 + 6) {
           console.log('the operator is: 🏺', splittedInputValue[i * 4 + 4])
-          query.filters[i] = {
+          newFilter[i] = {
             $field: splittedInputValue[i * 4 + 3],
             $operator: splittedInputValue[i * 4 + 4],
             $value: splittedInputValue[i * 4 + 5],
@@ -175,15 +180,14 @@ export const QueryBar = () => {
     } else if (arrWithLesserValues.includes(length)) {
       for (let i = 0; i <= arrWithLesserValues.indexOf(length); i++) {
         if (length <= i * 4 + 3) {
-          if (query.filters.length > 0) {
-            //    console.log('FIRE  🐸--> 🐯', length)
-            query.filters = query.filters?.slice(0, i)
+          if (filters.length > 0) {
+            newFilter = filters.slice(0, i)
           }
         }
       }
     }
 
-    setQuery({ ...query })
+    route.setQuery({ filters: newFilter })
   }
 
   // //////////////////////////////////////////// CARRET POSITION LOGIC
@@ -253,7 +257,7 @@ export const QueryBar = () => {
     snurpArr = []
     const snurp = {}
     let target = snurp
-    query?.filters?.forEach((obj, index) => {
+    filters.forEach((obj, index) => {
       Object.assign(target, obj)
       const l = arr[index]
       if (l) {
@@ -261,7 +265,7 @@ export const QueryBar = () => {
       }
     })
     query.filters = { ...snurp }
-    setQuery({ ...query })
+    route.setQuery({ filters: snurp })
   }
 
   const FlattenFilters = (obj) => {
@@ -312,7 +316,6 @@ export const QueryBar = () => {
     QueryContextMenu,
     {
       query,
-      setQuery,
       setInputValue,
       inputValue,
       setIsFocused,
@@ -544,7 +547,7 @@ export const QueryBar = () => {
                   query={query}
                   setFiltersAreNested={setFiltersAreNested}
                   setInputValue={setInputValue}
-                  setQuery={setQuery}
+                  setQuery={() => undefined}
                   snurpArr={snurpArr}
                   text={text}
                   splittedInputValue={splittedInputValue}
@@ -581,7 +584,7 @@ export const QueryBar = () => {
                   query={query}
                   setFiltersAreNested={setFiltersAreNested}
                   setInputValue={setInputValue}
-                  setQuery={setQuery}
+                  setQuery={() => undefined}
                   snurpArr={snurpArr}
                   splittedInputValue={splittedInputValue}
                   openSelectBox={openSelectBox}

@@ -1,9 +1,9 @@
 import React, { FC, CSSProperties } from 'react'
 import { hrefIsActive } from '~/utils/hrefIsActive'
-import { Link } from '../Link'
 import { Text } from '../Text'
-import { useLocation } from '~/hooks'
 import { ChevronRightIcon } from '~/icons'
+import { Link, useRoute } from 'kabouter'
+import { styled } from 'inlines'
 
 type BreadcrumbsProps = {
   style?: CSSProperties
@@ -14,6 +14,13 @@ type BreadcrumbsProps = {
   selected?: string
 }
 
+const StyledLink = styled(Link, {
+  alignItems: 'center',
+  borderRadius: 4,
+  display: 'flex',
+  height: 32,
+})
+
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   data,
   style,
@@ -21,14 +28,14 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   selected,
   ...props
 }) => {
-  const [location] = useLocation()
+  const route = useRoute()
 
   if (!data) {
     return null
   }
 
   if (!selected) {
-    selected = location
+    selected = route.location
   }
 
   return (
@@ -38,16 +45,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
         const isActive = hrefIsActive(href, selected)
 
         return (
-          <Link
-            href={href}
-            key={index}
-            style={{
-              alignItems: 'center',
-              borderRadius: 4,
-              display: 'flex',
-              height: 32,
-            }}
-          >
+          <StyledLink href={href} key={index}>
             <Text
               style={{ marginLeft: 16 }}
               color={isActive ? 'text' : 'text2'}
@@ -60,7 +58,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
                 color={isActive ? 'text' : 'text2'}
               />
             )}
-          </Link>
+          </StyledLink>
         )
       })}
     </div>

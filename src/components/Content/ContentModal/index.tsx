@@ -5,7 +5,7 @@ import { Button } from '~/components/Button'
 import { RightSidebar } from '~/components/RightSidebar'
 import { ScrollArea } from '~/components/ScrollArea'
 import { Text } from '~/components/Text'
-import { useLocation, useSchema, useCopyToClipboard } from '~/hooks'
+import { useSchema, useCopyToClipboard } from '~/hooks'
 import { CloseIcon, ArrowRightIcon, CheckIcon } from '~/icons'
 import { border, color } from '~/utils'
 import { ContentEditor } from '../ContentEditor'
@@ -18,9 +18,10 @@ import { Dialog, useDialog } from '~/components/Dialog'
 import { deepMerge } from '@saulx/utils'
 import { styled } from 'inlines'
 import useGlobalState from '@based/use-global-state'
+import { useRoute } from 'kabouter'
 
 const Topbar = ({ id, type }) => {
-  const [location, setLocation] = useLocation()
+  const route = useRoute()
   const { type: schemaType, loading } = useDescriptor(id)
 
   return (
@@ -34,11 +35,11 @@ const Topbar = ({ id, type }) => {
         flexShrink: 0,
       }}
     >
-      {location.split('.').length > 1 ? (
+      {route.location.split('.').length > 1 ? (
         <ArrowRightIcon
           onClick={() => {
-            const newLocation = location.split('.').slice(0, -1).join('.')
-            setLocation(newLocation)
+            const newLocation = route.location.split('.').slice(0, -1).join('.')
+            route.setLocation(newLocation)
           }}
           style={{ cursor: 'pointer', transform: 'scaleX(-1)' }}
         />
@@ -48,7 +49,9 @@ const Topbar = ({ id, type }) => {
           ? loading
             ? null
             : `Edit ${schemaType}${
-                location.includes('.') ? '.' + location.split('.').pop() : ''
+                route.location.includes('.')
+                  ? '.' + route.location.split('.').pop()
+                  : ''
               }`
           : `Create new ${type}`}
       </Text>
@@ -137,7 +140,7 @@ let dialog = false
 
 const ContentModalInner = ({ prefix, id, field }) => {
   const client = useClient()
-  const [, setLocation] = useLocation()
+  const route = useRoute()
   const [disabled, setDisabled] = useState(true)
   const ref = useRef({})
   const published = useRef(false)
@@ -208,7 +211,7 @@ const ContentModalInner = ({ prefix, id, field }) => {
             <Dialog.Confirm
               onConfirm={() => {
                 dialog = false
-                setLocation(prefix)
+                route.setLocation(prefix)
               }}
             >
               Discard changes (Enter)
@@ -220,10 +223,9 @@ const ContentModalInner = ({ prefix, id, field }) => {
       setTimeout(dialogTime, 10)
       const dialogTimeOut = setTimeout(dialogTime, 5000)
       clearTimeout(dialogTimeOut)
-      setLocation(prefix)
+      route.setLocation(prefix)
     }
   }
-  console.log(inputGood)
   return (
     <div
       style={{

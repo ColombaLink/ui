@@ -1,24 +1,24 @@
 import React, { CSSProperties, FC } from 'react'
 import { ContentMain } from './ContentMain'
 import { ContentLeft } from './ContentLeft'
-import { useLocation } from '~'
 import { ContentModal } from './ContentModal'
+import { useRoute } from 'kabouter'
 
 export const Content: FC<{
+  // eslint-disable-next-line
   db?: string
   prefix?: string
   style?: CSSProperties
-}> = ({ db = 'default', prefix = '', style }) => {
-  const [location] = useLocation()
-  const [, type, id, field] = location.substring(prefix.length).split('/')
+}> = ({ prefix = '', style }) => {
+  const route = useRoute()
+  const [, type, id, field] = route.location.substring(prefix.length).split('/')
 
-  // console.log('This ID', id)
+  // TODO: pass and use db
 
   return (
     <div
       style={{
         display: 'flex',
-        // height: 'calc(100vh - 120px)',
         ...style,
       }}
     >

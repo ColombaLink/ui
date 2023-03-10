@@ -1,9 +1,7 @@
 import '../assets/global.css'
 import '../assets/fonts.css'
 
-// for now use wouter
-export { Route, useRouter, Switch, Router } from 'wouter'
-
+export * from 'kabouter'
 export * from './components/Accordion'
 export * from './components/Auth'
 export * from './components/Avatar'
@@ -34,7 +32,6 @@ export * from './components/InfiniteList'
 export * from './components/Input'
 export * from './components/Label'
 export * from './components/LineGraph'
-export * from './components/Link'
 export * from './components/Logo'
 export * from './components/MasonryGrid'
 export * from './components/Menu'
@@ -68,6 +65,3 @@ export * from './components/VirtualizedList'
 export * from './icons'
 export * from './hooks'
 export * from './utils'
-
-// export * from './components/_ListItems'
-// export * from './components/_ReferenceInput'
