@@ -7,7 +7,7 @@ import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 
 // TODO full kabouter here
 export const parseHref = (href = '/') => {
@@ -20,7 +20,6 @@ export const parseHref = (href = '/') => {
     if (i !== -1) {
       const a = new URLSearchParams(search)
       const b = new URLSearchParams(href.substring(i))
-
       b.forEach((value, key) => {
         a.set(key, value)
       })
@@ -47,7 +46,7 @@ type MenuHeaderProps = {
 
 type MenuItemProps = {
   children?: ReactNode | FC
-  style?: CSSProperties
+  style?: Style
   href?: string
   isActive?: boolean
   isNested?: boolean
@@ -193,8 +192,9 @@ export const Menu: FC<{
     })
   }
 
-  let firstHref
-  let hasActive
+  let firstHref: string
+  let hasActive: boolean = false
+
   const items = data.map(({ label, href, items }, i) => {
     if (items) {
       if (!Array.isArray(items)) {
@@ -288,6 +288,7 @@ export const Menu: FC<{
   return (
     <ScrollArea
       style={{
+        flexGrow: 0,
         backgroundColor: color('background'),
         borderRight: `1px solid ${color('border')}`,
         padding: '64px 20px 20px 20px',

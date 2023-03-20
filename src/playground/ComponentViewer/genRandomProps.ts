@@ -8,7 +8,7 @@ const icons: FC[] = []
 const iconNames: string[] = []
 
 for (const key in ui) {
-  if (key.includes('Icon')) {
+  if (key.includes('Icon') && key !== 'stringToIcon') {
     iconNames.push(key)
     icons.push(ui[key])
   }
@@ -38,7 +38,8 @@ export const getRandomIcon = (): FC<IconProps> => {
 }
 
 export const getRandomColor = () => {
-  const t = randomFromArr(props.types['Color'].types)
+  // @ts-ignore
+  const t = randomFromArr(props.types.Color.types)
   return genRandomProp('Color', { type: t.type })
 }
 
@@ -97,11 +98,15 @@ export const genRandomProp = (name, prop, short = false) => {
     return genRandomWords(true)
   }
 
-  if (name.includes('icon') && prop.type === 'FC') {
+  if (name.includes('icon') && prop.type === 'FC' && name !== 'stringToIcon') {
     return getRandomIcon()
   }
 
-  if (name.includes('icon') && prop.type === 'ReactNode') {
+  if (
+    name.includes('icon') &&
+    prop.type === 'ReactNode' &&
+    name !== 'stringToIcon'
+  ) {
     return React.createElement(getRandomIcon())
   }
 
@@ -110,11 +115,11 @@ export const genRandomProp = (name, prop, short = false) => {
   }
 
   if (prop.type === 'MouseEventHandler') {
-    return () => alert('Do!')
+    return () => global.alert('Do!')
   }
 
   if (prop.type === 'function') {
-    return () => console.log('Snurp')
+    return () => {}
   }
 
   if (prop.type === 'ReactNode') {
@@ -124,6 +129,7 @@ export const genRandomProp = (name, prop, short = false) => {
     if (Math.random() > 0.65) {
       return React.createElement(getRandomIcon(), { size: 20 })
     }
+    // eslint-disable-next-line
     return React.createElement(Text, {
       weight: 700,
       children: genRandomWords(true),

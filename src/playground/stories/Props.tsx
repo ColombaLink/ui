@@ -2,7 +2,6 @@ import React from 'react'
 import props from '../props.json'
 import { Text } from '../..'
 import { deepEqual } from '@saulx/utils'
-import { SingleProp } from '../ComponentViewer/ComponentProps'
 
 const propsNames: {
   [key: string]: {
@@ -38,7 +37,7 @@ for (const p in props.props) {
 export const Props = () => {
   return (
     <>
-      <Text weight={700} size={'18px'} style={{ marginBottom: 24 }}>
+      <Text weight={700} size="18px" style={{ marginBottom: 24 }}>
         Props
       </Text>
       <div
@@ -67,7 +66,6 @@ export const Props = () => {
                   {v.name}
                 </Text>
               </div>
-              <SingleProp prop={v.componentProps[0].props[v.name]} />
 
               {v.componentProps
                 .sort((a, b) => {
@@ -75,15 +73,7 @@ export const Props = () => {
                 })
                 .map((x) => {
                   return (
-                    <Text
-                      key={x.name}
-                      color={
-                        x.props[v.name].inconsistent
-                          ? 'accent'
-                          : 'text-disabled'
-                      }
-                      size="12px"
-                    >
+                    <Text key={x.name} size="12px">
                       {x.name}
                     </Text>
                   )

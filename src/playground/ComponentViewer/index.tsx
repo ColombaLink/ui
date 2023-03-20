@@ -18,11 +18,12 @@ export type PropsDef = {
 const ComponentViewer: FC<{
   component?: FC
   propsDef?: PropsDef
-  propsName: string // mandatory otherwise it does not work when minified
+  propsName: string
   examples?: { props?: any; code?: string; component?: FC }[]
   title?: string
 }> = ({ propsDef, component, propsName, examples, title }) => {
-  const fuzz = useSearchParam('randomize')
+  const [fuzz] = useSearchParam('randomize')
+
   const p = propsDef || props.props[propsName]
   if (!p) {
     return (

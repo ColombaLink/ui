@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, CheckIcon } from '~'
+import { Button, CheckIcon, EmailIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
@@ -12,8 +12,7 @@ export const Buttons = () => {
           {
             props: {
               children: 'Just a button',
-              // eslint-disable-next-line
-              onClick: () => console.log('clicked'),
+              onClick: () => console.info('clicked'),
             },
           },
           {
@@ -53,6 +52,16 @@ export const Buttons = () => {
             props: {
               children: 'Async button example',
               onClick: () => new Promise((resolve) => setTimeout(resolve, 1e3)),
+            },
+          },
+          {
+            props: {
+              children: 'Large button',
+              large: true,
+              icon: <EmailIcon />,
+              keyboardShortcut: 'Enter',
+              displayShortcut: true,
+              onClick: () => console.info('clicked'),
             },
           },
         ]}

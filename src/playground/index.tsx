@@ -11,6 +11,7 @@ import {
   DarkModeIcon,
   LightModeIcon,
   ExternalLinkIcon,
+  AppFrame,
   color,
   useRoute,
 } from '../'
@@ -28,7 +29,6 @@ export const client = new BasedClient({
 const Stories: FC = () => {
   const route = useRoute()
   const { story } = route.query
-
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
@@ -169,16 +169,12 @@ const App = () => {
   }
 
   return (
-    <div style={{ flexGrow: 1, display: 'flex', height: '100%' }}>
+    <AppFrame>
       <Menu
         collapse
-        style={{
-          paddingLeft: 32,
-          paddingRight: 32,
-        }}
         header={
           <>
-            <LargeLogo style={{ marginBottom: 24, marginTop: -12 }} />
+            <LargeLogo style={{ marginBottom: 24 }} />
             <div
               style={{
                 display: 'flex',
@@ -223,13 +219,12 @@ const App = () => {
             </div>
           </>
         }
-        prefix="/hello"
         data={filteredObj}
       />
-      <Page style={{ padding: 32 }}>
+      <Page>
         <Stories />
       </Page>
-    </div>
+    </AppFrame>
   )
 }
 

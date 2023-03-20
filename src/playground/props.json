@@ -2181,32 +2181,11 @@
       "name": "LineGraphProps",
       "props": {
         "data": {
-          "type": [
-            "TSTypeLiteral",
-            {
-              "array": "DataItem"
-            }
-          ]
+          "type": "LineGraphDataInput"
         },
-        "legend": {
+        "xFormat": {
           "optional": true,
-          "type": "TSTypeLiteral"
-        },
-        "format": {
-          "optional": true,
-          "type": [
-            {
-              "value": "date"
-            },
-            {
-              "value": "number"
-            },
-            {
-              "value": "date-time-human"
-            },
-            "NumberFormat",
-            "DateFormat"
-          ]
+          "type": "LineXGraphFormat"
         },
         "valueFormat": {
           "optional": true,
@@ -2215,51 +2194,13 @@
             "string"
           ]
         },
-        "spread": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "pure": {
-          "optional": true,
-          "type": "boolean"
-        },
         "label": {
           "optional": true,
           "type": "string"
-        },
-        "color": {
-          "optional": true,
-          "type": "Color"
         }
       },
-      "code": "type LineGraphProps = {\n  data: { [key: string]: DataItem[] } | DataItem[]\n  legend?: { [key: string]: string }\n  format?: 'date' | 'number' | 'date-time-human' | NumberFormat | DateFormat\n  valueFormat?: NumberFormat | string\n  spread?: boolean\n  pure?: boolean\n  label?: string\n  color?: Color\n}",
+      "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
-    },
-    "LinkProps": {
-      "name": "LinkProps",
-      "props": {
-        "href": {
-          "optional": true,
-          "type": "string"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "style": {
-          "optional": true,
-          "type": [
-            "CSSProperties",
-            "Style"
-          ]
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type LinkProps = {\n  href?: string\n  children?: ReactNode\n  style?: CSSProperties | Style\n  onClick?: () => {}\n}",
-      "file": "/components/Link/index.tsx"
     },
     "MasonryGridProps": {
       "name": "MasonryGridProps",
@@ -2342,35 +2283,6 @@
       },
       "code": "type MenuItemProps = {\n  children?: ReactNode | FC\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/Menu/index.tsx"
-    },
-    "MultiLineGraphProps": {
-      "name": "MultiLineGraphProps",
-      "props": {
-        "data": {
-          "type": "MultiLineGraphDataInput"
-        },
-        "xFormat": {
-          "optional": true,
-          "type": "MultiLineXGraphFormat"
-        },
-        "valueFormat": {
-          "optional": true,
-          "type": [
-            "NumberFormat",
-            "string"
-          ]
-        },
-        "pure": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "label": {
-          "optional": true,
-          "type": "string"
-        }
-      },
-      "code": "type MultiLineGraphProps = {\n  data: MultiLineGraphDataInput\n  xFormat?: MultiLineXGraphFormat\n  valueFormat?: NumberFormat | string\n  pure?: boolean\n  label?: string\n}",
-      "file": "/components/MultiLineGraph/index.tsx"
     },
     "ObjectListProps": {
       "name": "ObjectListProps",
@@ -2512,12 +2424,28 @@
         "children": {
           "type": "ReactNode"
         },
+        "onDrop": {
+          "optional": true,
+          "type": "function"
+        },
+        "on": {
+          "optional": true,
+          "type": "function"
+        },
+        "onDragOver": {
+          "optional": true,
+          "type": "function"
+        },
+        "onDragLeave": {
+          "optional": true,
+          "type": "function"
+        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
         }
       },
-      "code": "type PageProps = {\n  children: ReactNode\n  style?: CSSProperties\n}",
+      "code": "type PageProps = {\n  children: ReactNode\n  onDrop?: (e: DragEvent) => void\n  on?: (e: DragEvent) => void\n  onDragOver?: (e: DragEvent) => void\n  onDragLeave?: (e: DragEvent) => void\n  style?: CSSProperties\n}",
       "file": "/components/Page/index.tsx"
     },
     "PieGraphProps": {
@@ -3485,6 +3413,10 @@
           "optional": true,
           "type": "string"
         },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
         "onClick": {
           "type": "DataEventHandler"
         },
@@ -3509,7 +3441,7 @@
           "type": "boolean"
         }
       },
-      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
+      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key: string]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  style?: Style\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
       "file": "/components/Table/TableFromQuery.tsx"
     },
     "TableProps": {
@@ -3536,6 +3468,10 @@
         "height": {
           "optional": true,
           "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         },
         "language": {
           "optional": true,
@@ -3566,7 +3502,7 @@
           "type": "string"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  language?: string\n  target?: string\n  onAction?: OnAction\n  isMultiref?: boolean\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n  prefix?: string\n  view?: string\n}",
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  style?: Style\n  language?: string\n  target?: string\n  onAction?: OnAction\n  isMultiref?: boolean\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n  prefix?: string\n  view?: string\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {

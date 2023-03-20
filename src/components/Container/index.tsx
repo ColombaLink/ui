@@ -1,12 +1,12 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { styled } from 'inlines'
+import { styled, Style } from 'inlines'
 
 type ContainerProps = {
   children: ReactNode
   space?: Space
-  style?: CSSProperties
+  style?: Style
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
   bottomLeft?: FC | ReactNode

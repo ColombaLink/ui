@@ -79,7 +79,4 @@ export * from './Typhography'
 export * from './Upload'
 export * from './ValueSliders'
 
-export * from './Router'
-
-export * from './KylesPlayground'
 export * from './ProgressIndicators'

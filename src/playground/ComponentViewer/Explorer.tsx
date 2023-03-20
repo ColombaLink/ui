@@ -1,5 +1,4 @@
 import React, { FC, useState, useMemo } from 'react'
-import { Props } from './ComponentProps'
 import {
   Text,
   Container,
@@ -53,7 +52,11 @@ export const CodeExample: FC<{
     child = <Callout color="red">{err.message}</Callout>
   }
   return (
-    <>
+    <div
+      style={{
+        maxWidth: 'calc(100vw - 290px)',
+      }}
+    >
       <Code
         topRight={
           <>
@@ -73,7 +76,6 @@ export const CodeExample: FC<{
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           borderColor: code !== exampleCode ? color('border') : color('accent'),
-          // width: 'calc(100% - 350px)',
         }}
         onChange={(c) => setCode(c)}
         value={exampleCode}
@@ -83,13 +85,13 @@ export const CodeExample: FC<{
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
           borderTopWidth: 0,
-          // width: 'calc(100% - 350px)',
+          maxWidth: '100%',
         }}
         space
       >
         {child}
       </Container>
-    </>
+    </div>
   )
 }
 
@@ -100,8 +102,8 @@ export const Explorer: FC<{
   name: string
   examples?: { code?: string; props?: any; component?: FC }[]
 }> = ({ component, p, name, examples = [{}], title }) => {
-  const showType = useSearchParam('type')
-  const fuzz = useSearchParam('randomize')
+  const [showType] = useSearchParam('type')
+  const [fuzz] = useSearchParam('randomize')
 
   return (
     <>
@@ -110,7 +112,6 @@ export const Explorer: FC<{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: '100%',
           marginBottom: 24,
         }}
       >
@@ -153,16 +154,8 @@ export const Explorer: FC<{
           </Button>
         </div>
       </div>
-      <div style={{ display: 'flex', marginTop: 24, width: '100%' }}>
-        <div
-          style={{
-            minWidth: showType ? 550 : 350,
-            marginRight: 24,
-          }}
-        >
-          {showType ? <Code value={p.code} /> : <Props prop={p} />}
-        </div>
-        <div style={{ width: '100%', maxWidth: '100%' }}>
+      <div style={{ display: 'flex', marginTop: 24 }}>
+        <div style={{ flexGrow: 1 }}>
           {examples.map((v, i) => {
             if (v.component) {
               return (
