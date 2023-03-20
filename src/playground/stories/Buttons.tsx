@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, CheckIcon, EmailIcon } from '~'
+import { Button, CheckIcon, EmailIcon, DuplicateIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Buttons = () => {
@@ -62,6 +62,13 @@ export const Buttons = () => {
               keyboardShortcut: 'Enter',
               displayShortcut: true,
               onClick: () => console.info('clicked'),
+            },
+          },
+
+          {
+            props: {
+              large: true,
+              icon: <DuplicateIcon />,
             },
           },
         ]}

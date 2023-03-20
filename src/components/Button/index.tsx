@@ -169,10 +169,8 @@ export const Button: FC<ButtonProps> = (props) => {
             : '6px 12px',
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
-        maxHeight: large ? 40 : '',
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
-        // height: large ? 48 : 40,
         ...getButtonStyle(props, true),
         ...style,
       }}
@@ -203,11 +201,7 @@ export const Button: FC<ButtonProps> = (props) => {
                 }
               : null
           )}
-        <Text
-          color="inherit"
-          //  weight={weight !== undefined ? weight : large ? 600 : 500}
-          typo={large ? 'subtext600' : 'body500'}
-        >
+        <Text color="inherit" typo={large ? 'subtext600' : 'body500'}>
           {children}
           {displayShortcut && keyboardShortcut ? (
             <KeyBoardshortcut keyboardShortcut={keyboardShortcut} />

@@ -6,7 +6,6 @@ import {
   Code,
   Link,
   useSearchParam,
-  setLocation,
   Button,
   ModelIcon,
   color,
@@ -102,8 +101,7 @@ export const Explorer: FC<{
   name: string
   examples?: { code?: string; props?: any; component?: FC }[]
 }> = ({ component, p, name, examples = [{}], title }) => {
-  const [showType] = useSearchParam('type')
-  const [fuzz] = useSearchParam('randomize')
+  const [fuzz, setFuzz] = useSearchParam('randomize')
 
   return (
     <>
@@ -122,35 +120,13 @@ export const Explorer: FC<{
         </Link>
         <div style={{ display: 'flex' }}>
           <Button
-            outline
             ghost
+            color={fuzz ? 'accent' : 'text2'}
             light
-            color="text"
-            style={{ marginRight: 24 }}
             icon={ModelIcon}
-            onClick={() =>
-              setLocation({
-                merge: true,
-                params: { randomize: !fuzz },
-              })
-            }
+            onClick={() => setFuzz(!fuzz)}
           >
-            {fuzz ? 'Examples' : 'Randomize'}
-          </Button>
-          <Button
-            outline
-            ghost
-            light
-            color="text"
-            icon={ModelIcon}
-            onClick={() =>
-              setLocation({
-                merge: true,
-                params: { type: !showType },
-              })
-            }
-          >
-            {showType ? 'Props' : 'Type'}
+            Randomize
           </Button>
         </div>
       </div>
@@ -159,7 +135,7 @@ export const Explorer: FC<{
           {examples.map((v, i) => {
             if (v.component) {
               return (
-                <Container key={i} space>
+                <Container key={fuzz ? 'f ' + i : i} space>
                   {React.createElement(v.component)}
                 </Container>
               )
@@ -167,7 +143,7 @@ export const Explorer: FC<{
 
             return (
               <CodeExample
-                key={i}
+                key={fuzz ? 'f ' + i : i}
                 index={i}
                 name={name}
                 component={component}
