@@ -5,13 +5,7 @@ import React, {
   useState,
   FunctionComponent,
 } from 'react'
-import {
-  border,
-  boxShadow,
-  color,
-  hrefIsActive,
-  renderOrCreateElement,
-} from '~/utils'
+import { border, boxShadow, color, renderOrCreateElement } from '~/utils'
 import { Link, useRoute } from 'kabouter'
 import { useTooltip } from '~/hooks/useTooltip'
 import { Text } from '../Text'
@@ -138,7 +132,7 @@ export const Sidebar: FC<SidebarProps> = ({
   })
 
   const elements = parsedData.map(({ label, href, icon, subTitle }, i) => {
-    const isActive = hrefIsActive(href, route.location, parsedData)
+    const isActive = false
 
     if (subTitle) {
       return (

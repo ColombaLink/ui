@@ -22,8 +22,10 @@ import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 
 export const client = new BasedClient({
-  project: 'YOUZI',
-  url: 'ws://localhost:8297',
+  project: 'test',
+  org: 'saulx',
+  env: 'cli',
+  discoveryUrls: ['http://localhost:40159'],
 })
 
 const Stories: FC = () => {

@@ -5,7 +5,7 @@ import { generatePlural } from '~/utils'
 import { useRoute } from 'kabouter'
 import { useClient } from '@based/react'
 
-export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
+export const AddTypeModal: FC = () => {
   const { schema } = useSchema()
   const client = useClient()
   const db = 'default' // TODO
@@ -13,7 +13,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
   const [pluralName, setPluralName] = useState('')
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
-  const route = useRoute()
+  const route = useRoute('[type]')
   const [filled, setFilled] = useState(false)
 
   useEffect(() => {
@@ -109,7 +109,7 @@ export const AddTypeModal: FC<{ prefix: string }> = ({ prefix }) => {
                 },
               })
 
-              route.setLocation(`${prefix}/${type}`)
+              route.setPath({ type })
             }}
           >
             Create Model (Enter)

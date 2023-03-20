@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
-import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
 import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
@@ -153,7 +152,6 @@ const StyledChevron = styled(ChevronDownIcon, {
 export const Menu: FC<{
   data: any
   selected?: string
-  prefix?: string
   style?: CSSProperties
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
@@ -162,7 +160,6 @@ export const Menu: FC<{
 }> = ({
   data = {},
   selected,
-  prefix = '',
   style,
   children,
   header,
@@ -214,10 +211,9 @@ export const Menu: FC<{
               display: collapse ? 'flex' : null,
               alignItems: 'center',
               cursor: href ? 'pointer' : null,
-              color:
-                href && hrefIsActive(href, selected, items)
-                  ? color('accent')
-                  : color('text2'),
+              color: href // TODO: add is active
+                ? color('accent')
+                : color('text2'),
             }}
             onClick={(e) => {
               if (collapse) {
@@ -237,13 +233,10 @@ export const Menu: FC<{
           </MenuHeader>
           <HideableStyledDiv id={`${i}-menuitems`}>
             {items.map(({ href, label }, index) => {
-              if (href[0] !== '?') {
-                href = prefix + href
-              }
               if (!firstHref) {
                 firstHref = href
               }
-              const isActive = hrefIsActive(href, selected, items)
+              const isActive = false
 
               if (isActive) {
                 hasActive = true
@@ -259,15 +252,11 @@ export const Menu: FC<{
       )
     }
 
-    if (href[0] !== '?') {
-      href = prefix + href
-    }
-
     if (!firstHref) {
       firstHref = href
     }
 
-    const isActive = hrefIsActive(href, selected, data)
+    const isActive = false
     if (isActive) {
       hasActive = true
     }

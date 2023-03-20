@@ -22,9 +22,9 @@ export const Content: FC<{
         ...style,
       }}
     >
-      <ContentLeft prefix={prefix} />
-      <ContentMain prefix={`${prefix}/${type}`} view={type} />
-      <ContentModal prefix={`${prefix}/${type}`} id={id} field={field} />
+      <ContentLeft />
+      <ContentMain view={type} />
+      <ContentModal id={id} field={field} />
     </div>
   )
 }

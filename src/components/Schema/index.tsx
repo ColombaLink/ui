@@ -6,44 +6,46 @@ import { useSchemaTypes } from '~/hooks'
 
 export const Schema: FC<{
   db?: string
-  prefix?: string
   style?: CSSProperties
-}> = ({ db = 'default', prefix = '', style }) => {
-  const route = useRoute()
-  const [, type, ...p] = route.location.substring(prefix.length).split('/')
+}> = ({ db = 'default', style }) => {
+  const route = useRoute('[type]')
   const { types, loading } = useSchemaTypes()
-  const path = []
 
-  if (p.length) {
-    if (loading) {
-      return null
-    }
-    const { fields } = types[type]
-    p.reduce((fields, key) => {
-      path.push(key)
-      const { items, values, properties } = fields[key]
-      if (properties) {
-        path.push('properties')
-        return properties
-      }
-      if (items?.properties) {
-        path.push('items', 'properties')
-        return items.properties
-      }
-      if (values?.properties) {
-        path.push('values', 'properties')
+  const type = route.path.type
 
-        return values.properties
-      }
-      console.error('something is wrong here...', p)
-      return fields[key]
-    }, fields)
-  }
+  // const path = []
+
+  // return null
+  // if (p.length) {
+  //   if (loading) {
+  //     return null
+  //   }
+  //   const { fields } = types[type]
+  //   p.reduce((fields, key) => {
+  //     path.push(key)
+  //     const { items, values, properties } = fields[key]
+  //     if (properties) {
+  //       path.push('properties')
+  //       return properties
+  //     }
+  //     if (items?.properties) {
+  //       path.push('items', 'properties')
+  //       return items.properties
+  //     }
+  //     if (values?.properties) {
+  //       path.push('values', 'properties')
+
+  //       return values.properties
+  //     }
+  //     console.error('something is wrong here...', p)
+  //     return fields[key]
+  //   }, fields)
+  // }
 
   return (
-    <div style={{ display: 'flex', ...style }}>
-      <SchemaLeft prefix={prefix} />
-      <SchemaMain db={db} type={type} path={path} prefix={prefix} />
+    <div style={{ display: 'flex', flexGrow: 1, ...style }}>
+      <SchemaLeft />
+      {/* <SchemaMain db={db} type={String(type)} path={path} /> */}
     </div>
   )
 }

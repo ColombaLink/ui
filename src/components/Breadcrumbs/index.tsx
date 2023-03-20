@@ -1,5 +1,4 @@
 import React, { FC, CSSProperties } from 'react'
-import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Text } from '../Text'
 import { ChevronRightIcon } from '~/icons'
 import { Link, useRoute } from 'kabouter'
@@ -42,7 +41,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
     <div style={{ display: 'flex', ...style }} {...props}>
       {Object.keys(data).map((key, index) => {
         const href = prefix + data[key]
-        const isActive = hrefIsActive(href, selected)
+        const isActive = false
 
         return (
           <StyledLink href={href} key={index}>

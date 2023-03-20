@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
 import { SearchIcon } from '~/icons'
 import { color } from '~/utils'
-import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Avatar } from '../Avatar'
 import { Input } from '../Input'
 import { Link, useRoute } from 'kabouter'
@@ -134,7 +133,7 @@ export const Topbar: FC<TopbarProps> = ({
   })
 
   const elements = items.map(({ label, href }, i) => {
-    const isActive = hrefIsActive(href, route.location, items)
+    const isActive = false
     return (
       <TopbarTab
         key={href}

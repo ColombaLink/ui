@@ -1,14 +1,11 @@
 import React, { CSSProperties, FC } from 'react'
 import { color } from '~/utils'
-import { hrefIsActive } from '~/utils/hrefIsActive'
-import { Link, useRoute } from 'kabouter'
+import { useRoute } from 'kabouter'
 import { Text } from '../Text'
 import { Color } from '~/types'
 
 type StepsProps = {
   style?: CSSProperties
-  selected?: string
-  prefix?: string
   data?: {
     [key: string]: string
   }
@@ -18,26 +15,22 @@ type StepsProps = {
 export const Steps: FC<StepsProps> = ({
   style,
   data = {},
-  prefix = '',
-  selected,
   color: colorProp = 'accent',
   ...props
 }) => {
-  const route = useRoute()
-  if (selected) {
-    selected = prefix + selected
-  } else {
-    selected = route.location
-  }
+  const route = useRoute('[step]')
+  const { step } = route.path
 
   return (
     <div style={style} {...props}>
       {Object.keys(data).map((key, index) => {
-        const href = prefix + data[key]
-        const isActive = hrefIsActive(href, selected)
+        const isActive =
+          step === '' || step === undefined ? index === 0 : step === data[key]
         return (
-          <Link
-            href={href}
+          <div
+            onClick={() => {
+              route.setPath({ step: data[key] })
+            }}
             key={index}
             style={{
               alignItems: 'center',
@@ -66,7 +59,7 @@ export const Steps: FC<StepsProps> = ({
               {index + 1}
             </Text>
             <Text>{key}</Text>
-          </Link>
+          </div>
         )
       })}
     </div>

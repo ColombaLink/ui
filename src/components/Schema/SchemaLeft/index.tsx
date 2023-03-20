@@ -27,9 +27,7 @@ export const SystemLabel = ({ isActive = false, children }) => {
   )
 }
 
-export const SchemaLeft: FC<{
-  prefix: string
-}> = ({ prefix }) => {
+export const SchemaLeft: FC<{}> = () => {
   const dialog = useDialog()
   const { schema, loading } = useSchema()
 
@@ -60,7 +58,6 @@ export const SchemaLeft: FC<{
 
   return (
     <Menu
-      prefix={prefix}
       style={{
         paddingTop: 24,
         minWidth: 234,
@@ -94,7 +91,7 @@ export const SchemaLeft: FC<{
                 ghost
                 icon={AddIcon}
                 onClick={() => {
-                  dialog.open(<AddTypeModal prefix={prefix} />)
+                  dialog.open(<AddTypeModal />)
                 }}
               >
                 Add
@@ -113,7 +110,7 @@ export const SchemaLeft: FC<{
               }
               return {
                 label,
-                href: `/${key}`,
+                path: { type: `${key}` },
               }
             }),
         },

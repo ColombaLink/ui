@@ -1,7 +1,6 @@
 import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
-import { hrefIsActive } from '~/utils/hrefIsActive'
 import { Button, ButtonProps } from '../Button'
 import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
@@ -146,7 +145,7 @@ export const Menu: FC<{
             if (!firstHref) {
               firstHref = href
             }
-            const isActive = hrefIsActive(href, selected, items)
+            const isActive = false // hrefIsActive(href, selected, items)
 
             return (
               <MenuItem key={index} href={href} isActive={isActive} isNested>
@@ -166,7 +165,7 @@ export const Menu: FC<{
       firstHref = href
     }
 
-    const isActive = hrefIsActive(href, selected, data)
+    const isActive = false // hrefIsActive(href, selected, data)
 
     return (
       <MenuItem key={i} href={href} isActive={isActive} weight={500}>

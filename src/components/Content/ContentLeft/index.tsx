@@ -27,9 +27,7 @@ export const SystemLabel = ({ isActive = false, children }) => {
   )
 }
 
-export const ContentLeft: FC<{
-  prefix: string
-}> = ({ prefix }) => {
+export const ContentLeft: FC<{}> = () => {
   const { schema, loading: loadingSchema } = useSchema()
   const { data: viewData, loading } = useQuery('based:observe-views')
   const views = viewData || {}
@@ -102,7 +100,6 @@ export const ContentLeft: FC<{
     </div>
   ) : (
     <Menu
-      prefix={prefix}
       collapse
       style={{
         paddingTop: 24,
