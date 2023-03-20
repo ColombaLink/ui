@@ -1,8 +1,7 @@
-import React, { useState, useRef, useContext } from 'react'
+import React, { useState, useRef } from 'react'
 import useGraphHover from '~/hooks/useGraphHover'
 import useThrottledCallback from '~/hooks//useThrottledCallback'
 import { Color, color, Text } from '~'
-// import { GraphContext } from '.'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { prettyDate } from '@based/pretty-date'
 import { LineGraphData, LineXGraphFormat } from './types'
@@ -21,67 +20,13 @@ const Legend = ({
   x,
   values,
   xFormat,
-}: // xInfo,
-// p,
-// selected,
-// legend,
-// isStacked,
-{
+}: {
   isHover: boolean
   x: number
   values: LegendValues
   xFormat: LineXGraphFormat
 }) => {
   if (!values[0]?.svgX) return null
-  let extraInfo = null
-
-  // if (isStacked) {
-  //   const [selectedKey, setSelected] = useState<string>('')
-  //   const ctx = useContext(GraphContext)
-  //   ctx.hover = setSelected
-
-  //   extraInfo = (
-  //     <div
-  //       style={{
-  //         marginTop: 10,
-  //       }}
-  //     >
-  //       {selectedKey ? (
-  //         <div
-  //           style={{
-  //             marginTop: 12,
-  //             paddingTop: 12,
-  //             borderTop: `1px solid ${color('border')}`,
-  //           }}
-  //         >
-  //           <Text weight={600}>
-  //             {legend ? legend[selectedKey] : selectedKey}
-  //           </Text>
-  //           <div
-  //             style={{
-  //               display: 'flex',
-  //               justifyContent: 'space-between',
-  //             }}
-  //           >
-  //             <Text>
-  //               {prettyNumber(
-  //                 selected.segments[selectedKey],
-  //                 valueFormat || 'number-short'
-  //               )}
-  //             </Text>
-  //             {/* @ts-ignore */}
-  //             <Text color={color(baseColor)}>
-  //               {Math.round(
-  //                 (selected.segments[selectedKey] / selected.y) * 100
-  //               )}
-  //               %
-  //             </Text>
-  //           </div>
-  //         </div>
-  //       ) : null}
-  //     </div>
-  //   )
-  // }
 
   return (
     <div
@@ -140,9 +85,8 @@ const Legend = ({
             borderRadius: 4,
             width: 'auto',
             top: -30,
-            minWidth: /*isStacked*/ false && extraInfo ? 175 : 100,
-            transform:
-              isFlippedX && extraInfo ? 'translateX(-44%)' : 'translateX(0%)',
+            minWidth: 100,
+            transform: 'translateX(0%)',
           }}
         >
           <div
@@ -153,7 +97,6 @@ const Legend = ({
               paddingBottom: 5,
             }}
           >
-            {/* <Text wrap>{xInfo}</Text> */}
             <Text weight={600}>
               <span style={{ color: color(values[0].color || 'accent') }}>
                 &#x2022;{' '}
@@ -191,22 +134,6 @@ const Legend = ({
 
 let isFlippedX = false
 
-// const findClosestIndex = (lineData: LineData, target: number) => {
-//   if (!lineData.points?.length) return null
-//   if (lineData.points?.length === 1) return 0
-
-//   for (let index = 0; index < lineData.points.length; index++) {
-//     if (lineData.points[index].x > target) {
-//       const previous = lineData.points[index - 1].x
-//       const current = lineData.points[index].x
-//       return Math.abs(previous - target) < Math.abs(current - target)
-//         ? index - 1
-//         : index
-//     }
-//   }
-//   return lineData.points.length - 1
-// }
-
 const findPointAt = (path: SVGGeometryElement, x: number) => {
   let from = 0
   let to = path.getTotalLength()
@@ -228,12 +155,8 @@ const findPointAt = (path: SVGGeometryElement, x: number) => {
 const getY = ({
   x,
   width,
-  r,
   isHover,
   data,
-  isStacked,
-  legend,
-  ySpread,
   lineRefs,
   xFormat,
 }: {
@@ -258,7 +181,7 @@ const getY = ({
       if (x < box.x || x > box.x + box.width) {
         return previous
       }
-      const { point, position } = findPointAt(lineRefs[key].current, x)
+      const { point } = findPointAt(lineRefs[key].current, x)
 
       return previous.concat({
         key,
@@ -287,86 +210,6 @@ const getY = ({
       xFormat={xFormat}
     />
   )
-
-  // // position on graph as a ratio
-  // let u = x / width
-  // const biggestLength = Object.keys(data).reduce(
-  //   (previousValue, key) =>
-  //     data[key].data.length > previousValue
-  //       ? data[key].data.length
-  //       : previousValue,
-  //   0
-  // )
-  // // currentDataIndex
-  // const s = Math.floor(u * biggestLength)
-
-  // if (u < 0) {
-  //   return null
-  // }
-
-  // const selected = data[Object.keys(data)[0]].data[s]
-
-  // let curve = r.current.curve
-  // if (!curve) {
-  //   for (let i = 0; i < r.current.children.length; i++) {
-  //     const c = r.current.children[i]
-  //     if (c.getAttribute('data-custom') === 'line') {
-  //       curve = c
-  //       r.current.curve = c
-  //       break
-  //     }
-  //   }
-  // }
-  // console.log(curve)
-
-  // if (curve && selected) {
-  //   const totalLength = curve.getTotalLength()
-
-  //   if (!totalLength) {
-  //     return null
-  //   }
-
-  //   let tries = 4
-  //   let p
-
-  //   while (tries) {
-  //     p = curve.getPointAtLength(u * totalLength)
-  //     if (p.x < x) {
-  //       u = u * (x / p.x)
-  //     } else if (p.x > x) {
-  //       u = u * (x / p.x)
-  //     }
-  //     tries--
-  //   }
-
-  //   let xInfo
-
-  //   if (format === 'date' || format === 'date-time-human') {
-  //     xInfo = [
-  //       prettyDate(selected.x, 'time-precise'),
-  //       // { value: selected.x, format: 'time-precise' },
-  //       ' - ',
-  //       prettyDate(selected.x, 'date'),
-  //       // { value: selected.x, format: 'date' },
-  //     ]
-  //   } else {
-  //     xInfo = 'x: ' + selected.x
-  //   }
-
-  //   return (
-  //     <OverlayNested
-  //       legend={legend}
-  //       isStacked={isStacked}
-  //       isHover={isHover}
-  //       x={x}
-  //       p={p}
-  //       xInfo={xInfo}
-  //       selected={selected}
-  //       valueFormat={valueFormat}
-  //     />
-  //   )
-  // }
-  return null
 }
 
 const Overlay = ({
@@ -377,7 +220,6 @@ const Overlay = ({
   r,
   isStacked,
   legend,
-  valueFormat,
   ySpread,
   lineRefs,
   xFormat,
@@ -389,7 +231,6 @@ const Overlay = ({
   r: React.MutableRefObject<any>
   isStacked: boolean
   legend: boolean
-  valueFormat: NumberFormat | string
   ySpread: number
   lineRefs: { [key: string]: React.MutableRefObject<SVGGeometryElement> }
   xFormat: LineXGraphFormat
@@ -432,12 +273,10 @@ export default ({
   data,
   isStacked,
   legend,
-  valueFormat,
   ySpread,
   lineRefs,
   xFormat,
 }) => {
-  // need format
   const [mouseX, setMouseX] = useState()
 
   const [hover, isHover] = useGraphHover()
@@ -487,7 +326,6 @@ export default ({
         {children}
       </svg>
       <Overlay
-        valueFormat={valueFormat}
         isStacked={isStacked}
         legend={legend}
         isHover={isHover}

@@ -1,10 +1,8 @@
-// @ts-nocheck
 import React, { useRef, useState, useEffect, FC } from 'react'
 import { color } from '~/utils'
 import { scrollAreaStyle } from '../ScrollArea'
 import { useInfiniteScroll } from '../InfiniteList'
 import { ITEM_HEIGHT, ACTIONS_WIDTH, ITEM_WIDTH } from './constants'
-import { useLocation } from '~/hooks'
 import { useSchema } from '~/hooks/useSchema'
 import { DataEventHandler } from '~/types'
 import { OnAction } from './types'
@@ -15,14 +13,17 @@ import { Header } from './Header'
 import { InnerTable } from './InnerTable'
 import { SelectedOptionsSubMenu } from './SelectedOptionsSubMenu'
 import { systemFields } from '../Schema/templates'
+import { Style, styled } from 'inlines'
+import { useRoute } from 'kabouter'
 
 export type TableFromQueryProps = {
   fields: string[]
-  query: { [key]: any }
+  query: { [key: string]: any }
   width: number
   height: number
   target?: string
   language?: string
+  style?: Style
   onClick: DataEventHandler
   onAction?: OnAction
   setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void
@@ -35,6 +36,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   query,
   fields,
   width,
+  style,
   height,
   target = 'root',
   language = 'en',
@@ -53,7 +55,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   ])
   const [activeSortField, setActiveSortField] = useState<string>('updatedAt')
   const [, setRelevantFields] = useState(fields)
-  const [location, setLocation] = useLocation()
+  const route = useRoute()
 
   const [prevStateSelectedRowCheckboxes, setPrevStateSelectedRowCheckboxes] =
     useState(selectedRowCheckboxes)
@@ -129,7 +131,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
   }, [])
 
   useEffect(() => {
-    setLocation(
+    route.setLocation(
       `?checked=${encodeURIComponent(
         JSON.stringify(
           lijst.filter((item) => item?.checkbox).map((item) => item.label)
@@ -155,10 +157,11 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }, [])
 
-  const locationIsFile = location.split('/').pop() === 'file'
+  const locationIsFile = route.location.split('/').pop() === 'file'
 
   const tableRef = useRef()
   const { itemCount, items, onScrollY, loading } = useInfiniteScroll({
+    // @ts-ignore wrong type...
     query: (offset, limit) => query(offset, limit, sortField, sortOrder),
     height,
     target,
@@ -178,6 +181,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
 
   useEffect(() => {
     if (tableRef.current) {
+      // @ts-ignore
       const prevColWidths = tableRef.current.colWidths || []
       const columnIndex = Math.max(
         0,
@@ -186,10 +190,12 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
         })
       )
 
+      // @ts-ignore
       tableRef.current.resetAfterIndices({
         columnIndex,
       })
 
+      // @ts-ignore
       tableRef.current.colWidths = colWidths
     }
   }, [colWidths])
@@ -274,7 +280,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
       const files = Array.from(e.dataTransfer.files)
 
       await Promise.all(
-        files?.map((file) => {
+        files?.map((file: File) => {
           // make a toast pop for each file
           // TODO check if successfull upload i guess
           const notify = () => {
@@ -287,7 +293,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
             )
           }
           notify()
-          return client.file(file)
+          return client.stream('db:file', { contents: file })
         })
       )
     } else {
@@ -295,13 +301,10 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
     }
   }
 
-  // console.log('--> times ', items)
-  // console.log('--> fields', fields)
-
   return (
     <>
-      <div
-        style={{ minHeight: 200 }}
+      <styled.div
+        style={{ minHeight: 200, ...style }}
         onDragOver={(e) => {
           e.preventDefault()
           e.stopPropagation()
@@ -320,6 +323,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
             deleteItems={DeleteItems}
             showSelectedItemsOnly={ShowSelectedItemsOnly}
             showAllItemsAgain={ShowAllItemsAgain}
+            // @ts-ignore
             setShownItems={setShownItems}
             shownItems={shownItems}
           />
@@ -374,6 +378,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
                   sortOrder={sortOrder}
                   activeSortField={activeSortField}
                   setActiveSortField={setActiveSortField}
+                  // @ts-ignore
                   scrollLeft={tableRef.current?.state?.scrollLeft}
                   setSelectedRowCheckboxes={setSelectedRowCheckboxes}
                   selectedRowCheckboxes={selectedRowCheckboxes}
@@ -391,7 +396,7 @@ export const TableFromQuery: FC<TableFromQueryProps> = ({
             onScrollY(scrollTop)
           }}
         />
-      </div>
+      </styled.div>
     </>
   )
 }

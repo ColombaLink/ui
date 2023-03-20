@@ -9,7 +9,7 @@ import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
 import { styled } from 'inlines'
 
-// maybe make this into a seperate pkg? or make sure parsing works well
+// TODO full kabouter here
 export const parseHref = (href = '/') => {
   if (href !== '/' && href[href.length - 1] === '/') {
     href = href.slice(0, -1)
@@ -116,7 +116,6 @@ export const MenuItem: FC<MenuItemProps> = ({
       >
         {typeof children === 'function'
           ? children({
-              // @ts-ignore
               isActive,
             })
           : children}
@@ -173,8 +172,10 @@ export const Menu: FC<{
 }) => {
   const route = useRoute()
 
+  const location = route.location
+
   if (!selected) {
-    selected = route.location
+    selected = location
   }
 
   if (!Array.isArray(data)) {
@@ -232,10 +233,7 @@ export const Menu: FC<{
             }}
           >
             {label}
-            {collapse && (
-              <StyledChevron id={`${i}-menuchevron`} />
-              // <ChevronDownIcon />
-            )}
+            {collapse && <StyledChevron id={`${i}-menuchevron`} />}
           </MenuHeader>
           <HideableStyledDiv id={`${i}-menuitems`}>
             {items.map(({ href, label }, index) => {

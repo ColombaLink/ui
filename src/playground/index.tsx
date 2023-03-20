@@ -12,25 +12,23 @@ import {
   LightModeIcon,
   ExternalLinkIcon,
   color,
-  useLocation,
+  useRoute,
 } from '../'
 import { BasedClient } from '@based/client'
 import * as stories from './stories'
 import { toPascalCase } from './utils'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
-import basedConfig from './based.json'
 
 export const client = new BasedClient({
   project: 'YOUZI',
   url: 'ws://localhost:8297',
 })
 
-console.log('??', client.opts)
-
 const Stories: FC = () => {
-  useLocation()
-  const story = new URLSearchParams(location.search).get('story')
+  const route = useRoute()
+  const { story } = route.query
+
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
@@ -68,7 +66,6 @@ const menuItems = {
     Geo: '?story=geo',
     InputFields: '?story=input-fields',
     Radiobuttons: '?story=radiobutton',
-    // ReferenceInput: '?story=reference-inputs',
     Selects: '?story=selects',
     Sliders: '?story=sliders',
     Toggle: '?story=toggles',
@@ -99,10 +96,6 @@ const menuItems = {
     Flow: '?story=FlowSequences',
     Grids: '?story=grids',
     ExpandableList: '?story=ExpandableLists',
-    // InfiniteList: '?story=InfiniteLists',
-    // Lists: '?story=lists',
-    // this list is being used for the little table menu now
-    //  VirtualizedList: '?story=VirtualizedLists',
     MasonryGrid: '?story=masonryGrid',
     Page: '?story=pages',
     Tables: '?story=tables',
@@ -129,7 +122,6 @@ const menuItems = {
     LineGraph: '?story=lineGraph',
     PieGraph: '?story=PieGraphs',
     ResultCards: '?story=ResultCards',
-    // ScatterResults: '?story=ScatterResults',
   },
   Hooks: {
     useRoute: '?story=Router',
@@ -137,7 +129,6 @@ const menuItems = {
     useCopyToClipboard: '?story=CopyHookExample',
     useDarkMode: '?story=DarkModeHook',
     useDialog: '?story=DialogHookExample',
-    useLocation: '?story=LocationHook',
     useToolTips: '?story=tooltips',
   },
   Handbook: {
@@ -145,9 +136,6 @@ const menuItems = {
   },
   Examples: {
     Inbox: '?story=inbox',
-    // ProfileSettings: '?story=profile-settings',
-    // ProjectSettings: '?story=project-settings',
-    // Tally: '?story=tally-screens',
     Kyles: '?story=KylesPlayground',
     ProgressBar: '?story=ProgressIndicators',
     Drawer: '?story=Drawers',
@@ -168,7 +156,6 @@ const App = () => {
       setFilteredObj(menuItems)
       return
     }
-
     const filteredArr = []
     for (const key in menuItems) {
       for (const subKey in menuItems[key]) {
@@ -177,9 +164,7 @@ const App = () => {
         }
       }
     }
-    // nu van array weer object maken
     const filteredObjTest = Object.fromEntries(filteredArr)
-
     setFilteredObj({ Results: filteredObjTest })
   }
 
@@ -189,7 +174,6 @@ const App = () => {
         collapse
         style={{
           paddingLeft: 32,
-          // minWidth: 300,
           paddingRight: 32,
         }}
         header={
@@ -220,6 +204,7 @@ const App = () => {
             </div>
             <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>
               <Input
+                type="text"
                 icon={<SearchIcon />}
                 placeholder="Search"
                 space

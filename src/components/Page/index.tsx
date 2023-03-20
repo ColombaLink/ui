@@ -3,6 +3,10 @@ import { ScrollArea } from '../ScrollArea'
 
 type PageProps = {
   children: ReactNode
+  onDrop?: (e: DragEvent) => void
+  on?: (e: DragEvent) => void
+  onDragOver?: (e: DragEvent) => void
+  onDragLeave?: (e: DragEvent) => void
   style?: CSSProperties
 }
 

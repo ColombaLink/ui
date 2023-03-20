@@ -10,7 +10,6 @@ import {
 import { Schema } from '~/components/Schema'
 import { Text } from '~/components/Text'
 import { Content } from '~/components/Content'
-import { useLocation } from '~/hooks'
 import { border, color } from '~/utils'
 import { Menu } from '~/components/Menu'
 import { Button } from '~/components/Button'
@@ -21,6 +20,7 @@ import { Label } from '~/components/Label'
 import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
 import { useSchema } from '~'
+import { useRoute } from 'kabouter'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
@@ -155,9 +155,9 @@ const components = {
 }
 
 const Project = ({ style }) => {
-  const [location] = useLocation()
+  const route = useRoute()
 
-  const [, section] = location.split('/')
+  const [, section] = route.location.split('/')
   const prefix = `/${section}`
   const Component = components[section] || (() => null)
 

@@ -1,6 +1,5 @@
-// @ts-nocheck
 import React, { FC, useState } from 'react'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import { scrollAreaStyle } from '../ScrollArea'
 import {
   Button,
@@ -11,13 +10,13 @@ import {
   Toast,
   useToast,
   UploadIcon,
+  useRoute,
 } from '~'
 import { InfiniteListQueryResponse } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { HEADER_HEIGHT, ITEM_HEIGHT } from './constants'
 import { TableFromQuery } from './TableFromQuery'
 import { OnAction } from './types'
-import { useLocation } from '~/hooks'
 import { useClient } from '@based/react'
 
 type Fields =
@@ -37,6 +36,7 @@ type TableProps = {
   data?: object[]
   width?: number
   height?: number
+  style?: Style
   language?: string
   target?: string
   onAction?: OnAction
@@ -58,20 +58,13 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
   const [tableIsEmpty, setTableIsEmpty] = useState(true)
 
-  const [location, setLocation] = useLocation()
+  const route = useRoute()
   // this is for the file drop if there are no files yet
   const [draggingOver, setDraggingOver] = useState(false)
   const toast = useToast()
   const client = useClient()
-  const locationIsFile = location.split('/').pop() === 'file'
+  const locationIsFile = route.location.split('/').pop() === 'file'
 
-  // console.log('---------->', { ...props })
-
-  // console.log(selectedRowCheckboxes)
-  // console.log('Table ---> ', props)
-  // console.log(Field)
-
-  // file drop
   const handleFileDrop = async (e) => {
     if (locationIsFile && draggingOver) {
       setDraggingOver(false)
@@ -79,13 +72,9 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
       e.stopPropagation()
 
       const files = Array.from(e.dataTransfer.files)
-      console.log(files)
 
-      const test = await Promise.all(
-        files?.map((file) => {
-          console.log('file 🐤', file)
-          // make a toast pop for each file
-          // TODO check if successfull upload i guess
+      await Promise.all(
+        files?.map((file: File) => {
           const notify = () => {
             toast.add(
               <Toast
@@ -95,10 +84,8 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
               />
             )
           }
-
           notify()
-
-          return client.file(file)
+          return client.stream('db:file', { contents: file })
         })
       )
     } else {
@@ -135,10 +122,8 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
             large
             icon={AddIcon}
             onClick={() => {
-              // console.log('lable', label, 'view', view, 'prefix', prefix)
-              setLocation(`${props.prefix}/create/${props.view}`)
+              route.setLocation(`${props.prefix}/create/${props.view}`)
             }}
-            //  onClick={useContextMenu(CreateMenu, { prefix, types })}
           >
             Create Item
           </Button>
@@ -190,6 +175,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
       <AutoSizer>
         {({ width, height }) => {
           return props.query ? (
+            // @ts-ignore
             <TableFromQuery
               style={{ minHeight: 200 }}
               width={width}
@@ -200,6 +186,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
               setTableIsEmpty={setTableIsEmpty}
             />
           ) : (
+            // @ts-ignore
             <TableFromData width={width} height={height} {...props} />
           )
         }}
