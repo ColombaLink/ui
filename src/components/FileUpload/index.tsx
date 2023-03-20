@@ -23,7 +23,6 @@ type FileUploadProps = {
   description?: string
   descriptionBottom?: string
   indent?: boolean
-  // error?: (str: string) => string
   onChange?: (file: File[]) => void
   style?: CSSProperties
   space?: Space
@@ -49,7 +48,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   description,
   descriptionBottom,
   indent,
-  // error,
   onChange,
   space,
   style,
@@ -276,7 +274,9 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const fullScreenView = (file) => {
     fullScreenDialog.open(
-      <Dialog style={{ padding: 0, '& div div': { padding: 0 } }}>
+      <Dialog
+        style={{ overflow: 'hidden', padding: 0, '& div div': { padding: 0 } }}
+      >
         <img
           src={file.src}
           style={{
@@ -332,7 +332,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles([...dupliArr])
   }
   const mimeTypeInput = acceptedFileTypes + '/*'
-  // console.log('???', uploadedFiles)
 
   return (
     <InputWrapper
