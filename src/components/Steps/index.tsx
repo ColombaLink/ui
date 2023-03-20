@@ -1,47 +1,55 @@
-import React, { CSSProperties, FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { color } from '~/utils'
-import { useRoute } from 'kabouter'
 import { Text } from '../Text'
+import { styled, Style } from 'inlines'
 import { Color } from '~/types'
 
 type StepsProps = {
-  style?: CSSProperties
+  active?: any
+  style?: Style
+  onChange?: (key: string) => void
   data?: {
-    [key: string]: string
+    [key: string]: ReactNode
   }
   color?: Color
 }
 
+export const Step = styled('div', {
+  cursor: 'pointer',
+  alignItems: 'center',
+  borderRadius: 8,
+  display: 'flex',
+  height: 48,
+  marginBottom: 8,
+  padding: '0 16px',
+})
+
 export const Steps: FC<StepsProps> = ({
   style,
   data = {},
+  active,
+  onChange,
   color: colorProp = 'accent',
   ...props
 }) => {
-  const route = useRoute('[step]')
-  const { step } = route.path
-
   return (
-    <div style={style} {...props}>
+    <styled.div style={style} {...props}>
       {Object.keys(data).map((key, index) => {
-        const isActive =
-          step === '' || step === undefined ? index === 0 : step === data[key]
+        const isActive = key === active
         return (
-          <div
-            onClick={() => {
-              route.setPath({ step: data[key] })
-            }}
+          <Step
+            onClick={
+              onChange
+                ? () => {
+                    onChange(key)
+                  }
+                : null
+            }
             key={index}
             style={{
-              alignItems: 'center',
               backgroundColor: isActive
                 ? color(colorProp, 'active', true)
                 : null,
-              borderRadius: 8,
-              display: 'flex',
-              height: 48,
-              marginBottom: 8,
-              padding: '0 16px',
             }}
           >
             <Text
@@ -58,10 +66,10 @@ export const Steps: FC<StepsProps> = ({
             >
               {index + 1}
             </Text>
-            <Text>{key}</Text>
-          </div>
+            <Text>{data[key]}</Text>
+          </Step>
         )
       })}
-    </div>
+    </styled.div>
   )
 }

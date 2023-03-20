@@ -29,8 +29,8 @@ export const client = new BasedClient({
 })
 
 const Stories: FC = () => {
-  const route = useRoute()
-  const { story } = route.query
+  const route = useRoute('[story]')
+  const { story } = route.path
   if (story) {
     const name = toPascalCase(story)
     const component = stories[name]
@@ -42,103 +42,10 @@ const Stories: FC = () => {
   return <>Overview</>
 }
 
+// ['Buttons'], ['Buttons', { icon, name, value, onClick }]
+
 const menuItems = {
-  Based: {
-    App: '?story=based-app',
-  },
-  Advanced: {
-    Auth: '?story=auth',
-    ContentEditor: '?story=content-editor',
-    ContentEditorYouzi: '?story=content-editor-youzi',
-  },
-  Schema: {
-    Schema: '?story=schema',
-    SchemaModals: '?story=schema-modals',
-    QueryBar: '?story=QuerySearchBar',
-    QueryFilters: '?story=QueryFilterBar',
-    QueryBuilder: '?story=QueryBuilders',
-  },
-  Input: {
-    Buttons: '?story=buttons',
-    Checkboxes: '?story=checkboxes',
-    ColorPicker: '?story=color-picker',
-    DateTimePicker: '?story=DateTime',
-    FileUpload: '?story=upload',
-    Forms: '?story=forms',
-    Geo: '?story=geo',
-    InputFields: '?story=input-fields',
-    Radiobuttons: '?story=radiobutton',
-    Selects: '?story=selects',
-    Sliders: '?story=sliders',
-    Toggle: '?story=toggles',
-    ToggleGroups: '?story=ToggleGroups',
-  },
-  Display: {
-    Avatars: '?story=avatars',
-    Badges: '?story=badges',
-    Cards: '?story=cards',
-    Icons: '?story=icons',
-    Label: '?story=labels',
-    Steps: '?story=step',
-    Thumbnails: '?story=thumbnails',
-    Separator: '?story=separators',
-    Spacer: '?story=Spacers',
-  },
-  Feedback: {
-    Callouts: '?story=callouts',
-    Dialogs: '?story=dialogs',
-    Toasts: '?story=toasts',
-  },
-  Code: {
-    Code: '?story=code',
-  },
-  Layout: {
-    Accordions: '?story=accordions',
-    Container: '?story=Containers',
-    Flow: '?story=FlowSequences',
-    Grids: '?story=grids',
-    ExpandableList: '?story=ExpandableLists',
-    MasonryGrid: '?story=masonryGrid',
-    Page: '?story=pages',
-    Tables: '?story=tables',
-    Tabs: '?story=tabsView',
-  },
-  Navigation: {
-    Breadcrumbs: '?story=breadcrumb',
-    SideMenu: '?story=SideMenu',
-    Sidebar: '?story=SideBar',
-    Topbar: '?story=topbars',
-  },
-  Overlays: {
-    ContextMenus: '?story=context-menus',
-  },
-  Themes: {
-    Theming: '?story=theming',
-    Typography: '?story=typography',
-  },
-  Text: {
-    Text: '?story=text',
-  },
-  Insights: {
-    BarGraphs: '?story=BarGraphs',
-    LineGraph: '?story=lineGraph',
-    PieGraph: '?story=PieGraphs',
-    ResultCards: '?story=ResultCards',
-  },
-  Hooks: {
-    useRoute: '?story=Router',
-    useContextMenu: '?story=UseContextMenu',
-    useCopyToClipboard: '?story=CopyHookExample',
-    useDarkMode: '?story=DarkModeHook',
-    useDialog: '?story=DialogHookExample',
-    useToolTips: '?story=tooltips',
-  },
-  Handbook: {
-    Props: '?story=props',
-  },
-  Examples: {
-    Drawer: '?story=Drawers',
-  },
+  Input: ['Buttons'],
 }
 
 const App = () => {

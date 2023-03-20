@@ -2,13 +2,12 @@ import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
-import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
 import { Style, styled } from 'inlines'
 
-const StyledLink = styled(Link, {
+const StyledLink = styled('div', {
   padding: '4px 8px',
   margin: '-4px -4px -4px -2px',
   borderRadius: 4,
@@ -127,22 +126,36 @@ const StyledChevron = styled(ChevronDownIcon, {
   },
 })
 
+type MenuDataItem =
+  | string
+  | number
+  | {
+      value: string | number
+      icon?: ReactNode
+      onClick?: (e: MouseEvent) => void
+      label?: ReactNode
+    }
+  | {
+      value: any
+      icon?: ReactNode
+      onClick?: (e: MouseEvent) => void
+      label: ReactNode
+    }
+
+type MenuData =
+  | MenuDataItem[]
+  | {
+      [key: string]: ReactNode | MenuDataItem[] | MenuData
+    }
+
 export const Menu: FC<{
-  data: any
-  selected?: string
-  style?: CSSProperties
+  data?: MenuData
+  active?: any
+  style?: Style
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
-}> = ({ data = {}, selected, style, children, header, collapse }) => {
-  const route = useRoute()
-
-  const location = route.location
-
-  if (!selected) {
-    selected = location
-  }
-
+}> = ({ data = {}, active, style, children, header, collapse }) => {
   if (!Array.isArray(data)) {
     data = Object.keys(data).map((key) => {
       const href = data[key]
@@ -211,8 +224,6 @@ export const Menu: FC<{
         </Fragment>
       )
     }
-
-
 
     const isActive = false
 
