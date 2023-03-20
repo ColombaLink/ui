@@ -1,4 +1,4 @@
-import { render } from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import React, { FC, useState } from 'react'
 import {
   Provider,
@@ -236,4 +236,8 @@ const Wrapper = () => {
     </Provider>
   )
 }
-render(<Wrapper />, document.body)
+
+const app = document.createElement('div')
+document.body.appendChild(app)
+const root = createRoot(app)
+root.render(<Wrapper />)
