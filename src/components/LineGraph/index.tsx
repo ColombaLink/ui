@@ -18,8 +18,7 @@ const Graph = ({
   xFormat,
   label,
   valueFormat,
-}: // pure,
-{
+}: {
   width: number
   height: number
   data: LineGraphDataInput
@@ -59,7 +58,7 @@ const Graph = ({
       }}
     >
       {label ? (
-        <Text size="15px" weight={600} space="8px">
+        <Text size="15px" weight={600} space="24px">
           {label}
         </Text>
       ) : null}
@@ -74,7 +73,6 @@ const Graph = ({
         <div
           ref={labelRef}
           style={{
-            // boxShadow: '0 0 0 1px red',
             marginTop: -32,
             paddingRight: 24,
           }}

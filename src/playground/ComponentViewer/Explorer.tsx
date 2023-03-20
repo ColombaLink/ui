@@ -124,7 +124,7 @@ export const Explorer: FC<{
             color={fuzz ? 'accent' : 'text2'}
             light
             icon={ModelIcon}
-            onClick={() => setFuzz(!fuzz)}
+            onClick={() => setFuzz(fuzz ? null : true)}
           >
             <Text weight={700}>Randomize</Text>
           </Button>
