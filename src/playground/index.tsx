@@ -135,9 +135,6 @@ const menuItems = {
     Props: '?story=props',
   },
   Examples: {
-    Inbox: '?story=inbox',
-    Kyles: '?story=KylesPlayground',
-    ProgressBar: '?story=ProgressIndicators',
     Drawer: '?story=Drawers',
   },
 }

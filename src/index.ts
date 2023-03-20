@@ -1,7 +1,6 @@
 import '../assets/global.css'
 import '../assets/fonts.css'
 
-export * from 'kabouter'
 export * from './components/Accordion'
 export * from './components/Auth'
 export * from './components/Avatar'
@@ -65,3 +64,5 @@ export * from './components/VirtualizedList'
 export * from './icons'
 export * from './hooks'
 export * from './utils'
+
+export * from 'kabouter'
