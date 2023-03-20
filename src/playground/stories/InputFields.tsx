@@ -5,6 +5,34 @@ import ComponentViewer from '../ComponentViewer'
 export const InputFields = () => {
   return (
     <ComponentViewer
+      propsDef={{
+        name: 'Input',
+        props: {
+          value: {
+            optional: true,
+            // @ts-ignore
+            type: ['string', 'number'],
+          },
+          placeholder: {
+            optional: true,
+            type: 'string',
+          },
+          type: {
+            optional: false,
+            // @ts-ignore
+            type: [
+              {
+                value: 'text',
+              },
+              {
+                value: 'number',
+              },
+            ],
+          },
+        },
+        code: 'input type...',
+        file: '/components/Input/index.tsx',
+      }}
       component={Input}
       propsName="InputProps"
       examples={[
@@ -22,7 +50,6 @@ export const InputFields = () => {
           props: {
             label: 'Input label',
             description: 'this is description',
-            // icon: <CheckIcon />,
           },
         },
         {
@@ -48,16 +75,6 @@ export const InputFields = () => {
             indent: true,
           },
         },
-
-        // {
-        //   props: {
-        //     jsonInput: true,
-        //     label: 'Label for JSON',
-        //     description: 'Description for JSON',
-        //     descriptionBottom: 'this is bottom description',
-        //     indent: true,
-        //   },
-        // },
         {
           props: {
             markdownInput: true,
@@ -94,7 +111,7 @@ export const InputFields = () => {
             label: 'Multiline',
             description: 'console logs value',
             multiline: true,
-            onChange: (e) => console.log(e),
+            onChange: (e) => console.info(e),
           },
         },
         {

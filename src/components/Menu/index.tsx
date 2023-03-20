@@ -64,7 +64,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
       }}
     >
       <Text
-        weight="600"
+        weight="700"
         color={color('text2')}
         size={12}
         style={{
@@ -291,7 +291,7 @@ export const Menu: FC<{
         flexGrow: 0,
         backgroundColor: color('background'),
         borderRight: `1px solid ${color('border')}`,
-        padding: '64px 20px 20px 20px',
+        padding: '24px 20px 20px 20px',
         width: 224,
         ...style,
       }}

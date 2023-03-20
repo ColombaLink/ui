@@ -120,13 +120,13 @@ export const Explorer: FC<{
         </Link>
         <div style={{ display: 'flex' }}>
           <Button
-            ghost
+            ghost={!fuzz}
             color={fuzz ? 'accent' : 'text2'}
             light
             icon={ModelIcon}
             onClick={() => setFuzz(!fuzz)}
           >
-            Randomize
+            <Text weight={700}>Randomize</Text>
           </Button>
         </div>
       </div>

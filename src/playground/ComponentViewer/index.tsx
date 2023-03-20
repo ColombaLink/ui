@@ -37,6 +37,7 @@ const ComponentViewer: FC<{
         <Text weight={700} size="18px" style={{ marginBottom: 24 }}>
           {propsName}
         </Text>
+        <Text>No props definition found</Text>
       </div>
     )
   }
