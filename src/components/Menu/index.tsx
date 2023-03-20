@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, Fragment, ReactNode, useEffect } from 'react'
+import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
@@ -7,28 +7,6 @@ import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
 import { Style, styled } from 'inlines'
-
-// TODO full kabouter here
-export const parseHref = (href = '/') => {
-  if (href !== '/' && href[href.length - 1] === '/') {
-    href = href.slice(0, -1)
-  }
-  const { search } = location
-  if (search) {
-    const i = href.indexOf('?')
-    if (i !== -1) {
-      const a = new URLSearchParams(search)
-      const b = new URLSearchParams(href.substring(i))
-      b.forEach((value, key) => {
-        a.set(key, value)
-      })
-      href = `${href.substring(0, i)}?${a.toString()}`
-    } else {
-      href = `${href}${search}`
-    }
-  }
-  return href
-}
 
 const StyledLink = styled(Link, {
   padding: '4px 8px',
@@ -156,16 +134,7 @@ export const Menu: FC<{
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
-  forceActive?: boolean
-}> = ({
-  data = {},
-  selected,
-  style,
-  children,
-  header,
-  collapse,
-  forceActive = true,
-}) => {
+}> = ({ data = {}, selected, style, children, header, collapse }) => {
   const route = useRoute()
 
   const location = route.location
@@ -188,9 +157,6 @@ export const Menu: FC<{
           }
     })
   }
-
-  let firstHref: string
-  let hasActive: boolean = false
 
   const items = data.map(({ label, href, items }, i) => {
     if (items) {
@@ -233,14 +199,8 @@ export const Menu: FC<{
           </MenuHeader>
           <HideableStyledDiv id={`${i}-menuitems`}>
             {items.map(({ href, label }, index) => {
-              if (!firstHref) {
-                firstHref = href
-              }
               const isActive = false
 
-              if (isActive) {
-                hasActive = true
-              }
               return (
                 <MenuItem key={index} href={href} isActive={isActive} isNested>
                   {label}
@@ -252,14 +212,9 @@ export const Menu: FC<{
       )
     }
 
-    if (!firstHref) {
-      firstHref = href
-    }
+
 
     const isActive = false
-    if (isActive) {
-      hasActive = true
-    }
 
     return (
       <MenuItem key={i} href={href} isActive={isActive} weight={500}>
@@ -267,12 +222,6 @@ export const Menu: FC<{
       </MenuItem>
     )
   })
-
-  useEffect(() => {
-    if (!hasActive && firstHref && forceActive) {
-      window.history.replaceState({}, '', parseHref(firstHref))
-    }
-  }, [hasActive, forceActive])
 
   return (
     <ScrollArea
