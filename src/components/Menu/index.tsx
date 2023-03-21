@@ -19,6 +19,7 @@ const Click = styled('div', {
   borderRadius: 4,
   display: 'flex',
   alignItems: 'center',
+  cursor: 'pointer',
 })
 
 type MenuHeaderProps = {

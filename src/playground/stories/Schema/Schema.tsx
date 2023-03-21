@@ -10,12 +10,16 @@ export const Schema = () => {
         propsName="SidebarProps"
         examples={[
           {
-            code: `import { Schema, useRoute, BasedIcon } from '@based/ui'
+            code: `import { Schema, color, useRoute, BasedIcon } from '@based/ui'
 
-const route = useRoute('[type]/[field]', { type: 'file', field: 'src' });
+const route = useRoute('[type]/[field]', { type: 'file' });
 
 <Schema 
-  style={{ height: 1000 }}
+  style={{ 
+    height: 600, 
+    border: \`1px solid \${color('lightborder')}\`,
+    borderRadius: '10px'
+  }}
   values={route.path}
   onChange={(key, v) => {
     route.setPath({ [key]: v })

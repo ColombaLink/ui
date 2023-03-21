@@ -11,7 +11,9 @@ export const Schema: FC<{
   onChange?: (key: string, val: any) => void
 }> = ({ db = 'default', style, values, onChange }) => {
   return (
-    <styled.div style={{ display: 'flex', flexGrow: 1, ...style }}>
+    <styled.div
+      style={{ display: 'flex', flexGrow: 1, overflow: 'hidden', ...style }}
+    >
       <StateProvider values={values} onChange={onChange}>
         <SchemaLeft />
         <SchemaMain db={db} />

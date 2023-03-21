@@ -21,6 +21,7 @@ import languageNames from 'countries-list/dist/minimal/languages.en.min.json'
 import { SchemaTopbar } from '~/components/Schema/SchemaTopbar'
 import { useSchema } from '~'
 import { useRoute } from 'kabouter'
+import ComponentViewer from '../../ComponentViewer'
 
 const AddLocaleModal = ({ languages = [] }) => {
   const [selected, setSelected] = useState<string>()
@@ -209,18 +210,44 @@ const Project = ({ style }) => {
   )
 }
 
+// export const BasedApp = () => {
+//   return (
+//     <Project
+//       // id="enBEFnEK"
+//       style={{
+//         width: '100%',
+//         height: '100%',
+//         minHeight: 'calc(100vh - 128px)',
+//         position: 'relative',
+//         outline: border(1),
+//         overflow: 'hidden',
+//       }}
+//     />
+//   )
+// }
+
 export const BasedApp = () => {
   return (
-    <Project
-      // id="enBEFnEK"
-      style={{
-        width: '100%',
-        height: '100%',
-        minHeight: 'calc(100vh - 128px)',
-        position: 'relative',
-        outline: border(1),
-        overflow: 'hidden',
+    <ComponentViewer
+      component={Project}
+      propsDef={{
+        name: 'Based app',
+        props: {},
+        code: '',
+        file: '',
       }}
+      title="Based App"
+      propsName="BasedApp"
+      examples={[
+        {
+          code: `import { Schema, color, useRoute, BasedIcon } from '@based/ui'
+
+const route = useRoute('[type]/[field]', { type: 'file', field: 'src' });
+
+<div>x</div>
+`,
+        },
+      ]}
     />
   )
 }
