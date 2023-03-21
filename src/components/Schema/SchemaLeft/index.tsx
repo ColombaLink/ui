@@ -1,5 +1,14 @@
 import React, { FC, useState } from 'react'
-import { Menu, Text, Button, AddIcon, useDialog, Badge, LoadingIcon } from '~'
+import {
+  Menu,
+  Text,
+  Button,
+  AddIcon,
+  useDialog,
+  Badge,
+  LoadingIcon,
+  useContextState,
+} from '~'
 import { useSchema } from '~/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
@@ -31,6 +40,8 @@ export const SchemaLeft: FC<{}> = () => {
   const dialog = useDialog()
   const { schema, loading } = useSchema()
 
+  const [type, setType] = useContextState('type')
+
   if (loading) {
     return (
       <div
@@ -54,8 +65,6 @@ export const SchemaLeft: FC<{}> = () => {
     ...schema?.types,
   }
 
-  // TODO: systeem om dingen te kunnen setten in ui
-
   return (
     <Menu
       style={{
@@ -64,6 +73,8 @@ export const SchemaLeft: FC<{}> = () => {
         paddingLeft: 16,
         paddingRight: 16,
       }}
+      active={type}
+      onChange={(v) => setType(v)}
       header={
         <Text typo="title2" style={{ marginBottom: 18 }}>
           Schema
@@ -101,13 +112,11 @@ export const SchemaLeft: FC<{}> = () => {
           items: Object.keys(types)
             .sort()
             .map((key) => {
-              let label = types[key]?.meta?.name
-              if (key === 'file' || key === 'root') {
-                const children = label
-                label = ({ isActive }) => (
-                  <SystemLabel isActive={isActive}>{children}</SystemLabel>
-                )
-              }
+              const label = types[key]?.meta?.name || key
+              // if (key === 'file' || key === 'root') {
+              //   const children = label
+              //   label = <SystemLabel>{children}</SystemLabel>
+              // }
               return {
                 label,
                 value: key,

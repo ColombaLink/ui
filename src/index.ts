@@ -1,6 +1,7 @@
 import '../assets/global.css'
 import '../assets/fonts.css'
 
+export * from './components/ContextState'
 export * from './components/Accordion'
 export * from './components/Auth'
 export * from './components/Avatar'

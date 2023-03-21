@@ -10,6 +10,7 @@ import {
   ContextItem,
   Button,
   AddIcon,
+  useContextState,
 } from '~'
 import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
@@ -238,108 +239,111 @@ const getMeta = (fields, path) => {
 }
 
 export const SchemaMain: FC<{
-  type: string
   db: string
-  path?: string[]
-  prefix?: string
-}> = ({ type, db = 'default', path = [], prefix = '' }) => {
-  const { loading, types } = useSchemaTypes()
-  const [includeSystemFields, toggleSystemFields] = useState(false)
-  const client = useClient()
+}> = ({ db = 'default' }) => {
+  const [t] = useContextState('type')
 
-  if (loading) {
-    return null
-  }
+  console.info(t)
 
-  const { meta = {}, fields } = types[type] || {}
-  const { name } = meta
+  return <div>lullz {t}</div>
 
-  if (!fields) {
-    return null
-  }
+  // const { loading, types } = useSchemaTypes()
+  // const [includeSystemFields, toggleSystemFields] = useState(false)
+  // const client = useClient()
 
-  const typeName = name || type
-  let header, footer
-  if (path.length) {
-    header = (
-      <Header back type={type} path={path}>
-        {getMeta(fields, path)?.name || path[path.length - 1]}
-      </Header>
-    )
-    footer = <Footer type={type} prefix={prefix} name={typeName} />
-  } else {
-    header = (
-      <Header type={type} path={path}>
-        {typeName}
-      </Header>
-    )
-  }
+  // if (loading) {
+  //   return null
+  // }
 
-  return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-      <ScrollArea
-        style={{
-          paddingLeft: 32,
-          paddingRight: 32,
-          paddingTop: 24,
-          paddingBottom: 64,
-          flexGrow: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        {header}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
-            <Checkbox
-              style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
-              label="Show system fields"
-              checked={includeSystemFields}
-              onChange={toggleSystemFields}
-            />
-            <div>
-              <Fields
-                type={type}
-                fields={path.reduce((fields, key) => fields[key], fields)}
-                includeSystemFields={includeSystemFields}
-                onChange={(val) => {
-                  const update = {}
-                  let from = fields
-                  let dest = update
-                  let i = 0
-                  const l = path.length
+  // const { meta = {}, fields } = types[type] || {}
+  // const { name } = meta
 
-                  while (i < l) {
-                    const key = path[i++]
-                    dest[key] = { ...from[key] }
-                    dest = dest[key]
-                    from = from[key]
-                  }
+  // if (!fields) {
+  //   return null
+  // }
 
-                  Object.assign(dest, val)
+  // const typeName = name || type
+  // let header, footer
+  // if (path.length) {
+  //   header = (
+  //     <Header back type={type} path={path}>
+  //       {getMeta(fields, path)?.name || path[path.length - 1]}
+  //     </Header>
+  //   )
+  //   footer = <Footer type={type} prefix={prefix} name={typeName} />
+  // } else {
+  //   header = (
+  //     <Header type={type} path={path}>
+  //       {typeName}
+  //     </Header>
+  //   )
+  // }
 
-                  return client
-                    .call('basedUpdateSchema', {
-                      types: {
-                        [type]: {
-                          fields: update,
-                        },
-                      },
-                      db,
-                    })
-                    .catch((e) => console.error('error updating schema', e))
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </ScrollArea>
-      {footer}
-    </div>
-  )
+  // return (
+  //   <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+  //     <ScrollArea
+  //       style={{
+  //         paddingLeft: 32,
+  //         paddingRight: 32,
+  //         paddingTop: 24,
+  //         paddingBottom: 64,
+  //         flexGrow: 1,
+  //         display: 'flex',
+  //         flexDirection: 'column',
+  //       }}
+  //     >
+  //       {header}
+  //       <div
+  //         style={{
+  //           display: 'flex',
+  //           justifyContent: 'center',
+  //         }}
+  //       >
+  //         <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
+  //           <Checkbox
+  //             style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
+  //             label="Show system fields"
+  //             checked={includeSystemFields}
+  //             onChange={toggleSystemFields}
+  //           />
+  //           <div>
+  //             <Fields
+  //               type={type}
+  //               fields={path.reduce((fields, key) => fields[key], fields)}
+  //               includeSystemFields={includeSystemFields}
+  //               onChange={(val) => {
+  //                 const update = {}
+  //                 let from = fields
+  //                 let dest = update
+  //                 let i = 0
+  //                 const l = path.length
+
+  //                 while (i < l) {
+  //                   const key = path[i++]
+  //                   dest[key] = { ...from[key] }
+  //                   dest = dest[key]
+  //                   from = from[key]
+  //                 }
+
+  //                 Object.assign(dest, val)
+
+  //                 return client
+  //                   .call('basedUpdateSchema', {
+  //                     types: {
+  //                       [type]: {
+  //                         fields: update,
+  //                       },
+  //                     },
+  //                     db,
+  //                   })
+  //                   .catch((e) => console.error('error updating schema', e))
+  //               }}
+  //             />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </ScrollArea>
+  //     {footer}
+  //   </div>
+  // )
 }

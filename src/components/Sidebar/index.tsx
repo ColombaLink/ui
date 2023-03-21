@@ -5,6 +5,7 @@ import React, {
   FunctionComponent,
   MouseEvent,
   isValidElement,
+  useMemo,
 } from 'react'
 import { border, boxShadow, color, renderOrCreateElement } from '~/utils'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -117,10 +118,15 @@ export const Sidebar: FC<SidebarProps> = ({
   onChange,
   header,
   children,
-  isExpanded = false,
+  isExpanded,
   expandable,
 }) => {
-  const [expanded, setExpanded] = useState(isExpanded)
+  const [expanded, setExpanded] = useState(false)
+
+  useMemo(() => {
+    setExpanded(isExpanded)
+  }, [isExpanded])
+
   const [hoverForExpansion, setHoverForExpansion] = useState(false)
   const [menuHeight, setMenuHeight] = useState(null)
 
