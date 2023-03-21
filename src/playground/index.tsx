@@ -80,7 +80,11 @@ const App = () => {
     for (const key in menuItems) {
       if (Array.isArray(menuItems[key])) {
         for (const subKey of menuItems[key]) {
-          if (subKey.toLowerCase().includes(value.toLowerCase())) {
+          if (
+            typeof subKey === 'object'
+              ? subKey.value.toLowerCase().includes(value.toLowerCase())
+              : subKey.toLowerCase().includes(value.toLowerCase())
+          ) {
             if (!filteredArr[key]) {
               filteredArr[key] = []
             }
