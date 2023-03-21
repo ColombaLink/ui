@@ -32,7 +32,6 @@ export const SchemaLeft: FC<{}> = () => {
   const { schema, loading } = useSchema()
 
   if (loading) {
-    // TODO loading state
     return (
       <div
         style={{
@@ -51,10 +50,11 @@ export const SchemaLeft: FC<{}> = () => {
   }
 
   const types = {
-    // root: schema?.rootType,
     root: schema?.types.root,
     ...schema?.types,
   }
+
+  // TODO: systeem om dingen te kunnen setten in ui
 
   return (
     <Menu

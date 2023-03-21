@@ -134,7 +134,7 @@ const StyledChevron = styled(ChevronDownIcon, {
   },
 })
 
-type MenuDataItemObject =
+export type MenuDataItemObject =
   | {
       value?: string | number
       icon?: ReactNode
@@ -150,9 +150,9 @@ type MenuDataItemObject =
       items?: MenuDataItemObject[]
     }
 
-type MenuDataItem = MenuDataItemObject | ReactNode
+export type MenuDataItem = MenuDataItemObject | ReactNode
 
-type MenuDataObjectItem = {
+export type MenuDataObjectItem = {
   [key: string]: ReactNode | MenuDataItem[]
 }
 
@@ -166,7 +166,7 @@ const isMenuDataObject = (data: MenuData): data is MenuDataObject => {
   return !Array.isArray(data) && !React.isValidElement(data)
 }
 
-const isMenuDataObjectItem = (
+export const isMenuDataObjectItem = (
   data: MenuDataObjectItem | ReactNode | MenuDataItem[]
 ): data is MenuDataObjectItem => {
   return (

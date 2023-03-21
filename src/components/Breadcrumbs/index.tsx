@@ -1,13 +1,12 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode, MouseEvent } from 'react'
 import { Text } from '../Text'
-import { color } from '../../utils'
 import { ChevronRightIcon } from '../../icons'
 import { styled, Style } from 'inlines'
 
 type BreadcrumbsProps = {
   style?: Style
   data?: {
-    [key: string]: string
+    [key: string]: ReactNode | ((e: MouseEvent<HTMLDivElement>) => void)
   }
   active?: string
   onChange?: (key: string) => void
@@ -35,19 +34,41 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   return (
     <div style={{ display: 'flex', ...style }} {...props}>
       {Object.keys(data).map((key, index) => {
-        return (
-          <StyledLink
-            key={index}
-            onClick={() => {
-              onChange(key)
-            }}
-          >
+        const el = data[key]
+        const onClick =
+          typeof el === 'function'
+            ? (e) => {
+                if (onChange) {
+                  onChange(key)
+                }
+                el(e)
+              }
+            : () => {
+                if (onChange) {
+                  onChange(key)
+                }
+              }
+        const label =
+          typeof el === 'function' ? (
             <Text
               style={{ marginLeft: 16 }}
               color={active === key ? 'text' : 'text2'}
             >
-              {data[key]}
+              {key}
             </Text>
+          ) : typeof el === 'string' ? (
+            <Text
+              style={{ marginLeft: 16 }}
+              color={active === key ? 'text' : 'text2'}
+            >
+              {el}
+            </Text>
+          ) : (
+            el
+          )
+        return (
+          <StyledLink key={index} onClick={onClick}>
+            {label}
             {Object.keys(data).length - 1 !== index && (
               <ChevronRightIcon
                 style={{ marginLeft: 16 }}
