@@ -1,7 +1,6 @@
 import React, { FC } from 'react'
 import { SchemaMain } from './SchemaMain'
 import { SchemaLeft } from './SchemaLeft'
-import { useSchemaTypes } from '~/hooks'
 import { Style, styled } from 'inlines'
 import { StateProvider } from '../ContextState'
 

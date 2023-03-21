@@ -30,12 +30,17 @@ export const StateProvider: FC<{
   }, [])
 
   useMemo(() => {
-    ctxValue.map.forEach((v, key) => {
-      if (values[key] !== undefined && v.value !== values[key]) {
-        v.value = values[key]
-        v.listeners.forEach((u) => u())
+    for (const key in values) {
+      let v = ctxValue.map.get(key)
+      if (!v) {
+        v = {
+          listeners: new Set(),
+        }
+        ctxValue.map.set(key, v)
       }
-    })
+      v.value = values[key]
+      v.listeners.forEach((u) => u())
+    }
   }, [ctxValue, values ? hash(values) : 0])
 
   ctxValue.onChange = onChange
