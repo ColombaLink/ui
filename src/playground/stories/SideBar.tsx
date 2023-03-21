@@ -1,87 +1,51 @@
 import React from 'react'
-import { ScreenIcon, GearsIcon, SettingsIcon } from '~'
-import { Sidebar } from '~/components/Sidebar'
+import { Sidebar as MC } from '~/components/Sidebar'
 import ComponentViewer from '../ComponentViewer'
-import { Code } from '~/components/Code'
 
-export const SideBar = () => {
-  const codeExample = `
-  import { Sidebar } from '~/components/Sidebar'
-  import { Avatar } from '~'
-  import { ScreenIcon, GearsIcon } from '~/icons'
-
-  <Sidebar
-        expandable
-        data={[
-          {
-            subTitle: 'Subtitle',
-          },
-          {
-            icon: <ScreenIcon/>,
-            label: 'Schema',
-            href: '/schema',
-          },
-          {
-            icon: <GearsIcon/>,
-            label: 'Content',
-            href: '/content',
-          },
-          {
-            icon: <SettingsIcon/>,
-            label: 'Files',
-            href: '/files',
-          },
-        ]}
-  />
-  `
-
+export const Sidebar = () => {
   return (
-    <>
-      {/* <ComponentViewer
-        component={Sidebar}
+    <div>
+      <ComponentViewer
+        component={MC}
         propsName="SidebarProps"
         examples={[
           {
-            props: {
-              expandable: true,
-              data: [
-                { subTitle: 'Subtitle' },
-                {
-                  icon: SettingsIcon,
-                  label: 'Schema',
-                  href: '/schema',
-                },
-              ],
-            },
-          },
-        ]}
-      /> */}
+            code: `import { Sidebar, useRoute, BasedIcon } from '@based/ui'
 
-      <Code value={codeExample} space />
+const route = useRoute('[page]', { page: 'based' });
 
-      <Sidebar
-        expandable
-        data={[
-          {
-            subTitle: 'Subtitle',
+<Sidebar 
+  active={route.path.page}        
+  onChange={page => route.setPath({ page })}   
+  data={{
+    based: <BasedIcon />,
+    bla: { icon: <BasedIcon />, label: 'snurx' }
+  }}
+/>`,
           },
           {
-            icon: ScreenIcon,
-            label: 'Schema',
-            href: '/schema',
-          },
-          {
-            icon: GearsIcon,
-            label: 'Content',
-            href: '/content',
-          },
-          {
-            icon: SettingsIcon,
-            label: 'Files',
-            href: '/files',
+            code: `import { Sidebar, useRoute, BasedIcon } from '@based/ui'
+
+const route = useRoute('[page]', { page: 'based' });
+
+<Sidebar 
+  active={route.path.page}        
+  onChange={page => route.setPath({ page })}   
+  data={[{
+    icon: <BasedIcon />,
+    value: 'based',
+    label: 'based'
+  },
+  {
+    icon: <BasedIcon />,
+    value: 'bla',
+    label: 'hello'
+  }
+]}
+/>`,
           },
         ]}
       />
-    </>
+    </div>
   )
 }

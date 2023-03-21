@@ -499,22 +499,22 @@
       "props": {
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "data": {
           "optional": true,
           "type": "TSTypeLiteral"
         },
-        "prefix": {
+        "active": {
           "optional": true,
           "type": "string"
         },
-        "selected": {
+        "onChange": {
           "optional": true,
-          "type": "string"
+          "type": "function"
         }
       },
-      "code": "type BreadcrumbsProps = {\n  style?: CSSProperties\n  data?: {\n    [key: string]: string\n  }\n  prefix?: string\n  selected?: string\n}",
+      "code": "type BreadcrumbsProps = {\n  style?: Style\n  data?: {\n    [key: string]: string\n  }\n  active?: string\n  onChange?: (key: string) => void\n}",
       "file": "/components/Breadcrumbs/index.tsx"
     },
     "ButtonProps": {
@@ -858,7 +858,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "topLeft": {
           "optional": true,
@@ -893,7 +893,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ContainerProps = {\n  children: ReactNode\n  space?: Space\n  style?: CSSProperties\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomLeft?: FC | ReactNode\n  bottomRight?: FC | ReactNode\n  wrap?: boolean\n}",
+      "code": "type ContainerProps = {\n  children: ReactNode\n  space?: Space\n  style?: Style\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomLeft?: FC | ReactNode\n  bottomRight?: FC | ReactNode\n  wrap?: boolean\n}",
       "file": "/components/Container/index.tsx"
     },
     "ContextItemProps": {
@@ -1445,7 +1445,7 @@
           "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  // error?: (str: string) => string\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  style?: CSSProperties\n  space?: Space\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -2247,7 +2247,7 @@
           "type": "string"
         }
       },
-      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  onClick?: (e) => void\n  id?: string\n}",
+      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  id?: string\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MenuItemProps": {
@@ -2262,11 +2262,11 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
-        "href": {
+        "onClick": {
           "optional": true,
-          "type": "string"
+          "type": "function"
         },
         "isActive": {
           "optional": true,
@@ -2281,7 +2281,52 @@
           "type": "Weight"
         }
       },
-      "code": "type MenuItemProps = {\n  children?: ReactNode | FC\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
+      "code": "type MenuItemProps = {\n  children?: ReactNode | FC\n  style?: Style\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
+      "file": "/components/Menu/index.tsx"
+    },
+    "MenuProps": {
+      "name": "MenuProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "MenuData"
+        },
+        "active": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "children": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "header": {
+          "optional": true,
+          "type": [
+            "ReactNode",
+            {
+              "array": "ReactNode"
+            }
+          ]
+        },
+        "collapse": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type MenuProps = {\n  data?: MenuData\n  active?: any\n  onChange?: (value: any, header?: any) => void\n  style?: Style\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  collapse?: boolean\n}",
       "file": "/components/Menu/index.tsx"
     },
     "ObjectListProps": {
@@ -2424,14 +2469,6 @@
         "children": {
           "type": "ReactNode"
         },
-        "onDrop": {
-          "optional": true,
-          "type": "function"
-        },
-        "on": {
-          "optional": true,
-          "type": "function"
-        },
         "onDragOver": {
           "optional": true,
           "type": "function"
@@ -2440,12 +2477,30 @@
           "optional": true,
           "type": "function"
         },
+        "onDrop": {
+          "optional": true,
+          "type": "function"
+        },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         }
       },
-      "code": "type PageProps = {\n  children: ReactNode\n  onDrop?: (e: DragEvent) => void\n  on?: (e: DragEvent) => void\n  onDragOver?: (e: DragEvent) => void\n  onDragLeave?: (e: DragEvent) => void\n  style?: CSSProperties\n}",
+      "code": "type PageProps = {\n  children: ReactNode\n  onDragOver?: (e: DragEvent) => void\n  onDragLeave?: (e: DragEvent) => void\n  onDrop?: (e: DragEvent) => void\n  style?: Style\n}",
+      "file": "/components/Page/index.tsx"
+    },
+    "AppProps": {
+      "name": "AppProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "children": {
+          "type": "ReactNode"
+        }
+      },
+      "code": "type AppProps = {\n  style?: Style\n  children: ReactNode\n}",
       "file": "/components/Page/index.tsx"
     },
     "PieGraphProps": {
@@ -3315,17 +3370,17 @@
     "StepsProps": {
       "name": "StepsProps",
       "props": {
+        "active": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
-        "selected": {
+        "onChange": {
           "optional": true,
-          "type": "string"
-        },
-        "prefix": {
-          "optional": true,
-          "type": "string"
+          "type": "function"
         },
         "data": {
           "optional": true,
@@ -3336,7 +3391,7 @@
           "type": "Color"
         }
       },
-      "code": "type StepsProps = {\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  data?: {\n    [key: string]: string\n  }\n  color?: Color\n}",
+      "code": "type StepsProps = {\n  active?: any\n  style?: Style\n  onChange?: (key: string) => void\n  data?: {\n    [key: string]: ReactNode\n  }\n  color?: Color\n}",
       "file": "/components/Steps/index.tsx"
     },
     "SystemMenuHeaderProps": {
@@ -3636,7 +3691,7 @@
           "type": "Typo"
         }
       },
-      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e) => void\n  onDoubleClick?: (e) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typo?: Typo\n}",
+      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typo?: Typo\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {

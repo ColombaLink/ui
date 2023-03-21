@@ -1,30 +1,37 @@
-import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  Fragment,
+  ReactNode,
+  MouseEvent,
+} from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
-import { Link, useRoute } from 'kabouter'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
 import { Style, styled } from 'inlines'
 
-const StyledLink = styled(Link, {
+const Click = styled('div', {
   padding: '4px 8px',
   margin: '-4px -4px -4px -2px',
   borderRadius: 4,
+  display: 'flex',
+  alignItems: 'center',
 })
 
 type MenuHeaderProps = {
   children?: ReactNode
   style?: CSSProperties
-  onClick?: (e) => void
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void
   id?: string
 }
 
 type MenuItemProps = {
   children?: ReactNode | FC
   style?: Style
-  href?: string
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void
   isActive?: boolean
   isNested?: boolean
   weight?: Weight
@@ -61,7 +68,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
 export const MenuItem: FC<MenuItemProps> = ({
   children,
   style,
-  href,
+  onClick = () => {},
   isActive,
   isNested = false,
   weight = isNested ? 500 : 600,
@@ -76,8 +83,8 @@ export const MenuItem: FC<MenuItemProps> = ({
         ...style,
       }}
     >
-      <StyledLink
-        href={href}
+      <Click
+        onClick={(e) => onClick(e)}
         style={{
           backgroundColor: isActive ? color('lightaccent:active') : null,
           '@media (hover: hover)': {
@@ -95,7 +102,7 @@ export const MenuItem: FC<MenuItemProps> = ({
               isActive,
             })
           : children}
-      </StyledLink>
+      </Click>
     </Text>
   )
 }
@@ -127,101 +134,201 @@ const StyledChevron = styled(ChevronDownIcon, {
   },
 })
 
-export const Menu: FC<{
-  data: any
-  selected?: string
-  style?: CSSProperties
+export type MenuDataItemObject =
+  | {
+      value?: string | number
+      icon?: ReactNode
+      onClick?: (e: MouseEvent) => void
+      label?: ReactNode
+      items?: MenuDataItemObject[]
+    }
+  | {
+      value?: any
+      icon?: ReactNode
+      onClick?: (e: MouseEvent) => void
+      label: ReactNode
+      items?: MenuDataItemObject[]
+    }
+
+export type MenuDataItem = MenuDataItemObject | ReactNode
+
+export type MenuDataObjectItem = {
+  [key: string]: ReactNode | MenuDataItem[]
+}
+
+type MenuDataObject = {
+  [key: string]: ReactNode | MenuDataItem[] | MenuDataObjectItem
+}
+
+export type MenuData = MenuDataItem[] | MenuDataObject
+
+const isMenuDataObject = (data: MenuData): data is MenuDataObject => {
+  return !Array.isArray(data) && !React.isValidElement(data)
+}
+
+export const isMenuDataObjectItem = (
+  data: MenuDataObjectItem | ReactNode | MenuDataItem[]
+): data is MenuDataObjectItem => {
+  return (
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    !React.isValidElement(data)
+  )
+}
+
+const toMenuItemObject = (
+  item: MenuDataItem | MenuDataItem[],
+  key?: string
+): MenuDataItemObject => {
+  if (Array.isArray(item)) {
+    return {
+      label: key,
+      value: key,
+      items: item.map((i) => toMenuItemObject(i)),
+    }
+  } else if (typeof item === 'string' || typeof item === 'number') {
+    return {
+      label: item,
+      value: key || item,
+    }
+  } else if (React.isValidElement(item)) {
+    return {
+      label: item,
+      value: key,
+    }
+  } else {
+    // @ts-ignore
+    return item
+  }
+}
+
+type MenuProps = {
+  data?: MenuData
+  active?: any
+  onChange?: (value: any, header?: any) => void
+  style?: Style
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
-}> = ({ data = {}, selected, style, children, header, collapse }) => {
-  const route = useRoute()
+}
 
-  const location = route.location
+export const Menu: FC<MenuProps> = ({
+  data = {},
+  onChange,
+  active,
+  style,
+  children,
+  header,
+  collapse,
+}) => {
+  const menuDataItems: MenuDataItemObject[] = []
 
-  if (!selected) {
-    selected = location
-  }
-
-  if (!Array.isArray(data)) {
-    data = Object.keys(data).map((key) => {
-      const href = data[key]
-      return typeof href === 'object'
-        ? {
-            label: key,
-            items: href,
-          }
-        : {
-            label: key,
-            href,
-          }
-    })
-  }
-
-  const items = data.map(({ label, href, items }, i) => {
-    if (items) {
-      if (!Array.isArray(items)) {
-        items = Object.keys(items).map((key) => ({
+  if (isMenuDataObject(data)) {
+    for (const key in data) {
+      const item = data[key]
+      if (isMenuDataObjectItem(item)) {
+        const items: MenuDataItemObject[] = []
+        for (const itemKey in item) {
+          items.push(toMenuItemObject(item[itemKey], itemKey))
+        }
+        menuDataItems.push({
           label: key,
-          href: items[key],
-        }))
+          value: key,
+          items,
+        })
+      } else {
+        menuDataItems.push(toMenuItemObject(item, key))
+      }
+    }
+  } else {
+    for (const item of data) {
+      menuDataItems.push(toMenuItemObject(item))
+    }
+  }
+
+  const items = menuDataItems.map(
+    ({ label, value, icon, items, onClick }, i) => {
+      if (items) {
+        const topValue = value
+        return (
+          <Fragment key={i}>
+            <MenuHeader
+              id={`${i}-menuheader`}
+              style={{
+                marginTop: i && 36,
+                justifyContent: collapse ? 'space-between' : null,
+                display: collapse ? 'flex' : null,
+                alignItems: 'center',
+              }}
+              onClick={(e) => {
+                if (onChange) {
+                  onChange(value)
+                }
+                if (onClick) {
+                  onClick(e)
+                }
+                if (collapse) {
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode.nextSibling.classList.toggle(
+                    'hidden'
+                  )
+                  // @ts-ignore FIX THIS
+                  e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
+                    'closed'
+                  )
+                }
+              }}
+            >
+              {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
+              {label}
+              {collapse && <StyledChevron id={`${i}-menuchevron`} />}
+            </MenuHeader>
+            <HideableStyledDiv id={`${i}-menuitems`}>
+              {items.map(({ value, label, onClick, icon }, index: number) => {
+                return (
+                  <MenuItem
+                    key={index}
+                    onClick={(e) => {
+                      if (onChange) {
+                        onChange(value, topValue)
+                      }
+                      if (onClick) {
+                        onClick(e)
+                      }
+                    }}
+                    isActive={active === value}
+                    isNested
+                  >
+                    {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
+                    {label}
+                  </MenuItem>
+                )
+              })}
+            </HideableStyledDiv>
+          </Fragment>
+        )
       }
 
       return (
-        <Fragment key={i}>
-          <MenuHeader
-            id={`${i}-menuheader`}
-            style={{
-              marginTop: i && 36,
-              justifyContent: collapse ? 'space-between' : null,
-              display: collapse ? 'flex' : null,
-              alignItems: 'center',
-              cursor: href ? 'pointer' : null,
-              color: href // TODO: add is active
-                ? color('accent')
-                : color('text2'),
-            }}
-            onClick={(e) => {
-              if (collapse) {
-                e.currentTarget.parentNode.nextSibling.classList.toggle(
-                  'hidden'
-                )
-                e.currentTarget.parentNode?.childNodes[0]?.childNodes[1]?.classList.toggle(
-                  'closed'
-                )
-              } else if (href) {
-                route.setLocation(href)
-              }
-            }}
-          >
-            {label}
-            {collapse && <StyledChevron id={`${i}-menuchevron`} />}
-          </MenuHeader>
-          <HideableStyledDiv id={`${i}-menuitems`}>
-            {items.map(({ href, label }, index) => {
-              const isActive = false
-
-              return (
-                <MenuItem key={index} href={href} isActive={isActive} isNested>
-                  {label}
-                </MenuItem>
-              )
-            })}
-          </HideableStyledDiv>
-        </Fragment>
+        <MenuItem
+          key={i}
+          isActive={active === value}
+          weight={500}
+          onClick={(e) => {
+            if (onChange) {
+              onChange(value)
+            }
+            if (onClick) {
+              onClick(e)
+            }
+          }}
+        >
+          {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
+          {label}
+        </MenuItem>
       )
     }
-
-
-
-    const isActive = false
-
-    return (
-      <MenuItem key={i} href={href} isActive={isActive} weight={500}>
-        {label}
-      </MenuItem>
-    )
-  })
+  )
 
   return (
     <ScrollArea

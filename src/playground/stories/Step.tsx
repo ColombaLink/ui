@@ -1,22 +1,28 @@
 import React from 'react'
-import { Steps } from '~/components/Steps'
+import { Steps as StepC } from '~/components/Steps'
 import ComponentViewer from '../ComponentViewer'
 
-export const Step = () => {
+export const Steps = () => {
   return (
     <ComponentViewer
-      component={Steps}
+      component={StepC}
       propsName="StepsProps"
       examples={[
         {
-          props: {
-            data: {
-              'Set up your schema': '/',
-              'Create content': '/snurp',
-              'Make your API accessible': '/api',
-              'Integrate your content with your front-end': '/integrate',
-            },
-          },
+          code: `import { Steps, useRoute } from '@based/ui'
+
+const route = useRoute('[step]', { step: 'schema' });
+
+<Steps 
+  active={route.path.step} 
+  onChange={(step) => route.setPath({ step })} 
+  data={{
+    schema: 'Set up your schema',
+    content: 'Create content',
+    api: 'Make your API accessible',
+    integrate: 'Integrate your content with your front-end'
+  }}
+/>`,
         },
       ]}
     />
