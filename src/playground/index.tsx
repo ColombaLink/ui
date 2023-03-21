@@ -16,6 +16,7 @@ import {
   AppFrame,
   color,
   useRoute,
+  SetIcon,
 } from '../'
 import { BasedClient } from '@based/client'
 import * as stories from './stories'
@@ -50,6 +51,7 @@ const menuItems = {
   Apps: [
     {
       value: 'Schema',
+      icon: <SetIcon />,
       label: <Text weight={700}>Schema</Text>,
     },
   ],

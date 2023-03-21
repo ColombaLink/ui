@@ -17,6 +17,8 @@ const Click = styled('div', {
   padding: '4px 8px',
   margin: '-4px -4px -4px -2px',
   borderRadius: 4,
+  display: 'flex',
+  alignItems: 'center',
 })
 
 type MenuHeaderProps = {
@@ -263,11 +265,12 @@ export const Menu: FC<{
                 }
               }}
             >
+              {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
               {label}
               {collapse && <StyledChevron id={`${i}-menuchevron`} />}
             </MenuHeader>
             <HideableStyledDiv id={`${i}-menuitems`}>
-              {items.map(({ value, label, onClick }, index: number) => {
+              {items.map(({ value, label, onClick, icon }, index: number) => {
                 return (
                   <MenuItem
                     key={index}
@@ -282,6 +285,7 @@ export const Menu: FC<{
                     isActive={active === value}
                     isNested
                   >
+                    {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
                     {label}
                   </MenuItem>
                 )
@@ -305,6 +309,7 @@ export const Menu: FC<{
             }
           }}
         >
+          {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
           {label}
         </MenuItem>
       )
