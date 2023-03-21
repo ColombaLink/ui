@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, ReactNode } from 'react'
+import React, { FC, CSSProperties, ReactNode, MouseEvent } from 'react'
 import { Size, Color, Weight, Space, ColorVariant, Typo } from '~/types'
 import { font, spaceToPx } from '~/utils'
 
@@ -7,8 +7,8 @@ type TextProps = {
   children: ReactNode
   color?: Color
   italic?: boolean
-  onClick?: (e) => void
-  onDoubleClick?: (e) => void
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void
+  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void
   selectable?: boolean
   size?: Size
   space?: Space

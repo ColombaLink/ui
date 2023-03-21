@@ -4,10 +4,12 @@ import {
   Provider,
   Button,
   Page,
+  Text,
   Menu,
   Input,
   SearchIcon,
   LargeLogo,
+  MenuData,
   DarkModeIcon,
   LightModeIcon,
   ExternalLinkIcon,
@@ -42,16 +44,26 @@ const Stories: FC = () => {
   return <>Overview</>
 }
 
-// ['Buttons'], ['Buttons', { icon, name, value, onClick }]
-
 const menuItems = {
-  Input: ['Buttons'],
+  BasedApp: <Text weight={700}>Based App</Text>,
+
+  Apps: [
+    {
+      value: 'Schema',
+      label: <Text weight={700}>Schema</Text>,
+    },
+  ],
+
+  Input: ['Buttons', 'Sliders', 'ColorPicker'],
+  // tmp to see all of them
+  Stories: Object.keys(stories),
 }
 
 const App = () => {
   const [fullscreen, setFullscreen] = useState(false)
   const [darkMode, setDarkMode] = useDarkMode()
-  const [filteredObj, setFilteredObj] = useState<Object>(menuItems)
+  const [filteredObj, setFilteredObj] = useState<MenuData>(menuItems)
+  const route = useRoute('[story]')
 
   if (fullscreen) {
     return <Stories />
@@ -62,25 +74,36 @@ const App = () => {
       setFilteredObj(menuItems)
       return
     }
-    const filteredArr = []
+    const filteredArr: { [key: string]: string[] } = {}
     for (const key in menuItems) {
-      for (const subKey in menuItems[key]) {
-        if (subKey.toLowerCase().includes(value.toLowerCase())) {
-          filteredArr.push([subKey, menuItems[key][subKey]])
+      if (Array.isArray(menuItems[key])) {
+        for (const subKey of menuItems[key]) {
+          if (subKey.toLowerCase().includes(value.toLowerCase())) {
+            if (!filteredArr[key]) {
+              filteredArr[key] = []
+            }
+            filteredArr[key].push(subKey)
+          }
         }
       }
     }
-    const filteredObjTest = Object.fromEntries(filteredArr)
-    setFilteredObj({ Results: filteredObjTest })
+    setFilteredObj(filteredArr)
   }
 
   return (
     <AppFrame>
       <Menu
+        active={route.path.story}
+        onChange={(story) => route.setPath({ story })}
         collapse
         header={
           <>
-            <LargeLogo style={{ marginBottom: 24 }} />
+            <LargeLogo
+              onClick={() => {
+                route.setPath({ story: null })
+              }}
+              style={{ marginBottom: 24 }}
+            />
             <div
               style={{
                 display: 'flex',
