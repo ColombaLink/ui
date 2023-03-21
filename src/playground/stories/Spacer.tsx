@@ -1,11 +1,11 @@
 import React from 'react'
-import { Spacer } from '~/components/Spacer'
+import { Spacer as Sp } from '~/components/Spacer'
 import ComponentViewer from '../ComponentViewer'
 
-export const Spacers = () => {
+export const Spacer = () => {
   return (
     <ComponentViewer
-      component={Spacer}
+      component={Sp}
       propsName="SpacerProps"
       examples={[
         {

@@ -10,12 +10,17 @@ export const Menu = () => {
         propsName="MenuProps"
         examples={[
           {
-            code: `import { Menu, useRoute } from '@based/ui'
+            code: `import { Menu, useRoute, BasedIcon, Text, Spacer } from '@based/ui'
 
 const route = useRoute('[page]', { page: 'project' });
 
 <Menu 
   collapse
+  header={
+    <Text style={{ marginBottom: 24 }}>
+      Menu
+    </Text>
+  }
   active={route.path.page}        
   onChange={page => route.setPath({ page })}   
   data={{
@@ -24,7 +29,13 @@ const route = useRoute('[page]', { page: 'project' });
     Nested: {
       nested1: 'Nested item 1',
       nested2: 'Nested item 2'
-    }
+    },
+    Blurf: [{
+      icon: <BasedIcon />,
+      value: 'based',
+      label: 'Based',
+      onClick: () => console.log('hello')
+    }, 'Button']
   }}
 />
             `,
