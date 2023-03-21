@@ -499,22 +499,22 @@
       "props": {
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "data": {
           "optional": true,
           "type": "TSTypeLiteral"
         },
-        "prefix": {
+        "active": {
           "optional": true,
           "type": "string"
         },
-        "selected": {
+        "onChange": {
           "optional": true,
-          "type": "string"
+          "type": "function"
         }
       },
-      "code": "type BreadcrumbsProps = {\n  style?: CSSProperties\n  data?: {\n    [key: string]: string\n  }\n  prefix?: string\n  selected?: string\n}",
+      "code": "type BreadcrumbsProps = {\n  style?: Style\n  data?: {\n    [key: string]: string\n  }\n  active?: string\n  onChange?: (key: string) => void\n}",
       "file": "/components/Breadcrumbs/index.tsx"
     },
     "ButtonProps": {

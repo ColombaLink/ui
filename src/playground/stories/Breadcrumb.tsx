@@ -1,23 +1,30 @@
 import React from 'react'
-import { Breadcrumbs } from '~/components/Breadcrumbs'
+import { Breadcrumbs as Bc } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const Breadcrumb = () => {
+export const Breadcrumbs = () => {
   return (
     <ComponentViewer
       propsName="BreadcrumbsProps"
       examples={[
         {
-          props: {
-            data: {
-              'Twister Media': '/',
-              'Eurovision 2022': '/Snurky',
-              'Based ui': '/BasedUI',
-            },
-          },
+          code: `import { Breadcrumbs, useRoute } from '@based/ui'
+
+const route = useRoute('[step]', { step: 'schema' });
+
+<Breadcrumbs 
+  active={route.path.step} 
+  onChange={(step) => route.setPath({ step })} 
+  data={{
+    schema: 'Set up your schema',
+    content: 'Create content',
+    api: 'Make your API accessible',
+    integrate: 'Integrate your content with your front-end'
+  }}
+/>`,
         },
       ]}
-      component={Breadcrumbs}
+      component={Bc}
     />
   )
 }
