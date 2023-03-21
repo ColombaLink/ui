@@ -29,7 +29,9 @@ const route = useRoute('[page]', { page: 'based' });
 const route = useRoute('[page]', { page: 'based' });
 
 <Sidebar 
-  active={route.path.page}        
+  active={route.path.page}     
+  isExpanded
+  expandable   
   onChange={page => route.setPath({ page })}   
   data={[{
     icon: <BasedIcon />,

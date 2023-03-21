@@ -10,6 +10,8 @@ import {
   ContextItem,
   Button,
   AddIcon,
+  useContextState,
+  Page,
 } from '~'
 import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
@@ -238,17 +240,26 @@ const getMeta = (fields, path) => {
 }
 
 export const SchemaMain: FC<{
-  type: string
   db: string
-  path?: string[]
-  prefix?: string
-}> = ({ type, db = 'default', path = [], prefix = '' }) => {
+}> = ({ db = 'default' }) => {
+  const [type] = useContextState('type')
+  const [path] = useContextState('path', [])
+
+  // db pass!
   const { loading, types } = useSchemaTypes()
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
   if (loading) {
     return null
+  }
+
+  if (!type) {
+    return (
+      <Page>
+        <Text>Select a type!</Text>
+      </Page>
+    )
   }
 
   const { meta = {}, fields } = types[type] || {}
@@ -260,20 +271,20 @@ export const SchemaMain: FC<{
 
   const typeName = name || type
   let header, footer
-  if (path.length) {
-    header = (
-      <Header back type={type} path={path}>
-        {getMeta(fields, path)?.name || path[path.length - 1]}
-      </Header>
-    )
-    footer = <Footer type={type} prefix={prefix} name={typeName} />
-  } else {
-    header = (
-      <Header type={type} path={path}>
-        {typeName}
-      </Header>
-    )
-  }
+  // if (path.length) {
+  //   header = (
+  //     <Header back type={type} path={path}>
+  //       {getMeta(fields, path)?.name || path[path.length - 1]}
+  //     </Header>
+  //   )
+  //   footer = <Footer type={type} prefix={prefix} name={typeName} />
+  // } else {
+  header = (
+    <Header type={type} path={path}>
+      {typeName}
+    </Header>
+  )
+  // }
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>

@@ -1,25 +1,35 @@
 import React from 'react'
-import { color } from '~'
-import { Schema as SchemaEditor } from '~/components/Schema'
+import { Sidebar as MC } from '~/components/Sidebar'
+import ComponentViewer from '../../ComponentViewer'
 
 export const Schema = () => {
   return (
-    <div style={{ display: 'flex', flexGrow: 1 }}>
-      <div
-        style={{
-          width: '100%',
-          border: `1px solid ${color('border')}`,
-          borderRadius: 4,
-        }}
-      >
-        <SchemaEditor
-          db="default"
-          prefix="/schema"
-          style={{
-            height: 400,
-          }}
-        />
-      </div>
+    <div>
+      <ComponentViewer
+        component={MC}
+        propsName="SchemaProps"
+        title="Schema"
+        propsDef={{ name: 'schema', props: {}, code: '', file: '' }}
+        examples={[
+          {
+            code: `import { Schema, color, useRoute, BasedIcon } from '@based/ui'
+
+const route = useRoute('[type]/[field]', { type: 'file' });
+
+<Schema 
+  style={{ 
+    height: 600, 
+    border: \`1px solid \${color('lightborder')}\`,
+    borderRadius: '10px'
+  }}
+  values={route.path}
+  onChange={(key, v) => {
+    route.setPath({ [key]: v })
+  }}
+/>`,
+          },
+        ]}
+      />
     </div>
   )
 }

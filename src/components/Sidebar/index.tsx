@@ -5,6 +5,7 @@ import React, {
   FunctionComponent,
   MouseEvent,
   isValidElement,
+  useMemo,
 } from 'react'
 import { border, boxShadow, color, renderOrCreateElement } from '~/utils'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -29,6 +30,7 @@ type SideBarData =
 
 type SidebarProps = {
   data?: SideBarData
+  isExpanded?: boolean
   style?: Style
   active?: any
   onChange?: (value: any) => void
@@ -116,9 +118,15 @@ export const Sidebar: FC<SidebarProps> = ({
   onChange,
   header,
   children,
+  isExpanded,
   expandable,
 }) => {
   const [expanded, setExpanded] = useState(false)
+
+  useMemo(() => {
+    setExpanded(isExpanded)
+  }, [isExpanded])
+
   const [hoverForExpansion, setHoverForExpansion] = useState(false)
   const [menuHeight, setMenuHeight] = useState(null)
 
@@ -188,7 +196,7 @@ export const Sidebar: FC<SidebarProps> = ({
             }
           }}
           label={label}
-          isActive={active === value}
+          isActive={active === undefined ? false : active === value}
           expanded={expanded}
           icon={renderOrCreateElement(icon)}
         >

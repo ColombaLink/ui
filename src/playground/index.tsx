@@ -16,7 +16,8 @@ import {
   AppFrame,
   color,
   useRoute,
-  SetIcon,
+  LayersIcon,
+  CliIcon,
 } from '../'
 import { BasedClient } from '@based/client'
 import * as stories from './stories'
@@ -46,19 +47,20 @@ const Stories: FC = () => {
 }
 
 const menuItems = {
-  BasedApp: <Text weight={700}>Based App</Text>,
-
   Apps: [
     {
       value: 'Schema',
-      icon: <SetIcon />,
+      icon: <LayersIcon />,
       label: <Text weight={700}>Schema</Text>,
+    },
+    {
+      value: 'BasedApp',
+      icon: <CliIcon />,
+      label: <Text weight={700}>Based App</Text>,
     },
   ],
 
-  Input: ['Buttons', 'Sliders', 'ColorPicker'],
-  // tmp to see all of them
-  Stories: Object.keys(stories),
+  Components: Object.keys(stories),
 }
 
 const App = () => {
