@@ -15,6 +15,7 @@ export const Menu = () => {
 const route = useRoute('[page]', { page: 'project' });
 
 <Menu 
+  collapse
   active={route.path.page}        
   onChange={page => route.setPath({ page })}   
   data={{
