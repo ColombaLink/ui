@@ -110,40 +110,11 @@ export const SchemaLeft: FC<{}> = () => {
               }
               return {
                 label,
-                path: { type: `${key}` },
+                value: key,
               }
             }),
         },
       ]}
-      // header={
-      //   <>
-      //     <Text size="18px" weight="700">
-      //       Schema
-      //     </Text>
-      //     <div
-      //       style={{
-      //         marginTop: 12,
-      //         marginBottom: 12,
-      //         display: 'flex',
-      //         justifyContent: 'space-between',
-      //         alignItems: 'center',
-      //       }}
-      //     >
-      //       <Text size="15px" weight="600" color="text2">
-      //         Types
-      //       </Text>
-      //       <Button
-      //         ghost
-      //         icon={AddIcon}
-      //         onClick={() => {
-      //           dialog.open(<AddTypeModal prefix={prefix} />)
-      //         }}
-      //       >
-      //         Add
-      //       </Button>
-      //     </div>
-      //   </>
-      // }
     />
   )
 }

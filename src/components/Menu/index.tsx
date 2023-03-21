@@ -136,14 +136,14 @@ const StyledChevron = styled(ChevronDownIcon, {
 
 type MenuDataItemObject =
   | {
-      value: string | number
+      value?: string | number
       icon?: ReactNode
       onClick?: (e: MouseEvent) => void
       label?: ReactNode
       items?: MenuDataItemObject[]
     }
   | {
-      value: any
+      value?: any
       icon?: ReactNode
       onClick?: (e: MouseEvent) => void
       label: ReactNode
