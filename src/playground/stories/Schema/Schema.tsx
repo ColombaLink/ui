@@ -7,7 +7,9 @@ export const Schema = () => {
     <div>
       <ComponentViewer
         component={MC}
-        propsName="SidebarProps"
+        propsName="SchemaProps"
+        title="Schema"
+        propsDef={{ name: 'schema', props: {}, code: '', file: '' }}
         examples={[
           {
             code: `import { Schema, color, useRoute, BasedIcon } from '@based/ui'

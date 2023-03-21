@@ -11,6 +11,7 @@ import {
   Button,
   AddIcon,
   useContextState,
+  Page,
 } from '~'
 import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
@@ -241,29 +242,35 @@ const getMeta = (fields, path) => {
 export const SchemaMain: FC<{
   db: string
 }> = ({ db = 'default' }) => {
-  const [t] = useContextState('type')
+  const [type] = useContextState('type')
+  const [path] = useContextState('path', [])
 
-  console.info(t)
+  // db pass!
+  const { loading, types } = useSchemaTypes()
+  const [includeSystemFields, toggleSystemFields] = useState(false)
+  const client = useClient()
 
-  return <div>lullz {t}</div>
+  if (loading) {
+    return null
+  }
 
-  // const { loading, types } = useSchemaTypes()
-  // const [includeSystemFields, toggleSystemFields] = useState(false)
-  // const client = useClient()
+  if (!type) {
+    return (
+      <Page>
+        <Text>Select a type!</Text>
+      </Page>
+    )
+  }
 
-  // if (loading) {
-  //   return null
-  // }
+  const { meta = {}, fields } = types[type] || {}
+  const { name } = meta
 
-  // const { meta = {}, fields } = types[type] || {}
-  // const { name } = meta
+  if (!fields) {
+    return null
+  }
 
-  // if (!fields) {
-  //   return null
-  // }
-
-  // const typeName = name || type
-  // let header, footer
+  const typeName = name || type
+  let header, footer
   // if (path.length) {
   //   header = (
   //     <Header back type={type} path={path}>
@@ -272,78 +279,78 @@ export const SchemaMain: FC<{
   //   )
   //   footer = <Footer type={type} prefix={prefix} name={typeName} />
   // } else {
-  //   header = (
-  //     <Header type={type} path={path}>
-  //       {typeName}
-  //     </Header>
-  //   )
+  header = (
+    <Header type={type} path={path}>
+      {typeName}
+    </Header>
+  )
   // }
 
-  // return (
-  //   <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-  //     <ScrollArea
-  //       style={{
-  //         paddingLeft: 32,
-  //         paddingRight: 32,
-  //         paddingTop: 24,
-  //         paddingBottom: 64,
-  //         flexGrow: 1,
-  //         display: 'flex',
-  //         flexDirection: 'column',
-  //       }}
-  //     >
-  //       {header}
-  //       <div
-  //         style={{
-  //           display: 'flex',
-  //           justifyContent: 'center',
-  //         }}
-  //       >
-  //         <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
-  //           <Checkbox
-  //             style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
-  //             label="Show system fields"
-  //             checked={includeSystemFields}
-  //             onChange={toggleSystemFields}
-  //           />
-  //           <div>
-  //             <Fields
-  //               type={type}
-  //               fields={path.reduce((fields, key) => fields[key], fields)}
-  //               includeSystemFields={includeSystemFields}
-  //               onChange={(val) => {
-  //                 const update = {}
-  //                 let from = fields
-  //                 let dest = update
-  //                 let i = 0
-  //                 const l = path.length
+  return (
+    <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+      <ScrollArea
+        style={{
+          paddingLeft: 32,
+          paddingRight: 32,
+          paddingTop: 24,
+          paddingBottom: 64,
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        {header}
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
+            <Checkbox
+              style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
+              label="Show system fields"
+              checked={includeSystemFields}
+              onChange={toggleSystemFields}
+            />
+            <div>
+              <Fields
+                type={type}
+                fields={path.reduce((fields, key) => fields[key], fields)}
+                includeSystemFields={includeSystemFields}
+                onChange={(val) => {
+                  const update = {}
+                  let from = fields
+                  let dest = update
+                  let i = 0
+                  const l = path.length
 
-  //                 while (i < l) {
-  //                   const key = path[i++]
-  //                   dest[key] = { ...from[key] }
-  //                   dest = dest[key]
-  //                   from = from[key]
-  //                 }
+                  while (i < l) {
+                    const key = path[i++]
+                    dest[key] = { ...from[key] }
+                    dest = dest[key]
+                    from = from[key]
+                  }
 
-  //                 Object.assign(dest, val)
+                  Object.assign(dest, val)
 
-  //                 return client
-  //                   .call('basedUpdateSchema', {
-  //                     types: {
-  //                       [type]: {
-  //                         fields: update,
-  //                       },
-  //                     },
-  //                     db,
-  //                   })
-  //                   .catch((e) => console.error('error updating schema', e))
-  //               }}
-  //             />
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </ScrollArea>
-  //     {footer}
-  //   </div>
-  // )
+                  return client
+                    .call('basedUpdateSchema', {
+                      types: {
+                        [type]: {
+                          fields: update,
+                        },
+                      },
+                      db,
+                    })
+                    .catch((e) => console.error('error updating schema', e))
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </ScrollArea>
+      {footer}
+    </div>
+  )
 }
