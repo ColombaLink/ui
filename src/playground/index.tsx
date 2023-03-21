@@ -40,7 +40,7 @@ const Stories: FC = () => {
     if (!component) {
       return <div>empty</div>
     }
-    return React.createElement(component)
+    return <>{route.nest(React.createElement(component))}</>
   }
   return <>Overview</>
 }

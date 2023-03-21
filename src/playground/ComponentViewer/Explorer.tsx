@@ -38,13 +38,11 @@ export const CodeExample: FC<{
 
   let child
   try {
+    const c = useMemo(() => parseCode(exampleCode), [exampleCode])
+
     // eslint-disable-next-line
-    const fn = new Function(
-      'ui',
-      'React',
-      'c',
-      useMemo(() => parseCode(exampleCode), [exampleCode])
-    )
+    const fn = new Function('ui', 'React', 'c', c)
+
     child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw

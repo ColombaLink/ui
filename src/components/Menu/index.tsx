@@ -169,7 +169,11 @@ const isMenuDataObject = (data: MenuData): data is MenuDataObject => {
 const isMenuDataObjectItem = (
   data: MenuDataObjectItem | ReactNode | MenuDataItem[]
 ): data is MenuDataObjectItem => {
-  return !Array.isArray(data) && !React.isValidElement(data)
+  return (
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    !React.isValidElement(data)
+  )
 }
 
 const toMenuItemObject = (
@@ -185,7 +189,7 @@ const toMenuItemObject = (
   } else if (typeof item === 'string' || typeof item === 'number') {
     return {
       label: item,
-      value: item,
+      value: key || item,
     }
   } else if (React.isValidElement(item)) {
     return {
@@ -198,7 +202,7 @@ const toMenuItemObject = (
   }
 }
 
-export const Menu: FC<{
+type MenuProps = {
   data?: MenuData
   active?: any
   onChange?: (value: any, header?: any) => void
@@ -206,7 +210,17 @@ export const Menu: FC<{
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   collapse?: boolean
-}> = ({ data = {}, onChange, active, style, children, header, collapse }) => {
+}
+
+export const Menu: FC<MenuProps> = ({
+  data = {},
+  onChange,
+  active,
+  style,
+  children,
+  header,
+  collapse,
+}) => {
   const menuDataItems: MenuDataItemObject[] = []
 
   if (isMenuDataObject(data)) {
