@@ -514,7 +514,7 @@
           "type": "function"
         }
       },
-      "code": "type BreadcrumbsProps = {\n  style?: Style\n  data?: {\n    [key: string]: string\n  }\n  active?: string\n  onChange?: (key: string) => void\n}",
+      "code": "type BreadcrumbsProps = {\n  style?: Style\n  data?: {\n    [key: string]: ReactNode | ((e: MouseEvent<HTMLDivElement>) => void)\n  }\n  active?: string\n  onChange?: (key: string) => void\n}",
       "file": "/components/Breadcrumbs/index.tsx"
     },
     "ButtonProps": {
@@ -3276,21 +3276,24 @@
       "name": "SidebarProps",
       "props": {
         "data": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
+          "optional": true,
+          "type": "SideBarData"
+        },
+        "isExpanded": {
+          "optional": true,
+          "type": "boolean"
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
-        "selected": {
+        "active": {
           "optional": true,
-          "type": "string"
+          "type": "TSAnyKeyword"
         },
-        "prefix": {
+        "onChange": {
           "optional": true,
-          "type": "string"
+          "type": "function"
         },
         "children": {
           "optional": true,
@@ -3315,7 +3318,7 @@
           "type": "boolean"
         }
       },
-      "code": "type SidebarProps = {\n  data: {\n    icon?: ReactNode | FunctionComponent<Icon>\n    label?: string\n    href?: string\n    subTitle?: string\n  }[]\n  style?: CSSProperties\n  selected?: string\n  prefix?: string\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n}",
+      "code": "type SidebarProps = {\n  data?: SideBarData\n  isExpanded?: boolean\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {
@@ -3327,7 +3330,7 @@
         },
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "href": {
           "optional": true,
@@ -3336,6 +3339,10 @@
         "isActive": {
           "optional": true,
           "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
         },
         "expanded": {
           "optional": true,
@@ -3349,7 +3356,7 @@
           ]
         }
       },
-      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: string\n  href?: string\n  isActive?: boolean\n  expanded?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n}",
+      "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: ReactNode\n  href?: string\n  isActive?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  expanded?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SpacerProps": {
