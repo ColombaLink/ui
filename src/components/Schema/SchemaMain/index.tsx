@@ -89,28 +89,32 @@ export const SchemaMain: FC = () => {
               <Fields
                 includeSystemFields={includeSystemFields}
                 onChange={(val) => {
-                  // const update = {}
-                  // let from = fields
-                  // let dest = update
-                  // let i = 0
-                  // const l = field.length
-                  // while (i < l) {
-                  //   const key = field[i++]
-                  //   dest[key] = { ...from[key] }
-                  //   dest = dest[key]
-                  //   from = from[key]
-                  // }
-                  // Object.assign(dest, val)
-                  // return client
-                  //   .call('basedUpdateSchema', {
-                  //     types: {
-                  //       [type]: {
-                  //         fields: update,
-                  //       },
-                  //     },
-                  //     db,
-                  //   })
-                  //   .catch((e) => console.error('error updating schema', e))
+                  const update = {}
+                  let from = fields
+                  let dest = update
+                  let i = 0
+                  const l = field.length
+                  while (i < l) {
+                    const key = field[i++]
+                    dest[key] = { ...from[key] }
+                    dest = dest[key]
+                    // @ts-ignore
+                    from = from[key]
+                  }
+                  Object.assign(dest, val)
+
+                  return client
+                    .call('db:set-schema', {
+                      db,
+                      schema: {
+                        types: {
+                          [type]: {
+                            fields: update,
+                          },
+                        },
+                      },
+                    })
+                    .catch((e) => console.error('error updating schema', e))
                 }}
               />
             </div>

@@ -97,10 +97,17 @@ const EditMenu = ({ type }) => {
 }
 
 const BackButton = () => {
+  const [field, setField] = useContextState('field', [])
   return (
-    <div style={{ paddingRight: 8 }}>
-      <ChevronLeftIcon />
-    </div>
+    <Button
+      ghost
+      color="text"
+      style={{ marginRight: 8 }}
+      icon={<ChevronLeftIcon />}
+      onClick={() => {
+        setField(field.slice(0, -1))
+      }}
+    />
   )
 }
 
@@ -108,8 +115,8 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
   back = false,
   children,
 }) => {
-  const [field] = useContextState('field', [])
-  const [type] = useContextState('type', [])
+  const [field] = useContextState<string[]>('field', [])
+  const [type] = useContextState('type', '')
 
   const openEditMenu = useContextMenu(EditMenu, {
     type,
