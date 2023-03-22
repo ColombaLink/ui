@@ -6,7 +6,6 @@ import {
   MoreIcon,
   Text,
   ScrollArea,
-  Link,
   ContextItem,
   Button,
   AddIcon,
@@ -17,7 +16,6 @@ import { Fields } from './Fields'
 import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
 import { border } from '~/utils'
 import { Dialog, useDialog } from '~/components/Dialog'
-import { useRoute } from 'kabouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 
 const EditMenu = ({ type }) => {
@@ -26,8 +24,7 @@ const EditMenu = ({ type }) => {
   return (
     <ContextItem
       onClick={async () => {
-        // const ok = await open(
-        await open(
+        open(
           <Dialog label="Delete Type" style={{ paddingTop: 20 }}>
             <div style={{}}>
               <div
@@ -103,14 +100,13 @@ const EditMenu = ({ type }) => {
 }
 
 const BackButton = () => {
-  const route = useRoute()
   return (
-    <Link
-      href={route.location.split('/').slice(0, -1).join('/')}
+    <div
+      // href={route.location.split('/').slice(0, -1).join('/')}
       style={{ paddingRight: 8 }}
     >
       <ChevronLeftIcon />
-    </Link>
+    </div>
   )
 }
 
@@ -184,12 +180,8 @@ const Header = ({ back = null, children, type, path }) => {
   )
 }
 
-const Footer = ({ type, prefix, name }) => {
-  const route = useRoute()
-  const path = route.location
-    .substring(prefix.length + type.length + 2)
-    .split('/')
-
+const Footer = ({ type, name }) => {
+  const [path] = useContextState('path', [])
   return (
     <div
       style={{
@@ -200,18 +192,21 @@ const Footer = ({ type, prefix, name }) => {
         alignItems: 'center',
       }}
     >
-      <Link href={`${prefix}/${type}`}>
+      <div onClick={() => {}}>
         <Text color="text2">{name}</Text>
-      </Link>
+      </div>
       {path.map((field, index) => {
         return (
           <Fragment key={index}>
             <ChevronRightIcon style={{ flexShrink: 0, margin: 4 }} />
-            <Link
-              href={`${prefix}/${type}/${path.slice(0, index + 1).join('/')}`}
+            <div
+              onClick={(e) => {
+                e.stopPropagation()
+                e.preventDefault()
+              }}
             >
               <Text>{field}</Text>
-            </Link>
+            </div>
           </Fragment>
         )
       })}
@@ -219,10 +214,16 @@ const Footer = ({ type, prefix, name }) => {
   )
 }
 
-const getMeta = (fields, path) => {
+const getMeta = (fields, path = []) => {
   let obj
   let isNested
   path.reduce((fields, key) => {
+    console.log(fields)
+
+    if (!fields) {
+      return null
+    }
+
     const { type, properties, items } = fields[key]
     if (type) {
       if (isNested) {
@@ -271,20 +272,20 @@ export const SchemaMain: FC<{
 
   const typeName = name || type
   let header, footer
-  // if (path.length) {
-  //   header = (
-  //     <Header back type={type} path={path}>
-  //       {getMeta(fields, path)?.name || path[path.length - 1]}
-  //     </Header>
-  //   )
-  //   footer = <Footer type={type} prefix={prefix} name={typeName} />
-  // } else {
-  header = (
-    <Header type={type} path={path}>
-      {typeName}
-    </Header>
-  )
-  // }
+  if (path.length) {
+    header = (
+      <Header back type={type} path={path}>
+        {getMeta(fields, path)?.name || path[path.length - 1]}
+      </Header>
+    )
+    footer = <Footer type={type} name={typeName} />
+  } else {
+    header = (
+      <Header type={type} path={path}>
+        {typeName}
+      </Header>
+    )
+  }
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>

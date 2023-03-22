@@ -15,11 +15,11 @@ import {
   ChevronDownIcon,
   ContextDivider,
   AddIcon,
+  useContextState,
 } from '~'
 
 import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
-import { useRoute } from 'kabouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
 import { useSchema } from '~/hooks/useSchema'
@@ -34,10 +34,10 @@ const EditMenu: FC<{
   template: FieldTemplates
   isObject: boolean
   path: string[]
-}> = ({ type, field, template, isObject, path }) => {
+  setPath: (path: string[]) => void
+}> = ({ type, field, setPath, template, isObject, path }) => {
   const { schema } = useSchema()
   const client = useClient()
-  const route = useRoute()
   const { open } = useDialog()
 
   return (
@@ -63,7 +63,7 @@ const EditMenu: FC<{
               }
               return false
             })
-            route.setLocation(`${route.location}/${filteredPath.join('/')}`)
+            setPath(filteredPath)
           }}
         >
           Configure Object
@@ -210,6 +210,8 @@ export const Field = ({
       : [...path, 'properties']
     : path
 
+  const [, setPath] = useContextState('path', [])
+
   const openEditMenu = useContextMenu(
     EditMenu,
     {
@@ -218,6 +220,7 @@ export const Field = ({
       template,
       isObject,
       path,
+      setPath,
     },
     { position: 'left' }
   )
