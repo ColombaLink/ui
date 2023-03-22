@@ -18,6 +18,8 @@ import { Space, Key, Icon } from '~/types'
 import { useKeyboardShortcut } from '~/hooks/useKeyboard'
 import { KeyBoardshortcut } from '../KeyBoardShortcut'
 
+const stopPropagation = (e) => e.stopPropagation()
+
 export type ButtonProps = {
   children?: ReactNode | ReactNode[]
   disabled?: boolean
@@ -157,7 +159,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ref={buttonElem}
       disabled={props.disabled}
       onClick={onClick && extendedOnClick}
-      onPointerDown={onPointerDown}
+      onPointerDown={onPointerDown || stopPropagation}
       style={{
         padding:
           !children && large

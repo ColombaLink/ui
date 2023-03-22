@@ -26,8 +26,6 @@ import { useSchema } from '~/components/Schema/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
 
-const stopPropagation = (e) => e.stopPropagation()
-
 const EditMenu: FC<{
   type: string
   field: string
@@ -135,6 +133,7 @@ const EditMenu: FC<{
                         const key = path[i++]
                         dest[key] = { ...from[key] }
                         dest = dest[key]
+                        // @ts-ignore
                         from = from[key]
                       }
 
@@ -176,12 +175,7 @@ const AddObjectFieldButton = ({ type, path }) => {
     { width: 924, placement: 'right' }
   )
   return (
-    <Button
-      onPointerDown={stopPropagation}
-      onClick={openSelectField}
-      ghost
-      icon={AddIcon}
-    >
+    <Button onClick={openSelectField} ghost icon={AddIcon}>
       Add field
     </Button>
   )
@@ -288,10 +282,12 @@ export const Field = ({
         {isObject ? (
           <AddObjectFieldButton type={type} path={objectPath} />
         ) : null}
-        <MoreIcon
-          onPointerDown={stopPropagation}
-          style={{ marginLeft: 16, flexShrink: 0, cursor: 'pointer' }}
+        <Button
+          color="text"
+          ghost
+          style={{ marginLeft: 16 }}
           onClick={openEditMenu}
+          icon={<MoreIcon />}
         />
       </div>
     </div>
