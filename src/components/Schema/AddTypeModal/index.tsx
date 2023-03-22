@@ -11,10 +11,7 @@ export const AddTypeModal: FC = () => {
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
   const [filled, setFilled] = useState(false)
-  const [t, setType] = useContextState('type')
-
-  console.log(t)
-
+  const [, setType] = useContextState('type')
   const [db] = useContextState('db', 'default')
   const { schema } = useSchema(db)
 
@@ -24,7 +21,7 @@ export const AddTypeModal: FC = () => {
     } else if (name === '') {
       setFilled(false)
     }
-  })
+  }, [name])
 
   return (
     <Dialog label="Create a type">

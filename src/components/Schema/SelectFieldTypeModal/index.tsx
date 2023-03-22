@@ -23,7 +23,7 @@ const Section = styled('div', {
   marginBottom: 10,
 })
 
-const Template = ({ template, type, path }) => {
+const Template = ({ template, type, field }) => {
   const { label, description, icon, color } = templates[template]
   const { open } = useDialog()
 
@@ -31,7 +31,7 @@ const Template = ({ template, type, path }) => {
     <styled.div
       onClick={() => {
         removeOverlay()
-        open(<FieldModal type={type} template={template} path={path} />)
+        open(<FieldModal type={type} template={template} path={field} />)
       }}
       style={{
         alignItems: 'center',
@@ -130,7 +130,7 @@ export const SelectFieldTypeModal: FC<{
                   <Template
                     key={template}
                     type={type}
-                    path={field}
+                    field={field}
                     template={template}
                   />
                 )
@@ -154,7 +154,7 @@ export const SelectFieldTypeModal: FC<{
                             <Template
                               key={template}
                               type={type}
-                              path={field}
+                              field={field}
                               template={template}
                             />
                           )

@@ -16,49 +16,15 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
+import { getFields, sortAndFlatten } from '../fieldParsers'
 import { alwaysIgnore, systemFields } from '../templates'
 import { Draggable } from './Draggable'
 import { Field } from './Field'
 import { getObjectId } from './utils'
-import { sortFields, useSchema } from '~/components/Schema/useSchema'
+import { useSchema } from '~/components/Schema/useSchema'
 import { useDialog } from '~/components/Dialog'
 import { useContextState } from '~/components/ContextState'
 import { FieldSchema, TypeSchema } from '../types'
-
-const sortAndFlatten = (fields: { [key: string]: FieldSchema }): string[] => {
-  const sortedFields = sortFields(fields)
-
-  for (let i = sortedFields.length - 1; i >= 0; i--) {
-    const key = sortedFields[i]
-    if (fields[key].type === 'record') {
-      const { properties } = fields[key].values
-      if (properties) {
-        const nested = sortAndFlatten(properties)
-        nested.forEach((nestedKey, index) => {
-          nested[index] = `${key}.values.properties.${nestedKey}`
-        })
-        sortedFields.splice(i + 1, 0, ...nested)
-      }
-    } else if (fields[key].type === 'array') {
-      const { properties } = fields[key].items
-      if (properties) {
-        const nested = sortAndFlatten(properties)
-        nested.forEach((nestedKey, index) => {
-          nested[index] = `${key}.items.properties.${nestedKey}`
-        })
-        sortedFields.splice(i + 1, 0, ...nested)
-      }
-    } else if (fields[key].type === 'object') {
-      const nested = sortAndFlatten(fields[key].properties)
-      nested.forEach((nestedKey, index) => {
-        nested[index] = `${key}.properties.${nestedKey}`
-      })
-      sortedFields.splice(i + 1, 0, ...nested)
-    }
-  }
-
-  return sortedFields
-}
 
 export const Fields: FC<{
   includeSystemFields: boolean
@@ -85,33 +51,16 @@ export const Fields: FC<{
 
   const typeDef: TypeSchema = schema.types[type] || { meta: {}, fields: {} }
 
-  let fields: { [key: string]: FieldSchema } = typeDef.fields
-
-  if (field.length) {
-    let n: FieldSchema | { [key: string]: FieldSchema } = fields
-    for (const f of field) {
-      if (n === undefined) {
-        break
-      }
-      n =
-        n.properties?.[f] ||
-        n.values?.properties?.[f] ||
-        n.items?.properties?.[f] ||
-        n?.[f]
-    }
-    if (n && n.properties) {
-      // @ts-ignore
-      fields = n.properties
-    }
-  }
-
   const properties = {}
   const objects: { [key: string]: { field: string; type: string } } = {}
   const objectPath: { type: string; field: string }[] = []
-  const sortedFields = sortAndFlatten(fields)
+  const sortedFields = sortAndFlatten(typeDef.fields)
+
   const onDragStart = ({ active }) => {
     setDraggingField(active.id)
   }
+
+  const fields = typeDef.fields
 
   const toggleExpand = (field) => {
     if (collapsed.has(field)) {
@@ -128,7 +77,7 @@ export const Fields: FC<{
       const activePath = active.id.split('.')
       const overObject = getObjectId(overIdRef.current, properties, objects)
 
-      let overPath
+      let overPath: any[]
 
       if (overObject) {
         const { type } = objects[overObject]
@@ -173,6 +122,7 @@ export const Fields: FC<{
         sortedFields.indexOf(active.id as string),
         sortedFields.indexOf(over.id as string)
       )
+
       const setIndex = (field, index) => {
         const path = field.split('.')
         const targetFields = path.reduce((fields, key) => fields[key], fields)

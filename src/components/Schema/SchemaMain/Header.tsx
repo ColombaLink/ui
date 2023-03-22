@@ -11,9 +11,11 @@ import {
   Dialog,
   WarningIcon,
   ChevronLeftIcon,
+  useSchema,
 } from '~'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { useClient } from '@based/react'
+import { sortAndFlatten } from '../fieldParsers'
 
 const EditMenu = ({ type }) => {
   const { open } = useDialog()
@@ -117,6 +119,19 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
 }) => {
   const [field] = useContextState<string[]>('field', [])
   const [type] = useContextState('type', '')
+  const [db] = useContextState('db', 'default')
+
+  const { schema } = useSchema(db)
+
+  const typeDef = schema.types[type]
+
+  console.info(typeDef)
+
+  // const
+
+  const sortedFields = sortAndFlatten(typeDef.fields)
+
+  console.log(sortedFields)
 
   const openEditMenu = useContextMenu(EditMenu, {
     type,

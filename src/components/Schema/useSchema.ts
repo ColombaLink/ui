@@ -1,29 +1,6 @@
 import { useQuery } from '@based/react'
 import { FieldSchema, Schema, TypeSchema } from './types'
-import { systemFields } from './templates'
-
-export const sortFields = (fields: {
-  [key: string]: FieldSchema
-}): string[] => {
-  return Object.keys(fields).sort((a, b) => {
-    const indexA = fields[a].meta?.index
-    const indexB = fields[b].meta?.index
-    if (indexA === undefined) {
-      if (indexB === undefined) {
-        if (systemFields.has(a)) {
-          if (!systemFields.has(b)) {
-            return -1
-          }
-        } else if (systemFields.has(b)) {
-          return 1
-        }
-        return a < b ? -1 : 1
-      }
-      return 1
-    }
-    return indexA < indexB ? -1 : 1
-  })
-}
+import { sortFields } from './fieldParsers'
 
 const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
   if (!('meta' in obj)) {

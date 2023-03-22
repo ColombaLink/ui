@@ -170,7 +170,7 @@ const AddObjectFieldButton = ({ type, path }) => {
     SelectFieldTypeModal,
     {
       type,
-      path,
+      field: path,
     },
     { width: 924, placement: 'right' }
   )
@@ -196,7 +196,7 @@ export const Field = ({
   const nestedType = (fieldSchema.items || fieldSchema.values)?.type
   const isObject = fieldType === 'object' || nestedType === 'object'
   const lastIndex = path.length - 1
-  const objectPath = isObject
+  const objectPath: string[] = isObject
     ? fieldType === 'record'
       ? [...path, 'values', 'properties']
       : fieldType === 'array'

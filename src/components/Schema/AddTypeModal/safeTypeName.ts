@@ -1,9 +1,8 @@
-const safeTypeName = (str: string) => {
+const safeTypeName = (str: string): string => {
   return str
     .toLowerCase()
-    .replace(/\s+/g, "-")
-    .replace(/[^a-zA-Z0-9-.]/g, "");
-  // .replace(/(['±!@#$%^&*()_+{}|":?><~]|\d)+/g, "");
-};
+    .replace(/\s+/g, '-')
+    .replace(/[^a-zA-Z0-9-.]/g, '')
+}
 
-export default safeTypeName;
+export default safeTypeName
