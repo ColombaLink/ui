@@ -1,15 +1,11 @@
 import React from 'react'
-import { Sidebar as MC } from '~/components/Sidebar'
-import ComponentViewer from '../../ComponentViewer'
+import ComponentViewer from '../ComponentViewer'
 
 export const Schema = () => {
   return (
     <div>
       <ComponentViewer
-        component={MC}
-        propsName="SchemaProps"
         title="Schema"
-        propsDef={{ name: 'schema', props: {}, code: '', file: '' }}
         examples={[
           {
             code: `import { Schema, color, useRoute, BasedIcon } from '@based/ui'

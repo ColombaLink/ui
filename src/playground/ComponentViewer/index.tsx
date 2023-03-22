@@ -18,13 +18,13 @@ export type PropsDef = {
 const ComponentViewer: FC<{
   component?: FC
   propsDef?: PropsDef
-  propsName: string
+  propsName?: string
   examples?: { props?: any; code?: string; component?: FC }[]
   title?: string
 }> = ({ propsDef, component, propsName, examples, title }) => {
   const [fuzz] = useSearchParam('randomize')
 
-  const p = propsDef || props.props[propsName]
+  const p = propsDef || props.props[propsName] || { props: {}, name: '' }
   if (!p) {
     return (
       <div
