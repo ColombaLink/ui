@@ -259,7 +259,7 @@ export const Dialog = Object.assign(
           {pure ? (
             children
           ) : (
-            <ScrollArea style={{ overflow: go ? null : 'hidden' }}>
+            <ScrollArea style={{ overflowY: go ? null : 'hidden' }}>
               <ScrollBody>{children}</ScrollBody>
             </ScrollArea>
           )}

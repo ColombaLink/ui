@@ -36,7 +36,7 @@ export const Design = () => {
             maxWidth: 500,
             height: '100%',
             padding: 32,
-            overflow: 'auto',
+            overflowY: 'auto',
             overflowX: 'hidden',
           }}
         >

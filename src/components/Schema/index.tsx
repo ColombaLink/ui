@@ -14,7 +14,13 @@ export const Schema: FC<{
 }> = ({ style, values, onChange }) => {
   return (
     <styled.div
-      style={{ display: 'flex', flexGrow: 1, overflow: 'hidden', ...style }}
+      style={{
+        display: 'flex',
+        flexGrow: 1,
+        overflowX: 'hidden',
+        overflowY: 'hidden',
+        ...style,
+      }}
     >
       <StateProvider values={values} onChange={onChange}>
         <SchemaLeft />

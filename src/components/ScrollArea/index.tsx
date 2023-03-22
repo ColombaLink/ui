@@ -6,7 +6,6 @@ const transparentAreaColor = color('background')
 
 export const scrollAreaStyle = {
   scrollbarGutter: 'stable',
-  overflow: 'auto',
   overflowY: 'overlay',
   overflowX: 'overlay',
   minWidth: 'fit-content',

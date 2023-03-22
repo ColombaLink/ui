@@ -66,7 +66,9 @@ export const Drawer = ({
               backgroundColor: color('background'),
               boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.24)',
               zIndex: '10',
-              overflow: 'auto',
+
+              overflowX: 'auto',
+              overflowY: 'auto',
 
               ...style,
             }}

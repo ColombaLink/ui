@@ -45,7 +45,8 @@ export const AppFrame: FC<AppProps> = ({ children, style }) => {
         display: 'flex',
         height: '100vh',
         width: '100vw',
-        overflow: 'hidden',
+        overflowX: 'hidden',
+        overflowY: 'hidden',
         ...style,
       }}
     >

@@ -52,7 +52,8 @@ export const Text: FC<TextProps> = ({
 
   if (!wrap) {
     s.textOverflow = 'ellipsis'
-    s.overflow = 'hidden'
+    s.overflowY = 'hidden'
+    s.overflowX = 'hidden'
     s.whiteSpace = 'nowrap'
   }
 

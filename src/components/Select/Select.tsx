@@ -22,7 +22,8 @@ export const StyledSelect = styled('div', {
   cursor: 'pointer',
   userSelect: 'none',
   height: 36,
-  overflow: 'hidden',
+  overflowY: 'hidden',
+  overflowX: 'hidden',
   display: 'flex',
   width: '100%',
   '@media (hover: hover)': {
