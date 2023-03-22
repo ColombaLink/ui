@@ -253,6 +253,7 @@ const OverlayItem: FunctionComponent<OverlayItemProps> = ({
         hidden
           ? null
           : useCallback((e) => {
+              e.stopPropagation()
               if (e.target === ref.current) {
                 setVisible(false)
                 setTimeout(() => {

@@ -263,8 +263,6 @@ export const Input = <T extends InputType>({
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
-  // TODO Why is there always a color value!?
-  const [colorValue, setColorValue] = useState('rgba(255,255,255,1)')
   const [errorMessage, setErrorMessage] = useState('')
   const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
@@ -452,10 +450,10 @@ export const Input = <T extends InputType>({
           {colorInput ? (
             <ColorInput
               onChange={(e) => {
-                setColorValue(e.target.value)
+                onChangeProp?.(e.target.value)
               }}
               disabled={disabled}
-              value={colorValue}
+              value={value}
               style={{ width: '100%' }}
             />
           ) : jsonInput || type === 'json' ? (
