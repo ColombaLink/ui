@@ -1,15 +1,28 @@
-import { useContext } from 'react'
+import { useContext, useMemo, ReactNode } from 'react'
 import {
   DialogContext,
   DialogContextType,
   defaultDialogContext,
 } from './DialogContext'
+import { AllContexts, useAllContexts } from '../Provider'
 
-export const useDialog: () => DialogContextType = () => {
-  const Dialog = useContext(DialogContext)
-  if (Dialog) {
-    return Dialog
-  }
-  const noContext = defaultDialogContext
-  return noContext
+export const useDialog = (): DialogContextType => {
+  const dialog = useContext(DialogContext) || defaultDialogContext
+  const allContext = useAllContexts()
+  return useMemo(() => {
+    const dialogInstance: DialogContextType = (
+      children: ReactNode,
+      onClose?: () => void,
+      ctx: AllContexts = allContext
+    ) => {
+      return dialog(children, onClose, ctx)
+    }
+    dialogInstance.open = dialogInstance
+    dialogInstance.close = dialog.close
+    dialogInstance.confirm = dialog.confirm
+    dialogInstance.alert = dialog.alert
+    dialogInstance.prompt = dialog.prompt
+    dialogInstance.useCount = dialog.useCount
+    return dialogInstance
+  }, [])
 }

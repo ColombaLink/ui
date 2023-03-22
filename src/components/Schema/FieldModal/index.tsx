@@ -26,31 +26,6 @@ const ReferencesGeneral = ({ types, options }) => {
         }}
         options={Object.keys(types)}
       />
-
-      {/* <Accordion>
-        <AccordionItem label="1. Define relationship" active>
-          <RadioButtons
-            cards
-            direction="horizontal"
-            data={[
-              {
-                label: 'Multiple references',
-                value: 'Multiref',
-                description: 'This will result in a list of references',
-              },
-              {
-                label: 'Single reference',
-                value: 'SingleRef',
-                description: 'This will result in a single reference',
-              },
-            ]}
-          />
-          
-        </AccordionItem>
-        <AccordionItem label="2. Field info" />
-        <AccordionItem label="3. Bi-directional" />
-        <AccordionItem label="4. Target info" />
-      </Accordion> */}
     </>
   )
 }
@@ -173,7 +148,6 @@ const FileGeneral = ({ options }) => {
       checked={options.multiple}
       onChange={(value) => {
         options.meta.multiple = value
-        console.log('-->', value)
         if (value) {
           // schema change from file to files
           options.meta.format = 'files'
@@ -220,6 +194,7 @@ export const FieldModal: FC<
     return null
   }
 
+  // @ts-ignore
   const fields = path.reduce((fields, key) => fields[key], types[type].fields)
 
   if (!template) {
@@ -251,19 +226,11 @@ export const FieldModal: FC<
       }
     }
   }
-  const isRegex = (value) => {
-    try {
-      const theRegex = new RegExp(value)
-      return theRegex
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
   const options = optionsRef.current
 
   const { label, icon, color } = templates[template]
   const TypeSpecificGeneral = general[template]
-  console.log(options.meta.format)
   return (
     <Dialog>
       <Dialog.Body>
@@ -419,7 +386,6 @@ export const FieldModal: FC<
                 label="Match a specific pattern"
                 description="Only accepts values that match a specific regular exporession"
                 onChange={(e) => {
-                  console.log(isRegex(e))
                   options.meta.regex = e
                 }}
               />
