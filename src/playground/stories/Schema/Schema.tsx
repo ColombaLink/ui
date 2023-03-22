@@ -14,7 +14,7 @@ export const Schema = () => {
           {
             code: `import { Schema, color, useRoute, BasedIcon } from '@based/ui'
 
-const route = useRoute('[type]/[field]', { type: 'file' });
+const route = useRoute('[db]/[type]/[...field]', { type: 'file', db: 'default' });
 
 <Schema 
   style={{ 
@@ -22,14 +22,14 @@ const route = useRoute('[type]/[field]', { type: 'file' });
     border: \`1px solid \${color('lightborder')}\`,
     borderRadius: '10px'
   }}
-  values={{ ...route.path, field: route.path.field?.split('.') }}
+  values={route.path}
   onChange={(key, v) => {
-    console.log(key)
     if (key === 'field') {
-      console.log('set f' , v, v.length ? v.join('.') : null )
-      route.setPath({ field: v.length ? v.join('.') : null })
+      route.setPath({ field: v})
     } else if (key === 'type') {
       route.setPath({ type: v, field: null })
+    } else if (key === 'db') {
+      route.setPath({ db: v, field: null, type: null })
     }
   }}
 />`,

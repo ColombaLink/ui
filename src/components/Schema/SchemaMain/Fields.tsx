@@ -68,6 +68,16 @@ export const Fields: FC<{
   const [db] = useContextState('db', 'default')
   const [field] = useContextState<string[]>('field', [])
   const { loading, schema } = useSchema(db)
+  const { confirm } = useDialog()
+  const [draggingField, setDraggingField] = useState<UniqueIdentifier | false>()
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  )
+  const overIdRef = useRef()
+  const [collapsed = new Set(), setCollapsed] = useState<Set<string>>()
 
   if (loading || !type) {
     return null
@@ -95,24 +105,13 @@ export const Fields: FC<{
     }
   }
 
-  const { confirm } = useDialog()
-  const [draggingField, setDraggingField] = useState<UniqueIdentifier | false>()
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  )
   const properties = {}
   const objects: { [key: string]: { field: string; type: string } } = {}
   const objectPath: { type: string; field: string }[] = []
-  const overIdRef = useRef()
   const sortedFields = sortAndFlatten(fields)
   const onDragStart = ({ active }) => {
     setDraggingField(active.id)
   }
-
-  const [collapsed = new Set(), setCollapsed] = useState<Set<string>>()
 
   const toggleExpand = (field) => {
     if (collapsed.has(field)) {
