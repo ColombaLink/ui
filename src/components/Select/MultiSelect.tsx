@@ -77,7 +77,6 @@ export const MultiSelect: FC<MultiSelectProps> = ({
         if (ref.current.children[0]?.children?.length) {
           const { width } = ref.current.getBoundingClientRect()
           const innerWidth = ref.current.children[0].clientWidth
-
           if (innerWidth > width - 80) {
             let targetW = innerWidth
             for (
@@ -98,6 +97,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
           } else {
             for (let i = 0; i < ref.current.children[0].children.length; i++) {
               const child = ref.current.children[0].children[i] as HTMLElement
+
               child.style.opacity = '1'
             }
           }

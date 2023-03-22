@@ -132,6 +132,7 @@ export const ContextOptionItem = ({
         inset={!noInset}
         tabIndex={tabIndex}
         style={{
+          pointerEvents: option.value === undefined ? 'none' : 'auto',
           '@media (hover:hover)': {
             backgroundColor:
               isSelected === 1 ? color('lightbackground2:contrast') : null,
@@ -142,6 +143,9 @@ export const ContextOptionItem = ({
         }}
         icon={option.icon || (!noInset && selected ? CheckIcon : null)}
         onClick={(e) => {
+          if (option.value === undefined) {
+            return true
+          }
           setIsSelected(1)
 
           if (option.onSelect) {
