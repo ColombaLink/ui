@@ -1,34 +1,31 @@
 import { useQuery } from '@based/react'
-import { systemFields, FieldSchema } from '~/components/Schema/templates'
+import { FieldSchema, Schema, TypeSchema } from './types'
+import { systemFields } from './templates'
 
-// TODO: Export schema & based types
-
-export const sortFields = (fields: FieldSchema[]) => {
-  try {
-    return Object.keys(fields).sort((a, b) => {
-      const indexA = fields[a].meta?.index
-      const indexB = fields[b].meta?.index
-      if (indexA === undefined) {
-        if (indexB === undefined) {
-          if (systemFields.has(a)) {
-            if (!systemFields.has(b)) {
-              return -1
-            }
-          } else if (systemFields.has(b)) {
-            return 1
+export const sortFields = (fields: {
+  [key: string]: FieldSchema
+}): string[] => {
+  return Object.keys(fields).sort((a, b) => {
+    const indexA = fields[a].meta?.index
+    const indexB = fields[b].meta?.index
+    if (indexA === undefined) {
+      if (indexB === undefined) {
+        if (systemFields.has(a)) {
+          if (!systemFields.has(b)) {
+            return -1
           }
-          return a < b ? -1 : 1
+        } else if (systemFields.has(b)) {
+          return 1
         }
-        return 1
+        return a < b ? -1 : 1
       }
-      return indexA < indexB ? -1 : 1
-    })
-  } catch (e) {
-    return Object.keys(fields)
-  }
+      return 1
+    }
+    return indexA < indexB ? -1 : 1
+  })
 }
 
-const addMeta = (obj: FieldSchema, key: string) => {
+const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
   if (!('meta' in obj)) {
     obj.meta = {}
   }
@@ -53,11 +50,9 @@ const walkField = (obj: FieldSchema, key: string) => {
   }
 }
 
-const walkType = (obj, key) => {
+const walkType = (obj: TypeSchema, key: string) => {
   addMeta(obj, key)
-  // add descriptor here
   if (obj.fields) {
-    // sort the fields here
     obj.fields = sortFields(obj.fields).reduce((fields, key) => {
       const field = obj.fields[key]
       walkField(field, key)
@@ -67,7 +62,9 @@ const walkType = (obj, key) => {
   }
 }
 
-export const useSchema = (db = 'default') => {
+export const useSchema = (
+  db = 'default'
+): { schema: Schema; loading: boolean } => {
   const { data, loading } = useQuery('db:schema', { db })
   if (!loading) {
     walkType(data.rootType, 'root')
@@ -76,5 +73,5 @@ export const useSchema = (db = 'default') => {
     }
   }
 
-  return { loading, schema: data || {} }
+  return { loading, schema: data || { types: {} } }
 }

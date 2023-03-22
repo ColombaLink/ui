@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, FC } from 'react'
 import { createPortal } from 'react-dom'
 import {
   DndContext,
@@ -20,10 +20,12 @@ import { alwaysIgnore, systemFields } from '../templates'
 import { Draggable } from './Draggable'
 import { Field } from './Field'
 import { getObjectId } from './utils'
-import { sortFields } from '~/hooks/useSchema'
+import { sortFields, useSchema } from '~/components/Schema/useSchema'
 import { useDialog } from '~/components/Dialog'
+import { useContextState } from '~/components/ContextState'
+import { FieldSchema, TypeSchema } from '../types'
 
-const sortAndFlatten = (fields) => {
+const sortAndFlatten = (fields: { [key: string]: FieldSchema }): string[] => {
   const sortedFields = sortFields(fields)
 
   for (let i = sortedFields.length - 1; i >= 0; i--) {
@@ -58,7 +60,41 @@ const sortAndFlatten = (fields) => {
   return sortedFields
 }
 
-export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
+export const Fields: FC<{
+  includeSystemFields: boolean
+  onChange: (v: any) => void
+}> = ({ includeSystemFields, onChange }) => {
+  const [type] = useContextState('type', '')
+  const [db] = useContextState('db', 'default')
+  const [field] = useContextState<string[]>('field', [])
+  const { loading, schema } = useSchema(db)
+
+  if (loading || !type) {
+    return null
+  }
+
+  const typeDef: TypeSchema = schema.types[type] || { meta: {}, fields: {} }
+
+  let fields: { [key: string]: FieldSchema } = typeDef.fields
+
+  if (field.length) {
+    let n: FieldSchema | { [key: string]: FieldSchema } = fields
+    for (const f of field) {
+      if (n === undefined) {
+        break
+      }
+      n =
+        n.properties?.[f] ||
+        n.values?.properties?.[f] ||
+        n.items?.properties?.[f] ||
+        n?.[f]
+    }
+    if (n && n.properties) {
+      // @ts-ignore
+      fields = n.properties
+    }
+  }
+
   const { confirm } = useDialog()
   const [draggingField, setDraggingField] = useState<UniqueIdentifier | false>()
   const sensors = useSensors(
@@ -68,7 +104,8 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     })
   )
   const properties = {}
-  const objects = {}
+  const objects: { [key: string]: { field: string; type: string } } = {}
+  const objectPath: { type: string; field: string }[] = []
   const overIdRef = useRef()
   const sortedFields = sortAndFlatten(fields)
   const onDragStart = ({ active }) => {
@@ -150,7 +187,7 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       resortedFields.forEach(setIndex)
 
       if (revert) {
-        // @ts-ignore
+        // @ts-ignore TODO: fix dialog
         const ok = await confirm({
           label: 'Your are moving a field in or out of an object',
           children:
@@ -169,7 +206,6 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     }
   }
 
-  const objectPath = []
   const filtered = sortedFields.filter((field) => {
     if (alwaysIgnore.has(field)) {
       return false
@@ -181,12 +217,15 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
       return false
     }
     const path = field.split('.')
-    const { type, $delete, items, values } = path.reduce(
+
+    // @ts-ignore
+    const fieldDef: FieldSchema = path.reduce(
+      // @ts-ignore
       (fields, key) => fields[key],
       fields
     )
 
-    if ($delete) {
+    if (fieldDef.$delete) {
       return false
     }
 
@@ -205,17 +244,15 @@ export const Fields = ({ includeSystemFields, type, fields, onChange }) => {
     }
 
     if (
-      type === 'object' ||
-      items?.type === 'object' ||
-      values?.type === 'object'
+      fieldDef.type === 'object' ||
+      fieldDef.items?.type === 'object' ||
+      fieldDef.values?.type === 'object'
     ) {
-      objectPath.push((objects[field] = { field, type }))
+      objectPath.push((objects[field] = { field, type: fieldDef.type }))
     }
 
     return true
   })
-
-  // console.log('filtered', filtered)
 
   return (
     <DndContext

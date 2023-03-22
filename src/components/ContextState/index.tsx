@@ -53,13 +53,12 @@ export const StateProvider: FC<{
 export const useContextState = <T extends unknown>(
   key: string,
   initialValue?: T
-): [any, (value: T) => void] => {
+): [T, (value: T) => void] => {
   const update = useUpdate()
   const values = useContext(StateContext)
   if (!values.map.has(key)) {
     values.map.set(key, {
       listeners: new Set(),
-      value: initialValue,
     })
   }
   const v = values.map.get(key)
@@ -72,7 +71,7 @@ export const useContextState = <T extends unknown>(
   }, [])
 
   return [
-    v.value,
+    v.value ?? initialValue,
     (value: T) => {
       v.value = value
       v.listeners.forEach((u) => u())

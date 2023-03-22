@@ -15,6 +15,7 @@ export type Format =
 export type MimeType = 'image' | 'video' | 'audio' | 'document'
 
 export type FieldMeta = {
+  index?: number
   name?: string
   description?: string
   format?: Format
@@ -54,8 +55,27 @@ export type FieldOptions = {
 export type FieldSchema = {
   type: string
   meta?: FieldMeta
-  items?: any
-  values?: any
+  items?: FieldSchema
+  $delete?: boolean
+  values?: FieldSchema
+  properties?: {
+    [key: string]: FieldSchema
+  }
+}
+
+export type TypeSchema = {
+  prefix?: string
+  meta?: FieldMeta
+  fields: {
+    [key: string]: FieldSchema
+  }
+}
+
+export type Schema = {
+  rootType: TypeSchema
+  types: {
+    [key: string]: TypeSchema
+  }
 }
 
 export type FieldTemplates =

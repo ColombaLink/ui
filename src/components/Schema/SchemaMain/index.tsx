@@ -1,253 +1,19 @@
 import { useClient } from '@based/react'
-import React, { FC, Fragment, useState } from 'react'
-import { useContextMenu, useSchemaTypes } from '~/hooks'
-import {
-  Checkbox,
-  MoreIcon,
-  Text,
-  ScrollArea,
-  ContextItem,
-  Button,
-  AddIcon,
-  useContextState,
-  Page,
-} from '~'
+import React, { FC, useState, ReactNode } from 'react'
+import { useSchema } from '../useSchema'
+import { Checkbox, Text, ScrollArea, useContextState, Page } from '~'
 import { Fields } from './Fields'
-import { ChevronLeftIcon, ChevronRightIcon, WarningIcon } from '~/icons'
-import { border } from '~/utils'
-import { Dialog, useDialog } from '~/components/Dialog'
-import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
+import { Header } from './Header'
+import { Footer } from './Footer'
+import { getMeta } from './getMeta'
+import { TypeSchema } from '../types'
 
-const EditMenu = ({ type }) => {
-  const { open } = useDialog()
-  const client = useClient()
-  return (
-    <ContextItem
-      onClick={async () => {
-        open(
-          <Dialog label="Delete Type" style={{ paddingTop: 20 }}>
-            <div style={{}}>
-              <div
-                style={{
-                  display: 'inline-flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  marginBottom: 20,
-                }}
-              >
-                <Text style={{ paddingRight: 4 }}>
-                  Are you sure you want to delete the type{' '}
-                </Text>
-                <Text weight={700}>{type}</Text>
-              </div>
-              <Button
-                light
-                large
-                color="reddish"
-                style={{
-                  display: 'inline-flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  margin: '0 auto',
-                  pointerEvents: 'none',
-                  height: 40,
-                }}
-              >
-                <div
-                  style={{
-                    display: 'inline-flex',
-                    flexDirection: 'row',
-                    alignContent: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <WarningIcon
-                    color="red"
-                    style={{ marginTop: 1.5, marginRight: 8 }}
-                  />
-                  <Text color="text">
-                    Warning: Data stored in this field will be lost.
-                  </Text>
-                </div>
-              </Button>
-              <Dialog.Buttons border>
-                <Dialog.Cancel />
-                <Dialog.Confirm
-                  color="red"
-                  onConfirm={async () => {
-                    await client.call('db:set-schema', {
-                      schema: {
-                        types: {
-                          [type]: {
-                            $delete: true,
-                          },
-                        },
-                      },
-                    })
-                  }}
-                >
-                  {`Delete ${type}`}
-                </Dialog.Confirm>
-              </Dialog.Buttons>
-            </div>
-          </Dialog>
-        )
-      }}
-    >
-      Delete
-    </ContextItem>
-  )
-}
-
-const BackButton = () => {
-  return (
-    <div
-      // href={route.location.split('/').slice(0, -1).join('/')}
-      style={{ paddingRight: 8 }}
-    >
-      <ChevronLeftIcon />
-    </div>
-  )
-}
-
-const Header = ({ back = null, children, type, path }) => {
-  const openEditMenu = useContextMenu(EditMenu, {
-    type,
-    path,
-  })
-
-  const openSelectField = useContextMenu(
-    SelectFieldTypeModal,
-    {
-      type,
-      path,
-    },
-    { width: 924, placement: 'right' }
-  )
-
-  return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {back ? <BackButton /> : null}
-        <Text
-          size="22px"
-          weight="700"
-          style={{
-            userSelect: 'none',
-            lineHeight: '32px',
-            marginRight: 8,
-            // textTransform: 'capitalize',
-          }}
-        >
-          {children}
-        </Text>
-        <Button
-          ghost
-          color="text"
-          icon={
-            <MoreIcon
-              onClick={openEditMenu}
-              style={{
-                marginTop: 3,
-                cursor: 'pointer',
-                // marginLeft: 20,
-                // marginLeft: 16,
-              }}
-            />
-          }
-        />
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Button
-          textAlign="center"
-          large
-          icon={AddIcon}
-          style={{ width: '100%' }}
-          onClick={openSelectField}
-        >
-          Add Field
-        </Button>
-      </div>
-    </div>
-  )
-}
-
-const Footer = ({ type, name }) => {
-  const [path] = useContextState('path', [])
-  return (
-    <div
-      style={{
-        borderTop: border(1),
-        padding: '16px 32px ',
-        height: 56,
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
-      <div onClick={() => {}}>
-        <Text color="text2">{name}</Text>
-      </div>
-      {path.map((field, index) => {
-        return (
-          <Fragment key={index}>
-            <ChevronRightIcon style={{ flexShrink: 0, margin: 4 }} />
-            <div
-              onClick={(e) => {
-                e.stopPropagation()
-                e.preventDefault()
-              }}
-            >
-              <Text>{field}</Text>
-            </div>
-          </Fragment>
-        )
-      })}
-    </div>
-  )
-}
-
-const getMeta = (fields, path = []) => {
-  let obj
-  let isNested
-  path.reduce((fields, key) => {
-    console.log(fields)
-
-    if (!fields) {
-      return null
-    }
-
-    const { type, properties, items } = fields[key]
-    if (type) {
-      if (isNested) {
-        isNested = false
-      } else {
-        obj = fields[key]
-        if (properties || items) {
-          isNested = true
-        }
-      }
-    }
-    return fields[key]
-  }, fields)
-  return obj.meta
-}
-
-export const SchemaMain: FC<{
-  db: string
-}> = ({ db = 'default' }) => {
-  const [type] = useContextState('type')
-  const [path] = useContextState('path', [])
-
-  // db pass!
-  const { loading, types } = useSchemaTypes()
+export const SchemaMain: FC = () => {
+  const [type] = useContextState('type', '')
+  const [db] = useContextState('db', 'default')
+  const [field] = useContextState<string[]>('field', [])
+  const { loading, schema } = useSchema(db)
+  const { types } = schema
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
@@ -263,28 +29,29 @@ export const SchemaMain: FC<{
     )
   }
 
-  const { meta = {}, fields } = types[type] || {}
+  const typeDef: TypeSchema = types[type] || { meta: {}, fields: {} }
+  const { meta = {}, fields } = typeDef
   const { name } = meta
 
   if (!fields) {
+    console.error('[InvalidSchema] No fields on type', type)
     return null
   }
 
   const typeName = name || type
-  let header, footer
-  if (path.length) {
+
+  let header: ReactNode
+  let footer: ReactNode
+
+  if (field.length) {
     header = (
-      <Header back type={type} path={path}>
-        {getMeta(fields, path)?.name || path[path.length - 1]}
+      <Header back>
+        {getMeta(field, typeDef)?.name || field[field.length - 1]}
       </Header>
     )
-    footer = <Footer type={type} name={typeName} />
+    footer = <Footer name={typeName} />
   } else {
-    header = (
-      <Header type={type} path={path}>
-        {typeName}
-      </Header>
-    )
+    header = <Header>{typeName}</Header>
   }
 
   return (
@@ -308,43 +75,42 @@ export const SchemaMain: FC<{
           }}
         >
           <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
-            <Checkbox
-              style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
-              label="Show system fields"
-              checked={includeSystemFields}
-              onChange={toggleSystemFields}
-            />
+            {field.length ? (
+              <div style={{ marginTop: 36, marginBottom: 24, width: '100%' }} />
+            ) : (
+              <Checkbox
+                style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
+                label="Show system fields"
+                checked={includeSystemFields}
+                onChange={toggleSystemFields}
+              />
+            )}
             <div>
               <Fields
-                type={type}
-                fields={path.reduce((fields, key) => fields[key], fields)}
                 includeSystemFields={includeSystemFields}
                 onChange={(val) => {
-                  const update = {}
-                  let from = fields
-                  let dest = update
-                  let i = 0
-                  const l = path.length
-
-                  while (i < l) {
-                    const key = path[i++]
-                    dest[key] = { ...from[key] }
-                    dest = dest[key]
-                    from = from[key]
-                  }
-
-                  Object.assign(dest, val)
-
-                  return client
-                    .call('basedUpdateSchema', {
-                      types: {
-                        [type]: {
-                          fields: update,
-                        },
-                      },
-                      db,
-                    })
-                    .catch((e) => console.error('error updating schema', e))
+                  // const update = {}
+                  // let from = fields
+                  // let dest = update
+                  // let i = 0
+                  // const l = field.length
+                  // while (i < l) {
+                  //   const key = field[i++]
+                  //   dest[key] = { ...from[key] }
+                  //   dest = dest[key]
+                  //   from = from[key]
+                  // }
+                  // Object.assign(dest, val)
+                  // return client
+                  //   .call('basedUpdateSchema', {
+                  //     types: {
+                  //       [type]: {
+                  //         fields: update,
+                  //       },
+                  //     },
+                  //     db,
+                  //   })
+                  //   .catch((e) => console.error('error updating schema', e))
                 }}
               />
             </div>

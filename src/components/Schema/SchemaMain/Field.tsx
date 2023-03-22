@@ -22,7 +22,7 @@ import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
-import { useSchema } from '~/hooks/useSchema'
+import { useSchema } from '~/components/Schema/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
 
@@ -210,7 +210,7 @@ export const Field = ({
       : [...path, 'properties']
     : path
 
-  const [, setPath] = useContextState('path', [])
+  const [, setPath] = useContextState('field', [])
 
   const openEditMenu = useContextMenu(
     EditMenu,
@@ -224,8 +224,6 @@ export const Field = ({
     },
     { position: 'left' }
   )
-
-  // console.log(path, getDepth(path))
 
   return (
     // require extra div for smooth animation of nested props

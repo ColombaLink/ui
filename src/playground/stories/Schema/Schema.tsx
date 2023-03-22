@@ -22,9 +22,15 @@ const route = useRoute('[type]/[field]', { type: 'file' });
     border: \`1px solid \${color('lightborder')}\`,
     borderRadius: '10px'
   }}
-  values={route.path}
+  values={{ ...route.path, field: route.path.field?.split('.') }}
   onChange={(key, v) => {
-    route.setPath({ [key]: v })
+    console.log(key)
+    if (key === 'field') {
+      console.log('set f' , v, v.length ? v.join('.') : null )
+      route.setPath({ field: v.length ? v.join('.') : null })
+    } else if (key === 'type') {
+      route.setPath({ type: v, field: null })
+    }
   }}
 />`,
           },
