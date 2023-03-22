@@ -10,6 +10,7 @@ import React, {
 } from 'react'
 
 type CtxVal = {
+  notDefault?: boolean
   map: Map<
     string,
     { version: number; value?: any; listeners: Set<(val: any) => void> }
@@ -27,6 +28,7 @@ export const StateProvider: FC<{
   const ctxValue = useMemo(() => {
     const ctxVal: CtxVal = {
       map: new Map(),
+      notDefault: true,
       onChange,
     }
     return ctxVal

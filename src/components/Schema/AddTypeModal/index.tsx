@@ -11,7 +11,9 @@ export const AddTypeModal: FC = () => {
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
   const [filled, setFilled] = useState(false)
-  const [, setType] = useContextState('type')
+  const [t, setType] = useContextState('type')
+
+  console.log(t)
 
   const [db] = useContextState('db', 'default')
   const { schema } = useSchema(db)

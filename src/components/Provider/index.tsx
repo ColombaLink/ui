@@ -3,19 +3,20 @@ import React, {
   FC,
   ReactNode,
   useEffect,
-  createContext,
+  useContext,
 } from 'react'
+import { StateContext } from '../ContextState'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'
-import { Provider as BasedProvider } from '@based/react'
+import { Provider as BasedProvider, useClient } from '@based/react'
 import { BasedClient } from '@based/client'
 import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
 import { AuthProvider } from '~'
-import { Router } from 'kabouter'
+import { Router, RouterContext } from 'kabouter'
 
 type ProviderProps = {
   children?: ReactNode
@@ -30,11 +31,42 @@ type ProviderProps = {
   path?: string
 }
 
-// @ts-ignore
-export const RouterContext = createContext<RouterCtx>({
-  rootPath: [],
-  componentMap: new Map(),
-})
+type ExtractVar<C> = C extends React.Context<infer T> ? T : never
+
+export type AllContexts = {
+  router: ExtractVar<typeof RouterContext>
+  client: BasedClient
+  state: ExtractVar<typeof StateContext>
+}
+
+export const useAllContexts = (): AllContexts => {
+  const state = useContext(StateContext)
+  const client = useClient()
+  const router = useContext(RouterContext)
+  return { state, client, router }
+}
+
+export const ForwardContext: FC<{
+  context: AllContexts
+  children: ReactNode
+}> = ({ context, children }) => {
+  let r: ReactNode = children
+  const { state, client, router } = useAllContexts()
+  if (state !== context.state) {
+    r = <StateContext.Provider value={context.state}>{r}</StateContext.Provider>
+  }
+  if (client !== context.client) {
+    r = <BasedProvider client={context.client}>{r}</BasedProvider>
+  }
+  if (router !== context.router) {
+    r = (
+      <RouterContext.Provider value={context.router}>
+        {r}
+      </RouterContext.Provider>
+    )
+  }
+  return <>{r}</>
+}
 
 // TODO: types!
 const mergeNested = (theme, overwrite, key) => {

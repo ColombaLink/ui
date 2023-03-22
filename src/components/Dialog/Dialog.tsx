@@ -63,14 +63,16 @@ const ButtonsWithBorder = styled(StyledButtons, {
   marginTop: 48,
   paddingLeft: '32px',
   paddingRight: '32px',
+  marginLeft: 'calc(-32px)',
+  marginRight: 'calc(-39px)',
   '@media only screen and (max-width: 680px)': {
     paddingLeft: '16px',
     paddingRight: '16px',
+    marginLeft: 'calc(-16px)',
+    marginRight: 'calc(-16px)',
   },
   borderBottomLeftRadius: 8,
   borderBottomRightRadius: 8,
-  marginLeft: 'calc(-1 * var(--dialogPadding))',
-  marginRight: 'calc(-1 * var(--dialogPadding))',
 })
 
 const ButtonSpacer = styled('div', {
