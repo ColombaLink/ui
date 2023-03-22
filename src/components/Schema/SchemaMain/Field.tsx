@@ -15,18 +15,16 @@ import {
   ChevronDownIcon,
   ContextDivider,
   AddIcon,
+  useContextState,
 } from '~'
 
 import { FieldTemplates, systemFields, templates } from '../templates'
 import { FieldModal } from '../FieldModal'
-import { useRoute } from 'kabouter'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { getDepth } from './utils'
-import { useSchema } from '~/hooks/useSchema'
+import { useSchema } from '~/components/Schema/useSchema'
 import { Dialog } from '~/components/Dialog'
 import { WarningIcon } from '~/icons/WarningIcon'
-
-const stopPropagation = (e) => e.stopPropagation()
 
 const EditMenu: FC<{
   type: string
@@ -34,10 +32,10 @@ const EditMenu: FC<{
   template: FieldTemplates
   isObject: boolean
   path: string[]
-}> = ({ type, field, template, isObject, path }) => {
+  setPath: (path: string[]) => void
+}> = ({ type, field, setPath, template, isObject, path }) => {
   const { schema } = useSchema()
   const client = useClient()
-  const route = useRoute()
   const { open } = useDialog()
 
   return (
@@ -63,7 +61,7 @@ const EditMenu: FC<{
               }
               return false
             })
-            route.setLocation(`${route.location}/${filteredPath.join('/')}`)
+            setPath(filteredPath)
           }}
         >
           Configure Object
@@ -135,6 +133,7 @@ const EditMenu: FC<{
                         const key = path[i++]
                         dest[key] = { ...from[key] }
                         dest = dest[key]
+                        // @ts-ignore
                         from = from[key]
                       }
 
@@ -176,12 +175,7 @@ const AddObjectFieldButton = ({ type, path }) => {
     { width: 924, placement: 'right' }
   )
   return (
-    <Button
-      onPointerDown={stopPropagation}
-      onClick={openSelectField}
-      ghost
-      icon={AddIcon}
-    >
+    <Button onClick={openSelectField} ghost icon={AddIcon}>
       Add field
     </Button>
   )
@@ -210,6 +204,8 @@ export const Field = ({
       : [...path, 'properties']
     : path
 
+  const [, setPath] = useContextState('field', [])
+
   const openEditMenu = useContextMenu(
     EditMenu,
     {
@@ -218,11 +214,10 @@ export const Field = ({
       template,
       isObject,
       path,
+      setPath,
     },
     { position: 'left' }
   )
-
-  // console.log(path, getDepth(path))
 
   return (
     // require extra div for smooth animation of nested props
@@ -287,10 +282,12 @@ export const Field = ({
         {isObject ? (
           <AddObjectFieldButton type={type} path={objectPath} />
         ) : null}
-        <MoreIcon
-          onPointerDown={stopPropagation}
-          style={{ marginLeft: 16, flexShrink: 0, cursor: 'pointer' }}
+        <Button
+          color="text"
+          ghost
+          style={{ marginLeft: 16 }}
           onClick={openEditMenu}
+          icon={<MoreIcon />}
         />
       </div>
     </div>

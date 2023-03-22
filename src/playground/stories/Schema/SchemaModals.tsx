@@ -9,7 +9,7 @@ import { Select } from '~/components/Select'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
 import { Toast, useToast } from '~/components/Toast'
-import { useSchema } from '~/hooks/useSchema'
+import { useSchema } from '~/components/Schema/useSchema'
 import { Text } from '~'
 
 const useUpdate = (callback?: () => void) => {

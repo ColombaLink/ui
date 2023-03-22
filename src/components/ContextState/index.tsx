@@ -1,4 +1,4 @@
-import { hash } from '@saulx/hash'
+import { hash, hashObjectIgnoreKeyOrder } from '@saulx/hash'
 import React, {
   createContext,
   useContext,
@@ -6,11 +6,14 @@ import React, {
   FC,
   ReactNode,
   useMemo,
+  useState,
 } from 'react'
-import { useUpdate } from '~/hooks/useUpdate'
 
 type CtxVal = {
-  map: Map<string, { value?: any; listeners: Set<() => void> }>
+  map: Map<
+    string,
+    { version: number; value?: any; listeners: Set<(val: any) => void> }
+  >
   onChange?: (key: string, t: any) => void
 }
 
@@ -29,19 +32,24 @@ export const StateProvider: FC<{
     return ctxVal
   }, [])
 
-  useMemo(() => {
+  useEffect(() => {
     for (const key in values) {
       let v = ctxValue.map.get(key)
       if (!v) {
         v = {
+          version: 0,
           listeners: new Set(),
         }
         ctxValue.map.set(key, v)
       }
       v.value = values[key]
-      v.listeners.forEach((u) => u())
+      const n = hash(v.value ?? 0)
+      if (n !== v.version) {
+        v.version = n
+        v.listeners.forEach((u) => u(n))
+      }
     }
-  }, [ctxValue, values ? hash(values) : 0])
+  }, [ctxValue, values ? hashObjectIgnoreKeyOrder(values) : 0])
 
   ctxValue.onChange = onChange
 
@@ -53,16 +61,19 @@ export const StateProvider: FC<{
 export const useContextState = <T extends unknown>(
   key: string,
   initialValue?: T
-): [any, (value: T) => void] => {
-  const update = useUpdate()
+): [T, (value: T) => void] => {
   const values = useContext(StateContext)
+
   if (!values.map.has(key)) {
     values.map.set(key, {
+      version: 0,
       listeners: new Set(),
-      value: initialValue,
     })
   }
+
   const v = values.map.get(key)
+
+  const [, update] = useState<number>(v.version)
 
   useEffect(() => {
     v.listeners.add(update)
@@ -72,12 +83,15 @@ export const useContextState = <T extends unknown>(
   }, [])
 
   return [
-    v.value,
+    v.value ?? initialValue,
     (value: T) => {
       v.value = value
-      v.listeners.forEach((u) => u())
-      if (values.onChange) {
-        values.onChange(key, value)
+      const n = hash(v.value ?? 0)
+      if (n !== v.version) {
+        v.listeners.forEach((u) => u(n))
+        if (values.onChange) {
+          values.onChange(key, value)
+        }
       }
     },
   ]

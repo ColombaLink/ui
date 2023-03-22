@@ -4,19 +4,27 @@ import { SchemaLeft } from './SchemaLeft'
 import { Style, styled } from 'inlines'
 import { StateProvider } from '../ContextState'
 
+export * from './useSchema'
+export * from './templates'
+
 export const Schema: FC<{
-  db?: string
   style?: Style
-  values?: { [key: string]: any }
+  values?: { field: string[]; type: string; db: string }
   onChange?: (key: string, val: any) => void
-}> = ({ db = 'default', style, values, onChange }) => {
+}> = ({ style, values, onChange }) => {
   return (
     <styled.div
-      style={{ display: 'flex', flexGrow: 1, overflow: 'hidden', ...style }}
+      style={{
+        display: 'flex',
+        flexGrow: 1,
+        overflowX: 'hidden',
+        overflowY: 'hidden',
+        ...style,
+      }}
     >
       <StateProvider values={values} onChange={onChange}>
         <SchemaLeft />
-        <SchemaMain db={db} />
+        <SchemaMain />
       </StateProvider>
     </styled.div>
   )

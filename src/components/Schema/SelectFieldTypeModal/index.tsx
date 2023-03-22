@@ -67,8 +67,8 @@ const Template = ({ template, type, path }) => {
 
 export const SelectFieldTypeModal: FC<{
   type: string
-  path?: string[]
-}> = ({ type, path = [] }) => {
+  field?: string[]
+}> = ({ type, field = [] }) => {
   const [filteredItems, setFilteredItems] = useState<string[]>(null)
 
   const searchFilterHandler = (value: string) => {
@@ -130,7 +130,7 @@ export const SelectFieldTypeModal: FC<{
                   <Template
                     key={template}
                     type={type}
-                    path={path}
+                    path={field}
                     template={template}
                   />
                 )
@@ -154,7 +154,7 @@ export const SelectFieldTypeModal: FC<{
                             <Template
                               key={template}
                               type={type}
-                              path={path}
+                              path={field}
                               template={template}
                             />
                           )

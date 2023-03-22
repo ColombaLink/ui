@@ -9,7 +9,7 @@ import {
   LoadingIcon,
   useContextState,
 } from '~'
-import { useSchema } from '~/hooks/useSchema'
+import { useSchema } from '~/components/Schema/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {
@@ -36,11 +36,12 @@ export const SystemLabel = ({ isActive = false, children }) => {
   )
 }
 
-export const SchemaLeft: FC<{}> = () => {
+export const SchemaLeft: FC = () => {
   const dialog = useDialog()
-  const { schema, loading } = useSchema()
-
+  const [db] = useContextState('db', 'default')
   const [type, setType] = useContextState('type')
+
+  const { schema, loading } = useSchema(db)
 
   if (loading) {
     return (
@@ -112,13 +113,8 @@ export const SchemaLeft: FC<{}> = () => {
           items: Object.keys(types)
             .sort()
             .map((key) => {
-              const label = types[key]?.meta?.name || key
-              // if (key === 'file' || key === 'root') {
-              //   const children = label
-              //   label = <SystemLabel>{children}</SystemLabel>
-              // }
               return {
-                label,
+                label: types[key]?.meta?.name || key,
                 value: key,
               }
             }),

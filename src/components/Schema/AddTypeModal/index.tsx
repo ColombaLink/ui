@@ -1,20 +1,20 @@
-import { Input, Dialog, useSchema } from '~'
+import { Input, Dialog, useSchema, useContextState } from '~'
 import React, { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
-import { useRoute } from 'kabouter'
 import { useClient } from '@based/react'
 
 export const AddTypeModal: FC = () => {
-  const { schema } = useSchema()
   const client = useClient()
-  const db = 'default' // TODO
   const [name, setName] = useState('')
   const [pluralName, setPluralName] = useState('')
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
-  const route = useRoute('[type]')
   const [filled, setFilled] = useState(false)
+  const [, setType] = useContextState('type')
+
+  const [db] = useContextState('db', 'default')
+  const { schema } = useSchema(db)
 
   useEffect(() => {
     if (name !== '') {
@@ -90,6 +90,7 @@ export const AddTypeModal: FC = () => {
             onConfirm={async () => {
               const type = typeName || safeTypeName(name)
               const typeSchema = {
+                fields: {},
                 meta: {
                   name: name,
                   description,
@@ -109,7 +110,7 @@ export const AddTypeModal: FC = () => {
                 },
               })
 
-              route.setPath({ type })
+              setType(type)
             }}
           >
             Create Model (Enter)

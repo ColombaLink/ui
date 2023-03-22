@@ -1,4 +1,4 @@
-import { useSchema } from '~/hooks/useSchema'
+import { useSchema } from '~/components/Schema/useSchema'
 
 export const useItemSchema = (id) => {
   const { schema, loading } = useSchema()

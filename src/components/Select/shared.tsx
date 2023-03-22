@@ -18,7 +18,8 @@ export const StyledSelect = styled('div', {
   cursor: 'pointer',
   userSelect: 'none',
   height: 38,
-  overflow: 'hidden',
+  overflowY: 'hidden',
+  overflowX: 'hidden',
   display: 'flex',
   width: '100%',
   '@media (hover: hover)': {
@@ -45,7 +46,8 @@ export const SelectLabel: FC<{
         cursor: 'pointer',
         userSelect: 'none',
         height: 38,
-        overflow: 'hidden',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
         display: 'flex',
         width: '100%',
         '@media (hover: hover)': {

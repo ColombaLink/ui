@@ -8,7 +8,7 @@ import { templates, FieldTemplates } from '../templates'
 import { Confirm } from './Confirm'
 import { FieldOptions } from '../types'
 import { SharedGeneral } from './SharedGeneral'
-import { useSchemaTypes } from '~/hooks'
+import { useSchema } from '~/components/Schema'
 import { MultiSelect, Select } from '~/components/Select'
 import { Checkbox } from '~/components/Checkbox'
 import { Input } from '~'
@@ -208,7 +208,10 @@ export const FieldModal: FC<
       path?: string[]
     }
 > = ({ type, field, template, path = [] }) => {
-  const { types, loading } = useSchemaTypes()
+  const {
+    schema: { types },
+    loading,
+  } = useSchema()
   const [generalDisabled, setGeneralDisabled] = useState(true)
   const [specificDisabled, setSpecificDisabled] = useState(false)
   const optionsRef = useRef<FieldOptions>()
