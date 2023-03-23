@@ -51,10 +51,20 @@ export type ButtonProps = {
   /** Parses action keys string and displays it if not on a touchdevice
    */
   displayShortcut?: boolean
+  /** Animate onClick
+   */
+  clickAnimation?: boolean
 }
 
 export const getButtonStyle = (props, isButton = !!props.onClick) => {
-  const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
+  const {
+    disabled,
+    ghost,
+    color: colorProp = 'accent',
+    outline,
+    light,
+    clickAnimation,
+  } = props
 
   const isLight = light || ghost || outline
   const style: Style = {
@@ -73,9 +83,14 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
         cursor: disabled ? 'not-allowed' : 'pointer',
       },
     }
-    style['&:active'] = {
-      backgroundColor: color(colorProp, 'active', isLight),
-    }
+    style['&:active'] = clickAnimation
+      ? {
+          backgroundColor: color(colorProp, 'active', isLight),
+          transform: 'scale(1.05)',
+        }
+      : {
+          backgroundColor: color(colorProp, 'active', isLight),
+        }
   }
 
   return style

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
-export const useCopyToClipboard = (text) => {
-  const copyIt = (text) => {
+export const useCopyToClipboard = (text: string): [boolean, () => void] => {
+  const copyIt = (text: string) => {
     const input = document.createElement('input')
     input.setAttribute('value', text)
     document.body.appendChild(input)

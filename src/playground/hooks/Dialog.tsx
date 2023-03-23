@@ -29,11 +29,11 @@ const SomeComponent = () => {
 
 global.SomeComponent = SomeComponent
 
-export const Dialog = () => {
+export const useDialog = () => {
   return (
     <div>
       <ComponentViewer
-        title="Dialog"
+        title="useDialog"
         examples={[
           {
             code: `import { Dialog, Text } from '@based/ui'

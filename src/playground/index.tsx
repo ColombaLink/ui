@@ -17,13 +17,20 @@ import {
   color,
   useRoute,
   LayersIcon,
-  CliIcon,
 } from '../'
 import { BasedClient } from '@based/client'
-import * as stories from './stories'
-import { toPascalCase } from './utils'
+import * as components from './components'
+import * as apps from './apps'
+import * as hooks from './hooks'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
+import { icons } from './ComponentViewer/genRandomProps'
+
+const stories = {
+  ...components,
+  ...apps,
+  ...hooks,
+}
 
 export const client = new BasedClient({
   project: 'test',
@@ -36,7 +43,7 @@ const Stories: FC = () => {
   const route = useRoute('[story]')
   const { story } = route.path
   if (story) {
-    const name = toPascalCase(story)
+    const name = String(story)
     const component = stories[name]
     if (!component) {
       return <div>empty</div>
@@ -47,20 +54,15 @@ const Stories: FC = () => {
 }
 
 const menuItems = {
-  Apps: [
-    {
-      value: 'Schema',
-      icon: <LayersIcon />,
-      label: <Text weight={700}>Schema</Text>,
-    },
-    {
-      value: 'BasedApp',
-      icon: <CliIcon />,
-      label: <Text weight={700}>Based App</Text>,
-    },
-  ],
-
-  Components: Object.keys(stories),
+  Apps: Object.keys(apps).map((v, i) => {
+    return {
+      value: v,
+      icon: v === 'Schema' ? <LayersIcon /> : React.createElement(icons[i]),
+      label: <Text weight={700}>{v}</Text>,
+    }
+  }),
+  Components: Object.keys(components),
+  Hooks: Object.keys(hooks),
 }
 
 const App = () => {

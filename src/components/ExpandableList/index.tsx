@@ -1,12 +1,12 @@
 import React, { CSSProperties, useState, ReactNode, FC } from 'react'
-import { Text, ExpandIcon } from '~'
+import { Text, ExpandIcon, ScrollArea } from '~'
 import { styled } from 'inlines'
 import { border } from '~/utils'
 
 type ExpandableListProps = {
   style?: CSSProperties
   data?: any
-  height?: number
+  maxHeight?: number
   topRight?: FC | ReactNode
   topLeft?: FC | ReactNode
 }
@@ -117,7 +117,7 @@ const ExpandableListItem = ({
 
 export const ExpandableList: FC<ExpandableListProps> = ({
   data,
-  height = 240,
+  maxHeight,
   topLeft,
   topRight,
   style,
@@ -131,8 +131,28 @@ export const ExpandableList: FC<ExpandableListProps> = ({
   }
   const totalValue = getTotalFromData(data)
 
-  return (
-    <div style={{ overflowX: 'hidden', height: height, ...style }}>
+  const nested = (
+    <StyledUl
+      style={{
+        paddingInlineStart: '0px',
+        '& .percentage-class': {
+          display: 'inline-block',
+        },
+      }}
+    >
+      {data.map((item, index) => (
+        <ExpandableListItem
+          key={index}
+          item={item}
+          index={index}
+          total={totalValue}
+        />
+      ))}
+    </StyledUl>
+  )
+
+  const body = (
+    <>
       {topRight || topLeft ? (
         <div
           style={{
@@ -157,23 +177,28 @@ export const ExpandableList: FC<ExpandableListProps> = ({
           )}
         </div>
       ) : null}
-      <StyledUl
-        style={{
-          paddingInlineStart: '0px',
-          '& .percentage-class': {
-            display: 'inline-block',
-          },
-        }}
-      >
-        {data.map((item, index) => (
-          <ExpandableListItem
-            key={index}
-            item={item}
-            index={index}
-            total={totalValue}
-          />
-        ))}
-      </StyledUl>
+      {maxHeight ? (
+        <ScrollArea
+          style={{
+            maxHeight,
+          }}
+        >
+          {nested}
+        </ScrollArea>
+      ) : (
+        nested
+      )}
+    </>
+  )
+
+  return (
+    <div
+      style={{
+        overflowX: 'hidden',
+        ...style,
+      }}
+    >
+      {body}
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { IconProps } from '../../'
 import props from '../props.json'
 import { LoremIpsum } from 'lorem-ipsum'
 const { Text } = ui
-const icons: FC[] = []
+export const icons: FC[] = []
 const iconNames: string[] = []
 
 for (const key in ui) {
