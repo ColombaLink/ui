@@ -15,11 +15,14 @@ import {
 } from '~'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { useClient } from '@based/react'
-import { sortAndFlatten } from '../fieldParsers'
+import { expandFieldPath } from '../fieldParsers'
 
 const EditMenu = ({ type }) => {
   const { open } = useDialog()
   const client = useClient()
+
+  // TODO: Fix for nested fields
+
   return (
     <ContextItem
       onClick={async () => {
@@ -125,24 +128,18 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
 
   const typeDef = schema.types[type]
 
-  console.info(typeDef)
-
-  // const
-
-  const sortedFields = sortAndFlatten(typeDef.fields)
-
-  console.log(sortedFields)
+  const expanded = expandFieldPath(typeDef, field)
 
   const openEditMenu = useContextMenu(EditMenu, {
     type,
-    field,
+    field: expanded,
   })
 
   const openSelectField = useContextMenu(
     SelectFieldTypeModal,
     {
       type,
-      field,
+      field: expanded,
     },
     { width: 924, placement: 'right' }
   )

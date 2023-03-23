@@ -1,4 +1,4 @@
-import { systemFields } from './templates'
+import { systemFields, alwaysIgnore } from './templates'
 import { FieldSchema, TypeSchema } from './types'
 
 export const sortFields = (fields: {
@@ -59,30 +59,117 @@ export const sortAndFlatten = (fields: {
   return sortedFields
 }
 
-export const getFields = (
+export const expandFieldPath = (
   typeDef: TypeSchema,
-  field?: string[]
-): { [key: string]: FieldSchema } => {
-  let fields: { [key: string]: FieldSchema } = typeDef.fields
-  if (!field) {
-    return fields
-  }
+  field: string[] = []
+): string[] => {
+  const schemaFields: { [key: string]: FieldSchema } = typeDef.fields
   if (field.length) {
-    let n: FieldSchema | { [key: string]: FieldSchema } = fields
+    const newField = []
+    let n: FieldSchema | { [key: string]: FieldSchema } = schemaFields
     for (const f of field) {
       if (n === undefined) {
+        return []
         break
       }
-      n =
-        n.properties?.[f] ||
-        n.values?.properties?.[f] ||
-        n.items?.properties?.[f] ||
-        n?.[f]
+      n = n[f]
+      newField.push(f)
+      if ('properties' in n) {
+        newField.push('properties')
+        n = n.properties
+      } else if ('values' in n) {
+        newField.push('values', 'properties')
+        n = n.values?.properties
+      } else if ('items' in n) {
+        newField.push('items', 'properties')
+        n = n.items?.properties
+      }
     }
-    if (n && n.properties) {
-      // @ts-ignore
-      fields = n.properties
-    }
+    return newField
   }
-  return fields
+
+  return field
+}
+
+export const filteredFields = (
+  typeDef: TypeSchema,
+  includeSystemFields: boolean,
+  excludeFieldPrefix?: string | number | boolean,
+  excludeSet: Set<string> = new Set(),
+  field: string[] = []
+): {
+  filtered: string[]
+  objects: { [key: string]: { field: string } & FieldSchema }
+  properties: { [key: string]: FieldSchema }
+} => {
+  const expandedField = expandFieldPath(typeDef, field)
+  const sortedFields = sortAndFlatten(typeDef.fields)
+  const fields = typeDef.fields
+
+  const properties = {}
+  const objects = {}
+  const objectPath: any[] = []
+
+  const filtered = sortedFields.filter((field) => {
+    if (alwaysIgnore.has(field)) {
+      return false
+    }
+    if (!includeSystemFields && systemFields.has(field)) {
+      return false
+    }
+    if (excludeFieldPrefix && field.startsWith(`${excludeFieldPrefix}.`)) {
+      return false
+    }
+    const path = field.split('.')
+
+    if (expandedField.length) {
+      for (let i = 0; i < expandedField.length; i++) {
+        if (path[i] !== expandedField[i]) {
+          return false
+        }
+      }
+    }
+
+    // @ts-ignore
+    const fieldDef: FieldSchema = path.reduce(
+      // @ts-ignore
+      (fields, key) => fields[key],
+      fields
+    )
+
+    if (fieldDef.$delete) {
+      return false
+    }
+
+    while (objectPath.length) {
+      const parent = objectPath[objectPath.length - 1]
+      if (field.startsWith(parent.field)) {
+        if (excludeSet.has(parent.field)) {
+          return false
+        } else {
+          properties[field] = parent
+        }
+        break
+      } else {
+        objectPath.pop()
+      }
+    }
+
+    if (
+      fieldDef.type === 'object' ||
+      fieldDef.items?.type === 'object' ||
+      fieldDef.values?.type === 'object'
+    ) {
+      const obj = (objects[field] = { field, type: fieldDef.type })
+      objectPath.push(obj)
+    }
+
+    return true
+  })
+
+  return {
+    filtered,
+    objects,
+    properties,
+  }
 }
