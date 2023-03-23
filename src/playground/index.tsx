@@ -36,6 +36,7 @@ export const client = new BasedClient({
   project: 'test',
   org: 'saulx',
   env: 'cli',
+  name: '@based/env-admin-hub',
   discoveryUrls: ['http://localhost:40159'],
 })
 

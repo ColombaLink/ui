@@ -29,22 +29,16 @@ export const SystemLabel = ({ isActive = false, children }) => {
 
 export const ContentLeft: FC<{}> = () => {
   const { schema, loading: loadingSchema } = useSchema()
-  const { data: viewData, loading } = useQuery('based:observe-views')
-  const views = viewData || {}
+  const { data: views = {}, loading } = useQuery('based:observe-views')
 
   if (!loading && !loadingSchema) {
     const types = Object.keys(schema.types)
-
     if (!views.default) {
       views.default = []
     }
-
-    // reset this everytime so it syncs with the schema
     views.default = []
-
     if (views.default.length < types.length) {
       const viewTypes = new Set(views.default.map(({ id }) => id))
-
       for (const type of types) {
         if (!viewTypes.has(type)) {
           views.default.push({
@@ -57,29 +51,21 @@ export const ContentLeft: FC<{}> = () => {
     }
   }
 
-  // useClient().call('basedSetViews', {})
-
   const data = {}
 
   if (views.custom?.length) {
     data['Custom Views'] = views.custom.map(({ id, query, label }) => {
       return {
         label,
-        href: `/${id}?${query}`,
+        value: { id, query },
       }
     })
   }
 
   data['Default Views'] = views.default?.map(({ id, query, label }) => {
-    if (label === 'file' || label === 'root') {
-      const children = label
-      label = ({ isActive }) => (
-        <SystemLabel isActive={isActive}>{children}</SystemLabel>
-      )
-    }
     return {
       label,
-      href: `/${id}?${query}`,
+      value: { id, query },
     }
   })
 

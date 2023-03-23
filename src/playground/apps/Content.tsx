@@ -8,11 +8,17 @@ export const Content = () => {
         title="Content"
         examples={[
           {
-            code: `import { Content, useRoute } from '@based/ui'
+            code: `import { Content, useRoute, color } from '@based/ui'
 
 const route = useRoute('[db]', { db: 'default' });
 
-<Content value={route.path} />`,
+<Content 
+  style={{ 
+    height: 600, 
+    border: \`1px solid \${color('lightborder')}\`,
+    borderRadius: '10px'
+  }}
+ value={route.path} />`,
           },
         ]}
       />
