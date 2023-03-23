@@ -71,8 +71,10 @@ export type TypeSchema = {
   }
 }
 
-export type Schema = {
+export type BasedSchema = {
+  languages: string[]
   rootType: TypeSchema
+  prefixToTypeMapping: { [key: string]: string }
   types: {
     [key: string]: TypeSchema
   }

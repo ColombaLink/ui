@@ -1,6 +1,6 @@
 import { useQuery } from '@based/react'
 import React, { useRef } from 'react'
-import { useSchemaTypes, LoadingIcon } from '~'
+import { useSchema, LoadingIcon } from '~'
 import { alwaysIgnore } from '~/components/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { RecordPage } from '~/components/RecordList/RecordPage'
@@ -161,10 +161,10 @@ export const ContentEditor = ({
       loading = s.loading
     }
   } else {
-    const s = useSchemaTypes()
+    const s = useSchema()
     loading = s.loading
     if (!loading) {
-      fields = s.types[type].fields
+      fields = s.schema.types[type].fields
     }
   }
 

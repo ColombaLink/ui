@@ -1,16 +1,22 @@
+import { TypeSchema, BasedSchema } from '~/components/Schema'
 import { useSchema } from '~/components/Schema/useSchema'
 
-export const useItemSchema = (id) => {
+export const useItemSchema = (
+  id: string
+):
+  | {
+      schema: BasedSchema
+      loading: boolean
+      type: string
+    } & TypeSchema => {
   const { schema, loading } = useSchema()
   if (loading || !id) {
-    return { loading }
+    return { loading, schema, fields: {}, type: '' }
   }
-  console.info(id)
   if (id === 'root') {
-    // return { schema, type: 'root', ...schema.rootType }
-    return { schema, type: 'root', ...schema.types.root }
+    return { schema, loading: false, type: 'root', ...schema.types.root }
   } else {
     const type = schema.prefixToTypeMapping[id.substring(0, 2)]
-    return { schema, type, ...schema.types[type] }
+    return { schema, loading: false, type, ...schema.types[type] }
   }
 }

@@ -35,6 +35,7 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             const key = path[i++]
             dest[key] = { ...from[key] }
             dest = dest[key]
+            // @ts-ignore TODO: fix
             from = from[key]
           }
 

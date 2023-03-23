@@ -11,6 +11,7 @@ import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
 import { useClient, useQuery } from '@based/react'
 import { Callout } from '~/components/Callout'
+import { useSchema } from '~/components/Schema'
 
 const Menu = ({ views, currentView, deletable }) => {
   const client = useClient()
@@ -139,7 +140,10 @@ export const ContentMain = ({
     ? route.query.filters.filter(isFilter)
     : []
 
-  const { loading, types } = useSchemaTypes()
+  const {
+    loading,
+    schema: { types },
+  } = useSchema()
 
   const { confirm, prompt } = useDialog()
   const client = useClient()

@@ -5,7 +5,7 @@ import {
   Badge,
   Text,
   Checkbox,
-  useSchemaTypes,
+  useSchema,
   color,
   Input,
   CloseIcon,
@@ -126,7 +126,10 @@ export const SelectReferences = ({
   close,
 }) => {
   const [filter, setFilter] = useState('')
-  const { types, loading } = useSchemaTypes()
+  const {
+    schema: { types },
+    loading,
+  } = useSchema()
   const [typing, setTyping] = useState(false)
   const selected = useRef<Set<string>>()
   const { height } = useWindowResize()

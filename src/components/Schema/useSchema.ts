@@ -1,5 +1,5 @@
 import { useQuery } from '@based/react'
-import { FieldSchema, Schema, TypeSchema } from './types'
+import { FieldSchema, BasedSchema, TypeSchema } from './types'
 import { sortFields } from './fieldParsers'
 
 const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
@@ -41,7 +41,7 @@ const walkType = (obj: TypeSchema, key: string) => {
 
 export const useSchema = (
   db = 'default'
-): { schema: Schema; loading: boolean } => {
+): { schema: BasedSchema; loading: boolean } => {
   const { data, loading } = useQuery('db:schema', { db })
   if (!loading) {
     walkType(data.rootType, 'root')
