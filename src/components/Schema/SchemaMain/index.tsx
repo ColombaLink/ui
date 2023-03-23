@@ -106,6 +106,7 @@ export const SchemaMain: FC = () => {
                   return client
                     .call('db:set-schema', {
                       db,
+                      mutate: true,
                       schema: {
                         types: {
                           [type]: {

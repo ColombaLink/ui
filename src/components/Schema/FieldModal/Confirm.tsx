@@ -3,9 +3,12 @@ import React from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '~/components/Schema'
+import { useContextState } from '~/components/ContextState'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
-  const { schema } = useSchema()
+  const [db] = useContextState('db', 'default')
+
+  const { schema } = useSchema(db)
   const { types } = schema
   const toast = useToast({ attached: true })
   const client = useClient()
@@ -45,6 +48,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
           }
 
           return client.call('db:set-schema', {
+            mutate: true,
+            db,
             schema: {
               types: {
                 [type]: {

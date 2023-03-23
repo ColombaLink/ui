@@ -99,8 +99,8 @@ export const AddTypeModal: FC = () => {
               if (schema) {
                 schema.types[type] = typeSchema
               }
-              // @ts-ignore
               await client.call('db:set-schema', {
+                mutate: true,
                 db,
                 schema: {
                   types: {

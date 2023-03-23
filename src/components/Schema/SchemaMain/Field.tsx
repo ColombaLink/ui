@@ -34,7 +34,8 @@ const EditMenu: FC<{
   path: string[]
   setPath: (path: string[]) => void
 }> = ({ type, field, setPath, template, isObject, path }) => {
-  const { schema } = useSchema()
+  const [db] = useContextState('db', 'default')
+  const { schema } = useSchema(db)
   const client = useClient()
   const { open } = useDialog()
 
@@ -141,6 +142,8 @@ const EditMenu: FC<{
                       dest.$delete = true
 
                       await client.call('db:set-schema', {
+                        db,
+                        mutate: true,
                         schema: {
                           types: {
                             [type]: {

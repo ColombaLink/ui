@@ -20,8 +20,7 @@ import { expandFieldPath } from '../fieldParsers'
 const EditMenu = ({ type }) => {
   const { open } = useDialog()
   const client = useClient()
-
-  // TODO: Fix for nested fields
+  const [db] = useContextState('db', 'default')
 
   return (
     <ContextItem
@@ -78,6 +77,8 @@ const EditMenu = ({ type }) => {
                   color="red"
                   onConfirm={async () => {
                     await client.call('db:set-schema', {
+                      mutate: true,
+                      db,
                       schema: {
                         types: {
                           [type]: {
