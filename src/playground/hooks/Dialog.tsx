@@ -3,13 +3,14 @@ import ComponentViewer from '../ComponentViewer'
 import { useRoute, Text, Button, AddIcon, MinusIcon, Dialog as Dc } from '~'
 
 const SomeComponent = () => {
-  const route = useRoute('[x]')
+  const route = useRoute('[x]', { x: 1 })
   return (
     <Dc label="Label">
       <Text>This is a path: {route.path.x}</Text>
       <Dc.Buttons>
         <Button
           ghost
+          clickAnimation
           icon={<MinusIcon />}
           onClick={() => {
             route.setPath({ x: Number(route.path.x || 0) - 1 })
@@ -17,6 +18,7 @@ const SomeComponent = () => {
         />
         <Button
           ghost
+          clickAnimation
           icon={<AddIcon />}
           onClick={() => {
             route.setPath({ x: Number(route.path.x || 0) + 1 })

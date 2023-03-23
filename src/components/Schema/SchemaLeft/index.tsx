@@ -1,3 +1,4 @@
+import { useQuery } from '@based/react'
 import React, { FC, useState } from 'react'
 import {
   Menu,
@@ -40,6 +41,9 @@ export const SchemaLeft: FC = () => {
   const dialog = useDialog()
   const [db] = useContextState('db', 'default')
   const [type, setType] = useContextState('type')
+  const { data: origins = [] } = useQuery('db:origins')
+
+  console.info(origins)
 
   const { schema, loading } = useSchema(db)
 
