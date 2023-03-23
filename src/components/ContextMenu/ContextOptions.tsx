@@ -274,7 +274,7 @@ const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
           }
         }}
         option={opt}
-        selected={currentValue === opt.value}
+        selected={currentValue !== undefined && currentValue === opt.value}
       />
     )
   })
