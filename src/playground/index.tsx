@@ -12,7 +12,7 @@ import {
   MenuData,
   DarkModeIcon,
   LightModeIcon,
-  ExternalLinkIcon,
+  CurlyBracesIcon,
   AppFrame,
   color,
   useRoute,
@@ -67,14 +67,9 @@ const menuItems = {
 }
 
 const App = () => {
-  const [fullscreen, setFullscreen] = useState(false)
   const [darkMode, setDarkMode] = useDarkMode()
   const [filteredObj, setFilteredObj] = useState<MenuData>(menuItems)
   const route = useRoute('[story]')
-
-  if (fullscreen) {
-    return <Stories />
-  }
 
   const searchFilterHandler = (value: string) => {
     if (value === '') {
@@ -131,11 +126,13 @@ const App = () => {
                 onClick={() => setDarkMode(!darkMode)}
               />
               <Button
-                color="text"
+                color={route.query.code ? 'accent' : 'text'}
                 space="12px"
                 ghost
-                icon={ExternalLinkIcon}
-                onClick={() => setFullscreen(!fullscreen)}
+                icon={<CurlyBracesIcon size={12} />}
+                onClick={() =>
+                  route.setQuery({ code: route.query.code ? null : true })
+                }
               />
             </div>
             <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>

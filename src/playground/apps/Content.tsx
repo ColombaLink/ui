@@ -14,7 +14,7 @@ const route = useRoute('[db]', { db: 'default' });
 
 <Content 
   style={{ 
-    height: 600, 
+    height: 'calc(100vh - 200px)', 
     border: \`1px solid \${color('lightborder')}\`,
     borderRadius: '10px'
   }}

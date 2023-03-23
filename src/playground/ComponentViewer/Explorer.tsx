@@ -8,6 +8,7 @@ import {
   useSearchParam,
   Button,
   ModelIcon,
+  useRoute,
   color,
 } from '../../'
 import * as ui from '../../'
@@ -15,6 +16,7 @@ import { Callout } from '~/components/Callout'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 import parseCode from './parseCode'
+import { ErrorBoundary } from 'react-error-boundary'
 
 export const CodeExample: FC<{
   p: any
@@ -24,11 +26,14 @@ export const CodeExample: FC<{
   exampleProps?: string
   index: number
 }> = ({ index, component, name, exampleCode, exampleProps, p }) => {
+  const showCode = useRoute().query.code
   const [cnt, update] = useState(0)
   const [code, setCode] = useLocalStorage('code-' + name + '-' + index)
+
   if (code) {
     exampleCode = code
   }
+
   exampleCode = useMemo(() => {
     if (!exampleCode) {
       exampleCode = generateRandomComponentCode(name, exampleProps, p)
@@ -43,45 +48,57 @@ export const CodeExample: FC<{
     // eslint-disable-next-line
     const fn = new Function('ui', 'React', 'c', c)
 
-    child = fn(ui, React, component)
+    child = (
+      <ErrorBoundary
+        fallbackRender={({ error }) => {
+          return <Callout color="red">{error.message}</Callout>
+        }}
+      >
+        {fn(ui, React, component)}
+      </ErrorBoundary>
+    )
   } catch (err) {
     console.error(err) // hosw
     child = <Callout color="red">{err.message}</Callout>
   }
+
   return (
     <div
       style={{
         maxWidth: 'calc(100vw - 290px)',
       }}
     >
-      <Code
-        topRight={
-          <>
-            <RedoIcon
-              onClick={() => {
-                setCode('')
-                update(cnt + 1)
-              }}
-              style={{
-                cursor: 'pointer',
-                color: code !== exampleCode ? color('text') : color('accent'),
-              }}
-            />
-          </>
-        }
-        style={{
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          borderColor: code !== exampleCode ? color('border') : color('accent'),
-        }}
-        onChange={(c) => setCode(c)}
-        value={exampleCode}
-      />
+      {showCode ? (
+        <Code
+          topRight={
+            <>
+              <RedoIcon
+                onClick={() => {
+                  setCode('')
+                  update(cnt + 1)
+                }}
+                style={{
+                  cursor: 'pointer',
+                  color: code !== exampleCode ? color('text') : color('accent'),
+                }}
+              />
+            </>
+          }
+          style={{
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            borderColor:
+              code !== exampleCode ? color('border') : color('accent'),
+          }}
+          onChange={(c) => setCode(c)}
+          value={exampleCode}
+        />
+      ) : null}
       <Container
         style={{
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          borderTopWidth: 0,
+          borderTopLeftRadius: showCode ? 0 : 5,
+          borderTopRightRadius: showCode ? 0 : 5,
+          borderTopWidth: showCode ? 0 : 1,
           maxWidth: '100%',
         }}
         space
