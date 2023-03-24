@@ -1,12 +1,14 @@
 import { useQuery } from '@based/react'
-import { useSchema } from '~/apps/Schema'
+import { useSchema, useContextState } from '~'
 import { View } from '../types'
 
 export const useViews = (): {
   default: View[]
   custom?: View[]
+  currentView?: View
   loading: boolean
 } => {
+  const [view] = useContextState('view')
   const { data: views = { default: [], loading: true }, loading } = useQuery(
     'based:observe-views'
   )
@@ -22,18 +24,41 @@ export const useViews = (): {
     if (views.default.length < types.length) {
       const viewTypes = new Set(views.default.map(({ id }) => id))
       for (const type of types) {
+        const viewValue = {
+          id: type,
+          query: {
+            $find: {
+              $traverse: 'descendants',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: type,
+                },
+              ],
+            },
+          },
+          label: type,
+        }
+        if (view === type) {
+          views.currentView = viewValue
+        }
         if (!viewTypes.has(type)) {
-          views.default.push({
-            id: type,
-            query: `filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${type}%22%7D%5D&target=root&field=descendants`,
-            label: type,
-          })
+          views.default.push(viewValue)
+        }
+      }
+    }
+
+    if (view && views.custom && !views.currentView) {
+      for (const viewValue of views.custom) {
+        if (viewValue.id === view) {
+          views.currentView = viewValue
+          break
         }
       }
     }
   } else {
     views.loading = true
   }
-
   return views
 }

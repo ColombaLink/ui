@@ -1,11 +1,25 @@
-import React, { CSSProperties, useState, ReactNode, FC } from 'react'
+import React, {
+  CSSProperties,
+  useState,
+  ReactNode,
+  FC,
+  isValidElement,
+} from 'react'
 import { Text, ExpandIcon, ScrollArea } from '~'
 import { styled } from 'inlines'
 import { border } from '~/utils'
 
+type ListItem =
+  | ReactNode
+  | {
+      label: ReactNode
+      value?: any
+      items?: ListItem[]
+    }
+
 type ExpandableListProps = {
   style?: CSSProperties
-  data?: any
+  data?: ListItem[]
   maxHeight?: number
   topRight?: FC | ReactNode
   topLeft?: FC | ReactNode
@@ -45,6 +59,16 @@ const ExpandableListItem = ({
 }: ExpandableListItemProps) => {
   let children = null
 
+  if (
+    typeof item === 'string' ||
+    typeof item === 'number' ||
+    isValidElement(item)
+  ) {
+    item = {
+      label: item,
+    }
+  }
+
   const [expanded, setExpanded] = useState(false)
 
   if (item.items && item.items.length > 0 && expanded) {
@@ -52,10 +76,9 @@ const ExpandableListItem = ({
       <StyledUl>
         {item.items.map((child, i) => (
           <ExpandableListItem
-            key={`${index}-expandendedItem-${i}`}
+            key={`${index}-${i}`}
             item={child}
-            index={`${index}-expandendedItem-${i}`}
-            style={{}}
+            index={`${index}-${i}`}
           />
         ))}
       </StyledUl>
@@ -66,7 +89,6 @@ const ExpandableListItem = ({
     <li
       onClick={(e) => {
         e.stopPropagation()
-        // damn , this just works !
         setExpanded(!expanded)
       }}
       style={{ cursor: 'pointer' }}
@@ -96,7 +118,7 @@ const ExpandableListItem = ({
           ) : (
             <div style={{ width: 32 }} />
           )}
-          <Text>{item.title}</Text>
+          <Text>{item.label}</Text>
         </div>
         <div style={{ paddingRight: 8, display: 'flex' }}>
           <Text style={{ marginRight: 4 }}>{item.value}</Text>

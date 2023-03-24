@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { SchemaMain } from './SchemaMain'
 import { SchemaLeft } from './SchemaLeft'
 import { Style, styled } from 'inlines'
-import { StateProvider } from '../../components/ContextState'
+import { StateProvider } from '../../hooks/ContextState'
 
 export * from './useSchema'
 export * from './templates'

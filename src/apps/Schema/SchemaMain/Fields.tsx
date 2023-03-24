@@ -17,7 +17,7 @@ import {
 import { Draggable } from './Draggable'
 import { Field } from './Field'
 import { useSchema } from '~/apps/Schema/useSchema'
-import { useContextState } from '~/components/ContextState'
+import { useContextState } from '~/hooks/ContextState'
 import { TypeSchema } from '../types'
 import { useFieldsEvents } from './useFieldsEvents'
 

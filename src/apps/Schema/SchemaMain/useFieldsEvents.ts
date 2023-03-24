@@ -4,7 +4,7 @@ import { getObjectId } from './utils'
 import { useDialog } from '~/components/Dialog'
 import { sortAndFlatten, filteredFields } from '../fieldParsers'
 import { UniqueIdentifier, DragStartEvent, DragEndEvent } from '@dnd-kit/core'
-import { useContextState } from '~/components/ContextState'
+import { useContextState } from '~/hooks/ContextState'
 import { FieldSchema, TypeSchema } from '../types'
 
 export const useFieldsEvents = (

@@ -10,7 +10,6 @@ import {
   Toast,
   useToast,
   UploadIcon,
-  useRoute,
 } from '~'
 import { InfiniteListQueryResponse } from '../InfiniteList'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -18,6 +17,11 @@ import { HEADER_HEIGHT, ITEM_HEIGHT } from './constants'
 import { TableFromQuery } from './TableFromQuery'
 import { OnAction } from './types'
 import { useClient } from '@based/react'
+
+// way simpler api
+// fields - need label as option
+// query
+// THATS IT
 
 type Fields =
   | {
@@ -46,8 +50,6 @@ type TableProps = {
     field: string,
     fieldType: string
   ) => void
-  prefix?: string
-  view?: string
 }
 
 const TableFromData = () => {
@@ -58,15 +60,17 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
   const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
   const [tableIsEmpty, setTableIsEmpty] = useState(true)
 
-  const route = useRoute()
+  // const route = useRoute()
   // this is for the file drop if there are no files yet
   const [draggingOver, setDraggingOver] = useState(false)
   const toast = useToast()
   const client = useClient()
-  const locationIsFile = route.location.split('/').pop() === 'file'
+  // const locationIsFile = route.location.split('/').pop() === 'file'
+
+  const isFile = false
 
   const handleFileDrop = async (e) => {
-    if (locationIsFile && draggingOver) {
+    if (isFile && draggingOver) {
       setDraggingOver(false)
       e.preventDefault()
       e.stopPropagation()
@@ -104,7 +108,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
         ...style,
       }}
     >
-      {tableIsEmpty && !locationIsFile && (
+      {tableIsEmpty && !isFile && (
         <div
           style={{
             display: 'flex',
@@ -116,13 +120,14 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
         >
           <div style={{ display: 'flex', marginBottom: '20px', gap: 4 }}>
             <Text>Create a new item for </Text>
-            <Text typo="body600"> {`${props.view}`}.</Text>
+            <Text typo="body600">NEW ITEM LATER</Text>
           </div>
           <Button
             large
             icon={AddIcon}
             onClick={() => {
-              route.setLocation(`${props.prefix}/create/${props.view}`)
+              console.info('CALL ONCAHNGE')
+              // route.setLocation(`${props.prefix}/create/${props.view}`)
             }}
           >
             Create Item
@@ -130,7 +135,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
         </div>
       )}
 
-      {locationIsFile && tableIsEmpty && (
+      {isFile && tableIsEmpty && (
         <Page
           onDrop={handleFileDrop}
           onDragOver={(e) => {
@@ -149,7 +154,7 @@ export const Table: FC<TableProps> = ({ style, ...props }) => {
             justifyContent: 'center',
             border: `1px dashed ${color('border')}`,
             background:
-              locationIsFile && draggingOver
+              isFile && draggingOver
                 ? color('lightaccent')
                 : color('background'),
           }}

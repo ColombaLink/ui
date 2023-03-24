@@ -3,7 +3,7 @@ import React from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
 import { useSchema } from '~/apps/Schema'
-import { useContextState } from '~/components/ContextState'
+import { useContextState } from '~/hooks/ContextState'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
   const [db] = useContextState('db', 'default')

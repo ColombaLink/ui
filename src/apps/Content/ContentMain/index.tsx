@@ -1,10 +1,9 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
-import React, { useState, useEffect } from 'react'
+import React, { FC, useState } from 'react'
 import { alwaysIgnore } from '~/apps/Schema/templates'
-import { Query, Filter, isFilter } from './Query'
-import { useContextMenu } from '~/hooks'
-import { useRoute } from 'kabouter'
+import { Query } from './Query'
+import { useContextMenu, useContextState } from '~/hooks'
 import { AddIcon, MoreIcon, WarningIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { ContextItem } from '~/components/ContextMenu'
@@ -12,6 +11,8 @@ import { useDialog } from '~/components/Dialog'
 import { useClient, useQuery } from '@based/react'
 import { Callout } from '~/components/Callout'
 import { useSchema } from '~/apps/Schema'
+import { Style } from 'inlines'
+import { useViews } from '../hooks/useViews'
 
 const Menu = ({ views, currentView, deletable }) => {
   const client = useClient()
@@ -50,14 +51,15 @@ const Menu = ({ views, currentView, deletable }) => {
   )
 }
 
-const Header = ({ label, view, prefix }) => {
-  const route = useRoute()
+const Header = ({ label }) => {
+  const [, setViewType] = useContextState('viewType')
+  const [view] = useContextState('view')
   const createBtn = (
     <Button
       large
       icon={AddIcon}
       onClick={() => {
-        route.setLocation(`${prefix}/create/${view}`)
+        setViewType('create')
       }}
     >
       Create Item
@@ -80,7 +82,7 @@ const Header = ({ label, view, prefix }) => {
   let isDeletable: boolean
 
   const parse = () => {
-    // TODO FIX the redirect!!
+    // TODO FIX the redirect / what os this?
     for (const viewKey in views) {
       for (const v of views[viewKey]) {
         if (String(v.id) === view) {
@@ -123,75 +125,59 @@ const Header = ({ label, view, prefix }) => {
   )
 }
 
-export const ContentMain = ({
-  prefix = '',
-  view = null,
-  style = null,
-  query: queryOverwrite = undefined,
-  label = null,
-}) => {
-  const route = useRoute()
-  const query = route.query
-
-  const target = typeof query.target === 'string' ? query.target : 'root'
-  const field = typeof query.field === 'string' ? query.field : 'descendants'
-
-  const filters: Filter[] = Array.isArray(route.query.filters)
-    ? route.query.filters.filter(isFilter)
-    : []
+export const ContentMain: FC<{
+  style?: Style
+}> = ({ style }) => {
+  const target = 'root'
 
   const {
     loading,
     schema: { types },
   } = useSchema()
 
-  const { confirm, prompt } = useDialog()
+  // const { confirm, prompt } = useDialog()
   const client = useClient()
 
   const [isMultiref, setIsMultiref] = useState(false)
 
-  const { data: views } = useQuery('based:observe-views')
-  let currentView
+  const views = useViews()
 
-  const parse = () => {
-    // TODO FIX the redirect!!
-    for (const viewKey in views) {
-      for (const v of views[viewKey]) {
-        if (String(v.id) === view) {
-          currentView = v
-          return
-        }
-      }
-    }
+  const currentView = views.currentView
+
+  // /// THIS CHECKS IF THE FIELD IS A REFERENCE
+  // useEffect(() => {
+  //   // console.log('currentView changed', currentView)
+  //   if (
+  //     types[currentView?.id]?.fields[field].type === 'references' &&
+  //     query.field !== 'descendants'
+  //   ) {
+  //     setIsMultiref(true)
+  //   } else {
+  //     setIsMultiref(false)
+  //   }
+  // }, [query.field])
+
+  if (!currentView) {
+    return <div>SELECT VIEW</div>
   }
-
-  parse()
-
-  /// THIS CHECKS IF THE FIELD IS A REFERENCE
-  useEffect(() => {
-    // console.log('currentView changed', currentView)
-    if (
-      types[currentView?.id]?.fields[field].type === 'references' &&
-      query.field !== 'descendants'
-    ) {
-      setIsMultiref(true)
-    } else {
-      setIsMultiref(false)
-    }
-  }, [query.field])
 
   if (loading) return null
 
   const set = new Set()
   const indexed = []
   const other = new Set()
-  const typeFilter = filters.find(
+
+  // totallt wrong can be multiple types...
+  const typeFilter = currentView.query.$find?.$filter?.find(
     ({ $field, $operator }) => $field === 'type' && $operator === '='
   )
-  let includedTypes
+
+  let includedTypes: string[]
   if (typeFilter?.$value) {
     if (typeFilter.$value in types) {
-      includedTypes = [typeFilter.$value]
+      includedTypes = Array.isArray(typeFilter.$value)
+        ? typeFilter.$value
+        : [typeFilter.$value]
     } else {
       return null
     }
@@ -237,79 +223,6 @@ export const ContentMain = ({
     }
   }
 
-  /*
-  $filter: {
-    $field: 'bla'
-    $operator: '=',
-    $value: 'blub',
-    $or: {
-      $field: 'bla',
-      $operator: '=',
-      $value: 'blub',
-    }
-  }
-  // 1
-  const a = b && c || d
-  $filter: {
-    $field: 'type',
-    $operator: '=',
-    $value: 'yvestype',
-    $and: {
-      $field: 'name',
-      $operator: '=',
-      $value: 'yves',  
-    },
-    $or: {
-      $field: 'name',
-      $operator: '=',
-      $value: 'youri',
-    }
-  }
-
-  // 2
-  const a = b || c && d
-    $filter: {
-    $field: 'type',
-    $operator: '=',
-    $value: 'yvestype',
-    $or: {
-      $field: 'name',
-      $operator: '=',
-      $value: 'yves',
-      $and: {
-        $field: 'name',
-        $operator: '=',
-        $value: 'youri',
-      }
-    }
-  }
-
-  $filter: [{
-    $field: 'type',
-    $operator: '=',
-    $value: 'yves',
-    $and: {
-      $field: 'name',
-
-    }
-  }, {
-    $field: 'name',
-    $operator: '=',
-    $value: 'yves',
-    $or: {
-      $field: 'name',
-      $operator: '=',
-      $value: 'youri',
-    }
-  }]
-
-  this AND (taht OR smurf)
-  (this AND taht) OR smurf
-
-
-  */
-  // console.log('query', query, fields, types, fieldTypes, currentView)
-
   return (
     <div
       style={{
@@ -327,16 +240,11 @@ export const ContentMain = ({
           padding: '24px 32px 16px',
         }}
       >
-        <Header label={label} view={view} prefix={prefix} />
+        <Header label={currentView.label} />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div style={{ flexGrow: 1 }}>
-            {queryOverwrite ? null : (
-              <Query types={types} fields={fields} fieldTypes={fieldTypes} />
-            )}
+            <Query />
           </div>
-
-          {/*  only display if either the query changes or the selected boxes 
-             so if something in the url changes i guess  */}
 
           <div style={{ display: 'flex', gap: 4, marginLeft: 16 }}>
             <Button
@@ -344,75 +252,69 @@ export const ContentMain = ({
               ghost
               onClick={async () => {
                 //   const ok = await confirm(`Update '${currentView.label}'`)
-                const ok = await confirm(
-                  `Update '${currentView.label}'`,
-                  <Callout
-                    icon={<WarningIcon />}
-                    color="red"
-                    label=" You are about to update the default view for all users."
-                    labelColor="text"
-                  />
-                )
-                if (ok) {
-                  // @ts-ignore TODO: will be replaced later with useRoute
-                  currentView.query = location.search.substring(1)
-                  await client.call('basedSetViews', views)
-                }
+                // const ok = await confirm(
+                //   `Update '${currentView.label}'`,
+                //   <Callout
+                //     icon={<WarningIcon />}
+                //     color="red"
+                //     label=" You are about to update the default view for all users."
+                //     labelColor="text"
+                //   />
+                // )
+                // if (ok) {
+                //   currentView.query =
+                //   await client.call('basedSetViews', views)
+                // }
               }}
             >
-              Update view
+              Update view LATER
             </Button>
             <Button
               style={{ maxHeight: 32, marginTop: 4 }}
               ghost
               onClick={async () => {
-                console.log('location', location.search)
-
-                const label = (await prompt(
-                  'What would you like to call this view?'
-                )) as string
-                if (label) {
-                  if (!views.custom) {
-                    views.custom = []
-                  }
-                  const ids = new Set()
-                  views.custom.forEach(({ id }) => ids.add(id))
-                  views.default.forEach(({ id }) => ids.add(id))
-                  let id = 0
-                  while (ids.has(id)) {
-                    id++
-                  }
-                  views.custom.push({
-                    id,
-                    // @ts-ignore TODO: will be replaced later with useRoute
-                    query: location.substring(1),
-                    label,
-                  })
-                  await client.call('basedSetViews', views)
-                }
+                // const label = (await prompt(
+                //   'What would you like to call this view?'
+                // )) as string
+                // if (label) {
+                //   if (!views.custom) {
+                //     views.custom = []
+                //   }
+                //   const ids = new Set()
+                //   views.custom.forEach(({ id }) => ids.add(id))
+                //   views.default.forEach(({ id }) => ids.add(id))
+                //   let id = 0
+                //   while (ids.has(id)) {
+                //     id++
+                //   }
+                //   views.custom.push({
+                //     id: String(id),
+                //     query: location.substring(1),
+                //     label,
+                //   })
+                //   await client.call('basedSetViews', views)
+                // }
               }}
             >
-              Create new view
+              Create new view LATER
             </Button>
           </div>
         </div>
       </div>
 
-      <Table
+      {/* <Table
         key={fields.length}
         fields={fields}
         target={target}
         onAction={(items) => onAction(items, 'delete')}
         language="en"
         isMultiref={isMultiref}
-        prefix={prefix}
-        view={view}
         onClick={(item, field, fieldType) => {
           if (fieldType === 'references') {
-            route.setQuery({ target: item.id, field: field, filter: '%5B%5D' })
+            // route.setQuery({ target: item.id, field: field, filter: '%5B%5D' })
             setIsMultiref(true)
           } else {
-            route.setLocation(`${prefix}/${item.id}/${field}`)
+            // route.setLocation(`${prefix}/${item.id}/${field}`)
             setIsMultiref(false)
           }
         }}
@@ -425,21 +327,8 @@ export const ContentMain = ({
                 $field,
                 $order,
               },
-              $find: {
-                $traverse: field,
-                $filter: filters.filter(({ $field, $operator, $value }) => {
-                  if (!$field || !$operator) {
-                    return false
-                  }
-                  if (!$value) {
-                    if ($operator !== 'exists' && $operator !== 'notExists') {
-                      return false
-                    }
-                  }
-
-                  return true
-                }),
-              },
+              // make this better
+              $find: currentView.query.$find,
             },
           }
 
@@ -449,7 +338,7 @@ export const ContentMain = ({
 
           return q
         }}
-      />
+      /> */}
     </div>
   )
 }

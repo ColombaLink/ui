@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useContext,
 } from 'react'
-import { StateContext } from '../ContextState'
+import { StateContext } from '../../hooks/ContextState'
 import { color } from '~/utils'
 import { DialogProvider } from '../Dialog'
 import { OverlayProvider } from '../Overlay'

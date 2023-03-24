@@ -1,8 +1,9 @@
 import React, { FC } from 'react'
 import { ContentLeft } from './ContentLeft'
 import { Style, styled } from 'inlines'
-import { StateProvider } from '../../components/ContextState'
+import { StateProvider } from '../../hooks/ContextState'
 import { View } from './types'
+import { ContentMain } from './ContentMain'
 
 export const Content: FC<{
   style?: Style
@@ -21,7 +22,7 @@ export const Content: FC<{
     >
       <StateProvider values={values} onChange={onChange}>
         <ContentLeft />
-        {/* <ContentMain view={type} /> */}
+        <ContentMain />
         {/* <ContentModal id={id} field={field} /> */}
       </StateProvider>
     </styled.div>
