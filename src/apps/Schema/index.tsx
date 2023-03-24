@@ -1,11 +1,15 @@
 import React, { FC } from 'react'
-import { ContentLeft } from './ContentLeft'
+import { SchemaMain } from './SchemaMain'
+import { SchemaLeft } from './SchemaLeft'
 import { Style, styled } from 'inlines'
-import { StateProvider } from '../ContextState'
+import { StateProvider } from '../../components/ContextState'
 
-export const Content: FC<{
+export * from './useSchema'
+export * from './templates'
+
+export const Schema: FC<{
   style?: Style
-  values?: { db: string }
+  values?: { field: string[]; type: string; db: string }
   onChange?: (key: string, val: any) => void
 }> = ({ style, values, onChange }) => {
   return (
@@ -19,9 +23,8 @@ export const Content: FC<{
       }}
     >
       <StateProvider values={values} onChange={onChange}>
-        <ContentLeft />
-        {/* <ContentMain view={type} /> */}
-        {/* <ContentModal id={id} field={field} /> */}
+        <SchemaLeft />
+        <SchemaMain />
       </StateProvider>
     </styled.div>
   )

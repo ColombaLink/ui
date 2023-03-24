@@ -19,7 +19,7 @@ import { RightPill } from './RightPill'
 import { LogicalOperatorPill } from './LogicalOperatorPill'
 import { FromQueryToText } from './FromQueryToText'
 import { useRoute } from 'kabouter'
-import { Filter, isFilter } from '../Content/ContentMain/Query'
+import { Filter, isFilter } from '../../apps/Content/ContentMain/Query'
 
 // TODO: Caret position in and around middle block indicator
 

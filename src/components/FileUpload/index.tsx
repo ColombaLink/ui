@@ -16,7 +16,7 @@ import { Space } from '~/types'
 import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
-import { MimeType } from '../Schema/types'
+import { MimeType } from '../../apps/Schema/types'
 
 type FileUploadProps = {
   label?: string

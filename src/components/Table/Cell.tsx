@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useItemSchema } from '../Content/hooks/useItemSchema'
+import { useItemSchema } from '../../apps/Content/hooks/useItemSchema'
 import { useHover } from '~/hooks'
 import { Checkbox, Text, Badge, CheckIcon } from '~'
 import { border, color } from '~/utils'

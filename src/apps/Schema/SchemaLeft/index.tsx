@@ -10,7 +10,7 @@ import {
   LoadingIcon,
   useContextState,
 } from '~'
-import { useSchema } from '~/components/Schema/useSchema'
+import { useSchema } from '~/apps/Schema/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {
@@ -43,7 +43,7 @@ export const SchemaLeft: FC = () => {
   const [type, setType] = useContextState('type')
   const { data: origins = [] } = useQuery('db:origins')
 
-  console.info(origins)
+  console.info('if multiple show it with a dropdown', origins)
 
   const { schema, loading } = useSchema(db)
 

@@ -1,5 +1,5 @@
-import { TypeSchema, BasedSchema } from '~/components/Schema'
-import { useSchema } from '~/components/Schema/useSchema'
+import { TypeSchema, BasedSchema } from '~/apps/Schema'
+import { useSchema } from '~/apps/Schema/useSchema'
 
 export const useItemSchema = (
   id: string

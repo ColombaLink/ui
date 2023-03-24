@@ -1,6 +1,7 @@
-import { useQuery } from '@based/react'
 import React, { FC, useState } from 'react'
-import { border, LoadingIcon, Menu, Text, useSchema, Badge } from '~'
+import { border, LoadingIcon, Menu, Text, Badge, useContextState } from '~'
+import { View } from '../types'
+import { useViews } from '../hooks/useViews'
 
 export const SystemLabel = ({ isActive = false, children }) => {
   const [hover, setHover] = useState(false)
@@ -28,28 +29,8 @@ export const SystemLabel = ({ isActive = false, children }) => {
 }
 
 export const ContentLeft: FC<{}> = () => {
-  const { schema, loading: loadingSchema } = useSchema()
-  const { data: views = {}, loading } = useQuery('based:observe-views')
-
-  if (!loading && !loadingSchema) {
-    const types = Object.keys(schema.types)
-    if (!views.default) {
-      views.default = []
-    }
-    views.default = []
-    if (views.default.length < types.length) {
-      const viewTypes = new Set(views.default.map(({ id }) => id))
-      for (const type of types) {
-        if (!viewTypes.has(type)) {
-          views.default.push({
-            id: type,
-            query: `filter=%5B%7B%22%24field%22%3A%22type%22%2C%22%24operator%22%3A%22%3D%22%2C%22%24value%22%3A%22${type}%22%7D%5D&target=root&field=descendants`,
-            label: type,
-          })
-        }
-      }
-    }
-  }
+  const [view, setView] = useContextState<View>('view')
+  const views = useViews()
 
   const data = {}
 
@@ -69,7 +50,7 @@ export const ContentLeft: FC<{}> = () => {
     }
   })
 
-  return loading ? (
+  return views.loading ? (
     <div
       style={{
         width: 234,
@@ -86,6 +67,10 @@ export const ContentLeft: FC<{}> = () => {
     </div>
   ) : (
     <Menu
+      isActive={(currentView) => {
+        return currentView?.id === view
+      }}
+      onChange={(v) => setView(v)}
       collapse
       style={{
         paddingTop: 24,

@@ -1,7 +1,7 @@
 import { useQuery } from '@based/react'
 import React, { useRef } from 'react'
 import { useSchema, LoadingIcon } from '~'
-import { alwaysIgnore } from '~/components/Schema/templates'
+import { alwaysIgnore } from '~/apps/Schema/templates'
 import { useItemSchema } from '../hooks/useItemSchema'
 import { RecordPage } from '~/components/RecordList/RecordPage'
 import * as components from './fieldComponents'

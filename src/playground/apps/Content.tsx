@@ -10,15 +10,20 @@ export const Content = () => {
           {
             code: `import { Content, useRoute, color } from '@based/ui'
 
-const route = useRoute('[db]', { db: 'default' });
+const route = useRoute('[view]');
 
 <Content 
+  onChange={(key, v) => {
+    if (key === 'view') {
+      route.setPath({ view: v?.id || null })
+    }
+  }}
   style={{ 
     height: 'calc(100vh - 200px)', 
     border: \`1px solid \${color('lightborder')}\`,
     borderRadius: '10px'
   }}
- value={route.path} />`,
+  values={route.path} />`,
           },
         ]}
       />

@@ -1,6 +1,6 @@
 import { useQuery } from '@based/react'
-import { useItemSchema } from '../hooks/useItemSchema'
-import { useLanguage } from '../hooks/useLanguage'
+import { useItemSchema } from './useItemSchema'
+import { useLanguage } from './useLanguage'
 
 const getDescriptors = (fields, meta) => {
   const options = Object.keys(fields).filter((key) => {

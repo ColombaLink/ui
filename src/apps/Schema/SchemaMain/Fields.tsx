@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/sortable'
 import { Draggable } from './Draggable'
 import { Field } from './Field'
-import { useSchema } from '~/components/Schema/useSchema'
+import { useSchema } from '~/apps/Schema/useSchema'
 import { useContextState } from '~/components/ContextState'
 import { TypeSchema } from '../types'
 import { useFieldsEvents } from './useFieldsEvents'

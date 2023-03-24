@@ -1,7 +1,7 @@
 import { Table } from '~/components/Table'
 import { Text } from '~/components/Text'
 import React, { useState, useEffect } from 'react'
-import { alwaysIgnore } from '~/components/Schema/templates'
+import { alwaysIgnore } from '~/apps/Schema/templates'
 import { Query, Filter, isFilter } from './Query'
 import { useContextMenu } from '~/hooks'
 import { useRoute } from 'kabouter'
@@ -11,7 +11,7 @@ import { ContextItem } from '~/components/ContextMenu'
 import { useDialog } from '~/components/Dialog'
 import { useClient, useQuery } from '@based/react'
 import { Callout } from '~/components/Callout'
-import { useSchema } from '~/components/Schema'
+import { useSchema } from '~/apps/Schema'
 
 const Menu = ({ views, currentView, deletable }) => {
   const client = useClient()

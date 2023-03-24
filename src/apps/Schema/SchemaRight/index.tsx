@@ -1,5 +1,5 @@
 import React from 'react'
-import { RightSidebar } from '../../RightSidebar'
+import { RightSidebar } from '../../../components/RightSidebar'
 import { Button, Text, AddIcon, Separator, useContextMenu } from '~'
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 

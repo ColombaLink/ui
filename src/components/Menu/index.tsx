@@ -206,6 +206,7 @@ const toMenuItemObject = (
 type MenuProps = {
   data?: MenuData
   active?: any
+  isActive?: (value: any) => boolean
   onChange?: (value: any, header?: any) => void
   style?: Style
   children?: ReactNode | ReactNode[]
@@ -220,6 +221,7 @@ export const Menu: FC<MenuProps> = ({
   style,
   children,
   header,
+  isActive,
   collapse,
 }) => {
   const menuDataItems: MenuDataItemObject[] = []
@@ -297,7 +299,7 @@ export const Menu: FC<MenuProps> = ({
                         onClick(e)
                       }
                     }}
-                    isActive={active === value}
+                    isActive={isActive ? isActive(value) : active === value}
                     isNested
                   >
                     {icon ? <div style={{ marginRight: 8 }}>{icon}</div> : null}
@@ -313,7 +315,7 @@ export const Menu: FC<MenuProps> = ({
       return (
         <MenuItem
           key={i}
-          isActive={active === value}
+          isActive={isActive ? isActive(value) : active === value}
           weight={500}
           onClick={(e) => {
             if (onChange) {

@@ -2,7 +2,7 @@ import { useClient } from '@based/react'
 import React from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Toast, useToast } from '~/components/Toast'
-import { useSchema } from '~/components/Schema'
+import { useSchema } from '~/apps/Schema'
 import { useContextState } from '~/components/ContextState'
 
 export const Confirm = ({ disabled, options, type, children, path }) => {
