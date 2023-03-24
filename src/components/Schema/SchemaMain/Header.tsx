@@ -17,11 +17,11 @@ import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { useClient } from '@based/react'
 import { expandFieldPath } from '../fieldParsers'
 
-const EditMenu = ({ type }) => {
+const EditMenu = () => {
   const { open } = useDialog()
   const client = useClient()
   const [db] = useContextState('db', 'default')
-
+  const [type, setType] = useContextState<string>('type')
   return (
     <ContextItem
       onClick={async () => {
@@ -76,6 +76,7 @@ const EditMenu = ({ type }) => {
                 <Dialog.Confirm
                   color="red"
                   onConfirm={async () => {
+                    setType('')
                     await client.call('db:set-schema', {
                       mutate: true,
                       db,
@@ -129,10 +130,9 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
 
   const typeDef = schema.types[type]
 
-  const expanded = expandFieldPath(typeDef, field)
+  const expanded = typeDef ? expandFieldPath(typeDef, field) : []
 
   const openEditMenu = useContextMenu(EditMenu, {
-    type,
     field: expanded,
   })
 
@@ -167,32 +167,35 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
         >
           {children}
         </Text>
-        <Button
-          ghost
-          color="text"
-          icon={
-            <MoreIcon
-              onClick={openEditMenu}
-              style={{
-                marginTop: 3,
-                cursor: 'pointer',
-              }}
-            />
-          }
-        />
+        {typeDef ? (
+          <Button
+            ghost
+            color="text"
+            icon={
+              <MoreIcon
+                onClick={openEditMenu}
+                style={{
+                  marginTop: 3,
+                  cursor: 'pointer',
+                }}
+              />
+            }
+          />
+        ) : null}
       </div>
-
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Button
-          textAlign="center"
-          large
-          icon={AddIcon}
-          style={{ width: '100%' }}
-          onClick={openSelectField}
-        >
-          Add Field
-        </Button>
-      </div>
+      {typeDef ? (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Button
+            textAlign="center"
+            large
+            icon={AddIcon}
+            style={{ width: '100%' }}
+            onClick={openSelectField}
+          >
+            Add Field
+          </Button>
+        </div>
+      ) : null}
     </div>
   )
 }

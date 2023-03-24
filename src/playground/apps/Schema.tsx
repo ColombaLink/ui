@@ -23,7 +23,7 @@ const route = useRoute('[db]/[type]/[...field]', { type: 'file', db: 'default' }
     if (key === 'field') {
       route.setPath({ field: v})
     } else if (key === 'type') {
-      route.setPath({ type: v, field: null })
+      route.setPath({ type: v ? v : null, field: null })
     } else if (key === 'db') {
       route.setPath({ db: v, field: null, type: null })
     }
