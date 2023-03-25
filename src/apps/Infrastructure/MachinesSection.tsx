@@ -1,6 +1,6 @@
 import { MachineConfig } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
-import { color, Button, AccordionItem, ReplaceIcon } from '~'
+import { color, Button, AccordionItem, ReplaceIcon, Badge } from '~'
 import { styled } from 'inlines'
 
 export const MachinesSection: FC<{
@@ -10,7 +10,11 @@ export const MachinesSection: FC<{
   expanded?: boolean
 }> = ({ config, configName, machines, expanded }) => {
   return (
-    <AccordionItem label="Machines" expanded={expanded}>
+    <AccordionItem
+      label="Machines"
+      expanded={expanded}
+      topRight={<Badge>{machines.length}</Badge>}
+    >
       <styled.div
         style={{
           display: 'flex',

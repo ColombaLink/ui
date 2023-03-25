@@ -95,7 +95,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
             alignItems: 'center',
           }}
         >
-          {open ? topRight || null : null}
+          {topRight || null}
           {open ? (
             <ChevronUpIcon
               style={{ marginLeft: topRight ? 16 : 0 }}

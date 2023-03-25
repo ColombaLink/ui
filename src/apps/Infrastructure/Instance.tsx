@@ -235,7 +235,7 @@ const DbSettings: FC<{
             marginLeft: 32,
           }}
           checked
-          label="Auto indexing"
+          label="Dynamic Indexing"
         />
         <Checkbox
           style={{

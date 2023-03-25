@@ -10,6 +10,7 @@ import {
   Button,
   AddIcon,
   AccordionItem,
+  Badge,
   Select,
   RedoIcon,
   StopIcon,
@@ -101,7 +102,11 @@ export const Services: FC<{
   }
 
   return (
-    <AccordionItem label="Services" expanded={expanded}>
+    <AccordionItem
+      label="Services"
+      expanded={expanded}
+      topRight={<Badge>{services.length}</Badge>}
+    >
       <styled.div
         style={{
           display: 'flex',
