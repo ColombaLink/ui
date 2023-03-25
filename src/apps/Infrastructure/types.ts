@@ -1,5 +1,6 @@
-export {
+import {
   Env,
+  Service,
   MachineConfig,
 } from '/Users/jimdebeer/saulx/based-cloud/packages/machine-config'
 
@@ -10,3 +11,7 @@ export type Machine = {
   machineConfigName: string
   publicIp: string
 }
+
+export type ServiceNamed = Service & { name: string }
+
+export { Service, Env, MachineConfig }

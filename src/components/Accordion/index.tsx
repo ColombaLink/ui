@@ -53,7 +53,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   checked,
   style,
   expanded,
-  // color: colorProp = 'accent',
+  color: colorProp = 'accent',
   ...props
 }) => {
   const [openS, setOpen] = useState<boolean>()
@@ -66,8 +66,9 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         onClick={() => setOpen(!open)}
         style={{
           backgroundColor: color(
-            'background2',
-            undefined
+            open ? colorProp : 'background2',
+            undefined,
+            open
             // open
           ),
           display: 'flex',
@@ -82,18 +83,30 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         {...props}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {topRight ? open ? <ChevronUpIcon /> : <ChevronDownIcon /> : null}
-
-          <Text color="text" typo="body600">
+          <Text color={open ? colorProp : 'text'} typo="body600">
             {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}
         </div>
 
-        <div>
-          {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-
-          {topRight ? topRight : null}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {open ? topRight || null : null}
+          {open ? (
+            <ChevronUpIcon
+              style={{ marginLeft: topRight ? 16 : 0 }}
+              color={open ? colorProp : 'text'}
+            />
+          ) : (
+            <ChevronDownIcon
+              style={{ marginLeft: topRight ? 16 : 0 }}
+              color={open ? colorProp : 'text'}
+            />
+          )}
         </div>
       </styled.div>
       {open && (

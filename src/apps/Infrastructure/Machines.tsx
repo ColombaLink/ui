@@ -7,12 +7,8 @@ import {
   Accordion,
   AccordionItem,
   Spacer,
-  Badge,
-  LoadingIcon,
   ChevronUpIcon,
-  WarningIcon,
   useDialog,
-  CheckIcon,
   AddIcon,
   ChevronDownIcon,
   useContextState,
@@ -24,6 +20,8 @@ import { styled } from 'inlines'
 import { Amount } from './Amount'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
+import { MachinesSection } from './MachinesSection'
+import { Status } from './Status'
 
 const Machine: FC<{
   machine: Machine
@@ -69,42 +67,25 @@ const MachineConfig: FC<{
           justifyContent: 'space-between',
         }}
       >
-        <styled.div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Badge
-            iconRight={CheckIcon}
-            style={{ marginRight: 12 }}
-            color="green"
-          >
-            1 machine running
-          </Badge>
-          <Badge
-            style={{ marginRight: 12 }}
-            color="accent"
-            iconRight={LoadingIcon}
-          >
-            5 machines deploying
-          </Badge>
-          <Badge
-            style={{ marginRight: 12 }}
-            color="red"
-            iconRight={WarningIcon}
-          >
-            2 machines unreachable
-          </Badge>
-        </styled.div>
+        <Status running={machines.length} type="machine" />
       </styled.div>
       <Spacer space="32px" />
       <Accordion>
         <AccordionItem label="Settings" expanded={expanded}>
           <Amount config={config} env={env} id={configName} />
         </AccordionItem>
-        <Services configName={configName} config={config} expanded={expanded} />
-        <AccordionItem label="Machines" expanded={expanded}></AccordionItem>
+        <Services
+          machines={machines}
+          configName={configName}
+          config={config}
+          expanded={expanded}
+        />
+        <MachinesSection
+          machines={machines}
+          configName={configName}
+          config={config}
+          expanded={expanded}
+        />
       </Accordion>
     </Container>
   )
