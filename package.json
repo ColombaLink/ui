@@ -26,7 +26,7 @@
     "extends": "@saulx/eslint-config"
   },
   "peerDependencies": {
-    "@based/client": "4.0.6",
+    "@based/client": "4.0.7",
     "react": "18||19"
   },
   "dependencies": {
@@ -67,7 +67,7 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/traverse": "^7.18.6",
     "@based/cli": "^4.1.4",
-    "@based/client": "4.0.6",
+    "@based/client": "4.0.7",
     "@saulx/aristotle": "^4.6.0",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",

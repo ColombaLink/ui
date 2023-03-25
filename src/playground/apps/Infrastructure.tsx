@@ -30,7 +30,7 @@ export const Infrastructure = () => {
           {
             code: `import { Infrastructure, useRoute, color } from '@based/ui'
 
-const route = useRoute('[infraSection]');
+const route = useRoute('[infraSection]/[expanded]');
 
 <BasedAdminProvider>
   <Infrastructure 
@@ -40,8 +40,8 @@ const route = useRoute('[infraSection]');
       env: 'ci',
     }}
     values={route.path}
-    onChange={(key, v) => {
-      route.setPath({ [key]: v})
+    onChange={(key, v) => { 
+      route.setPath({ [key]: v || null})
     }}
     style={{ 
       height: 'calc(100vh - 200px)', 

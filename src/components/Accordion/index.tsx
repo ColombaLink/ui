@@ -1,23 +1,25 @@
-import React, { CSSProperties, FC, ReactNode, useState } from 'react'
+import React, { FC, ReactNode, useState } from 'react'
 import { Text } from '../Text'
 import { color, spaceToPx } from '~/utils'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '~/icons'
 import { Space, Color } from '~/types'
+import { Style, styled } from 'inlines'
 
 type AccordionItemProps = {
   label?: string
   children?: ReactNode
   space?: Space
   checked?: boolean
-  style?: CSSProperties
-  active?: boolean
-  color?: Color
+  style?: Style
+  expanded?: boolean
+  topRight?: ReactNode
+  // color?: Color
 }
 
 type AccordionProps = {
   children?: ReactNode
   space?: Space
-  style?: CSSProperties
+  style?: Style
   color?: Color
 }
 
@@ -30,7 +32,7 @@ export const Accordion: FC<AccordionProps> = ({
   return (
     <>
       {children && (
-        <div style={{ marginBottom: spaceToPx(space), ...style }}>
+        <styled.div style={{ marginBottom: spaceToPx(space), ...style }}>
           {React.Children.map(children as React.ReactElement, (child) => (
             <div>
               {React.cloneElement(child, {
@@ -38,7 +40,7 @@ export const Accordion: FC<AccordionProps> = ({
               })}
             </div>
           ))}
-        </div>
+        </styled.div>
       )}
     </>
   )
@@ -47,21 +49,27 @@ export const Accordion: FC<AccordionProps> = ({
 export const AccordionItem: FC<AccordionItemProps> = ({
   label,
   children,
+  topRight,
   checked,
   style,
-  active,
-  color: colorProp = 'accent',
+  expanded,
+  // color: colorProp = 'accent',
   ...props
 }) => {
-  const [open, setOpen] = useState(active)
+  const [openS, setOpen] = useState<boolean>()
+
+  const open = openS ?? expanded
 
   return (
     <div style={{ marginBottom: 12 }}>
-      <div
+      <styled.div
         onClick={() => setOpen(!open)}
         style={{
-          // @ts-ignore
-          backgroundColor: color(open ? `light${colorProp}` : 'background2'),
+          backgroundColor: color(
+            'background2',
+            undefined
+            // open
+          ),
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -74,12 +82,20 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         {...props}
       >
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text typo="body600">{label}</Text>
+          {topRight ? open ? <ChevronUpIcon /> : <ChevronDownIcon /> : null}
+
+          <Text color="text" typo="body600">
+            {label}
+          </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}
         </div>
 
-        <div>{open ? <ChevronUpIcon /> : <ChevronDownIcon />}</div>
-      </div>
+        <div>
+          {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+
+          {topRight ? topRight : null}
+        </div>
+      </styled.div>
       {open && (
         <div
           style={{

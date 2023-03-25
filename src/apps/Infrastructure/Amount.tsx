@@ -18,10 +18,11 @@ export const Amount: FC<{
   return (
     <styled.div
       style={{
-        borderTop: `1px solid ${color('border')}`,
+        borderBottom: `1px solid ${color('border')}`,
         display: 'flex',
         alignItems: 'center',
-        paddingTop: 12,
+        paddingBottom: 24,
+
         justifyContent: 'space-between',
       }}
     >

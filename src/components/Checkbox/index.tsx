@@ -14,6 +14,7 @@ export type CheckboxProps = {
   onChange?: (value: boolean) => void
   label?: string
   space?: Space
+  wrap?: boolean
   small?: boolean
   color?: Color
   onClick?: (e: any) => void
@@ -26,6 +27,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   style,
   onChange,
   onClick,
+  wrap,
   label,
   space,
   small,
@@ -103,6 +105,7 @@ export const Checkbox: FC<CheckboxProps> = ({
       </styled.div>
 
       <Label
+        wrap={wrap}
         label={label}
         description={description}
         style={{ textAlign: 'left' }}

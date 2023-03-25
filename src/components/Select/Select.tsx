@@ -40,7 +40,7 @@ export type SelectProps = {
   filterable?: boolean | 'create'
   placeholder?: string
   overlay?: PositionProps
-  label?: string
+  label?: ReactNode
   name?: string
   color?: Color
   style?: Style
@@ -104,7 +104,7 @@ export const Select: FC<SelectProps> = ({
       <Text color={labelValue ? 'text' : 'text2'}>
         {labelValue || placeholder}
       </Text>
-      <ChevronDownIcon color={color} size={16} />
+      <ChevronDownIcon color={color} size={16} style={{ marginLeft: 8 }} />
     </>
   )
 

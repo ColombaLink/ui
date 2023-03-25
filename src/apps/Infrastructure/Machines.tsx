@@ -4,64 +4,29 @@ import {
   Button,
   Container,
   Text,
-  ExpandableList,
+  Accordion,
+  AccordionItem,
   Spacer,
-  MoreIcon,
-  ContextItem,
-  useContextMenu,
-  ContextDivider,
-  ExpandRightIcon,
-  ReplaceIcon,
-  DuplicateIcon,
-  StopIcon,
-  CloseIcon,
   Badge,
   LoadingIcon,
+  ChevronUpIcon,
   WarningIcon,
   useDialog,
   CheckIcon,
   AddIcon,
+  ChevronDownIcon,
+  useContextState,
 } from '~'
 import { AddMachineModal } from './AddMachineModal'
 import { useQuery } from '@based/react'
-import { Env } from './types'
+import { Env, MachineConfig, Machine } from './types'
 import { styled } from 'inlines'
 import { Amount } from './Amount'
-
-const MachineMenu: FC<{
-  id: string
-  config: any
-  machines: {
-    id: string
-    cloudMachineId: string
-    status: number // add all
-    machineConfigName: string
-    publicIp: string
-  }[]
-}> = () => {
-  return (
-    <>
-      <ContextItem icon={<ReplaceIcon />}>Reboot all machines</ContextItem>
-      <ContextItem icon={<ExpandRightIcon />}>
-        (Re)Start all services
-      </ContextItem>
-      <ContextItem icon={<StopIcon />}>Stop all services</ContextItem>
-      <ContextDivider />
-      <ContextItem icon={<DuplicateIcon />}>Duplicate</ContextItem>
-      <ContextDivider />
-      <ContextItem icon={<CloseIcon />}>Remove</ContextItem>
-    </>
-  )
-}
+import { ActionMenuButton } from './ActionMenu'
+import { Services } from './Services'
 
 const Machine: FC<{
-  machine: {
-    id: string
-    cloudMachineId: string
-    status: number // add all
-    machineConfigName: string
-    publicIp: string
-  }
+  machine: Machine
 }> = ({ machine }) => {
   return (
     <styled.div style={{}}>
@@ -71,26 +36,19 @@ const Machine: FC<{
 }
 
 const MachineConfig: FC<{
-  id: string
-  config: any
+  configName: string
+  expanded: boolean
+  config: MachineConfig
   env: Env
   machines: {
     id: string
+    configName: string
     cloudMachineId: string
     status: number // add all
     machineConfigName: string
     publicIp: string
   }[]
-}> = ({ id, config, machines, env }) => {
-  const servicesMapped = []
-  const machinesMapped = machines.map((machine) => {
-    return <Machine key={machine.id} machine={machine} />
-  })
-
-  for (const key in config.services) {
-    servicesMapped.push(key)
-  }
-
+}> = ({ configName, config, machines, expanded, env }) => {
   return (
     <Container>
       <styled.div
@@ -100,77 +58,76 @@ const MachineConfig: FC<{
           justifyContent: 'space-between',
         }}
       >
-        <Text typo="subtitle600">{id}</Text>
-        <Button
-          onClick={useContextMenu(
-            MachineMenu,
-            { id, config, machines },
-            {
-              offset: { y: -36, x: 0 },
-            }
-          )}
-          ghost
-          color="text"
-          icon={<MoreIcon />}
-        />
+        <Text typo="subtitle600">{configName}</Text>
+        <ActionMenuButton configName={configName} config={config} />
       </styled.div>
-      <Spacer />
-
+      <Spacer space="24px" />
       <styled.div
         style={{
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Badge iconRight={CheckIcon} style={{ marginRight: 12 }} color="green">
-          1 machine running
-        </Badge>
-        <Badge
-          style={{ marginRight: 12 }}
-          color="accent"
-          iconRight={LoadingIcon}
+        <styled.div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
         >
-          5 machines deploying
-        </Badge>
-        <Badge style={{ marginRight: 12 }} color="red" iconRight={WarningIcon}>
-          2 machines unreachable
-        </Badge>
+          <Badge
+            iconRight={CheckIcon}
+            style={{ marginRight: 12 }}
+            color="green"
+          >
+            1 machine running
+          </Badge>
+          <Badge
+            style={{ marginRight: 12 }}
+            color="accent"
+            iconRight={LoadingIcon}
+          >
+            5 machines deploying
+          </Badge>
+          <Badge
+            style={{ marginRight: 12 }}
+            color="red"
+            iconRight={WarningIcon}
+          >
+            2 machines unreachable
+          </Badge>
+        </styled.div>
       </styled.div>
-
-      <Spacer />
-
-      <Amount config={config} env={env} id={id} />
-
-      <Spacer />
-
-      <ExpandableList
-        data={[
-          { label: 'Services', items: servicesMapped },
-          {
-            label: 'Machines',
-            items: machinesMapped,
-          },
-        ]}
-      />
+      <Spacer space="32px" />
+      <Accordion>
+        <AccordionItem label="Settings" expanded={expanded}>
+          <Amount config={config} env={env} id={configName} />
+        </AccordionItem>
+        <Services configName={configName} config={config} expanded={expanded} />
+        <AccordionItem label="Machines" expanded={expanded}></AccordionItem>
+      </Accordion>
     </Container>
   )
 }
 
 export const Machines: FC<{ env: Env }> = ({ env }) => {
   const { data: envData } = useQuery('env', env)
+  const [expanded, setExpanded] = useContextState('expanded', false)
 
   const { open } = useDialog()
 
-  console.info(JSON.stringify(envData, false, 2))
+  console.info(JSON.stringify(envData, null, 2))
+
   const config = envData?.config?.machineConfigs || {}
   const machineConfigs = []
 
   for (const key in config) {
     machineConfigs.push(
       <MachineConfig
+        expanded={expanded}
         key={key}
         env={env}
-        id={key}
+        configName={key}
         config={config[key]}
         machines={
           envData.machines?.filter((m) => {
@@ -189,6 +146,16 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
           display: 'flex',
         }}
       >
+        <Button
+          style={{ marginRight: 8 }}
+          onClick={() => {
+            setExpanded(!expanded)
+          }}
+          ghost
+          icon={expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+        >
+          {expanded ? 'Collapse all' : 'Expand all'}
+        </Button>
         <Button
           ghost
           onClick={() => {

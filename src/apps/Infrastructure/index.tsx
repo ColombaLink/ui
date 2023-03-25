@@ -19,6 +19,7 @@ export const Infrastructure: FC<{
   onChange?: (key: string, val: string) => void
   values?: {
     infraSection: string
+    expanded?: boolean
   }
 }> = ({ env, style, values, onChange }) => {
   return (
