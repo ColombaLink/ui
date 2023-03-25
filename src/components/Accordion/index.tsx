@@ -12,8 +12,9 @@ type AccordionItemProps = {
   checked?: boolean
   style?: Style
   expanded?: boolean
+  onExpand?: (expanded: boolean) => void
   topRight?: ReactNode
-  // color?: Color
+  color?: Color
 }
 
 type AccordionProps = {
@@ -52,18 +53,24 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   topRight,
   checked,
   style,
+  onExpand,
   expanded,
   color: colorProp = 'accent',
   ...props
 }) => {
   const [openS, setOpen] = useState<boolean>()
 
-  const open = openS ?? expanded
+  const open = expanded ?? openS
 
   return (
     <div style={{ marginBottom: 12 }}>
       <styled.div
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          setOpen(!open)
+          if (onExpand) {
+            onExpand(!open)
+          }
+        }}
         style={{
           backgroundColor: color(
             open ? colorProp : 'background2',

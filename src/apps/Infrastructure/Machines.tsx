@@ -4,6 +4,7 @@ import {
   Button,
   Container,
   Text,
+  Input,
   Accordion,
   AccordionItem,
   Spacer,
@@ -12,6 +13,7 @@ import {
   AddIcon,
   ChevronDownIcon,
   useContextState,
+  SearchIcon,
 } from '~'
 import { AddMachineModal } from './AddMachineModal'
 import { useQuery } from '@based/react'
@@ -123,6 +125,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
     <Page>
       <styled.div
         style={{
+          alignItems: 'center',
           justifyContent: 'flex-end',
           display: 'flex',
         }}
@@ -146,7 +149,14 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
         >
           Add machine template
         </Button>
+        <Input
+          type="text"
+          style={{ width: 250, marginLeft: 16 }}
+          icon={<SearchIcon />}
+          placeholder="Filter by service name"
+        />
       </styled.div>
+
       <Spacer space="32px" />
       {machineConfigs}
     </Page>
