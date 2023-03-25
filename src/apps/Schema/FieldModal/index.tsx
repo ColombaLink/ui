@@ -3,7 +3,6 @@ import { Dialog } from '~/components/Dialog'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
 import { Text } from '~/components/Text'
-
 import { templates, FieldTemplates } from '../templates'
 import { Confirm } from './Confirm'
 import { FieldOptions } from '../types'

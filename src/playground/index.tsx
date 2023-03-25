@@ -35,9 +35,9 @@ const stories = {
 export const client = new BasedClient({
   project: 'test',
   org: 'saulx',
-  env: 'cli',
+  env: 'ci',
+  cluster: 'local',
   name: '@based/env-admin-hub',
-  discoveryUrls: ['http://localhost:40159'],
 })
 
 const Stories: FC = () => {

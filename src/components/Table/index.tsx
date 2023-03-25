@@ -22,6 +22,7 @@ import { useClient } from '@based/react'
 // fields - need label as option
 // query
 // THATS IT
+// onClick
 
 type Fields =
   | {

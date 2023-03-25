@@ -41,6 +41,7 @@ export const SchemaLeft: FC = () => {
   const dialog = useDialog()
   const [db] = useContextState('db', 'default')
   const [type, setType] = useContextState('type')
+
   const { data: origins = [] } = useQuery('db:origins')
 
   console.info('if multiple show it with a dropdown', origins)

@@ -1,9 +1,9 @@
 import React from 'react'
-import { ExpandableList } from '~'
+import { ExpandableList as EL } from '~'
 
 import ComponentViewer from '../ComponentViewer'
 
-export const ExpandableLists = () => {
+export const ExpandableList = () => {
   const drillDownData = []
   for (let i = 0; i < 2; i++) {
     const d = []
@@ -35,13 +35,14 @@ export const ExpandableLists = () => {
           items: ['Suburban', 'Camaro'],
         },
         'Ford',
+        'Tesla',
       ],
     },
   ]
 
   return (
     <ComponentViewer
-      component={ExpandableList}
+      component={EL}
       propsName="ExpandableListProps"
       examples={[
         {
