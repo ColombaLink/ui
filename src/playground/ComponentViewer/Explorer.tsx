@@ -130,7 +130,7 @@ export const Explorer: FC<{
       >
         <Link href={`src${p.file}`}>
           <Text weight={700} size="18px">
-            {title || p.file.slice(1).split('/').slice(1, -1)}
+            {title || p?.file?.slice(1).split('/').slice(1, -1) || name}
           </Text>
         </Link>
         <div style={{ display: 'flex' }}>

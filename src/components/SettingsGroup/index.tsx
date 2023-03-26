@@ -170,7 +170,7 @@ export type SettingsGroupProps = {
   labelWidth?: number
   onChange: (changes: { [field: string]: any }) => void
   values?: { [field: string]: any }
-  data:
+  data?:
     | SettingGroupItem[]
     | {
         [field: string]:
@@ -200,7 +200,7 @@ const emptyDivs = (arr: ReactNode[]) => {
 
 export const SettingsGroup: FC<SettingsGroupProps> = ({
   onChange,
-  data,
+  data = [],
   style,
   allwaysAccept,
   labelWidth = 160,

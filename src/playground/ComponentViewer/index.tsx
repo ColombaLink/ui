@@ -49,7 +49,7 @@ const ComponentViewer: FC<{
   return (
     <Explorer
       examples={fuzz ? fuzzArr : examples}
-      name={propsName}
+      name={propsName || title || component?.name || 'Untitled'}
       p={p}
       component={component}
       title={title}

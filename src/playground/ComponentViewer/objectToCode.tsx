@@ -57,7 +57,7 @@ export const objectToCode = (obj: Object | any[]): string => {
   }
   let str = '{\n'
   for (const key in obj) {
-    let keyStr = key.includes(' ') ? `'${key}'` : key
+    const keyStr = key.includes(' ') || key.includes('.') ? `'${key}'` : key
     str += `  ${keyStr}: ${fieldToCode(obj[key])},\n`
   }
   str = str.slice(0, -2)
