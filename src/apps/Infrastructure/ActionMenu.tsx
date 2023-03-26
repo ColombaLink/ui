@@ -10,6 +10,8 @@ import {
   Button,
   StopIcon,
   CloseIcon,
+  JsonIcon,
+  CurlyBracesIcon,
 } from '~'
 import {
   MachineConfig,
@@ -40,6 +42,15 @@ export const ActionMenu: FC<Actions> = ({
       {servicesInstances ? null : (
         <ContextItem icon={<DuplicateIcon />}>Duplicate</ContextItem>
       )}
+      <ContextItem
+        icon={
+          <div>
+            <CurlyBracesIcon size="12px" />
+          </div>
+        }
+      >
+        Edit JSON
+      </ContextItem>
       <ContextDivider />
       <ContextItem icon={<CloseIcon />}>Remove</ContextItem>
     </>

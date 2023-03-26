@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  FunctionComponent,
-  FC,
-  CSSProperties,
-  ReactChild,
-} from 'react'
+import React, { ReactNode, FunctionComponent, FC } from 'react'
 import { Text } from '~/components/Text'
 import { Color, Icon, PropsEventHandler } from '~/types'
 import { styled, Style } from 'inlines'
@@ -28,7 +22,7 @@ const StyledContextItem = styled('div', {
 })
 
 export type ContextItemProps = {
-  style?: CSSProperties | Style
+  style?: Style
   color?: Color
   onClick?: PropsEventHandler
   icon?: FunctionComponent<Icon> | ReactNode
@@ -74,7 +68,7 @@ export const ContextItem: FC<ContextItemProps> = ({
     }
   }
 
-  let child: ReactChild
+  let child: ReactNode
 
   if (icon) {
     child = (

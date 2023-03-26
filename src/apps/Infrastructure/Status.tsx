@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { Badge, LoadingIcon, WarningIcon, CheckIcon } from '~'
-import { styled } from 'inlines'
+import { Badge, LoadingIcon, WarningIcon, CheckIcon, Row } from '~'
 
 export const Status: FC<{
   running?: number
@@ -9,12 +8,7 @@ export const Status: FC<{
   type: 'service' | 'machine' | 'instance'
 }> = ({ running, type, deploying, unreachable }) => {
   return (
-    <styled.div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-      }}
-    >
+    <Row>
       {running ? (
         <Badge iconRight={CheckIcon} style={{ marginRight: 12 }} color="accent">
           {running} {type}
@@ -33,6 +27,6 @@ export const Status: FC<{
           {unreachable > 1 ? 's' : ''} unreachable
         </Badge>
       ) : null}
-    </styled.div>
+    </Row>
   )
 }

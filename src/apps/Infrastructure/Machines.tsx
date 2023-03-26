@@ -13,26 +13,17 @@ import {
   useContextState,
   SearchIcon,
   Badge,
+  RowSpaced,
+  RowEnd,
 } from '~'
 import { AddMachineModal } from './AddMachineModal'
 import { useQuery } from '@based/react'
-import { Env, MachineConfig, Machine } from './types'
-import { styled } from 'inlines'
+import { Env, MachineConfig } from './types'
 import { Amount } from './Amount'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { deepCopy } from '@saulx/utils'
-
-const Machine: FC<{
-  machine: Machine
-}> = ({ machine }) => {
-  return (
-    <styled.div style={{}}>
-      <Text>{machine.publicIp}</Text>
-    </styled.div>
-  )
-}
 
 const MachineConfig: FC<{
   configName: string
@@ -54,16 +45,10 @@ const MachineConfig: FC<{
 
   return (
     <Container>
-      <styled.div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
+      <RowSpaced>
         <Text typo="subtitle600">{configName}</Text>
         <ActionMenuButton configName={configName} config={config} />
-      </styled.div>
+      </RowSpaced>
       <Text space typo="caption400">
         Some description of the machine
       </Text>
@@ -83,7 +68,6 @@ const MachineConfig: FC<{
           machines={machines}
           configName={configName}
           config={config}
-          expanded={expanded[configName + '-machines']}
         />
       </Accordion>
     </Container>
@@ -134,13 +118,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
 
   return (
     <Page>
-      <styled.div
-        style={{
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          display: 'flex',
-        }}
-      >
+      <RowEnd>
         <Button
           style={{ marginRight: 8 }}
           onClick={() => {}}
@@ -171,8 +149,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
           icon={<SearchIcon />}
           placeholder="Filter by service name"
         />
-      </styled.div>
-
+      </RowEnd>
       <Spacer space="32px" />
       {machineConfigs}
     </Page>

@@ -27,6 +27,7 @@ export type ButtonProps = {
   ghost?: boolean
   light?: boolean
   large?: boolean
+  transparent?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
@@ -56,11 +57,14 @@ export type ButtonProps = {
   clickAnimation?: boolean
 }
 
-export const getButtonStyle = (props, isButton = !!props.onClick) => {
+export const getButtonStyle = (
+  props: ButtonProps,
+  isButton: boolean = !!props.onClick
+): Style => {
   const {
     disabled,
     ghost,
-    color: colorProp = 'accent',
+    color: colorProp = ghost ? 'text' : 'accent',
     outline,
     light,
     clickAnimation,
@@ -77,19 +81,26 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
 
   if (isButton) {
     style.cursor = 'pointer'
-    style['@media (hover:hover)'] = {
-      '&:hover': {
-        backgroundColor: color(colorProp, 'hover', isLight),
-        cursor: disabled ? 'not-allowed' : 'pointer',
-      },
+
+    if (!props.transparent) {
+      style['@media (hover:hover)'] = {
+        '&:hover': {
+          backgroundColor: color(colorProp, 'hover', isLight),
+          cursor: disabled ? 'not-allowed' : 'pointer',
+        },
+      }
     }
     style['&:active'] = clickAnimation
       ? {
-          backgroundColor: color(colorProp, 'active', isLight),
+          backgroundColor: !props.transparent
+            ? color(colorProp, 'active', isLight)
+            : null,
           transform: 'scale(1.05)',
         }
       : {
-          backgroundColor: color(colorProp, 'active', isLight),
+          backgroundColor: !props.transparent
+            ? color(colorProp, 'active', isLight)
+            : null,
         }
   }
 

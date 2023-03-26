@@ -13,6 +13,9 @@ import {
   Select,
   RedoIcon,
   StopIcon,
+  RowSpaced,
+  Row,
+  RowEnd,
 } from '~'
 import { Status } from './Status'
 import { Machine, ServiceNamed } from './types'
@@ -50,14 +53,10 @@ const Service: FC<{
         borderBottom: '1px solid ' + color('border'),
       }}
     >
-      <styled.div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
+      <RowSpaced>
+        <styled.div
+          style={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}
+        >
           <Select
             label={
               <Text style={{ marginRight: 16 }} typo="body600">
@@ -67,24 +66,20 @@ const Service: FC<{
             value={service.distChecksum.slice(-4)}
             options={[service.distChecksum.slice(-4)]}
           />
-        </div>
-
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        </styled.div>
+        <Row>
           <ActionMenuButton config={config} configName={configName} />
           <Button color="text" icon={<AddIcon />} ghost />
-        </div>
-      </styled.div>
-      <styled.div
+        </Row>
+      </RowSpaced>
+      <RowSpaced
         style={{
           flexWrap: 'wrap',
           marginTop: 24,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
         }}
       >
         {instances}
-      </styled.div>
+      </RowSpaced>
     </styled.div>
   )
 }
@@ -115,22 +110,14 @@ export const Services: FC<{
       expanded={expanded[configName + '-services']}
       topRight={<Status running={services.length} type="service" />}
     >
-      <styled.div
+      <RowEnd
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
           borderBottom: '1px solid ' + color('border'),
           marginBottom: 24,
           paddingBottom: 24,
         }}
       >
-        <styled.div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <Row>
           <Button icon={<StopIcon />} ghost>
             Stop all
           </Button>
@@ -140,8 +127,8 @@ export const Services: FC<{
           <Button icon={<AddIcon />} ghost>
             Add service
           </Button>
-        </styled.div>
-      </styled.div>
+        </Row>
+      </RowEnd>
 
       {services.map((s) => {
         return (

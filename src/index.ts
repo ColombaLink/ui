@@ -5,7 +5,7 @@ export * from './apps/Content'
 export * from './apps/Schema'
 export * from './apps/Infrastructure'
 
-export * from './hooks/ContextState'
+export * from './components/Styled'
 export * from './components/Accordion'
 export * from './components/Auth'
 export * from './components/Avatar'

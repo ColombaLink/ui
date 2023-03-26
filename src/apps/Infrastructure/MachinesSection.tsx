@@ -1,42 +1,109 @@
 import { MachineConfig } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
-import { color, Button, AccordionItem, ReplaceIcon, Badge } from '~'
-import { styled } from 'inlines'
+import {
+  color,
+  Button,
+  AccordionItem,
+  Text,
+  ReplaceIcon,
+  Badge,
+  useContextState,
+  useCopyToClipboard,
+  CheckIcon,
+  CopyIcon,
+  copyToClipboard,
+  Row,
+  RowSpaced,
+  RowEnd,
+} from '~'
 import { Status } from './Status'
+import { Machine as MachineType } from './types'
+
+const Machine: FC<{
+  machine: MachineType
+}> = ({ machine }) => {
+  const [copied, copy] = useCopyToClipboard(machine.id)
+  return (
+    <RowSpaced>
+      <Row>
+        <Text>Status {machine.status}</Text>
+        <Button
+          clickAnimation
+          onClick={() => copyToClipboard(machine.publicIp)}
+          ghost
+          transparent
+        >
+          {machine.publicIp}
+        </Button>
+        <Button
+          clickAnimation
+          onClick={() => copyToClipboard(machine.cloudMachineId)}
+          ghost
+          transparent
+        >
+          <Text typo="caption500">CloudId: {machine.cloudMachineId}</Text>
+        </Button>
+      </Row>
+      <Row>
+        <Button
+          ghost
+          transparent
+          clickAnimation
+          onClick={() => {
+            copy()
+          }}
+          icon={
+            <Badge iconRight={copied ? <CheckIcon /> : <CopyIcon />}>
+              {machine.id}
+            </Badge>
+          }
+        />
+        <Button
+          ghost
+          clickAnimation
+          onClick={() => {
+            copy()
+          }}
+          icon={<ReplaceIcon />}
+        />
+      </Row>
+    </RowSpaced>
+  )
+}
 
 export const MachinesSection: FC<{
   configName: string
   config: MachineConfig
-  machines: Machine[]
-  expanded?: boolean
-}> = ({ config, configName, machines, expanded }) => {
+  machines: MachineType[]
+}> = ({ config, configName, machines }) => {
+  const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
+    'expanded',
+    {}
+  )
   return (
     <AccordionItem
       label="Machines"
-      expanded={expanded}
+      onExpand={(v) => {
+        expanded[configName + '-machines'] = v
+        setExpanded(expanded)
+      }}
+      expanded={expanded[configName + '-machines']}
       topRight={<Status running={machines.length} type="machine" />}
     >
-      <styled.div
+      <RowEnd
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
           borderBottom: '1px solid ' + color('border'),
           marginBottom: 24,
           paddingBottom: 24,
         }}
       >
-        <styled.div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          <Button icon={<ReplaceIcon />} ghost>
-            Reboot all
-          </Button>
-        </styled.div>
-      </styled.div>
+        <Button icon={<ReplaceIcon />} ghost>
+          Reboot all
+        </Button>
+      </RowEnd>
+      {machines.map((m) => {
+        return <Machine machine={m} key={m.id} />
+      })}
     </AccordionItem>
   )
 }

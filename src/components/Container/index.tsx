@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { styled, Style } from 'inlines'
+import { RowSpaced, Row } from '../Styled'
 
 type ContainerProps = {
   children: ReactNode
@@ -41,28 +42,18 @@ export const Container: FC<ContainerProps> = ({
       }}
       {...props}
     >
-      <div
+      <RowSpaced
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
           marginBottom: topLeft || topRight ? 24 : 0,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {renderOrCreateElement(topLeft)}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {renderOrCreateElement(topRight)}
-        </div>
-      </div>
+        <Row style={{ gap: 16 }}>{renderOrCreateElement(topLeft)}</Row>
+        <Row style={{ gap: 16 }}>{renderOrCreateElement(topRight)}</Row>
+      </RowSpaced>
       {children}
       {(bottomLeft || bottomRight) && (
-        <div
+        <RowSpaced
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
             minHeight: 68,
             borderTop: `1px solid ${color('border')}`,
             borderBottomLeftRadius: 4,
@@ -76,13 +67,13 @@ export const Container: FC<ContainerProps> = ({
             backgroundColor: color('background3dp'),
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <Row style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             {renderOrCreateElement(bottomLeft)}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          </Row>
+          <Row style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             {renderOrCreateElement(bottomRight)}
-          </div>
-        </div>
+          </Row>
+        </RowSpaced>
       )}
     </styled.div>
   )

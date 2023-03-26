@@ -1,16 +1,17 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC } from 'react'
 import { Label } from '../Label'
 import { color, spaceToPx } from '~/utils'
 import { CheckIcon, DashIcon } from '~/icons'
 import { useHover, usePropState } from '~/hooks'
 import { Color, Space } from '~/types'
-import { styled } from 'inlines'
+import { Style } from 'inlines'
+import { Center, Row } from '../Styled'
 
 export type CheckboxProps = {
   checked?: boolean
   indeterminate?: boolean
   description?: string
-  style?: CSSProperties
+  style?: Style
   onChange?: (value: boolean) => void
   label?: string
   space?: Space
@@ -59,14 +60,11 @@ export const Checkbox: FC<CheckboxProps> = ({
       }}
       {...listeners}
     >
-      <styled.div
+      <Row
         style={{
           border: 'rgba(00,00,00,00) solid 2px',
           borderRadius: 4,
           boxSizing: 'border-box',
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
           height: small ? 18 : 22,
           width: small ? 18 : 22,
           marginRight: 12,
@@ -77,7 +75,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           },
         }}
       >
-        <div
+        <Center
           style={{
             backgroundColor: checked
               ? color(colorProp, hover ? 'hover' : null)
@@ -90,9 +88,6 @@ export const Checkbox: FC<CheckboxProps> = ({
             marginRight: 12,
             marginLeft: -1,
             flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
           }}
           {...props}
         >
@@ -101,9 +96,8 @@ export const Checkbox: FC<CheckboxProps> = ({
           ) : checked ? (
             <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
           ) : null}
-        </div>
-      </styled.div>
-
+        </Center>
+      </Row>
       <Label
         wrap={wrap}
         label={label}

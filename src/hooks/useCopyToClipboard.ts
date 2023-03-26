@@ -1,20 +1,14 @@
 import { useState, useEffect, useCallback } from 'react'
+import { copyToClipboard } from '../utils'
 
 export const useCopyToClipboard = (text: string): [boolean, () => void] => {
-  const copyIt = (text: string) => {
-    const input = document.createElement('input')
-    input.setAttribute('value', text)
-    document.body.appendChild(input)
-    input.select()
-    const result = document.execCommand('copy')
-    document.body.removeChild(input)
-    return result
-  }
-
   const [copied, setCopied] = useState(false)
 
   const copy = useCallback(() => {
-    if (!copied) setCopied(copyIt(text))
+    if (!copied) {
+      copyToClipboard(text)
+      setCopied(true)
+    }
   }, [text])
   useEffect(() => () => setCopied(false), [text])
 

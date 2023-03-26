@@ -3,7 +3,7 @@ import {
   ServiceInstance,
 } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
-import { Input, Checkbox, color, Card, Select, Label } from '~'
+import { Input, Checkbox, color, Card, Select, Label, RowSpaced } from '~'
 import { Machine, ServiceNamed } from './types'
 import { styled } from 'inlines'
 import { ActionMenuButton } from './ActionMenu'
@@ -13,7 +13,7 @@ const DefaultSettings: FC<{
   instance: ServiceInstance
 }> = ({ instance }) => {
   return (
-    <styled.div
+    <RowSpaced
       style={{
         borderTop: '1px solid ' + color('border'),
         marginLeft: -8,
@@ -21,8 +21,6 @@ const DefaultSettings: FC<{
         marginTop: 16,
         paddingTop: 8,
         flexWrap: 'wrap',
-        display: 'flex',
-        justifyContent: 'space-between',
       }}
     >
       <Label
@@ -59,7 +57,7 @@ const DefaultSettings: FC<{
           onChange={() => {}}
         />
       </Label>
-    </styled.div>
+    </RowSpaced>
   )
 }
 
@@ -67,7 +65,7 @@ const HubSettings: FC<{
   instance: ServiceInstance
 }> = ({ instance }) => {
   return (
-    <styled.div
+    <RowSpaced
       style={{
         borderTop: '1px solid ' + color('border'),
         marginLeft: -8,
@@ -75,8 +73,6 @@ const HubSettings: FC<{
         marginTop: 16,
         paddingTop: 8,
         flexWrap: 'wrap',
-        display: 'flex',
-        justifyContent: 'space-between',
       }}
     >
       <Label
@@ -194,8 +190,7 @@ const HubSettings: FC<{
       >
         <Select style={{ width: 185 }} options={[]} />
       </Label>
-
-      <div
+      <styled.div
         style={{
           width: '100%',
           borderTop: '1px solid ' + color('border'),
@@ -218,8 +213,8 @@ const HubSettings: FC<{
           }}
           label="Debug Mode"
         />
-      </div>
-    </styled.div>
+      </styled.div>
+    </RowSpaced>
   )
 }
 
@@ -227,7 +222,7 @@ const DbSettings: FC<{
   instance: ServiceInstance
 }> = ({ instance }) => {
   return (
-    <styled.div
+    <RowSpaced
       style={{
         borderTop: '1px solid ' + color('border'),
         marginLeft: -8,
@@ -235,8 +230,6 @@ const DbSettings: FC<{
         marginTop: 16,
         paddingTop: 8,
         flexWrap: 'wrap',
-        display: 'flex',
-        justifyContent: 'space-between',
       }}
     >
       <Label
@@ -298,7 +291,7 @@ const DbSettings: FC<{
           label="Debug Mode"
         />
       </div>
-    </styled.div>
+    </RowSpaced>
   )
 }
 

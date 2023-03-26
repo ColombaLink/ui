@@ -1,8 +1,16 @@
 import React, { FC, useState } from 'react'
-import { Text, Input, CheckIcon, Button, CloseIcon, color, Label } from '~'
-import { useQuery, useClient } from '@based/react'
+import {
+  Input,
+  CheckIcon,
+  Button,
+  CloseIcon,
+  color,
+  Label,
+  Row,
+  RowSpaced,
+} from '~'
+import { useClient } from '@based/react'
 import { Env } from './types'
-import { styled } from 'inlines'
 
 export const Amount: FC<{
   env: Env
@@ -10,18 +18,15 @@ export const Amount: FC<{
   id: string
 }> = ({ env, config, id }) => {
   const client = useClient()
-
   const [min, setMin] = useState(config.min)
   const [max, setMax] = useState(config.max)
 
   return (
-    <styled.div
+    <RowSpaced
       style={{
         borderBottom: `1px solid ${color('border')}`,
-        display: 'flex',
-        alignItems: 'center',
         paddingBottom: 24,
-        justifyContent: 'space-between',
+        marginBottom: 32,
       }}
     >
       <Label
@@ -30,12 +35,7 @@ export const Amount: FC<{
         label="Amount of machines"
         description="Min/Max amount of machines"
       >
-        <styled.div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
+        <Row>
           <Input
             onChange={(v) => {
               if (max < v) {
@@ -62,12 +62,7 @@ export const Amount: FC<{
           />
 
           {config.min !== min || config.max !== max ? (
-            <styled.div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
+            <Row>
               <Button
                 onClick={() => {
                   setMin(config.min)
@@ -94,10 +89,10 @@ export const Amount: FC<{
                 style={{ marginLeft: 4 }}
                 icon={<CheckIcon />}
               />
-            </styled.div>
+            </Row>
           ) : null}
-        </styled.div>
+        </Row>
       </Label>
-    </styled.div>
+    </RowSpaced>
   )
 }

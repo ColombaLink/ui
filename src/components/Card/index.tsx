@@ -4,6 +4,7 @@ import { Space } from '~/types'
 import { color, spaceToPx, renderOrCreateElement } from '~/utils'
 import { styled, Style } from 'inlines'
 import { Text } from '../Text'
+import { RowSpaced, Row, Column } from '../Styled'
 
 type CardProps = {
   label?: string
@@ -53,48 +54,41 @@ export const Card: FC<CardProps> = ({
       }}
       {...props}
     >
-      <div
+      <RowSpaced
         style={{
-          display: 'flex',
           position: 'relative',
-          justifyContent: 'space-between',
-          // marginBottom: 12,
         }}
       >
         {(topLeft || label || description) && (
-          <div
+          <Row
             style={{
-              display: 'flex',
-              alignItems: 'center',
               gap: 12,
               marginRight: 12,
             }}
           >
             {renderOrCreateElement(topLeft)}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Column>
               <Label label={label} space="2px" />
               <Text typo="caption400" color="text2">
                 {description}
               </Text>
-            </div>
-          </div>
+            </Column>
+          </Row>
         )}
-        <div
+        <Row
           style={{
-            display: 'flex',
-            alignItems: 'center',
             gap: 12,
             marginLeft: 12,
           }}
         >
           {renderOrCreateElement(topRight)}
-        </div>
-      </div>
+        </Row>
+      </RowSpaced>
       <div>{children}</div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <RowSpaced>
         {bottomLeft}
         {bottomRight}
-      </div>
+      </RowSpaced>
     </styled.div>
   )
 }
