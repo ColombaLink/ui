@@ -24,6 +24,7 @@ import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { Status } from './Status'
+import { deepCopy } from '@saulx/utils'
 
 const Machine: FC<{
   machine: Machine
@@ -96,12 +97,16 @@ const MachineConfig: FC<{
 export const Machines: FC<{ env: Env }> = ({ env }) => {
   const { data: envData } = useQuery('env', env)
   const [expanded, setExpanded] = useContextState('expanded', false)
+  const [filter, setFilter] = useContextState('filter', '')
 
   const { open } = useDialog()
 
-  console.info(JSON.stringify(envData, null, 2))
+  let config = envData?.config?.machineConfigs || {}
 
-  const config = envData?.config?.machineConfigs || {}
+  if (filter) {
+    config = deepCopy(machineConfigs)
+  }
+
   const machineConfigs = []
 
   for (const key in config) {
@@ -150,6 +155,8 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
           Add machine template
         </Button>
         <Input
+          value={filter}
+          onChange={setFilter}
           type="text"
           style={{ width: 250, marginLeft: 16 }}
           icon={<SearchIcon />}
