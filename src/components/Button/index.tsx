@@ -10,13 +10,22 @@ import React, {
   FunctionComponent,
   MouseEvent,
 } from 'react'
-import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
-import { styled, Style } from 'inlines'
-import { LoadingIcon } from '~/icons'
-import { Text } from '../Text'
-import { Space, Key, Icon } from '~/types'
-import { useKeyboardShortcut } from '~/hooks/useKeyboard'
-import { KeyBoardshortcut } from '../KeyBoardShortcut'
+import {
+  border,
+  color,
+  renderOrCreateElement,
+  spaceToPx,
+  Color,
+  Text,
+  Space,
+  Key,
+  Icon,
+  styled,
+  Style,
+  LoadingIcon,
+  useKeyboardShortcut,
+  KeyBoardshortcut,
+} from '~'
 
 const stopPropagation = (e) => e.stopPropagation()
 

@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react'
-import { useOverlayPosition } from '~/hooks'
+import { useOverlayPosition } from '~'
 import { Overlay, OverlayProps } from '../Overlay'
 
 export const ContextMenu: FC<OverlayProps> = ({

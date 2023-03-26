@@ -1,14 +1,12 @@
-import React, { FC, ReactNode, CSSProperties } from 'react'
-import { Space } from '~/types'
-import { spaceToPx } from '~/utils/spaceToPx'
-import { styled } from 'inlines'
+import React, { FC, ReactNode } from 'react'
+import { styled, Space, Style, spaceToPx } from '~'
 
 type GridProps = {
   children?: ReactNode[]
   gap?: number
   itemWidth?: number
   space?: Space
-  style?: CSSProperties
+  style?: Style
 }
 
 export const Grid: FC<GridProps> = ({
@@ -30,7 +28,7 @@ export const Grid: FC<GridProps> = ({
       {...props}
     >
       {children?.map((child, idx) => (
-        <div
+        <styled.div
           style={{
             width: '100%',
             maxWidth: itemWidth,
@@ -40,7 +38,7 @@ export const Grid: FC<GridProps> = ({
           key={idx}
         >
           {child}
-        </div>
+        </styled.div>
       ))}
     </styled.div>
   )

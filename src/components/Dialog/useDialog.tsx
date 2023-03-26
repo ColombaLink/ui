@@ -4,7 +4,7 @@ import {
   DialogContextType,
   defaultDialogContext,
 } from './DialogContext'
-import { AllContexts, useAllContexts } from '../Provider'
+import { AllContexts, useAllContexts } from '~'
 
 export const useDialog = (): DialogContextType => {
   const dialog = useContext(DialogContext) || defaultDialogContext

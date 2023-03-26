@@ -1,7 +1,13 @@
-import React, { ReactNode, CSSProperties, FunctionComponent } from 'react'
-import { Text, Color, spaceToPx } from '~'
-import { Space, Icon } from '~/types'
-import { renderOrCreateElement } from '~/utils'
+import React, { ReactNode, FunctionComponent } from 'react'
+import {
+  Text,
+  Color,
+  Style,
+  spaceToPx,
+  Space,
+  Icon,
+  renderOrCreateElement,
+} from '~'
 
 type LabelProps = {
   label?: ReactNode
@@ -14,7 +20,7 @@ type LabelProps = {
   children?: ReactNode
   labelWidth?: number
   space?: Space
-  style?: CSSProperties
+  style?: Style
   direction?: 'row' | 'column'
 }
 

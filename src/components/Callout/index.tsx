@@ -1,14 +1,16 @@
-import React, {
-  CSSProperties,
-  FC,
-  ReactNode,
-  useState,
-  FunctionComponent,
-} from 'react'
-import { Space, Color, Icon } from '~/types'
-import { Label } from '../Label'
-import { border, color, spaceToPx } from '~/utils'
-import { CloseIcon } from '~/icons'
+import React, { FC, ReactNode, useState, FunctionComponent } from 'react'
+import {
+  Space,
+  Color,
+  Icon,
+  Label,
+  border,
+  color,
+  spaceToPx,
+  CloseIcon,
+  Style,
+  styled,
+} from '~'
 
 type CalloutProps = {
   children?: ReactNode
@@ -20,7 +22,7 @@ type CalloutProps = {
   description?: string
   ghost?: boolean
   space?: Space
-  style?: CSSProperties
+  style?: Style
   closeable?: boolean
   textAlign?: 'center' | 'right' | 'left'
 }
@@ -47,7 +49,7 @@ export const Callout: FC<CalloutProps> = ({
   }
 
   return (
-    <div
+    <styled.div
       style={{
         border: outline ? border(1, colorProp, 'border', true) : null,
         backgroundColor: ghost ? 'transparent' : color(colorProp, true),
@@ -68,7 +70,7 @@ export const Callout: FC<CalloutProps> = ({
       {...props}
     >
       {closeable && (
-        <div
+        <styled.div
           style={{
             position: 'absolute',
             right: 12,
@@ -77,7 +79,7 @@ export const Callout: FC<CalloutProps> = ({
           }}
         >
           <CloseIcon onClick={closeCalloutHandler} />
-        </div>
+        </styled.div>
       )}
 
       <Label
@@ -89,6 +91,6 @@ export const Callout: FC<CalloutProps> = ({
         iconColor={color(colorProp, 'contrast', true)}
       />
       {children}
-    </div>
+    </styled.div>
   )
 }

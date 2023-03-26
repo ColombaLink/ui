@@ -1,11 +1,18 @@
 import React, { FC } from 'react'
-import { Label } from '../Label'
-import { color, spaceToPx } from '~/utils'
-import { CheckIcon, DashIcon } from '~/icons'
-import { useHover, usePropState } from '~/hooks'
-import { Color, Space } from '~/types'
-import { Style } from 'inlines'
-import { Center, Row } from '../Styled'
+import {
+  Label,
+  color,
+  spaceToPx,
+  CheckIcon,
+  DashIcon,
+  useHover,
+  usePropState,
+  Color,
+  Space,
+  Style,
+  Center,
+  Row,
+} from '~'
 
 export type CheckboxProps = {
   checked?: boolean

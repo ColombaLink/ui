@@ -1,9 +1,15 @@
 import React, { ReactNode, FunctionComponent, FC } from 'react'
-import { Text } from '~/components/Text'
-import { Color, Icon, PropsEventHandler } from '~/types'
-import { styled, Style } from 'inlines'
 import { removeOverlay } from '../Overlay'
-import { color, renderOrCreateElement } from '~/utils'
+import {
+  styled,
+  Style,
+  Text,
+  color,
+  renderOrCreateElement,
+  Color,
+  Icon,
+  PropsEventHandler,
+} from '~'
 
 const StyledContextItem = styled('div', {
   display: 'flex',

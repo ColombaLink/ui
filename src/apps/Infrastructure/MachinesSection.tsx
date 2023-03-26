@@ -81,7 +81,6 @@ export const MachinesSection: FC<{
     {}
   )
   const expandKey = configName + 'm'
-
   return (
     <AccordionItem
       label="Machines"

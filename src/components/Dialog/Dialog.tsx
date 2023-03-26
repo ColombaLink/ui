@@ -1,4 +1,3 @@
-import { styled } from 'inlines'
 import React, {
   forwardRef,
   ElementRef,
@@ -11,10 +10,7 @@ import React, {
   useEffect,
 } from 'react'
 import { useDialog } from './useDialog'
-import { Text } from '../Text'
-import { Button, ButtonProps } from '../Button'
-import { ScrollArea } from '../ScrollArea'
-import { color } from '~/utils'
+import { styled, Text, Button, ButtonProps, ScrollArea, color } from '~'
 
 const Container = styled('div', {
   width: 632,

@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
+import {
+  Style,
+  ForwardContext,
+  color,
+  Input,
+  addOverlay,
+  removeOverlay,
+  removeAllOverlays,
+} from '~'
 import { Dialog } from './Dialog'
-import { Input } from '../Input'
-import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
-import { color } from '~/utils'
-import { Style } from 'inlines'
-import { ForwardContext } from '../Provider'
 
 const Prompt: FC<{
   type?: 'prompt' | 'alert'

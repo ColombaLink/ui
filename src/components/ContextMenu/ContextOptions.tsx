@@ -5,17 +5,23 @@ import React, {
   useState,
   useReducer,
   SyntheticEvent,
-  CSSProperties,
   FunctionComponent,
   ReactNode,
   ChangeEventHandler,
 } from 'react'
-import { removeOverlay } from '~/components/Overlay'
-import { Text } from '../Text'
-import { AddIcon, CheckIcon, CloseIcon, SearchIcon } from '~/icons'
-import { Color } from '~/types'
+import {
+  removeOverlay,
+  Color,
+  Style,
+  Text,
+  AddIcon,
+  CheckIcon,
+  CloseIcon,
+  SearchIcon,
+  color,
+  border,
+} from '~'
 import { ContextDivider, ContextItem } from '.'
-import { color } from '~/utils'
 
 const FilterInputHolderSticky = styled('div', {
   width: '100%',
@@ -37,7 +43,7 @@ const FilterInputHolder = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `1px solid ${color('border')}`,
+  borderBottom: border(1),
   width: '100%',
   backgroundColor: color('background2dp:hover'),
 })
@@ -382,7 +388,7 @@ export const FilterSelectBadge: FC<{
   label: string | ReactNode
   onClose: () => void
   color?: Color
-  style?: CSSProperties
+  style?: Style
 }> = ({ label, onClose, color = 'inherit', style }) => {
   if (color) {
     if (!style) {
@@ -414,7 +420,7 @@ export const FilterSelectMoreBadge: FC<{
   onClick?: (e: SyntheticEvent) => void
   number: number
   color?: Color
-  style?: CSSProperties
+  style?: Style
 }> = ({ number, onClick, color = 'inherit', style }) => {
   // make a function for this
   if (color) {

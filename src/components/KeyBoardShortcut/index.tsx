@@ -1,6 +1,5 @@
 import React, { FC } from 'react'
-import { isTouchDevice, isMac } from '~/utils'
-import { Key } from '~/types'
+import { Key, isTouchDevice, isMac } from '~'
 
 export const KeyBoardshortcut: FC<{ keyboardShortcut?: Key }> = ({
   keyboardShortcut,

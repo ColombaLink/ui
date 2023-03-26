@@ -1,10 +1,17 @@
 import React, { FC, ReactNode } from 'react'
-import { Label } from '../Label'
-import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { styled, Style } from 'inlines'
-import { Text } from '../Text'
-import { RowSpaced, Row, Column } from '../Styled'
+import {
+  Space,
+  Text,
+  RowSpaced,
+  Row,
+  Column,
+  Label,
+  color,
+  spaceToPx,
+  renderOrCreateElement,
+  styled,
+  Style,
+} from '~'
 
 type CardProps = {
   label?: string

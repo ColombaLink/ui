@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useRef, useState, useEffect } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
-
 import { NumberFormat } from '@based/pretty-number'
 import { LineGraphDataInput, LineXGraphFormat } from './types'
 import { getGlobalMinMax, processData } from './utils'
@@ -8,8 +7,8 @@ import genLabels from './genLabels'
 import { genPaths } from './genPath'
 import XAxis from './XAxis'
 import Labels from './Labels'
-import { Text } from '~'
 import OverlayWrapper from './OverlayWrapper'
+import { Text } from '~'
 
 const Graph = ({
   width,

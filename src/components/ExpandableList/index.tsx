@@ -1,13 +1,14 @@
-import React, {
-  CSSProperties,
-  useState,
-  ReactNode,
-  FC,
-  isValidElement,
-} from 'react'
-import { Text, ExpandIcon, ScrollArea } from '~'
-import { styled } from 'inlines'
-import { border } from '~/utils'
+import React, { useState, ReactNode, FC, isValidElement } from 'react'
+import {
+  Text,
+  Style,
+  ExpandIcon,
+  ScrollArea,
+  border,
+  styled,
+  RowSpaced,
+  Row,
+} from '~'
 
 type ListItem =
   | ReactNode
@@ -18,7 +19,7 @@ type ListItem =
     }
 
 type ExpandableListProps = {
-  style?: CSSProperties
+  style?: Style
   data?: ListItem[]
   maxHeight?: number
   topRight?: FC | ReactNode
@@ -26,7 +27,7 @@ type ExpandableListProps = {
 }
 
 type ExpandableListItemProps = {
-  style?: CSSProperties
+  style?: Style
   index?: number | string
   item?: any
   total?: number
@@ -93,17 +94,15 @@ const ExpandableListItem = ({
       }}
       style={{ cursor: 'pointer' }}
     >
-      <div
+      <RowSpaced
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
-        <div
+        <Row
           style={{
-            display: 'flex',
-            alignItems: 'center',
             height: 54,
             ...style,
           }}
@@ -116,11 +115,11 @@ const ExpandableListItem = ({
               }}
             />
           ) : (
-            <div style={{ width: 32 }} />
+            <styled.div style={{ width: 32 }} />
           )}
           <Text>{item.label}</Text>
-        </div>
-        <div style={{ paddingRight: 8, display: 'flex' }}>
+        </Row>
+        <Row style={{ paddingRight: 8 }}>
           <Text style={{ marginRight: 4 }}>{item.value}</Text>
           {typeof item.value === 'number' && (
             <span className="percentage-class">
@@ -129,8 +128,8 @@ const ExpandableListItem = ({
               </Text>
             </span>
           )}
-        </div>
-      </div>
+        </Row>
+      </RowSpaced>
 
       {children}
     </li>
@@ -176,13 +175,10 @@ export const ExpandableList: FC<ExpandableListProps> = ({
   const body = (
     <>
       {topRight || topLeft ? (
-        <div
+        <RowSpaced
           style={{
-            display: 'flex',
             height: 54,
             padding: '0px 8px 0px 3px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
           }}
         >
           {typeof topLeft === 'string' ? (
@@ -197,7 +193,7 @@ export const ExpandableList: FC<ExpandableListProps> = ({
               {typeof topRight === 'function' ? topRight({}) : topRight}
             </div>
           )}
-        </div>
+        </RowSpaced>
       ) : null}
       {maxHeight ? (
         <ScrollArea
@@ -214,13 +210,13 @@ export const ExpandableList: FC<ExpandableListProps> = ({
   )
 
   return (
-    <div
+    <styled.div
       style={{
         overflowX: 'hidden',
         ...style,
       }}
     >
       {body}
-    </div>
+    </styled.div>
   )
 }

@@ -1,8 +1,14 @@
 import React, { FC, ReactNode } from 'react'
-import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { styled, Style } from 'inlines'
-import { RowSpaced, Row } from '../Styled'
+import {
+  color,
+  spaceToPx,
+  renderOrCreateElement,
+  RowSpaced,
+  Row,
+  Space,
+  styled,
+  Style,
+} from '~'
 
 type ContainerProps = {
   children: ReactNode

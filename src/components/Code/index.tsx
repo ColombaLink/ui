@@ -1,15 +1,15 @@
-import React, {
-  CSSProperties,
-  FC,
-  Dispatch,
-  SetStateAction,
-  ReactNode,
-} from 'react'
+import React, { FC, Dispatch, SetStateAction, ReactNode } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
-import { border, color, renderOrCreateElement } from '../../'
-import { Space } from '~/types'
-import { spaceToPx } from '~/utils'
+import {
+  Style,
+  styled,
+  Space,
+  spaceToPx,
+  border,
+  color,
+  renderOrCreateElement,
+} from '~'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
@@ -18,14 +18,11 @@ import 'prismjs/components/prism-typescript'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/components/prism-jsx.min'
 import 'prismjs/components/prism-tsx.min'
-
-// import 'prismjs/components/prism-tsx'
-
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
 export type CodeProps = {
-  style?: CSSProperties
+  style?: Style
   value?: string
   space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
@@ -40,7 +37,7 @@ export const Code: FC<CodeProps> = ({
   space,
 }) => {
   return (
-    <div
+    <styled.div
       style={{
         width: '100%',
         padding: 16,
@@ -54,7 +51,7 @@ export const Code: FC<CodeProps> = ({
       }}
     >
       {topRight ? (
-        <div
+        <styled.div
           style={{
             position: 'absolute',
             right: 8,
@@ -62,7 +59,7 @@ export const Code: FC<CodeProps> = ({
           }}
         >
           {renderOrCreateElement(topRight)}
-        </div>
+        </styled.div>
       ) : null}
       <Editor
         value={value}
@@ -79,6 +76,6 @@ export const Code: FC<CodeProps> = ({
           fontFamily: 'Fira Code, monospace, sans-serif',
         }}
       />
-    </div>
+    </styled.div>
   )
 }

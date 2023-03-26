@@ -1,16 +1,16 @@
-import React, { CSSProperties, FC, useEffect, useRef, useState } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { AlphaSlider } from './AlphaSlider'
 import { HueSlider } from './HueSlider'
 import { Inputs } from './Inputs'
 import { RgbPicker } from './RgbPicker'
 import { Swatch } from './Swatch'
 import { rgbToXY, xyToRgb, rgbToHue, rgbaToArr } from './utils'
-import { color } from '~'
 import type { RGB } from './types'
+import { color, Column, Style, styled } from '~'
 
 type ColorPickerProps = {
   value?: string
-  style?: CSSProperties
+  style?: Style
   onChange?: (color: string) => void
 }
 
@@ -43,14 +43,12 @@ export const ColorPicker: FC<ColorPickerProps> = ({
   }, [onChange, colorValue])
 
   return (
-    <div
+    <Column
       style={{
         border: `1px solid ${color('border')}`,
         borderRadius: 4,
         padding: 8,
         height: 300,
-        display: 'flex',
-        flexDirection: 'column',
         minWidth: 250,
         ...style,
       }}
@@ -63,8 +61,8 @@ export const ColorPicker: FC<ColorPickerProps> = ({
           marginBottom: 8,
         }}
       />
-      <div style={{ display: 'flex', marginBottom: 8 }}>
-        <div style={{ flexGrow: 1, marginRight: 8 }}>
+      <styled.div style={{ display: 'flex', marginBottom: 8 }}>
+        <styled.div style={{ flexGrow: 1, marginRight: 8 }}>
           <HueSlider
             hue={hue}
             onChange={(newHue) => {
@@ -78,9 +76,9 @@ export const ColorPicker: FC<ColorPickerProps> = ({
             }}
           />
           <AlphaSlider rgb={rgb} alpha={alpha} onChange={setAlpha} />
-        </div>
+        </styled.div>
         <Swatch color={colorValue} size={48} />
-      </div>
+      </styled.div>
       <Inputs
         rgb={rgb}
         alpha={alpha}
@@ -91,6 +89,6 @@ export const ColorPicker: FC<ColorPickerProps> = ({
         }}
         onAlphaChange={setAlpha}
       />
-    </div>
+    </Column>
   )
 }
