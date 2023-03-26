@@ -1,167 +1,121 @@
 import React, { FC } from 'react'
-import { Checkbox, Row, border, Card, Select, Label } from '~'
+import { Card, SettingsGroup } from '~'
 import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
 import { ServiceNamed } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
-import { Field, Settings, Empty } from './Field'
 
 type SettingProps = {
-  onChange: (field: string, value: any) => void
+  onChange: (values: { [field: string]: any }) => void
   instance: ServiceInstance
 }
 
 const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
   return (
-    <Settings>
-      <Field
-        value={instance.port}
-        field="port"
-        type="number"
-        description='"Network port"'
-        onChange={onChange}
-      />
-      <Field
-        value={instance.args?.name}
-        field="name"
-        description="Instance name"
-        onChange={onChange}
-      />
-      <Empty />
-      <Empty />
-      <Empty />
-    </Settings>
+    <SettingsGroup
+      values={instance}
+      onChange={onChange}
+      data={{
+        port: {
+          type: 'number',
+          description: 'Network port',
+        },
+        'args.name': {
+          label: 'Name',
+          type: 'text',
+          description: 'Instance name',
+        },
+      }}
+    />
   )
 }
 
 const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
   return (
-    <Settings>
-      <Field
-        value={instance.port}
-        field="port"
-        type="number"
-        description='"Network port"'
-        onChange={onChange}
-      />
-      <Field
-        value={instance.args?.name}
-        field="name"
-        description="Instance name"
-        onChange={onChange}
-      />
-      <Field
-        label="Rate limit (ws)"
-        description="Max Rate limit tokens"
-        field="rateLimit.wsTokens"
-        value={instance?.args?.rateLimit?.wsTokens}
-        onChange={onChange}
-      />
-      <Field
-        label="Rate limit drain (ws)"
-        description="Drain Δ/30 sec"
-        field="rateLimit.wsDrain"
-        value={instance?.args?.rateLimit?.wsDrain}
-        onChange={onChange}
-      />
-      <Field
-        label="Rate limit (http)"
-        description="Max Rate limit tokens"
-        field="rateLimit.httpTokens"
-        value={instance?.args?.rateLimit?.httpTokens}
-        onChange={onChange}
-      />
-      <Field
-        label="Rate limit drain (http)"
-        description="Drain Δ/30 sec"
-        field="rateLimit.httpDrain"
-        value={instance?.args?.rateLimit?.httpDrain}
-        onChange={onChange}
-      />
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Threat sensitivity"
-        description="Auto block ips"
-      >
-        <Select style={{ width: 185 }} options={[]} />
-      </Label>
-      <Empty />
-      <Empty />
-      <Row
-        style={{
-          width: '100%',
-          borderTop: border(1),
-          marginTop: 16,
-          padding: 8,
-          paddingTop: 16,
-        }}
-      >
-        <Checkbox label="Shared port" />
-        <Checkbox
-          style={{
-            marginLeft: 32,
-          }}
-          label="Disable http"
-        />
-        <Checkbox
-          style={{
-            marginLeft: 32,
-          }}
-          label="Debug Mode"
-        />
-      </Row>
-    </Settings>
+    <SettingsGroup
+      values={instance}
+      onChange={onChange}
+      data={{
+        port: {
+          type: 'number',
+          description: 'Network port',
+        },
+        'args.name': {
+          label: 'Name',
+          type: 'text',
+          description: 'Instance name',
+        },
+        'args.securityLevel': {
+          label: 'Threat sensitivity',
+          description: 'Auto block ips',
+          options: ['Level 1', 'Level 2', 'Level 3'],
+        },
+        'args.rateLimit.wsTokens': {
+          label: 'Rate limit (ws)',
+          type: 'number',
+          description: 'Max Rate limit tokens',
+        },
+        'args.rateLimit.wsDrain': {
+          label: 'Rate limit drain (ws)',
+          type: 'number',
+          description: 'Drain Δ/30 sec',
+        },
+        'args.rateLimit.httpTokens': {
+          label: 'Rate limit (http)',
+          type: 'number',
+          description: 'Max Rate limit tokens',
+        },
+        'args.rateLimit.httpDrain': {
+          label: 'Rate limit drain (http)',
+          type: 'number',
+          description: 'Drain Δ/30 sec',
+        },
+        'args.sharedPort': {
+          type: 'boolean',
+          label: 'Shared port',
+        },
+        'args.noHttp': {
+          type: 'boolean',
+          label: 'Disable http',
+        },
+        'args.debugMode': {
+          type: 'boolean',
+          label: 'Debug mode',
+        },
+      }}
+    />
   )
 }
 
 const DbSettings: FC<SettingProps> = ({ instance, onChange }) => {
   return (
-    <Settings>
-      <Field
-        value={instance.port}
-        field="port"
-        type="number"
-        description='"Network port"'
-        onChange={onChange}
-      />
-      <Field
-        value={instance.args?.name}
-        field="name"
-        description="Instance name"
-        onChange={onChange}
-      />
-      <Empty />
-      <Empty />
-      <Empty />
-      <Row
-        style={{
-          width: '100%',
-          borderTop: border(1),
-          marginTop: 16,
-          padding: 8,
-          paddingTop: 16,
-        }}
-      >
-        <Checkbox checked label="Backups" />
-        <Checkbox
-          style={{
-            marginLeft: 32,
-          }}
-          checked
-          label="Dynamic Indexing"
-        />
-        <Checkbox
-          style={{
-            marginLeft: 32,
-          }}
-          label="Debug Mode"
-        />
-      </Row>
-    </Settings>
+    <SettingsGroup
+      values={instance}
+      onChange={onChange}
+      data={{
+        port: {
+          type: 'number',
+          description: 'Network port',
+        },
+        'args.name': {
+          label: 'Name',
+          type: 'text',
+          description: 'Instance name',
+        },
+        'args.noBackUps': {
+          type: 'boolean',
+          label: 'Disable Backups',
+        },
+        'args.noIndexing': {
+          type: 'boolean',
+          label: 'Disable Dynamic Indexing',
+        },
+        'args.debugMode': {
+          type: 'boolean',
+          label: 'Debug mode',
+        },
+      }}
+    />
   )
 }
 
@@ -180,8 +134,8 @@ export const Instance: FC<{
     type = 'db'
   }
 
-  const onChange = (field, v) => {
-    console.info('change this!', field, v)
+  const onChange = (values) => {
+    console.info('change this!', values)
   }
 
   return (

@@ -48,7 +48,7 @@ export const SettingsField: FC<{
   width?: number
   onChange: (field: string, value: any) => void
 }> = ({
-  width = 140,
+  width = 160,
   item: { type, field, label, description, options },
   value,
   style,
@@ -66,8 +66,9 @@ export const SettingsField: FC<{
       <Label
         style={{
           margin: 8,
+          ...style,
         }}
-        labelWidth={140}
+        labelWidth={width}
         direction="row"
         label="Threat sensitivity"
         description="Auto block ips"
@@ -165,6 +166,8 @@ export type SettingGroupItem = {
 }
 
 export type SettingsGroupProps = {
+  style?: Style
+  labelWidth?: number
   onChange: (changes: { [field: string]: any }) => void
   values?: { [field: string]: any }
   data:
@@ -177,10 +180,30 @@ export type SettingsGroupProps = {
   allwaysAccept?: boolean
 }
 
+const getValue = (field, values?: { [field: string]: any }): any => {
+  const path = field.split('.')
+  let v = values
+  for (const f of path) {
+    if (v === undefined) {
+      return undefined
+    }
+    v = v[f]
+  }
+  return v
+}
+
+const emptyDivs = (arr: ReactNode[]) => {
+  for (let i = 0; i < 5; i++) {
+    arr.push(<Empty key={'e' + i} />)
+  }
+}
+
 export const SettingsGroup: FC<SettingsGroupProps> = ({
   onChange,
   data,
+  style,
   allwaysAccept,
+  labelWidth = 160,
   values,
 }) => {
   const onChangeField = (field: string, value: any) => {
@@ -190,6 +213,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
   let parsedData: SettingGroupItem[]
 
   if (!Array.isArray(data)) {
+    parsedData = []
     for (const field in data) {
       const item = data[field]
       if (typeof item === 'object' && !React.isValidElement(item)) {
@@ -212,34 +236,36 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
     if (d.type === 'boolean') {
       checkBoxes.push(
         <SettingsField
+          width={labelWidth}
           key={d.field}
           item={d}
           onChange={onChangeField}
-          value={d.value || values?.p[d.field]}
+          value={d.value ?? getValue(d.field, values)}
         />
       )
     } else {
       rest.push(
         <SettingsField
+          width={labelWidth}
           key={d.field}
           item={d}
           onChange={onChangeField}
-          value={d.value || values?.p[d.field]}
+          value={d.value ?? getValue(d.field, values)}
         />
       )
     }
   }
 
   if (rest.length) {
-    rest.push(<Empty />, <Empty />, <Empty />)
+    emptyDivs(rest)
   }
 
   if (checkBoxes.length) {
-    checkBoxes.push(<Empty />, <Empty />, <Empty />)
+    emptyDivs(checkBoxes)
   }
 
   return (
-    <Group>
+    <Group style={style}>
       {rest}
       {checkBoxes.length && rest.length ? (
         <Row
@@ -257,24 +283,26 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
       ) : (
         checkBoxes
       )}
-      <RowEnd
-        style={{
-          borderTop: border(1),
-          width: '100%',
-          marginTop: 16,
-          paddingTop: 16,
-          marginRight: 8,
-        }}
-      >
-        <Text color="text2">Apply changes</Text>
-        <Accept
-          onCancel={() => {
-            //   setMin(config.min)
-            //   setMax(config.max)
+      {allwaysAccept ? null : (
+        <RowEnd
+          style={{
+            borderTop: border(1),
+            width: '100%',
+            marginTop: 16,
+            paddingTop: 16,
+            marginRight: 8,
           }}
-          onAccept={async () => {}}
-        />
-      </RowEnd>
+        >
+          <Text color="text2">Apply changes</Text>
+          <Accept
+            onCancel={() => {
+              //   setMin(config.min)
+              //   setMax(config.max)
+            }}
+            onAccept={async () => {}}
+          />
+        </RowEnd>
+      )}
     </Group>
   )
 }

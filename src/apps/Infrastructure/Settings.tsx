@@ -1,8 +1,6 @@
 import React, { FC } from 'react'
-import { Amount } from './Amount'
-import { AccordionItem, useContextState } from '~'
+import { AccordionItem, useContextState, SettingsGroup } from '~'
 import { MachineConfig } from '@based/machine-config'
-import { Field, Settings as FieldSettings } from './Field'
 
 export const Settings: FC<{
   configName: string
@@ -12,7 +10,6 @@ export const Settings: FC<{
     'expanded',
     {}
   )
-  const onChange = () => {}
   const expandKey = configName + 'g'
   return (
     <AccordionItem
@@ -27,29 +24,32 @@ export const Settings: FC<{
       expanded={expanded[expandKey]}
       label="Settings"
     >
-      <FieldSettings style={{ minWidth: '100%', maxWidth: 500 }}>
-        <Amount config={config} id={configName} />
-        <Field
-          width={208}
-          field="Image"
-          description="Image from cloud to use"
-          onChange={onChange}
-        />
-        <Field
-          width={208}
-          field="Memory"
-          type="number"
-          description="Machine memory in gb"
-          onChange={onChange}
-        />
-        <Field
-          width={208}
-          field="Cpu cores"
-          type="number"
-          description="Number of (v)Cpus"
-          onChange={onChange}
-        />
-      </FieldSettings>
+      <SettingsGroup
+        onChange={(values) => {
+          console.info(values)
+        }}
+        labelWidth={208}
+        style={{ minWidth: '100%', maxWidth: 500 }}
+        data={{
+          amount: {
+            type: 'range',
+            label: 'Amount of machines',
+            description: 'Min/Max amount of machines',
+          },
+          image: {
+            type: 'text',
+            description: 'Image from cloud to use',
+          },
+          memory: {
+            type: 'number',
+            description: 'Machine memory in gb',
+          },
+          cpu: {
+            type: 'number',
+            description: 'Number of (v)Cpus',
+          },
+        }}
+      />
     </AccordionItem>
   )
 }
