@@ -216,6 +216,32 @@ const emptyDivs = (arr: ReactNode[]) => {
   }
 }
 
+const equalChanges = (
+  changes: { [key: string]: any },
+  values: { [key: string]: any }
+): boolean => {
+  for (const key in changes) {
+    const c = changes[key]
+    const v = values[key]
+    const cType = typeof c
+    const vType = typeof v
+    if (cType !== vType) {
+      return false
+    }
+    if (cType === 'object' && c !== null) {
+      if (v === null) {
+        return false
+      }
+      if (!equalChanges(c, v)) {
+        return false
+      }
+    } else if (c !== v) {
+      return false
+    }
+  }
+  return true
+}
+
 export const SettingsGroup: FC<SettingsGroupProps> = ({
   onChange,
   data = [],
@@ -237,7 +263,11 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
     } else {
       setChanges(true)
       setValue(field, valuesChanged.current, value)
-      update()
+      if (values && equalChanges(valuesChanged.current, values)) {
+        setChanges(false)
+      } else {
+        update()
+      }
     }
   }
 
