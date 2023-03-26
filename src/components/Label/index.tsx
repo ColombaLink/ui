@@ -13,7 +13,7 @@ type LabelProps = {
   label?: ReactNode
   labelColor?: Color
   wrap?: boolean
-  description?: string
+  description?: ReactNode
   descriptionColor?: Color
   icon?: FunctionComponent<Icon> | ReactNode
   iconColor?: Color

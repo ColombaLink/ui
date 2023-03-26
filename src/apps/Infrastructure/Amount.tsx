@@ -15,21 +15,12 @@ export const Amount: FC<{
   config: MachineConfig
   id: string
 }> = ({ config, id }) => {
-  const client = useClient()
   const [min, setMin] = useState(config.min)
   const [max, setMax] = useState(config.max)
   const [env] = useContextState<Env>('env')
 
-  console.log(env)
-
   return (
-    <RowSpaced
-      style={{
-        borderBottom: border(1),
-        paddingBottom: 24,
-        marginBottom: 32,
-      }}
-    >
+    <RowSpaced style={{ margin: 8 }}>
       <Label
         labelWidth={208}
         direction="row"
@@ -45,7 +36,7 @@ export const Amount: FC<{
               setMin(v)
             }}
             value={min}
-            style={{ marginRight: 8, width: 75 }}
+            style={{ marginRight: 8, width: 90 }}
             type="number"
             placeholder="Min"
           />
@@ -57,30 +48,10 @@ export const Amount: FC<{
               setMax(v)
             }}
             value={max}
-            style={{ width: 75 }}
+            style={{ width: 90 }}
             type="number"
             placeholder="Max"
           />
-
-          {config.min !== min || config.max !== max ? (
-            <Accept
-              onCancel={() => {
-                setMin(config.min)
-                setMax(config.max)
-              }}
-              onAccept={async () => {
-                const x = {
-                  ...env,
-                  config: {
-                    min,
-                    max,
-                  },
-                  configName: id,
-                }
-                await client.call('update-machine-config', x)
-              }}
-            />
-          ) : null}
         </Row>
       </Label>
     </RowSpaced>

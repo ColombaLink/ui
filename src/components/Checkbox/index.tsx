@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import {
   Label,
   color,
@@ -20,7 +20,7 @@ export type CheckboxProps = {
   description?: string
   style?: Style
   onChange?: (value: boolean) => void
-  label?: string
+  label?: ReactNode
   space?: Space
   wrap?: boolean
   small?: boolean

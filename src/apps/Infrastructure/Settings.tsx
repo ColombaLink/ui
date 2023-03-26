@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import { Amount } from './Amount'
 import { AccordionItem, useContextState } from '~'
 import { MachineConfig } from '@based/machine-config'
+import { Field, Settings as FieldSettings } from './Field'
 
 export const Settings: FC<{
   configName: string
@@ -11,10 +12,8 @@ export const Settings: FC<{
     'expanded',
     {}
   )
-
-  // Add description
-
-  const expandKey = configName + 'm'
+  const onChange = () => {}
+  const expandKey = configName + 'g'
   return (
     <AccordionItem
       onExpand={(v) => {
@@ -28,7 +27,29 @@ export const Settings: FC<{
       expanded={expanded[expandKey]}
       label="Settings"
     >
-      <Amount config={config} id={configName} />
+      <FieldSettings style={{ minWidth: '100%', maxWidth: 500 }}>
+        <Amount config={config} id={configName} />
+        <Field
+          width={208}
+          field="Image"
+          description="Image from cloud to use"
+          onChange={onChange}
+        />
+        <Field
+          width={208}
+          field="Memory"
+          type="number"
+          description="Machine memory in gb"
+          onChange={onChange}
+        />
+        <Field
+          width={208}
+          field="Cpu cores"
+          type="number"
+          description="Number of (v)Cpus"
+          onChange={onChange}
+        />
+      </FieldSettings>
     </AccordionItem>
   )
 }

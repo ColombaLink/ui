@@ -1,62 +1,14 @@
 import React, { FC } from 'react'
-import { Input, Checkbox, Row, border, Card, Select, Label, RowSpaced } from '~'
+import { Checkbox, Row, border, Card, Select, Label } from '~'
 import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
 import { ServiceNamed } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
+import { Field, Settings, Empty } from './Field'
 
 type SettingProps = {
   onChange: (field: string, value: any) => void
   instance: ServiceInstance
-}
-
-const Settings: FC<{ children: ReactNode }> = ({ children }) => {
-  return (
-    <RowSpaced
-      style={{
-        borderTop: border(1),
-        marginLeft: -8,
-        marginRight: -8,
-        marginTop: 16,
-        paddingTop: 8,
-        flexWrap: 'wrap',
-      }}
-    >
-      {children}
-    </RowSpaced>
-  )
-}
-
-const Field: FC<{
-  type?: 'number' | 'text'
-  field: string
-  value?: any
-  onChange: (field: string, value: any) => void
-  label?: string
-  description?: string
-}> = ({ value, type = 'text', onChange, field, label, description }) => {
-  if (!label) {
-    label = field[0].toUpperCase() + field.slice(1)
-  }
-  return (
-    <Label
-      style={{
-        margin: 8,
-      }}
-      labelWidth={140}
-      direction="row"
-      label={label}
-      description={description}
-    >
-      <Input
-        style={{ width: '100%', marginTop: 8 }}
-        placeholder="Port"
-        value={value}
-        type={type}
-        onChange={(v) => onChange(field, v)}
-      />
-    </Label>
-  )
 }
 
 const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
@@ -75,6 +27,9 @@ const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
         description="Instance name"
         onChange={onChange}
       />
+      <Empty />
+      <Empty />
+      <Empty />
     </Settings>
   )
 }
@@ -98,28 +53,28 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
       <Field
         label="Rate limit (ws)"
         description="Max Rate limit tokens"
-        field="rateLimitWs"
+        field="rateLimit.wsTokens"
         value={instance?.args?.rateLimit?.wsTokens}
         onChange={onChange}
       />
       <Field
         label="Rate limit drain (ws)"
         description="Drain Δ/30 sec"
-        field="rateLimitWs"
+        field="rateLimit.wsDrain"
         value={instance?.args?.rateLimit?.wsDrain}
         onChange={onChange}
       />
       <Field
         label="Rate limit (http)"
         description="Max Rate limit tokens"
-        field="rateLimitHttp"
+        field="rateLimit.httpTokens"
         value={instance?.args?.rateLimit?.httpTokens}
         onChange={onChange}
       />
       <Field
         label="Rate limit drain (http)"
         description="Drain Δ/30 sec"
-        field="rateLimitHttp"
+        field="rateLimit.httpDrain"
         value={instance?.args?.rateLimit?.httpDrain}
         onChange={onChange}
       />
@@ -134,6 +89,8 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
       >
         <Select style={{ width: 185 }} options={[]} />
       </Label>
+      <Empty />
+      <Empty />
       <Row
         style={{
           width: '100%',
@@ -177,6 +134,9 @@ const DbSettings: FC<SettingProps> = ({ instance, onChange }) => {
         description="Instance name"
         onChange={onChange}
       />
+      <Empty />
+      <Empty />
+      <Empty />
       <Row
         style={{
           width: '100%',

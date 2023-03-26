@@ -33,9 +33,11 @@ export const StyledSelect = styled('div', {
   },
 })
 
+export type SelectOption = Value | Option
+
 export type SelectProps = {
   value?: Value
-  options: (Option | Value)[]
+  options: SelectOption[]
   onChange?: (value: Value) => void
   filterable?: boolean | 'create'
   placeholder?: string

@@ -237,7 +237,7 @@ export const Input = <T extends InputType>({
   iconRight?: FunctionComponent<Icon> | ReactNode
   indent?: boolean
   defaultValue?: string | number
-  placeholder?: string
+  placeholder?: ReactNode
   maxChars?: number
   multiline?: boolean
   bg?: boolean
