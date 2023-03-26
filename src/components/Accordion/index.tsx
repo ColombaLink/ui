@@ -1,9 +1,16 @@
 import React, { FC, ReactNode, useState } from 'react'
-import { Text } from '../Text'
-import { color, spaceToPx } from '~/utils'
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '~/icons'
-import { Space, Color } from '~/types'
-import { Style, styled } from 'inlines'
+import {
+  Text,
+  Style,
+  styled,
+  CheckIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Space,
+  Color,
+  color,
+  spaceToPx,
+} from '~'
 
 type AccordionItemProps = {
   label?: string

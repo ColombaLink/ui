@@ -35,7 +35,7 @@ export const SettingsGroup = () => {
 const route = useRoute();
 
 <SettingsGroup 
-  allwaysAccept
+  alwaysAccept
   labelWidth={130}
   onChange={(changed) => {
     route.setQuery(changed)

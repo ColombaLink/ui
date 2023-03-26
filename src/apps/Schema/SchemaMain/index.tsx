@@ -64,7 +64,7 @@ export const SchemaMain: FC = () => {
   }
 
   return (
-    <Column style={{ width: '100%' }}>
+    <Column style={{ width: '100%', height: '100%' }}>
       <ScrollArea
         style={{
           paddingLeft: 32,
@@ -77,7 +77,7 @@ export const SchemaMain: FC = () => {
         }}
       >
         {header}
-        <Row>
+        <styled.div style={{ display: 'flex' }}>
           <styled.div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
             {field.length ? (
               <styled.div
@@ -126,7 +126,7 @@ export const SchemaMain: FC = () => {
               />
             </div>
           </styled.div>
-        </Row>
+        </styled.div>
       </ScrollArea>
       {footer}
     </Column>

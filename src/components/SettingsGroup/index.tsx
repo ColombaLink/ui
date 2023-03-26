@@ -13,8 +13,8 @@ import {
   Select,
   RowEnd,
   Row,
+  useUpdate,
 } from '~'
-import { useUpdate } from '~/hooks/useUpdate'
 
 const Empty = styled('div', {
   minWidth: 350,
@@ -185,7 +185,7 @@ export type SettingsGroupProps = {
           | ReactNode
           | (Omit<SettingGroupItem, 'field'> & { field?: string })
       }
-  allwaysAccept?: boolean
+  alwaysAccept?: boolean
 }
 
 const getValue = (field, values?: { [field: string]: any }): any => {
@@ -246,7 +246,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
   onChange,
   data = [],
   style,
-  allwaysAccept,
+  alwaysAccept,
   labelWidth = 160,
   values,
 }) => {
@@ -256,7 +256,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
   const update = useUpdate()
 
   const onChangeField = (field: string, value: any) => {
-    if (allwaysAccept) {
+    if (alwaysAccept) {
       const newV = {}
       setValue(field, newV, value)
       onChange(newV)
@@ -354,7 +354,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
       ) : (
         checkBoxes
       )}
-      {allwaysAccept || !hasChanges ? null : (
+      {alwaysAccept || !hasChanges ? null : (
         <RowEnd
           style={{
             borderTop: border(1),

@@ -3,6 +3,7 @@ import {
   Label,
   color,
   spaceToPx,
+  border,
   CheckIcon,
   DashIcon,
   useHover,
@@ -69,7 +70,7 @@ export const Checkbox: FC<CheckboxProps> = ({
     >
       <Row
         style={{
-          border: 'rgba(00,00,00,00) solid 2px',
+          border: ' 2px solid rgba(0,0,0,0)',
           borderRadius: 4,
           boxSizing: 'border-box',
           height: small ? 18 : 22,
@@ -77,7 +78,7 @@ export const Checkbox: FC<CheckboxProps> = ({
           marginRight: 12,
           '@media (hover: hover)': {
             '&:hover': {
-              border: 'rgba(44,60,234,0.2) solid 2px',
+              border: '2px solid rgba(44,60,234,0.2)',
             },
           },
         }}
@@ -87,8 +88,7 @@ export const Checkbox: FC<CheckboxProps> = ({
             backgroundColor: checked
               ? color(colorProp, hover ? 'hover' : null)
               : null,
-            border: `1px solid ${color('border')}`,
-            // outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
+            border: border(1),
             borderRadius: 4,
             height: small ? 16 : 20,
             width: small ? 16 : 20,
