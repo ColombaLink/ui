@@ -54,7 +54,7 @@ const route = useRoute();
     'args.securityLevel': {
       label: 'Threat sensitivity',
       description: 'Auto block ips',
-      options: ['Level 1', 'Level 2', 'Level 3'],
+      options: [{ value: 1, label: 'Level 1'}, { value: 2, label: 'Level 2' }],
     },
     'args.sharedPort': {
       type: 'boolean',

@@ -75,6 +75,7 @@ export const SettingsField: FC<{
         description="Auto block ips"
       >
         <Select
+          value={value}
           style={{ width: 185 }}
           onChange={(v) => {
             onChange(field, v)
@@ -130,6 +131,7 @@ export const SettingsField: FC<{
   if (type === 'boolean') {
     return (
       <Checkbox
+        checked={value}
         onChange={(v) => onChange(field, v)}
         style={{
           marginRight: 32,
