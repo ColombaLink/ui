@@ -1,10 +1,4 @@
-import React, {
-  CSSProperties,
-  FC,
-  Fragment,
-  ReactNode,
-  MouseEvent,
-} from 'react'
+import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
@@ -24,7 +18,7 @@ const Click = styled('div', {
 
 type MenuHeaderProps = {
   children?: ReactNode
-  style?: CSSProperties
+  style?: Style
   onClick?: (e: MouseEvent<HTMLDivElement>) => void
   id?: string
 }
@@ -340,6 +334,7 @@ export const Menu: FC<MenuProps> = ({
         backgroundColor: color('background'),
         borderRight: `1px solid ${color('border')}`,
         padding: '24px 20px 20px 20px',
+        height: '100%',
         width: 224,
         ...style,
       }}

@@ -73,12 +73,8 @@ export const Container: FC<ContainerProps> = ({
             backgroundColor: color('background3dp'),
           }}
         >
-          <Row style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(bottomLeft)}
-          </Row>
-          <Row style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(bottomRight)}
-          </Row>
+          <Row style={{ gap: 16 }}>{renderOrCreateElement(bottomLeft)}</Row>
+          <Row style={{ gap: 16 }}>{renderOrCreateElement(bottomRight)}</Row>
         </RowSpaced>
       )}
     </styled.div>

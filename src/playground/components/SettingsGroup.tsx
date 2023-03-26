@@ -31,31 +31,40 @@ export const SettingsGroup = () => {
           },
         },
         {
-          props: {
-            labelWidth: 130,
-            allwaysAccept: true,
-            onChange: () => {},
-            data: {
-              port: {
-                type: 'number',
-                description: 'Network port',
-              },
-              'args.name': {
-                label: 'Name',
-                type: 'text',
-                description: 'Instance name',
-              },
-              'args.securityLevel': {
-                label: 'Threat sensitivity',
-                description: 'Auto block ips',
-                options: ['Level 1', 'Level 2', 'Level 3'],
-              },
-              'args.sharedPort': {
-                type: 'boolean',
-                label: 'Shared port',
-              },
-            },
-          },
+          code: `import { SettingsGroup, useRoute } from '@based/ui'
+const route = useRoute();
+
+<SettingsGroup 
+  allwaysAccept
+  labelWidth={130}
+  onChange={(changed) => {
+    route.setQuery(changed)
+  }}
+  values={route.query}
+  data={{
+    port: {
+      type: 'number',
+      description: 'Network port',
+    },
+    'args.name': {
+      label: 'Name',
+      type: 'text',
+      description: 'Instance name',
+    },
+    'args.securityLevel': {
+      label: 'Threat sensitivity',
+      description: 'Auto block ips',
+      options: ['Level 1', 'Level 2', 'Level 3'],
+    },
+    'args.sharedPort': {
+      type: 'boolean',
+      label: 'Shared port',
+    }
+  }}
+
+/>
+
+  `,
         },
       ]}
     />

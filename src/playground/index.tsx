@@ -100,7 +100,10 @@ const App = () => {
     <AppFrame>
       <Menu
         active={route.path.story}
-        onChange={(story) => route.setPath({ story })}
+        onChange={(story) => {
+          route.setQuery(null)
+          route.setPath({ story })
+        }}
         collapse
         header={
           <>

@@ -1,4 +1,4 @@
-import React, { FC, useMemo, ReactNode } from 'react'
+import React, { FC, useMemo, ReactNode, useRef, useState } from 'react'
 import {
   Input,
   Label,
@@ -14,6 +14,7 @@ import {
   RowEnd,
   Row,
 } from '~'
+import { useUpdate } from '~/hooks/useUpdate'
 
 const Empty = styled('div', {
   minWidth: 350,
@@ -73,7 +74,13 @@ export const SettingsField: FC<{
         label="Threat sensitivity"
         description="Auto block ips"
       >
-        <Select style={{ width: 185 }} options={options} />
+        <Select
+          style={{ width: 185 }}
+          onChange={(v) => {
+            onChange(field, v)
+          }}
+          options={options}
+        />
       </Label>
     )
   }
@@ -93,10 +100,10 @@ export const SettingsField: FC<{
         <Row>
           <Input
             onChange={(v) => {
-              //   if (max < v) {
-              //     setMax(v)
-              //   }
-              //   setMin(v)
+              if (value?.max < v) {
+                onChange(field + '.max', v)
+              }
+              onChange(field + '.min', v)
             }}
             value={value?.min}
             style={{ marginRight: 8, width: 90 }}
@@ -105,10 +112,10 @@ export const SettingsField: FC<{
           />
           <Input
             onChange={(v) => {
-              //   if (v < min) {
-              //     setMin(v)
-              //   }
-              //   setMax(v)
+              if (v < value?.min) {
+                onChange(field + '.min', v)
+              }
+              onChange(field + '.max', v)
             }}
             value={value?.max}
             style={{ width: 90 }}
@@ -120,32 +127,10 @@ export const SettingsField: FC<{
     )
   }
 
-  if (type === 'text' || type === 'number') {
-    return (
-      <Label
-        style={{
-          margin: 8,
-          ...style,
-        }}
-        labelWidth={width}
-        direction="row"
-        label={label}
-        description={description}
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder={label}
-          value={value}
-          type={type}
-          onChange={(v) => onChange(field, v)}
-        />
-      </Label>
-    )
-  }
-
   if (type === 'boolean') {
     return (
       <Checkbox
+        onChange={(v) => onChange(field, v)}
         style={{
           marginRight: 32,
           marginBottom: 8,
@@ -154,6 +139,27 @@ export const SettingsField: FC<{
       />
     )
   }
+
+  return (
+    <Label
+      style={{
+        margin: 8,
+        ...style,
+      }}
+      labelWidth={width}
+      direction="row"
+      label={label}
+      description={description}
+    >
+      <Input
+        style={{ width: '100%', marginTop: 8 }}
+        placeholder={label}
+        value={value ?? ''}
+        type={type || 'text'}
+        onChange={(v) => onChange(field, v)}
+      />
+    </Label>
+  )
 }
 
 export type SettingGroupItem = {
@@ -184,12 +190,22 @@ const getValue = (field, values?: { [field: string]: any }): any => {
   const path = field.split('.')
   let v = values
   for (const f of path) {
-    if (v === undefined) {
-      return undefined
+    if (v === undefined || v === null) {
+      return undefined // or emptty string...
     }
     v = v[f]
   }
   return v
+}
+
+const setValue = (field, values: { [field: string]: any }, value: any) => {
+  const path = field.split('.')
+  let v = values
+  for (let i = 0; i < path.length - 1; i++) {
+    const f = path[i]
+    v = v[f] ?? (v[f] = {})
+  }
+  v[path[path.length - 1]] = value
 }
 
 const emptyDivs = (arr: ReactNode[]) => {
@@ -206,8 +222,21 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
   labelWidth = 160,
   values,
 }) => {
+  const valuesChanged = useRef<{ [field: string]: any }>({})
+
+  const [hasChanges, setChanges] = useState(false)
+  const update = useUpdate()
+
   const onChangeField = (field: string, value: any) => {
-    console.info(field, value)
+    if (allwaysAccept) {
+      const newV = {}
+      setValue(field, newV, value)
+      onChange(newV)
+    } else {
+      setChanges(true)
+      setValue(field, valuesChanged.current, value)
+      update()
+    }
   }
 
   let parsedData: SettingGroupItem[]
@@ -240,7 +269,12 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           key={d.field}
           item={d}
           onChange={onChangeField}
-          value={d.value ?? getValue(d.field, values)}
+          value={
+            d.value ?? hasChanges
+              ? getValue(d.field, valuesChanged.current) ??
+                getValue(d.field, values)
+              : getValue(d.field, values)
+          }
         />
       )
     } else {
@@ -250,7 +284,12 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           key={d.field}
           item={d}
           onChange={onChangeField}
-          value={d.value ?? getValue(d.field, values)}
+          value={
+            d.value ?? hasChanges
+              ? getValue(d.field, valuesChanged.current) ??
+                getValue(d.field, values)
+              : getValue(d.field, values)
+          }
         />
       )
     }
@@ -283,7 +322,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
       ) : (
         checkBoxes
       )}
-      {allwaysAccept ? null : (
+      {allwaysAccept || !hasChanges ? null : (
         <RowEnd
           style={{
             borderTop: border(1),
@@ -296,10 +335,14 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           <Text color="text2">Apply changes</Text>
           <Accept
             onCancel={() => {
-              //   setMin(config.min)
-              //   setMax(config.max)
+              valuesChanged.current = {}
+              setChanges(false)
             }}
-            onAccept={async () => {}}
+            onAccept={async () => {
+              onChange(valuesChanged.current)
+              valuesChanged.current = {}
+              setChanges(false)
+            }}
           />
         </RowEnd>
       )}
