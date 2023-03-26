@@ -1,4 +1,3 @@
-import { MachineConfig } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
 import {
   Button,
@@ -17,17 +16,25 @@ import {
   RowEnd,
 } from '~'
 import { Status } from './Status'
-import { Machine as MachineType } from './types'
+import { MachineStatus } from './MachineStatus'
+import { Machine as MachineType, MachineConfig } from '@based/machine-config'
 
 const Machine: FC<{
   machine: MachineType
 }> = ({ machine }) => {
   const [copied, copy] = useCopyToClipboard(machine.id)
   return (
-    <RowSpaced>
+    <RowSpaced
+      style={{
+        borderBottom: border(1),
+        paddingBottom: 8,
+        marginBottom: 8,
+      }}
+    >
       <Row>
-        <Text>Status {machine.status}</Text>
+        <MachineStatus status={machine.status} />
         <Button
+          style={{ marginLeft: 8 }}
           clickAnimation
           onClick={() => copyToClipboard(machine.publicIp)}
           ghost
@@ -35,13 +42,23 @@ const Machine: FC<{
         >
           {machine.publicIp}
         </Button>
+        {machine.domain ? (
+          <Button
+            clickAnimation
+            onClick={() => copyToClipboard(machine.domain)}
+            ghost
+            transparent
+          >
+            <Text color="text2">CloudId: {machine.domain}</Text>
+          </Button>
+        ) : null}
         <Button
           clickAnimation
           onClick={() => copyToClipboard(machine.cloudMachineId)}
           ghost
           transparent
         >
-          <Text typo="caption500">CloudId: {machine.cloudMachineId}</Text>
+          <Text color="text2">CloudId: {machine.cloudMachineId}</Text>
         </Button>
       </Row>
       <Row>
@@ -93,12 +110,18 @@ export const MachinesSection: FC<{
         setExpanded(expanded)
       }}
       expanded={expanded[expandKey]}
-      topRight={<Status running={machines.length} type="machine" />}
+      topRight={
+        <Status
+          goodColor={expanded[expandKey] ? 'accent' : 'green'}
+          running={machines.length}
+          type="machine"
+        />
+      }
     >
       <RowEnd
         style={{
           borderBottom: border(1),
-          marginBottom: 24,
+          marginBottom: 8,
           paddingBottom: 24,
         }}
       >

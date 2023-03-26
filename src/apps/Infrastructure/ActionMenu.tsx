@@ -13,10 +13,7 @@ import {
   CloseIcon,
   CurlyBracesIcon,
 } from '~'
-import {
-  MachineConfig,
-  ServiceInstance,
-} from '../../../../based-cloud/packages/machine-config/dist'
+import { MachineConfig, ServiceInstance } from '@based/machine-config'
 
 type Actions = {
   configName: string

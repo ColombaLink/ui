@@ -1,10 +1,7 @@
-import {
-  MachineConfig,
-  ServiceInstance,
-} from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
 import { Input, Checkbox, Row, border, Card, Select, Label, RowSpaced } from '~'
-import { Machine, ServiceNamed } from './types'
+import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
+import { ServiceNamed } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
 

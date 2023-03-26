@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react'
 import { Input, Label, Row, border, RowSpaced, Accept } from '~'
 import { useClient } from '@based/react'
-import { Env } from './types'
+import { Env } from '@based/machine-config'
 
 export const Amount: FC<{
   env: Env

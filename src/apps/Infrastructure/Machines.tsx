@@ -16,9 +16,9 @@ import {
   RowSpaced,
   RowEnd,
 } from '~'
-import { AddMachineModal } from './AddMachineModal'
 import { useQuery } from '@based/react'
-import { Env, MachineConfig } from './types'
+import { Env, Machine, MachineConfig } from '@based/machine-config'
+import { AddMachineModal } from './AddMachineModal'
 import { Amount } from './Amount'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
@@ -29,14 +29,7 @@ const MachineConfig: FC<{
   configName: string
   config: MachineConfig
   env: Env
-  machines: {
-    id: string
-    configName: string
-    cloudMachineId: string
-    status: number // add all
-    machineConfigName: string
-    publicIp: string
-  }[]
+  machines: Machine[]
 }> = ({ configName, config, machines, env }) => {
   const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
     'expanded',

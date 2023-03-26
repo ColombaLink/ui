@@ -171,11 +171,11 @@ const timestamp = {
       indent
       {...props}
       value={props.value}
-      error={(value) => {
-        if (!value) {
-          return 'Please enter a valid value'
-        }
-      }}
+      // error={(value) => {
+      //   if (!value) {
+      //     return 'Please enter a valid value'
+      //   }
+      // }}
     />
   ),
 }

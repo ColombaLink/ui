@@ -10,8 +10,8 @@ import {
   AddIcon,
 } from '~'
 import { useUpdate } from '~/hooks/useUpdate'
-import { Env } from './types'
-import { deepCopy } from '@saulx/utils'
+import { Env } from '@based/machine-config'
+// import { deepCopy } from '@saulx/utils'
 
 export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
   console.info(env)
@@ -28,15 +28,16 @@ export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
       <Dialog.Label>Add machine template</Dialog.Label>
       <Dialog.Body>
         <Select
+          options={[]}
           value={newConfig.current.configName}
           placeholder="Select a predefined template"
-          options={templateNames}
+          // options={templateNames}
           onChange={(name) => {
             if (name && newConfig.current.configName !== name) {
               // @ts-ignore
-              newConfig.current = deepCopy(
-                templates.find((v) => v.configName === name)
-              )
+              // newConfig.current = deepCopy(
+              //   templates.find((v) => v.configName === name)
+              // )
               update()
             }
           }}

@@ -3,7 +3,7 @@ import { Style, styled } from 'inlines'
 import { StateProvider, useContextState } from '~/hooks'
 import { InfraLeft } from './InfraLeft'
 import { Machines } from './Machines'
-import { Env } from './types'
+import { Env } from '@based/machine-config'
 
 const Routes: FC<{ env: Env }> = ({ env }) => {
   const [infraSection] = useContextState('infraSection', 'config')

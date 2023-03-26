@@ -1,7 +1,4 @@
-import {
-  MachineConfig,
-  Service,
-} from '../../../../based-cloud/packages/machine-config/dist'
+import { MachineConfig, Service, Machine } from '@based/machine-config'
 import React, { FC, ReactNode } from 'react'
 import {
   Text,
@@ -18,7 +15,7 @@ import {
   border,
 } from '~'
 import { Status } from './Status'
-import { Machine, ServiceNamed } from './types'
+import { ServiceNamed } from './types'
 import { styled } from 'inlines'
 import { ActionMenuButton } from './ActionMenu'
 import { Instance } from './Instance'
@@ -113,7 +110,13 @@ export const Services: FC<{
         setExpanded(expanded)
       }}
       expanded={expanded[expandKey]}
-      topRight={<Status running={services.length} type="service" />}
+      topRight={
+        <Status
+          goodColor={expanded[expandKey] ? 'accent' : 'green'}
+          running={services.length}
+          type="service"
+        />
+      }
     >
       <RowEnd
         style={{
