@@ -10,13 +10,12 @@ import {
   AddIcon,
 } from '~'
 import { useUpdate } from '~/hooks/useUpdate'
-import { Env } from '@based/machine-config'
+import { Env, MachineConfig } from '@based/machine-config'
 // import { deepCopy } from '@saulx/utils'
 
 export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
-  console.info(env)
   const update = useUpdate()
-  const newConfig = useRef({
+  const newConfig = useRef<MachineConfig & { configName: string }>({
     services: {},
     min: 1,
     max: 1,

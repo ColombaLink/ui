@@ -1,16 +1,26 @@
 import React, { FC, useState } from 'react'
-import { Input, Label, Row, border, RowSpaced, Accept } from '~'
+import {
+  Input,
+  Label,
+  Row,
+  border,
+  RowSpaced,
+  Accept,
+  useContextState,
+} from '~'
 import { useClient } from '@based/react'
-import { Env } from '@based/machine-config'
+import { MachineConfig, Env } from '@based/machine-config'
 
 export const Amount: FC<{
-  env: Env
-  config: any
+  config: MachineConfig
   id: string
-}> = ({ env, config, id }) => {
+}> = ({ config, id }) => {
   const client = useClient()
   const [min, setMin] = useState(config.min)
   const [max, setMax] = useState(config.max)
+  const [env] = useContextState<Env>('env')
+
+  console.log(env)
 
   return (
     <RowSpaced

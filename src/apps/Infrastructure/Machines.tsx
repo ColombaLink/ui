@@ -19,24 +19,17 @@ import {
 import { useQuery } from '@based/react'
 import { Env, Machine, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineModal'
-import { Amount } from './Amount'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { deepCopy } from '@saulx/utils'
+import { Settings } from './Settings'
 
 const MachineConfig: FC<{
   configName: string
   config: MachineConfig
-  env: Env
   machines: Machine[]
-}> = ({ configName, config, machines, env }) => {
-  const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
-    'expanded',
-    {}
-  )
-  const expandKey = configName + 'p'
-
+}> = ({ configName, config, machines }) => {
   return (
     <Container>
       <RowSpaced>
@@ -47,20 +40,7 @@ const MachineConfig: FC<{
         Some description of the machine
       </Text>
       <Accordion>
-        <AccordionItem
-          onExpand={(v) => {
-            if (!v) {
-              delete expanded[expandKey]
-            } else {
-              expanded[expandKey] = v
-            }
-            setExpanded(expanded)
-          }}
-          expanded={expanded[expandKey]}
-          label="Settings"
-        >
-          <Amount config={config} env={env} id={configName} />
-        </AccordionItem>
+        <Settings configName={configName} config={config} />
         <Services machines={machines} configName={configName} config={config} />
         <MachinesSection
           machines={machines}

@@ -25,6 +25,7 @@ export const StyledSelect = styled('div', {
     },
   },
 })
+
 export const SelectLabel: FC<{
   children: ReactNode
   onClick: any
@@ -36,6 +37,7 @@ export const SelectLabel: FC<{
     <RowSpaced
       onClick={onClick}
       style={{
+        alignItems: null,
         borderRadius: 4,
         border: `1px solid ${color('border')}`,
         backgroundColor: color('background'),

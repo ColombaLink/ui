@@ -5,9 +5,12 @@ import { ServiceNamed } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
 
-const DefaultSettings: FC<{
+type SettingProps = {
+  onChange: (field: string, value: any) => void
   instance: ServiceInstance
-}> = ({ instance }) => {
+}
+
+const Settings: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <RowSpaced
       style={{
@@ -19,169 +22,114 @@ const DefaultSettings: FC<{
         flexWrap: 'wrap',
       }}
     >
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Port"
-        description="Network port"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Port"
-          value={instance?.port}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Name"
-        description="Instance name"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Name"
-          value={instance?.args?.name}
-          type="text"
-          onChange={() => {}}
-        />
-      </Label>
+      {children}
     </RowSpaced>
   )
 }
 
-const HubSettings: FC<{
-  instance: ServiceInstance
-}> = ({ instance }) => {
+const Field: FC<{
+  type?: 'number' | 'text'
+  field: string
+  value?: any
+  onChange: (field: string, value: any) => void
+  label?: string
+  description?: string
+}> = ({ value, type = 'text', onChange, field, label, description }) => {
+  if (!label) {
+    label = field[0].toUpperCase() + field.slice(1)
+  }
   return (
-    <RowSpaced
+    <Label
       style={{
-        borderTop: border(1),
-        marginLeft: -8,
-        marginRight: -8,
-        marginTop: 16,
-        paddingTop: 8,
-        flexWrap: 'wrap',
+        margin: 8,
       }}
+      labelWidth={140}
+      direction="row"
+      label={label}
+      description={description}
     >
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Port"
-        description="Network port"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Port"
-          value={instance?.port}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Name"
+      <Input
+        style={{ width: '100%', marginTop: 8 }}
+        placeholder="Port"
+        value={value}
+        type={type}
+        onChange={(v) => onChange(field, v)}
+      />
+    </Label>
+  )
+}
+
+const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
+  return (
+    <Settings>
+      <Field
+        value={instance.port}
+        field="port"
+        type="number"
+        description='"Network port"'
+        onChange={onChange}
+      />
+      <Field
+        value={instance.args?.name}
+        field="name"
         description="Instance name"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Name"
-          value={instance?.args?.name}
-          type="text"
-          onChange={() => {}}
-        />
-      </Label>
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
+        onChange={onChange}
+      />
+    </Settings>
+  )
+}
+
+const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
+  return (
+    <Settings>
+      <Field
+        value={instance.port}
+        field="port"
+        type="number"
+        description='"Network port"'
+        onChange={onChange}
+      />
+      <Field
+        value={instance.args?.name}
+        field="name"
+        description="Instance name"
+        onChange={onChange}
+      />
+      <Field
         label="Rate limit (ws)"
         description="Max Rate limit tokens"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Rate limit tokens"
-          value={instance?.args?.rateLimit?.ws}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
+        field="rateLimitWs"
+        value={instance?.args?.rateLimit?.wsTokens}
+        onChange={onChange}
+      />
+      <Field
         label="Rate limit drain (ws)"
         description="Drain Δ/30 sec"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Δ/30sec"
-          value={instance?.args?.rateLimit?.ws}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
+        field="rateLimitWs"
+        value={instance?.args?.rateLimit?.wsDrain}
+        onChange={onChange}
+      />
+      <Field
         label="Rate limit (http)"
         description="Max Rate limit tokens"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Rate limit tokens"
-          value={instance?.args?.rateLimit?.ws}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
+        field="rateLimitHttp"
+        value={instance?.args?.rateLimit?.httpTokens}
+        onChange={onChange}
+      />
+      <Field
         label="Rate limit drain (http)"
         description="Drain Δ/30 sec"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Δ/30sec"
-          value={instance?.args?.rateLimit?.ws}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-
+        field="rateLimitHttp"
+        value={instance?.args?.rateLimit?.httpDrain}
+        onChange={onChange}
+      />
       <Label
         style={{
           margin: 8,
         }}
         labelWidth={140}
         direction="row"
-        label="Threat sensitivityx"
+        label="Threat sensitivity"
         description="Auto block ips"
       >
         <Select style={{ width: 185 }} options={[]} />
@@ -209,58 +157,26 @@ const HubSettings: FC<{
           label="Debug Mode"
         />
       </Row>
-    </RowSpaced>
+    </Settings>
   )
 }
 
-const DbSettings: FC<{
-  instance: ServiceInstance
-}> = ({ instance }) => {
+const DbSettings: FC<SettingProps> = ({ instance, onChange }) => {
   return (
-    <RowSpaced
-      style={{
-        borderTop: border(1),
-        marginLeft: -8,
-        marginRight: -8,
-        marginTop: 16,
-        paddingTop: 8,
-        flexWrap: 'wrap',
-      }}
-    >
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Port"
-        description="Network port"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Port"
-          value={instance?.port}
-          type="number"
-          onChange={() => {}}
-        />
-      </Label>
-      <Label
-        style={{
-          margin: 8,
-        }}
-        labelWidth={140}
-        direction="row"
-        label="Name"
+    <Settings>
+      <Field
+        value={instance.port}
+        field="port"
+        type="number"
+        description='"Network port"'
+        onChange={onChange}
+      />
+      <Field
+        value={instance.args?.name}
+        field="name"
         description="Instance name"
-      >
-        <Input
-          style={{ width: '100%', marginTop: 8 }}
-          placeholder="Name"
-          value={instance?.args?.name}
-          type="text"
-          onChange={() => {}}
-        />
-      </Label>
+        onChange={onChange}
+      />
       <Row
         style={{
           width: '100%',
@@ -285,7 +201,7 @@ const DbSettings: FC<{
           label="Debug Mode"
         />
       </Row>
-    </RowSpaced>
+    </Settings>
   )
 }
 
@@ -304,6 +220,10 @@ export const Instance: FC<{
     type = 'db'
   }
 
+  const onChange = (field, v) => {
+    console.info('change this!', field, v)
+  }
+
   return (
     <Card
       style={{
@@ -318,11 +238,11 @@ export const Instance: FC<{
       }
     >
       {type === 'hub' ? (
-        <HubSettings instance={instance} />
+        <HubSettings onChange={onChange} instance={instance} />
       ) : type === 'db' ? (
-        <DbSettings instance={instance} />
+        <DbSettings onChange={onChange} instance={instance} />
       ) : (
-        <DefaultSettings instance={instance} />
+        <DefaultSettings onChange={onChange} instance={instance} />
       )}
     </Card>
   )

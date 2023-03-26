@@ -20,6 +20,7 @@ export const Infrastructure: FC<{
   values?: {
     infraSection: string
     expanded?: { [key: string]: boolean }
+    env?: Env
   }
 }> = ({
   env,
@@ -27,13 +28,16 @@ export const Infrastructure: FC<{
   values = {
     infraSection: '',
     expanded: {},
+    env,
   },
   onChange,
 }) => {
   if (!values.expanded) {
     values.expanded = {}
   }
-
+  if (!values.env) {
+    values.env = env
+  }
   return (
     <styled.div
       style={{
