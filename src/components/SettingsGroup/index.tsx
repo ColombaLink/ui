@@ -101,7 +101,7 @@ export const SettingsField: FC<{
         <Row>
           <Input
             onChange={(v) => {
-              if (value?.max < v) {
+              if (value?.max === undefined || value?.max < v) {
                 onChange(field + '.max', v)
               }
               onChange(field + '.min', v)
@@ -113,7 +113,7 @@ export const SettingsField: FC<{
           />
           <Input
             onChange={(v) => {
-              if (v < value?.min) {
+              if (value?.min === undefined || v < value?.min) {
                 onChange(field + '.min', v)
               }
               onChange(field + '.max', v)
