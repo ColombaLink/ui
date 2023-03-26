@@ -39,11 +39,10 @@ const route = useRoute('[infraSection]/[expanded]');
       org: 'saulx',
       env: 'ci',
     }}
-    values={route.path}
+    values={{ ...route.path, expanded: route.query.expanded }}
     onChange={(key, v) => { 
       if (key === 'expanded') {
-
-
+        route.setQuery({ expanded: v })
       } else {
         route.setPath({ [key]: v || null})
       }
