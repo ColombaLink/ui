@@ -41,7 +41,12 @@ const route = useRoute('[infraSection]/[expanded]');
     }}
     values={route.path}
     onChange={(key, v) => { 
-      route.setPath({ [key]: v || null})
+      if (key === 'expanded') {
+
+
+      } else {
+        route.setPath({ [key]: v || null})
+      }
     }}
     style={{ 
       height: 'calc(100vh - 200px)', 

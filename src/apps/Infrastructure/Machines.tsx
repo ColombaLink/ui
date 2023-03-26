@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useMemo } from 'react'
 import {
   Page,
   Button,
@@ -8,12 +8,11 @@ import {
   Accordion,
   AccordionItem,
   Spacer,
-  ChevronUpIcon,
   useDialog,
   AddIcon,
-  ChevronDownIcon,
   useContextState,
   SearchIcon,
+  Badge,
 } from '~'
 import { AddMachineModal } from './AddMachineModal'
 import { useQuery } from '@based/react'
@@ -23,7 +22,6 @@ import { Amount } from './Amount'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
-import { Status } from './Status'
 import { deepCopy } from '@saulx/utils'
 
 const Machine: FC<{
@@ -38,7 +36,6 @@ const Machine: FC<{
 
 const MachineConfig: FC<{
   configName: string
-  expanded: boolean
   config: MachineConfig
   env: Env
   machines: {
@@ -49,7 +46,12 @@ const MachineConfig: FC<{
     machineConfigName: string
     publicIp: string
   }[]
-}> = ({ configName, config, machines, expanded, env }) => {
+}> = ({ configName, config, machines, env }) => {
+  const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
+    'expanded',
+    {}
+  )
+
   return (
     <Container>
       <styled.div
@@ -62,32 +64,26 @@ const MachineConfig: FC<{
         <Text typo="subtitle600">{configName}</Text>
         <ActionMenuButton configName={configName} config={config} />
       </styled.div>
-      <Spacer space="24px" />
-      <styled.div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Status running={machines.length} type="machine" />
-      </styled.div>
-      <Spacer space="32px" />
+      <Text space typo="caption400">
+        Some description of the machine
+      </Text>
       <Accordion>
-        <AccordionItem label="Settings" expanded={expanded}>
+        <AccordionItem
+          onExpand={(v) => {
+            expanded[configName + '-settings'] = v
+            setExpanded(expanded)
+          }}
+          expanded={expanded[configName + '-settings']}
+          label="Settings"
+        >
           <Amount config={config} env={env} id={configName} />
         </AccordionItem>
-        <Services
-          machines={machines}
-          configName={configName}
-          config={config}
-          expanded={expanded}
-        />
+        <Services machines={machines} configName={configName} config={config} />
         <MachinesSection
           machines={machines}
           configName={configName}
           config={config}
-          expanded={expanded}
+          expanded={expanded[configName + '-machines']}
         />
       </Accordion>
     </Container>
@@ -95,24 +91,34 @@ const MachineConfig: FC<{
 }
 
 export const Machines: FC<{ env: Env }> = ({ env }) => {
-  const { data: envData } = useQuery('env', env)
-  const [expanded, setExpanded] = useContextState('expanded', false)
+  const { data: envData, checksum } = useQuery('env', env)
   const [filter, setFilter] = useContextState('filter', '')
-
   const { open } = useDialog()
-
-  let config = envData?.config?.machineConfigs || {}
-
-  if (filter) {
-    config = deepCopy(machineConfigs)
-  }
+  const config: MachineConfig = useMemo(() => {
+    const c: MachineConfig = envData?.config?.machineConfigs || {}
+    if (filter) {
+      const filtered = deepCopy(c)
+      for (const k in filtered) {
+        const s = filtered[k].services
+        for (const x in s) {
+          if (!x.includes(filter)) {
+            delete s[x]
+          }
+        }
+        if (Object.keys(s).length === 0) {
+          delete filtered[k]
+        }
+      }
+      return filtered
+    }
+    return c
+  }, [checksum, filter])
 
   const machineConfigs = []
 
   for (const key in config) {
     machineConfigs.push(
       <MachineConfig
-        expanded={expanded}
         key={key}
         env={env}
         configName={key}
@@ -137,15 +143,18 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
       >
         <Button
           style={{ marginRight: 8 }}
-          onClick={() => {
-            setExpanded(!expanded)
-          }}
+          onClick={() => {}}
           ghost
-          icon={expanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+          icon={
+            <Badge color="accent" style={{ marginRight: 8 }}>
+              5
+            </Badge>
+          }
         >
-          {expanded ? 'Collapse all' : 'Expand all'}
+          Upgrades available
         </Button>
         <Button
+          color="text"
           ghost
           onClick={() => {
             open(<AddMachineModal env={env} />)

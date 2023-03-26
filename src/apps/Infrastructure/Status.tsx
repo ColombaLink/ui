@@ -6,7 +6,7 @@ export const Status: FC<{
   running?: number
   deploying?: number
   unreachable?: number
-  type: 'service' | 'machine'
+  type: 'service' | 'machine' | 'instance'
 }> = ({ running, type, deploying, unreachable }) => {
   return (
     <styled.div

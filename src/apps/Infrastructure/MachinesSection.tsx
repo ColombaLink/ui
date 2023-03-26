@@ -2,6 +2,7 @@ import { MachineConfig } from '../../../../based-cloud/packages/machine-config/d
 import React, { FC } from 'react'
 import { color, Button, AccordionItem, ReplaceIcon, Badge } from '~'
 import { styled } from 'inlines'
+import { Status } from './Status'
 
 export const MachinesSection: FC<{
   configName: string
@@ -13,7 +14,7 @@ export const MachinesSection: FC<{
     <AccordionItem
       label="Machines"
       expanded={expanded}
-      topRight={<Badge>{machines.length}</Badge>}
+      topRight={<Status running={machines.length} type="machine" />}
     >
       <styled.div
         style={{

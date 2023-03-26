@@ -1,7 +1,6 @@
 import {
   MachineConfig,
   Service,
-  ServiceInstance,
 } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC, ReactNode } from 'react'
 import {
@@ -10,11 +9,12 @@ import {
   Button,
   AddIcon,
   AccordionItem,
-  Badge,
+  useContextState,
   Select,
   RedoIcon,
   StopIcon,
 } from '~'
+import { Status } from './Status'
 import { Machine, ServiceNamed } from './types'
 import { styled } from 'inlines'
 import { ActionMenuButton } from './ActionMenu'
@@ -92,20 +92,28 @@ const Service: FC<{
 export const Services: FC<{
   configName: string
   config: MachineConfig
-  expanded?: boolean
   machines: Machine[]
-}> = ({ config, configName, expanded, machines }) => {
+}> = ({ config, configName, machines }) => {
   const services: ServiceNamed[] = []
 
   for (const key in config.services) {
     services.push({ name: key, ...config.services[key] })
   }
 
+  const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
+    'expanded',
+    {}
+  )
+
   return (
     <AccordionItem
       label="Services"
-      expanded={expanded}
-      topRight={<Badge>{services.length}</Badge>}
+      onExpand={(v) => {
+        expanded[configName + '-services'] = v
+        setExpanded(expanded)
+      }}
+      expanded={expanded[configName + '-services']}
+      topRight={<Status running={services.length} type="service" />}
     >
       <styled.div
         style={{

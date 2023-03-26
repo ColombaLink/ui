@@ -9,6 +9,60 @@ import { styled } from 'inlines'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
 
+const DefaultSettings: FC<{
+  instance: ServiceInstance
+}> = ({ instance }) => {
+  return (
+    <styled.div
+      style={{
+        borderTop: '1px solid ' + color('border'),
+        marginLeft: -8,
+        marginRight: -8,
+        marginTop: 16,
+        paddingTop: 8,
+        flexWrap: 'wrap',
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Label
+        style={{
+          margin: 8,
+        }}
+        labelWidth={140}
+        direction="row"
+        label="Port"
+        description="Network port"
+      >
+        <Input
+          style={{ width: '100%', marginTop: 8 }}
+          placeholder="Port"
+          value={instance?.port}
+          type="number"
+          onChange={() => {}}
+        />
+      </Label>
+      <Label
+        style={{
+          margin: 8,
+        }}
+        labelWidth={140}
+        direction="row"
+        label="Name"
+        description="Instance name"
+      >
+        <Input
+          style={{ width: '100%', marginTop: 8 }}
+          placeholder="Name"
+          value={instance?.args?.name}
+          type="text"
+          onChange={() => {}}
+        />
+      </Label>
+    </styled.div>
+  )
+}
+
 const HubSettings: FC<{
   instance: ServiceInstance
 }> = ({ instance }) => {
@@ -259,7 +313,7 @@ export const Instance: FC<{
   let type: string
   if (service.name.includes('hub')) {
     type = 'hub'
-  } else if (service.name.includes('db')) {
+  } else if (service.name.includes('db') && !service.name.includes('ts-')) {
     type = 'db'
   }
 
@@ -271,7 +325,7 @@ export const Instance: FC<{
       label={service.name + ' #' + index}
       topRight={
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Status type="service" running={machines.length} />
+          <Status type="instance" running={machines.length} />
           <ActionMenuButton config={config} configName={configName} />
         </div>
       }
@@ -280,7 +334,9 @@ export const Instance: FC<{
         <HubSettings instance={instance} />
       ) : type === 'db' ? (
         <DbSettings instance={instance} />
-      ) : null}
+      ) : (
+        <DefaultSettings instance={instance} />
+      )}
     </Card>
   )
 }
