@@ -1,10 +1,10 @@
 import { MachineConfig } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
 import {
-  color,
   Button,
   AccordionItem,
   Text,
+  border,
   ReplaceIcon,
   Badge,
   useContextState,
@@ -80,24 +80,30 @@ export const MachinesSection: FC<{
     'expanded',
     {}
   )
+  const expandKey = configName + 'm'
+
   return (
     <AccordionItem
       label="Machines"
       onExpand={(v) => {
-        expanded[configName + '-machines'] = v
+        if (!v) {
+          delete expanded[expandKey]
+        } else {
+          expanded[expandKey] = v
+        }
         setExpanded(expanded)
       }}
-      expanded={expanded[configName + '-machines']}
+      expanded={expanded[expandKey]}
       topRight={<Status running={machines.length} type="machine" />}
     >
       <RowEnd
         style={{
-          borderBottom: '1px solid ' + color('border'),
+          borderBottom: border(1),
           marginBottom: 24,
           paddingBottom: 24,
         }}
       >
-        <Button icon={<ReplaceIcon />} ghost>
+        <Button color="accent" icon={<ReplaceIcon />} ghost>
           Reboot all
         </Button>
       </RowEnd>

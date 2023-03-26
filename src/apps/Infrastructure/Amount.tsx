@@ -1,14 +1,5 @@
 import React, { FC, useState } from 'react'
-import {
-  Input,
-  CheckIcon,
-  Button,
-  CloseIcon,
-  color,
-  Label,
-  Row,
-  RowSpaced,
-} from '~'
+import { Input, Label, Row, border, RowSpaced, Accept } from '~'
 import { useClient } from '@based/react'
 import { Env } from './types'
 
@@ -24,7 +15,7 @@ export const Amount: FC<{
   return (
     <RowSpaced
       style={{
-        borderBottom: `1px solid ${color('border')}`,
+        borderBottom: border(1),
         paddingBottom: 24,
         marginBottom: 32,
       }}
@@ -62,34 +53,23 @@ export const Amount: FC<{
           />
 
           {config.min !== min || config.max !== max ? (
-            <Row>
-              <Button
-                onClick={() => {
-                  setMin(config.min)
-                  setMax(config.max)
-                }}
-                color="text2"
-                ghost
-                style={{ marginLeft: 16 }}
-                icon={<CloseIcon />}
-              />
-              <Button
-                onClick={async () => {
-                  const x = {
-                    ...env,
-                    config: {
-                      min,
-                      max,
-                    },
-                    configName: id,
-                  }
-                  await client.call('update-machine-config', x)
-                }}
-                ghost
-                style={{ marginLeft: 4 }}
-                icon={<CheckIcon />}
-              />
-            </Row>
+            <Accept
+              onCancel={() => {
+                setMin(config.min)
+                setMax(config.max)
+              }}
+              onAccept={async () => {
+                const x = {
+                  ...env,
+                  config: {
+                    min,
+                    max,
+                  },
+                  configName: id,
+                }
+                await client.call('update-machine-config', x)
+              }}
+            />
           ) : null}
         </Row>
       </Label>

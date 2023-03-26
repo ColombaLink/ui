@@ -3,9 +3,8 @@ import {
   ServiceInstance,
 } from '../../../../based-cloud/packages/machine-config/dist'
 import React, { FC } from 'react'
-import { Input, Checkbox, color, Card, Select, Label, RowSpaced } from '~'
+import { Input, Checkbox, Row, border, Card, Select, Label, RowSpaced } from '~'
 import { Machine, ServiceNamed } from './types'
-import { styled } from 'inlines'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
 
@@ -15,7 +14,7 @@ const DefaultSettings: FC<{
   return (
     <RowSpaced
       style={{
-        borderTop: '1px solid ' + color('border'),
+        borderTop: border(1),
         marginLeft: -8,
         marginRight: -8,
         marginTop: 16,
@@ -67,7 +66,7 @@ const HubSettings: FC<{
   return (
     <RowSpaced
       style={{
-        borderTop: '1px solid ' + color('border'),
+        borderTop: border(1),
         marginLeft: -8,
         marginRight: -8,
         marginTop: 16,
@@ -190,11 +189,10 @@ const HubSettings: FC<{
       >
         <Select style={{ width: 185 }} options={[]} />
       </Label>
-      <styled.div
+      <Row
         style={{
           width: '100%',
-          borderTop: '1px solid ' + color('border'),
-          display: 'flex',
+          borderTop: border(1),
           marginTop: 16,
           padding: 8,
           paddingTop: 16,
@@ -213,7 +211,7 @@ const HubSettings: FC<{
           }}
           label="Debug Mode"
         />
-      </styled.div>
+      </Row>
     </RowSpaced>
   )
 }
@@ -224,7 +222,7 @@ const DbSettings: FC<{
   return (
     <RowSpaced
       style={{
-        borderTop: '1px solid ' + color('border'),
+        borderTop: border(1),
         marginLeft: -8,
         marginRight: -8,
         marginTop: 16,
@@ -266,11 +264,10 @@ const DbSettings: FC<{
           onChange={() => {}}
         />
       </Label>
-      <div
+      <Row
         style={{
           width: '100%',
-          borderTop: '1px solid ' + color('border'),
-          display: 'flex',
+          borderTop: border(1),
           marginTop: 16,
           padding: 8,
           paddingTop: 16,
@@ -290,7 +287,7 @@ const DbSettings: FC<{
           }}
           label="Debug Mode"
         />
-      </div>
+      </Row>
     </RowSpaced>
   )
 }

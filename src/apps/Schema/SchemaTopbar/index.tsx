@@ -3,7 +3,7 @@ import { styled } from 'inlines'
 import { color } from '~/utils'
 import { Button } from '~/components/Button'
 import { Avatar } from '~/components/Avatar'
-import { BasedIcon, Text, Input, SearchIcon, Thumbnail } from '~'
+import { BasedIcon, Text, Input, SearchIcon, Thumbnail, Row } from '~'
 import { useClient } from '@based/react'
 
 const StyledSchemaTopbar = styled('div', {
@@ -24,7 +24,7 @@ export const SchemaTopbar = () => {
 
   return (
     <StyledSchemaTopbar>
-      <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <Row style={{ gap: 12 }}>
         <Thumbnail
           size={40}
           label={opts.project}
@@ -46,8 +46,8 @@ export const SchemaTopbar = () => {
             {opts.env}
           </Text>
         </div>
-      </div>
-      <div style={{ maxWidth: 492, width: '100%' }}>
+      </Row>
+      <styled.div style={{ maxWidth: 492, width: '100%' }}>
         <Input
           type="text"
           placeholder="Search & navigate"
@@ -64,8 +64,8 @@ export const SchemaTopbar = () => {
             paddingBottom: '6px',
           }}
         />
-      </div>
-      <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+      </styled.div>
+      <Row style={{ gap: 16 }}>
         <Button ghost color="text2">
           Changelog
         </Button>
@@ -84,7 +84,7 @@ export const SchemaTopbar = () => {
           Documentation
         </Button>
         <Avatar icon={BasedIcon} />
-      </div>
+      </Row>
     </StyledSchemaTopbar>
   )
 }

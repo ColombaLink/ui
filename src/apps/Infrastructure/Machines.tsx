@@ -42,6 +42,7 @@ const MachineConfig: FC<{
     'expanded',
     {}
   )
+  const expandKey = configName + 'p'
 
   return (
     <Container>
@@ -55,10 +56,14 @@ const MachineConfig: FC<{
       <Accordion>
         <AccordionItem
           onExpand={(v) => {
-            expanded[configName + '-settings'] = v
+            if (!v) {
+              delete expanded[expandKey]
+            } else {
+              expanded[expandKey] = v
+            }
             setExpanded(expanded)
           }}
-          expanded={expanded[configName + '-settings']}
+          expanded={expanded[expandKey]}
           label="Settings"
         >
           <Amount config={config} env={env} id={configName} />
@@ -123,6 +128,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
           style={{ marginRight: 8 }}
           onClick={() => {}}
           ghost
+          color="accent"
           icon={
             <Badge color="accent" style={{ marginRight: 8 }}>
               5
@@ -132,7 +138,6 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
           Upgrades available
         </Button>
         <Button
-          color="text"
           ghost
           onClick={() => {
             open(<AddMachineModal env={env} />)

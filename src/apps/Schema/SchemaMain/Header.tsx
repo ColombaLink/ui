@@ -16,6 +16,7 @@ import {
 import { SelectFieldTypeModal } from '../SelectFieldTypeModal'
 import { useClient } from '@based/react'
 import { expandFieldPath } from '../fieldParsers'
+import { styled } from 'inlines'
 
 const EditMenu = () => {
   const { open } = useDialog()
@@ -27,8 +28,8 @@ const EditMenu = () => {
       onClick={async () => {
         open(
           <Dialog label="Delete Type" style={{ paddingTop: 20 }}>
-            <div style={{}}>
-              <div
+            <div>
+              <styled.div
                 style={{
                   display: 'inline-flex',
                   flexDirection: 'row',
@@ -40,7 +41,7 @@ const EditMenu = () => {
                   Are you sure you want to delete the type{' '}
                 </Text>
                 <Text weight={700}>{type}</Text>
-              </div>
+              </styled.div>
               <Button
                 light
                 large
@@ -54,7 +55,7 @@ const EditMenu = () => {
                   height: 40,
                 }}
               >
-                <div
+                <styled.div
                   style={{
                     display: 'inline-flex',
                     flexDirection: 'row',
@@ -69,7 +70,7 @@ const EditMenu = () => {
                   <Text color="text">
                     Warning: Data stored in this field will be lost.
                   </Text>
-                </div>
+                </styled.div>
               </Button>
               <Dialog.Buttons border>
                 <Dialog.Cancel />

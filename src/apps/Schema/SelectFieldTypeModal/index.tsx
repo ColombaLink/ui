@@ -8,6 +8,7 @@ import {
   Grid,
   Input,
   SearchIcon,
+  Row,
   color,
 } from '~'
 import { color as colorFn } from '~/utils'
@@ -28,16 +29,14 @@ const Template = ({ template, type, field }) => {
   const { open } = useDialog()
 
   return (
-    <styled.div
+    <Row
       onClick={() => {
         removeOverlay()
         open(<FieldModal type={type} template={template} path={field} />)
       }}
       style={{
-        alignItems: 'center',
         borderRadius: 8,
         cursor: 'pointer',
-        display: 'flex',
         marginBottom: 3,
         marginLeft: 6,
         marginRight: 6,
@@ -61,7 +60,7 @@ const Template = ({ template, type, field }) => {
         }}
       />
       <Label label={label} description={description} />
-    </styled.div>
+    </Row>
   )
 }
 

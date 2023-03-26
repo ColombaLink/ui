@@ -10,7 +10,6 @@ import {
   Button,
   StopIcon,
   CloseIcon,
-  JsonIcon,
   CurlyBracesIcon,
 } from '~'
 import {

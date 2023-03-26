@@ -1,8 +1,8 @@
 import React, { FC } from 'react'
 import { SchemaMain } from './SchemaMain'
 import { SchemaLeft } from './SchemaLeft'
-import { Style, styled } from 'inlines'
-import { StateProvider } from '../../hooks/ContextState'
+import { Style } from 'inlines'
+import { StateProvider, Row } from '~'
 
 export * from './useSchema'
 export * from './templates'
@@ -13,9 +13,8 @@ export const Schema: FC<{
   onChange?: (key: string, val: any) => void
 }> = ({ style, values, onChange }) => {
   return (
-    <styled.div
+    <Row
       style={{
-        display: 'flex',
         flexGrow: 1,
         overflowX: 'hidden',
         overflowY: 'hidden',
@@ -26,6 +25,6 @@ export const Schema: FC<{
         <SchemaLeft />
         <SchemaMain />
       </StateProvider>
-    </styled.div>
+    </Row>
   )
 }

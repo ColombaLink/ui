@@ -1,12 +1,21 @@
 import { useClient } from '@based/react'
 import React, { FC, useState, ReactNode } from 'react'
 import { useSchema } from '../useSchema'
-import { Checkbox, Text, ScrollArea, useContextState, Page } from '~'
+import {
+  Checkbox,
+  Text,
+  ScrollArea,
+  useContextState,
+  Page,
+  Column,
+  Row,
+} from '~'
 import { Fields } from './Fields'
 import { Header } from './Header'
 import { Footer } from './Footer'
 import { getMeta } from './getMeta'
 import { TypeSchema } from '../types'
+import { styled } from 'inlines'
 
 export const SchemaMain: FC = () => {
   const [type] = useContextState('type', '')
@@ -55,7 +64,7 @@ export const SchemaMain: FC = () => {
   }
 
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Column style={{ width: '100%' }}>
       <ScrollArea
         style={{
           paddingLeft: 32,
@@ -68,15 +77,12 @@ export const SchemaMain: FC = () => {
         }}
       >
         {header}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
+        <Row>
+          <styled.div style={{ maxWidth: 660, flexGrow: 1, margin: '0 48px' }}>
             {field.length ? (
-              <div style={{ marginTop: 36, marginBottom: 24, width: '100%' }} />
+              <styled.div
+                style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
+              />
             ) : (
               <Checkbox
                 style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
@@ -119,10 +125,10 @@ export const SchemaMain: FC = () => {
                 }}
               />
             </div>
-          </div>
-        </div>
+          </styled.div>
+        </Row>
       </ScrollArea>
       {footer}
-    </div>
+    </Column>
   )
 }

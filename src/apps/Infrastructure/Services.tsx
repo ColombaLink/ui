@@ -5,7 +5,6 @@ import {
 import React, { FC, ReactNode } from 'react'
 import {
   Text,
-  color,
   Button,
   AddIcon,
   AccordionItem,
@@ -16,6 +15,7 @@ import {
   RowSpaced,
   Row,
   RowEnd,
+  border,
 } from '~'
 import { Status } from './Status'
 import { Machine, ServiceNamed } from './types'
@@ -50,7 +50,7 @@ const Service: FC<{
       style={{
         marginBottom: 24,
         paddingBottom: 32,
-        borderBottom: '1px solid ' + color('border'),
+        borderBottom: border(1),
       }}
     >
       <RowSpaced>
@@ -99,32 +99,37 @@ export const Services: FC<{
     'expanded',
     {}
   )
+  const expandKey = configName + 's'
 
   return (
     <AccordionItem
       label="Services"
       onExpand={(v) => {
-        expanded[configName + '-services'] = v
+        if (!v) {
+          delete expanded[expandKey]
+        } else {
+          expanded[expandKey] = v
+        }
         setExpanded(expanded)
       }}
-      expanded={expanded[configName + '-services']}
+      expanded={expanded[expandKey]}
       topRight={<Status running={services.length} type="service" />}
     >
       <RowEnd
         style={{
-          borderBottom: '1px solid ' + color('border'),
+          borderBottom: border(1),
           marginBottom: 24,
           paddingBottom: 24,
         }}
       >
         <Row>
-          <Button icon={<StopIcon />} ghost>
+          <Button color="accent" icon={<StopIcon />} ghost>
             Stop all
           </Button>
-          <Button icon={<RedoIcon />} ghost>
+          <Button color="accent" icon={<RedoIcon />} ghost>
             Restart all
           </Button>
-          <Button icon={<AddIcon />} ghost>
+          <Button color="accent" icon={<AddIcon />} ghost>
             Add service
           </Button>
         </Row>

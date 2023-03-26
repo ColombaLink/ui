@@ -13,16 +13,6 @@ import { useUpdate } from '~/hooks/useUpdate'
 import { Env } from './types'
 import { deepCopy } from '@saulx/utils'
 
-// component service instance
-// in tem overview and create modal
-
-// services endpoint
-// servies DISTS endpoint + names?
-
-// machineTemplates endpoint (can use org later)
-
-// const templateNames = templates.map((v) => v.configName)
-
 export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
   console.info(env)
   const update = useUpdate()
