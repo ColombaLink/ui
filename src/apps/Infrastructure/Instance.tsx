@@ -1,9 +1,16 @@
 import React, { FC } from 'react'
-import { Card, SettingsGroup } from '~'
-import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
+import { Card, SettingsGroup, useContextState } from '~'
+import {
+  ServiceInstance,
+  Machine,
+  MachineConfig,
+  Env,
+} from '@based/machine-config'
 import { ServiceNamed } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
+import { useClient } from '@based/react'
+import { deepMerge } from '@saulx/utils'
 
 type SettingProps = {
   onChange: (values: { [field: string]: any }) => void
@@ -48,7 +55,11 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
         'args.securityLevel': {
           label: 'Threat sensitivity',
           description: 'Auto block ips',
-          options: ['Level 1', 'Level 2', 'Level 3'],
+          options: [
+            { value: 1, label: 'Level 1' },
+            { value: 2, label: 'Level 2' },
+            { value: 3, label: 'Level 3' },
+          ],
         },
         'args.rateLimit.wsTokens': {
           label: 'Rate limit (ws)',
@@ -128,14 +139,32 @@ export const Instance: FC<{
   machines: Machine[]
 }> = ({ index, instance, service, config, configName, machines }) => {
   let type: string
+
+  const [env] = useContextState<Env>('env')
+
   if (service.name.includes('hub')) {
     type = 'hub'
   } else if (service.name.includes('db') && !service.name.includes('ts-')) {
     type = 'db'
   }
+  const client = useClient()
 
   const onChange = (values) => {
-    console.info('change this!', values)
+    const payload = {
+      ...env,
+      configName,
+      config: {
+        services: {
+          [service.name]: {
+            instances: {
+              [index]: deepMerge(instance, values),
+            },
+          },
+        },
+      },
+    }
+    // console.info(JSON.stringify(payload, null, 2))
+    client.call('update-machine-config', payload)
   }
 
   return (

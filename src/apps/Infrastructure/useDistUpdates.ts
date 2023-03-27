@@ -27,6 +27,7 @@ export const useDistUpdates = (
       persistent: true,
     }
   )
+  //
 
   return useMemo(() => {
     const needUpdate: Dist[] = []
@@ -38,10 +39,14 @@ export const useDistUpdates = (
         const currentDist = serviceDists.find(
           (d) => d.checksum === service.distChecksum
         )
-        for (const d of serviceDists) {
-          if (d.index > currentDist.index) {
-            needUpdate.push(d)
-            break
+        if (!currentDist) {
+          console.warn('Cannot find dist for', serviceName)
+        } else {
+          for (const d of serviceDists) {
+            if (d.index > currentDist.index) {
+              needUpdate.push(d)
+              break
+            }
           }
         }
       }

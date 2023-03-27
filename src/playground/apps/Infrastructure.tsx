@@ -39,13 +39,13 @@ const route = useRoute('[infraSection]/[expanded]');
       org: 'saulx',
       env: 'ci',
     }}
-    values={{ ...route.path, expanded: route.query.expanded }}
+    values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
     onChange={(key, v) => { 
-      if (key === 'expanded') {
-        if (Object.keys(v).length === 0) {
-          route.setQuery({ expanded: null })
+      if (key === 'expanded' || key === 'filter') {
+        if (!v || key === 'expanded' && Object.keys(v).length === 0) {
+          route.setQuery({ [key]: null })
         } else {
-          route.setQuery({ expanded: v })
+          route.setQuery({ [key]: v })
         }
       } else {
         route.setPath({ [key]: v || null})
