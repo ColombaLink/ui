@@ -6,7 +6,6 @@ import {
   Text,
   Input,
   Accordion,
-  AccordionItem,
   Spacer,
   useDialog,
   AddIcon,
@@ -17,13 +16,14 @@ import {
   RowEnd,
 } from '~'
 import { useQuery } from '@based/react'
+import { deepCopy } from '@saulx/utils'
 import { Env, Machine, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineModal'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
-import { deepCopy } from '@saulx/utils'
 import { Settings } from './Settings'
+import { useUpdates } from './useUpdates'
 
 const MachineConfig: FC<{
   configName: string
@@ -54,10 +54,16 @@ const MachineConfig: FC<{
 
 export const Machines: FC<{ env: Env }> = ({ env }) => {
   const { data: envData, checksum } = useQuery('env', env)
+
+  const updates = useUpdates(envData, checksum)
+
+  console.log(updates)
+
   const [filter, setFilter] = useContextState('filter', '')
   const { open } = useDialog()
-  const config: MachineConfig = useMemo(() => {
-    const c: MachineConfig = envData?.config?.machineConfigs || {}
+  const config: { [key: string]: MachineConfig } = useMemo(() => {
+    const c: { [key: string]: MachineConfig } =
+      envData?.config?.machineConfigs || {}
     if (filter) {
       const filtered = deepCopy(c)
       for (const k in filtered) {
@@ -82,7 +88,6 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
     machineConfigs.push(
       <MachineConfig
         key={key}
-        env={env}
         configName={key}
         config={config[key]}
         machines={

@@ -1,15 +1,7 @@
 import { useClient } from '@based/react'
 import React, { FC, useState, ReactNode } from 'react'
 import { useSchema } from '../useSchema'
-import {
-  Checkbox,
-  Text,
-  ScrollArea,
-  useContextState,
-  Page,
-  Column,
-  Row,
-} from '~'
+import { Checkbox, Text, ScrollArea, useContextState, Page, Column } from '~'
 import { Fields } from './Fields'
 import { Header } from './Header'
 import { Footer } from './Footer'
