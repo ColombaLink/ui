@@ -9,7 +9,6 @@ export const UpdateButton: FC<{
   }
   checksum?: number
 }> = ({ machineConfigs, checksum }) => {
-  // currentDist
   const updates = useDistUpdates(machineConfigs || {}, checksum)
   return updates.length ? (
     <Button

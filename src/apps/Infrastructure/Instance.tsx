@@ -81,6 +81,11 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
           type: 'number',
           description: 'Drain Δ/30 sec',
         },
+        'args.rateLimit.maxBackpressureSize': {
+          label: 'Max backpressure',
+          type: 'number',
+          description: 'Backpressure in bytes',
+        },
         'args.sharedPort': {
           type: 'boolean',
           label: 'Shared port',
@@ -152,6 +157,7 @@ export const Instance: FC<{
   const onChange = (values) => {
     const payload = {
       ...env,
+      ignorePorts: true, // tmp
       configName,
       config: {
         services: {
@@ -163,7 +169,6 @@ export const Instance: FC<{
         },
       },
     }
-    // console.info(JSON.stringify(payload, null, 2))
     client.call('update-machine-config', payload)
   }
 
