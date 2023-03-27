@@ -23,6 +23,7 @@ import { deepEqual } from '@saulx/utils'
 export function useSelect<T = any>(
   items: (Option | Value)[] = [],
   value?: Value,
+  onChange?: (val: Value) => void,
   position?: PositionProps & {
     filterable?: boolean | 'create'
     placeholder?: string
@@ -55,6 +56,9 @@ export function useSelect<T = any>(
         items: n,
         value: v,
         onChange: useCallback((value) => {
+          if (onChange) {
+            onChange(value)
+          }
           setValue(value)
         }, []),
       },

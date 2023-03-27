@@ -1,5 +1,5 @@
 import React from 'react'
-import { MultiSelect, Select } from '~/components/Select'
+import { Select } from '~/components/Select'
 import ComponentViewer from '../ComponentViewer'
 
 const ms = `import { MultiSelect } from '@based/ui'
@@ -31,7 +31,7 @@ export const Selects = () => {
           {
             props: {
               value: 'yes',
-              onChange: () => console.log('Snurp'),
+              onChange: () => console.info('Snurp'),
               placeholder: 'select something...',
               label: 'Something',
               options: ['yes', 'no', 'for sure'],

@@ -1,12 +1,16 @@
-import React, { FC, useEffect, ReactNode, useRef } from 'react'
-import { useSelect } from '~/hooks/useSelect'
+import React, { FC, ReactNode } from 'react'
 import { Value, Option } from '~/components/ContextMenu'
-import { Text } from '~/components/Text'
-import { styled, Style } from 'inlines'
-import { PositionProps } from '../Overlay'
-import { Color } from '~/types'
-import { ChevronDownIcon } from '~/icons'
-import { boxShadow, color } from '~/utils'
+import {
+  styled,
+  Style,
+  Color,
+  useSelect,
+  PositionProps,
+  Text,
+  boxShadow,
+  color,
+  ChevronDownIcon,
+} from '~'
 import { SelectLabel } from './shared'
 
 export const StyledSelect = styled('div', {
@@ -66,8 +70,7 @@ export const Select: FC<SelectProps> = ({
   ghost,
   onClick,
 }) => {
-  const openedRef = useRef<boolean>()
-  const [currentValue, open] = useSelect(options, value, {
+  const [currentValue, open] = useSelect(options, value, onChange, {
     variant: 'over',
     filterable,
     placement: 'left',
@@ -75,15 +78,6 @@ export const Select: FC<SelectProps> = ({
     ...overlay,
   })
   let labelValue: ReactNode = currentValue
-
-  useEffect(() => {
-    if (openedRef.current) {
-      if (currentValue !== value) {
-        // TODO: Fix this type
-        onChange?.(currentValue as Value)
-      }
-    }
-  }, [currentValue, onChange])
 
   if (currentValue) {
     for (const opt of options) {
@@ -124,7 +118,6 @@ export const Select: FC<SelectProps> = ({
     <SelectLabel
       label={label}
       onClick={(e) => {
-        openedRef.current = true
         open(e)
       }}
       style={style}
@@ -137,7 +130,6 @@ export const Select: FC<SelectProps> = ({
         if (onClick) {
           onClick()
         }
-        openedRef.current = true
         open(e)
       }}
       style={{

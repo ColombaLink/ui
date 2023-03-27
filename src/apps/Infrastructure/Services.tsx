@@ -13,12 +13,15 @@ import {
   Row,
   RowEnd,
   border,
+  SelectOption,
 } from '~'
 import { Status } from './Status'
 import { ServiceNamed } from './types'
 import { styled } from 'inlines'
 import { ActionMenuButton } from './ActionMenu'
 import { Instance } from './Instance'
+import { UpdateButton } from './UpdateButton'
+import { useQuery } from '@based/react'
 
 const Service: FC<{
   service: ServiceNamed
@@ -42,6 +45,26 @@ const Service: FC<{
     )
   }
 
+  const { data: dists = {} } = useQuery<{
+    [key: string]: any[]
+  }>(
+    'dists',
+    {
+      type: 'env',
+    },
+    {
+      persistent: true,
+    }
+  )
+
+  const selectOptions: SelectOption[] =
+    dists[service.name]?.map((v) => {
+      return {
+        label: v.version,
+        value: v.checksum,
+      }
+    }) || []
+
   return (
     <styled.div
       style={{
@@ -60,11 +83,20 @@ const Service: FC<{
                 {service.name}
               </Text>
             }
-            value={service.distChecksum.slice(-4)}
-            options={[service.distChecksum.slice(-4)]}
+            value={service.distChecksum}
+            options={selectOptions}
           />
         </styled.div>
         <Row>
+          <UpdateButton
+            machineConfigs={{
+              [configName]: {
+                services: {
+                  [service.name]: service,
+                },
+              },
+            }}
+          />
           <ActionMenuButton config={config} configName={configName} />
           <Button color="text" icon={<AddIcon />} ghost />
         </Row>
@@ -85,7 +117,8 @@ export const Services: FC<{
   configName: string
   config: MachineConfig
   machines: Machine[]
-}> = ({ config, configName, machines }) => {
+  create?: boolean
+}> = ({ config, configName, machines, create }) => {
   const services: ServiceNamed[] = []
 
   for (const key in config.services) {
@@ -126,13 +159,13 @@ export const Services: FC<{
         }}
       >
         <Row>
-          <Button color="accent" icon={<StopIcon />} ghost>
+          <Button icon={<StopIcon />} ghost>
             Stop all
           </Button>
-          <Button color="accent" icon={<RedoIcon />} ghost>
+          <Button icon={<RedoIcon />} ghost>
             Restart all
           </Button>
-          <Button color="accent" icon={<AddIcon />} ghost>
+          <Button icon={<AddIcon />} ghost>
             Add service
           </Button>
         </Row>

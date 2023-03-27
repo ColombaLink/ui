@@ -11,7 +11,6 @@ import {
   AddIcon,
   useContextState,
   SearchIcon,
-  Badge,
   RowSpaced,
   RowEnd,
 } from '~'
@@ -23,7 +22,7 @@ import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
-import { useUpdates } from './useUpdates'
+import { UpdateButton } from './UpdateButton'
 
 const MachineConfig: FC<{
   configName: string
@@ -53,11 +52,9 @@ const MachineConfig: FC<{
 }
 
 export const Machines: FC<{ env: Env }> = ({ env }) => {
-  const { data: envData, checksum } = useQuery('env', env)
-
-  const updates = useUpdates(envData, checksum)
-
-  console.log(updates)
+  const { data: envData, checksum } = useQuery('env', env, {
+    persistent: true,
+  })
 
   const [filter, setFilter] = useContextState('filter', '')
   const { open } = useDialog()
@@ -102,19 +99,10 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
   return (
     <Page>
       <RowEnd>
-        <Button
-          style={{ marginRight: 8 }}
-          onClick={() => {}}
-          ghost
-          color="accent"
-          icon={
-            <Badge color="accent" style={{ marginRight: 8 }}>
-              5
-            </Badge>
-          }
-        >
-          Upgrades available
-        </Button>
+        <UpdateButton
+          machineConfigs={envData?.config?.machineConfigs}
+          checksum={checksum}
+        />
         <Button
           ghost
           onClick={() => {

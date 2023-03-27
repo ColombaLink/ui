@@ -125,7 +125,7 @@ export const MachinesSection: FC<{
           paddingBottom: 24,
         }}
       >
-        <Button color="accent" icon={<ReplaceIcon />} ghost>
+        <Button icon={<ReplaceIcon />} ghost>
           Reboot all
         </Button>
       </RowEnd>

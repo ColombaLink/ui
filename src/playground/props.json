@@ -788,7 +788,7 @@
         },
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "space": {
           "optional": true,
@@ -811,7 +811,7 @@
           "type": "function"
         }
       },
-      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: Style\n  onChange?: (value: boolean) => void\n  label?: string\n  space?: Space\n  wrap?: boolean\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
+      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: Style\n  onChange?: (value: boolean) => void\n  label?: ReactNode\n  space?: Space\n  wrap?: boolean\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -2163,7 +2163,7 @@
         },
         "description": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "descriptionColor": {
           "optional": true,
@@ -2208,7 +2208,7 @@
           ]
         }
       },
-      "code": "type LabelProps = {\n  label?: ReactNode\n  labelColor?: Color\n  wrap?: boolean\n  description?: string\n  descriptionColor?: Color\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  labelWidth?: number\n  space?: Space\n  style?: Style\n  direction?: 'row' | 'column'\n}",
+      "code": "type LabelProps = {\n  label?: ReactNode\n  labelColor?: Color\n  wrap?: boolean\n  description?: ReactNode\n  descriptionColor?: Color\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconColor?: Color\n  children?: ReactNode\n  labelWidth?: number\n  space?: Space\n  style?: Style\n  direction?: 'row' | 'column'\n}",
       "file": "/components/Label/index.tsx"
     },
     "LineGraphProps": {
@@ -2270,7 +2270,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "onClick": {
           "optional": true,
@@ -2281,7 +2281,7 @@
           "type": "string"
         }
       },
-      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: CSSProperties\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  id?: string\n}",
+      "code": "type MenuHeaderProps = {\n  children?: ReactNode\n  style?: Style\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  id?: string\n}",
       "file": "/components/Menu/index.tsx"
     },
     "MenuItemProps": {
@@ -2953,7 +2953,7 @@
         },
         "options": {
           "type": {
-            "array": "TSParenthesizedType"
+            "array": "SelectOption"
           }
         },
         "onChange": {
@@ -3006,7 +3006,7 @@
           "type": "function"
         }
       },
-      "code": "type SelectProps = {\n  value?: Value\n  options: (Option | Value)[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n}",
+      "code": "type SelectProps = {\n  value?: Value\n  options: SelectOption[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n}",
       "file": "/components/Select/Select.tsx"
     },
     "SeparatorProps": {
@@ -3058,6 +3058,41 @@
       },
       "code": "type SetListProps = {\n  description?: string\n  disabled?: boolean\n  space?: Space\n  indent?: boolean\n  onChange?(items: {}): void\n  value?: any\n  schema?: any\n}",
       "file": "/components/SetList/index.tsx"
+    },
+    "SettingsGroupProps": {
+      "name": "SettingsGroupProps",
+      "props": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "labelWidth": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "values": {
+          "optional": true,
+          "type": "TSTypeLiteral"
+        },
+        "data": {
+          "optional": true,
+          "type": [
+            {
+              "array": "SettingGroupItem"
+            },
+            "TSTypeLiteral"
+          ]
+        },
+        "alwaysAccept": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type SettingsGroupProps = {\n  style?: Style\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
+      "file": "/components/SettingsGroup/index.tsx"
     },
     "SidebarProps": {
       "name": "SidebarProps",
