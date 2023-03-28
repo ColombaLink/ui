@@ -187,6 +187,7 @@ export type SettingsGroupProps = {
     | SettingGroupItem[]
     | {
         [field: string]:
+          | null
           | ReactNode
           | (Omit<SettingGroupItem, 'field'> & { field?: string })
       }
@@ -282,6 +283,9 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
     parsedData = []
     for (const field in data) {
       const item = data[field]
+      if (item === null) {
+        continue
+      }
       if (typeof item === 'object' && !React.isValidElement(item)) {
         parsedData.push({ ...item, field })
       } else {

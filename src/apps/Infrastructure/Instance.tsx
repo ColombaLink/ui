@@ -15,6 +15,8 @@ import { deepMerge } from '@saulx/utils'
 type SettingProps = {
   onChange: (values: { [field: string]: any }) => void
   instance: ServiceInstance
+  // eslint-disable-next-line
+  serviceName?: string
 }
 
 const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
@@ -27,12 +29,7 @@ const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
           type: 'number',
           description: 'Network port',
         },
-        'args.name': {
-          label: 'Name',
-          type: 'text',
-          description: 'Instance name',
-        },
-        'args.debugMode': {
+        isDebug: {
           type: 'boolean',
           label: 'Debug mode',
         },
@@ -51,24 +48,24 @@ const DiscoverSettings: FC<SettingProps> = ({ instance, onChange }) => {
           type: 'number',
           description: 'Network port',
         },
-        'args.serverBatchSize': {
+        serverListSize: {
           type: 'number',
-          label: 'Server batch size',
-          description: 'Servers/reply',
+          label: 'List size',
+          description: 'Servers/response',
           default: 5,
         },
-        'args.spread': {
+        spread: {
           type: 'number',
           label: 'Spread',
-          description: 'Max unique replies',
+          description: 'Max unique responses',
           default: 10e3,
         },
-        'args.name': {
+        name: {
           label: 'Name',
           type: 'text',
           description: 'Instance name',
         },
-        'args.debugMode': {
+        isDebug: {
           type: 'boolean',
           label: 'Debug mode',
         },
@@ -87,12 +84,12 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
           type: 'number',
           description: 'Network port',
         },
-        'args.name': {
+        name: {
           label: 'Name',
           type: 'text',
           description: 'Instance name',
         },
-        'args.securityLevel': {
+        securityLevel: {
           label: 'Threat sensitivity',
           description: 'Auto block ips',
           options: [
@@ -101,43 +98,43 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
             { value: 3, label: 'Level 3' },
           ],
         },
-        'args.rateLimit.ws': {
+        'rateLimit.ws': {
           label: 'Rate limit (ws)',
           type: 'number',
           description: 'Max Rate limit tokens',
           default: 2e3,
         },
-        'args.rateLimit.http': {
+        'rateLimit.http': {
           label: 'Rate limit (http)',
           type: 'number',
           description: 'Max Rate limit tokens',
           default: 1e3,
         },
-        'args.rateLimit.drain': {
+        'rateLimit.drain': {
           label: 'Rate limit drain',
           type: 'number',
           description: 'Drain Δ/30 sec',
           default: 500,
         },
-        'args.ws.maxBackpressureSize': {
+        'ws.maxBackpressureSize': {
           label: 'Max backpressure',
           type: 'number',
           description: 'Backpressure in bytes',
           default: 1024 * 1024 * 10,
         },
-        'args.sharedPort': {
+        sharedPort: {
           type: 'boolean',
           label: 'Shared port',
         },
-        'args.disableRest': {
+        disableRest: {
           type: 'boolean',
           label: 'Disable rest',
         },
-        'args.disableWs': {
+        disableWs: {
           type: 'boolean',
           label: 'Disable ws',
         },
-        'args.debugMode': {
+        isDebug: {
           type: 'boolean',
           label: 'Debug mode',
         },
@@ -146,7 +143,7 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
   )
 }
 
-const DbSettings: FC<SettingProps> = ({ instance, onChange }) => {
+const DbSettings: FC<SettingProps> = ({ instance, onChange, serviceName }) => {
   return (
     <SettingsGroup
       values={instance}
@@ -156,20 +153,23 @@ const DbSettings: FC<SettingProps> = ({ instance, onChange }) => {
           type: 'number',
           description: 'Network port',
         },
-        'args.name': {
-          label: 'Name',
-          type: 'text',
-          description: 'Instance name',
-        },
-        'args.noBackUps': {
+        name:
+          serviceName === '@based/env-db'
+            ? {
+                label: 'Name',
+                type: 'text',
+                description: 'Instance name',
+              }
+            : null,
+        noBackUps: {
           type: 'boolean',
           label: 'Disable Backups',
         },
-        'args.noIndexing': {
+        noIndexing: {
           type: 'boolean',
           label: 'Disable Dynamic Indexing',
         },
-        'args.debugMode': {
+        isDebug: {
           type: 'boolean',
           label: 'Debug mode',
         },
@@ -197,7 +197,11 @@ export const Instance: FC<{
     service.name === '@based/env-admin-hub'
   ) {
     type = 'hub'
-  } else if (service.name.includes('db') && !service.name.includes('ts-')) {
+  } else if (
+    service.name === '@based/env-db' ||
+    service.name === '@based/env-metrics-db' ||
+    service.name === '@based/env-config-db'
+  ) {
     type = 'db'
   }
   const client = useClient()
@@ -238,7 +242,11 @@ export const Instance: FC<{
       ) : type === 'hub' ? (
         <HubSettings onChange={onChange} instance={instance} />
       ) : type === 'db' ? (
-        <DbSettings onChange={onChange} instance={instance} />
+        <DbSettings
+          onChange={onChange}
+          instance={instance}
+          serviceName={service.name}
+        />
       ) : (
         <DefaultSettings onChange={onChange} instance={instance} />
       )}
