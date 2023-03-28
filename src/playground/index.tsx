@@ -51,7 +51,7 @@ const Stories: FC = () => {
     }
     return <>{route.nest(React.createElement(component))}</>
   }
-  return <>Overview</>
+  return <></>
 }
 
 const menuItems = {
@@ -179,5 +179,6 @@ const Wrapper = () => {
 
 const app = document.createElement('div')
 document.body.appendChild(app)
+document.body.style.overflow = 'hidden'
 const root = createRoot(app)
 root.render(<Wrapper />)

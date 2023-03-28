@@ -54,10 +54,9 @@ export const Label = ({
       <div
         style={{
           minWidth: labelWidth,
-          display: 'flex',
+          display: direction === 'row' ? 'flex' : null,
           marginRight: direction === 'row' ? 16 : 0,
           flexDirection: direction === 'row' ? 'column' : 'row',
-          alignItems: direction === 'row' ? null : 'center',
           marginTop: direction === 'row' ? 8 : 0,
         }}
       >
