@@ -122,12 +122,14 @@ export const MachinesSection: FC<{
         style={{
           borderBottom: border(1),
           marginBottom: 8,
-          paddingBottom: 24,
+          paddingBottom: machines.length > 1 ? 24 : 0,
         }}
       >
-        <Button icon={<ReplaceIcon />} ghost>
-          Reboot all
-        </Button>
+        {machines.length > 1 ? (
+          <Button icon={<ReplaceIcon />} ghost>
+            Reboot all
+          </Button>
+        ) : null}
       </RowEnd>
       {machines.map((m) => {
         return <Machine machine={m} key={m.id} />

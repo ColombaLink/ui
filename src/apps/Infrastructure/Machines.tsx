@@ -32,7 +32,7 @@ const MachineConfig: FC<{
 }> = ({ configName, config, machines, env }) => {
   const client = useClient()
   return (
-    <Container>
+    <Container space="32px">
       <RowSpaced>
         <Text typo="subtitle600">{configName}</Text>
         <ActionMenuButton configName={configName} config={config} />
