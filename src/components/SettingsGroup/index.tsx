@@ -50,7 +50,7 @@ export const SettingsField: FC<{
   onChange: (field: string, value: any) => void
 }> = ({
   width = 160,
-  item: { type, field, label, description, options },
+  item: { type, field, label, description, options, default: defaultValue },
   value,
   style,
   onChange,
@@ -60,6 +60,10 @@ export const SettingsField: FC<{
       () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
       [field]
     )
+  }
+
+  if ((defaultValue && value === undefined) || value === '') {
+    value = defaultValue
   }
 
   if (options) {
@@ -171,6 +175,7 @@ export type SettingGroupItem = {
   description?: ReactNode
   field: string
   options?: SelectOption[]
+  default?: any
 }
 
 export type SettingsGroupProps = {

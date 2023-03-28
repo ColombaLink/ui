@@ -32,6 +32,46 @@ const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
           type: 'text',
           description: 'Instance name',
         },
+        'args.debugMode': {
+          type: 'boolean',
+          label: 'Debug mode',
+        },
+      }}
+    />
+  )
+}
+
+const DiscoverSettings: FC<SettingProps> = ({ instance, onChange }) => {
+  return (
+    <SettingsGroup
+      values={instance}
+      onChange={onChange}
+      data={{
+        port: {
+          type: 'number',
+          description: 'Network port',
+        },
+        'args.serverBatchSize': {
+          type: 'number',
+          label: 'Server batch size',
+          description: 'Servers/reply',
+          default: 5,
+        },
+        'args.spread': {
+          type: 'number',
+          label: 'Spread',
+          description: 'Max unique replies',
+          default: 10e3,
+        },
+        'args.name': {
+          label: 'Name',
+          type: 'text',
+          description: 'Instance name',
+        },
+        'args.debugMode': {
+          type: 'boolean',
+          label: 'Debug mode',
+        },
       }}
     />
   )
@@ -61,38 +101,41 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
             { value: 3, label: 'Level 3' },
           ],
         },
-        'args.rateLimit.wsTokens': {
+        'args.rateLimit.ws': {
           label: 'Rate limit (ws)',
           type: 'number',
           description: 'Max Rate limit tokens',
+          default: 2e3,
         },
-        'args.rateLimit.wsDrain': {
-          label: 'Rate limit drain (ws)',
-          type: 'number',
-          description: 'Drain Δ/30 sec',
-        },
-        'args.rateLimit.httpTokens': {
+        'args.rateLimit.http': {
           label: 'Rate limit (http)',
           type: 'number',
           description: 'Max Rate limit tokens',
+          default: 1e3,
         },
-        'args.rateLimit.httpDrain': {
-          label: 'Rate limit drain (http)',
+        'args.rateLimit.drain': {
+          label: 'Rate limit drain',
           type: 'number',
           description: 'Drain Δ/30 sec',
+          default: 500,
         },
-        'args.rateLimit.maxBackpressureSize': {
+        'args.ws.maxBackpressureSize': {
           label: 'Max backpressure',
           type: 'number',
           description: 'Backpressure in bytes',
+          default: 1024 * 1024 * 10,
         },
         'args.sharedPort': {
           type: 'boolean',
           label: 'Shared port',
         },
-        'args.noHttp': {
+        'args.disableRest': {
           type: 'boolean',
-          label: 'Disable http',
+          label: 'Disable rest',
+        },
+        'args.disableWs': {
+          type: 'boolean',
+          label: 'Disable ws',
         },
         'args.debugMode': {
           type: 'boolean',
@@ -147,7 +190,12 @@ export const Instance: FC<{
 
   const [env] = useContextState<Env>('env')
 
-  if (service.name.includes('hub')) {
+  if (service.name === '@based/env-hub-discovery') {
+    type = 'discover'
+  } else if (
+    service.name === '@based/env-hub' ||
+    service.name === '@based/env-admin-hub'
+  ) {
     type = 'hub'
   } else if (service.name.includes('db') && !service.name.includes('ts-')) {
     type = 'db'
@@ -185,7 +233,9 @@ export const Instance: FC<{
         </div>
       }
     >
-      {type === 'hub' ? (
+      {type === 'discover' ? (
+        <DiscoverSettings onChange={onChange} instance={instance} />
+      ) : type === 'hub' ? (
         <HubSettings onChange={onChange} instance={instance} />
       ) : type === 'db' ? (
         <DbSettings onChange={onChange} instance={instance} />
