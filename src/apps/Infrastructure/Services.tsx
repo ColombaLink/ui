@@ -12,12 +12,12 @@ import {
   RowSpaced,
   Row,
   RowEnd,
+  styled,
   border,
   SelectOption,
 } from '~'
 import { Status } from './Status'
-import { ServiceNamed } from './types'
-import { styled } from 'inlines'
+import { ServiceNamed, OnMachineConfigChange } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Instance } from './Instance'
 import { UpdateButton } from './UpdateButton'
@@ -27,13 +27,15 @@ const Service: FC<{
   service: ServiceNamed
   configName: string
   machines: Machine[]
+  onChange: OnMachineConfigChange
   config: MachineConfig
-}> = ({ service, config, configName, machines }) => {
+}> = ({ service, config, configName, machines, onChange }) => {
   const instances: ReactNode[] = []
 
   for (const x in service.instances) {
     instances.push(
       <Instance
+        onChange={onChange}
         machines={machines}
         config={config}
         configName={configName}
@@ -115,10 +117,10 @@ const Service: FC<{
 
 export const Services: FC<{
   configName: string
-  config: MachineConfig
+  config: MachineConfig & { configName?: string }
   machines: Machine[]
-  create?: boolean
-}> = ({ config, configName, machines, create }) => {
+  onChange: OnMachineConfigChange
+}> = ({ config, configName, machines, onChange }) => {
   const services: ServiceNamed[] = []
 
   for (const key in config.services) {
@@ -143,13 +145,7 @@ export const Services: FC<{
         setExpanded(expanded)
       }}
       expanded={expanded[expandKey]}
-      topRight={
-        <Status
-          goodColor={expanded[expandKey] ? 'accent' : 'green'}
-          running={services.length}
-          type="service"
-        />
-      }
+      topRight={<Status count={services.length} type="service" />}
     >
       <RowEnd
         style={{
@@ -174,6 +170,7 @@ export const Services: FC<{
       {services.map((s) => {
         return (
           <Service
+            onChange={onChange}
             machines={machines}
             config={config}
             configName={configName}

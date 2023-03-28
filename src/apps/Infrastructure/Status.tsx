@@ -6,12 +6,30 @@ export const Status: FC<{
   deploying?: number
   unreachable?: number
   goodColor?: Color
+  count?: number
   type: 'service' | 'machine' | 'instance'
-}> = ({ running, type, deploying, unreachable, goodColor = 'green' }) => {
+}> = ({
+  running,
+  type,
+  deploying,
+  unreachable,
+  goodColor = 'green',
+  count,
+}) => {
   const noProblems = !unreachable
 
   return (
     <Row>
+      {count !== undefined ? (
+        <Badge
+          style={{ marginRight: 12 }}
+          color="accent"
+          // color={noProblems ? goodColor : null}
+        >
+          {count} {type}
+          {count !== 1 ? 's' : ''}
+        </Badge>
+      ) : null}
       {running ? (
         <Badge
           iconRight={noProblems ? CheckIcon : null}

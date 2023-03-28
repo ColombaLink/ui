@@ -14,10 +14,10 @@ import {
   RowSpaced,
   RowEnd,
 } from '~'
-import { useQuery } from '@based/react'
+import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import { Env, Machine, MachineConfig } from '@based/machine-config'
-import { AddMachineModal } from './AddMachineModal'
+import { AddMachineModal } from './AddMachineTemplateModal'
 import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
@@ -28,7 +28,9 @@ const MachineConfig: FC<{
   configName: string
   config: MachineConfig
   machines: Machine[]
-}> = ({ configName, config, machines }) => {
+  env: Env
+}> = ({ configName, config, machines, env }) => {
+  const client = useClient()
   return (
     <Container>
       <RowSpaced>
@@ -39,8 +41,33 @@ const MachineConfig: FC<{
         Some description of the machine
       </Text>
       <Accordion>
-        <Settings configName={configName} config={config} />
-        <Services machines={machines} configName={configName} config={config} />
+        <Settings
+          configName={configName}
+          config={config}
+          onChange={(config) => {
+            const payload = {
+              ...env,
+              ignorePorts: true, // tmp
+              configName,
+              config,
+            }
+            client.call('update-machine-config', payload)
+          }}
+        />
+        <Services
+          onChange={(config) => {
+            const payload = {
+              ...env,
+              ignorePorts: true, // tmp
+              configName,
+              config,
+            }
+            client.call('update-machine-config', payload)
+          }}
+          machines={machines}
+          configName={configName}
+          config={config}
+        />
         <MachinesSection
           machines={machines}
           configName={configName}
@@ -84,6 +111,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
   for (const key in config) {
     machineConfigs.push(
       <MachineConfig
+        env={env}
         key={key}
         configName={key}
         config={config[key]}

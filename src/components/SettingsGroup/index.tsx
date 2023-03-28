@@ -311,10 +311,11 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           item={d}
           onChange={onChangeField}
           value={
-            d.value ?? hasChanges
+            d.value ??
+            (hasChanges
               ? getValue(d.field, valuesChanged.current) ??
                 getValue(d.field, values)
-              : getValue(d.field, values)
+              : getValue(d.field, values))
           }
         />
       )
@@ -326,10 +327,11 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           item={d}
           onChange={onChangeField}
           value={
-            d.value ?? hasChanges
+            d.value ??
+            (hasChanges
               ? getValue(d.field, valuesChanged.current) ??
                 getValue(d.field, values)
-              : getValue(d.field, values)
+              : getValue(d.field, values))
           }
         />
       )

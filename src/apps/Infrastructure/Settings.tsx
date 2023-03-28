@@ -1,16 +1,19 @@
 import React, { FC } from 'react'
 import { AccordionItem, useContextState, SettingsGroup } from '~'
 import { MachineConfig } from '@based/machine-config'
+import { OnMachineConfigChange } from './types'
 
 export const Settings: FC<{
   configName: string
   config: MachineConfig
-}> = ({ config, configName }) => {
+  onChange: OnMachineConfigChange
+}> = ({ config, configName, onChange }) => {
   const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
     'expanded',
     {}
   )
   const expandKey = configName + 'g'
+
   return (
     <AccordionItem
       onExpand={(v) => {
@@ -26,15 +29,21 @@ export const Settings: FC<{
     >
       <SettingsGroup
         onChange={(values) => {
-          console.info(values)
+          if (values.amount) {
+            Object.assign(values, values.amount)
+            delete values.amount
+          }
+          onChange(values)
         }}
         labelWidth={208}
+        values={config}
         style={{ minWidth: '100%', maxWidth: 500 }}
         data={{
           amount: {
             type: 'range',
             label: 'Amount of machines',
             description: 'Min/Max amount of machines',
+            value: { min: config.min, max: config.max },
           },
           image: {
             type: 'text',

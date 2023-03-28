@@ -1,15 +1,9 @@
 import React, { FC } from 'react'
-import { Card, SettingsGroup, useContextState } from '~'
-import {
-  ServiceInstance,
-  Machine,
-  MachineConfig,
-  Env,
-} from '@based/machine-config'
-import { ServiceNamed } from './types'
+import { Card, SettingsGroup } from '~'
+import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
+import { ServiceNamed, OnMachineConfigChange } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
-import { useClient } from '@based/react'
 import { deepMerge } from '@saulx/utils'
 
 type SettingProps = {
@@ -185,10 +179,9 @@ export const Instance: FC<{
   config: MachineConfig
   configName: string
   machines: Machine[]
-}> = ({ index, instance, service, config, configName, machines }) => {
+  onChange: OnMachineConfigChange
+}> = ({ index, instance, service, config, configName, machines, onChange }) => {
   let type: string
-
-  const [env] = useContextState<Env>('env')
 
   if (service.name === '@based/env-hub-discovery') {
     type = 'discover'
@@ -204,24 +197,17 @@ export const Instance: FC<{
   ) {
     type = 'db'
   }
-  const client = useClient()
 
-  const onChange = (values) => {
-    const payload = {
-      ...env,
-      ignorePorts: true, // tmp
-      configName,
-      config: {
-        services: {
-          [service.name]: {
-            instances: {
-              [index]: deepMerge(instance, values),
-            },
+  const onChangeWrapped = (values) => {
+    onChange({
+      services: {
+        [service.name]: {
+          instances: {
+            [index]: deepMerge(instance, values),
           },
         },
       },
-    }
-    client.call('update-machine-config', payload)
+    })
   }
 
   return (
@@ -238,17 +224,17 @@ export const Instance: FC<{
       }
     >
       {type === 'discover' ? (
-        <DiscoverSettings onChange={onChange} instance={instance} />
+        <DiscoverSettings onChange={onChangeWrapped} instance={instance} />
       ) : type === 'hub' ? (
-        <HubSettings onChange={onChange} instance={instance} />
+        <HubSettings onChange={onChangeWrapped} instance={instance} />
       ) : type === 'db' ? (
         <DbSettings
-          onChange={onChange}
+          onChange={onChangeWrapped}
           instance={instance}
           serviceName={service.name}
         />
       ) : (
-        <DefaultSettings onChange={onChange} instance={instance} />
+        <DefaultSettings onChange={onChangeWrapped} instance={instance} />
       )}
     </Card>
   )
