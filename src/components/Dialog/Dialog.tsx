@@ -151,7 +151,7 @@ const Confirm: FC<
 
   return (
     <Button
-      large
+      // large
       onClick={onClick}
       keyboardShortcut="Enter"
       displayShortcut
@@ -185,7 +185,7 @@ const Cancel: FC<
 
   return (
     <Button
-      large
+      // large
       onClick={onClick}
       outline
       color="text"

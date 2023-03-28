@@ -26,7 +26,7 @@
     "extends": "@saulx/eslint-config"
   },
   "peerDependencies": {
-    "@based/client": "4.0.7",
+    "@based/client": "^4.0.8",
     "react": "18||19"
   },
   "dependencies": {

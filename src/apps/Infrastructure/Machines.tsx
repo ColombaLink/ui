@@ -8,21 +8,86 @@ import {
   Accordion,
   Spacer,
   useDialog,
+  Row,
   AddIcon,
   useContextState,
+  DuplicateIcon,
+  CurlyBracesIcon,
+  Badge,
   SearchIcon,
+  ContextDivider,
   RowSpaced,
+  CloseIcon,
   RowEnd,
+  ContextItem,
+  Dialog,
+  MoreIcon,
+  useContextMenu,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import { Env, Machine, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineTemplateModal'
-import { ActionMenuButton } from './ActionMenu'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
 import { UpdateButton } from './UpdateButton'
+
+export const Actions: FC<{
+  config: MachineConfig
+  configName: string
+  machines: Machine[]
+}> = ({ config, configName, machines }) => {
+  const { open } = useDialog()
+  const client = useClient()
+  const [env] = useContextState<Env>('env')
+  const servicesNr = Object.keys(config.services).length * machines.length
+  return (
+    <>
+      <ContextItem icon={<DuplicateIcon />}>Duplicate</ContextItem>
+      <ContextItem
+        icon={
+          <div>
+            <CurlyBracesIcon size="12px" />
+          </div>
+        }
+      >
+        Edit JSON
+      </ContextItem>
+      <ContextDivider />
+      <ContextItem
+        onClick={() => {
+          open(
+            <Dialog style={{ paddingTop: 24 }}>
+              <Dialog.Label>Remove machine template</Dialog.Label>
+              <Dialog.Body>
+                <Text>
+                  Are you sure you want ro remove <b>{configName}</b>?
+                </Text>
+                <Row style={{ marginTop: 12 }}>
+                  <Badge color="text" style={{ marginRight: 8 }}>
+                    {machines.length} active machine
+                    {machines.length === 1 ? '' : 's'}
+                  </Badge>
+                  <Badge color="text">
+                    {servicesNr} active service{servicesNr === 1 ? '' : 's'}
+                  </Badge>
+                </Row>
+              </Dialog.Body>
+              <Dialog.Buttons border>
+                <Dialog.Cancel />
+                <Dialog.Confirm />
+              </Dialog.Buttons>
+            </Dialog>
+          )
+        }}
+        icon={<CloseIcon />}
+      >
+        Remove
+      </ContextItem>
+    </>
+  )
+}
 
 const MachineConfig: FC<{
   configName: string
@@ -35,7 +100,11 @@ const MachineConfig: FC<{
     <Container space="32px">
       <RowSpaced>
         <Text typo="subtitle600">{configName}</Text>
-        <ActionMenuButton configName={configName} config={config} />
+        <Button
+          icon={<MoreIcon />}
+          ghost
+          onClick={useContextMenu(Actions, { config, configName, machines })}
+        />
       </RowSpaced>
       <Text space typo="caption400">
         Some description of the machine
