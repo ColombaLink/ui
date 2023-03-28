@@ -18,7 +18,7 @@ import { Dist } from './types'
 export const AddMachineModal: FC = () => {
   const update = useUpdate()
 
-  const { data: dists = {}, checksum: distChecksum } = useQuery<{
+  const { data: dists = {} } = useQuery<{
     [key: string]: Dist[]
   }>(
     'dists',
@@ -113,14 +113,11 @@ export const AddMachineModal: FC = () => {
                 config.services[key].distChecksum = dists[key][0].checksum
               }
             }
-
             const payload = {
               ...env,
-              // ignorePorts: true, // tmp
               config,
               configName,
             }
-            console.info(JSON.stringify(payload, null, 2))
             await client.call('update-machine-config', payload)
           }}
         />
