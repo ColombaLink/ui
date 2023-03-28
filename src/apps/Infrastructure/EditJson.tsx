@@ -9,6 +9,7 @@ import React, {
 import {
   Dialog,
   Code,
+  ScheduleIcon,
   Row,
   DuplicateIcon,
   Button,
@@ -57,6 +58,14 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
           {label ?? 'Edit JSON'}
           <Row>
             <Button
+              icon={ScheduleIcon}
+              ghost
+              clickAnimation
+              onClick={() => {
+                setState(JSON.stringify(newObject.current, null, 2))
+              }}
+            />
+            <Button
               icon={RedoIcon}
               ghost
               clickAnimation
@@ -94,6 +103,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
             onClick={async () => {
               await onChange(newObject.current)
               fromObject.current = newObject.current
+              setState(JSON.stringify(newObject.current, null, 2))
               update()
             }}
           >
