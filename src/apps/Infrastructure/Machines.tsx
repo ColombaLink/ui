@@ -133,9 +133,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
         />
         <Button
           ghost
-          onClick={() => {
-            open(<AddMachineModal env={env} />)
-          }}
+          onClick={() => open(<AddMachineModal />)}
           icon={<AddIcon />}
         >
           Add machine template

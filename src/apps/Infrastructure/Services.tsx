@@ -29,12 +29,14 @@ const Service: FC<{
   machines: Machine[]
   onChange: OnMachineConfigChange
   config: MachineConfig
-}> = ({ service, config, configName, machines, onChange }) => {
+  alwaysAccept?: boolean
+}> = ({ service, config, configName, machines, onChange, alwaysAccept }) => {
   const instances: ReactNode[] = []
 
   for (const x in service.instances) {
     instances.push(
       <Instance
+        alwaysAccept={alwaysAccept}
         onChange={onChange}
         machines={machines}
         config={config}
@@ -120,7 +122,8 @@ export const Services: FC<{
   config: MachineConfig & { configName?: string }
   machines: Machine[]
   onChange: OnMachineConfigChange
-}> = ({ config, configName, machines, onChange }) => {
+  alwaysAccept?: boolean
+}> = ({ config, configName, machines, onChange, alwaysAccept }) => {
   const services: ServiceNamed[] = []
 
   for (const key in config.services) {
@@ -170,6 +173,7 @@ export const Services: FC<{
       {services.map((s) => {
         return (
           <Service
+            alwaysAccept={alwaysAccept}
             onChange={onChange}
             machines={machines}
             config={config}

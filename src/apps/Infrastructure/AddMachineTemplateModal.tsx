@@ -1,13 +1,37 @@
 import React, { FC, useRef } from 'react'
-import { Dialog, Select, Input, Spacer, useUpdate, StateProvider } from '~'
+import {
+  Dialog,
+  Select,
+  Input,
+  Spacer,
+  useUpdate,
+  StateProvider,
+  useContextState,
+} from '~'
 import { Env, MachineConfig, Template } from '@based/machine-config'
-import { deepCopy } from '@saulx/utils'
+import { deepCopy, deepMerge } from '@saulx/utils'
 import { Services } from './Services'
 import { Settings } from './Settings'
-import { useQuery } from '@based/react'
+import { useQuery, useClient } from '@based/react'
+import { Dist } from './types'
 
-export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
+export const AddMachineModal: FC = () => {
   const update = useUpdate()
+
+  const { data: dists = {}, checksum: distChecksum } = useQuery<{
+    [key: string]: Dist[]
+  }>(
+    'dists',
+    {
+      type: 'env',
+    },
+    {
+      persistent: true,
+    }
+  )
+
+  const [env] = useContextState<Env>('env')
+  const client = useClient()
   const newConfig = useRef<MachineConfig & { configName: string }>({
     services: {},
     min: 1,
@@ -20,8 +44,6 @@ export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
     undefined,
     { persistent: true }
   )
-
-  console.info(templates)
 
   return (
     <Dialog
@@ -61,16 +83,48 @@ export const AddMachineModal: FC<{ env: Env }> = ({ env }) => {
 
         <StateProvider>
           <Settings
+            onChange={(values) => {
+              deepMerge(newConfig.current, values)
+              update()
+            }}
+            alwaysAccept
             config={newConfig.current}
             configName={newConfig.current.configName}
           />
           <Services
+            onChange={(values) => {
+              deepMerge(newConfig.current, values)
+              update()
+            }}
+            alwaysAccept
             machines={[]}
             config={newConfig.current}
             configName={newConfig.current.configName}
           />
         </StateProvider>
       </Dialog.Body>
+      <Dialog.Buttons>
+        <Dialog.Cancel />
+        <Dialog.Confirm
+          onConfirm={async () => {
+            const { configName, ...config } = newConfig.current
+            for (const key in config.services) {
+              if (config.services[key].distChecksum === 'latest') {
+                config.services[key].distChecksum = dists[key][0].checksum
+              }
+            }
+
+            const payload = {
+              ...env,
+              // ignorePorts: true, // tmp
+              config,
+              configName,
+            }
+            console.info(JSON.stringify(payload, null, 2))
+            await client.call('update-machine-config', payload)
+          }}
+        />
+      </Dialog.Buttons>
     </Dialog>
   )
 }

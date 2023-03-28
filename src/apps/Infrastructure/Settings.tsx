@@ -6,8 +6,9 @@ import { OnMachineConfigChange } from './types'
 export const Settings: FC<{
   configName: string
   config: MachineConfig
+  alwaysAccept?: boolean
   onChange: OnMachineConfigChange
-}> = ({ config, configName, onChange }) => {
+}> = ({ config, configName, onChange, alwaysAccept }) => {
   const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
     'expanded',
     {}
@@ -28,6 +29,7 @@ export const Settings: FC<{
       label="Settings"
     >
       <SettingsGroup
+        alwaysAccept={alwaysAccept}
         onChange={(values) => {
           if (values.amount) {
             Object.assign(values, values.amount)

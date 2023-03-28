@@ -17,3 +17,11 @@ export type OptionalMachineConfig = Subset<MachineConfig>
 export type OnMachineConfigChange = (
   machineConfig: OptionalMachineConfig
 ) => void
+
+export type Dist = {
+  id: string
+  name: string
+  checksum: string
+  version: string
+  index: number
+}

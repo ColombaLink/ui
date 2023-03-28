@@ -1,14 +1,7 @@
 import { MachineConfig } from '@based/machine-config'
 import { useQuery } from '@based/react'
 import { useMemo } from 'react'
-
-type Dist = {
-  id: string
-  name: string
-  checksum: string
-  version: string
-  index: number
-}
+import { Dist } from './types'
 
 export const useDistUpdates = (
   machineConfigs: {
@@ -27,7 +20,6 @@ export const useDistUpdates = (
       persistent: true,
     }
   )
-  //
 
   return useMemo(() => {
     const needUpdate: Dist[] = []

@@ -11,11 +11,17 @@ type SettingProps = {
   instance: ServiceInstance
   // eslint-disable-next-line
   serviceName?: string
+  alwaysAccept?: boolean
 }
 
-const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
+const DefaultSettings: FC<SettingProps> = ({
+  instance,
+  onChange,
+  alwaysAccept,
+}) => {
   return (
     <SettingsGroup
+      alwaysAccept={alwaysAccept}
       values={instance}
       onChange={onChange}
       data={{
@@ -32,9 +38,14 @@ const DefaultSettings: FC<SettingProps> = ({ instance, onChange }) => {
   )
 }
 
-const DiscoverSettings: FC<SettingProps> = ({ instance, onChange }) => {
+const DiscoverSettings: FC<SettingProps> = ({
+  alwaysAccept,
+  instance,
+  onChange,
+}) => {
   return (
     <SettingsGroup
+      alwaysAccept={alwaysAccept}
       values={instance}
       onChange={onChange}
       data={{
@@ -68,9 +79,14 @@ const DiscoverSettings: FC<SettingProps> = ({ instance, onChange }) => {
   )
 }
 
-const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
+const HubSettings: FC<SettingProps> = ({
+  alwaysAccept,
+  instance,
+  onChange,
+}) => {
   return (
     <SettingsGroup
+      alwaysAccept={alwaysAccept}
       values={instance}
       onChange={onChange}
       data={{
@@ -137,9 +153,15 @@ const HubSettings: FC<SettingProps> = ({ instance, onChange }) => {
   )
 }
 
-const DbSettings: FC<SettingProps> = ({ instance, onChange, serviceName }) => {
+const DbSettings: FC<SettingProps> = ({
+  alwaysAccept,
+  instance,
+  onChange,
+  serviceName,
+}) => {
   return (
     <SettingsGroup
+      alwaysAccept={alwaysAccept}
       values={instance}
       onChange={onChange}
       data={{
@@ -177,10 +199,20 @@ export const Instance: FC<{
   index: string
   service: ServiceNamed
   config: MachineConfig
+  alwaysAccept?: boolean
   configName: string
   machines: Machine[]
   onChange: OnMachineConfigChange
-}> = ({ index, instance, service, config, configName, machines, onChange }) => {
+}> = ({
+  index,
+  instance,
+  service,
+  config,
+  configName,
+  machines,
+  onChange,
+  alwaysAccept,
+}) => {
   let type: string
 
   if (service.name === '@based/env-hub-discovery') {
@@ -224,17 +256,30 @@ export const Instance: FC<{
       }
     >
       {type === 'discover' ? (
-        <DiscoverSettings onChange={onChangeWrapped} instance={instance} />
+        <DiscoverSettings
+          alwaysAccept={alwaysAccept}
+          onChange={onChangeWrapped}
+          instance={instance}
+        />
       ) : type === 'hub' ? (
-        <HubSettings onChange={onChangeWrapped} instance={instance} />
+        <HubSettings
+          alwaysAccept={alwaysAccept}
+          onChange={onChangeWrapped}
+          instance={instance}
+        />
       ) : type === 'db' ? (
         <DbSettings
+          alwaysAccept={alwaysAccept}
           onChange={onChangeWrapped}
           instance={instance}
           serviceName={service.name}
         />
       ) : (
-        <DefaultSettings onChange={onChangeWrapped} instance={instance} />
+        <DefaultSettings
+          alwaysAccept={alwaysAccept}
+          onChange={onChangeWrapped}
+          instance={instance}
+        />
       )}
     </Card>
   )
