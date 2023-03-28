@@ -32,6 +32,7 @@ import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
 import { UpdateButton } from './UpdateButton'
+import { EditJsonModal } from './EditJson'
 
 export const Actions: FC<{
   config: MachineConfig
@@ -44,13 +45,33 @@ export const Actions: FC<{
   const servicesNr = Object.keys(config.services).length * machines.length
   return (
     <>
-      <ContextItem icon={<DuplicateIcon />}>Duplicate</ContextItem>
       <ContextItem
-        icon={
-          <div>
-            <CurlyBracesIcon size="12px" />
-          </div>
-        }
+        onClick={() => {
+          open(<AddMachineModal config={config} configName={configName} />)
+        }}
+        icon={<DuplicateIcon />}
+      >
+        Duplicate
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          open(
+            <EditJsonModal
+              save
+              label={`Edit ${configName}`}
+              object={{ configName, config }}
+              onChange={(newConfig) => {
+                console.info(newConfig)
+                return client.call('update-machine-config', {
+                  ...env,
+                  ...newConfig,
+                  ignorePorts: true,
+                })
+              }}
+            />
+          )
+        }}
+        icon={<CurlyBracesIcon size="12px" />}
       >
         Edit JSON
       </ContextItem>
@@ -58,8 +79,10 @@ export const Actions: FC<{
       <ContextItem
         onClick={() => {
           open(
-            <Dialog style={{ paddingTop: 24 }}>
-              <Dialog.Label>Remove machine template</Dialog.Label>
+            <Dialog>
+              <Dialog.Label style={{ marginTop: 24 }}>
+                Remove machine template
+              </Dialog.Label>
               <Dialog.Body>
                 <Text>
                   Are you sure you want ro remove <b>{configName}</b>?
@@ -76,7 +99,15 @@ export const Actions: FC<{
               </Dialog.Body>
               <Dialog.Buttons border>
                 <Dialog.Cancel />
-                <Dialog.Confirm />
+                <Dialog.Confirm
+                  onConfirm={() => {
+                    return client.call('update-machine-config', {
+                      ...env,
+                      configName,
+                      config: { $delete: true },
+                    })
+                  }}
+                />
               </Dialog.Buttons>
             </Dialog>
           )
@@ -116,7 +147,6 @@ const MachineConfig: FC<{
           onChange={(config) => {
             const payload = {
               ...env,
-              ignorePorts: true, // tmp
               configName,
               config,
             }
@@ -127,7 +157,7 @@ const MachineConfig: FC<{
           onChange={(config) => {
             const payload = {
               ...env,
-              ignorePorts: true, // tmp
+              ignorePorts: true, // TODO: remove later tmp
               configName,
               config,
             }

@@ -83,7 +83,13 @@ const BodySpacer = styled('div', {
 })
 
 const Label = (props) => {
-  return <Text typo="subtitle600" {...props} style={{ marginBottom: 24 }} />
+  return (
+    <Text
+      typo="subtitle600"
+      {...props}
+      style={{ marginBottom: 24, marginTop: 16, ...props.style }}
+    />
+  )
 }
 
 const Body = ({ children }) => {
