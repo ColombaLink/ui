@@ -47,8 +47,10 @@ export const SettingsField: FC<{
   value?: any
   style?: Style
   width?: number
+  fieldWidth?: number
   onChange: (field: string, value: any) => void
 }> = ({
+  fieldWidth = 185,
   width = 160,
   item: { type, field, label, description, options, default: defaultValue },
   value,
@@ -75,12 +77,12 @@ export const SettingsField: FC<{
         }}
         labelWidth={width}
         direction="row"
-        label="Threat sensitivity"
-        description="Auto block ips"
+        label={label}
+        description={description}
       >
         <Select
           value={value}
-          style={{ width: 185 }}
+          style={{ width: fieldWidth }}
           onChange={(v) => {
             onChange(field, v)
           }}
@@ -102,7 +104,7 @@ export const SettingsField: FC<{
         label={label}
         description={description}
       >
-        <Row>
+        <Row style={{ minWidth: fieldWidth }}>
           <Input
             onChange={(v) => {
               if (value?.max === undefined || value?.max < v) {
@@ -158,7 +160,7 @@ export const SettingsField: FC<{
       description={description}
     >
       <Input
-        style={{ width: '100%', marginTop: 8 }}
+        style={{ minWidth: fieldWidth, width: '100%', marginTop: 8 }}
         placeholder={label}
         value={value ?? ''}
         type={type || 'text'}
@@ -180,6 +182,7 @@ export type SettingGroupItem = {
 
 export type SettingsGroupProps = {
   style?: Style
+  fieldWidth?: number
   labelWidth?: number
   onChange: (changes: { [field: string]: any }) => void
   values?: { [field: string]: any }
@@ -254,6 +257,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
   style,
   alwaysAccept,
   labelWidth = 160,
+  fieldWidth = 185,
   values,
 }) => {
   const valuesChanged = useRef<{ [field: string]: any }>({})
@@ -306,6 +310,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
     if (d.type === 'boolean') {
       checkBoxes.push(
         <SettingsField
+          fieldWidth={fieldWidth}
           width={labelWidth}
           key={d.field}
           item={d}
@@ -322,6 +327,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
     } else {
       rest.push(
         <SettingsField
+          fieldWidth={fieldWidth}
           width={labelWidth}
           key={d.field}
           item={d}

@@ -98,6 +98,17 @@ export const AddMachineModal: FC<{
     >
       {isJSON ? (
         <EditJsonModalBody
+          label={' Add machine template'}
+          actions={
+            <Button
+              color={isJSON ? 'accent' : 'text'}
+              onClick={() => {
+                setJSON(!isJSON)
+              }}
+              ghost
+              icon={<CurlyBracesIcon size={12} />}
+            />
+          }
           object={newConfig.current}
           onChange={(totalConfig) => {
             // @ts-ignore TODO: make generic

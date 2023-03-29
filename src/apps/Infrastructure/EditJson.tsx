@@ -24,6 +24,7 @@ type EditJsonProps = {
   save?: boolean
   object: object
   label?: ReactNode
+  actions?: ReactNode
   onChange: (val: object) => void | Promise<void>
 }
 
@@ -31,6 +32,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
   object,
   onChange,
   label,
+  actions,
   save,
 }) => {
   const fromObject = useRef(object)
@@ -57,6 +59,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
         <RowSpaced>
           {label ?? 'Edit JSON'}
           <Row>
+            {actions ?? null}
             <Button
               icon={ScheduleIcon}
               ghost
