@@ -23,6 +23,7 @@ import {
 type EditJsonProps = {
   save?: boolean
   object: object
+  changeObjectInPlace?: boolean
   label?: ReactNode
   actions?: ReactNode
   onChange: (val: object) => void | Promise<void>
@@ -33,6 +34,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
   onChange,
   label,
   actions,
+  changeObjectInPlace,
   save,
 }) => {
   const fromObject = useRef(object)
@@ -47,6 +49,9 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
   useEffect(() => {
     try {
       newObject.current = JSON.parse(str)
+      if (changeObjectInPlace) {
+        Object.assign(object, newObject.current)
+      }
       setError(null)
     } catch (err) {
       setError(err)

@@ -1,5 +1,6 @@
 import { MachineConfig, Service, Machine } from '@based/machine-config'
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useMemo, useRef } from 'react'
+import { hash } from '@saulx/hash'
 import {
   Text,
   Button,
@@ -15,9 +16,12 @@ import {
   styled,
   border,
   SelectOption,
+  useSelect,
+  useMultiSelect,
+  Accept,
 } from '~'
 import { Status } from './Status'
-import { ServiceNamed, OnMachineConfigChange } from './types'
+import { ServiceNamed, OnMachineConfigChange, Dist } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Instance } from './Instance'
 import { UpdateButton } from './UpdateButton'
@@ -82,25 +86,26 @@ const Service: FC<{
           style={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}
         >
           <Select
-            label={
-              <Text style={{ marginRight: 16 }} typo="body600">
-                {service.name}
-              </Text>
-            }
+            label={<Text style={{ marginRight: 16 }}>{service.name}</Text>}
             value={service.distChecksum}
             options={selectOptions}
           />
+          {/* <div style={{ flexShrink: 0 }}>
+            <Accept />
+          </div> */}
         </styled.div>
         <Row>
-          <UpdateButton
-            machineConfigs={{
-              [configName]: {
-                services: {
-                  [service.name]: service,
+          {alwaysAccept ? null : (
+            <UpdateButton
+              machineConfigs={{
+                [configName]: {
+                  services: {
+                    [service.name]: service,
+                  },
                 },
-              },
-            }}
-          />
+              }}
+            />
+          )}
           <ActionMenuButton config={config} configName={configName} />
           <Button color="text" icon={<AddIcon />} ghost />
         </Row>
@@ -136,6 +141,63 @@ export const Services: FC<{
   )
   const expandKey = configName + 's'
 
+  const { data: dists = {}, checksum: distChecksum } = useQuery<{
+    [key: string]: Dist[]
+  }>(
+    'dists',
+    {
+      type: 'env',
+    },
+    {
+      persistent: true,
+    }
+  )
+
+  const options = useMemo(() => {
+    return Object.keys(dists).filter((f) => !(f in config.services))
+  }, [distChecksum, config])
+
+  // ref prob
+
+  const newServices = useRef<any>({})
+
+  const [newService, add] = useSelect(options, null, (name) => {
+    const service = {
+      distChecksum: name ? dists[name][0].checksum : null,
+      instances: {
+        '0': {
+          port: 80,
+        },
+      },
+    }
+    if (alwaysAccept) {
+      if (!name) {
+        delete config.services[name]
+      } else {
+        config.services[name] = service
+      }
+    } else {
+      newServices.current = { configName, services: {} }
+      if (name) {
+        newServices.current.services[name] = service
+      }
+    }
+    if (name) {
+      expanded[hash(configName + name + configName + 0).toString(16)] = true
+    } else {
+      delete expanded[
+        hash(configName + newService + configName + 0).toString(16)
+      ]
+    }
+    setExpanded(expanded)
+  })
+
+  const newServicesX: ServiceNamed[] = []
+
+  for (const key in newServices.current.services) {
+    newServicesX.push({ name: key, ...newServices.current.services[key] })
+  }
+
   return (
     <AccordionItem
       label="Services"
@@ -164,7 +226,7 @@ export const Services: FC<{
           <Button icon={<RedoIcon />} ghost>
             Restart all
           </Button>
-          <Button icon={<AddIcon />} ghost>
+          <Button icon={<AddIcon />} onClick={add} ghost>
             Add service
           </Button>
         </Row>
@@ -180,6 +242,23 @@ export const Services: FC<{
             configName={configName}
             service={s}
             key={s.name}
+          />
+        )
+      })}
+
+      {newServicesX.map((s) => {
+        return (
+          <Service
+            alwaysAccept
+            onChange={() => {
+              // bit different...
+            }}
+            machines={[]}
+            config={newServices.current}
+            configName={configName}
+            service={s}
+            key={s.name}
+            // accept service button
           />
         )
       })}

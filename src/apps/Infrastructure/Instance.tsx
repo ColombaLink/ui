@@ -1,9 +1,19 @@
-import React, { FC } from 'react'
-import { Card, SettingsGroup } from '~'
+import React, { FC, useMemo } from 'react'
+import {
+  Card,
+  ChevronDownIcon,
+  SettingsGroup,
+  Button,
+  Text,
+  useContextState,
+  ChevronRightIcon,
+  Row,
+} from '~'
 import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from './types'
 import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
+import { hash } from '@saulx/hash'
 import { deepMerge } from '@saulx/utils'
 
 type SettingProps = {
@@ -230,6 +240,13 @@ export const Instance: FC<{
     type = 'db'
   }
 
+  const expandKey = useMemo(
+    () => hash(configName + service.name + configName + index).toString(16),
+    [configName, service.name, configName, index]
+  )
+
+  const [expanded, setExpanded] = useContextState('expanded')
+
   const onChangeWrapped = (values) => {
     onChange({
       services: {
@@ -247,7 +264,26 @@ export const Instance: FC<{
       style={{
         minWidth: '100%',
       }}
-      label={service.name + ' #' + index}
+      label={
+        <Row
+          style={{
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            if (!expanded[expandKey]) {
+              expanded[expandKey] = true
+            } else {
+              delete expanded[expandKey]
+            }
+            setExpanded(expanded)
+          }}
+        >
+          {expanded[expandKey] ? <ChevronDownIcon /> : <ChevronRightIcon />}
+          <Text style={{ marginLeft: 8 }} typo="body600">
+            {service.name} #{index}
+          </Text>
+        </Row>
+      }
       topRight={
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Status type="instance" running={machines.length} />
@@ -255,32 +291,34 @@ export const Instance: FC<{
         </div>
       }
     >
-      {type === 'discover' ? (
-        <DiscoverSettings
-          alwaysAccept={alwaysAccept}
-          onChange={onChangeWrapped}
-          instance={instance}
-        />
-      ) : type === 'hub' ? (
-        <HubSettings
-          alwaysAccept={alwaysAccept}
-          onChange={onChangeWrapped}
-          instance={instance}
-        />
-      ) : type === 'db' ? (
-        <DbSettings
-          alwaysAccept={alwaysAccept}
-          onChange={onChangeWrapped}
-          instance={instance}
-          serviceName={service.name}
-        />
-      ) : (
-        <DefaultSettings
-          alwaysAccept={alwaysAccept}
-          onChange={onChangeWrapped}
-          instance={instance}
-        />
-      )}
+      {expanded[expandKey] ? (
+        type === 'discover' ? (
+          <DiscoverSettings
+            alwaysAccept={alwaysAccept}
+            onChange={onChangeWrapped}
+            instance={instance}
+          />
+        ) : type === 'hub' ? (
+          <HubSettings
+            alwaysAccept={alwaysAccept}
+            onChange={onChangeWrapped}
+            instance={instance}
+          />
+        ) : type === 'db' ? (
+          <DbSettings
+            alwaysAccept={alwaysAccept}
+            onChange={onChangeWrapped}
+            instance={instance}
+            serviceName={service.name}
+          />
+        ) : (
+          <DefaultSettings
+            alwaysAccept={alwaysAccept}
+            onChange={onChangeWrapped}
+            instance={instance}
+          />
+        )
+      ) : null}
     </Card>
   )
 }

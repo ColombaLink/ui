@@ -14,7 +14,7 @@ import {
 } from '~'
 
 type CardProps = {
-  label?: string
+  label?: ReactNode
   description?: string
   space?: Space
   style?: Style

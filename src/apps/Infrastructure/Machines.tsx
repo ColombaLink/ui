@@ -157,7 +157,7 @@ const MachineConfig: FC<{
           onChange={(config) => {
             const payload = {
               ...env,
-              ignorePorts: true, // TODO: remove later tmp
+              // ignorePorts: true, // TODO: remove later tmp
               configName,
               config,
             }
