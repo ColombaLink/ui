@@ -16,7 +16,7 @@ export type OptionalMachineConfig = Subset<MachineConfig>
 
 export type OnMachineConfigChange = (
   machineConfig: OptionalMachineConfig
-) => void
+) => void | Promise<void>
 
 export type Dist = {
   id: string

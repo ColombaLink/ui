@@ -26,7 +26,7 @@ type EditJsonProps = {
   changeObjectInPlace?: boolean
   label?: ReactNode
   actions?: ReactNode
-  onChange: (val: object) => void | Promise<void>
+  onChange: (val: any) => void | Promise<void>
 }
 
 export const EditJsonModalBody: FC<EditJsonProps> = ({

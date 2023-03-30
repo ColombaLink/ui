@@ -6,10 +6,16 @@ import {
   Button,
   AddIcon,
   AccordionItem,
+  useDialog,
+  ContextItem,
   useContextState,
   Select,
   RedoIcon,
+  MoreIcon,
+  useContextMenu,
   StopIcon,
+  CloseIcon,
+  Dialog,
   RowSpaced,
   Row,
   RowEnd,
@@ -22,11 +28,59 @@ import {
 } from '~'
 import { Status } from './Status'
 import { ServiceNamed, OnMachineConfigChange, Dist } from './types'
-import { ActionMenuButton } from './ActionMenu'
 import { Instance } from './Instance'
 import { UpdateButton } from './UpdateButton'
 import { useQuery } from '@based/react'
-import { deepMerge } from '@saulx/utils'
+import { deepMerge, deepCopy } from '@saulx/utils'
+
+export const Actions: FC<{
+  config: MachineConfig
+  service: ServiceNamed
+  alwaysAccept?: boolean
+  onChange: OnMachineConfigChange
+}> = ({ config, onChange, alwaysAccept, service }) => {
+  const { open } = useDialog()
+  return (
+    <>
+      <ContextItem
+        onClick={() => {
+          if (alwaysAccept) {
+            delete config.services[service.name]
+            return onChange(config)
+          } else {
+            open(
+              <Dialog>
+                <Dialog.Label style={{ marginTop: 24 }}>
+                  Remove machine template
+                </Dialog.Label>
+                <Dialog.Body>
+                  <Text>
+                    Are you sure you want ro remove <b>{service.name}</b>?
+                  </Text>
+                </Dialog.Body>
+                <Dialog.Buttons border>
+                  <Dialog.Cancel />
+                  <Dialog.Confirm
+                    onConfirm={() => {
+                      // Copy so it does not use this config for rendering
+                      const updateConf = deepCopy(config)
+                      // @ts-ignore need to pass this for removal
+                      updateConf.services[service.name] = { $delete: true }
+                      return onChange(updateConf)
+                    }}
+                  />
+                </Dialog.Buttons>
+              </Dialog>
+            )
+          }
+        }}
+        icon={<CloseIcon />}
+      >
+        Remove
+      </ContextItem>
+    </>
+  )
+}
 
 const Service: FC<{
   service: ServiceNamed
@@ -116,7 +170,17 @@ const Service: FC<{
               }}
             />
           )}
-          <ActionMenuButton config={config} configName={configName} />
+          <Button
+            icon={<MoreIcon />}
+            ghost
+            onClick={useContextMenu(Actions, {
+              config,
+              service,
+              alwaysAccept,
+              onChange,
+            })}
+          />
+
           <Button color="text" icon={<AddIcon />} ghost />
         </Row>
       </RowSpaced>
@@ -180,9 +244,9 @@ export const Services: FC<{
           value: v,
         }
       })
-  }, [distChecksum, config])
+  }, [distChecksum, services.length]) // distChecksum, config need to pass more
 
-  const newServices = useRef<any>({ configName, services: {} })
+  const newServices = useRef<any>({ services: {} })
 
   const [, add] = useSelect(
     options,
@@ -204,16 +268,15 @@ export const Services: FC<{
       } else {
         newServices.current.services[name] = service
       }
-      expanded[hash(configName + name + configName + 0).toString(16)] = true
-      setExpanded(expanded)
+      update()
     },
     { noValue: true, filterable: true }
   )
 
-  const newServicesX: ServiceNamed[] = []
+  const newServicesItems: ServiceNamed[] = []
 
   for (const key in newServices.current.services) {
-    newServicesX.push({ name: key, ...newServices.current.services[key] })
+    newServicesItems.push({ name: key, ...newServices.current.services[key] })
   }
 
   return (
@@ -264,7 +327,7 @@ export const Services: FC<{
         )
       })}
 
-      {newServicesX.map((s) => {
+      {newServicesItems.map((s) => {
         return (
           <Service
             key={'n' + s.name}
@@ -279,8 +342,9 @@ export const Services: FC<{
             service={s}
           >
             <Accept
-              onAccept={() => {
-                onChange(newServices.current)
+              onAccept={async () => {
+                await onChange(newServices.current)
+                newServices.current = { services: {} }
               }}
               onCancel={() => {
                 delete newServices.current.services[s.name]
@@ -288,6 +352,7 @@ export const Services: FC<{
                   hash(configName + s.name + configName + 0).toString(16)
                 ]
                 setExpanded(expanded)
+                update()
               }}
             />
           </Service>

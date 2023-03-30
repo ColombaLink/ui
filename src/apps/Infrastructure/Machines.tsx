@@ -60,11 +60,19 @@ export const Actions: FC<{
               save
               label={`Edit ${configName}`}
               object={{ configName, config }}
-              onChange={(newConfig) => {
-                console.info(newConfig)
+              onChange={async (newConfig) => {
+                const c = deepCopy(newConfig)
+                for (const s in config.services) {
+                  if (!c?.config.services?.[s]) {
+                    if (!c.config.services) {
+                      c.config.services = {}
+                    }
+                    c.config.services[s] = { $delete: true }
+                  }
+                }
                 return client.call('update-machine-config', {
                   ...env,
-                  ...newConfig,
+                  ...c,
                   ignorePorts: true,
                 })
               }}
@@ -138,9 +146,10 @@ const MachineConfig: FC<{
         />
       </RowSpaced>
       <Text space typo="caption400">
-        {config.description || configName === 'allServices'
-          ? 'All services on a single machine, cannot be scaled to more then 1 instance'
-          : ''}
+        {config.description ||
+          (configName === 'allServices'
+            ? 'All services on a single machine, cannot be scaled to more then 1 instance'
+            : '')}
       </Text>
       <Accordion>
         <Settings
@@ -152,18 +161,17 @@ const MachineConfig: FC<{
               configName,
               config,
             }
-            client.call('update-machine-config', payload)
+            return client.call('update-machine-config', payload)
           }}
         />
         <Services
           onChange={(config) => {
             const payload = {
               ...env,
-              // ignorePorts: true, // TODO: remove later tmp
               configName,
               config,
             }
-            client.call('update-machine-config', payload)
+            return client.call('update-machine-config', payload)
           }}
           machines={machines}
           configName={configName}

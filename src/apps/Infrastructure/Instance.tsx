@@ -10,7 +10,7 @@ import {
 } from '~'
 import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from './types'
-import { ActionMenuButton } from './ActionMenu'
+// import { ActionMenuButton } from './ActionMenu'
 import { Status } from './Status'
 import { hash } from '@saulx/hash'
 import { deepMerge } from '@saulx/utils'
@@ -286,7 +286,7 @@ export const Instance: FC<{
       topRight={
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Status type="instance" running={machines.length} />
-          <ActionMenuButton config={config} configName={configName} />
+          {/* <ActionMenuButton config={config} configName={configName} /> */}
         </div>
       }
     >

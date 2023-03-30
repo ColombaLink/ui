@@ -283,7 +283,7 @@ const ContextItems: FC<ContextOptionsProps> = ({
       <ContextOptionItem
         key={i}
         onChange={(v) => {
-          if (v === currentValue) {
+          if (!noValue && v === currentValue) {
             setValue(undefined)
             onChange(undefined)
           } else {
