@@ -1,5 +1,5 @@
 import { MachineConfig, Service, Machine } from '@based/machine-config'
-import React, { FC, ReactNode, useMemo, useRef } from 'react'
+import React, { FC, Fragment, ReactNode, useMemo, useRef } from 'react'
 import { hash } from '@saulx/hash'
 import {
   Text,
@@ -17,8 +17,8 @@ import {
   border,
   SelectOption,
   useSelect,
-  useMultiSelect,
   Accept,
+  useUpdate,
 } from '~'
 import { Status } from './Status'
 import { ServiceNamed, OnMachineConfigChange, Dist } from './types'
@@ -26,6 +26,7 @@ import { ActionMenuButton } from './ActionMenu'
 import { Instance } from './Instance'
 import { UpdateButton } from './UpdateButton'
 import { useQuery } from '@based/react'
+import { deepMerge } from '@saulx/utils'
 
 const Service: FC<{
   service: ServiceNamed
@@ -34,7 +35,16 @@ const Service: FC<{
   onChange: OnMachineConfigChange
   config: MachineConfig
   alwaysAccept?: boolean
-}> = ({ service, config, configName, machines, onChange, alwaysAccept }) => {
+  children?: ReactNode
+}> = ({
+  service,
+  config,
+  configName,
+  machines,
+  onChange,
+  alwaysAccept,
+  children,
+}) => {
   const instances: ReactNode[] = []
 
   for (const x in service.instances) {
@@ -118,6 +128,7 @@ const Service: FC<{
       >
         {instances}
       </RowSpaced>
+      <RowEnd style={{ marginTop: 16 }}>{children}</RowEnd>
     </styled.div>
   )
 }
@@ -130,6 +141,8 @@ export const Services: FC<{
   alwaysAccept?: boolean
 }> = ({ config, configName, machines, onChange, alwaysAccept }) => {
   const services: ServiceNamed[] = []
+
+  const update = useUpdate()
 
   for (const key in config.services) {
     services.push({ name: key, ...config.services[key] })
@@ -156,8 +169,6 @@ export const Services: FC<{
   const options = useMemo(() => {
     return Object.keys(dists).filter((f) => !(f in config.services))
   }, [distChecksum, config])
-
-  // ref prob
 
   const newServices = useRef<any>({})
 
@@ -249,17 +260,21 @@ export const Services: FC<{
       {newServicesX.map((s) => {
         return (
           <Service
+            key={'n' + s.name}
             alwaysAccept
-            onChange={() => {
-              // bit different...
+            onChange={(values) => {
+              deepMerge(newServices.current, values)
+              console.info(values)
+              update()
             }}
             machines={[]}
             config={newServices.current}
             configName={configName}
             service={s}
-            key={s.name}
-            // accept service button
-          />
+          >
+            {/* <Text typo="body600">Confirm adding service</Text> */}
+            <Accept onAccept={() => {}} onCancel={() => {}} />
+          </Service>
         )
       })}
     </AccordionItem>
