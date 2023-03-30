@@ -138,7 +138,9 @@ const MachineConfig: FC<{
         />
       </RowSpaced>
       <Text space typo="caption400">
-        Some description of the machine
+        {config.description || configName === 'allServices'
+          ? 'All services on a single machine, cannot be scaled to more then 1 instance'
+          : ''}
       </Text>
       <Accordion>
         <Settings

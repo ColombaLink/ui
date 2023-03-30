@@ -55,13 +55,15 @@ export const Settings: FC<{
             description: 'Min/Max amount of machines',
             value: { min: config.min, max: config.max },
           },
-          'specs.image': {
+          image: {
             type: 'text',
+            default: 'based-v1',
             description: 'Image from cloud to use',
           },
-          machineSpecs: {
+          machine: {
             label: 'Machine specs Mem & Cpu',
             description: 'Specs of the machine',
+            default: 'medium',
             options: [
               {
                 value: 'micro',

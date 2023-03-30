@@ -73,6 +73,7 @@ export const SettingsField: FC<{
       <Label
         style={{
           margin: 8,
+          marginBottom: 16,
           ...style,
         }}
         labelWidth={width}
@@ -97,6 +98,7 @@ export const SettingsField: FC<{
       <Label
         style={{
           margin: 8,
+          marginBottom: 16,
           ...style,
         }}
         labelWidth={width}
@@ -113,7 +115,7 @@ export const SettingsField: FC<{
               onChange(field + '.min', v)
             }}
             value={value?.min}
-            style={{ marginRight: 8, width: 90 }}
+            style={{ width: 90, marginRight: 8 }}
             type="number"
             placeholder="Min"
           />
@@ -141,7 +143,6 @@ export const SettingsField: FC<{
         onChange={(v) => onChange(field, v)}
         style={{
           marginRight: 32,
-          marginBottom: 8,
         }}
         label={label}
       />
@@ -160,7 +161,7 @@ export const SettingsField: FC<{
       description={description}
     >
       <Input
-        style={{ minWidth: fieldWidth, width: '100%', marginTop: 8 }}
+        style={{ minWidth: fieldWidth, width: '100%' }}
         placeholder={label}
         value={value ?? ''}
         type={type || 'text'}

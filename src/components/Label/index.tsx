@@ -3,6 +3,7 @@ import {
   Text,
   Color,
   Style,
+  Row,
   spaceToPx,
   Space,
   Icon,
@@ -57,14 +58,9 @@ export const Label = ({
           display: direction === 'row' ? 'flex' : null,
           marginRight: direction === 'row' ? 16 : 0,
           flexDirection: direction === 'row' ? 'column' : 'row',
-          marginTop: direction === 'row' ? 8 : 0,
         }}
       >
-        <div
-          style={{
-            display: 'flex',
-          }}
-        >
+        <Row>
           {icon && (
             <div
               style={{
@@ -86,14 +82,14 @@ export const Label = ({
           >
             {label}
           </Text>
-        </div>
+        </Row>
         {description && (
           <Text wrap typo="body500" color={descriptionColor || 'text2'}>
             {description}
           </Text>
         )}
       </div>
-      <div>{children}</div>
+      {children}
     </div>
   )
 }

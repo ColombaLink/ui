@@ -3,7 +3,6 @@ import {
   Card,
   ChevronDownIcon,
   SettingsGroup,
-  Button,
   Text,
   useContextState,
   ChevronRightIcon,

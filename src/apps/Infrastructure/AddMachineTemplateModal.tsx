@@ -10,6 +10,7 @@ import {
   useContextState,
   CurlyBracesIcon,
   RowSpaced,
+  Label,
 } from '~'
 import { Env, MachineConfig, Template } from '@based/machine-config'
 import { deepCopy, deepMerge } from '@saulx/utils'
@@ -90,37 +91,17 @@ export const AddMachineModal: FC<{
   }
 
   return (
-    <Dialog
-      style={{
-        maxWidth: '90vw',
-        width: '925px',
-      }}
-    >
-      {isJSON ? (
-        <EditJsonModalBody
-          label="Add machine template"
-          actions={
-            <Button
-              color={isJSON ? 'accent' : 'text'}
-              onClick={() => {
-                setJSON(!isJSON)
-              }}
-              ghost
-              icon={<CurlyBracesIcon size={12} />}
-            />
-          }
-          object={newConfig.current}
-          changeObjectInPlace
-          onChange={(totalConfig) => {
-            // @ts-ignore TODO: make generic
-            return onConfirm(totalConfig, true)
-          }}
-        />
-      ) : (
-        <>
-          <Dialog.Label>
-            <RowSpaced>
-              Add machine template
+    <StateProvider>
+      <Dialog
+        style={{
+          maxWidth: '90vw',
+          width: '925px',
+        }}
+      >
+        {isJSON ? (
+          <EditJsonModalBody
+            label="Add machine template"
+            actions={
               <Button
                 color={isJSON ? 'accent' : 'text'}
                 onClick={() => {
@@ -129,41 +110,95 @@ export const AddMachineModal: FC<{
                 ghost
                 icon={<CurlyBracesIcon size={12} />}
               />
-            </RowSpaced>
-          </Dialog.Label>
-          <Dialog.Body>
-            <Select
-              options={templates.map((v) => v.configName)}
-              value={newConfig.current.configName}
-              placeholder="Select a predefined template"
-              onChange={(name) => {
-                if (name && newConfig.current.configName !== name) {
-                  // @ts-ignore
-                  const { configName, ...config } = deepCopy(
-                    templates.find((t) => t.configName === name)
+            }
+            object={newConfig.current}
+            changeObjectInPlace
+            onChange={(totalConfig) => {
+              // @ts-ignore TODO: make generic
+              return onConfirm(totalConfig, true)
+            }}
+          />
+        ) : (
+          <>
+            <Dialog.Label>
+              <RowSpaced>
+                Add machine template
+                <Button
+                  color={isJSON ? 'accent' : 'text'}
+                  onClick={() => {
+                    setJSON(!isJSON)
+                  }}
+                  ghost
+                  icon={<CurlyBracesIcon size={12} />}
+                />
+              </RowSpaced>
+            </Dialog.Label>
+            <Dialog.Body>
+              <Select
+                options={templates.map((v) => v.configName)}
+                value={
+                  templates.find(
+                    (t) => t.configName === newConfig.current.configName
                   )
-                  newConfig.current = {
-                    configName,
-                    config,
-                  }
-                  update()
+                    ? newConfig.current.configName
+                    : undefined
                 }
-              }}
-            />
-            <Spacer space="32px" />
-            <Input
-              label="Template name"
-              value={newConfig.current.configName}
-              placeholder="Template name"
-              onChange={(v) => {
-                newConfig.current.configName = v
-                update()
-              }}
-              type="text"
-            />
-            <Spacer space="32px" />
+                placeholder="Select a predefined template"
+                onChange={(name) => {
+                  if (name && newConfig.current.configName !== name) {
+                    // @ts-ignore
+                    const { configName, ...config } = deepCopy(
+                      templates.find((t) => t.configName === name)
+                    )
+                    newConfig.current = {
+                      configName,
+                      config,
+                    }
+                    update()
+                  }
+                }}
+              />
+              <Spacer space="32px" />
+              <Label
+                style={{ width: '100%' }}
+                labelWidth={200}
+                direction="row"
+                description="Name has to be unique "
+                label="Name"
+              >
+                <Input
+                  style={{ width: '100%' }}
+                  value={newConfig.current.configName}
+                  placeholder="Name"
+                  onChange={(v) => {
+                    newConfig.current.configName = v
+                    update()
+                  }}
+                  type="text"
+                />
+              </Label>
+              <Spacer space="24px" />
+              <Label
+                style={{ width: '100%', alignItems: 'flex-start' }}
+                labelWidth={200}
+                direction="row"
+                description="Meta information "
+                label="Description"
+              >
+                <Input
+                  multiline
+                  style={{ width: '100%' }}
+                  value={newConfig.current.config.description}
+                  placeholder="Description"
+                  onChange={(v) => {
+                    newConfig.current.config.description = v
+                    update()
+                  }}
+                  type="text"
+                />
+              </Label>
+              <Spacer space="32px" />
 
-            <StateProvider>
               <Settings
                 onChange={(values) => {
                   deepMerge(newConfig.current.config, values)
@@ -183,14 +218,17 @@ export const AddMachineModal: FC<{
                 config={newConfig.current.config}
                 configName={newConfig.current.configName}
               />
-            </StateProvider>
-          </Dialog.Body>
-          <Dialog.Buttons>
-            <Dialog.Cancel />
-            <Dialog.Confirm onConfirm={() => onConfirm(newConfig.current)} />
-          </Dialog.Buttons>
-        </>
-      )}
-    </Dialog>
+            </Dialog.Body>
+            <Dialog.Buttons>
+              <Dialog.Cancel />
+              <Dialog.Confirm
+                keyboardShortcut="Cmd+Enter"
+                onConfirm={() => onConfirm(newConfig.current)}
+              />
+            </Dialog.Buttons>
+          </>
+        )}
+      </Dialog>
+    </StateProvider>
   )
 }
