@@ -1,5 +1,5 @@
 import { MachineConfig, Service, Machine } from '@based/machine-config'
-import React, { FC, Fragment, ReactNode, useMemo, useRef } from 'react'
+import React, { FC, ReactNode, useMemo, useRef } from 'react'
 import { hash } from '@saulx/hash'
 import {
   Text,
@@ -167,41 +167,48 @@ export const Services: FC<{
   )
 
   const options = useMemo(() => {
-    return Object.keys(dists).filter((f) => !(f in config.services))
+    return Object.keys(dists)
+      .filter((f) => !(f in config.services))
+      .map((v) => {
+        // Will make nice explanation for all the services (also in dists)
+        return {
+          label: (
+            <div>
+              <Text typo="body600">{v}</Text>
+            </div>
+          ),
+          value: v,
+        }
+      })
   }, [distChecksum, config])
 
-  const newServices = useRef<any>({})
+  const newServices = useRef<any>({ configName, services: {} })
 
-  const [newService, add] = useSelect(options, null, (name) => {
-    const service = {
-      distChecksum: name ? dists[name][0].checksum : null,
-      instances: {
-        '0': {
-          port: 80,
-        },
-      },
-    }
-    if (alwaysAccept) {
+  const [, add] = useSelect(
+    options,
+    null,
+    (name) => {
       if (!name) {
-        delete config.services[name]
-      } else {
-        config.services[name] = service
+        return
       }
-    } else {
-      newServices.current = { configName, services: {} }
-      if (name) {
+      const service = {
+        distChecksum: dists[name][0].checksum,
+        instances: {
+          '0': {
+            port: 80,
+          },
+        },
+      }
+      if (alwaysAccept) {
+        config.services[name] = service
+      } else {
         newServices.current.services[name] = service
       }
-    }
-    if (name) {
       expanded[hash(configName + name + configName + 0).toString(16)] = true
-    } else {
-      delete expanded[
-        hash(configName + newService + configName + 0).toString(16)
-      ]
-    }
-    setExpanded(expanded)
-  })
+      setExpanded(expanded)
+    },
+    { noValue: true, filterable: true }
+  )
 
   const newServicesX: ServiceNamed[] = []
 
@@ -264,7 +271,6 @@ export const Services: FC<{
             alwaysAccept
             onChange={(values) => {
               deepMerge(newServices.current, values)
-              console.info(values)
               update()
             }}
             machines={[]}
@@ -272,8 +278,18 @@ export const Services: FC<{
             configName={configName}
             service={s}
           >
-            {/* <Text typo="body600">Confirm adding service</Text> */}
-            <Accept onAccept={() => {}} onCancel={() => {}} />
+            <Accept
+              onAccept={() => {
+                onChange(newServices.current)
+              }}
+              onCancel={() => {
+                delete newServices.current.services[s.name]
+                delete expanded[
+                  hash(configName + s.name + configName + 0).toString(16)
+                ]
+                setExpanded(expanded)
+              }}
+            />
           </Service>
         )
       })}

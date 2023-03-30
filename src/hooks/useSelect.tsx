@@ -25,6 +25,7 @@ export function useSelect<T = any>(
   value?: Value,
   onChange?: (val: Value) => void,
   position?: PositionProps & {
+    noValue?: boolean
     filterable?: boolean | 'create'
     placeholder?: string
     style?: CSSProperties
@@ -53,6 +54,7 @@ export function useSelect<T = any>(
       {
         filterable: position?.filterable,
         placeholder: position?.placeholder,
+        noValue: position?.noValue,
         items: n,
         value: v,
         onChange: useCallback((value) => {

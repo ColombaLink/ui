@@ -98,6 +98,8 @@ export type ContextOptionsProps = {
   items: Option[] | null | undefined
   value?: Value
   onChange: (value: Value) => void
+  // eslint-disable-next-line
+  noValue?: boolean
 }
 
 export type ContextMultiOptionsProps = {
@@ -224,7 +226,7 @@ const filterItems = (
 
 const FilterableContextOptions: FC<
   ContextOptionsProps & ContextOptionsFilterProps
-> = ({ items, value, onChange, resize, placeholder, filterable }) => {
+> = ({ items, value, onChange, resize, placeholder, filterable, noValue }) => {
   const [f, setFilter] = useState('')
   const onFilter: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
     setFilter(e.target.value)
@@ -259,12 +261,22 @@ const FilterableContextOptions: FC<
           />
         </FilterInputHolder>
       </FilterInputHolderSticky>
-      <ContextItems items={filteredItems} onChange={onChange} value={value} />
+      <ContextItems
+        noValue={noValue}
+        items={filteredItems}
+        onChange={onChange}
+        value={value}
+      />
     </>
   )
 }
 
-const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
+const ContextItems: FC<ContextOptionsProps> = ({
+  items,
+  value,
+  onChange,
+  noValue,
+}) => {
   const [currentValue, setValue] = useState(value)
   const children = items.map((opt, i) => {
     return (
@@ -280,7 +292,11 @@ const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
           }
         }}
         option={opt}
-        selected={currentValue !== undefined && currentValue === opt.value}
+        selected={
+          noValue
+            ? false
+            : currentValue !== undefined && currentValue === opt.value
+        }
       />
     )
   })
@@ -289,12 +305,21 @@ const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
 
 export const ContextOptions: FC<
   ContextOptionsProps & ContextOptionsFilterProps
-> = ({ items = [], value, onChange, filterable, placeholder, resize }) => {
+> = ({
+  items = [],
+  value,
+  onChange,
+  filterable,
+  placeholder,
+  resize,
+  noValue,
+}) => {
   if (filterable) {
     return (
       <FilterableContextOptions
         items={items}
         value={value}
+        noValue={noValue}
         onChange={onChange}
         filterable={filterable}
         placeholder={placeholder}
@@ -302,7 +327,14 @@ export const ContextOptions: FC<
       />
     )
   } else {
-    return <ContextItems items={items} onChange={onChange} value={value} />
+    return (
+      <ContextItems
+        noValue={noValue}
+        items={items}
+        onChange={onChange}
+        value={value}
+      />
+    )
   }
 }
 
