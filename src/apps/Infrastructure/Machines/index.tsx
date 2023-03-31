@@ -31,7 +31,7 @@ import { AddMachineModal } from './AddMachineTemplateModal'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
-import { UpdateButton } from './UpdateButton'
+import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
 
 export const Actions: FC<{
@@ -139,11 +139,15 @@ const MachineConfig: FC<{
     <Container space="32px">
       <RowSpaced>
         <Text typo="subtitle600">{configName}</Text>
-        <Button
-          icon={<MoreIcon />}
-          ghost
-          onClick={useContextMenu(Actions, { config, configName, machines })}
-        />
+
+        <Row>
+          <UpdateButton small machineConfigs={{ [configName]: config }} />
+          <Button
+            icon={<MoreIcon />}
+            ghost
+            onClick={useContextMenu(Actions, { config, configName, machines })}
+          />
+        </Row>
       </RowSpaced>
       <Text space typo="caption400">
         {config.description ||
@@ -166,8 +170,6 @@ const MachineConfig: FC<{
         />
         <Services
           onChange={(config) => {
-            console.log('CHANGE', config)
-
             const payload = {
               ...env,
               configName,
