@@ -120,7 +120,6 @@ const Service: FC<{
   }
 
   let hasNewInstances = false
-
   for (const x in newInstancesRef.current) {
     hasNewInstances = true
     instances.push(
@@ -229,35 +228,35 @@ const Service: FC<{
             color="text"
             icon={<AddIcon />}
             onClick={() => {
-              if (alwaysAccept) {
-                // go go go
-                // do something NICE
-              } else {
-                const sKeys = Object.keys(service.instances)
-                let high = sKeys.reduce((a, v) => {
-                  const nr = Number(v)
-                  if (nr > a) {
-                    return nr
-                  }
-                  return a
-                }, 0)
-                high = Object.keys(newInstancesRef.current).reduce((a, v) => {
-                  const nr = Number(v)
-                  if (nr > a) {
-                    return nr
-                  }
-                  return a
-                }, high)
-
-                const index = high + 1
-
-                if (sKeys.length) {
-                  newInstancesRef.current[index] = deepCopy(
-                    service.instances[sKeys[0]]
-                  )
-                } else {
-                  newInstancesRef.current[index] = { port: 80 }
+              let high = -1
+              let newInstance: any = { port: 80 }
+              for (const key in service.instances) {
+                if (!newInstance) {
+                  newInstance = deepCopy(service.instances[key])
                 }
+                const nr = Number(key)
+                if (nr > high) {
+                  high = nr
+                }
+              }
+              if (alwaysAccept) {
+                onChange({
+                  services: {
+                    [service.name]: {
+                      instances: deepMerge(deepCopy(service.instances), {
+                        [high + 1]: newInstance,
+                      }),
+                    },
+                  },
+                })
+              } else {
+                for (const key in newInstancesRef.current) {
+                  const nr = Number(key)
+                  if (nr > high) {
+                    high = nr
+                  }
+                }
+                newInstancesRef.current[high + 1] = newInstance
                 update()
               }
             }}
@@ -375,6 +374,7 @@ export const Services: FC<{
       }
       if (alwaysAccept) {
         config.services[name] = service
+        onChange(config)
       } else {
         newServices.current.services[name] = service
       }

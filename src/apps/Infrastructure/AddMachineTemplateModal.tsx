@@ -198,7 +198,6 @@ export const AddMachineModal: FC<{
                 />
               </Label>
               <Spacer space="32px" />
-
               <Settings
                 onChange={(values) => {
                   deepMerge(newConfig.current.config, values)
@@ -210,6 +209,26 @@ export const AddMachineModal: FC<{
               />
               <Services
                 onChange={(values) => {
+                  for (const service in values.services) {
+                    console.info(newConfig.current)
+                    if (!newConfig.current.configName) {
+                      newConfig.current.configName =
+                        'machine' + service.replace('@based/', '-')
+                    }
+                    if (values.services[service].instances) {
+                      if (
+                        newConfig.current.config.services?.[service]?.instances
+                      ) {
+                        for (const instance in newConfig.current.config
+                          .services[service].instances) {
+                          if (!values.services[service].instances[instance]) {
+                            delete newConfig.current.config.services[service]
+                              .instances[instance]
+                          }
+                        }
+                      }
+                    }
+                  }
                   deepMerge(newConfig.current.config, values)
                   update()
                 }}
