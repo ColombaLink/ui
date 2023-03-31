@@ -8,7 +8,7 @@ import {
   Text,
 } from '~'
 import { MachineConfig } from '@based/machine-config'
-import { OnMachineConfigChange } from './types'
+import { OnMachineConfigChange } from '../types'
 
 export const Settings: FC<{
   configName: string

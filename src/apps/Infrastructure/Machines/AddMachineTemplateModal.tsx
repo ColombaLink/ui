@@ -17,8 +17,8 @@ import { deepCopy, deepMerge } from '@saulx/utils'
 import { Services } from './Services'
 import { Settings } from './Settings'
 import { useQuery, useClient } from '@based/react'
-import { Dist } from './types'
-import { EditJsonModalBody } from './EditJson'
+import { Dist } from '../types'
+import { EditJsonModalBody } from '../EditJson'
 
 export const AddMachineModal: FC<{
   config?: MachineConfig

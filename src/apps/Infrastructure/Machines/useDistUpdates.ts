@@ -1,7 +1,7 @@
 import { MachineConfig } from '@based/machine-config'
 import { useQuery } from '@based/react'
 import { useMemo } from 'react'
-import { Dist } from './types'
+import { Dist } from '../types'
 
 export const useDistUpdates = (
   machineConfigs: {

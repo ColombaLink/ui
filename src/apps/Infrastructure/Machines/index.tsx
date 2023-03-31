@@ -32,7 +32,7 @@ import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
 import { UpdateButton } from './UpdateButton'
-import { EditJsonModal } from './EditJson'
+import { EditJsonModal } from '../EditJson'
 
 export const Actions: FC<{
   config: MachineConfig
