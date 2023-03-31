@@ -42,7 +42,7 @@ const walkType = (obj: TypeSchema, key: string) => {
 export const useSchema = (
   db = 'default'
 ): { schema: BasedSchema; loading: boolean } => {
-  const { data, loading } = useQuery('db:schema', { db }, { persistent: true })
+  const { data, loading } = useQuery('db:schema', { db }, { persistent: false })
   if (!loading) {
     walkType(data.rootType, 'root')
     for (const key in data.types) {

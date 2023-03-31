@@ -142,6 +142,7 @@ export const SettingsField: FC<{
         checked={value}
         onChange={(v) => onChange(field, v)}
         style={{
+          marginBottom: 16,
           marginRight: 32,
         }}
         label={label}

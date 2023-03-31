@@ -1,5 +1,5 @@
 import { MachineConfig, Service, Machine } from '@based/machine-config'
-import React, { FC, ReactNode, useMemo, useRef } from 'react'
+import React, { FC, ReactNode, useMemo, useRef, useState } from 'react'
 import { hash } from '@saulx/hash'
 import {
   Text,
@@ -137,6 +137,8 @@ const Service: FC<{
       }
     }) || []
 
+  const [newVersion, updateVersion] = useState<string>()
+
   return (
     <styled.div
       style={{
@@ -153,10 +155,27 @@ const Service: FC<{
             label={<Text style={{ marginRight: 16 }}>{service.name}</Text>}
             value={service.distChecksum}
             options={selectOptions}
+            onChange={(v) => {
+              if (alwaysAccept) {
+                // go go go
+                console.log(v)
+                // onChange()
+              } else {
+                updateVersion(v as string)
+              }
+            }}
           />
-          {/* <div style={{ flexShrink: 0 }}>
-            <Accept />
-          </div> */}
+          {newVersion && !alwaysAccept ? (
+            <Accept
+              style={{ flexShrink: 0 }}
+              onCancel={() => {
+                updateVersion('')
+              }}
+              onAccept={() => {
+                // go go go
+              }}
+            />
+          ) : null}
         </styled.div>
         <Row>
           {alwaysAccept ? null : (
