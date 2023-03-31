@@ -22,8 +22,6 @@ import { useQuery } from '@based/react'
 import { deepMerge } from '@saulx/utils'
 import { Service } from './Service'
 
-// Extract add Service
-
 export const Services: FC<{
   configName: string
   config: MachineConfig & { configName?: string }
@@ -77,7 +75,7 @@ export const Services: FC<{
           value: v,
         }
       })
-  }, [distChecksum, services.length]) // distChecksum, config need to pass more
+  }, [distChecksum, services.length])
 
   const newServices = useRef<any>({ services: {} })
 

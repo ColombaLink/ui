@@ -37,9 +37,13 @@ export const Version: FC<{
         options={selectOptions}
         onChange={(v) => {
           if (alwaysAccept) {
-            // go go go
-            // onChange
-            // onChange()
+            onChange({
+              services: {
+                [service.name]: {
+                  distChecksum: newVersion,
+                },
+              },
+            })
           } else {
             updateVersion(v as string)
           }
@@ -52,7 +56,14 @@ export const Version: FC<{
             updateVersion('')
           }}
           onAccept={() => {
-            // go go go
+            onChange({
+              services: {
+                [service.name]: {
+                  distChecksum: newVersion,
+                },
+              },
+            })
+            updateVersion('')
           }}
         />
       ) : null}
