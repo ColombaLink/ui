@@ -102,11 +102,11 @@ export const Settings: FC<{
                 ),
               },
               {
-                value: 'extraLarge',
+                value: 'xlarge',
                 label: (
                   <Row>
                     <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      Extra large
+                      xlarge
                     </Text>{' '}
                     <Badge style={{ marginRight: 4 }}>8vCPU</Badge>
                     <Badge>16GiB</Badge>
@@ -114,11 +114,11 @@ export const Settings: FC<{
                 ),
               },
               {
-                value: 'huge',
+                value: 'xxlarge',
                 label: (
                   <Row>
                     <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      Huge
+                      xxLarge
                     </Text>{' '}
                     <Badge style={{ marginRight: 4 }}>16vCPU</Badge>
                     <Badge>32GiB</Badge>

@@ -6,12 +6,12 @@ import {
   Text,
   useContextState,
   ChevronRightIcon,
+  Button,
   Row,
+  CloseIcon,
 } from '~'
 import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from './types'
-// import { ActionMenuButton } from './ActionMenu'
-import { Status } from './Status'
 import { hash } from '@saulx/hash'
 import { deepMerge } from '@saulx/utils'
 
@@ -207,21 +207,10 @@ export const Instance: FC<{
   instance: ServiceInstance
   index: string
   service: ServiceNamed
-  config: MachineConfig
   alwaysAccept?: boolean
   configName: string
-  machines: Machine[]
   onChange: OnMachineConfigChange
-}> = ({
-  index,
-  instance,
-  service,
-  config,
-  configName,
-  machines,
-  onChange,
-  alwaysAccept,
-}) => {
+}> = ({ index, instance, service, configName, onChange, alwaysAccept }) => {
   let type: string
 
   if (service.name === '@based/env-hub-discovery') {
@@ -262,6 +251,7 @@ export const Instance: FC<{
     <Card
       style={{
         minWidth: '100%',
+        marginBottom: 16,
       }}
       label={
         <Row
@@ -285,8 +275,7 @@ export const Instance: FC<{
       }
       topRight={
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Status type="instance" running={machines.length} />
-          {/* <ActionMenuButton config={config} configName={configName} /> */}
+          <Button icon={<CloseIcon />} ghost />
         </div>
       }
     >

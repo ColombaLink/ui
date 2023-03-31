@@ -101,17 +101,40 @@ const Service: FC<{
 }) => {
   const instances: ReactNode[] = []
 
+  const newInstancesRef = useRef({})
+
+  const update = useUpdate()
+
   for (const x in service.instances) {
     instances.push(
       <Instance
         alwaysAccept={alwaysAccept}
         onChange={onChange}
-        machines={machines}
-        config={config}
         configName={configName}
         key={x}
         service={service}
         instance={service.instances[x]}
+        index={x}
+      />
+    )
+  }
+
+  let hasNewInstances = false
+
+  for (const x in newInstancesRef.current) {
+    hasNewInstances = true
+    instances.push(
+      <Instance
+        // show changes
+        alwaysAccept
+        onChange={(v) => {
+          deepMerge(newInstancesRef.current[x], v)
+          // go go go
+        }}
+        configName={configName}
+        key={x}
+        service={service}
+        instance={newInstancesRef.current[x]}
         index={x}
       />
     )
@@ -158,7 +181,6 @@ const Service: FC<{
             onChange={(v) => {
               if (alwaysAccept) {
                 // go go go
-                console.log(v)
                 // onChange()
               } else {
                 updateVersion(v as string)
@@ -199,19 +221,41 @@ const Service: FC<{
               onChange,
             })}
           />
-
-          <Button color="text" icon={<AddIcon />} ghost />
+          <Button
+            color="text"
+            icon={<AddIcon />}
+            onClick={() => {
+              if (alwaysAccept) {
+                // go go go
+              } else {
+                const index = instances.length
+                newInstancesRef.current[index] = { port: 80 }
+                update()
+              }
+            }}
+            ghost
+          />
         </Row>
       </RowSpaced>
-      <RowSpaced
+      <styled.div
         style={{
-          flexWrap: 'wrap',
           marginTop: 24,
         }}
       >
         {instances}
-      </RowSpaced>
-      <RowEnd style={{ marginTop: 16 }}>{children}</RowEnd>
+      </styled.div>
+      <RowEnd style={{ marginTop: 24 }}>
+        {hasNewInstances && !alwaysAccept ? (
+          <Accept
+            onAccept={() => {}}
+            onCancel={() => {
+              newInstancesRef.current = {}
+              update()
+            }}
+          />
+        ) : null}
+        {children}
+      </RowEnd>
     </styled.div>
   )
 }
@@ -226,6 +270,12 @@ export const Services: FC<{
   const services: ServiceNamed[] = []
 
   const update = useUpdate()
+
+  // TODO: Weird selva bug
+  // when empty record return an empty object not NULL
+  if (config.services === null) {
+    config.services = {}
+  }
 
   for (const key in config.services) {
     services.push({ name: key, ...config.services[key] })
@@ -251,7 +301,7 @@ export const Services: FC<{
 
   const options = useMemo(() => {
     return Object.keys(dists)
-      .filter((f) => !(f in config.services))
+      .filter((f) => !(f in (config?.services || {})))
       .map((v) => {
         // Will make nice explanation for all the services (also in dists)
         return {
