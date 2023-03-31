@@ -166,6 +166,8 @@ const MachineConfig: FC<{
         />
         <Services
           onChange={(config) => {
+            console.log('CHANGE', config)
+
             const payload = {
               ...env,
               configName,

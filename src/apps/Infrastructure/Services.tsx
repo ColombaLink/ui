@@ -51,7 +51,7 @@ export const Actions: FC<{
             open(
               <Dialog>
                 <Dialog.Label style={{ marginTop: 24 }}>
-                  Remove machine template
+                  Remove service
                 </Dialog.Label>
                 <Dialog.Body>
                   <Text>
@@ -125,11 +125,15 @@ const Service: FC<{
     hasNewInstances = true
     instances.push(
       <Instance
-        // show changes
         alwaysAccept
         onChange={(v) => {
-          deepMerge(newInstancesRef.current[x], v)
-          // go go go
+          const y = v.services[service.name].instances[x]
+          if (y) {
+            newInstancesRef.current[x] = y
+          } else {
+            delete newInstancesRef.current[x]
+          }
+          update()
         }}
         configName={configName}
         key={x}
@@ -227,9 +231,33 @@ const Service: FC<{
             onClick={() => {
               if (alwaysAccept) {
                 // go go go
+                // do something NICE
               } else {
-                const index = instances.length
-                newInstancesRef.current[index] = { port: 80 }
+                const sKeys = Object.keys(service.instances)
+                let high = sKeys.reduce((a, v) => {
+                  const nr = Number(v)
+                  if (nr > a) {
+                    return nr
+                  }
+                  return a
+                }, 0)
+                high = Object.keys(newInstancesRef.current).reduce((a, v) => {
+                  const nr = Number(v)
+                  if (nr > a) {
+                    return nr
+                  }
+                  return a
+                }, high)
+
+                const index = high + 1
+
+                if (sKeys.length) {
+                  newInstancesRef.current[index] = deepCopy(
+                    service.instances[sKeys[0]]
+                  )
+                } else {
+                  newInstancesRef.current[index] = { port: 80 }
+                }
                 update()
               }
             }}
@@ -247,7 +275,20 @@ const Service: FC<{
       <RowEnd style={{ marginTop: 24 }}>
         {hasNewInstances && !alwaysAccept ? (
           <Accept
-            onAccept={() => {}}
+            onAccept={() => {
+              onChange({
+                services: {
+                  [service.name]: {
+                    instances: deepMerge(
+                      deepCopy(service.instances),
+                      newInstancesRef.current
+                    ),
+                  },
+                },
+              })
+              newInstancesRef.current = {}
+              update()
+            }}
             onCancel={() => {
               newInstancesRef.current = {}
               update()

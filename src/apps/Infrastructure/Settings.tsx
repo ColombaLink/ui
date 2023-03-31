@@ -72,7 +72,7 @@ export const Settings: FC<{
                     <Text weight="700" style={{ marginRight: 16, width: 100 }}>
                       Micro
                     </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>1vCPU</Badge>
+                    <Badge style={{ marginRight: 4 }}>2vCPU</Badge>
                     <Badge>1GiB</Badge>
                   </Row>
                 ),
@@ -96,7 +96,7 @@ export const Settings: FC<{
                     <Text weight="700" style={{ marginRight: 16, width: 100 }}>
                       Large
                     </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>4vCPU</Badge>
+                    <Badge style={{ marginRight: 4 }}>2vCPU</Badge>
                     <Badge>8GiB</Badge>
                   </Row>
                 ),
@@ -108,7 +108,7 @@ export const Settings: FC<{
                     <Text weight="700" style={{ marginRight: 16, width: 100 }}>
                       xlarge
                     </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>8vCPU</Badge>
+                    <Badge style={{ marginRight: 4 }}>4vCPU</Badge>
                     <Badge>16GiB</Badge>
                   </Row>
                 ),
@@ -120,7 +120,7 @@ export const Settings: FC<{
                     <Text weight="700" style={{ marginRight: 16, width: 100 }}>
                       xxLarge
                     </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>16vCPU</Badge>
+                    <Badge style={{ marginRight: 4 }}>8vCPU</Badge>
                     <Badge>32GiB</Badge>
                   </Row>
                 ),

@@ -3,17 +3,19 @@ import {
   Card,
   ChevronDownIcon,
   SettingsGroup,
+  Dialog,
   Text,
   useContextState,
   ChevronRightIcon,
   Button,
   Row,
   CloseIcon,
+  useDialog,
 } from '~'
-import { ServiceInstance, Machine, MachineConfig } from '@based/machine-config'
+import { ServiceInstance } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from './types'
 import { hash } from '@saulx/hash'
-import { deepMerge } from '@saulx/utils'
+import { deepCopy, deepMerge } from '@saulx/utils'
 
 type SettingProps = {
   onChange: (values: { [field: string]: any }) => void
@@ -228,6 +230,8 @@ export const Instance: FC<{
     type = 'db'
   }
 
+  const { open } = useDialog()
+
   const expandKey = useMemo(
     () => hash(configName + service.name + configName + index).toString(16),
     [configName, service.name, configName, index]
@@ -275,7 +279,56 @@ export const Instance: FC<{
       }
       topRight={
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Button icon={<CloseIcon />} ghost />
+          <Button
+            icon={<CloseIcon />}
+            ghost
+            onClick={async () => {
+              if (alwaysAccept) {
+                const x = deepCopy(service.instances)
+                delete x[index]
+                return onChange({
+                  services: {
+                    [service.name]: {
+                      instances: x,
+                    },
+                  },
+                })
+              } else {
+                open(
+                  <Dialog>
+                    <Dialog.Label style={{ marginTop: 24 }}>
+                      Remove service instance
+                    </Dialog.Label>
+                    <Dialog.Body>
+                      <Text>
+                        Are you sure you want ro remove{' '}
+                        <b>
+                          {service.name} #{index}
+                        </b>
+                        ?
+                      </Text>
+                    </Dialog.Body>
+                    <Dialog.Buttons border>
+                      <Dialog.Cancel />
+                      <Dialog.Confirm
+                        onConfirm={() => {
+                          delete service.instances[index]
+                          return onChange({
+                            services: {
+                              [service.name]: {
+                                instances: service.instances,
+                              },
+                            },
+                          })
+                        }}
+                      />
+                    </Dialog.Buttons>
+                  </Dialog>
+                )
+                // modal
+              }
+            }}
+          />
         </div>
       }
     >
