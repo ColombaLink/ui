@@ -2,7 +2,7 @@ import { styled } from 'inlines'
 
 export const Column = styled('div', {
   display: 'flex',
-  direction: 'column',
+  flexDirection: 'column',
 })
 
 export const Row = styled('div', {
