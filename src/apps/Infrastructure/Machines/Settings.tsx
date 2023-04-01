@@ -23,9 +23,13 @@ export const Settings: FC<{
   )
   const expandKey = configName + 'g'
 
-  const { data: machineTypes = [] } = useQuery('machine-types', undefined, {
-    persistent: true,
-  })
+  const { data: machineTypes = [] } = useQuery(
+    'machine-types',
+    {},
+    {
+      persistent: true,
+    }
+  )
 
   return (
     <AccordionItem
@@ -50,7 +54,7 @@ export const Settings: FC<{
           return onChange(values)
         }}
         labelWidth={208}
-        fieldWidth={400}
+        fieldWidth={350}
         values={config}
         style={{ minWidth: '100%', maxWidth: 500 }}
         data={{
@@ -77,18 +81,21 @@ export const Settings: FC<{
                     <Row style={{ marginRight: 16, width: 200 }}>
                       <Text style={{ marginRight: 8 }} weight="700">
                         {s.name}
-                        {s.family === 'r6i' ? ' M' : ''}
                       </Text>
                       <Text color="text2" typo="caption500">
                         €{s.basedPrice}/month
                         {/* {'' +
-                          (~~((s.basedPrice / (s.priceMonth / 0.91)) * 100) -
+                          (~~((s.basedPrice / (s.priceMonth * 0.91)) * 100) -
                             100)}
                         % */}
                       </Text>
                     </Row>
                     <Badge style={{ marginRight: 4 }}>{s.cpus}vCPU</Badge>
-                    <Badge>{s.memory}GiB</Badge>
+                    {s.memory > 1000 ? (
+                      <Badge>{s.memory / 1024}TiB</Badge>
+                    ) : (
+                      <Badge>{s.memory}GiB</Badge>
+                    )}
                   </Row>
                 ),
               }

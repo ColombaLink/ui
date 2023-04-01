@@ -109,10 +109,10 @@ export const SettingsField: FC<{
         <Row style={{ minWidth: fieldWidth }}>
           <Input
             onChange={(v) => {
-              if (value?.max === undefined || value?.max < v) {
-                onChange(field + '.max', v)
-              }
-              onChange(field + '.min', v)
+              onChange(field, {
+                min: v,
+                max: v > value?.max ? v : value?.max ?? v,
+              })
             }}
             value={value?.min}
             style={{ width: 90, marginRight: 8 }}
@@ -121,10 +121,10 @@ export const SettingsField: FC<{
           />
           <Input
             onChange={(v) => {
-              if (value?.min === undefined || v < value?.min) {
-                onChange(field + '.min', v)
-              }
-              onChange(field + '.max', v)
+              onChange(field, {
+                max: v,
+                min: v < value?.min ? v : value?.min ?? 0,
+              })
             }}
             value={value?.max}
             style={{ width: 90 }}
