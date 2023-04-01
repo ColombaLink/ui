@@ -10,7 +10,7 @@ const client = based({
   project: 'based-cloud',
   env: 'platform',
   name: '@based/admin-hub',
-  // cluster: 'local',
+  cluster: 'local',
 })
 
 client.call('login', {

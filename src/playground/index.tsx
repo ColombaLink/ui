@@ -36,7 +36,7 @@ export const client = new BasedClient({
   project: 'test',
   org: 'saulx',
   env: 'ci',
-  // cluster: 'local',
+  cluster: 'local',
   name: '@based/env-admin-hub',
 })
 
