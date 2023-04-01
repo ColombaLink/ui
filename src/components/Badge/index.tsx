@@ -32,7 +32,6 @@ export const Badge: FC<BadgeProps> = ({
     <styled.div
       onClick={onClick}
       style={{
-        minWidth: 24,
         minHeight: 24,
         transition: 'transform 0.15s',
         transform: 'scale(1)',

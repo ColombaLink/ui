@@ -10,7 +10,7 @@ import {
 import { ServiceInstance } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'
 import { hash } from '@saulx/hash'
-import { deepMerge } from '@saulx/utils'
+import { deepMerge, deepCopy } from '@saulx/utils'
 import { RemoveButton } from './RemoveButton'
 import {
   DiscoverSettings,
@@ -50,13 +50,13 @@ export const Instance: FC<{
 
   const [expanded, setExpanded] = useContextState('expanded')
 
-  const onChangeWrapped = (values) => {
+  const onChangeWrapped: OnMachineConfigChange = (values) => {
+    const instances = deepCopy(service.instances)
+    instances[index] = deepMerge(service.instances[index], values)
     onChange({
       services: {
         [service.name]: {
-          instances: {
-            [index]: deepMerge(instance, values),
-          },
+          instances,
         },
       },
     })
