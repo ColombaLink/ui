@@ -186,7 +186,7 @@ export type SettingsGroupProps = {
   style?: Style
   fieldWidth?: number
   labelWidth?: number
-  onChange: (changes: { [field: string]: any }) => void
+  onChange: (changes: { [field: string]: any }) => void | Promise<void>
   values?: { [field: string]: any }
   data?:
     | SettingGroupItem[]
@@ -321,6 +321,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
             d.value ??
             (hasChanges
               ? getValue(d.field, valuesChanged.current) ??
+                d.value ??
                 getValue(d.field, values)
               : getValue(d.field, values))
           }
@@ -335,11 +336,11 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           item={d}
           onChange={onChangeField}
           value={
-            d.value ??
-            (hasChanges
+            hasChanges
               ? getValue(d.field, valuesChanged.current) ??
+                d.value ??
                 getValue(d.field, values)
-              : getValue(d.field, values))
+              : d.value ?? getValue(d.field, values)
           }
         />
       )
@@ -390,7 +391,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
               setChanges(false)
             }}
             onAccept={async () => {
-              onChange(valuesChanged.current)
+              await onChange(valuesChanged.current)
               valuesChanged.current = {}
               setChanges(false)
             }}
