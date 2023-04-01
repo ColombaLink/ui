@@ -1,14 +1,20 @@
 import { MachineConfig } from '@based/machine-config'
 import { useQuery } from '@based/react'
 import { useMemo } from 'react'
-import { Dist } from '../types'
+import { Dist } from './types'
+
+type Update = {
+  dist: Dist
+  configName: string
+  fromVersion: string
+}[]
 
 export const useDistUpdates = (
   machineConfigs: {
     [key: string]: MachineConfig | Pick<MachineConfig, 'services'>
   },
   checksum?: number
-): Dist[] => {
+): Update => {
   const { data: dists = {}, checksum: distChecksum } = useQuery<{
     [key: string]: Dist[]
   }>(
@@ -22,7 +28,7 @@ export const useDistUpdates = (
   )
 
   return useMemo(() => {
-    const needUpdate: Dist[] = []
+    const needUpdate: Update = []
     for (const configName in machineConfigs) {
       const config = machineConfigs[configName]
       for (const serviceName in config.services) {
@@ -36,7 +42,11 @@ export const useDistUpdates = (
         } else {
           for (const d of serviceDists) {
             if (d.index > currentDist.index) {
-              needUpdate.push(d)
+              needUpdate.push({
+                configName,
+                dist: d,
+                fromVersion: currentDist.version,
+              })
               break
             }
           }

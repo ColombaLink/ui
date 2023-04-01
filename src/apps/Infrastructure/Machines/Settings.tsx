@@ -9,6 +9,7 @@ import {
 } from '~'
 import { MachineConfig } from '@based/machine-config'
 import { OnMachineConfigChange } from '../types'
+import { useQuery } from '@based/react'
 
 export const Settings: FC<{
   configName: string
@@ -21,6 +22,14 @@ export const Settings: FC<{
     {}
   )
   const expandKey = configName + 'g'
+
+  const { data: machineTypes = [] } = useQuery(
+    'machine-types',
+    {},
+    {
+      persistent: true,
+    }
+  )
 
   return (
     <AccordionItem
@@ -42,10 +51,10 @@ export const Settings: FC<{
             Object.assign(values, values.amount)
             delete values.amount
           }
-          onChange(values)
+          return onChange(values)
         }}
         labelWidth={208}
-        fieldWidth={260}
+        fieldWidth={350}
         values={config}
         style={{ minWidth: '100%', maxWidth: 500 }}
         data={{
@@ -63,69 +72,34 @@ export const Settings: FC<{
           machine: {
             label: 'Machine specs Mem & Cpu',
             description: 'Specs of the machine',
-            default: 'medium',
-            options: [
-              {
-                value: 'micro',
+            default: 't3.medium',
+            options: machineTypes.map((s) => {
+              return {
+                value: s.value,
                 label: (
                   <Row>
-                    <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      Micro
-                    </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>2vCPU</Badge>
-                    <Badge>1GiB</Badge>
+                    <Row style={{ marginRight: 16, width: 200 }}>
+                      <Text style={{ marginRight: 8 }} weight="700">
+                        {s.name}
+                      </Text>
+                      <Text color="text2" typo="caption500">
+                        €{s.basedPrice}/month
+                        {/* {'' +
+                          (~~((s.basedPrice / (s.priceMonth * 0.91)) * 100) -
+                            100)}
+                        % */}
+                      </Text>
+                    </Row>
+                    <Badge style={{ marginRight: 4 }}>{s.cpus}vCPU</Badge>
+                    {s.memory > 1000 ? (
+                      <Badge>{s.memory / 1024}TiB</Badge>
+                    ) : (
+                      <Badge>{s.memory}GiB</Badge>
+                    )}
                   </Row>
                 ),
-              },
-              {
-                value: 'medium',
-                label: (
-                  <Row>
-                    <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      Medium
-                    </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>2vCPU</Badge>
-                    <Badge>2GiB</Badge>
-                  </Row>
-                ),
-              },
-              {
-                value: 'large',
-                label: (
-                  <Row>
-                    <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      Large
-                    </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>2vCPU</Badge>
-                    <Badge>8GiB</Badge>
-                  </Row>
-                ),
-              },
-              {
-                value: 'xlarge',
-                label: (
-                  <Row>
-                    <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      xlarge
-                    </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>4vCPU</Badge>
-                    <Badge>16GiB</Badge>
-                  </Row>
-                ),
-              },
-              {
-                value: 'xxlarge',
-                label: (
-                  <Row>
-                    <Text weight="700" style={{ marginRight: 16, width: 100 }}>
-                      xxLarge
-                    </Text>{' '}
-                    <Badge style={{ marginRight: 4 }}>8vCPU</Badge>
-                    <Badge>32GiB</Badge>
-                  </Row>
-                ),
-              },
-            ],
+              }
+            }),
           },
         }}
       />

@@ -16,7 +16,7 @@ export const Accept = <T,>({
     <Row style={style}>
       <Button
         onClick={() => {
-          onCancel(value)
+          return onCancel(value)
         }}
         ghost
         style={{ marginLeft: 16 }}
@@ -25,7 +25,7 @@ export const Accept = <T,>({
       <Button
         color="accent"
         onClick={async () => {
-          onAccept(value)
+          return onAccept(value)
         }}
         ghost
         style={{ marginLeft: 4 }}

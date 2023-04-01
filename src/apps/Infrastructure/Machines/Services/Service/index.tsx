@@ -26,7 +26,7 @@ export const Service: FC<{
   children?: ReactNode
 }> = ({ service, config, machines, onChange, alwaysAccept, children }) => {
   // TODO put actions
-  console.info(machines, 'put actions')
+  console.info(machines, 'put SERVICE actions, restart, stop, start')
 
   const [newInstances, acceptNewInstanceButton, addInstance] = useAddInstances(
     service,

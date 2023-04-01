@@ -30,6 +30,8 @@ import {
 const stopPropagation = (e) => e.stopPropagation()
 
 export type ButtonProps = {
+  onMouseEnter?: MouseEventHandler
+  onMouseLeave?: MouseEventHandler
   children?: ReactNode | ReactNode[]
   disabled?: boolean
   color?: Color
@@ -126,6 +128,8 @@ export const Button: FC<ButtonProps> = (props) => {
     loading,
     onClick,
     onPointerDown,
+    onMouseEnter,
+    onMouseLeave,
     space,
     keyboardShortcut,
     displayShortcut,
@@ -211,6 +215,8 @@ export const Button: FC<ButtonProps> = (props) => {
         ...getButtonStyle(props, true),
         ...style,
       }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div
         style={{

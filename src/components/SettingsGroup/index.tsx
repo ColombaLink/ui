@@ -109,10 +109,10 @@ export const SettingsField: FC<{
         <Row style={{ minWidth: fieldWidth }}>
           <Input
             onChange={(v) => {
-              if (value?.max === undefined || value?.max < v) {
-                onChange(field + '.max', v)
-              }
-              onChange(field + '.min', v)
+              onChange(field, {
+                min: v,
+                max: v > value?.max ? v : value?.max ?? v,
+              })
             }}
             value={value?.min}
             style={{ width: 90, marginRight: 8 }}
@@ -121,10 +121,10 @@ export const SettingsField: FC<{
           />
           <Input
             onChange={(v) => {
-              if (value?.min === undefined || v < value?.min) {
-                onChange(field + '.min', v)
-              }
-              onChange(field + '.max', v)
+              onChange(field, {
+                max: v,
+                min: v < value?.min ? v : value?.min ?? 0,
+              })
             }}
             value={value?.max}
             style={{ width: 90 }}
@@ -186,7 +186,7 @@ export type SettingsGroupProps = {
   style?: Style
   fieldWidth?: number
   labelWidth?: number
-  onChange: (changes: { [field: string]: any }) => void
+  onChange: (changes: { [field: string]: any }) => void | Promise<void>
   values?: { [field: string]: any }
   data?:
     | SettingGroupItem[]
@@ -321,6 +321,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
             d.value ??
             (hasChanges
               ? getValue(d.field, valuesChanged.current) ??
+                d.value ??
                 getValue(d.field, values)
               : getValue(d.field, values))
           }
@@ -335,11 +336,11 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           item={d}
           onChange={onChangeField}
           value={
-            d.value ??
-            (hasChanges
+            hasChanges
               ? getValue(d.field, valuesChanged.current) ??
+                d.value ??
                 getValue(d.field, values)
-              : getValue(d.field, values))
+              : d.value ?? getValue(d.field, values)
           }
         />
       )
@@ -390,7 +391,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
               setChanges(false)
             }}
             onAccept={async () => {
-              onChange(valuesChanged.current)
+              await onChange(valuesChanged.current)
               valuesChanged.current = {}
               setChanges(false)
             }}

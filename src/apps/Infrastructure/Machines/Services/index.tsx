@@ -1,8 +1,6 @@
 import { MachineConfig, Machine } from '@based/machine-config'
-import React, { FC, useMemo, useRef } from 'react'
-import { hash } from '@saulx/hash'
+import React, { FC } from 'react'
 import {
-  Text,
   Button,
   AddIcon,
   AccordionItem,
@@ -12,15 +10,11 @@ import {
   Row,
   RowEnd,
   border,
-  useSelect,
-  Accept,
-  useUpdate,
 } from '~'
 import { Status } from '../Status'
-import { ServiceNamed, OnMachineConfigChange, Dist } from '../../types'
-import { useQuery } from '@based/react'
-import { deepMerge } from '@saulx/utils'
+import { ServiceNamed, OnMachineConfigChange } from '../../types'
 import { Service } from './Service'
+import { useAddService } from './useAddService'
 
 export const Services: FC<{
   configName: string
@@ -30,8 +24,6 @@ export const Services: FC<{
   alwaysAccept?: boolean
 }> = ({ config, configName, machines, onChange, alwaysAccept }) => {
   const services: ServiceNamed[] = []
-
-  const update = useUpdate()
 
   // TODO: Weird selva bug
   // when empty record return an empty object not NULL
@@ -49,67 +41,12 @@ export const Services: FC<{
   )
   const expandKey = configName + 's'
 
-  const { data: dists = {}, checksum: distChecksum } = useQuery<{
-    [key: string]: Dist[]
-  }>(
-    'dists',
-    {
-      type: 'env',
-    },
-    {
-      persistent: true,
-    }
+  const [newServices, add] = useAddService(
+    config,
+    onChange,
+    alwaysAccept,
+    services.length
   )
-
-  const options = useMemo(() => {
-    return Object.keys(dists)
-      .filter((f) => !(f in (config?.services || {})))
-      .map((v) => {
-        // Will make nice explanation for all the services (also in dists)
-        return {
-          label: (
-            <div>
-              <Text typo="body600">{v}</Text>
-            </div>
-          ),
-          value: v,
-        }
-      })
-  }, [distChecksum, services.length])
-
-  const newServices = useRef<any>({ services: {} })
-
-  const [, add] = useSelect(
-    options,
-    null,
-    (name) => {
-      if (!name) {
-        return
-      }
-      const service = {
-        distChecksum: dists[name][0].checksum,
-        instances: {
-          '0': {
-            port: 80,
-          },
-        },
-      }
-      if (alwaysAccept) {
-        config.services[name] = service
-        onChange(config)
-      } else {
-        newServices.current.services[name] = service
-      }
-      update()
-    },
-    { noValue: true, filterable: true }
-  )
-
-  const newServicesItems: ServiceNamed[] = []
-
-  for (const key in newServices.current.services) {
-    newServicesItems.push({ name: key, ...newServices.current.services[key] })
-  }
 
   return (
     <AccordionItem
@@ -144,7 +81,6 @@ export const Services: FC<{
           </Button>
         </Row>
       </RowEnd>
-
       {services.map((s) => {
         return (
           <Service
@@ -157,37 +93,7 @@ export const Services: FC<{
           />
         )
       })}
-
-      {newServicesItems.map((s) => {
-        return (
-          <Service
-            key={'n' + s.name}
-            alwaysAccept
-            onChange={(values) => {
-              deepMerge(newServices.current, values)
-              update()
-            }}
-            machines={[]}
-            config={newServices.current}
-            service={s}
-          >
-            <Accept
-              onAccept={async () => {
-                await onChange(newServices.current)
-                newServices.current = { services: {} }
-              }}
-              onCancel={() => {
-                delete newServices.current.services[s.name]
-                delete expanded[
-                  hash(configName + s.name + configName + 0).toString(16)
-                ]
-                setExpanded(expanded)
-                update()
-              }}
-            />
-          </Service>
-        )
-      })}
+      {newServices}
     </AccordionItem>
   )
 }

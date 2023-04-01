@@ -29,7 +29,11 @@ export const useAddInstances = (
           update()
         }}
         key={x}
-        service={service}
+        service={{
+          name: service.name,
+          distChecksum: service.distChecksum,
+          instances: newInstancesRef.current,
+        }}
         instance={newInstancesRef.current[x]}
         index={x}
       />
@@ -40,7 +44,7 @@ export const useAddInstances = (
     let high = -1
     let newInstance: any = { port: 80 }
     for (const key in service.instances) {
-      if (!newInstance) {
+      if (high === -1) {
         newInstance = deepCopy(service.instances[key])
       }
       const nr = Number(key)
@@ -48,6 +52,7 @@ export const useAddInstances = (
         high = nr
       }
     }
+
     if (alwaysAccept) {
       onChange({
         services: {
