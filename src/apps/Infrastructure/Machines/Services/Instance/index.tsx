@@ -1,15 +1,7 @@
-import React, { FC, useMemo } from 'react'
-import {
-  Card,
-  ChevronDownIcon,
-  Text,
-  useContextState,
-  ChevronRightIcon,
-  Row,
-} from '~'
+import React, { FC, useState } from 'react'
+import { Card, ChevronDownIcon, Text, ChevronRightIcon, Row } from '~'
 import { ServiceInstance } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'
-import { hash } from '@saulx/hash'
 import { deepMerge, deepCopy } from '@saulx/utils'
 import { RemoveButton } from './RemoveButton'
 import {
@@ -43,12 +35,7 @@ export const Instance: FC<{
     type = 'db'
   }
 
-  const expandKey = useMemo(
-    () => hash(service.name + index).toString(16),
-    [service.name, index]
-  )
-
-  const [expanded, setExpanded] = useContextState('expanded')
+  const [expanded, setExpanded] = useState(false)
 
   const onChangeWrapped: OnMachineConfigChange = (values) => {
     const instances = deepCopy(service.instances)
@@ -74,15 +61,10 @@ export const Instance: FC<{
             cursor: 'pointer',
           }}
           onClick={() => {
-            if (!expanded[expandKey]) {
-              expanded[expandKey] = true
-            } else {
-              delete expanded[expandKey]
-            }
-            setExpanded(expanded)
+            setExpanded(!expanded)
           }}
         >
-          {expanded[expandKey] ? <ChevronDownIcon /> : <ChevronRightIcon />}
+          {expanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
           <Text style={{ marginLeft: 8 }} typo="body600">
             {service.name} #{index}
           </Text>
@@ -97,7 +79,7 @@ export const Instance: FC<{
         />
       }
     >
-      {expanded[expandKey] ? (
+      {expanded ? (
         type === 'discover' ? (
           <DiscoverSettings
             alwaysAccept={alwaysAccept}
