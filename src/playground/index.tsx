@@ -17,6 +17,7 @@ import {
   color,
   useRoute,
   LayersIcon,
+  DeleteIcon,
 } from '../'
 import { BasedClient } from '@based/client'
 import * as components from './components'
@@ -140,6 +141,14 @@ const App = () => {
                 onClick={() =>
                   route.setQuery({ code: route.query.code ? null : true })
                 }
+              />
+              <Button
+                space="12px"
+                ghost
+                icon={<DeleteIcon />}
+                onClick={() => {
+                  return client.clearStorage()
+                }}
               />
             </div>
             <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>

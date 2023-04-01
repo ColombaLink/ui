@@ -14,14 +14,70 @@ import {
   Row,
   RowSpaced,
   RowEnd,
+  ContextItem,
+  RedoIcon,
+  MoreIcon,
+  useContextMenu,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
-import { Machine as MachineType, MachineConfig } from '@based/machine-config'
+import {
+  Env,
+  Machine as MachineType,
+  MachineConfig,
+} from '@based/machine-config'
+import { useClient } from '@based/react'
+
+const Actions: FC<{
+  machine: MachineType
+  config: MachineConfig
+}> = ({ machine, config }) => {
+  const [env] = useContextState<Env>('env')
+
+  const client = useClient()
+
+  return (
+    <>
+      <ContextItem
+        onClick={() => {
+          const targets: { [key: string]: true } = {}
+          for (const service in config.services) {
+            targets[service] = true
+          }
+
+          return client.call('send-command', {
+            ...env,
+            command: 'restart',
+            targets,
+          })
+        }}
+        icon={RedoIcon}
+      >
+        Restart all services
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          // config
+          return client.call('send-command', {
+            ...env,
+            command: 'restart',
+            targets: {
+              [machine.id]: true,
+            },
+          })
+        }}
+        icon={ReplaceIcon}
+      >
+        Reboot machine
+      </ContextItem>
+    </>
+  )
+}
 
 const Machine: FC<{
   machine: MachineType
-}> = ({ machine }) => {
+  config: MachineConfig
+}> = ({ machine, config }) => {
   const [copied, copy] = useCopyToClipboard(machine.id)
   return (
     <RowSpaced
@@ -76,12 +132,9 @@ const Machine: FC<{
           }
         />
         <Button
+          icon={MoreIcon}
           ghost
-          clickAnimation
-          onClick={() => {
-            copy()
-          }}
-          icon={<ReplaceIcon />}
+          onClick={useContextMenu(Actions, { machine, config })}
         />
       </Row>
     </RowSpaced>
@@ -93,6 +146,7 @@ export const MachinesSection: FC<{
   config: MachineConfig
   machines: MachineType[]
 }> = ({ config, configName, machines }) => {
+  // later config
   const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
     'expanded',
     {}
@@ -132,7 +186,7 @@ export const MachinesSection: FC<{
         ) : null}
       </RowEnd>
       {machines.map((m) => {
-        return <Machine machine={m} key={m.id} />
+        return <Machine config={config} machine={m} key={m.id} />
       })}
     </AccordionItem>
   )
