@@ -528,6 +528,14 @@
     "ButtonProps": {
       "name": "ButtonProps",
       "props": {
+        "onMouseEnter": {
+          "optional": true,
+          "type": "MouseEventHandler"
+        },
+        "onMouseLeave": {
+          "optional": true,
+          "type": "MouseEventHandler"
+        },
         "children": {
           "optional": true,
           "type": [
@@ -635,7 +643,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  children?: ReactNode | ReactNode[]\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  transparent?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?:\n    | MouseEventHandler\n    | (() => void)\n    | ((e: MouseEvent) => Promise<void>)\n    | (() => Promise<void>)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  /** \n   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n  \n   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n  */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
+      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode | ReactNode[]\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  transparent?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?:\n    | MouseEventHandler\n    | (() => void)\n    | ((e: MouseEvent) => Promise<void>)\n    | (() => Promise<void>)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  space?: Space\n  textAlign?: 'center' | 'right' | 'left'\n  /** \n   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n  \n   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n  */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -711,7 +719,7 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": "ReactNode"
         },
         "description": {
           "optional": true,
@@ -760,7 +768,7 @@
           "type": "function"
         }
       },
-      "code": "type CardProps = {\n  label?: string\n  description?: string\n  space?: Space\n  style?: Style\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n  onClick?: () => void\n}",
+      "code": "type CardProps = {\n  label?: ReactNode\n  description?: string\n  space?: Space\n  style?: Style\n  topLeft?: FC | ReactNode\n  topRight?: FC | ReactNode\n  bottomRight?: ReactNode\n  bottomLeft?: ReactNode\n  children?: ReactNode\n  small?: boolean\n  onClick?: () => void\n}",
       "file": "/components/Card/index.tsx"
     },
     "CheckboxProps": {
@@ -1011,9 +1019,13 @@
         },
         "onChange": {
           "type": "function"
+        },
+        "noValue": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ContextOptionsProps = {\n  items: Option[] | null | undefined\n  value?: Value\n  onChange: (value: Value) => void\n}",
+      "code": "type ContextOptionsProps = {\n  items: Option[] | null | undefined\n  value?: Value\n  onChange: (value: Value) => void\n  // eslint-disable-next-line\n  noValue?: boolean\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
     "ContextMultiOptionsProps": {
@@ -3066,6 +3078,10 @@
           "optional": true,
           "type": "Style"
         },
+        "fieldWidth": {
+          "optional": true,
+          "type": "number"
+        },
         "labelWidth": {
           "optional": true,
           "type": "number"
@@ -3091,7 +3107,7 @@
           "type": "boolean"
         }
       },
-      "code": "type SettingsGroupProps = {\n  style?: Style\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
+      "code": "type SettingsGroupProps = {\n  style?: Style\n  fieldWidth?: number\n  labelWidth?: number\n  onChange: (changes: { [field: string]: any }) => void | Promise<void>\n  values?: { [field: string]: any }\n  data?:\n    | SettingGroupItem[]\n    | {\n        [field: string]:\n          | null\n          | ReactNode\n          | (Omit<SettingGroupItem, 'field'> & { field?: string })\n      }\n  alwaysAccept?: boolean\n}",
       "file": "/components/SettingsGroup/index.tsx"
     },
     "SidebarProps": {

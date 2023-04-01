@@ -2,7 +2,9 @@ import React from 'react'
 import ComponentViewer from '../ComponentViewer'
 import { Provider } from '@based/react'
 import based from '@based/client'
+// import { hash } from '@saulx/hash'
 
+// console.log(hash('3.72.77.51:37145'))
 const client = based({
   org: 'saulx',
   project: 'based-cloud',
