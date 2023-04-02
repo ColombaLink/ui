@@ -33,6 +33,7 @@ import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
+import { getMachineStatus } from './getMachineStatus'
 
 export const Actions: FC<{
   config: MachineConfig
@@ -194,6 +195,14 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
   const { data: envData, checksum } = useQuery('env', env, {
     persistent: true,
   })
+
+  useMemo(() => {
+    if (envData.machines) {
+      for (const machine of envData.machines) {
+        machine.status = getMachineStatus(machine)
+      }
+    }
+  }, [checksum])
 
   const [filter, setFilter] = useContextState('filter', '')
   const { open } = useDialog()

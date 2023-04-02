@@ -49,7 +49,7 @@ export const Status: FC<{
       {unreachable ? (
         <Badge style={{ marginRight: 12 }} color="red" icon={WarningIcon}>
           {unreachable} {type}
-          {unreachable > 1 ? 's' : ''} unreachable
+          {unreachable > 1 ? 's' : ''} failing
         </Badge>
       ) : null}
     </Row>

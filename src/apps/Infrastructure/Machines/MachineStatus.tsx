@@ -69,6 +69,7 @@ const MachineStats: FC<{
 }
 
 export const machineStatus = (status: number): string => {
+  // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
   if (status === 0) {
     return 'Not OK'
   }

@@ -29,6 +29,7 @@ import {
   MachineConfig,
 } from '@based/machine-config'
 import { useClient } from '@based/react'
+import { getMachineStatus } from './getMachineStatus'
 
 const Actions: FC<{
   machine: MachineType
@@ -106,11 +107,6 @@ const Machine: FC<{
     }
   }
 
-  const status =
-    machine.stats.lastUpdate && Date.now() - machine.stats.lastUpdate > 7e3
-      ? 0
-      : machine.status
-
   return (
     <RowSpaced
       style={{
@@ -121,7 +117,7 @@ const Machine: FC<{
     >
       <Row>
         <MachineStatus
-          status={status}
+          status={machine.status}
           machineTypeValue={config.machine}
           cpu={machine.stats.cpu}
           memory={machine.stats.memory}
@@ -190,6 +186,23 @@ export const MachinesSection: FC<{
     'expanded',
     {}
   )
+
+  // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
+
+  let running = 0
+  let unreachable = 0
+  let deploying = 0
+
+  for (const machine of machines) {
+    if (machine.status === 1) {
+      running++
+    } else if (machine.status === 2) {
+      deploying++
+    } else if (machine.status === 0) {
+      unreachable++
+    }
+  }
+
   const expandKey = configName + 'm'
   return (
     <AccordionItem
@@ -206,7 +219,9 @@ export const MachinesSection: FC<{
       topRight={
         <Status
           goodColor={expanded[expandKey] ? 'accent' : 'green'}
-          running={machines.length}
+          running={running}
+          unreachable={unreachable}
+          deploying={deploying}
           type="machine"
         />
       }
