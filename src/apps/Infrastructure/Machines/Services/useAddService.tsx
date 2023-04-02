@@ -25,6 +25,7 @@ export const useAddService = (
       persistent: true,
     }
   )
+
   const options = useMemo(() => {
     return Object.keys(dists)
       .filter((f) => !(f in (config?.services || {})))
@@ -40,7 +41,9 @@ export const useAddService = (
         }
       })
   }, [distChecksum, checksum])
+
   const newServices = useRef<any>({ services: {} })
+
   const [, add] = useSelect(
     options,
     null,
@@ -66,6 +69,7 @@ export const useAddService = (
     },
     { noValue: true, filterable: true }
   )
+
   const newServicesItems: ServiceNamed[] = []
   for (const key in newServices.current.services) {
     newServicesItems.push({ name: key, ...newServices.current.services[key] })

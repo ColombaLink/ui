@@ -1,4 +1,4 @@
-import { MachineConfig, Machine } from '@based/machine-config'
+import { MachineConfig } from '@based/machine-config'
 import React, { FC } from 'react'
 import {
   Button,
@@ -19,10 +19,9 @@ import { useAddService } from './useAddService'
 export const Services: FC<{
   configName: string
   config: MachineConfig & { configName?: string }
-  machines: Machine[]
   onChange: OnMachineConfigChange
   alwaysAccept?: boolean
-}> = ({ config, configName, machines, onChange, alwaysAccept }) => {
+}> = ({ config, configName, onChange, alwaysAccept }) => {
   const services: ServiceNamed[] = []
 
   // TODO: Weird selva bug
@@ -86,7 +85,6 @@ export const Services: FC<{
           <Service
             alwaysAccept={alwaysAccept}
             onChange={onChange}
-            machines={machines}
             config={config}
             service={s}
             key={s.name}

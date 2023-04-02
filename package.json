@@ -30,7 +30,7 @@
     "react": "18||19"
   },
   "dependencies": {
-    "@based/machine-config": "0.0.3",
+    "@based/machine-config": "0.0.5",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.0.3",
     "@based/react": "^4.2.3",

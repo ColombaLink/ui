@@ -19,14 +19,12 @@ import { Version } from './Version'
 
 export const Service: FC<{
   service: ServiceNamed
-  machines: Machine[]
   onChange: OnMachineConfigChange
   config: MachineConfig
   alwaysAccept?: boolean
   children?: ReactNode
-}> = ({ service, config, machines, onChange, alwaysAccept, children }) => {
+}> = ({ service, config, onChange, alwaysAccept, children }) => {
   // TODO put actions
-  console.info(machines, 'put SERVICE actions, restart, stop, start')
 
   const [newInstances, acceptNewInstanceButton, addInstance] = useAddInstances(
     service,

@@ -177,7 +177,6 @@ const MachineConfig: FC<{
             }
             return client.call('update-machine-config', payload)
           }}
-          machines={machines}
           configName={configName}
           config={config}
         />

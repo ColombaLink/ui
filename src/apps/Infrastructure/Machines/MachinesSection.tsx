@@ -18,6 +18,8 @@ import {
   RedoIcon,
   MoreIcon,
   useContextMenu,
+  CloseIcon,
+  ContextDivider,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
@@ -30,25 +32,22 @@ import { useClient } from '@based/react'
 
 const Actions: FC<{
   machine: MachineType
-  config: MachineConfig
-}> = ({ machine, config }) => {
+}> = ({ machine }) => {
   const [env] = useContextState<Env>('env')
-
   const client = useClient()
-
   return (
     <>
       <ContextItem
-        onClick={() => {
-          const targets: { [key: string]: true } = {}
-          for (const service in config.services) {
-            targets[service] = true
-          }
-
-          return client.call('send-command', {
+        onClick={async () => {
+          await client.call('send-commands', {
             ...env,
-            command: 'restart',
-            targets,
+            commands: [
+              {
+                machineId: machine.id,
+                command: 'restart',
+                service: '*',
+              },
+            ],
           })
         }}
         icon={RedoIcon}
@@ -56,19 +55,37 @@ const Actions: FC<{
         Restart all services
       </ContextItem>
       <ContextItem
-        onClick={() => {
-          // config
-          return client.call('send-command', {
+        onClick={async () => {
+          await client.call('send-commands', {
             ...env,
-            command: 'restart',
-            targets: {
-              [machine.id]: true,
-            },
+            commands: [
+              {
+                machineId: machine.id,
+                command: 'restart',
+              },
+            ],
           })
         }}
         icon={ReplaceIcon}
       >
         Reboot machine
+      </ContextItem>
+      <ContextDivider />
+      <ContextItem
+        onClick={async () => {
+          await client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                machineId: machine.id,
+                command: 'stop',
+              },
+            ],
+          })
+        }}
+        icon={CloseIcon}
+      >
+        Stop machine manager
       </ContextItem>
     </>
   )
@@ -79,6 +96,21 @@ const Machine: FC<{
   config: MachineConfig
 }> = ({ machine, config }) => {
   const [copied, copy] = useCopyToClipboard(machine.id)
+
+  if (!machine.stats) {
+    machine.stats = {
+      lastUpdate: 0,
+      memory: 0,
+      cpu: 0,
+      services: {},
+    }
+  }
+
+  const status =
+    machine.stats.lastUpdate && Date.now() - machine.stats.lastUpdate > 7e3
+      ? 0
+      : machine.status
+
   return (
     <RowSpaced
       style={{
@@ -88,9 +120,14 @@ const Machine: FC<{
       }}
     >
       <Row>
-        <MachineStatus status={machine.status} />
+        <MachineStatus
+          status={status}
+          machineTypeValue={config.machine}
+          cpu={machine.stats.cpu}
+          memory={machine.stats.memory}
+        />
         <Button
-          style={{ marginLeft: 8 }}
+          style={{ marginLeft: 32 }}
           clickAnimation
           onClick={() => copyToClipboard(machine.publicIp)}
           ghost
@@ -100,21 +137,23 @@ const Machine: FC<{
         </Button>
         {machine.domain ? (
           <Button
+            style={{ marginLeft: 24 }}
             clickAnimation
             onClick={() => copyToClipboard(machine.domain)}
             ghost
             transparent
           >
-            <Text color="text2">CloudId: {machine.domain}</Text>
+            <Text color="text2">{machine.domain}</Text>
           </Button>
         ) : null}
         <Button
           clickAnimation
+          style={{ marginLeft: 24 }}
           onClick={() => copyToClipboard(machine.cloudMachineId)}
           ghost
           transparent
         >
-          <Text color="text2">CloudId: {machine.cloudMachineId}</Text>
+          <Text color="text2">{machine.cloudMachineId}</Text>
         </Button>
       </Row>
       <Row>
@@ -134,7 +173,7 @@ const Machine: FC<{
         <Button
           icon={MoreIcon}
           ghost
-          onClick={useContextMenu(Actions, { machine, config })}
+          onClick={useContextMenu(Actions, { machine })}
         />
       </Row>
     </RowSpaced>

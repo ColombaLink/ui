@@ -1,4 +1,10 @@
-import React, { ReactNode, FunctionComponent, FC } from 'react'
+import React, {
+  ReactNode,
+  FunctionComponent,
+  FC,
+  useState,
+  useEffect,
+} from 'react'
 import { removeOverlay } from '../Overlay'
 import {
   styled,
@@ -9,6 +15,8 @@ import {
   Color,
   Icon,
   PropsEventHandler,
+  LoadingIcon,
+  WarningIcon,
 } from '~'
 
 const StyledContextItem = styled('div', {
@@ -56,21 +64,26 @@ export const ContextItem: FC<ContextItemProps> = ({
   noFocus,
   iconRight,
 }) => {
+  const [loading, setLoading] = useState(false)
+  const [errored, setErrored] = useState(false)
+
   if (onClick) {
     const onClickOriginal = onClick
-    // will become a  hook (a useCallback)
     // @ts-ignore - this is a hack to make the onClick work, async is very important
     onClick = async (e) => {
+      setErrored(false)
       e.preventDefault()
       e.stopPropagation()
+      setLoading(true)
       try {
         if (!(await onClickOriginal(e))) {
           removeOverlay()
         }
       } catch (err) {
         console.error(err)
-        // send animation
+        setErrored(true)
       }
+      setLoading(false)
     }
   }
 
@@ -82,17 +95,26 @@ export const ContextItem: FC<ContextItemProps> = ({
         color={colorProps}
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        {renderOrCreateElement(icon, {
-          size: 16,
-          style: { marginRight: 8 },
-        })}
+        {renderOrCreateElement(
+          errored && icon ? (
+            <WarningIcon color="red" />
+          ) : loading && icon ? (
+            <LoadingIcon />
+          ) : (
+            icon
+          ),
+          {
+            size: 16,
+            style: { marginRight: 8 },
+          }
+        )}
         {children}
       </Text>
     )
   } else {
     child = (
       <Text color={colorProps} style={inset ? { paddingLeft: 24 } : null}>
-        {children}
+        {loading && !icon ? 'processing...' : children}
       </Text>
     )
   }

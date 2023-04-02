@@ -2,16 +2,75 @@ import React, { FC } from 'react'
 import {
   Badge,
   CheckIcon,
+  Row,
   CloseIcon,
+  Color,
   LoadingIcon,
   ReplaceIcon,
   WarningIcon,
+  border,
 } from '~'
+import { useQuery } from '@based/react'
+
 // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
+
+const MachineStats: FC<{
+  cpu: number
+  memory: number
+  machineTypeValue: string
+}> = ({ machineTypeValue = 't3.medium', cpu, memory }) => {
+  const { data: machineTypes = [] } = useQuery(
+    'machine-types',
+    {},
+    {
+      persistent: true,
+    }
+  )
+  const machineType = machineTypes.find((m) => m.value === machineTypeValue)
+  let memoryParsed = memory * (machineType?.memory ?? 0)
+  let memoryUnit = 'MiB'
+  if (memoryParsed > 1024) {
+    memoryParsed = memoryParsed / 1024
+    memoryUnit = 'GiB'
+  }
+
+  const color: Color = 'accent'
+
+  return (
+    <>
+      <Badge
+        color={color}
+        style={{
+          justifyContent: 'center',
+          width: 70,
+          marginLeft: 32,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          borderLeft: border(1),
+        }}
+      >
+        Cpu {Math.min(99, ~~(cpu * 100))}%
+      </Badge>
+      <Badge
+        color={color}
+        style={{
+          width: 68,
+          justifyContent: 'center',
+          borderLeft: border(1),
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+          marginRight: 8,
+        }}
+      >
+        {~~memoryParsed} {memoryUnit}
+      </Badge>
+    </>
+  )
+}
 
 export const machineStatus = (status: number): string => {
   if (status === 0) {
-    return 'Not ok'
+    return 'Not OK'
   }
 
   if (status === 1) {
@@ -47,10 +106,18 @@ const icons = {
   4: CloseIcon,
 }
 
-export const MachineStatus: FC<{ status: number }> = ({ status }) => {
+export const MachineStatus: FC<{
+  status: number
+  cpu: number
+  memory: number
+  machineTypeValue: string
+}> = ({ status, ...props }) => {
   return (
-    <Badge icon={icons[status]} color={colors[status]}>
-      {machineStatus(status)}
-    </Badge>
+    <Row>
+      <Badge icon={icons[status]} color={colors[status]}>
+        {machineStatus(status)}
+      </Badge>
+      {status === 1 ? <MachineStats {...props} /> : null}
+    </Row>
   )
 }
