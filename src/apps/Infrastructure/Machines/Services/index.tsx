@@ -5,8 +5,6 @@ import {
   AddIcon,
   AccordionItem,
   useContextState,
-  RedoIcon,
-  StopIcon,
   Row,
   RowEnd,
   border,
@@ -15,6 +13,7 @@ import { Status } from '../Status'
 import { ServiceNamed, OnMachineConfigChange } from '../../types'
 import { Service } from './Service'
 import { useAddService } from './useAddService'
+import { Commands } from './Commands'
 
 export const Services: FC<{
   configName: string
@@ -69,12 +68,7 @@ export const Services: FC<{
         }}
       >
         <Row>
-          <Button icon={<StopIcon />} ghost>
-            Stop all
-          </Button>
-          <Button icon={<RedoIcon />} ghost>
-            Restart all
-          </Button>
+          {alwaysAccept ? null : <Commands configName={configName} />}
           <Button icon={<AddIcon />} onClick={add} ghost>
             Add service
           </Button>

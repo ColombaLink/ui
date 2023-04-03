@@ -35,7 +35,7 @@ export const useDistUpdates = (
         const service = config.services[serviceName]
         const serviceDists = dists[serviceName]
         if (!serviceDists) {
-          return
+          return []
         }
         const currentDist = serviceDists.find(
           (d) => d.checksum === service.distChecksum

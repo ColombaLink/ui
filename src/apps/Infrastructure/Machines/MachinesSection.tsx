@@ -29,7 +29,6 @@ import {
   MachineConfig,
 } from '@based/machine-config'
 import { useClient } from '@based/react'
-import { getMachineStatus } from './getMachineStatus'
 
 const Actions: FC<{
   machine: MachineType
@@ -181,18 +180,18 @@ export const MachinesSection: FC<{
   config: MachineConfig
   machines: MachineType[]
 }> = ({ config, configName, machines }) => {
-  // later config
   const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
     'expanded',
     {}
   )
+  const [env] = useContextState<Env>('env')
 
-  // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
+  const client = useClient()
 
   let running = 0
   let unreachable = 0
   let deploying = 0
-
+  // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
   for (const machine of machines) {
     if (machine.status === 1) {
       running++
@@ -234,7 +233,24 @@ export const MachinesSection: FC<{
         }}
       >
         {machines.length > 1 ? (
-          <Button icon={<ReplaceIcon />} ghost>
+          <Button
+            onClick={() => {
+              return client.call('send-commands', {
+                ...env,
+                commands: machines
+                  .filter((m) => m.status === 1)
+                  .map((m) => {
+                    console.log('jerk')
+                    return {
+                      machineId: m.id,
+                      command: 'restart',
+                    }
+                  }),
+              })
+            }}
+            icon={<ReplaceIcon />}
+            ghost
+          >
             Reboot all
           </Button>
         ) : null}
