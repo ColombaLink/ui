@@ -84,7 +84,6 @@ export const useAddService = (
           deepMerge(newServices.current, values)
           update()
         }}
-        machines={[]}
         config={newServices.current}
         service={s}
       >

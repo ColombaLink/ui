@@ -1,4 +1,4 @@
-import { MachineConfig, Machine } from '@based/machine-config'
+import { MachineConfig } from '@based/machine-config'
 import React, { FC, ReactNode } from 'react'
 import {
   Button,

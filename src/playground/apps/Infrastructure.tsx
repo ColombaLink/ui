@@ -18,9 +18,9 @@ const client = based({
   name: '@based/admin-hub',
 })
 
-client.on('debug', (d) => {
-  console.info(d, new Date(Date.now()).toLocaleTimeString())
-})
+// client.on('debug', (d) => {
+//   console.info(d, new Date(Date.now()).toLocaleTimeString())
+// })
 
 client.call('login', {
   email: 'jim@saulx.com',
