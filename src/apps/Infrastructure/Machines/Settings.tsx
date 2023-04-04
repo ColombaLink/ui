@@ -84,10 +84,10 @@ export const Settings: FC<{
                       </Text>
                       <Text color="text2" typo="caption500">
                         €{s.basedPrice}/month
-                        {/* {'' +
+                        {'' +
                           (~~((s.basedPrice / (s.priceMonth * 0.91)) * 100) -
                             100)}
-                        % */}
+                        %
                       </Text>
                     </Row>
                     <Badge style={{ marginRight: 4 }}>{s.cpus}vCPU</Badge>
