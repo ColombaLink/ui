@@ -240,7 +240,6 @@ export const MachinesSection: FC<{
                 commands: machines
                   .filter((m) => m.status === 1)
                   .map((m) => {
-                    console.log('jerk')
                     return {
                       machineId: m.id,
                       command: 'restart',
