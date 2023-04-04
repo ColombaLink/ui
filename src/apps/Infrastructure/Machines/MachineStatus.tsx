@@ -89,6 +89,10 @@ export const machineStatus = (status: number): string => {
   if (status === 4) {
     return 'Removing'
   }
+
+  if (status === 5) {
+    return 'Resizing'
+  }
 }
 
 const colors = {
@@ -97,6 +101,7 @@ const colors = {
   2: 'accent',
   3: 'accent',
   4: 'red',
+  5: 'accent',
 }
 
 const icons = {
@@ -105,6 +110,7 @@ const icons = {
   2: LoadingIcon,
   3: ReplaceIcon,
   4: CloseIcon,
+  5: LoadingIcon,
 }
 
 export const MachineStatus: FC<{

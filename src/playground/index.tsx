@@ -33,11 +33,18 @@ const stories = {
   ...hooks,
 }
 
+// export const client = new BasedClient({
+//   project: 'test',
+//   org: 'saulx',
+//   env: 'ci',
+//   cluster: 'local',
+//   name: '@based/env-admin-hub',
+// })
 export const client = new BasedClient({
-  project: 'test',
+  project: 'esc',
   org: 'saulx',
-  env: 'ci',
-  cluster: 'local',
+  env: 'dev',
+  // cluster: 'local',
   name: '@based/env-admin-hub',
 })
 

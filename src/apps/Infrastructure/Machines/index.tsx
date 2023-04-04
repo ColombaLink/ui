@@ -196,13 +196,14 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
     persistent: true,
   })
 
-  useMemo(() => {
-    if (envData.machines) {
-      for (const machine of envData.machines) {
-        machine.status = getMachineStatus(machine)
-      }
-    }
-  }, [checksum])
+  // status is already there?
+  // useMemo(() => {
+  //   if (envData?.machines) {
+  //     for (const machine of envData.machines) {
+  //       machine.status = getMachineStatus(machine)
+  //     }
+  //   }
+  // }, [checksum])
 
   const [filter, setFilter] = useContextState('filter', '')
   const { open } = useDialog()
