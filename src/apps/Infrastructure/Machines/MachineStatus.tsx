@@ -29,6 +29,7 @@ const MachineStats: FC<{
   const machineType = machineTypes.find((m) => m.value === machineTypeValue)
   let memoryParsed = memory * (machineType?.memory ?? 0)
   let memoryUnit = 'MiB'
+
   if (memoryParsed > 1024) {
     memoryParsed = memoryParsed / 1024
     memoryUnit = 'GiB'
