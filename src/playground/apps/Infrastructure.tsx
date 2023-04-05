@@ -3,20 +3,20 @@ import ComponentViewer from '../ComponentViewer'
 import { Provider } from '@based/react'
 import based from '@based/client'
 
-// const client = based({
-//   org: 'saulx',
-//   project: 'based-cloud',
-//   env: 'platform',
-//   name: '@based/admin-hub',
-//   cluster: 'local',
-// })
-
 const client = based({
   org: 'saulx',
   project: 'based-cloud',
   env: 'platform',
   name: '@based/admin-hub',
+  cluster: 'local',
 })
+
+// const client = based({
+//   org: 'saulx',
+//   project: 'based-cloud',
+//   env: 'platform',
+//   name: '@based/admin-hub',
+// })
 
 // client.on('debug', (d) => {
 //   console.info(d, new Date(Date.now()).toLocaleTimeString())
@@ -46,12 +46,12 @@ const route = useRoute('[infraSection]/[expanded]');
 <BasedAdminProvider>
   <Infrastructure 
     env={{
-      // project: 'test',
-      // org: 'saulx',
-      // env: 'ci',
-      project: 'esc',
+      project: 'test',
       org: 'saulx',
-      env: 'dev',
+      env: 'ci',
+      // project: 'esc',
+      // org: 'saulx',
+      // env: 'dev',
     }}
     values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
     onChange={(key, v) => { 
