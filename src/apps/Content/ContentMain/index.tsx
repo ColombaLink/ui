@@ -22,7 +22,6 @@ export const ContentMain: FC<{}> = () => {
 
   return (
     <styled.div>
-      Table from ContentMain:
       <Table
         headers={[
           {
@@ -39,10 +38,12 @@ export const ContentMain: FC<{}> = () => {
           },
         ]}
         data={data}
-        // rowCount={13}
-        // columnCount={5}
         width={600}
         height={400}
+        // optional
+        rowCount={13}
+        columnCount={5}
+        columnWidth={142}
       />
     </styled.div>
   )

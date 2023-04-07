@@ -12,7 +12,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         display: 'flex',
         alignItems: 'center',
         borderBottom: '1px solid rgba(28, 45, 65, 0.1)',
-        borderRight: '1px solid pink',
+        borderRight: '1px solid rgba(255, 25, 65, 0.2)',
         ...style,
       }}
     >

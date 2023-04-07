@@ -9,11 +9,12 @@ type TableProps = {
   }[]
   //  data: RowData[] // available data
   data: any
+  width: number
+  height: number
   rowCount?: number // total rows
   rowHeight?: number
-  width?: number
-  height?: number
   columnCount?: number
+  columnWidth?: number
   onVisibleRowIndex?: (indexes: {
     startIndex: number
     endIndex: number
@@ -32,20 +33,27 @@ export const Table: FC<TableProps> = ({
   columnWidth = 124,
 }) => {
   // columnwidths should be array with each column width
-  const [columnWidthsArr, setColumnWidthsArr] = useState()
+  const [columnWidthsArr, setColumnWidthsArr] = useState(
+    new Array(columnCount).fill(true).map(() => columnWidth)
+  )
+
+  console.log('the state update??', columnWidthsArr)
 
   // default columnwidth 124,
-  const columnWidths = new Array(columnCount).fill(true).map(() => 124)
 
   return (
     <div>
-      <TableHeader headers={headers} />
+      <TableHeader
+        headers={headers}
+        columnWidthsArr={columnWidthsArr}
+        setColumnWidthsArr={setColumnWidthsArr}
+      />
       <Grid
         data={data}
         rowCount={rowCount}
         rowHeight={rowHeight}
         columnCount={columnCount}
-        columnWidth={columnWidths}
+        columnWidthsArr={columnWidthsArr}
         width={width}
         height={height}
       />

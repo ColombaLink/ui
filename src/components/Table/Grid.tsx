@@ -9,7 +9,7 @@ type GridProps = {
   width?: number
   height?: number
   columnCount?: number
-  columnWidth: number
+  columnWidthsArr: number[]
 }
 
 export const Grid: FC<GridProps> = ({
@@ -19,14 +19,14 @@ export const Grid: FC<GridProps> = ({
   width,
   height,
   columnCount,
-  columnWidth,
+  columnWidthsArr,
 }) => {
   console.log('DATA from grid', data)
 
   return (
     <VariableSizeGrid
       columnCount={columnCount}
-      columnWidth={(index) => columnWidth[index]}
+      columnWidth={(index) => columnWidthsArr[index]}
       rowCount={rowCount}
       rowHeight={() => rowHeight}
       width={width}
