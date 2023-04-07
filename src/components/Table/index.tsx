@@ -1,4 +1,5 @@
-import React, { ReactNode, FC, useState } from 'react'
+import React, { ReactNode, FC, useState, useEffect } from 'react'
+import { styled, Style } from '~'
 import { Grid } from './Grid'
 import { TableHeader } from './TableHeader'
 
@@ -19,7 +20,7 @@ type TableProps = {
     startIndex: number
     endIndex: number
   }) => void
-  onClick?: (data: EventData, e) => void
+  // onClick?: (data: EventData, e) => void
 }
 
 export const Table: FC<TableProps> = ({
@@ -31,18 +32,23 @@ export const Table: FC<TableProps> = ({
   height,
   columnCount = headers.length,
   columnWidth = 124,
+  // onClick,
 }) => {
   // columnwidths should be array with each column width
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
 
-  console.log('the state update??', columnWidthsArr)
+  const [shownHeaderKeys, setShownHeaderKeys] = useState([])
 
-  // default columnwidth 124,
+  useEffect(() => {
+    setShownHeaderKeys(headers.map((item) => item.key))
+  }, [])
+
+  console.log(shownHeaderKeys)
 
   return (
-    <div>
+    <>
       <TableHeader
         headers={headers}
         columnWidthsArr={columnWidthsArr}
@@ -56,8 +62,9 @@ export const Table: FC<TableProps> = ({
         columnWidthsArr={columnWidthsArr}
         width={width}
         height={height}
+        //     onClick={onClick}
       />
-    </div>
+    </>
   )
 }
 

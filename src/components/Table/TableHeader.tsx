@@ -1,5 +1,14 @@
 import React, { ReactNode, FC, useState } from 'react'
-import { styled, Style, Text } from '~'
+import {
+  styled,
+  Style,
+  Text,
+  color,
+  Checkbox,
+  Button,
+  AddIcon,
+  useContextMenu,
+} from '~'
 
 type TableHeaderProps = {
   headers: {
@@ -11,13 +20,12 @@ type TableHeaderProps = {
 }
 
 const TableHeaderItem = styled('div', {
-  height: 36,
+  height: 42,
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
-  // default width for now
-  width: 124,
   overflow: 'hidden',
+  paddingLeft: 6,
 })
 
 const ResizeDragLine = styled('div', {
@@ -26,8 +34,13 @@ const ResizeDragLine = styled('div', {
   right: 0,
   top: 0,
   bottom: 0,
-  backgroundColor: 'red',
   cursor: 'col-resize',
+  '&:hover': {
+    borderRight: `1px solid ${color('accent')}`,
+  },
+  '&:active': {
+    borderRight: `3px solid ${color('accent')}`,
+  },
 })
 
 export const TableHeader: FC<TableHeaderProps> = ({
@@ -36,24 +49,21 @@ export const TableHeader: FC<TableHeaderProps> = ({
   setColumnWidthsArr,
 }) => {
   // console.log('TABLE header columns width arr', columnWidthsArr)
+  const [showDragLines, setShowDraglines] = useState(false)
 
   return (
     <styled.div
       style={{
         display: 'flex',
         borderBottom: '1px solid rgba(28, 45, 65, 0.1)',
+        position: 'relative',
       }}
+      onMouseOver={() => setShowDraglines(true)}
+      onMouseLeave={() => setShowDraglines(false)}
     >
-      {headers?.map((item, idx) => (
-        <TableHeaderItem
-          key={item.key}
-          style={{ width: columnWidthsArr[idx] }}
-          onMouseDown={(e) => {
-            console.log('👻 idx', idx, e)
-            console.log('mouse down screen X =>', e.screenX)
-          }}
-          onMouseUp={(e) => console.log('mouse up screenY', e.screenX)}
-        >
+      {headers.map((item, idx) => (
+        <TableHeaderItem key={item.key} style={{ width: columnWidthsArr[idx] }}>
+          {idx === 0 && <Checkbox small />}
           <Text color="text2">{item.label}</Text>
           <ResizeDragLine
             onMouseDown={({ currentTarget, clientX: startX }) => {
@@ -73,8 +83,51 @@ export const TableHeader: FC<TableHeaderProps> = ({
               addEventListener('mousemove', onMove)
               addEventListener('mouseup', onUp)
             }}
+            style={{
+              borderRight: showDragLines
+                ? `1px solid ${color('border')}`
+                : '1px solid transparent',
+            }}
           />
         </TableHeaderItem>
+      ))}
+
+      <Button
+        icon={<AddIcon color="text2" />}
+        color="lightgrey"
+        style={{
+          width: 24,
+          height: 24,
+          position: 'absolute',
+          // left: scrollLeft ? width + scrollLeft - 36 : width - 36,
+          top: 8,
+          padding: 0,
+          right: 12,
+        }}
+        onClick={useContextMenu(
+          SelectHeaderDisplay,
+          { headers },
+          { placement: 'left' }
+        )}
+      />
+    </styled.div>
+  )
+}
+
+const SelectHeaderDisplay = ({ headers }) => {
+  return (
+    <styled.div>
+      {headers.map((item, idx) => (
+        <styled.div
+          key={item.key}
+          style={{ display: 'flex', padding: '4px 6px' }}
+        >
+          <Checkbox
+            small
+            label={item.label}
+            // checked={shownHeaderKeys.includes(item.key)}
+          />
+        </styled.div>
       ))}
     </styled.div>
   )

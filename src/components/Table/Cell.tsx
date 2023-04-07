@@ -1,6 +1,7 @@
 import React from 'react'
-import { styled, Style, Text } from '~'
+import { styled, Style, Text, color, Checkbox } from '~'
 
+// this data here is only the itemdata..
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // get the object keys from data
   // only from the first they should all have the same keys...
@@ -11,11 +12,13 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        borderBottom: '1px solid rgba(28, 45, 65, 0.1)',
-        borderRight: '1px solid rgba(255, 25, 65, 0.2)',
+        borderBottom: `1px solid ${color('border')}`,
+        paddingLeft: 6,
         ...style,
       }}
+      // onClick={(e) => data.onClick(e)}
     >
+      {columnIndex === 0 && <Checkbox small style={{ marginRight: 6 }} />}
       <Text>
         {data[rowIndex] ? data[rowIndex][ObjectKeys[columnIndex]] : null}
       </Text>

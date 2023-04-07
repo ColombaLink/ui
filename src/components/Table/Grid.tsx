@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
 
@@ -10,6 +10,7 @@ type GridProps = {
   height?: number
   columnCount?: number
   columnWidthsArr: number[]
+  //  onClick?: (data: EventData, e) => void
 }
 
 export const Grid: FC<GridProps> = ({
@@ -20,11 +21,23 @@ export const Grid: FC<GridProps> = ({
   height,
   columnCount,
   columnWidthsArr,
+  // onClick,
 }) => {
-  console.log('DATA from grid', data)
+  const varGridRef = useRef<any>()
+
+  useEffect(() => {
+    if (varGridRef.current) {
+      varGridRef.current.resetAfterIndices({
+        columnIndex: 0,
+        rowIndex: 0,
+        shouldForceUpdate: true,
+      })
+    }
+  }, [columnWidthsArr])
 
   return (
     <VariableSizeGrid
+      ref={varGridRef}
       columnCount={columnCount}
       columnWidth={(index) => columnWidthsArr[index]}
       rowCount={rowCount}
@@ -32,6 +45,7 @@ export const Grid: FC<GridProps> = ({
       width={width}
       height={height}
       itemData={data}
+      //  itemData={{ data, onClick }}
       //   onItemsRendered={}
     >
       {Cell}
