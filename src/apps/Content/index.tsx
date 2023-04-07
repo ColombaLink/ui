@@ -2,13 +2,12 @@ import React, { FC } from 'react'
 import { ContentLeft } from './ContentLeft'
 import { Style, styled } from 'inlines'
 import { StateProvider } from '../../hooks/ContextState'
-import { View } from './types'
 import { ContentMain } from './ContentMain'
 
 export const Content: FC<{
   style?: Style
   values?: { db: string; view: string }
-  onChange?: (key: string, val: string | View) => void
+  onChange?: (key: string, val: string) => void
 }> = ({ style, values, onChange }) => {
   return (
     <styled.div

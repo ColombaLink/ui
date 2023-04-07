@@ -41,7 +41,7 @@ export const Infrastructure = () => {
           {
             code: `import { Infrastructure, useRoute, color } from '@based/ui'
 
-const route = useRoute('[infraSection]/[expanded]');
+const route = useRoute('[infraSection]');
 
 <BasedAdminProvider>
   <Infrastructure 

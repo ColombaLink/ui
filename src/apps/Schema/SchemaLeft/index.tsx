@@ -10,7 +10,7 @@ import {
   LoadingIcon,
   useContextState,
 } from '~'
-import { useSchema } from '~/apps/Schema/useSchema'
+import { useSchema } from '~/apps/Schema/hooks/useSchema'
 import { AddTypeModal } from '../AddTypeModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {

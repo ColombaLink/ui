@@ -1,6 +1,6 @@
 import { useQuery } from '@based/react'
-import { FieldSchema, BasedSchema, TypeSchema } from './types'
-import { sortFields } from './fieldParsers'
+import { FieldSchema, BasedSchema, TypeSchema } from '../types'
+import { sortFields } from '../fieldParsers'
 
 const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
   if (!('meta' in obj)) {

@@ -1,6 +1,6 @@
 import { useClient } from '@based/react'
 import React, { FC, useState, ReactNode } from 'react'
-import { useSchema } from '../useSchema'
+import { useSchema } from '../hooks/useSchema'
 import { Checkbox, Text, ScrollArea, useContextState, Page, Column } from '~'
 import { Fields } from './Fields'
 import { Header } from './Header'
