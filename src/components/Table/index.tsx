@@ -9,7 +9,7 @@ type TableProps = {
     key: string
     label: string | ReactNode
   }[]
-  //  data: RowData[] // available data
+  //  TODO data: RowData[] // available data
   data: any
   width?: number
   height: number
@@ -31,10 +31,11 @@ export const Table: FC<TableProps> = ({
   rowHeight = 56,
   width,
   height,
-  columnCount = headers.length,
+  columnCount = headers?.length || Object.keys(data[0]).length,
   columnWidth = 132,
   // onClick,
 }) => {
+  const [tableData, setTableData] = useState(data)
   // columns Widths arr
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)
@@ -43,20 +44,54 @@ export const Table: FC<TableProps> = ({
   const [visibleColumns, setVisibleColumns] = useLocalStorage('visibleColumns')
 
   useEffect(() => {
-    setVisibleColumns(headers.map((v) => ({ ...v, showColumnCheckbox: true })))
+    if (headers) {
+      setVisibleColumns(
+        headers.map((v) => ({ ...v, showColumnCheckbox: true }))
+      )
+    }
   }, [])
+
+  useEffect(() => {
+    if (headers) {
+      // pak eerst de velden met checkbox true
+      const visibleColumnKeys = visibleColumns
+        ?.filter((item) => item.showColumnCheckbox)
+        .map((item) => item.key)
+
+      const newObj = filterObjsInArr(data, visibleColumnKeys)
+      setTableData([...newObj])
+    }
+  }, [visibleColumns])
+
+  // for in loop from codewithlinda
+  const filterObjsInArr = (arr, selection) => {
+    const filteredArray = []
+    arr.map((obj) => {
+      const filteredObj = {}
+      for (let key in obj) {
+        if (selection.includes(key)) {
+          filteredObj[key] = obj[key]
+        }
+      }
+      filteredArray.push(filteredObj)
+    })
+    return filteredArray
+  }
 
   return (
     <>
-      <TableHeader
-        headers={headers}
-        columnWidthsArr={columnWidthsArr}
-        setColumnWidthsArr={setColumnWidthsArr}
-        visibleColumns={visibleColumns}
-        setVisibleColumns={setVisibleColumns}
-      />
+      {headers && (
+        <TableHeader
+          headers={headers}
+          columnWidthsArr={columnWidthsArr}
+          setColumnWidthsArr={setColumnWidthsArr}
+          visibleColumns={visibleColumns}
+          setVisibleColumns={setVisibleColumns}
+        />
+      )}
+
       <Grid
-        data={data}
+        data={tableData}
         rowCount={rowCount}
         rowHeight={rowHeight}
         columnCount={columnCount}

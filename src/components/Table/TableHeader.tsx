@@ -64,7 +64,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
       onMouseLeave={() => setShowDraglines(false)}
     >
       {visibleColumns
-        .filter((x) => x.showColumnCheckbox)
+        ?.filter((x) => x.showColumnCheckbox)
         .map((item, idx) => (
           <TableHeaderItem
             key={item.key}
