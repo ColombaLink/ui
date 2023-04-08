@@ -5,7 +5,7 @@ import { TableHeader } from './TableHeader'
 import useLocalStorage from '@based/use-local-storage'
 
 type TableProps = {
-  headers: {
+  headers?: {
     key: string
     label: string | ReactNode
   }[]

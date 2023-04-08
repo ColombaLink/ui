@@ -17,6 +17,8 @@ type TableHeaderProps = {
   }[]
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void
+  visibleColumns?: Object[]
+  setVisibleColumns?: (e) => void
 }
 
 const TableHeaderItem = styled('div', {
@@ -136,9 +138,7 @@ const SelectHeaderDisplay = ({
           <Checkbox
             small
             label={item.label}
-            checked={visibleColumns.map(
-              (item) => visibleColumns[idx].showColumnCheckbox
-            )}
+            checked={visibleColumns[idx].showColumnCheckbox}
             onChange={(e) => {
               if (e) {
                 visibleColumns[idx].showColumnCheckbox = true
