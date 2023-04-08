@@ -2,6 +2,7 @@ import React, { ReactNode, FC, useState, useEffect } from 'react'
 import { styled, Style } from '~'
 import { Grid } from './Grid'
 import { TableHeader } from './TableHeader'
+import useLocalStorage from '@based/use-local-storage'
 
 type TableProps = {
   headers: {
@@ -10,7 +11,7 @@ type TableProps = {
   }[]
   //  data: RowData[] // available data
   data: any
-  width: number
+  width?: number
   height: number
   rowCount?: number // total rows
   rowHeight?: number
@@ -31,21 +32,19 @@ export const Table: FC<TableProps> = ({
   width,
   height,
   columnCount = headers.length,
-  columnWidth = 124,
+  columnWidth = 132,
   // onClick,
 }) => {
-  // columnwidths should be array with each column width
+  // columns Widths arr
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
 
-  const [shownHeaderKeys, setShownHeaderKeys] = useState([])
+  const [visibleColumns, setVisibleColumns] = useLocalStorage('visibleColumns')
 
   useEffect(() => {
-    setShownHeaderKeys(headers.map((item) => item.key))
+    setVisibleColumns(headers.map((v) => ({ ...v, showColumnCheckbox: true })))
   }, [])
-
-  console.log(shownHeaderKeys)
 
   return (
     <>
@@ -53,6 +52,8 @@ export const Table: FC<TableProps> = ({
         headers={headers}
         columnWidthsArr={columnWidthsArr}
         setColumnWidthsArr={setColumnWidthsArr}
+        visibleColumns={visibleColumns}
+        setVisibleColumns={setVisibleColumns}
       />
       <Grid
         data={data}
@@ -60,7 +61,7 @@ export const Table: FC<TableProps> = ({
         rowHeight={rowHeight}
         columnCount={columnCount}
         columnWidthsArr={columnWidthsArr}
-        width={width}
+        width={width || columnCount * columnWidth}
         height={height}
         //     onClick={onClick}
       />

@@ -45,12 +45,12 @@ export const ContentMain: FC<{}> = () => {
           },
         ]}
         data={data}
-        width={676}
         height={400}
-        // optional
+        // * optional
+        // width={676}
         rowCount={13}
-        columnCount={5}
-        columnWidth={142}
+        // columnCount={5}
+        //  columnWidth={142}
         // TODO onclic wil je de rowindex hebben ??
         // onClick={(e) => console.log(e)}
       />
