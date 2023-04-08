@@ -141,30 +141,13 @@ const SelectHeaderDisplay = ({
             )}
             onChange={(e) => {
               if (e) {
-                const temp = [...visibleColumns]
-                console.log('😡', temp)
-                temp[idx].showColumnCheckbox = true
-                setVisibleColumns(temp)
+                visibleColumns[idx].showColumnCheckbox = true
+                setVisibleColumns([...visibleColumns])
               } else {
-                const temp = [...visibleColumns]
-                console.log('🥶', temp)
-                temp[idx].showColumnCheckbox = false
-                setVisibleColumns(temp)
-
+                visibleColumns[idx].showColumnCheckbox = false
+                setVisibleColumns([...visibleColumns])
                 console.log('visible columns 🧟', visibleColumns)
               }
-
-              // if(e){
-
-              // }
-              // remove from localstorage visible columns
-              // const indexItem = visibleColumns.indexOf(item.key)
-              // visibleColumns.splice(indexItem, 1)
-
-              // setVisibleColumns(visibleColumns)
-              // console.log('🚘', visibleColumns)
-
-              // console.log(headers.filter((x) => x.key !== item.key))
             }}
           />
         </styled.div>
