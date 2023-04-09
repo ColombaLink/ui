@@ -11,6 +11,7 @@ import {
   border,
 } from '~'
 import { useQuery } from '@based/react'
+import { NumberFormat, prettyNumber } from '@based/pretty-number'
 
 // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
 
@@ -63,7 +64,8 @@ const MachineStats: FC<{
           marginRight: 8,
         }}
       >
-        {~~memoryParsed} {memoryUnit}
+        {prettyNumber(~~memoryParsed, 'number-bytes')}
+        {/* {~~memoryParsed} {memoryUnit} */}
       </Badge>
     </>
   )
