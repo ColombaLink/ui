@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef, useState } from 'react'
+import React, { FC, useMemo, useRef, useState, useEffect } from 'react'
 import {
   Dialog,
   Select,
@@ -62,6 +62,11 @@ export const AddMachineModal: FC<{
     }
   )
 
+  // useEffect(() => {
+  //   setRenderCounter(renderCounter + 1)
+  //   console.log('FREIE')
+  // }, [newConfig])
+
   const { data: templates = [] } = useQuery<Template[]>(
     'machine-templates',
     undefined,
@@ -89,6 +94,10 @@ export const AddMachineModal: FC<{
     }
     await client.call('update-machine-config', payload)
   }
+
+  const [configNameState, setConfigNameState] = useState(
+    newConfig.current.configName
+  )
 
   return (
     <StateProvider>
@@ -145,6 +154,7 @@ export const AddMachineModal: FC<{
                 }
                 placeholder="Select a predefined template"
                 onChange={(name) => {
+                  console.log(name)
                   if (name && newConfig.current.configName !== name) {
                     // @ts-ignore
                     const { configName, ...config } = deepCopy(
@@ -154,6 +164,8 @@ export const AddMachineModal: FC<{
                       configName,
                       config,
                     }
+
+                    setConfigNameState(name.toString())
                     update()
                   }
                 }}
@@ -168,7 +180,7 @@ export const AddMachineModal: FC<{
               >
                 <Input
                   style={{ width: '100%' }}
-                  value={newConfig.current.configName}
+                  value={configNameState}
                   placeholder="Name"
                   onChange={(v) => {
                     newConfig.current.configName = v

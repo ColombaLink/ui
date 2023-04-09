@@ -27,15 +27,17 @@ type TableProps = {
 export const Table: FC<TableProps> = ({
   headers,
   data,
-  rowCount = data.length,
+  rowCount = data?.length,
   rowHeight = 56,
   width,
-  height,
+  height = 400,
   columnCount = headers?.length || Object.keys(data[0]).length,
   columnWidth = 132,
   // onClick,
 }) => {
-  const [tableData, setTableData] = useState(data)
+  console.log('DATA??', data)
+
+  const [tableData, setTableData] = useState(data || [])
   // columns Widths arr
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)

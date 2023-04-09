@@ -12,8 +12,8 @@ export const ContentMain: FC<{}> = () => {
   const views = useViews()
 
   const currentView =
-    views.custom?.find((v) => v.id === view.id) ??
-    views.default?.find((v) => v.id === view.id)
+    views.custom?.find((v) => v.id === view?.id) ??
+    views.default?.find((v) => v.id === view?.id)
 
   const { data, loading } = useQuery('db', currentView)
 
@@ -40,7 +40,7 @@ export const ContentMain: FC<{}> = () => {
             label: 'Snurpies',
           },
         ]}
-        data={data?.data}
+        data={data?.data || []}
         height={400}
         /* --- optional --- */
         // width={676}

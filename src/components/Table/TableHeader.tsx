@@ -7,6 +7,7 @@ import {
   Checkbox,
   Button,
   AddIcon,
+  MoreIcon,
   useContextMenu,
 } from '~'
 
@@ -102,7 +103,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
         ))}
 
       <Button
-        icon={<AddIcon color="text2" />}
+        icon={<MoreIcon color="text2" />}
         color="lightgrey"
         style={{
           width: 24,
