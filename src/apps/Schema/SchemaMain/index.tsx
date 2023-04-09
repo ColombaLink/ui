@@ -18,6 +18,9 @@ export const SchemaMain: FC = () => {
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
+  console.log('schema -->', schema)
+  console.log('types from schema', types)
+
   if (loading) {
     return null
   }

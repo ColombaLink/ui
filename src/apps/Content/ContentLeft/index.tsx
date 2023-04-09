@@ -15,6 +15,7 @@ import { View } from '../types'
 import { useViews } from '../hooks/useViews'
 import { EditJsonModal } from '../EditJson'
 import { useClient } from '@based/react'
+import { AddCustomViewModal } from '../AddCustomViewModal'
 
 export const SystemLabel = ({ isActive = false, children }) => {
   const [hover, setHover] = useState(false)
@@ -105,54 +106,7 @@ export const ContentLeft: FC<{}> = () => {
           </Text>
           <Button
             onClick={() => {
-              open(
-                <EditJsonModal
-                  label="Create new view"
-                  object={{
-                    $id: 'root',
-                    data: {
-                      $all: true,
-                      $list: {
-                        $find: {
-                          $traverse: 'children',
-                          $filter: [],
-                        },
-                      },
-                    },
-                  }}
-                  onChange={({ query, label }) => {
-                    /*
-                    {
-          id: type,
-          query: {
-            $find: {
-              $traverse: 'descendants',
-              $filter: [
-                {
-                  $field: 'type',
-                  $operator: '=',
-                  $value: type,
-                },
-              ],
-            },
-          },
-          label: type,
-        }
-                    */
-
-                    return client.call('based:set-views', {
-                      custom: [
-                        ...(views.custom ?? []),
-                        {
-                          id: (~~(Math.random() * 10000000)).toString(16),
-                          query,
-                          label,
-                        },
-                      ],
-                    })
-                  }}
-                />
-              )
+              open(<AddCustomViewModal />)
             }}
             style={{ marginRight: -8 }}
             ghost
