@@ -1,27 +1,23 @@
 import React, { FC, useState } from 'react'
-import { styled, Style, Table, Page } from '~'
+import { styled, Style, Table, Page, useContextState } from '~'
+import { useViews } from '../hooks/useViews'
+import { View } from '../types'
+import { useQuery } from '@based/react'
 
 export const ContentMain: FC<{}> = () => {
-  const [data, setData] = useState([
-    {
-      name: 'Jim',
-      body: 'lorem ipsum',
-      createdAt: 1680860825264,
-      snurp: 'florp',
-    },
-    {
-      name: 'Yves',
-      body: 'lorem ipsum',
-      createdAt: 1680860825264,
-      snurp: 'flarp',
-    },
-    {
-      name: 'Youri',
-      body: 'lorem ipsum',
-      createdAt: 1680860825264,
-      snurp: 'flurp',
-    },
-  ])
+  const [view, setView] = useContextState<View>('view')
+
+  // get view
+
+  const views = useViews()
+
+  const currentView =
+    views.custom?.find((v) => v.id === view.id) ??
+    views.default?.find((v) => v.id === view.id)
+
+  const { data, loading } = useQuery('db', currentView)
+
+  console.log('???', data, currentView, view, views)
 
   return (
     <Page>
@@ -44,7 +40,7 @@ export const ContentMain: FC<{}> = () => {
             label: 'Snurpies',
           },
         ]}
-        data={data}
+        data={data?.data}
         height={400}
         /* --- optional --- */
         // width={676}

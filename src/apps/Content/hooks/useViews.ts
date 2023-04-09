@@ -12,6 +12,9 @@ export const useViews = (): {
   const { data: views = { default: [], loading: true }, loading } = useQuery(
     'based:observe-views'
   )
+
+  console.log(views)
+
   const { schema, loading: loadingSchema } = useSchema() // TODO: add multi schema option (using oriigns)
 
   if (!loading && !loadingSchema) {
@@ -27,15 +30,21 @@ export const useViews = (): {
         const viewValue = {
           id: type,
           query: {
-            $find: {
-              $traverse: 'descendants',
-              $filter: [
-                {
-                  $field: 'type',
-                  $operator: '=',
-                  $value: type,
+            $id: 'root',
+            data: {
+              $all: true,
+              $list: {
+                $find: {
+                  $traverse: 'descendants',
+                  $filter: [
+                    {
+                      $field: 'type',
+                      $operator: '=',
+                      $value: type,
+                    },
+                  ],
                 },
-              ],
+              },
             },
           },
           label: type,
@@ -48,7 +57,6 @@ export const useViews = (): {
         }
       }
     }
-
     if (view && views.custom && !views.currentView) {
       for (const viewValue of views.custom) {
         if (viewValue.id === view) {

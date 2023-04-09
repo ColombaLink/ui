@@ -48,9 +48,9 @@ export const client = new BasedClient({
 //   name: '@based/env-admin-hub',
 // })
 
-client.on('debug', (x) => {
-  console.log(x)
-})
+// client.on('debug', (x) => {
+//   console.log(x)
+// })
 
 const Stories: FC = () => {
   const route = useRoute('[story]')

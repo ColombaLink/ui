@@ -1,7 +1,20 @@
 import React, { FC, useState } from 'react'
-import { border, LoadingIcon, Menu, Text, Badge, useContextState } from '~'
+import {
+  border,
+  LoadingIcon,
+  Menu,
+  Text,
+  Badge,
+  useContextState,
+  AddIcon,
+  Button,
+  useDialog,
+  RowSpaced,
+} from '~'
 import { View } from '../types'
 import { useViews } from '../hooks/useViews'
+import { EditJsonModal } from '../EditJson'
+import { useClient } from '@based/react'
 
 export const SystemLabel = ({ isActive = false, children }) => {
   const [hover, setHover] = useState(false)
@@ -31,6 +44,9 @@ export const SystemLabel = ({ isActive = false, children }) => {
 export const ContentLeft: FC<{}> = () => {
   const [view, setView] = useContextState<View>('view')
   const views = useViews()
+  const client = useClient()
+
+  const { open } = useDialog()
 
   const data = {}
 
@@ -79,13 +95,70 @@ export const ContentLeft: FC<{}> = () => {
         paddingRight: 16,
       }}
       header={
-        <Text
-          size="22px"
-          weight="700"
-          style={{ marginBottom: 24, lineHeight: '32px' }}
+        <RowSpaced
+          style={{
+            marginBottom: 24,
+          }}
         >
-          Content
-        </Text>
+          <Text size="22px" weight="700" style={{ lineHeight: '32px' }}>
+            Content
+          </Text>
+          <Button
+            onClick={() => {
+              open(
+                <EditJsonModal
+                  label="Create new view"
+                  object={{
+                    $id: 'root',
+                    data: {
+                      $all: true,
+                      $list: {
+                        $find: {
+                          $traverse: 'children',
+                          $filter: [],
+                        },
+                      },
+                    },
+                  }}
+                  onChange={({ query, label }) => {
+                    /*
+                    {
+          id: type,
+          query: {
+            $find: {
+              $traverse: 'descendants',
+              $filter: [
+                {
+                  $field: 'type',
+                  $operator: '=',
+                  $value: type,
+                },
+              ],
+            },
+          },
+          label: type,
+        }
+                    */
+
+                    return client.call('based:set-views', {
+                      custom: [
+                        ...(views.custom ?? []),
+                        {
+                          id: (~~(Math.random() * 10000000)).toString(16),
+                          query,
+                          label,
+                        },
+                      ],
+                    })
+                  }}
+                />
+              )
+            }}
+            style={{ marginRight: -8 }}
+            ghost
+            icon={<AddIcon />}
+          />
+        </RowSpaced>
       }
       data={data}
     />
