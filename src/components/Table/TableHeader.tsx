@@ -146,7 +146,6 @@ const SelectHeaderDisplay = ({
               } else {
                 visibleColumns[idx].showColumnCheckbox = false
                 setVisibleColumns([...visibleColumns])
-                console.log('visible columns 🧟', visibleColumns)
               }
             }}
           />

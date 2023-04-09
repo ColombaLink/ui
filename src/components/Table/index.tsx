@@ -89,7 +89,6 @@ export const Table: FC<TableProps> = ({
           setVisibleColumns={setVisibleColumns}
         />
       )}
-
       <Grid
         data={tableData}
         rowCount={rowCount}
@@ -105,9 +104,7 @@ export const Table: FC<TableProps> = ({
 }
 
 /*
-const App = () => {
- 
-  return <Table 
+<Table 
 
     onVisibleRowIndex={({ startIndex, endIndex }) => {
         if (endIndex > data.length + 1) {
@@ -122,5 +119,4 @@ const App = () => {
         
     }}
     />
-}
 */
