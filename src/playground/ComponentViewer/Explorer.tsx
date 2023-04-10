@@ -62,6 +62,8 @@ export const CodeExample: FC<{
     child = <Callout color="red">{err.message}</Callout>
   }
 
+  console.log({ child })
+
   return (
     <div
       style={{
@@ -155,7 +157,6 @@ export const Explorer: FC<{
                 </Container>
               )
             }
-
             return (
               <CodeExample
                 key={fuzz ? 'f ' + i : i}
