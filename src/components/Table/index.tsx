@@ -1,13 +1,12 @@
 import React, { ReactNode, FC, useState, useEffect } from 'react'
-import { styled, Style } from '~'
 import { Grid } from './Grid'
 import { TableHeader } from './TableHeader'
-import useLocalStorage from '@based/use-local-storage'
 
 type TableProps = {
   headers?: {
     key: string
     label: string | ReactNode
+    showColumnCheckbox?: boolean
   }[]
   //  TODO data: RowData[] // available data
   data: any
@@ -51,8 +50,6 @@ export const Table: FC<TableProps> = ({
   }, [])
 
   useEffect(() => {
-    console.log('fire 🔥')
-
     const headerOrderArr = tableHeaders.map((x) =>
       x.showColumnCheckbox ? x.key : null
     )
@@ -62,20 +59,19 @@ export const Table: FC<TableProps> = ({
       newObjectOrder[key] = null
     }
 
-    console.log(newObjectOrder)
-    console.log(
-      'fa',
-      filterObjsInArr(data, Object.keys(newObjectOrder)).map((obj) =>
-        Object.assign(newObjectOrder, obj)
-      )
-    )
-    setTableData(
-      filterObjsInArr(data, Object.keys(newObjectOrder)).map((obj) =>
-        Object.assign(newObjectOrder, obj)
-      )
+    const newData = filterObjsInArr(data, Object.keys(newObjectOrder)).map(
+      (obj) => Object.assign(newObjectOrder, obj)
     )
 
-    // setTableData(filterObjsInArr(data, Object.keys(newObjectOrder)))
+    newData.filter((obj) =>
+      Object.keys(obj).forEach((key) => {
+        if (obj[key] == null) {
+          delete obj[key]
+        }
+      })
+    )
+
+    setTableData(newData)
   }, [tableHeaders])
 
   // for in loop from codewithlinda
@@ -83,6 +79,7 @@ export const Table: FC<TableProps> = ({
     const filteredArray = []
     arr.map((obj) => {
       const filteredObj = {}
+      // use let
       for (let key in obj) {
         if (selection.includes(key)) {
           filteredObj[key] = obj[key]

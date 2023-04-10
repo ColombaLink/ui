@@ -1,21 +1,21 @@
-import React, { ReactNode, FC, useState, useRef, useEffect } from 'react'
+import React, { ReactNode, FC, useState, useRef } from 'react'
 import {
   styled,
-  Style,
   Text,
   color,
   Checkbox,
   Button,
-  AddIcon,
   MoreIcon,
   useContextMenu,
   usePropState,
+  DragDropIcon,
 } from '~'
 
 type TableHeaderProps = {
   headers: {
     key: string
     label: string | ReactNode
+    showColumnCheckbox?: boolean
   }[]
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void
@@ -137,7 +137,7 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
     dragOverItem.current = position
   }
 
-  const drop = (e) => {
+  const drop = () => {
     const copyListItems = [...listForRender]
     const dragItemContent = copyListItems[dragItem.current]
     copyListItems.splice(dragItem.current, 1)
@@ -153,23 +153,24 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
       {listForRender.map((item, idx) => (
         <styled.div
           key={idx}
-          style={{ display: 'flex', padding: '4px 6px' }}
+          style={{ display: 'flex', padding: '4px 6px', alignItems: 'center' }}
           draggable
           onDragStart={(e) => dragStart(e, idx)}
           onDragEnter={(e) => dragEnter(e, idx)}
           onDragEnd={drop}
         >
+          <DragDropIcon style={{ marginRight: 4, cursor: 'grab' }} />
           <Checkbox
             small
             label={item.label}
-            checked={headers[idx].showColumnCheckbox}
+            checked={listForRender[idx].showColumnCheckbox}
             onChange={(e) => {
               if (e) {
-                headers[idx].showColumnCheckbox = true
+                listForRender[idx].showColumnCheckbox = true
                 setTableHeaders([...headers])
                 //      setVisibleColumns([...visibleColumns])
               } else {
-                headers[idx].showColumnCheckbox = false
+                listForRender[idx].showColumnCheckbox = false
                 setTableHeaders([...headers])
                 //     setVisibleColumns([...visibleColumns])
               }
