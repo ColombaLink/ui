@@ -63,8 +63,19 @@ export const Table: FC<TableProps> = ({
     }
 
     console.log(newObjectOrder)
+    console.log(
+      'fa',
+      filterObjsInArr(data, Object.keys(newObjectOrder)).map((obj) =>
+        Object.assign(newObjectOrder, obj)
+      )
+    )
+    setTableData(
+      filterObjsInArr(data, Object.keys(newObjectOrder)).map((obj) =>
+        Object.assign(newObjectOrder, obj)
+      )
+    )
 
-    setTableData(filterObjsInArr(data, Object.keys(newObjectOrder)))
+    // setTableData(filterObjsInArr(data, Object.keys(newObjectOrder)))
   }, [tableHeaders])
 
   // for in loop from codewithlinda
