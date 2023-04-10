@@ -1,22 +1,11 @@
-import React, { FC, useState } from 'react'
-import {
-  styled,
-  Style,
-  Table,
-  Page,
-  useContextState,
-  AddIcon,
-  Button,
-  useSchema,
-} from '~'
+import React, { FC } from 'react'
+import { Table, Page, useContextState, AddIcon, Button } from '~'
 import { useViews } from '../hooks/useViews'
 import { View } from '../types'
 import { useQuery } from '@based/react'
 
 export const ContentMain: FC<{}> = () => {
-  const [view, setView] = useContextState<View>('view')
-
-  // get view
+  const [view] = useContextState<View>('view')
 
   const views = useViews()
 
@@ -24,23 +13,25 @@ export const ContentMain: FC<{}> = () => {
     views.custom?.find((v) => v.id === view?.id) ??
     views.default?.find((v) => v.id === view?.id)
 
-  const { data, loading } = useQuery('db', currentView)
+  const { data } = useQuery('db', currentView)
 
-  const [db] = useContextState('db', 'default')
-  const { load, schema } = useSchema(db)
+  console.info('data', data)
 
-  console.log('SCHEMA ??', schema.types[view]?.fields)
+  // const [db] = useContextState('db', 'default')
+  // const { load, schema } = useSchema(db)
 
-  console.log(
-    'data ->',
-    data,
-    'Current view ->',
-    currentView,
-    'view -> ',
-    view,
-    'views -> ',
-    views
-  )
+  // console.log('SCHEMA ??', schema.types[view]?.fields)
+
+  // console.log(
+  //   'data ->',
+  //   data,
+  //   'Current view ->',
+  //   currentView,
+  //   'view -> ',
+  //   view,
+  //   'views -> ',
+  //   views
+  // )
 
   return (
     <Page>

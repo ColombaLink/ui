@@ -13,9 +13,7 @@ import {
 } from '~'
 import { View } from '../types'
 import { useViews } from '../hooks/useViews'
-import { EditJsonModal } from '../EditJson'
-import { useClient } from '@based/react'
-import { AddCustomViewModal } from '../AddCustomViewModal'
+import { AddViewModal } from '../ViewModals'
 
 export const SystemLabel = ({ isActive = false, children }) => {
   const [hover, setHover] = useState(false)
@@ -45,7 +43,6 @@ export const SystemLabel = ({ isActive = false, children }) => {
 export const ContentLeft: FC<{}> = () => {
   const [view, setView] = useContextState<View>('view')
   const views = useViews()
-  const client = useClient()
 
   const { open } = useDialog()
 
@@ -106,7 +103,7 @@ export const ContentLeft: FC<{}> = () => {
           </Text>
           <Button
             onClick={() => {
-              open(<AddCustomViewModal />)
+              open(<AddViewModal />)
             }}
             style={{ marginRight: -8 }}
             ghost

@@ -19,38 +19,41 @@ import {
   useUpdate,
   RowSpaced,
 } from '~'
+import { View } from './types'
+import { useClient } from '@based/react'
+import { useViews } from './hooks/useViews'
 
-type EditJsonProps = {
+type EditViewProps = {
   save?: boolean
-  object: object
+  view: View
   changeObjectInPlace?: boolean
   label?: ReactNode
   actions?: ReactNode
-  onChange: (val: any) => void | Promise<void>
+  onChange: (val: View) => void | Promise<void>
 }
 
-export const EditJsonModalBody: FC<EditJsonProps> = ({
-  object,
+export const EditViewModalBody: FC<EditViewProps> = ({
+  view,
   onChange,
   label,
   actions,
   changeObjectInPlace,
   save,
 }) => {
-  const fromObject = useRef(object)
+  const fromObject = useRef<View>(view)
   const orig = useMemo(() => {
     return JSON.stringify(fromObject.current, null, 2)
   }, [fromObject.current])
-  const [str, setState] = useState(orig)
+  const [str, setState] = useState<string>(orig)
   const hasChange = orig !== str
   const update = useUpdate()
-  const newObject = useRef({})
+  const newObject = useRef<any>({})
   const [error, setError] = useState<Error | null>(null)
   useEffect(() => {
     try {
       newObject.current = JSON.parse(str)
       if (changeObjectInPlace) {
-        Object.assign(object, newObject.current)
+        Object.assign(view, newObject.current)
       }
       setError(null)
     } catch (err) {
@@ -62,7 +65,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
     <>
       <Dialog.Label style={{ marginBottom: 16 }}>
         <RowSpaced>
-          {label ?? 'Edit JSON'}
+          {label ?? 'Edit view'}
           <Row>
             {actions ?? null}
             <Button
@@ -78,7 +81,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
               ghost
               clickAnimation
               onClick={() => {
-                setState(JSON.stringify(object, null, 2))
+                setState(orig)
               }}
             />
             <Button
@@ -109,7 +112,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
             keyboardShortcut="Cmd+S"
             displayShortcut
             onClick={async () => {
-              await onChange({ query: newObject.current, label: 'New view' })
+              await onChange(view)
               fromObject.current = newObject.current
               setState(JSON.stringify(newObject.current, null, 2))
               update()
@@ -122,7 +125,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
             disabled={Boolean(error)}
             keyboardShortcut="Cmd+Enter"
             onConfirm={async () => {
-              await onChange({ query: newObject.current, label: 'New view' })
+              await onChange(view)
             }}
           />
         )}
@@ -131,7 +134,7 @@ export const EditJsonModalBody: FC<EditJsonProps> = ({
   )
 }
 
-export const EditJsonModal: FC<EditJsonProps> = (props) => {
+export const EditViewModal: FC<EditViewProps> = (props) => {
   return (
     <Dialog
       style={{
@@ -139,7 +142,49 @@ export const EditJsonModal: FC<EditJsonProps> = (props) => {
         width: '925px',
       }}
     >
-      <EditJsonModalBody {...props} />
+      <EditViewModal {...props} />
     </Dialog>
+  )
+}
+
+export const AddViewModal = () => {
+  const views = useViews()
+  const client = useClient()
+  return (
+    <EditViewModal
+      label="Create new view"
+      view={{
+        types: [],
+        addQuery: {
+          parents: ['$target'],
+        },
+        fields: [{ field: 'name' }, { field: 'id' }],
+        id: 'new-view-' + (~~(Math.random() * 10000000)).toString(16),
+        label: 'New view',
+        query: {
+          $id: '$target',
+          data: {
+            $all: true,
+            $list: {
+              $find: {
+                $traverse: 'children',
+                $filter: [],
+              },
+            },
+          },
+        },
+      }}
+      onChange={({ query, label }) => {
+        return client.call('based:set-views', {
+          custom: [
+            ...(views.custom ?? []),
+            {
+              id: query,
+              label,
+            },
+          ],
+        })
+      }}
+    />
   )
 }
