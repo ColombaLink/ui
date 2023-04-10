@@ -50,21 +50,23 @@ export const Table: FC<TableProps> = ({
   }, [])
 
   useEffect(() => {
-    const headerOrderArr = tableHeaders.map((x) =>
-      x.showColumnCheckbox ? x.key : null
-    )
-    const newObjectOrder = {}
+    if (headers) {
+      const headerOrderArr = tableHeaders.map((x) =>
+        x.showColumnCheckbox ? x.key : null
+      )
+      const newObjectOrder = {}
 
-    for (const key of headerOrderArr) {
-      newObjectOrder[key] = null
+      for (const key of headerOrderArr) {
+        newObjectOrder[key] = null
+      }
+
+      const newData = filterObjsInArr(data, Object.keys(newObjectOrder))
+      const newerData = newData.map((obj) =>
+        preferredOrder(obj, Object.keys(newObjectOrder))
+      )
+
+      setTableData(newerData)
     }
-
-    const newData = filterObjsInArr(data, Object.keys(newObjectOrder))
-    const newerData = newData.map((obj) =>
-      preferredOrder(obj, Object.keys(newObjectOrder))
-    )
-
-    setTableData(newerData)
   }, [tableHeaders])
 
   // for in loop from codewithlinda
@@ -83,7 +85,7 @@ export const Table: FC<TableProps> = ({
     return filteredArray
   }
 
-  function preferredOrder(obj, order) {
+  const preferredOrder = (obj, order) => {
     const newObject = {}
     for (let i = 0; i < order.length; i++) {
       if (Object.prototype.hasOwnProperty.call(obj, order[i])) {
