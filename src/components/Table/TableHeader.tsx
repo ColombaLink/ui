@@ -9,6 +9,7 @@ import {
   AddIcon,
   MoreIcon,
   useContextMenu,
+  usePropState,
 } from '~'
 
 type TableHeaderProps = {
@@ -122,14 +123,11 @@ export const TableHeader: FC<TableHeaderProps> = ({
   )
 }
 
-const SelectHeaderDisplay = ({
-  headers,
-  visibleColumns,
-  setVisibleColumns,
-  setTableHeaders,
-}) => {
+const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
   const dragItem = useRef(null)
   const dragOverItem = useRef()
+
+  const [listForRender, setListForRender] = usePropState(headers)
 
   const dragStart = (e, position) => {
     dragItem.current = position
@@ -140,18 +138,19 @@ const SelectHeaderDisplay = ({
   }
 
   const drop = (e) => {
-    const copyListItems = [...headers]
+    const copyListItems = [...listForRender]
     const dragItemContent = copyListItems[dragItem.current]
     copyListItems.splice(dragItem.current, 1)
     copyListItems.splice(dragOverItem.current, 0, dragItemContent)
     dragItem.current = null
     dragOverItem.current = null
     setTableHeaders(copyListItems)
+    setListForRender(copyListItems)
   }
 
   return (
     <styled.div>
-      {headers.map((item, idx) => (
+      {listForRender.map((item, idx) => (
         <styled.div
           key={idx}
           style={{ display: 'flex', padding: '4px 6px' }}

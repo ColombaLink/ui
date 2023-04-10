@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Callout, Card, Thumbnail, StackIcon, CalendarIcon } from '../..'
+import { Table } from '../..'
 import ComponentViewer from '../ComponentViewer'
 
 export const Tables = () => {
