@@ -66,7 +66,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
       onMouseLeave={() => setShowDraglines(false)}
     >
       {headers
-        // ?.filter((x) => x.showColumnCheckbox)
+        ?.filter((x) => x.showColumnCheckbox)
         .map((item, idx) => (
           <TableHeaderItem
             key={item.key}
@@ -166,9 +166,11 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
             onChange={(e) => {
               if (e) {
                 headers[idx].showColumnCheckbox = true
+                setTableHeaders([...headers])
                 //      setVisibleColumns([...visibleColumns])
               } else {
                 headers[idx].showColumnCheckbox = false
+                setTableHeaders([...headers])
                 //     setVisibleColumns([...visibleColumns])
               }
             }}

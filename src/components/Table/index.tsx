@@ -35,8 +35,6 @@ export const Table: FC<TableProps> = ({
   columnWidth = 132,
   // onClick,
 }) => {
-  console.log('DATA??', data)
-
   const [tableHeaders, setTableHeaders] = useState(headers)
   const [tableData, setTableData] = useState(data || [])
   // columns Widths arr
@@ -44,15 +42,20 @@ export const Table: FC<TableProps> = ({
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
 
-  console.log(
-    'table headers🚘--> order array',
-    tableHeaders.map((x) => x.key)
-  )
-  console.log('table data', tableData)
+  useEffect(() => {
+    if (headers) {
+      setTableHeaders(
+        tableHeaders.map((v) => ({ ...v, showColumnCheckbox: true }))
+      )
+    }
+  }, [])
 
   useEffect(() => {
-    const headerOrderArr = tableHeaders.map((x) => x.key)
+    console.log('fire 🔥')
 
+    const headerOrderArr = tableHeaders.map((x) =>
+      x.showColumnCheckbox ? x.key : null
+    )
     const newObjectOrder = {}
 
     for (const key of headerOrderArr) {
@@ -60,38 +63,9 @@ export const Table: FC<TableProps> = ({
     }
 
     console.log(newObjectOrder)
-    console.log(
-      '☎️',
-      tableData.map((obj) => Object.assign(newObjectOrder, obj))
-    )
 
-    // re order object based on tableheaders order
-    setTableData(tableData.map((obj) => Object.assign(newObjectOrder, obj)))
-
-    console.log('table data now ', tableData)
+    setTableData(filterObjsInArr(data, Object.keys(newObjectOrder)))
   }, [tableHeaders])
-
-  // const [visibleColumns, setVisibleColumns] = useLocalStorage('visibleColumns')
-
-  // useEffect(() => {
-  //   if (headers) {
-  //     setTableHeaders(
-  //       tableHeaders.map((v) => ({ ...v, showColumnCheckbox: true }))
-  //     )
-  //   }
-  // }, [])
-
-  // useEffect(() => {
-  //   if (tableHeaders) {
-  //     // pak eerst de velden met checkbox true
-  //     const visibleColumnKeys = visibleColumns
-  //       ?.filter((item) => item.showColumnCheckbox)
-  //       .map((item) => item.key)
-
-  //     const newObj = filterObjsInArr(data, visibleColumnKeys)
-  //     setTableData([...newObj])
-  //   }
-  // }, [visibleColumns])
 
   // for in loop from codewithlinda
   const filterObjsInArr = (arr, selection) => {
@@ -116,8 +90,6 @@ export const Table: FC<TableProps> = ({
           setTableHeaders={setTableHeaders}
           columnWidthsArr={columnWidthsArr}
           setColumnWidthsArr={setColumnWidthsArr}
-          // visibleColumns={visibleColumns}
-          // setVisibleColumns={setVisibleColumns}
         />
       )}
       <Grid
