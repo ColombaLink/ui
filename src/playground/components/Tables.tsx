@@ -13,8 +13,28 @@ export const Tables = () => {
             props: {
               data: Array.from(Array(4)).map((_, i) => ({
                 title: `title ${i + 1}`,
+                subtitle: `subtitle ${i + 1}`,
                 description: `lorem ipsum ${i + 1}`,
+                author: 'mario',
               })),
+              headers: [
+                {
+                  key: 'title',
+                  label: 'Title',
+                },
+                {
+                  key: 'subtitle',
+                  label: 'Subtitle',
+                },
+                {
+                  key: 'description',
+                  label: 'Description',
+                },
+                {
+                  key: 'author',
+                  label: 'Author',
+                },
+              ],
             },
           },
         ]}

@@ -1,4 +1,4 @@
-import React, { ReactNode, FC, useState } from 'react'
+import React, { ReactNode, FC, useState, useRef, useEffect } from 'react'
 import {
   styled,
   Style,
@@ -18,8 +18,7 @@ type TableHeaderProps = {
   }[]
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void
-  visibleColumns?: Object[]
-  setVisibleColumns?: (e) => void
+  setTableHeaders: (e) => void
 }
 
 const TableHeaderItem = styled('div', {
@@ -50,8 +49,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
   headers,
   columnWidthsArr,
   setColumnWidthsArr,
-  visibleColumns,
-  setVisibleColumns,
+  setTableHeaders,
 }) => {
   // console.log('TABLE header columns width arr', columnWidthsArr)
   const [showDragLines, setShowDraglines] = useState(false)
@@ -66,8 +64,8 @@ export const TableHeader: FC<TableHeaderProps> = ({
       onMouseOver={() => setShowDraglines(true)}
       onMouseLeave={() => setShowDraglines(false)}
     >
-      {visibleColumns
-        ?.filter((x) => x.showColumnCheckbox)
+      {headers
+        // ?.filter((x) => x.showColumnCheckbox)
         .map((item, idx) => (
           <TableHeaderItem
             key={item.key}
@@ -116,7 +114,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
         }}
         onClick={useContextMenu(
           SelectHeaderDisplay,
-          { headers, visibleColumns, setVisibleColumns },
+          { headers, setTableHeaders },
           { placement: 'left' }
         )}
       />
@@ -128,25 +126,51 @@ const SelectHeaderDisplay = ({
   headers,
   visibleColumns,
   setVisibleColumns,
+  setTableHeaders,
 }) => {
+  const dragItem = useRef(null)
+  const dragOverItem = useRef()
+
+  const dragStart = (e, position) => {
+    dragItem.current = position
+  }
+
+  const dragEnter = (e, position) => {
+    dragOverItem.current = position
+  }
+
+  const drop = (e) => {
+    const copyListItems = [...headers]
+    const dragItemContent = copyListItems[dragItem.current]
+    copyListItems.splice(dragItem.current, 1)
+    copyListItems.splice(dragOverItem.current, 0, dragItemContent)
+    dragItem.current = null
+    dragOverItem.current = null
+    setTableHeaders(copyListItems)
+  }
+
   return (
     <styled.div>
       {headers.map((item, idx) => (
         <styled.div
-          key={item.key}
+          key={idx}
           style={{ display: 'flex', padding: '4px 6px' }}
+          draggable
+          onDragStart={(e) => dragStart(e, idx)}
+          onDragEnter={(e) => dragEnter(e, idx)}
+          onDragEnd={drop}
         >
           <Checkbox
             small
             label={item.label}
-            checked={visibleColumns[idx].showColumnCheckbox}
+            checked={headers[idx].showColumnCheckbox}
             onChange={(e) => {
               if (e) {
-                visibleColumns[idx].showColumnCheckbox = true
-                setVisibleColumns([...visibleColumns])
+                headers[idx].showColumnCheckbox = true
+                //      setVisibleColumns([...visibleColumns])
               } else {
-                visibleColumns[idx].showColumnCheckbox = false
-                setVisibleColumns([...visibleColumns])
+                headers[idx].showColumnCheckbox = false
+                //     setVisibleColumns([...visibleColumns])
               }
             }}
           />

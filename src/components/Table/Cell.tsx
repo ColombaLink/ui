@@ -5,6 +5,7 @@ import { styled, Style, Text, color, Checkbox } from '~'
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // get the object keys from data
   // only from the first they should all have the same keys...
+
   const ObjectKeys = Object.keys(data[0])
 
   return (
