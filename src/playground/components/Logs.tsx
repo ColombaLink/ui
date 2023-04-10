@@ -6,6 +6,12 @@ export const Logs = () => {
   const example = [
     { time: 43455, label: 'helo', msg: 'message' },
     { time: 431455, label: 'heafalo', msg: 'mesfaefsage' },
+    { time: 43331455, label: 'heafaloheafalo', msg: 'mesfaefsagemesfaefsage' },
+    {
+      time: 43323241455,
+      label: 'heafaloheafalo',
+      msg: 'mesfaefsage mesfaefsag emesfaefsagemesfaefsage',
+    },
   ]
 
   return (
