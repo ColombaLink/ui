@@ -59,28 +59,21 @@ export const Table: FC<TableProps> = ({
       newObjectOrder[key] = null
     }
 
-    const newData = filterObjsInArr(data, Object.keys(newObjectOrder)).map(
-      (obj) => Object.assign(newObjectOrder, obj)
+    const newData = filterObjsInArr(data, Object.keys(newObjectOrder))
+    const newerData = newData.map((obj) =>
+      preferredOrder(obj, Object.keys(newObjectOrder))
     )
 
-    newData.filter((obj) =>
-      Object.keys(obj).forEach((key) => {
-        if (obj[key] == null) {
-          delete obj[key]
-        }
-      })
-    )
-
-    setTableData(newData)
+    setTableData(newerData)
   }, [tableHeaders])
 
   // for in loop from codewithlinda
   const filterObjsInArr = (arr, selection) => {
     const filteredArray = []
-    arr.map((obj) => {
+    arr.forEach((obj) => {
       const filteredObj = {}
       // use let
-      for (let key in obj) {
+      for (const key in obj) {
         if (selection.includes(key)) {
           filteredObj[key] = obj[key]
         }
@@ -88,6 +81,16 @@ export const Table: FC<TableProps> = ({
       filteredArray.push(filteredObj)
     })
     return filteredArray
+  }
+
+  function preferredOrder(obj, order) {
+    const newObject = {}
+    for (let i = 0; i < order.length; i++) {
+      if (Object.prototype.hasOwnProperty.call(obj, order[i])) {
+        newObject[order[i]] = obj[order[i]]
+      }
+    }
+    return newObject
   }
 
   return (

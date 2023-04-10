@@ -7,7 +7,6 @@ import {
   Button,
   MoreIcon,
   useContextMenu,
-  usePropState,
   DragDropIcon,
 } from '~'
 
@@ -127,7 +126,7 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
   const dragItem = useRef(null)
   const dragOverItem = useRef()
 
-  const [listForRender, setListForRender] = usePropState(headers)
+  const [listForRender, setListForRender] = useState(headers)
 
   const dragStart = (e, position) => {
     dragItem.current = position
