@@ -8,7 +8,7 @@ type LogTypes = {
     time: string
     label: string
     msg: string
-    type?: string
+    type?: 'error' | 'success' | string
   }[]
   width?: number
   height?: number
@@ -71,7 +71,19 @@ export const Log: FC<LogTypes> = ({
         wrap
       >
         <span style={{ color: color('text2') }}>{data[index].time}</span>
-        <span style={{ color: color('accent') }}> {data[index].label} </span>
+        <span
+          style={{
+            color:
+              data[index].type === 'error'
+                ? color('red')
+                : data[index].type === 'success'
+                ? color('green')
+                : color('accent'),
+          }}
+        >
+          {' '}
+          {data[index].label}{' '}
+        </span>
         <span>{data[index].msg}</span>
       </Text>
     </styled.div>
@@ -102,7 +114,7 @@ export const Log: FC<LogTypes> = ({
         itemCount={newLines.length}
         itemSize={getItemSize}
         width={WIDTH}
-        style={{ scrollBehavior: 'smooth' }}
+        // style={{ scrollBehavior: 'smooth' }}
       >
         {Row}
       </VariableSizeList>

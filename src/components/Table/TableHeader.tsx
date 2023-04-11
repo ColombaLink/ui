@@ -73,7 +73,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
     <styled.div
       style={{
         display: 'flex',
-        borderBottom: '1px solid rgba(28, 45, 65, 0.1)',
+        borderBottom: `1px solid ${color('border')}`,
         position: 'relative',
       }}
       onMouseOver={() => setShowDraglines(true)}
@@ -147,7 +147,7 @@ export const TableHeader: FC<TableHeaderProps> = ({
 
       <Button
         icon={<MoreIcon color="text2" />}
-        color="lightgrey"
+        color="border"
         style={{
           width: 24,
           height: 24,

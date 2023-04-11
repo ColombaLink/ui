@@ -4,13 +4,14 @@ import { Log } from '~/components/Log'
 import { LoremIpsum } from 'lorem-ipsum'
 
 export const Logs = () => {
+  const typesArr = ['error', 'success', '']
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
       max: 5,
       min: 1,
     },
     wordsPerSentence: {
-      max: 20,
+      max: 12,
       min: 1,
     },
   })
@@ -18,15 +19,25 @@ export const Logs = () => {
   const [, setCnt] = useState(0)
 
   const { current: example } = useRef([
-    { time: Date.now().toString(), label: 'helo', msg: 'message' },
-    { time: Date.now().toString(), label: 'heafalo', msg: 'mesfaefsage' },
     {
-      time: Date.now().toString(),
+      time: new Date().toUTCString(),
+      label: 'helo',
+      msg: 'message',
+      type: 'error',
+    },
+    {
+      time: new Date().toUTCString(),
+      label: 'heafalo',
+      msg: 'mesfaefsage',
+      type: 'success',
+    },
+    {
+      time: new Date().toUTCString(),
       label: 'heafaloheafalo',
       msg: 'mesfaefsagemesfaefsage',
     },
     {
-      time: Date.now().toString(),
+      time: new Date().toUTCString(),
       label: 'heafaloheafalo',
       msg: 'mesfaefsage mesfaefsag emesfaefsagemesfaefsage',
     },
@@ -38,9 +49,10 @@ export const Logs = () => {
       // console.log('🐸')
       for (let i = 0; i < 30; i++) {
         example.push({
-          time: Date.now().toString(),
+          time: new Date().toUTCString(),
           label: `[label ${i}]:`,
           msg: lorem.generateParagraphs(~~Math.random() + 1),
+          type: typesArr[Math.floor(Math.random() * 3)],
         })
       }
       setCnt(++c)
