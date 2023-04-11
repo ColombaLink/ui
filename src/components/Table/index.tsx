@@ -41,7 +41,6 @@ export const Table: FC<TableProps> = ({
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
   const [selectedRows, setSelectedRows] = useState([])
-  const [selectAllRows, setSelectAllRows] = useState(false)
 
   useEffect(() => {
     if (headers) {
@@ -50,21 +49,6 @@ export const Table: FC<TableProps> = ({
       )
     }
   }, [])
-
-  useEffect(() => {
-    if (selectAllRows) {
-      setSelectedRows([...Array(data.length).keys()])
-    } else {
-      setSelectedRows([])
-    }
-    console.log('FIRE 🔥')
-  }, [selectAllRows])
-
-  useEffect(() => {
-    if (selectedRows.length !== tableData.length) {
-      setSelectAllRows(false)
-    }
-  }, [selectedRows])
 
   useEffect(() => {
     if (headers) {
@@ -126,8 +110,9 @@ export const Table: FC<TableProps> = ({
           setTableHeaders={setTableHeaders}
           columnWidthsArr={columnWidthsArr}
           setColumnWidthsArr={setColumnWidthsArr}
-          setSelectAllRows={setSelectAllRows}
-          selectAllRows={selectAllRows}
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+          tableData={tableData}
         />
       )}
       <Grid

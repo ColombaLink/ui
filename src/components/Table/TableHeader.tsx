@@ -19,8 +19,9 @@ type TableHeaderProps = {
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void
   setTableHeaders: (e) => void
-  setSelectAllRows: (e) => void
-  selectAllRows: boolean
+  setSelectedRows: (e) => void
+  selectedRows: number[]
+  tableData
 }
 
 const TableHeaderItem = styled('div', {
@@ -52,12 +53,21 @@ export const TableHeader: FC<TableHeaderProps> = ({
   columnWidthsArr,
   setColumnWidthsArr,
   setTableHeaders,
-  setSelectAllRows,
-  selectAllRows,
+  selectedRows,
+  setSelectedRows,
+  tableData,
 }) => {
   // console.log('TABLE header columns width arr', columnWidthsArr)
   const [showDragLines, setShowDraglines] = useState(false)
-  const [unCheckThisBox, setUncheckThisBox] = useState<boolean>(false)
+  const [isBoxCheckedNow, setIsBoxCheckedNow] = useState(false)
+
+  useEffect(() => {
+    if (selectedRows.length === tableData.length) {
+      setIsBoxCheckedNow(true)
+    } else {
+      setIsBoxCheckedNow(false)
+    }
+  }, [selectedRows])
 
   return (
     <styled.div
@@ -76,11 +86,34 @@ export const TableHeader: FC<TableHeaderProps> = ({
             key={item.key}
             style={{ width: columnWidthsArr[idx] }}
           >
-            {idx === 0 && (
+            {idx === 0 && !isBoxCheckedNow && (
               <Checkbox
                 small
-                onChange={(e) => setSelectAllRows(e)}
-                checked={selectAllRows}
+                onChange={(e) => {
+                  if (e) {
+                    setSelectedRows(Array.from(Array(tableData.length).keys()))
+                    setIsBoxCheckedNow(true)
+                  } else if (!e) {
+                    setSelectedRows([])
+                    setIsBoxCheckedNow(false)
+                  }
+                }}
+                checked={false}
+              />
+            )}
+            {idx === 0 && isBoxCheckedNow && (
+              <Checkbox
+                small
+                onChange={(e) => {
+                  if (e) {
+                    setSelectedRows(Array.from(Array(tableData.length).keys()))
+                    setIsBoxCheckedNow(true)
+                  } else if (!e) {
+                    setSelectedRows([])
+                    setIsBoxCheckedNow(false)
+                  }
+                }}
+                checked
               />
             )}
 

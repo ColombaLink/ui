@@ -29,7 +29,7 @@ export const TableSelectionActions: FC<TableSelectionActionsProps> = ({
       >
         Clear selection
       </Button>
-      <Button outline ghost color="lightaction">
+      <Button outline ghost color="lightaction" onClick={() => {}}>
         Show selected items
       </Button>
       <Button color="red">Delete items</Button>
