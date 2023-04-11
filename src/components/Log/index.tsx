@@ -8,6 +8,7 @@ type LogTypes = {
     time: string
     label: string
     msg: string
+    type?: string
   }[]
   width?: number
   height?: number
@@ -77,7 +78,12 @@ export const Log: FC<LogTypes> = ({
   )
 
   return (
-    <styled.div ref={parentDiv} style={{ ...style }}>
+    <styled.div
+      ref={parentDiv}
+      style={{
+        ...style,
+      }}
+    >
       <VariableSizeList
         onScroll={(e) => {
           if (e.scrollDirection === 'backward') {

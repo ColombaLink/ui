@@ -36,7 +36,7 @@ export const Logs = () => {
     let c = 0
     const i = setInterval(() => {
       // console.log('🐸')
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 30; i++) {
         example.push({
           time: Date.now().toString(),
           label: `[label ${i}]:`,
@@ -44,7 +44,7 @@ export const Logs = () => {
         })
       }
       setCnt(++c)
-    }, 5000)
+    }, 4000)
 
     return () => clearInterval(i)
   }, [])
