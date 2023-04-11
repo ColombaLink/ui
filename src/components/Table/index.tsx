@@ -1,6 +1,7 @@
 import React, { ReactNode, FC, useState, useEffect } from 'react'
 import { Grid } from './Grid'
 import { TableHeader } from './TableHeader'
+import { TableSelectionActions } from './TableSelectionActions'
 
 type TableProps = {
   headers?: {
@@ -36,10 +37,10 @@ export const Table: FC<TableProps> = ({
 }) => {
   const [tableHeaders, setTableHeaders] = useState(headers)
   const [tableData, setTableData] = useState(data || [])
-  // columns Widths arr
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
+  const [selectedRows, setSelectedRows] = useState([])
 
   useEffect(() => {
     if (headers) {
@@ -97,6 +98,12 @@ export const Table: FC<TableProps> = ({
 
   return (
     <>
+      {selectedRows.length >= 0 && (
+        <TableSelectionActions
+          selectedRows={selectedRows}
+          setSelectedRows={setSelectedRows}
+        />
+      )}
       {tableHeaders && (
         <TableHeader
           headers={tableHeaders}
@@ -113,6 +120,8 @@ export const Table: FC<TableProps> = ({
         columnWidthsArr={columnWidthsArr}
         width={width || columnCount * columnWidth}
         height={height}
+        setSelectedRows={setSelectedRows}
+        selectedRows={selectedRows}
         //     onClick={onClick}
       />
     </>

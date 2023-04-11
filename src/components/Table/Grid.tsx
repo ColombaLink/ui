@@ -10,6 +10,8 @@ type GridProps = {
   height?: number
   columnCount?: number
   columnWidthsArr: number[]
+  setSelectedRows?: (e) => void
+  selectedRows?: number[]
   //  onClick?: (data: EventData, e) => void
 }
 
@@ -21,6 +23,8 @@ export const Grid: FC<GridProps> = ({
   height,
   columnCount,
   columnWidthsArr,
+  setSelectedRows,
+  selectedRows,
   // onClick,
 }) => {
   const varGridRef = useRef<any>()
@@ -44,7 +48,7 @@ export const Grid: FC<GridProps> = ({
       rowHeight={() => rowHeight}
       width={width}
       height={height}
-      itemData={data}
+      itemData={{ data, setSelectedRows, selectedRows }}
       //  itemData={{ data, onClick }}
       //   onItemsRendered={}
     >

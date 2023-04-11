@@ -6,7 +6,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   // get the object keys from data
   // only from the first they should all have the same keys...
 
-  const ObjectKeys = Object.keys(data[0])
+  const ObjectKeys = Object.keys(data.data[0])
 
   return (
     <styled.div
@@ -19,9 +19,27 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       }}
       // onClick={(e) => data.onClick(e)}
     >
-      {columnIndex === 0 && <Checkbox small style={{ marginRight: 6 }} />}
+      {columnIndex === 0 && (
+        <Checkbox
+          small
+          style={{ marginRight: 6 }}
+          checked={data.selectedRows.includes(rowIndex)}
+          onChange={(e) => {
+            if (e) {
+              data.setSelectedRows([...data.selectedRows, rowIndex])
+            } else {
+              const arrCopy = [...data.selectedRows]
+              const ix = arrCopy.indexOf(rowIndex)
+              arrCopy.splice(ix, 1)
+              data.setSelectedRows([...arrCopy])
+            }
+          }}
+        />
+      )}
       <Text>
-        {data[rowIndex] ? data[rowIndex][ObjectKeys[columnIndex]] : null}
+        {data.data[rowIndex]
+          ? data.data[rowIndex][ObjectKeys[columnIndex]]
+          : null}
       </Text>
     </styled.div>
   )
