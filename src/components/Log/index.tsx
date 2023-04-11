@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect } from 'react'
+import React, { FC, useRef, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
 import { LogTypes } from './types'
 import { VariableSizeList } from 'react-window'
@@ -13,12 +13,31 @@ const WIDTH = 800
 // show new data on bottom infinite scroll..
 
 export const Log: FC<LogTypes> = ({ data }) => {
+  const [manualScrolling, setManualScrolling] = useState(false)
+  const [backwardScrollCounter, setBackwardScrollCounter] = useState(0)
+
   const listRef = useRef(null)
 
   useEffect(() => {
+    if (backwardScrollCounter > 2) {
+      console.log('🤖')
+      setManualScrolling(true)
+    }
+  }, [backwardScrollCounter])
+
+  useEffect(() => {
     console.log('FIRE 🔥')
-    scrollToBottom()
+
+    if (!manualScrolling) {
+      scrollToBottom()
+      setBackwardScrollCounter(0)
+      console.log('scrollheight', listRef.current)
+    }
   }, [data.length])
+
+  // listRef.current.addEventListener('scroll', (e) => {
+  //   console.log('they see me scrolling')
+  // })
 
   const scrollToBottom = () => listRef?.current.scrollToItem(data.length)
 
@@ -58,6 +77,12 @@ export const Log: FC<LogTypes> = ({ data }) => {
   return (
     <styled.div>
       <VariableSizeList
+        onScroll={(e) => {
+          if (e.scrollDirection === 'backward') {
+            setBackwardScrollCounter(backwardScrollCounter + 1)
+          }
+          console.log('Scrolling, hating', e)
+        }}
         ref={listRef}
         height={360}
         itemCount={newLines.length}
