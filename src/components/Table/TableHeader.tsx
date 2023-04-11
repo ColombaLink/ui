@@ -1,4 +1,4 @@
-import React, { ReactNode, FC, useState, useRef } from 'react'
+import React, { ReactNode, FC, useState, useRef, useEffect } from 'react'
 import {
   styled,
   Text,
@@ -19,6 +19,8 @@ type TableHeaderProps = {
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void
   setTableHeaders: (e) => void
+  setSelectAllRows: (e) => void
+  selectAllRows: boolean
 }
 
 const TableHeaderItem = styled('div', {
@@ -50,9 +52,12 @@ export const TableHeader: FC<TableHeaderProps> = ({
   columnWidthsArr,
   setColumnWidthsArr,
   setTableHeaders,
+  setSelectAllRows,
+  selectAllRows,
 }) => {
   // console.log('TABLE header columns width arr', columnWidthsArr)
   const [showDragLines, setShowDraglines] = useState(false)
+  const [unCheckThisBox, setUncheckThisBox] = useState<boolean>(false)
 
   return (
     <styled.div
@@ -71,7 +76,14 @@ export const TableHeader: FC<TableHeaderProps> = ({
             key={item.key}
             style={{ width: columnWidthsArr[idx] }}
           >
-            {idx === 0 && <Checkbox small />}
+            {idx === 0 && (
+              <Checkbox
+                small
+                onChange={(e) => setSelectAllRows(e)}
+                checked={selectAllRows}
+              />
+            )}
+
             <Text color="text2">{item.label}</Text>
             <ResizeDragLine
               onMouseDown={({ currentTarget, clientX: startX }) => {
