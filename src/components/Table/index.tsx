@@ -73,7 +73,8 @@ export const Table: FC<TableProps> = ({
     }
   }, [tableHeaders])
 
-  // for in loop from codewithlinda
+  // TODO RowCount
+
   const filterObjsInArr = (arr, selection) => {
     const filteredArray = []
     arr.forEach((obj) => {
@@ -111,6 +112,9 @@ export const Table: FC<TableProps> = ({
       setSelectedRows([])
     } else {
       setTableData(data)
+      setTableHeaders(
+        tableHeaders.map((v) => ({ ...v, showColumnCheckbox: true }))
+      )
     }
   }, [showSelectedRows])
 

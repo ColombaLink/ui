@@ -212,11 +212,9 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
               if (e) {
                 listForRender[idx].showColumnCheckbox = true
                 setTableHeaders([...headers])
-                //      setVisibleColumns([...visibleColumns])
               } else {
                 listForRender[idx].showColumnCheckbox = false
                 setTableHeaders([...headers])
-                //     setVisibleColumns([...visibleColumns])
               }
             }}
           />

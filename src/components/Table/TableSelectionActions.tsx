@@ -43,7 +43,9 @@ export const TableSelectionActions: FC<TableSelectionActionsProps> = ({
       >
         {!showSelectedRows ? 'Show selected items' : 'Show all items'}
       </Button>
-      <Button color="red">Delete items</Button>
+      <Button color="red" onClick={() => console.log('TODO delete ')}>
+        Delete items
+      </Button>
     </styled.div>
   )
 }
