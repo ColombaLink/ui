@@ -1,56 +1,58 @@
 import React, { FC, useRef, useEffect, useState } from 'react'
 import { styled, Style } from 'inlines'
-import { LogTypes } from './types'
 import { VariableSizeList } from 'react-window'
 import { Text, color } from '~'
 
-// fira code 14px
-const LETTER_WIDTH = 8.399
-const WIDTH = 800
+type LogTypes = {
+  data: {
+    time: string
+    label: string
+    msg: string
+  }[]
+  width?: number
+  height?: number
+  style?: Style
+}
 
-// todo
-// react window -> infinite loader for virtualization
-// show new data on bottom infinite scroll..
-
-export const Log: FC<LogTypes> = ({ data }) => {
+export const Log: FC<LogTypes> = ({
+  data,
+  width = 676,
+  height = 360,
+  style,
+}) => {
   const [manualScrolling, setManualScrolling] = useState(false)
   const [backwardScrollCounter, setBackwardScrollCounter] = useState(0)
 
   const listRef = useRef(null)
+  const parentDiv = useRef(null)
+
+  // fira code 14px
+  const LETTER_WIDTH = 8.399
+  const WIDTH = width
+  const HEIGHT = height
 
   useEffect(() => {
     if (backwardScrollCounter > 2) {
-      console.log('🤖')
       setManualScrolling(true)
     }
   }, [backwardScrollCounter])
 
   useEffect(() => {
-    console.log('FIRE 🔥')
-
     if (!manualScrolling) {
       scrollToBottom()
       setBackwardScrollCounter(0)
-      console.log('scrollheight', listRef.current)
     }
   }, [data.length])
 
-  // listRef.current.addEventListener('scroll', (e) => {
-  //   console.log('they see me scrolling')
-  // })
-
-  const scrollToBottom = () => listRef?.current.scrollToItem(data.length)
-
-  //  length for each item
   const newLines = data.map(
     (item) => `${item.time} [${item.label}] ${item.msg}`
   )
   const lineBreakPoint = Math.ceil(WIDTH / LETTER_WIDTH)
-  console.log(lineBreakPoint)
   const rowHeights = newLines.map(
     (line) => Math.ceil(line.length / lineBreakPoint) * 20
   )
 
+  const scrollToBottom = () => listRef?.current.scrollToItem(data.length)
   const getItemSize = (index) => rowHeights[index]
 
   const Row = ({ index, style }) => (
@@ -75,16 +77,22 @@ export const Log: FC<LogTypes> = ({ data }) => {
   )
 
   return (
-    <styled.div>
+    <styled.div ref={parentDiv} style={{ ...style }}>
       <VariableSizeList
         onScroll={(e) => {
           if (e.scrollDirection === 'backward') {
             setBackwardScrollCounter(backwardScrollCounter + 1)
           }
-          console.log('Scrolling, hating', e)
+          if (
+            parentDiv.current &&
+            e.scrollOffset >=
+              parentDiv.current.firstChild.firstChild.clientHeight - HEIGHT
+          ) {
+            setManualScrolling(false)
+          }
         }}
         ref={listRef}
-        height={360}
+        height={HEIGHT}
         itemCount={newLines.length}
         itemSize={getItemSize}
         width={WIDTH}

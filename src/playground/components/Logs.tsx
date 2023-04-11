@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Log } from '~/components/Log'
-import ComponentViewer from '../ComponentViewer'
+// import ComponentViewer from '../ComponentViewer'
 import { LoremIpsum } from 'lorem-ipsum'
 
 export const Logs = () => {
@@ -18,15 +18,15 @@ export const Logs = () => {
   const [, setCnt] = useState(0)
 
   const { current: example } = useRef([
-    { time: Date.now(), label: 'helo', msg: 'message' },
-    { time: Date.now(), label: 'heafalo', msg: 'mesfaefsage' },
+    { time: Date.now().toString(), label: 'helo', msg: 'message' },
+    { time: Date.now().toString(), label: 'heafalo', msg: 'mesfaefsage' },
     {
-      time: Date.now(),
+      time: Date.now().toString(),
       label: 'heafaloheafalo',
       msg: 'mesfaefsagemesfaefsage',
     },
     {
-      time: Date.now(),
+      time: Date.now().toString(),
       label: 'heafaloheafalo',
       msg: 'mesfaefsage mesfaefsag emesfaefsagemesfaefsage',
     },
@@ -35,10 +35,10 @@ export const Logs = () => {
   useEffect(() => {
     let c = 0
     const i = setInterval(() => {
-      console.log('🐸')
+      // console.log('🐸')
       for (let i = 0; i < 10; i++) {
         example.push({
-          time: Date.now(),
+          time: Date.now().toString(),
           label: `[label ${i}]:`,
           msg: lorem.generateParagraphs(~~Math.random() + 1),
         })
@@ -50,7 +50,7 @@ export const Logs = () => {
   }, [])
 
   return (
-    <Log data={example} />
+    <Log data={example} width={940} />
     // <ComponentViewer
     //   component={Log}
     //   propsName="LogProps"
