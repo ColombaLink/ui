@@ -11,11 +11,11 @@ export const Tables = () => {
         examples={[
           {
             props: {
-              data: Array.from(Array(4)).map((_, i) => ({
+              data: Array.from(Array(100)).map((_, i) => ({
                 title: `title ${i + 1}`,
                 subtitle: `subtitle ${i + 1}`,
                 description: `lorem ipsum ${i + 1}`,
-                author: 'mario',
+                author: `mar${i + 1}o`,
               })),
               headers: [
                 {

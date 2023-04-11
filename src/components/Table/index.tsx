@@ -1,7 +1,9 @@
 import React, { ReactNode, FC, useState, useEffect } from 'react'
 import { Grid } from './Grid'
+import { styled, Style } from 'inlines'
 import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
+import AutoSizer from 'react-virtualized-auto-sizer'
 
 type TableProps = {
   headers?: {
@@ -41,6 +43,7 @@ export const Table: FC<TableProps> = ({
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
   const [selectedRows, setSelectedRows] = useState([])
+  const [showSelectedRows, setShowSelectedRows] = useState()
 
   useEffect(() => {
     if (headers) {
@@ -96,14 +99,31 @@ export const Table: FC<TableProps> = ({
     return newObject
   }
 
+  const returnRowItemsThatWereSelected = (data, selectedRows) => {
+    const newData = data.filter((item, idx) => selectedRows.includes(idx))
+    console.log('🎃', newData)
+    return newData
+  }
+
+  useEffect(() => {
+    if (showSelectedRows) {
+      setTableData(returnRowItemsThatWereSelected(tableData, selectedRows))
+      setSelectedRows([])
+    } else {
+      setTableData(data)
+    }
+  }, [showSelectedRows])
+
   return (
     <>
-      {selectedRows.length >= 0 && (
+      {showSelectedRows || selectedRows.length > 0 ? (
         <TableSelectionActions
           selectedRows={selectedRows}
           setSelectedRows={setSelectedRows}
+          setShowSelectedRows={setShowSelectedRows}
+          showSelectedRows={showSelectedRows}
         />
-      )}
+      ) : null}
       {tableHeaders && (
         <TableHeader
           headers={tableHeaders}
@@ -115,18 +135,25 @@ export const Table: FC<TableProps> = ({
           tableData={tableData}
         />
       )}
-      <Grid
-        data={tableData}
-        rowCount={rowCount}
-        rowHeight={rowHeight}
-        columnCount={columnCount}
-        columnWidthsArr={columnWidthsArr}
-        width={width || columnCount * columnWidth}
-        height={height}
-        setSelectedRows={setSelectedRows}
-        selectedRows={selectedRows}
-        //     onClick={onClick}
-      />
+
+      <styled.div style={{ minHeight: height, maxWidth: width }}>
+        <AutoSizer>
+          {({ width, height }) => (
+            <Grid
+              data={tableData}
+              rowCount={tableData.length}
+              rowHeight={rowHeight}
+              columnCount={columnCount}
+              columnWidthsArr={columnWidthsArr}
+              width={width || columnCount * columnWidth}
+              height={height}
+              setSelectedRows={setSelectedRows}
+              selectedRows={selectedRows}
+              //     onClick={onClick}
+            />
+          )}
+        </AutoSizer>
+      </styled.div>
     </>
   )
 }

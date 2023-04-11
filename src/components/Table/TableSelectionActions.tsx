@@ -5,11 +5,15 @@ import { Text, Button } from '~'
 type TableSelectionActionsProps = {
   selectedRows: string[]
   setSelectedRows: (e) => void
+  setShowSelectedRows: (e) => void
+  showSelectedRows: boolean
 }
 
 export const TableSelectionActions: FC<TableSelectionActionsProps> = ({
   selectedRows,
   setSelectedRows,
+  setShowSelectedRows,
+  showSelectedRows,
 }) => {
   return (
     <styled.div
@@ -29,8 +33,15 @@ export const TableSelectionActions: FC<TableSelectionActionsProps> = ({
       >
         Clear selection
       </Button>
-      <Button outline ghost color="lightaction" onClick={() => {}}>
-        Show selected items
+      <Button
+        outline
+        ghost
+        color="lightaction"
+        onClick={() => {
+          setShowSelectedRows(!showSelectedRows)
+        }}
+      >
+        {!showSelectedRows ? 'Show selected items' : 'Show all items'}
       </Button>
       <Button color="red">Delete items</Button>
     </styled.div>

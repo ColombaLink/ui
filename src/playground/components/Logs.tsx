@@ -6,11 +6,11 @@ import { LoremIpsum } from 'lorem-ipsum'
 export const Logs = () => {
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
-      max: 3,
+      max: 5,
       min: 1,
     },
     wordsPerSentence: {
-      max: 12,
+      max: 20,
       min: 1,
     },
   })

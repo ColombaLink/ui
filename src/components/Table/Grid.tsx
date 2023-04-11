@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef, useState } from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
 
@@ -28,6 +28,7 @@ export const Grid: FC<GridProps> = ({
   // onClick,
 }) => {
   const varGridRef = useRef<any>()
+  const [rowCountState, setRowCountState] = useState(rowCount)
 
   useEffect(() => {
     if (varGridRef.current) {
@@ -38,6 +39,17 @@ export const Grid: FC<GridProps> = ({
       })
     }
   }, [columnWidthsArr])
+
+  useEffect(() => {
+    console.log('Rowcount', rowCount, 'RowCountState', rowCountState)
+    if (rowCount < rowCountState) {
+      varGridRef.current.resetAfterIndices({
+        columnIndex: 0,
+        rowIndex: 0,
+        shouldForceUpdate: true,
+      })
+    }
+  }, [rowCount])
 
   return (
     <VariableSizeGrid
