@@ -40,6 +40,7 @@ export const InputFields = () => {
           props: {
             label: 'Text inputfield',
             description: 'default input field',
+            type: 'text',
           },
         },
         {
@@ -48,6 +49,7 @@ export const InputFields = () => {
             description: 'default input field',
             placeholder: 'Placeholder text here',
             icon: <CheckIcon />,
+            type: 'text',
           },
         },
         {
@@ -62,6 +64,7 @@ export const InputFields = () => {
           props: {
             label: 'Input limited characters',
             maxChars: 60,
+            type: 'text',
             descriptionBottom: `type 'yo' for an error`,
             indent: true,
             error: (value) => {
@@ -84,7 +87,6 @@ export const InputFields = () => {
             label: 'Markdown input',
             description: 'type is markdown',
             type: 'markdown',
-            placeholder: 'Placeholder text here',
           },
         },
         {
@@ -94,57 +96,31 @@ export const InputFields = () => {
             type: 'json',
           },
         },
-
         // {
         //   props: {
-        //     pattern: '^([a-z0-9]{4,7})$',
-        //     label: 'Custom regex label',
-        //     description: 'Custom regex description',
-        //     indent: true,
-        //     icon: <CheckIcon />,
-        //     iconRight: <CheckIcon />,
-        //   },
-        // },
-        // {
-        //   props: {
-        //     label: 'Input label',
-        //     description: 'this is description',
-        //   },
-        // },
-        // {
-        //   props: {
-        //     label: 'Input label',
-        //     description: 'this is description',
-        //     icon: <CheckIcon />,
-        //     type: 'number',
-        //   },
-        // },
-        // {
-        //   props: {
-        //     type: 'digest',
-        //     label: 'Digest input',
-        //     description: 'Press icon to copy the SHA',
-        //     indent: true,
-        //   },
-        // },
-        // {
-        //   props: {
+        //     label: 'Password input',
+        //     description: 'type is password',
         //     type: 'password',
-        //     label: 'Password',
-        //     description: 'Press eye to see the value',
-        //     indent: true,
-        //   },
-        // },
-        // {
-        //   props: {
-        //     type: 'markdown',
-        //     label: 'Label for Markdown',
-        //     description: 'Description for Markdown',
-        //     descriptionBottom: 'this is bottom description',
-        //     indent: true,
         //   },
         // },
 
+        {
+          props: {
+            pattern: '^([a-z0-9]{4,7})$',
+            label: 'Custom regex',
+            description:
+              'add pattern prop for custom regex check example: ^([a-z0-9]{4,7})$',
+            indent: true,
+          },
+        },
+        {
+          props: {
+            type: 'digest',
+            label: 'Digest input',
+            description: 'type = digest , Press icon to copy the SHA',
+            indent: true,
+          },
+        },
         {
           props: {
             label: 'Color',

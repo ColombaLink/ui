@@ -216,7 +216,7 @@ export const Input = <T extends InputType>({
   value: valueProp,
   ...otherProps
 }: {
-  type: T
+  type: T | 'text'
   onChange?: OnChange<T>
   style?: CSSProperties
   label?: ReactNode
@@ -361,28 +361,37 @@ export const Input = <T extends InputType>({
       errorMessage={errorMessage}
       disabled={disabled}
     >
-      <Label
-        label={label}
-        description={description}
-        style={{ marginBottom: 6, marginLeft: 4 }}
-      />
-      {value !== '' && indent && type !== 'json' && (
-        <Button
-          ghost
-          onClick={() => {
-            // @ts-ignore
-            onChangeProp?.('')
-            setValue('')
-          }}
-          disabled={disabled}
-          style={{
-            height: 'fit-content',
-            marginTop: description ? 0 : -6,
-          }}
-        >
-          Clear
-        </Button>
-      )}
+      <styled.div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 6, marginLeft: 4 }}
+        />
+        {value !== '' && indent && type !== 'json' && (
+          <Button
+            ghost
+            onClick={() => {
+              // @ts-ignore
+              onChangeProp?.('')
+              setValue('')
+            }}
+            disabled={disabled}
+            style={{
+              height: 'fit-content',
+              marginTop: description ? 0 : -6,
+              marginBottom: description ? 0 : 6,
+            }}
+          >
+            Clear
+          </Button>
+        )}
+      </styled.div>
       {/* JSON Input CLEAR BUTTON */}
       {indent && type === 'json' && showJSONClearButton && (
         <Button

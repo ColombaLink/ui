@@ -12,11 +12,16 @@ export const Forms = () => {
           props: {
             children: (
               <>
-                <Input label="String" space />
+                <Input label="String" space type="text" />
                 <Input label="Number" type="number" space />
-                <Input label="With Icon Left" icon={CheckIcon} space />
-                <Input label="Multiline" multiline space />
-                <Input label="With Background" bg space />
+                <Input
+                  type="text"
+                  label="With Icon Left"
+                  icon={CheckIcon}
+                  space
+                />
+                <Input label="Multiline" type="multiline" space />
+                <Input type="text" label="With Background" bg space />
                 <Button>Submit</Button>
               </>
             ),
