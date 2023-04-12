@@ -14,7 +14,7 @@ type TableProps = {
   //  TODO data: RowData[] // available data
   data: any
   width?: number
-  height: number
+  height?: number
   rowCount?: number // total rows
   rowHeight?: number
   columnCount?: number
@@ -33,7 +33,7 @@ export const Table: FC<TableProps> = ({
   rowHeight = 56,
   width,
   height = 400,
-  columnCount = headers?.length || Object.keys(data[0]).length,
+  columnCount = headers?.length || (data && Object.keys(data[0]).length),
   columnWidth = 132,
   // onClick,
 }) => {
@@ -127,7 +127,7 @@ export const Table: FC<TableProps> = ({
     } else {
       setTableData(tableData)
       setTableHeaders(
-        tableHeaders.map((v) => ({ ...v, showColumnCheckbox: true }))
+        tableHeaders?.map((v) => ({ ...v, showColumnCheckbox: true }))
       )
     }
   }, [showSelectedRows])
