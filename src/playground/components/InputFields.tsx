@@ -1,5 +1,7 @@
+/* eslint-disable no-useless-escape */
+
 import React from 'react'
-import { Input, CheckIcon } from '~'
+import { Input, CheckIcon, EmailIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const InputFields = () => {
@@ -36,6 +38,14 @@ export const InputFields = () => {
       component={Input}
       propsName="InputProps"
       examples={[
+        {
+          props: {
+            label: 'Date Time input',
+            description: 'type is date',
+            type: 'date',
+            descriptionBottom: 'bottom ',
+          },
+        },
         {
           props: {
             label: 'Text inputfield',
@@ -84,6 +94,14 @@ export const InputFields = () => {
         },
         {
           props: {
+            label: 'Email inputfield',
+            description: 'type = email',
+            type: 'email',
+            iconRight: <EmailIcon />,
+          },
+        },
+        {
+          props: {
             label: 'Markdown input',
             description: 'type is markdown',
             type: 'markdown',
@@ -96,13 +114,6 @@ export const InputFields = () => {
             type: 'json',
           },
         },
-        // {
-        //   props: {
-        //     label: 'Password input',
-        //     description: 'type is password',
-        //     type: 'password',
-        //   },
-        // },
 
         {
           props: {
@@ -111,6 +122,13 @@ export const InputFields = () => {
             description:
               'add pattern prop for custom regex check example: ^([a-z0-9]{4,7})$',
             indent: true,
+          },
+        },
+        {
+          props: {
+            label: 'Password input',
+            description: 'type is password',
+            type: 'password',
           },
         },
         {

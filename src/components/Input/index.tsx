@@ -11,7 +11,7 @@ import React, {
   ReactEventHandler,
   useCallback,
 } from 'react'
-import { Text, Button, ChevronDownIcon, ChevronUpIcon } from '~'
+import { Text, Button, ChevronDownIcon, ChevronUpIcon, DateTimePicker } from '~'
 import { Label } from '../Label'
 import { color, renderOrCreateElement } from '~/utils'
 import { usePropState, useFocus, useHover } from '~/hooks'
@@ -23,6 +23,7 @@ import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
 import { PasswordInput } from './PasswordInput'
+import isEmail from 'is-email'
 
 const resize = (target) => {
   if (target) {
@@ -75,10 +76,11 @@ type SingleProps = {
   pattern?: string
   props?: any
   onKeyDown?: (e: any) => void
+  onChange?: (e: any) => void
   style?: CSSProperties
 }
 
-const Single: FC<SingleProps> = ({
+export const Single: FC<SingleProps> = ({
   type,
   inputRef,
   pattern,
@@ -88,6 +90,7 @@ const Single: FC<SingleProps> = ({
   if (type === 'color') {
     return <ColorInput inputRef={inputRef} {...props} />
   }
+
   return (
     <input
       {...props}
@@ -336,6 +339,14 @@ export const Input = <T extends InputType>({
   }, [focused])
 
   useEffect(() => {
+    if (type === 'email') {
+      if (!isEmail(value) && value.length > 0) {
+        setErrorMessage(`Please enter a valid email-address`)
+      } else {
+        setErrorMessage('')
+      }
+    }
+
     if (pattern) {
       const v = typeof value === 'number' ? String(value) : value
       const reOk = v === '' || new RegExp(pattern).test(v)
@@ -474,12 +485,13 @@ export const Input = <T extends InputType>({
         ) : type === 'password' ? (
           <PasswordInput
             {...props}
-            icon={icon}
             large={large}
             disabled={!!valueProp}
             onChange={onChange}
             value={value}
           />
+        ) : type === 'date' ? (
+          <DateTimePicker />
         ) : (
           <MaybeSuggest
             focused={focused}
