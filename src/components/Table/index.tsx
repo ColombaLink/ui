@@ -45,6 +45,9 @@ export const Table: FC<TableProps> = ({
   const [selectedRows, setSelectedRows] = useState([])
   const [showSelectedRows, setShowSelectedRows] = useState()
 
+  // for reference
+  const [selectedRowsCopy, setSelectedRowsCopy] = useState()
+
   useEffect(() => {
     if (headers) {
       setTableHeaders(
@@ -64,7 +67,14 @@ export const Table: FC<TableProps> = ({
         newObjectOrder[key] = null
       }
 
-      const newData = filterObjsInArr(data, Object.keys(newObjectOrder))
+      //  console.log('new object ordr', newObjectOrder)
+
+      const newData = showSelectedRows
+        ? filterObjsInArr(selectedRowsCopy, Object.keys(newObjectOrder))
+        : filterObjsInArr(data, Object.keys(newObjectOrder))
+
+      ///  console.log('new DAta??', newData)
+
       const newerData = newData.map((obj) =>
         preferredOrder(obj, Object.keys(newObjectOrder))
       )
@@ -102,16 +112,20 @@ export const Table: FC<TableProps> = ({
 
   const returnRowItemsThatWereSelected = (data, selectedRows) => {
     const newData = data.filter((item, idx) => selectedRows.includes(idx))
-    console.log('🎃', newData)
+    // console.log('🎃', newData)
     return newData
   }
 
   useEffect(() => {
     if (showSelectedRows) {
       setTableData(returnRowItemsThatWereSelected(tableData, selectedRows))
+      // make copy of current selected rows
+      setSelectedRowsCopy(
+        returnRowItemsThatWereSelected(tableData, selectedRows)
+      )
       setSelectedRows([])
     } else {
-      setTableData(data)
+      setTableData(tableData)
       setTableHeaders(
         tableHeaders.map((v) => ({ ...v, showColumnCheckbox: true }))
       )
