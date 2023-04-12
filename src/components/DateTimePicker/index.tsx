@@ -204,19 +204,20 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   }
 
   return (
-    <InputWrapper
-      descriptionBottom={descriptionBottom}
-      indent={indent}
-      space={space}
-      errorMessage={errorMessage}
-      disabled={disabled}
-      style={style}
-      // @ts-ignore
-      onBlur={() => {
-        InputWrapperBlurHandler()
-      }}
-    >
-      <Label label={label} description={description} space="12px" />
+    // <InputWrapper
+    //   descriptionBottom={descriptionBottom}
+    //   indent={indent}
+    //   space={space}
+    //   errorMessage={errorMessage}
+    //   disabled={disabled}
+    //   style={style}
+    //   // @ts-ignore
+    //   onBlur={() => {
+    //     InputWrapperBlurHandler()
+    //   }}
+    // >
+    //   <Label label={label} description={description} space="12px" />
+    <>
       {dateRange ? (
         <DateRangeInput
           setFromValue={setFromValue}
@@ -248,6 +249,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
           )}
         </Row>
       )}
-    </InputWrapper>
+    </>
+    // </InputWrapper>
   )
 }

@@ -3,6 +3,10 @@ import { Table } from '../..'
 import ComponentViewer from '../ComponentViewer'
 
 export const Tables = () => {
+  const clickFunction = (e, data) => {
+    console.log(e, data)
+  }
+
   return (
     <>
       <ComponentViewer
@@ -17,6 +21,8 @@ export const Tables = () => {
                 description: `lorem ipsum ${i + 1}`,
                 author: `mar${i + 1}o`,
               })),
+              // rowCount: 10,
+              onClick: clickFunction,
               headers: [
                 {
                   key: 'title',

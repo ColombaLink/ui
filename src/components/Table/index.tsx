@@ -5,37 +5,42 @@ import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
+type Action = 'delete'
+type OnAction = (items: string[], action: Action) => void
+
 type TableProps = {
   headers?: {
     key: string
     label: string | ReactNode
     showColumnCheckbox?: boolean
   }[]
-  //  TODO data: RowData[] // available data
   data: any
   width?: number
   height?: number
-  rowCount?: number // total rows
+  rowCount?: number
   rowHeight?: number
   columnCount?: number
   columnWidth?: number
-  onVisibleRowIndex?: (indexes: {
-    startIndex: number
-    endIndex: number
-  }) => void
-  // onClick?: (data: EventData, e) => void
+  // TODO these + onClick beter
+  // onAction?: OnAction
+  // onVisibleRowIndex?: (indexes: {
+  //   startIndex: number
+  //   endIndex: number
+  // }) => void
+  onClick?: (e: EventData, data) => void
 }
 
 export const Table: FC<TableProps> = ({
   headers,
   data,
-  rowCount = data?.length,
+  rowCount,
   rowHeight = 56,
   width,
   height = 400,
   columnCount = headers?.length || (data && Object.keys(data[0]).length),
   columnWidth = 132,
-  // onClick,
+  onClick,
+  // onAction,
 }) => {
   const [tableHeaders, setTableHeaders] = useState(headers)
   const [tableData, setTableData] = useState(data || [])
@@ -45,7 +50,7 @@ export const Table: FC<TableProps> = ({
   const [selectedRows, setSelectedRows] = useState([])
   const [showSelectedRows, setShowSelectedRows] = useState()
 
-  // for reference
+  // to keep track of selected rows
   const [selectedRowsCopy, setSelectedRowsCopy] = useState()
 
   useEffect(() => {
@@ -68,13 +73,11 @@ export const Table: FC<TableProps> = ({
       }
 
       //  console.log('new object ordr', newObjectOrder)
-
       const newData = showSelectedRows
         ? filterObjsInArr(selectedRowsCopy, Object.keys(newObjectOrder))
         : filterObjsInArr(data, Object.keys(newObjectOrder))
 
       ///  console.log('new DAta??', newData)
-
       const newerData = newData.map((obj) =>
         preferredOrder(obj, Object.keys(newObjectOrder))
       )
@@ -83,13 +86,10 @@ export const Table: FC<TableProps> = ({
     }
   }, [tableHeaders])
 
-  // TODO RowCount
-
   const filterObjsInArr = (arr, selection) => {
     const filteredArray = []
-    arr.forEach((obj) => {
+    arr?.forEach((obj) => {
       const filteredObj = {}
-      // use let
       for (const key in obj) {
         if (selection.includes(key)) {
           filteredObj[key] = obj[key]
@@ -159,7 +159,7 @@ export const Table: FC<TableProps> = ({
           {({ width, height }) => (
             <Grid
               data={tableData}
-              rowCount={tableData.length}
+              rowCount={rowCount || tableData.length}
               rowHeight={rowHeight}
               columnCount={columnCount}
               columnWidthsArr={columnWidthsArr}
@@ -167,7 +167,7 @@ export const Table: FC<TableProps> = ({
               height={height}
               setSelectedRows={setSelectedRows}
               selectedRows={selectedRows}
-              //     onClick={onClick}
+              onClick={onClick}
             />
           )}
         </AutoSizer>

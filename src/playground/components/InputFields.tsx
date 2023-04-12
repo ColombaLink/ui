@@ -114,7 +114,6 @@ export const InputFields = () => {
             type: 'json',
           },
         },
-
         {
           props: {
             pattern: '^([a-z0-9]{4,7})$',

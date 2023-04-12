@@ -149,6 +149,7 @@ export const DateInput: FC<DateInputProps> = ({
           left: 10,
         }}
       />
+
       <StyledDateInput
         ref={inputRef}
         value={value}
@@ -203,7 +204,6 @@ export const DateInput: FC<DateInputProps> = ({
           setIsFocus(false)
         }}
       />
-
       {showDatePicker && (
         <DatePicker
           inputValue={value}

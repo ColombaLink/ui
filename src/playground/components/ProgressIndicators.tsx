@@ -1,5 +1,5 @@
 import React from 'react'
-import { InfiniteList } from '~/components/InfiniteList'
+// import { InfiniteList } from '~/components/InfiniteList'
 import { ProgressBar } from '~/components/ProgressBar'
 import ComponentViewer from '../ComponentViewer'
 
@@ -36,7 +36,7 @@ export const ProgressIndicators = () => {
           },
         ]}
       />
-      <InfiniteList />
+      {/* <InfiniteList  /> */}
     </div>
   )
 }

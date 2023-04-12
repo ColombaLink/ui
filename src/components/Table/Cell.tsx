@@ -17,7 +17,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: 6,
         ...style,
       }}
-      // onClick={(e) => data.onClick(e)}
+      onClick={(e) => data.onClick(e, data.data[rowIndex])}
     >
       {columnIndex === 0 && (
         <Checkbox
