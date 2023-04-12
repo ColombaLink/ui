@@ -43,18 +43,18 @@ export const Log: FC<LogTypes> = ({
       scrollToBottom()
       setBackwardScrollCounter(0)
     }
-  }, [data.length])
+  }, [data?.length])
 
-  const newLines = data.map(
+  const newLines = data?.map(
     (item) => `${item.time} [${item.label}] ${item.msg}`
   )
   const lineBreakPoint = Math.ceil(WIDTH / LETTER_WIDTH)
-  const rowHeights = newLines.map(
+  const rowHeights = newLines?.map(
     (line) => Math.ceil(line.length / lineBreakPoint) * 20
   )
 
-  const scrollToBottom = () => listRef?.current.scrollToItem(data.length)
-  const getItemSize = (index) => rowHeights[index]
+  const scrollToBottom = () => listRef?.current.scrollToItem(data?.length)
+  const getItemSize = (index) => rowHeights && rowHeights[index]
 
   const Row = ({ index, style }) => (
     <styled.div
@@ -111,7 +111,7 @@ export const Log: FC<LogTypes> = ({
         }}
         ref={listRef}
         height={HEIGHT}
-        itemCount={newLines.length}
+        itemCount={newLines?.length}
         itemSize={getItemSize}
         width={WIDTH}
         // style={{ scrollBehavior: 'smooth' }}

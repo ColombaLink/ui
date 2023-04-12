@@ -179,6 +179,8 @@ type InputType =
   | 'number'
   | 'date'
   | 'json'
+  | 'multiline'
+  | 'digest'
 
 type OnChange<T extends InputType> = (
   value: T extends 'number' ? number : T extends 'date' ? number : string
@@ -187,15 +189,10 @@ type OnChange<T extends InputType> = (
 export const Input = <T extends InputType>({
   autoFocus,
   bg,
-  colorInput,
   pattern,
-  jsonInput,
-  passwordInput,
-  markdownInput,
   defaultValue,
   description,
   descriptionBottom,
-  digest,
   disabled,
   error,
   forceSuggestion,
@@ -207,7 +204,6 @@ export const Input = <T extends InputType>({
   label,
   large,
   maxChars,
-  multiline,
   name,
   noInterrupt,
   onChange: onChangeProp,
@@ -224,12 +220,7 @@ export const Input = <T extends InputType>({
   onChange?: OnChange<T>
   style?: CSSProperties
   label?: ReactNode
-  colorInput?: boolean
   pattern?: string
-  jsonInput?: boolean
-  passwordInput?: boolean
-  markdownInput?: boolean
-  digest?: boolean
   description?: string
   descriptionBottom?: string
   value?: string | number
@@ -239,7 +230,6 @@ export const Input = <T extends InputType>({
   defaultValue?: string | number
   placeholder?: ReactNode
   maxChars?: number
-  multiline?: boolean
   bg?: boolean
   ghost?: boolean
   autoFocus?: boolean
@@ -263,7 +253,7 @@ export const Input = <T extends InputType>({
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('error')
   const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
   if (maxChars === -1) {
@@ -371,250 +361,238 @@ export const Input = <T extends InputType>({
       errorMessage={errorMessage}
       disabled={disabled}
     >
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 6, marginLeft: 4 }}
+      />
+      {value !== '' && indent && type !== 'json' && (
+        <Button
+          ghost
+          onClick={() => {
+            // @ts-ignore
+            onChangeProp?.('')
+            setValue('')
+          }}
+          disabled={disabled}
+          style={{
+            height: 'fit-content',
+            marginTop: description ? 0 : -6,
+          }}
+        >
+          Clear
+        </Button>
+      )}
+      {/* JSON Input CLEAR BUTTON */}
+      {indent && type === 'json' && showJSONClearButton && (
+        <Button
+          ghost
+          onClick={() => {
+            setShowJSONClearButton(false)
+            setValue('')
+            // @ts-ignore
+            onChangeProp?.('')
+            setClearValue(true)
+            setErrorMessage('')
+          }}
+          style={{ height: 'fit-content' }}
+          disabled={disabled}
+        >
+          Clear
+        </Button>
+      )}
+
       <div
         style={{
-          width: '100%',
+          position: 'relative',
+          color: color('text'),
+          border: ghost
+            ? `2px solid transparent`
+            : focused
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
+          borderRadius: 10,
         }}
       >
+        {type !== 'json' && type !== 'markdown' && type !== 'multiline'
+          ? renderOrCreateElement(icon, {
+              style: {
+                position: 'absolute',
+                left: 12,
+                top: '50%',
+                transform: 'translate3d(0,-50%,0)',
+                pointerEvents: 'none',
+              },
+            })
+          : null}
+
+        {type === 'color' ? (
+          <ColorInput
+            onChange={(e) => {
+              onChangeProp?.(e.target.value)
+            }}
+            disabled={disabled}
+            value={value}
+            style={{ width: '100%' }}
+          />
+        ) : type === 'json' ? (
+          <JsonInput
+            {...props}
+            setErrorMessage={setErrorMessage}
+            value={value}
+            onChange={onChange}
+            setShowJSONClearButton={setShowJSONClearButton}
+            setClearValue={setClearValue}
+            clearValue={clearValue}
+            disabled={disabled}
+          />
+        ) : type === 'markdown' ? (
+          <MarkdownInput
+            {...props}
+            value={value}
+            onChange={onChange}
+            disabled={disabled}
+          />
+        ) : type === 'multiline' ? (
+          <Multi {...props} />
+        ) : type === 'digest' ? (
+          <DigestInput
+            {...props}
+            disabled={!!valueProp}
+            onChange={onChange}
+            value={value}
+          />
+        ) : type === 'password' ? (
+          <PasswordInput
+            {...props}
+            icon={icon}
+            large={large}
+            disabled={!!valueProp}
+            onChange={onChange}
+            value={value}
+          />
+        ) : (
+          <MaybeSuggest
+            focused={focused}
+            forceSuggestion={forceSuggestion}
+            suggest={suggest}
+            value={value}
+            paddingLeft={paddingLeft}
+            paddingRight={paddingRight}
+            fontSize={fontSize}
+            fontWeight={fontWeight}
+            onChange={onChange}
+          >
+            <Single
+              type="text"
+              {...props}
+              // safari fix maybe it breaks smth
+              onKeyDown={(e) => {
+                // now you can remove the zero in input fields
+                if (e.key === 'Backspace' && value === 0) {
+                  setValue('')
+                }
+                // for some reason pressing . in number input
+                // changed the value to one
+                if (e.key === '.' && type === 'number') {
+                  e.preventDefault()
+                }
+                props.onKeyDown?.(e)
+              }}
+              style={props.style}
+              // @ts-ignore
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+            />
+          </MaybeSuggest>
+        )}
+        {type === 'number' && !disabled && (
+          <div
+            style={{
+              position: 'absolute',
+              right: 8,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              display: 'flex',
+              flexDirection: 'column',
+              width: 15,
+              height: 20,
+            }}
+          >
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderTopLeftRadius: 5,
+                borderTopRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('border'),
+                  },
+                },
+              }}
+              onClick={() => {
+                onChange({ target: { value: String(+value + 1) } })
+              }}
+            >
+              <ChevronUpIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+            <styled.div
+              style={{
+                border: `1px solid ${color('border')}`,
+                borderBottomLeftRadius: 5,
+                borderBottomRightRadius: 5,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 10,
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('border'),
+                  },
+                },
+              }}
+              onClick={() => {
+                onChange({ target: { value: String(+value - 1) } })
+              }}
+            >
+              <ChevronDownIcon size={9} strokeWidth={2.5} />
+            </styled.div>
+          </div>
+        )}
+        {type !== 'json' && type !== 'markdown' && type !== 'multiline'
+          ? renderOrCreateElement(iconRight, {
+              style: {
+                position: 'absolute',
+                right: 12,
+                top: '50%',
+                transform: 'translate3d(0,-50%,0)',
+                pointerEvents: 'none',
+              },
+            })
+          : null}
+      </div>
+
+      {maxChars && (
         <div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
+            marginBottom: 4,
+            marginTop: 8,
           }}
         >
-          <Label
-            label={label}
-            description={description}
-            style={{ marginBottom: 6, marginLeft: 4 }}
-          />
-          {value !== '' && indent && !jsonInput && (
-            <Button
-              ghost
-              onClick={() => {
-                // @ts-ignore
-                onChangeProp?.('')
-                setValue('')
-              }}
-              disabled={disabled}
-              style={{
-                height: 'fit-content',
-                marginTop: description ? 0 : -6,
-              }}
-            >
-              Clear
-            </Button>
-          )}
-          {/* JSON Input CLEAR BUTTON */}
-          {indent && jsonInput && showJSONClearButton && (
-            <Button
-              ghost
-              onClick={() => {
-                setShowJSONClearButton(false)
-                setValue('')
-                // @ts-ignore
-                onChangeProp?.('')
-                setClearValue(true)
-                setErrorMessage('')
-              }}
-              style={{ height: 'fit-content' }}
-              disabled={disabled}
-            >
-              Clear
-            </Button>
-          )}
+          <Text color="text2" weight={400}>
+            {value.length} characters
+          </Text>
+          <Text color="text2" weight={400}>
+            Max {maxChars} characters
+          </Text>
         </div>
-        <div
-          style={{
-            position: 'relative',
-            color: color('text'),
-            border: ghost
-              ? `2px solid transparent`
-              : focused
-              ? `2px solid rgba(44, 60, 234, 0.2)`
-              : `2px solid transparent`,
-            borderRadius: 10,
-          }}
-        >
-          {!jsonInput && !markdownInput && !multiline
-            ? renderOrCreateElement(icon, {
-                style: {
-                  position: 'absolute',
-                  left: 12,
-                  top: '50%',
-                  transform: 'translate3d(0,-50%,0)',
-                  pointerEvents: 'none',
-                },
-              })
-            : null}
-
-          {colorInput ? (
-            <ColorInput
-              onChange={(e) => {
-                onChangeProp?.(e.target.value)
-              }}
-              disabled={disabled}
-              value={value}
-              style={{ width: '100%' }}
-            />
-          ) : jsonInput || type === 'json' ? (
-            <JsonInput
-              {...props}
-              setErrorMessage={setErrorMessage}
-              value={value}
-              onChange={onChange}
-              setShowJSONClearButton={setShowJSONClearButton}
-              setClearValue={setClearValue}
-              clearValue={clearValue}
-              disabled={disabled}
-            />
-          ) : markdownInput ? (
-            <MarkdownInput
-              {...props}
-              value={value}
-              onChange={onChange}
-              disabled={disabled}
-            />
-          ) : multiline ? (
-            <Multi {...props} />
-          ) : digest ? (
-            <DigestInput
-              {...props}
-              disabled={!!valueProp}
-              onChange={onChange}
-              value={value}
-            />
-          ) : passwordInput ? (
-            <PasswordInput
-              {...props}
-              icon={icon}
-              large={large}
-              disabled={!!valueProp}
-              onChange={onChange}
-              value={value}
-            />
-          ) : (
-            <MaybeSuggest
-              focused={focused}
-              forceSuggestion={forceSuggestion}
-              suggest={suggest}
-              value={value}
-              paddingLeft={paddingLeft}
-              paddingRight={paddingRight}
-              fontSize={fontSize}
-              fontWeight={fontWeight}
-              onChange={onChange}
-            >
-              <Single
-                type="text"
-                {...props}
-                // safari fix maybe it breaks smth
-                onKeyDown={(e) => {
-                  // now you can remove the zero in input fields
-                  if (e.key === 'Backspace' && value === 0) {
-                    setValue('')
-                  }
-                  // for some reason pressing . in number input
-                  // changed the value to one
-                  if (e.key === '.' && type === 'number') {
-                    e.preventDefault()
-                  }
-                  props.onKeyDown?.(e)
-                }}
-                style={props.style}
-                // @ts-ignore
-                onFocus={() => setFocused(true)}
-                onBlur={() => setFocused(false)}
-              />
-            </MaybeSuggest>
-          )}
-          {type === 'number' && !disabled && (
-            <div
-              style={{
-                position: 'absolute',
-                right: 8,
-                top: '50%',
-                transform: 'translate3d(0,-50%,0)',
-                display: 'flex',
-                flexDirection: 'column',
-                width: 15,
-                height: 20,
-              }}
-            >
-              <styled.div
-                style={{
-                  border: `1px solid ${color('border')}`,
-                  borderTopLeftRadius: 5,
-                  borderTopRightRadius: 5,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 10,
-                  '@media (hover: hover)': {
-                    '&:hover': {
-                      backgroundColor: color('border'),
-                    },
-                  },
-                }}
-                onClick={() => {
-                  onChange({ target: { value: String(+value + 1) } })
-                }}
-              >
-                <ChevronUpIcon size={9} strokeWidth={2.5} />
-              </styled.div>
-              <styled.div
-                style={{
-                  border: `1px solid ${color('border')}`,
-                  borderBottomLeftRadius: 5,
-                  borderBottomRightRadius: 5,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 10,
-                  '@media (hover: hover)': {
-                    '&:hover': {
-                      backgroundColor: color('border'),
-                    },
-                  },
-                }}
-                onClick={() => {
-                  onChange({ target: { value: String(+value - 1) } })
-                }}
-              >
-                <ChevronDownIcon size={9} strokeWidth={2.5} />
-              </styled.div>
-            </div>
-          )}
-          {!jsonInput && !markdownInput && !multiline
-            ? renderOrCreateElement(iconRight, {
-                style: {
-                  position: 'absolute',
-                  right: 12,
-                  top: '50%',
-                  transform: 'translate3d(0,-50%,0)',
-                  pointerEvents: 'none',
-                },
-              })
-            : null}
-        </div>
-
-        {maxChars && (
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: 4,
-              marginTop: 8,
-            }}
-          >
-            <Text color="text2" weight={400}>
-              {value.length} characters
-            </Text>
-            <Text color="text2" weight={400}>
-              Max {maxChars} characters
-            </Text>
-          </div>
-        )}
-      </div>
+      )}
     </InputWrapper>
   )
 }
