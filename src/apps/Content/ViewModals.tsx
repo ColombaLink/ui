@@ -142,7 +142,7 @@ export const EditViewModal: FC<EditViewProps> = (props) => {
         width: '925px',
       }}
     >
-      <EditViewModal {...props} />
+      <EditViewModalBody {...props} />
     </Dialog>
   )
 }

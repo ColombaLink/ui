@@ -13,8 +13,6 @@ export const useViews = (): {
     'based:observe-views'
   )
 
-  console.log(views)
-
   const { schema, loading: loadingSchema } = useSchema() // TODO: add multi schema option (using oriigns)
 
   if (!loading && !loadingSchema) {
