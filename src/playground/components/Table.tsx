@@ -1,0 +1,50 @@
+import React from 'react'
+import { Table as TableComponent } from '../..'
+import ComponentViewer from '../ComponentViewer'
+
+global.genTableData = (): {
+  title?: string
+  subtitle?: string
+  description?: string
+  author?: string
+  id?: string
+}[] => {
+  return Array.from(Array(1e4)).map((_, i) => ({
+    title: `title ${i + 1}`,
+    subtitle: `subtitle ${i + 1}`,
+    description: Math.random() > 0.5 ? `lorem ipsum ${i + 1}` : undefined,
+    author: `mar${i + 1}o`,
+    id: `xxxx${i}`,
+  }))
+}
+
+export const Table = () => {
+  return (
+    <>
+      <ComponentViewer
+        component={TableComponent}
+        propsName="TableProps"
+        examples={[
+          {
+            code: `import { Table } from '@based/ui'
+
+const headers = [
+  { key: 'id', label: 'ID' },
+  { key: 'title', label: 'Name' },
+  { key: 'subtitle', label: 'Subtitle' },
+  { key: 'author', label: 'Author' },
+  { key: 'description', label: 'Description' },
+]
+
+const handleClick = (e, rowData) => {
+  console.log('Clicked on row:', rowData)
+}
+
+<Table data={genTableData()}  headers={headers} onClick={handleClick}  />
+            `,
+          },
+        ]}
+      />
+    </>
+  )
+}

@@ -22,12 +22,10 @@ type DatePickerProps = {
 
 const StyledDatePickerBox = styled('div', {
   background: color('background'),
-  position: 'absolute',
   border: `1px solid ${color('border')}`,
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
   width: 280,
-  zIndex: 1,
   boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
 })
 
@@ -61,11 +59,6 @@ export const DatePicker = ({
   focusOnEndDate,
 }: DatePickerProps) => {
   const dateObj = new Date()
-
-  // console.log('TILL VALUE UIT DE PICKER -->', tillValue)
-  // console.log('from VALUE UIT DE PICKER', fromValue)
-
-  // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
     '',
@@ -96,13 +89,11 @@ export const DatePicker = ({
   const [fromDay, setFromDay] = useState(+fromValue?.split('/')[0])
   const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
   const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
-  // console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
 
   // TILL
   const [tillDay, setTillDay] = useState(+tillValue?.split('/')[0])
   const [tillMonth, setTillMonth] = useState(+tillValue?.split('/')[1])
   const [tillYear, setTillYear] = useState(+tillValue?.split('/')[2])
-  // console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
 
   const [hoverDay, setHoverDay] = useState(null)
   const [hoverMonth, setHoverMonth] = useState(null)
@@ -130,13 +121,12 @@ export const DatePicker = ({
       makeDateForComparison(year, month, day) <
       makeDateForComparison(fromYear, fromMonth, fromDay)
     ) {
-      //  console.log('fire fire 🍟')
       setFromDay(day)
       setFromMonth(month)
       setFromYear(year)
       setFromValue(`${day}/${month}/${year}`)
 
-      //  close the datepicker and switch to the from date field picker
+      // close the datepicker and switch to the from date field picker
       if (focusOnEndDate) {
         setShowDatePicker(false)
       }
@@ -149,14 +139,12 @@ export const DatePicker = ({
       makeDateForComparison(year, month, day) >
         makeDateForComparison(tillYear, tillMonth, tillDay)
     ) {
-      //  console.log('fire fire 🌭')
-
       setTillDay(day)
       setTillMonth(month)
       setTillYear(year)
       setTillValue(`${day}/${month}/${year}`)
 
-      //  close the datepicker and switch to the from date field picker
+      // close the datepicker and switch to the from date field picker
       if (tillValue && focusOnBeginDate) {
         setShowDatePicker(false)
       }
@@ -229,7 +217,6 @@ export const DatePicker = ({
 
     if (selectedMonth === +'01') {
       if (selectedDay) {
-        console.log('selectedDay', selectedDay)
         changeHandler(selectedYear - 1, 12, selectedDay)
       } else {
         // fire an Nan error for day
@@ -385,237 +372,225 @@ export const DatePicker = ({
     }
   }
 
-  // const isRangedBiggerHoverDay = (year, month, day) => {
-  //   if (isDateRange) {
-  //     return (
-  //       makeDateForComparison(year, month, day) >
-  //         makeDateForComparison(fromYear, fromMonth, fromDay) &&
-  //       makeDateForComparison(year, month, day) <
-  //         makeDateForComparison(hoverYear, hoverMonth, hoverDay)
-  //     )
-  //   }
-  // }
-
   return (
-    <styled.div
-      style={{ width: '100vw', height: '100vh', position: 'absolute' }}
-    >
-      <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '12px 16px',
-          }}
-        >
-          <Text weight={400}>
-            {months[+inputValue?.split('/')[1]]} {selectedYear}
-          </Text>
-
-          <div style={{ display: 'flex', gap: 16 }}>
-            <StyledChevronHolders onClick={oneMonthBack}>
-              <ChevronUpIcon />
-            </StyledChevronHolders>
-            <StyledChevronHolders onClick={oneMonthForward}>
-              <ChevronDownIcon />
-            </StyledChevronHolders>
-          </div>
-        </div>
-
-        {/* days column */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 24,
-            textAlign: 'center',
-            color: 'grey',
-            padding: '0px 20px',
-            justifyContent: 'center',
-          }}
-        >
-          <div>M</div>
-          <div>T</div>
-          <div>W</div>
-          <div>T</div>
-          <div>F</div>
-          <div>S</div>
-          <div>S</div>
-        </div>
-
-        <div style={{ padding: '10px 20px' }}>
-          {daysArr.map((val, i) =>
-            val === 'x' ? (
-              <div
-                key={i}
-                style={{
-                  width: 26,
-                  height: 26,
-                  margin: 4,
-                  display: 'inline-flex',
-                  borderRadius: 4,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  opacity: 0,
-                }}
-              >
-                .
-              </div>
-            ) : (
-              <styled.div
-                style={{
-                  border:
-                    val.day === presentDay &&
-                    selectedMonth === currentMonth + 1 &&
-                    selectedYear === currentYear
-                      ? `1px solid ${color('accent')}`
-                      : '',
-                  background:
-                    val.day === selectedDay ||
-                    isFromDay(val.year, val.month, val.day) ||
-                    isTillDay(val.year, val.month, val.day) ||
-                    isHoveredDay(val.year, val.month, val.day)
-                      ? color('accent')
-                      : isRangedDay(val.year, val.month, val.day) ||
-                        isRangedHoverDay(val.year, val.month, val.day)
-                      ? color('lightaccent')
-                      : '',
-                  color:
-                    val.day === selectedDay ||
-                    isFromDay(val.year, val.month, val.day) ||
-                    isTillDay(val.year, val.month, val.day) ||
-                    isHoveredDay(val.year, val.month, val.day)
-                      ? color('background')
-                      : color('text'),
-                  borderRadius:
-                    isHoveredDay(val.year, val.month, val.day) &&
-                    isRangedSmallerHoverDay(val.year, val.month, val.day)
-                      ? '0px 4px 4px 0px'
-                      : isFromDay(val.year, val.month, val.day) &&
-                        !isRangedSmallerHoverDay(val.year, val.month, val.day)
-                      ? '4px 0px 0px 4px'
-                      : isTillDay(val.year, val.month, val.day)
-                      ? '0px 4px 4px 0px'
-                      : isRangedDay(val.year, val.month, val.day) ||
-                        isRangedHoverDay(val.year, val.month, val.day)
-                      ? 0
-                      : 4,
-
-                  width:
-                    isFromDay(val.year, val.month, val.day) ||
-                    isTillDay(val.year, val.month, val.day)
-                      ? 32
-                      : isRangedDay(val.year, val.month, val.day) ||
-                        isRangedHoverDay(val.year, val.month, val.day)
-                      ? 34
-                      : 26,
-                  height: 26,
-                  margin: 4,
-                  marginLeft:
-                    isRangedDay(val.year, val.month, val.day) ||
-                    isRangedHoverDay(val.year, val.month, val.day) ||
-                    isTillDay(val.year, val.month, val.day)
-                      ? 0
-                      : isFromDay(val.year, val.month, val.day)
-                      ? 2
-                      : 4,
-                  marginRight:
-                    isRangedDay(val.year, val.month, val.day) ||
-                    isRangedHoverDay(val.year, val.month, val.day) ||
-                    isFromDay(val.year, val.month, val.day)
-                      ? 0
-                      : isTillDay(val.year, val.month, val.day)
-                      ? 1
-                      : 4,
-
-                  textAlign: 'center',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  '@media (hover: hover)': {
-                    '&:hover': {
-                      background:
-                        val.day === selectedDay
-                          ? color('accent')
-                          : !isDateRange && color('border'),
-                      cursor: 'pointer',
-                    },
-                  },
-                }}
-                onMouseOver={() => {
-                  if (isDateRange) {
-                    setHoverDay(val.day)
-                    setHoverMonth(val.month)
-                    setHoverYear(val.year)
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (isDateRange) {
-                    setHoverDay(null)
-                    setHoverMonth(null)
-                    setHoverYear(null)
-                  }
-                }}
-                key={i}
-                onClick={() => {
-                  changeHandler(selectedYear, selectedMonth, val.day)
-                  // now close it
-                  if (!isDateRange) {
-                    setShowDatePicker(false)
-                    setFocused(false)
-                  }
-                  if (focusOnBeginDate) {
-                    setFocusOnBeginDate(false)
-                    setShowDatePicker(false)
-                    setFocusOnEndDate(true)
-                  } else if (focusOnEndDate) {
-                    setShowDatePicker(false)
-                    setFocused(false)
-                    setFocusOnEndDate(false)
-                  }
-                }}
-              >
-                {val.day}
-              </styled.div>
-            )
-          )}
-        </div>
-
-        <div style={{ borderBottom: `1px solid ${color('border')}` }} />
-        <styled.div
-          style={{
-            padding: '12px 16px',
-            '@media (hover: hover)': {
-              '& div': {
-                '&:hover': { cursor: 'pointer' },
-              },
-            },
-          }}
-        >
-          <Text weight={400} onClick={todayHandler} space="4px">
-            Today
-          </Text>
-          <Text weight={400} space="4px" onClick={nextDay} style={{}}>
-            Select next date
-          </Text>
-          <Text weight={400} space="4px" onClick={prevDay} style={{}}>
-            Select previous date
-          </Text>
-        </styled.div>
-        <div style={{ borderBottom: `1px solid ${color('border')}` }} />
-
-        <Text
-          style={{ padding: '8px 16px', cursor: 'pointer' }}
-          weight={400}
-          onClick={() => {
-            clearHandler()
-            setShowDatePicker(false)
-            setFocused(false)
-          }}
-        >
-          Clear
+    // <styled.div
+    //   style={{ width: '100vw', height: '100vh', position: 'absolute' }}
+    // >
+    <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '12px 16px',
+        }}
+      >
+        <Text weight={400}>
+          {months[+inputValue?.split('/')[1]]} {selectedYear}
         </Text>
-      </StyledDatePickerBox>
-    </styled.div>
+
+        <div style={{ display: 'flex', gap: 16 }}>
+          <StyledChevronHolders onClick={oneMonthBack}>
+            <ChevronUpIcon />
+          </StyledChevronHolders>
+          <StyledChevronHolders onClick={oneMonthForward}>
+            <ChevronDownIcon />
+          </StyledChevronHolders>
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          gap: 24,
+          textAlign: 'center',
+          color: 'grey',
+          padding: '0px 20px',
+          justifyContent: 'center',
+        }}
+      >
+        <div>M</div>
+        <div>T</div>
+        <div>W</div>
+        <div>T</div>
+        <div>F</div>
+        <div>S</div>
+        <div>S</div>
+      </div>
+
+      <div style={{ padding: '10px 20px' }}>
+        {daysArr.map((val, i) =>
+          val === 'x' ? (
+            <div
+              key={i}
+              style={{
+                width: 26,
+                height: 26,
+                margin: 4,
+                display: 'inline-flex',
+                borderRadius: 4,
+                alignItems: 'center',
+                justifyContent: 'center',
+                opacity: 0,
+              }}
+            >
+              .
+            </div>
+          ) : (
+            <styled.div
+              style={{
+                border:
+                  val.day === presentDay &&
+                  selectedMonth === currentMonth + 1 &&
+                  selectedYear === currentYear
+                    ? `1px solid ${color('accent')}`
+                    : '',
+                background:
+                  val.day === selectedDay ||
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day) ||
+                  isHoveredDay(val.year, val.month, val.day)
+                    ? color('accent')
+                    : isRangedDay(val.year, val.month, val.day) ||
+                      isRangedHoverDay(val.year, val.month, val.day)
+                    ? color('lightaccent')
+                    : '',
+                color:
+                  val.day === selectedDay ||
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day) ||
+                  isHoveredDay(val.year, val.month, val.day)
+                    ? color('background')
+                    : color('text'),
+                borderRadius:
+                  isHoveredDay(val.year, val.month, val.day) &&
+                  isRangedSmallerHoverDay(val.year, val.month, val.day)
+                    ? '0px 4px 4px 0px'
+                    : isFromDay(val.year, val.month, val.day) &&
+                      !isRangedSmallerHoverDay(val.year, val.month, val.day)
+                    ? '4px 0px 0px 4px'
+                    : isTillDay(val.year, val.month, val.day)
+                    ? '0px 4px 4px 0px'
+                    : isRangedDay(val.year, val.month, val.day) ||
+                      isRangedHoverDay(val.year, val.month, val.day)
+                    ? 0
+                    : 4,
+
+                width:
+                  isFromDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
+                    ? 32
+                    : isRangedDay(val.year, val.month, val.day) ||
+                      isRangedHoverDay(val.year, val.month, val.day)
+                    ? 34
+                    : 26,
+                height: 26,
+                margin: 4,
+                marginLeft:
+                  isRangedDay(val.year, val.month, val.day) ||
+                  isRangedHoverDay(val.year, val.month, val.day) ||
+                  isTillDay(val.year, val.month, val.day)
+                    ? 0
+                    : isFromDay(val.year, val.month, val.day)
+                    ? 2
+                    : 4,
+                marginRight:
+                  isRangedDay(val.year, val.month, val.day) ||
+                  isRangedHoverDay(val.year, val.month, val.day) ||
+                  isFromDay(val.year, val.month, val.day)
+                    ? 0
+                    : isTillDay(val.year, val.month, val.day)
+                    ? 1
+                    : 4,
+
+                textAlign: 'center',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    background:
+                      val.day === selectedDay
+                        ? color('accent')
+                        : !isDateRange && color('border'),
+                    cursor: 'pointer',
+                  },
+                },
+              }}
+              onMouseOver={() => {
+                if (isDateRange) {
+                  setHoverDay(val.day)
+                  setHoverMonth(val.month)
+                  setHoverYear(val.year)
+                }
+              }}
+              onMouseLeave={() => {
+                if (isDateRange) {
+                  setHoverDay(null)
+                  setHoverMonth(null)
+                  setHoverYear(null)
+                }
+              }}
+              key={i}
+              onClick={() => {
+                changeHandler(selectedYear, selectedMonth, val.day)
+                // now close it
+                if (!isDateRange) {
+                  setShowDatePicker(false)
+                  setFocused(false)
+                }
+                if (focusOnBeginDate) {
+                  setFocusOnBeginDate(false)
+                  setShowDatePicker(false)
+                  setFocusOnEndDate(true)
+                } else if (focusOnEndDate) {
+                  setShowDatePicker(false)
+                  setFocused(false)
+                  setFocusOnEndDate(false)
+                }
+              }}
+            >
+              {val.day}
+            </styled.div>
+          )
+        )}
+      </div>
+
+      <div style={{ borderBottom: `1px solid ${color('border')}` }} />
+      <styled.div
+        style={{
+          padding: '12px 16px',
+          '@media (hover: hover)': {
+            '& div': {
+              '&:hover': { cursor: 'pointer' },
+            },
+          },
+        }}
+      >
+        <Text weight={400} onClick={todayHandler} space="4px">
+          Today
+        </Text>
+        <Text weight={400} space="4px" onClick={nextDay} style={{}}>
+          Select next date
+        </Text>
+        <Text weight={400} space="4px" onClick={prevDay} style={{}}>
+          Select previous date
+        </Text>
+      </styled.div>
+      <div style={{ borderBottom: `1px solid ${color('border')}` }} />
+
+      <Text
+        style={{ padding: '8px 16px', cursor: 'pointer' }}
+        weight={400}
+        onClick={() => {
+          clearHandler()
+          setShowDatePicker(false)
+          setFocused(false)
+        }}
+      >
+        Clear
+      </Text>
+    </StyledDatePickerBox>
+    // </styled.div>
   )
 }
