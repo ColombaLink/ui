@@ -1,11 +1,11 @@
 import React from 'react'
-import { Input, Form, Button, CheckIcon } from '~'
+import { Input, Form as FormComponent, Button, CheckIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const Forms = () => {
+export const Form = () => {
   return (
     <ComponentViewer
-      component={Form}
+      component={FormComponent}
       propsName="FormProps"
       examples={[
         {

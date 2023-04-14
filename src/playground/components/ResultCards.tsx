@@ -1,12 +1,12 @@
 import React from 'react'
-import { ResultCard } from '~/components/ResultCard'
+import { ResultCard as ResultCardComponent } from '~/components/ResultCard'
 import ComponentViewer from '../ComponentViewer'
 
-export const ResultCards = () => {
+export const ResultCard = () => {
   return (
     <div>
       <ComponentViewer
-        component={ResultCard}
+        component={ResultCardComponent}
         propsName="ResultCardProps"
         examples={[
           {

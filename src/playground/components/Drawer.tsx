@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Drawer } from '~/components/Drawer'
+import { Drawer as DrawerComponent } from '~'
 
 import ComponentViewer from '../ComponentViewer'
 
@@ -15,11 +15,11 @@ import ComponentViewer from '../ComponentViewer'
 //       <div>I am a drawer</div>
 //     </Drawer>`
 
-export const Drawers = () => {
+export const Drawer = () => {
   return (
     <div>
       <ComponentViewer
-        component={Drawer}
+        component={DrawerComponent}
         propsName="DrawerProps"
         examples={[
           {

@@ -1,12 +1,12 @@
 import React from 'react'
-import { ValueSlider } from '~/components/ValueSlider'
+import { Slider as SliderComponent } from '~/components/Slider'
 import ComponentViewer from '../ComponentViewer'
 
-export const Sliders = () => {
+export const Slider = () => {
   return (
     <ComponentViewer
-      component={ValueSlider}
-      propsName="ValueSliderProps"
+      component={SliderComponent}
+      propsName="SliderProps"
       examples={[
         {
           props: {

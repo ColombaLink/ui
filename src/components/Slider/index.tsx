@@ -123,7 +123,7 @@ const getClosestIndex = (
   return 0
 }
 
-type ValueSliderProps = {
+type SliderProps = {
   items?: Items
   max?: number
   min?: number
@@ -142,7 +142,7 @@ type ValueSliderProps = {
   color?: Color
 }
 
-export const ValueSlider: FC<ValueSliderProps> = ({
+export const Slider: FC<SliderProps> = ({
   items,
   onChange,
   max,

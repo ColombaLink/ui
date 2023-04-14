@@ -1,13 +1,13 @@
 import React from 'react'
-import { Label } from '~/components/Label'
+import { Label as LabelComponent } from '~/components/Label'
 import { ErrorIcon } from '~'
 
 import ComponentViewer from '../ComponentViewer'
 
-export const Labels = () => {
+export const Label = () => {
   return (
     <ComponentViewer
-      component={Label}
+      component={LabelComponent}
       propsName="LabelProps"
       examples={[
         {

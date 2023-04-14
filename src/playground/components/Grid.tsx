@@ -1,11 +1,18 @@
 import React from 'react'
-import { Grid, Callout, Card, Thumbnail, StackIcon, CalendarIcon } from '../..'
+import {
+  Grid as GridComponent,
+  Callout,
+  Card,
+  Thumbnail,
+  StackIcon,
+  CalendarIcon,
+} from '../..'
 import ComponentViewer from '../ComponentViewer'
 
-export const Grids = () => {
+export const Grid = () => {
   return (
     <ComponentViewer
-      component={Grid}
+      component={GridComponent}
       propsName="GridProps"
       examples={[
         {

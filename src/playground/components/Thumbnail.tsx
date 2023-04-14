@@ -1,12 +1,12 @@
 import React from 'react'
-import { Thumbnail } from '~/components/Thumbnail'
+import { Thumbnail as ThumbnailComponent } from '~/components/Thumbnail'
 import { AttachmentIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const Thumbnails = () => {
+export const Thumbnail = () => {
   return (
     <ComponentViewer
-      component={Thumbnail}
+      component={ThumbnailComponent}
       propsName="ThumbnailProps"
       examples={[
         {

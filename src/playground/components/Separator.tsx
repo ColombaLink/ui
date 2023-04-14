@@ -1,11 +1,11 @@
 import React from 'react'
-import { Separator } from '~/components/Separator'
+import { Separator as SeparatorComponent } from '~/components/Separator'
 import ComponentViewer from '../ComponentViewer'
 
-export const Separators = () => {
+export const Separator = () => {
   return (
     <ComponentViewer
-      component={Separator}
+      component={SeparatorComponent}
       propsName="SeparatorProps"
       examples={[
         {

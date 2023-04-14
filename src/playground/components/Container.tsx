@@ -15,6 +15,7 @@ export const Container = () => {
               <Input
                 label="Put some"
                 description="For your example purposes."
+                type="text"
               />
             ),
             topLeft: (
@@ -33,7 +34,7 @@ export const Container = () => {
               </Text>
             ),
             topRight: <MoreIcon />,
-            children: <Input label="yes yes" />,
+            children: <Input type="text" label="yes yes" />,
           },
         },
       ]}

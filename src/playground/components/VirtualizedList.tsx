@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { VirtualizedList } from '~/components/VirtualizedList'
+import { VirtualizedList as VirtualizedListComponent } from '~/components/VirtualizedList'
 
-export const VirtualizedLists = () => {
+export const VirtualizedList = () => {
   const listData = [
     { id: 0, label: 'Appkes 0 🍎', icon: 'CheckCircleIcon', checkbox: true },
     { id: 1, label: 'Citroen 1 🍋', icon: 'EyeIcon', checkbox: false },
@@ -29,7 +29,7 @@ export const VirtualizedLists = () => {
 
   return (
     <div style={{ height: 800 }}>
-      <VirtualizedList
+      <VirtualizedListComponent
         items={lijst}
         onDrop={(e, data) => {
           console.info('yo waht-->', e, data)

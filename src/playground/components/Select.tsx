@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select } from '~/components/Select'
+import { Select as SelectComponent } from '~/components/Select'
 import ComponentViewer from '../ComponentViewer'
 
 const ms = `import { MultiSelect } from '@based/ui'
@@ -21,11 +21,11 @@ const ms2 = `import { MultiSelect } from '@based/ui'
   options={['yes','no','for sure']}
 />`
 
-export const Selects = () => {
+export const Select = () => {
   return (
     <>
       <ComponentViewer
-        component={Select}
+        component={SelectComponent}
         propsName="SelectProps"
         examples={[
           {

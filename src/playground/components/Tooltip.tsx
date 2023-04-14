@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Button, Text, Container, Callout, Code, useTooltip } from '~'
+import { Text, Container, Callout, Code, useTooltip } from '~'
 
-export const Tooltips = () => {
+export const Tooltip = () => {
   const tooltipListeners = useTooltip("I'm a tooltip", 'top')
   const tooltipListenersSec = useTooltip("I'm another tooltip", 'right')
 

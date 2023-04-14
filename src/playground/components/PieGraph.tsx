@@ -1,9 +1,9 @@
 import React from 'react'
-import { PieGraph } from '~/components/PieGraph'
+import { PieGraph as PieGraphComponent } from '~/components/PieGraph'
 import { Container, Text } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const PieGraphs = () => {
+export const PieGraph = () => {
   const pieData = [
     {
       label: 'Yes sure if you like ugly shit',
@@ -48,7 +48,7 @@ export const PieGraphs = () => {
   return (
     <div>
       <ComponentViewer
-        component={PieGraph}
+        component={PieGraphComponent}
         propsName="PieGraphProps"
         examples={[
           {

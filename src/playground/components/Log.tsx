@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Log } from '~/components/Log'
+import { Log as LogComponent } from '~/components/Log'
 // import ComponentViewer from '../ComponentViewer'
 import { LoremIpsum } from 'lorem-ipsum'
 
-export const Logs = () => {
+export const Log = () => {
   const typesArr = ['error', 'success', '']
   const lorem = new LoremIpsum({
     sentencesPerParagraph: {
@@ -62,7 +62,7 @@ export const Logs = () => {
   }, [])
 
   return (
-    <Log data={example} width={940} />
+    <LogComponent data={example} width={940} />
     // <ComponentViewer
     //   component={Log}
     //   propsName="LogProps"

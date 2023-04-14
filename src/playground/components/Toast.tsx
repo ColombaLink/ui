@@ -1,5 +1,5 @@
 import React from 'react'
-import { Toast, useToast } from '~/components/Toast'
+import { Toast as ToastComponent, useToast } from '~/components/Toast'
 import { CheckCircleIcon, CloseIcon, EyeIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import ComponentViewer from '../ComponentViewer'
@@ -67,11 +67,11 @@ const CloseAllButton = () => {
   )
 }
 
-export const Toasts = () => {
+export const Toast = () => {
   return (
     <div>
       <ComponentViewer
-        component={Toast}
+        component={ToastComponent}
         propsName="ToastProps"
         examples={[
           {

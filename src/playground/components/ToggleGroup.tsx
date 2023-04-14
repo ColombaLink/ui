@@ -1,8 +1,8 @@
 import React from 'react'
-import { ToggleGroup } from '~/components/ToggleGroup'
+import { ToggleGroup as ToggleGroupComponent } from '~/components/ToggleGroup'
 import ComponentViewer from '../ComponentViewer'
 
-export const ToggleGroups = () => {
+export const ToggleGroup = () => {
   const codeExample = `import { ToggleGroup, AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from '@based/ui'
 
   <ToggleGroup
@@ -18,7 +18,7 @@ export const ToggleGroups = () => {
   return (
     <div>
       <ComponentViewer
-        component={ToggleGroup}
+        component={ToggleGroupComponent}
         propsName="ToggleGroupProps"
         examples={[
           {

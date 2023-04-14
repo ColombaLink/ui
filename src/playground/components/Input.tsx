@@ -1,10 +1,10 @@
 /* eslint-disable no-useless-escape */
 
 import React from 'react'
-import { Input, CheckIcon, EmailIcon } from '~'
+import { Input as InputComponent, CheckIcon, EmailIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const InputFields = () => {
+export const Input = () => {
   return (
     <ComponentViewer
       // propsDef={{
@@ -35,7 +35,7 @@ export const InputFields = () => {
       //   code: 'input type...',
       //   file: '/components/Input/index.tsx',
       // }}
-      component={Input}
+      component={InputComponent}
       propsName="InputProps"
       examples={[
         {

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Page } from '~/components/Page'
+import { Page as PageComponent } from '~/components/Page'
 import ComponentViewer from '../ComponentViewer'
 
-export const Pages = () => {
+export const Page = () => {
   return (
     <div>
       <ComponentViewer
-        component={Page}
+        component={PageComponent}
         propsName="PageProps"
         examples={[
           {

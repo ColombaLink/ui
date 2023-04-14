@@ -1,14 +1,14 @@
 import React from 'react'
 // import { InfiniteList } from '~/components/InfiniteList'
-import { ProgressBar } from '~/components/ProgressBar'
+import { ProgressIndicator as ProgressIndicatorComponent } from '~/components/ProgressIndicator'
 import ComponentViewer from '../ComponentViewer'
 
-export const ProgressIndicators = () => {
+export const ProgressIndicator = () => {
   return (
     <div>
       <ComponentViewer
-        component={ProgressBar}
-        propsName="ProgressBarProps"
+        component={ProgressIndicatorComponent}
+        propsName="ProgressIndicatorProps"
         examples={[
           {
             props: {

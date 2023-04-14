@@ -1,14 +1,14 @@
 import React from 'react'
-import { Topbar } from '~/components/Topbar'
+import { Topbar as TopbarComponent } from '~/components/Topbar'
 import ComponentViewer from '../ComponentViewer'
 import { Breadcrumbs } from '~/components/Breadcrumbs'
 import { Thumbnail } from '~/components/Thumbnail'
 import { StackIcon } from '~/icons'
 
-export const Topbars = () => {
+export const Topbar = () => {
   return (
     <ComponentViewer
-      component={Topbar}
+      component={TopbarComponent}
       propsName="TopbarProps"
       examples={[
         {

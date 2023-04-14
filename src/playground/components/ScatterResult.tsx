@@ -1,9 +1,9 @@
 import React from 'react'
-import { ScatterResult } from '~/components/ScatterResult'
-import ComponentViewer from '../ComponentViewer'
-import { color, spaceToPx } from '~/utils'
+import { ScatterResult as ScatterResultComponent } from '~/components/ScatterResult'
+// import ComponentViewer from '../ComponentViewer'
+import { color } from '~/utils'
 
-export const ScatterResults = () => {
+export const ScatterResult = () => {
   const scatterData = []
 
   for (let i = 100; i > -1; i--) {
@@ -56,7 +56,7 @@ export const ScatterResults = () => {
         ]}
       /> */}
 
-      <ScatterResult
+      <ScatterResultComponent
         header="Cheering scatter"
         yLabel="Mean cheer conversion"
         xLabel="Mean clapping performance per country"
