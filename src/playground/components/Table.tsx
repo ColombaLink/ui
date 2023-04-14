@@ -26,10 +26,16 @@ export const Table = () => {
         propsName="TableProps"
         examples={[
           {
-            code: `import { Table } from '@based/ui'
+            code: `import { Table, Badge } from '@based/ui'
+
+            const Test = () => {
+              return <div>FLAPIIE</div>
+            }
+
+            
 
 const headers = [
-  { key: 'id', label: 'ID' },
+  { key: 'id', label: 'ID', render: Badge },
   { key: 'title', label: 'Name' },
   { key: 'subtitle', label: 'Subtitle' },
   { key: 'author', label: 'Author' },

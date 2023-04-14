@@ -36,6 +36,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
           }}
         />
       )}
+
       <Text>
         {data.data[rowIndex]
           ? data.data[rowIndex][ObjectKeys[columnIndex]]

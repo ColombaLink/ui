@@ -4,6 +4,7 @@ import { styled } from 'inlines'
 import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { renderOrCreateElement } from '~/utils'
 
 type Action = 'delete'
 type OnAction = (items: string[], action: Action) => void
@@ -13,6 +14,7 @@ type TableProps = {
     key: string
     label: string | ReactNode
     showColumnCheckbox?: boolean
+    render?: {}
   }[]
   data: any
   width?: number
@@ -134,6 +136,7 @@ export const Table: FC<TableProps> = ({
 
   return (
     <>
+      todo render Elements: {renderOrCreateElement(headers[0].render)}
       {showSelectedRows || selectedRows.length > 0 ? (
         <TableSelectionActions
           selectedRows={selectedRows}
@@ -153,7 +156,6 @@ export const Table: FC<TableProps> = ({
           tableData={tableData}
         />
       )}
-
       <styled.div style={{ minHeight: height, maxWidth: width }}>
         <AutoSizer>
           {({ width, height }) => (

@@ -104,22 +104,19 @@ export const DatePicker = ({
 
   const changeHandler = (year, month, day) => {
     // TODO yves this still fucks up
-    if (day < 10) {
-      day = `0${day}`
-      setSelectedDay(day)
-    } else {
-      setSelectedDay(day)
-    }
-    if (month < 10 || +month < 10) {
-      console.log('what>>', typeof month)
-      if (typeof month === 'string' && month.length < 2) {
-        month = `0${month}`
-      }
+    // if (day < 10) {
+    //   day = `0${day}`
+    //   setSelectedDay(day)
+    // } else {
+    setSelectedDay(day)
 
+    if (month < 10) {
+      month = `0${month}`
       setSelectedMonth(month)
     } else {
       setSelectedMonth(month)
     }
+
     setSelectedYear(year)
 
     // if you press before the from date
@@ -221,12 +218,13 @@ export const DatePicker = ({
       setFocusOnEndDate(true)
     }
 
-    if (selectedMonth === +'01') {
+    // ts-ignore
+    if (selectedMonth === '01') {
       if (selectedDay) {
-        changeHandler(selectedYear - 1, 12, selectedDay)
+        changeHandler(selectedYear - 1, '12', selectedDay)
       } else {
         // fire an Nan error for day
-        changeHandler(selectedYear - 1, 12, +'-X')
+        changeHandler(selectedYear - 1, '12', +'-X')
       }
     } else {
       changeHandler(selectedYear, selectedMonth - 1, selectedDay)
@@ -236,7 +234,7 @@ export const DatePicker = ({
     if (selectedMonth === 12) {
       changeHandler(selectedYear + 1, 1, selectedDay)
     } else {
-      changeHandler(selectedYear, selectedMonth + 1, selectedDay)
+      changeHandler(selectedYear, +selectedMonth + 1, selectedDay)
     }
   }
 
