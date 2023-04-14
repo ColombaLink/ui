@@ -1,8 +1,8 @@
 import React from 'react'
-import { BarGraph } from '~/components/BarGraph'
+import { BarGraph as BarGraphComponents } from '~/components/BarGraph'
 import ComponentViewer from '../ComponentViewer'
 
-export const BarGraphs = () => {
+export const BarGraph = () => {
   const barData = [
     {
       label: 'Yes sure if you like ugly shit',
@@ -49,7 +49,7 @@ export const BarGraphs = () => {
   return (
     <div>
       <ComponentViewer
-        component={BarGraph}
+        component={BarGraphComponents}
         propsName="BarGraphProps"
         examples={[
           {

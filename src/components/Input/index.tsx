@@ -215,11 +215,11 @@ export const Input = <T extends InputType>({
   style,
   suggest,
   transform,
-  type,
+  type = 'text',
   value: valueProp,
   ...otherProps
 }: {
-  type: T | 'text'
+  type: InputType
   onChange?: OnChange<T>
   style?: CSSProperties
   label?: ReactNode

@@ -40,20 +40,25 @@ const StyledDateInput = styled('input', {
   boxShadow: boxShadow('medium'),
 })
 
-export const DateInput: FC<DateInputProps> = (props) => {
-  const {
-    value,
-    setFocused,
-    dateHandler,
-    tillValue,
-    style,
-    placeholder,
-    focusOnBeginDate,
-    focusOnEndDate,
-    isDateRange,
-    onClick,
-  } = props
-
+export const DateInput: FC<DateInputProps> = ({
+  value,
+  setFocused,
+  dateHandler,
+  clearHandler,
+  fromValue,
+  tillValue,
+  style,
+  placeholder,
+  focusOnBeginDate,
+  focusOnEndDate,
+  isEndDate,
+  isDateRange,
+  setFromValue,
+  setTillValue,
+  setFocusOnBeginDate,
+  setFocusOnEndDate,
+  onClick,
+}) => {
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [, setIsFocus] = useState(false)
 
@@ -77,9 +82,28 @@ export const DateInput: FC<DateInputProps> = (props) => {
     }
   }, [focusOnEndDate, focusOnBeginDate])
 
-  const handler = useContextMenu(DatePicker, props, {
-    width: 'target',
-  })
+  const handler = useContextMenu(
+    DatePicker,
+    {
+      setShowDatePicker,
+      value,
+      dateHandler,
+      setFocused,
+      clearHandler,
+      isDateRange,
+      fromValue,
+      tillValue,
+      setFromValue,
+      setTillValue,
+      focusOnBeginDate,
+      focusOnEndDate,
+      setFocusOnBeginDate,
+      setFocusOnEndDate,
+    },
+    {
+      width: 'target',
+    }
+  )
 
   useEffect(() => {
     if (!focusOnEndDate && focusOnBeginDate) {

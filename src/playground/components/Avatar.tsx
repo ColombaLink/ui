@@ -1,12 +1,12 @@
 import React from 'react'
-import { Avatar } from '~/components/Avatar'
+import { Avatar as AvatarComponent } from '~/components/Avatar'
 import { BasedIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const Avatars = () => {
+export const Avatar = () => {
   return (
     <ComponentViewer
-      component={Avatar}
+      component={AvatarComponent}
       propsName="AvatarProps"
       examples={[
         {

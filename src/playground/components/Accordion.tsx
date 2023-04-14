@@ -1,11 +1,14 @@
 import React from 'react'
-import { Accordion, AccordionItem } from '~/components/Accordion'
+import {
+  Accordion as AccordionComponent,
+  AccordionItem,
+} from '~/components/Accordion'
 import ComponentViewer from '../ComponentViewer'
 
-export const Accordions = () => {
+export const Accordion = () => {
   return (
     <ComponentViewer
-      component={Accordion}
+      component={AccordionComponent}
       propsName="AccordionProps"
       examples={[
         {

@@ -1,11 +1,11 @@
 import React from 'react'
-import { Checkbox } from '~'
+import { Checkbox as CheckboxComponent } from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const Checkboxes = () => {
+export const Checkbox = () => {
   return (
     <ComponentViewer
-      component={Checkbox}
+      component={CheckboxComponent}
       propsName="CheckboxProps"
       examples={[
         {

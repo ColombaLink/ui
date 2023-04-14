@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from '~/components/Card'
+import { Card as CardComponent } from '~/components/Card'
 import { Avatar } from '~/components/Avatar'
 import {
   DotIcon,
@@ -13,10 +13,10 @@ import {
 import { Thumbnail } from '~/components/Thumbnail'
 import ComponentViewer from '../ComponentViewer'
 
-export const Cards = () => {
+export const Card = () => {
   return (
     <ComponentViewer
-      component={Card}
+      component={CardComponent}
       propsName="CardProps"
       examples={[
         {

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Text, Button, Input, Container } from '~'
+import { Text, Button, Input, Container as ContainerComponent } from '~'
 import ComponentViewer from '../ComponentViewer'
 import { MoreIcon } from '~/icons'
 
-export const Containers = () => {
+export const Container = () => {
   return (
     <ComponentViewer
-      component={Container}
+      component={ContainerComponent}
       propsName="ContainerProps"
       examples={[
         {

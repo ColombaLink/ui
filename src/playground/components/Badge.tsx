@@ -1,12 +1,12 @@
 import React from 'react'
 import { DotIcon, CheckCircleIcon } from '~'
-import { Badge } from '~/components/Badge'
+import { Badge as BadgeComponent } from '~/components/Badge'
 import ComponentViewer from '../ComponentViewer'
 
-export const Badges = () => {
+export const Badge = () => {
   return (
     <ComponentViewer
-      component={Badge}
+      component={BadgeComponent}
       propsName="BadgeProps"
       examples={[
         {

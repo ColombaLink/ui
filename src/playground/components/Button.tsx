@@ -1,12 +1,17 @@
 import React from 'react'
-import { Button, CheckIcon, EmailIcon, DuplicateIcon } from '~'
+import {
+  Button as ButtonComponent,
+  CheckIcon,
+  EmailIcon,
+  DuplicateIcon,
+} from '~'
 import ComponentViewer from '../ComponentViewer'
 
-export const Buttons = () => {
+export const Button = () => {
   return (
     <>
       <ComponentViewer
-        component={Button}
+        component={ButtonComponent}
         propsName="ButtonProps"
         examples={[
           {

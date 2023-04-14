@@ -1,13 +1,13 @@
 import React from 'react'
-import { Callout } from '~/components/Callout'
+import { Callout as CalloutComponent } from '~/components/Callout'
 import { ErrorIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'
 import { Button } from '~/components/Button'
 
-export const Callouts = () => {
+export const Callout = () => {
   return (
     <ComponentViewer
-      component={Callout}
+      component={CalloutComponent}
       propsName="CalloutProps"
       examples={[
         {
