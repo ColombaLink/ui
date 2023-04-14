@@ -48,6 +48,8 @@ export const ContentLeft: FC<{}> = () => {
 
   const data = {}
 
+  console.log(data, '???')
+
   if (views.custom?.length) {
     data['Custom Views'] = views.custom.map(({ id, query, label }) => {
       return {

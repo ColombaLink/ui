@@ -1,6 +1,6 @@
 import React, { ReactNode, FC, useState, useEffect } from 'react'
 import { Grid } from './Grid'
-import { styled, Style } from 'inlines'
+import { styled } from 'inlines'
 import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'

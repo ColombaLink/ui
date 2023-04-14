@@ -20,6 +20,7 @@ export const Tables = () => {
                 subtitle: `subtitle ${i + 1}`,
                 description: `lorem ipsum ${i + 1}`,
                 author: `mar${i + 1}o`,
+                id: `xxxx${i}`,
               })),
               // rowCount: 10,
               onClick: clickFunction,
@@ -39,6 +40,10 @@ export const Tables = () => {
                 {
                   key: 'author',
                   label: 'Author',
+                },
+                {
+                  key: 'id',
+                  label: 'ID',
                 },
               ],
             },

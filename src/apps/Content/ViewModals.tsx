@@ -49,6 +49,7 @@ export const EditViewModalBody: FC<EditViewProps> = ({
   const update = useUpdate()
   const newObject = useRef<any>({})
   const [error, setError] = useState<Error | null>(null)
+
   useEffect(() => {
     try {
       newObject.current = JSON.parse(str)

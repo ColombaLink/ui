@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled, Style, Text, color, Checkbox } from '~'
+import { styled, Text, color, Checkbox } from '~'
 
 // this data here is only the itemdata..
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
