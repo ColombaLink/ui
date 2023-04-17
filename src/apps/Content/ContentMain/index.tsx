@@ -10,16 +10,14 @@ export const ContentMain: FC<{}> = () => {
 
   const views = useViews()
 
-  const { data } = useQuery('db', view ? { $db: db, ...view.query } : undefined)
+  const { data, loading } = useQuery(
+    'db',
+    view ? { $db: db, ...view.query } : undefined
+  )
 
-  console.info('data', data?.data)
-  console.log('DB', db)
-  console.log('VIEW??', view)
+  console.info('data', data, view && { $db: db, ...view.query })
 
-  // const { loading, schema } = useSchema(db)
-  // console.log('SCHEMA ??', schema.types[view?.id]?.fields)
-
-  console.log(
+  console.info(
     'data ->',
     data,
     'Current view ->',
@@ -29,6 +27,8 @@ export const ContentMain: FC<{}> = () => {
     'views -> ',
     views
   )
+
+  console.info('DATA', data, loading, view)
 
   return (
     <Page>
