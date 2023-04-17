@@ -16,7 +16,16 @@ const client = based({
 //   project: 'based-cloud',
 //   env: 'platform',
 //   name: '@based/admin-hub',
+//   cluster: 'test',
 // })
+
+client.on('connect', () => {
+  console.log('connected')
+})
+
+client.on('debug', (x) => {
+  console.log('based platform hub', x)
+})
 
 // client.on('debug', (d) => {
 //   console.info(d, new Date(Date.now()).toLocaleTimeString())
@@ -52,6 +61,7 @@ const route = useRoute('[infraSection]');
       // project: 'esc',
       // org: 'saulx',
       // env: 'dev',
+      // cluster: 'test'
     }}
     values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
     onChange={(key, v) => { 

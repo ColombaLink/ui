@@ -44,13 +44,17 @@ export const client = new BasedClient({
 //   project: 'esc',
 //   org: 'saulx',
 //   env: 'dev',
-//   // cluster: 'local',
+//   cluster: 'test',
 //   name: '@based/env-admin-hub',
 // })
 
-// client.on('debug', (x) => {
-//   console.log(x)
-// })
+client.on('connect', () => {
+  console.log('connected')
+})
+
+client.on('debug', (x) => {
+  console.log(x)
+})
 
 const Stories: FC = () => {
   const route = useRoute('[story]')
