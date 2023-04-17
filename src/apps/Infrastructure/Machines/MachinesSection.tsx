@@ -269,6 +269,7 @@ export const MachinesSection: FC<{
       publicIP: m.publicIp,
       cloudMachineId: m.cloudMachineId,
       id: m.id,
+      testing: m,
     }))
   )
 
@@ -338,9 +339,9 @@ export const MachinesSection: FC<{
           </Button>
         ) : null}
       </RowEnd>
-      {machines.map((m) => {
+      {/* {machines.map((m) => {
         return <Machine config={config} machine={m} key={m.id} />
-      })}
+      })} */}
       <Table
         data={machines.map((m) => ({
           status: m.status,
@@ -355,7 +356,7 @@ export const MachinesSection: FC<{
             <Button
               icon={MoreIcon}
               ghost
-              onClick={useContextMenu(Actions, m)}
+              onClick={useContextMenu(Actions, { machine: m })}
             />
           ),
         }))}
