@@ -35,7 +35,8 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         />
       )}
 
-      {data.headers?.[columnIndex]?.render ? (
+      {data.headers?.[columnIndex]?.render &&
+      data.headers?.[columnIndex]?.showColumnCheckbox ? (
         renderOrCreateElement(data.headers?.[columnIndex]?.render, {
           children: data.data[rowIndex][ObjectKeys[columnIndex]],
           ...data.headers?.[columnIndex]?.renderProps,

@@ -5,6 +5,7 @@ import React, {
   useRef,
   useEffect,
   ReactElement,
+  JSXElementConstructor,
 } from 'react'
 import {
   styled,
@@ -22,7 +23,7 @@ type TableHeaderProps = {
     key: string
     label: ReactNode
     showColumnCheckbox?: boolean
-    render?: ReactElement // add correct props to fc
+    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
     renderProps?: {}
   }[]
   columnWidthsArr: number[]

@@ -1,10 +1,16 @@
-import React, { ReactNode, FC, useState, useEffect, ReactElement } from 'react'
+import React, {
+  ReactNode,
+  FC,
+  useState,
+  useEffect,
+  ReactElement,
+  JSXElementConstructor,
+} from 'react'
 import { Grid } from './Grid'
 import { styled } from 'inlines'
 import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { usePropState } from '~/hooks'
 
 // type Action = 'delete'
 // type OnAction = (items: string[], action: Action) => void
@@ -14,7 +20,7 @@ type TableProps = {
     key: string
     label: ReactNode
     showColumnCheckbox?: boolean
-    render?: ReactElement // add correct props to fc
+    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc
     renderProps?: {}
   }[]
   data?: {}[] // TYPE THIS
@@ -47,7 +53,7 @@ export const Table: FC<TableProps> = ({
   // onAction,
 }) => {
   const [tableHeaders, setTableHeaders] = useState(headers)
-  const [tableData, setTableData] = usePropState(data || [])
+  const [tableData, setTableData] = useState(data || [])
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
@@ -88,7 +94,7 @@ export const Table: FC<TableProps> = ({
 
       setTableData(newerData)
     }
-  }, [tableHeaders])
+  }, [tableHeaders, data])
 
   // types
   const filterObjsInArr = (arr, selection) => {

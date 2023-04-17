@@ -9,7 +9,7 @@ global.genTableData = (): {
   author?: string
   id?: string
 }[] => {
-  return Array.from(Array(1e4)).map((_, i) => ({
+  return Array.from(Array(1e2)).map((_, i) => ({
     title: `title ${i + 1}`,
     subtitle: `subtitle ${i + 1}`,
     description: Math.random() > 0.5 ? `lorem ipsum ${i + 1}` : undefined,

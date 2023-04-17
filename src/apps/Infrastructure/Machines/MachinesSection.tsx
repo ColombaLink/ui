@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactElement } from 'react'
 import {
   Button,
   AccordionItem,
@@ -36,7 +36,7 @@ import {
 import { useClient } from '@based/react'
 import { prettyNumber } from '@based/pretty-number'
 
-const StatusBadge = (x: {}) => {
+const StatusBadge: FC = (x: {}): ReactElement => {
   // const statusValue: number = +Object.values(x)
   const statusValue: number = +Object.values(x)
 
@@ -77,7 +77,12 @@ const StatusBadge = (x: {}) => {
   )
 }
 
-const CustomCpuMemoryBadge = (arr: []) => {
+const CustomCpuMemoryBadge: FC = (arr: {
+  children: string[]
+}): ReactElement => {
+  const cpuVal: string = arr?.children[0]
+  const memoryVal: string = arr?.children[1]
+
   return (
     <styled.div style={{ display: 'flex', overflowX: 'clip' }}>
       <Badge
@@ -88,13 +93,13 @@ const CustomCpuMemoryBadge = (arr: []) => {
           borderRight: `1px solid ${color('border')}`,
         }}
       >
-        {Object.values(arr?.children[0])}
+        {cpuVal || ''}
       </Badge>
       <Badge
         color="lightaccent"
         style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
       >
-        {Object.values(arr?.children[1])}
+        {memoryVal || ''}
       </Badge>
     </styled.div>
   )
@@ -106,7 +111,7 @@ const Actions: FC<{
   const [env] = useContextState<Env>('env')
   const client = useClient()
 
-  console.log('from actions 🌼', machine)
+  // console.log('from actions 🌼', machine)
 
   return (
     <>
@@ -258,20 +263,19 @@ export const MachinesSection: FC<{
     {}
   )
   const [env] = useContextState<Env>('env')
-
   const client = useClient()
 
-  console.log('🐈‍⬛', machines)
-  console.log(
-    machines.map((m) => ({
-      status: m.status,
-      cpu: [m.stats?.cpu, m.stats?.memory],
-      publicIP: m.publicIp,
-      cloudMachineId: m.cloudMachineId,
-      id: m.id,
-      testing: m,
-    }))
-  )
+  // console.log('🐈‍⬛', machines)
+  // console.log(
+  //   machines.map((m) => ({
+  //     status: m.status,
+  //     cpu: [m.stats?.cpu, m.stats?.memory],
+  //     publicIP: m.publicIp,
+  //     cloudMachineId: m.cloudMachineId,
+  //     id: m.id,
+  //     testing: m,
+  //   }))
+  // )
 
   let running = 0
   let unreachable = 0

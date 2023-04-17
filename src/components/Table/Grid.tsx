@@ -5,6 +5,7 @@ import React, {
   useState,
   ReactNode,
   ReactElement,
+  JSXElementConstructor,
 } from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
@@ -24,7 +25,8 @@ type GridProps = {
     key: string
     label: ReactNode
     showColumnCheckbox?: boolean
-    render?: ReactElement // add correct props to fc
+    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
+    renderProps?: {}
   }[]
 }
 
@@ -52,7 +54,7 @@ export const Grid: FC<GridProps> = ({
         shouldForceUpdate: true,
       })
     }
-  }, [columnWidthsArr])
+  }, [columnWidthsArr, headers])
 
   useEffect(() => {
     if (rowCount < rowCountState) {
@@ -63,6 +65,8 @@ export const Grid: FC<GridProps> = ({
       })
     }
   }, [rowCount])
+
+  console.log('🌈', data)
 
   return (
     <VariableSizeGrid
