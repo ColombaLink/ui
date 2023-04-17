@@ -21,5 +21,5 @@ export type View = {
   label: string
   addQuery: any
   types: string[]
-  fields: { label?: string; field: string }[]
+  headers: { label: string; key: string }[]
 }

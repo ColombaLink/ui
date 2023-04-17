@@ -1,19 +1,23 @@
 import { useQuery } from '@based/react'
-import { useSchema, useContextState } from '~'
+import { useSchema } from '~'
 import { View } from '../types'
+
+// add target in the queries
 
 export const useViews = (): {
   default: View[]
   custom?: View[]
-  currentView?: View
   loading: boolean
 } => {
-  const [view] = useContextState('view')
-  const { data: views = { default: [], loading: true }, loading } = useQuery(
-    'based:observe-views'
-  )
+  const { data, loading } = useQuery('based:observe-views')
 
-  const { schema, loading: loadingSchema } = useSchema() // TODO: add multi schema option (using oriigns)
+  const views: {
+    default: View[]
+    custom?: View[]
+    loading: boolean
+  } = data ?? { default: [], custom: [], loading: true }
+
+  const { schema, loading: loadingSchema } = useSchema() // TODO: add multi schema option (using origns)
 
   if (!loading && !loadingSchema) {
     views.loading = false
@@ -21,14 +25,32 @@ export const useViews = (): {
     if (!views.default) {
       views.default = []
     }
-    views.default = []
     if (views.default.length < types.length) {
       const viewTypes = new Set(views.default.map(({ id }) => id))
+
       for (const type of types) {
+        const typeFields = schema.types[type]
+
+        // Sort options
+        // Add fields
+        // Include target in the views
+
         const viewValue = {
+          addQuery: {
+            // parents: '$target',
+            parents: 'root',
+          },
+          types: [type],
+          headers: Object.keys(typeFields.fields).map((fieldName) => {
+            return {
+              key: fieldName,
+              label: fieldName[0].toUpperCase() + fieldName.slice(1),
+            }
+          }),
           id: type,
           query: {
             $id: 'root',
+            // $id: '$target',
             data: {
               $all: true,
               $list: {
@@ -47,19 +69,8 @@ export const useViews = (): {
           },
           label: type,
         }
-        if (view === type) {
-          views.currentView = viewValue
-        }
         if (!viewTypes.has(type)) {
           views.default.push(viewValue)
-        }
-      }
-    }
-    if (view && views.custom && !views.currentView) {
-      for (const viewValue of views.custom) {
-        if (viewValue.id === view) {
-          views.currentView = viewValue
-          break
         }
       }
     }

@@ -6,17 +6,17 @@ import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { renderOrCreateElement } from '~/utils'
 
-type Action = 'delete'
-type OnAction = (items: string[], action: Action) => void
+// type Action = 'delete'
+// type OnAction = (items: string[], action: Action) => void
 
 type TableProps = {
   headers?: {
     key: string
-    label: string | ReactNode
+    label: ReactNode
     showColumnCheckbox?: boolean
-    render?: {}
+    render?: () => ReactNode // add correct props to fc
   }[]
-  data: any
+  data?: any[] // TYPE THIS
   width?: number
   height?: number
   rowCount?: number
@@ -39,7 +39,8 @@ export const Table: FC<TableProps> = ({
   rowHeight = 56,
   width,
   height = 400,
-  columnCount = headers?.length || (data && Object.keys(data[0]).length),
+  columnCount = headers?.length ??
+    (data && data.length && Object.keys(data[0]).length),
   columnWidth = 132,
   onClick,
   // onAction,
@@ -88,6 +89,7 @@ export const Table: FC<TableProps> = ({
     }
   }, [tableHeaders])
 
+  // types
   const filterObjsInArr = (arr, selection) => {
     const filteredArray = []
     arr?.forEach((obj) => {
@@ -102,6 +104,7 @@ export const Table: FC<TableProps> = ({
     return filteredArray
   }
 
+  // types
   const preferredOrder = (obj, order) => {
     const newObject = {}
     for (let i = 0; i < order.length; i++) {
@@ -114,7 +117,6 @@ export const Table: FC<TableProps> = ({
 
   const returnRowItemsThatWereSelected = (data, selectedRows) => {
     const newData = data.filter((item, idx) => selectedRows.includes(idx))
-    // console.log('🎃', newData)
     return newData
   }
 
@@ -136,7 +138,7 @@ export const Table: FC<TableProps> = ({
 
   return (
     <>
-      todo render Elements: {renderOrCreateElement(headers[0].render)}
+      todo render Elements: {renderOrCreateElement(headers?.[0].render)}
       {showSelectedRows || selectedRows.length > 0 ? (
         <TableSelectionActions
           selectedRows={selectedRows}
@@ -177,21 +179,3 @@ export const Table: FC<TableProps> = ({
     </>
   )
 }
-
-/*
-<Table 
-
-    onVisibleRowIndex={({ startIndex, endIndex }) => {
-        if (endIndex > data.length + 1) {
-            setData([...data, {
-                name: 'Random new thing' + data.length,
-                body: 'Cool body',
-                createdAt: Date.now()
-            }])
-        }
-    }}
-    onClick={({ item, key, colIndex, rowIndex }, e) => {
-        
-    }}
-    />
-*/

@@ -22,7 +22,6 @@ export const Content: FC<{
       <StateProvider values={values} onChange={onChange}>
         <ContentLeft />
         <ContentMain />
-        {/* <ContentModal id={id} field={field} /> */}
       </StateProvider>
     </styled.div>
   )
