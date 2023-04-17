@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { Table, Page, useContextState, AddIcon, Button, useSchema } from '~'
+import { Table, Page, useContextState, AddIcon, Button } from '~'
 import { useViews } from '../hooks/useViews'
 import { View } from '../types'
 import { useQuery } from '@based/react'
@@ -12,7 +12,9 @@ export const ContentMain: FC<{}> = () => {
 
   const { data } = useQuery('db', view ? { $db: db, ...view.query } : undefined)
 
-  console.info('data', data)
+  console.info('data', data?.data)
+  console.log('DB', db)
+  console.log('VIEW??', view)
 
   // const { loading, schema } = useSchema(db)
   // console.log('SCHEMA ??', schema.types[view?.id]?.fields)

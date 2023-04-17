@@ -20,6 +20,9 @@ import {
   useContextMenu,
   CloseIcon,
   ContextDivider,
+  WarningIcon,
+  LoadingIcon,
+  Table,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
@@ -29,6 +32,25 @@ import {
   MachineConfig,
 } from '@based/machine-config'
 import { useClient } from '@based/react'
+import { prettyNumber } from '@based/pretty-number'
+
+const colors = {
+  0: 'red',
+  1: 'green',
+  2: 'accent',
+  3: 'accent',
+  4: 'red',
+  5: 'accent',
+}
+
+const icons = {
+  0: WarningIcon,
+  1: CheckIcon,
+  2: LoadingIcon,
+  3: ReplaceIcon,
+  4: CloseIcon,
+  5: LoadingIcon,
+}
 
 const Actions: FC<{
   machine: MachineType
@@ -188,6 +210,21 @@ export const MachinesSection: FC<{
 
   const client = useClient()
 
+  // console.log('🐈‍⬛', machines)
+
+  console.log(
+    machines.map((m) => ({
+      status: m.status,
+      cpu: m.stats.cpu,
+      memory: m.stats.memory,
+      publicIP: m.publicIp,
+      cloudMachineId: m.cloudMachineId,
+      id: m.id,
+    }))
+  )
+
+  const tableMachineData = []
+
   let running = 0
   let unreachable = 0
   let deploying = 0
@@ -257,6 +294,40 @@ export const MachinesSection: FC<{
       {machines.map((m) => {
         return <Machine config={config} machine={m} key={m.id} />
       })}
+      <Table
+        data={machines.map((m) => ({
+          status: m.status,
+          cpu: m.stats.cpu.toFixed() + '%',
+          memory: prettyNumber(~~m.stats.memory, 'number-bytes'),
+          publicIp: m.publicIp,
+          cloudMachineId: m.cloudMachineId,
+          id: m.id,
+        }))}
+        columnWidth={100}
+        headers={[
+          {
+            key: 'status',
+            label: 'Status',
+            render: Badge,
+            renderProps: { icon: icons[status], color: colors[status] },
+          },
+          {
+            key: 'cpu',
+            label: 'CPU',
+            render: Badge,
+            renderProps: { color: 'lightaccent' },
+          },
+          {
+            key: 'memory',
+            label: 'Memory',
+            render: Badge,
+            renderProps: { color: 'lightaccent' },
+          },
+          { key: 'publicIp', label: 'Public IP' },
+          { key: 'cloudMachineId', label: 'Cloud Id' },
+          { key: 'id', label: 'ID', render: Badge },
+        ]}
+      />
     </AccordionItem>
   )
 }

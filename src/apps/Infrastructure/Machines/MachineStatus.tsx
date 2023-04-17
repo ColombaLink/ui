@@ -51,7 +51,7 @@ const MachineStats: FC<{
           borderLeft: border(1),
         }}
       >
-        Cpu {Math.min(99, ~~(cpu * 100))}%
+        Cpu {cpu.toFixed()}%{/* Cpu {Math.min(99, ~~(cpu * 100)).toFixed()}% */}
       </Badge>
       <Badge
         color={color}
