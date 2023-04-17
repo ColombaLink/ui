@@ -1,9 +1,10 @@
-import React, { ReactNode, FC, useState, useEffect } from 'react'
+import React, { ReactNode, FC, useState, useEffect, ReactElement } from 'react'
 import { Grid } from './Grid'
 import { styled } from 'inlines'
 import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
+import { usePropState } from '~/hooks'
 
 // type Action = 'delete'
 // type OnAction = (items: string[], action: Action) => void
@@ -13,7 +14,7 @@ type TableProps = {
     key: string
     label: ReactNode
     showColumnCheckbox?: boolean
-    render?: () => ReactNode // add correct props to fc
+    render?: ReactElement // add correct props to fc
     renderProps?: {}
   }[]
   data?: {}[] // TYPE THIS

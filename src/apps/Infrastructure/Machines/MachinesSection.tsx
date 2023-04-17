@@ -23,6 +23,8 @@ import {
   WarningIcon,
   LoadingIcon,
   Table,
+  styled,
+  color,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
@@ -34,22 +36,69 @@ import {
 import { useClient } from '@based/react'
 import { prettyNumber } from '@based/pretty-number'
 
-const colors = {
-  0: 'red',
-  1: 'green',
-  2: 'accent',
-  3: 'accent',
-  4: 'red',
-  5: 'accent',
+const StatusBadge = (x: {}) => {
+  const statusValue: number = +Object.values(x)
+
+  const colors = {
+    0: 'red',
+    1: 'green',
+    2: 'accent',
+    3: 'accent',
+    4: 'red',
+    5: 'accent',
+  }
+
+  const icons = {
+    0: WarningIcon,
+    1: CheckIcon,
+    2: LoadingIcon,
+    3: ReplaceIcon,
+    4: CloseIcon,
+    5: LoadingIcon,
+  }
+
+  return (
+    <Badge icon={icons[statusValue]} color={colors[statusValue]}>
+      {statusValue === 0
+        ? 'Not OK'
+        : statusValue === 1
+        ? 'OK'
+        : statusValue === 2
+        ? 'Creating'
+        : statusValue === 3
+        ? 'Rebooting'
+        : statusValue === 4
+        ? 'Removing'
+        : statusValue === 5
+        ? 'Resizing'
+        : ''}
+    </Badge>
+  )
 }
 
-const icons = {
-  0: WarningIcon,
-  1: CheckIcon,
-  2: LoadingIcon,
-  3: ReplaceIcon,
-  4: CloseIcon,
-  5: LoadingIcon,
+const CustomCpuMemoryBadge = (arr: []) => {
+  console.log('ARR???', arr)
+
+  return (
+    <styled.div style={{ display: 'flex', overflowX: 'clip' }}>
+      <Badge
+        color="lightaccent"
+        style={{
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+          borderRight: `1px solid ${color('border')}`,
+        }}
+      >
+        {Object.values(arr.children[0])}
+      </Badge>
+      <Badge
+        color="lightaccent"
+        style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+      >
+        {Object.values(arr.children[1])}
+      </Badge>
+    </styled.div>
+  )
 }
 
 const Actions: FC<{
@@ -211,19 +260,15 @@ export const MachinesSection: FC<{
   const client = useClient()
 
   // console.log('🐈‍⬛', machines)
-
   console.log(
     machines.map((m) => ({
       status: m.status,
-      cpu: m.stats.cpu,
-      memory: m.stats.memory,
+      cpu: [m.stats.cpu, m.stats.memory],
       publicIP: m.publicIp,
       cloudMachineId: m.cloudMachineId,
       id: m.id,
     }))
   )
-
-  const tableMachineData = []
 
   let running = 0
   let unreachable = 0
@@ -297,31 +342,25 @@ export const MachinesSection: FC<{
       <Table
         data={machines.map((m) => ({
           status: m.status,
-          cpu: m.stats.cpu.toFixed() + '%',
-          memory: prettyNumber(~~m.stats.memory, 'number-bytes'),
+          cpu: [
+            'Cpu ' + m.stats.cpu.toFixed() + '%',
+            prettyNumber(m.stats.memory, 'number-bytes'),
+          ],
           publicIp: m.publicIp,
           cloudMachineId: m.cloudMachineId,
           id: m.id,
         }))}
-        columnWidth={100}
+        columnWidth={146}
         headers={[
           {
             key: 'status',
             label: 'Status',
-            render: Badge,
-            renderProps: { icon: icons[status], color: colors[status] },
+            render: StatusBadge,
           },
           {
             key: 'cpu',
-            label: 'CPU',
-            render: Badge,
-            renderProps: { color: 'lightaccent' },
-          },
-          {
-            key: 'memory',
-            label: 'Memory',
-            render: Badge,
-            renderProps: { color: 'lightaccent' },
+            label: 'CPU/Memory',
+            render: CustomCpuMemoryBadge,
           },
           { key: 'publicIp', label: 'Public IP' },
           { key: 'cloudMachineId', label: 'Cloud Id' },

@@ -1,4 +1,11 @@
-import React, { FC, useEffect, useRef, useState, ReactNode } from 'react'
+import React, {
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  ReactNode,
+  ReactElement,
+} from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
 
@@ -17,7 +24,7 @@ type GridProps = {
     key: string
     label: ReactNode
     showColumnCheckbox?: boolean
-    render?: () => ReactNode // add correct props to fc
+    render?: ReactElement // add correct props to fc
   }[]
 }
 
