@@ -39,7 +39,7 @@ export const Table: FC<TableProps> = ({
   rowCount,
   rowHeight = 56,
   width,
-  height = 400,
+  height = data.length * 56 + 56,
   columnCount = headers?.length ??
     (data && data.length && Object.keys(data[0]).length),
   columnWidth = 132,
@@ -47,7 +47,7 @@ export const Table: FC<TableProps> = ({
   // onAction,
 }) => {
   const [tableHeaders, setTableHeaders] = useState(headers)
-  const [tableData, setTableData] = useState(data || [])
+  const [tableData, setTableData] = usePropState(data || [])
   const [columnWidthsArr, setColumnWidthsArr] = useState(
     new Array(columnCount).fill(true).map(() => columnWidth)
   )

@@ -45,7 +45,7 @@ const handleClick = (e, rowData) => {
   console.log('Clicked on row:', rowData)
 }
 
-<Table data={genTableData()} headers={headers} onClick={handleClick}  />
+<Table data={genTableData()} headers={headers} onClick={handleClick} height={400} />
             `,
           },
         ]}

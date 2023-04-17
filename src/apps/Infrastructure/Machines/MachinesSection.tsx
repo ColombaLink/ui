@@ -37,6 +37,7 @@ import { useClient } from '@based/react'
 import { prettyNumber } from '@based/pretty-number'
 
 const StatusBadge = (x: {}) => {
+  // const statusValue: number = +Object.values(x)
   const statusValue: number = +Object.values(x)
 
   const colors = {
@@ -77,8 +78,6 @@ const StatusBadge = (x: {}) => {
 }
 
 const CustomCpuMemoryBadge = (arr: []) => {
-  console.log('ARR???', arr)
-
   return (
     <styled.div style={{ display: 'flex', overflowX: 'clip' }}>
       <Badge
@@ -89,13 +88,13 @@ const CustomCpuMemoryBadge = (arr: []) => {
           borderRight: `1px solid ${color('border')}`,
         }}
       >
-        {Object.values(arr.children[0])}
+        {Object.values(arr?.children[0])}
       </Badge>
       <Badge
         color="lightaccent"
         style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
       >
-        {Object.values(arr.children[1])}
+        {Object.values(arr?.children[1])}
       </Badge>
     </styled.div>
   )
@@ -106,6 +105,9 @@ const Actions: FC<{
 }> = ({ machine }) => {
   const [env] = useContextState<Env>('env')
   const client = useClient()
+
+  console.log('from actions 🌼', machine)
+
   return (
     <>
       <ContextItem
@@ -259,11 +261,11 @@ export const MachinesSection: FC<{
 
   const client = useClient()
 
-  // console.log('🐈‍⬛', machines)
+  console.log('🐈‍⬛', machines)
   console.log(
     machines.map((m) => ({
       status: m.status,
-      cpu: [m.stats.cpu, m.stats.memory],
+      cpu: [m.stats?.cpu, m.stats?.memory],
       publicIP: m.publicIp,
       cloudMachineId: m.cloudMachineId,
       id: m.id,
@@ -343,12 +345,19 @@ export const MachinesSection: FC<{
         data={machines.map((m) => ({
           status: m.status,
           cpu: [
-            'Cpu ' + m.stats.cpu.toFixed() + '%',
-            prettyNumber(m.stats.memory, 'number-bytes'),
+            'Cpu ' + m.stats?.cpu?.toFixed() + '%',
+            prettyNumber(~~m.stats?.memory, 'number-bytes'),
           ],
           publicIp: m.publicIp,
           cloudMachineId: m.cloudMachineId,
           id: m.id,
+          machineOptions: (
+            <Button
+              icon={MoreIcon}
+              ghost
+              onClick={useContextMenu(Actions, m)}
+            />
+          ),
         }))}
         columnWidth={146}
         headers={[
@@ -365,6 +374,10 @@ export const MachinesSection: FC<{
           { key: 'publicIp', label: 'Public IP' },
           { key: 'cloudMachineId', label: 'Cloud Id' },
           { key: 'id', label: 'ID', render: Badge },
+          {
+            key: 'machineOptions',
+            label: 'Options',
+          },
         ]}
       />
     </AccordionItem>
