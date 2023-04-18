@@ -24,7 +24,6 @@ type TableHeaderProps = {
     label: ReactNode
     showColumnCheckbox?: boolean
     render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
-    renderProps?: {}
   }[]
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void

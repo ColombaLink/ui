@@ -47,7 +47,6 @@ export const SetList = ({
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          digest={itemType === 'digest'}
           autoFocus
           label={`Add new ${
             itemType.charAt(0).toUpperCase() + itemType.slice(1)
@@ -101,7 +100,6 @@ export const SetList = ({
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          digest={itemType === 'digest'}
           autoFocus
           value={inputVal}
           onChange={(e) => {

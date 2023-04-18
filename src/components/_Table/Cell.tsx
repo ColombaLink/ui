@@ -9,7 +9,7 @@ import { toDateString } from '~/utils/date'
 import { HEADER_HEIGHT, ACTIONS_WIDTH } from './constants'
 import { Reference } from './Reference'
 import { References } from './References'
-import { ProgressBar } from '../ProgressIndicator'
+// import { ProgressBar } from '../ProgressIndicator'
 import { prettyNumber } from '@based/pretty-number'
 import { VideoIcon } from '~/icons/VideoIcon'
 import { isVideo } from '~/utils/isVideo'
@@ -246,7 +246,7 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
               >
                 {value !== 1 ? (
                   <div style={{ width: '100%' }}>
-                    <ProgressBar progress={value} circle />
+                    {/* <ProgressBar progress={value} circle /> */}
                   </div>
                 ) : (
                   <CheckIcon style={{ margin: '0 auto' }} />

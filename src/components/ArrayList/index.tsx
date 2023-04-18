@@ -134,7 +134,6 @@ export const ArrayList = ({
             type={
               itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
             }
-            digest={itemType === 'digest'}
             autoFocus
             value={inputVal}
             onChange={(e) => {
@@ -205,7 +204,6 @@ export const ArrayList = ({
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          digest={itemType === 'digest'}
           autoFocus
           value={inputVal}
           onChange={(e) => {

@@ -21,7 +21,6 @@ type TableProps = {
     label: ReactNode
     showColumnCheckbox?: boolean
     render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc
-    renderProps?: {}
   }[]
   data?: {}[] // TYPE THIS
   width?: number
@@ -45,7 +44,7 @@ export const Table: FC<TableProps> = ({
   rowCount,
   rowHeight = 56,
   width,
-  height = data.length * 56 + 56,
+  height = data.length < 20 ? data.length * 56 + 56 : 400,
   columnCount = headers?.length ??
     (data && data.length && Object.keys(data[0]).length),
   columnWidth = 132,

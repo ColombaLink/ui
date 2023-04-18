@@ -106,6 +106,10 @@ export const DateInput: FC<DateInputProps> = ({
   )
 
   useEffect(() => {
+    console.log('Value ??⭐️', value)
+  }, [value])
+
+  useEffect(() => {
     if (!focusOnEndDate && focusOnBeginDate) {
       inputRef.current.focus()
     }

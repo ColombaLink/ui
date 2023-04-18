@@ -26,7 +26,6 @@ type GridProps = {
     label: ReactNode
     showColumnCheckbox?: boolean
     render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
-    renderProps?: {}
   }[]
 }
 
@@ -65,8 +64,6 @@ export const Grid: FC<GridProps> = ({
       })
     }
   }, [rowCount])
-
-  console.log('🌈', data)
 
   return (
     <VariableSizeGrid

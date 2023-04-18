@@ -3,7 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
 import { styled } from 'inlines'
 
 type DatePickerProps = {
-  value?: string
+  inputValue?: string
   dateHandler?: (value: string) => void
   setShowDatePicker?: (value: boolean) => void
   setFocused?: (value: boolean) => void
@@ -22,12 +22,14 @@ type DatePickerProps = {
 
 const StyledDatePickerBox = styled('div', {
   background: color('background'),
+  //  position: 'absolute',
   // border: `1px solid ${color('border')}`,
   borderBottomLeftRadius: 4,
   borderBottomRightRadius: 4,
   width: 280,
   height: 396,
-  // boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
+  /// zIndex: 1,
+  //  boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.12)',
 })
 
 const StyledChevronHolders = styled('div', {
@@ -43,7 +45,7 @@ const StyledChevronHolders = styled('div', {
 })
 
 export const DatePicker = ({
-  value,
+  inputValue,
   dateHandler,
   setShowDatePicker,
   setFocused,
@@ -60,6 +62,11 @@ export const DatePicker = ({
   focusOnEndDate,
 }: DatePickerProps) => {
   const dateObj = new Date()
+
+  // console.log('TILL VALUE UIT DE PICKER -->', tillValue)
+  // console.log('from VALUE UIT DE PICKER', fromValue)
+
+  // console.log('Date', dateObj, dateObj.getDate())
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   const months = [
     '',
@@ -90,11 +97,13 @@ export const DatePicker = ({
   const [fromDay, setFromDay] = useState(+fromValue?.split('/')[0])
   const [fromMonth, setFromMonth] = useState(+fromValue?.split('/')[1])
   const [fromYear, setFromYear] = useState(+fromValue?.split('/')[2])
+  // console.log('fromDay, fromMonth, fromYear', fromDay, fromMonth, fromYear)
 
   // TILL
   const [tillDay, setTillDay] = useState(+tillValue?.split('/')[0])
   const [tillMonth, setTillMonth] = useState(+tillValue?.split('/')[1])
   const [tillYear, setTillYear] = useState(+tillValue?.split('/')[2])
+  // console.log('tillDay, tillMonth, tillYear', tillDay, tillMonth, tillYear)
 
   const [hoverDay, setHoverDay] = useState(null)
   const [hoverMonth, setHoverMonth] = useState(null)
@@ -103,20 +112,18 @@ export const DatePicker = ({
   const datePickerRef = useRef(null)
 
   const changeHandler = (year, month, day) => {
-    // TODO yves this still fucks up
-    // if (day < 10) {
-    //   day = `0${day}`
-    //   setSelectedDay(day)
-    // } else {
-    setSelectedDay(day)
-
+    if (day < 10) {
+      day = `0${day}`
+      setSelectedDay(day)
+    } else {
+      setSelectedDay(day)
+    }
     if (month < 10) {
       month = `0${month}`
       setSelectedMonth(month)
     } else {
       setSelectedMonth(month)
     }
-
     setSelectedYear(year)
 
     // if you press before the from date
@@ -124,12 +131,13 @@ export const DatePicker = ({
       makeDateForComparison(year, month, day) <
       makeDateForComparison(fromYear, fromMonth, fromDay)
     ) {
+      //  console.log('fire fire 🍟')
       setFromDay(day)
       setFromMonth(month)
       setFromYear(year)
       setFromValue(`${day}/${month}/${year}`)
 
-      // close the datepicker and switch to the from date field picker
+      //  close the datepicker and switch to the from date field picker
       if (focusOnEndDate) {
         setShowDatePicker(false)
       }
@@ -142,12 +150,14 @@ export const DatePicker = ({
       makeDateForComparison(year, month, day) >
         makeDateForComparison(tillYear, tillMonth, tillDay)
     ) {
+      //  console.log('fire fire 🌭')
+
       setTillDay(day)
       setTillMonth(month)
       setTillYear(year)
       setTillValue(`${day}/${month}/${year}`)
 
-      // close the datepicker and switch to the from date field picker
+      //  close the datepicker and switch to the from date field picker
       if (tillValue && focusOnBeginDate) {
         setShowDatePicker(false)
       }
@@ -178,9 +188,9 @@ export const DatePicker = ({
   }, [datePickerRef])
 
   useEffect(() => {
-    setSelectedDay(+value?.split('/')[0])
-    setSelectedMonth(+value?.split('/')[1])
-    setSelectedYear(+value?.split('/')[2])
+    setSelectedDay(+inputValue?.split('/')[0])
+    setSelectedMonth(+inputValue?.split('/')[1])
+    setSelectedYear(+inputValue?.split('/')[2])
 
     if (fromValue) {
       setFromDay(+fromValue?.split('/')[0])
@@ -193,7 +203,7 @@ export const DatePicker = ({
       setTillMonth(+tillValue?.split('/')[1])
       setTillYear(+tillValue?.split('/')[2])
     }
-  }, [value])
+  }, [inputValue])
 
   const [daysArr, setDaysArr] = useState([])
 
@@ -218,13 +228,13 @@ export const DatePicker = ({
       setFocusOnEndDate(true)
     }
 
-    // ts-ignore
-    if (selectedMonth === '01') {
+    if (selectedMonth === +'01') {
       if (selectedDay) {
-        changeHandler(selectedYear - 1, '12', selectedDay)
+        console.log('selectedDay', selectedDay)
+        changeHandler(selectedYear - 1, 12, selectedDay)
       } else {
         // fire an Nan error for day
-        changeHandler(selectedYear - 1, '12', +'-X')
+        changeHandler(selectedYear - 1, 12, +'-X')
       }
     } else {
       changeHandler(selectedYear, selectedMonth - 1, selectedDay)
@@ -234,7 +244,7 @@ export const DatePicker = ({
     if (selectedMonth === 12) {
       changeHandler(selectedYear + 1, 1, selectedDay)
     } else {
-      changeHandler(selectedYear, +selectedMonth + 1, selectedDay)
+      changeHandler(selectedYear, selectedMonth + 1, selectedDay)
     }
   }
 
@@ -376,10 +386,18 @@ export const DatePicker = ({
     }
   }
 
+  // const isRangedBiggerHoverDay = (year, month, day) => {
+  //   if (isDateRange) {
+  //     return (
+  //       makeDateForComparison(year, month, day) >
+  //         makeDateForComparison(fromYear, fromMonth, fromDay) &&
+  //       makeDateForComparison(year, month, day) <
+  //         makeDateForComparison(hoverYear, hoverMonth, hoverDay)
+  //     )
+  //   }
+  // }
+
   return (
-    // <styled.div
-    //   style={{ width: '100vw', height: '100vh', position: 'absolute' }}
-    // >
     <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
       <div
         style={{
@@ -390,7 +408,7 @@ export const DatePicker = ({
         }}
       >
         <Text weight={400}>
-          {months[+value?.split('/')[1]]} {selectedYear}
+          {months[+inputValue?.split('/')[1]]} {selectedYear}
         </Text>
 
         <div style={{ display: 'flex', gap: 16 }}>
@@ -403,6 +421,7 @@ export const DatePicker = ({
         </div>
       </div>
 
+      {/* days column */}
       <div
         style={{
           display: 'flex',
@@ -595,6 +614,5 @@ export const DatePicker = ({
         Clear
       </Text>
     </StyledDatePickerBox>
-    // </styled.div>
   )
 }
