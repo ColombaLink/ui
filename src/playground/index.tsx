@@ -33,20 +33,20 @@ const stories = {
   ...hooks,
 }
 
-export const client = new BasedClient({
-  project: 'test',
-  org: 'saulx',
-  env: 'ci',
-  cluster: 'local',
-  name: '@based/env-admin-hub',
-})
 // export const client = new BasedClient({
-//   project: 'esc',
+//   project: 'test',
 //   org: 'saulx',
-//   env: 'dev',
-//   cluster: 'test',
+//   env: 'ci',
+//   cluster: 'local',
 //   name: '@based/env-admin-hub',
 // })
+export const client = new BasedClient({
+  project: 'esc',
+  org: 'saulx',
+  env: 'dev',
+  cluster: 'teststable',
+  name: '@based/env-admin-hub',
+})
 
 client.on('connect', () => {
   console.log('connected')
