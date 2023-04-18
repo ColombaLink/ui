@@ -168,7 +168,14 @@ const App = () => {
                 icon={<SearchIcon />}
                 placeholder="Search"
                 space
-                onChange={(e) => searchFilterHandler(e)}
+                onChange={(e) => {
+                  console.log(e)
+                  console.log(typeof e)
+                  searchFilterHandler(e)
+                  // if(typeof e ==="string"){
+                  //   searchFilterHandler(e)
+                  // }
+                }}
                 ghost
                 style={{
                   backgroundColor: color('background2'),

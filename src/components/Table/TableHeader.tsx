@@ -221,7 +221,6 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
             onChange={(e) => {
               if (e) {
                 listForRender[idx].showColumnCheckbox = true
-                console.log('FIUUU')
                 setTableHeaders([...headers])
               } else {
                 listForRender[idx].showColumnCheckbox = false

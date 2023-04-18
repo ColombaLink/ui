@@ -66,8 +66,6 @@ export const Grid: FC<GridProps> = ({
     }
   }, [rowCount])
 
-  console.log('🌈', data)
-
   return (
     <VariableSizeGrid
       ref={varGridRef}

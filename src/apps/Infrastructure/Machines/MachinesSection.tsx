@@ -25,6 +25,7 @@ import {
   Table,
   styled,
   color,
+  renderOrCreateElement,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
@@ -36,9 +37,9 @@ import {
 import { useClient } from '@based/react'
 import { prettyNumber } from '@based/pretty-number'
 
-const StatusBadge: FC = (x: {}): ReactElement => {
+const StatusBadge: FC = (status: { status: number }): ReactElement => {
   // const statusValue: number = +Object.values(x)
-  const statusValue: number = +Object.values(x)
+  const statusValue: number = +Object.values(status)
 
   const colors = {
     0: 'red',
@@ -265,17 +266,17 @@ export const MachinesSection: FC<{
   const [env] = useContextState<Env>('env')
   const client = useClient()
 
-  // console.log('🐈‍⬛', machines)
-  // console.log(
-  //   machines.map((m) => ({
-  //     status: m.status,
-  //     cpu: [m.stats?.cpu, m.stats?.memory],
-  //     publicIP: m.publicIp,
-  //     cloudMachineId: m.cloudMachineId,
-  //     id: m.id,
-  //     testing: m,
-  //   }))
-  // )
+  console.log('🐈‍⬛', machines)
+  console.log(
+    machines.map((m) => ({
+      status: m.status,
+      cpu: [m.stats?.cpu, m.stats?.memory],
+      publicIP: m.publicIp,
+      cloudMachineId: m.cloudMachineId,
+      id: m.id,
+      testing: m,
+    }))
+  )
 
   let running = 0
   let unreachable = 0
@@ -346,6 +347,7 @@ export const MachinesSection: FC<{
       {/* {machines.map((m) => {
         return <Machine config={config} machine={m} key={m.id} />
       })} */}
+
       <Table
         data={machines.map((m) => ({
           status: m.status,
@@ -378,7 +380,11 @@ export const MachinesSection: FC<{
           },
           { key: 'publicIp', label: 'Public IP' },
           { key: 'cloudMachineId', label: 'Cloud Id' },
-          { key: 'id', label: 'ID', render: Badge },
+          {
+            key: 'id',
+            label: 'ID',
+            //  render: { Badge: { color: 'accent' } },
+          },
           {
             key: 'machineOptions',
             label: 'Options',

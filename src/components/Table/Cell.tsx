@@ -1,11 +1,20 @@
 import React from 'react'
-import { styled, Text, color, Checkbox } from '~'
+import { styled, Text, color, Checkbox, Badge } from '~'
 import { renderOrCreateElement } from '~/utils'
 
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const ObjectKeys = Object.keys(data.data[0])
 
+  console.log(ObjectKeys)
+
+  // if header key is not in object keys remove it
+  const headerData = data.headers.filter((item) =>
+    ObjectKeys.includes(item.key)
+  )
+
   // todo: check if columnindex and key are same so it doesnt go out of sync
+  console.log('🌝', data.data)
+  console.log('new header data', headerData)
 
   return (
     <styled.div
@@ -37,11 +46,9 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         />
       )}
 
-      {data.headers?.[columnIndex]?.render &&
-      data.headers?.[columnIndex]?.showColumnCheckbox ? (
-        renderOrCreateElement(data.headers?.[columnIndex]?.render, {
+      {headerData[columnIndex]?.render ? (
+        renderOrCreateElement(headerData[columnIndex]?.render, {
           children: data.data[rowIndex][ObjectKeys[columnIndex]],
-          ...data.headers?.[columnIndex]?.renderProps,
         })
       ) : (
         <Text>
