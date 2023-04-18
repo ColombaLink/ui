@@ -198,7 +198,6 @@ export const AddMachineModal: FC<{
                 label="Description"
               >
                 <Input
-                  multiline
                   style={{ width: '100%' }}
                   value={newConfig.current.config.description}
                   placeholder="Description"
@@ -206,7 +205,7 @@ export const AddMachineModal: FC<{
                     newConfig.current.config.description = v
                     update()
                   }}
-                  type="text"
+                  type="multiline"
                 />
               </Label>
               <Spacer space="32px" />
@@ -245,7 +244,6 @@ export const AddMachineModal: FC<{
                   update()
                 }}
                 alwaysAccept
-                machines={[]}
                 config={newConfig.current.config}
                 configName={newConfig.current.configName}
               />

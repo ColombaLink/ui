@@ -2,7 +2,6 @@
 import React, {
   FC,
   FunctionComponent,
-  CSSProperties,
   RefObject,
   useState,
   useEffect,
@@ -11,13 +10,24 @@ import React, {
   ReactEventHandler,
   useCallback,
 } from 'react'
-import { Text, Button, ChevronDownIcon, ChevronUpIcon, DateTimePicker } from '~'
+import {
+  Text,
+  Button,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  DateTimePicker,
+  Style,
+  styled,
+  usePropState,
+  useFocus,
+  useHover,
+  color,
+  renderOrCreateElement,
+  Space,
+  Icon,
+} from '~'
 import { Label } from '../Label'
-import { color, renderOrCreateElement } from '~/utils'
-import { usePropState, useFocus, useHover } from '~/hooks'
-import { Space, Icon } from '~/types'
 import { ColorInput } from './ColorInput'
-import { styled } from 'inlines'
 import { JsonInput } from './JsonInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
@@ -37,7 +47,7 @@ const Multi = ({ style, inputRef, ...props }) => {
   const [inputFocus, setInputFocus] = useState(false)
 
   return (
-    <div
+    <styled.div
       onFocus={() => setInputFocus(true)}
       onBlur={() => setInputFocus(false)}
       style={{
@@ -66,7 +76,7 @@ const Multi = ({ style, inputRef, ...props }) => {
         onInput={({ target }) => resize(target)}
         {...props}
       />
-    </div>
+    </styled.div>
   )
 }
 
@@ -77,7 +87,7 @@ type SingleProps = {
   props?: any
   onKeyDown?: (e: any) => void
   onChange?: (e: any) => void
-  style?: CSSProperties
+  style?: Style
 }
 
 export const Single: FC<SingleProps> = ({
@@ -129,7 +139,7 @@ const Suggestor = ({
   const showSuggestion = focused && value && suggestion && suggestion !== value
 
   return (
-    <div
+    <styled.div
       style={{
         position: 'relative',
       }}
@@ -149,7 +159,7 @@ const Suggestor = ({
       }}
     >
       {showSuggestion ? (
-        <div
+        <styled.div
           style={{
             position: 'absolute',
             top: 0,
@@ -165,10 +175,10 @@ const Suggestor = ({
           }}
         >
           {suggestion}
-        </div>
+        </styled.div>
       ) : null}
       {children}
-    </div>
+    </styled.div>
   )
 }
 
@@ -215,13 +225,13 @@ export const Input = <T extends InputType>({
   style,
   suggest,
   transform,
-  type = 'text',
+  type, // remove default
   value: valueProp,
   ...otherProps
 }: {
-  type: InputType
+  type: T // <--- this is it
   onChange?: OnChange<T>
-  style?: CSSProperties
+  style?: Style
   label?: ReactNode
   pattern?: string
   description?: string
@@ -424,7 +434,7 @@ export const Input = <T extends InputType>({
         </Button>
       )}
 
-      <div
+      <styled.div
         style={{
           position: 'relative',
           color: color('text'),
@@ -530,7 +540,7 @@ export const Input = <T extends InputType>({
           </MaybeSuggest>
         )}
         {type === 'number' && !disabled && (
-          <div
+          <styled.div
             style={{
               position: 'absolute',
               right: 8,
@@ -584,7 +594,7 @@ export const Input = <T extends InputType>({
             >
               <ChevronDownIcon size={9} strokeWidth={2.5} />
             </styled.div>
-          </div>
+          </styled.div>
         )}
         {type !== 'json' && type !== 'markdown' && type !== 'multiline'
           ? renderOrCreateElement(iconRight, {
@@ -597,10 +607,10 @@ export const Input = <T extends InputType>({
               },
             })
           : null}
-      </div>
+      </styled.div>
 
       {maxChars && (
-        <div
+        <styled.div
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -614,7 +624,7 @@ export const Input = <T extends InputType>({
           <Text color="text2" weight={400}>
             Max {maxChars} characters
           </Text>
-        </div>
+        </styled.div>
       )}
     </InputWrapper>
   )

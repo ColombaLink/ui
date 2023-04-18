@@ -102,7 +102,6 @@ export const Login: FC<LoginProps> = ({
           type="password"
           placeholder="Password"
           onChange={setPassword}
-          passwordInput
           space
         />
       </div>
