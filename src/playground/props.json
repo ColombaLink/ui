@@ -1082,7 +1082,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "placeholder": {
           "optional": true,
@@ -1125,17 +1125,17 @@
           "type": "function"
         }
       },
-      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  style?: CSSProperties\n  placeholder?: string\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n  isEndDate?: boolean\n  isDateRange?: boolean\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  onClick?: () => void\n}",
+      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  style?: Style\n  placeholder?: string\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n  isEndDate?: boolean\n  isDateRange?: boolean\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  onClick?: () => void\n}",
       "file": "/components/DateTimePicker/DateInput.tsx"
     },
     "DatePickerProps": {
       "name": "DatePickerProps",
       "props": {
-        "inputValue": {
+        "value": {
           "optional": true,
           "type": "string"
         },
-        "setInputValue": {
+        "dateHandler": {
           "optional": true,
           "type": "function"
         },
@@ -1192,7 +1192,7 @@
           "type": "boolean"
         }
       },
-      "code": "type DatePickerProps = {\n  inputValue?: string\n  setInputValue?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
+      "code": "type DatePickerProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateRangeInputProps": {
@@ -2115,16 +2115,9 @@
         "large": {
           "optional": true,
           "type": "boolean"
-        },
-        "icon": {
-          "optional": true,
-          "type": [
-            "FunctionComponent",
-            "ReactNode"
-          ]
         }
       },
-      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n}",
+      "code": "type PasswordInputProps = {\n  value?: string\n  onChange?: (target) => void\n  disabled?: boolean\n  large?: boolean\n}",
       "file": "/components/Input/PasswordInput.tsx"
     },
     "SingleProps": {
@@ -2150,12 +2143,16 @@
           "optional": true,
           "type": "function"
         },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
         }
       },
-      "code": "type SingleProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  style?: CSSProperties\n}",
+      "code": "type SingleProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  style?: CSSProperties\n}",
       "file": "/components/Input/index.tsx"
     },
     "LabelProps": {
@@ -2581,8 +2578,8 @@
       "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  color?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
     },
-    "ProgressBarProps": {
-      "name": "ProgressBarProps",
+    "ProgressIndicatorProps": {
+      "name": "ProgressIndicatorProps",
       "props": {
         "progress": {
           "optional": true,
@@ -2593,8 +2590,8 @@
           "type": "boolean"
         }
       },
-      "code": "type ProgressBarProps = {\n  progress?: number\n  circle?: boolean\n}",
-      "file": "/components/ProgressBar/index.tsx"
+      "code": "type ProgressIndicatorProps = {\n  progress?: number\n  circle?: boolean\n}",
+      "file": "/components/ProgressIndicator/index.tsx"
     },
     "ProviderProps": {
       "name": "ProviderProps",
@@ -3197,6 +3194,56 @@
       "code": "type SidebarItemProps = {\n  children?: ReactNode\n  label?: ReactNode\n  href?: string\n  isActive?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  expanded?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n}",
       "file": "/components/Sidebar/index.tsx"
     },
+    "SliderProps": {
+      "name": "SliderProps",
+      "props": {
+        "items": {
+          "optional": true,
+          "type": "Items"
+        },
+        "max": {
+          "optional": true,
+          "type": "number"
+        },
+        "min": {
+          "optional": true,
+          "type": "number"
+        },
+        "alwaysShowLabel": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "Label": {
+          "optional": true,
+          "type": "FC"
+        },
+        "step": {
+          "optional": true,
+          "type": "number"
+        },
+        "onStartSliding": {
+          "optional": true,
+          "type": "function"
+        },
+        "onEndSliding": {
+          "optional": true,
+          "type": "function"
+        },
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        }
+      },
+      "code": "type SliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
+      "file": "/components/Slider/index.tsx"
+    },
     "SpacerProps": {
       "name": "SpacerProps",
       "props": {
@@ -3288,77 +3335,73 @@
       "code": "type SystemMenuItemProps = {\n  children?: ReactNode | FC\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/SystemLabel/index.tsx"
     },
-    "TableFromQueryProps": {
-      "name": "TableFromQueryProps",
+    "TableHeaderProps": {
+      "name": "TableHeaderProps",
       "props": {
-        "fields": {
+        "headers": {
+          "optional": true,
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "columnWidthsArr": {
+          "type": {
+            "array": "number"
+          }
+        },
+        "setColumnWidthsArr": {
+          "type": "function"
+        },
+        "setTableHeaders": {
+          "type": "function"
+        },
+        "setSelectedRows": {
+          "type": "function"
+        },
+        "selectedRows": {
+          "type": {
+            "array": "number"
+          }
+        },
+        "tableData": {}
+      },
+      "code": "type TableHeaderProps = {\n  headers?: {\n    key: string\n    label: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC\n    renderProps?: {}\n  }[]\n  columnWidthsArr: number[]\n  setColumnWidthsArr: (e) => void\n  setTableHeaders: (e) => void\n  setSelectedRows: (e) => void\n  selectedRows: number[]\n  tableData\n}",
+      "file": "/components/Table/TableHeader.tsx"
+    },
+    "TableSelectionActionsProps": {
+      "name": "TableSelectionActionsProps",
+      "props": {
+        "selectedRows": {
           "type": {
             "array": "string"
           }
         },
-        "query": {
-          "type": "TSTypeLiteral"
-        },
-        "width": {
-          "type": "number"
-        },
-        "height": {
-          "type": "number"
-        },
-        "target": {
-          "optional": true,
-          "type": "string"
-        },
-        "language": {
-          "optional": true,
-          "type": "string"
-        },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "onClick": {
-          "type": "DataEventHandler"
-        },
-        "onAction": {
-          "optional": true,
-          "type": "OnAction"
-        },
-        "setSelectedRowCheckboxes": {
-          "optional": true,
+        "setSelectedRows": {
           "type": "function"
         },
-        "selectedRowCheckboxes": {
-          "optional": true,
-          "type": "Array"
-        },
-        "setTableIsEmpty": {
-          "optional": true,
+        "setShowSelectedRows": {
           "type": "function"
         },
-        "isMultiref": {
-          "optional": true,
+        "showSelectedRows": {
           "type": "boolean"
         }
       },
-      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key: string]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  style?: Style\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
-      "file": "/components/Table/TableFromQuery.tsx"
+      "code": "type TableSelectionActionsProps = {\n  selectedRows: string[]\n  setSelectedRows: (e) => void\n  setShowSelectedRows: (e) => void\n  showSelectedRows: boolean\n}",
+      "file": "/components/Table/TableSelectionActions.tsx"
     },
     "TableProps": {
       "name": "TableProps",
       "props": {
-        "fields": {
+        "headers": {
           "optional": true,
-          "type": "Fields"
-        },
-        "query": {
-          "optional": true,
-          "type": "function"
+          "type": {
+            "array": "TSTypeLiteral"
+          }
         },
         "data": {
           "optional": true,
           "type": {
-            "array": "TSObjectKeyword"
+            "array": "TSTypeLiteral"
           }
         },
         "width": {
@@ -3369,32 +3412,28 @@
           "optional": true,
           "type": "number"
         },
-        "style": {
+        "rowCount": {
           "optional": true,
-          "type": "Style"
+          "type": "number"
         },
-        "language": {
+        "rowHeight": {
           "optional": true,
-          "type": "string"
+          "type": "number"
         },
-        "target": {
+        "columnCount": {
           "optional": true,
-          "type": "string"
+          "type": "number"
         },
-        "onAction": {
+        "columnWidth": {
           "optional": true,
-          "type": "OnAction"
-        },
-        "isMultiref": {
-          "optional": true,
-          "type": "boolean"
+          "type": "number"
         },
         "onClick": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  style?: Style\n  language?: string\n  target?: string\n  onAction?: OnAction\n  isMultiref?: boolean\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
+      "code": "type TableProps = {\n  headers?: {\n    key: string\n    label: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc\n    renderProps?: {}\n  }[]\n  data?: {}[] // TYPE THIS\n  width?: number\n  height?: number\n  rowCount?: number\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  // TODO these + onClick beter\n  // onAction?: OnAction\n  // onVisibleRowIndex?: (indexes: {\n  //   startIndex: number\n  //   endIndex: number\n  // }) => void\n  onClick?: (e: EventData, data) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {
@@ -3814,56 +3853,6 @@
       "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n  icons?: ReactNode | string\n  avatar?: ReactNode\n  onClick?: () => void\n}",
       "file": "/components/Topbar/index.tsx"
     },
-    "ValueSliderProps": {
-      "name": "ValueSliderProps",
-      "props": {
-        "items": {
-          "optional": true,
-          "type": "Items"
-        },
-        "max": {
-          "optional": true,
-          "type": "number"
-        },
-        "min": {
-          "optional": true,
-          "type": "number"
-        },
-        "alwaysShowLabel": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "Label": {
-          "optional": true,
-          "type": "FC"
-        },
-        "step": {
-          "optional": true,
-          "type": "number"
-        },
-        "onStartSliding": {
-          "optional": true,
-          "type": "function"
-        },
-        "onEndSliding": {
-          "optional": true,
-          "type": "function"
-        },
-        "value": {
-          "optional": true,
-          "type": "number"
-        },
-        "onChange": {
-          "type": "function"
-        },
-        "color": {
-          "optional": true,
-          "type": "Color"
-        }
-      },
-      "code": "type ValueSliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
-      "file": "/components/ValueSlider/index.tsx"
-    },
     "ListItemProps": {
       "name": "ListItemProps",
       "props": {
@@ -3882,6 +3871,62 @@
       },
       "code": "type ListItemProps = {\n  index?: number\n  data?: any\n  style?: CSSProperties\n}",
       "file": "/components/VirtualizedList/ListItem.tsx"
+    },
+    "TableFromQueryProps": {
+      "name": "TableFromQueryProps",
+      "props": {
+        "fields": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "query": {
+          "type": "TSTypeLiteral"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "target": {
+          "optional": true,
+          "type": "string"
+        },
+        "language": {
+          "optional": true,
+          "type": "string"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "onClick": {
+          "type": "DataEventHandler"
+        },
+        "onAction": {
+          "optional": true,
+          "type": "OnAction"
+        },
+        "setSelectedRowCheckboxes": {
+          "optional": true,
+          "type": "function"
+        },
+        "selectedRowCheckboxes": {
+          "optional": true,
+          "type": "Array"
+        },
+        "setTableIsEmpty": {
+          "optional": true,
+          "type": "function"
+        },
+        "isMultiref": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key: string]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  style?: Style\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
+      "file": "/components/_Table/TableFromQuery.tsx"
     }
   },
   "types": {
