@@ -26,7 +26,6 @@ type GridProps = {
     label: ReactNode
     showColumnCheckbox?: boolean
     render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
-    renderProps?: {}
   }[]
 }
 

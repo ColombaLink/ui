@@ -383,7 +383,7 @@ export const MachinesSection: FC<{
           {
             key: 'id',
             label: 'ID',
-            //  render: { Badge: { color: 'accent' } },
+            render: Badge,
           },
           {
             key: 'machineOptions',
