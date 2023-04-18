@@ -25,7 +25,6 @@ import {
   Table,
   styled,
   color,
-  renderOrCreateElement,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
@@ -385,10 +384,7 @@ export const MachinesSection: FC<{
             label: 'ID',
             render: Badge,
           },
-          {
-            key: 'machineOptions',
-            label: 'Options',
-          },
+          { key: 'machineOptions', label: 'Options' },
         ]}
       />
     </AccordionItem>

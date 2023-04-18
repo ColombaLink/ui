@@ -7,7 +7,7 @@ import { useClient } from '@based/react'
 export const AddTypeModal: FC = () => {
   const client = useClient()
   const [name, setName] = useState('')
-  const [pluralName, setPluralName] = useState('')
+  const [pluralName, setPluralName] = useState<string>('')
   const [typeName, setTypeName] = useState('')
   const [description, setDescription] = useState('')
   const [filled, setFilled] = useState(false)

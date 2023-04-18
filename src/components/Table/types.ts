@@ -3,7 +3,7 @@ type FormattedCell = {
   type: 'image' | 'video' | 'file' | 'date'
   value: CellValue
 }
-type CellData = CellValue | FormattedCell | ReactNode
+type CellData = CellValue | FormattedCell
 
 type RowData = {
   [key: string]: CellData

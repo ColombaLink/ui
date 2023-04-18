@@ -1131,7 +1131,7 @@
     "DatePickerProps": {
       "name": "DatePickerProps",
       "props": {
-        "value": {
+        "inputValue": {
           "optional": true,
           "type": "string"
         },
@@ -1192,7 +1192,7 @@
           "type": "boolean"
         }
       },
-      "code": "type DatePickerProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
+      "code": "type DatePickerProps = {\n  inputValue?: string\n  dateHandler?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
       "file": "/components/DateTimePicker/DatePicker.tsx"
     },
     "DateRangeInputProps": {
@@ -3365,7 +3365,7 @@
         },
         "tableData": {}
       },
-      "code": "type TableHeaderProps = {\n  headers?: {\n    key: string\n    label: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC\n    renderProps?: {}\n  }[]\n  columnWidthsArr: number[]\n  setColumnWidthsArr: (e) => void\n  setTableHeaders: (e) => void\n  setSelectedRows: (e) => void\n  selectedRows: number[]\n  tableData\n}",
+      "code": "type TableHeaderProps = {\n  headers?: {\n    key: string\n    label: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC\n  }[]\n  columnWidthsArr: number[]\n  setColumnWidthsArr: (e) => void\n  setTableHeaders: (e) => void\n  setSelectedRows: (e) => void\n  selectedRows: number[]\n  tableData\n}",
       "file": "/components/Table/TableHeader.tsx"
     },
     "TableSelectionActionsProps": {
@@ -3433,7 +3433,7 @@
           "type": "function"
         }
       },
-      "code": "type TableProps = {\n  headers?: {\n    key: string\n    label: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc\n    renderProps?: {}\n  }[]\n  data?: {}[] // TYPE THIS\n  width?: number\n  height?: number\n  rowCount?: number\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  // TODO these + onClick beter\n  // onAction?: OnAction\n  // onVisibleRowIndex?: (indexes: {\n  //   startIndex: number\n  //   endIndex: number\n  // }) => void\n  onClick?: (e: EventData, data) => void\n}",
+      "code": "type TableProps = {\n  headers?: {\n    key: string\n    label: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc\n  }[]\n  data?: {}[] // TYPE THIS\n  width?: number\n  height?: number\n  rowCount?: number\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  // TODO these + onClick beter\n  // onAction?: OnAction\n  // onVisibleRowIndex?: (indexes: {\n  //   startIndex: number\n  //   endIndex: number\n  // }) => void\n  onClick?: (e: EventData, data) => void\n}",
       "file": "/components/Table/index.tsx"
     },
     "TabProps": {

@@ -270,14 +270,16 @@ export const Input = <T extends InputType>({
 
   const onChange = useCallback(
     (e: { target: { value } }) => {
-      const newValue = transform ? transform(e.target.value) : e.target.value
+      const newValue =
+        typeof e.target.value === 'string'
+          ? transform(e.target.value)
+          : e.target.value
       if (typeof e.target.value === 'number') {
         setValue(+e.target.value)
-        // @ts-ignore
-        onChangeProp?.(+newValue)
+
+        onChangeProp?.(newValue)
       } else {
         setValue(newValue)
-        // @ts-ignore
         onChangeProp?.(newValue)
       }
     },

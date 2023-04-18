@@ -61,8 +61,7 @@ export const SharedGeneral: FC<{
         style={{ marginBottom: 24 }}
       />
       <Input
-        type="text"
-        multiline // TODO no camelcase?
+        type="multiline"
         label="Description (Optional)"
         description="Displays a hint for content editors"
         value={options.meta.description}
