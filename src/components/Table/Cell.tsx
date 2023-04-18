@@ -5,6 +5,8 @@ import { renderOrCreateElement } from '~/utils'
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const ObjectKeys = Object.keys(data.data[0])
 
+  // todo: check if columnindex and key are same so it doesnt go out of sync
+
   return (
     <styled.div
       style={{
