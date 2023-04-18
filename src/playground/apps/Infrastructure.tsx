@@ -20,11 +20,11 @@ const client = based({
 // })
 
 client.on('connect', () => {
-  console.log('connected')
+  console.info('connected')
 })
 
 client.on('debug', (x) => {
-  console.log('based platform hub', x)
+  console.info('based platform hub', x)
 })
 
 // client.on('debug', (d) => {
