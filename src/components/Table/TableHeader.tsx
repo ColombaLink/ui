@@ -1,4 +1,12 @@
-import React, { ReactNode, FC, useState, useRef, useEffect } from 'react'
+import React, {
+  ReactNode,
+  FC,
+  useState,
+  useRef,
+  useEffect,
+  ReactElement,
+  JSXElementConstructor,
+} from 'react'
 import {
   styled,
   Text,
@@ -11,10 +19,12 @@ import {
 } from '~'
 
 type TableHeaderProps = {
-  headers: {
+  headers?: {
     key: string
-    label: string | ReactNode
+    label: ReactNode
     showColumnCheckbox?: boolean
+    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
+    renderProps?: {}
   }[]
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void

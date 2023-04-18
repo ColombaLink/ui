@@ -1,11 +1,8 @@
 import React from 'react'
 import { styled, Text, color, Checkbox } from '~'
+import { renderOrCreateElement } from '~/utils'
 
-// this data here is only the itemdata..
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
-  // get the object keys from data
-  // only from the first they should all have the same keys...
-
   const ObjectKeys = Object.keys(data.data[0])
 
   return (
@@ -17,7 +14,8 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         paddingLeft: 6,
         ...style,
       }}
-      onClick={(e) => data.onClick(e, data.data[rowIndex])}
+      // onClick={(e) => data.onClick(e, data.data[rowIndex])}
+      onClick={() => data?.onClick()}
     >
       {columnIndex === 0 && (
         <Checkbox
@@ -37,11 +35,19 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
         />
       )}
 
-      <Text>
-        {data.data[rowIndex]
-          ? data.data[rowIndex][ObjectKeys[columnIndex]]
-          : null}
-      </Text>
+      {data.headers?.[columnIndex]?.render &&
+      data.headers?.[columnIndex]?.showColumnCheckbox ? (
+        renderOrCreateElement(data.headers?.[columnIndex]?.render, {
+          children: data.data[rowIndex][ObjectKeys[columnIndex]],
+          ...data.headers?.[columnIndex]?.renderProps,
+        })
+      ) : (
+        <Text>
+          {data.data[rowIndex]
+            ? data.data[rowIndex][ObjectKeys[columnIndex]]
+            : null}
+        </Text>
+      )}
     </styled.div>
   )
 }

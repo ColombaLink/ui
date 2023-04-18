@@ -1,9 +1,17 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import React, {
+  FC,
+  useEffect,
+  useRef,
+  useState,
+  ReactNode,
+  ReactElement,
+  JSXElementConstructor,
+} from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
 
 type GridProps = {
-  data: RowData[]
+  data: {}[]
   rowCount: number
   rowHeight: number
   width?: number
@@ -13,9 +21,17 @@ type GridProps = {
   setSelectedRows?: (e) => void
   selectedRows?: number[]
   onClick?: (e: EventData, data) => void
+  headers?: {
+    key: string
+    label: ReactNode
+    showColumnCheckbox?: boolean
+    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
+    renderProps?: {}
+  }[]
 }
 
 export const Grid: FC<GridProps> = ({
+  headers,
   data,
   rowCount,
   rowHeight,
@@ -28,7 +44,7 @@ export const Grid: FC<GridProps> = ({
   onClick,
 }) => {
   const varGridRef = useRef<any>()
-  const [rowCountState, setRowCountState] = useState(rowCount)
+  const [rowCountState] = useState(rowCount)
 
   useEffect(() => {
     if (varGridRef.current) {
@@ -38,10 +54,9 @@ export const Grid: FC<GridProps> = ({
         shouldForceUpdate: true,
       })
     }
-  }, [columnWidthsArr])
+  }, [columnWidthsArr, headers])
 
   useEffect(() => {
-    console.log('Rowcount', rowCount, 'RowCountState', rowCountState)
     if (rowCount < rowCountState) {
       varGridRef.current.resetAfterIndices({
         columnIndex: 0,
@@ -50,6 +65,8 @@ export const Grid: FC<GridProps> = ({
       })
     }
   }, [rowCount])
+
+  console.log('🌈', data)
 
   return (
     <VariableSizeGrid
@@ -60,7 +77,7 @@ export const Grid: FC<GridProps> = ({
       rowHeight={() => rowHeight}
       width={width}
       height={height}
-      itemData={{ data, setSelectedRows, selectedRows, onClick }}
+      itemData={{ data, setSelectedRows, selectedRows, onClick, headers }}
       //   onItemsRendered={}
     >
       {Cell}
