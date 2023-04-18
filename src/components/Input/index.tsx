@@ -282,11 +282,12 @@ export const Input = <T extends InputType>({
     (e: { target: { value } }) => {
       const newValue =
         typeof e.target.value === 'string'
-          ? transform(e.target.value)
+          ? transform
+            ? transform(e.target.value)
+            : parseInt(e.target.value, 10)
           : e.target.value
       if (typeof e.target.value === 'number') {
         setValue(+e.target.value)
-
         onChangeProp?.(newValue)
       } else {
         setValue(newValue)
