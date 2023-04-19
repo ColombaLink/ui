@@ -1,33 +1,10 @@
-import React, {
-  ReactNode,
-  FC,
-  useState,
-  useEffect,
-  ReactElement,
-  JSXElementConstructor,
-} from 'react'
+import React, { FC, useState, useEffect } from 'react'
 import { Grid } from './Grid'
 import { styled } from 'inlines'
 import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
-
-type TableProps = {
-  headers?: {
-    key: string
-    label?: ReactNode
-    showColumnCheckbox?: boolean
-    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc
-  }[]
-  data?: {}[] // TYPE THIS
-  width?: number
-  height?: number
-  rowCount?: number
-  rowHeight?: number
-  columnCount?: number
-  columnWidth?: number
-  onClick?: (e: EventData, data) => void
-}
+import { TableProps } from './types'
 
 export const Table: FC<TableProps> = ({
   headers,
@@ -47,7 +24,7 @@ export const Table: FC<TableProps> = ({
     new Array(columnCount).fill(true).map(() => columnWidth)
   )
   const [selectedRows, setSelectedRows] = useState([])
-  const [showSelectedRows, setShowSelectedRows] = useState()
+  const [showSelectedRows, setShowSelectedRows] = useState(false)
 
   // to keep track of selected rows
   const [selectedRowsCopy, setSelectedRowsCopy] = useState()

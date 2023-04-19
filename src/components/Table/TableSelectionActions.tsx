@@ -1,15 +1,15 @@
 import React, { FC } from 'react'
-import { styled, Style } from 'inlines'
-import { Text, Button } from '~'
+import { Text, Button, styled } from '~'
 
-type TableSelectionActionsProps = {
+type TableSelectionActionsProps<T> = {
   selectedRows: string[]
-  setSelectedRows: (e) => void
-  setShowSelectedRows: (e) => void
+  setSelectedRows: (rows: T[]) => void
+  setShowSelectedRows: (show: boolean) => void
+  // delete row fn
   showSelectedRows: boolean
 }
 
-export const TableSelectionActions: FC<TableSelectionActionsProps> = ({
+export const TableSelectionActions: FC<TableSelectionActionsProps<any>> = ({
   selectedRows,
   setSelectedRows,
   setShowSelectedRows,

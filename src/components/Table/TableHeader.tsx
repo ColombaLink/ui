@@ -1,12 +1,4 @@
-import React, {
-  ReactNode,
-  FC,
-  useState,
-  useRef,
-  useEffect,
-  ReactElement,
-  JSXElementConstructor,
-} from 'react'
+import React, { FC, useState, useRef, useEffect } from 'react'
 import {
   styled,
   Text,
@@ -16,15 +8,12 @@ import {
   MoreIcon,
   useContextMenu,
   DragDropIcon,
+  removeOverlay,
 } from '~'
+import { TableHeader as TableHeaderType } from './types'
 
 type TableHeaderProps = {
-  headers?: {
-    key: string
-    label?: ReactNode
-    showColumnCheckbox?: boolean
-    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
-  }[]
+  headers?: TableHeaderType<any>[]
   columnWidthsArr: number[]
   setColumnWidthsArr: (e) => void
   setTableHeaders: (e) => void
@@ -69,6 +58,8 @@ export const TableHeader: FC<TableHeaderProps> = ({
   // console.log('TABLE header columns width arr', columnWidthsArr)
   const [showDragLines, setShowDraglines] = useState(false)
   const [isBoxCheckedNow, setIsBoxCheckedNow] = useState(false)
+
+  console.log('Table 🌫', headers)
 
   useEffect(() => {
     if (selectedRows.length === tableData.length) {
@@ -199,6 +190,7 @@ const SelectHeaderDisplay = ({ headers, setTableHeaders }) => {
     dragOverItem.current = null
     setTableHeaders(copyListItems)
     setListForRender(copyListItems)
+    removeOverlay()
   }
 
   return (
