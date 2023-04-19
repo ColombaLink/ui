@@ -1,14 +1,7 @@
-import React, {
-  FC,
-  useEffect,
-  useRef,
-  useState,
-  ReactNode,
-  ReactElement,
-  JSXElementConstructor,
-} from 'react'
+import React, { FC, useEffect, useRef, useState, MouseEvent } from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
+import { TableHeader } from './types'
 
 type GridProps = {
   data: {}[]
@@ -20,13 +13,8 @@ type GridProps = {
   columnWidthsArr: number[]
   setSelectedRows?: (e) => void
   selectedRows?: number[]
-  onClick?: (e: EventData, data) => void
-  headers?: {
-    key: string
-    label?: ReactNode
-    showColumnCheckbox?: boolean
-    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
-  }[]
+  onClick?: (e: MouseEvent, data) => void
+  headers?: TableHeader<any>[]
 }
 
 export const Grid: FC<GridProps> = ({

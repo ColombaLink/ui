@@ -1,17 +1,25 @@
-type CellValue = string | number | boolean
-type FormattedCell = {
-  type: 'image' | 'video' | 'file' | 'date'
-  value: CellValue
-}
-type CellData = CellValue | FormattedCell
+import { ReactNode, FC, MouseEvent } from 'react'
 
-type RowData = {
-  [key: string]: CellData
-}[]
-
-type EventData = {
-  item: CellData
+export type TableHeader<T> = {
   key: string
-  colIndex: number
-  rowIndex: number
+  label?: ReactNode
+  showColumnCheckbox?: boolean
+  customComponent?: FC<{
+    data: T
+    key: string
+    columnIndex: number
+    rowIndex: number
+  }>
+}
+
+export type TableProps<T extends any = any> = {
+  headers?: TableHeader<T>[]
+  data?: T[]
+  width?: number
+  height?: number
+  rowCount?: number
+  rowHeight?: number
+  columnCount?: number
+  columnWidth?: number
+  onClick?: (e: MouseEvent, data: any) => void
 }
