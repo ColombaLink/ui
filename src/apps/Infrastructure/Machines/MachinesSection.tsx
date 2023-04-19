@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react'
+import React, { FC } from 'react'
 import {
   Button,
   AccordionItem,
@@ -20,11 +20,7 @@ import {
   useContextMenu,
   CloseIcon,
   ContextDivider,
-  WarningIcon,
-  LoadingIcon,
   Table,
-  styled,
-  color,
 } from '~'
 import { Status } from './Status'
 import { MachineStatus } from './MachineStatus'
@@ -34,85 +30,12 @@ import {
   MachineConfig,
 } from '@based/machine-config'
 import { useClient } from '@based/react'
-import { prettyNumber } from '@based/pretty-number'
-
-const StatusBadge: FC = (status: { status: number }): ReactElement => {
-  // const statusValue: number = +Object.values(x)
-  const statusValue: number = +Object.values(status)
-
-  const colors = {
-    0: 'red',
-    1: 'green',
-    2: 'accent',
-    3: 'accent',
-    4: 'red',
-    5: 'accent',
-  }
-
-  const icons = {
-    0: WarningIcon,
-    1: CheckIcon,
-    2: LoadingIcon,
-    3: ReplaceIcon,
-    4: CloseIcon,
-    5: LoadingIcon,
-  }
-
-  return (
-    <Badge icon={icons[statusValue]} color={colors[statusValue]}>
-      {statusValue === 0
-        ? 'Not OK'
-        : statusValue === 1
-        ? 'OK'
-        : statusValue === 2
-        ? 'Creating'
-        : statusValue === 3
-        ? 'Rebooting'
-        : statusValue === 4
-        ? 'Removing'
-        : statusValue === 5
-        ? 'Resizing'
-        : ''}
-    </Badge>
-  )
-}
-
-const CustomCpuMemoryBadge: FC = (arr: {
-  children: string[]
-}): ReactElement => {
-  const cpuVal: string = arr?.children[0]
-  const memoryVal: string = arr?.children[1]
-
-  return (
-    <styled.div style={{ display: 'flex', overflowX: 'clip' }}>
-      <Badge
-        color="lightaccent"
-        style={{
-          borderTopRightRadius: 0,
-          borderBottomRightRadius: 0,
-          borderRight: `1px solid ${color('border')}`,
-        }}
-      >
-        {cpuVal || ''}
-      </Badge>
-      <Badge
-        color="lightaccent"
-        style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
-      >
-        {memoryVal || ''}
-      </Badge>
-    </styled.div>
-  )
-}
 
 const Actions: FC<{
   machine: MachineType
 }> = ({ machine }) => {
   const [env] = useContextState<Env>('env')
   const client = useClient()
-
-  // console.log('from actions 🌼', machine)
-
   return (
     <>
       <ContextItem
@@ -263,19 +186,8 @@ export const MachinesSection: FC<{
     {}
   )
   const [env] = useContextState<Env>('env')
-  const client = useClient()
 
-  console.log('🐈‍⬛', machines)
-  console.log(
-    machines.map((m) => ({
-      status: m.status,
-      cpu: [m.stats?.cpu, m.stats?.memory],
-      publicIP: m.publicIp,
-      cloudMachineId: m.cloudMachineId,
-      id: m.id,
-      testing: m,
-    }))
-  )
+  const client = useClient()
 
   let running = 0
   let unreachable = 0
@@ -343,50 +255,9 @@ export const MachinesSection: FC<{
           </Button>
         ) : null}
       </RowEnd>
-      {/* {machines.map((m) => {
+      {machines.map((m) => {
         return <Machine config={config} machine={m} key={m.id} />
-      })} */}
-
-      <Table
-        data={machines.map((m) => ({
-          status: m.status,
-          cpu: [
-            'Cpu ' + m.stats?.cpu?.toFixed() + '%',
-            prettyNumber(~~m.stats?.memory, 'number-bytes'),
-          ],
-          publicIp: m.publicIp,
-          cloudMachineId: m.cloudMachineId,
-          id: m.id,
-          machineOptions: (
-            <Button
-              icon={MoreIcon}
-              ghost
-              onClick={useContextMenu(Actions, { machine: m })}
-            />
-          ),
-        }))}
-        columnWidth={146}
-        headers={[
-          {
-            key: 'status',
-            label: 'Status',
-            render: StatusBadge,
-          },
-          {
-            key: 'cpu',
-            label: 'CPU/Memory',
-            render: CustomCpuMemoryBadge,
-          },
-          { key: 'publicIp', label: 'Public IP' },
-          { key: 'cloudMachineId', label: 'Cloud Id' },
-          {
-            key: 'id',
-            label: 'ID',
-            render: Badge,
-          },
-          { key: 'machineOptions', label: 'Options' },
-        ]}
-      />
+      })}
     </AccordionItem>
   )
 }

@@ -192,7 +192,7 @@ const MachineConfig: FC<{
 
 export const Machines: FC<{ env: Env }> = ({ env }) => {
   const { data: envData, checksum } = useQuery('env', env, {
-    persistent: true,
+    persistent: false,
   })
   const [filter, setFilter] = useContextState('filter', '')
   const { open } = useDialog()

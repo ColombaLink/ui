@@ -159,7 +159,7 @@ export const AddViewModal = () => {
         addQuery: {
           parents: ['$target'],
         },
-        fields: [{ field: 'name' }, { field: 'id' }],
+        headers: [{ key: 'name' }, { key: 'id' }],
         id: 'new-view-' + (~~(Math.random() * 10000000)).toString(16),
         label: 'New view',
         query: {

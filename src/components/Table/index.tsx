@@ -12,13 +12,10 @@ import { TableHeader } from './TableHeader'
 import { TableSelectionActions } from './TableSelectionActions'
 import AutoSizer from 'react-virtualized-auto-sizer'
 
-// type Action = 'delete'
-// type OnAction = (items: string[], action: Action) => void
-
 type TableProps = {
   headers?: {
     key: string
-    label: ReactNode
+    label?: ReactNode
     showColumnCheckbox?: boolean
     render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc
   }[]
@@ -29,12 +26,6 @@ type TableProps = {
   rowHeight?: number
   columnCount?: number
   columnWidth?: number
-  // TODO these + onClick beter
-  // onAction?: OnAction
-  // onVisibleRowIndex?: (indexes: {
-  //   startIndex: number
-  //   endIndex: number
-  // }) => void
   onClick?: (e: EventData, data) => void
 }
 
@@ -49,7 +40,6 @@ export const Table: FC<TableProps> = ({
     (data && data.length && Object.keys(data[0]).length),
   columnWidth = 132,
   onClick,
-  // onAction,
 }) => {
   const [tableHeaders, setTableHeaders] = useState(headers)
   const [tableData, setTableData] = useState(data || [])

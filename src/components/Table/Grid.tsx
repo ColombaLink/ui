@@ -23,7 +23,7 @@ type GridProps = {
   onClick?: (e: EventData, data) => void
   headers?: {
     key: string
-    label: ReactNode
+    label?: ReactNode
     showColumnCheckbox?: boolean
     render?: ReactElement<any, string | JSXElementConstructor<any>> | FC
   }[]

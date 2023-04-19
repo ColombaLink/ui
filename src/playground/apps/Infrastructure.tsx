@@ -3,21 +3,21 @@ import ComponentViewer from '../ComponentViewer'
 import { Provider } from '@based/react'
 import based from '@based/client'
 
-const client = based({
-  org: 'saulx',
-  project: 'based-cloud',
-  env: 'platform',
-  name: '@based/admin-hub',
-  cluster: 'local',
-})
-
 // const client = based({
 //   org: 'saulx',
 //   project: 'based-cloud',
 //   env: 'platform',
 //   name: '@based/admin-hub',
-//   cluster: 'test',
+//   cluster: 'local',
 // })
+
+const client = based({
+  org: 'saulx',
+  project: 'based-cloud',
+  env: 'platform',
+  name: '@based/admin-hub',
+  cluster: 'teststable',
+})
 
 client.on('connect', () => {
   console.info('connected')
@@ -55,13 +55,14 @@ const route = useRoute('[infraSection]');
 <BasedAdminProvider>
   <Infrastructure 
     env={{
-      project: 'test',
-      org: 'saulx',
-      env: 'ci',
-      // project: 'esc',
+      // project: 'test',
       // org: 'saulx',
-      // env: 'dev',
-      // cluster: 'test'
+      // env: 'ci',
+      // cluster: 'local'
+      project: 'esc',
+      org: 'saulx',
+      env: 'dev',
+      cluster: 'teststable'
     }}
     values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
     onChange={(key, v) => { 
