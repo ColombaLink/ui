@@ -3,7 +3,7 @@ import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
 import { TableHeader } from './types'
 
-type GridProps = {
+type TableGridProps = {
   data: {}[]
   rowCount: number
   rowHeight: number
@@ -17,7 +17,7 @@ type GridProps = {
   headers?: TableHeader<any>[]
 }
 
-export const Grid: FC<GridProps> = ({
+export const Grid: FC<TableGridProps> = ({
   headers,
   data,
   rowCount,

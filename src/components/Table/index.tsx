@@ -59,6 +59,7 @@ export const Table: FC<TableProps> = ({
       )
 
       setTableData(newerData)
+      console.log('newerdata>>??', newerData)
     }
   }, [tableHeaders, data])
 
