@@ -9,6 +9,7 @@ const TableCheckBox = ({ data, rowIndex }) => {
       checked={data.selectedRows.includes(rowIndex)}
       onChange={useCallback(
         (e) => {
+          console.log(data.selectedRows)
           if (e) {
             data.setSelectedRows([...data.selectedRows, rowIndex])
           } else {
@@ -30,6 +31,9 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const header = data.headers[columnIndex]
   const rowData = data.data[rowIndex]
+
+  console.log(header.key, '-------🍐')
+  console.log(rowData)
 
   body = header.customComponent
     ? createElement(header.customComponent, {

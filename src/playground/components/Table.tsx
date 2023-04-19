@@ -20,6 +20,8 @@ global.genTableData = (): {
 }
 
 global.YellowBlock = ({ data, key }) => {
+  console.log('YELLow', data, key)
+
   return <div style={{ backgroundColor: 'yellow' }}>xxx{data[key]}</div>
 }
 

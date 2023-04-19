@@ -59,6 +59,8 @@ export const TableHeader: FC<TableHeaderProps> = ({
   const [showDragLines, setShowDraglines] = useState(false)
   const [isBoxCheckedNow, setIsBoxCheckedNow] = useState(false)
 
+  console.log('Table 🌫', headers)
+
   useEffect(() => {
     if (selectedRows.length === tableData.length) {
       setIsBoxCheckedNow(true)
