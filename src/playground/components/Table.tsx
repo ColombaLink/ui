@@ -19,10 +19,8 @@ global.genTableData = (): {
   }))
 }
 
-global.YellowBlock = ({ data, key }) => {
-  console.log('YELLow', data, key)
-
-  return <div style={{ backgroundColor: 'yellow' }}>xxx{data[key]}</div>
+global.YellowBlock = ({ data }) => {
+  return <div style={{ backgroundColor: 'yellow' }}>{data}</div>
 }
 
 // const SimpleMenu = global.SimpleMenu = () => {
