@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { styled } from 'inlines'
-import { color, Text, usePropState } from '~'
+import { color, Text, usePropState, styled } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markdown'
@@ -30,7 +29,7 @@ export const MarkdownInput = ({
 
   return (
     <StyledMarkdownInput>
-      <div
+      <styled.div
         className="markdown"
         style={{
           backgroundColor: color('background2'),
@@ -39,9 +38,11 @@ export const MarkdownInput = ({
         }}
       >
         <Text color="text2">Markdown Editor</Text>
-      </div>
+      </styled.div>
 
-      <div style={{ padding: 12, pointerEvents: disabled ? 'none' : null }}>
+      <styled.div
+        style={{ padding: 12, pointerEvents: disabled ? 'none' : null }}
+      >
         <Editor
           value={code}
           onValueChange={(code) => {
@@ -63,7 +64,7 @@ export const MarkdownInput = ({
             fontFamily: 'Fira Code, monospace, sans-serif',
           }}
         />
-      </div>
+      </styled.div>
     </StyledMarkdownInput>
   )
 }

@@ -1,7 +1,5 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
-import { styled } from 'inlines'
-import { color, spaceToPx, Text, ErrorIcon } from '~'
-import { Color, Space } from '~/types'
+import { color, spaceToPx, Text, ErrorIcon, styled, Color, Space } from '~'
 
 type InputWrapperProps = {
   children: ReactNode
@@ -33,7 +31,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   const [focus, setFocus] = useState(false)
 
   return (
-    <div
+    <styled.div
       onFocus={() => {
         setFocus(true)
       }}
@@ -63,7 +61,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
           </Text>
         )}
         {errorMessage && (
-          <div
+          <styled.div
             style={{
               display: 'flex',
               gap: 6,
@@ -73,9 +71,9 @@ export const InputWrapper: FC<InputWrapperProps> = ({
           >
             <ErrorIcon color="red" size={16} />
             <Text color="red">{errorMessage}</Text>
-          </div>
+          </styled.div>
         )}
       </styled.div>
-    </div>
+    </styled.div>
   )
 }

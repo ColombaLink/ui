@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, RefObject, CSSProperties } from 'react'
-import { useColorPicker } from '~/hooks/useColorPicker'
-import { color } from '~/utils'
+import { useColorPicker, color, styled } from '~'
 
 type ColorInputProps = {
   inputRef?: RefObject<HTMLInputElement>
@@ -36,7 +35,7 @@ export const ColorInput = ({
   }, [rgba])
 
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         position: 'relative',
@@ -78,6 +77,6 @@ export const ColorInput = ({
         }}
         onClick={onClick}
       />
-    </div>
+    </styled.div>
   )
 }

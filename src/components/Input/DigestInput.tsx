@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { CheckIcon, CopyIcon } from '~/icons'
-import { Input, renderOrCreateElement, Text } from '~'
+import {
+  Input,
+  renderOrCreateElement,
+  Text,
+  CheckIcon,
+  CopyIcon,
+  styled,
+} from '~'
 
 type DigestInputProps = {
   value?: string
@@ -35,7 +41,7 @@ export const DigestInput = ({
 
   return (
     <>
-      <div
+      <styled.div
         style={{
           display: 'flex',
           position: 'relative',
@@ -80,9 +86,9 @@ export const DigestInput = ({
             }, 3500)
           }}
         />
-      </div>
+      </styled.div>
       {copied && (
-        <div
+        <styled.div
           style={{
             display: 'flex',
             gap: 4,
@@ -94,7 +100,7 @@ export const DigestInput = ({
         >
           <CheckIcon color="green" />
           <Text>Copied full SHA!!</Text>
-        </div>
+        </styled.div>
       )}
     </>
   )

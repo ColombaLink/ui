@@ -91,7 +91,7 @@ export const Card: FC<CardProps> = ({
           {renderOrCreateElement(topRight)}
         </Row>
       </RowSpaced>
-      <div>{children}</div>
+      <styled.div>{children}</styled.div>
       <RowSpaced>
         {bottomLeft}
         {bottomRight}

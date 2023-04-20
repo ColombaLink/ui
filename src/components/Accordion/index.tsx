@@ -42,11 +42,11 @@ export const Accordion: FC<AccordionProps> = ({
       {children && (
         <styled.div style={{ marginBottom: spaceToPx(space), ...style }}>
           {React.Children.map(children as React.ReactElement, (child) => (
-            <div>
+            <styled.div>
               {React.cloneElement(child, {
                 color: colorProp,
               })}
-            </div>
+            </styled.div>
           ))}
         </styled.div>
       )}
@@ -70,7 +70,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   const open = expanded ?? openS
 
   return (
-    <div style={{ marginBottom: 12 }}>
+    <styled.div style={{ marginBottom: 12 }}>
       <styled.div
         onClick={() => {
           setOpen(!open)
@@ -96,14 +96,14 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         }}
         {...props}
       >
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <styled.div style={{ display: 'flex', alignItems: 'center' }}>
           <Text color={open ? colorProp : 'text'} typo="body600">
             {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}
-        </div>
+        </styled.div>
 
-        <div
+        <styled.div
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -121,10 +121,10 @@ export const AccordionItem: FC<AccordionItemProps> = ({
               color={open ? colorProp : 'text'}
             />
           )}
-        </div>
+        </styled.div>
       </styled.div>
       {open && (
-        <div
+        <styled.div
           style={{
             marginBottom: 24,
             marginTop: 24,
@@ -133,8 +133,8 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           }}
         >
           {children}
-        </div>
+        </styled.div>
       )}
-    </div>
+    </styled.div>
   )
 }
