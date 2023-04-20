@@ -32,7 +32,10 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const rowData = data.data[rowIndex]
   const rowDataKeys = Object.keys(data.data[rowIndex])
 
+  // console.log('Row index', rowIndex)
+
   // filter to again
+
   const newHeaderData = data.headers.filter((item) =>
     rowDataKeys.includes(item.key)
   )
