@@ -32,15 +32,12 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   const header = data.headers[columnIndex]
   const rowData = data.data[rowIndex]
 
-  console.log(header.key, '-------🍐')
-  console.log(rowData)
-
   body = header.customComponent
     ? createElement(header.customComponent, {
         key: header.key,
         rowIndex,
         columnIndex,
-        data: rowData,
+        data: rowData[header.key],
       })
     : null
 
