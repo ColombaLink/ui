@@ -266,7 +266,7 @@ export const Input = <T extends InputType>({
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
-  const [errorMessage, setErrorMessage] = useState('error')
+  const [errorMessage, setErrorMessage] = useState('')
   const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
   if (maxChars === -1) {
