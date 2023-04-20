@@ -30,31 +30,25 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const header = data.headers ? data.headers[columnIndex] : null
   const rowData = data.data[rowIndex]
-
   const rowDataKeys = Object.keys(data.data[rowIndex])
-  const headerKeys = data.headers
-    ? data.headers
-        .filter((item) => item.showColumnCheckbox)
-        .map((item) => item.key)
-    : null
 
-  console.log(rowData)
-  console.log(data.headers)
-  console.log('Row keys', rowDataKeys)
-  console.log('Headerkeys', headerKeys)
+  // filter to again
+  const newHeaderData = data.headers.filter((item) =>
+    rowDataKeys.includes(item.key)
+  )
 
-  body = header?.customComponent
-    ? createElement(header.customComponent, {
-        key: header.key,
-        rowIndex,
-        columnIndex,
-        data: rowData[headerKeys[columnIndex]],
-      })
-    : null
+  // console.log(newHeaderData, '⛈ 🥞')
 
-  if (body === null) {
-    body = <Text>{rowData[rowDataKeys[columnIndex]]}</Text>
-  }
+  body = newHeaderData[columnIndex]?.customComponent ? (
+    createElement(newHeaderData[columnIndex].customComponent, {
+      key: header.key,
+      rowIndex,
+      columnIndex,
+      data: rowData[rowDataKeys[columnIndex]],
+    })
+  ) : (
+    <Text>{rowData[rowDataKeys[columnIndex]]}</Text>
+  )
 
   return (
     <styled.div

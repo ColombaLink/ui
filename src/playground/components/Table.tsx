@@ -70,12 +70,16 @@ export const Table = () => {
         propsName="TableProps"
         examples={[
           {
-            code: `import { Table, Badge } from '@based/ui'
+            code: `import { Table, Badge, } from '@based/ui'
+
+            const TestBadge = ({ data }) => {
+              return (data ?  <Badge color="accent">{data}</Badge> : null)
+            }
 
 const headers = [
-  { key: 'title', label: 'Title'},
+  { key: 'title', label: 'Title', customComponent: TestBadge},
   { key: 'author', label: 'Author', customComponent: YellowBlock },
-  { key: 'description', label: 'Description' },
+  { key: 'description', label: 'Description'  },
   { key: 'subtitle', label: 'Subtitle' },
 ]
 
