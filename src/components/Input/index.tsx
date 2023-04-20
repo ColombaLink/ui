@@ -1,6 +1,5 @@
 // TODO yves en youri fix this
 import React, {
-  FC,
   FunctionComponent,
   RefObject,
   useState,
@@ -25,162 +24,20 @@ import {
   renderOrCreateElement,
   Space,
   Icon,
+  Label,
 } from '~'
-import { Label } from '../Label'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
 import { InputWrapper } from './InputWrapper'
 import { DigestInput } from './DigestInput'
 import { MarkdownInput } from './MarkdownInput'
 import { PasswordInput } from './PasswordInput'
+import { Single } from './Single'
+import { Multi } from './Multi'
+import { MaybeSuggest } from './MaybeSuggest'
 import isEmail from 'is-email'
 
-const resize = (target) => {
-  if (target) {
-    target.style.height = 'auto'
-    target.style.height = target.scrollHeight + 8 + 'px'
-  }
-}
-
-const Multi = ({ style, inputRef, ...props }) => {
-  if (inputRef) throw new Error('UI: Cannot use inputRef on Multiline Input')
-  const [inputFocus, setInputFocus] = useState(false)
-
-  return (
-    <styled.div
-      onFocus={() => setInputFocus(true)}
-      onBlur={() => setInputFocus(false)}
-      style={{
-        border: inputFocus
-          ? `2px solid rgba(44, 60, 234, 0.2)`
-          : `2px solid transparent`,
-        borderRadius: 10,
-      }}
-    >
-      <textarea
-        style={{
-          ...style,
-          display: 'block',
-          resize: 'none',
-          paddingTop: 8,
-          minHeight: 84,
-          paddingLeft: 12,
-          // outline: inputFocus
-          //   ? `3px solid rgba(44, 60, 234, 0.2)`
-          //   : `3px solid transparent`,
-          border: inputFocus
-            ? `1.5px solid ${color('accent')}`
-            : `1px solid ${color('border')}`,
-        }}
-        ref={resize}
-        onInput={({ target }) => resize(target)}
-        {...props}
-      />
-    </styled.div>
-  )
-}
-
-type SingleProps = {
-  type?: string
-  inputRef?: RefObject<any>
-  pattern?: string
-  props?: any
-  onKeyDown?: (e: any) => void
-  onChange?: (e: any) => void
-  style?: Style
-}
-
-export const Single: FC<SingleProps> = ({
-  type,
-  inputRef,
-  pattern,
-  style,
-  ...props
-}) => {
-  if (type === 'color') {
-    return <ColorInput inputRef={inputRef} {...props} />
-  }
-
-  return (
-    <input
-      {...props}
-      type={type}
-      ref={inputRef}
-      pattern={pattern}
-      style={{
-        width: '100%',
-        userSelect: 'text',
-        MozUserSelect: 'text',
-        WebkitUserSelect: 'text',
-        ...style,
-      }}
-    />
-  )
-}
-
 // type InputProps<T extends InputType = InputType> =
-
-const MaybeSuggest = (props) =>
-  props.suggest ? <Suggestor {...props} /> : props.children
-
-const Suggestor = ({
-  suggest,
-  value,
-  children,
-  paddingLeft,
-  paddingRight,
-  fontSize,
-  fontWeight,
-  onChange,
-  forceSuggestion,
-  focused,
-}) => {
-  const suggestion = suggest(value)
-  const showSuggestion = focused && value && suggestion && suggestion !== value
-
-  return (
-    <styled.div
-      style={{
-        position: 'relative',
-      }}
-      onKeyDown={
-        showSuggestion
-          ? (e) => {
-              if (e.key === 'Enter') {
-                onChange({ target: { value: suggestion } })
-              }
-            }
-          : null
-      }
-      onBlur={() => {
-        if (forceSuggestion) {
-          onChange({ target: { value: suggestion } })
-        }
-      }}
-    >
-      {showSuggestion ? (
-        <styled.div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: paddingLeft,
-            right: paddingRight,
-            bottom: 0,
-            display: 'flex',
-            alignItems: 'center',
-            opacity: 0.4,
-            pointerEvents: 'none',
-            fontSize,
-            fontWeight,
-          }}
-        >
-          {suggestion}
-        </styled.div>
-      ) : null}
-      {children}
-    </styled.div>
-  )
-}
 
 type InputType =
   | 'text'
