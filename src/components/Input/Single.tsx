@@ -12,6 +12,7 @@ import isEmail from 'is-email'
 type SingleProps = {
   type?: string
   inputRef?: RefObject<any>
+  value?: any
   pattern?: string
   props?: any
   onKeyDown?: (e: any) => void
@@ -22,11 +23,13 @@ type SingleProps = {
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
   setErrorMessage?: (e) => void
+  error?: (str: string, patternMatches?: boolean) => string // show error
 }
 
 export const Single: FC<SingleProps> = ({
   type,
   inputRef,
+  value,
   pattern,
   style,
   ghost,
@@ -34,13 +37,14 @@ export const Single: FC<SingleProps> = ({
   icon,
   iconRight,
   setErrorMessage,
+  error,
   ...props
 }) => {
   console.log('🥋', props)
 
   useEffect(() => {
     if (type === 'email') {
-      if (!isEmail(props.value) && props.value.length > 0) {
+      if (!isEmail(value) && value.length > 0) {
         setErrorMessage(`Please enter a valid email-address`)
       } else {
         setErrorMessage('')
@@ -48,11 +52,10 @@ export const Single: FC<SingleProps> = ({
     }
 
     if (pattern) {
-      const v =
-        typeof props.value === 'number' ? String(props.value) : props.value
+      const v = typeof value === 'number' ? String(value) : value
       const reOk = v === '' || new RegExp(pattern).test(v)
       const msg = error
-        ? error(props.value, reOk)
+        ? error(value, reOk)
         : reOk
         ? ''
         : 'Does not match pattern'
@@ -62,7 +65,7 @@ export const Single: FC<SingleProps> = ({
         setErrorMessage('')
       }
     }
-  }, [props.value])
+  }, [value])
 
   return (
     <>
@@ -116,7 +119,7 @@ export const Single: FC<SingleProps> = ({
           : null}
 
         {type === 'number' && (
-          <NumberInput value={props.value} onChange={props.onChange} />
+          <NumberInput value={value} onChange={props.onChange} />
         )}
       </styled.div>
     </>
