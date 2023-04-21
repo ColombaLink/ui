@@ -2,8 +2,9 @@ import React, { FC, useEffect, useRef, useState, MouseEvent } from 'react'
 import { VariableSizeGrid } from 'react-window'
 import { Cell } from './Cell'
 import { TableHeader } from './types'
+import { useInfiniteDataScroll } from './useInfiniteDataScroll'
 
-type GridProps = {
+type TableGridProps = {
   data: {}[]
   rowCount: number
   rowHeight: number
@@ -17,7 +18,7 @@ type GridProps = {
   headers?: TableHeader<any>[]
 }
 
-export const Grid: FC<GridProps> = ({
+export const Grid: FC<TableGridProps> = ({
   headers,
   data,
   rowCount,
@@ -32,6 +33,19 @@ export const Grid: FC<GridProps> = ({
 }) => {
   const varGridRef = useRef<any>()
   const [rowCountState] = useState(rowCount)
+
+  const { itemCount, items, onScrollY, loading } = useInfiniteDataScroll({
+    data: data,
+    itemSize: rowHeight,
+  })
+
+  console.log(items, 'items ??')
+  console.log('loading?', loading)
+
+  // if (loading) {
+  //   console.log('loading?xxx', loading)
+  //   return null
+  // }
 
   useEffect(() => {
     if (varGridRef.current) {
@@ -56,14 +70,21 @@ export const Grid: FC<GridProps> = ({
   return (
     <VariableSizeGrid
       ref={varGridRef}
-      columnCount={columnCount}
+      columnCount={
+        headers
+          ? headers.filter((item) => item.showColumnCheckbox).length
+          : columnCount
+      }
       columnWidth={(index) => columnWidthsArr[index]}
-      rowCount={rowCount}
+      rowCount={itemCount}
       rowHeight={() => rowHeight}
       width={width}
       height={height}
       itemData={{ data, setSelectedRows, selectedRows, onClick, headers }}
       //   onItemsRendered={}
+      onScroll={({ scrollTop }) => {
+        onScrollY(scrollTop)
+      }}
     >
       {Cell}
     </VariableSizeGrid>

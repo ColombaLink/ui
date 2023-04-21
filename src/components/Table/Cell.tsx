@@ -9,7 +9,6 @@ const TableCheckBox = ({ data, rowIndex }) => {
       checked={data.selectedRows.includes(rowIndex)}
       onChange={useCallback(
         (e) => {
-          console.log(data.selectedRows)
           if (e) {
             data.setSelectedRows([...data.selectedRows, rowIndex])
           } else {
@@ -29,21 +28,30 @@ const TableCheckBox = ({ data, rowIndex }) => {
 export const Cell = ({ columnIndex, rowIndex, style, data }) => {
   let body = null
 
-  const header = data.headers[columnIndex]
+  const header = data.headers ? data.headers[columnIndex] : null
   const rowData = data.data[rowIndex]
+  const rowDataKeys = Object.keys(data.data[rowIndex])
 
-  body = header.customComponent
-    ? createElement(header.customComponent, {
-        key: header.key,
-        rowIndex,
-        columnIndex,
-        data: rowData[header.key],
-      })
-    : null
+  // console.log('Row index', rowIndex)
 
-  if (body === null) {
-    body = <Text>{rowData[header.key]}</Text>
-  }
+  // filter to again
+
+  const newHeaderData = data.headers.filter((item) =>
+    rowDataKeys.includes(item.key)
+  )
+
+  // console.log(newHeaderData, '⛈ 🥞')
+
+  body = newHeaderData[columnIndex]?.customComponent ? (
+    createElement(newHeaderData[columnIndex].customComponent, {
+      key: header.key,
+      rowIndex,
+      columnIndex,
+      data: rowData[rowDataKeys[columnIndex]],
+    })
+  ) : (
+    <Text>{rowData[rowDataKeys[columnIndex]]}</Text>
+  )
 
   return (
     <styled.div
@@ -59,7 +67,6 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
       {columnIndex === 0 ? (
         <TableCheckBox data={data} rowIndex={rowIndex} />
       ) : null}
-
       {body}
     </styled.div>
   )

@@ -3335,6 +3335,61 @@
       "code": "type SystemMenuItemProps = {\n  children?: ReactNode | FC\n  style?: CSSProperties\n  href?: string\n  isActive?: boolean\n  isNested?: boolean\n  weight?: Weight\n}",
       "file": "/components/SystemLabel/index.tsx"
     },
+    "TableGridProps": {
+      "name": "TableGridProps",
+      "props": {
+        "data": {
+          "type": {
+            "array": "TSTypeLiteral"
+          }
+        },
+        "rowCount": {
+          "type": "number"
+        },
+        "rowHeight": {
+          "type": "number"
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "columnCount": {
+          "optional": true,
+          "type": "number"
+        },
+        "columnWidthsArr": {
+          "type": {
+            "array": "number"
+          }
+        },
+        "setSelectedRows": {
+          "optional": true,
+          "type": "function"
+        },
+        "selectedRows": {
+          "optional": true,
+          "type": {
+            "array": "number"
+          }
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        },
+        "headers": {
+          "optional": true,
+          "type": {
+            "array": "TableHeader"
+          }
+        }
+      },
+      "code": "type TableGridProps = {\n  data: {}[]\n  rowCount: number\n  rowHeight: number\n  width?: number\n  height?: number\n  columnCount?: number\n  columnWidthsArr: number[]\n  setSelectedRows?: (e) => void\n  selectedRows?: number[]\n  onClick?: (e: MouseEvent, data) => void\n  headers?: TableHeader<any>[]\n}",
+      "file": "/components/Table/Grid.tsx"
+    },
     "TableHeaderProps": {
       "name": "TableHeaderProps",
       "props": {
