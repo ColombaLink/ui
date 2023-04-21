@@ -1,5 +1,16 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
-import { color, spaceToPx, Text, ErrorIcon, styled, Color, Space } from '~'
+import {
+  color,
+  spaceToPx,
+  Text,
+  ErrorIcon,
+  styled,
+  Color,
+  Space,
+  Label,
+  Button,
+} from '~'
+import { InputType } from './types'
 
 type InputWrapperProps = {
   children: ReactNode
@@ -7,6 +18,8 @@ type InputWrapperProps = {
   focus?: boolean
   indent?: boolean
   space?: Space
+  label?: ReactNode
+  description?: string
   descriptionBottom?: string
   style?: CSSProperties
   disabled?: boolean
@@ -15,6 +28,14 @@ type InputWrapperProps = {
   color?: Color
   onClick?: () => void
   onBlur?: () => void
+  type: InputType
+  value?: any
+  setValue?: (e) => void
+  showJSONClearButton?: boolean
+  setShowJSONClearButton?: (e) => boolean
+  setClearValue?: (e) => string
+  setErrorMessage?: (e) => string
+  maxChars?: number
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
@@ -22,10 +43,20 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   indent,
   errorMessage,
   space,
+  label,
+  description,
   descriptionBottom,
   style,
   disabled,
   color: colorProp = 'accent',
+  type,
+  value,
+  setValue,
+  showJSONClearButton,
+  setShowJSONClearButton,
+  setClearValue,
+  setErrorMessage,
+  maxChars,
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
@@ -54,7 +85,76 @@ export const InputWrapper: FC<InputWrapperProps> = ({
         }}
         {...props}
       >
+        <styled.div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Label
+            label={label}
+            description={description}
+            style={{ marginBottom: 6, marginLeft: 4 }}
+          />
+          {value !== '' && indent && type !== 'json' && (
+            <Button
+              ghost
+              onClick={() => {
+                // @ts-ignore
+                onChangeProp?.('')
+                setValue('')
+              }}
+              disabled={disabled}
+              style={{
+                height: 'fit-content',
+                marginTop: description ? 0 : -6,
+                marginBottom: description ? 0 : 6,
+              }}
+            >
+              Clear
+            </Button>
+          )}
+        </styled.div>
+        {/* JSON Input CLEAR BUTTON */}
+        {indent && type === 'json' && showJSONClearButton && (
+          <Button
+            ghost
+            onClick={() => {
+              setShowJSONClearButton(false)
+              setValue('')
+              // @ts-ignore
+              onChangeProp?.('')
+              setClearValue(true)
+              setErrorMessage('')
+            }}
+            style={{ height: 'fit-content' }}
+            disabled={disabled}
+          >
+            Clear
+          </Button>
+        )}
+
         {children}
+
+        {maxChars && (
+          <styled.div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: 4,
+              marginTop: 8,
+            }}
+          >
+            <Text color="text2" weight={400}>
+              {value.length} characters
+            </Text>
+            <Text color="text2" weight={400}>
+              Max {maxChars} characters
+            </Text>
+          </styled.div>
+        )}
+
         {descriptionBottom && (
           <Text color="text2" italic weight={400} style={{ marginTop: 6 }}>
             {descriptionBottom}

@@ -1,0 +1,60 @@
+import {
+  FunctionComponent,
+  ReactNode,
+  RefObject,
+  ReactEventHandler,
+  KeyboardEvent,
+} from 'react'
+import { Space, Style, Icon } from '~'
+
+export type InputType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'phone'
+  | 'color'
+  | 'markdown'
+  | 'number'
+  | 'date'
+  | 'json'
+  | 'multiline'
+  | 'digest'
+
+export type OnChange<T extends InputType> = (
+  value: T extends 'number' ? number : T extends 'date' ? number : string
+) => void
+
+export type InputProps = {
+  type: InputType // <--- this is it
+  onChange?: OnChange<T>
+  style?: Style
+  label?: ReactNode
+  pattern?: string
+  description?: string
+  descriptionBottom?: string
+  value?: string | number
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
+  indent?: boolean
+  defaultValue?: string | number
+  placeholder?: ReactNode
+  maxChars?: number
+  bg?: boolean
+  ghost?: boolean
+  autoFocus?: boolean
+  name?: string
+  space?: Space
+  min?: number
+  max?: number
+  inputRef?: RefObject<HTMLDivElement>
+  large?: boolean
+  disabled?: boolean
+  suggest?: (str: string) => string // show suggestion => Enter to complete
+  error?: (str: string, patternMatches?: boolean) => string // show error
+  transform?: (str: string) => string // transform string
+  forceSuggestion?: boolean // apply suggestion on blur
+  noInterrupt?: boolean // dont use external state while focused
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onBlur?: ReactEventHandler
+}

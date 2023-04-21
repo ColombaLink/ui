@@ -1,30 +1,13 @@
 // TODO yves en youri fix this
-import React, {
-  FunctionComponent,
-  RefObject,
-  useState,
-  useEffect,
-  KeyboardEvent,
-  ReactNode,
-  ReactEventHandler,
-  useCallback,
-} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
-  Text,
-  Button,
-  ChevronDownIcon,
-  ChevronUpIcon,
   DateTimePicker,
-  Style,
   styled,
   usePropState,
   useFocus,
   useHover,
   color,
   renderOrCreateElement,
-  Space,
-  Icon,
-  Label,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -36,21 +19,10 @@ import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
 import isEmail from 'is-email'
+import { NumberInput } from './NumberInput'
+import { InputProps, InputType } from './types'
 
 // type InputProps<T extends InputType = InputType> =
-
-type InputType =
-  | 'text'
-  | 'password'
-  | 'email'
-  | 'phone'
-  | 'color'
-  | 'markdown'
-  | 'number'
-  | 'date'
-  | 'json'
-  | 'multiline'
-  | 'digest'
 
 type OnChange<T extends InputType> = (
   value: T extends 'number' ? number : T extends 'date' ? number : string
@@ -85,40 +57,7 @@ export const Input = <T extends InputType>({
   type, // remove default
   value: valueProp,
   ...otherProps
-}: {
-  type: T // <--- this is it
-  onChange?: OnChange<T>
-  style?: Style
-  label?: ReactNode
-  pattern?: string
-  description?: string
-  descriptionBottom?: string
-  value?: string | number
-  icon?: FunctionComponent<Icon> | ReactNode
-  iconRight?: FunctionComponent<Icon> | ReactNode
-  indent?: boolean
-  defaultValue?: string | number
-  placeholder?: ReactNode
-  maxChars?: number
-  bg?: boolean
-  ghost?: boolean
-  autoFocus?: boolean
-  name?: string
-  space?: Space
-  min?: number
-  max?: number
-  inputRef?: RefObject<HTMLDivElement>
-  large?: boolean
-  disabled?: boolean
-  suggest?: (str: string) => string // show suggestion => Enter to complete
-  error?: (str: string, patternMatches?: boolean) => string // show error
-  transform?: (str: string) => string // transform string
-  forceSuggestion?: boolean // apply suggestion on blur
-  noInterrupt?: boolean // dont use external state while focused
-  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
-  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
-  onBlur?: ReactEventHandler
-}) => {
+}: InputProps) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
@@ -235,60 +174,19 @@ export const Input = <T extends InputType>({
       style={style}
       indent={indent}
       space={space}
+      label={label}
+      description={description}
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
       disabled={disabled}
+      type={type}
+      value={value}
+      setValue={setValue}
+      showJSONClearButton={showJSONClearButton}
+      setShowJSONClearButton={setShowJSONClearButton}
+      setClearValue={setClearValue}
+      setErrorMessage={setErrorMessage}
     >
-      <styled.div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Label
-          label={label}
-          description={description}
-          style={{ marginBottom: 6, marginLeft: 4 }}
-        />
-        {value !== '' && indent && type !== 'json' && (
-          <Button
-            ghost
-            onClick={() => {
-              // @ts-ignore
-              onChangeProp?.('')
-              setValue('')
-            }}
-            disabled={disabled}
-            style={{
-              height: 'fit-content',
-              marginTop: description ? 0 : -6,
-              marginBottom: description ? 0 : 6,
-            }}
-          >
-            Clear
-          </Button>
-        )}
-      </styled.div>
-      {/* JSON Input CLEAR BUTTON */}
-      {indent && type === 'json' && showJSONClearButton && (
-        <Button
-          ghost
-          onClick={() => {
-            setShowJSONClearButton(false)
-            setValue('')
-            // @ts-ignore
-            onChangeProp?.('')
-            setClearValue(true)
-            setErrorMessage('')
-          }}
-          style={{ height: 'fit-content' }}
-          disabled={disabled}
-        >
-          Clear
-        </Button>
-      )}
-
       <styled.div
         style={{
           position: 'relative',
@@ -365,14 +263,14 @@ export const Input = <T extends InputType>({
             forceSuggestion={forceSuggestion}
             suggest={suggest}
             value={value}
-            paddingLeft={paddingLeft}
+            paddingLeft={paddingLeft + 1}
             paddingRight={paddingRight}
             fontSize={fontSize}
             fontWeight={fontWeight}
             onChange={onChange}
           >
             <Single
-              type="text"
+              type={type}
               {...props}
               // safari fix maybe it breaks smth
               onKeyDown={(e) => {
@@ -395,61 +293,7 @@ export const Input = <T extends InputType>({
           </MaybeSuggest>
         )}
         {type === 'number' && !disabled && (
-          <styled.div
-            style={{
-              position: 'absolute',
-              right: 8,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              display: 'flex',
-              flexDirection: 'column',
-              width: 15,
-              height: 20,
-            }}
-          >
-            <styled.div
-              style={{
-                border: `1px solid ${color('border')}`,
-                borderTopLeftRadius: 5,
-                borderTopRightRadius: 5,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 10,
-                '@media (hover: hover)': {
-                  '&:hover': {
-                    backgroundColor: color('border'),
-                  },
-                },
-              }}
-              onClick={() => {
-                onChange({ target: { value: String(+value + 1) } })
-              }}
-            >
-              <ChevronUpIcon size={9} strokeWidth={2.5} />
-            </styled.div>
-            <styled.div
-              style={{
-                border: `1px solid ${color('border')}`,
-                borderBottomLeftRadius: 5,
-                borderBottomRightRadius: 5,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 10,
-                '@media (hover: hover)': {
-                  '&:hover': {
-                    backgroundColor: color('border'),
-                  },
-                },
-              }}
-              onClick={() => {
-                onChange({ target: { value: String(+value - 1) } })
-              }}
-            >
-              <ChevronDownIcon size={9} strokeWidth={2.5} />
-            </styled.div>
-          </styled.div>
+          <NumberInput value={value} onChange={onChange} />
         )}
         {type !== 'json' && type !== 'markdown' && type !== 'multiline'
           ? renderOrCreateElement(iconRight, {
@@ -463,24 +307,6 @@ export const Input = <T extends InputType>({
             })
           : null}
       </styled.div>
-
-      {maxChars && (
-        <styled.div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: 4,
-            marginTop: 8,
-          }}
-        >
-          <Text color="text2" weight={400}>
-            {value.length} characters
-          </Text>
-          <Text color="text2" weight={400}>
-            Max {maxChars} characters
-          </Text>
-        </styled.div>
-      )}
     </InputWrapper>
   )
 }
