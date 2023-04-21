@@ -7,7 +7,6 @@ import {
   useFocus,
   useHover,
   color,
-  renderOrCreateElement,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -65,9 +64,11 @@ export const Input = <T extends InputType>({
   const [errorMessage, setErrorMessage] = useState('error')
   const [clearValue, setClearValue] = useState(false)
   const [showJSONClearButton, setShowJSONClearButton] = useState(false)
+
   if (maxChars === -1) {
     maxChars = null
   }
+
   useEffect(() => {
     if (maxChars && value.length > maxChars) {
       setValue(value.slice(0, maxChars))
@@ -186,127 +187,88 @@ export const Input = <T extends InputType>({
       setShowJSONClearButton={setShowJSONClearButton}
       setClearValue={setClearValue}
       setErrorMessage={setErrorMessage}
+      maxChars={maxChars}
     >
-      <styled.div
-        style={{
-          position: 'relative',
-          color: color('text'),
-          border: ghost
-            ? `2px solid transparent`
-            : focused
-            ? `2px solid rgba(44, 60, 234, 0.2)`
-            : `2px solid transparent`,
-          borderRadius: 10,
-        }}
-      >
-        {type !== 'json' && type !== 'markdown' && type !== 'multiline'
-          ? renderOrCreateElement(icon, {
-              style: {
-                position: 'absolute',
-                left: 12,
-                top: '50%',
-                transform: 'translate3d(0,-50%,0)',
-                pointerEvents: 'none',
-              },
-            })
-          : null}
-
-        {type === 'color' ? (
-          <ColorInput
-            onChange={(e) => {
-              onChangeProp?.(e.target.value)
+      {type === 'color' ? (
+        <ColorInput
+          onChange={(e) => {
+            onChangeProp?.(e.target.value)
+          }}
+          disabled={disabled}
+          value={value}
+          style={{ width: '100%' }}
+        />
+      ) : type === 'json' ? (
+        <JsonInput
+          {...props}
+          setErrorMessage={setErrorMessage}
+          value={value}
+          onChange={onChange}
+          setShowJSONClearButton={setShowJSONClearButton}
+          setClearValue={setClearValue}
+          clearValue={clearValue}
+        />
+      ) : type === 'markdown' ? (
+        <MarkdownInput {...props} value={value} onChange={onChange} />
+      ) : type === 'multiline' ? (
+        <Multi {...props} />
+      ) : type === 'digest' ? (
+        <DigestInput
+          {...props}
+          disabled={!!valueProp}
+          onChange={onChange}
+          value={value}
+        />
+      ) : type === 'password' ? (
+        <PasswordInput
+          {...props}
+          large={large}
+          disabled={!!valueProp}
+          onChange={onChange}
+          value={value}
+        />
+      ) : type === 'date' ? (
+        <DateTimePicker />
+      ) : (
+        <MaybeSuggest
+          focused={focused}
+          forceSuggestion={forceSuggestion}
+          suggest={suggest}
+          value={value}
+          paddingLeft={paddingLeft + 1}
+          paddingRight={paddingRight}
+          fontSize={fontSize}
+          fontWeight={fontWeight}
+          onChange={onChange}
+        >
+          <Single
+            type={type}
+            {...props}
+            // safari fix maybe it breaks smth
+            onKeyDown={(e) => {
+              // now you can remove the zero in input fields
+              if (e.key === 'Backspace' && value === 0) {
+                setValue('')
+              }
+              // for some reason pressing . in number input
+              // changed the value to one
+              if (e.key === '.' && type === 'number') {
+                e.preventDefault()
+              }
+              props.onKeyDown?.(e)
             }}
-            disabled={disabled}
-            value={value}
-            style={{ width: '100%' }}
+            style={props.style}
+            // @ts-ignore
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            icon={icon}
+            iconRight={iconRight}
           />
-        ) : type === 'json' ? (
-          <JsonInput
-            {...props}
-            setErrorMessage={setErrorMessage}
-            value={value}
-            onChange={onChange}
-            setShowJSONClearButton={setShowJSONClearButton}
-            setClearValue={setClearValue}
-            clearValue={clearValue}
-            disabled={disabled}
-          />
-        ) : type === 'markdown' ? (
-          <MarkdownInput
-            {...props}
-            value={value}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        ) : type === 'multiline' ? (
-          <Multi {...props} />
-        ) : type === 'digest' ? (
-          <DigestInput
-            {...props}
-            disabled={!!valueProp}
-            onChange={onChange}
-            value={value}
-          />
-        ) : type === 'password' ? (
-          <PasswordInput
-            {...props}
-            large={large}
-            disabled={!!valueProp}
-            onChange={onChange}
-            value={value}
-          />
-        ) : type === 'date' ? (
-          <DateTimePicker />
-        ) : (
-          <MaybeSuggest
-            focused={focused}
-            forceSuggestion={forceSuggestion}
-            suggest={suggest}
-            value={value}
-            paddingLeft={paddingLeft + 1}
-            paddingRight={paddingRight}
-            fontSize={fontSize}
-            fontWeight={fontWeight}
-            onChange={onChange}
-          >
-            <Single
-              type={type}
-              {...props}
-              // safari fix maybe it breaks smth
-              onKeyDown={(e) => {
-                // now you can remove the zero in input fields
-                if (e.key === 'Backspace' && value === 0) {
-                  setValue('')
-                }
-                // for some reason pressing . in number input
-                // changed the value to one
-                if (e.key === '.' && type === 'number') {
-                  e.preventDefault()
-                }
-                props.onKeyDown?.(e)
-              }}
-              style={props.style}
-              // @ts-ignore
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-            />
-          </MaybeSuggest>
-        )}
-        {type === 'number' && !disabled && (
-          <NumberInput value={value} onChange={onChange} />
-        )}
-        {type !== 'json' && type !== 'markdown' && type !== 'multiline'
-          ? renderOrCreateElement(iconRight, {
-              style: {
-                position: 'absolute',
-                right: 12,
-                top: '50%',
-                transform: 'translate3d(0,-50%,0)',
-                pointerEvents: 'none',
-              },
-            })
-          : null}
-      </styled.div>
+        </MaybeSuggest>
+      )}
+      {type === 'number' && !disabled && (
+        <NumberInput value={value} onChange={onChange} />
+      )}
     </InputWrapper>
   )
 }
