@@ -1,6 +1,6 @@
 import based, { BasedClient } from '@based/client'
 
-export const cluster = 'blap'
+export const cluster = 'snot'
 
 export const project = 'test'
 export const org = 'saulx'

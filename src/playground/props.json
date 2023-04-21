@@ -3341,7 +3341,7 @@
         "headers": {
           "optional": true,
           "type": {
-            "array": "TSTypeLiteral"
+            "array": "TableHeaderType"
           }
         },
         "columnWidthsArr": {
@@ -3365,7 +3365,7 @@
         },
         "tableData": {}
       },
-      "code": "type TableHeaderProps = {\n  headers?: {\n    key: string\n    label?: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC\n  }[]\n  columnWidthsArr: number[]\n  setColumnWidthsArr: (e) => void\n  setTableHeaders: (e) => void\n  setSelectedRows: (e) => void\n  selectedRows: number[]\n  tableData\n}",
+      "code": "type TableHeaderProps = {\n  headers?: TableHeaderType<any>[]\n  columnWidthsArr: number[]\n  setColumnWidthsArr: (e) => void\n  setTableHeaders: (e) => void\n  setSelectedRows: (e) => void\n  selectedRows: number[]\n  tableData\n}",
       "file": "/components/Table/TableHeader.tsx"
     },
     "TableSelectionActionsProps": {
@@ -3386,55 +3386,8 @@
           "type": "boolean"
         }
       },
-      "code": "type TableSelectionActionsProps = {\n  selectedRows: string[]\n  setSelectedRows: (e) => void\n  setShowSelectedRows: (e) => void\n  showSelectedRows: boolean\n}",
+      "code": "type TableSelectionActionsProps<T> = {\n  selectedRows: string[]\n  setSelectedRows: (rows: T[]) => void\n  setShowSelectedRows: (show: boolean) => void\n  // delete row fn\n  showSelectedRows: boolean\n}",
       "file": "/components/Table/TableSelectionActions.tsx"
-    },
-    "TableProps": {
-      "name": "TableProps",
-      "props": {
-        "headers": {
-          "optional": true,
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "data": {
-          "optional": true,
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "width": {
-          "optional": true,
-          "type": "number"
-        },
-        "height": {
-          "optional": true,
-          "type": "number"
-        },
-        "rowCount": {
-          "optional": true,
-          "type": "number"
-        },
-        "rowHeight": {
-          "optional": true,
-          "type": "number"
-        },
-        "columnCount": {
-          "optional": true,
-          "type": "number"
-        },
-        "columnWidth": {
-          "optional": true,
-          "type": "number"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type TableProps = {\n  headers?: {\n    key: string\n    label?: ReactNode\n    showColumnCheckbox?: boolean\n    render?: ReactElement<any, string | JSXElementConstructor<any>> | FC // add correct props to fc\n  }[]\n  data?: {}[] // TYPE THIS\n  width?: number\n  height?: number\n  rowCount?: number\n  rowHeight?: number\n  columnCount?: number\n  columnWidth?: number\n  onClick?: (e: EventData, data) => void\n}",
-      "file": "/components/Table/index.tsx"
     },
     "TabProps": {
       "name": "TabProps",
@@ -3927,6 +3880,59 @@
       },
       "code": "type TableFromQueryProps = {\n  fields: string[]\n  query: { [key: string]: any }\n  width: number\n  height: number\n  target?: string\n  language?: string\n  style?: Style\n  onClick: DataEventHandler\n  onAction?: OnAction\n  setSelectedRowCheckboxes?: (selectedRowCheckboxes: any) => void\n  selectedRowCheckboxes?: Array<number>\n  setTableIsEmpty?: (tableIsEmpty: boolean) => void\n  isMultiref?: boolean\n}",
       "file": "/components/_Table/TableFromQuery.tsx"
+    },
+    "TableProps": {
+      "name": "TableProps",
+      "props": {
+        "fields": {
+          "optional": true,
+          "type": "Fields"
+        },
+        "query": {
+          "optional": true,
+          "type": "function"
+        },
+        "data": {
+          "optional": true,
+          "type": {
+            "array": "TSObjectKeyword"
+          }
+        },
+        "width": {
+          "optional": true,
+          "type": "number"
+        },
+        "height": {
+          "optional": true,
+          "type": "number"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "language": {
+          "optional": true,
+          "type": "string"
+        },
+        "target": {
+          "optional": true,
+          "type": "string"
+        },
+        "onAction": {
+          "optional": true,
+          "type": "OnAction"
+        },
+        "isMultiref": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "onClick": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type TableProps = {\n  fields?: Fields\n  query?: (\n    offset: number,\n    limit: number,\n    sortField: string,\n    sortOrder: string\n  ) => InfiniteListQueryResponse\n  data?: object[]\n  width?: number\n  height?: number\n  style?: Style\n  language?: string\n  target?: string\n  onAction?: OnAction\n  isMultiref?: boolean\n  onClick?: (\n    item: { [key: string]: string },\n    field: string,\n    fieldType: string\n  ) => void\n}",
+      "file": "/components/_Table/index.tsx"
     }
   },
   "types": {
