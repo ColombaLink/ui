@@ -17,8 +17,7 @@ import { PasswordInput } from './PasswordInput'
 import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
-import isEmail from 'is-email'
-import { NumberInput } from './NumberInput'
+
 import { InputProps, InputType } from './types'
 
 // type InputProps<T extends InputType = InputType> =
@@ -145,31 +144,6 @@ export const Input = <T extends InputType>({
     }
   }, [focused])
 
-  useEffect(() => {
-    if (type === 'email') {
-      if (!isEmail(value) && value.length > 0) {
-        setErrorMessage(`Please enter a valid email-address`)
-      } else {
-        setErrorMessage('')
-      }
-    }
-
-    if (pattern) {
-      const v = typeof value === 'number' ? String(value) : value
-      const reOk = v === '' || new RegExp(pattern).test(v)
-      const msg = error
-        ? error(value, reOk)
-        : reOk
-        ? ''
-        : 'Does not match pattern'
-      if (msg) {
-        setErrorMessage(msg)
-      } else {
-        setErrorMessage('')
-      }
-    }
-  }, [value])
-
   return (
     <InputWrapper
       style={style}
@@ -263,11 +237,9 @@ export const Input = <T extends InputType>({
             onBlur={() => setFocused(false)}
             icon={icon}
             iconRight={iconRight}
+            setErrorMessage={setErrorMessage}
           />
         </MaybeSuggest>
-      )}
-      {type === 'number' && !disabled && (
-        <NumberInput value={value} onChange={onChange} />
       )}
     </InputWrapper>
   )

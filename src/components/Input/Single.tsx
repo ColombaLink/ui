@@ -1,5 +1,13 @@
-import React, { FC, RefObject, FunctionComponent, ReactNode } from 'react'
+import React, {
+  FC,
+  RefObject,
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+} from 'react'
 import { Style, styled, color, Icon, renderOrCreateElement } from '~'
+import { NumberInput } from './NumberInput'
+import isEmail from 'is-email'
 
 type SingleProps = {
   type?: string
@@ -13,6 +21,7 @@ type SingleProps = {
   focused?: boolean
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
+  setErrorMessage?: (e) => void
 }
 
 export const Single: FC<SingleProps> = ({
@@ -24,61 +33,92 @@ export const Single: FC<SingleProps> = ({
   focused,
   icon,
   iconRight,
+  setErrorMessage,
   ...props
 }) => {
-  // if (type === 'color') {
-  //   return <ColorInput inputRef={inputRef} {...props} />
-  // }
+  console.log('🥋', props)
+
+  useEffect(() => {
+    if (type === 'email') {
+      if (!isEmail(props.value) && props.value.length > 0) {
+        setErrorMessage(`Please enter a valid email-address`)
+      } else {
+        setErrorMessage('')
+      }
+    }
+
+    if (pattern) {
+      const v =
+        typeof props.value === 'number' ? String(props.value) : props.value
+      const reOk = v === '' || new RegExp(pattern).test(v)
+      const msg = error
+        ? error(props.value, reOk)
+        : reOk
+        ? ''
+        : 'Does not match pattern'
+      if (msg) {
+        setErrorMessage(msg)
+      } else {
+        setErrorMessage('')
+      }
+    }
+  }, [props.value])
 
   return (
-    <styled.div
-      style={{
-        position: 'relative',
-        color: color('text'),
-        border: ghost
-          ? `2px solid transparent`
-          : focused
-          ? `2px solid rgba(44, 60, 234, 0.2)`
-          : `2px solid transparent`,
-        borderRadius: 10,
-      }}
-    >
-      {icon
-        ? renderOrCreateElement(icon, {
-            style: {
-              position: 'absolute',
-              left: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })
-        : null}
-
-      <input
-        {...props}
-        type={type}
-        ref={inputRef}
-        pattern={pattern}
+    <>
+      <styled.div
         style={{
-          width: '100%',
-          userSelect: 'text',
-          MozUserSelect: 'text',
-          WebkitUserSelect: 'text',
-          ...style,
+          position: 'relative',
+          color: color('text'),
+          border: ghost
+            ? `2px solid transparent`
+            : focused
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
+          borderRadius: 10,
         }}
-      />
-      {iconRight
-        ? renderOrCreateElement(iconRight, {
-            style: {
-              position: 'absolute',
-              right: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })
-        : null}
-    </styled.div>
+      >
+        {icon
+          ? renderOrCreateElement(icon, {
+              style: {
+                position: 'absolute',
+                left: 12,
+                top: '50%',
+                transform: 'translate3d(0,-50%,0)',
+                pointerEvents: 'none',
+              },
+            })
+          : null}
+
+        <input
+          {...props}
+          type={type}
+          ref={inputRef}
+          pattern={pattern}
+          style={{
+            width: '100%',
+            userSelect: 'text',
+            MozUserSelect: 'text',
+            WebkitUserSelect: 'text',
+            ...style,
+          }}
+        />
+        {iconRight
+          ? renderOrCreateElement(iconRight, {
+              style: {
+                position: 'absolute',
+                right: 12,
+                top: '50%',
+                transform: 'translate3d(0,-50%,0)',
+                pointerEvents: 'none',
+              },
+            })
+          : null}
+
+        {type === 'number' && (
+          <NumberInput value={props.value} onChange={props.onChange} />
+        )}
+      </styled.div>
+    </>
   )
 }
