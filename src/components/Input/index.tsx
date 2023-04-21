@@ -160,6 +160,9 @@ export const Input = <T extends InputType>({
       value={value}
       setValue={setValue}
       showJSONClearButton={showJSONClearButton}
+      onChange={(e) => {
+        onChangeProp?.(e.target.value)
+      }}
       setShowJSONClearButton={setShowJSONClearButton}
       setClearValue={setClearValue}
       setErrorMessage={setErrorMessage}
@@ -178,31 +181,18 @@ export const Input = <T extends InputType>({
         <JsonInput
           {...props}
           setErrorMessage={setErrorMessage}
-          value={value}
-          onChange={onChange}
           setShowJSONClearButton={setShowJSONClearButton}
           setClearValue={setClearValue}
           clearValue={clearValue}
         />
       ) : type === 'markdown' ? (
-        <MarkdownInput {...props} value={value} onChange={onChange} />
+        <MarkdownInput {...props} />
       ) : type === 'multiline' ? (
         <Multi {...props} />
       ) : type === 'digest' ? (
-        <DigestInput
-          {...props}
-          disabled={!!valueProp}
-          onChange={onChange}
-          value={value}
-        />
+        <DigestInput {...props} disabled={!!valueProp} />
       ) : type === 'password' ? (
-        <PasswordInput
-          {...props}
-          large={large}
-          disabled={!!valueProp}
-          onChange={onChange}
-          value={value}
-        />
+        <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
         <DateTimePicker />
       ) : (

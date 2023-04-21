@@ -36,6 +36,7 @@ type InputWrapperProps = {
   setClearValue?: (e) => string
   setErrorMessage?: (e) => string
   maxChars?: number
+  onChange?: (e) => void
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
@@ -56,6 +57,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   setShowJSONClearButton,
   setClearValue,
   setErrorMessage,
+  onChange: onChangeProp,
   maxChars,
   ...props
 }) => {
