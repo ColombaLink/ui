@@ -17,7 +17,6 @@ import { PasswordInput } from './PasswordInput'
 import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
-
 import { InputProps, InputType } from './types'
 
 // type InputProps<T extends InputType = InputType> =
@@ -61,8 +60,6 @@ export const Input = <T extends InputType>({
   const { listeners: focusListeners, focus } = useFocus()
   const { listeners: hoverListeners, hover } = useHover()
   const [errorMessage, setErrorMessage] = useState('')
-  const [clearValue, setClearValue] = useState(false)
-  const [showJSONClearButton, setShowJSONClearButton] = useState(false)
 
   if (maxChars === -1) {
     maxChars = null
@@ -159,13 +156,9 @@ export const Input = <T extends InputType>({
       type={type}
       value={value}
       setValue={setValue}
-      showJSONClearButton={showJSONClearButton}
       onChange={(e) => {
         onChangeProp?.(e.target.value)
       }}
-      setShowJSONClearButton={setShowJSONClearButton}
-      setClearValue={setClearValue}
-      setErrorMessage={setErrorMessage}
       maxChars={maxChars}
     >
       {type === 'color' ? (
@@ -178,13 +171,7 @@ export const Input = <T extends InputType>({
           style={{ width: '100%' }}
         />
       ) : type === 'json' ? (
-        <JsonInput
-          {...props}
-          setErrorMessage={setErrorMessage}
-          setShowJSONClearButton={setShowJSONClearButton}
-          setClearValue={setClearValue}
-          clearValue={clearValue}
-        />
+        <JsonInput {...props} setErrorMessage={setErrorMessage} />
       ) : type === 'markdown' ? (
         <MarkdownInput {...props} />
       ) : type === 'multiline' ? (
@@ -208,7 +195,6 @@ export const Input = <T extends InputType>({
           onChange={onChange}
         >
           <Single
-            type={type}
             {...props}
             // safari fix maybe it breaks smth
             onKeyDown={(e) => {

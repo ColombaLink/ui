@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  // ChangeEvent,
-} from 'react'
+import React, { useState } from 'react'
 import { color, Text, usePropState, styled } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
@@ -23,32 +17,17 @@ type JsonInputProps = {
   value?: string
   onChange?: (target) => void
   setErrorMessage?: (value: string) => void
-  setShowJSONClearButton?: Dispatch<SetStateAction<boolean>>
   disabled?: boolean
-  clearValue?: boolean
-  setClearValue?: Dispatch<SetStateAction<boolean>>
 }
 
 export const JsonInput = ({
   value,
   onChange,
   setErrorMessage,
-  setShowJSONClearButton,
-  setClearValue,
   disabled,
-  clearValue,
 }: JsonInputProps) => {
   const [code, setCode] = usePropState(value)
   const [valid, setValid] = useState(true)
-
-  useEffect(() => {
-    if (clearValue) {
-      setCode('')
-      // setShowJSONClearButton(false)
-      setValid(true)
-      setClearValue(false)
-    }
-  }, [clearValue])
 
   const isValidJson = (str) => {
     try {
@@ -91,21 +70,17 @@ export const JsonInput = ({
             // console.log(code.length)
 
             if (code.length > 0) {
-              setShowJSONClearButton(true)
               if (isValidJson(code)) {
                 onChange({ target: { value: code } })
                 setValid(true)
               } else if (!isValidJson(code)) {
                 setValid(false)
               }
-            } else {
-              setShowJSONClearButton(false)
             }
           }}
           highlight={(tempCode) => {
             try {
               const h = highlight(tempCode, languages.json)
-
               return h
             } catch (err) {
               console.log(err)

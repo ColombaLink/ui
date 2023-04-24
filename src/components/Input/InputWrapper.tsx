@@ -31,10 +31,6 @@ type InputWrapperProps = {
   type: InputType
   value?: any
   setValue?: (e) => void
-  showJSONClearButton?: boolean
-  setShowJSONClearButton?: (e) => boolean
-  setClearValue?: (e) => string
-  setErrorMessage?: (e) => string
   maxChars?: number
   onChange?: (e) => void
 }
@@ -53,10 +49,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   type,
   value,
   setValue,
-  showJSONClearButton,
-  setShowJSONClearButton,
-  setClearValue,
-  setErrorMessage,
   onChange: onChangeProp,
   maxChars,
   ...props
@@ -99,7 +91,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
           />
-          {value !== '' && indent && type !== 'json' && (
+          {value !== '' && indent && (
             <Button
               ghost
               onClick={() => {
@@ -118,24 +110,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             </Button>
           )}
         </styled.div>
-        {/* JSON Input CLEAR BUTTON */}
-        {indent && type === 'json' && showJSONClearButton && (
-          <Button
-            ghost
-            onClick={() => {
-              setShowJSONClearButton(false)
-              setValue('')
-              // @ts-ignore
-              onChangeProp?.('')
-              setClearValue(true)
-              setErrorMessage('')
-            }}
-            style={{ height: 'fit-content' }}
-            disabled={disabled}
-          >
-            Clear
-          </Button>
-        )}
 
         {children}
 
