@@ -26,8 +26,12 @@ export type OnChange<T extends InputType> = (
 ) => void
 
 // make typescript allowed props based on type/InputType
-// so inputProps will be shared by all -> type, onChange,  label , description etc.
-// then different proptypes
+// so inputProps will be shared by all ->
+// type, onChange, label, description, descriptionBottom, errorMessage, disabled, value, maxChars, autoFocus
+
+// then different proptypes ->
+//  1. which go into the InputWrapper
+// 2. which are specific for eacht type
 
 export type InputProps = {
   type: InputType // <--- this is it

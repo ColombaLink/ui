@@ -27,6 +27,7 @@ type OnChange<T extends InputType> = (
 
 export const Input = <T extends InputType>({
   autoFocus,
+  // bg ?? needed?
   bg,
   pattern,
   defaultValue,
