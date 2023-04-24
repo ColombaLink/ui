@@ -50,13 +50,14 @@ export const ColorInput = ({
         placeholder={placeholder}
         disabled={disabled}
         style={{
-          ...style,
+          width: '100%',
           paddingLeft: 36,
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           minHeight: 36,
           cursor: disabled ? 'not-allowed' : null,
           backgroundColor: color('background'),
+          ...style,
         }}
       />
       <button

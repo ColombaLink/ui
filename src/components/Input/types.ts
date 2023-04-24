@@ -9,20 +9,25 @@ import { Space, Style, Icon } from '~'
 
 export type InputType =
   | 'text'
+  | 'number'
   | 'password'
   | 'email'
   | 'phone'
   | 'color'
   | 'markdown'
-  | 'number'
   | 'date'
   | 'json'
   | 'multiline'
   | 'digest'
+  | 'editable'
 
 export type OnChange<T extends InputType> = (
   value: T extends 'number' ? number : T extends 'date' ? number : string
 ) => void
+
+// make typescript allowed props based on type/InputType
+// so inputProps will be shared by all -> type, onChange,  label , description etc.
+// then different proptypes
 
 export type InputProps = {
   type: InputType // <--- this is it

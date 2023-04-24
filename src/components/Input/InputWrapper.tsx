@@ -10,7 +10,6 @@ import {
   Label,
   Button,
 } from '~'
-import { InputType } from './types'
 
 type InputWrapperProps = {
   children: ReactNode
@@ -28,7 +27,6 @@ type InputWrapperProps = {
   color?: Color
   onClick?: () => void
   onBlur?: () => void
-  type: InputType
   value?: any
   setValue?: (e) => void
   maxChars?: number
@@ -46,7 +44,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   style,
   disabled,
   color: colorProp = 'accent',
-  type,
   value,
   setValue,
   onChange: onChangeProp,

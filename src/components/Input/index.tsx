@@ -153,7 +153,6 @@ export const Input = <T extends InputType>({
       descriptionBottom={descriptionBottom}
       errorMessage={errorMessage}
       disabled={disabled}
-      type={type}
       value={value}
       setValue={setValue}
       onChange={(e) => {
@@ -168,7 +167,6 @@ export const Input = <T extends InputType>({
           }}
           disabled={disabled}
           value={value}
-          style={{ width: '100%' }}
         />
       ) : type === 'json' ? (
         <JsonInput {...props} setErrorMessage={setErrorMessage} />
@@ -196,21 +194,18 @@ export const Input = <T extends InputType>({
         >
           <Single
             {...props}
-            // safari fix maybe it breaks smth
             onKeyDown={(e) => {
               // now you can remove the zero in input fields
               if (e.key === 'Backspace' && value === 0) {
                 setValue('')
               }
-              // for some reason pressing . in number input
-              // changed the value to one
+              // for some reason pressing . in number input changed the value to one
               if (e.key === '.' && type === 'number') {
                 e.preventDefault()
               }
               props.onKeyDown?.(e)
             }}
             style={props.style}
-            // @ts-ignore
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
             icon={icon}
