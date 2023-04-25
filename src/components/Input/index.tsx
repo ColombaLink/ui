@@ -1,13 +1,6 @@
 // TODO yves en youri fix this
 import React, { useState, useEffect, useCallback } from 'react'
-import {
-  DateTimePicker,
-  styled,
-  usePropState,
-  useFocus,
-  useHover,
-  color,
-} from '~'
+import { DateTimePicker, usePropState, useFocus, useHover, color } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
 import { InputWrapper } from './InputWrapper'
@@ -21,13 +14,12 @@ import { InputProps, InputType } from './types'
 
 // type InputProps<T extends InputType = InputType> =
 
-type OnChange<T extends InputType> = (
-  value: T extends 'number' ? number : T extends 'date' ? number : string
-) => void
+// type OnChange<T extends InputType> = (
+//   value: T extends 'number' ? number : T extends 'date' ? number : string
+// ) => void
 
-export const Input = <T extends InputType>({
+export const Input = ({
   autoFocus,
-  // bg ?? needed?
   bg,
   pattern,
   defaultValue,
@@ -77,11 +69,9 @@ export const Input = <T extends InputType>({
       const newValue = transform ? transform(e.target.value) : e.target.value
       if (type === 'number') {
         setValue(+e.target.value)
-        // @ts-ignore
         onChangeProp?.(+newValue)
       } else {
         setValue(newValue)
-        // @ts-ignore
         onChangeProp?.(newValue)
       }
     },

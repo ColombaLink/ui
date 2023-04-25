@@ -70,60 +70,58 @@ export const Single: FC<SingleProps> = ({
   }, [props.value])
 
   return (
-    <>
-      <styled.div
+    <styled.div
+      style={{
+        position: 'relative',
+        color: color('text'),
+        border: ghost
+          ? `2px solid transparent`
+          : focused
+          ? `2px solid rgba(44, 60, 234, 0.2)`
+          : `2px solid transparent`,
+        borderRadius: 10,
+      }}
+    >
+      {icon
+        ? renderOrCreateElement(icon, {
+            style: {
+              position: 'absolute',
+              left: 12,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              pointerEvents: 'none',
+            },
+          })
+        : null}
+
+      <input
+        {...props}
+        type={type}
+        ref={inputRef}
+        pattern={pattern}
         style={{
-          position: 'relative',
-          color: color('text'),
-          border: ghost
-            ? `2px solid transparent`
-            : focused
-            ? `2px solid rgba(44, 60, 234, 0.2)`
-            : `2px solid transparent`,
-          borderRadius: 10,
+          width: '100%',
+          userSelect: 'text',
+          MozUserSelect: 'text',
+          WebkitUserSelect: 'text',
+          ...style,
         }}
-      >
-        {icon
-          ? renderOrCreateElement(icon, {
-              style: {
-                position: 'absolute',
-                left: 12,
-                top: '50%',
-                transform: 'translate3d(0,-50%,0)',
-                pointerEvents: 'none',
-              },
-            })
-          : null}
+      />
+      {iconRight
+        ? renderOrCreateElement(iconRight, {
+            style: {
+              position: 'absolute',
+              right: 12,
+              top: '50%',
+              transform: 'translate3d(0,-50%,0)',
+              pointerEvents: 'none',
+            },
+          })
+        : null}
 
-        <input
-          {...props}
-          type={type}
-          ref={inputRef}
-          pattern={pattern}
-          style={{
-            width: '100%',
-            userSelect: 'text',
-            MozUserSelect: 'text',
-            WebkitUserSelect: 'text',
-            ...style,
-          }}
-        />
-        {iconRight
-          ? renderOrCreateElement(iconRight, {
-              style: {
-                position: 'absolute',
-                right: 12,
-                top: '50%',
-                transform: 'translate3d(0,-50%,0)',
-                pointerEvents: 'none',
-              },
-            })
-          : null}
-
-        {type === 'number' && (
-          <NumberInput value={props.value} onChange={props.onChange} />
-        )}
-      </styled.div>
-    </>
+      {type === 'number' && (
+        <NumberInput value={props.value} onChange={props.onChange} />
+      )}
+    </styled.div>
   )
 }

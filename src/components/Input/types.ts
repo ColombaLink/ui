@@ -30,7 +30,7 @@ export type OnChange<T extends InputType> = (
 // type, onChange, label, description, descriptionBottom, errorMessage, disabled, value, maxChars, autoFocus
 
 // then different proptypes ->
-//  1. which go into the InputWrapper
+// 1. which go into the InputWrapper
 // 2. which are specific for eacht type
 
 export type InputProps = {
