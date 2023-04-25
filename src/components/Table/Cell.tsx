@@ -1,4 +1,4 @@
-import React, { createElement, useCallback } from 'react'
+import React, { createElement } from 'react'
 import { styled, Text, color, Checkbox } from '~'
 
 const TableCheckBox = ({ data, rowIndex }) => {
@@ -7,19 +7,16 @@ const TableCheckBox = ({ data, rowIndex }) => {
       small
       style={{ marginRight: 6 }}
       checked={data.selectedRows.includes(rowIndex)}
-      onChange={useCallback(
-        (e) => {
-          if (e) {
-            data.setSelectedRows([...data.selectedRows, rowIndex])
-          } else {
-            const arrCopy = [...data.selectedRows]
-            const ix = arrCopy.indexOf(rowIndex)
-            arrCopy.splice(ix, 1)
-            data.setSelectedRows([...arrCopy])
-          }
-        },
-        [rowIndex]
-      )}
+      onChange={(e) => {
+        if (e) {
+          data.setSelectedRows([...data.selectedRows, rowIndex])
+        } else {
+          const arrCopy = [...data.selectedRows]
+          const ix = arrCopy.indexOf(rowIndex)
+          arrCopy.splice(ix, 1)
+          data.setSelectedRows([...arrCopy])
+        }
+      }}
     />
   )
 }
