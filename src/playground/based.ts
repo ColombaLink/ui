@@ -1,6 +1,6 @@
 import based, { BasedClient } from '@based/client'
 
-export const cluster = 'gotime'
+export const cluster = 'local'
 
 export const project = 'test'
 export const org = 'saulx'
