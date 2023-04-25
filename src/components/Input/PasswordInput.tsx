@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { EyeIcon, EyeBlockedIcon, color, Single } from '~'
+import { EyeIcon, EyeBlockedIcon, color, styled } from '~'
+import { Single } from './Single'
 
 type PasswordInputProps = {
   value?: string
@@ -20,7 +21,7 @@ export const PasswordInput = ({
   >('password')
 
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         position: 'relative',
@@ -64,6 +65,6 @@ export const PasswordInput = ({
           onClick={() => setPasswordInputType('text')}
         />
       )}
-    </div>
+    </styled.div>
   )
 }

@@ -112,17 +112,17 @@ export const DatePicker = ({
   const datePickerRef = useRef(null)
 
   const changeHandler = (year, month, day) => {
-    if (day < 10) {
+    if (+day < 10) {
       day = `0${day}`
-      setSelectedDay(day)
+      setSelectedDay(+day)
     } else {
-      setSelectedDay(day)
+      setSelectedDay(+day)
     }
-    if (month < 10) {
+    if (+month < 10) {
       month = `0${month}`
-      setSelectedMonth(month)
+      setSelectedMonth(+month)
     } else {
-      setSelectedMonth(month)
+      setSelectedMonth(+month)
     }
     setSelectedYear(year)
 

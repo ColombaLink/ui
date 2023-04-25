@@ -1,8 +1,13 @@
 import React, { CSSProperties, FC, ReactNode, FunctionComponent } from 'react'
-import { border, color, renderOrCreateElement } from '~/utils'
-import { Color, Icon } from '~/types'
-import { Text } from '../Text'
-import { styled } from 'inlines'
+import {
+  border,
+  color,
+  renderOrCreateElement,
+  Color,
+  Icon,
+  Text,
+  styled,
+} from '~'
 
 type BadgeProps = {
   children: ReactNode
@@ -58,7 +63,7 @@ export const Badge: FC<BadgeProps> = ({
       {...props}
     >
       {icon && (
-        <div
+        <styled.div
           style={{
             marginRight: 8,
             minWidth: 10,
@@ -67,15 +72,15 @@ export const Badge: FC<BadgeProps> = ({
           }}
         >
           {renderOrCreateElement(icon, { size: 10 })}
-        </div>
+        </styled.div>
       )}
       <Text typo="caption500" color="inherit">
         {children}
       </Text>
       {iconRight && (
-        <div style={{ marginLeft: 8 }}>
+        <styled.div style={{ marginLeft: 8 }}>
           {renderOrCreateElement(iconRight, { size: 10 })}
-        </div>
+        </styled.div>
       )}
     </styled.div>
   )
