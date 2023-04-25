@@ -179,8 +179,8 @@ const Machine: FC<{
 export const MachinesSection: FC<{
   configName: string
   config: MachineConfig
-  machines: MachineType[]
-}> = ({ config, configName, machines }) => {
+  machineStatus: any
+}> = ({ config, configName, machineStatus }) => {
   const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
     'expanded',
     {}
@@ -189,19 +189,21 @@ export const MachinesSection: FC<{
 
   const client = useClient()
 
-  let running = 0
-  let unreachable = 0
-  let deploying = 0
-  // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
-  for (const machine of machines) {
-    if (machine.status === 1) {
-      running++
-    } else if (machine.status === 2) {
-      deploying++
-    } else if (machine.status === 0) {
-      unreachable++
-    }
-  }
+  // console.log(machines)
+
+  // let running = 0
+  // let unreachable = 0
+  // let deploying = 0
+  // // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
+  // for (const machine of machines) {
+  //   if (machine.status === 1) {
+  //     running++
+  //   } else if (machine.status === 2) {
+  //     deploying++
+  //   } else if (machine.status === 0) {
+  //     unreachable++
+  //   }
+  // }
 
   const expandKey = configName + 'm'
   return (
@@ -219,14 +221,14 @@ export const MachinesSection: FC<{
       topRight={
         <Status
           goodColor={expanded[expandKey] ? 'accent' : 'green'}
-          running={running}
-          unreachable={unreachable}
-          deploying={deploying}
+          running={machineStatus.amount - machineStatus.failing}
+          unreachable={machineStatus.failing}
+          deploying={machineStatus.deploying}
           type="machine"
         />
       }
     >
-      <RowEnd
+      {/* <RowEnd
         style={{
           borderBottom: border(1),
           marginBottom: 8,
@@ -257,7 +259,7 @@ export const MachinesSection: FC<{
       </RowEnd>
       {machines.map((m) => {
         return <Machine config={config} machine={m} key={m.id} />
-      })}
+      })} */}
     </AccordionItem>
   )
 }

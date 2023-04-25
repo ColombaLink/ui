@@ -1,44 +1,10 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
 import { Provider } from '@based/react'
-import based from '@based/client'
-
-// const client = based({
-//   org: 'saulx',
-//   project: 'based-cloud',
-//   env: 'platform',
-//   name: '@based/admin-hub',
-//   cluster: 'local',
-// })
-
-const client = based({
-  org: 'saulx',
-  project: 'based-cloud',
-  env: 'platform',
-  name: '@based/admin-hub',
-  cluster: 'teststable',
-})
-
-client.on('connect', () => {
-  console.info('connected')
-})
-
-client.on('debug', (x) => {
-  console.info('based platform hub', x)
-})
-
-// client.on('debug', (d) => {
-//   console.info(d, new Date(Date.now()).toLocaleTimeString())
-// })
-
-client.call('login', {
-  email: 'jim@saulx.com',
-  code: ~~(Math.random() * 1e4),
-  skipEmailForTesting: true,
-})
+import { adminClient, cluster, project, org, env } from '../based'
 
 global.BasedAdminProvider = ({ children }) => {
-  return <Provider client={client}>{children}</Provider>
+  return <Provider client={adminClient}>{children}</Provider>
 }
 
 export const Infrastructure = () => {
@@ -55,14 +21,10 @@ const route = useRoute('[infraSection]');
 <BasedAdminProvider>
   <Infrastructure 
     env={{
-      // project: 'test',
-      // org: 'saulx',
-      // env: 'ci',
-      // cluster: 'local'
-      project: 'esc',
-      org: 'saulx',
-      env: 'dev',
-      cluster: 'teststable'
+      project: '${project}',
+      org: '${org}',
+      env: '${env}',
+      cluster: '${cluster}'
     }}
     values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
     onChange={(key, v) => { 

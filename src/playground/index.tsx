@@ -18,43 +18,21 @@ import {
   useRoute,
   LayersIcon,
   DeleteIcon,
+  EmailIcon,
 } from '../'
-import { BasedClient } from '@based/client'
 import * as components from './components'
 import * as apps from './apps'
 import * as hooks from './hooks'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import { icons } from './ComponentViewer/genRandomProps'
+import { client, adminClient } from './based'
 
 const stories = {
   ...components,
   ...apps,
   ...hooks,
 }
-
-// export const client = new BasedClient({
-//   project: 'test',
-//   org: 'saulx',
-//   env: 'ci',
-//   cluster: 'local',
-//   name: '@based/env-admin-hub',
-// })
-export const client = new BasedClient({
-  project: 'esc',
-  org: 'saulx',
-  env: 'dev',
-  cluster: 'teststable',
-  name: '@based/env-admin-hub',
-})
-
-client.on('connect', () => {
-  console.log('connected')
-})
-
-client.on('debug', (x) => {
-  console.log(x)
-})
 
 const Stories: FC = () => {
   const route = useRoute('[story]')
@@ -152,6 +130,22 @@ const App = () => {
                 onClick={() =>
                   route.setQuery({ code: route.query.code ? null : true })
                 }
+              />
+              <Button
+                ghost
+                space="12px"
+                icon={<EmailIcon />}
+                onClick={async () => {
+                  // connect ot env admin hub as well
+                  await adminClient.call('login', {
+                    email: 'jim@saulx.com',
+                    skipEmailForTesting: true,
+                    code:
+                      (~~(Math.random() * 1e6)).toString(16) +
+                      ' ' +
+                      ' ui-playground',
+                  })
+                }}
               />
               <Button
                 space="12px"

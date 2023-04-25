@@ -9,7 +9,7 @@ global.genTableData = (): {
   author?: string
   id?: string
 }[] => {
-  return Array.from(Array(1e1)).map((_, i) => ({
+  return Array.from(Array(1e6)).map((_, i) => ({
     title: `title ${i + 1}`,
     subtitle: `subtitle ${i + 1}`,
     description: Math.random() > 0.5 ? `lorem ipsum ${i + 1}` : undefined,
@@ -70,12 +70,16 @@ export const Table = () => {
         propsName="TableProps"
         examples={[
           {
-            code: `import { Table, Badge } from '@based/ui'
+            code: `import { Table, Badge, } from '@based/ui'
+
+            const TestBadge = ({ data }) => {
+              return (data ?  <Badge color="accent">{data}</Badge> : null)
+            }
 
 const headers = [
-  { key: 'title', label: 'Title'},
+  { key: 'title', label: 'Title', customComponent: TestBadge},
   { key: 'author', label: 'Author', customComponent: YellowBlock },
-  { key: 'description', label: 'Description' },
+  { key: 'description', label: 'Description'  },
   { key: 'subtitle', label: 'Subtitle' },
 ]
 

@@ -1,4 +1,4 @@
-import React, { createElement, useCallback } from 'react'
+import React, { createElement } from 'react'
 import { styled, Text, color, Checkbox } from '~'
 
 const TableCheckBox = ({ data, rowIndex }) => {
@@ -7,19 +7,16 @@ const TableCheckBox = ({ data, rowIndex }) => {
       small
       style={{ marginRight: 6 }}
       checked={data.selectedRows.includes(rowIndex)}
-      onChange={useCallback(
-        (e) => {
-          if (e) {
-            data.setSelectedRows([...data.selectedRows, rowIndex])
-          } else {
-            const arrCopy = [...data.selectedRows]
-            const ix = arrCopy.indexOf(rowIndex)
-            arrCopy.splice(ix, 1)
-            data.setSelectedRows([...arrCopy])
-          }
-        },
-        [rowIndex]
-      )}
+      onChange={(e) => {
+        if (e) {
+          data.setSelectedRows([...data.selectedRows, rowIndex])
+        } else {
+          const arrCopy = [...data.selectedRows]
+          const ix = arrCopy.indexOf(rowIndex)
+          arrCopy.splice(ix, 1)
+          data.setSelectedRows([...arrCopy])
+        }
+      }}
     />
   )
 }
@@ -30,31 +27,28 @@ export const Cell = ({ columnIndex, rowIndex, style, data }) => {
 
   const header = data.headers ? data.headers[columnIndex] : null
   const rowData = data.data[rowIndex]
-
   const rowDataKeys = Object.keys(data.data[rowIndex])
-  const headerKeys = data.headers
-    ? data.headers
-        .filter((item) => item.showColumnCheckbox)
-        .map((item) => item.key)
-    : null
 
-  console.log(rowData)
-  console.log(data.headers)
-  console.log('Row keys', rowDataKeys)
-  console.log('Headerkeys', headerKeys)
+  // console.log('Row index', rowIndex)
 
-  body = header?.customComponent
-    ? createElement(header.customComponent, {
-        key: header.key,
-        rowIndex,
-        columnIndex,
-        data: rowData[headerKeys[columnIndex]],
-      })
-    : null
+  // filter to again
 
-  if (body === null) {
-    body = <Text>{rowData[rowDataKeys[columnIndex]]}</Text>
-  }
+  const newHeaderData = data.headers.filter((item) =>
+    rowDataKeys.includes(item.key)
+  )
+
+  // console.log(newHeaderData, '⛈ 🥞')
+
+  body = newHeaderData[columnIndex]?.customComponent ? (
+    createElement(newHeaderData[columnIndex].customComponent, {
+      key: header.key,
+      rowIndex,
+      columnIndex,
+      data: rowData[rowDataKeys[columnIndex]],
+    })
+  ) : (
+    <Text>{rowData[rowDataKeys[columnIndex]]}</Text>
+  )
 
   return (
     <styled.div
