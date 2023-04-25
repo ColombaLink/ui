@@ -5,9 +5,7 @@ import { useQuery, useClient } from '@based/react'
 
 export const Commands: FC<{ configName: string }> = ({ configName }) => {
   const [env] = useContextState<Env>('env')
-  const { data: envData } = useQuery('env', env, {
-    persistent: true,
-  })
+  const { data: envData } = useQuery('env', env)
   const client = useClient()
 
   return (

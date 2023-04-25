@@ -37,8 +37,11 @@ import { EditJsonModal } from '../EditJson'
 export const Actions: FC<{
   config: MachineConfig
   configName: string
-  machines: Machine[]
-}> = ({ config, configName, machines }) => {
+  // machines: Machine[]
+}> = ({ config, configName }) => {
+  const machines = []
+  // use tatus
+
   const { open } = useDialog()
   const client = useClient()
   const [env] = useContextState<Env>('env')
@@ -131,9 +134,9 @@ export const Actions: FC<{
 const MachineConfig: FC<{
   configName: string
   config: MachineConfig
-  machines: Machine[]
+  machineStatus: any
   env: Env
-}> = ({ configName, config, machines, env }) => {
+}> = ({ configName, config, machineStatus, env }) => {
   const client = useClient()
   return (
     <Container space="32px">
@@ -145,7 +148,7 @@ const MachineConfig: FC<{
           <Button
             icon={<MoreIcon />}
             ghost
-            onClick={useContextMenu(Actions, { config, configName, machines })}
+            onClick={useContextMenu(Actions, { config, configName })}
           />
         </Row>
       </RowSpaced>
@@ -181,7 +184,7 @@ const MachineConfig: FC<{
           config={config}
         />
         <MachinesSection
-          machines={machines}
+          machineStatus={machineStatus}
           configName={configName}
           config={config}
         />
@@ -191,9 +194,8 @@ const MachineConfig: FC<{
 }
 
 export const Machines: FC<{ env: Env }> = ({ env }) => {
-  const { data: envData, checksum } = useQuery('env', env, {
-    persistent: false,
-  })
+  const { data: envData, checksum } = useQuery('env', env)
+
   const [filter, setFilter] = useContextState('filter', '')
   const { open } = useDialog()
   const config: { [key: string]: MachineConfig } = useMemo(() => {
@@ -226,11 +228,7 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
         key={key}
         configName={key}
         config={config[key]}
-        machines={
-          envData.machines?.filter((m) => {
-            return m.machineConfigName === key
-          }) || []
-        }
+        machineStatus={envData.machineStatus?.[key] ?? {}}
       />
     )
   }

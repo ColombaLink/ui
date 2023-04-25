@@ -144,6 +144,10 @@ export const HubSettings: FC<SettingProps> = ({
           type: 'boolean',
           label: 'Debug mode',
         },
+        disableAllSecurity: {
+          type: 'boolean',
+          label: 'Disable All Security Features',
+        },
       }}
     />
   )

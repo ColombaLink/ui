@@ -18,6 +18,7 @@ import {
   useRoute,
   LayersIcon,
   DeleteIcon,
+  EmailIcon,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -25,7 +26,7 @@ import * as hooks from './hooks'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import { icons } from './ComponentViewer/genRandomProps'
-import { client } from './based'
+import { client, adminClient } from './based'
 
 const stories = {
   ...components,
@@ -129,6 +130,22 @@ const App = () => {
                 onClick={() =>
                   route.setQuery({ code: route.query.code ? null : true })
                 }
+              />
+              <Button
+                ghost
+                space="12px"
+                icon={<EmailIcon />}
+                onClick={async () => {
+                  // connect ot env admin hub as well
+                  await adminClient.call('login', {
+                    email: 'jim@saulx.com',
+                    skipEmailForTesting: true,
+                    code:
+                      (~~(Math.random() * 1e6)).toString(16) +
+                      ' ' +
+                      ' ui-playground',
+                  })
+                }}
               />
               <Button
                 space="12px"

@@ -3,12 +3,6 @@ import ComponentViewer from '../ComponentViewer'
 import { Provider } from '@based/react'
 import { adminClient, cluster, project, org, env } from '../based'
 
-adminClient.call('login', {
-  email: 'jim@saulx.com',
-  code: ~~(Math.random() * 1e4),
-  skipEmailForTesting: true,
-})
-
 global.BasedAdminProvider = ({ children }) => {
   return <Provider client={adminClient}>{children}</Provider>
 }
