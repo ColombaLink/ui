@@ -1,6 +1,24 @@
 // TODO yves en youri fix this
-import React, { useState, useEffect, useCallback } from 'react'
-import { DateTimePicker, usePropState, useFocus, useHover, color } from '~'
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  FunctionComponent,
+  ReactNode,
+  RefObject,
+  ReactEventHandler,
+  KeyboardEvent,
+} from 'react'
+import {
+  DateTimePicker,
+  usePropState,
+  useFocus,
+  useHover,
+  color,
+  Style,
+  Icon,
+  Space,
+} from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
 import { InputWrapper } from './InputWrapper'
@@ -10,15 +28,25 @@ import { PasswordInput } from './PasswordInput'
 import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
-import { InputProps, InputType } from './types'
 
-// type InputProps<T extends InputType = InputType> =
+type InputType =
+  | 'text'
+  | 'password'
+  | 'email'
+  | 'phone'
+  | 'color'
+  | 'markdown'
+  | 'number'
+  | 'date'
+  | 'json'
+  | 'multiline'
+  | 'digest'
 
-// type OnChange<T extends InputType> = (
-//   value: T extends 'number' ? number : T extends 'date' ? number : string
-// ) => void
+type OnChange<T extends InputType> = (
+  value: T extends 'number' ? number : T extends 'date' ? number : string
+) => void
 
-export const Input = ({
+export const Input = <T extends InputType>({
   autoFocus,
   bg,
   pattern,
@@ -47,7 +75,40 @@ export const Input = ({
   type, // remove default
   value: valueProp,
   ...otherProps
-}: InputProps) => {
+}: {
+  type: T // <--- this is it
+  onChange?: OnChange<T>
+  style?: Style
+  label?: ReactNode
+  pattern?: string
+  description?: string
+  descriptionBottom?: string
+  value?: string | number
+  icon?: FunctionComponent<Icon> | ReactNode
+  iconRight?: FunctionComponent<Icon> | ReactNode
+  indent?: boolean
+  defaultValue?: string | number
+  placeholder?: ReactNode
+  maxChars?: number
+  bg?: boolean
+  ghost?: boolean
+  autoFocus?: boolean
+  name?: string
+  space?: Space
+  min?: number
+  max?: number
+  inputRef?: RefObject<HTMLDivElement>
+  large?: boolean
+  disabled?: boolean
+  suggest?: (str: string) => string // show suggestion => Enter to complete
+  error?: (str: string, patternMatches?: boolean) => string // show error
+  transform?: (str: string) => string // transform string
+  forceSuggestion?: boolean // apply suggestion on blur
+  noInterrupt?: boolean // dont use external state while focused
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
+  onBlur?: ReactEventHandler
+}) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()

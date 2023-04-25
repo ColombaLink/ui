@@ -33,8 +33,8 @@ export type OnChange<T extends InputType> = (
 // 1. which go into the InputWrapper
 // 2. which are specific for eacht type
 
-export type InputProps = {
-  type: InputType // <--- this is it
+export type InputProps<T extends InputType> = {
+  type: T // <--- this is it
   onChange?: OnChange<T>
   style?: Style
   label?: ReactNode

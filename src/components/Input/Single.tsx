@@ -17,6 +17,8 @@ type SingleProps = {
   props?: any
   onKeyDown?: (e: any) => void
   onChange?: (e: any) => void
+  onFocus?: () => void
+  onBlur?: () => void
   style?: Style
   ghost?: boolean
   focused?: boolean
