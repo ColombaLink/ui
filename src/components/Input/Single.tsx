@@ -82,6 +82,7 @@ export const Single: FC<SingleProps> = ({
           ? `2px solid rgba(44, 60, 234, 0.2)`
           : `2px solid transparent`,
         borderRadius: 10,
+        width: '100%',
       }}
     >
       {icon
