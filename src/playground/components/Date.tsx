@@ -14,6 +14,7 @@ export const Date = () => {
             style: {
               backgroundColor: 'yellow',
             },
+            value: 1682504632933,
             // error: (e) => {
             //   if (Number.isNaN(e)) {
             //     return 'Not a number error!'

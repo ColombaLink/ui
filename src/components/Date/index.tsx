@@ -10,8 +10,8 @@ type DateProps = {
 
 export const Date: FC<DateProps> = ({ value, onChange, style }) => {
   return (
-    <>
+    <styled.div style={{ ...style }}>
       <InputDate value={value} />
-    </>
+    </styled.div>
   )
 }

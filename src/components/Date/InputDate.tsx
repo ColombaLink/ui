@@ -1,5 +1,6 @@
 import React, { useRef, FC, useState } from 'react'
 import { styled, color, boxShadow, CalendarAltIcon, useContextMenu } from '~'
+import { Picker } from './Picker'
 
 const StyledDateInput = styled('input', {
   width: 280,
@@ -17,7 +18,26 @@ type InputDateProps = {
   //   dateHandler?: (value: string) => void
 }
 
+const MscToString = (value: number): string => {
+  const newDate = new Date(value)
+  const year = newDate.getFullYear()
+  const month =
+    newDate.getMonth() + 1 < 10
+      ? '0' + (newDate.getMonth() + 1)
+      : newDate.getMonth() + 1
+  const day =
+    newDate.getDate() + 1 < 10
+      ? '0' + (newDate.getDate() + 1)
+      : newDate.getDate() + 1
+
+  return `${day}/${month}/${year}`
+}
+
 export const InputDate: FC<InputDateProps> = ({ value }) => {
+  const [valueAsString, setValueAsString] = useState(
+    value ? MscToString(value) : null
+  )
+
   const inputRef = useRef<HTMLInputElement | any>(null)
   const dateObj = new Date()
 
@@ -28,36 +48,21 @@ export const InputDate: FC<InputDateProps> = ({ value }) => {
     if (e.target.value.length === 5) {
       e.target.value = e.target.value + '/'
     }
-    // dateHandler(e.target.value)
+
+    console.log('>>>>>', e.target.value)
+    setValueAsString(e.target.value)
   }
 
-  const MscToString = (value: number): string => {
-    const newDate = new Date(value)
-    const year = newDate.getFullYear()
-    const month =
-      newDate.getMonth() + 1 < 10
-        ? '0' + (newDate.getMonth() + 1)
-        : newDate.getMonth() + 1
-    const day =
-      newDate.getDate() + 1 < 10
-        ? '0' + (newDate.getDate() + 1)
-        : newDate.getDate() + 1
-
-    return `${day}/${month}/${year}`
-  }
-
-  const [valueAsString, setValueAsString] = useState(MscToString(value))
-
-  //   const dateHandler = (val) => {
-  //     const tempArr = []
-  //     const day = `${val[0]}${val[1]}`
-  //     const month = `${val[3]}${val[4]}`
-  //     const year = val.substring(6)
-  //     tempArr.push(year, month, day)
-
-  //     // setDateFormatInput(val)
-  //     console.log('------>', val)
-  //   }
+  const handler = useContextMenu(
+    Picker,
+    {
+      valueAsString,
+      setValueAsString,
+    },
+    {
+      width: 'target',
+    }
+  )
 
   return (
     <styled.div style={{ position: 'relative' }}>
@@ -72,8 +77,8 @@ export const InputDate: FC<InputDateProps> = ({ value }) => {
       />
       <StyledDateInput
         ref={inputRef}
-        value={value}
-        placeholder="Select a date"
+        value={valueAsString}
+        placeholder="dd/mm/yyyy"
         onChange={(e) => {
           dateInputStringFormatHandler(e)
         }}
@@ -91,7 +96,7 @@ export const InputDate: FC<InputDateProps> = ({ value }) => {
           }
           e.preventDefault()
           //   setShowDatePicker(true)
-          //  handler(e)
+          handler(e)
         }}
       />
     </styled.div>
