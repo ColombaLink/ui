@@ -1,7 +1,78 @@
 import React, { useEffect, useState } from 'react'
 import { styled, color } from '~'
 
-export const Calendar = () => {
+type CalendarProps = {
+  days: string[]
+  selectedDay: string
+  selectedMonth: string
+  selectedYear: string
+  setSelectedDay: (e) => void
+}
+
+export const Calendar = ({
+  selectedDay,
+  selectedMonth,
+  selectedYear,
+  days,
+  setSelectedDay,
+}: CalendarProps) => {
+  const [daysArr, setDaysArr] = useState([])
+
+  const daysInMonth = (month, year) => {
+    return new Date(year, month, 0).getDate()
+  }
+
+  // to determine the current day
+  const dateObj = new Date()
+  const currentMonth = dateObj.getMonth()
+  const currentYear = dateObj.getFullYear()
+  const presentDay = dateObj.getDate()
+
+  const tempArr = []
+
+  // Calender layout offset
+  useEffect(() => {
+    tempArr.splice(0, tempArr.length)
+
+    for (let i = 1; i <= daysInMonth(selectedMonth, selectedYear); i++) {
+      tempArr.push({ day: i, month: selectedMonth, year: selectedYear })
+    }
+
+    // add some offset for the days layout
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Sat'
+    ) {
+      tempArr.unshift('x', 'x', 'x', 'x', 'x')
+    }
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Fri'
+    ) {
+      tempArr.unshift('x', 'x', 'x', 'x')
+    }
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Thu'
+    ) {
+      tempArr.unshift('x', 'x', 'x')
+    }
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Wed'
+    ) {
+      tempArr.unshift('x', 'x')
+    }
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Tue'
+    ) {
+      tempArr.unshift('x')
+    }
+    if (
+      days[new Date(`${selectedMonth} 1, ${selectedYear}`).getDay()] === 'Mon'
+    ) {
+      // tempArr.unshift()
+    }
+
+    setDaysArr(tempArr)
+  }, [selectedMonth])
+
   return (
     <>
       <styled.div
@@ -46,68 +117,19 @@ export const Calendar = () => {
               style={{
                 border:
                   val.day === presentDay &&
-                  selectedMonth === currentMonth + 1 &&
-                  selectedYear === currentYear
+                  +selectedMonth === currentMonth + 1 &&
+                  +selectedYear === currentYear
                     ? `1px solid ${color('accent')}`
                     : '',
-                background:
-                  val.day === selectedDay ||
-                  isFromDay(val.year, val.month, val.day) ||
-                  isTillDay(val.year, val.month, val.day) ||
-                  isHoveredDay(val.year, val.month, val.day)
-                    ? color('accent')
-                    : isRangedDay(val.year, val.month, val.day) ||
-                      isRangedHoverDay(val.year, val.month, val.day)
-                    ? color('lightaccent')
-                    : '',
+                background: val.day === selectedDay ? color('accent') : '',
                 color:
-                  val.day === selectedDay ||
-                  isFromDay(val.year, val.month, val.day) ||
-                  isTillDay(val.year, val.month, val.day) ||
-                  isHoveredDay(val.year, val.month, val.day)
-                    ? color('background')
-                    : color('text'),
-                borderRadius:
-                  isHoveredDay(val.year, val.month, val.day) &&
-                  isRangedSmallerHoverDay(val.year, val.month, val.day)
-                    ? '0px 4px 4px 0px'
-                    : isFromDay(val.year, val.month, val.day) &&
-                      !isRangedSmallerHoverDay(val.year, val.month, val.day)
-                    ? '4px 0px 0px 4px'
-                    : isTillDay(val.year, val.month, val.day)
-                    ? '0px 4px 4px 0px'
-                    : isRangedDay(val.year, val.month, val.day) ||
-                      isRangedHoverDay(val.year, val.month, val.day)
-                    ? 0
-                    : 4,
-
-                width:
-                  isFromDay(val.year, val.month, val.day) ||
-                  isTillDay(val.year, val.month, val.day)
-                    ? 32
-                    : isRangedDay(val.year, val.month, val.day) ||
-                      isRangedHoverDay(val.year, val.month, val.day)
-                    ? 34
-                    : 26,
+                  val.day === selectedDay ? color('background') : color('text'),
+                borderRadius: 4,
+                width: 26,
                 height: 26,
                 margin: 4,
-                marginLeft:
-                  isRangedDay(val.year, val.month, val.day) ||
-                  isRangedHoverDay(val.year, val.month, val.day) ||
-                  isTillDay(val.year, val.month, val.day)
-                    ? 0
-                    : isFromDay(val.year, val.month, val.day)
-                    ? 2
-                    : 4,
-                marginRight:
-                  isRangedDay(val.year, val.month, val.day) ||
-                  isRangedHoverDay(val.year, val.month, val.day) ||
-                  isFromDay(val.year, val.month, val.day)
-                    ? 0
-                    : isTillDay(val.year, val.month, val.day)
-                    ? 1
-                    : 4,
-
+                marginLeft: 4,
+                marginRight: 4,
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -117,42 +139,15 @@ export const Calendar = () => {
                     background:
                       val.day === selectedDay
                         ? color('accent')
-                        : !isDateRange && color('border'),
+                        : color('border'),
                     cursor: 'pointer',
                   },
                 },
               }}
-              onMouseOver={() => {
-                if (isDateRange) {
-                  setHoverDay(val.day)
-                  setHoverMonth(val.month)
-                  setHoverYear(val.year)
-                }
-              }}
-              onMouseLeave={() => {
-                if (isDateRange) {
-                  setHoverDay(null)
-                  setHoverMonth(null)
-                  setHoverYear(null)
-                }
-              }}
               key={i}
               onClick={() => {
-                changeHandler(selectedYear, selectedMonth, val.day)
+                setSelectedDay(val.day)
                 // now close it
-                if (!isDateRange) {
-                  setShowDatePicker(false)
-                  setFocused(false)
-                }
-                if (focusOnBeginDate) {
-                  setFocusOnBeginDate(false)
-                  setShowDatePicker(false)
-                  setFocusOnEndDate(true)
-                } else if (focusOnEndDate) {
-                  setShowDatePicker(false)
-                  setFocused(false)
-                  setFocusOnEndDate(false)
-                }
               }}
             >
               {val.day}

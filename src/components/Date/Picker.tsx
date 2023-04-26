@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { styled, Style, ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
+import { Calendar } from './Calendar'
 
 type PickerProps = {
   valueAsString: string
@@ -73,6 +74,7 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
   //     setValueAsString(`${day}/${month}/${year}`)
   //   }
 
+  // Months forward or backward
   const MonthChanger = (str: 'forward' | 'backward') => {
     if (str === 'forward') {
       if (selectedMonth === `12` || +selectedMonth === 12) {
@@ -126,6 +128,13 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         </styled.div>
       </styled.div>
       {/* Calendar */}
+      <Calendar
+        days={days}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        selectedMonth={selectedMonth}
+        selectedYear={selectedYear}
+      />
 
       {/* More Button options */}
     </StyledDatePickerBox>
