@@ -78,7 +78,7 @@ export const InputDate: FC<InputDateProps> = ({ value }) => {
           dateInputStringFormatHandler(e)
         }}
         onClick={(e) => {
-          if (value === '') {
+          if (valueAsString === '') {
             dateInputStringFormatHandler({
               target: {
                 value: `--/${
