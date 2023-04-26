@@ -51,7 +51,9 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
   )
   const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
 
-  // So if year, day or month changes set the new Value
+  const dateObj = new Date()
+
+  // So if year, day or month changes set the new Value 🔥
   useEffect(() => {
     setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
   }, [selectedDay, selectedMonth, selectedYear])
@@ -73,6 +75,11 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
 
   //     setValueAsString(`${day}/${month}/${year}`)
   //   }
+
+  // Days forward or backward
+  const DayChanger = (str: 'forward' | 'backward') => {
+    console.log(str)
+  }
 
   // Months forward or backward
   const MonthChanger = (str: 'forward' | 'backward') => {
@@ -135,8 +142,51 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
       />
-
       {/* More Button options */}
+      <styled.div
+        style={{
+          padding: '12px 16px',
+          '@media (hover: hover)': {
+            '& div': {
+              '&:hover': { cursor: 'pointer' },
+            },
+          },
+        }}
+      >
+        <Text
+          weight={400}
+          onClick={() => {
+            setSelectedYear(dateObj.getFullYear().toString())
+            setSelectedMonth(
+              dateObj.getMonth() < 10
+                ? `0${dateObj.getMonth() + 1}`
+                : `${dateObj.getMonth() + 1}`
+            )
+            setSelectedDay(
+              dateObj.getDate() < 10
+                ? `0${dateObj.getDate()}`
+                : `${dateObj.getDate()}`
+            )
+          }}
+          space="4px"
+        >
+          Today
+        </Text>
+        <Text weight={400} space="4px" onClick={() => DayChanger('forward')}>
+          Select next date
+        </Text>
+        <Text weight={400} space="4px" onClick={() => DayChanger('backward')}>
+          Select previous date
+        </Text>
+      </styled.div>
+      <styled.div style={{ borderBottom: `1px solid ${color('border')}` }} />
+      <Text
+        style={{ padding: '8px 16px', cursor: 'pointer' }}
+        weight={400}
+        onClick={() => clearHandler()}
+      >
+        Clear
+      </Text>
     </StyledDatePickerBox>
   )
 }

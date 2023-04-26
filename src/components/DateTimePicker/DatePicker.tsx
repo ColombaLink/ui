@@ -402,7 +402,7 @@ export const DatePicker = ({
 
   return (
     <StyledDatePickerBox ref={datePickerRef} style={{ ...style }}>
-      <div
+      <styled.div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -413,19 +413,21 @@ export const DatePicker = ({
         <Text weight={400}>
           {months[+value?.split('/')[1]]} {selectedYear}
         </Text>
-
-        <div style={{ display: 'flex', gap: 16 }}>
-          <StyledChevronHolders onClick={oneMonthBack}>
+        <styled.div style={{ display: 'flex' }}>
+          <StyledChevronHolders
+            onClick={oneMonthBack}
+            style={{ marginRight: 16 }}
+          >
             <ChevronUpIcon />
           </StyledChevronHolders>
           <StyledChevronHolders onClick={oneMonthForward}>
             <ChevronDownIcon />
           </StyledChevronHolders>
-        </div>
-      </div>
+        </styled.div>
+      </styled.div>
 
       {/* days column */}
-      <div
+      <styled.div
         style={{
           display: 'flex',
           gap: 24,
@@ -435,19 +437,19 @@ export const DatePicker = ({
           justifyContent: 'center',
         }}
       >
-        <div>M</div>
-        <div>T</div>
-        <div>W</div>
-        <div>T</div>
-        <div>F</div>
-        <div>S</div>
-        <div>S</div>
-      </div>
+        <styled.div>M</styled.div>
+        <styled.div>T</styled.div>
+        <styled.div>W</styled.div>
+        <styled.div>T</styled.div>
+        <styled.div>F</styled.div>
+        <styled.div>S</styled.div>
+        <styled.div>S</styled.div>
+      </styled.div>
 
-      <div style={{ padding: '10px 20px' }}>
+      <styled.div style={{ padding: '10px 20px' }}>
         {daysArr.map((val, i) =>
           val === 'x' ? (
-            <div
+            <styled.div
               key={i}
               style={{
                 width: 26,
@@ -461,7 +463,7 @@ export const DatePicker = ({
               }}
             >
               .
-            </div>
+            </styled.div>
           ) : (
             <styled.div
               style={{
@@ -580,9 +582,9 @@ export const DatePicker = ({
             </styled.div>
           )
         )}
-      </div>
+      </styled.div>
 
-      <div style={{ borderBottom: `1px solid ${color('border')}` }} />
+      <styled.div style={{ borderBottom: `1px solid ${color('border')}` }} />
       <styled.div
         style={{
           padding: '12px 16px',
@@ -596,10 +598,10 @@ export const DatePicker = ({
         <Text weight={400} onClick={todayHandler} space="4px">
           Today
         </Text>
-        <Text weight={400} space="4px" onClick={nextDay} style={{}}>
+        <Text weight={400} space="4px" onClick={nextDay}>
           Select next date
         </Text>
-        <Text weight={400} space="4px" onClick={prevDay} style={{}}>
+        <Text weight={400} space="4px" onClick={prevDay}>
           Select previous date
         </Text>
       </styled.div>
