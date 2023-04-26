@@ -126,6 +126,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       const outputMs = new Date(dateString).getTime().toString()
 
       /// TODO: when error message
+      console.log(outputMs)
 
       return outputMs
     }
@@ -195,9 +196,10 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
       !isNaN(+newMsFromAll(dateFormatInput, dateTimeInput)) &&
       blurred
     ) {
+      console.log('FIRE ❤️‍🔥')
       onChange(+newMsFromAll(dateFormatInput, dateTimeInput))
     }
-  }, [dateFormatInput, fromValue, tillValue])
+  }, [dateFormatInput, fromValue, tillValue, value])
 
   const InputWrapperBlurHandler = () => {
     setBlurred(true)

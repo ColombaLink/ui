@@ -43,8 +43,6 @@ export const Single: FC<SingleProps> = ({
   // onChange,
   ...props
 }) => {
-  console.log('🥊', props)
-
   useEffect(() => {
     if (type === 'email') {
       if (!isEmail(props.value) && props.value.length > 0) {
