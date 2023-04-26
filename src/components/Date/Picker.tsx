@@ -78,7 +78,20 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
 
   // Days forward or backward
   const DayChanger = (str: 'forward' | 'backward') => {
-    console.log(str)
+    if (str === 'forward') {
+      setSelectedDay(
+        +selectedDay + 1 < 10
+          ? '0' + (+selectedDay + 1).toString()
+          : (+selectedDay + 1).toString()
+      )
+    }
+    if (str === 'backward') {
+      setSelectedDay(
+        +selectedDay - 1 < 10
+          ? '0' + (+selectedDay - 1).toString()
+          : (+selectedDay - 1).toString()
+      )
+    }
   }
 
   // Months forward or backward
@@ -183,7 +196,7 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
       <Text
         style={{ padding: '8px 16px', cursor: 'pointer' }}
         weight={400}
-        onClick={() => clearHandler()}
+        onClick={() => setValueAsString('dd/mm/yyyy')}
       >
         Clear
       </Text>
