@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { EyeIcon, EyeBlockedIcon, color, Single } from '~'
+import { EyeIcon, EyeBlockedIcon, color, styled, Style } from '~'
+import { Single } from './Single'
 
 type PasswordInputProps = {
   value?: string
   onChange?: (target) => void
   disabled?: boolean
   large?: boolean
+  style: Style
 }
 
 export const PasswordInput = ({
@@ -19,8 +21,10 @@ export const PasswordInput = ({
     'text' | 'password'
   >('password')
 
+  const style = { ...props.style, paddingLeft: 30 }
+
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         position: 'relative',
@@ -32,7 +36,11 @@ export const PasswordInput = ({
         type={passwordInputType}
         // value={value}
         // @ts-ignore
-        style={{ ...props?.style, paddingLeft: 32, minHeight: large ? 48 : 36 }}
+        style={{
+          paddingLeft: 42,
+          minHeight: large ? 48 : 36,
+          ...style,
+        }}
         onChange={(e) => {
           onChange({ target: { value: e } })
         }}
@@ -64,6 +72,6 @@ export const PasswordInput = ({
           onClick={() => setPasswordInputType('text')}
         />
       )}
-    </div>
+    </styled.div>
   )
 }

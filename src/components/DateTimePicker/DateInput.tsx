@@ -106,7 +106,7 @@ export const DateInput: FC<DateInputProps> = ({
   )
 
   useEffect(() => {
-    console.log('Value ??⭐️', value)
+    console.log('Value from dateINPUT ??⭐️', value)
   }, [value])
 
   useEffect(() => {

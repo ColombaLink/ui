@@ -30,7 +30,7 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   }
 
   return (
-    <div style={{ display: 'flex', ...style }} {...props}>
+    <styled.div style={{ display: 'flex', ...style }} {...props}>
       {Object.keys(data).map((key, index) => {
         const el = data[key]
         const onClick =
@@ -76,6 +76,6 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
           </StyledLink>
         )
       })}
-    </div>
+    </styled.div>
   )
 }
