@@ -11,10 +11,7 @@ export const Date = () => {
         {
           props: {
             onChange: (e) => console.log(e),
-            style: {
-              backgroundColor: 'yellow',
-            },
-            value: 1682504632933,
+            value: 1682460000000,
             // error: (e) => {
             //   if (Number.isNaN(e)) {
             //     return 'Not a number error!'

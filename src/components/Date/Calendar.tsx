@@ -78,11 +78,15 @@ export const Calendar = ({
       <styled.div
         style={{
           display: 'flex',
-          gap: 24,
           textAlign: 'center',
           color: 'grey',
           padding: '0px 20px',
           justifyContent: 'center',
+          '& div': {
+            width: '26px',
+            textAlign: 'center',
+            margin: '4px',
+          },
         }}
       >
         <styled.div>M</styled.div>
@@ -102,12 +106,12 @@ export const Calendar = ({
               style={{
                 width: 26,
                 height: 26,
-                margin: 4,
+                margin: '4px',
                 display: 'inline-flex',
                 borderRadius: 4,
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: 0,
+                opacity: 1,
               }}
             >
               .
@@ -121,15 +125,16 @@ export const Calendar = ({
                   +selectedYear === currentYear
                     ? `1px solid ${color('accent')}`
                     : '',
-                background: val.day === selectedDay ? color('accent') : '',
+                background: val.day === +selectedDay ? color('accent') : '',
                 color:
-                  val.day === selectedDay ? color('background') : color('text'),
+                  val.day === +selectedDay
+                    ? color('background')
+                    : color('text'),
                 borderRadius: 4,
+                boxSizing: 'border-box',
                 width: 26,
                 height: 26,
-                margin: 4,
-                marginLeft: 4,
-                marginRight: 4,
+                margin: '4px',
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',
