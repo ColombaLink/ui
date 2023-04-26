@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { styled, Style, ChevronDownIcon, ChevronUpIcon, Text, color } from '~'
+import {
+  styled,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  Text,
+  color,
+  removeAllOverlays,
+} from '~'
 import { Calendar } from './Calendar'
 
 type PickerProps = {
@@ -61,24 +68,6 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
   useEffect(() => {
     setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
   }, [selectedDay, selectedMonth, selectedYear])
-
-  //   const changeHandler = (year, month, day) => {
-  //     if (day < 10) {
-  //       day = `0${day}`
-  //       setSelectedDay(day)
-  //     } else {
-  //       setSelectedDay(day)
-  //     }
-  //     if (month < 10) {
-  //       month = `0${month}`
-  //       setSelectedMonth(month)
-  //     } else {
-  //       setSelectedMonth(month)
-  //     }
-  //     setSelectedYear(year)
-
-  //     setValueAsString(`${day}/${month}/${year}`)
-  //   }
 
   // Days forward or backward
   const DayChanger = (str: 'forward' | 'backward') => {
@@ -223,7 +212,10 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
       <Text
         style={{ padding: '8px 16px', cursor: 'pointer' }}
         weight={400}
-        onClick={() => setValueAsString('dd/mm/yyyy')}
+        onClick={() => {
+          setValueAsString('dd/mm/yyyy')
+          removeAllOverlays()
+        }}
       >
         Clear
       </Text>

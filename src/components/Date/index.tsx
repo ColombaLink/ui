@@ -1,19 +1,30 @@
-import React, { FC, useState, useEffect } from 'react'
+import React, { FC } from 'react'
 import { styled, Style } from '~'
 import { InputDate } from './InputDate'
 
-type DateProps = {
+type DateWidgetProps = {
   value?: number // milliseconds
   onChange?: (value: number) => void
   style?: Style
 }
 
-// TODO onChange handler
+export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
+  const onChangeHandler = (
+    str: string,
+    timeInput: string = '00:00'
+  ): number => {
+    const dateString = `${str.split('/').reverse().join('-')}T${timeInput}`
+    const outputMs = new Date(dateString).getTime()
 
-export const Date: FC<DateProps> = ({ value, onChange, style }) => {
+    /// TODO: when error message
+    console.log('output in ms ⏱', outputMs)
+    onChange(outputMs)
+    return outputMs
+  }
+
   return (
     <styled.div style={{ ...style }}>
-      <InputDate value={value} />
+      <InputDate value={value} onChangeHandler={onChangeHandler} />
     </styled.div>
   )
 }

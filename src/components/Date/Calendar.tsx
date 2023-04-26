@@ -111,7 +111,7 @@ export const Calendar = ({
                 borderRadius: 4,
                 alignItems: 'center',
                 justifyContent: 'center',
-                opacity: 1,
+                opacity: 0,
               }}
             >
               .
@@ -151,7 +151,7 @@ export const Calendar = ({
               }}
               key={i}
               onClick={() => {
-                setSelectedDay(val.day)
+                setSelectedDay(val.day < 10 ? `0${val.day}` : `${val.day}`)
                 // now close it
               }}
             >

@@ -1,4 +1,4 @@
-import React, { useRef, FC, useState } from 'react'
+import React, { useRef, FC, useState, useEffect } from 'react'
 import { styled, color, boxShadow, CalendarAltIcon, useContextMenu } from '~'
 import { Picker } from './Picker'
 
@@ -15,6 +15,7 @@ const StyledDateInput = styled('input', {
 
 type InputDateProps = {
   value: number
+  onChangeHandler?: (e) => void
   //   dateHandler?: (value: string) => void
 }
 
@@ -33,13 +34,19 @@ const MscToString = (value: number): string => {
   return `${day}/${month}/${year}`
 }
 
-export const InputDate: FC<InputDateProps> = ({ value }) => {
+export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
   const [valueAsString, setValueAsString] = useState(
     value ? MscToString(value) : null
   )
+  const [localFocus, setLocalFocus] = useState(false)
 
   const inputRef = useRef<HTMLInputElement | any>(null)
   const dateObj = new Date()
+
+  // so if this value change fire onchange
+  useEffect(() => {
+    onChangeHandler(valueAsString)
+  }, [valueAsString])
 
   const dateInputStringFormatHandler = (e) => {
     if (e.target.value.length === 2) {
@@ -48,8 +55,6 @@ export const InputDate: FC<InputDateProps> = ({ value }) => {
     if (e.target.value.length === 5) {
       e.target.value = e.target.value + '/'
     }
-
-    console.log('>>>>>', e.target.value)
     setValueAsString(e.target.value)
   }
 
@@ -95,8 +100,16 @@ export const InputDate: FC<InputDateProps> = ({ value }) => {
             })
           }
           e.preventDefault()
-          //   setShowDatePicker(true)
           handler(e)
+        }}
+        onFocus={() => setLocalFocus(true)}
+        onBlur={() => setLocalFocus(false)}
+        style={{
+          backgroundColor: localFocus
+            ? color('background2')
+            : color('background'),
+          borderBottomLeftRadius: localFocus ? 0 : 8,
+          borderBottomRightRadius: localFocus ? 0 : 8,
         }}
       />
     </styled.div>

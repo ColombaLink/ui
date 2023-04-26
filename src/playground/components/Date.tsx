@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
-import { Date as Datepicker } from '~'
+import React from 'react'
+import { DateWidget } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Date = () => {
   return (
     <ComponentViewer
-      component={Datepicker}
-      propsName="DateProps"
+      component={DateWidget}
+      propsName="DateWidgetProps"
       examples={[
         {
           props: {
