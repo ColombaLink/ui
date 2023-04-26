@@ -130,10 +130,12 @@ export const Input = <T extends InputType>({
       const newValue = transform ? transform(e.target.value) : e.target.value
       if (type === 'number') {
         setValue(+e.target.value)
-        // onChangeProp?.(+newValue)
+        // @ts-ignore
+        onChangeProp?.(+newValue)
       } else {
         setValue(newValue)
-        // onChangeProp?.(newValue)
+        // @ts-ignore
+        onChangeProp?.(newValue)
       }
     },
     [onChangeProp]
