@@ -53,6 +53,10 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
 
   const dateObj = new Date()
 
+  const daysInMonth = (month, year) => {
+    return new Date(year, month, 0).getDate()
+  }
+
   // So if year, day or month changes set the new Value 🔥
   useEffect(() => {
     setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
@@ -79,18 +83,41 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
   // Days forward or backward
   const DayChanger = (str: 'forward' | 'backward') => {
     if (str === 'forward') {
-      setSelectedDay(
-        +selectedDay + 1 < 10
-          ? '0' + (+selectedDay + 1).toString()
-          : (+selectedDay + 1).toString()
-      )
+      if (+selectedDay === daysInMonth(+selectedMonth, +selectedYear)) {
+        if (+selectedMonth === 12) {
+          setSelectedDay('01')
+          setSelectedMonth('01')
+          setSelectedYear((+selectedYear + 1).toString())
+        } else {
+          MonthChanger('forward')
+          setSelectedDay('01')
+        }
+      } else
+        setSelectedDay(
+          +selectedDay + 1 < 10
+            ? '0' + (+selectedDay + 1).toString()
+            : (+selectedDay + 1).toString()
+        )
     }
     if (str === 'backward') {
-      setSelectedDay(
-        +selectedDay - 1 < 10
-          ? '0' + (+selectedDay - 1).toString()
-          : (+selectedDay - 1).toString()
-      )
+      if (selectedDay === '01' || +selectedDay === 1) {
+        if (selectedMonth === '01' || +selectedMonth === 1) {
+          setSelectedDay(daysInMonth(12, +selectedYear - 1).toString())
+          setSelectedMonth('12')
+          setSelectedYear((+selectedYear - 1).toString())
+        } else {
+          MonthChanger('backward')
+          setSelectedDay(
+            daysInMonth(+selectedMonth - 1, selectedYear).toString()
+          )
+        }
+      } else {
+        setSelectedDay(
+          +selectedDay - 1 < 10
+            ? '0' + (+selectedDay - 1).toString()
+            : (+selectedDay - 1).toString()
+        )
+      }
     }
   }
 

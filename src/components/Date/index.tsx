@@ -8,6 +8,8 @@ type DateProps = {
   style?: Style
 }
 
+// TODO onChange handler
+
 export const Date: FC<DateProps> = ({ value, onChange, style }) => {
   return (
     <styled.div style={{ ...style }}>
