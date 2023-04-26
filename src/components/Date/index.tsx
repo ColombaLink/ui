@@ -8,15 +8,19 @@ type DateWidgetProps = {
   style?: Style
 }
 
+// TODO: when error message
+// TODO: time input
+// TODO: date range component
+// TODO: utc input
+// TODO: little details tweaking -> no Value what to show on click
+
 export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   const onChangeHandler = (
     str: string,
     timeInput: string = '00:00'
   ): number => {
-    const dateString = `${str.split('/').reverse().join('-')}T${timeInput}`
+    const dateString = `${str?.split('/').reverse().join('-')}T${timeInput}`
     const outputMs = new Date(dateString).getTime()
-
-    /// TODO: when error message
     console.log('output in ms ⏱', outputMs)
     onChange(outputMs)
     return outputMs
