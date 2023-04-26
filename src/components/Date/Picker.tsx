@@ -50,6 +50,11 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
   )
   const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
 
+  // So if year, day or month changes set the new Value
+  useEffect(() => {
+    setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
+  }, [selectedDay, selectedMonth, selectedYear])
+
   //   const changeHandler = (year, month, day) => {
   //     if (day < 10) {
   //       day = `0${day}`
@@ -73,7 +78,6 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
       if (selectedMonth === `12` || +selectedMonth === 12) {
         setSelectedMonth('01')
         setSelectedYear((+selectedYear + 1).toString())
-        setValueAsString(`${selectedDay}/01/${+selectedYear + 1}`)
       } else {
         setSelectedMonth(
           +selectedMonth < 9
@@ -82,19 +86,19 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         )
       }
     }
+    if (str === 'backward') {
+      if (selectedMonth === `01` || +selectedMonth === 1) {
+        setSelectedMonth('12')
+        setSelectedYear((+selectedYear - 1).toString())
+      } else {
+        setSelectedMonth(
+          +selectedMonth < 11
+            ? '0' + (+selectedMonth - 1).toString()
+            : (+selectedMonth - 1).toString()
+        )
+      }
+    }
   }
-
-  useEffect(() => {
-    setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
-  }, [selectedDay, selectedMonth, selectedYear])
-
-  //   const oneMonthForward = () => {
-  //     if (+selectedMonth === 12) {
-  //       changeHandler(selectedYear + 1, 1, selectedDay)
-  //     } else {
-  //       changeHandler(selectedYear, +selectedMonth + 1, selectedDay)
-  //     }
-  //   }
 
   return (
     <StyledDatePickerBox>
@@ -107,11 +111,11 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         }}
       >
         <Text weight={400}>
-          {months[+valueAsString?.split('/')[1]]} {valueAsString?.split('/')[2]}
+          {months[+selectedMonth]} {selectedYear}
         </Text>
         <styled.div style={{ display: 'flex' }}>
           <StyledChevronHolders
-            //  onClick={oneMonthBack}
+            onClick={() => MonthChanger('backward')}
             style={{ marginRight: 16 }}
           >
             <ChevronUpIcon />

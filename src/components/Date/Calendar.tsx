@@ -1,5 +1,5 @@
-import React from 'react'
-import { styled } from '~'
+import React, { useEffect, useState } from 'react'
+import { styled, color } from '~'
 
 export const Calendar = () => {
   return (
