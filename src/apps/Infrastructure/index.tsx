@@ -1,19 +1,20 @@
 import React, { FC } from 'react'
 import { Style, styled } from 'inlines'
 import { StateProvider, useContextState } from '~/hooks'
-import { InfraLeft } from './InfraLeft'
 import { Machines } from './Machines'
 import { Env } from '@based/machine-config'
-import { Overview } from './Overview'
+import { MachineTable } from './MachineTable'
 
 const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
-  const [infraSection] = useContextState('infraSection', 'config')
-  if (infraSection === 'machines') {
-    return <Machines env={env} />
+  const [infraSection] = useContextState('infraSection', 'overview')
+
+  if (infraSection && infraSection !== 'overview') {
+    return <MachineTable env={env} />
   }
-  if (infraSection === 'overview') {
-    return <Overview envAdminHub={envAdminHub} />
-  }
+
+  // machine table
+
+  return <Machines envAdminHub={envAdminHub} env={env} />
   return null
 }
 
@@ -55,7 +56,6 @@ export const Infrastructure: FC<{
       }}
     >
       <StateProvider values={values} onChange={onChange}>
-        <InfraLeft />
         <Routes envAdminHub={envAdminHub} env={env} />
       </StateProvider>
     </styled.div>

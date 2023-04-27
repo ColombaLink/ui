@@ -18,21 +18,22 @@ import {
   ContextDivider,
   RowSpaced,
   CloseIcon,
-  RowEnd,
   ContextItem,
   Dialog,
   MoreIcon,
   useContextMenu,
+  CliIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import { Env, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineTemplateModal'
 import { Services } from './Services'
-import { MachinesSection } from './MachinesSection'
 import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
+import { Status } from './Status'
+import { Connections } from '../Connections'
 
 export const Actions: FC<{
   config: MachineConfig
@@ -138,18 +139,49 @@ const MachineConfig: FC<{
   env: Env
 }> = ({ configName, config, machineStatus, env }) => {
   const client = useClient()
+  const [, setInfra] = useContextState<string>('infraSection')
+
   return (
     <Container space="32px">
       <RowSpaced>
-        <Text typo="subtitle600">{configName}</Text>
+        <Row>
+          <Text
+            style={{
+              transition: 'color 0.25s',
+              color: 'inherit',
+              marginRight: 24,
+            }}
+            typo="title2"
+          >
+            {configName}
+          </Text>
+          <Status
+            goodColor="green"
+            running={machineStatus.amount - machineStatus.failing}
+            unreachable={machineStatus.failing}
+            deploying={machineStatus.deploying}
+            type="machine"
+          />
+        </Row>
 
         <Row>
           <UpdateButton small machineConfigs={{ [configName]: config }} />
+
           <Button
             icon={<MoreIcon />}
             ghost
             onClick={useContextMenu(Actions, { config, configName })}
           />
+          <Button
+            color="lightaccent"
+            style={{ marginLeft: 8 }}
+            onClick={() => {
+              setInfra(configName)
+            }}
+            icon={CliIcon}
+          >
+            Inspect
+          </Button>
         </Row>
       </RowSpaced>
       <Text space typo="caption400">
@@ -183,17 +215,15 @@ const MachineConfig: FC<{
           configName={configName}
           config={config}
         />
-        <MachinesSection
-          machineStatus={machineStatus}
-          configName={configName}
-          config={config}
-        />
       </Accordion>
     </Container>
   )
 }
 
-export const Machines: FC<{ env: Env }> = ({ env }) => {
+export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
+  env,
+  envAdminHub,
+}) => {
   const { data: envData, checksum } = useQuery('env', env)
 
   const [filter, setFilter] = useContextState('filter', '')
@@ -235,27 +265,30 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
 
   return (
     <Page>
-      <RowEnd>
-        <UpdateButton
-          machineConfigs={envData?.config?.machineConfigs}
-          checksum={checksum}
-        />
-        <Button
-          ghost
-          onClick={() => open(<AddMachineModal />)}
-          icon={<AddIcon />}
-        >
-          Add machine template
-        </Button>
-        <Input
-          value={filter}
-          onChange={setFilter}
-          type="text"
-          style={{ width: 250, marginLeft: 16 }}
-          icon={<SearchIcon />}
-          placeholder="Filter by service name"
-        />
-      </RowEnd>
+      <RowSpaced>
+        <Connections envAdminHub={envAdminHub} />
+        <Row>
+          <UpdateButton
+            machineConfigs={envData?.config?.machineConfigs}
+            checksum={checksum}
+          />
+          <Button
+            ghost
+            onClick={() => open(<AddMachineModal />)}
+            icon={<AddIcon />}
+          >
+            Add machine template
+          </Button>
+          <Input
+            value={filter}
+            onChange={setFilter}
+            type="text"
+            style={{ width: 250, marginLeft: 16 }}
+            icon={<SearchIcon />}
+            placeholder="Filter by service name"
+          />
+        </Row>
+      </RowSpaced>
       <Spacer space="32px" />
       {machineConfigs}
     </Page>

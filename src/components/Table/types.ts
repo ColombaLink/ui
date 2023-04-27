@@ -1,15 +1,17 @@
 import { ReactNode, FC, MouseEvent } from 'react'
 
+export type TableCustomComponent<T> = FC<{
+  data: T
+  header: TableHeader<T>
+  context: TableProps<T>
+}>
+
 export type TableHeader<T> = {
   key: string
+  width?: number
   label?: ReactNode
   showColumnCheckbox?: boolean
-  customComponent?: FC<{
-    data: T
-    key: string
-    columnIndex: number
-    rowIndex: number
-  }>
+  customComponent?: TableCustomComponent<T>
 }
 
 export type TableProps<T extends any = any> = {

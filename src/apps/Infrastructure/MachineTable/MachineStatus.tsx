@@ -10,34 +10,16 @@ import {
   WarningIcon,
   border,
 } from '~'
-import { useQuery } from '@based/react'
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyNumber } from '@based/pretty-number'
+import { TableCustomComponent } from '~/components/Table/types'
 
 // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
 
 const MachineStats: FC<{
   cpu: number
   memory: number
-  machineTypeValue: string
-}> = ({ machineTypeValue = 't3.medium', cpu, memory }) => {
-  const { data: machineTypes = [] } = useQuery(
-    'machine-types',
-    {},
-    {
-      persistent: true,
-    }
-  )
-  const machineType = machineTypes.find((m) => m.value === machineTypeValue)
-  let memoryParsed = memory * (machineType?.memory ?? 0)
-  let memoryUnit = 'MiB'
-
-  if (memoryParsed > 1024) {
-    memoryParsed = memoryParsed / 1024
-    memoryUnit = 'GiB'
-  }
-
+}> = ({ cpu, memory }) => {
   const color: Color = 'accent'
-
   return (
     <>
       <Badge
@@ -45,7 +27,7 @@ const MachineStats: FC<{
         style={{
           justifyContent: 'center',
           width: 70,
-          marginLeft: 32,
+          // marginLeft: 32,
           borderTopRightRadius: 0,
           borderBottomRightRadius: 0,
           borderLeft: border(1),
@@ -56,7 +38,6 @@ const MachineStats: FC<{
       <Badge
         color={color}
         style={{
-          width: 68,
           justifyContent: 'center',
           borderLeft: border(1),
           borderTopLeftRadius: 0,
@@ -64,8 +45,7 @@ const MachineStats: FC<{
           marginRight: 8,
         }}
       >
-        {prettyNumber(~~memoryParsed, 'number-bytes')}
-        {/* {~~memoryParsed} {memoryUnit} */}
+        {prettyNumber(memory, 'number-bytes')}
       </Badge>
     </>
   )
@@ -105,7 +85,7 @@ const colors = {
   3: 'accent',
   4: 'red',
   5: 'accent',
-}
+} as const
 
 const icons = {
   0: WarningIcon,
@@ -114,20 +94,28 @@ const icons = {
   3: ReplaceIcon,
   4: CloseIcon,
   5: LoadingIcon,
+} as const
+
+export const Status: TableCustomComponent<any> = ({ data }) => {
+  const status = 1 // data.status
+
+  return (
+    <Badge icon={icons[status]} color={colors[status]}>
+      {machineStatus(status)}
+    </Badge>
+  )
 }
 
-export const MachineStatus: FC<{
-  status: number
-  cpu: number
-  memory: number
-  machineTypeValue: string
-}> = ({ status, ...props }) => {
+export const MachineStatus: TableCustomComponent<any> = ({ data }) => {
   return (
-    <Row>
-      <Badge icon={icons[status]} color={colors[status]}>
-        {machineStatus(status)}
-      </Badge>
-      {status === 1 ? <MachineStats {...props} /> : null}
+    <Row
+      style={{
+        width: 200,
+      }}
+    >
+      {data.stats ? (
+        <MachineStats memory={data.stats.memory} cpu={data.stats.cpu} />
+      ) : null}
     </Row>
   )
 }

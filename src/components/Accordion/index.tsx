@@ -72,7 +72,9 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   return (
     <styled.div style={{ marginBottom: 12 }}>
       <styled.div
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
           setOpen(!open)
           if (onExpand) {
             onExpand(!open)
@@ -85,6 +87,11 @@ export const AccordionItem: FC<AccordionItemProps> = ({
             open
             // open
           ),
+          '&:hover': {
+            backgroundColor: color('accent', 'active', true),
+            color: color('accent'),
+          },
+          transition: 'background-color 0.25s, color 0.25s',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -92,12 +99,13 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           borderRadius: 8,
           height: 56,
           cursor: 'pointer',
+          color: color('text'),
           ...style,
         }}
         {...props}
       >
         <styled.div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text color={open ? colorProp : 'text'} typo="body600">
+          <Text color={open ? colorProp : 'inherit'} typo="body600">
             {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}

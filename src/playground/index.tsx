@@ -166,12 +166,7 @@ const App = () => {
                 placeholder="Search"
                 space
                 onChange={(e) => {
-                  console.log(e)
-                  console.log(typeof e)
                   searchFilterHandler(e)
-                  // if(typeof e ==="string"){
-                  //   searchFilterHandler(e)
-                  // }
                 }}
                 ghost
                 style={{

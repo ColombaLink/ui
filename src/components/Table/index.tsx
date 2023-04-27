@@ -1,152 +1,117 @@
-import React, { FC, useState, useEffect } from 'react'
-import { Grid } from './Grid'
-import { styled } from 'inlines'
-import { TableHeader } from './TableHeader'
-import { TableSelectionActions } from './TableSelectionActions'
+import React, { FC, createElement } from 'react'
+import { styled, border, Text } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps } from './types'
 
-export const Table: FC<TableProps> = ({
-  headers,
-  data,
-  rowCount,
-  rowHeight = 56,
-  width,
-  height = data.length < 20 ? data.length * 56 + 56 : 400,
-  columnCount = headers?.length ??
-    (data && data.length && Object.keys(data[0]).length),
-  columnWidth = 132,
-  onClick,
-}) => {
-  const [tableHeaders, setTableHeaders] = useState(headers)
-  const [tableData, setTableData] = useState(data || [])
-  const [columnWidthsArr, setColumnWidthsArr] = useState(
-    new Array(columnCount).fill(true).map(() => columnWidth)
-  )
-  const [selectedRows, setSelectedRows] = useState([])
-  const [showSelectedRows, setShowSelectedRows] = useState(false)
+import { VariableSizeGrid as Grid } from 'react-window'
 
-  // to keep track of selected rows
-  const [selectedRowsCopy, setSelectedRowsCopy] = useState()
+const Cell = (props) => {
+  const { columnIndex, rowIndex, style, data } = props
 
-  useEffect(() => {
-    if (headers) {
-      setTableHeaders(
-        tableHeaders.map((v) => ({ ...v, showColumnCheckbox: true }))
-      )
-    }
-  }, [])
+  if (rowIndex === 0) {
+    console.info(rowIndex, columnIndex, data, data[rowIndex])
 
-  useEffect(() => {
-    if (headers) {
-      const headerOrderArr = tableHeaders.map((x) =>
-        x.showColumnCheckbox ? x.key : null
-      )
-      const newObjectOrder = {}
+    const cellData = data.data[rowIndex][columnIndex]
+    return (
+      <styled.div
+        style={{
+          padding: 16,
+          borderBottom: border(1, 'border'),
+          ...style,
+        }}
+      >
+        <Text typo="body600">{cellData.label ?? cellData.key}</Text>
+      </styled.div>
+    )
+  }
 
-      for (const key of headerOrderArr) {
-        newObjectOrder[key] = null
-      }
+  const header = data.headers[columnIndex]
+  const rowData = data.data[rowIndex]
+  const itemData = rowData[header.key]
 
-      //  console.log('new object ordr', newObjectOrder)
-      const newData = showSelectedRows
-        ? filterObjsInArr(selectedRowsCopy, Object.keys(newObjectOrder))
-        : filterObjsInArr(data, Object.keys(newObjectOrder))
-
-      ///  console.log('new DAta??', newData)
-      const newerData = newData.map((obj) =>
-        preferredOrder(obj, Object.keys(newObjectOrder))
-      )
-
-      setTableData(newerData)
-    }
-  }, [tableHeaders, data])
-
-  // types
-  const filterObjsInArr = (arr, selection) => {
-    const filteredArray = []
-    arr?.forEach((obj) => {
-      const filteredObj = {}
-      for (const key in obj) {
-        if (selection.includes(key)) {
-          filteredObj[key] = obj[key]
-        }
-      }
-      filteredArray.push(filteredObj)
+  const body = header.customComponent ? (
+    createElement(header.customComponent, {
+      data: rowData,
+      header,
+      context: props,
     })
-    return filteredArray
-  }
+  ) : (
+    <Text>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
+  )
 
-  // types
-  const preferredOrder = (obj, order) => {
-    const newObject = {}
-    for (let i = 0; i < order.length; i++) {
-      if (Object.prototype.hasOwnProperty.call(obj, order[i])) {
-        newObject[order[i]] = obj[order[i]]
-      }
-    }
-    return newObject
-  }
+  return (
+    <styled.div
+      style={{
+        padding: 16,
+        borderBottom: border(1, 'border'),
+        ...style,
+      }}
+    >
+      {body}
+    </styled.div>
+  )
+}
 
-  const returnRowItemsThatWereSelected = (data, selectedRows) => {
-    const newData = data.filter((item, idx) => selectedRows.includes(idx))
-    return newData
-  }
+export const Table: FC<TableProps> = (props) => {
+  const {
+    headers,
+    data = [],
+    rowCount = data.length,
+    rowHeight = 56,
+    width,
+    height = data.length < 20 ? data.length * 56 + 56 : 400,
+    columnCount = headers?.length ??
+      (data && data.length && Object.keys(data[0]).length),
+  } = props
 
-  useEffect(() => {
-    if (showSelectedRows) {
-      setTableData(returnRowItemsThatWereSelected(tableData, selectedRows))
-      // make copy of current selected rows
-      setSelectedRowsCopy(
-        returnRowItemsThatWereSelected(tableData, selectedRows)
-      )
-      setSelectedRows([])
-    } else {
-      setTableData(tableData)
-      setTableHeaders(
-        tableHeaders?.map((v) => ({ ...v, showColumnCheckbox: true }))
-      )
-    }
-  }, [showSelectedRows])
+  const parsedData = [headers, ...data]
 
   return (
     <>
-      {showSelectedRows || selectedRows.length > 0 ? (
-        <TableSelectionActions
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-          setShowSelectedRows={setShowSelectedRows}
-          showSelectedRows={showSelectedRows}
-        />
-      ) : null}
-      {tableHeaders && (
-        <TableHeader
-          headers={tableHeaders}
-          setTableHeaders={setTableHeaders}
-          columnWidthsArr={columnWidthsArr}
-          setColumnWidthsArr={setColumnWidthsArr}
-          selectedRows={selectedRows}
-          setSelectedRows={setSelectedRows}
-          tableData={tableData}
-        />
-      )}
-      <styled.div style={{ minHeight: height, maxWidth: width }}>
+      <styled.div
+        style={{
+          minHeight: height,
+          height: '100%',
+          width: '100%',
+          maxWidth: width,
+        }}
+      >
         <AutoSizer>
-          {({ width, height }) => (
-            <Grid
-              headers={tableHeaders}
-              data={tableData}
-              rowCount={rowCount || tableData.length}
-              rowHeight={rowHeight}
-              columnCount={columnCount}
-              columnWidthsArr={columnWidthsArr}
-              width={width || columnCount * columnWidth}
-              height={height}
-              setSelectedRows={setSelectedRows}
-              selectedRows={selectedRows}
-              onClick={onClick}
-            />
-          )}
+          {({ width, height }) => {
+            // make this useMemo style
+            // this needs to listen to on resize
+            let w = 0
+            let defW = 0
+            let nonAllocated = 0
+            for (const h of headers) {
+              if (h.width) {
+                w += h.width
+              } else {
+                nonAllocated++
+              }
+            }
+            defW = Math.max(Math.floor((width - w - 16) / nonAllocated), 100)
+            return (
+              <>
+                <Grid
+                  columnCount={columnCount}
+                  columnWidth={(colIndex) => {
+                    return headers[colIndex].width ?? defW
+                  }}
+                  height={height}
+                  rowCount={rowCount + 1}
+                  rowHeight={() => rowHeight}
+                  width={width}
+                  itemData={{
+                    ...props,
+                    data: parsedData,
+                  }}
+                >
+                  {Cell}
+                </Grid>
+              </>
+            )
+          }}
         </AutoSizer>
       </styled.div>
     </>
