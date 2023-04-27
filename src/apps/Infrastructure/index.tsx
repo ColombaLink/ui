@@ -9,7 +9,7 @@ const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
   const [infraSection] = useContextState('infraSection', 'overview')
 
   if (infraSection && infraSection !== 'overview') {
-    return <MachineTable env={env} />
+    return <MachineTable envAdminHub={envAdminHub} />
   }
 
   // machine table
@@ -45,6 +45,7 @@ export const Infrastructure: FC<{
   if (!values.env) {
     values.env = env
   }
+
   return (
     <styled.div
       style={{

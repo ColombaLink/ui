@@ -22,7 +22,7 @@ import {
   Dialog,
   MoreIcon,
   useContextMenu,
-  CliIcon,
+  EyeIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
@@ -178,7 +178,7 @@ const MachineConfig: FC<{
             onClick={() => {
               setInfra(configName)
             }}
-            icon={CliIcon}
+            icon={EyeIcon}
           >
             Inspect
           </Button>

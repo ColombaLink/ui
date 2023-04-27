@@ -1,7 +1,7 @@
 import { Provider, useQuery } from '@based/react'
 import React from 'react'
 import { prettyNumber } from '@based/pretty-number'
-import { styled, Button, EyeIcon } from '~'
+import { styled, Button, UserIcon } from '~'
 
 export const OverviewInner = () => {
   const { data } = useQuery('based:connections')
@@ -18,7 +18,7 @@ export const OverviewInner = () => {
         }
       }
     >
-      <Button large icon={EyeIcon} ghost color="accent">
+      <Button large icon={UserIcon} ghost color="accent">
         {prettyNumber(data ?? 0, 'number-short')}
       </Button>
     </styled.div>

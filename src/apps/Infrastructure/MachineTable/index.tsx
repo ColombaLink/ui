@@ -3,6 +3,7 @@ import React, { FC } from 'react'
 import { Table, styled, useContextState, Badge } from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status } from './MachineStatus'
+import { AllConnections } from './Connections'
 
 const Id = ({ data }) => {
   return <Badge>{data.id}</Badge>
@@ -10,7 +11,8 @@ const Id = ({ data }) => {
 
 export const MachineTable: FC<{
   configName?: string
-}> = ({ configName }) => {
+  envAdminHub: any
+}> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
 
   // get all machine data from rest
@@ -62,11 +64,18 @@ stats
       customComponent: Status,
     },
     {
+      key: 'connections',
+      label: '',
+      width: 100,
+      customComponent: AllConnections,
+    },
+    {
       key: 'id',
       label: 'ID',
       width: 150,
       customComponent: Id,
     },
+
     {
       key: 'stats',
       customComponent: MachineStatus,
@@ -97,6 +106,7 @@ stats
       }}
     >
       <Table
+        context={{ envAdminHub }}
         data={data?.machines ?? []}
         headers={headers}
         onClick={handleClick}

@@ -19,6 +19,7 @@ export type TableProps<T extends any = any> = {
   data?: T[]
   width?: number
   height?: number
+  context?: any
   rowCount?: number
   rowHeight?: number
   columnCount?: number
