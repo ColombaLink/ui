@@ -26,7 +26,7 @@ import {
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
-import { Env, Machine, MachineConfig } from '@based/machine-config'
+import { Env, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineTemplateModal'
 import { Services } from './Services'
 import { MachinesSection } from './MachinesSection'
@@ -40,7 +40,7 @@ export const Actions: FC<{
   // machines: Machine[]
 }> = ({ config, configName }) => {
   const machines = []
-  // use tatus
+  // use status
 
   const { open } = useDialog()
   const client = useClient()

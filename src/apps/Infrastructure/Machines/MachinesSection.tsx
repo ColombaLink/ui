@@ -209,15 +209,15 @@ export const MachinesSection: FC<{
   return (
     <AccordionItem
       label="Machines"
-      onExpand={(v) => {
-        if (!v) {
-          delete expanded[expandKey]
-        } else {
-          expanded[expandKey] = v
-        }
-        setExpanded(expanded)
-      }}
-      expanded={expanded[expandKey]}
+      // onExpand={(v) => {
+      //   if (!v) {
+      //     delete expanded[expandKey]
+      //   } else {
+      //     expanded[expandKey] = v
+      //   }
+      //   setExpanded(expanded)
+      // }}
+      // expanded={expanded[expandKey]}
       topRight={
         <Status
           goodColor={expanded[expandKey] ? 'accent' : 'green'}

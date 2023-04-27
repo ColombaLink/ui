@@ -145,6 +145,9 @@ const App = () => {
                       ' ' +
                       ' ui-playground',
                   })
+                  await client.setAuthState(
+                    await adminClient.once('authstate-change')
+                  )
                 }}
               />
               <Button

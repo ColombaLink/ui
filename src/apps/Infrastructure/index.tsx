@@ -4,11 +4,15 @@ import { StateProvider, useContextState } from '~/hooks'
 import { InfraLeft } from './InfraLeft'
 import { Machines } from './Machines'
 import { Env } from '@based/machine-config'
+import { Overview } from './Overview'
 
-const Routes: FC<{ env: Env }> = ({ env }) => {
+const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
   const [infraSection] = useContextState('infraSection', 'config')
   if (infraSection === 'machines') {
     return <Machines env={env} />
+  }
+  if (infraSection === 'overview') {
+    return <Overview envAdminHub={envAdminHub} />
   }
   return null
 }
@@ -16,6 +20,7 @@ const Routes: FC<{ env: Env }> = ({ env }) => {
 export const Infrastructure: FC<{
   style?: Style
   env: Env
+  envAdminHub: any
   onChange?: (key: string, val: string) => void
   values?: {
     infraSection: string
@@ -25,6 +30,7 @@ export const Infrastructure: FC<{
 }> = ({
   env,
   style,
+  envAdminHub,
   values = {
     infraSection: '',
     expanded: {},
@@ -50,7 +56,7 @@ export const Infrastructure: FC<{
     >
       <StateProvider values={values} onChange={onChange}>
         <InfraLeft />
-        <Routes env={env} />
+        <Routes envAdminHub={envAdminHub} env={env} />
       </StateProvider>
     </styled.div>
   )

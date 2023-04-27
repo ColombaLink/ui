@@ -20,6 +20,7 @@ const route = useRoute('[infraSection]');
 
 <BasedAdminProvider>
   <Infrastructure 
+    envAdminHub={basedClient}
     env={{
       project: '${project}',
       org: '${org}',
