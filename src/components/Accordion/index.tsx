@@ -8,6 +8,7 @@ import {
   ChevronUpIcon,
   Space,
   Color,
+  border,
   color,
   spaceToPx,
 } from '~'
@@ -70,7 +71,11 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   const open = expanded ?? openS
 
   return (
-    <styled.div style={{ marginBottom: 12 }}>
+    <styled.div
+      style={{
+        marginBottom: 12,
+      }}
+    >
       <styled.div
         onClick={(e) => {
           e.preventDefault()

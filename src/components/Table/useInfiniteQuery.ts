@@ -48,7 +48,6 @@ export const useInfiniteQuery = ({
   const [offset, setOffset] = useState(0)
 
   const [blocks, setBlocks] = useState(() => {
-    // do a bit of rounden like per 5 or per 10....
     let blocks = Math.ceil(height / blockHeight)
     if (treshold) {
       blocks += Math.ceil(
@@ -57,6 +56,8 @@ export const useInfiniteQuery = ({
     }
     return blocks
   })
+
+  console.log(blocks, limit)
 
   const { current } = useRef<CurrentRef>({
     items: [],

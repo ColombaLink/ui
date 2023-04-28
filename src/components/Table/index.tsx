@@ -72,7 +72,7 @@ const Cell = (props) => {
       context: props,
     })
   ) : (
-    <Text>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
+    <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
   )
   return (
     <styled.div
@@ -178,21 +178,19 @@ export const Table: FC<TableProps> = (props) => {
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
   } = props
   return (
-    <>
-      <styled.div
-        style={{
-          minHeight: height,
-          height: '100%',
-          width: '100%',
-          maxWidth: width,
+    <styled.div
+      style={{
+        minHeight: height,
+        height: '100%',
+        width: '100%',
+        maxWidth: width,
+      }}
+    >
+      <AutoSizer>
+        {({ width, height }) => {
+          return <SizedGrid {...props} height={height} width={width} />
         }}
-      >
-        <AutoSizer>
-          {({ width, height }) => {
-            return <SizedGrid {...props} height={height} width={width} />
-          }}
-        </AutoSizer>
-      </styled.div>
-    </>
+      </AutoSizer>
+    </styled.div>
   )
 }

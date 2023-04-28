@@ -17,8 +17,10 @@ import {
   color,
   useRoute,
   LayersIcon,
+  useDialog,
   DeleteIcon,
   EmailIcon,
+  Dialog,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -26,7 +28,7 @@ import * as hooks from './hooks'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import { icons } from './ComponentViewer/genRandomProps'
-import { client, adminClient } from './based'
+import { client, adminClient, cluster } from './based'
 
 const stories = {
   ...components,
@@ -46,6 +48,34 @@ const Stories: FC = () => {
     return <>{route.nest(React.createElement(component))}</>
   }
   return <></>
+}
+
+const Login = () => {
+  const [email, setEmail] = useState<string>()
+  return (
+    <Dialog>
+      <Dialog.Label>Login</Dialog.Label>
+      <Input type="email" value={email} onChange={(v) => setEmail(v)} />
+      <Dialog.Buttons>
+        <Dialog.Confirm
+          icon={EmailIcon}
+          onConfirm={async () => {
+            await adminClient.call('login', {
+              email,
+              skipEmailForTesting: cluster === 'local',
+              code:
+                (~~(Math.random() * 1e6)).toString(16) + ' ' + ' ui-playground',
+            })
+            await client.setAuthState(
+              await adminClient.once('authstate-change')
+            )
+          }}
+        >
+          Login
+        </Dialog.Confirm>
+      </Dialog.Buttons>
+    </Dialog>
+  )
 }
 
 const menuItems = {
@@ -89,6 +119,8 @@ const App = () => {
     }
     setFilteredObj(filteredArr)
   }
+
+  const { open } = useDialog()
 
   return (
     <AppFrame>
@@ -135,20 +167,7 @@ const App = () => {
                 ghost
                 space="12px"
                 icon={<EmailIcon />}
-                onClick={async () => {
-                  // connect ot env admin hub as well
-                  await adminClient.call('login', {
-                    email: 'jim@saulx.com',
-                    skipEmailForTesting: true,
-                    code:
-                      (~~(Math.random() * 1e6)).toString(16) +
-                      ' ' +
-                      ' ui-playground',
-                  })
-                  await client.setAuthState(
-                    await adminClient.once('authstate-change')
-                  )
-                }}
+                onClick={() => open(<Login />)}
               />
               <Button
                 space="12px"

@@ -96,7 +96,7 @@ const icons = {
   5: LoadingIcon,
 } as const
 
-export const Status: TableCustomComponent<any> = ({ data }) => {
+export const Status: TableCustomComponent<any> = ({ data, context }) => {
   const status = data.status
   return (
     <Badge icon={icons[status]} color={colors[status]}>
