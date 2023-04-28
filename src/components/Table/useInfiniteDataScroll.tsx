@@ -1,21 +1,87 @@
 import { useState, useEffect, useRef } from 'react'
 
-export const useInfiniteDataScroll = ({
-  data,
-  delay = 100,
-  itemSize = 56,
-  height = 400,
-  limit = Math.ceil(height / itemSize),
-  treshold = 0,
-  //   target = 'root',
-  //   language = 'en',
-}) => {
-  //   const queryId = useMemo(() => {
-  //     return data
-  //   }, [data])
+type CurrentRef = {
+  offset: number
+  blocks: number
+  scrollY: number
+  items: any[]
+  timer: ReturnType<typeof setTimeout>
+  subs: { [subId: string]: () => void }
+}
 
+type OnNextBlock = (
+  currentRef: CurrentRef,
+  update: (checksum: string) => any,
+  blocks: number,
+  limit: number,
+  offset: number
+) => void
+
+const nextBla: OnNextBlock = (
+  currentRef,
+  update,
+  blocks
+  // limit: number,
+  // offset: number
+) => {
+  const subs = {} // blocksquery
+  let i = blocks
+
+  // and then a wrapper here
+
+  while (i--) {
+    // const start = offset + limit * i
+    const payload = {
+      // $id: target,
+      // $language: language,
+      // items: query(start, limit),
+    }
+    // const q = client.query('db', payload)
+    const q = { id: 0 }
+
+    subs[q.id] = currentRef.subs[q.id] // ||
+    // q.subscribe(({ items }, checksum) => {
+    //   for (let i = 0; i < items.length; i++) {
+    //     currentRef.items[i + offset] = items[i]
+    //   }
+    //   // upgrade
+    //   setChecksum(`${offset}-${checksum}`)
+    // })
+  }
+
+  for (const subId in currentRef.subs) {
+    if (!(subId in subs)) {
+      currentRef.subs[subId]()
+    }
+  }
+
+  currentRef.subs = subs
+}
+
+export const useInfiniteDataScroll = (
+  onNextBlock: OnNextBlock,
+  {
+    itemSize,
+    itemCount,
+    height,
+    limit = Math.ceil(height / itemSize),
+    treshold = 0,
+    queryId = 0,
+    delay = 100,
+  }: {
+    itemSize: number
+    itemCount: number
+    height: number
+    limit?: number
+    delay?: number
+    treshold?: number
+    queryId?: number
+  }
+) => {
   const blockHeight = itemSize * limit
-  //   const client = useClient()
+
+  const [, setChecksum] = useState('')
+
   const [offset, setOffset] = useState(0)
   const [blocks, setBlocks] = useState(() => {
     let blocks = Math.ceil(height / blockHeight)
@@ -27,64 +93,21 @@ export const useInfiniteDataScroll = ({
     return blocks
   })
 
-  //   const [, setChecksum] = useState<string>()
-  const { current } = useRef({
-    offset,
-    blocks,
-    scrollY: 0,
-    items: [],
-    timer: null,
-    subs: {},
-  })
+  const { current } = useRef<CurrentRef>()
 
-  //   useEffect(() => {
-  //     if (client) {
-  //       return () => {
-  //         const { subs } = current
-  //         for (const subId in subs) {
-  //           current.subs[subId]()
-  //         }
-  //         current.subs = {}
-  //       }
-  //     }
-  //   }, [client, current])
+  useEffect(() => {
+    return () => {
+      const { subs } = current
+      for (const subId in subs) {
+        subs[subId]()
+      }
+      current.subs = {}
+    }
+  }, [current])
 
-  //   useEffect(() => {
-  //     console.log('current fire 🌶')
-  //   }, [current])
-
-  //   useEffect(() => {
-  //     if (client) {
-  //       const subs = {}
-  //       let i = blocks
-
-  //       while (i--) {
-  //         const start = offset + limit * i
-  //         const payload = {
-  //           $id: target,
-  //           $language: language,
-  //           items: query(start, limit),
-  //         }
-  //         const q = client.query('db', payload)
-  //         subs[q.id] =
-  //           current.subs[q.id] ||
-  //           q.subscribe(({ items }, checksum) => {
-  //             for (let i = 0; i < items.length; i++) {
-  //               current.items[i + offset] = items[i]
-  //             }
-  //             setChecksum(`${offset}-${checksum}`)
-  //           })
-  //       }
-
-  //       for (const subId in current.subs) {
-  //         if (!(subId in subs)) {
-  //           current.subs[subId]()
-  //         }
-  //       }
-
-  //       current.subs = subs
-  //     }
-  //   }, [target, client, offset, blocks, current, language, queryId])
+  useEffect(() => {
+    onNextBlock(current, setChecksum, blocks, limit, offset)
+  }, [offset, blocks, current, queryId])
 
   useEffect(update, [
     blockHeight,
@@ -95,23 +118,6 @@ export const useInfiniteDataScroll = ({
     limit,
     treshold,
   ])
-
-  //   const { data } = useQuery('db', {
-  //     $id: target as string,
-  //     $language: language,
-  //     itemCount: {
-  //       $aggregate: {
-  //         $function: 'count',
-  //         ...query(0, 0)?.$list?.$find,
-  //       },
-  //     },
-  //   })
-
-  const itemCount = data?.length
-
-  //   console.log(itemCount, 'itemCount')
-  //   console.log('🥔')
-  //   console.log('itemss??', current.items)
 
   return {
     loading: !itemCount || !current.items.length,
@@ -126,6 +132,7 @@ export const useInfiniteDataScroll = ({
     },
   }
 
+  // usecallback for this
   function update() {
     const start = Math.max(0, current.scrollY / itemSize - treshold)
     const end = (current.scrollY + height) / itemSize
