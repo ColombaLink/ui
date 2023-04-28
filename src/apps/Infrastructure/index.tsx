@@ -7,15 +7,15 @@ import { MachineTable } from './MachineTable'
 
 const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
   const [infraSection] = useContextState('infraSection', 'overview')
-
   if (infraSection && infraSection !== 'overview') {
-    return <MachineTable envAdminHub={envAdminHub} />
+    return (
+      <MachineTable
+        configName={infraSection === 'all' ? undefined : infraSection}
+        envAdminHub={envAdminHub}
+      />
+    )
   }
-
-  // machine table
-
   return <Machines envAdminHub={envAdminHub} env={env} />
-  return null
 }
 
 export const Infrastructure: FC<{

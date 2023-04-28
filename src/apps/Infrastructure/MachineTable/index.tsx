@@ -1,6 +1,15 @@
-import { useQuery } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import React, { FC } from 'react'
-import { Table, styled, useContextState, Badge } from '~'
+import {
+  Table,
+  styled,
+  useContextState,
+  Badge,
+  ChevronLeftIcon,
+  Button,
+  Container,
+  RowSpaced,
+} from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status } from './MachineStatus'
 import { AllConnections } from './Connections'
@@ -14,47 +23,7 @@ export const MachineTable: FC<{
   envAdminHub: any
 }> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
-
-  // get all machine data from rest
-  // table is still total shit
-
-  /*
-  envId: string
-    org: string
-    project: string
-    env: string
-    configName?: string
-    limit?: number
-    offset?: number
-    sort?: any
-  */
-
-  // use effect etc
-
-  const { data, loading } = useQuery('machines', {
-    ...env,
-    configName,
-  })
-
-  console.info(data)
-
-  /*
-  cloudMachineId
-: 
-"ma17128edb"
-id
-: 
-"ma17128edb"
-machineConfigName
-: 
-"env"
-publicIp
-: 
-"192.168.178.88"
-stats
-: 
-{cpu: 4.04541015625, lastUpdate: 1682601230001, memory: 171921408, services: {…}}
-  */
+  const [, setPage] = useContextState<string>('infraSection')
 
   const headers = [
     {
@@ -98,64 +67,58 @@ stats
     console.info('Clicked on row:', rowData)
   }
 
+  const client = useClient()
+
   return (
     <styled.div
       style={{
+        padding: 32,
         width: '100%',
         height: '100%',
       }}
     >
-      <Table
-        context={{ envAdminHub }}
-        data={data?.machines ?? []}
-        headers={headers}
-        onClick={handleClick}
-      />
+      <RowSpaced>
+        <Button
+          style={{
+            marginTop: 4,
+          }}
+          ghost
+          icon={ChevronLeftIcon}
+          onClick={() => {
+            setPage('overview')
+          }}
+        >
+          Machine configs
+        </Button>
+      </RowSpaced>
+      <Container
+        style={{
+          marginTop: 32,
+          padding: 0,
+          width: '100%',
+          height: '100%',
+        }}
+      >
+        <Table
+          // sort option in query
+          query={(offset, limit) => {
+            return client.query('machines', {
+              ...env,
+              offset,
+              limit,
+              configName,
+            })
+          }}
+          getQueryItems={(d) => {
+            return d.machines
+          }}
+          // do an aggregate query here...
+          itemCount={20e3}
+          context={{ envAdminHub }}
+          headers={headers}
+          onClick={handleClick}
+        />
+      </Container>
     </styled.div>
   )
 }
-
-// {
-/* <RowEnd
-        style={{
-          borderBottom: border(1),
-          marginBottom: 8,
-          paddingBottom: machines.length > 1 ? 24 : 0,
-        }}
-      >
-        {machines.length > 1 ? (
-          <Button
-            onClick={() => {
-              return client.call('send-commands', {
-                ...env,
-                commands: machines
-                  .filter((m) => m.status === 1)
-                  .map((m) => {
-                    return {
-                      machineId: m.id,
-                      command: 'restart',
-                    }
-                  }),
-              })
-            }}
-            icon={<ReplaceIcon />}
-            ghost
-          >
-            Reboot all
-          </Button>
-        ) : null}
-      </RowEnd>
-      {machines.map((m) => {
-        return <Machine config={config} machine={m} key={m.id} />
-      })} */
-// }
-
-// onExpand={(v) => {
-//   if (!v) {
-//     delete expanded[expandKey]
-//   } else {
-//     expanded[expandKey] = v
-//   }
-//   setExpanded(expanded)
-// }}
-// expanded={expanded[expandKey]}

@@ -97,8 +97,7 @@ const icons = {
 } as const
 
 export const Status: TableCustomComponent<any> = ({ data }) => {
-  const status = 1 // data.status
-
+  const status = data.status
   return (
     <Badge icon={icons[status]} color={colors[status]}>
       {machineStatus(status)}

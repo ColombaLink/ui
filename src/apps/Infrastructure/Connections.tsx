@@ -1,27 +1,24 @@
 import { Provider, useQuery } from '@based/react'
 import React from 'react'
 import { prettyNumber } from '@based/pretty-number'
-import { styled, Button, UserIcon } from '~'
+import { styled, Button, UserIcon, useContextState } from '~'
 
 export const OverviewInner = () => {
   const { data } = useQuery('based:connections')
-  // const { data: d } = useQuery('based:connectionsPerHub')
-
-  // can make this super interessting
-  // console.info('connectionsPerHub', d)
+  const [, setPage] = useContextState<string>('infraSection')
 
   return (
-    <styled.div
-      style={
-        {
-          // padding: 24,
-        }
-      }
+    <Button
+      onClick={() => {
+        setPage('all')
+      }}
+      // large
+      icon={UserIcon}
+      ghost
+      color="accent"
     >
-      <Button large icon={UserIcon} ghost color="accent">
-        {prettyNumber(data ?? 0, 'number-short')}
-      </Button>
-    </styled.div>
+      {prettyNumber(data ?? 0, 'number-short')}
+    </Button>
   )
 }
 

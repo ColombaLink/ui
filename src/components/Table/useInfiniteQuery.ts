@@ -1,4 +1,6 @@
+import { BasedQuery } from '@based/client'
 import { useState, useEffect, useRef } from 'react'
+import { SortOptions } from './types'
 
 type CurrentRef = {
   offset: number
@@ -9,91 +11,61 @@ type CurrentRef = {
   subs: { [subId: string]: () => void }
 }
 
-type OnNextBlock = (
-  currentRef: CurrentRef,
-  update: (checksum: string) => any,
-  blocks: number,
-  limit: number,
-  offset: number
-) => void
+const stub = (y: number) => undefined
 
-const nextBla: OnNextBlock = (
-  currentRef,
-  update,
-  blocks
-  // limit: number,
-  // offset: number
-) => {
-  const subs = {} // blocksquery
-  let i = blocks
-
-  // and then a wrapper here
-
-  while (i--) {
-    // const start = offset + limit * i
-    const payload = {
-      // $id: target,
-      // $language: language,
-      // items: query(start, limit),
-    }
-    // const q = client.query('db', payload)
-    const q = { id: 0 }
-
-    subs[q.id] = currentRef.subs[q.id] // ||
-    // q.subscribe(({ items }, checksum) => {
-    //   for (let i = 0; i < items.length; i++) {
-    //     currentRef.items[i + offset] = items[i]
-    //   }
-    //   // upgrade
-    //   setChecksum(`${offset}-${checksum}`)
-    // })
-  }
-
-  for (const subId in currentRef.subs) {
-    if (!(subId in subs)) {
-      currentRef.subs[subId]()
-    }
-  }
-
-  currentRef.subs = subs
-}
-
-export const useInfiniteDataScroll = (
-  onNextBlock: OnNextBlock,
-  {
-    itemSize,
-    itemCount,
-    height,
-    limit = Math.ceil(height / itemSize),
-    treshold = 0,
-    queryId = 0,
-    delay = 100,
-  }: {
-    itemSize: number
-    itemCount: number
-    height: number
-    limit?: number
-    delay?: number
-    treshold?: number
-    queryId?: number
-  }
-) => {
-  const blockHeight = itemSize * limit
-
+export const useInfiniteQuery = ({
+  query,
+  getQueryItems,
+  rowHeight,
+  itemCount,
+  height,
+  limit = Math.ceil(height / rowHeight),
+  treshold = 0,
+  queryId = '0',
+  delay = 100,
+  sortOptions,
+}: {
+  query?: (start: number, limit: number, sortOptions: SortOptions) => BasedQuery
+  getQueryItems?: (data: any) => any[]
+  rowHeight: number
+  itemCount: number
+  height: number
+  limit?: number
+  delay?: number
+  treshold?: number
+  queryId?: string
+  sortOptions?: SortOptions
+}): {
+  loading: boolean
+  itemCount: number
+  items: any[]
+  cache: CurrentRef
+  onScrollY: (scrollY: number) => void
+} => {
+  const blockHeight = rowHeight * limit
   const [, setChecksum] = useState('')
 
   const [offset, setOffset] = useState(0)
+
   const [blocks, setBlocks] = useState(() => {
+    // do a bit of rounden like per 5 or per 10....
     let blocks = Math.ceil(height / blockHeight)
     if (treshold) {
       blocks += Math.ceil(
-        (height / itemSize + treshold - blocks * limit) / limit
+        (height / rowHeight + treshold - blocks * limit) / limit
       )
     }
     return blocks
   })
 
-  const { current } = useRef<CurrentRef>()
+  const { current } = useRef<CurrentRef>({
+    items: [],
+    scrollY: 0,
+    timer: null,
+    subs: {},
+    offset: 0,
+    blocks: 0,
+  })
 
   useEffect(() => {
     return () => {
@@ -105,15 +77,47 @@ export const useInfiniteDataScroll = (
     }
   }, [current])
 
+  if (!query) {
+    useEffect(() => {}, [])
+    useEffect(() => {}, [])
+    return {
+      loading: false,
+      itemCount: 0,
+      items: [],
+      onScrollY: stub,
+      cache: current,
+    }
+  }
+
   useEffect(() => {
-    onNextBlock(current, setChecksum, blocks, limit, offset)
+    const subs: { [subId: string]: () => void } = {}
+    let i = blocks
+    while (i--) {
+      const start = offset + limit * i
+      const q = query(start, limit, sortOptions)
+      subs[q.id] =
+        current.subs[q.id] ||
+        q.subscribe((data, checksum) => {
+          const items = getQueryItems(data) ?? data.items ?? []
+          for (let i = 0; i < items.length; i++) {
+            current.items[i + offset] = items[i]
+          }
+          setChecksum(`${offset}-${checksum}`)
+        })
+    }
+    for (const subId in current.subs) {
+      if (!(subId in subs)) {
+        current.subs[subId]()
+      }
+    }
+    current.subs = subs
   }, [offset, blocks, current, queryId])
 
   useEffect(update, [
     blockHeight,
     delay,
     height,
-    itemSize,
+    rowHeight,
     current,
     limit,
     treshold,
@@ -132,10 +136,9 @@ export const useInfiniteDataScroll = (
     },
   }
 
-  // usecallback for this
   function update() {
-    const start = Math.max(0, current.scrollY / itemSize - treshold)
-    const end = (current.scrollY + height) / itemSize
+    const start = Math.max(0, current.scrollY / rowHeight - treshold)
+    const end = (current.scrollY + height) / rowHeight
     const newOffset = start - (start % limit)
     let newBlocks = Math.ceil(
       height / blockHeight + (current.scrollY % blockHeight) / blockHeight

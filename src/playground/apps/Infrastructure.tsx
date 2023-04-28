@@ -29,6 +29,7 @@ const route = useRoute('[infraSection]');
     }}
     values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
     onChange={(key, v) => { 
+      console.log(key, v)
       if (key === 'expanded' || key === 'filter') {
         if (!v || key === 'expanded' && Object.keys(v).length === 0) {
           route.setQuery({ [key]: null })

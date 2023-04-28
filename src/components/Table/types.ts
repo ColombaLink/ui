@@ -1,4 +1,5 @@
 import { ReactNode, FC, MouseEvent } from 'react'
+import { BasedQuery } from '@based/client'
 
 export type TableCustomComponent<T> = FC<{
   data: T
@@ -14,13 +15,23 @@ export type TableHeader<T> = {
   customComponent?: TableCustomComponent<T>
 }
 
+export type SortOptions = {
+  $field: string
+  $order: 'asc' | 'desc'
+}
+
 export type TableProps<T extends any = any> = {
   headers?: TableHeader<T>[]
+  query?: (start: number, limit: number) => BasedQuery
+  getQueryItems?: (data: any) => any[]
   data?: T[]
   width?: number
+  itemCount?: number
   height?: number
   context?: any
+  queryId?: number
   rowCount?: number
+  defaultSortOptions?: SortOptions
   rowHeight?: number
   columnCount?: number
   columnWidth?: number
