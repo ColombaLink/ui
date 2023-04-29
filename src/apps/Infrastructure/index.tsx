@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Style, styled } from 'inlines'
 import { StateProvider, useContextState } from '~/hooks'
-import { Machines } from './Machines'
+import { Machines } from './Configs'
 import { Env } from '@based/machine-config'
 import { MachineTable } from './MachineTable'
 

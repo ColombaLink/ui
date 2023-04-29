@@ -67,6 +67,10 @@ export const useInfiniteQuery = ({
   })
 
   useEffect(() => {
+    current.items = []
+  }, [queryId])
+
+  useEffect(() => {
     return () => {
       const { subs } = current
       for (const subId in subs) {

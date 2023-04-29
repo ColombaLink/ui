@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Badge, LoadingIcon, WarningIcon, CheckIcon, Row, Color } from '~'
 
-export const Status: FC<{
+export const AllMachinesStatus: FC<{
   running?: number
   deploying?: number
   unreachable?: number

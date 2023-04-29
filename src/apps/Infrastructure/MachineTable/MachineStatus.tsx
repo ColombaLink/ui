@@ -104,7 +104,7 @@ export const Status: TableCustomComponent<any> = ({
   const status = data.status
   return (
     <Badge icon={icons[status]} color={colors[status]}>
-      {rowIndex} {machineStatus(status)}
+      {machineStatus(status)}
     </Badge>
   )
 }

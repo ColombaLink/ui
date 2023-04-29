@@ -32,7 +32,7 @@ import { Services } from './Services'
 import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
-import { Status } from './Status'
+import { AllMachinesStatus } from '../AllMachinesStatus'
 import { Connections } from '../Connections'
 
 export const Actions: FC<{
@@ -155,7 +155,7 @@ const MachineConfig: FC<{
           >
             {configName}
           </Text>
-          <Status
+          <AllMachinesStatus
             goodColor="green"
             running={machineStatus.amount - machineStatus.failing}
             unreachable={machineStatus.failing}

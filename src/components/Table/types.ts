@@ -31,7 +31,7 @@ export type TableProps<T extends any = any> = {
   itemCount?: number
   height?: number
   context?: any
-  queryId?: number
+  queryId?: number | string
   rowCount?: number
   defaultSortOptions?: SortOptions
   rowHeight?: number

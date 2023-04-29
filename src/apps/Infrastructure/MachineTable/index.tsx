@@ -1,22 +1,45 @@
-import { useClient, useQuery } from '@based/react'
+import { useClient } from '@based/react'
 import React, { FC } from 'react'
 import {
   Table,
   styled,
+  ExpandIcon,
   useContextState,
   Badge,
   border,
+  Row,
+  SearchIcon,
+  MoreIcon,
   ChevronLeftIcon,
   Button,
-  Container,
   RowSpaced,
+  Text,
+  useContextMenu,
+  Input,
+  ContextItem,
+  useSelect,
 } from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status } from './MachineStatus'
 import { AllConnections } from './Connections'
+import { AllMachinesStatus } from '../AllMachinesStatus'
+import { useMachineStatus } from './useMachineStatus'
 
-const Id = ({ data }) => {
-  return <Badge>{data.id}</Badge>
+const Id = ({ data, header }) => {
+  return (
+    <Text selectable typo="caption400">
+      {data[header.key]}
+    </Text>
+  )
+}
+
+const Records = ({ data }) => {
+  // console.log(data)
+  return (
+    <Text selectable typo="caption400">
+      {data.records?.hub ?? data.records?.discovery}
+    </Text>
+  )
 }
 
 export const MachineTable: FC<{
@@ -25,23 +48,14 @@ export const MachineTable: FC<{
 }> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
   const [, setPage] = useContextState<string>('infraSection')
-  const { data: envData, checksum } = useQuery('env', env)
 
   const headers = [
     {
       key: 'status',
       label: '',
-      width: 120,
+      width: 130,
       customComponent: Status,
     },
-
-    {
-      key: 'id',
-      label: 'ID',
-      width: 150,
-      customComponent: Id,
-    },
-
     {
       key: 'stats',
       customComponent: MachineStatus,
@@ -49,8 +63,16 @@ export const MachineTable: FC<{
       width: 200, // can also be an fn
     },
     { key: 'publicIp', label: 'Ip' },
-    { key: 'cloudMachineId', label: 'CloudId' },
-    { key: 'domain', label: 'Domain' },
+    {
+      key: 'id',
+      label: 'ID',
+      customComponent: Id,
+    },
+    {
+      key: 'cloudMachineId',
+      label: 'CloudId',
+      customComponent: Id,
+    },
     {
       key: 'connections',
       label: '',
@@ -71,16 +93,13 @@ export const MachineTable: FC<{
   }
 
   const client = useClient()
-
-  let itemCount = 0
-  // lets add more info
-
-  if (configName) {
-    itemCount = envData?.machineStatus[configName].amount
-  } else {
-  }
-
-  // add info
+  const machineStatus = useMachineStatus(env, configName)
+  const [filter, setFilter] = useContextState('filter', '')
+  const [statusFilter, listener] = useSelect([
+    { value: 'ok', label: 'Ok' },
+    { value: 'fail', label: 'Failing' },
+    { value: 'deploy', label: 'Deploying' },
+  ])
 
   return (
     <styled.div
@@ -93,18 +112,48 @@ export const MachineTable: FC<{
       }}
     >
       <RowSpaced>
-        <Button
+        <Row
           style={{
             marginTop: 4,
           }}
-          ghost
-          icon={ChevronLeftIcon}
-          onClick={() => {
-            setPage('overview')
-          }}
         >
-          Machine configs
-        </Button>
+          <Button
+            ghost
+            style={{
+              marginRight: 8,
+            }}
+            icon={ChevronLeftIcon}
+            onClick={() => {
+              setPage('overview')
+            }}
+          />
+          <Text
+            style={{
+              marginRight: 16,
+            }}
+            typo="body600"
+          >
+            {configName ?? 'All'}
+          </Text>
+          <AllMachinesStatus
+            goodColor="green"
+            running={machineStatus.amount - machineStatus.failing}
+            unreachable={machineStatus.failing}
+            deploying={machineStatus.deploying}
+            type="machine"
+          />
+        </Row>
+        <Row>
+          <Button icon={ExpandIcon} ghost onClick={listener} />
+          <Input
+            value={filter}
+            onChange={setFilter}
+            type="text"
+            style={{ width: 250, marginLeft: 8 }}
+            icon={<SearchIcon />}
+            placeholder="Filter by id, ip or domain"
+          />
+        </Row>
       </RowSpaced>
       <styled.div
         style={{
@@ -118,18 +167,33 @@ export const MachineTable: FC<{
       >
         <Table
           // sort option in query
+          queryId={filter + (statusFilter ?? '')}
           query={(offset, limit) => {
+            const status = statusFilter
+
+            if (filter) {
+              return client.query('machines', {
+                ...env,
+                offset,
+                limit,
+                configName,
+                filter,
+                status: statusFilter,
+              })
+            }
             return client.query('machines', {
               ...env,
               offset,
               limit,
               configName,
+              status: statusFilter,
             })
           }}
           getQueryItems={(d) => {
             return d.machines
           }}
-          itemCount={itemCount}
+          // also filter this amount...
+          itemCount={machineStatus.amount}
           context={{ envAdminHub }}
           headers={headers}
           onClick={handleClick}
