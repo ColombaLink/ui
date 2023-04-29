@@ -5,6 +5,7 @@ import {
   styled,
   useContextState,
   Badge,
+  border,
   ChevronLeftIcon,
   Button,
   Container,
@@ -24,20 +25,16 @@ export const MachineTable: FC<{
 }> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
   const [, setPage] = useContextState<string>('infraSection')
+  const { data: envData, checksum } = useQuery('env', env)
 
   const headers = [
     {
       key: 'status',
       label: '',
-      width: 100,
+      width: 120,
       customComponent: Status,
     },
-    {
-      key: 'connections',
-      label: '',
-      width: 100,
-      customComponent: AllConnections,
-    },
+
     {
       key: 'id',
       label: 'ID',
@@ -54,6 +51,12 @@ export const MachineTable: FC<{
     { key: 'publicIp', label: 'Ip' },
     { key: 'cloudMachineId', label: 'CloudId' },
     { key: 'domain', label: 'Domain' },
+    {
+      key: 'connections',
+      label: '',
+      width: 90,
+      customComponent: AllConnections,
+    },
   ]
 
   if (!configName) {
@@ -69,12 +72,24 @@ export const MachineTable: FC<{
 
   const client = useClient()
 
+  let itemCount = 0
+  // lets add more info
+
+  if (configName) {
+    itemCount = envData?.machineStatus[configName].amount
+  } else {
+  }
+
+  // add info
+
   return (
     <styled.div
       style={{
         padding: 32,
         width: '100%',
         height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <RowSpaced>
@@ -91,12 +106,14 @@ export const MachineTable: FC<{
           Machine configs
         </Button>
       </RowSpaced>
-      <Container
+      <styled.div
         style={{
-          marginTop: 32,
-          padding: 0,
+          marginTop: 24,
+          border: border(1, 'border'),
+          borderRadius: 8,
           width: '100%',
-          height: '100%',
+          flexGrow: 1,
+          overflow: 'hidden',
         }}
       >
         <Table
@@ -112,13 +129,12 @@ export const MachineTable: FC<{
           getQueryItems={(d) => {
             return d.machines
           }}
-          // do an aggregate query here...
-          itemCount={20e3}
+          itemCount={itemCount}
           context={{ envAdminHub }}
           headers={headers}
           onClick={handleClick}
         />
-      </Container>
+      </styled.div>
     </styled.div>
   )
 }

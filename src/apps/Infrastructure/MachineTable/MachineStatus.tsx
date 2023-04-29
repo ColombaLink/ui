@@ -96,11 +96,15 @@ const icons = {
   5: LoadingIcon,
 } as const
 
-export const Status: TableCustomComponent<any> = ({ data, context }) => {
+export const Status: TableCustomComponent<any> = ({
+  data,
+  context,
+  rowIndex,
+}) => {
   const status = data.status
   return (
     <Badge icon={icons[status]} color={colors[status]}>
-      {machineStatus(status)}
+      {rowIndex} {machineStatus(status)}
     </Badge>
   )
 }

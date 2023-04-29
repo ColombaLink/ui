@@ -5,6 +5,8 @@ export type TableCustomComponent<T> = FC<{
   data: T
   header: TableHeader<T>
   context: TableProps<T>
+  rowIndex: number
+  columnIndex: number
 }>
 
 export type TableHeader<T> = {

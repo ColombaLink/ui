@@ -70,6 +70,8 @@ const Cell = (props) => {
       data: rowData,
       header,
       context: props,
+      columnIndex,
+      rowIndex,
     })
   ) : (
     <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
@@ -130,7 +132,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     queryId: queryId + sortOptions.$field + sortOptions.$order,
     sortOptions,
     itemCount,
-    height,
+    height: height - rowHeight,
   })
 
   const parsedData = query ? result.items : data

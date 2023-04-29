@@ -1,5 +1,5 @@
 import { BasedQuery } from '@based/client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useMemo } from 'react'
 import { SortOptions } from './types'
 
 type CurrentRef = {
@@ -57,8 +57,6 @@ export const useInfiniteQuery = ({
     return blocks
   })
 
-  console.log(blocks, limit)
-
   const { current } = useRef<CurrentRef>({
     items: [],
     scrollY: 0,
@@ -101,8 +99,9 @@ export const useInfiniteQuery = ({
         q.subscribe((data, checksum) => {
           const items = getQueryItems(data) ?? data.items ?? []
           for (let i = 0; i < items.length; i++) {
-            current.items[i + offset] = items[i]
+            current.items[i + start] = items[i]
           }
+          // make this more complex put more in (all ranges + checksums)
           setChecksum(`${offset}-${checksum}`)
         })
     }
