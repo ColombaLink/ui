@@ -137,7 +137,7 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const parsedData = query ? result.items : data
 
-  defW = Math.max(Math.floor((width - w - 16) / nonAllocated), 100)
+  defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
   return (
     <>
       <Header

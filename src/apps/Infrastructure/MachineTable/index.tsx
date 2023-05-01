@@ -57,7 +57,10 @@ const Services = ({ data }) => {
 
   let status = `${total} Running`
   let statusCode = 1
-  if (counters[0]) {
+  if (total === 0) {
+    statusCode = 5
+    status = `Installing`
+  } else if (counters[0]) {
     statusCode = 0
     status = `${counters[0]}/${total} Not OK`
   } else if (counters[5]) {
