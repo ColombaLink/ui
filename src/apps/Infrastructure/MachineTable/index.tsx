@@ -20,10 +20,24 @@ import {
   useSelect,
 } from '~'
 import { Env } from '@based/machine-config'
-import { MachineStatus, Status } from './MachineStatus'
+import { MachineStatus, Status, StatusBadge } from './MachineStatus'
 import { AllConnections, AllConnectionsTotal } from './Connections'
 import { AllMachinesStatus } from '../AllMachinesStatus'
 import { useMachineStatus } from './useMachineStatus'
+
+const Services = ({ data }) => {
+  let notOk = false
+  for (const key in data.stats?.services) {
+    for (const instance in data.stats?.services[key]) {
+      if (data.stats?.services[key][instance] !== 1) {
+        notOk = true
+        break
+      }
+    }
+  }
+
+  return <StatusBadge status={notOk ? 2 : 1} />
+}
 
 const Id = ({ data, header }) => {
   return (
@@ -61,9 +75,15 @@ export const MachineTable: FC<{
   const headers = [
     {
       key: 'status',
-      label: '',
+      label: 'Machine',
       width: 130,
       customComponent: Status,
+    },
+    {
+      key: 'services',
+      customComponent: Services,
+      width: 200,
+      label: 'Services',
     },
     {
       key: 'stats',

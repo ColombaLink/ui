@@ -96,17 +96,21 @@ const icons = {
   5: LoadingIcon,
 } as const
 
+export const StatusBadge: FC<{ status: number }> = ({ status }) => {
+  return (
+    <Badge icon={icons[status]} color={colors[status]}>
+      {machineStatus(status)}
+    </Badge>
+  )
+}
+
 export const Status: TableCustomComponent<any> = ({
   data,
   context,
   rowIndex,
 }) => {
   const status = data.status
-  return (
-    <Badge icon={icons[status]} color={colors[status]}>
-      {machineStatus(status)}
-    </Badge>
-  )
+  return <StatusBadge status={status} />
 }
 
 export const MachineStatus: TableCustomComponent<any> = ({ data }) => {
