@@ -29,14 +29,18 @@ const Services = ({ data }) => {
   let notOk = false
   for (const key in data.stats?.services) {
     for (const instance in data.stats?.services[key]) {
-      if (data.stats?.services[key][instance] !== 1) {
+      if (
+        data.stats?.services[key][instance] !== 1 &&
+        data.stats?.services[key][instance] !== 3
+      ) {
         notOk = true
+        console.error(JSON.stringify(data.stats.services, null, 2))
         break
       }
     }
   }
 
-  return <StatusBadge status={notOk ? 2 : 1} />
+  return <StatusBadge status={notOk ? 0 : 1} />
 }
 
 const Id = ({ data, header }) => {

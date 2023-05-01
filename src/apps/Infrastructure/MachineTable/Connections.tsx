@@ -25,8 +25,6 @@ export const OverviewInner: FC<{
     }
   }
 
-  console.log(names, d)
-
   return (
     <Button
       style={{
