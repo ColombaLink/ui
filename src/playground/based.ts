@@ -1,6 +1,9 @@
 import based, { BasedClient } from '@based/client'
+import { parseQuery } from '@saulx/utils'
 
-export let cluster = 'production'
+const q = parseQuery(window.location.href.split('?')[1])
+
+export let cluster = String((q && q.cluster) ?? 'local')
 
 export const project = 'test'
 export const org = 'saulx'
