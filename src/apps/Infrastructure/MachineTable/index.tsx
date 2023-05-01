@@ -21,7 +21,7 @@ import {
 } from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status } from './MachineStatus'
-import { AllConnections } from './Connections'
+import { AllConnections, AllConnectionsTotal } from './Connections'
 import { AllMachinesStatus } from '../AllMachinesStatus'
 import { useMachineStatus } from './useMachineStatus'
 
@@ -33,8 +33,17 @@ const Id = ({ data, header }) => {
   )
 }
 
+const Domain = ({ data, header }) => {
+  return (
+    <a href={'https://' + data.domain} target="_blank">
+      <Text selectable typo="caption400">
+        {data.domain}
+      </Text>
+    </a>
+  )
+}
+
 const Records = ({ data }) => {
-  // console.log(data)
   return (
     <Text selectable typo="caption400">
       {data.records?.hub ?? data.records?.discovery}
@@ -74,8 +83,13 @@ export const MachineTable: FC<{
       customComponent: Id,
     },
     {
+      key: 'domain',
+      label: 'Domain',
+      customComponent: Domain,
+    },
+    {
       key: 'connections',
-      label: '',
+      label: <AllConnectionsTotal envAdminHub={envAdminHub} />,
       width: 90,
       customComponent: AllConnections,
     },

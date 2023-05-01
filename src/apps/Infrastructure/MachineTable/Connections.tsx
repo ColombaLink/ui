@@ -1,18 +1,31 @@
 import { Provider, useQuery } from '@based/react'
-import React from 'react'
+import React, { FC } from 'react'
 import { prettyNumber } from '@based/pretty-number'
-import { Button, UserIcon } from '~'
+import { Env } from '@based/machine-config'
+import { Button, UserIcon, useContextState } from '~'
 
-export const OverviewInner = ({ data }) => {
+export const OverviewInner: FC<{
+  names?: string[]
+  data: any
+  all?: boolean
+}> = ({ data, all, names }) => {
   const { data: d } = useQuery('based:connectionsPerHub')
 
   let cnt = 0
 
   for (const id in d) {
-    if (id === data.id) {
-      cnt += d[id]
+    if (all || id === data.id) {
+      if (
+        !names ||
+        (names.includes('@based/env-hub') && !d[id][1]) ||
+        names.includes(d[id][1])
+      ) {
+        cnt += d[id][0]
+      }
     }
   }
+
+  console.log(names, d)
 
   return (
     <Button
@@ -32,6 +45,28 @@ export const AllConnections = ({ data, context }) => {
   return (
     <Provider client={context.data.context.envAdminHub}>
       <OverviewInner data={data} />
+    </Provider>
+  )
+}
+
+export const AllConnectionsTotal = ({ envAdminHub }) => {
+  const [infraSection] = useContextState<string>('infraSection')
+  const [env] = useContextState<Env>('env')
+
+  const machineConfigs = useQuery('env', env)
+
+  let names: string[]
+
+  if (infraSection !== 'all' && machineConfigs.data) {
+    const config = machineConfigs.data.config?.machineConfigs?.[infraSection]
+    if (config) {
+      names = Object.keys(config.services)
+    }
+  }
+
+  return (
+    <Provider client={envAdminHub}>
+      <OverviewInner data={{}} all names={names} />
     </Provider>
   )
 }

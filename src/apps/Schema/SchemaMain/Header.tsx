@@ -172,12 +172,11 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
           <Button
             ghost
             color="text"
+            onClick={openEditMenu}
             icon={
               <MoreIcon
-                onClick={openEditMenu}
                 style={{
                   marginTop: 3,
-                  cursor: 'pointer',
                 }}
               />
             }
