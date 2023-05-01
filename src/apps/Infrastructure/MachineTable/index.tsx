@@ -170,7 +170,6 @@ export const MachineTable: FC<{
           queryId={filter + (statusFilter ?? '')}
           query={(offset, limit) => {
             const status = statusFilter
-
             if (filter) {
               return client.query('machines', {
                 ...env,

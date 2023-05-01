@@ -6,12 +6,11 @@ import { Button, UserIcon } from '~'
 export const OverviewInner = ({ data }) => {
   const { data: d } = useQuery('based:connectionsPerHub')
 
-  // get all services together and put it
   let cnt = 0
-  for (const key in d) {
-    const [ip] = key.split(':')
-    if (ip === data.publicIp) {
-      cnt += d[key]
+
+  for (const id in d) {
+    if (id === data.id) {
+      cnt += d[id]
     }
   }
 
