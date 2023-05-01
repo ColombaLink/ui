@@ -18,6 +18,9 @@ import {
   Input,
   ContextItem,
   useSelect,
+  useDialog,
+  Dialog,
+  Code,
 } from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status, StatusBadge } from './MachineStatus'
@@ -26,21 +29,62 @@ import { AllMachinesStatus } from '../AllMachinesStatus'
 import { useMachineStatus } from './useMachineStatus'
 
 const Services = ({ data }) => {
-  let notOk = false
+  let total = 0
+  let counters = {}
   for (const key in data.stats?.services) {
     for (const instance in data.stats?.services[key]) {
-      if (
-        data.stats?.services[key][instance] !== 1 &&
-        data.stats?.services[key][instance] !== 3
-      ) {
-        notOk = true
-        console.error(JSON.stringify(data.stats.services, null, 2))
-        break
+      total++
+      if (data.stats?.services[key][instance] !== 1) {
+        if (data.stats?.services[key][instance] === 4) {
+          if (!counters[0]) {
+            counters[0] = 0
+          }
+          counters[0]++
+        } else if (data.stats?.services[key][instance] === 3) {
+          if (!counters[6]) {
+            counters[6] = 0
+          }
+          counters[6]++
+        } else if (data.stats?.services[key][instance] === 5) {
+          if (!counters[5]) {
+            counters[5] = 0
+          }
+          counters[5]++
+        }
       }
     }
   }
 
-  return <StatusBadge status={notOk ? 0 : 1} />
+  let status = `${total} Running`
+  let statusCode = 1
+  if (counters[0]) {
+    statusCode = 0
+    status = `${counters[0]}/${total} Not OK`
+  } else if (counters[5]) {
+    statusCode = 7
+    status = `${counters[5]}/${total} In danger`
+  } else if (counters[6]) {
+    statusCode = 6
+    status = `${counters[6]}/${total} Stopped`
+  }
+
+  // 1 = ok, 2 = starting, 3 = stopped, 4 = errored, 5 = danger
+  const { open } = useDialog()
+
+  return (
+    <StatusBadge
+      onClick={() => {
+        open(
+          <Dialog>
+            <Code value={JSON.stringify(data.stats.services, null, 2)} />
+          </Dialog>
+        )
+      }}
+      status={statusCode}
+    >
+      {status}
+    </StatusBadge>
+  )
 }
 
 const Id = ({ data, header }) => {
@@ -86,7 +130,7 @@ export const MachineTable: FC<{
     {
       key: 'services',
       customComponent: Services,
-      width: 200,
+      width: 175,
       label: 'Services',
     },
     {
