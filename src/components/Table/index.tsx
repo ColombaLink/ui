@@ -5,6 +5,7 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
+  useMemo,
 } from 'react'
 import { styled, border, Text } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
@@ -95,7 +96,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     headers,
     data = [],
     defaultSortOptions,
-    // rowCount = data.length,
+    calcRowHeight,
     rowHeight = 56,
     width,
     queryId,
@@ -124,6 +125,13 @@ const SizedGrid: FC<TableProps> = (props) => {
     }
   )
 
+  const rowH = useMemo(() => {
+    if (calcRowHeight) {
+      return (index: number) => calcRowHeight(data?.[index], index)
+    }
+    return () => rowHeight
+  }, [calcRowHeight, rowHeight])
+
   const result = useInfiniteQuery({
     query,
     getQueryItems,
@@ -143,7 +151,6 @@ const SizedGrid: FC<TableProps> = (props) => {
         sortOptions={sortOptions}
         setSortOptions={setSortOpts}
         width={width}
-        rowHeight={rowHeight}
         headers={headers}
         headerWidth={defW}
       />
@@ -157,7 +164,7 @@ const SizedGrid: FC<TableProps> = (props) => {
         }}
         height={height - 56}
         rowCount={itemCount}
-        rowHeight={() => rowHeight}
+        rowHeight={rowH}
         width={width}
         itemData={{
           ...props,
