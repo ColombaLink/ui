@@ -14,13 +14,12 @@ import { useInfiniteQuery } from './useInfiniteQuery'
 import { VariableSizeGrid as Grid } from 'react-window'
 
 const Header: FC<{
-  rowHeight: number
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
   setSortOptions: Dispatch<SetStateAction<SortOptions>>
   sortOptions: SortOptions
-}> = ({ headers, rowHeight, width, headerWidth }) => {
+}> = ({ headers, width, headerWidth }) => {
   const children: ReactNode[] = []
   let total = 16
   for (const header of headers) {
@@ -34,7 +33,7 @@ const Header: FC<{
           position: 'absolute',
           left: total,
           top: 0,
-          height: rowHeight,
+          height: 56,
           width: w,
         }}
       >
@@ -48,7 +47,7 @@ const Header: FC<{
       style={{
         width,
         borderBottom: border(1, 'border'),
-        height: rowHeight,
+        height: 56,
         position: 'relative',
       }}
     >
@@ -156,7 +155,7 @@ const SizedGrid: FC<TableProps> = (props) => {
         columnWidth={(colIndex) => {
           return headers[colIndex].width ?? defW
         }}
-        height={height - rowHeight}
+        height={height - 56}
         rowCount={itemCount}
         rowHeight={() => rowHeight}
         width={width}
