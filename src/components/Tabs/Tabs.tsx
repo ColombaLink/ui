@@ -78,11 +78,15 @@ const TabWrapper: FC<{
       <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
 
       {typeof children === 'string' ? (
-        <Text typo={index === activeTabState ? 'subtext600' : 'subtext500'}>
+        <Text
+          typography={index === activeTabState ? 'subtext600' : 'subtext500'}
+        >
           {children}
         </Text>
       ) : (
-        <Text typo={index === activeTabState ? 'subtext600' : 'subtext500'}>
+        <Text
+          typography={index === activeTabState ? 'subtext600' : 'subtext500'}
+        >
           {children.props.label as string}
         </Text>
       )}

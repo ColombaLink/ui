@@ -34,7 +34,7 @@ export const useAddService = (
         return {
           label: (
             <div>
-              <Text typo="body600">{v}</Text>
+              <Text typography="body600">{v}</Text>
             </div>
           ),
           value: v,

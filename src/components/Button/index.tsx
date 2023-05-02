@@ -247,7 +247,7 @@ export const Button: FC<ButtonProps> = (props) => {
         <Text
           style={{ display: 'flex', alignItems: 'center' }}
           color="inherit"
-          typo={large ? 'subtext600' : 'body500'}
+          typography={large ? 'subtext600' : 'body500'}
         >
           {children}
           {displayShortcut && keyboardShortcut ? (

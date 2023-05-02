@@ -284,7 +284,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               marginBottom: ' -14px',
             }}
           >
-            <Text typo="body500" color="text2">
+            <Text typography="body500" color="text2">
               {file.name}
             </Text>
             <Button

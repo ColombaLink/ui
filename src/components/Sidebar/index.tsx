@@ -164,7 +164,7 @@ export const Sidebar: FC<SidebarProps> = ({
             <Text
               wrap
               space={16}
-              typo="caption600"
+              typography="caption600"
               color="text2"
               style={{
                 textTransform: 'uppercase',

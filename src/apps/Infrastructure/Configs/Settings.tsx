@@ -82,7 +82,7 @@ export const Settings: FC<{
                       <Text style={{ marginRight: 8 }} weight="700">
                         {s.name}
                       </Text>
-                      <Text color="text2" typo="caption500">
+                      <Text color="text2" typography="caption500">
                         €{s.basedPrice}/month
                         {/* {'' +
                           (~~((s.basedPrice / (s.priceMonth * 0.91)) * 100) -

@@ -66,7 +66,7 @@ const Modal: FC<{
                   style={{
                     marginRight: 16,
                   }}
-                  typo="body600"
+                  typography="body600"
                 >
                   {d.configName}
                 </Text>
@@ -76,11 +76,11 @@ const Modal: FC<{
                   {d.dist.name}
                 </Text>
                 <Row>
-                  <Text style={{ marginRight: 16 }} typo="body600">
+                  <Text style={{ marginRight: 16 }} typography="body600">
                     {d.fromVersion}
                   </Text>
                   <ArrowRightIcon style={{ marginRight: 16 }} />
-                  <Text typo="body600">{d.dist.version}</Text>
+                  <Text typography="body600">{d.dist.version}</Text>
                 </Row>
               </RowEnd>
             </RowSpaced>

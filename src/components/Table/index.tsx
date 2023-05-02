@@ -38,7 +38,7 @@ const Header: FC<{
           width: w,
         }}
       >
-        <Text typo="body600">{header.label ?? header.key}</Text>
+        <Text typography="body600">{header.label ?? header.key}</Text>
       </styled.div>
     )
     total += w

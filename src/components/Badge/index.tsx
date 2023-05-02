@@ -74,7 +74,7 @@ export const Badge: FC<BadgeProps> = ({
           {renderOrCreateElement(icon, { size: 10 })}
         </styled.div>
       )}
-      <Text typo="caption500" color="inherit">
+      <Text typography="caption500" color="inherit">
         {children}
       </Text>
       {iconRight && (
