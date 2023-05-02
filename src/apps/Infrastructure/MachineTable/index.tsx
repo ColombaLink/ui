@@ -92,7 +92,7 @@ const Services = ({ data }) => {
 
 const Id = ({ data, header }) => {
   return (
-    <Text selectable typo="caption400">
+    <Text selectable typography="caption400">
       {data[header.key]}
     </Text>
   )
@@ -101,7 +101,7 @@ const Id = ({ data, header }) => {
 const Domain = ({ data, header }) => {
   return (
     <a href={'https://' + data.domain} target="_blank">
-      <Text selectable typo="caption400">
+      <Text selectable typography="caption400">
         {data.domain}
       </Text>
     </a>
@@ -110,7 +110,7 @@ const Domain = ({ data, header }) => {
 
 const Records = ({ data }) => {
   return (
-    <Text selectable typo="caption400">
+    <Text selectable typography="caption400">
       {data.records?.hub ?? data.records?.discovery}
     </Text>
   )
@@ -216,7 +216,7 @@ export const MachineTable: FC<{
             style={{
               marginRight: 16,
             }}
-            typo="body600"
+            typography="body600"
           >
             {configName ?? 'All'}
           </Text>

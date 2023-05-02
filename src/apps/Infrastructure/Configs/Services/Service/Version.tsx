@@ -38,7 +38,7 @@ export const Version: FC<{
     selectOptions.push({
       label: (
         <Row>
-          <Text color="red" style={{ marginRight: 8 }} typo="body600">
+          <Text color="red" style={{ marginRight: 8 }} typography="body600">
             Detached
           </Text>
           {service.distChecksum.slice(-6)}

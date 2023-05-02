@@ -43,11 +43,11 @@ export const ResultCard: FC<ResultCardProps> = ({
       }}
       {...props}
     >
-      <Text typo="body400" space="8px">
+      <Text typography="body400" space="8px">
         {label}
       </Text>
 
-      <Text typo="title2">{prettyNumber(value, format)}</Text>
+      <Text typography="title2">{prettyNumber(value, format)}</Text>
     </div>
   )
 }

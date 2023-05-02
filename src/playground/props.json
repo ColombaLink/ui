@@ -3518,12 +3518,12 @@
           "optional": true,
           "type": "boolean"
         },
-        "typo": {
+        "typography": {
           "optional": true,
-          "type": "Typo"
+          "type": "Typography"
         }
       },
-      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typo?: Typo\n}",
+      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typography?: Typography\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
@@ -3980,8 +3980,8 @@
       "code": "type Weight = WeightInt | `${WeightInt}`",
       "file": "/types/index.ts"
     },
-    "Typo": {
-      "name": "Typo",
+    "Typography": {
+      "name": "Typography",
       "types": [
         {
           "type": {
@@ -4054,7 +4054,7 @@
           }
         }
       ],
-      "code": "type Typo =\n  | 'title1'\n  | 'title2'\n  | 'subtitle600'\n  | 'subtitle500'\n  | 'subtitle400'\n  | 'subtext600'\n  | 'subtext500'\n  | 'subtext400'\n  | 'body600'\n  | 'body500'\n  | 'body400'\n  | 'caption600'\n  | 'caption500'\n  | 'caption400'",
+      "code": "type Typography =\n  | 'title1'\n  | 'title2'\n  | 'subtitle600'\n  | 'subtitle500'\n  | 'subtitle400'\n  | 'subtext600'\n  | 'subtext500'\n  | 'subtext400'\n  | 'body600'\n  | 'body500'\n  | 'body400'\n  | 'caption600'\n  | 'caption500'\n  | 'caption400'",
       "file": "/types/index.ts"
     },
     "SpaceInt": {

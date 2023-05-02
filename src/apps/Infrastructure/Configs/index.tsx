@@ -151,7 +151,7 @@ const MachineConfig: FC<{
               color: 'inherit',
               marginRight: 24,
             }}
-            typo="title2"
+            typography="title2"
           >
             {configName}
           </Text>
@@ -184,7 +184,7 @@ const MachineConfig: FC<{
           </Button>
         </Row>
       </RowSpaced>
-      <Text space typo="caption400">
+      <Text space typography="caption400">
         {config.description ||
           (configName === 'allServices'
             ? 'All services on a single machine, cannot be scaled to more then 1 instance'

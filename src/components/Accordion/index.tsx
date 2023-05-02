@@ -110,7 +110,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         {...props}
       >
         <styled.div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text color={open ? colorProp : 'inherit'} typo="body600">
+          <Text color={open ? colorProp : 'inherit'} typography="body600">
             {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}

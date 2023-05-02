@@ -76,7 +76,7 @@ export const Card: FC<CardProps> = ({
             {renderOrCreateElement(topLeft)}
             <Column>
               <Label label={label} space="2px" />
-              <Text typo="caption400" color="text2">
+              <Text typography="caption400" color="text2">
                 {description}
               </Text>
             </Column>

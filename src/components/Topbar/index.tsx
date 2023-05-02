@@ -51,7 +51,9 @@ const TopbarTab: FC<TopbarTabProps> = ({ href, children, isActive, icon }) => {
       }}
     >
       {icon && stringToIcon(icon)}
-      <Text typo={isActive ? 'subtext600' : 'subtext500'}>{children}</Text>
+      <Text typography={isActive ? 'subtext600' : 'subtext500'}>
+        {children}
+      </Text>
     </Link>
   )
 }

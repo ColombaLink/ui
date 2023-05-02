@@ -82,7 +82,7 @@ export const SchemaLeft: FC = () => {
       active={type}
       onChange={(v) => setType(v)}
       header={
-        <Text typo="title2" style={{ marginBottom: 18 }}>
+        <Text typography="title2" style={{ marginBottom: 18 }}>
           Schema
         </Text>
       }
@@ -98,7 +98,7 @@ export const SchemaLeft: FC = () => {
               }}
             >
               <Text
-                typo="caption600"
+                typography="caption600"
                 color="text2"
                 style={{ textTransform: 'uppercase', letterSpacing: '0.02em' }}
               >
