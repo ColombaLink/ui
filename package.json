@@ -1,6 +1,6 @@
 {
   "name": "@based/ui",
-  "version": "5.1.1",
+  "version": "5.1.2",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "react": "18||19"
   },
   "dependencies": {
-    "@based/machine-config": "0.0.6",
+    "@based/machine-config": "0.0.7",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.0.3",
     "@based/react": "^4.2.4",
