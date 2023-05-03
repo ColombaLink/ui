@@ -44,7 +44,7 @@ export const SettingsModal = ({ configName }) => {
         style={{
           flexWrap: 'wrap',
           gap: 8,
-          marginBottom: 8,
+          marginBottom: 24,
         }}
         goodColor="green"
         resizing={machineStatus.resizing}
@@ -54,13 +54,6 @@ export const SettingsModal = ({ configName }) => {
         deploying={machineStatus.deploying}
         type="machine"
       />
-
-      <Text space typography="caption400">
-        {config.description ||
-          (configName === 'allServices'
-            ? 'All services on a single machine, cannot be scaled to more then 1 instance'
-            : '')}
-      </Text>
       <Accordion>
         <Settings
           configName={configName}
