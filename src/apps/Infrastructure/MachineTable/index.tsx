@@ -1,4 +1,4 @@
-import { useClient } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import React, { FC } from 'react'
 import {
   Table,
@@ -20,6 +20,7 @@ import {
   useSelect,
   useDialog,
   Dialog,
+  TableHeader,
   Code,
   ReplaceIcon,
 } from '~'
@@ -28,6 +29,7 @@ import { MachineStatus, Status, StatusBadge } from './MachineStatus'
 import { AllConnections, AllConnectionsTotal } from './Connections'
 import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { useMachineStatus } from '../useMachineStatus'
+import { SettingsModal } from '../Configs/SettingsModal'
 
 const ActionMenu = () => {
   return (
@@ -144,8 +146,25 @@ export const MachineTable: FC<{
 }> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
   const [, setPage] = useContextState<string>('infraSection')
+  const { data: envData, checksum } = useQuery('env', env)
+  let hasHub = false
 
-  const headers = [
+  const { open } = useDialog()
+
+  if (!configName) {
+    hasHub = true
+  } else {
+    const services =
+      envData?.config?.machineConfigs?.[configName]?.services ?? {}
+    for (const key in services) {
+      if (key.includes('hub')) {
+        hasHub = true
+        break
+      }
+    }
+  }
+
+  const headers: TableHeader<any>[] = [
     {
       key: 'status',
       label: 'Machine',
@@ -180,19 +199,23 @@ export const MachineTable: FC<{
       label: 'Domain',
       customComponent: Domain,
     },
-    {
+  ]
+
+  if (hasHub) {
+    headers.push({
       key: 'connections',
       label: <AllConnectionsTotal envAdminHub={envAdminHub} />,
       width: 90,
       customComponent: AllConnections,
-    },
-    {
-      key: 'options',
-      label: '',
-      width: 60,
-      customComponent: Actions,
-    },
-  ]
+    })
+  }
+
+  headers.push({
+    key: 'options',
+    label: '',
+    width: 60,
+    customComponent: Actions,
+  })
 
   if (!configName) {
     headers.push({
@@ -256,6 +279,15 @@ export const MachineTable: FC<{
             resizing={machineStatus.resizing}
             type="machine"
           />
+          {configName ? (
+            <Button
+              icon={MoreIcon}
+              ghost
+              onClick={() => {
+                open(<SettingsModal configName={configName} />)
+              }}
+            />
+          ) : null}
         </Row>
         <Row>
           <Button icon={ExpandIcon} ghost onClick={listener} />

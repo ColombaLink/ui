@@ -5,7 +5,6 @@ import {
   Container,
   Text,
   Input,
-  Accordion,
   Spacer,
   useDialog,
   Row,
@@ -15,6 +14,7 @@ import {
   CurlyBracesIcon,
   Badge,
   SearchIcon,
+  color,
   ContextDivider,
   RowSpaced,
   CloseIcon,
@@ -28,12 +28,11 @@ import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import { Env, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineTemplateModal'
-import { Services } from './Services'
-import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
 import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { Connections } from '../Connections'
+import { SettingsModal } from './SettingsModal'
 
 export const Actions: FC<{
   config: MachineConfig
@@ -140,11 +139,24 @@ const MachineConfig: FC<{
 }> = ({ configName, config, machineStatus, env }) => {
   const client = useClient()
   const [, setInfra] = useContextState<string>('infraSection')
-
-  console.log(machineStatus)
+  const { open } = useDialog()
 
   return (
-    <Container space="32px">
+    <Container
+      style={{
+        cursor: 'pointer',
+        '&:hover': {
+          backgroundColor: color('accent', true),
+        },
+        marginRight: 8,
+        marginLeft: 8,
+        marginBottom: 16,
+        width: 'calc(33% - 11px)',
+      }}
+      onClick={() => {
+        open(<SettingsModal configName={configName} />)
+      }}
+    >
       <RowSpaced>
         <Row>
           <Text
@@ -153,17 +165,10 @@ const MachineConfig: FC<{
               color: 'inherit',
               marginRight: 24,
             }}
-            typography="title2"
+            typography="body600"
           >
             {configName}
           </Text>
-          <EnvMachinesStatus
-            goodColor="green"
-            running={machineStatus.amount - machineStatus.failing}
-            unreachable={machineStatus.failing}
-            deploying={machineStatus.deploying}
-            type="machine"
-          />
         </Row>
 
         <Row>
@@ -180,44 +185,33 @@ const MachineConfig: FC<{
             onClick={() => {
               setInfra(configName)
             }}
+            ghost
             icon={EyeIcon}
-          >
-            Inspect
-          </Button>
+          ></Button>
         </Row>
       </RowSpaced>
+
       <Text space typography="caption400">
         {config.description ||
           (configName === 'allServices'
             ? 'All services on a single machine, cannot be scaled to more then 1 instance'
             : '')}
       </Text>
-      <Accordion>
-        <Settings
-          configName={configName}
-          config={config}
-          onChange={(config) => {
-            const payload = {
-              ...env,
-              configName,
-              config,
-            }
-            return client.call('update-machine-config', payload)
-          }}
-        />
-        <Services
-          onChange={(config) => {
-            const payload = {
-              ...env,
-              configName,
-              config,
-            }
-            return client.call('update-machine-config', payload)
-          }}
-          configName={configName}
-          config={config}
-        />
-      </Accordion>
+
+      <EnvMachinesStatus
+        style={{
+          flexWrap: 'wrap',
+          gap: 8,
+          marginBottom: 8,
+        }}
+        goodColor="green"
+        resizing={machineStatus.resizing}
+        removing={machineStatus.removing}
+        running={machineStatus.amount - machineStatus.failing}
+        unreachable={machineStatus.failing}
+        deploying={machineStatus.deploying}
+        type="machine"
+      />
     </Container>
   )
 }
@@ -292,7 +286,15 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
         </Row>
       </RowSpaced>
       <Spacer space="32px" />
-      {machineConfigs}
+      <Row
+        style={{
+          flexWrap: 'wrap',
+          marginLeft: -8,
+          marginRight: -6,
+        }}
+      >
+        {machineConfigs}
+      </Row>
     </Page>
   )
 }

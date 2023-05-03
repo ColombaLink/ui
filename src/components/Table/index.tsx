@@ -12,6 +12,8 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 
+export * from './types'
+
 import { VariableSizeGrid as Grid } from 'react-window'
 
 const Header: FC<{

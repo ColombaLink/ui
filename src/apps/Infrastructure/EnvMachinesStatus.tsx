@@ -1,5 +1,14 @@
 import React, { FC } from 'react'
-import { Badge, LoadingIcon, WarningIcon, CheckIcon, Row, Color } from '~'
+import {
+  Badge,
+  LoadingIcon,
+  WarningIcon,
+  CheckIcon,
+  Row,
+  DeleteIcon,
+  Color,
+  Style,
+} from '~'
 
 export const EnvMachinesStatus: FC<{
   running?: number
@@ -8,6 +17,7 @@ export const EnvMachinesStatus: FC<{
   goodColor?: Color
   removing?: number
   resizing?: number
+  style?: Style
   count?: number
   type: 'service' | 'machine' | 'instance'
 }> = ({
@@ -18,12 +28,13 @@ export const EnvMachinesStatus: FC<{
   unreachable,
   goodColor = 'green',
   count,
+  style,
   resizing,
 }) => {
   const noProblems = !unreachable
 
   return (
-    <Row>
+    <Row style={style}>
       {count !== undefined ? (
         <Badge
           style={{ marginRight: 12 }}
@@ -38,7 +49,7 @@ export const EnvMachinesStatus: FC<{
         <Badge
           iconRight={noProblems ? CheckIcon : null}
           style={{ marginRight: 12 }}
-          color={noProblems ? goodColor : null}
+          color={noProblems ? goodColor : 'text'}
         >
           {running} {type}
           {running > 1 ? 's' : ''} running
@@ -57,13 +68,13 @@ export const EnvMachinesStatus: FC<{
         </Badge>
       ) : null}
       {removing ? (
-        <Badge style={{ marginRight: 12 }} color="red" icon={WarningIcon}>
-          {unreachable} {type}
-          {unreachable > 1 ? 's' : ''} failing
+        <Badge style={{ marginRight: 12 }} color="red" icon={LoadingIcon}>
+          {removing} {type}
+          {removing > 1 ? 's' : ''} removing
         </Badge>
       ) : null}
       {resizing ? (
-        <Badge style={{ marginRight: 12 }} color="accent" icon={WarningIcon}>
+        <Badge style={{ marginRight: 12 }} color="accent" icon={LoadingIcon}>
           {unreachable} {type}
           {unreachable > 1 ? 's' : ''} resizing
         </Badge>
