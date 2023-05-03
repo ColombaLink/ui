@@ -151,6 +151,7 @@ const MachineConfig: FC<{
         marginRight: 8,
         marginLeft: 8,
         marginBottom: 16,
+        minWidth: 400,
         width: 'calc(33% - 11px)',
       }}
       onClick={() => {
