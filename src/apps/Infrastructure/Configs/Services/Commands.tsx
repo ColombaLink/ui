@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { Button, useContextState, RedoIcon, StopIcon, Row } from '~'
 import { Env } from '@based/machine-config'
-import { useQuery, useClient } from '@based/react'
+import { useClient, useQuery } from '@based/react'
+// import { adminClient } from '~/playground/based'
 
 export const Commands: FC<{ configName: string }> = ({ configName }) => {
   const [env] = useContextState<Env>('env')
@@ -13,19 +14,16 @@ export const Commands: FC<{ configName: string }> = ({ configName }) => {
       <Button
         icon={<StopIcon />}
         onClick={() => {
-          const commands = []
-          if (envData.machines) {
-            for (const machine of envData.machines) {
-              if (machine.machineConfigName === configName) {
-                commands.push({
-                  command: 'restart',
-                  machineId: machine.id,
-                  service: '*',
-                })
-              }
-            }
-            client.call('send-commands', { ...env, commands })
-          }
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                command: 'stop',
+                configName,
+                service: '*',
+              },
+            ],
+          })
         }}
         ghost
       >
@@ -33,19 +31,16 @@ export const Commands: FC<{ configName: string }> = ({ configName }) => {
       </Button>
       <Button
         onClick={() => {
-          const commands = []
-          if (envData.machines) {
-            for (const machine of envData.machines) {
-              if (machine.machineConfigName === configName) {
-                commands.push({
-                  command: 'restart',
-                  machineId: machine.id,
-                  service: '*',
-                })
-              }
-            }
-            client.call('send-commands', { ...env, commands })
-          }
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                command: 'restart',
+                configName,
+                service: '*',
+              },
+            ],
+          })
         }}
         icon={<RedoIcon />}
         ghost
