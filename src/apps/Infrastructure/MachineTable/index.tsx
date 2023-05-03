@@ -21,12 +21,34 @@ import {
   useDialog,
   Dialog,
   Code,
+  ReplaceIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status, StatusBadge } from './MachineStatus'
 import { AllConnections, AllConnectionsTotal } from './Connections'
 import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { useMachineStatus } from '../useMachineStatus'
+
+const ActionMenu = () => {
+  return (
+    <div>
+      <ContextItem icon={ReplaceIcon}>Restart all services</ContextItem>
+    </div>
+  )
+}
+
+const Actions = ({ data }) => {
+  return (
+    <Button
+      style={{
+        marginTop: -4,
+      }}
+      ghost
+      icon={MoreIcon}
+      onClick={useContextMenu(ActionMenu, { data })}
+    />
+  )
+}
 
 const Services = ({ data }) => {
   let total = 0
@@ -163,6 +185,12 @@ export const MachineTable: FC<{
       label: <AllConnectionsTotal envAdminHub={envAdminHub} />,
       width: 90,
       customComponent: AllConnections,
+    },
+    {
+      key: 'options',
+      label: '',
+      width: 60,
+      customComponent: Actions,
     },
   ]
 
