@@ -32,7 +32,7 @@ import { Services } from './Services'
 import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
-import { AllMachinesStatus } from '../AllMachinesStatus'
+import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { Connections } from '../Connections'
 
 export const Actions: FC<{
@@ -141,6 +141,8 @@ const MachineConfig: FC<{
   const client = useClient()
   const [, setInfra] = useContextState<string>('infraSection')
 
+  console.log(machineStatus)
+
   return (
     <Container space="32px">
       <RowSpaced>
@@ -155,7 +157,7 @@ const MachineConfig: FC<{
           >
             {configName}
           </Text>
-          <AllMachinesStatus
+          <EnvMachinesStatus
             goodColor="green"
             running={machineStatus.amount - machineStatus.failing}
             unreachable={machineStatus.failing}

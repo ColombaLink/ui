@@ -4,6 +4,8 @@ import { StateProvider, useContextState } from '~/hooks'
 import { Machines } from './Configs'
 import { Env } from '@based/machine-config'
 import { MachineTable } from './MachineTable'
+export { EnvMachinesStatus } from './EnvMachinesStatus'
+export { useMachineStatus } from './useMachineStatus'
 
 const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
   const [infraSection] = useContextState('infraSection', 'overview')

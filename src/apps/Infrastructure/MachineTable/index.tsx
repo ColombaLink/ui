@@ -25,8 +25,8 @@ import {
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status, StatusBadge } from './MachineStatus'
 import { AllConnections, AllConnectionsTotal } from './Connections'
-import { AllMachinesStatus } from '../AllMachinesStatus'
-import { useMachineStatus } from './useMachineStatus'
+import { EnvMachinesStatus } from '../EnvMachinesStatus'
+import { useMachineStatus } from '../useMachineStatus'
 
 const Services = ({ data }) => {
   let total = 0
@@ -220,11 +220,12 @@ export const MachineTable: FC<{
           >
             {configName ?? 'All'}
           </Text>
-          <AllMachinesStatus
+          <EnvMachinesStatus
             goodColor="green"
             running={machineStatus.amount - machineStatus.failing}
             unreachable={machineStatus.failing}
             deploying={machineStatus.deploying}
+            resizing={machineStatus.resizing}
             type="machine"
           />
         </Row>

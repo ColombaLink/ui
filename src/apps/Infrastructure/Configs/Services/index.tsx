@@ -9,7 +9,7 @@ import {
   RowEnd,
   border,
 } from '~'
-import { AllMachinesStatus } from '../../AllMachinesStatus'
+import { EnvMachinesStatus } from '../../EnvMachinesStatus'
 import { ServiceNamed, OnMachineConfigChange } from '../../types'
 import { Service } from './Service'
 import { useAddService } from './useAddService'
@@ -58,7 +58,7 @@ export const Services: FC<{
         setExpanded(expanded)
       }}
       expanded={expanded[expandKey]}
-      topRight={<AllMachinesStatus count={services.length} type="service" />}
+      topRight={<EnvMachinesStatus count={services.length} type="service" />}
     >
       <RowEnd
         style={{
