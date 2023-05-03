@@ -19,12 +19,14 @@ type ContainerProps = {
   bottomLeft?: FC | ReactNode
   bottomRight?: FC | ReactNode
   wrap?: boolean
+  onClick?: (e: MouseEvent) => void
 }
 
 export const Container: FC<ContainerProps> = ({
   children,
   style,
   space,
+  onClick,
   topLeft,
   topRight,
   bottomLeft,
@@ -34,6 +36,7 @@ export const Container: FC<ContainerProps> = ({
 }) => {
   return (
     <styled.div
+      onClick={onClick}
       style={{
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,

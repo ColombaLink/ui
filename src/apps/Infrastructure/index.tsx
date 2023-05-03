@@ -4,6 +4,8 @@ import { StateProvider, useContextState } from '~/hooks'
 import { Machines } from './Configs'
 import { Env } from '@based/machine-config'
 import { MachineTable } from './MachineTable'
+export { EnvMachinesStatus } from './EnvMachinesStatus'
+export { useMachineStatus } from './useMachineStatus'
 
 const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
   const [infraSection] = useContextState('infraSection', 'overview')
@@ -25,7 +27,6 @@ export const Infrastructure: FC<{
   onChange?: (key: string, val: string) => void
   values?: {
     infraSection: string
-    expanded?: { [key: string]: boolean }
     env?: Env
   }
 }> = ({
@@ -39,9 +40,6 @@ export const Infrastructure: FC<{
   },
   onChange,
 }) => {
-  if (!values.expanded) {
-    values.expanded = {}
-  }
   if (!values.env) {
     values.env = env
   }

@@ -1,4 +1,4 @@
-import { useClient } from '@based/react'
+import { useClient, useQuery } from '@based/react'
 import React, { FC } from 'react'
 import {
   Table,
@@ -20,13 +20,37 @@ import {
   useSelect,
   useDialog,
   Dialog,
+  TableHeader,
   Code,
+  ReplaceIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import { MachineStatus, Status, StatusBadge } from './MachineStatus'
 import { AllConnections, AllConnectionsTotal } from './Connections'
-import { AllMachinesStatus } from '../AllMachinesStatus'
-import { useMachineStatus } from './useMachineStatus'
+import { EnvMachinesStatus } from '../EnvMachinesStatus'
+import { useMachineStatus } from '../useMachineStatus'
+import { SettingsModal } from '../Configs/SettingsModal'
+
+const ActionMenu = () => {
+  return (
+    <div>
+      <ContextItem icon={ReplaceIcon}>Restart all services</ContextItem>
+    </div>
+  )
+}
+
+const Actions = ({ data }) => {
+  return (
+    <Button
+      style={{
+        marginTop: -4,
+      }}
+      ghost
+      icon={MoreIcon}
+      onClick={useContextMenu(ActionMenu, { data })}
+    />
+  )
+}
 
 const Services = ({ data }) => {
   let total = 0
@@ -122,8 +146,25 @@ export const MachineTable: FC<{
 }> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
   const [, setPage] = useContextState<string>('infraSection')
+  const { data: envData, checksum } = useQuery('env', env)
+  let hasHub = false
 
-  const headers = [
+  const { open } = useDialog()
+
+  if (!configName) {
+    hasHub = true
+  } else {
+    const services =
+      envData?.config?.machineConfigs?.[configName]?.services ?? {}
+    for (const key in services) {
+      if (key.includes('hub')) {
+        hasHub = true
+        break
+      }
+    }
+  }
+
+  const headers: TableHeader<any>[] = [
     {
       key: 'status',
       label: 'Machine',
@@ -158,13 +199,23 @@ export const MachineTable: FC<{
       label: 'Domain',
       customComponent: Domain,
     },
-    {
+  ]
+
+  if (hasHub) {
+    headers.push({
       key: 'connections',
       label: <AllConnectionsTotal envAdminHub={envAdminHub} />,
       width: 90,
       customComponent: AllConnections,
-    },
-  ]
+    })
+  }
+
+  headers.push({
+    key: 'options',
+    label: '',
+    width: 60,
+    customComponent: Actions,
+  })
 
   if (!configName) {
     headers.push({
@@ -220,13 +271,23 @@ export const MachineTable: FC<{
           >
             {configName ?? 'All'}
           </Text>
-          <AllMachinesStatus
+          <EnvMachinesStatus
             goodColor="green"
             running={machineStatus.amount - machineStatus.failing}
             unreachable={machineStatus.failing}
             deploying={machineStatus.deploying}
+            resizing={machineStatus.resizing}
             type="machine"
           />
+          {configName ? (
+            <Button
+              icon={MoreIcon}
+              ghost
+              onClick={() => {
+                open(<SettingsModal configName={configName} />)
+              }}
+            />
+          ) : null}
         </Row>
         <Row>
           <Button icon={ExpandIcon} ghost onClick={listener} />

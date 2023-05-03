@@ -9,6 +9,19 @@ export const OverviewInner: FC<{
   data: any
   all?: boolean
 }> = ({ data, all, names }) => {
+  if (data.stats?.services) {
+    let hasHub = false
+    for (const key in data.stats?.services) {
+      if (key.includes('hub')) {
+        hasHub = true
+        break
+      }
+    }
+    if (!hasHub) {
+      return <div></div>
+    }
+  }
+
   const { data: d } = useQuery('based:connectionsPerHub')
 
   let cnt = 0
