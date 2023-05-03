@@ -31,7 +31,7 @@ import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { useMachineStatus } from '../useMachineStatus'
 import { SettingsModal } from '../Configs/SettingsModal'
 
-const ActionMenu = () => {
+const ActionMenu = ({ data }) => {
   return (
     <div>
       <ContextItem icon={ReplaceIcon}>Restart all services</ContextItem>
