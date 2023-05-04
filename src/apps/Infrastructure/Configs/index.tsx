@@ -15,7 +15,10 @@ import {
   Badge,
   SearchIcon,
   color,
+  styled,
   ContextDivider,
+  Style,
+  Card,
   RowSpaced,
   CloseIcon,
   ContextItem,
@@ -131,6 +134,52 @@ export const Actions: FC<{
   )
 }
 
+const style: Style = {
+  marginBottom: 16,
+  maxWidth: '100%',
+  minWidth: 500,
+  '@media only screen and (max-width: 2000px)': {
+    minWidth: 'calc(33% - 8px)',
+  },
+  '@media only screen and (max-width: 1400px)': {
+    minWidth: 'calc(50% - 8px)',
+  },
+  '@media only screen and (max-width: 1200px)': {
+    minWidth: '100%',
+  },
+}
+
+/*
+ <Card
+      style={style}
+      onClick={() => {
+        route.setPath({ project: id })
+      }}
+      label={project}
+      description={`Created ${prettyDate(createdAt, 'date-time-human')}`}
+      topLeft={<Avatar icon={BasedIcon} color={color} />}
+      topRight={
+        <Button
+          ghost
+          icon={MoreIcon}
+          color="text"
+          onClick={onCardMenu}
+          style={{
+            transform: 'translate3d(4px,-8px,0)',
+          }}
+        />
+      }
+      bottomLeft={
+        <Badge boxed icon={CopyIcon}>
+          {env}
+        </Badge>
+      }
+      bottomRight={<StatusBadge status={status} />}
+    >
+      <Spacer space="28px" />
+    </Card>
+*/
+
 const MachineConfig: FC<{
   configName: string
   config: MachineConfig
@@ -142,39 +191,21 @@ const MachineConfig: FC<{
   const { open } = useDialog()
 
   return (
-    <Container
-      style={{
-        cursor: 'pointer',
-        '&:hover': {
-          backgroundColor: color('accent', true),
-        },
-        marginRight: 8,
-        marginLeft: 8,
-        marginBottom: 16,
-        minWidth: 400,
-        width: 'calc(33% - 11px)',
-      }}
+    <Card
+      style={style}
       onClick={() => {
         open(<SettingsModal configName={configName} />)
       }}
-    >
-      <RowSpaced>
-        <Row>
-          <Text
-            style={{
-              transition: 'color 0.25s',
-              color: 'inherit',
-              marginRight: 24,
-            }}
-            typography="body600"
-          >
-            {configName}
-          </Text>
-        </Row>
-
-        <Row>
+      label={configName}
+      description={
+        config.description ||
+        (configName === 'allServices'
+          ? 'All services on a single machine, cannot be scaled to more then 1 instance'
+          : '')
+      }
+      topRight={
+        <Row style={{ flexShrink: 0 }}>
           <UpdateButton small machineConfigs={{ [configName]: config }} />
-
           <Button
             icon={<MoreIcon />}
             ghost
@@ -182,25 +213,19 @@ const MachineConfig: FC<{
           />
           <Button
             color="lightaccent"
-            style={{ marginLeft: 8 }}
+            style={{ marginLeft: 4 }}
             onClick={() => {
               setInfra(configName)
             }}
             ghost
             icon={EyeIcon}
-          ></Button>
+          />
         </Row>
-      </RowSpaced>
-
-      <Text space typography="caption400">
-        {config.description ||
-          (configName === 'allServices'
-            ? 'All services on a single machine, cannot be scaled to more then 1 instance'
-            : '')}
-      </Text>
-
+      }
+    >
       <EnvMachinesStatus
         style={{
+          marginTop: 8,
           flexWrap: 'wrap',
           gap: 8,
           marginBottom: 8,
@@ -213,7 +238,7 @@ const MachineConfig: FC<{
         deploying={machineStatus.deploying}
         type="machine"
       />
-    </Container>
+    </Card>
   )
 }
 
@@ -287,15 +312,16 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
         </Row>
       </RowSpaced>
       <Spacer space="32px" />
-      <Row
+      <styled.div
         style={{
+          width: '100%',
+          display: 'flex',
           flexWrap: 'wrap',
-          marginLeft: -8,
-          marginRight: -6,
+          gap: '0px 16px',
         }}
       >
         {machineConfigs}
-      </Row>
+      </styled.div>
     </Page>
   )
 }
