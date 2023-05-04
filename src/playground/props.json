@@ -2306,22 +2306,6 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
     },
-    "LogsProps": {
-      "name": "LogsProps",
-      "props": {
-        "data": {
-          "type": {
-            "array": "TSTypeLiteral"
-          }
-        },
-        "checksum": {
-          "optional": true,
-          "type": "number"
-        }
-      },
-      "code": "type LogsProps = {\n  data: {}[]\n  checksum?: number\n}",
-      "file": "/components/Logs/index.tsx"
-    },
     "MasonryGridProps": {
       "name": "MasonryGridProps",
       "props": {
