@@ -138,7 +138,11 @@ const style: Style = {
   marginBottom: 16,
   maxWidth: '100%',
   minWidth: 500,
-  '@media only screen and (max-width: 2000px)': {
+  minHeight: 120,
+  '@media only screen and (max-width: 4000px)': {
+    minWidth: 'calc(20% - 8px)',
+  },
+  '@media only screen and (max-width: 3000px)': {
     minWidth: 'calc(33% - 8px)',
   },
   '@media only screen and (max-width: 1400px)': {
@@ -148,37 +152,6 @@ const style: Style = {
     minWidth: '100%',
   },
 }
-
-/*
- <Card
-      style={style}
-      onClick={() => {
-        route.setPath({ project: id })
-      }}
-      label={project}
-      description={`Created ${prettyDate(createdAt, 'date-time-human')}`}
-      topLeft={<Avatar icon={BasedIcon} color={color} />}
-      topRight={
-        <Button
-          ghost
-          icon={MoreIcon}
-          color="text"
-          onClick={onCardMenu}
-          style={{
-            transform: 'translate3d(4px,-8px,0)',
-          }}
-        />
-      }
-      bottomLeft={
-        <Badge boxed icon={CopyIcon}>
-          {env}
-        </Badge>
-      }
-      bottomRight={<StatusBadge status={status} />}
-    >
-      <Spacer space="28px" />
-    </Card>
-*/
 
 const MachineConfig: FC<{
   configName: string
@@ -222,23 +195,23 @@ const MachineConfig: FC<{
           />
         </Row>
       }
-    >
-      <EnvMachinesStatus
-        style={{
-          marginTop: 8,
-          flexWrap: 'wrap',
-          gap: 8,
-          marginBottom: 8,
-        }}
-        goodColor="green"
-        resizing={machineStatus.resizing}
-        removing={machineStatus.removing}
-        running={machineStatus.amount - machineStatus.failing}
-        unreachable={machineStatus.failing}
-        deploying={machineStatus.deploying}
-        type="machine"
-      />
-    </Card>
+      bottomLeft={
+        <EnvMachinesStatus
+          style={{
+            marginBottom: 4,
+            flexWrap: 'wrap',
+            gap: 8,
+          }}
+          goodColor="green"
+          resizing={machineStatus.resizing}
+          removing={machineStatus.removing}
+          running={machineStatus.amount - machineStatus.failing}
+          unreachable={machineStatus.failing}
+          deploying={machineStatus.deploying}
+          type="machine"
+        />
+      }
+    />
   )
 }
 
