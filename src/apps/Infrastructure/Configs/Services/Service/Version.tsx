@@ -2,6 +2,30 @@ import React, { FC, useState } from 'react'
 import { Text, Select, styled, SelectOption, Accept, Row } from '~'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'
 import { useQuery } from '@based/react'
+import { prettyDate } from '@based/pretty-date'
+
+const Info: FC<{
+  dist: {
+    version: string
+    checksum: string
+    releaseNotes?: string
+    releaseDate?: number
+  }
+}> = ({ dist }) => {
+  return (
+    <Row>
+      <Text typography="body600">{dist.version}</Text>
+      <Text
+        typography="body400"
+        style={{
+          marginLeft: 8,
+        }}
+      >
+        {dist.releaseNotes ? dist.releaseNotes.slice(0, 30) : ''}
+      </Text>
+    </Row>
+  )
+}
 
 export const Version: FC<{
   service: ServiceNamed
@@ -12,9 +36,7 @@ export const Version: FC<{
     [key: string]: any[]
   }>(
     'dists',
-    {
-      type: 'env',
-    },
+    {},
     {
       persistent: true,
     }
@@ -22,14 +44,13 @@ export const Version: FC<{
 
   let foundCurrent = false
   const selectOptions: SelectOption[] =
-    dists[service.name]?.map((v) => {
-      if (service.distChecksum === v.checksum) {
+    dists[service.name]?.map((dist) => {
+      if (service.distChecksum === dist.checksum) {
         foundCurrent = true
       }
-
       return {
-        label: v.version,
-        value: v.checksum,
+        label: <Info dist={dist} />,
+        value: dist.checksum,
       }
     }) || []
   const [newVersion, updateVersion] = useState<string>()

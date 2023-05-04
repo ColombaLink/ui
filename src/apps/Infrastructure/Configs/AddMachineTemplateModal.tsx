@@ -32,9 +32,7 @@ export const AddMachineModal: FC<{
     [key: string]: Dist[]
   }>(
     'dists',
-    {
-      type: 'env',
-    },
+    {},
     {
       persistent: true,
     }

@@ -43,6 +43,8 @@ export const Card: FC<CardProps> = ({
   return (
     <styled.div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
         borderRadius: 8,
         padding: 16,
         backgroundColor: color('background2dp'),
@@ -91,7 +93,13 @@ export const Card: FC<CardProps> = ({
           {renderOrCreateElement(topRight)}
         </Row>
       </RowSpaced>
-      <styled.div>{children}</styled.div>
+      <styled.div
+        style={{
+          flexGrow: 1,
+        }}
+      >
+        {children}
+      </styled.div>
       <RowSpaced>
         {bottomLeft}
         {bottomRight}

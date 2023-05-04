@@ -1,18 +1,16 @@
 import { Provider, useQuery } from '@based/react'
 import React from 'react'
 import { prettyNumber } from '@based/pretty-number'
-import { styled, Button, UserIcon, useContextState } from '~'
+import { Button, UserIcon, useContextState } from '~'
 
 export const OverviewInner = () => {
   const { data } = useQuery('based:connections')
   const [, setPage] = useContextState<string>('infraSection')
-
   return (
     <Button
       onClick={() => {
         setPage('all')
       }}
-      // large
       icon={UserIcon}
       ghost
       color="accent"

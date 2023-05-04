@@ -18,9 +18,7 @@ export const useAddService = (
     [key: string]: Dist[]
   }>(
     'dists',
-    {
-      type: 'env',
-    },
+    {},
     {
       persistent: true,
     }
