@@ -5,7 +5,6 @@ import {
   WarningIcon,
   CheckIcon,
   Row,
-  DeleteIcon,
   Color,
   Style,
 } from '~'
@@ -36,11 +35,7 @@ export const EnvMachinesStatus: FC<{
   return (
     <Row style={style}>
       {count !== undefined ? (
-        <Badge
-          style={{ marginRight: 12 }}
-          color="accent"
-          // color={noProblems ? goodColor : null}
-        >
+        <Badge style={{ marginRight: 12 }} color="accent">
           {count} {type}
           {count !== 1 ? 's' : ''}
         </Badge>
@@ -75,8 +70,8 @@ export const EnvMachinesStatus: FC<{
       ) : null}
       {resizing ? (
         <Badge style={{ marginRight: 12 }} color="accent" icon={LoadingIcon}>
-          {unreachable} {type}
-          {unreachable > 1 ? 's' : ''} resizing
+          {resizing} {type}
+          {resizing > 1 ? 's' : ''} resizing
         </Badge>
       ) : null}
     </Row>
