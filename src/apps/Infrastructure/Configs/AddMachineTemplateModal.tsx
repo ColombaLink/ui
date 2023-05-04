@@ -33,7 +33,7 @@ export const AddMachineModal: FC<{
   }>(
     'dists',
     {
-      type: 'env',
+      // type: 'env',
     },
     {
       persistent: true,

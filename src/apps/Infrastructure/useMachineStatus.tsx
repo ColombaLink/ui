@@ -26,6 +26,8 @@ export const useMachineStatus = (
   }
   if (envData?.machineStatus) {
     if (configName) {
+      console.log(envData.machineStatus, configName)
+
       machineStatus.amount = envData?.machineStatus?.[configName].amount
       machineStatus.failing = envData?.machineStatus?.[configName].failing
       machineStatus.deploying = envData?.machineStatus?.[configName].deploying

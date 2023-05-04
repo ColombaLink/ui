@@ -20,7 +20,7 @@ export const useDistUpdates = (
   }>(
     'dists',
     {
-      type: 'env',
+      // type: 'env',
     },
     {
       persistent: true,

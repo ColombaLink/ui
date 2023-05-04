@@ -19,7 +19,7 @@ export const useAddService = (
   }>(
     'dists',
     {
-      type: 'env',
+      // type: 'env',
     },
     {
       persistent: true,

@@ -13,7 +13,7 @@ export const Version: FC<{
   }>(
     'dists',
     {
-      type: 'env',
+      // type: 'env',
     },
     {
       persistent: true,
