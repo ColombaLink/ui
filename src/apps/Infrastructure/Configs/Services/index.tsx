@@ -26,8 +26,6 @@ export const Services: FC<{
     services.push({ name: key, ...config.services[key] })
   }
 
-  const expandKey = configName + 's'
-
   const [newServices, add] = useAddService(
     config,
     onChange,
@@ -64,6 +62,7 @@ export const Services: FC<{
             alwaysAccept={alwaysAccept}
             onChange={onChange}
             config={config}
+            configName={configName}
             service={s}
             key={s.name}
           />
