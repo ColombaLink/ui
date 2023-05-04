@@ -16,7 +16,7 @@ import { TableCustomComponent } from '~/components/Table/types'
 
 // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
 
-const MachineStats: FC<{
+export const MachineStats: FC<{
   cpu: number
   memory: number
 }> = ({ cpu, memory }) => {

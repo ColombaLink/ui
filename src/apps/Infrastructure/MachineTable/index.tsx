@@ -15,20 +15,74 @@ import {
   Text,
   useContextMenu,
   Input,
+  EditIcon,
   ContextItem,
   useSelect,
   useDialog,
   Dialog,
   TableHeader,
+  Logs,
   Code,
   ReplaceIcon,
+  Container,
 } from '~'
 import { Env } from '@based/machine-config'
-import { MachineStatus, Status, StatusBadge } from './MachineStatus'
+import {
+  MachineStatus,
+  Status,
+  StatusBadge,
+  MachineStats,
+} from './MachineStatus'
 import { AllConnections, AllConnectionsTotal } from './Connections'
 import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { useMachineStatus } from '../useMachineStatus'
 import { SettingsModal } from '../Configs/SettingsModal'
+
+const MachineModal: FC<{
+  data: any
+}> = ({ data }) => {
+  const env = useContextState<Env>('env')
+  const { data: logs, checksum } = useQuery('logs', env)
+
+  return (
+    <Dialog
+      pure
+      style={{
+        width: '90vw',
+        maxWidth: 1000,
+        height: '90vh',
+        padding: 32,
+      }}
+    >
+      <RowSpaced
+        style={{
+          marginBottom: 32,
+        }}
+      >
+        <Row>
+          <Text typography="subtitle600">{data.machineConfigName}</Text>
+          <Text style={{ marginLeft: 16 }} weight="400">
+            {data.id}
+          </Text>
+        </Row>
+        <Row>
+          <MachineStats memory={data.stats.memory} cpu={data.stats.cpu} />
+        </Row>
+      </RowSpaced>
+
+      <Container
+        style={{
+          marginBottom: 16,
+          overflow: 'hidden',
+          width: '100%',
+          flexGrow: 1,
+        }}
+      >
+        <Logs data={logs} checksum={checksum} />
+      </Container>
+    </Dialog>
+  )
+}
 
 const ActionMenu = ({ data }) => {
   const [env] = useContextState<Env>('env')
@@ -234,10 +288,6 @@ export const MachineTable: FC<{
     })
   }
 
-  const handleClick = (e, rowData) => {
-    console.info('Clicked on row:', rowData)
-  }
-
   const client = useClient()
   const machineStatus = useMachineStatus(env, configName)
   const [filter, setFilter] = useContextState('filter', '')
@@ -291,7 +341,8 @@ export const MachineTable: FC<{
           />
           {configName ? (
             <Button
-              icon={MoreIcon}
+              color="accent"
+              icon={EditIcon}
               ghost
               onClick={() => {
                 open(<SettingsModal configName={configName} />)
@@ -350,7 +401,10 @@ export const MachineTable: FC<{
           itemCount={machineStatus.amount}
           context={{ envAdminHub }}
           headers={headers}
-          onClick={handleClick}
+          onClick={(e, rowData) => {
+            open(<MachineModal data={rowData} />)
+            console.info('Clicked on row:', rowData)
+          }}
         />
       </styled.div>
     </styled.div>

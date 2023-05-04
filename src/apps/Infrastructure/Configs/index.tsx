@@ -2,7 +2,6 @@ import React, { FC, useMemo } from 'react'
 import {
   Page,
   Button,
-  Container,
   Text,
   Input,
   Spacer,
@@ -14,7 +13,6 @@ import {
   CurlyBracesIcon,
   Badge,
   SearchIcon,
-  color,
   styled,
   ContextDivider,
   Style,
@@ -25,7 +23,7 @@ import {
   Dialog,
   MoreIcon,
   useContextMenu,
-  EyeIcon,
+  EditIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
@@ -167,7 +165,7 @@ const MachineConfig: FC<{
     <Card
       style={style}
       onClick={() => {
-        open(<SettingsModal configName={configName} />)
+        setInfra(configName)
       }}
       label={configName}
       description={
@@ -188,10 +186,10 @@ const MachineConfig: FC<{
             color="lightaccent"
             style={{ marginLeft: 4 }}
             onClick={() => {
-              setInfra(configName)
+              open(<SettingsModal configName={configName} />)
             }}
             ghost
-            icon={EyeIcon}
+            icon={EditIcon}
           />
         </Row>
       }

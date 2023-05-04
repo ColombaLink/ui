@@ -6,8 +6,10 @@ import React, {
   Dispatch,
   SetStateAction,
   useMemo,
+  useRef,
+  useEffect,
 } from 'react'
-import { styled, border, Text } from '~'
+import { styled, border, Text, color } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
@@ -66,6 +68,8 @@ const Cell = (props) => {
   if (!rowData) {
     return null
   }
+
+  const onClick = props.data.onClick
   const itemData = rowData[header.key]
   const body = header.customComponent ? (
     createElement(header.customComponent, {
@@ -78,13 +82,40 @@ const Cell = (props) => {
   ) : (
     <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
   )
+
   return (
     <styled.div
+      onMouseEnter={
+        onClick
+          ? (e) => {
+              e.currentTarget.parentNode.style.background = color(
+                'accent',
+                true
+              )
+            }
+          : null
+      }
+      onMouseLeave={
+        onClick
+          ? (e) => {
+              e.currentTarget.parentNode.style.background = null
+            }
+          : null
+      }
       style={{
         padding: 16,
         borderBottom: border(1, 'border'),
+        cursor: onClick ? 'pointer' : 'default',
+
         ...style,
       }}
+      onClick={
+        onClick
+          ? (e) => {
+              onClick(e, rowData)
+            }
+          : null
+      }
     >
       {body}
     </styled.div>
