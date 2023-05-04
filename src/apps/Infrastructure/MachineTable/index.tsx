@@ -42,7 +42,9 @@ const MachineModal: FC<{
   data: any
 }> = ({ data }) => {
   const env = useContextState<Env>('env')
-  const { data: logs, checksum } = useQuery('logs', env)
+  const { data: logs, checksum } = useQuery('logs', {
+    mid: data.id,
+  })
 
   return (
     <Dialog
@@ -70,16 +72,19 @@ const MachineModal: FC<{
         </Row>
       </RowSpaced>
 
-      <Container
+      <styled.div
         style={{
-          marginBottom: 16,
-          overflow: 'hidden',
-          width: '100%',
+          display: 'flex',
           flexGrow: 1,
+          border: border(1, 'border'),
+          borderRadius: 8,
+          width: '100%',
+          overflowX: 'hidden',
+          overflowY: 'hidden',
         }}
       >
         <Logs data={logs} checksum={checksum} />
-      </Container>
+      </styled.div>
     </Dialog>
   )
 }
