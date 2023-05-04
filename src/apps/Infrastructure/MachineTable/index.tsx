@@ -5,7 +5,6 @@ import {
   styled,
   ExpandIcon,
   useContextState,
-  Badge,
   border,
   Row,
   SearchIcon,
