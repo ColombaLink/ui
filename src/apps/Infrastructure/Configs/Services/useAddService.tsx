@@ -10,7 +10,8 @@ export const useAddService = (
   config: MachineConfig,
   onChange: OnMachineConfigChange,
   alwaysAccept: boolean,
-  checksum: number
+  checksum: number,
+  configName: string
 ): [ReactNode[], ReturnType<typeof useSelect>[1]] => {
   const update = useUpdate()
 
@@ -76,6 +77,7 @@ export const useAddService = (
   const newServicesNodes = newServicesItems.map((s) => {
     return (
       <Service
+        configName={configName}
         key={'n' + s.name}
         alwaysAccept
         onChange={(values) => {

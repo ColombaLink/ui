@@ -66,20 +66,19 @@ export const Actions: FC<{
       <ContextItem
         icon={<RedoIcon />}
         onClick={() => {
-          console.log('props', props)
-          // client.call('send-commands', {
-          //   ...env,
-          //   commands: [
-          //     {
-          //       command: 'restart',
-          //       configName: ,
-          //       service: '*',
-          //     },
-          //   ],
-          // })
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                command: 'restart',
+                configName,
+                service: service.name,
+              },
+            ],
+          })
         }}
       >
-        Restart all instances of service
+        Restart service on all machines
       </ContextItem>
     </>
   )

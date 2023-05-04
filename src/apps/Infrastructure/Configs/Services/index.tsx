@@ -30,7 +30,8 @@ export const Services: FC<{
     config,
     onChange,
     alwaysAccept,
-    services.length
+    services.length,
+    configName
   )
 
   return (

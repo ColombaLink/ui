@@ -44,8 +44,8 @@ const ActionMenu = ({ data }) => {
             commands: [
               {
                 command: 'restart',
-                configName: data.machineConfigName,
                 service: '*',
+                machineId: data.id,
               },
             ],
           })

@@ -6,9 +6,9 @@ import { parseQuery } from '@saulx/utils'
 
 export let cluster = 'local' // String((q && q.cluster) ?? 'local')
 
-export const project = 'based-cloud'
+export const project = 'test'
 export const org = 'saulx'
-export const env = 'platform'
+export const env = 'ci'
 
 export const client = new BasedClient({
   project,
