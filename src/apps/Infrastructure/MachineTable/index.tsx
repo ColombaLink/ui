@@ -5,7 +5,6 @@ import {
   styled,
   ExpandIcon,
   useContextState,
-  Badge,
   border,
   Row,
   SearchIcon,
@@ -31,10 +30,29 @@ import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { useMachineStatus } from '../useMachineStatus'
 import { SettingsModal } from '../Configs/SettingsModal'
 
-const ActionMenu = () => {
+const ActionMenu = ({ data }) => {
+  const [env] = useContextState<Env>('env')
+  const client = useClient()
+
   return (
     <div>
-      <ContextItem icon={ReplaceIcon}>Restart all services</ContextItem>
+      <ContextItem
+        icon={ReplaceIcon}
+        onClick={() => {
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                command: 'restart',
+                configName: data.machineConfigName,
+                service: '*',
+              },
+            ],
+          })
+        }}
+      >
+        Restart all services
+      </ContextItem>
     </div>
   )
 }
@@ -54,7 +72,7 @@ const Actions = ({ data }) => {
 
 const Services = ({ data }) => {
   let total = 0
-  let counters = {}
+  const counters = {}
   for (const key in data.stats?.services) {
     for (const instance in data.stats?.services[key]) {
       total++
@@ -122,7 +140,7 @@ const Id = ({ data, header }) => {
   )
 }
 
-const Domain = ({ data, header }) => {
+const Domain = ({ data }) => {
   return (
     <a href={'https://' + data.domain} target="_blank">
       <Text selectable typography="caption400">
@@ -132,21 +150,13 @@ const Domain = ({ data, header }) => {
   )
 }
 
-const Records = ({ data }) => {
-  return (
-    <Text selectable typography="caption400">
-      {data.records?.hub ?? data.records?.discovery}
-    </Text>
-  )
-}
-
 export const MachineTable: FC<{
   configName?: string
   envAdminHub: any
 }> = ({ configName, envAdminHub }) => {
   const [env] = useContextState<Env>('env')
   const [, setPage] = useContextState<string>('infraSection')
-  const { data: envData, checksum } = useQuery('env', env)
+  const { data: envData } = useQuery('env', env)
   let hasHub = false
 
   const { open } = useDialog()
@@ -315,7 +325,6 @@ export const MachineTable: FC<{
           // sort option in query
           queryId={filter + (statusFilter ?? '')}
           query={(offset, limit) => {
-            const status = statusFilter
             if (filter) {
               return client.query('machines', {
                 ...env,

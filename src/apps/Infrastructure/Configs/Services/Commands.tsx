@@ -1,12 +1,10 @@
 import React, { FC } from 'react'
 import { Button, useContextState, RedoIcon, StopIcon, Row } from '~'
 import { Env } from '@based/machine-config'
-import { useClient, useQuery } from '@based/react'
-// import { adminClient } from '~/playground/based'
+import { useClient } from '@based/react'
 
 export const Commands: FC<{ configName: string }> = ({ configName }) => {
   const [env] = useContextState<Env>('env')
-  const { data: envData } = useQuery('env', env)
   const client = useClient()
 
   return (
