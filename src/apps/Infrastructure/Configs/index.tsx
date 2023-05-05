@@ -24,6 +24,7 @@ import {
   MoreIcon,
   useContextMenu,
   EditIcon,
+  RedoIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
@@ -56,6 +57,23 @@ export const Actions: FC<{
         icon={<DuplicateIcon />}
       >
         Duplicate
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                service: '*',
+                command: 'restart',
+                configName,
+              },
+            ],
+          })
+        }}
+        icon={<RedoIcon />}
+      >
+        Restart all services on each machine
       </ContextItem>
       <ContextItem
         onClick={() => {
