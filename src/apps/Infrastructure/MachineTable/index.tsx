@@ -145,7 +145,6 @@ const MachineModal: FC<{
 const ActionMenu = ({ data }) => {
   const [env] = useContextState<Env>('env')
   const client = useClient()
-
   return (
     <div>
       <ContextItem
@@ -230,7 +229,9 @@ const Services = ({ data }) => {
 
   return (
     <StatusBadge
-      onClick={() => {
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
         open(
           <Dialog>
             <Code value={JSON.stringify(data.stats.services, null, 2)} />

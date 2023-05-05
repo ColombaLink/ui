@@ -7,6 +7,7 @@ import {
   Icon,
   Text,
   styled,
+  useCopyToClipboard,
 } from '~'
 
 type BadgeProps = {
@@ -18,7 +19,19 @@ type BadgeProps = {
   color?: Color
   boxed?: boolean
   ghost?: boolean
-  onClick?: (() => void) | boolean
+  onClick?: ((e: MouseEvent) => void) | boolean
+}
+
+export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
+  copyValue,
+  ...props
+}) => {
+  const val: string | number =
+    copyValue ?? (typeof props.children === 'string' ? props.children : '')
+
+  useCopyToClipboard(val)
+
+  return <Badge {...props} />
 }
 
 export const Badge: FC<BadgeProps> = ({

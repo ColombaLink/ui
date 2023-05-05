@@ -112,7 +112,7 @@ const icons = {
 export const StatusBadge: FC<{
   children?: ReactNode
   status: number
-  onClick?: () => void
+  onClick?: (e: MouseEvent) => void
 }> = ({ status, onClick, children }) => {
   return (
     <Badge onClick={onClick} icon={icons[status]} color={colors[status]}>
