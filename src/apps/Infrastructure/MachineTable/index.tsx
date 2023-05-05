@@ -31,6 +31,7 @@ import {
   useCopyToClipboard,
   CheckIcon,
   ClipboardIcon,
+  IdIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -249,39 +250,27 @@ const Services: TableCustomComponent<any> = ({ data }) => {
   )
 }
 
-const Id: TableCustomComponent<any> = ({ data, header }) => {
+const CopyRow: TableCustomComponent<any> = ({ data, header }) => {
+  const [copy, setCopy] = useCopyToClipboard(data[header.key])
+  const Icon = copy ? CheckIcon : header.key === 'id' ? IdIcon : null
+
   return (
-    <Text
+    <Row
       onClick={(e) => {
         e.preventDefault()
         e.stopPropagation()
+        setCopy()
       }}
-      selectable
-      typography="caption400"
     >
-      {data[header.key]}
-    </Text>
-  )
-}
-
-const CopyRow: TableCustomComponent<any> = ({ data, header }) => {
-  const [copy, setCopy] = useCopyToClipboard(data[header.key])
-  return (
-    <Row>
       {copy ? (
         <CheckIcon color="text2" />
-      ) : (
-        <ClipboardIcon style={{ opacity: 0.5 }} color="text2" />
-      )}
+      ) : Icon ? (
+        <Icon color="text2" />
+      ) : null}
       <Text
         style={{
           cursor: 'pointer',
-          marginLeft: 12,
-        }}
-        onClick={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          setCopy()
+          marginLeft: Icon ? 12 : 0,
         }}
         selectable
       >
@@ -348,12 +337,12 @@ export const MachineTable: FC<{
     {
       key: 'id',
       label: 'ID',
-      customComponent: Id,
+      customComponent: CopyRow,
     },
     {
       key: 'cloudMachineId',
       label: 'CloudId',
-      customComponent: Id,
+      customComponent: CopyRow,
     },
     {
       key: 'domain',

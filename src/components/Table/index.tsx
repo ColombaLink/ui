@@ -109,11 +109,17 @@ const Cell = (props) => {
               const t = e.currentTarget
               let x = t
               for (let i = 0; i < columnIndex + 1; i++) {
+                if (!x) {
+                  break
+                }
                 x.style.background = null
                 x = x.previousSibling
               }
               x = t
               for (let i = 0; i < colls - columnIndex; i++) {
+                if (!x) {
+                  break
+                }
                 x.style.background = null
                 x = x.nextSibling
               }
@@ -253,7 +259,6 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 56,
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
   } = props
-
   return (
     <styled.div
       style={{
