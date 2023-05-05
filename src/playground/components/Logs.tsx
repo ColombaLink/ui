@@ -24,7 +24,6 @@ data.push({
 <div
   style={{
     display: 'flex',
-    border: '1px solid blue',
     maxHeight: 600
   }}
 >

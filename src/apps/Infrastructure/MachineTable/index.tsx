@@ -24,9 +24,8 @@ import {
   Logs,
   Code,
   ReplaceIcon,
-  Container,
-  useColorById,
   Badge,
+  hashColor,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -45,7 +44,7 @@ const Header: FC<{ log: { ts: number; srvc: string; url: string } }> = ({
   log,
 }) => {
   const { ts, srvc, url } = log
-  const color = useColorById(srvc)
+  const color = hashColor(srvc)
   return (
     <Row style={{ marginBottom: 24 }}>
       <Badge
