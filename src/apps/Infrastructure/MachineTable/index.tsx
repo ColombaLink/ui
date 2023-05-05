@@ -25,7 +25,9 @@ import {
   Code,
   ReplaceIcon,
   Badge,
+  CopyBadge,
   hashColor,
+  TableCustomComponent,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -180,7 +182,7 @@ const Actions = ({ data }) => {
   )
 }
 
-const Services = ({ data }) => {
+const Services: TableCustomComponent<any> = ({ data }) => {
   let total = 0
   const counters = {}
   for (const key in data.stats?.services) {
@@ -244,7 +246,7 @@ const Services = ({ data }) => {
   )
 }
 
-const Id = ({ data, header }) => {
+const Id: TableCustomComponent<any> = ({ data, header }) => {
   return (
     <Text selectable typography="caption400">
       {data[header.key]}
@@ -252,7 +254,11 @@ const Id = ({ data, header }) => {
   )
 }
 
-const Domain = ({ data }) => {
+const CopyRow: TableCustomComponent<any> = ({ data, header }) => {
+  return <CopyBadge children={data[header.key]} />
+}
+
+const Domain: TableCustomComponent<any> = ({ data }) => {
   return (
     <a href={'https://' + data.domain} target="_blank">
       <Text selectable typography="caption400">
@@ -305,7 +311,7 @@ export const MachineTable: FC<{
       label: 'Stats',
       width: 200, // can also be an fn
     },
-    { key: 'publicIp', label: 'Ip' },
+    { key: 'publicIp', label: 'Ip', customComponent: CopyRow },
     {
       key: 'id',
       label: 'ID',
