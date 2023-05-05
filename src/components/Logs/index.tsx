@@ -72,7 +72,7 @@ const Log: FC<{ log: any; skipHeader?: boolean; header?: FC<any> }> = ({
           fontSize: 14,
           fontFamily: 'Fira Code',
           wordBreak: 'break-all',
-          whiteSpace: 'normal',
+          whiteSpace: 'break-spaces',
         }}
       >
         {log.msg}
