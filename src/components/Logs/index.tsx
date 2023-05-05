@@ -71,6 +71,8 @@ const Log: FC<{ log: any; skipHeader?: boolean; header?: FC<any> }> = ({
           lineHeight: '18px',
           fontSize: 14,
           fontFamily: 'Fira Code',
+          wordBreak: 'break-all',
+          whiteSpace: 'normal',
         }}
       >
         {log.msg}
@@ -130,6 +132,7 @@ export const Logs: FC<{
       ref={ref}
       style={{
         flexGrow: 1,
+        minWidth: 'auto',
         '&::-webkit-scrollbar': {
           backgroundColor: 'rgba(0,0,0,0)',
           width: '8px',

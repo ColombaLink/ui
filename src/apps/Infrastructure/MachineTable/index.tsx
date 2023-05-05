@@ -25,6 +25,8 @@ import {
   Code,
   ReplaceIcon,
   RedoIcon,
+  useColorById,
+  Badge,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -37,6 +39,57 @@ import { AllConnections, AllConnectionsTotal } from './Connections'
 import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { useMachineStatus } from '../useMachineStatus'
 import { SettingsModal } from '../Configs/SettingsModal'
+import dayjs from 'dayjs'
+
+const Header: FC<{ log: { ts: number; srvc: string; url: string } }> = ({
+  log,
+}) => {
+  const { ts, srvc, url } = log
+  const color = useColorById(srvc)
+  return (
+    <Row style={{ marginBottom: 24 }}>
+      <Badge
+        color={color}
+        style={{
+          borderRight: border(1, 'border'),
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0,
+        }}
+      >
+        <Row style={{ gap: 8 }}>
+          <Text color={color} typography="caption400">
+            {dayjs(ts).format('DD/MM/YYYY')}
+          </Text>
+          <Text color={color} typography="caption600">
+            {dayjs(ts).format('HH:mm:ss')}
+          </Text>
+        </Row>
+      </Badge>
+      <Badge
+        color={color}
+        style={{
+          borderRight: border(1, 'border'),
+          borderRadius: 0,
+        }}
+      >
+        <Text color={color} selectable typography="caption600">
+          {srvc}
+        </Text>
+      </Badge>
+      <Badge
+        color={color}
+        style={{
+          borderTopLeftRadius: 0,
+          borderBottomLeftRadius: 0,
+        }}
+      >
+        <Text color={color} selectable typography="caption400">
+          {url}
+        </Text>
+      </Badge>
+    </Row>
+  )
+}
 
 const MachineModal: FC<{
   data: any
@@ -83,7 +136,7 @@ const MachineModal: FC<{
           overflowY: 'hidden',
         }}
       >
-        <Logs data={logs} checksum={checksum} />
+        <Logs data={logs} checksum={checksum} header={Header} />
       </styled.div>
     </Dialog>
   )
