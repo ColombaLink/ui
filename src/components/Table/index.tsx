@@ -64,9 +64,10 @@ const Header: FC<{
 const Cell = (props) => {
   const { columnIndex, rowIndex, style, data } = props
   const header = data.headers[columnIndex]
+  const colls = data.headers.length
   const rowData = data.data[rowIndex]
   if (!rowData) {
-    return null
+    return <div />
   }
 
   const onClick = props.data.onClick
@@ -88,17 +89,34 @@ const Cell = (props) => {
       onMouseEnter={
         onClick
           ? (e) => {
-              e.currentTarget.parentNode.style.background = color(
-                'accent',
-                true
-              )
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                x.style.background = color('accent', true)
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                x.style.background = color('accent', true)
+                x = x.nextSibling
+              }
             }
           : null
       }
       onMouseLeave={
         onClick
           ? (e) => {
-              e.currentTarget.parentNode.style.background = null
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                x.style.background = null
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                x.style.background = null
+                x = x.nextSibling
+              }
             }
           : null
       }
@@ -106,7 +124,6 @@ const Cell = (props) => {
         padding: 16,
         borderBottom: border(1, 'border'),
         cursor: onClick ? 'pointer' : 'default',
-
         ...style,
       }}
       onClick={
