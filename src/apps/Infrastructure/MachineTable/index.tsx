@@ -24,7 +24,7 @@ import {
   Logs,
   Code,
   ReplaceIcon,
-  Container,
+  RedoIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -111,6 +111,16 @@ const ActionMenu = ({ data }) => {
         }}
       >
         Restart all services
+      </ContextItem>
+      <ContextItem
+        icon={<RedoIcon />}
+        onClick={() => {
+          client.call('reboot-machine', {
+            machineIds: [data.id],
+          })
+        }}
+      >
+        Reboot machine
       </ContextItem>
     </div>
   )
