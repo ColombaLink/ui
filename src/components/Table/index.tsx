@@ -5,8 +5,8 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
-  useMemo,
   useRef,
+  useMemo,
   useEffect,
 } from 'react'
 import { styled, border, Text, color } from '~'
@@ -156,7 +156,6 @@ const SizedGrid: FC<TableProps> = (props) => {
       (data && data.length && Object.keys(data[0]).length),
   } = props
 
-  // TODO: this needs to listen to on window.resize
   let w = 0
   let defW = 0
   let nonAllocated = 0
@@ -195,6 +194,25 @@ const SizedGrid: FC<TableProps> = (props) => {
   const parsedData = query ? result.items : data
 
   defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+
+  const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  const [force, setForce] = useState(0)
+  useEffect(() => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      setForce(0)
+    }, 100)
+    setForce(width)
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [width])
+
+  if (force !== 0) {
+    return <div />
+  }
+
   return (
     <>
       <Header
@@ -235,6 +253,7 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 56,
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
   } = props
+
   return (
     <styled.div
       style={{
