@@ -1,22 +1,5 @@
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
-import {
-  Badge,
-  Text,
-  border,
-  Color,
-  colorNameByIndex,
-  Row,
-  ScrollArea,
-  styled,
-  color,
-} from '~'
-
-const colorById: { [id: string]: Color } = {}
-let cnt = 0
-
-export const useColorById = (id: string): Color => {
-  return colorById[id] || (colorById[id] = colorNameByIndex(cnt++))
-}
+import { Badge, Text, border, Row, ScrollArea, styled, color } from '~'
 
 const DefaultHeader: FC<{ data: any }> = () => {
   return (
