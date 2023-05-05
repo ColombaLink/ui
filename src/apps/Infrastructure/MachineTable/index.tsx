@@ -25,8 +25,12 @@ import {
   Code,
   ReplaceIcon,
   RedoIcon,
-  useColorById,
   Badge,
+  hashColor,
+  TableCustomComponent,
+  useCopyToClipboard,
+  CheckIcon,
+  IdIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -45,7 +49,7 @@ const Header: FC<{ log: { ts: number; srvc: string; url: string } }> = ({
   log,
 }) => {
   const { ts, srvc, url } = log
-  const color = useColorById(srvc)
+  const color = hashColor(srvc)
   return (
     <Row style={{ marginBottom: 24 }}>
       <Badge
@@ -145,7 +149,6 @@ const MachineModal: FC<{
 const ActionMenu = ({ data }) => {
   const [env] = useContextState<Env>('env')
   const client = useClient()
-
   return (
     <div>
       <ContextItem
@@ -192,7 +195,7 @@ const Actions = ({ data }) => {
   )
 }
 
-const Services = ({ data }) => {
+const Services: TableCustomComponent<any> = ({ data }) => {
   let total = 0
   const counters = {}
   for (const key in data.stats?.services) {
@@ -240,7 +243,9 @@ const Services = ({ data }) => {
 
   return (
     <StatusBadge
-      onClick={() => {
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
         open(
           <Dialog>
             <Code value={JSON.stringify(data.stats.services, null, 2)} />
@@ -254,15 +259,37 @@ const Services = ({ data }) => {
   )
 }
 
-const Id = ({ data, header }) => {
+const CopyRow: TableCustomComponent<any> = ({ data, header }) => {
+  const [copy, setCopy] = useCopyToClipboard(data[header.key])
+  const Icon = copy ? CheckIcon : header.key === 'id' ? IdIcon : null
+
   return (
-    <Text selectable typography="caption400">
-      {data[header.key]}
-    </Text>
+    <Row
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setCopy()
+      }}
+    >
+      {copy ? (
+        <CheckIcon color="text2" />
+      ) : Icon ? (
+        <Icon color="text2" />
+      ) : null}
+      <Text
+        style={{
+          cursor: 'pointer',
+          marginLeft: Icon ? 12 : 0,
+        }}
+        selectable
+      >
+        {data[header.key]}
+      </Text>
+    </Row>
   )
 }
 
-const Domain = ({ data }) => {
+const Domain: TableCustomComponent<any> = ({ data }) => {
   return (
     <a href={'https://' + data.domain} target="_blank">
       <Text selectable typography="caption400">
@@ -315,16 +342,16 @@ export const MachineTable: FC<{
       label: 'Stats',
       width: 200, // can also be an fn
     },
-    { key: 'publicIp', label: 'Ip' },
+    { key: 'publicIp', label: 'Ip', customComponent: CopyRow },
     {
       key: 'id',
       label: 'ID',
-      customComponent: Id,
+      customComponent: CopyRow,
     },
     {
       key: 'cloudMachineId',
       label: 'CloudId',
-      customComponent: Id,
+      customComponent: CopyRow,
     },
     {
       key: 'domain',

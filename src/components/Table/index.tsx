@@ -5,8 +5,8 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
-  useMemo,
   useRef,
+  useMemo,
   useEffect,
 } from 'react'
 import { styled, border, Text, color } from '~'
@@ -64,9 +64,10 @@ const Header: FC<{
 const Cell = (props) => {
   const { columnIndex, rowIndex, style, data } = props
   const header = data.headers[columnIndex]
+  const colls = data.headers.length
   const rowData = data.data[rowIndex]
   if (!rowData) {
-    return null
+    return <div />
   }
 
   const onClick = props.data.onClick
@@ -88,17 +89,40 @@ const Cell = (props) => {
       onMouseEnter={
         onClick
           ? (e) => {
-              e.currentTarget.parentNode.style.background = color(
-                'accent',
-                true
-              )
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                x.style.background = color('accent', true)
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                x.style.background = color('accent', true)
+                x = x.nextSibling
+              }
             }
           : null
       }
       onMouseLeave={
         onClick
           ? (e) => {
-              e.currentTarget.parentNode.style.background = null
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                if (!x) {
+                  break
+                }
+                x.style.background = null
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                if (!x) {
+                  break
+                }
+                x.style.background = null
+                x = x.nextSibling
+              }
             }
           : null
       }
@@ -106,7 +130,6 @@ const Cell = (props) => {
         padding: 16,
         borderBottom: border(1, 'border'),
         cursor: onClick ? 'pointer' : 'default',
-
         ...style,
       }}
       onClick={
@@ -139,7 +162,6 @@ const SizedGrid: FC<TableProps> = (props) => {
       (data && data.length && Object.keys(data[0]).length),
   } = props
 
-  // TODO: this needs to listen to on window.resize
   let w = 0
   let defW = 0
   let nonAllocated = 0
@@ -178,6 +200,25 @@ const SizedGrid: FC<TableProps> = (props) => {
   const parsedData = query ? result.items : data
 
   defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+
+  const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  const [force, setForce] = useState(0)
+  useEffect(() => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      setForce(0)
+    }, 100)
+    setForce(width)
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [width])
+
+  if (force !== 0) {
+    return <div />
+  }
+
   return (
     <>
       <Header
