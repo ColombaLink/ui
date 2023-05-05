@@ -1,5 +1,6 @@
 import { baseTheme } from '~/theme/baseTheme'
 import { initTheme } from '~/theme'
+import { hash, hashObjectIgnoreKeyOrder } from '@saulx/hash'
 
 const vars = initTheme()
 
@@ -63,3 +64,31 @@ export const colorByIndex = (index, variant, light) =>
 
 export const colorNameByIndex = (index): Color =>
   colors[index % colors.length] as AccentColor
+
+const availableHashColors: Color[] = [
+  'babyblue',
+  'sailorblue',
+  'reddish',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'pink',
+  'purple',
+  'mustard',
+]
+const hashColorCache: { [key: string]: Color } = {}
+export const hashColor = (value: any) => {
+  if (!value) value = ''
+  const h =
+    typeof value === 'object' ? hashObjectIgnoreKeyOrder(value) : hash(value)
+  if (!hashColorCache[h]) {
+    const color =
+      availableHashColors[
+        Object.keys(hashColorCache).length % availableHashColors.length
+      ]
+    hashColorCache[h] = color
+  }
+  return hashColorCache[h]
+}
