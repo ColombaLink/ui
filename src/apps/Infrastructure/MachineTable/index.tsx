@@ -28,6 +28,9 @@ import {
   CopyBadge,
   hashColor,
   TableCustomComponent,
+  useCopyToClipboard,
+  CheckIcon,
+  ClipboardIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -248,14 +251,44 @@ const Services: TableCustomComponent<any> = ({ data }) => {
 
 const Id: TableCustomComponent<any> = ({ data, header }) => {
   return (
-    <Text selectable typography="caption400">
+    <Text
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
+      selectable
+      typography="caption400"
+    >
       {data[header.key]}
     </Text>
   )
 }
 
 const CopyRow: TableCustomComponent<any> = ({ data, header }) => {
-  return <CopyBadge children={data[header.key]} />
+  const [copy, setCopy] = useCopyToClipboard(data[header.key])
+  return (
+    <Row>
+      {copy ? (
+        <CheckIcon color="text2" />
+      ) : (
+        <ClipboardIcon style={{ opacity: 0.5 }} color="text2" />
+      )}
+      <Text
+        style={{
+          cursor: 'pointer',
+          marginLeft: 12,
+        }}
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
+          setCopy()
+        }}
+        selectable
+      >
+        {data[header.key]}
+      </Text>
+    </Row>
+  )
 }
 
 const Domain: TableCustomComponent<any> = ({ data }) => {
