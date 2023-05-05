@@ -167,8 +167,8 @@ const ActionMenu = ({ data }) => {
       </ContextItem>
       <ContextItem
         icon={<RedoIcon />}
-        onClick={() => {
-          client.call('reboot-machine', {
+        onClick={async () => {
+          await client.call('reboot-machine', {
             machineIds: [data.id],
           })
         }}
