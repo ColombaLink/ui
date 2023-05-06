@@ -1,5 +1,15 @@
 import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
-import { Badge, Text, border, Row, ScrollArea, styled, color } from '~'
+import {
+  Badge,
+  Text,
+  border,
+  Row,
+  ScrollArea,
+  styled,
+  color,
+  Button,
+  DeleteIcon,
+} from '~'
 
 const DefaultHeader: FC<{ data: any }> = () => {
   return (
@@ -70,8 +80,9 @@ export const Logs: FC<{
   }[]
   checksum?: number
   header?: FC<any>
-  skipHeaderFn?: (current: any, previous) => boolean
-}> = ({ data = [], checksum, header, skipHeaderFn }) => {
+  skipHeaderFn?: (current: any, previous: any) => boolean
+  onClearLogs?: () => void
+}> = ({ data = [], checksum, header, skipHeaderFn, onClearLogs }) => {
   const ref = useRef<HTMLDivElement>()
 
   const [isAtBottom, setIsAtBottom] = useState(true)
@@ -111,30 +122,54 @@ export const Logs: FC<{
   }
 
   return (
-    <ScrollArea
-      ref={ref}
+    <div
       style={{
-        flexGrow: 1,
-        minWidth: 'auto',
-        '&::-webkit-scrollbar': {
-          backgroundColor: 'rgba(0,0,0,0)',
-          width: '8px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          backgroundColor: color('background'),
-          borderRadius: '12px',
-        },
+        display: 'flex',
+        position: 'relative',
+        width: '100%',
+        height: '100%',
       }}
     >
-      <styled.div
+      {typeof onClearLogs === 'function' ? (
+        <Button
+          style={{
+            position: 'absolute',
+            top: 16,
+            right: 16,
+          }}
+          keyboardShortcut="Cmd+K"
+          icon={DeleteIcon}
+          ghost
+          onClick={async () => {
+            onClearLogs()
+          }}
+        />
+      ) : null}
+      <ScrollArea
+        ref={ref}
         style={{
-          maxWidth: '100%',
-          minWidth: '100%',
-          paddingBottom: 32,
+          flexGrow: 1,
+          minWidth: 'auto',
+          '&::-webkit-scrollbar': {
+            backgroundColor: 'rgba(0,0,0,0)',
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: color('background'),
+            borderRadius: '12px',
+          },
         }}
       >
-        {children}
-      </styled.div>
-    </ScrollArea>
+        <styled.div
+          style={{
+            maxWidth: '100%',
+            minWidth: '100%',
+            paddingBottom: 32,
+          }}
+        >
+          {children}
+        </styled.div>
+      </ScrollArea>
+    </div>
   )
 }
