@@ -39,10 +39,8 @@ import { SettingsModal } from './SettingsModal'
 export const Actions: FC<{
   config: MachineConfig
   configName: string
-  // machines: Machine[]
 }> = ({ config, configName }) => {
   const machines = []
-  // use status
 
   const { open } = useDialog()
   const client = useClient()
@@ -155,16 +153,16 @@ const style: Style = {
   maxWidth: '100%',
   minWidth: 500,
   minHeight: 120,
-  '@media only screen and (max-width: 4000px)': {
+  '@media only screen and (max-width: 4500px)': {
     minWidth: 'calc(20% - 8px)',
   },
-  '@media only screen and (max-width: 3000px)': {
+  '@media only screen and (max-width: 3500px)': {
     minWidth: 'calc(33% - 8px)',
   },
-  '@media only screen and (max-width: 1400px)': {
+  '@media only screen and (max-width: 2500px)': {
     minWidth: 'calc(50% - 8px)',
   },
-  '@media only screen and (max-width: 1200px)': {
+  '@media only screen and (max-width: 1700px)': {
     minWidth: '100%',
   },
 }
