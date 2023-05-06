@@ -71,7 +71,7 @@ export const Actions: FC<{
         }}
         icon={<RedoIcon />}
       >
-        Restart all services on each machine
+        Restart all machines
       </ContextItem>
       <ContextItem
         onClick={() => {
