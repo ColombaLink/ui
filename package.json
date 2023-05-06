@@ -1,10 +1,6 @@
 {
   "name": "@based/ui",
-<<<<<<< HEAD
-  "version": "5.3.4",
-=======
-  "version": "5.3.5",
->>>>>>> 140a81dd5b851367a1d7202deb7913ccf5f562b9
+  "version": "5.3.6",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
