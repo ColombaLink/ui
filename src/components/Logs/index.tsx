@@ -41,10 +41,17 @@ const Log: FC<{
   const Header: FC<{ log: any }> = header || DefaultHeader
 
   if (!log) {
-    log.msg = '-- no log --'
+    log = {
+      level: 'error',
+      msg: '-- no log - invalid format --',
+    }
   }
   if (typeof log.msg !== 'string' && typeof log.msg !== 'number') {
-    log.msg = '-- invalid log formalt --'
+    console.error(log)
+    log = {
+      ...log,
+      msg: '-- invalid log formalt --',
+    }
   }
   return log && log.msg ? (
     <styled.div
