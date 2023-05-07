@@ -39,7 +39,14 @@ const Log: FC<{
 }> = ({ log, skipHeader, header, index }) => {
   const isError = log.lvl === 'error'
   const Header: FC<{ log: any }> = header || DefaultHeader
-  return (
+
+  if (!log) {
+    log.msg = '-- no log --'
+  }
+  if (typeof log.msg !== 'string' && typeof log.msg !== 'number') {
+    log.msg = '-- invalid log formalt --'
+  }
+  return log && log.msg ? (
     <styled.div
       style={{
         marginTop: skipHeader ? 0 : 24,
@@ -73,12 +80,10 @@ const Log: FC<{
           wordBreak: 'break-all',
           whiteSpace: 'break-spaces',
         }}
-        // dangerouslySetInnerHTML={{ __html: colorizer(log.msg) }}
-      >
-        {log.msg}
-      </pre>
+        dangerouslySetInnerHTML={{ __html: colorizer(log.msg) }}
+      ></pre>
     </styled.div>
-  )
+  ) : null
 }
 
 export const Logs: FC<{
