@@ -125,7 +125,8 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             keyboardShortcut="Cmd+S"
             displayShortcut
             onClick={async () => {
-              await onChange({ ...view, name })
+              const v = newObject.current ?? view
+              await onChange({ config: v, name })
               fromObject.current = newObject.current
               setState(JSON.stringify(newObject.current, null, 2))
               update()
@@ -138,7 +139,8 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             disabled={Boolean(error)}
             keyboardShortcut="Cmd+Enter"
             onConfirm={async () => {
-              await onChange({ ...view, name })
+              const v = newObject.current ?? view
+              await onChange({ config: v, name })
             }}
           />
         )}
@@ -175,6 +177,7 @@ export const AddViewModal: FC<{ view?: View }> = ({ view }) => {
         ...view,
       }}
       onChange={(view) => {
+        console.info(view)
         return client.call('db:set', {
           $db: 'config',
           type: 'view',

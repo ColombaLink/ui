@@ -1,23 +1,28 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
+import * as ui from '~'
 import {
-  Table,
   Page,
   useContextState,
-  AddIcon,
   Button,
   styled,
   ContextItem,
   useContextMenu,
+  Row,
   MoreIcon,
   CloseIcon,
+  LoadingIcon,
   DuplicateIcon,
+  border,
   EditIcon,
+  Text,
   ContextDivider,
   useDialog,
 } from '~'
-import { View } from '../types'
-import { useQuery, useClient } from '@based/react'
+import { View, ViewComponent, ComponentConfig } from '../types'
+import { useQuery, useClient, Provider } from '@based/react'
 import { AddViewModal, EditViewModal } from '../ViewModals'
+import { BasedClient } from '@based/client'
+import { ErrorBoundary } from 'react-error-boundary'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -30,12 +35,11 @@ const Actions: FC<{ view: View }> = ({ view }) => {
           open(
             <EditViewModal
               save
-              onChange={(view) => {
-                const { id, ...rest } = view
+              onChange={(v) => {
                 return client.call('db:set', {
                   $db: 'config',
-                  $id: id,
-                  ...rest,
+                  $id: view.id,
+                  ...v,
                 })
               }}
               view={view}
@@ -79,7 +83,109 @@ const Actions: FC<{ view: View }> = ({ view }) => {
   )
 }
 
-export const ContentMain: FC<{}> = () => {
+const propsWalker = (
+  data: any,
+  props: { [key: string]: any },
+  isArr?: boolean
+): any => {
+  const n: { [key: string]: any } = isArr ? [] : {}
+
+  for (const p in props) {
+    const f = props[p]
+    if (typeof f === 'string' && f.startsWith('$data')) {
+      const segs = f.split('.')
+      let d: any = { $data: data }
+      for (const seg of segs) {
+        d = d[seg] ?? undefined
+        if (d === undefined) {
+          break
+        }
+      }
+      n[p] = d
+    } else {
+      if (
+        props[p] &&
+        typeof props[p] === 'object' &&
+        typeof props[p] !== 'function'
+      ) {
+        n[p] = propsWalker(data, props[p], Array.isArray(props[p]))
+      } else {
+        n[p] = props[p]
+      }
+    }
+  }
+
+  return n
+}
+
+const RenderComponentInner: FC<{
+  component: ViewComponent
+  data: any
+}> = ({ component, data }) => {
+  const Component = ui[component.component]
+  const props: { [key: string]: any } = propsWalker(data, component.props)
+  return (
+    <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <Component {...props} />
+    </ErrorBoundary>
+  )
+}
+
+const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
+  if (component.function.type === 'query') {
+    const { data, loading } = useQuery(
+      component.function.name,
+      component.function.payload
+    )
+
+    return loading ? (
+      <LoadingIcon />
+    ) : (
+      <RenderComponentInner data={data} component={component} />
+    )
+  } else {
+    return null
+  }
+}
+
+const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
+  const contextMenu = useContextMenu<{ view: View }>(Actions, { view })
+
+  const components: ReactNode[] = []
+
+  for (let i = 0; i < view.config.components.length; i++) {
+    const component = view.config.components[i]
+    components.push(<RenderComponent key={i} component={component} />)
+  }
+  return (
+    <Page>
+      <Row>
+        <Text typography="subtitle500">{view.name}</Text>
+        <Button
+          style={{ marginLeft: 16 }}
+          ghost
+          onClick={contextMenu}
+          icon={MoreIcon}
+        />
+      </Row>
+      <styled.div
+        style={{
+          paddingTop: 24,
+          display: 'flex',
+          gap: 24,
+          marginTop: 16,
+          borderTop: border(1, 'border'),
+          flexDirection: view.config.view === 'list' ? 'column' : 'row',
+          flexWrap: view.config.view === 'grid' ? 'wrap' : undefined,
+        }}
+      >
+        {components}
+      </styled.div>
+    </Page>
+  )
+}
+
+export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<string>('view')
 
   const { data, loading } = useQuery(view ? 'db' : undefined, {
@@ -89,15 +195,12 @@ export const ContentMain: FC<{}> = () => {
   })
 
   const { type } = data?.config ?? {}
-  const contextMenu = useContextMenu(Actions, { view: data })
 
   if (type == 'components') {
     return (
-      <Page>
-        <>
-          <Button ghost onClick={contextMenu} icon={MoreIcon} />
-        </>
-      </Page>
+      <Provider client={hubClient}>
+        <Components view={data} />
+      </Provider>
     )
   }
 
