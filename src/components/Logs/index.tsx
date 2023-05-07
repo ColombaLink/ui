@@ -30,23 +30,28 @@ const DefaultHeader: FC<{ data: any }> = () => {
   )
 }
 
-const Log: FC<{ log: any; skipHeader?: boolean; header?: FC<any> }> = ({
-  log,
-  skipHeader,
-  header,
-}) => {
+const Log: FC<{
+  log: any
+  skipHeader?: boolean
+  header?: FC<any>
+  index: number
+}> = ({ log, skipHeader, header, index }) => {
   const isError = log.lvl === 'error'
   const Header: FC<{ log: any }> = header || DefaultHeader
   return (
     <styled.div
       style={{
         marginTop: skipHeader ? 0 : 24,
-        paddingTop: skipHeader ? 24 : 16,
+        paddingTop: skipHeader ? 4 : 16,
+        paddingBottom: skipHeader ? 4 : 16,
         paddingLeft: 16,
         overflowX: 'hidden',
+        backgroundColor: index % 2 ? color('background2') : null,
         paddingRight: 16,
         width: '100%',
-        borderTop: skipHeader ? undefined : border(1, 'border'),
+        '&:hover': {
+          backgroundColor: color('accent', true),
+        },
       }}
     >
       {skipHeader ? null : <Header log={log} />}
@@ -118,7 +123,9 @@ export const Logs: FC<{
       const prev = i > 0 && data[i - 1]
       skip = skipHeaderFn(log, prev)
     }
-    children.push(<Log key={i} log={log} header={header} skipHeader={skip} />)
+    children.push(
+      <Log index={i} key={i} log={log} header={header} skipHeader={skip} />
+    )
   }
 
   return (
