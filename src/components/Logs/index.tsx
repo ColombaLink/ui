@@ -13,7 +13,7 @@ import {
 
 const DefaultHeader: FC<{ data: any }> = () => {
   return (
-    <Row style={{ marginBottom: 24 }}>
+    <Row style={{ marginBottom: 8 }}>
       <Badge
         color="accent"
         style={{
@@ -42,8 +42,8 @@ const Log: FC<{
     <styled.div
       style={{
         marginTop: skipHeader ? 0 : 24,
-        paddingTop: skipHeader ? 4 : 16,
-        paddingBottom: skipHeader ? 4 : 16,
+        paddingTop: 4,
+        paddingBottom: 4,
         paddingLeft: 16,
         overflowX: 'hidden',
         backgroundColor: index % 2 ? color('background2') : null,
