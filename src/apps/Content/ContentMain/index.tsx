@@ -215,13 +215,14 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
           minWidth: '100%',
           paddingTop: 16,
           paddingBottom: 32,
-          paddingLeft: isList ? 0 : 32,
-          paddingRight: isList ? 0 : 32,
+          paddingLeft: 0,
+          paddingRight: 0,
         }}
       >
         <Row
           style={{
-            paddingLeft: isList ? 32 : 0,
+            paddingLeft: 32,
+            paddingRight: 32,
           }}
         >
           <Text typography="subtitle500">{view.name}</Text>
@@ -238,6 +239,8 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
             display: 'flex',
             gap: 24,
             marginTop: 16,
+            paddingLeft: isList ? 0 : 32,
+            paddingRight: isList ? 0 : 32,
             borderTop: border(1, 'border'),
             flexDirection: isList ? 'column' : 'row',
             flexWrap: !isList ? 'wrap' : undefined,
