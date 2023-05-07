@@ -14,6 +14,7 @@ import {
   DuplicateIcon,
   border,
   EditIcon,
+  ScrollArea,
   Text,
   ContextDivider,
   useDialog,
@@ -153,6 +154,8 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
 
   const components: ReactNode[] = []
 
+  const isList = view.config.view === 'list'
+
   for (let i = 0; i < view.config.components.length; i++) {
     const component = view.config.components[i]
     if (Array.isArray(component)) {
@@ -165,6 +168,10 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
       components.push(
         <Row
           style={{
+            paddingLeft: 32,
+            paddingBottom: 24,
+            // marginBottom: 16,
+            borderBottom: isList ? border(1, 'border') : null,
             minWidth: '100%',
             flexWrap: 'wrap',
             gap: 16,
@@ -174,34 +181,72 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
         </Row>
       )
     } else {
-      components.push(<RenderComponent key={i} component={component} />)
+      if (isList) {
+        components.push(
+          <Row
+            style={{
+              paddingLeft: 32,
+              paddingBottom: 24,
+              // marginBottom: 16,
+              borderBottom: isList ? border(1, 'border') : null,
+              minWidth: '100%',
+              flexWrap: 'wrap',
+              gap: 16,
+            }}
+          >
+            <RenderComponent key={i} component={component} />
+          </Row>
+        )
+      } else {
+        components.push(<RenderComponent key={i} component={component} />)
+      }
     }
   }
   return (
-    <Page>
-      <Row>
-        <Text typography="subtitle500">{view.name}</Text>
-        <Button
-          style={{ marginLeft: 16 }}
-          ghost
-          onClick={contextMenu}
-          icon={MoreIcon}
-        />
-      </Row>
+    <ScrollArea
+      style={{
+        flexGrow: 1,
+        overflowX: 'hidden',
+      }}
+    >
       <styled.div
         style={{
-          paddingTop: 24,
-          display: 'flex',
-          gap: 24,
-          marginTop: 16,
-          borderTop: border(1, 'border'),
-          flexDirection: view.config.view === 'list' ? 'column' : 'row',
-          flexWrap: view.config.view === 'grid' ? 'wrap' : undefined,
+          maxWidth: '100%',
+          minWidth: '100%',
+          paddingTop: 16,
+          paddingBottom: 32,
+          paddingLeft: isList ? 0 : 32,
+          paddingRight: isList ? 0 : 32,
         }}
       >
-        {components}
+        <Row
+          style={{
+            paddingLeft: isList ? 32 : 0,
+          }}
+        >
+          <Text typography="subtitle500">{view.name}</Text>
+          <Button
+            style={{ marginLeft: 16 }}
+            ghost
+            onClick={contextMenu}
+            icon={MoreIcon}
+          />
+        </Row>
+        <styled.div
+          style={{
+            paddingTop: 24,
+            display: 'flex',
+            gap: 24,
+            marginTop: 16,
+            borderTop: border(1, 'border'),
+            flexDirection: isList ? 'column' : 'row',
+            flexWrap: !isList ? 'wrap' : undefined,
+          }}
+        >
+          {components}
+        </styled.div>
       </styled.div>
-    </Page>
+    </ScrollArea>
   )
 }
 
