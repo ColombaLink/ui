@@ -133,10 +133,10 @@ const RenderComponentInner: FC<{
 }
 
 const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
-  if (component.function.type === 'query') {
+  if (component.function?.type === 'query') {
     const { data, loading } = useQuery(
-      component.function.name,
-      component.function.payload
+      component.function ? component.function.name : undefined,
+      component.function?.payload
     )
 
     return loading ? (
