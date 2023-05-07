@@ -4,11 +4,11 @@ import { parseQuery } from '@saulx/utils'
 
 // const q = parseQuery(decodeURIComponent(window.location.href.split('?')[1]))
 
-export const cluster = 'production' // String((q && q.cluster) ?? 'local')
+export const cluster = 'local' // String((q && q.cluster) ?? 'local')
 
-export const project = 'eurovision'
+export const project = 'test'
 export const org = 'saulx'
-export const env = 'develop'
+export const env = 'ci'
 
 export const client = new BasedClient({
   project,

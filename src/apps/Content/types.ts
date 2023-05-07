@@ -16,10 +16,27 @@ export const isFilter = (filter: any): filter is Filter => {
 }
 
 export type View = {
-  id: string
-  query: ViewQuery
-  label: string
-  addQuery: any
-  types: string[]
-  headers: { label?: string; key: string }[]
+  id?: string
+  name: string
+  config:
+    | {
+        type: 'content'
+        query: ViewQuery
+        label: string
+        addQuery: any
+        types: string[]
+        headers: { label?: string; key: string }[]
+      }
+    | {
+        type: 'components'
+        view: 'grid' | 'list'
+        components: {
+          component: string
+          props: { [key: string]: any }
+          function: {
+            name: string
+            payload: any
+          }
+        }[]
+      }
 }

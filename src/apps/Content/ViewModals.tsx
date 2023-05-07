@@ -11,6 +11,7 @@ import {
   Code,
   ScheduleIcon,
   Row,
+  Input,
   DuplicateIcon,
   Button,
   copyToClipboard,
@@ -21,7 +22,6 @@ import {
 } from '~'
 import { View } from './types'
 import { useClient } from '@based/react'
-import { useViews } from './hooks/useViews'
 
 type EditViewProps = {
   save?: boolean
@@ -42,10 +42,11 @@ export const EditViewModalBody: FC<EditViewProps> = ({
 }) => {
   const fromObject = useRef<View>(view)
   const orig = useMemo(() => {
-    return JSON.stringify(fromObject.current, null, 2)
+    return JSON.stringify(fromObject.current.config, null, 2)
   }, [fromObject.current])
   const [str, setState] = useState<string>(orig)
-  const hasChange = orig !== str
+  const [name, setName] = useState<string>(view.name)
+  const hasChange = orig !== str || name !== view.name
   const update = useUpdate()
   const newObject = useRef<any>({})
   const [error, setError] = useState<Error | null>(null)
@@ -97,6 +98,17 @@ export const EditViewModalBody: FC<EditViewProps> = ({
         </RowSpaced>
       </Dialog.Label>
       <Dialog.Body>
+        <Input
+          style={{
+            marginTop: 16,
+            marginBottom: 24,
+          }}
+          type="text"
+          value={name}
+          onChange={(v) => {
+            setName(v)
+          }}
+        />
         <Code
           style={{
             border: border(1, error ? 'red' : hasChange ? 'accent' : 'border'),
@@ -113,7 +125,7 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             keyboardShortcut="Cmd+S"
             displayShortcut
             onClick={async () => {
-              await onChange(view)
+              await onChange({ ...view, name })
               fromObject.current = newObject.current
               setState(JSON.stringify(newObject.current, null, 2))
               update()
@@ -126,7 +138,7 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             disabled={Boolean(error)}
             keyboardShortcut="Cmd+Enter"
             onConfirm={async () => {
-              await onChange(view)
+              await onChange({ ...view, name })
             }}
           />
         )}
@@ -148,42 +160,25 @@ export const EditViewModal: FC<EditViewProps> = (props) => {
   )
 }
 
-export const AddViewModal = () => {
-  const views = useViews()
+export const AddViewModal: FC<{ view?: View }> = ({ view }) => {
   const client = useClient()
   return (
     <EditViewModal
       label="Create new view"
       view={{
-        types: [],
-        addQuery: {
-          parents: ['$target'],
+        name: 'New view',
+        config: {
+          type: 'components',
+          view: 'list',
+          components: [],
         },
-        headers: [{ key: 'name' }, { key: 'id' }],
-        id: 'new-view-' + (~~(Math.random() * 10000000)).toString(16),
-        label: 'New view',
-        query: {
-          $id: '$target',
-          data: {
-            $all: true,
-            $list: {
-              $find: {
-                $traverse: 'children',
-                $filter: [],
-              },
-            },
-          },
-        },
+        ...view,
       }}
-      onChange={({ query, label }) => {
-        return client.call('based:set-views', {
-          custom: [
-            ...(views.custom ?? []),
-            {
-              id: query,
-              label,
-            },
-          ],
+      onChange={(view) => {
+        return client.call('db:set', {
+          $db: 'config',
+          type: 'view',
+          ...view,
         })
       }}
     />

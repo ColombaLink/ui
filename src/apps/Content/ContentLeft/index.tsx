@@ -11,7 +11,6 @@ import {
   useDialog,
   RowSpaced,
 } from '~'
-import { View } from '../types'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
 
@@ -23,7 +22,6 @@ export const SystemLabel = ({ isActive = false, children }) => {
   } else {
     thingy = true
   }
-
   return (
     <div
       onMouseEnter={() => setHover(true)}
@@ -41,30 +39,12 @@ export const SystemLabel = ({ isActive = false, children }) => {
 }
 
 export const ContentLeft: FC<{}> = () => {
-  const [view, setView] = useContextState<View>('view')
-  const views = useViews()
+  const [view, setView] = useContextState<string>('view')
+  const { views, loading } = useViews()
 
   const { open } = useDialog()
 
-  const data = {}
-
-  if (views.custom?.length) {
-    data['Custom Views'] = views.custom.map(({ id, query, label }) => {
-      return {
-        label,
-        value: { id, query },
-      }
-    })
-  }
-
-  data['Default Views'] = views.default?.map(({ id, query, label }) => {
-    return {
-      label,
-      value: { id, query },
-    }
-  })
-
-  return views.loading ? (
+  return loading ? (
     <div
       style={{
         width: 234,
@@ -84,7 +64,7 @@ export const ContentLeft: FC<{}> = () => {
       isActive={(currentView) => {
         return currentView?.id === view
       }}
-      onChange={(v) => setView(v)}
+      onChange={(v) => setView(v.id)}
       collapse
       style={{
         paddingTop: 24,
@@ -111,7 +91,12 @@ export const ContentLeft: FC<{}> = () => {
           />
         </RowSpaced>
       }
-      data={data}
+      data={views.map((v) => {
+        return {
+          label: v.name,
+          value: v,
+        }
+      })}
     />
   )
 }
