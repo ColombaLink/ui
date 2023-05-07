@@ -155,7 +155,27 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
 
   for (let i = 0; i < view.config.components.length; i++) {
     const component = view.config.components[i]
-    components.push(<RenderComponent key={i} component={component} />)
+    if (Array.isArray(component)) {
+      const nestedC: ReactNode[] = []
+
+      for (let i = 0; i < component.length; i++) {
+        const c = component[i]
+        nestedC.push(<RenderComponent key={i} component={c} />)
+      }
+      components.push(
+        <Row
+          style={{
+            minWidth: '100%',
+            flexWrap: 'wrap',
+            gap: 16,
+          }}
+        >
+          {nestedC}
+        </Row>
+      )
+    } else {
+      components.push(<RenderComponent key={i} component={component} />)
+    }
   }
   return (
     <Page>

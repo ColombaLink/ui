@@ -37,7 +37,7 @@ export type ContentConfig = {
 export type ComponentConfig = {
   type: 'components'
   view: 'grid' | 'list'
-  components: ViewComponent[]
+  components: (ViewComponent[] | ViewComponent)[]
 }
 
 export type View<T = ComponentConfig | ContentConfig> = {
