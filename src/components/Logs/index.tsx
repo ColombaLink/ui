@@ -50,7 +50,7 @@ const Log: FC<{
     console.error(log)
     log = {
       ...log,
-      msg: '-- invalid log formalt --',
+      msg: '-- invalid log format --',
     }
   }
   return log && log.msg ? (
