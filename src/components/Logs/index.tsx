@@ -73,8 +73,10 @@ const Log: FC<{
           wordBreak: 'break-all',
           whiteSpace: 'break-spaces',
         }}
-        dangerouslySetInnerHTML={{ __html: colorizer(log.msg) }}
-      ></pre>
+        // dangerouslySetInnerHTML={{ __html: colorizer(log.msg) }}
+      >
+        {log.msg}
+      </pre>
     </styled.div>
   )
 }
