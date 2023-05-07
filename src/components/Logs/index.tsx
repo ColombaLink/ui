@@ -10,6 +10,7 @@ import {
   Button,
   DeleteIcon,
 } from '~'
+import { colorizer } from './colorizer'
 
 const DefaultHeader: FC<{ data: any }> = () => {
   return (
@@ -72,9 +73,8 @@ const Log: FC<{
           wordBreak: 'break-all',
           whiteSpace: 'break-spaces',
         }}
-      >
-        {log.msg}
-      </pre>
+        dangerouslySetInnerHTML={{ __html: colorizer(log.msg) }}
+      ></pre>
     </styled.div>
   )
 }
