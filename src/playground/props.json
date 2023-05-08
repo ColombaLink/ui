@@ -423,6 +423,7 @@
       "name": "BarGraphProps",
       "props": {
         "data": {
+          "optional": true,
           "type": {
             "array": "TSTypeLiteral"
           }
@@ -461,7 +462,7 @@
           "type": "number"
         }
       },
-      "code": "type BarGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n  scale?: number\n}",
+      "code": "type BarGraphProps = {\n  data?: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  label?: string\n  description?: string\n  value?: number\n  legend?: { [key: string]: string } | string[]\n  style?: CSSProperties\n  color?: Color\n  scale?: number\n}",
       "file": "/components/BarGraph/index.tsx"
     },
     "BarSegmentProps": {
@@ -2883,14 +2884,23 @@
         },
         "format": {
           "optional": true,
-          "type": "NumberFormat"
+          "type": [
+            "NumberFormat",
+            "DateFormat",
+            {
+              "value": "time-seconds"
+            },
+            {
+              "value": "countdown-seconds"
+            }
+          ]
         },
         "space": {
           "optional": true,
           "type": "Space"
         }
       },
-      "code": "type ResultCardProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat\n  space?: Space\n}",
+      "code": "type ResultCardProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat | DateFormat | 'time-seconds' | 'countdown-seconds'\n  space?: Space\n}",
       "file": "/components/ResultCard/index.tsx"
     },
     "RightSidebarProps": {
