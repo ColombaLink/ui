@@ -39,7 +39,7 @@ export const BarGraph: FC<BarGraphProps> = ({
     legendValues,
     subLabelsPerObject
 
-  if (typeof data[0].value === 'object') {
+  if (typeof data?.[0]?.value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
     subLabelsPerObject = data.map((item) => Object.keys(item.value))
 
@@ -55,8 +55,8 @@ export const BarGraph: FC<BarGraphProps> = ({
       )
     )
   } else if (
-    typeof data[0].value === 'number' ||
-    typeof data[0].value === 'string'
+    typeof data?.[0]?.value === 'number' ||
+    typeof data?.[0]?.value === 'string'
   ) {
     scale
       ? (highestVal = scale)
