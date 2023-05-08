@@ -3,7 +3,7 @@ import { Color, color, Text, Label, useTooltip, styled } from '~'
 import { prettyNumber } from '@based/pretty-number'
 
 type BarGraphProps = {
-  data: {
+  data?: {
     value: number | { [key: string]: number }
     label: string
     color?: string
@@ -18,7 +18,7 @@ type BarGraphProps = {
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
-  data,
+  data = [],
   label,
   description,
   value,
