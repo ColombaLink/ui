@@ -13,6 +13,7 @@ import {
   LoadingIcon,
   DuplicateIcon,
   border,
+  StateProvider,
   EditIcon,
   ScrollArea,
   Text,
@@ -89,7 +90,8 @@ const propsWalker = (
   data: any,
   props: { [key: string]: any },
   isArr: boolean,
-  vars: { [key: string]: any }
+  vars: { [key: string]: any },
+  setState: (val: any) => void
 ): any => {
   const n: { [key: string]: any } = isArr ? [] : {}
 
@@ -99,15 +101,37 @@ const propsWalker = (
     if (/on[A-Z]/.test(p)) {
       const fn = async (arg1, arg2) => {
         console.log('go fn')
-        if (f.function) {
+        if (f.state) {
+          const nState = propsWalker(
+            client,
+            data,
+            f.state,
+            false,
+            {
+              ...vars,
+              arg1,
+              arg2,
+            },
+            setState
+          )
+
+          setState(nState)
+        } else if (f.function) {
           if (f.function.type === 'function') {
             const bla = await client.call(
               f.function.name,
-              propsWalker(client, data, f.function.payload, false, {
-                ...vars,
-                arg1,
-                arg2,
-              })
+              propsWalker(
+                client,
+                data,
+                f.function.payload,
+                false,
+                {
+                  ...vars,
+                  arg1,
+                  arg2,
+                },
+                setState
+              )
             )
             console.info(bla)
             return bla
@@ -115,11 +139,18 @@ const propsWalker = (
             const bla = await client
               .query(
                 f.function.name,
-                propsWalker(client, data, f.function.payload, false, {
-                  ...vars,
-                  arg1,
-                  arg2,
-                })
+                propsWalker(
+                  client,
+                  data,
+                  f.function.payload,
+                  false,
+                  {
+                    ...vars,
+                    arg1,
+                    arg2,
+                  },
+                  setState
+                )
               )
               .get()
             console.info(bla)
@@ -159,7 +190,8 @@ const propsWalker = (
           data,
           props[p],
           Array.isArray(props[p]),
-          vars
+          vars,
+          setState
         )
       } else {
         n[p] = props[p]
@@ -174,6 +206,10 @@ const RenderComponentInner: FC<{
   component: ViewComponent
   data: any
 }> = ({ component, data }) => {
+  const [state, setState] = useContextState<any>('state')
+
+  console.log('got state', state)
+
   try {
     const client = useClient()
     const Component = ui[component.component]
@@ -182,7 +218,8 @@ const RenderComponentInner: FC<{
       data,
       component.props,
       false,
-      {}
+      state ?? {},
+      setState
     )
     return (
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
@@ -195,10 +232,22 @@ const RenderComponentInner: FC<{
 }
 
 const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
+  const [state, setState] = useContextState<any>('state')
+  const client = useClient()
+
   if (component.function?.type === 'query') {
     const { data, loading } = useQuery(
       component.function ? component.function.name : undefined,
       component.function?.payload
+        ? propsWalker(
+            client,
+            {},
+            component.function?.payload,
+            false,
+            state,
+            setState
+          )
+        : undefined
     )
     if (loading) {
       return <LoadingIcon />
