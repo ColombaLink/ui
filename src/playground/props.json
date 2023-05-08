@@ -2910,36 +2910,22 @@
           "optional": true,
           "type": "string"
         },
-        "value": {
-          "optional": true,
-          "type": [
-            "number",
-            "TSTypeLiteral"
-          ]
-        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
         },
-        "format": {
+        "total": {
           "optional": true,
-          "type": [
-            "NumberFormat",
-            "DateFormat",
-            {
-              "value": "time-seconds"
-            },
-            {
-              "value": "countdown-seconds"
-            }
-          ]
+          "type": "number"
         },
-        "space": {
+        "data": {
           "optional": true,
-          "type": "Space"
+          "type": {
+            "array": "Row"
+          }
         }
       },
-      "code": "type ResultTableProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat | DateFormat | 'time-seconds' | 'countdown-seconds'\n  space?: Space\n}",
+      "code": "type ResultTableProps = {\n  label?: string\n  style?: CSSProperties\n  total?: number\n  data?: Row[]\n}",
       "file": "/components/ResultTable/index.tsx"
     },
     "RightSidebarProps": {

@@ -208,7 +208,7 @@ const RenderComponentInner: FC<{
 }> = ({ component, data }) => {
   const [state, setState] = useContextState<any>('state')
 
-  console.log('got state', state)
+  console.info('got state', state)
 
   try {
     const client = useClient()
