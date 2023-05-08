@@ -37,6 +37,7 @@ type SidebarProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   expandable?: boolean
+  onExpand?: (isExpanded: boolean) => void
 }
 
 type SidebarItemProps = {
@@ -120,6 +121,7 @@ export const Sidebar: FC<SidebarProps> = ({
   children,
   isExpanded,
   expandable,
+  onExpand,
 }) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -248,7 +250,12 @@ export const Sidebar: FC<SidebarProps> = ({
           onMouseLeave={() => {
             setHoverForExpansion(false)
           }}
-          onClick={() => setExpanded((prev) => !prev)}
+          onClick={() => {
+            if (onExpand) {
+              onExpand(!expanded)
+            }
+            setExpanded((prev) => !prev)
+          }}
         >
           {hoverForExpansion ? (
             <styled.div

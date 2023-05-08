@@ -272,7 +272,6 @@ const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
       return <RenderComponentInner data={data} component={component} />
     }
   } else {
-    return <RenderComponentInner data={''} component={component} />
   }
 }
 
@@ -287,10 +286,13 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
     const component = view.config.components[i]
     if (Array.isArray(component)) {
       const nestedC: ReactNode[] = []
-
       for (let i = 0; i < component.length; i++) {
         const c = component[i]
-        nestedC.push(<RenderComponent key={i} component={c} />)
+        if (c.function?.type === 'query') {
+          nestedC.push(<RenderComponent key={i} component={c} />)
+        } else {
+          nestedC.push(<RenderComponentInner data={''} component={c} />)
+        }
       }
       components.push(
         <Row
@@ -322,11 +324,19 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
               gap: 16,
             }}
           >
-            <RenderComponent key={i} component={component} />
+            {component.function?.type === 'query' ? (
+              <RenderComponent key={i} component={component} />
+            ) : (
+              <RenderComponentInner data={''} component={component} />
+            )}
           </Row>
         )
       } else {
-        components.push(<RenderComponent key={i} component={component} />)
+        if (component.function?.type === 'query') {
+          components.push(<RenderComponent key={i} component={component} />)
+        } else {
+          ;<RenderComponentInner data={''} component={component} />
+        }
       }
     }
   }
