@@ -2903,6 +2903,45 @@
       "code": "type ResultCardProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat | DateFormat | 'time-seconds' | 'countdown-seconds'\n  space?: Space\n}",
       "file": "/components/ResultCard/index.tsx"
     },
+    "ResultTableProps": {
+      "name": "ResultTableProps",
+      "props": {
+        "label": {
+          "optional": true,
+          "type": "string"
+        },
+        "value": {
+          "optional": true,
+          "type": [
+            "number",
+            "TSTypeLiteral"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
+        },
+        "format": {
+          "optional": true,
+          "type": [
+            "NumberFormat",
+            "DateFormat",
+            {
+              "value": "time-seconds"
+            },
+            {
+              "value": "countdown-seconds"
+            }
+          ]
+        },
+        "space": {
+          "optional": true,
+          "type": "Space"
+        }
+      },
+      "code": "type ResultTableProps = {\n  label?: string\n  value?: number | { [key: string]: number | string }\n  style?: CSSProperties\n  format?: NumberFormat | DateFormat | 'time-seconds' | 'countdown-seconds'\n  space?: Space\n}",
+      "file": "/components/ResultTable/index.tsx"
+    },
     "RightSidebarProps": {
       "name": "RightSidebarProps",
       "props": {

@@ -281,6 +281,9 @@ export const Sidebar: FC<SidebarProps> = ({
               }}
               onClick={(e) => {
                 e.stopPropagation()
+                if (onExpand) {
+                  onExpand(!expanded)
+                }
                 setExpanded((prev) => !prev)
               }}
             >
@@ -293,6 +296,9 @@ export const Sidebar: FC<SidebarProps> = ({
                 }}
                 onClick={(e) => {
                   e.stopPropagation()
+                  if (onExpand) {
+                    onExpand(!expanded)
+                  }
                   setExpanded((prev) => !prev)
                 }}
               />
