@@ -1,14 +1,10 @@
 import based, { BasedClient } from '@based/client'
-import { hashObjectIgnoreKeyOrder } from '@saulx/hash'
-import { parseQuery } from '@saulx/utils'
 
-// const q = parseQuery(decodeURIComponent(window.location.href.split('?')[1]))
+export const cluster = 'production'
 
-export const cluster = 'local' // String((q && q.cluster) ?? 'local')
-
-export const project = 'test'
+export const project = 'eurovision'
 export const org = 'saulx'
-export const env = 'ci'
+export const env = 'develop'
 
 export const client = new BasedClient({
   project,

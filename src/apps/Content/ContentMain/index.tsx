@@ -85,17 +85,62 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 }
 
 const propsWalker = (
+  client: BasedClient,
   data: any,
   props: { [key: string]: any },
-  isArr?: boolean
+  isArr: boolean,
+  vars: { [key: string]: any }
 ): any => {
   const n: { [key: string]: any } = isArr ? [] : {}
 
   for (const p in props) {
     const f = props[p]
-    if (typeof f === 'string' && f.startsWith('$data')) {
+
+    if (/on[A-Z]/.test(p)) {
+      const fn = async (arg1, arg2) => {
+        console.log('go fn')
+        if (f.function) {
+          if (f.function.type === 'function') {
+            const bla = await client.call(
+              f.function.name,
+              propsWalker(client, data, f.function.payload, false, {
+                ...vars,
+                arg1,
+                arg2,
+              })
+            )
+            console.info(bla)
+            return bla
+          } else if (f.function.type === 'query') {
+            const bla = await client
+              .query(
+                f.function.name,
+                propsWalker(client, data, f.function.payload, false, {
+                  ...vars,
+                  arg1,
+                  arg2,
+                })
+              )
+              .get()
+            console.info(bla)
+            return bla
+          }
+        }
+      }
+      n[p] = fn
+    } else if (typeof f === 'string' && f.startsWith('$data')) {
       const segs = f.split('.')
       let d: any = { $data: data }
+      for (const seg of segs) {
+        d = d[seg] ?? undefined
+        if (d === undefined) {
+          break
+        }
+      }
+      n[p] = d
+    } else if (typeof f === 'string' && f.startsWith('$vars')) {
+      const segs = f.split('.')
+      let d: any = { $vars: vars }
       for (const seg of segs) {
         d = d[seg] ?? undefined
         if (d === undefined) {
@@ -109,7 +154,13 @@ const propsWalker = (
         typeof props[p] === 'object' &&
         typeof props[p] !== 'function'
       ) {
-        n[p] = propsWalker(data, props[p], Array.isArray(props[p]))
+        n[p] = propsWalker(
+          client,
+          data,
+          props[p],
+          Array.isArray(props[p]),
+          vars
+        )
       } else {
         n[p] = props[p]
       }
@@ -123,13 +174,24 @@ const RenderComponentInner: FC<{
   component: ViewComponent
   data: any
 }> = ({ component, data }) => {
-  const Component = ui[component.component]
-  const props: { [key: string]: any } = propsWalker(data, component.props)
-  return (
-    <ErrorBoundary fallback={<div>Something went wrong</div>}>
-      <Component {...props} />
-    </ErrorBoundary>
-  )
+  try {
+    const client = useClient()
+    const Component = ui[component.component]
+    const props: { [key: string]: any } = propsWalker(
+      client,
+      data,
+      component.props,
+      false,
+      {}
+    )
+    return (
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Component {...props} />
+      </ErrorBoundary>
+    )
+  } catch (err) {
+    return <>go err!</>
+  }
 }
 
 const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
@@ -138,14 +200,30 @@ const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
       component.function ? component.function.name : undefined,
       component.function?.payload
     )
-
-    return loading ? (
-      <LoadingIcon />
-    ) : (
-      <RenderComponentInner data={data} component={component} />
-    )
+    if (loading) {
+      return <LoadingIcon />
+    }
+    if (component.forEach) {
+      const segs = component.forEach.split('.')
+      let d: any = { $data: data }
+      for (const seg of segs) {
+        d = d[seg] ?? undefined
+        if (d === undefined) {
+          break
+        }
+      }
+      if (d) {
+        return d.map((v, i) => {
+          return <RenderComponentInner key={i} data={v} component={component} />
+        })
+      } else {
+        return <>cannot iterate over data...</>
+      }
+    } else {
+      return <RenderComponentInner data={data} component={component} />
+    }
   } else {
-    return null
+    return <RenderComponentInner data={''} component={component} />
   }
 }
 
@@ -169,10 +247,11 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
         <Row
           style={{
             paddingLeft: 32,
+            paddingRight: 32,
             paddingBottom: 24,
-            // marginBottom: 16,
             borderBottom: isList ? border(1, 'border') : null,
             minWidth: '100%',
+            maxWidth: '100%',
             flexWrap: 'wrap',
             gap: 16,
           }}
@@ -185,11 +264,11 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
         components.push(
           <Row
             style={{
+              maxWidth: '100%',
               paddingLeft: 32,
+              paddingRight: 32,
               paddingBottom: 24,
-              // marginBottom: 16,
-              borderBottom: isList ? border(1, 'border') : null,
-              minWidth: '100%',
+              borderBottom: border(1, 'border'),
               flexWrap: 'wrap',
               gap: 16,
             }}
@@ -205,12 +284,16 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
   return (
     <ScrollArea
       style={{
+        display: 'flex',
         flexGrow: 1,
-        overflowX: 'hidden',
+        minWidth: null,
       }}
     >
       <styled.div
         style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
           maxWidth: '100%',
           minWidth: '100%',
           paddingTop: 16,
@@ -238,6 +321,8 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
             paddingTop: 24,
             display: 'flex',
             gap: 24,
+            width: '100%',
+            maxWidth: '100%',
             marginTop: 16,
             paddingLeft: isList ? 0 : 32,
             paddingRight: isList ? 0 : 32,

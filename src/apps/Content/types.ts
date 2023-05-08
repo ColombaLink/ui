@@ -17,6 +17,7 @@ export const isFilter = (filter: any): filter is Filter => {
 
 export type ViewComponent = {
   component: string
+  forEach?: string
   props: { [key: string]: any }
   function: {
     name: string

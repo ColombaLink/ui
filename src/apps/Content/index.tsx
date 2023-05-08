@@ -36,8 +36,8 @@ export const Content: FC<{
       style={{
         display: 'flex',
         flexGrow: 1,
-        overflowX: 'hidden',
-        overflowY: 'hidden',
+        // overflowX: 'hidden',
+        // overflowY: 'hidden',
         ...style,
       }}
     >
