@@ -3222,9 +3222,13 @@
         "expandable": {
           "optional": true,
           "type": "boolean"
+        },
+        "onExpand": {
+          "optional": true,
+          "type": "function"
         }
       },
-      "code": "type SidebarProps = {\n  data?: SideBarData\n  isExpanded?: boolean\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n}",
+      "code": "type SidebarProps = {\n  data?: SideBarData\n  isExpanded?: boolean\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n  onExpand?: (isExpanded: boolean) => void\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {
