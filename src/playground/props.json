@@ -2906,26 +2906,22 @@
     "ResultTableProps": {
       "name": "ResultTableProps",
       "props": {
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
         "style": {
           "optional": true,
           "type": "CSSProperties"
-        },
-        "total": {
-          "optional": true,
-          "type": "number"
         },
         "data": {
           "optional": true,
           "type": {
             "array": "Row"
           }
+        },
+        "disableSort": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type ResultTableProps = {\n  label?: string\n  style?: CSSProperties\n  total?: number\n  data?: Row[]\n}",
+      "code": "type ResultTableProps = {\n  style?: CSSProperties\n  data?: Row[]\n  disableSort?: boolean\n}",
       "file": "/components/ResultTable/index.tsx"
     },
     "RightSidebarProps": {
