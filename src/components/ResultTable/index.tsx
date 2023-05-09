@@ -15,10 +15,9 @@ type Row = {
 
 // TODO: make generic (label, value)
 type ResultTableProps = {
-  label?: string
   style?: CSSProperties
-  total?: number
   data?: Row[]
+  disableSort?: boolean
 }
 
 const ResultRow: FC<{
@@ -91,7 +90,6 @@ const ResultRow: FC<{
           flexGrow: expand ? 1 : 0,
           width: 125,
           padding: 16,
-
           backgroundColor: expand ? color('accent', true) : null,
           '&:hover': {
             backgroundColor: color('accent', true),
@@ -108,8 +106,6 @@ const ResultRow: FC<{
         <Row
           style={{
             backgroundColor: expand ? color('background2') : null,
-
-            // backgroundColor: expand ? color('background2') : null,
             width: '100%',
             flexWrap: 'wrap',
           }}
@@ -122,14 +118,37 @@ const ResultRow: FC<{
 }
 
 export const ResultTable: FC<ResultTableProps> = ({
+  disableSort,
   data = [],
-  label,
-  total,
 }) => {
   const rows: ReactNode[] = []
 
-  for (let i = 0; i < data.length; i++) {
-    rows.push(<ResultRow index={i} data={data[i]} key={i} />)
+  if (!disableSort) {
+    let smallest = Infinity
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].count < smallest) {
+        rows.push(<ResultRow index={i} data={data[i]} key={i} />)
+        smallest = data[i].count
+      } else {
+        let isAdded = false
+        for (let j = rows.length - 2; j > -1; j--) {
+          // @ts-ignore for fast sort
+          if (rows[j] && rows[j].props.data.count >= data[i].count) {
+            isAdded = true
+            j++
+            rows.splice(j, 0, <ResultRow index={i} data={data[i]} key={i} />)
+            break
+          }
+        }
+        if (!isAdded) {
+          rows.unshift(<ResultRow index={i} data={data[i]} key={i} />)
+        }
+      }
+    }
+  } else {
+    for (let i = 0; i < data.length; i++) {
+      rows.push(<ResultRow index={i} data={data[i]} key={i} />)
+    }
   }
 
   return (
@@ -142,21 +161,6 @@ export const ResultTable: FC<ResultTableProps> = ({
         height: '100%',
       }}
     >
-      <Row
-        style={{
-          borderBottom: border(1, 'border'),
-          // paddingRight: 32,
-          // paddingLeft: 32,
-          paddingTop: 16,
-          paddingBottom: 16,
-        }}
-      >
-        <Text>{label}</Text>
-
-        <Text style={{ marginLeft: 16 }} color="accent" typography="body600">
-          {total}
-        </Text>
-      </Row>
       <styled.div
         style={{
           height: '100%',
