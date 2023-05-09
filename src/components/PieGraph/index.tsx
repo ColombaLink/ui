@@ -6,7 +6,7 @@ import { Color, Space } from '~/types'
 import { styled } from 'inlines'
 
 type PieGraphProps = {
-  data: {
+  data?: {
     value: number | { [key: string]: number }
     label: string
     color?: string
@@ -18,7 +18,7 @@ type PieGraphProps = {
 }
 
 export const PieGraph: FC<PieGraphProps> = ({
-  data,
+  data = [],
   color: colorProp = 'accent',
   space,
   size = 280,
@@ -68,7 +68,7 @@ export const PieGraph: FC<PieGraphProps> = ({
   }
 
   //  test if value is an object or number
-  if (typeof data[0].value === 'object') {
+  if (typeof data[0]?.value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
     subLabelsPerObject = data.map((item) => Object.keys(item.value))
 
@@ -114,7 +114,7 @@ export const PieGraph: FC<PieGraphProps> = ({
 
     const newColorArrayFun = () => {
       for (let i = 0; i < totalPerObject.length; i++) {
-        for (let j = 0; j < subValuesPerObject[0].length; j++) {
+        for (let j = 0; j < subValuesPerObject[0]?.length; j++) {
           newColorArr.push(
             themeColorArray[i].slice(0, -2).concat(`${1 - 0.1 * j})`)
           )
@@ -123,8 +123,8 @@ export const PieGraph: FC<PieGraphProps> = ({
     }
     newColorArrayFun()
   } else if (
-    typeof data[0].value === 'number' ||
-    typeof data[0].value === 'string'
+    typeof data[0]?.value === 'number' ||
+    typeof data[0]?.value === 'string'
   ) {
     total = Object.values(data).reduce((t, { value }) => t + +value, 0)
     percentagePerObject = data.map((item) => (+item.value / total) * 100)
@@ -173,7 +173,7 @@ export const PieGraph: FC<PieGraphProps> = ({
         setShowMouseLabel(true)
       }}
     >
-      {typeof data[0].value !== 'object' && (
+      {typeof data[0]?.value !== 'object' && (
         <div
           style={{
             width: size,
@@ -216,7 +216,7 @@ export const PieGraph: FC<PieGraphProps> = ({
         </div>
       )}
 
-      {typeof data[0].value === 'object' && (
+      {typeof data[0]?.value === 'object' && (
         <div
           style={{
             width: size,
@@ -299,26 +299,26 @@ export const PieGraph: FC<PieGraphProps> = ({
                 width: 12,
                 height: 12,
                 background:
-                  typeof data[0].value !== 'object'
+                  typeof data[0]?.value !== 'object'
                     ? colorProp
                       ? color(colorProp)
                       : color('accent')
                     : themeColorArray[idx],
                 opacity:
-                  typeof data[0].value !== 'object'
+                  typeof data[0]?.value !== 'object'
                     ? `calc(1 - 0.${idx * 1})`
                     : '1',
                 marginRight: 12,
                 border: `1px solid ${color('border')}`,
               }}
             />
-            {typeof data[0].value !== 'object' && (
+            {typeof data[0]?.value !== 'object' && (
               <Text>
                 {item.label} - {prettyNumber(+item.value, 'number-short')} (
                 {percentagePerObject[idx].toFixed(0) + '%'})
               </Text>
             )}
-            {typeof data[0].value === 'object' && (
+            {typeof data[0]?.value === 'object' && (
               <Text>
                 {item.label} - (
                 {totalPercentagesPerObject[idx].toFixed(0) + '%'})
