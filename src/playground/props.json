@@ -2616,6 +2616,7 @@
       "name": "PieGraphProps",
       "props": {
         "data": {
+          "optional": true,
           "type": {
             "array": "TSTypeLiteral"
           }
@@ -2637,7 +2638,7 @@
           "type": "Color"
         }
       },
-      "code": "type PieGraphProps = {\n  data: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  color?: Color\n}",
+      "code": "type PieGraphProps = {\n  data?: {\n    value: number | { [key: string]: number }\n    label: string\n    color?: string\n  }[]\n  value?: number\n  size?: number\n  space?: Space\n  color?: Color\n}",
       "file": "/components/PieGraph/index.tsx"
     },
     "ProgressIndicatorProps": {
