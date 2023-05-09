@@ -29,7 +29,7 @@ export const Content: FC<{
     return () => {
       hClient.destroy()
     }
-  }, [])
+  }, [client.authState.token])
 
   return (
     <styled.div

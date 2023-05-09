@@ -25,6 +25,7 @@ import { useQuery, useClient, Provider } from '@based/react'
 import { AddViewModal, EditViewModal } from '../ViewModals'
 import { BasedClient } from '@based/client'
 import { ErrorBoundary } from 'react-error-boundary'
+import useLocalStorage from '@based/use-local-storage'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -100,7 +101,7 @@ const propsWalker = (
 
     if (/on[A-Z]/.test(p)) {
       const fn = async (arg1, arg2) => {
-        console.log('go fn')
+        console.log('Exec function', vars)
         if (f.state) {
           const nState = propsWalker(
             client,
@@ -114,8 +115,9 @@ const propsWalker = (
             },
             setState
           )
-
-          setState(nState)
+          const x = { ...vars, ...nState }
+          console.info('new state', x)
+          setState(x)
         } else if (f.function) {
           if (f.function.type === 'function') {
             const bla = await client.call(
@@ -205,24 +207,24 @@ const propsWalker = (
 const RenderComponentInner: FC<{
   component: ViewComponent
   data: any
-}> = ({ component, data }) => {
-  const [state, setState] = useContextState<any>('state')
-
-  console.info('got state', state)
+  state: any
+  setState: (s: any) => void
+}> = ({ component, data, state, setState }) => {
+  console.info('got state', component.component, state)
+  const client = useClient()
 
   try {
-    const client = useClient()
     const Component = ui[component.component]
     const props: { [key: string]: any } = propsWalker(
       client,
       data,
       component.props,
       false,
-      state ?? {},
+      state,
       setState
     )
     return (
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+      <ErrorBoundary fallback={<div>RENDER COMPONENT FAILED</div>}>
         <Component {...props} />
       </ErrorBoundary>
     )
@@ -231,27 +233,32 @@ const RenderComponentInner: FC<{
   }
 }
 
-const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
-  const [state, setState] = useContextState<any>('state')
+const RenderComponent: FC<{
+  component: ViewComponent
+  state: any
+  setState: (s: any) => void
+}> = ({ component, state, setState }) => {
   const client = useClient()
 
   if (component.function?.type === 'query') {
-    const { data, loading } = useQuery(
-      component.function ? component.function.name : undefined,
-      component.function?.payload
-        ? propsWalker(
-            client,
-            {},
-            component.function?.payload,
-            false,
-            state,
-            setState
-          )
-        : undefined
+    const fn = propsWalker(
+      client,
+      {},
+      component.function,
+      false,
+      state,
+      setState
     )
+
+    const { data, loading } = useQuery(
+      component.function ? fn.name : undefined,
+      fn.payload
+    )
+
     if (loading) {
       return <LoadingIcon />
     }
+
     if (component.forEach) {
       const segs = component.forEach.split('.')
       let d: any = { $data: data }
@@ -263,19 +270,38 @@ const RenderComponent: FC<{ component: ViewComponent }> = ({ component }) => {
       }
       if (d) {
         return d.map((v, i) => {
-          return <RenderComponentInner key={i} data={v} component={component} />
+          return (
+            <RenderComponentInner
+              state={state}
+              setState={setState}
+              key={i}
+              data={v}
+              component={component}
+            />
+          )
         })
       } else {
         return <>cannot iterate over data...</>
       }
     } else {
-      return <RenderComponentInner data={data} component={component} />
+      return (
+        <RenderComponentInner
+          state={state}
+          setState={setState}
+          data={data}
+          component={component}
+        />
+      )
     }
   } else {
   }
 }
 
-const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
+const Components: FC<{
+  view: View<ComponentConfig>
+  state: any
+  setState: (s: any) => void
+}> = ({ view, state, setState }) => {
   const contextMenu = useContextMenu<{ view: View }>(Actions, { view })
 
   const components: ReactNode[] = []
@@ -289,9 +315,23 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
       for (let i = 0; i < component.length; i++) {
         const c = component[i]
         if (c.function?.type === 'query') {
-          nestedC.push(<RenderComponent key={i} component={c} />)
+          nestedC.push(
+            <RenderComponent
+              state={state}
+              setState={setState}
+              key={i}
+              component={c}
+            />
+          )
         } else {
-          nestedC.push(<RenderComponentInner data={''} component={c} />)
+          nestedC.push(
+            <RenderComponentInner
+              state={state}
+              setState={setState}
+              data={''}
+              component={c}
+            />
+          )
         }
       }
       components.push(
@@ -325,17 +365,41 @@ const Components: FC<{ view: View<ComponentConfig> }> = ({ view }) => {
             }}
           >
             {component.function?.type === 'query' ? (
-              <RenderComponent key={i} component={component} />
+              <RenderComponent
+                state={state}
+                setState={setState}
+                key={i}
+                component={component}
+              />
             ) : (
-              <RenderComponentInner data={''} component={component} />
+              <RenderComponentInner
+                state={state}
+                setState={setState}
+                data={''}
+                component={component}
+              />
             )}
           </Row>
         )
       } else {
         if (component.function?.type === 'query') {
-          components.push(<RenderComponent key={i} component={component} />)
+          components.push(
+            <RenderComponent
+              state={state}
+              setState={setState}
+              key={i}
+              component={component}
+            />
+          )
         } else {
-          ;<RenderComponentInner data={''} component={component} />
+          components.push(
+            <RenderComponentInner
+              state={state}
+              setState={setState}
+              data={''}
+              component={component}
+            />
+          )
         }
       }
     }
@@ -406,12 +470,14 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     $all: true,
   })
 
+  const [state, setState] = useLocalStorage('view-' + view, {})
+
   const { type } = data?.config ?? {}
 
   if (type == 'components') {
     return (
       <Provider client={hubClient}>
-        <Components view={data} />
+        <Components state={state} setState={setState} view={data} />
       </Provider>
     )
   }
