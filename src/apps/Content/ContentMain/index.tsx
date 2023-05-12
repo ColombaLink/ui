@@ -162,9 +162,20 @@ const propsWalker = (
       }
       n[p] = fn
     } else if (typeof f === 'string' && f.startsWith('$data')) {
-      const segs = f.split('.')
+      const escaped = f.match(/\'.+?'/)
+
+      let x = f
+
+      if (escaped && escaped[0]) {
+        x = f.replace(escaped[0], '$1')
+      }
+
+      const segs = x.split('.')
       let d: any = { $data: data }
-      for (const seg of segs) {
+      for (let seg of segs) {
+        if (seg === '$1') {
+          seg = escaped[0].slice(1, -1)
+        }
         d = d[seg] ?? undefined
         if (d === undefined) {
           break
@@ -229,7 +240,7 @@ const RenderComponentInner: FC<{
       </ErrorBoundary>
     )
   } catch (err) {
-    return <>go err!</>
+    return <>COMPONENT ERR</>
   }
 }
 
