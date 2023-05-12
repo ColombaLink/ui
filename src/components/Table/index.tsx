@@ -51,7 +51,7 @@ const Header: FC<{
     <styled.div
       style={{
         width,
-        borderBottom: border(1, 'border'),
+        // borderBottom: border(1, 'border'),
         height: 56,
         position: 'relative',
       }}
@@ -162,6 +162,8 @@ const SizedGrid: FC<TableProps> = (props) => {
       (data && data.length && Object.keys(data[0]).length),
   } = props
 
+  const headerWrapper = useRef(null)
+
   let w = 0
   let defW = 0
   let nonAllocated = 0
@@ -221,16 +223,26 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   return (
     <>
-      <Header
-        sortOptions={sortOptions}
-        setSortOptions={setSortOpts}
-        width={width}
-        headers={headers}
-        headerWidth={defW}
-      />
+      <styled.div
+        style={{
+          width: width,
+          overflowX: 'hidden',
+          borderBottom: border(1, 'border'),
+        }}
+        ref={headerWrapper}
+      >
+        <Header
+          sortOptions={sortOptions}
+          setSortOptions={setSortOpts}
+          width={width}
+          headers={headers}
+          headerWidth={defW}
+        />
+      </styled.div>
       <Grid
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
+          headerWrapper.current.scrollLeft = e.scrollLeft
         }}
         columnCount={columnCount}
         columnWidth={(colIndex) => {
