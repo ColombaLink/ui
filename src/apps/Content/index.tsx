@@ -21,8 +21,7 @@ export const Content: FC<{
       org: client.opts.org,
       cluster: client.opts.cluster,
       key: 'cms',
-      // TODO: fix rule
-      // optionalKey: true,
+      optionalKey: true,
     })
     hClient.setAuthState({ ...client.authState, type: 'based' })
     setHubClient(hClient)
