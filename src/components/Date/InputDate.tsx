@@ -41,7 +41,6 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
   const [localFocus, setLocalFocus] = useState(false)
 
   const inputRef = useRef<HTMLInputElement | any>(null)
-  const dateObj = new Date()
 
   // so if this value change fire onchange
   useEffect(() => {
@@ -88,17 +87,6 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
           dateInputStringFormatHandler(e)
         }}
         onClick={(e) => {
-          if (valueAsString === '') {
-            dateInputStringFormatHandler({
-              target: {
-                value: `--/${
-                  dateObj.getUTCMonth() + 1 < 10
-                    ? '0' + (dateObj.getUTCMonth() + 1)
-                    : dateObj.getUTCMonth() + 1
-                }/${dateObj.getUTCFullYear()}`,
-              },
-            })
-          }
           e.preventDefault()
           handler(e)
         }}

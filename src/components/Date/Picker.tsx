@@ -52,13 +52,23 @@ const months = [
 ]
 
 export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
+  const dateObj = new Date()
+
+  if (!valueAsString) {
+    valueAsString = `${
+      dateObj.getDate() < 10 ? `0${dateObj.getDate()}` : `${dateObj.getDate()}`
+    }/${
+      dateObj.getMonth() < 10
+        ? `0${dateObj.getMonth() + 1}`
+        : `${dateObj.getMonth() + 1}`
+    }/${dateObj.getFullYear().toString()}`
+  }
+
   const [selectedDay, setSelectedDay] = useState(valueAsString?.split('/')[0])
   const [selectedMonth, setSelectedMonth] = useState(
     valueAsString?.split('/')[1]
   )
   const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
-
-  const dateObj = new Date()
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
@@ -213,7 +223,7 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         style={{ padding: '8px 16px', cursor: 'pointer' }}
         weight={400}
         onClick={() => {
-          setValueAsString('dd/mm/yyyy')
+          setValueAsString('')
           removeAllOverlays()
         }}
       >
