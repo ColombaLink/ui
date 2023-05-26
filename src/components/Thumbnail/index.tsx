@@ -77,6 +77,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
           {label[0].toUpperCase() + label[1].toUpperCase()}
         </Text>
       ) : icon ? (
+        // @ts-ignore
         renderOrCreateElement(icon, { size: size > 40 ? 20 : 16 })
       ) : null}
     </div>
