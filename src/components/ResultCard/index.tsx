@@ -1,6 +1,6 @@
 import React, { FC, CSSProperties, useEffect } from 'react'
 import { Text } from '../Text'
-import { color, spaceToPx } from '~/utils'
+import { color } from '~/utils'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
 import { DateFormat, prettyDate } from '@based/pretty-date'
 import { useUpdate } from '~/hooks'
