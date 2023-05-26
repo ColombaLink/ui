@@ -40,7 +40,7 @@ export const Container: FC<ContainerProps> = ({
       style={{
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,
-        backgroundColor: color('background2dp'),
+        backgroundColor: color('background'),
         border: `1px solid ${color('border')}`,
         position: 'relative',
         borderRadius: 8,
@@ -73,7 +73,7 @@ export const Container: FC<ContainerProps> = ({
             right: 0,
             paddingLeft: 24,
             paddingRight: 24,
-            backgroundColor: color('background3dp'),
+            backgroundColor: color('background2'),
           }}
         >
           <Row style={{ gap: 16 }}>{renderOrCreateElement(bottomLeft)}</Row>
