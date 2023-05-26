@@ -61,6 +61,30 @@ const route = useRoute('[x]', { x: 1 });
 </Button>
 `,
           },
+
+          {
+            code: `import { Dialog, Text, Button, useDialog, useRoute } from '@based/ui'
+
+const dialog = useDialog();
+const route = useRoute('[x]', { x: 1 });
+
+<Button large onClick={() => dialog.open(
+
+  <Dialog label="Label">
+  <Text space>
+    Do something!
+  </Text>
+  <Dialog.Buttons border>
+    <Dialog.Cancel />
+    <Dialog.Confirm />
+  </Dialog.Buttons>
+</Dialog>
+
+)}>
+  Open {route.path.x}
+</Button>
+`,
+          },
         ]}
       />
     </div>
