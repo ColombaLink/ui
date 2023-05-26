@@ -37,6 +37,7 @@ export type TableProps<T extends any = any> = {
   rowHeight?: number
   columnCount?: number
   columnWidth?: number
+  outline?: boolean
   onClick?: (e: MouseEvent, data: any) => void
   calcRowHeight?: (data: any, index: number) => number
 }
