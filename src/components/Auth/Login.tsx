@@ -58,7 +58,7 @@ export const Login: FC<LoginProps> = ({
           {githubClientId ? (
             <GithubButton width={width} clientId={githubClientId} />
           ) : null}
-          <Separator space={16} style={{ marginTop: 16 }}>
+          <Separator style={{ marginTop: 16, marginBottom: 16 }}>
             <Text color="text2" size={14} weight={500}>
               OR
             </Text>
@@ -102,7 +102,7 @@ export const Login: FC<LoginProps> = ({
           type="password"
           placeholder="Password"
           onChange={setPassword}
-          space
+          style={{ marginBottom: 24 }}
         />
       </div>
       <Button

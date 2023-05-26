@@ -20,7 +20,7 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
         width,
         height: 48,
         borderRadius: 8,
-        marginBottom: 8,
+        marginBottom: 32,
         fontWeight: 600,
         //   backgroundColor: color('background2'),
       }}
@@ -35,7 +35,6 @@ export const GoogleButton: FC<GoogleButtonProps> = ({
           JSON.stringify(state)
         )}`
       }}
-      space
     >
       {label}
     </Button>

@@ -1,6 +1,5 @@
 import React, { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, AddIcon, Dialog, Input, Text } from '~'
 import { useDialog } from '~/components/Dialog'
@@ -26,7 +25,6 @@ type ArrayListProps = {
   indent?: boolean
   disabled?: boolean
   style?: CSSProperties
-  space?: Space
   onChange?(ids: string[] | number[]): void
   value?: any[]
   schema?: any
@@ -38,7 +36,6 @@ export const ArrayList = ({
   indent,
   disabled,
   onChange,
-  space,
   value = [],
   style,
   ...props
@@ -256,12 +253,11 @@ export const ArrayList = ({
   return (
     <InputWrapper
       indent={indent}
-      space={space}
       disabled={disabled}
       descriptionBottom={description}
       style={style}
     >
-      <Label label={props.label} space={12} />
+      <Label label={props.label} style={{ marginBottom: 12 }} />
       {renderCounter ? (
         <DndContext
           sensors={sensors}
@@ -309,7 +305,12 @@ export const ArrayList = ({
         </DndContext>
       ) : null}
 
-      <Button ghost icon={AddIcon} space={8} onClick={addItemHandler}>
+      <Button
+        ghost
+        icon={AddIcon}
+        style={{ marginBottom: 8 }}
+        onClick={addItemHandler}
+      >
         Add{' '}
         {itemType === 'string'
           ? 'String'

@@ -4,7 +4,6 @@ import {
   Button,
   Text,
   Input,
-  Spacer,
   useDialog,
   Row,
   AddIcon,
@@ -274,7 +273,7 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
 
   return (
     <Page>
-      <RowSpaced>
+      <RowSpaced style={{ marginBottom: '32px' }}>
         <Connections envAdminHub={envAdminHub} />
         <Row>
           <UpdateButton
@@ -298,7 +297,6 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
           />
         </Row>
       </RowSpaced>
-      <Spacer space="32px" />
       <styled.div
         style={{
           width: '100%',

@@ -142,6 +142,7 @@ export const AddMachineModal: FC<{
             </Dialog.Label>
             <Dialog.Body>
               <Select
+                style={{ marginBottom: '32px' }}
                 options={templates.map((v) => v.configName)}
                 value={
                   templates.find(
@@ -168,9 +169,8 @@ export const AddMachineModal: FC<{
                   }
                 }}
               />
-              <Spacer space="32px" />
               <Label
-                style={{ width: '100%' }}
+                style={{ width: '100%', marginBottom: '24px' }}
                 labelWidth={200}
                 direction="row"
                 description="Name has to be unique "
@@ -187,9 +187,13 @@ export const AddMachineModal: FC<{
                   type="text"
                 />
               </Label>
-              <Spacer space="24px" />
+
               <Label
-                style={{ width: '100%', alignItems: 'flex-start' }}
+                style={{
+                  width: '100%',
+                  alignItems: 'flex-start',
+                  marginBottom: '32px',
+                }}
                 labelWidth={200}
                 direction="row"
                 description="Meta information "
@@ -206,7 +210,7 @@ export const AddMachineModal: FC<{
                   type="multiline"
                 />
               </Label>
-              <Spacer space="32px" />
+
               <Settings
                 onChange={(values) => {
                   deepMerge(newConfig.current.config, values)
