@@ -1,7 +1,7 @@
 import { Style, styled } from '~'
 import React, { FC, ReactNode, MouseEvent } from 'react'
-import { Size, Color, Weight, Space, ColorVariant, Typography } from '~/types'
-import { font, spaceToPx } from '~/utils'
+import { Size, Color, Weight, ColorVariant, Typography } from '~/types'
+import { font } from '~/utils'
 
 type TextProps = {
   capitalize?: boolean
@@ -12,7 +12,6 @@ type TextProps = {
   onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void
   selectable?: boolean
   size?: Size
-  space?: Space
   style?: Style
   textAlign?: 'center' | 'right' | 'left'
   variant?: ColorVariant
@@ -30,7 +29,6 @@ export const Text: FC<TextProps> = ({
   weight,
   wrap,
   children,
-  space,
   variant,
   textAlign,
   capitalize,
@@ -60,10 +58,6 @@ export const Text: FC<TextProps> = ({
 
   if (italic) {
     s.fontStyle = 'italic'
-  }
-
-  if (space) {
-    s.marginBottom = spaceToPx(space)
   }
 
   if (textAlign) {

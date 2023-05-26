@@ -9,15 +9,13 @@ import React, {
   useCallback,
   ReactElement,
 } from 'react'
-import { color, spaceToPx, font, renderOrCreateElement } from '~/utils'
-import { Space } from '~/types'
+import { color, font, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 
 type TabsProps = {
   children: ReactNode
   style?: CSSProperties
-  space?: Space
   large?: boolean
   activeTab?: number
   setActiveTab?: (index: number) => void
@@ -97,7 +95,6 @@ const TabWrapper: FC<{
 export const Tabs: FC<TabsProps> = ({
   children,
   style,
-  space = 0,
   large,
   activeTab = 0,
   setActiveTab,
@@ -125,7 +122,6 @@ export const Tabs: FC<TabsProps> = ({
           height: !large ? 39 : 63,
           borderBottom: `1px solid ${color('border')}`,
           marginTop: '-2px',
-          marginBottom: spaceToPx(space),
           position: 'relative',
           ...style,
         }}

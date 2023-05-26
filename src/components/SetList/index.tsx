@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { Space } from '~/types'
 import { Label, Button, AddIcon, Input, Dialog } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
 import { useDialog } from '~/components/Dialog'
@@ -9,7 +8,6 @@ import { SingleSetListItem } from './SingleSetListItem'
 type SetListProps = {
   description?: string
   disabled?: boolean
-  space?: Space
   indent?: boolean
   onChange?(items: {}): void
   value?: any
@@ -21,7 +19,6 @@ export const SetList = ({
   onChange,
   disabled,
   indent,
-  space = 48,
   value,
   schema,
   ...props
@@ -162,13 +159,13 @@ export const SetList = ({
   return (
     <InputWrapper
       indent={indent}
-      space={space}
+      style={{ marginBottom: 24 }}
       disabled={disabled}
       descriptionBottom={description}
       errorMessage={errorMessage}
     >
       {/* @ts-ignore */}
-      <Label label={props.label} space={12} />
+      <Label label={props.label} style={{ marginBottom: 12 }} />
       {arr &&
         arr?.map((item, i) => (
           <SingleSetListItem

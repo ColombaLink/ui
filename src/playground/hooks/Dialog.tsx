@@ -41,7 +41,7 @@ export const useDialog = () => {
             code: `import { Dialog, Text } from '@based/ui'
 
 <Dialog label="Label">
-  <Text space>
+  <Text style={{marginBottom:24}}>
     Do something!
   </Text>
   <Dialog.Buttons border>
@@ -71,7 +71,7 @@ const route = useRoute('[x]', { x: 1 });
 <Button large onClick={() => dialog.open(
 
   <Dialog label="Label">
-  <Text space>
+  <Text style={{marginBottom:24}}>
     Do something!
   </Text>
   <Dialog.Buttons border>

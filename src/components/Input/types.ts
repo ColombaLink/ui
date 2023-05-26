@@ -5,7 +5,7 @@ import {
   ReactEventHandler,
   KeyboardEvent,
 } from 'react'
-import { Space, Style, Icon } from '~'
+import { Style, Icon } from '~'
 
 export type InputType =
   | 'text'
@@ -52,7 +52,6 @@ export type InputProps<T extends InputType> = {
   ghost?: boolean
   autoFocus?: boolean
   name?: string
-  space?: Space
   min?: number
   max?: number
   inputRef?: RefObject<HTMLDivElement>

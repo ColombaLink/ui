@@ -1,6 +1,6 @@
 import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
-import { Color, Size, Space, Icon } from '~/types'
-import { color, spaceToPx, renderOrCreateElement, boxShadow } from '~/utils'
+import { Color, Size, Icon } from '~/types'
+import { color, renderOrCreateElement, boxShadow } from '~/utils'
 import { Text } from '../Text'
 import { styled } from 'inlines'
 
@@ -9,7 +9,6 @@ type ThumbnailProps = {
   img?: string
   icon?: FunctionComponent<Icon> | ReactNode
   color?: Color
-  space?: Space
   style?: CSSProperties
   label?: string
   outline?: boolean
@@ -36,7 +35,6 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   img,
   color: colorProp = 'accent',
   icon,
-  space,
   style,
   label,
   outline,
@@ -57,7 +55,6 @@ export const Thumbnail: FC<ThumbnailProps> = ({
         backgroundImage: img ? `url(${img})` : null,
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
-        marginBottom: spaceToPx(space),
         position: 'relative',
         minWidth: size,
         width: size,
