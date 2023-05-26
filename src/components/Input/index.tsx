@@ -180,7 +180,6 @@ export const Input = <T extends InputType>({
       backgroundColor: bg
         ? color(focused && !disabled ? 'border' : 'background2')
         : 'inherit',
-      ...style,
     },
     inputRef,
     ...focusListeners,
@@ -202,6 +201,7 @@ export const Input = <T extends InputType>({
 
   return (
     <InputWrapper
+      style={style}
       indent={indent}
       space={space}
       label={label}
