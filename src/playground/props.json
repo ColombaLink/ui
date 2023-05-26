@@ -3530,7 +3530,7 @@
         },
         "style": {
           "optional": true,
-          "type": "CSSProperties"
+          "type": "Style"
         },
         "textAlign": {
           "optional": true,
@@ -3563,7 +3563,7 @@
           "type": "Typography"
         }
       },
-      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: CSSProperties\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typography?: Typography\n}",
+      "code": "type TextProps = {\n  capitalize?: boolean\n  children: ReactNode\n  color?: Color\n  italic?: boolean\n  onClick?: (e: MouseEvent<HTMLDivElement>) => void\n  onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void\n  selectable?: boolean\n  size?: Size\n  space?: Space\n  style?: Style\n  textAlign?: 'center' | 'right' | 'left'\n  variant?: ColorVariant\n  weight?: Weight\n  wrap?: boolean\n  typography?: Typography\n}",
       "file": "/components/Text/index.tsx"
     },
     "ThumbnailProps": {
@@ -3755,99 +3755,6 @@
       },
       "code": "type ToggleGroupProps = {\n  data?: Array<string> | Array<ReactNode>\n  space?: Space\n  style?: CSSProperties\n  onChange?: (value: number) => void\n}",
       "file": "/components/ToggleGroup/index.tsx"
-    },
-    "TopbarTabProps": {
-      "name": "TopbarTabProps",
-      "props": {
-        "href": {
-          "optional": true,
-          "type": "string"
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "isActive": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "icon": {
-          "optional": true,
-          "type": [
-            "ReactNode",
-            {
-              "array": "string"
-            }
-          ]
-        }
-      },
-      "code": "type TopbarTabProps = {\n  href?: string\n  children?: ReactNode\n  isActive?: boolean\n  icon?: ReactNode | string[]\n}",
-      "file": "/components/Topbar/index.tsx"
-    },
-    "TopbarProps": {
-      "name": "TopbarProps",
-      "props": {
-        "data": {
-          "optional": true,
-          "type": "TSObjectKeyword"
-        },
-        "selected": {
-          "optional": true,
-          "type": "string"
-        },
-        "prefix": {
-          "optional": true,
-          "type": "string"
-        },
-        "onFilter": {
-          "optional": true,
-          "type": "function"
-        },
-        "onProfile": {
-          "optional": true,
-          "type": "function"
-        },
-        "breadcrumbs": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "logo": {
-          "optional": true,
-          "type": [
-            "FC",
-            "ReactNode"
-          ]
-        },
-        "children": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "noLogo": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "icons": {
-          "optional": true,
-          "type": [
-            "ReactNode",
-            "string"
-          ]
-        },
-        "avatar": {
-          "optional": true,
-          "type": "ReactNode"
-        },
-        "onClick": {
-          "optional": true,
-          "type": "function"
-        }
-      },
-      "code": "type TopbarProps = {\n  data?: object\n  selected?: string\n  prefix?: string\n  onFilter?: (params: any) => any\n  onProfile?: () => void\n  breadcrumbs?: ReactNode\n  logo?: FC | ReactNode\n  children?: ReactNode\n  noLogo?: boolean\n  style?: CSSProperties\n  icons?: ReactNode | string\n  avatar?: ReactNode\n  onClick?: () => void\n}",
-      "file": "/components/Topbar/index.tsx"
     },
     "ListItemProps": {
       "name": "ListItemProps",
