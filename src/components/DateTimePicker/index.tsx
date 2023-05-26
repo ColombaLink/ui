@@ -12,7 +12,6 @@ type DateTimePickerProps = {
   descriptionBottom?: string
   indent?: boolean
   onChange?: (value: number) => void
-  space?: Space
   style?: CSSProperties
   // TODO make it work -> error?: (value: boolean | string | number) => string
   disabled?: boolean
@@ -33,7 +32,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
   descriptionBottom,
   indent,
   onChange,
-  space,
   style,
   dateRange,
   disabled,
@@ -209,7 +207,6 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     // <InputWrapper
     //   descriptionBottom={descriptionBottom}
     //   indent={indent}
-    //   space={space}
     //   errorMessage={errorMessage}
     //   disabled={disabled}
     //   style={style}
@@ -218,7 +215,7 @@ export const DateTimePicker: FC<DateTimePickerProps> = ({
     //     InputWrapperBlurHandler()
     //   }}
     // >
-    //   <Label label={label} description={description} space="12px" />
+    //   <Label label={label} description={description}  />
     <>
       {dateRange ? (
         <DateRangeInput

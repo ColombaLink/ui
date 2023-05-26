@@ -243,7 +243,7 @@ const ScatterInner: FC<
               for (const key in info) {
                 infoContent.push(
                   <div key={key} style={{ marginBottom: 16 }}>
-                    <Text space="4px" weight={600} size="16px">
+                    <Text style={{ marginBottom: 4 }} weight={600} size="16px">
                       {info[key].label}
                     </Text>
                     <Text weight={400}>

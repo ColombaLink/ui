@@ -1,13 +1,11 @@
 import React, { FC, ReactNode } from 'react'
 import {
-  Space,
   Text,
   RowSpaced,
   Row,
   Column,
   Label,
   color,
-  spaceToPx,
   renderOrCreateElement,
   styled,
   Style,
@@ -16,7 +14,6 @@ import {
 type CardProps = {
   label?: ReactNode
   description?: string
-  space?: Space
   style?: Style
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
@@ -30,7 +27,6 @@ type CardProps = {
 export const Card: FC<CardProps> = ({
   label,
   description,
-  space,
   style,
   topLeft,
   topRight,
@@ -50,7 +46,6 @@ export const Card: FC<CardProps> = ({
         backgroundColor: color('background2dp'),
         border: `1px solid ${color('border')}`,
         maxWidth: small ? 280 : 302,
-        marginBottom: spaceToPx(space),
         cursor: props.onClick ? 'pointer' : null,
         '@media (hover: hover)': {
           '&:hover': props.onClick
@@ -77,7 +72,7 @@ export const Card: FC<CardProps> = ({
           >
             {renderOrCreateElement(topLeft)}
             <Column>
-              <Label label={label} space="2px" />
+              <Label label={label} style={{ marginBottom: 2 }} />
               <Text typography="caption400" color="text2">
                 {description}
               </Text>

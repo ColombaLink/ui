@@ -1,11 +1,9 @@
 import React, { CSSProperties, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, EditIcon, Badge } from '~'
-import { Space } from '~/types'
 
 type ObjectListProps = {
   label?: string
-  space?: Space
   description?: string
   descriptionBottom?: string
   style?: CSSProperties
@@ -18,7 +16,6 @@ export const ObjectList = ({
   label,
   description,
   descriptionBottom,
-  space,
   indent,
   style,
   schema,
@@ -33,7 +30,6 @@ ObjectListProps) => {
         indent={indent}
         style={style}
         descriptionBottom={descriptionBottom}
-        space={space}
       >
         <Label
           label={label}
@@ -41,7 +37,7 @@ ObjectListProps) => {
           style={{ marginBottom: 12 }}
         />
 
-        <InputWrapper indent={indent} space={8}>
+        <InputWrapper indent={indent} style={{ marginBottom: 8 }}>
           {/* some small indication of what is in the object let say one level deep per object 
           may need to set limit after certain amount ?? TODO */}
           {Object.keys(insideObjectFields).map((objectKey, idx) => (

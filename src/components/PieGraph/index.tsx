@@ -1,9 +1,9 @@
 import React, { FC, Fragment, useState, useRef } from 'react'
-import { color, spaceToPx } from '~/utils'
+import { color } from '~/utils'
 import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
-import { Color, Space } from '~/types'
-import { styled } from 'inlines'
+import { Color } from '~/types'
+import { styled, Style } from 'inlines'
 
 type PieGraphProps = {
   data?: {
@@ -13,15 +13,15 @@ type PieGraphProps = {
   }[]
   value?: number
   size?: number
-  space?: Space
   color?: Color
+  style?: Style
 }
 
 export const PieGraph: FC<PieGraphProps> = ({
   data = [],
   color: colorProp = 'accent',
-  space,
   size = 280,
+  style,
 }) => {
   if (!data) {
     return null
@@ -165,6 +165,7 @@ export const PieGraph: FC<PieGraphProps> = ({
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
+        ...style,
       }}
       onMouseLeave={() => {
         setShowMouseLabel(false)
@@ -178,7 +179,7 @@ export const PieGraph: FC<PieGraphProps> = ({
           style={{
             width: size,
             height: size,
-            marginBottom: spaceToPx(space),
+            marginBottom: 24,
             borderRadius: '50%',
             overflow: 'hidden',
           }}
@@ -221,7 +222,7 @@ export const PieGraph: FC<PieGraphProps> = ({
           style={{
             width: size,
             height: size,
-            marginBottom: spaceToPx(space),
+            marginBottom: 24,
           }}
           onPointerMove={(e) => mousePositionHandler(e)}
         >

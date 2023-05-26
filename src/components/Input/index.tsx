@@ -16,7 +16,6 @@ import {
   color,
   Style,
   Icon,
-  Space,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -68,11 +67,9 @@ export const Input = <T extends InputType>({
   noInterrupt,
   onChange: onChangeProp,
   placeholder = 'Type something here',
-  space,
   style,
   suggest,
   transform,
-
   type,
   value: valueProp,
   ...otherProps
@@ -92,11 +89,9 @@ export const Input = <T extends InputType>({
   placeholder?: ReactNode
   maxChars?: number
   bg?: boolean
-
   ghost?: boolean
   autoFocus?: boolean
   name?: string
-  space?: Space
   min?: number
   max?: number
   inputRef?: RefObject<HTMLDivElement>
@@ -203,7 +198,6 @@ export const Input = <T extends InputType>({
     <InputWrapper
       style={style}
       indent={indent}
-      space={space}
       label={label}
       description={description}
       descriptionBottom={descriptionBottom}

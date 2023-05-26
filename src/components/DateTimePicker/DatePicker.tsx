@@ -593,13 +593,13 @@ export const DatePicker = ({
           },
         }}
       >
-        <Text weight={400} onClick={todayHandler} space="4px">
+        <Text weight={400} onClick={todayHandler} style={{ marginBottom: 4 }}>
           Today
         </Text>
-        <Text weight={400} space="4px" onClick={nextDay} style={{}}>
+        <Text weight={400} style={{ marginBottom: 4 }} onClick={nextDay}>
           Select next date
         </Text>
-        <Text weight={400} space="4px" onClick={prevDay} style={{}}>
+        <Text weight={400} style={{ marginBottom: 4 }} onClick={prevDay}>
           Select previous date
         </Text>
       </styled.div>

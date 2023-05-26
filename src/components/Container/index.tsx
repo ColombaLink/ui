@@ -1,18 +1,8 @@
 import React, { FC, ReactNode } from 'react'
-import {
-  color,
-  spaceToPx,
-  renderOrCreateElement,
-  RowSpaced,
-  Row,
-  Space,
-  styled,
-  Style,
-} from '~'
+import { color, renderOrCreateElement, RowSpaced, Row, styled, Style } from '~'
 
 type ContainerProps = {
   children: ReactNode
-  space?: Space
   style?: Style
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
@@ -25,7 +15,6 @@ type ContainerProps = {
 export const Container: FC<ContainerProps> = ({
   children,
   style,
-  space,
   onClick,
   topLeft,
   topRight,
@@ -45,8 +34,8 @@ export const Container: FC<ContainerProps> = ({
         position: 'relative',
         borderRadius: 8,
         overflow: 'hidden',
-        marginBottom: spaceToPx(space, 32),
         width: wrap ? 'fit-content' : '100%',
+        marginBottom: '32px',
         ...style,
       }}
       {...props}

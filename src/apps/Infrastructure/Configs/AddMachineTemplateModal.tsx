@@ -1,9 +1,8 @@
-import React, { FC, useMemo, useRef, useState, useEffect } from 'react'
+import React, { FC, useMemo, useRef, useState } from 'react'
 import {
   Dialog,
   Select,
   Input,
-  Spacer,
   useUpdate,
   StateProvider,
   Button,
