@@ -1,4 +1,5 @@
-import React, { FC, CSSProperties, ReactNode, MouseEvent } from 'react'
+import { Style, styled } from '~'
+import React, { FC, ReactNode, MouseEvent } from 'react'
 import { Size, Color, Weight, Space, ColorVariant, Typography } from '~/types'
 import { font, spaceToPx } from '~/utils'
 
@@ -12,7 +13,7 @@ type TextProps = {
   selectable?: boolean
   size?: Size
   space?: Space
-  style?: CSSProperties
+  style?: Style
   textAlign?: 'center' | 'right' | 'left'
   variant?: ColorVariant
   weight?: Weight
@@ -37,7 +38,7 @@ export const Text: FC<TextProps> = ({
   typography,
   ...props
 }) => {
-  const s = font({ size, color, variant, weight }) as CSSProperties
+  const s = font({ size, color, variant, weight }) as Style
 
   s.userSelect = selectable ? 'text' : 'none'
 
@@ -154,8 +155,8 @@ export const Text: FC<TextProps> = ({
   // }
 
   return (
-    <div style={s} {...props} onClick={onClick}>
+    <styled.div style={s} {...props} onClick={onClick}>
       {children}
-    </div>
+    </styled.div>
   )
 }

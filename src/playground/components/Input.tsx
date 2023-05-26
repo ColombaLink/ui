@@ -1,43 +1,22 @@
 /* eslint-disable no-useless-escape */
 
 import React from 'react'
-import { Input as InputComponent, CheckIcon, EmailIcon } from '~'
+import { Input as InputComponent, CheckIcon, EmailIcon, SearchIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const Input = () => {
   return (
     <ComponentViewer
-      // propsDef={{
-      //   name: 'Input',
-      //   props: {
-      //     value: {
-      //       optional: true,
-      //       // @ts-ignore
-      //       type: ['string', 'number'],
-      //     },
-      //     placeholder: {
-      //       optional: true,
-      //       type: 'string',
-      //     },
-      //     type: {
-      //       optional: false,
-      //       // @ts-ignore
-      //       type: [
-      //         {
-      //           value: 'text',
-      //         },
-      //         {
-      //           value: 'number',
-      //         },
-      //       ],
-      //     },
-      //   },
-      //   code: 'input type...',
-      //   file: '/components/Input/index.tsx',
-      // }}
       component={InputComponent}
       propsName="InputProps"
       examples={[
+        {
+          props: {
+            bg: true,
+            type: 'search',
+            icon: SearchIcon,
+          },
+        },
         {
           props: {
             label: 'Date Time input',
