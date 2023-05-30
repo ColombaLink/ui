@@ -21,6 +21,7 @@ import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type FileUploadProps = {
+  more?: boolean
   label?: string
   description?: string
   descriptionBottom?: string
@@ -45,6 +46,7 @@ const StyledFileInput = styled('div', {
 })
 
 export const FileUpload: FC<FileUploadProps> = ({
+  more = false,
   label,
   acceptedFileTypes,
   description,
@@ -74,7 +76,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const dialog = useDialog()
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
-
   const handleClickUpload = async () => {
     // now we are gonna open new modal here
 
@@ -319,7 +320,7 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles([...dupliArr])
   }
   const mimeTypeInput = acceptedFileTypes + '/*'
-
+  console.log('------------------', more)
   return (
     <InputWrapper
       indent={indent}
@@ -338,7 +339,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             space="8px"
           />
 
-          {uploadedFiles.length > 0 && (
+          {more && uploadedFiles.length > 0 && (
             <Button
               ghost
               onClick={() => clearFiles()}
@@ -352,6 +353,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
             <UploadedFileItem
+              more={more}
               file={file}
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}

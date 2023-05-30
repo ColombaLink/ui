@@ -84,6 +84,7 @@ export const UploadedFileItem = ({
   downloadFile,
   renameFile,
   fullScreenView,
+  more,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
@@ -147,14 +148,23 @@ export const UploadedFileItem = ({
         <AttachmentIcon />
       )}
       <Text
-        style={{ marginTop: 6, marginBottom: 6, maxWidth: '25vw' }}
+        style={{
+          minHeight: '20px',
+          marginTop: 6,
+          marginBottom: 6,
+          // maxWidth: '25vw',
+          maxWidth: '90%',
+          flexShrink: 0,
+        }}
         weight={400}
       >
         {file?.name}
       </Text>
-      <StyledMoreIcon onClick={contextHandler}>
-        <MoreIcon />
-      </StyledMoreIcon>
+      {more && (
+        <StyledMoreIcon onClick={contextHandler}>
+          <MoreIcon />
+        </StyledMoreIcon>
+      )}
     </StyledUploadedFile>
   )
 }
