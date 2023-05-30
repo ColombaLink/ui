@@ -11,7 +11,6 @@ import {
   WarningIcon,
 } from '~'
 import { styled } from 'inlines'
-import { Space } from '~/types'
 import Map, { Marker, NavigationControl, MapRef } from 'react-map-gl'
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder'
 
@@ -28,7 +27,6 @@ type GeoInputProps = {
   onChange?: (value: { latitude: number; longitude: number }) => void
   indent?: boolean
   disabled?: boolean
-  space?: Space
   mapboxApiAccessToken?: string
   mapboxStyle?: string
   style?: CSSProperties
@@ -244,7 +242,7 @@ const GeoCoordsInput = ({ lat, lng, onChange }) => {
         label="Longitude"
         value={lng}
         type="number"
-        space
+        style={{ marginBottom: 24 }}
         onChange={(lng) => onChange({ lng, lat })}
       />
       <Input
@@ -266,7 +264,6 @@ export const GeoInput: FC<GeoInputProps> = ({
   disabled,
   mapboxApiAccessToken,
   mapboxStyle,
-  space,
   value,
   style,
 }) => {
@@ -294,12 +291,15 @@ export const GeoInput: FC<GeoInputProps> = ({
       <InputWrapper
         disabled={disabled}
         indent={indent}
-        space={space}
         descriptionBottom={descriptionBottom}
         errorMessage={errorMessage}
         style={style}
       >
-        <Label label={label} description={description} space="8px" />
+        <Label
+          label={label}
+          description={description}
+          style={{ marginBottom: 8 }}
+        />
 
         <GeoMap
           mapStyle={mapboxStyle}
@@ -330,7 +330,9 @@ export const GeoInput: FC<GeoInputProps> = ({
   } else {
     return (
       <>
-        <Text space="24px">AccesToken required for geolocation</Text>
+        <Text style={{ marginBottom: 24 }}>
+          AccesToken required for geolocation
+        </Text>
       </>
     )
   }

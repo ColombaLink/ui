@@ -1,4 +1,3 @@
-// TODO yves en youri fix this
 import React, {
   useState,
   useEffect,
@@ -17,7 +16,6 @@ import {
   color,
   Style,
   Icon,
-  Space,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -34,6 +32,7 @@ type InputType =
   | 'password'
   | 'email'
   | 'phone'
+  | 'search'
   | 'color'
   | 'markdown'
   | 'number'
@@ -68,11 +67,10 @@ export const Input = <T extends InputType>({
   noInterrupt,
   onChange: onChangeProp,
   placeholder = 'Type something here',
-  space,
   style,
   suggest,
   transform,
-  type, // remove default
+  type,
   value: valueProp,
   ...otherProps
 }: {
@@ -94,7 +92,6 @@ export const Input = <T extends InputType>({
   ghost?: boolean
   autoFocus?: boolean
   name?: string
-  space?: Space
   min?: number
   max?: number
   inputRef?: RefObject<HTMLDivElement>
@@ -112,7 +109,7 @@ export const Input = <T extends InputType>({
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
-  const { listeners: hoverListeners, hover } = useHover()
+  const { listeners: hoverListeners, hover, active } = useHover()
   const [errorMessage, setErrorMessage] = useState('')
 
   if (maxChars === -1) {
@@ -146,7 +143,6 @@ export const Input = <T extends InputType>({
   const fontSize = 14
   const fontWeight = 400
   const props = {
-    // consoleFunc,
     name,
     type,
     value,
@@ -159,24 +155,25 @@ export const Input = <T extends InputType>({
     autoFocus,
     style: {
       outlineRadius: '8',
-      outlineOffset: ghost ? null : focus ? -1 : -1,
+      outlineOffset: ghost ? null : focused ? -1 : -1,
       borderRadius: 8,
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
       minHeight: ghost ? '' : large ? 48 : 36,
       paddingLeft,
-      border: ghost
-        ? `0px solid transparent`
-        : focused
-        ? `1.5px solid ${color('accent')}`
-        : `1px solid ${color('border')}`,
+      border:
+        bg || ghost
+          ? `0px solid transparent`
+          : focused
+          ? `1.5px solid ${color('accent')}`
+          : `1px solid ${color('border')}`,
       paddingRight,
       width: '100%',
       fontSize,
       fontWeight,
       backgroundColor: bg
-        ? color(hover && !disabled ? 'border' : 'border')
+        ? color(focused && !disabled ? 'border' : 'background2')
         : 'inherit',
     },
     inputRef,
@@ -201,7 +198,6 @@ export const Input = <T extends InputType>({
     <InputWrapper
       style={style}
       indent={indent}
-      space={space}
       label={label}
       description={description}
       descriptionBottom={descriptionBottom}

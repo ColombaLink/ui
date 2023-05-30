@@ -101,7 +101,11 @@ export const BarGraph: FC<BarGraphProps> = ({
 
   return (
     <>
-      <Label label={label} description={description} space />
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 24 }}
+      />
       <styled.div
         style={{
           display: 'flex',
@@ -253,7 +257,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
             marginBottom: 8,
           }}
         >
-          <Text space="8px">{legend}</Text>
+          <Text style={{ marginBottom: 8 }}>{legend}</Text>
         </styled.div>
       )}
 
@@ -264,7 +268,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
             marginBottom: 8,
           }}
         >
-          <Text space="8px">{label}</Text>
+          <Text style={{ marginBottom: 8 }}>{label}</Text>
         </styled.div>
       )}
 

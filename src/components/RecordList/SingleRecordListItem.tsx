@@ -100,7 +100,7 @@ const editSpecificItem = async (
         type="text"
         label="Object Key"
         value={newObjKey}
-        space
+        style={{ marginBottom: 24 }}
         onChange={(e) => (newObjKey = e)}
       />
       <Input

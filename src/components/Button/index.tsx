@@ -14,10 +14,8 @@ import {
   border,
   color,
   renderOrCreateElement,
-  spaceToPx,
   Color,
   Text,
-  Space,
   Key,
   Icon,
   styled,
@@ -51,7 +49,6 @@ export type ButtonProps = {
   onPointerDown?: MouseEventHandler
   outline?: boolean
   style?: Style
-  space?: Space
   textAlign?: 'center' | 'right' | 'left'
   /** 
    Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.
@@ -130,7 +127,6 @@ export const Button: FC<ButtonProps> = (props) => {
     onPointerDown,
     onMouseEnter,
     onMouseLeave,
-    space,
     keyboardShortcut,
     displayShortcut,
     style,
@@ -211,7 +207,6 @@ export const Button: FC<ButtonProps> = (props) => {
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
-        marginBottom: space ? spaceToPx(space) : null,
         ...getButtonStyle(props, true),
         ...style,
       }}

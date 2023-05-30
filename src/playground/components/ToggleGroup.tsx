@@ -6,7 +6,7 @@ export const ToggleGroup = () => {
   const codeExample = `import { ToggleGroup, AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from '@based/ui'
 
   <ToggleGroup
-        space
+        style={{marginBottom:24}}
         data={[
           <AlignLeftIcon />, 
           <AlignCenterIcon />, 

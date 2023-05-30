@@ -2,14 +2,12 @@ import React, { FC, ReactNode } from 'react'
 import {
   Label,
   color,
-  spaceToPx,
   border,
   CheckIcon,
   DashIcon,
   useHover,
   usePropState,
   Color,
-  Space,
   Style,
   Center,
   Row,
@@ -22,7 +20,6 @@ export type CheckboxProps = {
   style?: Style
   onChange?: (value: boolean) => void
   label?: ReactNode
-  space?: Space
   wrap?: boolean
   small?: boolean
   color?: Color
@@ -38,7 +35,6 @@ export const Checkbox: FC<CheckboxProps> = ({
   onClick,
   wrap,
   label,
-  space,
   small,
   color: colorProp = 'accent',
   ...props
@@ -63,7 +59,6 @@ export const Checkbox: FC<CheckboxProps> = ({
       style={{
         display: 'flex',
         alignItems: !description ? 'center' : '',
-        marginBottom: space ? spaceToPx(space) : null,
         ...style,
       }}
       {...listeners}

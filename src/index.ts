@@ -59,7 +59,6 @@ export * from './components/Thumbnail'
 export * from './components/Toast'
 export * from './components/Toggle'
 export * from './components/ToggleGroup'
-export * from './components/Topbar'
 export * from './components/Slider'
 export * from './components/ResultTable'
 export * from './components/VirtualizedList'
@@ -71,4 +70,4 @@ export * from './types'
 export * from 'inlines'
 export * from 'kabouter'
 
-console.info('UI 5.8.11')
+console.info('UI 5.8.15')

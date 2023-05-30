@@ -18,7 +18,7 @@ export const addSingleRecordItem = async (
     >
       <Input
         label="Key"
-        space
+        style={{ marginBottom: 24 }}
         type="text"
         // digest={itemType === 'digest'}
         autoFocus

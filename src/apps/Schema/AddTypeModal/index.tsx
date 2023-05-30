@@ -27,7 +27,7 @@ export const AddTypeModal: FC = () => {
     <Dialog label="Create a type">
       <Dialog.Body>
         <Input
-          space
+          style={{ marginBottom: 24 }}
           type="text"
           autoFocus
           placeholder="Type something here"
@@ -39,7 +39,7 @@ export const AddTypeModal: FC = () => {
           value={name}
         />
         <Input
-          space
+          style={{ marginBottom: 24 }}
           type="text"
           placeholder="Type something here"
           label="Display name plural"
@@ -53,7 +53,7 @@ export const AddTypeModal: FC = () => {
           }
         />
         <Input
-          space
+          style={{ marginBottom: 24 }}
           type="text"
           placeholder="Type something here"
           label="Type name"

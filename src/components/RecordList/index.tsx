@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
-import { Space } from '~/types'
 import { EditIcon, AddIcon } from '~/icons'
 import { Button } from '~/components/Button'
 import { Text } from '~/components/Text'
@@ -13,7 +12,6 @@ type RecordListProps = {
   label?: string
   description?: string
   schema?: any
-  space?: Space
   value?: {}
   onClick?: () => void
   onChange?: (value: any) => void
@@ -24,7 +22,6 @@ export const RecordList = ({
   description,
   schema,
   value,
-  space = 48,
   onClick,
   onChange,
 }: // ...props
@@ -43,14 +40,18 @@ RecordListProps) => {
   }
 
   return (
-    <InputWrapper indent space={space} descriptionBottom={description}>
+    <InputWrapper
+      indent
+      style={{ marginBottom: 48 }}
+      descriptionBottom={description}
+    >
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: 12 }}>
         <Text weight={500} size={14}>
           {label}
         </Text>
         <Badge style={{ marginLeft: 8 }}>{schema.values.type}</Badge>
       </div>
-      <InputWrapper indent space={12}>
+      <InputWrapper indent style={{ marginBottom: 12 }}>
         {tempObj &&
           Object.keys(tempObj).map((ObjKey, idx) => (
             <div

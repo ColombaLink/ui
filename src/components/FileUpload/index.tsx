@@ -12,7 +12,6 @@ import {
   Tabs,
   Tab,
   MimeType,
-  Space,
   styled,
   Style,
   RowSpaced,
@@ -28,7 +27,6 @@ type FileUploadProps = {
   indent?: boolean
   onChange?: (file: File[]) => void
   style?: Style
-  space?: Space
   disabled?: boolean
   acceptedFileTypes?: string[]
   multiple?: boolean
@@ -53,7 +51,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   descriptionBottom,
   indent,
   onChange,
-  space,
   style,
   disabled,
   multiple,
@@ -110,7 +107,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             >
               <Input
                 type="text"
-                space="20px"
+                style={{ marginBottom: 20 }}
                 placeholder="Paste the image link..."
                 onChange={(e) => {
                   setUrlInputValue(e)
@@ -327,7 +324,6 @@ export const FileUpload: FC<FileUploadProps> = ({
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       errorMessage={errorMessage}
-      space={space}
       style={style}
     >
       <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
@@ -336,7 +332,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             label={label}
             labelColor={disabled ? 'text2' : 'text'}
             description={description}
-            space="8px"
+            style={{ marginBottom: 8 }}
           />
 
           {more && uploadedFiles.length > 0 && (

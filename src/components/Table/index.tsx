@@ -24,7 +24,8 @@ const Header: FC<{
   headers: TableHeader<any>[]
   setSortOptions: Dispatch<SetStateAction<SortOptions>>
   sortOptions: SortOptions
-}> = ({ headers, width, headerWidth }) => {
+  outline: boolean
+}> = ({ headers, width, headerWidth, outline }) => {
   const children: ReactNode[] = []
   let total = 16
   for (const header of headers) {
@@ -38,11 +39,13 @@ const Header: FC<{
           position: 'absolute',
           left: total,
           top: 0,
-          height: 56,
+          height: 46,
           width: w,
         }}
       >
-        <Text typography="body600">{header.label ?? header.key}</Text>
+        <Text typography="body600" color={outline ? 'text2' : 'text'}>
+          {header.label ?? header.key}
+        </Text>
       </styled.div>
     )
     total += w
@@ -51,8 +54,9 @@ const Header: FC<{
     <styled.div
       style={{
         width,
-        // borderBottom: border(1, 'border'),
-        height: 56,
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
+        height: 46,
         position: 'relative',
       }}
     >
@@ -228,6 +232,9 @@ const SizedGrid: FC<TableProps> = (props) => {
           width: width,
           overflowX: 'hidden',
           borderBottom: border(1, 'border'),
+          backgroundColor: props.outline ? color('background2') : '',
+          borderTopRightRadius: props.outline ? 8 : 0,
+          borderTopLeftRadius: props.outline ? 8 : 0,
         }}
         ref={headerWrapper}
       >
@@ -237,6 +244,7 @@ const SizedGrid: FC<TableProps> = (props) => {
           width={width}
           headers={headers}
           headerWidth={defW}
+          outline={props.outline}
         />
       </styled.div>
       <Grid
@@ -278,6 +286,8 @@ export const Table: FC<TableProps> = (props) => {
         height: '100%',
         width: '100%',
         maxWidth: width,
+        border: props.outline ? border(1, 'border') : 'none',
+        borderRadius: props.outline ? 8 : 0,
       }}
     >
       <AutoSizer>

@@ -1,22 +1,11 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
-import {
-  color,
-  spaceToPx,
-  Text,
-  ErrorIcon,
-  styled,
-  Color,
-  Space,
-  Label,
-  Button,
-} from '~'
+import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
 
 type InputWrapperProps = {
   children: ReactNode
   errorMessage?: string
   focus?: boolean
   indent?: boolean
-  space?: Space
   label?: ReactNode
   description?: string
   descriptionBottom?: string
@@ -37,7 +26,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   children,
   indent,
   errorMessage,
-  space,
   label,
   description,
   descriptionBottom,
@@ -71,7 +59,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             ? color(colorProp)
             : color('border'),
           paddingLeft: indent ? 12 : null,
-          marginBottom: spaceToPx(space),
           pointerEvents: disabled ? 'none' : null,
         }}
         {...props}
