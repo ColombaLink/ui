@@ -53,7 +53,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
     >
       {label && !icon && !img ? (
         <Text
-          color={colorProp}
+          color={colorProp as Color}
           variant="contrast"
           size={
             (typeof size === 'number' ? size / 2 : parseInt(size) / 2) as Size

@@ -82,11 +82,7 @@ const TabWrapper: FC<{
           {children}
         </Text>
       ) : (
-        <Text
-          typography={index === activeTabState ? 'subtext600' : 'subtext500'}
-        >
-          {children.props.label as string}
-        </Text>
+        <>{children.props.label}</>
       )}
     </styled.div>
   )

@@ -3349,7 +3349,10 @@
       "props": {
         "label": {
           "optional": true,
-          "type": "string"
+          "type": [
+            "string",
+            "ReactNode"
+          ]
         },
         "children": {
           "optional": true,
@@ -3365,7 +3368,7 @@
           "type": "CSSProperties"
         }
       },
-      "code": "type TabProps = {\n  // leave the label prop here!\n  label?: string\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  //  icon?: ReactNode\n}",
+      "code": "type TabProps = {\n  // leave the label prop here!\n  label?: string | ReactNode\n  children?: ReactNode | ReactNode[]\n  style?: CSSProperties\n  //  icon?: ReactNode\n}",
       "file": "/components/Tabs/Tab.tsx"
     },
     "TabsProps": {
