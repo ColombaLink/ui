@@ -48,6 +48,7 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
   }, [valueAsString])
 
   const dateInputStringFormatHandler = (e) => {
+    console.log('🛼', e.target.selectionStart)
     if (e.target.value.length === 2) {
       e.target.value = e.target.value + '/'
     }
@@ -57,7 +58,7 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
     setValueAsString(e.target.value)
   }
 
-  const handler = useContextMenu(
+  const openPicker = useContextMenu(
     Picker,
     {
       valueAsString,
@@ -88,7 +89,7 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
         }}
         onClick={(e) => {
           e.preventDefault()
-          handler(e)
+          openPicker(e)
         }}
         onFocus={() => setLocalFocus(true)}
         onBlur={() => setLocalFocus(false)}

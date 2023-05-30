@@ -12,7 +12,6 @@ type DateWidgetProps = {
 // TODO: time input
 // TODO: date range component
 // TODO: utc input
-// TODO: little details tweaking -> no Value what to show on click
 
 export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   const onChangeHandler = (
