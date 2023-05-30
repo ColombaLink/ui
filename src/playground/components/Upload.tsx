@@ -9,13 +9,14 @@ export const Upload = () => {
       descriptionBottom: 'Drag and drop or click to upload',
       onChange: (files) => console.log(files),
       multiple: false,
+      more: 'true',
       indent: true,
       acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
       value: [
         {
-          type: '',
-          name: 'https://based-5521048989376.imgix.net/fiae726b6f/e17804f3-46be-4cb6-a4d3-5d3065841ada-f9fd4b10-e7d0-4ae8-aea5-3f33d3d9dbff-05f80e33-8cef-493f-970c-c0af57a69a92.png',
-          src: '',
+          type: 'image/png',
+          // name: 'https://based-5521048989376.imgix.net/fiae726b6f/e17804f3-46be-4cb6-a4d3-5d3065841ada-f9fd4b10-e7d0-4ae8-aea5-3f33d3d9dbff-05f80e33-8cef-493f-970c-c0af57a69a92.png',
+          src: 'https://platform-files-local.based.dev/00117456-e2e4-47d0-820b-4ca98c4e784c-3fd9c98e-a15b-4533-9bdf-43dd0692bc78-887dd6cb-5950-497b-a312-18170fc56ca0.png',
         },
       ],
     },

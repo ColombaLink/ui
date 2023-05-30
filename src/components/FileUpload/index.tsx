@@ -20,6 +20,7 @@ import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type FileUploadProps = {
+  title?: string
   more?: boolean
   label?: string
   description?: string
@@ -45,6 +46,7 @@ const StyledFileInput = styled('div', {
 
 export const FileUpload: FC<FileUploadProps> = ({
   more = false,
+  title,
   label,
   acceptedFileTypes,
   description,
@@ -317,7 +319,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles([...dupliArr])
   }
   const mimeTypeInput = acceptedFileTypes + '/*'
-  console.log('------------------', more)
   return (
     <InputWrapper
       indent={indent}
@@ -394,6 +395,8 @@ export const FileUpload: FC<FileUploadProps> = ({
           <UploadIcon />
           {draggingOver ? (
             <Text>Drop to upload</Text>
+          ) : title ? (
+            title
           ) : uploadedFiles.length > 0 && !multiple ? (
             <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
           ) : (
