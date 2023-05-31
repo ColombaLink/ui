@@ -39,6 +39,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
   return (
     <Center
       style={{
+        flexShrink: '0',
         width: size,
         height: size,
         borderRadius: '50%',
