@@ -48,14 +48,11 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
   }, [valueAsString])
 
   const dateInputStringFormatHandler = (e) => {
-    console.log('🛼', e.target.selectionStart)
-    if (e.target.value.length === 2) {
-      e.target.value = e.target.value + '/'
-    }
-    if (e.target.value.length === 5) {
-      e.target.value = e.target.value + '/'
-    }
-    setValueAsString(e.target.value)
+    let value = e.target.value
+    value = value.replace(/\D/g, '')
+    value = value.replace(/^(\d{2})(\d)/g, '$1/$2')
+    value = value.replace(/(\d)(\d{4})$/, '$1/$2')
+    setValueAsString(value)
   }
 
   const openPicker = useContextMenu(
