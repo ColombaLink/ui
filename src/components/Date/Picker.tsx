@@ -6,12 +6,14 @@ import {
   Text,
   color,
   removeAllOverlays,
+  useContextState,
+  usePropState,
 } from '~'
 import { Calendar } from './Calendar'
 
 type PickerProps = {
-  valueAsString: string
-  setValueAsString: (e) => string
+  // valueAsString: string
+  // setValueAsString: (e) => string
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -51,8 +53,18 @@ const months = [
   'December',
 ]
 
-export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
+export const Picker = () => {
   const dateObj = new Date()
+
+  let [valueAsString, setValueAsString] = useContextState('value')
+
+  const [selectedDay, setSelectedDay] = useState(valueAsString?.split('/')[0])
+  const [selectedMonth, setSelectedMonth] = useState(
+    valueAsString?.split('/')[1]
+  )
+  const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
+
+  console.log('--> from Picker 🥷🏻', valueAsString)
 
   if (!valueAsString) {
     valueAsString = `${
@@ -63,12 +75,6 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         : `${dateObj.getMonth() + 1}`
     }/${dateObj.getFullYear().toString()}`
   }
-
-  const [selectedDay, setSelectedDay] = useState(valueAsString?.split('/')[0])
-  const [selectedMonth, setSelectedMonth] = useState(
-    valueAsString?.split('/')[1]
-  )
-  const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
@@ -159,7 +165,9 @@ export const Picker = ({ valueAsString, setValueAsString }: PickerProps) => {
         }}
       >
         <Text weight={400}>
-          {months[+selectedMonth]} {selectedYear}
+          {(months[+valueAsString?.split('/')[1]] || '') +
+            ' ' +
+            (valueAsString?.split('/')[2] || '')}
         </Text>
         <styled.div style={{ display: 'flex' }}>
           <StyledChevronHolders

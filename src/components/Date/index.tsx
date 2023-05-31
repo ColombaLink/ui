@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { styled, Style } from '~'
+import { styled, Style, StateProvider } from '~'
 import { InputDate } from './InputDate'
 
 type DateWidgetProps = {
@@ -14,6 +14,7 @@ type DateWidgetProps = {
 // TODO: utc input
 
 export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
+  // van string format naar milliseconds
   const onChangeHandler = (
     str: string,
     timeInput: string = '00:00'
@@ -25,9 +26,28 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
     return outputMs
   }
 
+  const MscToString = (value: number): string => {
+    const newDate = new Date(value)
+    const year = newDate.getFullYear()
+    const month =
+      newDate.getMonth() + 1 < 10
+        ? '0' + (newDate.getMonth() + 1)
+        : newDate.getMonth() + 1
+    const day =
+      newDate.getDate() + 1 < 10
+        ? '0' + (newDate.getDate() + 1)
+        : newDate.getDate() + 1
+
+    return `${day}/${month}/${year}`
+  }
+
+  const stringValue = MscToString(value)
+
   return (
     <styled.div style={{ ...style }}>
-      <InputDate value={value} onChangeHandler={onChangeHandler} />
+      <StateProvider values={{ value: stringValue }}>
+        <InputDate value={value} onChangeHandler={onChangeHandler} />
+      </StateProvider>
     </styled.div>
   )
 }

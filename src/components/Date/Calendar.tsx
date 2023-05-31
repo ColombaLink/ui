@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled, color } from '~'
+import { styled, color, useContextState } from '~'
 
 type CalendarProps = {
   days: string[]
@@ -21,6 +21,14 @@ export const Calendar = ({
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
   }
+
+  // const [valueAsString, setValueAsString] = useContextState('value')
+
+  // let selectedDay = valueAsString?.split('/')[0]
+  // let selectedMonth = valueAsString?.split('/')[1]
+  // let selectedYear = valueAsString?.split('/')[2]
+
+  // console.log(valueAsString, 'FRom CalEnDar')
 
   // to determine the current day
   const dateObj = new Date()

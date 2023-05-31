@@ -1,5 +1,12 @@
 import React, { useRef, FC, useState, useEffect } from 'react'
-import { styled, color, boxShadow, CalendarAltIcon, useContextMenu } from '~'
+import {
+  styled,
+  color,
+  boxShadow,
+  CalendarAltIcon,
+  useContextMenu,
+  useContextState,
+} from '~'
 import { Picker } from './Picker'
 
 const StyledDateInput = styled('input', {
@@ -19,32 +26,23 @@ type InputDateProps = {
   //   dateHandler?: (value: string) => void
 }
 
-const MscToString = (value: number): string => {
-  const newDate = new Date(value)
-  const year = newDate.getFullYear()
-  const month =
-    newDate.getMonth() + 1 < 10
-      ? '0' + (newDate.getMonth() + 1)
-      : newDate.getMonth() + 1
-  const day =
-    newDate.getDate() + 1 < 10
-      ? '0' + (newDate.getDate() + 1)
-      : newDate.getDate() + 1
-
-  return `${day}/${month}/${year}`
-}
-
 export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
-  const [valueAsString, setValueAsString] = useState(
-    value ? MscToString(value) : null
-  )
+  // const [valueAsString, setValueAsString] = useState(
+  //   value ? MscToString(value) : null
+  // )
   const [localFocus, setLocalFocus] = useState(false)
 
   const inputRef = useRef<HTMLInputElement | any>(null)
 
+  const [valueAsString, setValueAsString] = useContextState('value')
+
+  console.log('--> from inputDate 🫅', valueAsString)
+  // console.log('--> flipper flapper 👩‍🚀', MscToString(test))
+
   // so if this value change fire onchange
   useEffect(() => {
     onChangeHandler(valueAsString)
+    setValueAsString(valueAsString)
   }, [valueAsString])
 
   const dateInputStringFormatHandler = (e) => {
