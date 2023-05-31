@@ -66,6 +66,18 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
 
+  
+   // wrap onChange here
+  /*
+    onChange = (files)) => {
+      const [progress, setProgress] = useState(undefined)
+
+        onChangeFromProps(files, setProgress)
+    
+    }
+  */
+  
+  
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {
