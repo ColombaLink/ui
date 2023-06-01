@@ -1,14 +1,15 @@
 import React, { useRef, useState } from 'react'
 import { styled } from 'inlines'
 import { border, color } from '~/utils'
+import { Text } from '../Text'
 
 export const NewDateInput = () => {
   const dayRef = useRef(null)
   const monthRef = useRef(null)
   const yearRef = useRef(null)
 
-  const [day, setDay] = useState<number>()
-  const [month, setMonth] = useState<number>()
+  const [day, setDay] = useState<any>()
+  const [month, setMonth] = useState<any>()
 
   return (
     <styled.div style={{ marginBottom: 56 }}>
@@ -25,8 +26,14 @@ export const NewDateInput = () => {
           }
         }}
         onKeyDown={(e) => {
+          if (e.key === 'Backspace' && +e.target.value < 10) {
+            setDay('')
+          }
           if (e.key === 'ArrowRight') {
             monthRef.current.focus()
+          }
+          if (e.key === 'ArrowDown' && +e.target.value === 1) {
+            setDay(32)
           }
         }}
       />
@@ -35,13 +42,27 @@ export const NewDateInput = () => {
         style={{ maxWidth: 40, border: '1px solid red' }}
         ref={monthRef}
         value={month}
-        onChange={(e) => setMonth(+e.target.value)}
+        onChange={(e) => {
+          if (+e.target.value < 1 || +e.target.value > 12) {
+            setMonth(1)
+          } else {
+            setMonth(+e.target.value)
+          }
+        }}
         onKeyDown={(e) => {
+          console.log(e.key)
+
+          if (e.key === 'Backspace' && +e.target.value < 10) {
+            setMonth('')
+          }
           if (e.key === 'ArrowRight') {
             yearRef.current.focus()
           }
           if (e.key === 'ArrowLeft') {
             dayRef.current.focus()
+          }
+          if (e.key === 'ArrowDown' && +e.target.value === 1) {
+            setMonth(13)
           }
         }}
       />
@@ -77,7 +98,13 @@ export const NewDateInput = () => {
           }}
           onClick={() => dayRef.current.focus()}
         >
-          dd {day < 10 ? `0${day}` : day}
+          <Text color="text2">
+            {day === undefined || day === ''
+              ? 'dd'
+              : day < 10
+              ? `0${day}`
+              : day}
+          </Text>
         </styled.div>
         <styled.div>/</styled.div>
         <styled.div
@@ -88,7 +115,13 @@ export const NewDateInput = () => {
           }}
           onClick={() => monthRef.current.focus()}
         >
-          mm {month < 10 ? `0${month}` : month}
+          <Text color="text2">
+            {month === undefined || month === ''
+              ? 'mm'
+              : month < 10
+              ? `0${month}`
+              : month}
+          </Text>
         </styled.div>
         <styled.div>/</styled.div>
       </styled.div>
