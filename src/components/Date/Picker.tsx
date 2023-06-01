@@ -56,11 +56,11 @@ const MscToString = (value: number): string => {
   const newDate = new Date(value)
   const year = newDate.getFullYear()
   const month =
-    newDate.getMonth() + 1 < 10
+    newDate.getMonth() < 10
       ? '0' + (newDate.getMonth() + 1)
       : newDate.getMonth() + 1
   const day =
-    newDate.getDate() + 1 < 10 ? '0' + newDate.getDate() : newDate.getDate()
+    newDate.getDate() < 10 ? '0' + newDate.getDate() : newDate.getDate()
 
   return `${day}/${month}/${year}`
 }
@@ -75,6 +75,13 @@ export const Picker = ({ setValue }: PickerProps) => {
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('val')
+
+  useEffect(() => {
+    const newMillSecVal = MscToString(millisecondsValue as number)
+    setSelectedDay(newMillSecVal.split('/')[0])
+    setSelectedMonth(newMillSecVal.split('/')[1])
+    setSelectedYear(newMillSecVal.split('/')[2])
+  }, [millisecondsValue])
 
   const [valueAsString, setValueAsString] = useState(
     millisecondsValue ? MscToString(millisecondsValue as number) : ''

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { styled, color, useContextState } from '~'
+import { styled, color } from '~'
 
 type CalendarProps = {
   days: string[]

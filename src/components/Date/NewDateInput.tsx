@@ -84,7 +84,6 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
             if (e.key === 'Backspace' && +e.target.value < 10) {
               setDay('')
             }
-
             if (e.key === 'ArrowDown' && +e.target.value === 1) {
               setDay(32)
             }
@@ -191,7 +190,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
           openPicker(e)
         }}
       >
-        <CalendarAltIcon style={{ position: 'absolute', left: 8, bottom: 8 }} />
+        <CalendarAltIcon style={{ position: 'absolute', left: 8, bottom: 9 }} />
         <styled.div
           style={{
             padding: '0px 1px',
@@ -201,7 +200,8 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
                 : color('background'),
             borderRadius: 4,
           }}
-          onClick={() => {
+          onClick={(e) => {
+            // e.stopPropagation()
             dayRef.current.focus()
             dayRef.current.select()
           }}
@@ -218,7 +218,8 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
                 : color('background'),
             borderRadius: 4,
           }}
-          onClick={() => {
+          onClick={(e) => {
+            //   e.stopPropagation()
             monthRef.current.focus()
             monthRef.current.select()
           }}
@@ -235,7 +236,8 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
                 : color('background'),
             borderRadius: 4,
           }}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation()
             yearRef.current.focus()
             yearRef.current.select()
           }}
