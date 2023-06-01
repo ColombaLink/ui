@@ -10,6 +10,11 @@ export const NewDateInput = () => {
 
   const [day, setDay] = useState<any>('')
   const [month, setMonth] = useState<any>('')
+  const [year, setYear] = useState<any>('')
+
+  const [focusField, setFocusField] = useState<
+    'dayFocus' | 'monthFocus' | 'yearFocus' | ''
+  >('')
 
   return (
     <styled.div style={{ marginBottom: 56 }}>
@@ -36,7 +41,7 @@ export const NewDateInput = () => {
         }}
         onKeyUp={(e) => {
           if (+e.key > 3) {
-            monthRef.current.focus()
+            monthRef.current.select()
           }
           if (
             e.target.value.length > 1 &&
@@ -44,13 +49,15 @@ export const NewDateInput = () => {
             e.key !== 'ArrowUp' &&
             e.key !== 'ArrowLeft'
           ) {
-            monthRef.current.focus()
+            monthRef.current.select()
           }
           if (e.key === 'ArrowRight') {
             // monthRef.current.focus()
             monthRef.current.select()
           }
         }}
+        onFocus={() => setFocusField('dayFocus')}
+        onBlur={() => setFocusField('')}
       />
       <input
         type="number"
@@ -78,7 +85,7 @@ export const NewDateInput = () => {
         onKeyUp={(e) => {
           if (+e.key > 1 && +e.target.value > 1) {
             setMonth(+e.key)
-            yearRef.current.focus()
+            yearRef.current.select()
           }
           if (
             e.target.value.length > 1 &&
@@ -86,7 +93,7 @@ export const NewDateInput = () => {
             e.key !== 'ArrowUp' &&
             e.key !== 'ArrowLeft'
           ) {
-            yearRef.current.focus()
+            yearRef.current.select()
           }
 
           if (e.key === 'ArrowRight') {
@@ -96,17 +103,27 @@ export const NewDateInput = () => {
             dayRef.current.select()
           }
         }}
+        onFocus={() => setFocusField('monthFocus')}
+        onBlur={() => setFocusField('')}
       />
       <input
         type="number"
         style={{ maxWidth: 40, border: '1px solid red' }}
         ref={yearRef}
+        value={year}
+        onChange={(e) => setYear(+e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Backspace' && e.target.value.length === 1) {
+            setYear('')
+          }
+        }}
         onKeyUp={(e) => {
           if (e.key === 'ArrowLeft') {
-            // monthRef.current.focus()
             monthRef.current.select()
           }
         }}
+        onFocus={() => setFocusField('yearFocus')}
+        onBlur={() => setFocusField('')}
       />
 
       <styled.div
@@ -125,8 +142,11 @@ export const NewDateInput = () => {
       >
         <styled.div
           style={{
-            padding: '0px 2px',
-            // backgroundColor: color('accent'),
+            padding: '0px 1px',
+            backgroundColor:
+              focusField === 'dayFocus'
+                ? color('lightaccent')
+                : color('background'),
             borderRadius: 4,
           }}
           onClick={() => {
@@ -134,15 +154,16 @@ export const NewDateInput = () => {
             dayRef.current.select()
           }}
         >
-          <Text color="text2">
-            {day === '' ? 'dd' : day < 10 ? `0${day}` : day}
-          </Text>
+          {day === '' ? 'dd' : day < 10 ? `0${day}` : day}
         </styled.div>
         <styled.div>/</styled.div>
         <styled.div
           style={{
-            padding: '0px 2px',
-            // backgroundColor: color('accent'),
+            padding: '0px 1px',
+            backgroundColor:
+              focusField === 'monthFocus'
+                ? color('lightaccent')
+                : color('background'),
             borderRadius: 4,
           }}
           onClick={() => {
@@ -150,11 +171,25 @@ export const NewDateInput = () => {
             monthRef.current.select()
           }}
         >
-          <Text color="text2">
-            {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
-          </Text>
+          {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
         </styled.div>
         <styled.div>/</styled.div>
+        <styled.div
+          style={{
+            padding: '0px 1px',
+            backgroundColor:
+              focusField === 'yearFocus'
+                ? color('lightaccent')
+                : color('background'),
+            borderRadius: 4,
+          }}
+          onClick={() => {
+            yearRef.current.focus()
+            yearRef.current.select()
+          }}
+        >
+          {year === '' ? 'yyyy' : year}
+        </styled.div>
       </styled.div>
     </styled.div>
   )
