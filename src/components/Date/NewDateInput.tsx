@@ -65,6 +65,15 @@ export const NewDateInput = () => {
             setMonth(13)
           }
         }}
+        onKeyUp={(e) => {
+          if (+e.key > 1 && +e.target.value > 1) {
+            setMonth(+e.key)
+            yearRef.current.focus()
+          }
+          if (e.target.value.length > 1) {
+            yearRef.current.focus()
+          }
+        }}
       />
       <input
         type="number"
