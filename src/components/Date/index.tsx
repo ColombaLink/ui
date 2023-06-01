@@ -1,6 +1,7 @@
 import React, { FC } from 'react'
 import { styled, Style, StateProvider } from '~'
 import { InputDate } from './InputDate'
+import { NewDateInput } from './NewDateInput'
 
 type DateWidgetProps = {
   value?: number // milliseconds
@@ -46,6 +47,7 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   return (
     <styled.div style={{ ...style }}>
       <StateProvider values={{ value: stringValue }}>
+        <NewDateInput />
         <InputDate value={value} onChangeHandler={onChangeHandler} />
       </StateProvider>
     </styled.div>
