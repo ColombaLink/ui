@@ -2,6 +2,8 @@ import React, { useRef, useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
+import { useContextMenu, useContextState } from '~/hooks'
+import { Picker } from './Picker'
 
 type newDateProps = {
   // milliseconds
@@ -16,7 +18,9 @@ const stringToMilliseconds = (str: string): number => {
   return outputMs
 }
 
-export const NewDateInput = ({ value, setValue }: newDateProps) => {
+export const NewDateInput = ({ value, setValue }) => {
+  //  const [value] = useContextState('val')
+
   console.log('The value ⏰', value)
 
   const dayRef = useRef(null)
@@ -54,6 +58,17 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
   }, [day, month, year])
 
   console.log('FullDate Srting', fullDateString)
+
+  const openPicker = useContextMenu(
+    Picker,
+    {
+      //   valueAsString,
+      setValue,
+    },
+    {
+      width: 'target',
+    }
+  )
 
   return (
     <styled.div style={{ marginBottom: 56 }}>
@@ -175,6 +190,10 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
           alignItems: 'center',
           width: 280,
           marginTop: 40,
+        }}
+        onClick={(e) => {
+          e.preventDefault()
+          openPicker(e)
         }}
       >
         <CalendarAltIcon style={{ position: 'absolute', left: 8, bottom: 8 }} />

@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react'
-import { styled, Style } from '~'
+import React, { FC, useEffect, useState } from 'react'
+import { styled, Style, StateProvider } from '~'
 import { InputDate } from './InputDate'
 import { NewDateInput } from './NewDateInput'
 
@@ -31,28 +31,34 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   //   return outputMs
   // }
 
-  // const MscToString = (value: number): string => {
-  //   const newDate = new Date(value)
-  //   const year = newDate.getFullYear()
-  //   const month =
-  //     newDate.getMonth() + 1 < 10
-  //       ? '0' + (newDate.getMonth() + 1)
-  //       : newDate.getMonth() + 1
-  //   const day =
-  //     newDate.getDate() + 1 < 10
-  //       ? '0' + (newDate.getDate() + 1)
-  //       : newDate.getDate() + 1
+  const MscToString = (value: number): string => {
+    const newDate = new Date(value)
+    const year = newDate.getFullYear()
+    const month = newDate.getMonth() + 1
+    const day = newDate.getDate()
 
-  //   return `${day}/${month}/${year}`
-  // }
+    return `${day}/${month}/${year}`
+  }
 
   // const stringValue = MscToString(value)
 
+  useEffect(() => {
+    console.log('does this change??? 🧩')
+  }, [millisecondsValue])
+
   return (
     <styled.div style={{ ...style }}>
-      <NewDateInput value={millisecondsValue} setValue={setMilliSecondsValue} />
-      top component millesconds: {millisecondsValue}
-      {/* <InputDate value={value} onChangeHandler={onChangeHandler} /> */}
+      <div style={{ marginBottom: 32, border: '1px solid red' }}>
+        top component millesconds: {millisecondsValue} : top date:{' '}
+        {MscToString(millisecondsValue)}
+      </div>
+      <StateProvider values={{ val: millisecondsValue }}>
+        <NewDateInput
+          value={millisecondsValue}
+          setValue={setMilliSecondsValue}
+        />
+        {/* <InputDate value={value} onChangeHandler={onChangeHandler} /> */}
+      </StateProvider>
     </styled.div>
   )
 }
