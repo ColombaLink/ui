@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { styled } from 'inlines'
 import { border, color } from '~/utils'
-import { Text } from '../Text'
+import { CalendarAltIcon } from '~/icons'
 
 export const NewDateInput = () => {
   const dayRef = useRef(null)
@@ -72,19 +72,15 @@ export const NewDateInput = () => {
           }
         }}
         onKeyDown={(e) => {
-          console.log(e.key)
-
           if (e.key === 'Backspace' && +e.target.value < 10) {
             setMonth('')
           }
-
           if (e.key === 'ArrowDown' && +e.target.value === 1) {
             setMonth(13)
           }
         }}
         onKeyUp={(e) => {
           if (+e.key > 1 && +e.target.value > 1) {
-            setMonth(+e.key)
             yearRef.current.select()
           }
           if (
@@ -95,7 +91,6 @@ export const NewDateInput = () => {
           ) {
             yearRef.current.select()
           }
-
           if (e.key === 'ArrowRight') {
             yearRef.current.select()
           }
@@ -129,17 +124,19 @@ export const NewDateInput = () => {
       <styled.div
         style={{
           display: 'flex',
+          position: 'relative',
           border: border(1, 'border'),
           borderRadius: 8,
           boxShadow: `0px 1px 4px ${color('background2')}`,
           minHeight: 36,
-          paddingLeft: 12,
+          paddingLeft: 32,
           paddingRight: 12,
           alignItems: 'center',
           width: 280,
           marginTop: 40,
         }}
       >
+        <CalendarAltIcon style={{ position: 'absolute', left: 8, bottom: 8 }} />
         <styled.div
           style={{
             padding: '0px 1px',
