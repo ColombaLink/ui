@@ -8,8 +8,8 @@ export const NewDateInput = () => {
   const monthRef = useRef(null)
   const yearRef = useRef(null)
 
-  const [day, setDay] = useState<any>()
-  const [month, setMonth] = useState<any>()
+  const [day, setDay] = useState<any>('')
+  const [month, setMonth] = useState<any>('')
 
   return (
     <styled.div style={{ marginBottom: 56 }}>
@@ -34,6 +34,20 @@ export const NewDateInput = () => {
           }
           if (e.key === 'ArrowDown' && +e.target.value === 1) {
             setDay(32)
+          }
+        }}
+        onKeyUp={(e) => {
+          if (+e.key > 3) {
+            setDay(+e.key)
+            monthRef.current.focus()
+          }
+          if (
+            e.target.value.length > 1 &&
+            e.key !== 'ArrowDown' &&
+            e.key !== 'ArrowUp' &&
+            e.key !== 'ArrowLeft'
+          ) {
+            monthRef.current.focus()
           }
         }}
       />
@@ -70,7 +84,12 @@ export const NewDateInput = () => {
             setMonth(+e.key)
             yearRef.current.focus()
           }
-          if (e.target.value.length > 1) {
+          if (
+            e.target.value.length > 1 &&
+            e.key !== 'ArrowDown' &&
+            e.key !== 'ArrowUp' &&
+            e.key !== 'ArrowLeft'
+          ) {
             yearRef.current.focus()
           }
         }}
@@ -105,14 +124,13 @@ export const NewDateInput = () => {
             // backgroundColor: color('accent'),
             borderRadius: 4,
           }}
-          onClick={() => dayRef.current.focus()}
+          onClick={() => {
+            dayRef.current.focus()
+            dayRef.current.select()
+          }}
         >
           <Text color="text2">
-            {day === undefined || day === ''
-              ? 'dd'
-              : day < 10
-              ? `0${day}`
-              : day}
+            {day === '' ? 'dd' : day < 10 ? `0${day}` : day}
           </Text>
         </styled.div>
         <styled.div>/</styled.div>
@@ -125,11 +143,7 @@ export const NewDateInput = () => {
           onClick={() => monthRef.current.focus()}
         >
           <Text color="text2">
-            {month === undefined || month === ''
-              ? 'mm'
-              : month < 10
-              ? `0${month}`
-              : month}
+            {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
           </Text>
         </styled.div>
         <styled.div>/</styled.div>
