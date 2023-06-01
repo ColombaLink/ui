@@ -45,18 +45,15 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   }
   // const stringValue = MscToString(value)
 
+  const testDate = new Date(millisecondsValue)
+
   return (
     <styled.div style={{ ...style }}>
       <div style={{ marginBottom: 32, border: '1px solid red' }}>
-        top component millesconds: {millisecondsValue} : top date:{' '}
-        {MscToString(millisecondsValue)}
+        {millisecondsValue} milliseconds <br />
+        {new Date(millisecondsValue).toString()}
       </div>
-      <StateProvider
-        values={{
-          val: millisecondsValue,
-          stringVal: MscToString(millisecondsValue),
-        }}
-      >
+      <StateProvider values={{ val: millisecondsValue }}>
         <NewDateInput
           value={millisecondsValue}
           setValue={setMilliSecondsValue}

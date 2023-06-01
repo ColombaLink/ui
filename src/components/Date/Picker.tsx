@@ -12,7 +12,7 @@ import { Calendar } from './Calendar'
 
 type PickerProps = {
   // valueAsString: string
-  setValueAsString: (e) => string
+  setValue: (e) => string
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -68,18 +68,13 @@ const MscToString = (value: number): string => {
 const stringToMilliseconds = (str: string): number => {
   const dateString = `${str?.split('/').reverse().join('-')}T00:00`
   const outputMs = new Date(dateString).getTime()
-  console.log('output in ms 🎉', outputMs)
   return outputMs
 }
 
-export const Picker = ({ setValue }) => {
+export const Picker = ({ setValue }: PickerProps) => {
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('val')
-  const [stringValue] = useContextState('stringVal')
-
-  console.log('From picker ⛏', millisecondsValue)
-  console.log('From picker ,', stringValue)
 
   const [valueAsString, setValueAsString] = useState(
     millisecondsValue ? MscToString(millisecondsValue as number) : ''
@@ -90,8 +85,6 @@ export const Picker = ({ setValue }) => {
     valueAsString?.split('/')[1]
   )
   const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
-
-  console.log('--> from Picker 🥷🏻', valueAsString)
 
   if (!valueAsString) {
     setValueAsString(

@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
-import { useContextMenu, useContextState, usePropState } from '~/hooks'
+import { useContextMenu } from '~/hooks'
 import { Picker } from './Picker'
 
 type newDateProps = {
@@ -14,15 +14,10 @@ type newDateProps = {
 const stringToMilliseconds = (str: string): number => {
   const dateString = `${str?.split('/').reverse().join('-')}T00:00`
   const outputMs = new Date(dateString).getTime()
-  console.log('output in ms 🎉', outputMs)
   return outputMs
 }
 
-export const NewDateInput = ({ value, setValue }) => {
-  //  const [value] = useContextState('val')
-
-  console.log('The value ⏰', value)
-
+export const NewDateInput = ({ value, setValue }: newDateProps) => {
   const dayRef = useRef(null)
   const monthRef = useRef(null)
   const yearRef = useRef(null)
@@ -50,34 +45,29 @@ export const NewDateInput = ({ value, setValue }) => {
       year &&
       stringToMilliseconds(fullDateString) !== value
     ) {
-      console.log('FIREBALL 🔥')
       setValue(stringToMilliseconds(fullDateString))
     }
   }, [day, month, year])
 
   useEffect(() => {
-    console.log('not a Fireball 💭')
     setDay(new Date(value).getDate())
     setMonth(new Date(value).getMonth() + 1)
     setYear(new Date(value).getFullYear())
   }, [value])
 
-  console.log('FullDate Srting', fullDateString)
-
-  const openPicker = useContextMenu(
-    Picker,
-    {
-      //   valueAsString,
-      setValue,
-    },
-    {
-      width: 'target',
-    }
-  )
+  const openPicker = useContextMenu(Picker, { setValue }, { width: 'target' })
 
   return (
     <styled.div style={{ marginBottom: 56 }}>
-      <styled.div style={{ opacity: 0.33 }}>
+      {/* hide from ui - user */}
+      <styled.div
+        style={{
+          opacity: 0.33,
+          position: 'absolute',
+          pointerEvents: 'none',
+          marginTop: -32,
+        }}
+      >
         <input
           type="number"
           style={{ maxWidth: 40, border: '1px solid red' }}
