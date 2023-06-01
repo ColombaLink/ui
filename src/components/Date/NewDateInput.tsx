@@ -29,16 +29,13 @@ export const NewDateInput = () => {
           if (e.key === 'Backspace' && +e.target.value < 10) {
             setDay('')
           }
-          if (e.key === 'ArrowRight') {
-            monthRef.current.focus()
-          }
+
           if (e.key === 'ArrowDown' && +e.target.value === 1) {
             setDay(32)
           }
         }}
         onKeyUp={(e) => {
           if (+e.key > 3) {
-            setDay(+e.key)
             monthRef.current.focus()
           }
           if (
@@ -48,6 +45,10 @@ export const NewDateInput = () => {
             e.key !== 'ArrowLeft'
           ) {
             monthRef.current.focus()
+          }
+          if (e.key === 'ArrowRight') {
+            // monthRef.current.focus()
+            monthRef.current.select()
           }
         }}
       />
@@ -69,12 +70,7 @@ export const NewDateInput = () => {
           if (e.key === 'Backspace' && +e.target.value < 10) {
             setMonth('')
           }
-          if (e.key === 'ArrowRight') {
-            yearRef.current.focus()
-          }
-          if (e.key === 'ArrowLeft') {
-            dayRef.current.focus()
-          }
+
           if (e.key === 'ArrowDown' && +e.target.value === 1) {
             setMonth(13)
           }
@@ -92,15 +88,23 @@ export const NewDateInput = () => {
           ) {
             yearRef.current.focus()
           }
+
+          if (e.key === 'ArrowRight') {
+            yearRef.current.select()
+          }
+          if (e.key === 'ArrowLeft') {
+            dayRef.current.select()
+          }
         }}
       />
       <input
         type="number"
         style={{ maxWidth: 40, border: '1px solid red' }}
         ref={yearRef}
-        onKeyDown={(e) => {
+        onKeyUp={(e) => {
           if (e.key === 'ArrowLeft') {
-            monthRef.current.focus()
+            // monthRef.current.focus()
+            monthRef.current.select()
           }
         }}
       />
@@ -116,6 +120,7 @@ export const NewDateInput = () => {
           paddingRight: 12,
           alignItems: 'center',
           width: 280,
+          marginTop: 40,
         }}
       >
         <styled.div
@@ -140,7 +145,10 @@ export const NewDateInput = () => {
             // backgroundColor: color('accent'),
             borderRadius: 4,
           }}
-          onClick={() => monthRef.current.focus()}
+          onClick={() => {
+            monthRef.current.focus()
+            monthRef.current.select()
+          }}
         >
           <Text color="text2">
             {month === '' ? 'mm' : month < 10 ? `0${month}` : month}
