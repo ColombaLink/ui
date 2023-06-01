@@ -201,7 +201,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
             borderRadius: 4,
           }}
           onClick={(e) => {
-            // e.stopPropagation()
+            //   e.stopPropagation()
             dayRef.current.focus()
             dayRef.current.select()
           }}
@@ -219,7 +219,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
             borderRadius: 4,
           }}
           onClick={(e) => {
-            //   e.stopPropagation()
+            //  e.stopPropagation()
             monthRef.current.focus()
             monthRef.current.select()
           }}

@@ -56,7 +56,7 @@ const MscToString = (value: number): string => {
   const newDate = new Date(value)
   const year = newDate.getFullYear()
   const month =
-    newDate.getMonth() < 10
+    newDate.getMonth() < 9
       ? '0' + (newDate.getMonth() + 1)
       : newDate.getMonth() + 1
   const day =
@@ -67,6 +67,7 @@ const MscToString = (value: number): string => {
 
 const stringToMilliseconds = (str: string): number => {
   const dateString = `${str?.split('/').reverse().join('-')}T00:00`
+  console.log('date string', dateString)
   const outputMs = new Date(dateString).getTime()
   return outputMs
 }
@@ -93,19 +94,19 @@ export const Picker = ({ setValue }: PickerProps) => {
   )
   const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
 
-  if (!valueAsString) {
-    setValueAsString(
-      `${
-        dateObj.getDate() < 10
-          ? `0${dateObj.getDate()}`
-          : `${dateObj.getDate()}`
-      }/${
-        dateObj.getMonth() < 10
-          ? `0${dateObj.getMonth() + 1}`
-          : `${dateObj.getMonth() + 1}`
-      }/${dateObj.getFullYear().toString()}`
-    )
-  }
+  // if (!valueAsString) {
+  //   setValueAsString(
+  //     `${
+  //       dateObj.getDate() < 10
+  //         ? `0${dateObj.getDate()}`
+  //         : `${dateObj.getDate()}`
+  //     }/${
+  //       dateObj.getMonth() < 10
+  //         ? `0${dateObj.getMonth() + 1}`
+  //         : `${dateObj.getMonth() + 1}`
+  //     }/${dateObj.getFullYear().toString()}`
+  //   )
+  // }
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
@@ -121,7 +122,7 @@ export const Picker = ({ setValue }: PickerProps) => {
   }, [selectedDay, selectedMonth, selectedYear, valueAsString])
 
   // Days forward or backward
-  const DayChanger = (str: 'forward' | 'backward') => {
+  const dayChanger = (str: 'forward' | 'backward') => {
     if (str === 'forward') {
       if (+selectedDay === daysInMonth(+selectedMonth, +selectedYear)) {
         if (+selectedMonth === 12) {
@@ -129,7 +130,7 @@ export const Picker = ({ setValue }: PickerProps) => {
           setSelectedMonth('01')
           setSelectedYear((+selectedYear + 1).toString())
         } else {
-          MonthChanger('forward')
+          monthChanger('forward')
           setSelectedDay('01')
         }
       } else
@@ -146,7 +147,7 @@ export const Picker = ({ setValue }: PickerProps) => {
           setSelectedMonth('12')
           setSelectedYear((+selectedYear - 1).toString())
         } else {
-          MonthChanger('backward')
+          monthChanger('backward')
           setSelectedDay(
             daysInMonth(+selectedMonth - 1, selectedYear).toString()
           )
@@ -162,14 +163,16 @@ export const Picker = ({ setValue }: PickerProps) => {
   }
 
   // Months forward or backward
-  const MonthChanger = (str: 'forward' | 'backward') => {
+  const monthChanger = (str: 'forward' | 'backward') => {
     if (str === 'forward') {
       if (selectedMonth === `12` || +selectedMonth === 12) {
         setSelectedMonth('01')
         setSelectedYear((+selectedYear + 1).toString())
       } else {
         setSelectedMonth(
-          +selectedMonth < 9
+          +selectedMonth === 9
+            ? '10'
+            : +selectedMonth < 9
             ? '0' + (+selectedMonth + 1).toString()
             : (+selectedMonth + 1).toString()
         )
@@ -206,12 +209,12 @@ export const Picker = ({ setValue }: PickerProps) => {
         </Text>
         <styled.div style={{ display: 'flex' }}>
           <StyledChevronHolders
-            onClick={() => MonthChanger('backward')}
+            onClick={() => monthChanger('backward')}
             style={{ marginRight: 16 }}
           >
             <ChevronUpIcon />
           </StyledChevronHolders>
-          <StyledChevronHolders onClick={() => MonthChanger('forward')}>
+          <StyledChevronHolders onClick={() => monthChanger('forward')}>
             <ChevronDownIcon />
           </StyledChevronHolders>
         </styled.div>
@@ -254,10 +257,10 @@ export const Picker = ({ setValue }: PickerProps) => {
         >
           Today
         </Text>
-        <Text weight={400} space="4px" onClick={() => DayChanger('forward')}>
+        <Text weight={400} space="4px" onClick={() => dayChanger('forward')}>
           Select next date
         </Text>
-        <Text weight={400} space="4px" onClick={() => DayChanger('backward')}>
+        <Text weight={400} space="4px" onClick={() => dayChanger('backward')}>
           Select previous date
         </Text>
       </styled.div>

@@ -12,6 +12,7 @@ type DateWidgetProps = {
 // TODO: time input
 // TODO: date range component
 // TODO: utc input
+// TODO: schikkeljaar
 
 export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   // only want one source of truth in milliseconds value
