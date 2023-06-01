@@ -60,9 +60,7 @@ const MscToString = (value: number): string => {
       ? '0' + (newDate.getMonth() + 1)
       : newDate.getMonth() + 1
   const day =
-    newDate.getDate() + 1 < 10
-      ? '0' + (newDate.getDate() + 1)
-      : newDate.getDate() + 1
+    newDate.getDate() + 1 < 10 ? '0' + newDate.getDate() : newDate.getDate()
 
   return `${day}/${month}/${year}`
 }
@@ -78,8 +76,10 @@ export const Picker = ({ setValue }) => {
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('val')
+  const [stringValue] = useContextState('stringVal')
 
   console.log('From picker ⛏', millisecondsValue)
+  console.log('From picker ,', stringValue)
 
   const [valueAsString, setValueAsString] = useState(
     millisecondsValue ? MscToString(millisecondsValue as number) : ''
@@ -93,19 +93,19 @@ export const Picker = ({ setValue }) => {
 
   console.log('--> from Picker 🥷🏻', valueAsString)
 
-  // if (!valueAsString) {
-  //   setValueAsString(
-  //     `${
-  //       dateObj.getDate() < 10
-  //         ? `0${dateObj.getDate()}`
-  //         : `${dateObj.getDate()}`
-  //     }/${
-  //       dateObj.getMonth() < 10
-  //         ? `0${dateObj.getMonth() + 1}`
-  //         : `${dateObj.getMonth() + 1}`
-  //     }/${dateObj.getFullYear().toString()}`
-  //   )
-  // }
+  if (!valueAsString) {
+    setValueAsString(
+      `${
+        dateObj.getDate() < 10
+          ? `0${dateObj.getDate()}`
+          : `${dateObj.getDate()}`
+      }/${
+        dateObj.getMonth() < 10
+          ? `0${dateObj.getMonth() + 1}`
+          : `${dateObj.getMonth() + 1}`
+      }/${dateObj.getFullYear().toString()}`
+    )
+  }
 
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
@@ -113,7 +113,7 @@ export const Picker = ({ setValue }) => {
 
   // So if year, day or month changes set the new Value 🔥
   useEffect(() => {
-    //  setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
+    setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
     // zet het naar milliseconde
     setValue(
       stringToMilliseconds(`${selectedDay}/${selectedMonth}/${selectedYear}`)

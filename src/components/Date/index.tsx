@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { styled, Style, StateProvider } from '~'
 import { InputDate } from './InputDate'
 import { NewDateInput } from './NewDateInput'
@@ -34,17 +34,16 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
   const MscToString = (value: number): string => {
     const newDate = new Date(value)
     const year = newDate.getFullYear()
-    const month = newDate.getMonth() + 1
-    const day = newDate.getDate()
+    const month =
+      newDate.getMonth() + 1 < 10
+        ? '0' + (newDate.getMonth() + 1)
+        : newDate.getMonth() + 1
+    const day =
+      newDate.getDate() + 1 < 10 ? '0' + newDate.getDate() : newDate.getDate()
 
     return `${day}/${month}/${year}`
   }
-
   // const stringValue = MscToString(value)
-
-  useEffect(() => {
-    console.log('does this change??? 🧩')
-  }, [millisecondsValue])
 
   return (
     <styled.div style={{ ...style }}>
@@ -52,7 +51,12 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
         top component millesconds: {millisecondsValue} : top date:{' '}
         {MscToString(millisecondsValue)}
       </div>
-      <StateProvider values={{ val: millisecondsValue }}>
+      <StateProvider
+        values={{
+          val: millisecondsValue,
+          stringVal: MscToString(millisecondsValue),
+        }}
+      >
         <NewDateInput
           value={millisecondsValue}
           setValue={setMilliSecondsValue}

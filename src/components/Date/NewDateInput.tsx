@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
-import { useContextMenu, useContextState } from '~/hooks'
+import { useContextMenu, useContextState, usePropState } from '~/hooks'
 import { Picker } from './Picker'
 
 type newDateProps = {
@@ -27,9 +27,7 @@ export const NewDateInput = ({ value, setValue }) => {
   const monthRef = useRef(null)
   const yearRef = useRef(null)
 
-  const [day, setDay] = useState<any>(
-    value ? new Date(value).getDate() + 1 : ''
-  )
+  const [day, setDay] = useState<any>(value ? new Date(value).getDate() : '')
   const [month, setMonth] = useState<any>(
     value ? new Date(value).getMonth() + 1 : ''
   )
@@ -56,6 +54,13 @@ export const NewDateInput = ({ value, setValue }) => {
       setValue(stringToMilliseconds(fullDateString))
     }
   }, [day, month, year])
+
+  useEffect(() => {
+    console.log('not a Fireball 💭')
+    setDay(new Date(value).getDate())
+    setMonth(new Date(value).getMonth() + 1)
+    setYear(new Date(value).getFullYear())
+  }, [value])
 
   console.log('FullDate Srting', fullDateString)
 
