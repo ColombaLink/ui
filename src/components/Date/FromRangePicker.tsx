@@ -8,7 +8,7 @@ import {
   removeAllOverlays,
   useContextState,
 } from '~'
-import { Calendar } from './Calendar'
+import { RangeCalendar } from './RangeCalendar'
 
 type RangePickerProps = {
   setValue: (e: any) => void
@@ -80,10 +80,10 @@ export const FromRangePicker = ({
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('fromValue')
-  // const [tillValue] = useContextState('tillValue')
+  const [tillValue] = useContextState('tillValue')
 
   console.log('from:', millisecondsValue)
-  // console.log('till:', tillValue)
+  console.log('till:', tillValue)
 
   useEffect(() => {
     const newMillSecVal = MscToString(millisecondsValue as number)
@@ -216,7 +216,7 @@ export const FromRangePicker = ({
         </styled.div>
       </styled.div>
       {/* Calendar */}
-      <Calendar
+      <RangeCalendar
         days={days}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}

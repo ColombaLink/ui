@@ -8,7 +8,7 @@ import {
   removeAllOverlays,
   useContextState,
 } from '~'
-import { Calendar } from './Calendar'
+import { RangeCalendar } from './RangeCalendar'
 
 type RangePickerProps = {
   setValue: (e: any) => void
@@ -214,7 +214,7 @@ export const TillRangePicker = ({
         </styled.div>
       </styled.div>
       {/* Calendar */}
-      <Calendar
+      <RangeCalendar
         days={days}
         selectedDay={selectedDay}
         setSelectedDay={setSelectedDay}

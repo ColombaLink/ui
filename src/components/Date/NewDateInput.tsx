@@ -230,10 +230,8 @@ export const NewDateInput = ({
           onClick={(e) => {
             e.preventDefault()
             if (isFromRange) {
-              console.log('Open from ⛩')
               openFromRangePicker(e)
             } else if (isTillRange) {
-              console.log('open Till 💒')
               openTillRangePicker(e)
             } else {
               openPicker(e)
