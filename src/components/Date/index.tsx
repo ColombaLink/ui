@@ -5,6 +5,7 @@ import { NewDateInput } from './NewDateInput'
 type DateWidgetProps = {
   value?: number // milliseconds
   onChange?: (value: number) => void
+  time?: boolean
   style?: Style
 }
 
@@ -14,7 +15,12 @@ type DateWidgetProps = {
 // TODO: utc input
 // TODO: schikkeljaar
 
-export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
+export const DateWidget: FC<DateWidgetProps> = ({
+  value,
+  onChange,
+  time,
+  style,
+}) => {
   // only want one source of truth in milliseconds value
   // TODO deze waarde moet zodalijk aan de onChange gereturned worden
   const [millisecondsValue, setMilliSecondsValue] = useState(value)
@@ -29,6 +35,7 @@ export const DateWidget: FC<DateWidgetProps> = ({ value, onChange, style }) => {
         <NewDateInput
           value={millisecondsValue}
           setValue={setMilliSecondsValue}
+          time={time}
         />
       </StateProvider>
     </styled.div>

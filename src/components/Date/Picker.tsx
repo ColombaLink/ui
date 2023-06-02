@@ -13,6 +13,7 @@ import { Calendar } from './Calendar'
 type PickerProps = {
   // valueAsString: string
   setValue: (e) => string
+  timeString?: string
 }
 
 const StyledDatePickerBox = styled('div', {
@@ -65,14 +66,14 @@ const MscToString = (value: number): string => {
   return `${day}/${month}/${year}`
 }
 
-const stringToMilliseconds = (str: string): number => {
-  const dateString = `${str?.split('/').reverse().join('-')}T00:00`
+const stringToMilliseconds = (str: string, time?: string): number => {
+  const dateString = `${str?.split('/').reverse().join('-')}T${time || '00:00'}`
   console.log('date string', dateString)
   const outputMs = new Date(dateString).getTime()
   return outputMs
 }
 
-export const Picker = ({ setValue }: PickerProps) => {
+export const Picker = ({ setValue, timeString }: PickerProps) => {
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('val')
@@ -117,7 +118,10 @@ export const Picker = ({ setValue }: PickerProps) => {
     setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
     // zet het naar milliseconde
     setValue(
-      stringToMilliseconds(`${selectedDay}/${selectedMonth}/${selectedYear}`)
+      stringToMilliseconds(
+        `${selectedDay}/${selectedMonth}/${selectedYear}`,
+        timeString
+      )
     )
   }, [selectedDay, selectedMonth, selectedYear, valueAsString])
 

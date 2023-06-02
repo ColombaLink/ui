@@ -4,7 +4,6 @@ import {
   color,
   boxShadow,
   CalendarAltIcon,
-  useContextMenu,
   useContextState,
   useOverlay,
 } from '~'
