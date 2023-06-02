@@ -6,6 +6,7 @@ import {
   CalendarAltIcon,
   useContextMenu,
   useContextState,
+  useOverlay,
 } from '~'
 import { Picker } from './Picker'
 
@@ -53,7 +54,7 @@ export const InputDate: FC<InputDateProps> = ({ value, onChangeHandler }) => {
     setValueAsString(value)
   }
 
-  const openPicker = useContextMenu(
+  const openPicker = useOverlay(
     Picker,
     {
       valueAsString,

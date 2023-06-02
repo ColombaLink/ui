@@ -269,7 +269,7 @@ export const Picker = ({ setValue }: PickerProps) => {
         style={{ padding: '8px 16px', cursor: 'pointer' }}
         weight={400}
         onClick={() => {
-          setValueAsString('')
+          setValue(0)
           removeAllOverlays()
         }}
       >

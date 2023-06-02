@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
-import { useContextMenu } from '~/hooks'
+import { useOverlay } from '~/hooks'
 import { Picker } from './Picker'
 
 type newDateProps = {
@@ -55,7 +55,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
     setYear(new Date(value).getFullYear())
   }, [value])
 
-  const openPicker = useContextMenu(Picker, { setValue }, { width: 'target' })
+  const openPicker = useOverlay(Picker, { setValue }, { width: 'target' })
 
   return (
     <styled.div style={{ marginBottom: 56 }}>
@@ -81,10 +81,10 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
             }
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Backspace' && +e.target.value < 10) {
+            if (e.key === 'Backspace') {
               setDay('')
             }
-            if (e.key === 'ArrowDown' && +e.target.value === 1) {
+            if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
               setDay(32)
             }
           }}
@@ -93,7 +93,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
               monthRef.current.select()
             }
             if (
-              e.target.value.length > 1 &&
+              e.currentTarget.value.length > 1 &&
               e.key !== 'ArrowDown' &&
               e.key !== 'ArrowUp' &&
               e.key !== 'ArrowLeft'
@@ -121,19 +121,19 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
             }
           }}
           onKeyDown={(e) => {
-            if (e.key === 'Backspace' && +e.target.value < 10) {
+            if (e.key === 'Backspace') {
               setMonth('')
             }
-            if (e.key === 'ArrowDown' && +e.target.value === 1) {
+            if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
               setMonth(13)
             }
           }}
           onKeyUp={(e) => {
-            if (+e.key > 1 && +e.target.value > 1) {
+            if (+e.key > 1 && +e.currentTarget.value > 1) {
               yearRef.current.select()
             }
             if (
-              e.target.value.length > 1 &&
+              e.currentTarget.value.length > 1 &&
               e.key !== 'ArrowDown' &&
               e.key !== 'ArrowUp' &&
               e.key !== 'ArrowLeft'
@@ -157,7 +157,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
           value={year}
           onChange={(e) => setYear(+e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Backspace' && e.target.value.length === 1) {
+            if (e.key === 'Backspace') {
               setYear('')
             }
           }}
@@ -200,7 +200,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
                 : color('background'),
             borderRadius: 4,
           }}
-          onClick={(e) => {
+          onClick={() => {
             //   e.stopPropagation()
             dayRef.current.focus()
             dayRef.current.select()
@@ -218,7 +218,7 @@ export const NewDateInput = ({ value, setValue }: newDateProps) => {
                 : color('background'),
             borderRadius: 4,
           }}
-          onClick={(e) => {
+          onClick={() => {
             //  e.stopPropagation()
             monthRef.current.focus()
             monthRef.current.select()
