@@ -69,12 +69,6 @@ export const NewDateInput = ({
     }
   }, [day, month, year, timeString])
 
-  useEffect(() => {
-    setDay(value ? new Date(value).getDate() : '')
-    setMonth(value ? new Date(value).getMonth() + 1 : '')
-    setYear(value ? new Date(value).getFullYear() : '')
-  }, [value])
-
   const openPicker = useOverlay(
     Picker,
     { setValue, timeString, stringToMilliseconds },
@@ -179,6 +173,7 @@ export const NewDateInput = ({
               yearRef.current.select()
             }
             if (e.key === 'ArrowLeft') {
+              dayRef.current.focus()
               dayRef.current.select()
             }
           }}
