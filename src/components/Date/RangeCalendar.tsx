@@ -25,21 +25,19 @@ export const RangeCalendar = ({
   const [fromValue] = useContextState('fromValue')
   const [tillValue] = useContextState('tillValue')
 
-  console.log('🩸', fromValue)
-
   const fromDateObj = new Date(+fromValue)
   const fromYear = fromDateObj.getFullYear()
   const fromMonth = fromDateObj.getMonth() + 1
   const fromDay = fromDateObj.getDate()
 
-  console.log('FROM --> ', fromYear, fromMonth, fromDay)
+  //   console.log('FROM --> ', fromYear, fromMonth, fromDay)
 
   const tillDateObj = new Date(+tillValue)
   const tillYear = tillDateObj.getFullYear()
   const tillMonth = tillDateObj.getMonth() + 1
   const tillDay = tillDateObj.getDate()
 
-  console.log('Till --> ', tillYear, tillMonth, tillDay)
+  //   console.log('Till --> ', tillYear, tillMonth, tillDay)
 
   // to determine the current day
   const dateObj = new Date()
@@ -91,6 +89,22 @@ export const RangeCalendar = ({
 
     setDaysArr(tempArr)
   }, [selectedMonth])
+
+  const checkIfRanged = (year, month, day) => {
+    // if this falls between fromvalue and the tillvalue
+    // console.log('---->>>', year, month, day, fromValue, tillValue)
+
+    const fromTime = new Date(fromYear, fromMonth, fromDay).getTime()
+    const tillTime = new Date(tillYear, tillMonth, tillDay).getTime()
+    const checkTime = new Date(year, month, day).getTime()
+
+    // console.log('CheckTime ??', checkTime)
+
+    if (checkTime > fromTime && checkTime < tillTime) {
+      //   console.log('🔮')
+      return true
+    }
+  }
 
   return (
     <>
@@ -150,17 +164,53 @@ export const RangeCalendar = ({
                     : val.day === fromDay &&
                       +selectedMonth === fromMonth &&
                       +selectedYear === fromYear
-                    ? color('red')
+                    ? color('accent')
                     : val.day === tillDay &&
                       +selectedMonth === tillMonth &&
                       +selectedYear === tillYear
-                    ? color('green')
+                    ? color('accent')
+                    : checkIfRanged(val.year, val.month, val.day)
+                    ? color('lightaccent')
                     : '',
                 color:
                   val.day === +selectedDay
                     ? color('background')
+                    : val.day === fromDay &&
+                      +selectedMonth === fromMonth &&
+                      +selectedYear === fromYear
+                    ? color('background')
+                    : val.day === tillDay &&
+                      +selectedMonth === tillMonth &&
+                      +selectedYear === tillYear
+                    ? color('background')
                     : color('text'),
-                borderRadius: 4,
+                borderRadius: checkIfRanged(val.year, val.month, val.day)
+                  ? 0
+                  : 4,
+                // borderTopRightRadius:
+                //   val.day === fromDay &&
+                //   +selectedMonth === fromMonth &&
+                //   +selectedYear === fromYear
+                //     ? 0
+                //     : 4,
+                // borderBottomRightRadius:
+                //   val.day === fromDay &&
+                //   +selectedMonth === fromMonth &&
+                //   +selectedYear === fromYear
+                //     ? 0
+                //     : 4,
+                // borderTopLeftRadius:
+                //   val.day === tillDay &&
+                //   +selectedMonth === tillMonth &&
+                //   +selectedYear === tillYear
+                //     ? 0
+                //     : 4,
+                // borderBottomLeftRadius:
+                //   val.day === tillDay &&
+                //   +selectedMonth === tillMonth &&
+                //   +selectedYear === tillYear
+                //     ? 0
+                //     : 4,
                 boxSizing: 'border-box',
                 width: 26,
                 height: 26,

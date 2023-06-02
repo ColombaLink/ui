@@ -4,7 +4,7 @@ import { NewDateInput } from './NewDateInput'
 
 type DateWidgetProps = {
   value?: number // milliseconds
-  onChange?: (value: number) => void
+  onChange: (value: number) => void
   time?: boolean
   style?: Style
 }
@@ -28,9 +28,9 @@ export const DateWidget: FC<DateWidgetProps> = ({
 
   return (
     <styled.div style={{ ...style }}>
-      <div style={{ background: 'yellow', marginBottom: 24 }}>
+      {/* <div style={{ background: 'yellow', marginBottom: 24 }}>
         {new Date(millisecondsValue).toString()}
-      </div>
+      </div> */}
 
       <StateProvider values={{ val: millisecondsValue }}>
         <NewDateInput

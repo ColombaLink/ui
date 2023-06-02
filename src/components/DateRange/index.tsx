@@ -1,17 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { StateProvider } from '~/hooks'
 import { NewDateInput } from '../Date/NewDateInput'
 
 type DateRangeWidgetProps = {
   value?: number[]
+  onChange: (value: number[]) => void
 }
 
-export const DateRangeWidget = ({ value }: DateRangeWidgetProps) => {
+export const DateRangeWidget = ({ value, onChange }: DateRangeWidgetProps) => {
   // console.log(value)
 
   const [fromMscValue, setfromMscValue] = useState(value[0])
   const [tillMscValue, setTillMscValue] = useState(value[1])
+
+  useEffect(() => {
+    onChange([fromMscValue, tillMscValue])
+  }, [fromMscValue, fromMscValue])
 
   return (
     <styled.div>

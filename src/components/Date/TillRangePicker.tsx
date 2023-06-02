@@ -81,8 +81,6 @@ export const TillRangePicker = ({
 
   const [millisecondsValue] = useContextState('tillValue')
 
-  console.log('till:', millisecondsValue)
-
   useEffect(() => {
     const newMillSecVal = MscToString(millisecondsValue as number)
     setSelectedDay(newMillSecVal.split('/')[0])

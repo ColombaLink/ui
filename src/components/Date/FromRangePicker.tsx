@@ -80,10 +80,6 @@ export const FromRangePicker = ({
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('fromValue')
-  const [tillValue] = useContextState('tillValue')
-
-  console.log('from:', millisecondsValue)
-  console.log('till:', tillValue)
 
   useEffect(() => {
     const newMillSecVal = MscToString(millisecondsValue as number)

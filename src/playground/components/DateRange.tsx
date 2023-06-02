@@ -10,7 +10,7 @@ export const DateRange = () => {
       examples={[
         {
           props: {
-            // onChange: (e) => console.log('milliseconds:', e),
+            onChange: (e) => console.log('change:', e),
             value: [1680645600000, 1681509600000],
           },
         },

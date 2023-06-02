@@ -58,8 +58,6 @@ export const NewDateInput = ({
     return outputMs
   }
 
-  console.log('INCOMONG 🌅', value)
-
   useEffect(() => {
     if (
       day &&
