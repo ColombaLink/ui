@@ -14,6 +14,8 @@ export const client = new BasedClient({
   cluster,
 })
 
+global.basedClient = client
+
 client.on('connect', () => {
   console.info('connected')
 })
@@ -30,6 +32,6 @@ adminClient.on('connect', () => {
   console.info('admin hub connected')
 })
 
-adminClient.on('debug', (x) => {
-  console.info('based platform hub', x)
-})
+// adminClient.on('debug', (x) => {
+//   console.info('based platform hub', x)
+// })

@@ -84,6 +84,7 @@ export const UploadedFileItem = ({
   downloadFile,
   renameFile,
   fullScreenView,
+  more,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
@@ -105,58 +106,68 @@ export const UploadedFileItem = ({
 
   // screenshot
   // console.log(getImageSrcFromId(file?.id))
+  // console.log('-------------______>', file)
+  if (more)
+    return (
+      <StyledUploadedFile>
+        {/* image */}
+        {file?.type?.includes('image') && <CacheBackground file={file} />}
+        {/* movie */}
+        {file?.type?.includes('video') && (
+          <div
+            style={{
+              height: 62,
+              width: 62,
+              backgroundColor: color('background2'),
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <BasedIcon size={20} />
+          </div>
+        )}
+        {/* audio */}
+        {file?.type?.includes('audio') && (
+          <div
+            style={{
+              height: 62,
+              width: 62,
+              backgroundColor: color('background2'),
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <BasedIcon size={20} />
+          </div>
+        )}
 
-  return (
-    <StyledUploadedFile>
-      {/* image */}
-      {file?.type?.includes('image') && <CacheBackground file={file} />}
-      {/* movie */}
-      {file?.type?.includes('video') && (
-        <div
+        {file?.type?.includes('image') ||
+        file?.type?.includes('video') ||
+        file?.type?.includes('audio') ? null : (
+          <AttachmentIcon />
+        )}
+        <Text
           style={{
-            height: 62,
-            width: 62,
-            backgroundColor: color('background2'),
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            minHeight: '20px',
+            marginTop: 6,
+            marginBottom: 6,
+            // maxWidth: '25vw',
+            maxWidth: '90%',
+            flexShrink: 0,
           }}
+          weight={400}
         >
-          <BasedIcon size={20} />
-        </div>
-      )}
-      {/* audio */}
-      {file?.type?.includes('audio') && (
-        <div
-          style={{
-            height: 62,
-            width: 62,
-            backgroundColor: color('background2'),
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <BasedIcon size={20} />
-        </div>
-      )}
-
-      {file?.type?.includes('image') ||
-      file?.type?.includes('video') ||
-      file?.type?.includes('audio') ? null : (
-        <AttachmentIcon />
-      )}
-      <Text
-        style={{ marginTop: 6, marginBottom: 6, maxWidth: '25vw' }}
-        weight={400}
-      >
-        {file?.name}
-      </Text>
-      <StyledMoreIcon onClick={contextHandler}>
-        <MoreIcon />
-      </StyledMoreIcon>
-    </StyledUploadedFile>
-  )
+          {file?.name}
+        </Text>
+        {more && (
+          <StyledMoreIcon onClick={contextHandler}>
+            <MoreIcon />
+          </StyledMoreIcon>
+        )}
+      </StyledUploadedFile>
+    )
 }
 
 const ContextOptions = ({

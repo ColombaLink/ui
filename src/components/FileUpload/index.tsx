@@ -12,7 +12,6 @@ import {
   Tabs,
   Tab,
   MimeType,
-  Space,
   styled,
   Style,
   RowSpaced,
@@ -21,13 +20,14 @@ import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type FileUploadProps = {
+  title?: string
+  more?: boolean
   label?: string
   description?: string
   descriptionBottom?: string
   indent?: boolean
   onChange?: (file: File[]) => void
   style?: Style
-  space?: Space
   disabled?: boolean
   acceptedFileTypes?: string[]
   multiple?: boolean
@@ -45,13 +45,14 @@ const StyledFileInput = styled('div', {
 })
 
 export const FileUpload: FC<FileUploadProps> = ({
+  more = false,
+  title,
   label,
   acceptedFileTypes,
   description,
   descriptionBottom,
   indent,
   onChange,
-  space,
   style,
   disabled,
   multiple,
@@ -65,6 +66,18 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
 
+  
+   // wrap onChange here
+  /*
+    onChange = (files)) => {
+      const [progress, setProgress] = useState(undefined)
+
+        onChangeFromProps(files, setProgress)
+    
+    }
+  */
+  
+  
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {
@@ -74,7 +87,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const dialog = useDialog()
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
-
   const handleClickUpload = async () => {
     // now we are gonna open new modal here
 
@@ -109,7 +121,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             >
               <Input
                 type="text"
-                space="20px"
+                style={{ marginBottom: 20 }}
                 placeholder="Paste the image link..."
                 onChange={(e) => {
                   setUrlInputValue(e)
@@ -284,7 +296,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               marginBottom: ' -14px',
             }}
           >
-            <Text typo="body500" color="text2">
+            <Text typography="body500" color="text2">
               {file.name}
             </Text>
             <Button
@@ -319,14 +331,12 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles([...dupliArr])
   }
   const mimeTypeInput = acceptedFileTypes + '/*'
-
   return (
     <InputWrapper
       indent={indent}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       errorMessage={errorMessage}
-      space={space}
       style={style}
     >
       <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
@@ -335,10 +345,10 @@ export const FileUpload: FC<FileUploadProps> = ({
             label={label}
             labelColor={disabled ? 'text2' : 'text'}
             description={description}
-            space="8px"
+            style={{ marginBottom: 8 }}
           />
 
-          {uploadedFiles.length > 0 && (
+          {more && uploadedFiles.length > 0 && (
             <Button
               ghost
               onClick={() => clearFiles()}
@@ -352,6 +362,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
             <UploadedFileItem
+              more={more}
               file={file}
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}
@@ -396,6 +407,8 @@ export const FileUpload: FC<FileUploadProps> = ({
           <UploadIcon />
           {draggingOver ? (
             <Text>Drop to upload</Text>
+          ) : title ? (
+            title
           ) : uploadedFiles.length > 0 && !multiple ? (
             <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
           ) : (

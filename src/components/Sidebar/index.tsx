@@ -37,6 +37,7 @@ type SidebarProps = {
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
   expandable?: boolean
+  onExpand?: (isExpanded: boolean) => void
 }
 
 type SidebarItemProps = {
@@ -120,6 +121,7 @@ export const Sidebar: FC<SidebarProps> = ({
   children,
   isExpanded,
   expandable,
+  onExpand,
 }) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -163,12 +165,12 @@ export const Sidebar: FC<SidebarProps> = ({
           >
             <Text
               wrap
-              space={16}
-              typo="caption600"
+              typography="caption600"
               color="text2"
               style={{
                 textTransform: 'uppercase',
                 marginTop: 16,
+                marginBottom: 16,
                 position: 'absolute',
                 left: 0,
                 top: 0,
@@ -248,7 +250,12 @@ export const Sidebar: FC<SidebarProps> = ({
           onMouseLeave={() => {
             setHoverForExpansion(false)
           }}
-          onClick={() => setExpanded((prev) => !prev)}
+          onClick={() => {
+            if (onExpand) {
+              onExpand(!expanded)
+            }
+            setExpanded((prev) => !prev)
+          }}
         >
           {hoverForExpansion ? (
             <styled.div
@@ -274,6 +281,9 @@ export const Sidebar: FC<SidebarProps> = ({
               }}
               onClick={(e) => {
                 e.stopPropagation()
+                if (onExpand) {
+                  onExpand(!expanded)
+                }
                 setExpanded((prev) => !prev)
               }}
             >
@@ -286,6 +296,9 @@ export const Sidebar: FC<SidebarProps> = ({
                 }}
                 onClick={(e) => {
                   e.stopPropagation()
+                  if (onExpand) {
+                    onExpand(!expanded)
+                  }
                   setExpanded((prev) => !prev)
                 }}
               />

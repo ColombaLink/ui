@@ -19,9 +19,7 @@ export const useDistUpdates = (
     [key: string]: Dist[]
   }>(
     'dists',
-    {
-      type: 'env',
-    },
+    {},
     {
       persistent: true,
     }

@@ -20,7 +20,7 @@ export const Page: FC<PageProps> = ({ children, style, ...props }) => {
       }}
       {...props}
     >
-      <div
+      <styled.div
         style={{
           maxWidth: '100%',
           minWidth: '100%',
@@ -28,7 +28,7 @@ export const Page: FC<PageProps> = ({ children, style, ...props }) => {
         }}
       >
         {children}
-      </div>
+      </styled.div>
     </ScrollArea>
   )
 }

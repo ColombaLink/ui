@@ -12,7 +12,6 @@ export * from './CalculatorIcon'
 export * from './CalendarIcon'
 export * from './CalendarAltIcon'
 export * from './CheckCircleIcon'
-
 export * from './CheckIcon'
 export * from './ChevronDownIcon'
 export * from './ChevronLeftIcon'

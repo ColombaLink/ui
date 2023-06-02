@@ -95,7 +95,6 @@ export const SelectFieldTypeModal: FC<{
         type="text"
         icon={<SearchIcon />}
         placeholder="Search and discover"
-        space="0px"
         onChange={searchFilterHandler}
         ghost
         style={{
@@ -110,6 +109,7 @@ export const SelectFieldTypeModal: FC<{
           marginLeft: 24,
           marginRight: 24,
           marginTop: 20,
+          marginBottom: 0,
         }}
       />
       <Section>
@@ -141,8 +141,11 @@ export const SelectFieldTypeModal: FC<{
                     <Fragment key={header}>
                       <Text
                         color="text2"
-                        space="12px"
-                        style={{ paddingLeft: 20, marginTop: 12 }}
+                        style={{
+                          paddingLeft: 20,
+                          marginTop: 12,
+                          marginBottom: 12,
+                        }}
                       >
                         {header}
                       </Text>

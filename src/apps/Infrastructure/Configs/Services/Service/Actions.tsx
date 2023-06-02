@@ -1,15 +1,29 @@
-import { MachineConfig } from '@based/machine-config'
+import { Env, MachineConfig } from '@based/machine-config'
 import React, { FC } from 'react'
-import { Text, useDialog, ContextItem, CloseIcon, Dialog } from '~'
+import {
+  Text,
+  useDialog,
+  ContextItem,
+  CloseIcon,
+  Dialog,
+  RedoIcon,
+  useContextState,
+} from '~'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'
 import { deepCopy } from '@saulx/utils'
+import { useClient } from '@based/react'
 
 export const Actions: FC<{
   config: MachineConfig
   service: ServiceNamed
   alwaysAccept?: boolean
+  configName: string
   onChange: OnMachineConfigChange
-}> = ({ config, onChange, alwaysAccept, service }) => {
+}> = (props) => {
+  const { config, onChange, alwaysAccept, service, configName } = props
+  const [env] = useContextState<Env>('env')
+  const client = useClient()
+
   const { open } = useDialog()
   return (
     <>
@@ -48,6 +62,23 @@ export const Actions: FC<{
         icon={<CloseIcon />}
       >
         Remove
+      </ContextItem>
+      <ContextItem
+        icon={<RedoIcon />}
+        onClick={() => {
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                command: 'restart',
+                configName,
+                service: service.name,
+              },
+            ],
+          })
+        }}
+      >
+        Restart service on all machines
       </ContextItem>
     </>
   )

@@ -15,20 +15,19 @@ export const SchemaRight = ({ type, path }) => {
 
   return (
     <RightSidebar style={{ minWidth: 210 }}>
-      <Text space="16px" size={18} weight={700}>
+      <Text style={{ marginBottom: 16 }} size={18} weight={700}>
         Fields
       </Text>
       <Separator />
       <Button
         textAlign="center"
-        space="24px"
         icon={AddIcon}
-        style={{ width: '100%' }}
+        style={{ width: '100%', marginBottom: 24 }}
         onClick={openSelectField}
       >
         Add Field
       </Button>
-      <Text space="12px" size={14} weight={600}>
+      <Text style={{ marginBottom: 12 }} size={14} weight={600}>
         Documentation
       </Text>
       <Text size={12} color="text2" wrap>

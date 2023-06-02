@@ -17,7 +17,6 @@ export const DateTime = () => {
             descriptionBottom: 'Onchange (e) returns value in milliseconds',
             onChange: (e) => console.log(e),
             indent: true,
-            space: '32px',
             style: {
               marginBottom: 420,
             },
@@ -30,7 +29,6 @@ export const DateTime = () => {
           props: {
             label: 'Date / Time ',
             description: 'Optional to show time and utc',
-            space: '32px',
             onChange: (e) => console.log(e),
             style: {
               marginBottom: 420,

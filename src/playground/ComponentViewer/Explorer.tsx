@@ -103,7 +103,6 @@ export const CodeExample: FC<{
           borderTopWidth: showCode ? 0 : 1,
           maxWidth: '100%',
         }}
-        space
       >
         {child}
       </Container>
@@ -152,7 +151,7 @@ export const Explorer: FC<{
           {examples.map((v, i) => {
             if (v.component) {
               return (
-                <Container key={fuzz ? 'f ' + i : i} space>
+                <Container key={fuzz ? 'f ' + i : i}>
                   {React.createElement(v.component)}
                 </Container>
               )

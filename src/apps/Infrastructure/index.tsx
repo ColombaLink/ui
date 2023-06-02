@@ -1,30 +1,38 @@
 import React, { FC } from 'react'
 import { Style, styled } from 'inlines'
 import { StateProvider, useContextState } from '~/hooks'
-import { InfraLeft } from './InfraLeft'
-import { Machines } from './Machines'
+import { Machines } from './Configs'
 import { Env } from '@based/machine-config'
+import { MachineTable } from './MachineTable'
+export { EnvMachinesStatus } from './EnvMachinesStatus'
+export { useMachineStatus } from './useMachineStatus'
 
-const Routes: FC<{ env: Env }> = ({ env }) => {
-  const [infraSection] = useContextState('infraSection', 'config')
-  if (infraSection === 'machines') {
-    return <Machines env={env} />
+const Routes: FC<{ env: Env; envAdminHub: any }> = ({ env, envAdminHub }) => {
+  const [infraSection] = useContextState('infraSection', 'overview')
+  if (infraSection && infraSection !== 'overview') {
+    return (
+      <MachineTable
+        configName={infraSection === 'all' ? undefined : infraSection}
+        envAdminHub={envAdminHub}
+      />
+    )
   }
-  return null
+  return <Machines envAdminHub={envAdminHub} env={env} />
 }
 
 export const Infrastructure: FC<{
   style?: Style
   env: Env
+  envAdminHub: any
   onChange?: (key: string, val: string) => void
   values?: {
     infraSection: string
-    expanded?: { [key: string]: boolean }
     env?: Env
   }
 }> = ({
   env,
   style,
+  envAdminHub,
   values = {
     infraSection: '',
     expanded: {},
@@ -32,12 +40,10 @@ export const Infrastructure: FC<{
   },
   onChange,
 }) => {
-  if (!values.expanded) {
-    values.expanded = {}
-  }
   if (!values.env) {
     values.env = env
   }
+
   return (
     <styled.div
       style={{
@@ -49,8 +55,7 @@ export const Infrastructure: FC<{
       }}
     >
       <StateProvider values={values} onChange={onChange}>
-        <InfraLeft />
-        <Routes env={env} />
+        <Routes envAdminHub={envAdminHub} env={env} />
       </StateProvider>
     </styled.div>
   )

@@ -208,7 +208,7 @@ export const ToastProvider = ({
         {children}
         {positionFlipped && (
           <CounterBadge>
-            <Text typo="caption600">{length}</Text>
+            <Text typography="caption600">{length}</Text>
           </CounterBadge>
         )}
       </div>

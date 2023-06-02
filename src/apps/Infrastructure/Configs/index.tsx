@@ -2,11 +2,8 @@ import React, { FC, useMemo } from 'react'
 import {
   Page,
   Button,
-  Container,
   Text,
   Input,
-  Accordion,
-  Spacer,
   useDialog,
   Row,
   AddIcon,
@@ -15,32 +12,34 @@ import {
   CurlyBracesIcon,
   Badge,
   SearchIcon,
+  styled,
   ContextDivider,
+  Style,
+  Card,
   RowSpaced,
   CloseIcon,
-  RowEnd,
   ContextItem,
   Dialog,
   MoreIcon,
   useContextMenu,
+  EditIcon,
+  RedoIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
-import { Env, Machine, MachineConfig } from '@based/machine-config'
+import { Env, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineTemplateModal'
-import { Services } from './Services'
-import { MachinesSection } from './MachinesSection'
-import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
+import { EnvMachinesStatus } from '../EnvMachinesStatus'
+import { Connections } from '../Connections'
+import { SettingsModal } from './SettingsModal'
 
 export const Actions: FC<{
   config: MachineConfig
   configName: string
-  // machines: Machine[]
 }> = ({ config, configName }) => {
   const machines = []
-  // use tatus
 
   const { open } = useDialog()
   const client = useClient()
@@ -55,6 +54,23 @@ export const Actions: FC<{
         icon={<DuplicateIcon />}
       >
         Duplicate
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                service: '*',
+                command: 'restart',
+                configName,
+              },
+            ],
+          })
+        }}
+        icon={<RedoIcon />}
+      >
+        Restart all machines
       </ContextItem>
       <ContextItem
         onClick={() => {
@@ -131,6 +147,25 @@ export const Actions: FC<{
   )
 }
 
+const style: Style = {
+  marginBottom: 16,
+  maxWidth: '100%',
+  minWidth: 500,
+  minHeight: 120,
+  '@media only screen and (max-width: 4500px)': {
+    minWidth: 'calc(20% - 8px)',
+  },
+  '@media only screen and (max-width: 3500px)': {
+    minWidth: 'calc(33% - 8px)',
+  },
+  '@media only screen and (max-width: 2500px)': {
+    minWidth: 'calc(50% - 8px)',
+  },
+  '@media only screen and (max-width: 1700px)': {
+    minWidth: '100%',
+  },
+}
+
 const MachineConfig: FC<{
   configName: string
   config: MachineConfig
@@ -138,62 +173,65 @@ const MachineConfig: FC<{
   env: Env
 }> = ({ configName, config, machineStatus, env }) => {
   const client = useClient()
-  return (
-    <Container space="32px">
-      <RowSpaced>
-        <Text typo="subtitle600">{configName}</Text>
+  const [, setInfra] = useContextState<string>('infraSection')
+  const { open } = useDialog()
 
-        <Row>
+  return (
+    <Card
+      style={style}
+      onClick={() => {
+        setInfra(configName)
+      }}
+      label={configName}
+      description={
+        config.description ||
+        (configName === 'allServices'
+          ? 'All services on a single machine, cannot be scaled to more then 1 instance'
+          : '')
+      }
+      topRight={
+        <Row style={{ flexShrink: 0 }}>
           <UpdateButton small machineConfigs={{ [configName]: config }} />
           <Button
             icon={<MoreIcon />}
             ghost
             onClick={useContextMenu(Actions, { config, configName })}
           />
+          <Button
+            color="lightaccent"
+            style={{ marginLeft: 4 }}
+            onClick={() => {
+              open(<SettingsModal configName={configName} />)
+            }}
+            ghost
+            icon={EditIcon}
+          />
         </Row>
-      </RowSpaced>
-      <Text space typo="caption400">
-        {config.description ||
-          (configName === 'allServices'
-            ? 'All services on a single machine, cannot be scaled to more then 1 instance'
-            : '')}
-      </Text>
-      <Accordion>
-        <Settings
-          configName={configName}
-          config={config}
-          onChange={(config) => {
-            const payload = {
-              ...env,
-              configName,
-              config,
-            }
-            return client.call('update-machine-config', payload)
+      }
+      bottomLeft={
+        <EnvMachinesStatus
+          style={{
+            marginBottom: 4,
+            flexWrap: 'wrap',
+            gap: 8,
           }}
+          goodColor="green"
+          resizing={machineStatus.resizing}
+          removing={machineStatus.removing}
+          running={machineStatus.amount - machineStatus.failing}
+          unreachable={machineStatus.failing}
+          deploying={machineStatus.deploying}
+          type="machine"
         />
-        <Services
-          onChange={(config) => {
-            const payload = {
-              ...env,
-              configName,
-              config,
-            }
-            return client.call('update-machine-config', payload)
-          }}
-          configName={configName}
-          config={config}
-        />
-        <MachinesSection
-          machineStatus={machineStatus}
-          configName={configName}
-          config={config}
-        />
-      </Accordion>
-    </Container>
+      }
+    />
   )
 }
 
-export const Machines: FC<{ env: Env }> = ({ env }) => {
+export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
+  env,
+  envAdminHub,
+}) => {
   const { data: envData, checksum } = useQuery('env', env)
 
   const [filter, setFilter] = useContextState('filter', '')
@@ -235,29 +273,40 @@ export const Machines: FC<{ env: Env }> = ({ env }) => {
 
   return (
     <Page>
-      <RowEnd>
-        <UpdateButton
-          machineConfigs={envData?.config?.machineConfigs}
-          checksum={checksum}
-        />
-        <Button
-          ghost
-          onClick={() => open(<AddMachineModal />)}
-          icon={<AddIcon />}
-        >
-          Add machine template
-        </Button>
-        <Input
-          value={filter}
-          onChange={setFilter}
-          type="text"
-          style={{ width: 250, marginLeft: 16 }}
-          icon={<SearchIcon />}
-          placeholder="Filter by service name"
-        />
-      </RowEnd>
-      <Spacer space="32px" />
-      {machineConfigs}
+      <RowSpaced style={{ marginBottom: '32px' }}>
+        <Connections envAdminHub={envAdminHub} />
+        <Row>
+          <UpdateButton
+            machineConfigs={envData?.config?.machineConfigs}
+            checksum={checksum}
+          />
+          <Button
+            ghost
+            onClick={() => open(<AddMachineModal />)}
+            icon={<AddIcon />}
+          >
+            Add machine template
+          </Button>
+          <Input
+            value={filter}
+            onChange={setFilter}
+            type="text"
+            style={{ width: 250, marginLeft: 16 }}
+            icon={<SearchIcon />}
+            placeholder="Filter by service name"
+          />
+        </Row>
+      </RowSpaced>
+      <styled.div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0px 16px',
+        }}
+      >
+        {machineConfigs}
+      </styled.div>
     </Page>
   )
 }

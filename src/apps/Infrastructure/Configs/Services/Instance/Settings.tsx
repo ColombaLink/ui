@@ -95,15 +95,6 @@ export const HubSettings: FC<SettingProps> = ({
           type: 'text',
           description: 'Instance name',
         },
-        securityLevel: {
-          label: 'Threat sensitivity',
-          description: 'Auto block ips',
-          options: [
-            { value: 1, label: 'Level 1' },
-            { value: 2, label: 'Level 2' },
-            { value: 3, label: 'Level 3' },
-          ],
-        },
         'rateLimit.ws': {
           label: 'Rate limit (ws)',
           type: 'number',

@@ -17,8 +17,10 @@ import {
   color,
   useRoute,
   LayersIcon,
+  useDialog,
   DeleteIcon,
   EmailIcon,
+  Dialog,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -26,7 +28,7 @@ import * as hooks from './hooks'
 import { useDarkMode } from '~/hooks/useDarkMode'
 import useLocalStorage from '@based/use-local-storage'
 import { icons } from './ComponentViewer/genRandomProps'
-import { client, adminClient } from './based'
+import { client, adminClient, cluster } from './based'
 
 const stories = {
   ...components,
@@ -46,6 +48,34 @@ const Stories: FC = () => {
     return <>{route.nest(React.createElement(component))}</>
   }
   return <></>
+}
+
+const Login = () => {
+  const [email, setEmail] = useState<string>()
+  return (
+    <Dialog>
+      <Dialog.Label>Login</Dialog.Label>
+      <Input type="email" value={email} onChange={(v) => setEmail(v)} />
+      <Dialog.Buttons>
+        <Dialog.Confirm
+          icon={EmailIcon}
+          onConfirm={async () => {
+            await adminClient.call('login', {
+              email,
+              skipEmailForTesting: cluster === 'local',
+              code:
+                (~~(Math.random() * 1e6)).toString(16) + ' ' + ' ui-playground',
+            })
+            await client.setAuthState(
+              await adminClient.once('authstate-change')
+            )
+          }}
+        >
+          Login
+        </Dialog.Confirm>
+      </Dialog.Buttons>
+    </Dialog>
+  )
 }
 
 const menuItems = {
@@ -90,6 +120,8 @@ const App = () => {
     setFilteredObj(filteredArr)
   }
 
+  const { open } = useDialog()
+
   return (
     <AppFrame>
       <Menu
@@ -114,17 +146,17 @@ const App = () => {
             >
               <Button
                 color="text"
-                space="12px"
                 ghost
                 style={{
                   marginLeft: -8,
+                  marginBottom: 12,
                 }}
                 icon={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
                 onClick={() => setDarkMode(!darkMode)}
               />
               <Button
                 color={route.query.code ? 'accent' : 'text'}
-                space="12px"
+                style={{ marginBottom: 12 }}
                 ghost
                 icon={<CurlyBracesIcon size={12} />}
                 onClick={() =>
@@ -133,22 +165,12 @@ const App = () => {
               />
               <Button
                 ghost
-                space="12px"
+                style={{ marginBottom: 12 }}
                 icon={<EmailIcon />}
-                onClick={async () => {
-                  // connect ot env admin hub as well
-                  await adminClient.call('login', {
-                    email: 'jim@saulx.com',
-                    skipEmailForTesting: true,
-                    code:
-                      (~~(Math.random() * 1e6)).toString(16) +
-                      ' ' +
-                      ' ui-playground',
-                  })
-                }}
+                onClick={() => open(<Login />)}
               />
               <Button
-                space="12px"
+                style={{ marginBottom: 12 }}
                 ghost
                 icon={<DeleteIcon />}
                 onClick={() => {
@@ -161,14 +183,8 @@ const App = () => {
                 type="text"
                 icon={<SearchIcon />}
                 placeholder="Search"
-                space
                 onChange={(e) => {
-                  console.log(e)
-                  console.log(typeof e)
                   searchFilterHandler(e)
-                  // if(typeof e ==="string"){
-                  //   searchFilterHandler(e)
-                  // }
                 }}
                 ghost
                 style={{
@@ -179,6 +195,7 @@ const App = () => {
                   alignItems: 'center',
                   borderRadius: 8,
                   paddingTop: '8px',
+                  marginBottom: 24,
                 }}
               />
             </div>

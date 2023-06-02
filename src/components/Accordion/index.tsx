@@ -6,16 +6,13 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  Space,
   Color,
   color,
-  spaceToPx,
 } from '~'
 
 type AccordionItemProps = {
   label?: string
   children?: ReactNode
-  space?: Space
   checked?: boolean
   style?: Style
   expanded?: boolean
@@ -26,21 +23,19 @@ type AccordionItemProps = {
 
 type AccordionProps = {
   children?: ReactNode
-  space?: Space
   style?: Style
   color?: Color
 }
 
 export const Accordion: FC<AccordionProps> = ({
   children,
-  space,
   style,
   color: colorProp = 'accent',
 }) => {
   return (
     <>
       {children && (
-        <styled.div style={{ marginBottom: spaceToPx(space), ...style }}>
+        <styled.div style={{ ...style }}>
           {React.Children.map(children as React.ReactElement, (child) => (
             <styled.div>
               {React.cloneElement(child, {
@@ -70,9 +65,15 @@ export const AccordionItem: FC<AccordionItemProps> = ({
   const open = expanded ?? openS
 
   return (
-    <styled.div style={{ marginBottom: 12 }}>
+    <styled.div
+      style={{
+        marginBottom: 12,
+      }}
+    >
       <styled.div
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
           setOpen(!open)
           if (onExpand) {
             onExpand(!open)
@@ -85,6 +86,11 @@ export const AccordionItem: FC<AccordionItemProps> = ({
             open
             // open
           ),
+          '&:hover': {
+            backgroundColor: color('accent', 'active', true),
+            color: color('accent'),
+          },
+          transition: 'background-color 0.25s, color 0.25s',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -92,12 +98,13 @@ export const AccordionItem: FC<AccordionItemProps> = ({
           borderRadius: 8,
           height: 56,
           cursor: 'pointer',
+          color: color('text'),
           ...style,
         }}
         {...props}
       >
         <styled.div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text color={open ? colorProp : 'text'} typo="body600">
+          <Text color={open ? colorProp : 'inherit'} typography="body600">
             {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}

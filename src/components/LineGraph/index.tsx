@@ -57,7 +57,7 @@ const Graph = ({
       }}
     >
       {label ? (
-        <Text size="15px" weight={600} space="24px">
+        <Text size="15px" weight={600} style={{ marginBottom: 24 }}>
           {label}
         </Text>
       ) : null}

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import {
   Badge,
   CheckIcon,
@@ -9,35 +9,18 @@ import {
   ReplaceIcon,
   WarningIcon,
   border,
+  StopIcon,
 } from '~'
-import { useQuery } from '@based/react'
-import { NumberFormat, prettyNumber } from '@based/pretty-number'
+import { prettyNumber } from '@based/pretty-number'
+import { TableCustomComponent } from '~/components/Table/types'
 
 // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
 
-const MachineStats: FC<{
+export const MachineStats: FC<{
   cpu: number
   memory: number
-  machineTypeValue: string
-}> = ({ machineTypeValue = 't3.medium', cpu, memory }) => {
-  const { data: machineTypes = [] } = useQuery(
-    'machine-types',
-    {},
-    {
-      persistent: true,
-    }
-  )
-  const machineType = machineTypes.find((m) => m.value === machineTypeValue)
-  let memoryParsed = memory * (machineType?.memory ?? 0)
-  let memoryUnit = 'MiB'
-
-  if (memoryParsed > 1024) {
-    memoryParsed = memoryParsed / 1024
-    memoryUnit = 'GiB'
-  }
-
+}> = ({ cpu, memory }) => {
   const color: Color = 'accent'
-
   return (
     <>
       <Badge
@@ -45,7 +28,7 @@ const MachineStats: FC<{
         style={{
           justifyContent: 'center',
           width: 70,
-          marginLeft: 32,
+          // marginLeft: 32,
           borderTopRightRadius: 0,
           borderBottomRightRadius: 0,
           borderLeft: border(1),
@@ -56,7 +39,6 @@ const MachineStats: FC<{
       <Badge
         color={color}
         style={{
-          width: 68,
           justifyContent: 'center',
           borderLeft: border(1),
           borderTopLeftRadius: 0,
@@ -64,8 +46,7 @@ const MachineStats: FC<{
           marginRight: 8,
         }}
       >
-        {prettyNumber(~~memoryParsed, 'number-bytes')}
-        {/* {~~memoryParsed} {memoryUnit} */}
+        {prettyNumber(memory, 'number-bytes')}
       </Badge>
     </>
   )
@@ -96,6 +77,14 @@ export const machineStatus = (status: number): string => {
   if (status === 5) {
     return 'Resizing'
   }
+
+  if (status === 6) {
+    return 'Stopped'
+  }
+
+  if (status === 7) {
+    return 'In danger'
+  }
 }
 
 const colors = {
@@ -105,7 +94,9 @@ const colors = {
   3: 'accent',
   4: 'red',
   5: 'accent',
-}
+  6: 'accent',
+  7: 'yellow',
+} as const
 
 const icons = {
   0: WarningIcon,
@@ -114,20 +105,41 @@ const icons = {
   3: ReplaceIcon,
   4: CloseIcon,
   5: LoadingIcon,
+  6: StopIcon,
+  7: WarningIcon,
+} as const
+
+export const StatusBadge: FC<{
+  children?: ReactNode
+  status: number
+  onClick?: (e: MouseEvent) => void
+}> = ({ status, onClick, children }) => {
+  return (
+    <Badge onClick={onClick} icon={icons[status]} color={colors[status]}>
+      {children ?? machineStatus(status)}
+    </Badge>
+  )
 }
 
-export const MachineStatus: FC<{
-  status: number
-  cpu: number
-  memory: number
-  machineTypeValue: string
-}> = ({ status, ...props }) => {
+export const Status: TableCustomComponent<any> = ({
+  data,
+  context,
+  rowIndex,
+}) => {
+  const status = data.status
+  return <StatusBadge status={status} />
+}
+
+export const MachineStatus: TableCustomComponent<any> = ({ data }) => {
   return (
-    <Row>
-      <Badge icon={icons[status]} color={colors[status]}>
-        {machineStatus(status)}
-      </Badge>
-      {status === 1 ? <MachineStats {...props} /> : null}
+    <Row
+      style={{
+        width: 200,
+      }}
+    >
+      {data.stats ? (
+        <MachineStats memory={data.stats.memory} cpu={data.stats.cpu} />
+      ) : null}
     </Row>
   )
 }

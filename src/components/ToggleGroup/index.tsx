@@ -1,11 +1,9 @@
 import React, { FC, useState, CSSProperties, ReactNode } from 'react'
 import { styled } from 'inlines'
-import { color, spaceToPx } from '~/utils'
-import { Space } from '~/types'
+import { color } from '~/utils'
 
 type ToggleGroupProps = {
   data?: Array<string> | Array<ReactNode>
-  space?: Space
   style?: CSSProperties
   onChange?: (value: number) => void
 }
@@ -20,7 +18,6 @@ const StyledToggleTab = styled('div', {
 
 export const ToggleGroup: FC<ToggleGroupProps> = ({
   data,
-  space,
   style,
   onChange,
   ...props
@@ -36,7 +33,6 @@ export const ToggleGroup: FC<ToggleGroupProps> = ({
         padding: '2px',
         width: 'fit-content',
         height: '32px',
-        marginBottom: spaceToPx(space),
         cursor: 'pointer',
         ...style,
       }}

@@ -14,30 +14,17 @@ export const Infrastructure = () => {
         title="Infrastructure"
         examples={[
           {
-            code: `import { Infrastructure, useRoute, color } from '@based/ui'
-
-const route = useRoute('[infraSection]');
+            code: `import { Infrastructure, color } from '@based/ui'
 
 <BasedAdminProvider>
   <Infrastructure 
+    envAdminHub={basedClient}
     env={{
       project: '${project}',
       org: '${org}',
       env: '${env}',
       cluster: '${cluster}'
-    }}
-    values={{ ...route.path, expanded: route.query.expanded, filter: route.query.filter }}
-    onChange={(key, v) => { 
-      if (key === 'expanded' || key === 'filter') {
-        if (!v || key === 'expanded' && Object.keys(v).length === 0) {
-          route.setQuery({ [key]: null })
-        } else {
-          route.setQuery({ [key]: v })
-        }
-      } else {
-        route.setPath({ [key]: v || null})
-      }
-    }}
+    }}   
     style={{ 
       height: 'calc(100vh - 200px)', 
       border: \`1px solid \${color('lightborder')}\`,

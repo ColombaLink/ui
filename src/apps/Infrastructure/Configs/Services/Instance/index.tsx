@@ -65,7 +65,7 @@ export const Instance: FC<{
           }}
         >
           {expanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-          <Text style={{ marginLeft: 8 }} typo="body600">
+          <Text style={{ marginLeft: 8 }} typography="body600">
             {service.name} #{index}
           </Text>
         </Row>

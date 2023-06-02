@@ -1,12 +1,5 @@
-import React, { FC } from 'react'
-import {
-  AccordionItem,
-  useContextState,
-  SettingsGroup,
-  Row,
-  Badge,
-  Text,
-} from '~'
+import React, { FC, useState } from 'react'
+import { AccordionItem, SettingsGroup, Row, Badge, Text } from '~'
 import { MachineConfig } from '@based/machine-config'
 import { OnMachineConfigChange } from '../types'
 import { useQuery } from '@based/react'
@@ -17,11 +10,7 @@ export const Settings: FC<{
   alwaysAccept?: boolean
   onChange: OnMachineConfigChange
 }> = ({ config, configName, onChange, alwaysAccept }) => {
-  const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
-    'expanded',
-    {}
-  )
-  const expandKey = configName + 'g'
+  const [expanded, setExpanded] = useState(true)
 
   const { data: machineTypes = [] } = useQuery(
     'machine-types',
@@ -34,14 +23,9 @@ export const Settings: FC<{
   return (
     <AccordionItem
       onExpand={(v) => {
-        if (!v) {
-          delete expanded[expandKey]
-        } else {
-          expanded[expandKey] = v
-        }
-        setExpanded(expanded)
+        setExpanded(v)
       }}
-      expanded={expanded[expandKey]}
+      expanded={expanded}
       label="Settings"
     >
       <SettingsGroup
@@ -82,7 +66,7 @@ export const Settings: FC<{
                       <Text style={{ marginRight: 8 }} weight="700">
                         {s.name}
                       </Text>
-                      <Text color="text2" typo="caption500">
+                      <Text color="text2" typography="caption500">
                         €{s.basedPrice}/month
                         {/* {'' +
                           (~~((s.basedPrice / (s.priceMonth * 0.91)) * 100) -
