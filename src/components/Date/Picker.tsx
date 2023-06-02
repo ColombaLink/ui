@@ -253,14 +253,22 @@ export const Picker = ({ setValue }: PickerProps) => {
                 : `${dateObj.getDate()}`
             )
           }}
-          space="4px"
+          style={{ marginBottom: 4 }}
         >
           Today
         </Text>
-        <Text weight={400} space="4px" onClick={() => dayChanger('forward')}>
+        <Text
+          weight={400}
+          style={{ marginBottom: 4 }}
+          onClick={() => dayChanger('forward')}
+        >
           Select next date
         </Text>
-        <Text weight={400} space="4px" onClick={() => dayChanger('backward')}>
+        <Text
+          weight={400}
+          style={{ marginBottom: 4 }}
+          onClick={() => dayChanger('backward')}
+        >
           Select previous date
         </Text>
       </styled.div>
