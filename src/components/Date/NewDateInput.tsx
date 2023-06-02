@@ -7,7 +7,6 @@ import { Picker } from './Picker'
 import { NewTimeInput } from './NewTimeInput'
 
 type newDateProps = {
-  // milliseconds
   value?: number
   setValue: (e) => void
   time?: boolean
@@ -51,17 +50,17 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
     if (
       day &&
       month &&
-      year &&
-      stringToMilliseconds(fullDateString) !== value
+      year.toString().length > 3 &&
+      stringToMilliseconds(fullDateString, timeString) !== value
     ) {
       setValue(stringToMilliseconds(fullDateString, timeString))
     }
   }, [day, month, year, timeString])
 
   useEffect(() => {
-    setDay(new Date(value).getDate())
-    setMonth(new Date(value).getMonth() + 1)
-    setYear(new Date(value).getFullYear())
+    setDay(value ? new Date(value).getDate() : '')
+    setMonth(value ? new Date(value).getMonth() + 1 : '')
+    setYear(value ? new Date(value).getFullYear() : '')
   }, [value])
 
   const openPicker = useOverlay(
@@ -114,7 +113,6 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
               monthRef.current.select()
             }
             if (e.key === 'ArrowRight') {
-              // monthRef.current.focus()
               monthRef.current.select()
             }
           }}
@@ -220,7 +218,6 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
               borderRadius: 4,
             }}
             onClick={() => {
-              //   e.stopPropagation()
               dayRef.current.focus()
               dayRef.current.select()
             }}
@@ -238,7 +235,6 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
               borderRadius: 4,
             }}
             onClick={() => {
-              //  e.stopPropagation()
               monthRef.current.focus()
               monthRef.current.select()
             }}
@@ -255,8 +251,7 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
                   : color('background'),
               borderRadius: 4,
             }}
-            onClick={(e) => {
-              e.stopPropagation()
+            onClick={() => {
               yearRef.current.focus()
               yearRef.current.select()
             }}

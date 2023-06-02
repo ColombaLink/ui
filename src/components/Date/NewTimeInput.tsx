@@ -3,7 +3,7 @@ import { Input } from '../Input'
 import { color } from '~'
 
 export const NewTimeInput = ({ setTimeString, timeString, style }) => {
-  const [validTimeInput, setValidTimeInput] = useState(false)
+  const [, setValidTimeInput] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
   // so it does not crash

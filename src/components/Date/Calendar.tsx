@@ -22,14 +22,6 @@ export const Calendar = ({
     return new Date(year, month, 0).getDate()
   }
 
-  // const [valueAsString, setValueAsString] = useContextState('value')
-
-  // let selectedDay = valueAsString?.split('/')[0]
-  // let selectedMonth = valueAsString?.split('/')[1]
-  // let selectedYear = valueAsString?.split('/')[2]
-
-  // console.log(valueAsString, 'FRom CalEnDar')
-
   // to determine the current day
   const dateObj = new Date()
   const currentMonth = dateObj.getMonth()
@@ -160,7 +152,6 @@ export const Calendar = ({
               key={i}
               onClick={() => {
                 setSelectedDay(val.day < 10 ? `0${val.day}` : `${val.day}`)
-                // now close it
               }}
             >
               {val.day}

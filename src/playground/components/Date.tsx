@@ -10,14 +10,9 @@ export const Date = () => {
       examples={[
         {
           props: {
-            onChange: (e) => console.log(e),
+            onChange: (e) => console.log('milliseconds:', e),
             value: 1682460000000,
-            // error: (e) => {
-            //   if (Number.isNaN(e)) {
-            //     return 'Not a number error!'
-            //   }
-            // },
-            // onClose: () => console.log('closed the picker'),
+            time: true,
           },
         },
       ]}

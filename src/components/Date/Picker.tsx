@@ -11,8 +11,7 @@ import {
 import { Calendar } from './Calendar'
 
 type PickerProps = {
-  // valueAsString: string
-  setValue: (e) => string
+  setValue: (e: any) => void
   timeString?: string
 }
 
@@ -68,7 +67,6 @@ const MscToString = (value: number): string => {
 
 const stringToMilliseconds = (str: string, time?: string): number => {
   const dateString = `${str?.split('/').reverse().join('-')}T${time || '00:00'}`
-  console.log('date string', dateString)
   const outputMs = new Date(dateString).getTime()
   return outputMs
 }
@@ -95,20 +93,6 @@ export const Picker = ({ setValue, timeString }: PickerProps) => {
   )
   const [selectedYear, setSelectedYear] = useState(valueAsString?.split('/')[2])
 
-  // if (!valueAsString) {
-  //   setValueAsString(
-  //     `${
-  //       dateObj.getDate() < 10
-  //         ? `0${dateObj.getDate()}`
-  //         : `${dateObj.getDate()}`
-  //     }/${
-  //       dateObj.getMonth() < 10
-  //         ? `0${dateObj.getMonth() + 1}`
-  //         : `${dateObj.getMonth() + 1}`
-  //     }/${dateObj.getFullYear().toString()}`
-  //   )
-  // }
-
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
   }
@@ -116,7 +100,6 @@ export const Picker = ({ setValue, timeString }: PickerProps) => {
   // So if year, day or month changes set the new Value 🔥
   useEffect(() => {
     setValueAsString(`${selectedDay}/${selectedMonth}/${selectedYear}`)
-    // zet het naar milliseconde
     setValue(
       stringToMilliseconds(
         `${selectedDay}/${selectedMonth}/${selectedYear}`,
