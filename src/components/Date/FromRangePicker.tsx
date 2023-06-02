@@ -10,7 +10,7 @@ import {
 } from '~'
 import { Calendar } from './Calendar'
 
-type PickerProps = {
+type RangePickerProps = {
   setValue: (e: any) => void
   timeString?: string
   stringToMilliseconds?: (str: string, time?: string) => number
@@ -72,14 +72,18 @@ const MscToString = (value: number): string => {
 //   return outputMs
 // }
 
-export const Picker = ({
+export const FromRangePicker = ({
   setValue,
   timeString,
   stringToMilliseconds,
-}: PickerProps) => {
+}: RangePickerProps) => {
   const dateObj = new Date()
 
-  const [millisecondsValue] = useContextState('val')
+  const [millisecondsValue] = useContextState('fromValue')
+  // const [tillValue] = useContextState('tillValue')
+
+  console.log('from:', millisecondsValue)
+  // console.log('till:', tillValue)
 
   useEffect(() => {
     const newMillSecVal = MscToString(millisecondsValue as number)

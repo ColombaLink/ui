@@ -1,18 +1,30 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
 import { useOverlay } from '~/hooks'
 import { Picker } from './Picker'
+import { FromRangePicker } from './FromRangePicker'
+import { TillRangePicker } from './TillRangePicker'
 import { NewTimeInput } from './NewTimeInput'
 
 type newDateProps = {
   value?: number
   setValue: (e) => void
   time?: boolean
+  isFromRange?: boolean
+  isTillRange?: boolean
+  style?: Style
 }
 
-export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
+export const NewDateInput = ({
+  value,
+  setValue,
+  time,
+  isFromRange,
+  isTillRange,
+  style,
+}: newDateProps) => {
   const dayRef = useRef(null)
   const monthRef = useRef(null)
   const yearRef = useRef(null)
@@ -46,6 +58,8 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
     return outputMs
   }
 
+  console.log('INCOMONG 🌅', value)
+
   useEffect(() => {
     if (
       day &&
@@ -65,7 +79,19 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
 
   const openPicker = useOverlay(
     Picker,
-    { setValue, timeString },
+    { setValue, timeString, stringToMilliseconds },
+    { width: 'target' }
+  )
+
+  // if is range
+  const openFromRangePicker = useOverlay(
+    FromRangePicker,
+    { setValue, timeString, stringToMilliseconds },
+    { width: 'target' }
+  )
+  const openTillRangePicker = useOverlay(
+    TillRangePicker,
+    { setValue, timeString, stringToMilliseconds },
     { width: 'target' }
   )
 
@@ -199,10 +225,19 @@ export const NewDateInput = ({ value, setValue, time }: newDateProps) => {
             paddingRight: 12,
             alignItems: 'center',
             width: 280,
+            ...style,
           }}
           onClick={(e) => {
             e.preventDefault()
-            openPicker(e)
+            if (isFromRange) {
+              console.log('Open from ⛩')
+              openFromRangePicker(e)
+            } else if (isTillRange) {
+              console.log('open Till 💒')
+              openTillRangePicker(e)
+            } else {
+              openPicker(e)
+            }
           }}
         >
           <CalendarAltIcon

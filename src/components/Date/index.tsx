@@ -28,6 +28,10 @@ export const DateWidget: FC<DateWidgetProps> = ({
 
   return (
     <styled.div style={{ ...style }}>
+      <div style={{ background: 'yellow', marginBottom: 24 }}>
+        {new Date(millisecondsValue).toString()}
+      </div>
+
       <StateProvider values={{ val: millisecondsValue }}>
         <NewDateInput
           value={millisecondsValue}

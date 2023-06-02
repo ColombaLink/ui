@@ -90,7 +90,12 @@ const menuItems = {
   Components: Object.keys(components).map((v) => {
     return {
       value: v,
-      icon: v === 'Date' ? <Badge color="accent">Beta</Badge> : '',
+      icon:
+        v === 'Date' || v === 'DateRange' ? (
+          <Badge color="accent">Beta</Badge>
+        ) : (
+          ''
+        ),
       label: v,
     }
   }),
