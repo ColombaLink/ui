@@ -88,17 +88,12 @@ export const RangeCalendar = ({
     }
 
     setDaysArr(tempArr)
-  }, [selectedMonth])
+  }, [selectedMonth, selectedYear])
 
   const checkIfRanged = (year, month, day) => {
-    // if this falls between fromvalue and the tillvalue
-    // console.log('---->>>', year, month, day, fromValue, tillValue)
-
     const fromTime = new Date(fromYear, fromMonth, fromDay).getTime()
     const tillTime = new Date(tillYear, tillMonth, tillDay).getTime()
     const checkTime = new Date(year, month, day).getTime()
-
-    // console.log('CheckTime ??', checkTime)
 
     if (checkTime > fromTime && checkTime < tillTime) {
       //   console.log('🔮')
@@ -137,9 +132,11 @@ export const RangeCalendar = ({
             <styled.div
               key={i}
               style={{
-                width: 26,
+                width: 34,
                 height: 26,
-                margin: '4px',
+                // margin: '4px',
+                marginTop: '4px',
+                marginBottom: '4px',
                 display: 'inline-flex',
                 borderRadius: 4,
                 alignItems: 'center',
@@ -204,17 +201,27 @@ export const RangeCalendar = ({
                 //   +selectedMonth === tillMonth &&
                 //   +selectedYear === tillYear
                 //     ? 0
-                //     : 4,
+                //     : val.day === fromDay &&
+                //       +selectedMonth === fromMonth &&
+                //       +selectedYear === fromYear
+                //     ? 4
+                //     : 0,
                 // borderBottomLeftRadius:
                 //   val.day === tillDay &&
                 //   +selectedMonth === tillMonth &&
                 //   +selectedYear === tillYear
                 //     ? 0
-                //     : 4,
+                //     : val.day === fromDay &&
+                //       +selectedMonth === fromMonth &&
+                //       +selectedYear === fromYear
+                //     ? 4
+                //     : 0,
+
                 boxSizing: 'border-box',
-                width: 26,
+                width: 34,
                 height: 26,
-                margin: '4px',
+                marginTop: '4px',
+                marginBottom: '4px',
                 textAlign: 'center',
                 display: 'inline-flex',
                 alignItems: 'center',

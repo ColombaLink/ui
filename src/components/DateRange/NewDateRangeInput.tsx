@@ -3,28 +3,25 @@ import { Style, styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
 import { useOverlay } from '~/hooks'
-import { Picker } from './Picker'
-import { FromRangePicker } from '../DateRange/FromRangePicker'
-import { TillRangePicker } from '../DateRange/TillRangePicker'
-import { NewTimeInput } from './NewTimeInput'
+import { Picker } from '../Date/Picker'
+import { FromRangePicker } from './FromRangePicker'
+import { TillRangePicker } from './TillRangePicker'
 
-type newDateProps = {
+type newDateRangeInputProps = {
   value?: number
   setValue: (e) => void
-  time?: boolean
   isFromRange?: boolean
   isTillRange?: boolean
   style?: Style
 }
 
-export const NewDateInput = ({
+export const NewDateRangeInput = ({
   value,
   setValue,
-  time,
   isFromRange,
   isTillRange,
   style,
-}: newDateProps) => {
+}: newDateRangeInputProps) => {
   const dayRef = useRef(null)
   const monthRef = useRef(null)
   const yearRef = useRef(null)
@@ -49,9 +46,7 @@ export const NewDateInput = ({
   }/${year}`
 
   // get the time as string format 00:00
-  const [timeString, setTimeString] = useState(
-    new Date(value).toString()?.split(' ')[4]?.split(':').slice(0, -1).join(':')
-  )
+  const timeString = '00:00'
 
   const stringToMilliseconds = (str: string, time?: string): number => {
     const dateString = `${str?.split('/').reverse().join('-')}T${
@@ -227,6 +222,9 @@ export const NewDateInput = ({
             if (e.key === 'ArrowLeft') {
               monthRef.current.select()
             }
+            if (e.key === 'ArrowRight') {
+              console.log('oi mate')
+            }
           }}
           onFocus={() => setFocusField('yearFocus')}
           onBlur={() => setFocusField('')}
@@ -318,13 +316,6 @@ export const NewDateInput = ({
           </styled.div>
         </styled.div>
       </styled.div>
-      {time && (
-        <NewTimeInput
-          timeString={timeString}
-          setTimeString={setTimeString}
-          style={{ marginLeft: 8 }}
-        />
-      )}
     </styled.div>
   )
 }

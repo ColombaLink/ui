@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { styled } from 'inlines'
 import { StateProvider } from '~/hooks'
-import { NewDateInput } from '../Date/NewDateInput'
+import { DateRangeDoubleInput } from './DaterRangeDoubleInput'
 
 type DateRangeWidgetProps = {
   value?: number[]
@@ -9,8 +9,6 @@ type DateRangeWidgetProps = {
 }
 
 export const DateRangeWidget = ({ value, onChange }: DateRangeWidgetProps) => {
-  // console.log(value)
-
   const [fromMscValue, setfromMscValue] = useState(value[0])
   const [tillMscValue, setTillMscValue] = useState(value[1])
 
@@ -29,27 +27,11 @@ export const DateRangeWidget = ({ value, onChange }: DateRangeWidgetProps) => {
         <StateProvider
           values={{ fromValue: fromMscValue, tillValue: tillMscValue }}
         >
-          <NewDateInput
-            value={fromMscValue}
-            setValue={setfromMscValue}
-            style={{
-              maxWidth: 139,
-              borderTopRightRadius: 0,
-              borderBottomRightRadius: 0,
-            }}
-            isFromRange
-          />
-
-          <NewDateInput
-            value={tillMscValue}
-            setValue={setTillMscValue}
-            style={{
-              maxWidth: 139,
-              borderTopLeftRadius: 0,
-              borderBottomLeftRadius: 0,
-              marginLeft: -5,
-            }}
-            isTillRange
+          <DateRangeDoubleInput
+            fromValue={fromMscValue}
+            tillValue={tillMscValue}
+            setFromValue={setfromMscValue}
+            setTillValue={setTillMscValue}
           />
         </StateProvider>
       </styled.div>

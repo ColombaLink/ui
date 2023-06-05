@@ -10,7 +10,7 @@ type DateWidgetProps = {
 }
 
 // TODO: when error message
-// TODO: date range styling
+// Date range functionality
 
 export const DateWidget: FC<DateWidgetProps> = ({
   value,
