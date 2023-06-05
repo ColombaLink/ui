@@ -69,9 +69,8 @@ export const Calendar = ({
     ) {
       // tempArr.unshift()
     }
-
     setDaysArr(tempArr)
-  }, [selectedMonth])
+  }, [selectedMonth, selectedYear])
 
   return (
     <>

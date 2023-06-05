@@ -100,7 +100,7 @@ export const NewDateInput = ({
     return new Date(year, month, 0).getDate()
   }
 
-  console.log('Days in this month', daysInMonth(newMonth, newYear))
+  // console.log('Days in this month', daysInMonth(newMonth, newYear))
 
   return (
     <styled.div style={{ display: 'flex' }}>
@@ -204,8 +204,21 @@ export const NewDateInput = ({
           style={{ maxWidth: 40, border: '1px solid green' }}
           ref={yearRef}
           value={year}
-          onChange={(e) => setYear(+e.target.value)}
+          onChange={(e) => {
+            if (day === 29 && month === 2) {
+              // Set year to schikkeljaar
+              console.log('leap year 🐸')
+            } else {
+              setYear(+e.target.value)
+            }
+          }}
           onKeyDown={(e) => {
+            if (day === 29 && month === 2 && e.key === 'ArrowUp') {
+              setYear(year + 4)
+            }
+            if (day === 29 && month === 2 && e.key === 'ArrowDown') {
+              setYear(year - 4)
+            }
             if (e.key === 'Backspace') {
               setYear('')
             }
