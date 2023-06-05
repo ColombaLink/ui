@@ -295,14 +295,14 @@ export const DateRangeDoubleInput = ({
             }
           }}
           onKeyUp={(e) => {
-            if (+e.key > 3) {
-              monthTillRef.current.select()
-            }
             if (e.key === 'ArrowLeft') {
               removeOverlay()
               yearFromRef.current.focus()
               yearFromRef.current.select()
               openFromRangePicker(e)
+            }
+            if (+e.key > 3) {
+              monthTillRef.current.select()
             }
             if (
               e.currentTarget.value.length > 1 &&
