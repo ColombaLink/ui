@@ -29,13 +29,16 @@ export const NewDateInput = ({
   const monthRef = useRef(null)
   const yearRef = useRef(null)
 
-  const [day, setDay] = useState<any>(value ? new Date(value).getDate() : '')
-  const [month, setMonth] = useState<any>(
-    value ? new Date(value).getMonth() + 1 : ''
-  )
-  const [year, setYear] = useState<any>(
-    value ? new Date(value).getFullYear() : ''
-  )
+  // try this
+  const DateObjVal = new Date(value)
+
+  const newDay = DateObjVal.getDate()
+  const newMonth = DateObjVal.getMonth() + 1
+  const newYear = DateObjVal.getFullYear()
+
+  const [day, setDay] = useState<any>(newDay || '')
+  const [month, setMonth] = useState<any>(newMonth || '')
+  const [year, setYear] = useState<any>(newYear || '')
 
   const [focusField, setFocusField] = useState<
     'dayFocus' | 'monthFocus' | 'yearFocus' | ''
@@ -70,9 +73,9 @@ export const NewDateInput = ({
   }, [day, month, year, timeString])
 
   useEffect(() => {
-    setDay(value ? new Date(value).getDate() : '')
-    setMonth(value ? new Date(value).getMonth() + 1 : '')
-    setYear(value ? new Date(value).getFullYear() : '')
+    setDay(newDay || '')
+    setMonth(newMonth || '')
+    setYear(newYear || '')
   }, [value])
 
   const openPicker = useOverlay(
@@ -93,6 +96,12 @@ export const NewDateInput = ({
     { width: 'target' }
   )
 
+  const daysInMonth = (month, year) => {
+    return new Date(year, month, 0).getDate()
+  }
+
+  console.log('Days in this month', daysInMonth(newMonth, newYear))
+
   return (
     <styled.div style={{ display: 'flex' }}>
       {/* hide from ui - user */}
@@ -110,7 +119,11 @@ export const NewDateInput = ({
           ref={dayRef}
           value={day}
           onChange={(e) => {
-            if (+e.target.value < 1 || +e.target.value > 31) {
+            // should get last day of the month
+            if (
+              +e.target.value < 1 ||
+              +e.target.value > daysInMonth(newMonth, newYear)
+            ) {
               setDay(1)
             } else {
               setDay(+e.target.value)
@@ -121,7 +134,7 @@ export const NewDateInput = ({
               setDay('')
             }
             if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
-              setDay(32)
+              setDay(daysInMonth(newMonth, newYear) + 1)
             }
           }}
           onKeyUp={(e) => {
