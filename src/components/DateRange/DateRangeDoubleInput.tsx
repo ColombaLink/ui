@@ -5,7 +5,7 @@ import { CalendarAltIcon } from '~/icons'
 import { useOverlay } from '~/hooks'
 import { FromRangePicker } from './FromRangePicker'
 import { TillRangePicker } from './TillRangePicker'
-import { removeOverlay } from '../Overlay'
+import { removeAllOverlays } from '../Overlay'
 
 type DateRangeDoubleInputProps = {
   fromValue: number
@@ -237,7 +237,6 @@ export const DateRangeDoubleInput = ({
           value={fromYear}
           onChange={(e) => {
             if (fromDay === 29 && fromMonth === 2) {
-              // Set year to schikkeljaar
               console.log('leap year 🐸')
             } else {
               setFromYear(+e.target.value)
@@ -259,7 +258,7 @@ export const DateRangeDoubleInput = ({
               monthFromRef.current.select()
             }
             if (e.key === 'ArrowRight') {
-              removeOverlay()
+              removeAllOverlays()
               dayTillRef.current.focus()
               dayTillRef.current.select()
               openTillRangePicker(e)
@@ -296,7 +295,7 @@ export const DateRangeDoubleInput = ({
           }}
           onKeyUp={(e) => {
             if (e.key === 'ArrowLeft') {
-              removeOverlay()
+              removeAllOverlays()
               yearFromRef.current.focus()
               yearFromRef.current.select()
               openFromRangePicker(e)
@@ -420,7 +419,8 @@ export const DateRangeDoubleInput = ({
             ...style,
           }}
           onClick={(e) => {
-            e.preventDefault()
+            removeAllOverlays()
+            //   e.preventDefault()
             openFromRangePicker(e)
           }}
         >
@@ -501,6 +501,7 @@ export const DateRangeDoubleInput = ({
             ...style,
           }}
           onClick={(e) => {
+            removeAllOverlays()
             e.preventDefault()
             openTillRangePicker(e)
           }}

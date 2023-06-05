@@ -10,7 +10,7 @@ type DateWidgetProps = {
 }
 
 // TODO: when error message
-// Date range functionality
+// Date range hover the range
 
 export const DateWidget: FC<DateWidgetProps> = ({
   value,

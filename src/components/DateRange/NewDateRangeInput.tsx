@@ -222,9 +222,6 @@ export const NewDateRangeInput = ({
             if (e.key === 'ArrowLeft') {
               monthRef.current.select()
             }
-            if (e.key === 'ArrowRight') {
-              console.log('oi mate')
-            }
           }}
           onFocus={() => setFocusField('yearFocus')}
           onBlur={() => setFocusField('')}

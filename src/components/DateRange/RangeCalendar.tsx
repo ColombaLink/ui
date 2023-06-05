@@ -18,6 +18,10 @@ export const RangeCalendar = ({
 }: RangeCalendarProps) => {
   const [daysArr, setDaysArr] = useState([])
 
+  // const [hoverDay, setHoverDay] = useState()
+  // const [hoverMonth, setHoverMonth] = useState()
+  // const [hoverYear, setHoverYear] = useState()
+
   const daysInMonth = (month, year) => {
     return new Date(year, month, 0).getDate()
   }
@@ -101,6 +105,19 @@ export const RangeCalendar = ({
     }
   }
 
+  // const checkIfIsHoverDay = (year, month, day) => {
+  //   const fromTime = new Date(fromYear, fromMonth, fromDay).getTime()
+  //   const tillTime = new Date(tillYear, tillMonth, tillDay).getTime()
+  //   const checkValTime = new Date(year, month, day).getTime()
+  //   const hoverTime = new Date(hoverYear, hoverMonth, hoverDay).getTime()
+
+  //   if (checkValTime < fromTime && checkValTime >= hoverTime) {
+  //     return true
+  //   } else if (checkValTime > tillTime && checkValTime <= hoverTime) {
+  //     return true
+  //   }
+  // }
+
   return (
     <>
       <styled.div
@@ -148,6 +165,16 @@ export const RangeCalendar = ({
             </styled.div>
           ) : (
             <styled.div
+              // onMouseOver={() => {
+              //   setHoverDay(val.day)
+              //   setHoverMonth(val.month)
+              //   setHoverYear(val.year)
+              // }}
+              // onMouseOut={() => {
+              //   setHoverDay(null)
+              //   setHoverMonth(null)
+              //   setHoverYear(null)
+              // }}
               style={{
                 border:
                   val.day === presentDay &&
@@ -168,7 +195,9 @@ export const RangeCalendar = ({
                     ? color('accent')
                     : checkIfRanged(val.year, val.month, val.day)
                     ? color('lightaccent')
-                    : '',
+                    : // : checkIfIsHoverDay(val.year, val.month, val.day)
+                      // ? color('border')
+                      '',
                 color:
                   val.day === +selectedDay
                     ? color('background')
@@ -183,7 +212,9 @@ export const RangeCalendar = ({
                     : color('text'),
                 borderRadius: checkIfRanged(val.year, val.month, val.day)
                   ? 0
-                  : 4,
+                  : // : checkIfIsHoverDay(val.year, val.month, val.day)
+                    // ? 0
+                    4,
                 // borderTopRightRadius:
                 //   val.day === fromDay &&
                 //   +selectedMonth === fromMonth &&
@@ -228,11 +259,10 @@ export const RangeCalendar = ({
                 justifyContent: 'center',
                 '@media (hover: hover)': {
                   '&:hover': {
-                    background:
-                      val.day === selectedDay
-                        ? color('accent')
-                        : color('border'),
+                    background: val.day && color('accent'),
                     cursor: 'pointer',
+                    color: val.day && color('background'),
+                    borderRadius: '4px !important',
                   },
                 },
               }}
