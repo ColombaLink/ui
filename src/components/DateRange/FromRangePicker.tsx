@@ -218,6 +218,7 @@ export const FromRangePicker = ({
         setSelectedDay={setSelectedDay}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
+        fromRangeCal
       />
       {/* More Button options */}
       <styled.div

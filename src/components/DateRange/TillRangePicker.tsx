@@ -218,6 +218,7 @@ export const TillRangePicker = ({
         setSelectedDay={setSelectedDay}
         selectedMonth={selectedMonth}
         selectedYear={selectedYear}
+        tillRangeCal
       />
       {/* More Button options */}
       <styled.div

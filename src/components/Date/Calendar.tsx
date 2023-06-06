@@ -138,14 +138,10 @@ export const Calendar = ({
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                '@media (hover: hover)': {
-                  '&:hover': {
-                    background:
-                      val.day === selectedDay
-                        ? color('accent')
-                        : color('border'),
-                    cursor: 'pointer',
-                  },
+                '&:hover': {
+                  background:
+                    val.day === selectedDay ? color('accent') : color('border'),
+                  cursor: 'pointer',
                 },
               }}
               key={i}
