@@ -10,7 +10,7 @@ import {
 } from '~'
 import { RangeCalendar } from './RangeCalendar'
 
-type RangePickerProps = {
+type RangeTillPickerProps = {
   setValue: (e: any) => void
   timeString?: string
   stringToMilliseconds?: (str: string, time?: string) => number
@@ -76,7 +76,7 @@ export const TillRangePicker = ({
   setValue,
   timeString,
   stringToMilliseconds,
-}: RangePickerProps) => {
+}: RangeTillPickerProps) => {
   const dateObj = new Date()
 
   const [millisecondsValue] = useContextState('tillValue')
