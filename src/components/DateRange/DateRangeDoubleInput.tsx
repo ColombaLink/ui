@@ -5,7 +5,7 @@ import { CalendarAltIcon } from '~/icons'
 import { useOverlay } from '~/hooks'
 import { FromRangePicker } from './FromRangePicker'
 import { TillRangePicker } from './TillRangePicker'
-import { removeAllOverlays } from '../Overlay'
+import { removeOverlay } from '../Overlay'
 
 type DateRangeDoubleInputProps = {
   fromValue: number
@@ -252,13 +252,15 @@ export const DateRangeDoubleInput = ({
             if (e.key === 'Backspace') {
               setFromYear('')
             }
+            if (e.key === 'ArrowRight') {
+              removeOverlay()
+            }
           }}
           onKeyUp={(e) => {
             if (e.key === 'ArrowLeft') {
               monthFromRef.current.select()
             }
             if (e.key === 'ArrowRight') {
-              removeAllOverlays()
               dayTillRef.current.focus()
               dayTillRef.current.select()
               openTillRangePicker(e)
@@ -292,10 +294,12 @@ export const DateRangeDoubleInput = ({
             if (e.key === 'ArrowDown' && +e.currentTarget.value === 1) {
               setTillDay(daysInMonth(newTillMonth, newTillYear) + 1)
             }
+            if (e.key === 'ArrowLeft') {
+              removeOverlay()
+            }
           }}
           onKeyUp={(e) => {
             if (e.key === 'ArrowLeft') {
-              removeAllOverlays()
               yearFromRef.current.focus()
               yearFromRef.current.select()
               openFromRangePicker(e)
@@ -419,8 +423,6 @@ export const DateRangeDoubleInput = ({
             ...style,
           }}
           onClick={(e) => {
-            removeAllOverlays()
-            //   e.preventDefault()
             openFromRangePicker(e)
           }}
         >
@@ -501,8 +503,6 @@ export const DateRangeDoubleInput = ({
             ...style,
           }}
           onClick={(e) => {
-            removeAllOverlays()
-            e.preventDefault()
             openTillRangePicker(e)
           }}
         >
