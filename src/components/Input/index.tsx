@@ -9,13 +9,13 @@ import React, {
   KeyboardEvent,
 } from 'react'
 import {
-  DateTimePicker,
   usePropState,
   useFocus,
   useHover,
   color,
   Style,
   Icon,
+  DateWidget,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -42,7 +42,7 @@ type InputType =
   | 'digest'
 
 type OnChange<T extends InputType> = (
-  value: T extends 'number' ? number : T extends 'date' ? number : string
+  value: T extends 'number' ? number : string
 ) => void
 
 export const Input = <T extends InputType>({
@@ -229,7 +229,7 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateTimePicker />
+        <DateWidget onChange={() => onChange} value={value} />
       ) : (
         <MaybeSuggest
           focused={focused}

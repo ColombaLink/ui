@@ -22,7 +22,7 @@ export const Input = () => {
             label: 'Date Time input',
             description: 'type is date',
             type: 'date',
-            descriptionBottom: 'bottom ',
+            // value: 1682460000000,
           },
         },
         {

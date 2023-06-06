@@ -249,7 +249,7 @@ export const NewDateInput = ({
             paddingLeft: 32,
             paddingRight: 12,
             alignItems: 'center',
-            width: 280,
+            width: 292,
             ...style,
           }}
           onClick={(e) => {

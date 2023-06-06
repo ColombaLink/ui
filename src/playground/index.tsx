@@ -21,7 +21,7 @@ import {
   DeleteIcon,
   EmailIcon,
   Dialog,
-  Badge,
+  // Badge,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -90,12 +90,12 @@ const menuItems = {
   Components: Object.keys(components).map((v) => {
     return {
       value: v,
-      icon:
-        v === 'Date' || v === 'DateRange' ? (
-          <Badge color="accent">Beta</Badge>
-        ) : (
-          ''
-        ),
+      // icon:
+      //   v === 'Snurp'  ? (
+      //     <Badge color="accent">Beta</Badge>
+      //   ) : (
+      //     ''
+      //   ),
       label: v,
     }
   }),
