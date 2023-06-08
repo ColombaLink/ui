@@ -7,6 +7,7 @@ import {
   EditIcon,
   ContextDivider,
   useDialog,
+  styled,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
@@ -15,6 +16,7 @@ import { BasedClient } from '@based/client'
 import { Components } from './Components'
 
 import useLocalStorage from '@based/use-local-storage'
+import { Content } from './Content'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -104,7 +106,10 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   } else if (type === 'content') {
     return (
       <Provider client={hubClient}>
-        <pre contentEditable>{JSON.stringify(data, null, 2)}</pre>
+        <styled.div>
+          <Content view={data} actions={Actions} />
+          <pre contentEditable>{JSON.stringify(data, null, 2)}</pre>
+        </styled.div>
       </Provider>
     )
   }
