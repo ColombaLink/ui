@@ -60,8 +60,6 @@ export const SchemaMain: FC = () => {
     header = <Header>{typeName}</Header>
   }
 
-  console.log('🐢, type', type)
-
   return (
     <Column style={{ width: '100%', height: '100%' }}>
       <ScrollArea

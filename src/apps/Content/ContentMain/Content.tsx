@@ -9,9 +9,24 @@ import {
   Button,
   MoreIcon,
 } from '~'
+import { useQuery, useClient } from '@based/react'
 
 export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
+
+  console.log('🐳', view)
+
+  // de display component
+  console.log('🐬', view.config.view)
+
+  const isTable = view.config.view === 'table'
+
+  const { data, loading } = useQuery(
+    view.config.function ? view.config.function.name : undefined,
+    view.config.function.payload
+  )
+
+  console.log('🐖', data)
 
   return (
     <ScrollArea
