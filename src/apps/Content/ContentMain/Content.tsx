@@ -19,6 +19,8 @@ export const Content = ({ view, actions }) => {
   // de display component
   console.log('🐬', view.config.view)
 
+  console.log('🐄 fields', view.config.fields)
+
   const isTable = view.config.view === 'table'
 
   const { data, loading } = useQuery(
@@ -27,6 +29,8 @@ export const Content = ({ view, actions }) => {
   )
 
   console.log('🐖', data)
+
+  // children, createdAt, descendants, id, type, updatedAt
 
   return (
     <ScrollArea
