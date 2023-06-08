@@ -39,6 +39,8 @@ export const SchemaMain: FC = () => {
   const { meta = {}, fields } = typeDef
   const { name } = meta
 
+  console.log(typeDef)
+
   if (!fields) {
     console.error('[InvalidSchema] No fields on type', type)
     return null
