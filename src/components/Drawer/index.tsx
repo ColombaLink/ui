@@ -1,142 +1,204 @@
-import React, { CSSProperties, ReactNode } from 'react'
-import { Text } from '../Text'
-import { CloseIcon, MoreIcon } from '~/icons'
-import { color } from '~/utils'
-export type DrawerProps = {
-  label?: string
-  children?: ReactNode | ReactNode[]
-  isRendered?: boolean
-  sidebar?: boolean
-  sidebarElem?: ReactNode | ReactNode[]
-  noBoxShadow?: boolean
-  width?: string | number
-  height?: string | number
-  closeFunc?: any
+import React, {
+  useState,
+  FunctionComponent,
+  ReactNode,
+  FC,
+  CSSProperties,
+  useEffect,
+} from 'react'
+import { styled, Style } from 'inlines'
+import useLocalStorage from '@based/use-local-storage'
+
+import { Icon } from '~/types'
+import { border, color, boxShadow, renderOrCreateElement } from '~/utils'
+import { ChevronRightIcon } from '~/icons'
+import { useWindowResize } from '~/hooks'
+
+type DrawerProps = {
+  open?: boolean
+  autoCollapse?: boolean
+  icon?: FunctionComponent<Icon> | ReactNode
+  width: number
+  closeWidth: number | string
   style?: CSSProperties
-  fullscreen?: boolean
+  children?: ReactNode | ReactNode[]
+  defaultState?: boolean
+  closeBreakpoint?: number
+  right?: boolean
 }
 
-export const Drawer = ({
-  label,
-  children,
-  isRendered,
-  sidebar,
-  sidebarElem,
-  noBoxShadow,
+export const Drawer: FC<DrawerProps> = ({
   width,
-  height,
-  closeFunc,
   style,
-  fullscreen,
-}: DrawerProps) => {
-  if (!isRendered) return null
-  else
-    return (
-      <div>
-        <div
-          style={
-            fullscreen
-              ? {
-                  position: 'absolute',
-                  right: 0,
-                  left: 0,
-                  bottom: 0,
-                  top: 0,
-                  margin: 'auto',
-                  minHeight: '300px',
-                  height: 'calc(100vh)',
-                  width: 'calc(100vw )',
-                  backgroundColor: noBoxShadow ? '' : 'rgba(0, 0, 0, 0.12)',
-                  display: 'flex',
-                }
-              : {
-                  // marginTop: '20px',
-                  paddingTop: '20px',
-                  display: 'flex',
-                  // backgroundColor: noBoxShadow ? '' : 'rgba(0, 0, 0, 0.12)',
-                }
+  closeWidth,
+  closeBreakpoint,
+  children,
+  defaultState,
+  icon,
+  right,
+}) => {
+  const [collapsed, setCollapsed] = useLocalStorage('collapsed')
+  const [resizeState, setResizeState] = useState(false)
+  const [forceOpen, setForceOpen] = useState(false)
+  if (collapsed === undefined) setCollapsed(defaultState)
+  const [hoverForExpansion, setHoverForExpansion] = useState(false)
+  const bla = useWindowResize()
+  useEffect(() => {
+    console.log(bla)
+    if (bla.width < (closeBreakpoint || width)) {
+      console.log('BOOM')
+      setResizeState(true)
+    }
+    if (bla.width > (closeBreakpoint || width)) {
+      console.log('BOOM')
+      setResizeState(false)
+    }
+  }, [bla])
+  return (
+    <styled.div
+      style={{
+        // border: '1px solid red',
+        width: forceOpen
+          ? width
+          : collapsed || resizeState
+          ? closeWidth
+          : width,
+        // minWidth: collapsed ? closeWidth : width,
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+        position: right ? 'absolute' : 'relative',
+        // border: '1px solid red',
+        left: right ? 'auto' : 0,
+        right: right ? 0 : undefined,
+        borderRight: right ? null : border(1),
+        borderLeft: right ? border(1) : null,
+        transition: 'width 0.24s ease-out',
+        height: '100vh',
+
+        // '@media (hover: hover)': {
+        //   '&:hover': {
+        //     borderRight: `2px solid ${color('accent')}`,
+        //     cursor: 'pointer',
+        //   },
+        // },
+        ...style,
+      }}
+      onClick={() => {}}
+      onMouseOver={(e) => {
+        setHoverForExpansion(true)
+      }}
+      onMouseLeave={() => {
+        setHoverForExpansion(false)
+      }}
+    >
+      <styled.div
+        style={{
+          postion: 'absolute',
+          top: 0,
+
+          // left: 0,
+          // right: 0,
+          display: 'flex',
+          height: '100%',
+          width: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        {children}
+      </styled.div>
+      <styled.div
+        style={{
+          position: 'absolute',
+          right: right ? undefined : 0,
+          left: right ? 0 : undefined,
+          top: 0,
+          bottom: 0,
+          height: '100%',
+          // width: 30,
+          borderRight: right ? null : '2px solid transparent',
+          borderLeft: right ? '2px solid transparent' : null,
+          '@media (hover: hover)': {
+            '&:hover': {
+              borderRight: `2px solid ${color('accent')}`,
+              // borderLeft: `2px solid ${color('accent')}`,
+              cursor: 'pointer',
+            },
+          },
+        }}
+        onMouseOver={(e) => {
+          // setMenuHeight(e.currentTarget.offsetHeight)
+          setHoverForExpansion(true)
+        }}
+        onMouseLeave={() => {
+          setHoverForExpansion(false)
+        }}
+        onClick={() => {
+          setCollapsed(!collapsed)
+          if (resizeState) {
+            setForceOpen(true)
           }
-        >
-          <div
+          if (forceOpen) {
+            setForceOpen(false)
+          }
+        }}
+      >
+        {true ? (
+          <styled.div
             style={{
-              margin: 'auto',
-              height: height ?? 'calc(100% - 20px)',
-              width: width ?? 'calc(100% - 20px)',
-              flexDirection: 'column',
+              position: 'absolute',
+              top: '50%',
+              width: 28,
+              height: 28,
+              borderRadius: 16,
               backgroundColor: color('background'),
-              boxShadow: '0px 8px 20px rgba(15, 16, 19, 0.24)',
-              zIndex: '10',
-
-              overflowX: 'auto',
-              overflowY: 'auto',
-
-              ...style,
+              border: `1px solid ${color('border')}`,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              right: right ? undefined : -14,
+              left: right ? -14 : undefined,
+              cursor: 'pointer',
+              boxShadow: boxShadow('small'),
+              '@media (hover: hover)': {
+                '&:hover': {
+                  backgroundColor: color('background2'),
+                },
+              },
             }}
           >
-            <div
+            <ChevronRightIcon
+              color="text"
+              size="12px"
               style={{
-                paddingTop: 30,
-                paddingBottom: 30,
-                display: 'flex',
-                flexDirection: 'row',
-                height: '7.5%',
-                alignItems: 'center',
-                width: '100%',
-                borderBottom: `1px solid ${color('accent:border')}`,
-                // borderBottom: '1px solid red',
+                position: 'absolute',
+                transform: !right
+                  ? forceOpen
+                    ? 'scaleX(-1)'
+                    : collapsed || resizeState
+                    ? 'scaleX(1)'
+                    : 'scaleX(-1)'
+                  : forceOpen
+                  ? 'scaleX(1)'
+                  : collapsed || resizeState
+                  ? 'scaleX(-1)'
+                  : 'scaleX(1)',
+                marginRight: -1,
               }}
-            >
-              <div style={{ width: '92.5%', marginLeft: '20px' }}>
-                <Text weight={600} size={18}>
-                  {label}
-                </Text>
-              </div>
-              <div
-                style={{
-                  width: '7.5%',
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                }}
-              >
-                <MoreIcon
-                  style={{ cursor: 'pointer' }}
-                  size={24}
-                  // onClick={open options menu or something?}
-                />
-                <CloseIcon
-                  size={24}
-                  onClick={closeFunc}
-                  style={{ cursor: 'pointer' }}
-                />
-              </div>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                height: '92.5%',
+              onClick={(e) => {
+                setCollapsed(!collapsed)
+                if (resizeState) {
+                  setForceOpen(true)
+                }
+                if (forceOpen) {
+                  setForceOpen(false)
+                }
               }}
-            >
-              <div
-                style={{ width: sidebar ? '76%' : '100%', marginTop: '20px' }}
-              >
-                {children}
-              </div>
-              {sidebar && (
-                <div
-                  style={{
-                    width: '26%',
-                    backgroundColor: color('background2'),
-                    borderLeft: `1px solid ${color('accent:border')}`,
-                  }}
-                >
-                  {sidebarElem}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+            />
+          </styled.div>
+        ) : null}
+      </styled.div>
+      {/* )} */}
+    </styled.div>
+  )
 }

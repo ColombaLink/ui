@@ -27,6 +27,7 @@ type FileUploadProps = {
   descriptionBottom?: string
   indent?: boolean
   onChange?: (file: File[]) => void
+  // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
   disabled?: boolean
   acceptedFileTypes?: string[]
@@ -66,8 +67,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
 
-  
-   // wrap onChange here
+  // wrap onChange here
   /*
     onChange = (files)) => {
       const [progress, setProgress] = useState(undefined)
@@ -76,8 +76,14 @@ export const FileUpload: FC<FileUploadProps> = ({
     
     }
   */
-  
-  
+
+  // const [progress, setProgress] = useState(undefined)
+  // const onChangeFromProps = onChange
+  // onChange = (file, progress) => {
+  //   onChangeFromProps(file, setProgress)
+  //   console.log(progress)
+  // }
+
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {

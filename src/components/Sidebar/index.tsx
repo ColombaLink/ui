@@ -13,6 +13,7 @@ import { Text } from '../Text'
 import { styled, Style } from 'inlines'
 import { ChevronRightIcon } from '~/icons'
 import { Icon } from '~/types'
+import { Drawer } from '../Drawer'
 
 type SideBarItem = {
   icon?: ReactNode | FunctionComponent<Icon>
@@ -120,8 +121,6 @@ export const Sidebar: FC<SidebarProps> = ({
   header,
   children,
   isExpanded,
-  expandable,
-  onExpand,
 }) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -209,103 +208,10 @@ export const Sidebar: FC<SidebarProps> = ({
   )
 
   return (
-    <div
-      style={{
-        width: expanded ? 246 : 70,
-        minWidth: expanded ? 246 : 70,
-        paddingTop: 6,
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        position: 'relative',
-        borderRight: border(1),
-        transition: 'all 0.24s ease-out',
-        ...style,
-      }}
-    >
+    <Drawer width={246} autoCollapse={false} closeWidth={70} style={style}>
       {header}
       <div style={{}}>{elements}</div>
       {children}
-      {expandable && (
-        <styled.div
-          style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            height: '100%',
-            width: 10,
-            borderRight: '2px solid transparent',
-            '@media (hover: hover)': {
-              '&:hover': {
-                borderRight: `2px solid ${color('accent')}`,
-                cursor: 'pointer',
-              },
-            },
-          }}
-          onMouseOver={(e) => {
-            setMenuHeight(e.currentTarget.offsetHeight)
-            setHoverForExpansion(true)
-          }}
-          onMouseLeave={() => {
-            setHoverForExpansion(false)
-          }}
-          onClick={() => {
-            if (onExpand) {
-              onExpand(!expanded)
-            }
-            setExpanded((prev) => !prev)
-          }}
-        >
-          {hoverForExpansion ? (
-            <styled.div
-              style={{
-                position: 'absolute',
-                width: 28,
-                height: 28,
-                borderRadius: 16,
-                backgroundColor: color('background'),
-                border: `1px solid ${color('border')}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                right: -14,
-                top: menuHeight / 2 - 14,
-                cursor: 'pointer',
-                boxShadow: boxShadow('small'),
-                '@media (hover: hover)': {
-                  '&:hover': {
-                    backgroundColor: color('background2'),
-                  },
-                },
-              }}
-              onClick={(e) => {
-                e.stopPropagation()
-                if (onExpand) {
-                  onExpand(!expanded)
-                }
-                setExpanded((prev) => !prev)
-              }}
-            >
-              <ChevronRightIcon
-                color="text"
-                size={12}
-                style={{
-                  transform: expanded ? 'scaleX(-1)' : 'scaleX(1)',
-                  marginRight: -1,
-                }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  if (onExpand) {
-                    onExpand(!expanded)
-                  }
-                  setExpanded((prev) => !prev)
-                }}
-              />
-            </styled.div>
-          ) : null}
-        </styled.div>
-      )}
-    </div>
+    </Drawer>
   )
 }

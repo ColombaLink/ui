@@ -1258,9 +1258,33 @@
     "DrawerProps": {
       "name": "DrawerProps",
       "props": {
-        "label": {
+        "open": {
           "optional": true,
-          "type": "string"
+          "type": "boolean"
+        },
+        "autoCollapse": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "icon": {
+          "optional": true,
+          "type": [
+            "FunctionComponent",
+            "ReactNode"
+          ]
+        },
+        "width": {
+          "type": "number"
+        },
+        "closeWidth": {
+          "type": [
+            "number",
+            "string"
+          ]
+        },
+        "style": {
+          "optional": true,
+          "type": "CSSProperties"
         },
         "children": {
           "optional": true,
@@ -1271,55 +1295,20 @@
             }
           ]
         },
-        "isRendered": {
+        "defaultState": {
           "optional": true,
           "type": "boolean"
         },
-        "sidebar": {
+        "closeBreakpoint": {
           "optional": true,
-          "type": "boolean"
+          "type": "number"
         },
-        "sidebarElem": {
-          "optional": true,
-          "type": [
-            "ReactNode",
-            {
-              "array": "ReactNode"
-            }
-          ]
-        },
-        "noBoxShadow": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "width": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "height": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "closeFunc": {
-          "optional": true,
-          "type": "TSAnyKeyword"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "fullscreen": {
+        "right": {
           "optional": true,
           "type": "boolean"
         }
       },
-      "code": "type DrawerProps = {\n  label?: string\n  children?: ReactNode | ReactNode[]\n  isRendered?: boolean\n  sidebar?: boolean\n  sidebarElem?: ReactNode | ReactNode[]\n  noBoxShadow?: boolean\n  width?: string | number\n  height?: string | number\n  closeFunc?: any\n  style?: CSSProperties\n  fullscreen?: boolean\n}",
+      "code": "type DrawerProps = {\n  open?: boolean\n  autoCollapse?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  width: number\n  closeWidth: number | string\n  style?: CSSProperties\n  children?: ReactNode | ReactNode[]\n  defaultState?: boolean\n  closeBreakpoint?: number\n  right?: boolean\n}",
       "file": "/components/Drawer/index.tsx"
     },
     "ExpandableListProps": {
@@ -1386,6 +1375,10 @@
     "FileUploadProps": {
       "name": "FileUploadProps",
       "props": {
+        "title": {
+          "optional": true,
+          "type": "string"
+        },
         "more": {
           "optional": true,
           "type": "boolean"
@@ -1433,7 +1426,7 @@
           "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  more?: boolean\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  style?: Style\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
+      "code": "type FileUploadProps = {\n  title?: string\n  more?: boolean\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  // onChange?: (file: File[], onProgress: (p: number) => void) => void\n  style?: Style\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
