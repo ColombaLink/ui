@@ -1,11 +1,13 @@
 import React, {
   FC,
+  useRef,
   ReactNode,
   useState,
   FunctionComponent,
   MouseEvent,
   isValidElement,
   useMemo,
+  useEffect,
 } from 'react'
 import { border, boxShadow, color, renderOrCreateElement } from '~/utils'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -31,14 +33,14 @@ type SideBarData =
 
 type SidebarProps = {
   data?: SideBarData
-  isExpanded?: boolean
   style?: Style
   active?: any
   onChange?: (value: any) => void
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
-  expandable?: boolean
   onExpand?: (isExpanded: boolean) => void
+  autoCollapse?: boolean
+  closeBreakpoint?: number
 }
 
 type SidebarItemProps = {
@@ -120,16 +122,25 @@ export const Sidebar: FC<SidebarProps> = ({
   onChange,
   header,
   children,
-  isExpanded,
+  autoCollapse,
+  closeBreakpoint,
 }) => {
   const [expanded, setExpanded] = useState(false)
+  const ref = useRef(null)
 
-  useMemo(() => {
-    setExpanded(isExpanded)
-  }, [isExpanded])
-
-  const [hoverForExpansion, setHoverForExpansion] = useState(false)
-  const [menuHeight, setMenuHeight] = useState(null)
+  useEffect(() => {
+    const resize = new ResizeObserver((entry) => {
+      const width = entry[0].contentRect.width
+      if (width > 200) {
+        setExpanded(true)
+      } else if (width < 200) {
+        setExpanded(false)
+      }
+    })
+    const element = ref.current
+    resize.observe(element)
+    return () => resize.disconnect()
+  }, [])
 
   let parsedData: SideBarItem[] = []
 
@@ -208,10 +219,23 @@ export const Sidebar: FC<SidebarProps> = ({
   )
 
   return (
-    <Drawer width={246} autoCollapse={false} closeWidth={70} style={style}>
-      {header}
-      <div style={{}}>{elements}</div>
-      {children}
-    </Drawer>
+    <span ref={ref}>
+      <Drawer
+        closeWidth={70}
+        width={246}
+        closeBreakpoint={closeBreakpoint}
+        autoCollapse={autoCollapse}
+        style={{
+          paddingLeft: '15px',
+          paddingRight: '10px',
+          paddingTop: '15px',
+          ...style,
+        }}
+      >
+        {header}
+        <div style={{}}>{elements}</div>
+        {children}
+      </Drawer>
+    </span>
   )
 }

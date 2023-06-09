@@ -57,31 +57,21 @@ export const Drawer: FC<DrawerProps> = ({
   return (
     <styled.div
       style={{
-        // border: '1px solid red',
         width: forceOpen
           ? width
           : collapsed || resizeState
           ? closeWidth
           : width,
-        // minWidth: collapsed ? closeWidth : width,
         display: 'flex',
         alignItems: 'center',
         flexDirection: 'column',
         position: right ? 'absolute' : 'relative',
-        // border: '1px solid red',
         left: right ? 'auto' : 0,
         right: right ? 0 : undefined,
         borderRight: right ? null : border(1),
         borderLeft: right ? border(1) : null,
         transition: 'width 0.24s ease-out',
         height: '100vh',
-
-        // '@media (hover: hover)': {
-        //   '&:hover': {
-        //     borderRight: `2px solid ${color('accent')}`,
-        //     cursor: 'pointer',
-        //   },
-        // },
         ...style,
       }}
       onClick={() => {}}
@@ -96,9 +86,6 @@ export const Drawer: FC<DrawerProps> = ({
         style={{
           postion: 'absolute',
           top: 0,
-
-          // left: 0,
-          // right: 0,
           display: 'flex',
           height: '100%',
           width: '100%',
@@ -115,19 +102,16 @@ export const Drawer: FC<DrawerProps> = ({
           top: 0,
           bottom: 0,
           height: '100%',
-          // width: 30,
           borderRight: right ? null : '2px solid transparent',
           borderLeft: right ? '2px solid transparent' : null,
           '@media (hover: hover)': {
             '&:hover': {
               borderRight: `2px solid ${color('accent')}`,
-              // borderLeft: `2px solid ${color('accent')}`,
               cursor: 'pointer',
             },
           },
         }}
         onMouseOver={(e) => {
-          // setMenuHeight(e.currentTarget.offsetHeight)
           setHoverForExpansion(true)
         }}
         onMouseLeave={() => {
@@ -198,7 +182,6 @@ export const Drawer: FC<DrawerProps> = ({
           </styled.div>
         ) : null}
       </styled.div>
-      {/* )} */}
     </styled.div>
   )
 }
