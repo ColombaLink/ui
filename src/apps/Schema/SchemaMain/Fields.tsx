@@ -40,7 +40,10 @@ export const Fields: FC<{
     return null
   }
 
-  const typeDef: TypeSchema = schema.types[type] || { meta: {}, fields: {} }
+  const typeDef: TypeSchema =
+    type === 'root'
+      ? schema.rootType
+      : schema.types[type] || { meta: {}, fields: {} }
 
   const {
     onDragStart,

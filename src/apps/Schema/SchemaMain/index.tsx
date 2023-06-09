@@ -36,11 +36,12 @@ export const SchemaMain: FC = () => {
     )
   }
 
-  const typeDef: TypeSchema = types[type] || { meta: {}, fields: {} }
+  const typeDef: TypeSchema =
+    type === 'root' ? schema.rootType : types[type] || { meta: {}, fields: {} }
   const { meta = {}, fields } = typeDef
   const { name } = meta
 
-  console.log(typeDef)
+  console.log('type def-->', typeDef)
 
   if (!fields) {
     console.error('[InvalidSchema] No fields on type', type)
@@ -109,19 +110,35 @@ export const SchemaMain: FC = () => {
                   }
                   Object.assign(dest, val)
 
-                  return client
-                    .call('db:set-schema', {
-                      db,
-                      mutate: true,
-                      schema: {
-                        types: {
-                          [type]: {
+                  if (type === 'root') {
+                    console.log('duss......')
+                    return client
+                      .call('db:set-schema', {
+                        db,
+                        mutate: true,
+                        schema: {
+                          rootType: {
                             fields: update,
                           },
                         },
-                      },
-                    })
-                    .catch((e) => console.error('error updating schema', e))
+                      })
+                      .catch((e) => console.error('error updating schema', e))
+                  } else {
+                    console.log('duss.afeafewaf.....')
+                    return client
+                      .call('db:set-schema', {
+                        db,
+                        mutate: true,
+                        schema: {
+                          types: {
+                            [type]: {
+                              fields: update,
+                            },
+                          },
+                        },
+                      })
+                      .catch((e) => console.error('error updating schema', e))
+                  }
                 }}
               />
             </div>

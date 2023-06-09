@@ -12,6 +12,10 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
   const { types } = schema
   const toast = useToast({ attached: true })
   const client = useClient()
+
+  console.log('type from confirm', type)
+  console.log('types from confirm', types)
+
   return (
     <Dialog.Confirm
       disabled={disabled}
@@ -27,7 +31,8 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             throw Error('Field name is required')
           }
 
-          const currentFields = types[type].fields
+          const currentFields =
+            type === 'root' ? schema.rootType.fields : types[type].fields
           const fields = {}
           let from = currentFields
           let dest = fields
@@ -47,17 +52,31 @@ export const Confirm = ({ disabled, options, type, children, path }) => {
             ...schema,
           }
 
-          return client.call('db:set-schema', {
-            mutate: true,
-            db,
-            schema: {
-              types: {
-                [type]: {
+          if (type === 'root') {
+            console.log('snurp 🎸')
+            return client.call('db:set-schema', {
+              mutate: true,
+              db,
+              schema: {
+                rootType: {
                   fields,
                 },
               },
-            },
-          })
+            })
+          } else {
+            console.log('flark 🎠')
+            return client.call('db:set-schema', {
+              mutate: true,
+              db,
+              schema: {
+                types: {
+                  [type]: {
+                    fields,
+                  },
+                },
+              },
+            })
+          }
         } catch (e) {
           toast(
             <Toast type="error" label={e.message}>
