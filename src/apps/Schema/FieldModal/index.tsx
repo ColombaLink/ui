@@ -181,10 +181,7 @@ export const FieldModal: FC<
       path?: string[]
     }
 > = ({ type, field, template, path = [] }) => {
-  const {
-    schema: { types },
-    loading,
-  } = useSchema()
+  const { schema, loading } = useSchema()
   const [generalDisabled, setGeneralDisabled] = useState(true)
   const [specificDisabled, setSpecificDisabled] = useState(false)
   const optionsRef = useRef<FieldOptions>()
@@ -193,8 +190,17 @@ export const FieldModal: FC<
     return null
   }
 
+  const types = schema.types
+  console.log('passedtype --> 🎭', type)
+  console.log('schema 🚴🏻‍♀️', schema)
+
   // @ts-ignore
-  const fields = path.reduce((fields, key) => fields[key], types[type].fields)
+  const fields =
+    type === 'root'
+      ? schema?.rootType?.fields
+      : path.reduce((fields, key) => fields[key], types[type].fields)
+
+  console.log('what do fields look like??', fields)
 
   if (!template) {
     if (field) {

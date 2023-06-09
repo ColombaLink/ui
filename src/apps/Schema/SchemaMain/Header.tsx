@@ -183,7 +183,7 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
           />
         ) : null}
       </div>
-      {typeDef ? (
+      {typeDef || type === 'root' ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button
             textAlign="center"

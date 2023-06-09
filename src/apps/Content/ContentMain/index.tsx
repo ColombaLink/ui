@@ -106,8 +106,11 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   } else if (type === 'content') {
     return (
       <Provider client={hubClient}>
-        <styled.div>
+        <styled.div
+          style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+        >
           <Content view={data} actions={Actions} />
+
           <pre contentEditable>{JSON.stringify(data, null, 2)}</pre>
         </styled.div>
       </Provider>

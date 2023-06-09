@@ -8,8 +8,79 @@ import {
   Text,
   Button,
   MoreIcon,
+  Table,
 } from '~'
 import { useQuery, useClient } from '@based/react'
+import { useItemSchema } from '~/apps/Schema/hooks/useItemSchema'
+
+/*
+{
+  type: 'content',
+  view: 'table',
+  list: 'descendants', // which property to use as data
+  customFields: {
+    name: {
+      label: 'First Name'
+    },
+    image: {
+      label: 'Avatar',
+      type: 'thumbnail'
+    }
+  },
+  query: {
+    $id: 'root',
+    descendants: {
+      $list: true,
+      name: true, // youxi
+      image: true, // http://
+      id: true,
+      createdAt: true
+    }
+  }
+}
+
+const { data } = useQuery({
+
+  $id: 'root',
+  descendants: {
+      $list: true,
+      name: true, // youxi
+      image: true, // http://
+      id: true,
+      createdAt: true
+    }
+})
+
+data === {
+  descendants: {
+    name: 'youzi',
+    image: 'http://xxx.com',
+    ...
+  }
+}
+*/
+
+/* 
+example to get things to show up in table
+{
+  "type": "content",
+  "view": "table",
+  "query": {
+    "name": "db",
+    "type": "query",
+    "descendants": {
+      "$id": "root",
+      "createdAt": true,
+      "$all": true,
+      "children": {
+        "$list": true,
+        "$all": true
+      }
+    }
+  }
+}
+
+*/
 
 export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
@@ -17,18 +88,34 @@ export const Content = ({ view, actions }) => {
   console.log('🐳', view)
 
   // de display component
-  console.log('🐬', view.config.view)
-
-  console.log('🐄 fields', view.config.fields)
 
   const isTable = view.config.view === 'table'
-
+  // name, payload
   const { data, loading } = useQuery(
-    view.config.function ? view.config.function.name : undefined,
-    view.config.function.payload
+    view.config.query ? view.config.query.name : undefined,
+    view.config.query.descendants
   )
 
-  console.log('🐖', data)
+  console.log('🐖 data', data)
+  console.log('🐷 data children', data?.children)
+
+  // if there is no header , generate this one
+  console.log(data?.children[0])
+
+  const tableHeader = []
+
+  for (let property in data?.children[0]) {
+    console.log(property)
+    tableHeader.push({ key: property, label: property.toString() })
+  }
+
+  // schema name
+  // const s = useItemSchema('fi')
+
+  // let sloading = s.loading
+  // let sfields = s.fields
+
+  // console.log(sloading, sfields)
 
   // children, createdAt, descendants, id, type, updatedAt
 
@@ -67,7 +154,66 @@ export const Content = ({ view, actions }) => {
             icon={MoreIcon}
           />
         </Row>
+
+        <styled.div
+          style={{
+            border: '1px solid orange',
+            margin: 12,
+            padding: 12,
+            width: '100%',
+          }}
+        >
+          {isTable && <Table headers={tableHeader} data={data?.children} />}
+        </styled.div>
       </styled.div>
     </ScrollArea>
   )
 }
+
+/** 
+ * setting somethings to db
+ * 
+ {
+  "type": "components",
+  "view": "list",
+  "components": [
+    {
+      "component": "Button",
+      "props": {
+        "children": [
+          "Set name to: file"
+        ],
+        "onClick": {
+          "function": {
+            "name": "db:set",
+            "type": "function",
+            "payload": {
+              "$id": "file",
+              "name": "hallow"
+            }
+          }
+        }
+      }
+    },
+    {
+      "component": "Button",
+      "props": {
+        "children": [
+          "Set thumb to: file "
+        ],
+        "onClick": {
+          "function": {
+            "name": "db:set",
+            "type": "function",
+            "payload": {
+              "$id": "file",
+              "thumb": "https://robohash.org/157.97.115.31.png"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
+ * 
+*/
