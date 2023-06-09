@@ -21,6 +21,7 @@ import {
   DeleteIcon,
   EmailIcon,
   Dialog,
+  // Badge,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -86,7 +87,18 @@ const menuItems = {
       label: <Text weight={700}>{v}</Text>,
     }
   }),
-  Components: Object.keys(components),
+  Components: Object.keys(components).map((v) => {
+    return {
+      value: v,
+      // icon:
+      //   v === 'Snurp'  ? (
+      //     <Badge color="accent">Beta</Badge>
+      //   ) : (
+      //     ''
+      //   ),
+      label: v,
+    }
+  }),
   Hooks: Object.keys(hooks),
 }
 

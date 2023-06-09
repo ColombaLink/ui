@@ -21,6 +21,8 @@ export const SchemaMain: FC = () => {
   console.log('schema -->', schema)
   console.log('types from schema', types)
 
+  // add root to types
+
   if (loading) {
     return null
   }
@@ -57,6 +59,8 @@ export const SchemaMain: FC = () => {
   } else {
     header = <Header>{typeName}</Header>
   }
+
+  console.log('🐢, type', type)
 
   return (
     <Column style={{ width: '100%', height: '100%' }}>

@@ -1018,242 +1018,232 @@
       "code": "type ContextMultiOptionsProps = {\n  items: Option[] | null | undefined\n  values?: Value[]\n  onChange: (values: Value[]) => void\n}",
       "file": "/components/ContextMenu/ContextOptions.tsx"
     },
-    "DateInputProps": {
-      "name": "DateInputProps",
+    "CalendarProps": {
+      "name": "CalendarProps",
       "props": {
-        "value": {
-          "optional": true,
+        "days": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "selectedDay": {
           "type": "string"
         },
-        "dateHandler": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFocused": {
-          "optional": true,
-          "type": "function"
-        },
-        "clearHandler": {
-          "optional": true,
-          "type": "function"
-        },
-        "fromValue": {
-          "optional": true,
+        "selectedMonth": {
           "type": "string"
         },
-        "tillValue": {
-          "optional": true,
+        "selectedYear": {
           "type": "string"
         },
-        "style": {
-          "optional": true,
-          "type": "Style"
-        },
-        "placeholder": {
-          "optional": true,
-          "type": "string"
-        },
-        "focusOnBeginDate": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "focusOnEndDate": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "isEndDate": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "isDateRange": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "setFromValue": {
-          "optional": true,
-          "type": "function"
-        },
-        "setTillValue": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFocusOnBeginDate": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFocusOnEndDate": {
-          "optional": true,
-          "type": "function"
-        },
-        "onClick": {
-          "optional": true,
+        "setSelectedDay": {
           "type": "function"
         }
       },
-      "code": "type DateInputProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  style?: Style\n  placeholder?: string\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n  isEndDate?: boolean\n  isDateRange?: boolean\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  onClick?: () => void\n}",
-      "file": "/components/DateTimePicker/DateInput.tsx"
+      "code": "type CalendarProps = {\n  days: string[]\n  selectedDay: string\n  selectedMonth: string\n  selectedYear: string\n  setSelectedDay: (e) => void\n}",
+      "file": "/components/Date/Calendar.tsx"
     },
-    "DatePickerProps": {
-      "name": "DatePickerProps",
+    "newDateProps": {
+      "name": "newDateProps",
       "props": {
         "value": {
           "optional": true,
-          "type": "string"
+          "type": "number"
         },
-        "dateHandler": {
-          "optional": true,
+        "setValue": {
           "type": "function"
-        },
-        "setShowDatePicker": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFocused": {
-          "optional": true,
-          "type": "function"
-        },
-        "clearHandler": {
-          "optional": true,
-          "type": "function"
-        },
-        "fromValue": {
-          "optional": true,
-          "type": "string"
-        },
-        "tillValue": {
-          "optional": true,
-          "type": "string"
-        },
-        "isDateRange": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "setFocusOnBeginDate": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFocusOnEndDate": {
-          "optional": true,
-          "type": "function"
-        },
-        "setFromValue": {
-          "optional": true,
-          "type": "function"
-        },
-        "setTillValue": {
-          "optional": true,
-          "type": "function"
-        },
-        "focusOnBeginDate": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "focusOnEndDate": {
-          "optional": true,
-          "type": "boolean"
-        }
-      },
-      "code": "type DatePickerProps = {\n  value?: string\n  dateHandler?: (value: string) => void\n  setShowDatePicker?: (value: boolean) => void\n  setFocused?: (value: boolean) => void\n  clearHandler?: () => void\n  fromValue?: string\n  tillValue?: string\n  isDateRange?: boolean\n  style?: CSSProperties\n  setFocusOnBeginDate?: (value: boolean) => void\n  setFocusOnEndDate?: (value: boolean) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  focusOnBeginDate?: boolean\n  focusOnEndDate?: boolean\n}",
-      "file": "/components/DateTimePicker/DatePicker.tsx"
-    },
-    "DateRangeInputProps": {
-      "name": "DateRangeInputProps",
-      "props": {
-        "setFromValue": {
-          "optional": true,
-          "type": "function"
-        },
-        "setTillValue": {
-          "optional": true,
-          "type": "function"
-        },
-        "fromValue": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "tillValue": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        }
-      },
-      "code": "type DateRangeInputProps = {\n  // value?: string\n  // dateHandler?: (value: string) => void\n  // setFocused?: (value: boolean) => void\n  // setErrorMessage?: (value: string) => void\n  setFromValue?: (value: string) => void\n  setTillValue?: (value: string) => void\n  fromValue?: string | number\n  tillValue?: string | number\n}",
-      "file": "/components/DateTimePicker/DateRangeInput.tsx"
-    },
-    "DateTimePickerProps": {
-      "name": "DateTimePickerProps",
-      "props": {
-        "label": {
-          "optional": true,
-          "type": "string"
-        },
-        "description": {
-          "optional": true,
-          "type": "string"
-        },
-        "descriptionBottom": {
-          "optional": true,
-          "type": "string"
-        },
-        "indent": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "onChange": {
-          "optional": true,
-          "type": "function"
-        },
-        "style": {
-          "optional": true,
-          "type": "CSSProperties"
-        },
-        "disabled": {
-          "optional": true,
-          "type": "boolean"
-        },
-        "value": {
-          "optional": true,
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "startValue": {
-          "optional": true,
-          "type": "string"
-        },
-        "endValue": {
-          "optional": true,
-          "type": "string"
         },
         "time": {
           "optional": true,
           "type": "boolean"
         },
-        "utc": {
+        "isFromRange": {
           "optional": true,
           "type": "boolean"
         },
-        "dateRange": {
+        "isTillRange": {
           "optional": true,
           "type": "boolean"
         },
-        "onClose": {
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type newDateProps = {\n  value?: number\n  setValue: (e) => void\n  time?: boolean\n  isFromRange?: boolean\n  isTillRange?: boolean\n  style?: Style\n}",
+      "file": "/components/Date/NewDateInput.tsx"
+    },
+    "PickerProps": {
+      "name": "PickerProps",
+      "props": {
+        "setValue": {
+          "type": "function"
+        },
+        "timeString": {
+          "optional": true,
+          "type": "string"
+        },
+        "stringToMilliseconds": {
           "optional": true,
           "type": "function"
         }
       },
-      "code": "type DateTimePickerProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (value: number) => void\n  style?: CSSProperties\n  // TODO make it work -> error?: (value: boolean | string | number) => string\n  disabled?: boolean\n  value?: string | number\n  startValue?: string\n  endValue?: string\n  time?: boolean\n  utc?: boolean\n  dateRange?: boolean\n  onClose?: () => void\n}",
-      "file": "/components/DateTimePicker/index.tsx"
+      "code": "type PickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "file": "/components/Date/Picker.tsx"
+    },
+    "DateWidgetProps": {
+      "name": "DateWidgetProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "onChange": {
+          "type": "function"
+        },
+        "time": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DateWidgetProps = {\n  value?: number // milliseconds\n  onChange: (value: number) => void\n  time?: boolean\n  style?: Style\n}",
+      "file": "/components/Date/index.tsx"
+    },
+    "DateRangeDoubleInputProps": {
+      "name": "DateRangeDoubleInputProps",
+      "props": {
+        "fromValue": {
+          "type": "number"
+        },
+        "tillValue": {
+          "type": "number"
+        },
+        "setFromValue": {
+          "type": "function"
+        },
+        "setTillValue": {
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type DateRangeDoubleInputProps = {\n  fromValue: number\n  tillValue: number\n  setFromValue: (e) => void\n  setTillValue: (e) => void\n  style?: Style\n}",
+      "file": "/components/DateRange/DateRangeDoubleInput.tsx"
+    },
+    "RangeFromPickerProps": {
+      "name": "RangeFromPickerProps",
+      "props": {
+        "setValue": {
+          "type": "function"
+        },
+        "timeString": {
+          "optional": true,
+          "type": "string"
+        },
+        "stringToMilliseconds": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RangeFromPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "file": "/components/DateRange/FromRangePicker.tsx"
+    },
+    "newDateRangeInputProps": {
+      "name": "newDateRangeInputProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": "number"
+        },
+        "setValue": {
+          "type": "function"
+        },
+        "isFromRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "isTillRange": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        }
+      },
+      "code": "type newDateRangeInputProps = {\n  value?: number\n  setValue: (e) => void\n  isFromRange?: boolean\n  isTillRange?: boolean\n  style?: Style\n}",
+      "file": "/components/DateRange/NewDateRangeInput.tsx"
+    },
+    "RangeCalendarProps": {
+      "name": "RangeCalendarProps",
+      "props": {
+        "days": {
+          "type": {
+            "array": "string"
+          }
+        },
+        "selectedDay": {
+          "type": "string"
+        },
+        "selectedMonth": {
+          "type": "string"
+        },
+        "selectedYear": {
+          "type": "string"
+        },
+        "setSelectedDay": {
+          "type": "function"
+        },
+        "fromRangeCal": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "tillRangeCal": {
+          "optional": true,
+          "type": "boolean"
+        }
+      },
+      "code": "type RangeCalendarProps = {\n  days: string[]\n  selectedDay: string\n  selectedMonth: string\n  selectedYear: string\n  setSelectedDay: (e) => void\n  fromRangeCal?: boolean\n  tillRangeCal?: boolean\n}",
+      "file": "/components/DateRange/RangeCalendar.tsx"
+    },
+    "RangeTillPickerProps": {
+      "name": "RangeTillPickerProps",
+      "props": {
+        "setValue": {
+          "type": "function"
+        },
+        "timeString": {
+          "optional": true,
+          "type": "string"
+        },
+        "stringToMilliseconds": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type RangeTillPickerProps = {\n  setValue: (e: any) => void\n  timeString?: string\n  stringToMilliseconds?: (str: string, time?: string) => number\n}",
+      "file": "/components/DateRange/TillRangePicker.tsx"
+    },
+    "DateRangeWidgetProps": {
+      "name": "DateRangeWidgetProps",
+      "props": {
+        "value": {
+          "optional": true,
+          "type": {
+            "array": "number"
+          }
+        },
+        "onChange": {
+          "type": "function"
+        }
+      },
+      "code": "type DateRangeWidgetProps = {\n  value?: number[]\n  onChange: (value: number[]) => void\n}",
+      "file": "/components/DateRange/index.tsx"
     },
     "DrawerProps": {
       "name": "DrawerProps",
@@ -3116,10 +3106,6 @@
           "optional": true,
           "type": "SideBarData"
         },
-        "isExpanded": {
-          "optional": true,
-          "type": "boolean"
-        },
         "style": {
           "optional": true,
           "type": "Style"
@@ -3150,16 +3136,20 @@
             }
           ]
         },
-        "expandable": {
-          "optional": true,
-          "type": "boolean"
-        },
         "onExpand": {
           "optional": true,
           "type": "function"
+        },
+        "autoCollapse": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "closeBreakpoint": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type SidebarProps = {\n  data?: SideBarData\n  isExpanded?: boolean\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  expandable?: boolean\n  onExpand?: (isExpanded: boolean) => void\n}",
+      "code": "type SidebarProps = {\n  data?: SideBarData\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  onExpand?: (isExpanded: boolean) => void\n  autoCollapse?: boolean\n  closeBreakpoint?: number\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {
