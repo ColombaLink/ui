@@ -129,7 +129,7 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
 
   const { schema } = useSchema(db)
 
-  const typeDef = schema.types[type]
+  const typeDef = type === 'root' ? schema.rootType : schema.types[type]
 
   const expanded = typeDef ? expandFieldPath(typeDef, field) : []
 

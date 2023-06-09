@@ -191,16 +191,12 @@ export const FieldModal: FC<
   }
 
   const types = schema.types
-  console.log('passedtype --> 🎭', type)
-  console.log('schema 🚴🏻‍♀️', schema)
 
   // @ts-ignore
   const fields =
     type === 'root'
       ? schema?.rootType?.fields
       : path.reduce((fields, key) => fields[key], types[type].fields)
-
-  console.log('what do fields look like??', fields)
 
   if (!template) {
     if (field) {

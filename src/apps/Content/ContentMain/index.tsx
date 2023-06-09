@@ -86,8 +86,6 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     $all: true,
   })
 
-  console.log(data, '?????')
-
   const [state, setState] = useLocalStorage('view-' + view, {})
 
   const { type } = data?.config ?? {}
