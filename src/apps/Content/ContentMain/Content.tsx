@@ -11,7 +11,6 @@ import {
   Table,
 } from '~'
 import { useQuery, useClient } from '@based/react'
-import { useItemSchema } from '~/apps/Schema/hooks/useItemSchema'
 
 /*
 {
@@ -60,7 +59,7 @@ data === {
 }
 */
 
-/* 
+/* //////////////// 
 example to get things to show up in table
 {
   "type": "content",
@@ -100,14 +99,23 @@ export const Content = ({ view, actions }) => {
   console.log('🐷 data children', data?.children)
 
   // if there is no header , generate this one
-  console.log(data?.children[0])
+  console.log(data?.children?.[0])
 
   const tableHeader = []
+  const trackProperties = []
 
-  for (let property in data?.children[0]) {
-    console.log(property)
-    tableHeader.push({ key: property, label: property.toString() })
+  for (let i = 0; i < data?.children?.length; i++) {
+    for (let property in data?.children?.[i]) {
+      console.log(trackProperties)
+      if (!trackProperties.includes(property.toString())) {
+        trackProperties.push(property.toString())
+        console.log(property)
+        tableHeader.push({ key: property, label: property.toString() })
+      }
+    }
   }
+
+  console.log(tableHeader, '📪')
 
   // schema name
   // const s = useItemSchema('fi')
@@ -155,15 +163,18 @@ export const Content = ({ view, actions }) => {
           />
         </Row>
 
-        <styled.div
-          style={{
-            border: '1px solid orange',
-            margin: 12,
-            padding: 12,
-            width: '100%',
-          }}
-        >
-          {isTable && <Table headers={tableHeader} data={data?.children} />}
+        <styled.div style={{ width: '100%', padding: 24 }}>
+          {isTable && (
+            <Table
+              headers={tableHeader}
+              data={data?.children}
+              outline
+              onClick={(e) => {
+                console.log('OPEN MODAL OR REFERENCE')
+                console.log(e.target.textContent)
+              }}
+            />
+          )}
         </styled.div>
       </styled.div>
     </ScrollArea>
