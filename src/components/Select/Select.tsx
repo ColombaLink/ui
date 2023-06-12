@@ -53,6 +53,7 @@ export type SelectProps = {
   id?: string
   ghost?: boolean
   onClick?: () => void
+  disabled?: boolean
 }
 
 export const Select: FC<SelectProps> = ({
@@ -69,6 +70,7 @@ export const Select: FC<SelectProps> = ({
   id,
   ghost,
   onClick,
+  disabled,
 }) => {
   const [currentValue, open] = useSelect(options, value, onChange, {
     variant: 'over',
@@ -113,25 +115,38 @@ export const Select: FC<SelectProps> = ({
       '&:hover': null,
     }
   }
+  if (disabled) {
+    style = {
+      ...style,
+      cursor: 'not-allowed',
+      backgroundColor: 'rgba(0,0,0,0.12)',
+      opacity: '0.5',
+    }
+  }
 
   return label ? (
     <SelectLabel
       label={label}
-      onClick={(e) => {
-        open(e)
-      }}
+      onClick={
+        disabled
+          ? null
+          : (e) => {
+              open(e)
+            }
+      }
       style={style}
     >
       {children}
     </SelectLabel>
   ) : (
     <StyledSelect
-      onClick={(e) => {
-        if (onClick) {
-          onClick()
-        }
-        open(e)
-      }}
+      onClick={
+        disabled
+          ? null
+          : (e) => {
+              open(e)
+            }
+      }
       style={{
         boxShadow: ghost ? null : boxShadow('medium'),
         ...style,
