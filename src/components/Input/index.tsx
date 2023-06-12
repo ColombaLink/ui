@@ -73,7 +73,7 @@ export const Input = <T extends InputType>({
   suggest,
   transform,
   type,
-  previewImg,
+  time,
   value: valueProp,
   ...otherProps
 }: {
@@ -108,7 +108,7 @@ export const Input = <T extends InputType>({
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   onBlur?: ReactEventHandler
-  previewImg?: boolean
+  time?: boolean
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
@@ -233,7 +233,7 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateWidget onChange={() => onChange} value={value} />
+        <DateWidget onChange={() => onChange} value={value} time={time} />
       ) : (
         <MaybeSuggest
           focused={focused}

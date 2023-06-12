@@ -70,6 +70,7 @@ example to get things to show up in table
     "name": "db",
     "type": "query",
     "descendants": {
+      // "type" : "flurpie"
       "$id": "root",
       "createdAt": true,
       "$all": true,
@@ -106,6 +107,8 @@ export const Content = ({ view, actions }) => {
 
   const tableHeader = []
   const trackProperties = []
+
+  // custom Component rules should be added to tableHeader
 
   for (let i = 0; i < data?.children?.length; i++) {
     for (let property in data?.children?.[i]) {

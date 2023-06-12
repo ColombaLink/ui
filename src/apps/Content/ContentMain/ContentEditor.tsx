@@ -2,11 +2,16 @@ import React from 'react'
 import { styled } from 'inlines'
 import { useSchema } from '~/apps/Schema'
 import { Input } from '~/components/Input'
+import { Badge } from '~/components/Badge'
 import { color } from '~/utils'
+import { Toggle } from '~/components/Toggle'
+import { FileUpload } from '~/components/FileUpload'
+import { InputWrapper } from '~/components/Input/InputWrapper'
 
 // TODO: get the right fields based on the schema types
 // TODO: check if something is changed
 // TODO: on publish --> function db:set
+// TODO: add onchange to these componentns
 
 export const ContentEditor = ({ rowData }) => {
   console.log('rowData from ContentEditor comp modal', rowData)
@@ -45,10 +50,22 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
   // references, type, id, set, string, digest, number, url, text
 
   const type = item[itemName.toString()].type
+  const meta = item[itemName.toString()].meta
   const name =
     itemName.toString().charAt(0).toUpperCase() + itemName.toString().slice(1)
 
   const BOTTOMSPACE = 28
+
+  if (type === 'boolean') {
+    return (
+      <Toggle
+        label={name}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
 
   if (type === 'digest') {
     return (
@@ -74,6 +91,23 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
     )
   }
 
+  if (meta?.format?.includes('file')) {
+    return (
+      <FileUpload
+        label={name}
+        descriptionBottom="Drag and drop or click to upload"
+        onChange={(files) => console.log(files)}
+        indent
+        value={[
+          {
+            src: itemValue,
+          },
+        ]}
+        style={{ marginBottom: BOTTOMSPACE }}
+      />
+    )
+  }
+
   if (type === 'id') {
     return (
       <Input
@@ -83,6 +117,30 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
         style={{ marginBottom: BOTTOMSPACE }}
         indent
         disabled
+      />
+    )
+  }
+
+  if (type === 'json') {
+    return (
+      <Input
+        label={name}
+        type="json"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  if (meta?.format === 'markdown') {
+    return (
+      <Input
+        label={name}
+        type="markdown"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
       />
     )
   }
@@ -111,11 +169,25 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
     )
   }
 
+  if (type === 'type') {
+    return (
+      <InputWrapper
+        label={name}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        value=""
+      >
+        <Badge>{itemValue}</Badge>
+      </InputWrapper>
+    )
+  }
+
   if (type === 'timestamp') {
     return (
       <Input
         label={name}
-        type="number"
+        type="date"
+        time
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         descriptionBottom={new Date(itemValue).toString()}

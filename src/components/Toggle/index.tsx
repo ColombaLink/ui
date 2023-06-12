@@ -36,6 +36,7 @@ export const Toggle: FC<ToggleProps> = ({
   return (
     <InputWrapper
       indent={indent}
+      value=""
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       color={colorProp}
