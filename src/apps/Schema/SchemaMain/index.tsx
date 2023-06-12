@@ -21,6 +21,7 @@ export const SchemaMain: FC = () => {
   console.log(type, field)
   console.log('schema -->', schema)
   console.log('types from schema', types)
+  console.log('what the db', db)
 
   // add root to types
 

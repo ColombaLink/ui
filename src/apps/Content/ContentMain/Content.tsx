@@ -109,16 +109,16 @@ export const Content = ({ view, actions }) => {
 
   for (let i = 0; i < data?.children?.length; i++) {
     for (let property in data?.children?.[i]) {
-      console.log(trackProperties)
+      // console.log(trackProperties)
       if (!trackProperties.includes(property.toString())) {
         trackProperties.push(property.toString())
-        console.log(property)
+        // console.log(property)
         tableHeader.push({ key: property, label: property.toString() })
       }
     }
   }
 
-  console.log(tableHeader, '📪')
+  // console.log(tableHeader, '📪')
 
   const tableClickHandler = (e, rowData) => {
     console.log('cellText --> ', e.target.textContent)

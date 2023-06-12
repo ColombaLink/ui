@@ -2,11 +2,11 @@ import React from 'react'
 import { styled } from 'inlines'
 import { Button } from '~/components/Button'
 import { Text } from '~/components/Text'
-import { color, Color } from '~/utils'
+import { color } from '~/utils'
+import { ScrollArea } from '~/components/ScrollArea'
+import { ContentEditor } from './ContentEditor'
 
 export const ContentEditModal = ({ rowData }) => {
-  console.log('rowData from Edit modal', rowData)
-
   return (
     <styled.div
       style={{
@@ -18,7 +18,10 @@ export const ContentEditModal = ({ rowData }) => {
       }}
     >
       <styled.div style={{ flexGrow: 1, padding: 32 }}>
-        <Text>Test</Text>
+        <ScrollArea>
+          <Text> Component hier voor het renderen van editable fields</Text>
+          <ContentEditor rowData={rowData} />
+        </ScrollArea>
       </styled.div>
       <styled.div
         style={{
