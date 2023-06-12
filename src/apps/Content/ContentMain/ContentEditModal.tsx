@@ -7,6 +7,8 @@ import { color } from '~/utils'
 import { ContentEditor } from './ContentEditor'
 import { CheckIcon, CloseIcon } from '~/icons'
 import { useCopyToClipboard } from '~/hooks'
+import { removeOverlay } from '~/components/Overlay'
+import { Select } from '~/components/Select'
 
 export const ContentEditModal = ({ rowData }) => {
   const [copied, copy] = useCopyToClipboard(rowData?.id)
@@ -59,7 +61,7 @@ export const ContentEditModal = ({ rowData }) => {
           }}
           icon={<CloseIcon color="text2" />}
           color="border"
-          onClick={() => console.log('close overlay')}
+          onClick={() => removeOverlay()}
         />
         <styled.div
           style={{
@@ -99,6 +101,22 @@ export const ContentEditModal = ({ rowData }) => {
           {rowData?.id}
         </Badge>
         {copied && <Text typography="caption500">copied to clipboard!</Text>}
+        <styled.div
+          style={{
+            borderBottom: `1px solid ${color('border')}`,
+            height: 54,
+            marginBottom: 16,
+            display: 'flex',
+            alignItems: 'end',
+            paddingBottom: 8,
+          }}
+        >
+          <Text typography="caption600">TRANSLATION</Text>
+        </styled.div>
+        <Select
+          options={['English (en)', 'Dutch (nl)']}
+          placeholder="Select a language"
+        />
       </styled.div>
     </styled.div>
   )

@@ -54,7 +54,7 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
   const name =
     itemName.toString().charAt(0).toUpperCase() + itemName.toString().slice(1)
 
-  const BOTTOMSPACE = 28
+  const BOTTOMSPACE = 32
 
   if (type === 'boolean') {
     return (
