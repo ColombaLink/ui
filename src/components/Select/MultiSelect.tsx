@@ -25,6 +25,7 @@ export type MultiSelectProps = {
   style?: Style
   values?: Value[]
   ghost?: boolean
+  disabled?: boolean
 }
 
 const StyledBadgeContainer = styled('div', {
@@ -50,6 +51,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   overlay,
   label,
   ghost,
+  disabled,
 }) => {
   const ref = useRef<HTMLInputElement | null>()
   const [displayIndex, setDisplayIndex] = useState(values?.length || 0)
@@ -171,10 +173,18 @@ export const MultiSelect: FC<MultiSelectProps> = ({
       boxShadow: null,
     }
   }
+  if (disabled) {
+    style = {
+      ...style,
+      cursor: 'not-allowed',
+      backgroundColor: 'rgba(0,0,0,0.12)',
+      opacity: '0.5',
+    }
+  }
 
   if (label) {
     return (
-      <SelectLabel label={label} onClick={open} style={style}>
+      <SelectLabel label={label} onClick={disabled ? null : open} style={style}>
         <StyledLabelContainer ref={ref}>
           {optionsBadges}
           <ChevronDownIcon color={color} size={16} />
@@ -184,7 +194,7 @@ export const MultiSelect: FC<MultiSelectProps> = ({
   }
 
   return (
-    <StyledSelect ref={ref} onClick={open} style={style}>
+    <StyledSelect ref={ref} onClick={disabled ? null : open} style={style}>
       {optionsBadges}
       <ChevronDownIcon color={color} size={16} />
     </StyledSelect>
