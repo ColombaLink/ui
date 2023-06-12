@@ -14,18 +14,16 @@ export const ContentEditModal = ({ rowData }) => {
         display: 'flex',
         borderRadius: 12,
         width: 'calc(100% -  64px)',
+        maxWidth: 1164,
         height: 'calc(100% -  64px)',
       }}
     >
-      <styled.div style={{ flexGrow: 1, padding: 32 }}>
-        <ScrollArea>
-          <Text> Component hier voor het renderen van editable fields</Text>
-          <ContentEditor rowData={rowData} />
-        </ScrollArea>
+      <styled.div style={{ flexGrow: 1, padding: 32, overflowY: 'auto' }}>
+        <ContentEditor rowData={rowData} />
       </styled.div>
       <styled.div
         style={{
-          maxWidth: 292,
+          maxWidth: 260,
           width: '100%',
           backgroundColor: color('background2'),
           padding: 32,
