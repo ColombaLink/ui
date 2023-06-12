@@ -196,7 +196,8 @@ export const FieldModal: FC<
   const fields =
     type === 'root'
       ? schema?.rootType?.fields
-      : path.reduce((fields, key) => fields[key], types[type].fields)
+      : // @ts-ignore  is this an issue?
+        path.reduce((fields, key) => fields[key], types[type].fields)
 
   if (!template) {
     if (field) {
