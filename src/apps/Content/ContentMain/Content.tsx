@@ -9,8 +9,10 @@ import {
   Button,
   MoreIcon,
   Table,
+  useDialog,
 } from '~'
 import { useQuery, useClient } from '@based/react'
+import { ContentEditModal } from './ContentEditModal'
 
 /*
 {
@@ -83,6 +85,7 @@ example to get things to show up in table
 
 export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
+  const { open } = useDialog()
 
   console.log('🐳', view)
 
@@ -117,6 +120,12 @@ export const Content = ({ view, actions }) => {
 
   console.log(tableHeader, '📪')
 
+  const tableClickHandler = (e, rowData) => {
+    console.log('cellText --> ', e.target.textContent)
+    console.log('rowData', rowData)
+    open(<ContentEditModal rowData={rowData} />)
+  }
+
   // schema name
   // const s = useItemSchema('fi')
 
@@ -133,6 +142,7 @@ export const Content = ({ view, actions }) => {
         display: 'flex',
         flexGrow: 1,
         minWidth: null,
+        minHeight: 300,
       }}
     >
       <styled.div
@@ -169,10 +179,7 @@ export const Content = ({ view, actions }) => {
               headers={tableHeader}
               data={data?.children}
               outline
-              onClick={(e) => {
-                console.log('OPEN MODAL OR REFERENCE')
-                console.log(e.target.textContent)
-              }}
+              onClick={tableClickHandler}
             />
           )}
         </styled.div>
