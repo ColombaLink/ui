@@ -2,6 +2,7 @@ import React from 'react'
 import { styled } from 'inlines'
 import { useSchema } from '~/apps/Schema'
 import { Input } from '~/components/Input'
+import { color } from '~/utils'
 
 // TODO: get the right fields based on the schema types
 // TODO: check if something is changed
@@ -41,13 +42,13 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
   console.log('item name', itemName)
 
   // all the types
-  // references, timestamp, type, id, set, string, digest, number, url, text
+  // references, type, id, set, string, digest, number, url, text
 
   const type = item[itemName.toString()].type
   const name =
     itemName.toString().charAt(0).toUpperCase() + itemName.toString().slice(1)
 
-  const BOTTOMSPACE = 24
+  const BOTTOMSPACE = 28
 
   if (type === 'digest') {
     return (
@@ -98,7 +99,7 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
     )
   }
 
-  if (type === 'string') {
+  if (type === 'string' || type === 'text') {
     return (
       <Input
         label={name}
@@ -123,5 +124,30 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
     )
   }
 
-  return <styled.div>{name + ' : ' + type}</styled.div>
+  if (type === 'url' || type === 'thumb') {
+    return (
+      <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+        <styled.div
+          style={{
+            backgroundColor: color('background2'),
+            backgroundImage: `url(${itemValue})`,
+            backgroundSize: 'cover',
+            height: 32,
+            width: 32,
+            marginRight: 16,
+          }}
+        />
+        <Input
+          label={name}
+          type="text"
+          value={itemValue}
+          style={{ marginBottom: BOTTOMSPACE, flexGrow: 1 }}
+        />
+      </styled.div>
+    )
+  }
+
+  return (
+    <styled.div style={{ marginBottom: 12 }}>{name + ' : ' + type}</styled.div>
+  )
 }

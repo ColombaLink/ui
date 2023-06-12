@@ -26,6 +26,7 @@ import { PasswordInput } from './PasswordInput'
 import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
+import { UrlInput } from './UrlInput'
 
 type InputType =
   | 'text'
@@ -40,6 +41,7 @@ type InputType =
   | 'json'
   | 'multiline'
   | 'digest'
+  | 'url'
 
 type OnChange<T extends InputType> = (
   value: T extends 'number' ? number : string
@@ -71,6 +73,7 @@ export const Input = <T extends InputType>({
   suggest,
   transform,
   type,
+  previewImg,
   value: valueProp,
   ...otherProps
 }: {
@@ -105,6 +108,7 @@ export const Input = <T extends InputType>({
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   onBlur?: ReactEventHandler
+  previewImg?: boolean
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
