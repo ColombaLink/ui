@@ -2144,6 +2144,69 @@
       "code": "type SingleProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n}",
       "file": "/components/Input/Single.tsx"
     },
+    "UrlProps": {
+      "name": "UrlProps",
+      "props": {
+        "type": {
+          "optional": true,
+          "type": "string"
+        },
+        "inputRef": {
+          "optional": true,
+          "type": "RefObject"
+        },
+        "value": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "pattern": {
+          "optional": true,
+          "type": "string"
+        },
+        "props": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onKeyDown": {
+          "optional": true,
+          "type": "function"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "onFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "focused": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setErrorMessage": {
+          "optional": true,
+          "type": "function"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type UrlProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  // icon?: FunctionComponent<Icon> | ReactNode\n  // iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n}",
+      "file": "/components/Input/UrlInput.tsx"
+    },
     "LabelProps": {
       "name": "LabelProps",
       "props": {

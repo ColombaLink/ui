@@ -54,7 +54,7 @@ export const UrlInput: FC<UrlProps> = ({
       ? error(value, reOk)
       : reOk
       ? ''
-      : 'Does not match pattern'
+      : 'Please enter a valid URL'
     if (msg) {
       setErrorMessage(msg)
     } else {
@@ -67,13 +67,13 @@ export const UrlInput: FC<UrlProps> = ({
       style={{
         position: 'relative',
         color: color('text'),
-
         width: '100%',
         display: 'flex',
       }}
     >
       <styled.div
         style={{
+          flexShrink: '0',
           border: ghost
             ? `0px solid transparent`
             : focused
