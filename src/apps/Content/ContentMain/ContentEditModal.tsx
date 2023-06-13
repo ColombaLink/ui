@@ -10,7 +10,7 @@ import { useCopyToClipboard } from '~/hooks'
 import { removeOverlay } from '~/components/Overlay'
 import { Select } from '~/components/Select'
 
-export const ContentEditModal = ({ rowData }) => {
+export const ContentEditModal = ({ rowData, schema }) => {
   const [copied, copy] = useCopyToClipboard(rowData?.id)
 
   return (
@@ -34,7 +34,7 @@ export const ContentEditModal = ({ rowData }) => {
           <Text typography="subtitle500">{rowData.type}</Text>
         </styled.div>
         <styled.div>
-          <ContentEditor rowData={rowData} />
+          <ContentEditor rowData={rowData} schema={schema} />
         </styled.div>
       </styled.div>
 

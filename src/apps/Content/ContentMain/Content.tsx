@@ -11,6 +11,8 @@ import {
   Table,
   useDialog,
   Badge,
+  useSchema,
+  useContextState,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { ContentEditModal } from './ContentEditModal'
@@ -100,6 +102,14 @@ example to get things to show up in table
 export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
   const { open } = useDialog()
+
+  const [db] = useContextState('db', 'default')
+  const [type] = useContextState('type', '')
+
+  const { loading: loads, schema } = useSchema(db)
+
+  console.log('🆚 shcema', schema)
+  console.log('📳', type)
 
   console.log('🐳', view)
 
@@ -209,9 +219,9 @@ export const Content = ({ view, actions }) => {
   console.log(tableHeader, '📪')
 
   const tableClickHandler = (e, rowData) => {
-    console.log('cellText --> ', e.target.textContent)
-    console.log('rowData', rowData)
-    open(<ContentEditModal rowData={rowData} />)
+    // console.log('cellText --> ', e.target.textContent)
+    // console.log('rowData', rowData)
+    open(<ContentEditModal rowData={rowData} schema={schema} />)
   }
 
   // children, createdAt, descendants, id, type, updatedAt

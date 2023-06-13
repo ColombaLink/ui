@@ -1,11 +1,5 @@
 import React from 'react'
-import { styled } from 'inlines'
-import { useSchema } from '~/apps/Schema'
-import { Input } from '~/components/Input'
-import { Badge } from '~/components/Badge'
-import { color } from '~/utils'
-import { Toggle } from '~/components/Toggle'
-import { FileUpload } from '~/components/FileUpload'
+import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
 // TODO: get the right fields based on the schema types
@@ -13,16 +7,15 @@ import { InputWrapper } from '~/components/Input/InputWrapper'
 // TODO: on publish --> function db:set
 // TODO: add onchange to these componentns
 
-export const ContentEditor = ({ rowData }) => {
+export const ContentEditor = ({ rowData, schema }) => {
   console.log('rowData from ContentEditor comp modal', rowData)
+  console.log('rowData from ContentEditor comp modal', schema)
 
-  const { loading, schema } = useSchema('default')
+  const schemaFieldsDataBasedOnType = schema?.types[rowData.type]?.fields
 
-  const schemaFieldsDataBasedOnType = schema.types[rowData.type]?.fields
+  console.log('feaf??', schemaFieldsDataBasedOnType)
 
-  console.log('schema??', schemaFieldsDataBasedOnType)
-
-  const arrayOfFields = Object.entries(schemaFieldsDataBasedOnType).map(
+  const arrayOfFields = Object.entries(schemaFieldsDataBasedOnType)?.map(
     (e) => ({ [e[0]]: e[1] })
   )
 
