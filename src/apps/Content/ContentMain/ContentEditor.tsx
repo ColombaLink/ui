@@ -1,5 +1,5 @@
 import React from 'react'
-import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
+import { styled, Input, Badge, color, Toggle, FileUpload, Text } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
 // TODO: get the right fields based on the schema types
@@ -60,6 +60,18 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
         style={{ marginBottom: BOTTOMSPACE }}
         indent
       />
+    )
+  }
+
+  if (meta.name === 'children') {
+    return (
+      <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }}>
+        {itemValue.map((item, i) => (
+          <Text key={i}>
+            {item.type} : {item.id}{' '}
+          </Text>
+        ))}
+      </InputWrapper>
     )
   }
 
