@@ -11,7 +11,10 @@ export const ContentEditor = ({ rowData, schema }) => {
   console.log('rowData from ContentEditor comp modal', rowData)
   console.log('rowData from ContentEditor comp modal', schema)
 
-  const schemaFieldsDataBasedOnType = schema?.types[rowData.type]?.fields
+  const schemaFieldsDataBasedOnType =
+    rowData.type === 'root'
+      ? schema?.rootType.fields
+      : schema?.types[rowData.type].fields
 
   console.log('feaf??', schemaFieldsDataBasedOnType)
 
