@@ -75,7 +75,7 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
   if (meta.name === 'children') {
     return (
       <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }} indent>
-        {itemValue.map((item, i) => (
+        {itemValue?.map((item, i) => (
           <styled.div
             style={{
               border: `1px solid ${color('border')}`,
