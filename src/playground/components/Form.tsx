@@ -12,16 +12,33 @@ export const Form = () => {
           props: {
             children: (
               <>
-                <Input label="String" space type="text" />
-                <Input label="Number" type="number" space />
+                <Input
+                  label="String"
+                  style={{ marginBottom: 24 }}
+                  type="text"
+                />
+                <Input
+                  label="Number"
+                  type="number"
+                  style={{ marginBottom: 24 }}
+                />
                 <Input
                   type="text"
                   label="With Icon Left"
                   icon={CheckIcon}
-                  space
+                  style={{ marginBottom: 24 }}
                 />
-                <Input label="Multiline" type="multiline" space />
-                <Input type="text" label="With Background" bg space />
+                <Input
+                  label="Multiline"
+                  type="multiline"
+                  style={{ marginBottom: 24 }}
+                />
+                <Input
+                  type="text"
+                  label="With Background"
+                  bg
+                  style={{ marginBottom: 24 }}
+                />
                 <Button>Submit</Button>
               </>
             ),

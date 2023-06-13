@@ -20,13 +20,13 @@ export const Tooltip = () => {
 
   return (
     <>
-      <Code space value={codeExample} />
+      <Code style={{ marginBottom: 24 }} value={codeExample} />
 
-      <Container style={{ width: 'fit-content' }} space>
+      <Container style={{ width: 'fit-content' }}>
         <Text {...tooltipListeners}>hover me</Text>
       </Container>
 
-      <Container style={{ width: 'fit-content' }} space>
+      <Container style={{ width: 'fit-content' }}>
         <Callout {...tooltipListenersSec}>hover me</Callout>
       </Container>
     </>

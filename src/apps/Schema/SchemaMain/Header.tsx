@@ -129,7 +129,7 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
 
   const { schema } = useSchema(db)
 
-  const typeDef = schema.types[type]
+  const typeDef = type === 'root' ? schema.rootType : schema.types[type]
 
   const expanded = typeDef ? expandFieldPath(typeDef, field) : []
 
@@ -172,19 +172,18 @@ export const Header: FC<{ back?: boolean; children: ReactNode }> = ({
           <Button
             ghost
             color="text"
+            onClick={openEditMenu}
             icon={
               <MoreIcon
-                onClick={openEditMenu}
                 style={{
                   marginTop: 3,
-                  cursor: 'pointer',
                 }}
               />
             }
           />
         ) : null}
       </div>
-      {typeDef ? (
+      {typeDef || type === 'root' ? (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button
             textAlign="center"

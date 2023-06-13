@@ -85,7 +85,7 @@ const BodySpacer = styled('div', {
 const Label = (props) => {
   return (
     <Text
-      typo="subtitle600"
+      typography="subtitle600"
       {...props}
       style={{ marginBottom: 24, marginTop: 16, ...props.style }}
     />
@@ -157,7 +157,7 @@ const Confirm: FC<
 
   return (
     <Button
-      // large
+      large
       onClick={onClick}
       keyboardShortcut="Enter"
       displayShortcut
@@ -191,7 +191,7 @@ const Cancel: FC<
 
   return (
     <Button
-      // large
+      large
       onClick={onClick}
       outline
       color="text"
@@ -258,7 +258,7 @@ export const Dialog = Object.assign(
                 },
               }}
             >
-              <Text typo="subtitle600">{label}</Text>
+              <Text typography="subtitle600">{label}</Text>
             </styled.div>
           )}
           {pure ? (

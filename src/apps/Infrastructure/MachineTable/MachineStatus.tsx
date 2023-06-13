@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, ReactNode } from 'react'
 import {
   Badge,
   CheckIcon,
@@ -9,13 +9,14 @@ import {
   ReplaceIcon,
   WarningIcon,
   border,
+  StopIcon,
 } from '~'
 import { prettyNumber } from '@based/pretty-number'
 import { TableCustomComponent } from '~/components/Table/types'
 
 // 1 = ok, 2 = creating, 3 = rebooting, 4 = removing,
 
-const MachineStats: FC<{
+export const MachineStats: FC<{
   cpu: number
   memory: number
 }> = ({ cpu, memory }) => {
@@ -76,6 +77,14 @@ export const machineStatus = (status: number): string => {
   if (status === 5) {
     return 'Resizing'
   }
+
+  if (status === 6) {
+    return 'Stopped'
+  }
+
+  if (status === 7) {
+    return 'In danger'
+  }
 }
 
 const colors = {
@@ -85,6 +94,8 @@ const colors = {
   3: 'accent',
   4: 'red',
   5: 'accent',
+  6: 'accent',
+  7: 'yellow',
 } as const
 
 const icons = {
@@ -94,7 +105,21 @@ const icons = {
   3: ReplaceIcon,
   4: CloseIcon,
   5: LoadingIcon,
+  6: StopIcon,
+  7: WarningIcon,
 } as const
+
+export const StatusBadge: FC<{
+  children?: ReactNode
+  status: number
+  onClick?: (e: MouseEvent) => void
+}> = ({ status, onClick, children }) => {
+  return (
+    <Badge onClick={onClick} icon={icons[status]} color={colors[status]}>
+      {children ?? machineStatus(status)}
+    </Badge>
+  )
+}
 
 export const Status: TableCustomComponent<any> = ({
   data,
@@ -102,11 +127,7 @@ export const Status: TableCustomComponent<any> = ({
   rowIndex,
 }) => {
   const status = data.status
-  return (
-    <Badge icon={icons[status]} color={colors[status]}>
-      {machineStatus(status)}
-    </Badge>
-  )
+  return <StatusBadge status={status} />
 }
 
 export const MachineStatus: TableCustomComponent<any> = ({ data }) => {

@@ -1,15 +1,7 @@
 import { MachineConfig } from '@based/machine-config'
-import React, { FC } from 'react'
-import {
-  Button,
-  AddIcon,
-  AccordionItem,
-  useContextState,
-  Row,
-  RowEnd,
-  border,
-} from '~'
-import { AllMachinesStatus } from '../../AllMachinesStatus'
+import React, { FC, useState } from 'react'
+import { Button, AddIcon, AccordionItem, Row, RowEnd, border } from '~'
+import { EnvMachinesStatus } from '../../EnvMachinesStatus'
 import { ServiceNamed, OnMachineConfigChange } from '../../types'
 import { Service } from './Service'
 import { useAddService } from './useAddService'
@@ -22,6 +14,7 @@ export const Services: FC<{
   alwaysAccept?: boolean
 }> = ({ config, configName, onChange, alwaysAccept }) => {
   const services: ServiceNamed[] = []
+  const [isExpand, setExpand] = useState(false)
 
   // TODO: Weird selva bug
   // when empty record return an empty object not NULL
@@ -33,32 +26,22 @@ export const Services: FC<{
     services.push({ name: key, ...config.services[key] })
   }
 
-  const [expanded, setExpanded] = useContextState<{ [key: string]: boolean }>(
-    'expanded',
-    {}
-  )
-  const expandKey = configName + 's'
-
   const [newServices, add] = useAddService(
     config,
     onChange,
     alwaysAccept,
-    services.length
+    services.length,
+    configName
   )
 
   return (
     <AccordionItem
       label="Services"
       onExpand={(v) => {
-        if (!v) {
-          delete expanded[expandKey]
-        } else {
-          expanded[expandKey] = v
-        }
-        setExpanded(expanded)
+        setExpand(v)
       }}
-      expanded={expanded[expandKey]}
-      topRight={<AllMachinesStatus count={services.length} type="service" />}
+      expanded={isExpand}
+      topRight={<EnvMachinesStatus count={services.length} type="service" />}
     >
       <RowEnd
         style={{
@@ -80,6 +63,7 @@ export const Services: FC<{
             alwaysAccept={alwaysAccept}
             onChange={onChange}
             config={config}
+            configName={configName}
             service={s}
             key={s.name}
           />

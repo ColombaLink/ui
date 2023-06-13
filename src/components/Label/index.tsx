@@ -1,14 +1,5 @@
 import React, { ReactNode, FunctionComponent } from 'react'
-import {
-  Text,
-  Color,
-  Style,
-  Row,
-  spaceToPx,
-  Space,
-  Icon,
-  renderOrCreateElement,
-} from '~'
+import { Text, Color, Style, Row, Icon, renderOrCreateElement } from '~'
 
 type LabelProps = {
   label?: ReactNode
@@ -20,7 +11,6 @@ type LabelProps = {
   iconColor?: Color
   children?: ReactNode
   labelWidth?: number
-  space?: Space
   style?: Style
   direction?: 'row' | 'column'
 }
@@ -32,7 +22,6 @@ export const Label = ({
   wrap,
   descriptionColor,
   icon,
-  space,
   iconColor: colorProp = 'accent',
   children,
   style,
@@ -48,7 +37,6 @@ export const Label = ({
         display: 'flex',
         alignItems: direction === 'row' ? 'center' : null,
         flexDirection: direction || 'column',
-        marginBottom: space ? spaceToPx(space) : 0,
         ...style,
       }}
     >
@@ -78,13 +66,13 @@ export const Label = ({
             wrap={wrap}
             style={{ marginBottom: description ? 0 : 0 }}
             color={labelColor || 'text'}
-            typo="body600"
+            typography="body600"
           >
             {label}
           </Text>
         </Row>
         {description && (
-          <Text wrap typo="body500" color={descriptionColor || 'text2'}>
+          <Text wrap typography="body500" color={descriptionColor || 'text2'}>
             {description}
           </Text>
         )}

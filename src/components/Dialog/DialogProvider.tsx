@@ -67,6 +67,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
 
     const dialog: DialogContextType = (children, onClose, allCtx) => {
       const id = count++
+
       dialog._id = id
       children = (
         <div
@@ -130,7 +131,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
     dialog.open = dialog
 
     dialog.close = (id?: number) => {
-      if (id) {
+      if (id !== undefined) {
         const index = dialogsRef.current.findIndex(
           ({ id: dialogId }) => dialogId === id
         )

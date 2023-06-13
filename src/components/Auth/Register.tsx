@@ -15,16 +15,16 @@ import { Text } from '../Text'
 const WaitingScreen: FC<{ email: string }> = ({ email }) => {
   return (
     <div>
-      <Text textAlign="center" size={32} wrap space>
+      <Text textAlign="center" size={32} wrap style={{ marginBottom: 24 }}>
         Check your email...
       </Text>
-      <Text textAlign="center" wrap space>
+      <Text textAlign="center" wrap style={{ marginBottom: 24 }}>
         This page will update automatically when you open the email link.
       </Text>
-      <Text textAlign="center" color="text2" wrap>
+      <Text textAlign="center" color="text2" style={{ marginBottom: 24 }}>
         We just sent an email to {email}
       </Text>
-      <Text textAlign="center" color="text2" wrap>
+      <Text textAlign="center" color="text2" style={{ marginBottom: 24 }}>
         Confirm your email address to continue
       </Text>
     </div>
@@ -105,7 +105,7 @@ export const Register: FC<RegisterProps> = ({
               clientId={githubClientId}
             />
           ) : null}
-          <Separator space={16} style={{ marginTop: 16 }}>
+          <Separator style={{ marginTop: 16, marginBottom: 16 }}>
             <Text color="text2" size={14} weight={500}>
               OR
             </Text>
@@ -113,7 +113,7 @@ export const Register: FC<RegisterProps> = ({
         </>
       ) : null}
       <Input
-        space="16px"
+        style={{ marginBottom: 16 }}
         large
         label="Name"
         type="text"
@@ -126,7 +126,7 @@ export const Register: FC<RegisterProps> = ({
         type="email"
         large
         label="Email"
-        space="16px"
+        style={{ marginBottom: 16 }}
         // icon={EmailIcon}
         value={email}
         placeholder="Email address"
@@ -135,7 +135,7 @@ export const Register: FC<RegisterProps> = ({
       <Input
         large
         label="Password"
-        space="16px"
+        style={{ marginBottom: 16 }}
         // icon={LockIcon}
         type="password"
         placeholder="Password"
@@ -158,7 +158,7 @@ export const Register: FC<RegisterProps> = ({
               ? renderOrCreateElement(CheckIcon, { color: 'green' })
               : renderOrCreateElement(CloseIcon, { color: 'red' })
           }
-          space
+          style={{ marginBottom: 24 }}
           name="confirm-password"
           type="password"
           placeholder="Confirm password"
@@ -186,7 +186,7 @@ export const Register: FC<RegisterProps> = ({
         />
 
         <Callout
-          space
+          style={{ marginBottom: 24 }}
           icon={renderOrCreateElement(PasswordIcon, { color: passWordColor })}
           label={
             passwordScore.entropy < 50

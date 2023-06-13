@@ -51,85 +51,85 @@ export const Text = () => {
         },
         {
           props: {
-            typo: 'title1',
+            typography: 'title1',
             children: 'title1',
           },
         },
         {
           props: {
-            typo: 'title2',
+            typography: 'title2',
             children: 'title2',
           },
         },
         {
           props: {
-            typo: 'subtitle600',
+            typography: 'subtitle600',
             children: 'subtitle600',
           },
         },
         {
           props: {
-            typo: 'subtitle500',
+            typography: 'subtitle500',
             children: 'subtitle500',
           },
         },
         {
           props: {
-            typo: 'subtitle400',
+            typography: 'subtitle400',
             children: 'subtitle400',
           },
         },
         {
           props: {
-            typo: 'subtext600',
+            typography: 'subtext600',
             children: 'subtext600',
           },
         },
         {
           props: {
-            typo: 'subtext500',
+            typography: 'subtext500',
             children: 'subtext500',
           },
         },
         {
           props: {
-            typo: 'subtext400',
+            typography: 'subtext400',
             children: 'subtext400',
           },
         },
         {
           props: {
-            typo: 'body600',
+            typography: 'body600',
             children: 'body600',
           },
         },
         {
           props: {
-            typo: 'body500',
+            typography: 'body500',
             children: 'body500',
           },
         },
         {
           props: {
-            typo: 'body400',
+            typography: 'body400',
             children: 'body400',
           },
         },
         {
           props: {
-            typo: 'caption600',
+            typography: 'caption600',
             children: 'caption600',
           },
         },
         {
           props: {
-            typo: 'caption500',
+            typography: 'caption500',
             children: 'caption500',
           },
         },
         {
           props: {
-            typo: 'caption400',
+            typography: 'caption400',
             children: 'caption400',
           },
         },

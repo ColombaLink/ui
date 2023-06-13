@@ -27,7 +27,7 @@ export type Size = `${SizeInt}px` | SizeInt
 type WeightInt = 400 | 500 | 600 | 700
 export type Weight = WeightInt | `${WeightInt}`
 
-export type Typo =
+export type Typography =
   | 'title1'
   | 'title2'
   | 'subtitle600'
@@ -42,9 +42,6 @@ export type Typo =
   | 'caption600'
   | 'caption500'
   | 'caption400'
-
-type SpaceInt = 0 | 2 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32 | 48
-export type Space = SpaceInt | `${SpaceInt}px` | true
 
 export type Icon = SVGProps<SVGSVGElement> & IconProps
 

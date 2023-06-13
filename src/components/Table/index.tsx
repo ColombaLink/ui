@@ -5,22 +5,27 @@ import React, {
   useState,
   Dispatch,
   SetStateAction,
+  useRef,
+  useMemo,
+  useEffect,
 } from 'react'
-import { styled, border, Text } from '~'
+import { styled, border, Text, color } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 
+export * from './types'
+
 import { VariableSizeGrid as Grid } from 'react-window'
 
 const Header: FC<{
-  rowHeight: number
   headerWidth: number
   width: number
   headers: TableHeader<any>[]
   setSortOptions: Dispatch<SetStateAction<SortOptions>>
   sortOptions: SortOptions
-}> = ({ headers, rowHeight, width, headerWidth }) => {
+  outline: boolean
+}> = ({ headers, width, headerWidth, outline }) => {
   const children: ReactNode[] = []
   let total = 16
   for (const header of headers) {
@@ -34,11 +39,13 @@ const Header: FC<{
           position: 'absolute',
           left: total,
           top: 0,
-          height: rowHeight,
+          height: 46,
           width: w,
         }}
       >
-        <Text typo="body600">{header.label ?? header.key}</Text>
+        <Text typography="body600" color={outline ? 'text2' : 'text'}>
+          {header.label ?? header.key}
+        </Text>
       </styled.div>
     )
     total += w
@@ -47,8 +54,9 @@ const Header: FC<{
     <styled.div
       style={{
         width,
-        borderBottom: border(1, 'border'),
-        height: rowHeight,
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
+        height: 46,
         position: 'relative',
       }}
     >
@@ -60,10 +68,13 @@ const Header: FC<{
 const Cell = (props) => {
   const { columnIndex, rowIndex, style, data } = props
   const header = data.headers[columnIndex]
+  const colls = data.headers.length
   const rowData = data.data[rowIndex]
   if (!rowData) {
-    return null
+    return <div />
   }
+
+  const onClick = props.data.onClick
   const itemData = rowData[header.key]
   const body = header.customComponent ? (
     createElement(header.customComponent, {
@@ -76,13 +87,62 @@ const Cell = (props) => {
   ) : (
     <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
   )
+
   return (
     <styled.div
+      onMouseEnter={
+        onClick
+          ? (e) => {
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                x.style.background = color('accent', true)
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                x.style.background = color('accent', true)
+                x = x.nextSibling
+              }
+            }
+          : null
+      }
+      onMouseLeave={
+        onClick
+          ? (e) => {
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                if (!x) {
+                  break
+                }
+                x.style.background = null
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                if (!x) {
+                  break
+                }
+                x.style.background = null
+                x = x.nextSibling
+              }
+            }
+          : null
+      }
       style={{
         padding: 16,
         borderBottom: border(1, 'border'),
+        cursor: onClick ? 'pointer' : 'default',
         ...style,
       }}
+      onClick={
+        onClick
+          ? (e) => {
+              onClick(e, rowData)
+            }
+          : null
+      }
     >
       {body}
     </styled.div>
@@ -96,7 +156,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     headers,
     data = [],
     defaultSortOptions,
-    // rowCount = data.length,
+    calcRowHeight,
     rowHeight = 56,
     width,
     queryId,
@@ -106,7 +166,8 @@ const SizedGrid: FC<TableProps> = (props) => {
       (data && data.length && Object.keys(data[0]).length),
   } = props
 
-  // TODO: this needs to listen to on window.resize
+  const headerWrapper = useRef(null)
+
   let w = 0
   let defW = 0
   let nonAllocated = 0
@@ -125,6 +186,13 @@ const SizedGrid: FC<TableProps> = (props) => {
     }
   )
 
+  const rowH = useMemo(() => {
+    if (calcRowHeight) {
+      return (index: number) => calcRowHeight(data?.[index], index)
+    }
+    return () => rowHeight
+  }, [calcRowHeight, rowHeight])
+
   const result = useInfiniteQuery({
     query,
     getQueryItems,
@@ -137,28 +205,60 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const parsedData = query ? result.items : data
 
-  defW = Math.max(Math.floor((width - w - 16) / nonAllocated), 100)
+  defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+
+  const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  const [force, setForce] = useState(0)
+  useEffect(() => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      setForce(0)
+    }, 100)
+    setForce(width)
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [width])
+
+  if (force !== 0) {
+    return <div />
+  }
+
   return (
     <>
-      <Header
-        sortOptions={sortOptions}
-        setSortOptions={setSortOpts}
-        width={width}
-        rowHeight={rowHeight}
-        headers={headers}
-        headerWidth={defW}
-      />
+      <styled.div
+        style={{
+          width: width,
+          overflowX: 'hidden',
+          borderBottom: border(1, 'border'),
+          backgroundColor: props.outline ? color('background2') : '',
+          borderTopRightRadius: props.outline ? 8 : 0,
+          borderTopLeftRadius: props.outline ? 8 : 0,
+        }}
+        ref={headerWrapper}
+      >
+        <Header
+          sortOptions={sortOptions}
+          setSortOptions={setSortOpts}
+          width={width}
+          headers={headers}
+          headerWidth={defW}
+          outline={props.outline}
+        />
+      </styled.div>
       <Grid
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
+          headerWrapper.current.scrollLeft = e.scrollLeft
         }}
         columnCount={columnCount}
         columnWidth={(colIndex) => {
           return headers[colIndex].width ?? defW
         }}
-        height={height - rowHeight}
+        height={height - 56}
         rowCount={itemCount}
-        rowHeight={() => rowHeight}
+        rowHeight={rowH}
         width={width}
         itemData={{
           ...props,
@@ -186,6 +286,8 @@ export const Table: FC<TableProps> = (props) => {
         height: '100%',
         width: '100%',
         maxWidth: width,
+        border: props.outline ? border(1, 'border') : 'none',
+        borderRadius: props.outline ? 8 : 0,
       }}
     >
       <AutoSizer>

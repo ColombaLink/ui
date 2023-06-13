@@ -1,6 +1,7 @@
-import React, { FC, CSSProperties, ReactNode, MouseEvent } from 'react'
-import { Size, Color, Weight, Space, ColorVariant, Typo } from '~/types'
-import { font, spaceToPx } from '~/utils'
+import { Style, styled } from '~'
+import React, { FC, ReactNode, MouseEvent } from 'react'
+import { Size, Color, Weight, ColorVariant, Typography } from '~/types'
+import { font } from '~/utils'
 
 type TextProps = {
   capitalize?: boolean
@@ -11,13 +12,12 @@ type TextProps = {
   onDoubleClick?: (e: MouseEvent<HTMLDivElement>) => void
   selectable?: boolean
   size?: Size
-  space?: Space
-  style?: CSSProperties
+  style?: Style
   textAlign?: 'center' | 'right' | 'left'
   variant?: ColorVariant
   weight?: Weight
   wrap?: boolean
-  typo?: Typo
+  typography?: Typography
 }
 
 export const Text: FC<TextProps> = ({
@@ -29,15 +29,14 @@ export const Text: FC<TextProps> = ({
   weight,
   wrap,
   children,
-  space,
   variant,
   textAlign,
   capitalize,
   onClick,
-  typo,
+  typography,
   ...props
 }) => {
-  const s = font({ size, color, variant, weight }) as CSSProperties
+  const s = font({ size, color, variant, weight }) as Style
 
   s.userSelect = selectable ? 'text' : 'none'
 
@@ -61,10 +60,6 @@ export const Text: FC<TextProps> = ({
     s.fontStyle = 'italic'
   }
 
-  if (space) {
-    s.marginBottom = spaceToPx(space)
-  }
-
   if (textAlign) {
     s.textAlign = textAlign
   }
@@ -78,72 +73,72 @@ export const Text: FC<TextProps> = ({
   }
 
   // typo styles
-  if (typo === 'title1') {
+  if (typography === 'title1') {
     s.fontWeight = 700
     s.fontSize = '36px'
     s.lineHeight = '60px'
   }
-  if (typo === 'title2') {
+  if (typography === 'title2') {
     s.fontWeight = 700
     s.fontSize = '22px'
     s.lineHeight = '32px'
   }
-  if (typo === 'subtitle600') {
+  if (typography === 'subtitle600') {
     s.fontWeight = 600
     s.fontSize = '18px'
     s.lineHeight = '28px'
   }
-  if (typo === 'subtitle500') {
+  if (typography === 'subtitle500') {
     s.fontWeight = 500
     s.fontSize = '18px'
     s.lineHeight = '28px'
   }
-  if (typo === 'subtitle400') {
+  if (typography === 'subtitle400') {
     s.fontWeight = 400
     s.fontSize = '18px'
     s.lineHeight = '28px'
   }
-  if (typo === 'subtext600') {
+  if (typography === 'subtext600') {
     s.fontWeight = 600
     s.fontSize = '16px'
     s.lineHeight = '24px'
   }
-  if (typo === 'subtext500') {
+  if (typography === 'subtext500') {
     s.fontWeight = 500
     s.fontSize = '16px'
     s.lineHeight = '24px'
   }
-  if (typo === 'subtext400') {
+  if (typography === 'subtext400') {
     s.fontWeight = 400
     s.fontSize = '16px'
     s.lineHeight = '24px'
   }
-  if (typo === 'body600') {
+  if (typography === 'body600') {
     s.fontWeight = 600
     s.fontSize = '14px'
     s.lineHeight = '20px'
   }
-  if (typo === 'body500') {
+  if (typography === 'body500') {
     s.fontWeight = 500
     s.fontSize = '14px'
     s.lineHeight = '20px'
   }
-  if (typo === 'body400') {
+  if (typography === 'body400') {
     s.fontWeight = 400
     s.fontSize = '14px'
     s.lineHeight = '20px'
   }
-  if (typo === 'caption600') {
+  if (typography === 'caption600') {
     s.fontWeight = 600
     s.fontSize = '12px'
     s.lineHeight = '16px'
   }
-  if (typo === 'caption500') {
+  if (typography === 'caption500') {
     s.fontWeight = 500
     s.fontSize = '12px'
     s.lineHeight = '16px'
   }
-  if (typo === 'caption400') {
+  if (typography === 'caption400') {
     s.fontWeight = 400
     s.fontSize = '12px'
     s.lineHeight = '16px'
@@ -154,8 +149,8 @@ export const Text: FC<TextProps> = ({
   // }
 
   return (
-    <div style={s} {...props} onClick={onClick}>
+    <styled.div style={s} {...props} onClick={onClick}>
       {children}
-    </div>
+    </styled.div>
   )
 }

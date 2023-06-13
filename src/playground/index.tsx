@@ -21,6 +21,7 @@ import {
   DeleteIcon,
   EmailIcon,
   Dialog,
+  // Badge,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -86,7 +87,18 @@ const menuItems = {
       label: <Text weight={700}>{v}</Text>,
     }
   }),
-  Components: Object.keys(components),
+  Components: Object.keys(components).map((v) => {
+    return {
+      value: v,
+      // icon:
+      //   v === 'Snurp'  ? (
+      //     <Badge color="accent">Beta</Badge>
+      //   ) : (
+      //     ''
+      //   ),
+      label: v,
+    }
+  }),
   Hooks: Object.keys(hooks),
 }
 
@@ -146,17 +158,17 @@ const App = () => {
             >
               <Button
                 color="text"
-                space="12px"
                 ghost
                 style={{
                   marginLeft: -8,
+                  marginBottom: 12,
                 }}
                 icon={darkMode ? <LightModeIcon /> : <DarkModeIcon />}
                 onClick={() => setDarkMode(!darkMode)}
               />
               <Button
                 color={route.query.code ? 'accent' : 'text'}
-                space="12px"
+                style={{ marginBottom: 12 }}
                 ghost
                 icon={<CurlyBracesIcon size={12} />}
                 onClick={() =>
@@ -165,12 +177,12 @@ const App = () => {
               />
               <Button
                 ghost
-                space="12px"
+                style={{ marginBottom: 12 }}
                 icon={<EmailIcon />}
                 onClick={() => open(<Login />)}
               />
               <Button
-                space="12px"
+                style={{ marginBottom: 12 }}
                 ghost
                 icon={<DeleteIcon />}
                 onClick={() => {
@@ -183,7 +195,6 @@ const App = () => {
                 type="text"
                 icon={<SearchIcon />}
                 placeholder="Search"
-                space
                 onChange={(e) => {
                   searchFilterHandler(e)
                 }}
@@ -196,6 +207,7 @@ const App = () => {
                   alignItems: 'center',
                   borderRadius: 8,
                   paddingTop: '8px',
+                  marginBottom: 24,
                 }}
               />
             </div>

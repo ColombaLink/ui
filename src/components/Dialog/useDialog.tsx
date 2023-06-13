@@ -17,6 +17,7 @@ export const useDialog = (): DialogContextType => {
     ) => {
       return dialog(children, onClose, ctx)
     }
+    dialogInstance._id = dialog._id
     dialogInstance.open = dialogInstance
     dialogInstance.close = dialog.close
     dialogInstance.confirm = dialog.confirm

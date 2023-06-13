@@ -7,6 +7,8 @@ import {
   Icon,
   Text,
   styled,
+  useCopyToClipboard,
+  CheckIcon,
 } from '~'
 
 type BadgeProps = {
@@ -18,7 +20,27 @@ type BadgeProps = {
   color?: Color
   boxed?: boolean
   ghost?: boolean
-  onClick?: (() => void) | boolean
+  onClick?: ((e: MouseEvent) => void) | boolean
+}
+
+export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
+  copyValue,
+  ...props
+}) => {
+  const val: string | number =
+    copyValue ?? (typeof props.children === 'string' ? props.children : '')
+  const [copy, copyClick] = useCopyToClipboard(val)
+  return (
+    <Badge
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        copyClick()
+      }}
+      icon={copy ? CheckIcon : props.icon}
+      {...props}
+    />
+  )
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -74,7 +96,7 @@ export const Badge: FC<BadgeProps> = ({
           {renderOrCreateElement(icon, { size: 10 })}
         </styled.div>
       )}
-      <Text typo="caption500" color="inherit">
+      <Text typography="caption500" color="inherit">
         {children}
       </Text>
       {iconRight && (

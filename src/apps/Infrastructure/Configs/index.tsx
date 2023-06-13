@@ -2,11 +2,8 @@ import React, { FC, useMemo } from 'react'
 import {
   Page,
   Button,
-  Container,
   Text,
   Input,
-  Accordion,
-  Spacer,
   useDialog,
   Row,
   AddIcon,
@@ -15,33 +12,34 @@ import {
   CurlyBracesIcon,
   Badge,
   SearchIcon,
+  styled,
   ContextDivider,
+  Style,
+  Card,
   RowSpaced,
   CloseIcon,
   ContextItem,
   Dialog,
   MoreIcon,
   useContextMenu,
-  EyeIcon,
+  EditIcon,
+  RedoIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { deepCopy } from '@saulx/utils'
 import { Env, MachineConfig } from '@based/machine-config'
 import { AddMachineModal } from './AddMachineTemplateModal'
-import { Services } from './Services'
-import { Settings } from './Settings'
 import { UpdateButton } from '../UpdateButton'
 import { EditJsonModal } from '../EditJson'
-import { AllMachinesStatus } from '../AllMachinesStatus'
+import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { Connections } from '../Connections'
+import { SettingsModal } from './SettingsModal'
 
 export const Actions: FC<{
   config: MachineConfig
   configName: string
-  // machines: Machine[]
 }> = ({ config, configName }) => {
   const machines = []
-  // use status
 
   const { open } = useDialog()
   const client = useClient()
@@ -56,6 +54,23 @@ export const Actions: FC<{
         icon={<DuplicateIcon />}
       >
         Duplicate
+      </ContextItem>
+      <ContextItem
+        onClick={() => {
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                service: '*',
+                command: 'restart',
+                configName,
+              },
+            ],
+          })
+        }}
+        icon={<RedoIcon />}
+      >
+        Restart all machines
       </ContextItem>
       <ContextItem
         onClick={() => {
@@ -132,6 +147,25 @@ export const Actions: FC<{
   )
 }
 
+const style: Style = {
+  marginBottom: 16,
+  maxWidth: '100%',
+  minWidth: 500,
+  minHeight: 120,
+  '@media only screen and (max-width: 4500px)': {
+    minWidth: 'calc(20% - 8px)',
+  },
+  '@media only screen and (max-width: 3500px)': {
+    minWidth: 'calc(33% - 8px)',
+  },
+  '@media only screen and (max-width: 2500px)': {
+    minWidth: 'calc(50% - 8px)',
+  },
+  '@media only screen and (max-width: 1700px)': {
+    minWidth: '100%',
+  },
+}
+
 const MachineConfig: FC<{
   configName: string
   config: MachineConfig
@@ -140,33 +174,24 @@ const MachineConfig: FC<{
 }> = ({ configName, config, machineStatus, env }) => {
   const client = useClient()
   const [, setInfra] = useContextState<string>('infraSection')
+  const { open } = useDialog()
 
   return (
-    <Container space="32px">
-      <RowSpaced>
-        <Row>
-          <Text
-            style={{
-              transition: 'color 0.25s',
-              color: 'inherit',
-              marginRight: 24,
-            }}
-            typo="title2"
-          >
-            {configName}
-          </Text>
-          <AllMachinesStatus
-            goodColor="green"
-            running={machineStatus.amount - machineStatus.failing}
-            unreachable={machineStatus.failing}
-            deploying={machineStatus.deploying}
-            type="machine"
-          />
-        </Row>
-
-        <Row>
+    <Card
+      style={style}
+      onClick={() => {
+        setInfra(configName)
+      }}
+      label={configName}
+      description={
+        config.description ||
+        (configName === 'allServices'
+          ? 'All services on a single machine, cannot be scaled to more then 1 instance'
+          : '')
+      }
+      topRight={
+        <Row style={{ flexShrink: 0 }}>
           <UpdateButton small machineConfigs={{ [configName]: config }} />
-
           <Button
             icon={<MoreIcon />}
             ghost
@@ -174,49 +199,32 @@ const MachineConfig: FC<{
           />
           <Button
             color="lightaccent"
-            style={{ marginLeft: 8 }}
+            style={{ marginLeft: 4 }}
             onClick={() => {
-              setInfra(configName)
+              open(<SettingsModal configName={configName} />)
             }}
-            icon={EyeIcon}
-          >
-            Inspect
-          </Button>
+            ghost
+            icon={EditIcon}
+          />
         </Row>
-      </RowSpaced>
-      <Text space typo="caption400">
-        {config.description ||
-          (configName === 'allServices'
-            ? 'All services on a single machine, cannot be scaled to more then 1 instance'
-            : '')}
-      </Text>
-      <Accordion>
-        <Settings
-          configName={configName}
-          config={config}
-          onChange={(config) => {
-            const payload = {
-              ...env,
-              configName,
-              config,
-            }
-            return client.call('update-machine-config', payload)
+      }
+      bottomLeft={
+        <EnvMachinesStatus
+          style={{
+            marginBottom: 4,
+            flexWrap: 'wrap',
+            gap: 8,
           }}
+          goodColor="green"
+          resizing={machineStatus.resizing}
+          removing={machineStatus.removing}
+          running={machineStatus.amount - machineStatus.failing}
+          unreachable={machineStatus.failing}
+          deploying={machineStatus.deploying}
+          type="machine"
         />
-        <Services
-          onChange={(config) => {
-            const payload = {
-              ...env,
-              configName,
-              config,
-            }
-            return client.call('update-machine-config', payload)
-          }}
-          configName={configName}
-          config={config}
-        />
-      </Accordion>
-    </Container>
+      }
+    />
   )
 }
 
@@ -265,7 +273,7 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
 
   return (
     <Page>
-      <RowSpaced>
+      <RowSpaced style={{ marginBottom: '32px' }}>
         <Connections envAdminHub={envAdminHub} />
         <Row>
           <UpdateButton
@@ -289,8 +297,16 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
           />
         </Row>
       </RowSpaced>
-      <Spacer space="32px" />
-      {machineConfigs}
+      <styled.div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '0px 16px',
+        }}
+      >
+        {machineConfigs}
+      </styled.div>
     </Page>
   )
 }

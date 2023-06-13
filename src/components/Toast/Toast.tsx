@@ -58,7 +58,7 @@ export const Toast: FC<ToastProps> = ({
           {type === 'error' && <CloseCircleIcon color="red" />}
           {type === 'warning' && <WarningIcon color="orange" />}
 
-          {label && <Text typo="subtext500">{label}</Text>}
+          {label && <Text typography="subtext500">{label}</Text>}
         </div>
         {description && (
           <Text color="text2" style={{ marginTop: 6 }}>

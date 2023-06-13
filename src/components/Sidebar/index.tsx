@@ -1,11 +1,13 @@
 import React, {
   FC,
+  useRef,
   ReactNode,
   useState,
   FunctionComponent,
   MouseEvent,
   isValidElement,
   useMemo,
+  useEffect,
 } from 'react'
 import { border, boxShadow, color, renderOrCreateElement } from '~/utils'
 import { useTooltip } from '~/hooks/useTooltip'
@@ -13,6 +15,7 @@ import { Text } from '../Text'
 import { styled, Style } from 'inlines'
 import { ChevronRightIcon } from '~/icons'
 import { Icon } from '~/types'
+import { Drawer } from '../Drawer'
 
 type SideBarItem = {
   icon?: ReactNode | FunctionComponent<Icon>
@@ -30,13 +33,14 @@ type SideBarData =
 
 type SidebarProps = {
   data?: SideBarData
-  isExpanded?: boolean
   style?: Style
   active?: any
   onChange?: (value: any) => void
   children?: ReactNode | ReactNode[]
   header?: ReactNode | ReactNode[]
-  expandable?: boolean
+  onExpand?: (isExpanded: boolean) => void
+  autoCollapse?: boolean
+  closeBreakpoint?: number
 }
 
 type SidebarItemProps = {
@@ -118,17 +122,25 @@ export const Sidebar: FC<SidebarProps> = ({
   onChange,
   header,
   children,
-  isExpanded,
-  expandable,
+  autoCollapse,
+  closeBreakpoint,
 }) => {
   const [expanded, setExpanded] = useState(false)
+  const ref = useRef(null)
 
-  useMemo(() => {
-    setExpanded(isExpanded)
-  }, [isExpanded])
-
-  const [hoverForExpansion, setHoverForExpansion] = useState(false)
-  const [menuHeight, setMenuHeight] = useState(null)
+  useEffect(() => {
+    const resize = new ResizeObserver((entry) => {
+      const width = entry[0].contentRect.width
+      if (width > 200) {
+        setExpanded(true)
+      } else if (width < 200) {
+        setExpanded(false)
+      }
+    })
+    const element = ref.current
+    resize.observe(element)
+    return () => resize.disconnect()
+  }, [])
 
   let parsedData: SideBarItem[] = []
 
@@ -163,12 +175,12 @@ export const Sidebar: FC<SidebarProps> = ({
           >
             <Text
               wrap
-              space={16}
-              typo="caption600"
+              typography="caption600"
               color="text2"
               style={{
                 textTransform: 'uppercase',
                 marginTop: 16,
+                marginBottom: 16,
                 position: 'absolute',
                 left: 0,
                 top: 0,
@@ -207,92 +219,23 @@ export const Sidebar: FC<SidebarProps> = ({
   )
 
   return (
-    <div
-      style={{
-        width: expanded ? 246 : 70,
-        minWidth: expanded ? 246 : 70,
-        paddingTop: 6,
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        position: 'relative',
-        borderRight: border(1),
-        transition: 'all 0.24s ease-out',
-        ...style,
-      }}
-    >
-      {header}
-      <div style={{}}>{elements}</div>
-      {children}
-      {expandable && (
-        <styled.div
-          style={{
-            position: 'absolute',
-            right: 0,
-            top: 0,
-            bottom: 0,
-            height: '100%',
-            width: 10,
-            borderRight: '2px solid transparent',
-            '@media (hover: hover)': {
-              '&:hover': {
-                borderRight: `2px solid ${color('accent')}`,
-                cursor: 'pointer',
-              },
-            },
-          }}
-          onMouseOver={(e) => {
-            setMenuHeight(e.currentTarget.offsetHeight)
-            setHoverForExpansion(true)
-          }}
-          onMouseLeave={() => {
-            setHoverForExpansion(false)
-          }}
-          onClick={() => setExpanded((prev) => !prev)}
-        >
-          {hoverForExpansion ? (
-            <styled.div
-              style={{
-                position: 'absolute',
-                width: 28,
-                height: 28,
-                borderRadius: 16,
-                backgroundColor: color('background'),
-                border: `1px solid ${color('border')}`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                right: -14,
-                top: menuHeight / 2 - 14,
-                cursor: 'pointer',
-                boxShadow: boxShadow('small'),
-                '@media (hover: hover)': {
-                  '&:hover': {
-                    backgroundColor: color('background2'),
-                  },
-                },
-              }}
-              onClick={(e) => {
-                e.stopPropagation()
-                setExpanded((prev) => !prev)
-              }}
-            >
-              <ChevronRightIcon
-                color="text"
-                size={12}
-                style={{
-                  transform: expanded ? 'scaleX(-1)' : 'scaleX(1)',
-                  marginRight: -1,
-                }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setExpanded((prev) => !prev)
-                }}
-              />
-            </styled.div>
-          ) : null}
-        </styled.div>
-      )}
-    </div>
+    <span ref={ref}>
+      <Drawer
+        closeWidth={70}
+        width={246}
+        closeBreakpoint={closeBreakpoint}
+        autoCollapse={autoCollapse}
+        style={{
+          paddingLeft: '15px',
+          paddingRight: '10px',
+          paddingTop: '15px',
+          ...style,
+        }}
+      >
+        {header}
+        <div style={{}}>{elements}</div>
+        {children}
+      </Drawer>
+    </span>
   )
 }

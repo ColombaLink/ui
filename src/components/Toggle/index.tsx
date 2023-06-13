@@ -2,7 +2,6 @@ import React, { CSSProperties, FC } from 'react'
 import { Text, Label } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'
-import { Space } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 import { usePropState } from '~/hooks'
 
@@ -15,7 +14,6 @@ type ToggleProps = {
   disabled?: boolean
   indent?: boolean
   style?: CSSProperties
-  space?: Space
   color?: Color
   onChange?: (value: boolean) => void
 }
@@ -28,7 +26,6 @@ export const Toggle: FC<ToggleProps> = ({
   description,
   descriptionBottom,
   text,
-  space,
   color: colorProp = 'accent',
   style,
   onChange,
@@ -39,8 +36,7 @@ export const Toggle: FC<ToggleProps> = ({
   return (
     <InputWrapper
       indent={indent}
-      space={space}
-      // style={style}
+      value=""
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       color={colorProp}

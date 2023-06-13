@@ -44,8 +44,6 @@ export const SchemaLeft: FC = () => {
 
   const { data: origins = [] } = useQuery('db:origins')
 
-  console.info('if multiple show it with a dropdown', origins)
-
   const { schema, loading } = useSchema(db)
 
   if (loading) {
@@ -67,7 +65,7 @@ export const SchemaLeft: FC = () => {
   }
 
   const types = {
-    root: schema?.types.root,
+    root: schema?.rootType,
     ...schema?.types,
   }
 
@@ -82,7 +80,7 @@ export const SchemaLeft: FC = () => {
       active={type}
       onChange={(v) => setType(v)}
       header={
-        <Text typo="title2" style={{ marginBottom: 18 }}>
+        <Text typography="title2" style={{ marginBottom: 18 }}>
           Schema
         </Text>
       }
@@ -98,7 +96,7 @@ export const SchemaLeft: FC = () => {
               }}
             >
               <Text
-                typo="caption600"
+                typography="caption600"
                 color="text2"
                 style={{ textTransform: 'uppercase', letterSpacing: '0.02em' }}
               >

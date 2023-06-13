@@ -1,6 +1,5 @@
 import React from 'react'
 import { PieGraph as PieGraphComponent } from '~/components/PieGraph'
-import { Container, Text } from '~'
 import ComponentViewer from '../ComponentViewer'
 
 export const PieGraph = () => {
@@ -54,14 +53,12 @@ export const PieGraph = () => {
           {
             props: {
               data: pieData,
-              space: '24px',
               color: 'green',
             },
           },
           {
             props: {
               data: advancedPieData,
-              space: '24px',
             },
           },
         ]}

@@ -1,6 +1,6 @@
 {
   "name": "@based/ui",
-  "version": "4.0.6",
+  "version": "5.8.20",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -26,11 +26,11 @@
     "extends": "@saulx/eslint-config"
   },
   "peerDependencies": {
-    "@based/client": "^4.6.1",
+    "@based/client": "^4.7.2",
     "react": "18||19"
   },
   "dependencies": {
-    "@based/machine-config": "0.0.6",
+    "@based/machine-config": "0.0.8",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.0.3",
     "@based/react": "^4.2.4",
@@ -46,10 +46,11 @@
     "countries-list": "^2.6.1",
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",
+    "dayjs": "^1.11.7",
     "inlines": "^0.2.2",
     "is-email": "^1.0.2",
     "jsonexport": "^3.2.0",
-    "kabouter": "^1.4.2",
+    "kabouter": "^1.4.5",
     "mapbox-gl": "^2.10.0",
     "plur": "^5.1.0",
     "prismjs": "^1.25.0",
@@ -59,15 +60,15 @@
     "react-window-sortable": "^1.4.12",
     "snarkdown": "^2.0.0",
     "stringify-object": "^4.0.1",
-    "tarts": "^1.0.0"
+    "tarts": "^1.0.0",
+    "react-error-boundary": "^4.0.2"
   },
   "devDependencies": {
-    "utility-types": "^3.10.0",
     "@babel/core": "^7.18.6",
     "@babel/parser": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@babel/traverse": "^7.18.6",
-    "@based/client": "^4.6.1",
+    "@based/client": "^4.7.2",
     "@saulx/aristotle": "^4.6.0",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",
@@ -78,8 +79,8 @@
     "prettier": "^2.7.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-error-boundary": "^4.0.2",
     "tsc-watch": "^5.0.3",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "utility-types": "^3.10.0"
   }
 }

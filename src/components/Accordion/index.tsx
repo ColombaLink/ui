@@ -6,17 +6,13 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
-  Space,
   Color,
-  border,
   color,
-  spaceToPx,
 } from '~'
 
 type AccordionItemProps = {
   label?: string
   children?: ReactNode
-  space?: Space
   checked?: boolean
   style?: Style
   expanded?: boolean
@@ -27,21 +23,19 @@ type AccordionItemProps = {
 
 type AccordionProps = {
   children?: ReactNode
-  space?: Space
   style?: Style
   color?: Color
 }
 
 export const Accordion: FC<AccordionProps> = ({
   children,
-  space,
   style,
   color: colorProp = 'accent',
 }) => {
   return (
     <>
       {children && (
-        <styled.div style={{ marginBottom: spaceToPx(space), ...style }}>
+        <styled.div style={{ ...style }}>
           {React.Children.map(children as React.ReactElement, (child) => (
             <styled.div>
               {React.cloneElement(child, {
@@ -110,7 +104,7 @@ export const AccordionItem: FC<AccordionItemProps> = ({
         {...props}
       >
         <styled.div style={{ display: 'flex', alignItems: 'center' }}>
-          <Text color={open ? colorProp : 'inherit'} typo="body600">
+          <Text color={open ? colorProp : 'inherit'} typography="body600">
             {label}
           </Text>
           {checked && <CheckIcon style={{ marginLeft: 10 }} color="accent" />}

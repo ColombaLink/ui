@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from 'react'
 import { copyToClipboard } from '../utils'
 
-export const useCopyToClipboard = (text: string): [boolean, () => void] => {
+export const useCopyToClipboard = (
+  text: string | number
+): [boolean, () => void] => {
   const [copied, setCopied] = useState(false)
 
   const copy = useCallback(() => {

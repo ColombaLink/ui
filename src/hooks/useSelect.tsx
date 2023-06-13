@@ -68,7 +68,7 @@ export function useSelect<T = any>(
       handler,
       ContextMenu,
       { transparent: true, style: position?.style },
-      [n]
+      [id, onChange]
     ),
     setValue,
   ]

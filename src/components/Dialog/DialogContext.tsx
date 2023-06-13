@@ -18,7 +18,7 @@ export type DialogContextType = Open & {
     children?: JSX.Element
   ) => Promise<boolean | string>
   useCount: () => number
-  _id?: number
+  _id: number
 }
 
 export const defaultDialogContext: DialogContextType = Object.assign(

@@ -3,7 +3,7 @@ import { Color, color, Text, Label, useTooltip, styled } from '~'
 import { prettyNumber } from '@based/pretty-number'
 
 type BarGraphProps = {
-  data: {
+  data?: {
     value: number | { [key: string]: number }
     label: string
     color?: string
@@ -18,7 +18,7 @@ type BarGraphProps = {
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
-  data,
+  data = [],
   label,
   description,
   value,
@@ -39,7 +39,7 @@ export const BarGraph: FC<BarGraphProps> = ({
     legendValues,
     subLabelsPerObject
 
-  if (typeof data[0].value === 'object') {
+  if (typeof data?.[0]?.value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
     subLabelsPerObject = data.map((item) => Object.keys(item.value))
 
@@ -55,8 +55,8 @@ export const BarGraph: FC<BarGraphProps> = ({
       )
     )
   } else if (
-    typeof data[0].value === 'number' ||
-    typeof data[0].value === 'string'
+    typeof data?.[0]?.value === 'number' ||
+    typeof data?.[0]?.value === 'string'
   ) {
     scale
       ? (highestVal = scale)
@@ -101,7 +101,11 @@ export const BarGraph: FC<BarGraphProps> = ({
 
   return (
     <>
-      <Label label={label} description={description} space />
+      <Label
+        label={label}
+        description={description}
+        style={{ marginBottom: 24 }}
+      />
       <styled.div
         style={{
           display: 'flex',
@@ -253,7 +257,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
             marginBottom: 8,
           }}
         >
-          <Text space="8px">{legend}</Text>
+          <Text style={{ marginBottom: 8 }}>{legend}</Text>
         </styled.div>
       )}
 
@@ -264,7 +268,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
             marginBottom: 8,
           }}
         >
-          <Text space="8px">{label}</Text>
+          <Text style={{ marginBottom: 8 }}>{label}</Text>
         </styled.div>
       )}
 

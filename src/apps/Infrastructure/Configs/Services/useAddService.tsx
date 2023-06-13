@@ -10,7 +10,8 @@ export const useAddService = (
   config: MachineConfig,
   onChange: OnMachineConfigChange,
   alwaysAccept: boolean,
-  checksum: number
+  checksum: number,
+  configName: string
 ): [ReactNode[], ReturnType<typeof useSelect>[1]] => {
   const update = useUpdate()
 
@@ -18,9 +19,7 @@ export const useAddService = (
     [key: string]: Dist[]
   }>(
     'dists',
-    {
-      type: 'env',
-    },
+    {},
     {
       persistent: true,
     }
@@ -34,7 +33,7 @@ export const useAddService = (
         return {
           label: (
             <div>
-              <Text typo="body600">{v}</Text>
+              <Text typography="body600">{v}</Text>
             </div>
           ),
           value: v,
@@ -78,6 +77,7 @@ export const useAddService = (
   const newServicesNodes = newServicesItems.map((s) => {
     return (
       <Service
+        configName={configName}
         key={'n' + s.name}
         alwaysAccept
         onChange={(values) => {
