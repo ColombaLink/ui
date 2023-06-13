@@ -8,6 +8,8 @@ import {
   Button,
   MoreIcon,
   useContextState,
+  useDialog,
+  Table,
 } from '~'
 import { useQuery } from '@based/react'
 
@@ -16,17 +18,18 @@ export const CustomContent = ({ view, actions }) => {
 
   console.log('Custom content view', view)
 
+  const { open } = useDialog()
+
   //   const [view] = useContextState<string>('view')
 
   // View Table
   const isTable = view.config.view === 'table'
 
-  // Function -- name, type , payload
+  // TODO: Function -- name, type , payload , props
   const functionName = view.config.function.name
   const functionType = view.config.function.type
   const functionPayload = view.config.function.payload
-
-  console.log('idee? 💡', functionPayload.$id)
+  const functionProps = view.config.function.props
 
   const { data, loading } = useQuery(
     functionName ? 'db' : undefined,
@@ -34,10 +37,48 @@ export const CustomContent = ({ view, actions }) => {
   )
 
   console.log('DATA 💊', data)
+  console.log('function props', functionProps)
 
-  // Props
+  // PROPS
 
-  // Fields
+  //   const tableClickHandler = (e, rowData) => {
+  //     // open a new view
+  //     console.log(e, rowData)
+  //   }
+
+  const specialClickHandler = (key, onClick, fields) => {
+    console.log('SPECIAL', key, onClick, fields)
+    console.log(Object.values(fields[0]))
+
+    if (onClick.view) {
+      console.log('onclick view', onClick.view)
+    }
+    if (fields.map((field) => field.name).includes(key)) {
+      console.log('OPEN MODAL 💶')
+      open(
+        <styled.div style={{ width: 100, height: 100, background: 'yellow' }}>
+          {key}
+        </styled.div>
+      )
+    }
+  }
+
+  const customOnClickComp = ({ data, header }) => {
+    return (
+      <div
+        onClick={() => {
+          console.log('snurp ', data[header.key])
+          specialClickHandler(
+            header.key,
+            functionProps?.onClick,
+            functionProps?.fields
+          )
+        }}
+      >
+        {data[header.key]}
+      </div>
+    )
+  }
 
   return (
     <ScrollArea
@@ -45,7 +86,7 @@ export const CustomContent = ({ view, actions }) => {
         display: 'flex',
         flexGrow: 1,
         minWidth: null,
-        minHeight: 100,
+        minHeight: 200,
       }}
     >
       <styled.div
@@ -78,13 +119,20 @@ export const CustomContent = ({ view, actions }) => {
 
         <styled.div style={{ width: '100%', padding: 24 }}>
           {isTable && (
-            <Text>is a table</Text>
-            // <Table
-            //   headers={tableHeader}
-            //   data={[data]}
-            //   onClick={tableClickHandler}
-            //   height={400}
-            // />
+            <Table
+              headers={[
+                {
+                  key: 'numbie',
+                  label: 'number',
+                  customComponent: customOnClickComp,
+                },
+                { key: 'stringie', customComponent: customOnClickComp },
+                { key: 'id', customComponent: customOnClickComp },
+              ]}
+              data={[data]}
+              //   onClick={tableClickHandler}
+              height={400}
+            />
           )}
         </styled.div>
       </styled.div>
