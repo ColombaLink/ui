@@ -89,6 +89,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
                 marginTop: description ? 0 : -6,
                 marginBottom: description ? 0 : 6,
               }}
+              color="accent"
             >
               Clear
             </Button>

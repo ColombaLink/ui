@@ -1,29 +1,31 @@
 import React from 'react'
-import { styled } from 'inlines'
-import { useSchema } from '~/apps/Schema'
-import { Input } from '~/components/Input'
+import { styled, Input, Badge, color, Toggle, FileUpload, Text } from '~'
+import { InputWrapper } from '~/components/Input/InputWrapper'
 
 // TODO: get the right fields based on the schema types
 // TODO: check if something is changed
 // TODO: on publish --> function db:set
+// TODO: add onchange to these componentns
 
-export const ContentEditor = ({ rowData }) => {
+export const ContentEditor = ({ rowData, schema }) => {
   console.log('rowData from ContentEditor comp modal', rowData)
+  console.log('rowData from ContentEditor comp modal', schema)
 
-  const { loading, schema } = useSchema('default')
+  const schemaFieldsDataBasedOnType =
+    rowData.type === 'root'
+      ? schema?.rootType.fields
+      : schema?.types[rowData.type].fields
 
-  const schemaFieldsDataBasedOnType = schema.types[rowData.type]?.fields
+  console.log('feaf??', schemaFieldsDataBasedOnType)
 
-  console.log('schema??', schemaFieldsDataBasedOnType)
-
-  const arrayOfFields = Object.entries(schemaFieldsDataBasedOnType).map(
+  const arrayOfFields = Object.entries(schemaFieldsDataBasedOnType)?.map(
     (e) => ({ [e[0]]: e[1] })
   )
 
   // need type/ id
 
   return (
-    <styled.div>
+    <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {arrayOfFields?.map((item, i) => (
         <ContentRenderer
           item={item}
@@ -40,10 +42,50 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
   console.log('item??', item)
   console.log('item name', itemName)
 
-  const type = item[itemName.toString()].type
-  const name = itemName.toString()
+  // all the types
+  // references, type, id, set, string, digest, number, url, text
 
-  const BOTTOMSPACE = 24
+  const type = item[itemName.toString()].type
+  const meta = item[itemName.toString()].meta
+  const name =
+    itemName.toString().charAt(0).toUpperCase() + itemName.toString().slice(1)
+
+  const BOTTOMSPACE = 32
+
+  if (type === 'boolean') {
+    return (
+      <Toggle
+        label={name}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  if (meta.name === 'children') {
+    return (
+      <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }}>
+        {itemValue.map((item, i) => (
+          <Text key={i}>
+            {item.type} : {item.id}{' '}
+          </Text>
+        ))}
+      </InputWrapper>
+    )
+  }
+
+  if (type === 'digest') {
+    return (
+      <Input
+        label={name}
+        type="digest"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
 
   if (type === 'email') {
     return (
@@ -52,9 +94,140 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
         type="email"
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
+        indent
       />
     )
   }
 
-  return <styled.div>{name + ' : ' + type}</styled.div>
+  if (meta?.format?.includes('file')) {
+    return (
+      <FileUpload
+        label={name}
+        descriptionBottom="Drag and drop or click to upload"
+        onChange={(files) => console.log(files)}
+        indent
+        value={[
+          {
+            src: itemValue,
+          },
+        ]}
+        style={{ marginBottom: BOTTOMSPACE }}
+      />
+    )
+  }
+
+  if (type === 'id') {
+    return (
+      <Input
+        label={name}
+        type="text"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        disabled
+      />
+    )
+  }
+
+  if (type === 'json') {
+    return (
+      <Input
+        label={name}
+        type="json"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  if (meta?.format === 'markdown') {
+    return (
+      <Input
+        label={name}
+        type="markdown"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  if (type === 'number') {
+    return (
+      <Input
+        label={name}
+        type="number"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  if (type === 'string' || type === 'text') {
+    return (
+      <Input
+        label={name}
+        type="text"
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
+  if (type === 'type') {
+    return (
+      <InputWrapper
+        label={name}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+        value=""
+      >
+        <Badge>{itemValue}</Badge>
+      </InputWrapper>
+    )
+  }
+
+  if (type === 'timestamp') {
+    return (
+      <Input
+        label={name}
+        type="date"
+        time
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        descriptionBottom={new Date(itemValue).toString()}
+        indent
+      />
+    )
+  }
+
+  if (type === 'url' || type === 'thumb') {
+    return (
+      <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+        <styled.div
+          style={{
+            backgroundColor: color('background2'),
+            backgroundImage: `url(${itemValue})`,
+            backgroundSize: 'cover',
+            height: 32,
+            width: 32,
+            marginRight: 16,
+          }}
+        />
+        <Input
+          label={name}
+          type="text"
+          value={itemValue}
+          style={{ marginBottom: BOTTOMSPACE, flexGrow: 1 }}
+        />
+      </styled.div>
+    )
+  }
+
+  return (
+    <styled.div style={{ marginBottom: 12 }}>{name + ' : ' + type}</styled.div>
+  )
 }

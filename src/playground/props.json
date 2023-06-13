@@ -2948,9 +2948,13 @@
         "ghost": {
           "optional": true,
           "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: Style\n  values?: Value[]\n  ghost?: boolean\n}",
+      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: Style\n  values?: Value[]\n  ghost?: boolean\n  disabled?: boolean\n}",
       "file": "/components/Select/MultiSelect.tsx"
     },
     "SelectProps": {
@@ -3013,9 +3017,13 @@
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectProps = {\n  value?: Value\n  options: SelectOption[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n}",
+      "code": "type SelectProps = {\n  value?: Value\n  options: SelectOption[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n  disabled?: boolean\n}",
       "file": "/components/Select/Select.tsx"
     },
     "SeparatorProps": {

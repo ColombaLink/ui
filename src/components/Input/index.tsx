@@ -74,6 +74,7 @@ export const Input = <T extends InputType>({
   suggest,
   transform,
   type,
+  time,
   value: valueProp,
   ...otherProps
 }: {
@@ -108,6 +109,7 @@ export const Input = <T extends InputType>({
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   onBlur?: ReactEventHandler
+  time?: boolean
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
@@ -232,7 +234,7 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateWidget onChange={() => onChange} value={value} />
+        <DateWidget onChange={() => onChange} value={value} time={time} />
       ) : type === 'url' ? (
         <UrlInput
           onChange={(e) => setValue(e.target.value)}

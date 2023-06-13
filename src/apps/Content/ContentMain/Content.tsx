@@ -10,6 +10,10 @@ import {
   MoreIcon,
   Table,
   useDialog,
+  Badge,
+  useSchema,
+  useContextState,
+  ChildrenIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { ContentEditModal } from './ContentEditModal'
@@ -81,11 +85,32 @@ example to get things to show up in table
   }
 }
 
+// Try this example // for specif type wiht id
+{
+  "type": "content",
+  "view": "table",
+  "query": {
+    "name": "db",
+    "type": "query",
+    "descendants": {
+      "$all": true,
+      "$id": "109c42fced"
+    }
+  }
+}
 */
 
 export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
   const { open } = useDialog()
+
+  const [db] = useContextState('db', 'default')
+  const [type] = useContextState('type', '')
+
+  const { loading: loads, schema } = useSchema(db)
+
+  console.log('🆚 shcema', schema)
+  console.log('📳', type)
 
   console.log('🐳', view)
 
@@ -101,38 +126,109 @@ export const Content = ({ view, actions }) => {
   console.log('🐖 data', data)
   console.log('🐷 data children', data?.children)
 
-  // if there is no header , generate this one
-  console.log(data?.children?.[0])
-
   const tableHeader = []
   const trackProperties = []
 
-  for (let i = 0; i < data?.children?.length; i++) {
-    for (let property in data?.children?.[i]) {
-      // console.log(trackProperties)
-      if (!trackProperties.includes(property.toString())) {
-        trackProperties.push(property.toString())
-        // console.log(property)
-        tableHeader.push({ key: property, label: property.toString() })
-      }
+  // custom Component rules should be added to tableHeader
+  const customCompId = ({ data, header }) => {
+    return <Badge>{data[header.key]}</Badge>
+  }
+
+  const customCompType = ({ data, header }) => {
+    return <Badge color="accent">{data[header.key]}</Badge>
+  }
+
+  const customCompTimeDate = ({ data, header }) => {
+    return <Text>{new Date(data[header.key]).toLocaleDateString()}</Text>
+  }
+
+  const customCompChildren = ({ data, header }) => {
+    console.log('📳', data, header)
+    console.log('🈷️', data[header.key].length)
+
+    return (
+      <styled.div style={{ display: 'flex', alignContent: 'center' }}>
+        <ChildrenIcon color="accent" style={{ marginRight: 4 }} />
+        <Text color="accent"> {data[header.key].length}</Text>
+      </styled.div>
+    )
+  }
+
+  const customCompThumb = ({ data, header }) => {
+    return (
+      <styled.div
+        style={{
+          width: 32,
+          height: 32,
+          backgroundImage: `url(${data[header.key]})`,
+          backgroundSize: 'cover',
+        }}
+      />
+    )
+  }
+
+  // if (data?.children?.length > 0) {
+  //   for (let i = 0; i < data?.children?.length; i++) {
+  //     for (let property in data?.children?.[i]) {
+  //       // console.log(trackProperties)
+  //       if (!trackProperties.includes(property.toString())) {
+  //         trackProperties.push(property.toString())
+  //         // console.log(property)
+  //         tableHeader.push({
+  //           key: property,
+  //           label: property.toString(),
+  //           customComponent:
+  //             property === 'id'
+  //               ? customCompId
+  //               : property === 'type'
+  //               ? customCompType
+  //               : property === 'createdAt'
+  //               ? customCompTimeDate
+  //               : property === 'updatedAt'
+  //               ? customCompTimeDate
+  //               : property === 'thumb'
+  //               ? customCompThumb
+  //               : null,
+  //         })
+  //       }
+  //     }
+  //   }
+  // } else {
+  for (let property in data) {
+    // console.log(trackProperties)
+    if (!trackProperties.includes(property.toString()) && property) {
+      trackProperties.push(property.toString())
+      // console.log(property)
+      tableHeader.push({
+        key: property,
+        label: property.toString(),
+        customComponent:
+          property === 'children'
+            ? customCompChildren
+            : property === 'id'
+            ? customCompId
+            : property === 'type'
+            ? customCompType
+            : property === 'createdAt'
+            ? customCompTimeDate
+            : property === 'updatedAt'
+            ? customCompTimeDate
+            : property === 'thumb'
+            ? customCompThumb
+            : null,
+      })
+      // }
+      // }
     }
   }
 
-  // console.log(tableHeader, '📪')
+  console.log(tableHeader, '📪')
 
   const tableClickHandler = (e, rowData) => {
-    console.log('cellText --> ', e.target.textContent)
-    console.log('rowData', rowData)
-    open(<ContentEditModal rowData={rowData} />)
+    // console.log('cellText --> ', e.target.textContent)
+    // console.log('rowData', rowData)
+    open(<ContentEditModal rowData={rowData} schema={schema} />)
   }
-
-  // schema name
-  // const s = useItemSchema('fi')
-
-  // let sloading = s.loading
-  // let sfields = s.fields
-
-  // console.log(sloading, sfields)
 
   // children, createdAt, descendants, id, type, updatedAt
 
@@ -177,9 +273,11 @@ export const Content = ({ view, actions }) => {
           {isTable && (
             <Table
               headers={tableHeader}
-              data={data?.children}
-              outline
+              //  data in een array
+              data={[data]}
+              // outline
               onClick={tableClickHandler}
+              height={400}
             />
           )}
         </styled.div>
@@ -217,15 +315,15 @@ export const Content = ({ view, actions }) => {
       "component": "Button",
       "props": {
         "children": [
-          "Set thumb to: file "
+          "Set blah to: flappie "
         ],
         "onClick": {
           "function": {
             "name": "db:set",
             "type": "function",
             "payload": {
-              "$id": "file",
-              "thumb": "https://robohash.org/157.97.115.31.png"
+              "type": "flappie",
+              "stringie": "flipieflapflapepoa"
             }
           }
         }
