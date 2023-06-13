@@ -15,6 +15,7 @@ import {
   styled,
   Style,
   RowSpaced,
+  removeOverlay,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -112,7 +113,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                 // upload
                 if (!disabled) {
                   hiddenFileInput.current.click()
-                  dialog.close()
+                  removeOverlay()
                 }
               }}
             >
@@ -226,7 +227,8 @@ export const FileUpload: FC<FileUploadProps> = ({
         )
 
       urlUploadFile([file])
-      dialog.close()
+      console.log(dialog._id)
+      removeOverlay()
     }
   }
 
