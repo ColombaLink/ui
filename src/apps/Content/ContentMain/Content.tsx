@@ -13,6 +13,7 @@ import {
   Badge,
   useSchema,
   useContextState,
+  ChildrenIcon,
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { ContentEditModal } from './ContentEditModal'
@@ -143,9 +144,14 @@ export const Content = ({ view, actions }) => {
 
   const customCompChildren = ({ data, header }) => {
     console.log('📳', data, header)
-    console.log('🈷️', data[header.key])
+    console.log('🈷️', data[header.key].length)
 
-    return <Text>xx</Text>
+    return (
+      <styled.div style={{ display: 'flex', alignContent: 'center' }}>
+        <ChildrenIcon color="accent" style={{ marginRight: 4 }} />
+        <Text color="accent"> {data[header.key].length}</Text>
+      </styled.div>
+    )
   }
 
   const customCompThumb = ({ data, header }) => {
@@ -269,7 +275,7 @@ export const Content = ({ view, actions }) => {
               headers={tableHeader}
               //  data in een array
               data={[data]}
-              outline
+              // outline
               onClick={tableClickHandler}
               height={400}
             />
