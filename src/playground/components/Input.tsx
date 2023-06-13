@@ -124,6 +124,14 @@ export const Input = () => {
             type: 'color',
           },
         },
+        {
+          props: {
+            label: 'url',
+            description: 'type is url',
+            type: 'url',
+            indent: true,
+          },
+        },
       ]}
     />
   )
