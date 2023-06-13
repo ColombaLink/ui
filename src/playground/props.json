@@ -2144,6 +2144,69 @@
       "code": "type SingleProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n}",
       "file": "/components/Input/Single.tsx"
     },
+    "UrlProps": {
+      "name": "UrlProps",
+      "props": {
+        "type": {
+          "optional": true,
+          "type": "string"
+        },
+        "inputRef": {
+          "optional": true,
+          "type": "RefObject"
+        },
+        "value": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "pattern": {
+          "optional": true,
+          "type": "string"
+        },
+        "props": {
+          "optional": true,
+          "type": "TSAnyKeyword"
+        },
+        "onKeyDown": {
+          "optional": true,
+          "type": "function"
+        },
+        "onChange": {
+          "optional": true,
+          "type": "function"
+        },
+        "onFocus": {
+          "optional": true,
+          "type": "function"
+        },
+        "onBlur": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "ghost": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "focused": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "setErrorMessage": {
+          "optional": true,
+          "type": "function"
+        },
+        "error": {
+          "optional": true,
+          "type": "function"
+        }
+      },
+      "code": "type UrlProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  // icon?: FunctionComponent<Icon> | ReactNode\n  // iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n}",
+      "file": "/components/Input/UrlInput.tsx"
+    },
     "LabelProps": {
       "name": "LabelProps",
       "props": {
@@ -2948,9 +3011,13 @@
         "ghost": {
           "optional": true,
           "type": "boolean"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: Style\n  values?: Value[]\n  ghost?: boolean\n}",
+      "code": "type MultiSelectProps = {\n  color?: Color\n  filterable?: boolean | 'create'\n  label?: string\n  onChange: (values: Value[]) => void\n  options: (Option | Value)[]\n  overlay?: PositionProps\n  placeholder?: string\n  style?: Style\n  values?: Value[]\n  ghost?: boolean\n  disabled?: boolean\n}",
       "file": "/components/Select/MultiSelect.tsx"
     },
     "SelectProps": {
@@ -3013,9 +3080,13 @@
         "onClick": {
           "optional": true,
           "type": "function"
+        },
+        "disabled": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SelectProps = {\n  value?: Value\n  options: SelectOption[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n}",
+      "code": "type SelectProps = {\n  value?: Value\n  options: SelectOption[]\n  onChange?: (value: Value) => void\n  filterable?: boolean | 'create'\n  placeholder?: string\n  overlay?: PositionProps\n  label?: ReactNode\n  name?: string\n  color?: Color\n  style?: Style\n  id?: string\n  ghost?: boolean\n  onClick?: () => void\n  disabled?: boolean\n}",
       "file": "/components/Select/Select.tsx"
     },
     "SeparatorProps": {

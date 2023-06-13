@@ -16,6 +16,7 @@ import {
   Style,
   Icon,
   DateWidget,
+  styled,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -234,6 +235,28 @@ export const Input = <T extends InputType>({
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
         <DateWidget onChange={() => onChange} value={value} time={time} />
+      ) : type === 'url' ? (
+        <UrlInput
+          onChange={(e) => setValue(e.target.value)}
+          value={value}
+          {...props}
+          onKeyDown={(e) => {
+            // now you can remove the zero in input fields
+            if (e.key === 'Backspace' && value === 0) {
+              setValue('')
+            }
+            // for some reason pressing . in number input changed the value to one
+            if (e.key === '.' && type === 'number') {
+              e.preventDefault()
+            }
+            props.onKeyDown?.(e)
+          }}
+          style={props.style}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          setErrorMessage={setErrorMessage}
+          focused={focused}
+        />
       ) : (
         <MaybeSuggest
           focused={focused}
