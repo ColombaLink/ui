@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   MoreIcon,
-  useContextState,
   useDialog,
   Table,
 } from '~'
