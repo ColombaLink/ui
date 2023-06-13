@@ -1,5 +1,14 @@
 import React from 'react'
-import { styled, Input, Badge, color, Toggle, FileUpload, Text } from '~'
+import {
+  styled,
+  Input,
+  Badge,
+  color,
+  Toggle,
+  FileUpload,
+  Text,
+  useCopyToClipboard,
+} from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
 // TODO: get the right fields based on the schema types
@@ -65,11 +74,24 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
 
   if (meta.name === 'children') {
     return (
-      <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }}>
+      <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }} indent>
         {itemValue.map((item, i) => (
-          <Text key={i}>
-            {item.type} : {item.id}{' '}
-          </Text>
+          <styled.div
+            style={{
+              border: `1px solid ${color('border')}`,
+              borderRadius: 4,
+              marginBottom: 4,
+              height: 40,
+              width: '100%',
+              display: 'flex',
+              padding: 12,
+              alignItems: 'center',
+            }}
+            key={i}
+          >
+            <Text style={{ marginRight: 12 }}>{item.type}</Text>
+            <Badge>{item.id}</Badge>
+          </styled.div>
         ))}
       </InputWrapper>
     )
