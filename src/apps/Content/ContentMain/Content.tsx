@@ -71,7 +71,6 @@ example to get things to show up in table
     "name": "db",
     "type": "query",
     "descendants": {
-      // "type" : "flurpie"
       "$id": "root",
       "createdAt": true,
       "$all": true,
@@ -132,6 +131,13 @@ export const Content = ({ view, actions }) => {
     return <Text>{new Date(data[header.key]).toLocaleDateString()}</Text>
   }
 
+  const customCompChildren = ({ data, header }) => {
+    console.log('📳', data, header)
+    console.log('🈷️', data[header.key])
+
+    return <Text>xx</Text>
+  }
+
   const customCompThumb = ({ data, header }) => {
     return (
       <styled.div
@@ -145,55 +151,58 @@ export const Content = ({ view, actions }) => {
     )
   }
 
-  if (data?.children?.length > 0) {
-    for (let i = 0; i < data?.children?.length; i++) {
-      for (let property in data?.children?.[i]) {
-        // console.log(trackProperties)
-        if (!trackProperties.includes(property.toString())) {
-          trackProperties.push(property.toString())
-          // console.log(property)
-          tableHeader.push({
-            key: property,
-            label: property.toString(),
-            customComponent:
-              property === 'id'
-                ? customCompId
-                : property === 'type'
-                ? customCompType
-                : property === 'createdAt'
-                ? customCompTimeDate
-                : property === 'updatedAt'
-                ? customCompTimeDate
-                : property === 'thumb'
-                ? customCompThumb
-                : null,
-          })
-        }
-      }
-    }
-  } else {
-    for (let property in data) {
-      // console.log(trackProperties)
-      if (!trackProperties.includes(property.toString()) && property) {
-        trackProperties.push(property.toString())
-        // console.log(property)
-        tableHeader.push({
-          key: property,
-          label: property.toString(),
-          customComponent:
-            property === 'id'
-              ? customCompId
-              : property === 'type'
-              ? customCompType
-              : property === 'createdAt'
-              ? customCompTimeDate
-              : property === 'updatedAt'
-              ? customCompTimeDate
-              : property === 'thumb'
-              ? customCompThumb
-              : null,
-        })
-      }
+  // if (data?.children?.length > 0) {
+  //   for (let i = 0; i < data?.children?.length; i++) {
+  //     for (let property in data?.children?.[i]) {
+  //       // console.log(trackProperties)
+  //       if (!trackProperties.includes(property.toString())) {
+  //         trackProperties.push(property.toString())
+  //         // console.log(property)
+  //         tableHeader.push({
+  //           key: property,
+  //           label: property.toString(),
+  //           customComponent:
+  //             property === 'id'
+  //               ? customCompId
+  //               : property === 'type'
+  //               ? customCompType
+  //               : property === 'createdAt'
+  //               ? customCompTimeDate
+  //               : property === 'updatedAt'
+  //               ? customCompTimeDate
+  //               : property === 'thumb'
+  //               ? customCompThumb
+  //               : null,
+  //         })
+  //       }
+  //     }
+  //   }
+  // } else {
+  for (let property in data) {
+    // console.log(trackProperties)
+    if (!trackProperties.includes(property.toString()) && property) {
+      trackProperties.push(property.toString())
+      // console.log(property)
+      tableHeader.push({
+        key: property,
+        label: property.toString(),
+        customComponent:
+          property === 'children'
+            ? customCompChildren
+            : property === 'id'
+            ? customCompId
+            : property === 'type'
+            ? customCompType
+            : property === 'createdAt'
+            ? customCompTimeDate
+            : property === 'updatedAt'
+            ? customCompTimeDate
+            : property === 'thumb'
+            ? customCompThumb
+            : null,
+      })
+      // }
+      // }
     }
   }
 
@@ -249,7 +258,7 @@ export const Content = ({ view, actions }) => {
             <Table
               headers={tableHeader}
               //  data in een array
-              data={data?.children?.length > 0 ? data.children : [data]}
+              data={[data]}
               outline
               onClick={tableClickHandler}
               height={400}
@@ -290,15 +299,15 @@ export const Content = ({ view, actions }) => {
       "component": "Button",
       "props": {
         "children": [
-          "Set thumb to: file "
+          "Set blah to: flappie "
         ],
         "onClick": {
           "function": {
             "name": "db:set",
             "type": "function",
             "payload": {
-              "$id": "file",
-              "thumb": "https://robohash.org/157.97.115.31.png"
+              "type": "flappie",
+              "stringie": "flipieflapflapepoa"
             }
           }
         }
