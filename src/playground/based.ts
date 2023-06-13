@@ -4,7 +4,7 @@ export let cluster = 'production'
 
 export const project = 'test'
 export const org = 'saulx'
-export const env = 'ci'
+export const env = 'bla'
 
 export const client = new BasedClient({
   project,
