@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react'
 import { useQuery, useClient } from '@based/react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { BasedClient } from '@based/client'
-import { View, ViewComponent, ComponentConfig } from '../types'
+import { View, ViewComponent, ComponentConfig } from '../../types'
 import * as ui from '~'
 import {
   LoadingIcon,

@@ -13,11 +13,11 @@ import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
 import { AddViewModal, EditViewModal } from '../ViewModals'
 import { BasedClient } from '@based/client'
-import { Components } from './Components'
+import { Components } from './types/Components'
 
 import useLocalStorage from '@based/use-local-storage'
-import { Content } from './Content'
-import { CustomContent } from './CustomContent'
+import { Content } from './___Content'
+import { CustomContent } from './types/Content'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()

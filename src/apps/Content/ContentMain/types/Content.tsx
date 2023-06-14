@@ -12,7 +12,7 @@ import {
   Badge,
 } from '~'
 import { useQuery, useClient } from '@based/react'
-import { ContentEditModal } from './ContentEditModal'
+import { ContentEditModal } from '../ContentEditModal'
 import { BasedClient } from '@based/client'
 
 const parseFunction = () => {}
