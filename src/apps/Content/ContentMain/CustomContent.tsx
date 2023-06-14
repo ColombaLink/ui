@@ -9,6 +9,7 @@ import {
   MoreIcon,
   useDialog,
   Table,
+  Badge,
 } from '~'
 import { useQuery } from '@based/react'
 
@@ -60,20 +61,36 @@ export const CustomContent = ({ view, actions }) => {
   }
 
   const customOnClickComp = ({ data, header }) => {
-    return (
-      <div
-        onClick={() => {
-          console.log('snurp ', data[header.key])
-          specialClickHandler(
-            header.key,
-            functionProps?.onClick,
-            functionProps?.fields
-          )
-        }}
-      >
-        {data[header.key]}
-      </div>
-    )
+    if (header.type === 'id') {
+      return (
+        <Badge
+          onClick={() =>
+            specialClickHandler(
+              header.key,
+              functionProps?.onClick,
+              functionProps?.fields
+            )
+          }
+        >
+          {data[header.key]}
+        </Badge>
+      )
+    } else {
+      return (
+        <div
+          onClick={() => {
+            console.log('snurp ', data[header.key])
+            specialClickHandler(
+              header.key,
+              functionProps?.onClick,
+              functionProps?.fields
+            )
+          }}
+        >
+          {data[header.key]}
+        </div>
+      )
+    }
   }
 
   // PROPS.FIELDS should make up the table header fields to show
