@@ -41,14 +41,16 @@ export const CustomContent = ({ view, actions }) => {
   console.log('function props', functionProps)
 
   const specialClickHandler = (key, onClick, fields) => {
-    console.log('SPECIAL', key, onClick, fields)
-    console.log(Object.values(fields[0]))
+    console.log('SPECIAL', '🔑:', key, '👆:', onClick, '🖼', fields)
 
     if (onClick.view) {
-      console.log('onclick view', onClick.view)
+      console.log('onclick view 🫃🏻', onClick.view)
     }
-    if (fields.map((field) => field.name).includes(key)) {
-      console.log('OPEN MODAL 💶')
+    if (
+      fields.map((field) => field.field).includes(key) &&
+      onClick.view.type === 'content-modal'
+    ) {
+      console.log('OPEN MODAL AND PASS PROPS AND FUNCTION ')
       open(
         <styled.div style={{ width: 100, height: 100, background: 'yellow' }}>
           {key}
