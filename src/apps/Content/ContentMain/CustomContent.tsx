@@ -30,6 +30,8 @@ export const CustomContent = ({ view, actions }) => {
   const functionPayload = view.config.function.payload
   const functionProps = view.config.function.props
 
+  const functionPropsFields = view.config.function.props.fields
+
   const { data, loading } = useQuery(
     functionName ? 'db' : undefined,
     functionPayload
@@ -37,13 +39,6 @@ export const CustomContent = ({ view, actions }) => {
 
   console.log('DATA 💊', data)
   console.log('function props', functionProps)
-
-  // PROPS
-
-  //   const tableClickHandler = (e, rowData) => {
-  //     // open a new view
-  //     console.log(e, rowData)
-  //   }
 
   const specialClickHandler = (key, onClick, fields) => {
     console.log('SPECIAL', key, onClick, fields)
@@ -78,6 +73,23 @@ export const CustomContent = ({ view, actions }) => {
       </div>
     )
   }
+
+  // PROPS.FIELDS should make up the table header fields to show
+  console.log(functionPropsFields)
+
+  // map name -> label and field -> key
+  const tableHeader = functionPropsFields.map((item) => ({
+    key: item.field,
+    label: item.name,
+    type: item.type,
+    customComponent: customOnClickComp,
+  }))
+
+  console.log(tableHeader)
+  //   const tableClickHandler = (e, rowData) => {
+  //     // open a new view
+  //     console.log(e, rowData)
+  //   }
 
   return (
     <ScrollArea
@@ -119,15 +131,7 @@ export const CustomContent = ({ view, actions }) => {
         <styled.div style={{ width: '100%', padding: 24 }}>
           {isTable && (
             <Table
-              headers={[
-                {
-                  key: 'numbie',
-                  label: 'number',
-                  customComponent: customOnClickComp,
-                },
-                { key: 'stringie', customComponent: customOnClickComp },
-                { key: 'id', customComponent: customOnClickComp },
-              ]}
+              headers={tableHeader}
               data={[data]}
               //   onClick={tableClickHandler}
               height={400}
