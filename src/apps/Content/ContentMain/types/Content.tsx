@@ -50,7 +50,7 @@ const propsWalker = (
       newObj[key] = propsWalker(field, ctx)
     } else if (typeof field === 'string') {
       if (field[0] === '$') {
-        // $data, $args, $state
+        // $data, $args, $state, $target
         const path = field.split('.')
         const type = path[0]
         if (type === '$data') {
@@ -98,7 +98,14 @@ export const CustomContent = ({ view, actions }) => {
 
   const client = useClient()
 
-  const props = propsWalker(view.config.props ?? {}, { data, state, client })
+  //
+
+  const props = propsWalker(view.config.props ?? {}, {
+    data,
+    state,
+    client,
+    args: [],
+  })
 
   console.log('---------------->', props, data)
 
