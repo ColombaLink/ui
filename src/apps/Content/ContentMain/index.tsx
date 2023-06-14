@@ -17,6 +17,7 @@ import { Components } from './Components'
 
 import useLocalStorage from '@based/use-local-storage'
 import { Content } from './Content'
+import { CustomContent } from './CustomContent'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -107,7 +108,8 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
         <styled.div
           style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
         >
-          <Content view={data} actions={Actions} />
+          {/* <Content view={data} actions={Actions} /> */}
+          <CustomContent view={data} actions={Actions} />
 
           <pre contentEditable>{JSON.stringify(data, null, 2)}</pre>
         </styled.div>

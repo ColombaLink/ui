@@ -167,33 +167,6 @@ export const Content = ({ view, actions }) => {
     )
   }
 
-  // if (data?.children?.length > 0) {
-  //   for (let i = 0; i < data?.children?.length; i++) {
-  //     for (let property in data?.children?.[i]) {
-  //       // console.log(trackProperties)
-  //       if (!trackProperties.includes(property.toString())) {
-  //         trackProperties.push(property.toString())
-  //         // console.log(property)
-  //         tableHeader.push({
-  //           key: property,
-  //           label: property.toString(),
-  //           customComponent:
-  //             property === 'id'
-  //               ? customCompId
-  //               : property === 'type'
-  //               ? customCompType
-  //               : property === 'createdAt'
-  //               ? customCompTimeDate
-  //               : property === 'updatedAt'
-  //               ? customCompTimeDate
-  //               : property === 'thumb'
-  //               ? customCompThumb
-  //               : null,
-  //         })
-  //       }
-  //     }
-  //   }
-  // } else {
   for (let property in data) {
     // console.log(trackProperties)
     if (!trackProperties.includes(property.toString()) && property) {
@@ -217,8 +190,6 @@ export const Content = ({ view, actions }) => {
             ? customCompThumb
             : null,
       })
-      // }
-      // }
     }
   }
 
@@ -273,9 +244,7 @@ export const Content = ({ view, actions }) => {
           {isTable && (
             <Table
               headers={tableHeader}
-              //  data in een array
               data={[data]}
-              // outline
               onClick={tableClickHandler}
               height={400}
             />
