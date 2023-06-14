@@ -12,6 +12,7 @@ import {
   Badge,
 } from '~'
 import { useQuery } from '@based/react'
+import { ContentEditModal } from './ContentEditModal'
 
 export const CustomContent = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
@@ -48,14 +49,15 @@ export const CustomContent = ({ view, actions }) => {
       console.log('onclick view 🫃🏻', onClick.view)
     }
     if (
-      fields.map((field) => field.field).includes(key) &&
+      onClick?.view?.props?.fields.map((field) => field.field).includes(key) &&
       onClick.view.type === 'content-modal'
     ) {
       console.log('OPEN MODAL AND PASS PROPS AND FUNCTION ')
       open(
-        <styled.div style={{ width: 100, height: 100, background: 'yellow' }}>
-          {key}
-        </styled.div>
+        <ContentEditModal data={data} fields={onClick?.view?.props?.fields} />
+        // <styled.div style={{ width: 100, height: 100, background: 'yellow' }}>
+        //   {key}
+        // </styled.div>
       )
     }
   }

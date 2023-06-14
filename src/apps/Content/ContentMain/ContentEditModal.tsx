@@ -10,8 +10,10 @@ import { useCopyToClipboard } from '~/hooks'
 import { removeOverlay } from '~/components/Overlay'
 import { Select } from '~/components/Select'
 
-export const ContentEditModal = ({ rowData, schema }) => {
-  const [copied, copy] = useCopyToClipboard(rowData?.id)
+export const ContentEditModal = ({ data, fields }) => {
+  console.log('🟩', data, '🟪', fields)
+
+  const [copied, copy] = useCopyToClipboard('blub')
 
   return (
     <styled.div
@@ -31,10 +33,10 @@ export const ContentEditModal = ({ rowData, schema }) => {
             padding: '24px 32px',
           }}
         >
-          <Text typography="subtitle500">{rowData.type}</Text>
+          <Text typography="subtitle500">snrup</Text>
         </styled.div>
         <styled.div>
-          <ContentEditor rowData={rowData} schema={schema} />
+          <ContentEditor data={data} fields={fields} />
         </styled.div>
       </styled.div>
 
@@ -98,7 +100,7 @@ export const ContentEditModal = ({ rowData, schema }) => {
           icon={copied ? <CheckIcon /> : ''}
           style={{ marginBottom: 6 }}
         >
-          {rowData?.id}
+          snurp.id
         </Badge>
         {copied && <Text typography="caption500">copied to clipboard!</Text>}
         <styled.div
