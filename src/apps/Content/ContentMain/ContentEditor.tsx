@@ -14,21 +14,16 @@ export const ContentEditor = ({ data, fields }) => {
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
-        <ContentRenderer
-          item={item}
-          key={i}
-          itemName={item.name}
-          itemValue={data[item.field]}
-        />
+        <ContentRenderer item={item} itemValue={data[item.field]} key={i} />
       ))}
     </styled.div>
   )
 }
 
-const ContentRenderer = ({ item, itemName, itemValue }) => {
-  console.log('item??', item)
-  console.log('item name', itemName)
-  console.log('item value', itemValue)
+const ContentRenderer = ({ item, itemValue }) => {
+  // console.log('item??', item)
+  // console.log('item name', itemName)
+  // console.log('item value', itemValue)
 
   // all the types
   // references, type, id, set, string, digest, number, url, text

@@ -11,9 +11,7 @@ import { removeOverlay } from '~/components/Overlay'
 import { Select } from '~/components/Select'
 
 export const ContentEditModal = ({ data, fields }) => {
-  console.log('🟩', data, '🟪', fields)
-
-  const [copied, copy] = useCopyToClipboard('blub')
+  const [copied, copy] = useCopyToClipboard(data?.id)
 
   return (
     <styled.div
@@ -33,7 +31,7 @@ export const ContentEditModal = ({ data, fields }) => {
             padding: '24px 32px',
           }}
         >
-          <Text typography="subtitle500">snrup</Text>
+          <Text typography="subtitle500">{data?.type || data?.id}</Text>
         </styled.div>
         <styled.div>
           <ContentEditor data={data} fields={fields} />
@@ -100,7 +98,7 @@ export const ContentEditModal = ({ data, fields }) => {
           icon={copied ? <CheckIcon /> : ''}
           style={{ marginBottom: 6 }}
         >
-          snurp.id
+          {data?.id}
         </Badge>
         {copied && <Text typography="caption500">copied to clipboard!</Text>}
         <styled.div

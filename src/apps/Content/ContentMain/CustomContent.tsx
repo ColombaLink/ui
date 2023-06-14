@@ -52,12 +52,8 @@ export const CustomContent = ({ view, actions }) => {
       onClick?.view?.props?.fields.map((field) => field.field).includes(key) &&
       onClick.view.type === 'content-modal'
     ) {
-      console.log('OPEN MODAL AND PASS PROPS AND FUNCTION ')
       open(
         <ContentEditModal data={data} fields={onClick?.view?.props?.fields} />
-        // <styled.div style={{ width: 100, height: 100, background: 'yellow' }}>
-        //   {key}
-        // </styled.div>
       )
     }
   }
@@ -96,7 +92,7 @@ export const CustomContent = ({ view, actions }) => {
   }
 
   // PROPS.FIELDS should make up the table header fields to show
-  console.log(functionPropsFields)
+  //   console.log(functionPropsFields)
 
   // map name -> label and field -> key
   const tableHeader = functionPropsFields.map((item) => ({
@@ -106,7 +102,8 @@ export const CustomContent = ({ view, actions }) => {
     customComponent: customOnClickComp,
   }))
 
-  console.log(tableHeader)
+  //   console.log(tableHeader)
+
   //   const tableClickHandler = (e, rowData) => {
   //     // open a new view
   //     console.log(e, rowData)

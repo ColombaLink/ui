@@ -26,6 +26,21 @@
                 "title": true,
                 "id": true
               }
+            },
+            "props": {
+              "data": "$data",
+              "fields": [
+                {
+                  "name": "Eyyo stirnige",
+                  "field": "stringie",
+                  "type": "string"
+                },
+                {
+                  "name": "Eyo -> ID",
+                  "field": "id",
+                  "type": "id"
+                }
+              ]
             }
           }
         },
