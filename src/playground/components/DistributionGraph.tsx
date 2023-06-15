@@ -27,9 +27,18 @@ export const DistributionGraph = () => {
           {
             code: `import { DistributionGraph } from '@based/ui'
 
-<div style={{ height: 300 }}>
+<div style={{ height: 600}}>
   <DistributionGraph
-    data={genRandomPoints((i) =>  ~~(Math.random() * 10000 + 1000), 0, 300)}
+    bars={5}
+    fontStyle={{
+      fontSize: 20,
+      fontFamily: 'courier',
+      color: 'var(--green)'
+    }}
+    format="number-euro"
+    margin={10}
+    color="green"
+    data={genRandomPoints((i) => (i+1) * (i+1), 0, 30000)}
     label="Income in euros"
   />
 </div>`,
