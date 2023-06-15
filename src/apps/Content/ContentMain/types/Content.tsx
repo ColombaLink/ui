@@ -13,74 +13,11 @@ import {
 } from '~'
 import { useQuery, useClient } from '@based/react'
 import { ContentEditModal } from '../ContentEditModal'
-import { BasedClient } from '@based/client'
+import { propsWalker } from '../propsWalker'
 
 const parseFunction = () => {}
 
-const propsWalker = (
-  obj: any,
-  ctx: { data: any; state: any; args: any[]; client: BasedClient }
-): any => {
-  if (typeof obj !== 'object') {
-    return {}
-  }
-
-  const newObj: any = Array.isArray(obj) ? [] : {}
-
-  for (const key in obj) {
-    const field = obj[key]
-
-    if (/^on[A-Z]([a-z])+/.test(key)) {
-      if (typeof field === 'object') {
-        if (field.type === 'function') {
-          newObj[key] = async (...args) => {
-            const fn = propsWalker(field, {
-              data: ctx.data,
-              state: ctx.state,
-              args,
-              client: ctx.client,
-            })
-            return ctx.client.call(fn.name, fn.payload)
-          }
-        }
-      } else {
-        newObj[key] = () => console.error('Needs to be an object def')
-      }
-    } else if (typeof field === 'object') {
-      newObj[key] = propsWalker(field, ctx)
-    } else if (typeof field === 'string') {
-      if (field[0] === '$') {
-        // $data, $args, $state, $target
-        const path = field.split('.')
-        const type = path[0]
-        if (type === '$data') {
-          let d = ctx.data
-          for (let i = 1; i < path.length; i++) {
-            const seg = path[i]
-            if (d?.[seg] !== undefined) {
-              d = d[seg]
-            } else {
-              d = undefined
-              break
-            }
-          }
-          newObj[key] = d
-        } else {
-          // lets add some args!
-          newObj[key] = 'latewr!!@#'
-        }
-      } else {
-        newObj[key] = field
-      }
-    } else {
-      newObj[key] = field
-    }
-  }
-
-  return newObj
-}
-
-export const CustomContent = ({ view, actions }) => {
+export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
 
   // const { open } = useDialog()
@@ -89,6 +26,7 @@ export const CustomContent = ({ view, actions }) => {
 
   const isTable = view.config.view === 'table'
 
+  // eerst query staat opzichzelf
   const { data } = useQuery(
     view.config.function.name,
     view.config.function.payload
@@ -98,8 +36,7 @@ export const CustomContent = ({ view, actions }) => {
 
   const client = useClient()
 
-  //
-
+  // propswalker magic
   const props = propsWalker(view.config.props ?? {}, {
     data,
     state,
@@ -107,7 +44,8 @@ export const CustomContent = ({ view, actions }) => {
     args: [],
   })
 
-  console.log('---------------->', props, data)
+  console.log('%cpropswalker props------->', 'background-color:yellow;', props)
+  console.log('DATA --> ', data)
 
   return (
     <ScrollArea
@@ -147,7 +85,7 @@ export const CustomContent = ({ view, actions }) => {
         </Row>
 
         <styled.div style={{ width: '100%', padding: 24 }}>
-          {/* {isTable && <Table {...props} />} */}
+          {isTable && <Table headers={[]} {...props} />}
         </styled.div>
       </styled.div>
     </ScrollArea>
