@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   styled,
   useContextMenu,
@@ -7,15 +7,10 @@ import {
   Text,
   Button,
   MoreIcon,
-  useDialog,
   Table,
-  Badge,
 } from '~'
 import { useQuery, useClient } from '@based/react'
-import { ContentEditModal } from '../ContentEditModal'
 import { propsWalker } from '../propsWalker'
-
-const parseFunction = () => {}
 
 export const Content = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
@@ -36,6 +31,9 @@ export const Content = ({ view, actions }) => {
 
   const client = useClient()
 
+  const wtfRef = useRef()
+  console.log('🤷🏻‍♂️', wtfRef)
+
   // propswalker magic
   const props = propsWalker(view.config.props ?? {}, {
     data,
@@ -43,6 +41,31 @@ export const Content = ({ view, actions }) => {
     client,
     args: [],
   })
+
+  // make it work in the table
+  const parseThePropsFunction = (props) => {
+    console.log('props from parseFunction,🤖 ', props)
+
+    let data
+    let headers = []
+
+    if (props.$data) {
+      data = props.$data
+    }
+    // generate a header if there is none
+    if (!props.headers) {
+      headers = []
+      const keys = data?.map((obj, i) => Object.keys(data[i])[i])
+      console.log(keys)
+      keys?.map((item) => headers.push({ key: item }))
+    } else {
+      headers = props.$headers
+    }
+
+    return { data, headers, onClick: props.onClick }
+  }
+
+  parseThePropsFunction(props)
 
   console.log('%cpropswalker props------->', 'background-color:yellow;', props)
   console.log('DATA --> ', data)
@@ -85,7 +108,7 @@ export const Content = ({ view, actions }) => {
         </Row>
 
         <styled.div style={{ width: '100%', padding: 24 }}>
-          {isTable && <Table headers={[]} {...props} />}
+          {isTable && <Table {...parseThePropsFunction(props)} />}
         </styled.div>
       </styled.div>
     </ScrollArea>

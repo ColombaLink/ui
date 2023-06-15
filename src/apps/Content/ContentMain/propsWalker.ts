@@ -22,16 +22,24 @@ export const propsWalker = (
 
     if (/^on[A-Z]([a-z])+/.test(key)) {
       if (typeof field === 'object') {
-        if (field.type === 'function') {
+        if (Object.keys(field.type)[0] === 'function') {
+          console.log('reached this', key, field)
+
           newObj[key] = async (...args) => {
-            const fn = propsWalker(field, {
+            const fn = propsWalker(field.type.function, {
               data: ctx.data,
               state: ctx.state,
               args,
               client: ctx.client,
             })
+
+            console.log('🧧', fn)
+            console.log('🔔', ctx.client.call(fn.name, fn.payload))
+
             return ctx.client.call(fn.name, fn.payload)
           }
+        } else if (Object.keys(field.type)[0] === 'view') {
+          console.log('🎁if type is view -> VIEW Thingies here')
         }
       } else {
         newObj[key] = () => console.error('Needs to be an object def')
@@ -44,9 +52,12 @@ export const propsWalker = (
         const path = field.split('.')
         const type = path[0]
         if (type === '$data') {
+          console.log('found $data')
+
           let d = ctx.data
           for (let i = 1; i < path.length; i++) {
             const seg = path[i]
+            console.log('seg', seg)
             if (d?.[seg] !== undefined) {
               d = d[seg]
             } else {
@@ -73,5 +84,6 @@ export const propsWalker = (
     }
   }
 
+  console.log('THIS???', newObj)
   return newObj
 }
