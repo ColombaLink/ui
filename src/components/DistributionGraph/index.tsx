@@ -56,6 +56,9 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
     }
   }
 
+  // @ts-ignore
+  const fSize = fontStyle?.fontSize ? fontStyle.fontSize - 14 : 0
+
   return (
     <styled.div
       style={{
@@ -68,7 +71,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
       {label ? (
         <Text
           weight={'700'}
-          style={{ marginBottom: 16 + margin / 2, ...fontStyle }}
+          style={{ marginBottom: 8 + margin / 2 + fSize, ...fontStyle }}
         >
           {label}
         </Text>
@@ -119,7 +122,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
               </styled.div>
               <styled.div
                 style={{
-                  marginTop: margin + 16,
+                  marginTop: margin / 2 + 8 + fSize,
                   alignItems: 'center',
                   justifyContent: 'center',
                   display: hideLabels ? 'none' : 'flex',
