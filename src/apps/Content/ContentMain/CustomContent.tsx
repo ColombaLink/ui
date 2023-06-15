@@ -11,105 +11,96 @@ import {
   Table,
   Badge,
 } from '~'
-import { useQuery } from '@based/react'
+import { useQuery, useClient } from '@based/react'
 import { ContentEditModal } from './ContentEditModal'
+import { BasedClient } from '@based/client'
+
+const parseFunction = () => {}
+
+const propsWalker = (
+  obj: any,
+  ctx: { data: any; state: any; args: any[]; client: BasedClient }
+): any => {
+  if (typeof obj !== 'object') {
+    return {}
+  }
+
+  const newObj: any = Array.isArray(obj) ? [] : {}
+
+  for (const key in obj) {
+    const field = obj[key]
+
+    if (/^on[A-Z]([a-z])+/.test(key)) {
+      if (typeof field === 'object') {
+        if (field.type === 'function') {
+          newObj[key] = async (...args) => {
+            const fn = propsWalker(field, {
+              data: ctx.data,
+              state: ctx.state,
+              args,
+              client: ctx.client,
+            })
+            return ctx.client.call(fn.name, fn.payload)
+          }
+        }
+      } else {
+        newObj[key] = () => console.error('Needs to be an object def')
+      }
+    } else if (typeof field === 'object') {
+      newObj[key] = propsWalker(field, ctx)
+    } else if (typeof field === 'string') {
+      if (field[0] === '$') {
+        // $data, $args, $state
+        const path = field.split('.')
+        const type = path[0]
+        if (type === '$data') {
+          let d = ctx.data
+          for (let i = 1; i < path.length; i++) {
+            const seg = path[i]
+            if (d?.[seg] !== undefined) {
+              d = d[seg]
+            } else {
+              d = undefined
+              break
+            }
+          }
+          newObj[key] = d
+        } else {
+          // lets add some args!
+          newObj[key] = 'latewr!!@#'
+        }
+      } else {
+        newObj[key] = field
+      }
+    } else {
+      newObj[key] = field
+    }
+  }
+
+  return newObj
+}
 
 export const CustomContent = ({ view, actions }) => {
   const contextMenu = useContextMenu<{ view }>(actions, { view })
 
-  console.log('Custom content view', view)
+  // const { open } = useDialog()
 
-  const { open } = useDialog()
+  console.log(view)
 
-  //   const [view] = useContextState<string>('view')
-
-  // View Table
   const isTable = view.config.view === 'table'
 
-  // TODO: Function -- name, type , payload , props
-  const functionName = view.config.function.name
-  const functionType = view.config.function.type
-  const functionPayload = view.config.function.payload
-  const functionProps = view.config.function.props
-
-  const functionPropsFields = view.config.function.props.fields
-
-  const { data, loading } = useQuery(
-    functionName ? 'db' : undefined,
-    functionPayload
+  const { data } = useQuery(
+    view.config.function.name,
+    view.config.function.payload
   )
 
-  console.log('DATA 💊', data)
-  console.log('function props', functionProps)
+  const state = {}
 
-  const specialClickHandler = (key, onClick, fields) => {
-    console.log('SPECIAL', '🔑:', key, '👆:', onClick, '🖼', fields)
+  const client = useClient()
 
-    if (onClick.view) {
-      console.log('onclick view 🫃🏻', onClick.view)
-      console.log('-->', onClick.view.function.payload)
-    }
-    if (
-      onClick?.view?.props?.fields.map((field) => field.field).includes(key) &&
-      onClick.view.type === 'content-modal'
-    ) {
-      open(
-        <ContentEditModal data={data} fields={onClick?.view?.props?.fields} />
-      )
-    }
-  }
+  const props = propsWalker(view.config.props ?? {}, { data, state, client })
 
-  const customOnClickComp = ({ data, header }) => {
-    if (header.type === 'id') {
-      return (
-        <Badge
-          onClick={() =>
-            specialClickHandler(
-              header.key,
-              functionProps?.onClick,
-              functionProps?.fields
-            )
-          }
-        >
-          {data[header.key]}
-        </Badge>
-      )
-    } else {
-      return (
-        <div
-          onClick={() => {
-            console.log('snurp ', data[header.key])
-            specialClickHandler(
-              header.key,
-              functionProps?.onClick,
-              functionProps?.fields
-            )
-          }}
-        >
-          {data[header.key]}
-        </div>
-      )
-    }
-  }
-
-  // PROPS.FIELDS should make up the table header fields to show
-  // console.log(functionPropsFields)
-
-  // map name -> label and field -> key
-  const tableHeader = functionPropsFields.map((item) => ({
-    key: item.field,
-    label: item.name,
-    type: item.type,
-    customComponent: customOnClickComp,
-    onClick: item.onClick,
-  }))
-
-  console.log(tableHeader)
-
-  //   const tableClickHandler = (e, rowData) => {
-  //     // open a new view
-  //     console.log('🔔', e, rowData)
-  //   }
+  console.log('---------------->', props, data)
 
   return (
     <ScrollArea
@@ -149,14 +140,7 @@ export const CustomContent = ({ view, actions }) => {
         </Row>
 
         <styled.div style={{ width: '100%', padding: 24 }}>
-          {isTable && (
-            <Table
-              headers={tableHeader}
-              data={[data]}
-              //   onClick={tableClickHandler}
-              height={400}
-            />
-          )}
+          {/* {isTable && <Table {...props} />} */}
         </styled.div>
       </styled.div>
     </ScrollArea>
