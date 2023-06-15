@@ -18,8 +18,6 @@ export const propsWalker = (
   for (const key in obj) {
     const field = obj[key]
 
-    console.log('🔑', key)
-
     if (/^on[A-Z]([a-z])+/.test(key)) {
       if (typeof field === 'object') {
         if (Object.keys(field.type === 'function')) {
@@ -32,10 +30,6 @@ export const propsWalker = (
               args,
               client: ctx.client,
             })
-
-            console.log('🧧', fn)
-            console.log('🔔', ctx.client.call(fn.name, fn.payload))
-
             return ctx.client.call(fn.name, fn.payload)
           }
         } else if (Object.keys(field.type)[0] === 'view') {
@@ -52,12 +46,9 @@ export const propsWalker = (
         const path = field.split('.')
         const type = path[0]
         if (type === '$data') {
-          console.log('found $data')
-
           let d = ctx.data
           for (let i = 1; i < path.length; i++) {
             const seg = path[i]
-            console.log('seg', seg)
             if (d?.[seg] !== undefined) {
               d = d[seg]
             } else {
