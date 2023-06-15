@@ -1245,6 +1245,55 @@
       "code": "type DateRangeWidgetProps = {\n  value?: number[]\n  onChange: (value: number[]) => void\n}",
       "file": "/components/DateRange/index.tsx"
     },
+    "DistributionGraphProps": {
+      "name": "DistributionGraphProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": {
+            "array": "number"
+          }
+        },
+        "bars": {
+          "optional": true,
+          "type": "number"
+        },
+        "label": {
+          "optional": true,
+          "type": "ReactNode"
+        },
+        "barLabels": {
+          "optional": true,
+          "type": "function"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "margin": {
+          "optional": true,
+          "type": "number"
+        },
+        "hideLabels": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "fontStyle": {
+          "optional": true,
+          "type": "Style"
+        },
+        "color": {
+          "optional": true,
+          "type": "Color"
+        },
+        "format": {
+          "optional": true,
+          "type": "NumberFormat"
+        }
+      },
+      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n}",
+      "file": "/components/DistributionGraph/index.tsx"
+    },
     "DrawerProps": {
       "name": "DrawerProps",
       "props": {
