@@ -22,11 +22,11 @@ export const propsWalker = (
 
     if (/^on[A-Z]([a-z])+/.test(key)) {
       if (typeof field === 'object') {
-        if (Object.keys(field.type)[0] === 'function') {
+        if (Object.keys(field.type === 'function')) {
           console.log('reached this', key, field)
 
           newObj[key] = async (...args) => {
-            const fn = propsWalker(field.type.function, {
+            const fn = propsWalker(field.type, {
               data: ctx.data,
               state: ctx.state,
               args,

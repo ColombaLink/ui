@@ -65,8 +65,6 @@ export const Content = ({ view, actions }) => {
     return { data, headers, onClick: props.onClick }
   }
 
-  parseThePropsFunction(props)
-
   console.log('%cpropswalker props------->', 'background-color:yellow;', props)
   console.log('DATA --> ', data)
 

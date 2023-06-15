@@ -10,6 +10,8 @@ import {
   Button,
   useDialog,
   RowSpaced,
+  EyeIcon,
+  ScreensIcon,
 } from '~'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
@@ -41,6 +43,8 @@ export const SystemLabel = ({ isActive = false, children }) => {
 export const ContentLeft: FC<{}> = () => {
   const [view, setView] = useContextState<string>('view')
   const { views, loading } = useViews()
+
+  console.log('fucking', views)
 
   const { open } = useDialog()
 
@@ -95,6 +99,12 @@ export const ContentLeft: FC<{}> = () => {
         return {
           label: v.name,
           value: v,
+          icon:
+            v.config?.view === 'table' ? (
+              <EyeIcon />
+            ) : v.config?.type === 'components' ? (
+              <ScreensIcon />
+            ) : undefined,
         }
       })}
     />
