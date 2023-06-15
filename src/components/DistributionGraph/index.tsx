@@ -20,6 +20,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   data = [],
   bars = 10,
   fontStyle,
+  label,
   margin = 0,
   hideLabels,
   color: colorProp = 'accent',
@@ -58,77 +59,93 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   return (
     <styled.div
       style={{
-        display: 'flex',
         ...style,
         height: '100%',
-        marginLeft: -(margin / 2),
-        marginRight: -(margin / 2),
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
-      {barsData.map((v, i) => {
-        return (
-          <styled.div
-            key={i}
-            style={{
-              width: `${100 / bars}%`,
-              height: '100%',
-              paddingLeft: margin / 2,
-              paddingRight: margin / 2,
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
+      {label ? (
+        <Text
+          weight={'700'}
+          style={{ marginBottom: 16 + margin / 2, ...fontStyle }}
+        >
+          {label}
+        </Text>
+      ) : null}
+      <styled.div
+        style={{
+          display: 'flex',
+          height: '100%',
+          marginLeft: -(margin / 2),
+          marginRight: -(margin / 2),
+        }}
+      >
+        {barsData.map((v, i) => {
+          return (
             <styled.div
               key={i}
               style={{
-                width: `100%`,
+                width: `${100 / bars}%`,
                 height: '100%',
+                paddingLeft: margin / 2,
+                paddingRight: margin / 2,
                 display: 'flex',
                 flexDirection: 'column',
               }}
             >
               <styled.div
+                key={i}
                 style={{
-                  flexGrow: 1,
+                  width: `100%`,
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
-              />
+              >
+                <styled.div
+                  style={{
+                    flexGrow: 1,
+                  }}
+                />
+                <styled.div
+                  style={{
+                    width: '100%',
+                    background: color(colorProp),
+                    opacity: (i / bars) * 0.75 + 0.25,
+                    height: `${(v / maxCnt) * 100}%`,
+                  }}
+                />
+              </styled.div>
               <styled.div
                 style={{
-                  width: '100%',
-                  background: color(colorProp),
-                  opacity: (i / bars) * 0.75 + 0.25,
-                  height: `${(v / maxCnt) * 100}%`,
+                  marginTop: margin + 16,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  display: hideLabels ? 'none' : 'flex',
                 }}
-              />
-            </styled.div>
-            <styled.div
-              style={{
-                marginTop: margin,
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: hideLabels ? 'none' : 'flex',
-              }}
-            >
-              <Text weight={'700'} style={fontStyle}>
-                {prettyNumber(i * spread, format)}
-              </Text>{' '}
-              <Text
-                style={{
-                  marginLeft: 8,
-                  marginRight: 8,
-                  ...fontStyle,
-                }}
-                weight={'700'}
               >
-                -
-              </Text>
-              <Text weight={'700'} style={fontStyle}>
-                {prettyNumber((i + 1) * spread, format)}
-              </Text>
+                <Text weight={'700'} style={fontStyle}>
+                  {prettyNumber(i * spread, format)}
+                </Text>
+                <Text
+                  style={{
+                    marginLeft: 8,
+                    marginRight: 8,
+                    ...fontStyle,
+                  }}
+                  weight={'700'}
+                >
+                  -
+                </Text>
+                <Text weight={'700'} style={fontStyle}>
+                  {prettyNumber((i + 1) * spread, format)}
+                </Text>
+              </styled.div>
             </styled.div>
-          </styled.div>
-        )
-      })}
+          )
+        })}
+      </styled.div>
     </styled.div>
   )
 }
