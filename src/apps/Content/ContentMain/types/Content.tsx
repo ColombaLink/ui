@@ -5,65 +5,41 @@ import {
   ScrollArea,
   Row,
   Text,
+  useContextState,
   Button,
   MoreIcon,
   Table,
+  useDialog,
 } from '~'
 import { useQuery, useClient } from '@based/react'
-import { propsWalker } from '../propsWalker'
+import { parseProps } from '../propsParser'
+import useLocalStorage from '@based/use-local-storage'
 
 export const Content = ({ view, actions }) => {
-  const contextMenu = useContextMenu<{ view }>(actions, { view })
-
-  // const { open } = useDialog()
-
-  console.log(view)
+  const openContextMenu = useContextMenu<{ view }>(actions, { view })
+  const [state, setState] = useLocalStorage('view-' + view, {})
+  const [, setView] = useContextState<any>('view')
 
   const isTable = view.config.view === 'table'
 
-  // eerst query staat opzichzelf
   const { data } = useQuery(
-    view.config.function.name,
-    view.config.function.payload
+    view.config.function?.name,
+    view.config.function?.payload // TODO: parse target erin g
   )
-
-  const state = {}
 
   const client = useClient()
 
-  // propswalker magic
-  const props = propsWalker(view.config.props ?? {}, {
+  const props = parseProps(view.config.props ?? {}, {
     data,
     state,
     client,
     args: [],
+    setState,
+    setView: (view) => {
+      console.info('fuck shiot up!!!', view)
+      setView(view)
+    },
   })
-
-  // make it work in the table
-  const parseThePropsFunction = (props) => {
-    console.log('props from parseFunction,🤖 ', props)
-
-    let data
-    let headers = []
-
-    if (props.$data) {
-      data = props.$data
-    }
-    // generate a header if there is none
-    if (!props.headers) {
-      headers = []
-      const keys = data?.map((obj, i) => Object.keys(data[i])[i])
-      console.log(keys)
-      keys?.map((item) => headers.push({ key: item }))
-    } else {
-      headers = props.$headers
-    }
-
-    return { data, headers, onClick: props.onClick }
-  }
-
-  console.log('%cpropswalker props------->', 'background-color:yellow;', props)
-  console.log('DATA --> ', data)
 
   return (
     <ScrollArea
@@ -97,13 +73,13 @@ export const Content = ({ view, actions }) => {
           <Button
             style={{ marginLeft: 16 }}
             ghost
-            onClick={contextMenu}
+            onClick={openContextMenu}
             icon={MoreIcon}
           />
         </Row>
 
-        <styled.div style={{ width: '100%', padding: 24 }}>
-          {isTable && <Table {...parseThePropsFunction(props)} />}
+        <styled.div style={{ width: '100%', height: '100%', padding: 24 }}>
+          {isTable && <Table {...props} />}
         </styled.div>
       </styled.div>
     </ScrollArea>

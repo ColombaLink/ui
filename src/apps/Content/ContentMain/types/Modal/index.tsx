@@ -4,13 +4,13 @@ import { Button } from '~/components/Button'
 import { Text } from '~/components/Text'
 import { Badge } from '~/components/Badge'
 import { color } from '~/utils'
-import { ContentEditor } from './ContentEditor'
+import { ContentEditor } from '../ContentEditor'
 import { CheckIcon, CloseIcon } from '~/icons'
 import { useCopyToClipboard } from '~/hooks'
 import { removeOverlay } from '~/components/Overlay'
 import { Select } from '~/components/Select'
 
-export const ContentEditModal = ({ data, fields }) => {
+export const Modal = ({ data, fields }) => {
   const [copied, copy] = useCopyToClipboard(data?.id)
 
   return (
