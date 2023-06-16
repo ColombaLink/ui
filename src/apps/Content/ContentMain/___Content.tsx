@@ -70,7 +70,7 @@ example to get things to show up in table
 {
   "type": "content",
   "view": "table",
-  "query": {
+  "function": {
     "name": "db",
     "type": "query",
     "descendants": {

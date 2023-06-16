@@ -30,6 +30,7 @@ export const propsWalker = (
               args,
               client: ctx.client,
             })
+
             return ctx.client.call(fn.name, fn.payload)
           }
         } else if (Object.keys(field.type)[0] === 'view') {
@@ -46,6 +47,7 @@ export const propsWalker = (
         const path = field.split('.')
         const type = path[0]
         if (type === '$data') {
+          console.log('reached this $DATA', key, field)
           let d = ctx.data
           for (let i = 1; i < path.length; i++) {
             const seg = path[i]
@@ -57,6 +59,8 @@ export const propsWalker = (
             }
           }
           newObj[key] = d
+
+          console.log(d, '🎃')
         } else if (type === '$args') {
           // lets add some args!
           newObj[key] = 'latewr!!@#'

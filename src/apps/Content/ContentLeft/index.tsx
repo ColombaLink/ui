@@ -44,8 +44,6 @@ export const ContentLeft: FC<{}> = () => {
   const [view, setView] = useContextState<string>('view')
   const { views, loading } = useViews()
 
-  console.log('fucking', views)
-
   const { open } = useDialog()
 
   return loading ? (
