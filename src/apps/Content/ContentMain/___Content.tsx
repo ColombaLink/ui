@@ -195,11 +195,11 @@ export const Content = ({ view, actions }) => {
 
   console.log(tableHeader, '📪')
 
-  const tableClickHandler = (e, rowData) => {
-    // console.log('cellText --> ', e.target.textContent)
-    // console.log('rowData', rowData)
-    open(<ContentEditModal rowData={rowData} schema={schema} />)
-  }
+  // const tableClickHandler = (e, rowData) => {
+  //   // console.log('cellText --> ', e.target.textContent)
+  //   // console.log('rowData', rowData)
+  //   open(<ContentEditModal rowData={rowData} schema={schema} />)
+  // }
 
   // children, createdAt, descendants, id, type, updatedAt
 
@@ -245,7 +245,7 @@ export const Content = ({ view, actions }) => {
             <Table
               headers={tableHeader}
               data={[data]}
-              onClick={tableClickHandler}
+              //     onClick={tableClickHandler}
               height={400}
             />
           )}

@@ -26,6 +26,7 @@ export * from './components/Date'
 export * from './components/DateRange'
 export * from './components/Dialog'
 export * from './components/ExpandableList'
+export * from './components/DistributionGraph'
 export * from './components/FileUpload'
 export * from './components/Flow'
 export * from './components/Form'
@@ -71,4 +72,4 @@ export * from './types'
 export * from 'inlines'
 export * from 'kabouter'
 
-console.info('UI 5.8.20')
+console.info('UI 5.9.1')

@@ -1,14 +1,5 @@
-import React, {
-  FC,
-  RefObject,
-  FunctionComponent,
-  ReactNode,
-  useEffect,
-  useState,
-} from 'react'
-import { Style, styled, color, Icon, renderOrCreateElement } from '~'
-import { NumberInput } from './NumberInput'
-import isEmail from 'is-email'
+import React, { FC, RefObject, useEffect, useState } from 'react'
+import { Style, styled, color } from '~'
 
 type UrlProps = {
   type?: string
@@ -27,6 +18,7 @@ type UrlProps = {
   // iconRight?: FunctionComponent<Icon> | ReactNode
   setErrorMessage?: (e) => void
   error?: (str: string, patternMatches?: boolean) => string // show error
+  previewImg?: boolean
 }
 
 export const UrlInput: FC<UrlProps> = ({
@@ -42,6 +34,7 @@ export const UrlInput: FC<UrlProps> = ({
   setErrorMessage,
   error,
   onChange,
+  previewImg,
   ...props
 }) => {
   const [httpRegex] = useState(
@@ -71,27 +64,30 @@ export const UrlInput: FC<UrlProps> = ({
         display: 'flex',
       }}
     >
-      <styled.div
-        style={{
-          flexShrink: '0',
-          border: ghost
-            ? `0px solid transparent`
-            : focused
-            ? `1.5px solid ${color('accent')}`
-            : `1px solid ${color('border')}`,
-          borderRadius: 10,
-          margin: 'auto 0',
-          height: '36px',
-          width: '36px',
-          backgroundImage: `url("${value}")`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center center',
-          marginRight: '16px',
-        }}
-      />
+      {previewImg && (
+        <styled.div
+          style={{
+            flexShrink: '0',
+            border: ghost
+              ? `0px solid transparent`
+              : focused
+              ? `1.5px solid ${color('accent')}`
+              : `1px solid ${color('border')}`,
+            borderRadius: 10,
+            margin: 'auto 0',
+            height: '36px',
+            width: '36px',
+            backgroundImage: `url("${value}")`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
+            marginRight: '16px',
+          }}
+        />
+      )}
       <input
         onChange={onChange}
+        value={value}
         {...props}
         type={type}
         ref={inputRef}

@@ -1,6 +1,14 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { useRoute, Text, Button, AddIcon, MinusIcon, Dialog as Dc } from '~'
+import {
+  useRoute,
+  Text,
+  Button,
+  AddIcon,
+  MinusIcon,
+  Dialog as Dc,
+  Input,
+} from '~'
 
 const SomeComponent = () => {
   const route = useRoute('[x]', { x: 1 })
@@ -38,7 +46,7 @@ export const useDialog = () => {
         title="useDialog"
         examples={[
           {
-            code: `import { Dialog, Text } from '@based/ui'
+            code: `import { Dialog, Text  } from '@based/ui'
 
 <Dialog label="Label">
   <Text style={{marginBottom:24}}>
@@ -63,7 +71,7 @@ const route = useRoute('[x]', { x: 1 });
           },
 
           {
-            code: `import { Dialog, Text, Button, useDialog, useRoute } from '@based/ui'
+            code: `import { Dialog, Text, Button, useDialog, useRoute, Input } from '@based/ui'
 
 const dialog = useDialog();
 const route = useRoute('[x]', { x: 1 });
@@ -74,9 +82,10 @@ const route = useRoute('[x]', { x: 1 });
   <Text style={{marginBottom:24}}>
     Do something!
   </Text>
+  <Input type="json" />
   <Dialog.Buttons border>
     <Dialog.Cancel />
-    <Dialog.Confirm />
+    <Dialog.Confirm keyboardShortcut="Cmd+S"/>
   </Dialog.Buttons>
 </Dialog>
 
