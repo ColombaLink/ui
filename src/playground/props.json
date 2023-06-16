@@ -1278,6 +1278,10 @@
           "optional": true,
           "type": "boolean"
         },
+        "barBackground": {
+          "optional": true,
+          "type": "string"
+        },
         "borderRadius": {
           "optional": true,
           "type": "number"
@@ -1295,7 +1299,7 @@
           "type": "NumberFormat"
         }
       },
-      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  borderRadius?: number\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n}",
+      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  barBackground?: string\n  borderRadius?: number\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n}",
       "file": "/components/DistributionGraph/index.tsx"
     },
     "DrawerProps": {

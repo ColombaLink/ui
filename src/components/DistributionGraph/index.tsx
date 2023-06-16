@@ -10,6 +10,7 @@ type DistributionGraphProps = {
   style?: Style
   margin?: number
   hideLabels?: boolean
+  barBackground?: string
   borderRadius?: number
   fontStyle?: Style
   color?: Color
@@ -22,6 +23,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   bars = 10,
   fontStyle,
   label,
+  barBackground,
   borderRadius = 0,
   margin = 0,
   hideLabels,
@@ -30,10 +32,6 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
 }) => {
   let min = undefined
   let max = undefined
-
-  if (data.length < bars) {
-    bars = data.length
-  }
 
   for (let i = 0; i < data.length; i++) {
     const d = data[i]
@@ -46,15 +44,21 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   }
 
   const barsData = []
-  const spread = Math.round((max - min) / (bars - 1))
+
+  const spread = Math.floor((max - min) / (bars - 1))
 
   let maxCnt = 0
+
+  for (let i = 0; i < bars; i++) {
+    barsData.push(0)
+  }
+
   for (let i = 0; i < data.length; i++) {
     const d = data[i]
-    const j = Math.round(d / spread)
-    if (!barsData[j]) {
-      barsData[j] = 0
-    }
+    const j = Math.floor((d - min) / spread)
+
+    console.log(spread, d, j)
+
     barsData[j]++
     const value = barsData[j]
     if (value > maxCnt) {
@@ -90,7 +94,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
           marginRight: -(margin / 2),
         }}
       >
-        {barsData.map((v, i) => {
+        {Object.values(barsData).map((v, i) => {
           return (
             <styled.div
               key={i}
@@ -119,13 +123,39 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                 />
                 <styled.div
                   style={{
+                    position: 'relative',
                     width: '100%',
                     borderRadius,
-                    background: color(colorProp),
-                    opacity: (i / bars) * 0.75 + 0.25,
+
                     height: `${(v / maxCnt) * 100}%`,
                   }}
-                />
+                >
+                  <styled.div
+                    style={{
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      position: 'absolute',
+                      height: '100%',
+                      width: '100%',
+                      background: barBackground || 'transparent',
+                    }}
+                  />
+                  <styled.div
+                    style={{
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      position: 'absolute',
+                      height: '100%',
+                      width: '100%',
+                      background: color(colorProp),
+                      opacity: (i / bars) * 0.75 + 0.25,
+                    }}
+                  />
+                </styled.div>
               </styled.div>
               <styled.div
                 style={{
@@ -136,7 +166,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                 }}
               >
                 <Text weight={'700'} style={fontStyle}>
-                  {prettyNumber(i * spread, format)}
+                  {prettyNumber(i * spread + min, format)}
                 </Text>
                 <Text
                   style={{
@@ -149,7 +179,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                   -
                 </Text>
                 <Text weight={'700'} style={fontStyle}>
-                  {prettyNumber((i + 1) * spread, format)}
+                  {prettyNumber((i + 1) * spread + min, format)}
                 </Text>
               </styled.div>
             </styled.div>
