@@ -28,6 +28,8 @@ export const Content = ({ view, actions }) => {
     view.config.function?.payload // TODO: parse target erin g
   )
 
+  console.log(data, '??? what')
+
   const client = useClient()
 
   const props = parseProps(view.config.props ?? {}, {
