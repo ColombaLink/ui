@@ -86,6 +86,9 @@ export const Components: FC<{
 }> = ({ view, actions }) => {
   const [state, setState] = useLocalStorage('view-' + view, {})
   const [, setView] = useContextState<any>('view')
+
+  const [, setOverlay] = useContextState<any>('overlay')
+
   const contextMenu = useContextMenu<{ view: View }>(actions, { view })
 
   const components: ReactNode[] = []
@@ -101,6 +104,7 @@ export const Components: FC<{
     state,
     args: [],
     data: {},
+    setOverlay,
   }
 
   for (let i = 0; i < view.config.components.length; i++) {

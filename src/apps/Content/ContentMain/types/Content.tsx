@@ -19,6 +19,7 @@ export const Content = ({ view, actions }) => {
   const openContextMenu = useContextMenu<{ view }>(actions, { view })
   const [state, setState] = useLocalStorage('view-' + view, {})
   const [, setView] = useContextState<any>('view')
+  const [, setOverlay] = useContextState<any>('overlay')
 
   const isTable = view.config.view === 'table'
 
@@ -34,6 +35,7 @@ export const Content = ({ view, actions }) => {
     state,
     client,
     args: [],
+    setOverlay,
     setState,
     setView: (view) => {
       console.info('fuck shiot up!!!', view)

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import {
   useContextState,
   ContextItem,
@@ -9,6 +9,7 @@ import {
   useDialog,
   styled,
   LoadingIcon,
+  addOverlay,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
@@ -16,6 +17,7 @@ import { AddViewModal, EditViewModal } from '../ViewModals'
 import { BasedClient } from '@based/client'
 import { Content } from './types/Content'
 import { Components } from './types/Custom'
+import { Modal } from './types/Modal'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -78,6 +80,19 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<View>('view')
+
+  const [overlay, setOverlay] = useContextState<any>('overlay')
+
+  const { open, close } = useDialog()
+
+  useEffect(() => {
+    if (overlay) {
+      const id = open(<Modal overlay={overlay} />)
+      return () => {
+        close(id)
+      }
+    }
+  }, [overlay])
 
   let { data, loading } = useQuery(
     typeof view === 'string' ? (view ? 'db' : null) : null,

@@ -13,6 +13,7 @@ export type ParseCtx = {
   client: BasedClient
   setState: (newState: { [key: string]: any }) => void
   setView: (view: View) => void
+  setOverlay: (view: View) => void
 }
 
 export const parseFunction = (
@@ -46,6 +47,22 @@ export const parseFunction = (
       ctx.setView(
         parseProps(
           config.view,
+          {
+            ...ctx,
+            args,
+          },
+          ['props']
+        )
+      )
+    }
+  }
+
+  // maybe not the nicest
+  if (config.overlay) {
+    return async (...args) => {
+      ctx.setOverlay(
+        parseProps(
+          config.overlay,
           {
             ...ctx,
             args,
