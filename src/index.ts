@@ -72,4 +72,4 @@ export * from './types'
 export * from 'inlines'
 export * from 'kabouter'
 
-console.info('UI 5.8.20')
+console.info('UI 5.9.1')
