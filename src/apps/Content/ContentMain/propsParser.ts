@@ -102,6 +102,7 @@ export const parseProps = (
   const newObj: any = Array.isArray(obj) ? [] : {}
   for (const key in obj) {
     if (excludeFields && excludeFields.includes(key)) {
+      newObj[key] = obj[key]
       continue
     }
 
@@ -120,5 +121,6 @@ export const parseProps = (
       newObj[key] = field
     }
   }
+
   return newObj
 }
