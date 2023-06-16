@@ -3367,9 +3367,13 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "showMinMaxNumber": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
+      "code": "type SliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n  showMinMaxNumber?: boolean\n}",
       "file": "/components/Slider/index.tsx"
     },
     "SpacerProps": {
