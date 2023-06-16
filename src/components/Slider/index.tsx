@@ -228,7 +228,7 @@ export const Slider: FC<SliderProps> = ({
       setPercentageX(newPercentage)
       const newValue = (newPercentage * (max - min)) / 100 + min
       if (value !== newValue) {
-        onChange(newValue)
+        onChange(Math.trunc(newValue))
       }
     }
   }
@@ -244,7 +244,7 @@ export const Slider: FC<SliderProps> = ({
     if (x > 0 && x < containerWidth) {
       refRangeContainer.current.style.cursor = 'pointer'
 
-      setValue(Math.ceil(x / percentage))
+      setValue(Math.round(x / percentage))
     }
   }
 
@@ -311,7 +311,7 @@ export const Slider: FC<SliderProps> = ({
     const correctedMouseXPos =
       e.clientX - refRangeContainer.current?.getBoundingClientRect().left
     if (correctedMouseXPos > 0 && correctedMouseXPos < containerWidth) {
-      setValue(Math.ceil(correctedMouseXPos / percentage), true)
+      setValue(Math.round(correctedMouseXPos / percentage), true)
     }
   }
 
@@ -347,7 +347,7 @@ export const Slider: FC<SliderProps> = ({
           ) : items ? (
             items[index]?.title
           ) : (
-            Math.round((percentageX * max) / 100)
+            Math.floor((percentageX * max) / 100)
           )}
         </CursorLabel>
         <CursorArrowContainer
