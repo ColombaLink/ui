@@ -52,7 +52,9 @@ const RangeContainer = styled('div', {
   alignItems: 'baseline',
   paddingTop: '20px',
   paddingBottom: '20px',
+  paddingLeft: 8,
   cursor: 'pointer',
+  overFlowX: 'hidden',
 })
 
 const SliderContainer = styled('div', {
@@ -140,6 +142,7 @@ type SliderProps = {
   value?: number
   onChange: (value: number) => void
   color?: Color
+  showMinMaxNumber?: boolean
 }
 
 export const Slider: FC<SliderProps> = ({
@@ -147,17 +150,27 @@ export const Slider: FC<SliderProps> = ({
   onChange,
   max,
   alwaysShowLabel = false,
-  step,
+  step = 1,
   min = 0,
   value,
   onEndSliding,
   Label,
   onStartSliding,
   color: colorProp = 'accent',
+  showMinMaxNumber,
   ...props
 }) => {
   if (step && max === undefined) {
     max = 10
+  }
+
+  if (step !== 1 && !items) {
+    items = []
+    let counter = 0
+    for (let i = min; i <= max; i += step) {
+      items.push({ id: `blah${i}`, index: counter, title: i.toString() })
+      counter++
+    }
   }
 
   const [containerWidth, setContainerWidth] = useState(0)
@@ -387,7 +400,7 @@ export const Slider: FC<SliderProps> = ({
         </SliderContainer>
       </RangeContainer>
 
-      {items ? (
+      {items && showMinMaxNumber ? (
         <Labels>
           <Text>{items[0]?.title}</Text>
           <Text>{items[items.length - 1]?.title}</Text>
