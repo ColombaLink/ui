@@ -45,7 +45,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
 
   const barsData = []
 
-  const spread = Math.ceil((max - min) / (bars - 1))
+  const spread = Math.floor((max - min) / (bars - 1))
 
   let maxCnt = 0
 
