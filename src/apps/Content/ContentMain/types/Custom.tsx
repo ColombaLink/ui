@@ -39,7 +39,7 @@ export const RenderComponent: FC<{
   component: ViewComponent
   ctx: ParseCtx
 }> = ({ component, ctx }) => {
-  if (component.function?.type === 'query') {
+  if (component.function) {
     const fn = parseProps(component.function, ctx)
     const { data, loading } = useQuery(
       component.function ? fn.name : undefined,
@@ -113,7 +113,7 @@ export const Components: FC<{
       const nestedC: ReactNode[] = []
       for (let i = 0; i < component.length; i++) {
         const c = component[i]
-        if (c.function?.type === 'query') {
+        if (c.function) {
           nestedC.push(<RenderComponent ctx={ctx} key={i} component={c} />)
         } else {
           nestedC.push(<RenderComponentInner ctx={ctx} component={c} />)
@@ -149,7 +149,7 @@ export const Components: FC<{
               gap: 16,
             }}
           >
-            {component.function?.type === 'query' ? (
+            {component.function ? (
               <RenderComponent ctx={ctx} key={i} component={component} />
             ) : (
               <RenderComponentInner ctx={ctx} component={component} />
@@ -157,7 +157,7 @@ export const Components: FC<{
           </Row>
         )
       } else {
-        if (component.function?.type === 'query') {
+        if (component.function) {
           components.push(
             <RenderComponent ctx={ctx} key={i} component={component} />
           )

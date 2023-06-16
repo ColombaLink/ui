@@ -23,10 +23,12 @@ export const parseFunction = (
   // also suppoort .publish, query.get and some others! stream?
   if (config.function) {
     return async (...args) => {
-      const { name, payload } = parseProps(config.type, {
+      const { name, payload } = parseProps(config.function, {
         ...ctx,
         args,
       })
+
+      console.log(name, payload, ctx.client)
       return ctx.client.call(name, payload)
     }
   }
