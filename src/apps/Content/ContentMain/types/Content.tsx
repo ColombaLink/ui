@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import {
   styled,
   useContextMenu,
@@ -30,9 +30,6 @@ export const Content = ({ view, actions }) => {
   const state = {}
 
   const client = useClient()
-
-  const wtfRef = useRef()
-  console.log('🤷🏻‍♂️', wtfRef)
 
   // propswalker magic
   const props = propsWalker(view.config.props ?? {}, {
