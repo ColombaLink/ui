@@ -10,6 +10,7 @@ type DistributionGraphProps = {
   style?: Style
   margin?: number
   hideLabels?: boolean
+  borderRadius?: number
   fontStyle?: Style
   color?: Color
   format?: NumberFormat
@@ -21,6 +22,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   bars = 10,
   fontStyle,
   label,
+  borderRadius = 0,
   margin = 0,
   hideLabels,
   color: colorProp = 'accent',
@@ -28,6 +30,10 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
 }) => {
   let min = undefined
   let max = undefined
+
+  if (data.length < bars) {
+    bars = data.length
+  }
 
   for (let i = 0; i < data.length; i++) {
     const d = data[i]
@@ -114,6 +120,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                 <styled.div
                   style={{
                     width: '100%',
+                    borderRadius,
                     background: color(colorProp),
                     opacity: (i / bars) * 0.75 + 0.25,
                     height: `${(v / maxCnt) * 100}%`,

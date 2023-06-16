@@ -2251,9 +2251,13 @@
         "error": {
           "optional": true,
           "type": "function"
+        },
+        "previewImg": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type UrlProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  // icon?: FunctionComponent<Icon> | ReactNode\n  // iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n}",
+      "code": "type UrlProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  // icon?: FunctionComponent<Icon> | ReactNode\n  // iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n  previewImg?: boolean\n}",
       "file": "/components/Input/UrlInput.tsx"
     },
     "LabelProps": {
