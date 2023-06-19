@@ -1,6 +1,14 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { useRoute, Text, Button, AddIcon, MinusIcon, Dialog as Dc } from '~'
+import {
+  useRoute,
+  Text,
+  Button,
+  AddIcon,
+  MinusIcon,
+  Dialog as Dc,
+  Input,
+} from '~'
 
 const SomeComponent = () => {
   const route = useRoute('[x]', { x: 1 })
@@ -24,6 +32,7 @@ const SomeComponent = () => {
             route.setPath({ x: Number(route.path.x || 0) + 1 })
           }}
         />
+        <Input type="text" />
       </Dc.Buttons>
     </Dc>
   )

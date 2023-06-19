@@ -62,17 +62,15 @@ export const Drawer: FC<DrawerProps> = ({
           : collapsed || resizeState
           ? closeWidth
           : width,
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        position: right ? 'absolute' : 'relative',
-        left: right ? 'auto' : 0,
-        right: right ? 0 : undefined,
+        // border: '1px solid red',
+        // position: right ? 'absolute' : 'relative',
+        // position: 'static',
+        marginLeft: right ? undefined : 0,
+        marginRight: right ? 0 : undefined,
         borderRight: right ? null : border(1),
         borderLeft: right ? border(1) : null,
         transition: 'width 0.24s ease-out',
         height: '100vh',
-        ...style,
       }}
       onClick={() => {}}
       onMouseOver={(e) => {
@@ -84,103 +82,120 @@ export const Drawer: FC<DrawerProps> = ({
     >
       <styled.div
         style={{
-          postion: 'absolute',
-          top: 0,
-          display: 'flex',
+          width: forceOpen
+            ? width
+            : collapsed || resizeState
+            ? closeWidth
+            : width,
           height: '100%',
-          width: '100%',
-          overflow: 'hidden',
-        }}
-      >
-        {children}
-      </styled.div>
-      <styled.div
-        style={{
+          transition: 'width 0.24s ease-out',
           position: 'absolute',
-          right: right ? undefined : 0,
-          left: right ? 0 : undefined,
-          top: 0,
-          bottom: 0,
-          height: '100%',
-          borderRight: right ? null : '2px solid transparent',
-          borderLeft: right ? '2px solid transparent' : null,
-          '@media (hover: hover)': {
-            '&:hover': {
-              borderRight: `2px solid ${color('accent')}`,
-              cursor: 'pointer',
-            },
-          },
-        }}
-        onMouseOver={(e) => {
-          setHoverForExpansion(true)
-        }}
-        onMouseLeave={() => {
-          setHoverForExpansion(false)
-        }}
-        onClick={() => {
-          setCollapsed(!collapsed)
-          if (resizeState) {
-            setForceOpen(true)
-          }
-          if (forceOpen) {
-            setForceOpen(false)
-          }
+          display: 'flex',
+          alignItems: 'center',
+          flexDirection: 'column',
+          ...style,
         }}
       >
-        {true ? (
-          <styled.div
-            style={{
-              position: 'absolute',
-              top: '50%',
-              width: 28,
-              height: 28,
-              borderRadius: 16,
-              backgroundColor: color('background'),
-              border: `1px solid ${color('border')}`,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              right: right ? undefined : -14,
-              left: right ? -14 : undefined,
-              cursor: 'pointer',
-              boxShadow: boxShadow('small'),
-              '@media (hover: hover)': {
-                '&:hover': {
-                  backgroundColor: color('background2'),
-                },
+        <styled.div
+          style={{
+            postion: 'absolute',
+            top: 0,
+            display: 'flex',
+            height: '100%',
+            width: '100%',
+            overflow: 'hidden',
+          }}
+        >
+          {children}
+        </styled.div>
+        <styled.div
+          style={{
+            position: 'absolute',
+            right: right ? undefined : 0,
+            left: right ? 0 : undefined,
+            top: 0,
+            bottom: 0,
+            height: '100%',
+            borderRight: right ? null : '2px solid transparent',
+            borderLeft: right ? '2px solid transparent' : null,
+            '@media (hover: hover)': {
+              '&:hover': {
+                borderRight: `2px solid ${color('accent')}`,
+                cursor: 'pointer',
               },
-            }}
-          >
-            <ChevronRightIcon
-              color="text"
-              size="12px"
+            },
+          }}
+          onMouseOver={(e) => {
+            setHoverForExpansion(true)
+          }}
+          onMouseLeave={() => {
+            setHoverForExpansion(false)
+          }}
+          onClick={() => {
+            setCollapsed(!collapsed)
+            if (resizeState) {
+              setForceOpen(true)
+            }
+            if (forceOpen) {
+              setForceOpen(false)
+            }
+          }}
+        >
+          {true ? (
+            <styled.div
               style={{
                 position: 'absolute',
-                transform: !right
-                  ? forceOpen
-                    ? 'scaleX(-1)'
-                    : collapsed || resizeState
+                top: '50%',
+                width: 28,
+                height: 28,
+                borderRadius: 16,
+                backgroundColor: color('background'),
+                border: `1px solid ${color('border')}`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                right: right ? undefined : -14,
+                left: right ? -14 : undefined,
+                cursor: 'pointer',
+                boxShadow: boxShadow('small'),
+                '@media (hover: hover)': {
+                  '&:hover': {
+                    backgroundColor: color('background2'),
+                  },
+                },
+              }}
+            >
+              <ChevronRightIcon
+                color="text"
+                size="12px"
+                style={{
+                  position: 'absolute',
+                  transform: !right
+                    ? forceOpen
+                      ? 'scaleX(-1)'
+                      : collapsed || resizeState
+                      ? 'scaleX(1)'
+                      : 'scaleX(-1)'
+                    : forceOpen
                     ? 'scaleX(1)'
-                    : 'scaleX(-1)'
-                  : forceOpen
-                  ? 'scaleX(1)'
-                  : collapsed || resizeState
-                  ? 'scaleX(-1)'
-                  : 'scaleX(1)',
-                marginRight: -1,
-              }}
-              onClick={(e) => {
-                setCollapsed(!collapsed)
-                if (resizeState) {
-                  setForceOpen(true)
-                }
-                if (forceOpen) {
-                  setForceOpen(false)
-                }
-              }}
-            />
-          </styled.div>
-        ) : null}
+                    : collapsed || resizeState
+                    ? 'scaleX(-1)'
+                    : 'scaleX(1)',
+                  marginRight: -1,
+                }}
+                onClick={(e) => {
+                  setCollapsed(!collapsed)
+                  if (resizeState) {
+                    setForceOpen(true)
+                  }
+                  if (forceOpen) {
+                    setForceOpen(false)
+                  }
+                }}
+              />
+            </styled.div>
+          ) : null}
+        </styled.div>
       </styled.div>
     </styled.div>
   )
