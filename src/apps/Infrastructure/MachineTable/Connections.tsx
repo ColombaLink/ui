@@ -22,7 +22,7 @@ export const OverviewInner: FC<{
     }
   }
 
-  const { data: d } = useQuery('based:connectionsPerHub')
+  const { data: d } = useQuery('based:connections-per-hub')
 
   let cnt = 0
 
