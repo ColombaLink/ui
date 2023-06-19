@@ -1,14 +1,5 @@
 import React from 'react'
-import {
-  styled,
-  Input,
-  Badge,
-  color,
-  Toggle,
-  FileUpload,
-  Text,
-  useCopyToClipboard,
-} from '~'
+import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
 // TODO: get the right fields based on the schema types
@@ -16,48 +7,30 @@ import { InputWrapper } from '~/components/Input/InputWrapper'
 // TODO: on publish --> function db:set
 // TODO: add onchange to these componentns
 
-export const ContentEditor = ({ rowData, schema }) => {
-  console.log('rowData from ContentEditor comp modal', rowData)
-  console.log('rowData from ContentEditor comp modal', schema)
-
-  const schemaFieldsDataBasedOnType =
-    rowData.type === 'root'
-      ? schema?.rootType.fields
-      : schema?.types[rowData.type].fields
-
-  console.log('feaf??', schemaFieldsDataBasedOnType)
-
-  const arrayOfFields = Object.entries(schemaFieldsDataBasedOnType)?.map(
-    (e) => ({ [e[0]]: e[1] })
-  )
-
-  // need type/ id
+export const ContentEditor = ({ data, fields }) => {
+  console.log('🟥', data)
+  console.log('🟧', fields)
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
-      {arrayOfFields?.map((item, i) => (
-        <ContentRenderer
-          item={item}
-          key={i}
-          itemName={Object.keys(item)}
-          itemValue={rowData[Object.keys(item).toString()]}
-        />
+      {fields?.map((item, i) => (
+        <ContentRenderer item={item} itemValue={data[item.field]} key={i} />
       ))}
     </styled.div>
   )
 }
 
-const ContentRenderer = ({ item, itemName, itemValue }) => {
-  console.log('item??', item)
-  console.log('item name', itemName)
+const ContentRenderer = ({ item, itemValue }) => {
+  // console.log('item??', item)
+  // console.log('item name', itemName)
+  // console.log('item value', itemValue)
 
   // all the types
   // references, type, id, set, string, digest, number, url, text
 
-  const type = item[itemName.toString()].type
-  const meta = item[itemName.toString()].meta
-  const name =
-    itemName.toString().charAt(0).toUpperCase() + itemName.toString().slice(1)
+  const type = item.type
+  const meta = item.meta
+  const name = item.name
 
   const BOTTOMSPACE = 32
 
@@ -72,30 +45,30 @@ const ContentRenderer = ({ item, itemName, itemValue }) => {
     )
   }
 
-  if (meta.name === 'children') {
-    return (
-      <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }} indent>
-        {itemValue?.map((item, i) => (
-          <styled.div
-            style={{
-              border: `1px solid ${color('border')}`,
-              borderRadius: 4,
-              marginBottom: 4,
-              height: 40,
-              width: '100%',
-              display: 'flex',
-              padding: 12,
-              alignItems: 'center',
-            }}
-            key={i}
-          >
-            <Text style={{ marginRight: 12 }}>{item.type}</Text>
-            <Badge>{item.id}</Badge>
-          </styled.div>
-        ))}
-      </InputWrapper>
-    )
-  }
+  // if (meta.name === 'children') {
+  //   return (
+  //     <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }} indent>
+  //       {itemValue?.map((item, i) => (
+  //         <styled.div
+  //           style={{
+  //             border: `1px solid ${color('border')}`,
+  //             borderRadius: 4,
+  //             marginBottom: 4,
+  //             height: 40,
+  //             width: '100%',
+  //             display: 'flex',
+  //             padding: 12,
+  //             alignItems: 'center',
+  //           }}
+  //           key={i}
+  //         >
+  //           <Text style={{ marginRight: 12 }}>{item.type}</Text>
+  //           <Badge>{item.id}</Badge>
+  //         </styled.div>
+  //       ))}
+  //     </InputWrapper>
+  //   )
+  // }
 
   if (type === 'digest') {
     return (

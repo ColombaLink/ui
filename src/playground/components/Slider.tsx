@@ -13,6 +13,7 @@ export const Slider = () => {
             alwaysShowLabel: true,
             min: 0,
             max: 50,
+            step: 5,
             value: 20,
             onChange: (value) => console.log(value),
           },
@@ -20,6 +21,7 @@ export const Slider = () => {
         {
           props: {
             alwaysShowLabel: true,
+            showMinMaxNumber: true,
             items: [
               { id: 'id1', title: 'one', index: 0 },
               { id: 'id2', title: 'two', index: 1 },
