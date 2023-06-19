@@ -25,6 +25,8 @@ type DrawerProps = {
   defaultState?: boolean
   closeBreakpoint?: number
   right?: boolean
+  dissapear?: boolean
+  storageKey?: string
 }
 
 export const Drawer: FC<DrawerProps> = ({
@@ -34,10 +36,12 @@ export const Drawer: FC<DrawerProps> = ({
   closeBreakpoint,
   children,
   defaultState,
+  dissapear,
   icon,
   right,
+  storageKey,
 }) => {
-  const [collapsed, setCollapsed] = useLocalStorage('collapsed')
+  const [collapsed, setCollapsed] = useLocalStorage(storageKey)
   const [resizeState, setResizeState] = useState(false)
   const [forceOpen, setForceOpen] = useState(false)
   if (collapsed === undefined) setCollapsed(defaultState)
@@ -64,13 +68,13 @@ export const Drawer: FC<DrawerProps> = ({
           : width,
         // border: '1px solid red',
         // position: right ? 'absolute' : 'relative',
-        // position: 'static',
+        position: 'static',
         marginLeft: right ? undefined : 0,
         marginRight: right ? 0 : undefined,
         borderRight: right ? null : border(1),
         borderLeft: right ? border(1) : null,
         transition: 'width 0.24s ease-out',
-        height: '100vh',
+        height: '100%',
       }}
       onClick={() => {}}
       onMouseOver={(e) => {
@@ -89,9 +93,9 @@ export const Drawer: FC<DrawerProps> = ({
             : width,
           height: '100%',
           transition: 'width 0.24s ease-out',
-          position: 'absolute',
+          position: 'relative',
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'left',
           flexDirection: 'column',
           ...style,
         }}
@@ -100,14 +104,16 @@ export const Drawer: FC<DrawerProps> = ({
           style={{
             postion: 'absolute',
             top: 0,
+            left: 0,
             display: 'flex',
             height: '100%',
             width: '100%',
             overflow: 'hidden',
           }}
         >
-          {children}
+          {dissapear ? <>{!collapsed && children}</> : <> {children}</>}
         </styled.div>
+
         <styled.div
           style={{
             position: 'absolute',
