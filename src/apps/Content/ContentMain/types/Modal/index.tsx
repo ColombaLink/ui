@@ -27,7 +27,11 @@ export const Modal = ({ overlay }) => {
     args: [],
   })
 
-  return <pre>{JSON.stringify(parsedProps, null, 2)}</pre>
+  return (
+    <pre style={{ backgroundColor: 'pink' }}>
+      {JSON.stringify(parsedProps, null, 2)}
+    </pre>
+  )
 
   // const [copied, copy] = useCopyToClipboard(data?.id)
   // return (
