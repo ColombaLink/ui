@@ -1353,9 +1353,17 @@
         "right": {
           "optional": true,
           "type": "boolean"
+        },
+        "dissapear": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "storageKey": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type DrawerProps = {\n  open?: boolean\n  autoCollapse?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  width: number\n  closeWidth: number | string\n  style?: CSSProperties\n  children?: ReactNode | ReactNode[]\n  defaultState?: boolean\n  closeBreakpoint?: number\n  right?: boolean\n}",
+      "code": "type DrawerProps = {\n  open?: boolean\n  autoCollapse?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  width: number\n  closeWidth: number | string\n  style?: CSSProperties\n  children?: ReactNode | ReactNode[]\n  defaultState?: boolean\n  closeBreakpoint?: number\n  right?: boolean\n  dissapear?: boolean\n  storageKey?: string\n}",
       "file": "/components/Drawer/index.tsx"
     },
     "ExpandableListProps": {
@@ -3279,9 +3287,13 @@
         "closeBreakpoint": {
           "optional": true,
           "type": "number"
+        },
+        "storageKey": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type SidebarProps = {\n  data?: SideBarData\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  onExpand?: (isExpanded: boolean) => void\n  autoCollapse?: boolean\n  closeBreakpoint?: number\n}",
+      "code": "type SidebarProps = {\n  data?: SideBarData\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  onExpand?: (isExpanded: boolean) => void\n  autoCollapse?: boolean\n  closeBreakpoint?: number\n  storageKey?: string\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {
