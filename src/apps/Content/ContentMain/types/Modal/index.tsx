@@ -14,9 +14,9 @@ import {
   Select,
   Badge,
   CheckIcon,
-  ContentEditor,
 } from '~'
 import { hash } from '@saulx/hash'
+import { ContentEditor } from './ContentEditor'
 
 export const Modal = ({ overlay }) => {
   const [state, setState] = useLocalStorage('overlay-' + hash(overlay), {})
@@ -40,12 +40,6 @@ export const Modal = ({ overlay }) => {
     args: [],
   })
 
-  // return (
-  //   <pre style={{ backgroundColor: 'pink' }}>
-  //     {JSON.stringify(parsedProps, null, 2)}
-  //   </pre>
-  // )
-
   const [copied, copy] = useCopyToClipboard(data?.id)
   return (
     <styled.div
@@ -68,7 +62,10 @@ export const Modal = ({ overlay }) => {
           <Text typography="subtitle500">{data?.type || data?.id}</Text>
         </styled.div>
         <styled.div>
-          {/* <ContentEditor data={data} fields={fields} /> */}
+          <ContentEditor
+            data={parsedProps.data ?? {}}
+            fields={parsedProps.fields ?? []}
+          />
         </styled.div>
       </styled.div>
 
