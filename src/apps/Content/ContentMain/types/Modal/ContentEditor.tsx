@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
-// TODO: get the right fields based on the schema types
-// TODO: check if something is changed
-// TODO: on publish --> function db:set
-// TODO: add onchange to these componentns
+// meta type finally complete from schema
 
-export const ContentEditor = ({ data, fields }) => {
-  console.log('🟥', data)
-  console.log('🟧', fields)
+// todo make meta / type system complete
+
+export const ContentEditor: FC<{
+  data: { [key: string]: any }
+  fields: { key: string; meta?: string; name?: string; type: string }[]
+}> = ({ data, fields }) => {
+  // get by fields
+  // . . . .
 
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
-        <ContentRenderer item={item} itemValue={data[item.field]} key={i} />
+        <ContentRenderer item={item} itemValue={data[item.key]} key={i} />
       ))}
     </styled.div>
   )
@@ -30,7 +32,7 @@ const ContentRenderer = ({ item, itemValue }) => {
 
   const type = item.type
   const meta = item.meta
-  const name = item.name
+  const name = item.name ?? item.key
 
   const BOTTOMSPACE = 32
 

@@ -10,6 +10,8 @@ import {
   Button,
   useDialog,
   RowSpaced,
+  EyeIcon,
+  ScreensIcon,
 } from '~'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
@@ -95,6 +97,13 @@ export const ContentLeft: FC<{}> = () => {
         return {
           label: v.name,
           value: v,
+          icon:
+            // @ts-ignore TODO tmp structure
+            v.config?.view === 'table' ? (
+              <EyeIcon />
+            ) : v.config?.type === 'components' ? (
+              <ScreensIcon />
+            ) : undefined,
         }
       })}
     />

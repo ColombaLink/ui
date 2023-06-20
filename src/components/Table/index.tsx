@@ -153,7 +153,7 @@ const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
     getQueryItems,
-    headers,
+    headers = [],
     data = [],
     defaultSortOptions,
     calcRowHeight,

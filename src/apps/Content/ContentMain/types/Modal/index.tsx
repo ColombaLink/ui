@@ -1,18 +1,46 @@
 import React from 'react'
-import { styled } from 'inlines'
-import { Button } from '~/components/Button'
-import { Text } from '~/components/Text'
-import { Badge } from '~/components/Badge'
-import { color } from '~/utils'
+import { useQuery, useClient } from '@based/react'
+import { parseProps } from '../../propsParser'
+import useLocalStorage from '@based/use-local-storage'
+import {
+  useContextState,
+  styled,
+  color,
+  useCopyToClipboard,
+  Text,
+  Button,
+  CloseIcon,
+  removeOverlay,
+  Select,
+  Badge,
+  CheckIcon,
+} from '~'
+import { hash } from '@saulx/hash'
 import { ContentEditor } from './ContentEditor'
-import { CheckIcon, CloseIcon } from '~/icons'
-import { useCopyToClipboard } from '~/hooks'
-import { removeOverlay } from '~/components/Overlay'
-import { Select } from '~/components/Select'
 
-export const ContentEditModal = ({ data, fields }) => {
+export const Modal = ({ overlay }) => {
+  const [state, setState] = useLocalStorage('overlay-' + hash(overlay), {})
+  const [, setView] = useContextState<any>('view')
+  const [, setOverlay] = useContextState<any>('overlay')
+
+  const { data } = useQuery(
+    overlay.config.function?.name,
+    overlay.config.function?.payload // TODO: parse target erin g
+  )
+
+  const client = useClient()
+
+  const parsedProps = parseProps(overlay.config.props, {
+    data,
+    setView,
+    state,
+    setOverlay,
+    setState,
+    client,
+    args: [],
+  })
+
   const [copied, copy] = useCopyToClipboard(data?.id)
-
   return (
     <styled.div
       style={{
@@ -34,7 +62,10 @@ export const ContentEditModal = ({ data, fields }) => {
           <Text typography="subtitle500">{data?.type || data?.id}</Text>
         </styled.div>
         <styled.div>
-          <ContentEditor data={data} fields={fields} />
+          <ContentEditor
+            data={parsedProps.data ?? {}}
+            fields={parsedProps.fields ?? []}
+          />
         </styled.div>
       </styled.div>
 
