@@ -1,63 +1,78 @@
-// Table View
-export const tableView = {
+// Viewtje
+
+export const x = {
   type: 'content',
   view: 'table',
   function: {
     name: 'db',
+    type: 'query',
     payload: {
-      $id: 'root',
+      $id: '10bdde6be6',
       children: {
-        $all: true,
         $list: true,
+        title: true,
+        id: true,
       },
+      $all: true,
     },
-  },
-  props: {
-    data: '$data.children',
-    headers: [
-      {
-        key: 'id',
-      },
-      {
-        key: 'numba',
-        label: ['from my snup', '$state.mysnurp'],
-      },
-      {
-        key: 'emailtje',
-      },
-      {
-        key: 'createdAt',
-      },
-    ],
-    onClick: {
-      overlay: {
-        name: '$args.1.name',
-        config: {
-          type: 'content',
-          view: 'table',
+    props: {
+      data: '$data.children',
+      onClick: {
+        view: {
+          type: 'content-modal',
           function: {
-            name: 'db',
             payload: {
-              $id: '$args.1.id',
-              $all: true,
+              $id: '$item.id',
+              title: true,
+              id: true,
             },
           },
           props: {
             data: '$data',
             fields: [
               {
-                key: 'id',
+                name: 'Eyyo stirnige',
+                field: 'stringie',
+                type: 'string',
+              },
+              {
+                name: 'Eyo -> ID',
+                field: 'id',
                 type: 'id',
               },
             ],
           },
         },
       },
+      fields: [
+        {
+          name: 'SOME STRING',
+          field: 'stringie',
+          type: 'string',
+        },
+        {
+          name: 'SOME ID',
+          field: 'id',
+          type: 'id',
+        },
+        {
+          name: 'SNumbaer',
+          field: 'numba',
+          type: 'number',
+        },
+        {
+          name: 'EMAILE',
+          field: 'emailtje',
+          type: 'email',
+        },
+      ],
     },
   },
 }
 
-export const customComponents = {
+// cOmE SEt soME
+
+export const y = {
   type: 'components',
   view: 'list',
   components: [
@@ -71,9 +86,9 @@ export const customComponents = {
             type: 'function',
             payload: {
               type: 'flappie',
-              stringie: 'flippiea',
-              numba: 888,
-              emailtje: 'in@of.nl',
+              stringie: 'flipieflapflapepoa',
+              numba: 666,
+              emailtje: 'info@flap.nl',
             },
           },
         },
