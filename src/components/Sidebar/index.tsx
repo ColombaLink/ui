@@ -41,6 +41,7 @@ type SidebarProps = {
   onExpand?: (isExpanded: boolean) => void
   autoCollapse?: boolean
   closeBreakpoint?: number
+  storageKey?: string
 }
 
 type SidebarItemProps = {
@@ -123,6 +124,7 @@ export const Sidebar: FC<SidebarProps> = ({
   header,
   children,
   autoCollapse,
+  storageKey,
   closeBreakpoint,
 }) => {
   const [expanded, setExpanded] = useState(false)
@@ -219,8 +221,9 @@ export const Sidebar: FC<SidebarProps> = ({
   )
 
   return (
-    <span ref={ref}>
+    <div ref={ref}>
       <Drawer
+        storageKey={storageKey}
         closeWidth={70}
         width={246}
         closeBreakpoint={closeBreakpoint}
@@ -236,6 +239,6 @@ export const Sidebar: FC<SidebarProps> = ({
         <div style={{}}>{elements}</div>
         {children}
       </Drawer>
-    </span>
+    </div>
   )
 }
