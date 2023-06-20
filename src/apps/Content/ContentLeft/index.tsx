@@ -98,6 +98,7 @@ export const ContentLeft: FC<{}> = () => {
           label: v.name,
           value: v,
           icon:
+            // @ts-ignore TODO tmp structure
             v.config?.view === 'table' ? (
               <EyeIcon />
             ) : v.config?.type === 'components' ? (
