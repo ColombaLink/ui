@@ -127,7 +127,6 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                   style={{
                     position: 'relative',
                     width: '100%',
-                    borderRadius,
 
                     height: `${(v / maxCnt) * 100}%`,
                   }}
@@ -136,6 +135,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                     style={{
                       top: 0,
                       left: 0,
+                      borderRadius,
                       right: 0,
                       bottom: 0,
                       position: 'absolute',
@@ -148,6 +148,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                     style={{
                       top: 0,
                       left: 0,
+                      borderRadius,
                       right: 0,
                       bottom: 0,
                       position: 'absolute',
