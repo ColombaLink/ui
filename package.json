@@ -32,7 +32,7 @@
   "dependencies": {
     "@based/machine-config": "0.0.8",
     "@based/pretty-date": "^1.0.4",
-    "@based/pretty-number": "^1.1.0",
+    "@based/pretty-number": "^1.1.2",
     "@based/react": "^4.2.4",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",

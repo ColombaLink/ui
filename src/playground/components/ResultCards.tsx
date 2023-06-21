@@ -38,7 +38,7 @@ export const ResultCard = () => {
               label: 'Rounded',
               value: {
                 value: 0.05,
-                format: 'number-rounded-2',
+                format: 'number-round-2',
               },
             },
           },
