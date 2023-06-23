@@ -28,8 +28,6 @@ export const Content = ({ view, actions }) => {
     view.config.function?.payload // TODO: parse target erin g
   )
 
-  console.log(data, '??? what')
-
   const client = useClient()
 
   const props = parseProps(view.config.props ?? {}, {
@@ -39,11 +37,10 @@ export const Content = ({ view, actions }) => {
     args: [],
     setOverlay,
     setState,
-    setView: (view) => {
-      console.info('fuck shiot up!!!', view)
-      setView(view)
-    },
+    setView,
   })
+
+  console.log('PROPS', view.config.props, props, isTable)
 
   return (
     <ScrollArea
