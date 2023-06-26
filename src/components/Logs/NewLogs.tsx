@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Color, Icon } from '~/types'
 import { styled } from 'inlines'
 import { Avatar, Text, renderOrCreateElement, color } from '~'
@@ -12,11 +12,11 @@ type NewLogsObject = {
   subType?: string | ReactNode
   color?: Color
   icon?: Icon
-  groupByTime?: number
 }[]
 
 type NewLogsProps = {
   data?: NewLogsObject
+  groupByTime?: number
 }
 
 const VerticalLine = styled('div', {
@@ -30,10 +30,27 @@ const VerticalLine = styled('div', {
   zIndex: 0,
 })
 
-// groupby -> groupbytime, type, status,
+const StatusDot = styled('div', {
+  height: 6,
+  width: 6,
+  borderRadius: 3,
+})
 
-export const NewLogs = ({ data }: NewLogsProps) => {
-  const { status, type, ts, subType, color, icon, groupByTime, msg } = data
+// groupby -> groupbytime, type, status,
+// if within time and is same type... group m
+// TODO: Scroll direction bottom to top, top to bottom
+// TODO: counter for logs per block.
+
+export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
+  const { status, type, ts, subType, color, icon, msg } = data
+
+  const mergedData = []
+
+  // if type is the same && binnen groupByTime --> merge het object , en doe de messages in een array
+
+  for (let i = 0; i < data.length; i++) {
+    console.log(data[i].type)
+  }
 
   console.log(data, 'flap')
   // wrap the logs here
@@ -47,13 +64,25 @@ export const NewLogs = ({ data }: NewLogsProps) => {
           ts={item.ts}
           msg={item.msg}
           type={item.type}
+          status={item.status}
+          subType={item.subType}
         />
       ))}
     </styled.div>
   )
 }
 
-const GroupedLogs = ({ icon, color: colorProp, ts, msg, type }) => {
+const GroupedLogs = ({
+  icon,
+  color: colorProp,
+  ts,
+  msg,
+  type,
+  status,
+  subType,
+}) => {
+  const [expanded, setExpanded] = useState(false)
+
   return (
     <styled.div style={{ display: 'flex', position: 'relative' }}>
       <styled.div style={{ marginRight: 12, marginTop: 16 }}>
@@ -73,10 +102,19 @@ const GroupedLogs = ({ icon, color: colorProp, ts, msg, type }) => {
               backgroundColor: '#eeeffd3b',
             },
           }}
+          onClick={() => setExpanded(!expanded)}
         >
-          <GroupedLogsHeader ts={ts} color={color} type={type} />
-          {/* map throug single logs that belong togehter */}
-          <SingleLog msg={msg} />
+          <GroupedLogsHeader
+            ts={ts}
+            color={color}
+            type={type}
+            status={status}
+            subType={subType}
+            msg={msg}
+          />
+
+          {/* map throug single logs that belong togehter // show them in a scroll area */}
+          {expanded && <SingleLog msg={msg} />}
         </styled.div>
       </div>
       <VerticalLine />
@@ -84,13 +122,14 @@ const GroupedLogs = ({ icon, color: colorProp, ts, msg, type }) => {
   )
 }
 
-const GroupedLogsHeader = ({ ts, color, type }) => {
+const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   return (
     <styled.div>
       <styled.div style={{ display: 'flex', marginBottom: 4 }}>
         <styled.div
           style={{
             display: 'flex',
+            alignItems: 'center',
           }}
         >
           <Text
@@ -100,17 +139,40 @@ const GroupedLogsHeader = ({ ts, color, type }) => {
           >
             {dayjs(ts).format('HH:mm:ss')}
           </Text>
-          <Text color="accent" typography="caption400">
+          <Text
+            color="accent"
+            typography="caption400"
+            style={{ marginRight: 8 }}
+          >
             {dayjs(ts).format('DD/MM/YYYY')}
           </Text>
+          <StatusDot
+            style={{
+              backgroundColor:
+                status === 'error'
+                  ? color('red')
+                  : status === 'succes'
+                  ? color('green')
+                  : status === 'info'
+                  ? color('accent')
+                  : color('border'),
+            }}
+          />
         </styled.div>
       </styled.div>
 
       <Text style={{ marginBottom: 4 }} typography="subtext600">
-        First Sentence of newest message
+        {msg.substring(0, 74)}
+        {msg.length > 74 && '...'}
       </Text>
       <styled.div style={{ marginBottom: 8 }}>
-        <Text color="text2">Activity person</Text>
+        {typeof subType === 'string' ? (
+          <Text color="text2" typography="caption500">
+            {subType}
+          </Text>
+        ) : (
+          renderOrCreateElement(subType)
+        )}
       </styled.div>
     </styled.div>
   )
@@ -120,8 +182,11 @@ const SingleLog = ({ msg }) => {
   return (
     <styled.div
       style={{
-        background: color('background2'),
+        background: color('background'),
         // display: 'none',
+      }}
+      onClick={(e) => {
+        e.stopPropagation()
       }}
     >
       <pre
@@ -131,7 +196,6 @@ const SingleLog = ({ msg }) => {
           padding: 0,
           margin: 0,
           maxWidth: '100%',
-          marginLeft: 6,
           width: '100%',
           border: undefined,
           lineHeight: '18px',
