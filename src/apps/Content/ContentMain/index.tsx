@@ -94,19 +94,11 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     }
   }, [overlay])
 
-  let { data, loading } = useQuery(
-    typeof view === 'string' ? (view ? 'db' : null) : null,
-    {
-      $db: 'config',
-      $id: view,
-      $all: true,
-    }
-  )
-
-  if (view && typeof view !== 'string') {
-    data = view
-    loading = false
-  }
+  let { data, loading } = useQuery('db', {
+    $db: 'config',
+    $id: view,
+    $all: true,
+  })
 
   const { type } = data?.config ?? {}
 

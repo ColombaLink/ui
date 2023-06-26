@@ -1,11 +1,6 @@
 import { BasedClient } from '@based/client'
 import { View } from '../types'
 
-// state
-// args
-// data
-// target
-
 export type ParseCtx = {
   data: any
   state: any
@@ -20,15 +15,13 @@ export const parseFunction = (
   config: any,
   ctx: ParseCtx
 ): (() => Promise<any>) => {
-  // also suppoort .publish, query.get and some others! stream?
+  // TODO: also support .publish, query.get and some others! stream?
   if (config.function) {
     return async (...args) => {
       const { name, payload } = parseProps(config.function, {
         ...ctx,
         args,
       })
-
-      console.log(name, payload, ctx.client)
       return ctx.client.call(name, payload)
     }
   }
@@ -46,20 +39,11 @@ export const parseFunction = (
 
   if (config.view) {
     return async (...args) => {
-      ctx.setView(
-        parseProps(
-          config.view,
-          {
-            ...ctx,
-            args,
-          },
-          ['props']
-        )
-      )
+      ctx.setView(config.view)
     }
   }
 
-  // maybe not the nicest
+  // Maybe not the nicest
   if (config.overlay) {
     return async (...args) => {
       ctx.setOverlay(
