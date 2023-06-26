@@ -4,6 +4,7 @@ export const table = {
   target: {
     id: 'root',
     type: 'file',
+    name: 'Files',
   },
   function: {
     name: 'db',
@@ -45,6 +46,8 @@ export const table = {
       },
       children: ['Add ', '$target.type'],
     },
+
+    name: ['$target.name'],
 
     onClick: {
       target: {

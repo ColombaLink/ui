@@ -43,6 +43,7 @@ export const parseFunction = (
 
   if (config.view) {
     return async (...args) => {
+      ctx.setView(config.view)
       if (config.target) {
         ctx.setTarget(
           parseProps(config.target, {
@@ -51,12 +52,12 @@ export const parseFunction = (
           })
         )
       }
-      ctx.setView(config.view)
     }
   }
 
   if (config.overlay) {
     return async (...args) => {
+      ctx.setOverlay(config.overlay)
       if (config.target) {
         ctx.setTarget(
           parseProps(config.target, {
@@ -66,7 +67,6 @@ export const parseFunction = (
           true
         )
       }
-      ctx.setOverlay(config.overlay)
     }
   }
 

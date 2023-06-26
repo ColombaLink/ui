@@ -86,7 +86,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
           }}
         >
           <Row>
-            <Text typography="subtitle500">{view.name}</Text>
+            <Text typography="subtitle500">{props.name ?? view.name}</Text>
             <Button
               style={{ marginLeft: 16 }}
               ghost
