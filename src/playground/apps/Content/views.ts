@@ -104,7 +104,22 @@ export const contentEditModal = {
     },
   },
   props: {
-    name: ['Edit ', '$target.name'],
+    saveButton: {
+      fill: true,
+      large: true,
+      textAlign: 'center',
+      children: 'Publish',
+      onClick: {
+        function: {
+          name: 'db:set',
+          payload: {
+            $id: '$target.id', // or type...
+            '...': '$state',
+          },
+        },
+      },
+    },
+    name: ['Edit ', '$target.name', ' ', '$data.name'],
     data: '$data',
     fields: [
       {

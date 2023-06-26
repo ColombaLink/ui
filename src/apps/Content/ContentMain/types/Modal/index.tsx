@@ -120,12 +120,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
         >
           <Text typography="caption600">STATUS</Text>
         </styled.div>
-        <Button large style={{ width: '100%', marginBottom: 12 }}>
-          Publish
-        </Button>
-        <Text color="text2" style={{ marginBottom: 12 }}>
+        <Button {...props.saveButton} />
+        {/* <Text color="text2" style={{ marginBottom: 12 }}>
           Last snurp
-        </Text>
+        </Text> */}
         <styled.div
           style={{
             borderBottom: `1px solid ${color('border')}`,

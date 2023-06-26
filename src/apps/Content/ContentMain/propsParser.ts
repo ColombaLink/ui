@@ -145,6 +145,11 @@ export const parseProps = (
     } else {
       newObj[key] = field
     }
+    if (key === '...') {
+      const rest = newObj[key]
+      delete newObj[key]
+      Object.assign(newObj, rest)
+    }
   }
 
   return newObj
