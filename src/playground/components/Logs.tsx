@@ -23,7 +23,7 @@ const testExample = [
     ts: 1687461985237,
     subType: 'Contact your boy flip',
     icon: CalendarIcon,
-    color: 'green',
+    color: 'orange',
   },
 ]
 

@@ -19,6 +19,17 @@ type NewLogsProps = {
   data?: NewLogsObject
 }
 
+const VerticalLine = styled('div', {
+  height: '100%',
+  width: '1px',
+  backgroundColor: color('border'),
+  position: 'absolute',
+  left: 16,
+  top: 0,
+  bottom: 0,
+  zIndex: 0,
+})
+
 // groupby -> groupbytime, type, status,
 
 export const NewLogs = ({ data }: NewLogsProps) => {
@@ -44,7 +55,7 @@ export const NewLogs = ({ data }: NewLogsProps) => {
 
 const GroupedLogs = ({ icon, color: colorProp, ts, msg, type }) => {
   return (
-    <styled.div style={{ display: 'flex', marginBottom: 12 }}>
+    <styled.div style={{ display: 'flex', position: 'relative' }}>
       <styled.div style={{ marginRight: 12, marginTop: 16 }}>
         {renderOrCreateElement(Avatar, {
           color: colorProp,
@@ -52,18 +63,23 @@ const GroupedLogs = ({ icon, color: colorProp, ts, msg, type }) => {
         })}
       </styled.div>
 
-      <styled.div
-        style={{
-          backgroundColor: '#eeeffd3b',
-          borderRadius: 8,
-          padding: '12px 20px',
-          width: '100%',
-        }}
-      >
-        <GroupedLogsHeader ts={ts} color={color} type={type} />
-        {/* map throug single logs that belong togehter */}
-        <SingleLog msg={msg} />
-      </styled.div>
+      <div style={{ marginBottom: 20, width: '100%' }}>
+        <styled.div
+          style={{
+            borderRadius: 8,
+            padding: '12px 20px',
+            width: '100%',
+            '&:hover': {
+              backgroundColor: '#eeeffd3b',
+            },
+          }}
+        >
+          <GroupedLogsHeader ts={ts} color={color} type={type} />
+          {/* map throug single logs that belong togehter */}
+          <SingleLog msg={msg} />
+        </styled.div>
+      </div>
+      <VerticalLine />
     </styled.div>
   )
 }
@@ -75,13 +91,6 @@ const GroupedLogsHeader = ({ ts, color, type }) => {
         <styled.div
           style={{
             display: 'flex',
-            // backgroundColor: color('tran'),
-            padding: '4px 8px',
-            width: 'fit-content',
-            borderRadius: 12,
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            border: `1px solid ${color('border')}`,
           }}
         >
           <Text
@@ -95,28 +104,12 @@ const GroupedLogsHeader = ({ ts, color, type }) => {
             {dayjs(ts).format('DD/MM/YYYY')}
           </Text>
         </styled.div>
-        <styled.div
-          style={{
-            backgroundColor: color('lightaccent'),
-            padding: '4px 8px',
-            width: 'fit-content',
-            borderRadius: 12,
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-            border: `1px solid ${color('border')}`,
-            marginLeft: '-1px',
-          }}
-        >
-          <Text color="accent" typography="caption500">
-            {type}
-          </Text>
-        </styled.div>
       </styled.div>
 
-      <Text style={{ marginBottom: 4, marginLeft: 8 }} typography="subtext600">
+      <Text style={{ marginBottom: 4 }} typography="subtext600">
         First Sentence of newest message
       </Text>
-      <styled.div style={{ marginBottom: 8, marginLeft: 8 }}>
+      <styled.div style={{ marginBottom: 8 }}>
         <Text color="text2">Activity person</Text>
       </styled.div>
     </styled.div>
@@ -128,8 +121,7 @@ const SingleLog = ({ msg }) => {
     <styled.div
       style={{
         background: color('background2'),
-        marginLeft: 8,
-        padding: '4px 8px',
+        // display: 'none',
       }}
     >
       <pre
