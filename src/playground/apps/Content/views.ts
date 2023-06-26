@@ -15,15 +15,15 @@ export const table = {
   },
   props: {
     data: '$data.descendants',
-    fields: [
+    headers: [
       {
         name: 'NAME!',
-        field: 'name',
+        key: 'name',
         type: 'string',
       },
       {
         name: 'SOME ID',
-        field: 'id',
+        key: 'id',
         type: 'id',
       },
     ],

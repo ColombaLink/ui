@@ -279,6 +279,7 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 56,
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
   } = props
+
   return (
     <styled.div
       style={{

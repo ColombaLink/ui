@@ -121,6 +121,7 @@ export const Components: FC<{
       }
       components.push(
         <Row
+          key={i}
           style={{
             paddingLeft: 32,
             paddingRight: 32,
@@ -139,6 +140,7 @@ export const Components: FC<{
       if (isList) {
         components.push(
           <Row
+            key={i}
             style={{
               maxWidth: '100%',
               paddingLeft: 32,

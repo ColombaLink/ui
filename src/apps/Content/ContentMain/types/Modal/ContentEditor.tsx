@@ -23,10 +23,6 @@ export const ContentEditor: FC<{
 }
 
 const ContentRenderer = ({ item, itemValue }) => {
-  // console.log('item??', item)
-  // console.log('item name', itemName)
-  // console.log('item value', itemValue)
-
   // all the types
   // references, type, id, set, string, digest, number, url, text
 
@@ -46,31 +42,6 @@ const ContentRenderer = ({ item, itemValue }) => {
       />
     )
   }
-
-  // if (meta.name === 'children') {
-  //   return (
-  //     <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }} indent>
-  //       {itemValue?.map((item, i) => (
-  //         <styled.div
-  //           style={{
-  //             border: `1px solid ${color('border')}`,
-  //             borderRadius: 4,
-  //             marginBottom: 4,
-  //             height: 40,
-  //             width: '100%',
-  //             display: 'flex',
-  //             padding: 12,
-  //             alignItems: 'center',
-  //           }}
-  //           key={i}
-  //         >
-  //           <Text style={{ marginRight: 12 }}>{item.type}</Text>
-  //           <Badge>{item.id}</Badge>
-  //         </styled.div>
-  //       ))}
-  //     </InputWrapper>
-  //   )
-  // }
 
   if (type === 'digest') {
     return (
