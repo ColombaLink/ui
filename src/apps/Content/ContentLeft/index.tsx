@@ -73,6 +73,8 @@ export const SystemLabel = ({ isActive = false, children }) => {
 
 export const ContentLeft: FC<{}> = () => {
   const [view, setView] = useContextState<string>('view')
+  const [, setTarget] = useContextState<string>('target')
+
   const { views, loading } = useViews()
   const [hidden] = useContextState('hidden')
 
@@ -122,7 +124,10 @@ export const ContentLeft: FC<{}> = () => {
       isActive={(currentView) => {
         return currentView?.id === view
       }}
-      onChange={(v) => setView(v.id)}
+      onChange={(v) => {
+        setTarget(null)
+        setView(v.id)
+      }}
       collapse
       style={{
         paddingTop: 24,

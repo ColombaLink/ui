@@ -10,7 +10,7 @@ export const table = {
     name: 'db',
     type: 'query',
     payload: {
-      $id: 'root',
+      $id: '$target.id',
       descendants: {
         $list: {
           $find: {
@@ -25,6 +25,8 @@ export const table = {
             $order: 'desc',
           },
         },
+        type: true,
+        children: true,
         name: true,
         id: true,
       },
@@ -36,6 +38,7 @@ export const table = {
       onClick: {
         // SELECT from list as an option in view
         function: {
+          // want to open an overlay
           name: 'db:set',
           payload: {
             parents: ['$target.id'],
@@ -46,9 +49,7 @@ export const table = {
       },
       children: ['Add ', '$target.type'],
     },
-
     name: ['$target.name'],
-
     onClick: {
       target: {
         id: '$args.1.id',
@@ -67,6 +68,19 @@ export const table = {
         name: 'SOME ID',
         key: 'id',
         type: 'id',
+      },
+      {
+        name: 'Children',
+        key: 'children',
+        type: 'references',
+        onClick: {
+          target: {
+            id: '$args.1.id',
+            name: '$args.1.name',
+            type: '$args.1.type',
+          },
+          view: 'vitable',
+        },
       },
     ],
   },
@@ -122,7 +136,8 @@ export const contentEditModal = {
         },
       },
     },
-    name: ['Edit ', '$target.name', ' ', '$data.name'],
+    // history
+    name: ['$target.name'],
     data: '$data',
     fields: [
       {

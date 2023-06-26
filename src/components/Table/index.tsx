@@ -74,8 +74,15 @@ const Cell = (props) => {
     return <div />
   }
 
-  const onClick = props.data.onClick
-  const itemData = rowData[header.key]
+  let itemData = rowData[header.key]
+  const onClick = header.onClick ?? props.data.onClick
+
+  const type = header.type
+
+  if (type === 'references') {
+    itemData = itemData?.length || 0
+  }
+
   const body = header.customComponent ? (
     createElement(header.customComponent, {
       data: rowData,
