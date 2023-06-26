@@ -9,10 +9,11 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, border, Text, color } from '~'
+import { styled, border, Text, color, Badge, AttachmentIcon } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
+import { prettyNumber } from '@based/pretty-number'
 
 export * from './types'
 
@@ -79,7 +80,9 @@ const Cell = (props) => {
 
   const type = header.type
 
-  if (type === 'references') {
+  const isReferences = type === 'references'
+
+  if (isReferences) {
     itemData = itemData?.length || 0
   }
 
@@ -91,6 +94,12 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : isReferences ? (
+    <Badge color="accent" icon={<AttachmentIcon />}>
+      <Text typography="caption600" color="accent">
+        {prettyNumber(itemData, 'number-short')}
+      </Text>
+    </Badge>
   ) : (
     <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
   )
