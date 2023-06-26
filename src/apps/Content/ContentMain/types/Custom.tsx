@@ -89,17 +89,11 @@ export const Components: FC<{
   const [, setOverlay] = useContextState<any>('overlay')
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
-
   const contextMenu = useContextMenu<{ view: View }>(actions, { view })
-
   const components: ReactNode[] = []
-
   const isList = view.config.view === 'list'
-
   const client = useClient()
-
   const targetDefaults = view.config?.target ?? {}
-
   const ctx: ParseCtx = {
     client,
     setState,

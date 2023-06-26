@@ -49,6 +49,7 @@ export const table = {
     onClick: {
       target: {
         id: '$args.1.id',
+        name: '$args.1.name',
       },
       overlay: 'vimodal',
     },
@@ -103,6 +104,7 @@ export const contentEditModal = {
     },
   },
   props: {
+    name: ['Edit ', '$target.name'],
     data: '$data',
     fields: [
       {

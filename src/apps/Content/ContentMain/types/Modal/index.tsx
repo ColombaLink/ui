@@ -25,17 +25,13 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const [overlayTarget, setOverlayTarget] =
     useContextState<any>('overlay-target')
   const [, setTarget] = useContextState<any>('target')
-
   const client = useClient()
-
-  const { data: overlayData, loading } = useQuery('db', {
+  const { data: overlayData } = useQuery('db', {
     $db: 'config',
     $id: overlay,
     $all: true,
   })
-
   const targetDefaults = overlayData?.config?.target ?? {}
-
   const ctx = {
     data: {},
     state,
@@ -53,15 +49,11 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       }
     },
   }
-
-  const p = parseProps(overlayData?.config.function?.payload ?? {}, ctx)
-
-  console.info('---------->', p)
-
-  const { data } = useQuery(overlayData?.config.function?.name, p)
-
+  const { data } = useQuery(
+    overlayData?.config.function?.name,
+    parseProps(overlayData?.config.function?.payload ?? {}, ctx)
+  )
   ctx.data = data
-
   const props = parseProps(overlayData?.config.props ?? {}, ctx)
 
   const [copied, copy] = useCopyToClipboard(data?.id)
@@ -84,7 +76,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
             padding: '24px 32px',
           }}
         >
-          <Text typography="subtitle500">{data?.type || data?.id}</Text>
+          <Text typography="subtitle500">{props.name}</Text>
         </styled.div>
         <styled.div>
           <ContentEditor data={props.data ?? {}} fields={props.fields ?? []} />

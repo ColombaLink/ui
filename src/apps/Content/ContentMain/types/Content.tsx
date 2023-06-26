@@ -26,11 +26,9 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const [, setOverlay] = useContextState<any>('overlay')
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
-
   const isTable = view.config.view === 'table'
   const targetDefaults = view.config?.target ?? {}
   const client = useClient()
-
   const ctx = {
     data: {},
     state,
