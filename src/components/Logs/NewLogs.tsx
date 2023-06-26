@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react'
 import { Color, Icon } from '~/types'
+import { styled } from 'inlines'
 
 type NewLogsProps = {
   status?: string
@@ -11,6 +12,8 @@ type NewLogsProps = {
   groupByTime?: number
 }
 
+// groupby -> groupbytime, type, status,
+
 export const NewLogs = ({
   status,
   type,
@@ -20,5 +23,17 @@ export const NewLogs = ({
   icon,
   groupByTime,
 }: NewLogsProps) => {
-  return <div>flip</div>
+  return <styled.div>flip</styled.div>
+}
+
+const LogsWrapper = () => {
+  return <styled.div>wrapper</styled.div>
+}
+
+const GroupedLogs = () => {
+  return <styled.div>groupie</styled.div>
+}
+
+const SingleLog = () => {
+  return <styled.div>single logje.</styled.div>
 }
