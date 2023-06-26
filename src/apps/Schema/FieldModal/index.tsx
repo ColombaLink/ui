@@ -401,14 +401,14 @@ export const FieldModal: FC<
         </Tabs>
       </Dialog.Body>
       <Dialog.Buttons border>
-        <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
+        <Dialog.Cancel />
         <Confirm
           type={type}
           disabled={generalDisabled || specificDisabled}
           options={options}
           path={path}
         >
-          {field ? 'Update' : 'Create'} (Enter)
+          {field ? 'Update' : 'Create'}
         </Confirm>
       </Dialog.Buttons>
     </Dialog>
