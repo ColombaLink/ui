@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../../propsParser'
 import useLocalStorage from '@based/use-local-storage'
@@ -18,23 +18,23 @@ import {
 import { hash } from '@saulx/hash'
 import { ContentEditor } from './ContentEditor'
 
-export const Modal = ({ overlay }) => {
+export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const [state, setState] = useLocalStorage('overlay-' + hash(overlay), {})
   const [, setView] = useContextState<any>('view')
   const [, setOverlay] = useContextState<any>('overlay')
   const [target, setTarget] = useContextState<any>('target')
-
-  const { data } = useQuery(
-    overlay.config.function?.name,
-    overlay.config.function?.payload // TODO: parse target erin g
-  )
-
   const client = useClient()
 
-  const targetDefaults = overlay.config?.target ?? {}
+  const { data: overlayData, loading } = useQuery('db', {
+    $db: 'config',
+    $id: overlay,
+    $all: true,
+  })
 
-  const props = parseProps(overlay.config.props ?? {}, {
-    data,
+  const targetDefaults = overlayData?.config?.target ?? {}
+
+  const ctx = {
+    data: {},
     state,
     client,
     target: { ...targetDefaults, ...target },
@@ -43,9 +43,19 @@ export const Modal = ({ overlay }) => {
     setState,
     setView,
     setTarget,
-  })
+  }
+
+  const { data } = useQuery(
+    overlayData?.config.function?.name,
+    parseProps(overlayData?.config.function?.payload ?? {}, ctx)
+  )
+
+  ctx.data = data
+
+  const props = parseProps(overlayData?.config.props ?? {}, ctx)
 
   const [copied, copy] = useCopyToClipboard(data?.id)
+
   return (
     <styled.div
       style={{

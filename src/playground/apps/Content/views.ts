@@ -45,6 +45,14 @@ export const table = {
       },
       children: ['Add ', '$target.type'],
     },
+
+    onClick: {
+      target: {
+        id: '$args.1',
+      },
+      overlay: 'vimodal',
+    },
+
     data: '$data.descendants',
     headers: [
       {

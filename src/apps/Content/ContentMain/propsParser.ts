@@ -68,16 +68,15 @@ export const parseFunction = (
 
   if (config.overlay) {
     return async (...args) => {
-      ctx.setOverlay(
-        parseProps(
-          config.overlay,
-          {
+      if (config.target) {
+        ctx.setState(
+          parseProps(config.target, {
             ...ctx,
             args,
-          },
-          ['props']
+          })
         )
-      )
+      }
+      ctx.setOverlay(config.overlay)
     }
   }
 }

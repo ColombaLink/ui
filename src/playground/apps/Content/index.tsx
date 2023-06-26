@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ComponentViewer from '../../ComponentViewer'
-import { table, button } from './views'
+import { table, button, contentEditModal } from './views'
 import { client } from '../../based'
 // vi
 
@@ -23,6 +23,15 @@ export const Content = () => {
       name: 'BUTTON',
       category: 'dashboard',
       hidden: false,
+    })
+    client.call('db:set', {
+      $db: 'config',
+      type: 'view',
+      $id: 'vimodal',
+      config: contentEditModal,
+      name: 'EDIT-MODAL',
+      category: 'hidden',
+      hidden: true,
     })
   }, [])
 
