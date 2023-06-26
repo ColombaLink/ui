@@ -71,7 +71,7 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   // sort the arrays
   sortedTypes.map((item, idx) =>
     dataSortedOnTypes[item].sort(function (a, b) {
-      return a.ts - b.ts
+      return b.ts - a.ts
     })
   )
 
@@ -100,18 +100,23 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   // wrap the logs here
   return (
     <styled.div style={{ width: '100%' }}>
-      {dataSortedOnTypes?.authorize.map((item, idx) => (
-        <GroupedLogs
-          key={idx}
-          icon={item?.icon}
-          color={item.color}
-          ts={item.ts}
-          msg={item.msg}
-          type={item.type}
-          status={item.status}
-          subType={item.subType}
-        />
-      ))}
+      {Object.keys(dataSortedOnTypes).map((keyname, idx) => {
+        const item = dataSortedOnTypes[keyname][0]
+
+        return (
+          <GroupedLogs
+            key={idx}
+            icon={item?.icon}
+            color={item.color}
+            ts={item.ts}
+            msg={item.msg}
+            type={item.type}
+            status={item.status}
+            subType={item.subType}
+            subObjects={item.subObjects}
+          />
+        )
+      })}
     </styled.div>
   )
 }
@@ -124,6 +129,7 @@ const GroupedLogs = ({
   type,
   status,
   subType,
+  subObjects,
 }) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -143,7 +149,7 @@ const GroupedLogs = ({
             padding: '12px 20px',
             width: '100%',
             '&:hover': {
-              backgroundColor: '#eeeffd3b',
+              backgroundColor: '#eeeffd7d',
             },
           }}
           onClick={() => setExpanded(!expanded)}
@@ -158,7 +164,14 @@ const GroupedLogs = ({
           />
 
           {/* map throug single logs that belong togehter // show them in a scroll area */}
-          {expanded && <SingleLog msg={msg} />}
+          {expanded && (
+            <>
+              <SingleLog msg={msg} style={{ marginTop: 16 }} />
+              {subObjects.map((item, idx) => (
+                <SingleLog msg={item.msg} key={idx} ts={item.ts} />
+              ))}
+            </>
+          )}
         </styled.div>
       </div>
       <VerticalLine />
@@ -202,6 +215,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
                   : color('border'),
             }}
           />
+          <Text style={{ marginLeft: 8 }}>{type}</Text>
         </styled.div>
       </styled.div>
 
@@ -222,17 +236,36 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   )
 }
 
-const SingleLog = ({ msg }) => {
+const SingleLog = ({ msg, style, ts }) => {
   return (
     <styled.div
       style={{
         background: color('background'),
-        // display: 'none',
+        marginBottom: 16,
+        ...style,
       }}
       onClick={(e) => {
         e.stopPropagation()
       }}
     >
+      {ts && (
+        <styled.div style={{ display: 'flex' }}>
+          <Text
+            color="accent"
+            typography="caption500"
+            style={{ marginRight: 8 }}
+          >
+            {dayjs(ts).format('HH:mm:ss')}
+          </Text>
+          <Text
+            color="accent"
+            typography="caption400"
+            style={{ marginRight: 8 }}
+          >
+            {dayjs(ts).format('DD/MM/YYYY')}
+          </Text>
+        </styled.div>
+      )}
       <pre
         style={{
           //  color: color(isError ? 'red' : 'text'),
