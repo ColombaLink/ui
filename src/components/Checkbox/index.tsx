@@ -14,7 +14,7 @@ import {
 } from '~'
 
 export type CheckboxProps = {
-  checked?: boolean
+  value?: boolean
   indeterminate?: boolean
   description?: string
   style?: Style
@@ -27,7 +27,7 @@ export type CheckboxProps = {
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  checked: checkedProp,
+  value: valueProp,
   indeterminate,
   description,
   style,
@@ -39,7 +39,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   color: colorProp = 'accent',
   ...props
 }) => {
-  const [checked, setChecked] = usePropState(checkedProp)
+  const [checked, setChecked] = usePropState(valueProp)
   const { listeners, hover } = useHover()
 
   const clickHandler = () => {

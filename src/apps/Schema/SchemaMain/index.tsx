@@ -89,7 +89,7 @@ export const SchemaMain: FC = () => {
               <Checkbox
                 style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
                 label="Show system fields"
-                checked={includeSystemFields}
+                value={includeSystemFields}
                 onChange={toggleSystemFields}
               />
             )}

@@ -144,7 +144,7 @@ const FileGeneral = ({ options }) => {
     <Checkbox
       style={{ marginTop: 24 }}
       label="Allow multiple files upload"
-      checked={options.multiple}
+      value={options.multiple}
       onChange={(value) => {
         options.meta.multiple = value
         if (value) {

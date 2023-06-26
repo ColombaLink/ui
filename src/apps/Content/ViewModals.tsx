@@ -132,8 +132,8 @@ export const EditViewModalBody: FC<EditViewProps> = ({
           style={{
             marginBottom: 24,
           }}
-          label={'Hidden'}
-          checked={hidden}
+          label="Hidden"
+          value={hidden}
           onChange={(v) => {
             setHidden(v)
           }}

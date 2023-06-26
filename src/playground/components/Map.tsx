@@ -4,35 +4,6 @@ import ComponentViewer from '../ComponentViewer'
 import { Button } from '~'
 
 export const Map = () => {
-  //   const [mapData, setMapData] = useState(createMapTestData())
-  //   const mapRef = useRef<any>()
-
-  //   useEffect(() => {
-  //     const timer = setInterval(() => {
-  //       setMapData({ ...createMapTestData(mapData) })
-  //       console.log('snrup')
-  //     }, 3000)
-
-  //     return () => {
-  //       clearInterval(timer)
-  //     }
-  //   }, [mapData])
-
-  // return (
-  // <ComponentViewer
-  //   component={EmbeddedMap}
-  //   propsName="EmbeddedMapProps"
-  //   examples={[
-  //     {
-  //       props: {
-  //         data: mapData,
-  //         ref: mapRef,
-  //       },
-  //     },
-  //   ]}
-  // />
-  // )
-
   const [mapData, setMapData] = useState(createMapTestData())
   const mapRef = useRef<any>()
 

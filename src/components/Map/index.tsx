@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react'
-// import './mapbox-gl.css'
+
 import './popup.css'
 import mapboxgl from 'mapbox-gl'
 import {
@@ -15,10 +15,7 @@ import {
   fitToData,
 } from './mapActions'
 import { color, styled } from '~'
-
-// NEED THIS??
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
-import 'mapbox-gl/dist/mapbox-gl.css'
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'
