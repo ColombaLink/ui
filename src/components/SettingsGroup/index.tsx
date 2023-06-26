@@ -139,7 +139,7 @@ export const SettingsField: FC<{
   if (type === 'boolean') {
     return (
       <Checkbox
-        checked={value}
+        value={value}
         onChange={(v) => onChange(field, v)}
         style={{
           marginBottom: 16,

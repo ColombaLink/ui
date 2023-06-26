@@ -747,7 +747,7 @@
     "CheckboxProps": {
       "name": "CheckboxProps",
       "props": {
-        "checked": {
+        "value": {
           "optional": true,
           "type": "boolean"
         },
@@ -788,7 +788,7 @@
           "type": "function"
         }
       },
-      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: Style\n  onChange?: (value: boolean) => void\n  label?: ReactNode\n  wrap?: boolean\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
+      "code": "type CheckboxProps = {\n  value?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: Style\n  onChange?: (value: boolean) => void\n  label?: ReactNode\n  wrap?: boolean\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -2361,6 +2361,14 @@
       },
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
+    },
+    "EmbeddedMapProps": {
+      "name": "EmbeddedMapProps",
+      "props": {
+        "data": {}
+      },
+      "code": "type EmbeddedMapProps = {\n  data: GeoJSON.FeatureCollection<GeoJSON.Geometry>\n}",
+      "file": "/components/Map/index.tsx"
     },
     "MasonryGridProps": {
       "name": "MasonryGridProps",
