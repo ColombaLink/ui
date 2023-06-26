@@ -22,7 +22,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const [state, setState] = useLocalStorage('overlay-' + hash(overlay), {})
   const [, setView] = useContextState<any>('view')
   const [, setOverlay] = useContextState<any>('overlay')
-  const [target, setTarget] = useContextState<any>('target')
+  const [overlayTarget, setOverlayTarget] =
+    useContextState<any>('overlay-target')
+  const [, setTarget] = useContextState<any>('target')
+
   const client = useClient()
 
   const { data: overlayData, loading } = useQuery('db', {
@@ -37,18 +40,25 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     data: {},
     state,
     client,
-    target: { ...targetDefaults, ...target },
+    target: { ...targetDefaults, ...overlayTarget },
     args: [],
     setOverlay,
     setState,
     setView,
-    setTarget,
+    setTarget: (t, isOverlay = false) => {
+      if (isOverlay) {
+        setOverlayTarget(t)
+      } else {
+        setTarget(t)
+      }
+    },
   }
 
-  const { data } = useQuery(
-    overlayData?.config.function?.name,
-    parseProps(overlayData?.config.function?.payload ?? {}, ctx)
-  )
+  const p = parseProps(overlayData?.config.function?.payload ?? {}, ctx)
+
+  console.info('---------->', p)
+
+  const { data } = useQuery(overlayData?.config.function?.name, p)
 
   ctx.data = data
 

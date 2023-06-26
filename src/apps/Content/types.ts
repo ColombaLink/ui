@@ -28,17 +28,15 @@ export type ViewComponent = {
 
 export type ContentConfig = {
   type: 'content'
-  query: ViewQuery
-  label: string
-  addQuery: any
   target?: { [key: string]: any }
-  types: string[]
-  headers: { label?: string; key: string }[]
+  view: 'table' | 'grid'
+  function?: { payload?: any; name: string }
+  props: any // fix
 }
 
 export type ComponentConfig = {
   type: 'components'
-  view: 'grid' | 'list'
+  view: 'grid' | 'list' // TODO: remove this make it array
   target?: { [key: string]: any }
   components: (ViewComponent[] | ViewComponent)[]
 }

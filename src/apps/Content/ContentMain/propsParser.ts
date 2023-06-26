@@ -7,7 +7,7 @@ export type ParseCtx = {
   args: any[]
   target: { [key: string]: any }
   client: BasedClient
-  setTarget: (newTarget: { [key: string]: any }) => void
+  setTarget: (newTarget: { [key: string]: any }, isOverlay?: boolean) => void
   setState: (newState: { [key: string]: any }) => void
   setView: (view: View) => void
   setOverlay: (view: View) => void
@@ -44,7 +44,7 @@ export const parseFunction = (
   if (config.view) {
     return async (...args) => {
       if (config.target) {
-        ctx.setState(
+        ctx.setTarget(
           parseProps(config.target, {
             ...ctx,
             args,
@@ -55,28 +55,29 @@ export const parseFunction = (
     }
   }
 
+  if (config.overlay) {
+    return async (...args) => {
+      if (config.target) {
+        ctx.setTarget(
+          parseProps(config.target, {
+            ...ctx,
+            args,
+          }),
+          true
+        )
+      }
+      ctx.setOverlay(config.overlay)
+    }
+  }
+
   if (config.target) {
     return async (...args) => {
-      ctx.setState(
+      ctx.setTarget(
         parseProps(config.target, {
           ...ctx,
           args,
         })
       )
-    }
-  }
-
-  if (config.overlay) {
-    return async (...args) => {
-      if (config.target) {
-        ctx.setState(
-          parseProps(config.target, {
-            ...ctx,
-            args,
-          })
-        )
-      }
-      ctx.setOverlay(config.overlay)
     }
   }
 }

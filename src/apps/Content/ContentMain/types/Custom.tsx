@@ -88,6 +88,7 @@ export const Components: FC<{
   const [, setView] = useContextState<any>('view')
   const [, setOverlay] = useContextState<any>('overlay')
   const [target, setTarget] = useContextState<any>('target')
+  const [, setOverlayTarget] = useContextState<any>('overlay-target')
 
   const contextMenu = useContextMenu<{ view: View }>(actions, { view })
 
@@ -105,7 +106,13 @@ export const Components: FC<{
     setView,
     state,
     target: { ...targetDefaults, ...target },
-    setTarget,
+    setTarget: (t, isOverlay = false) => {
+      if (isOverlay) {
+        setOverlayTarget(t)
+      } else {
+        setTarget(t)
+      }
+    },
     args: [],
     data: {},
     setOverlay,

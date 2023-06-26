@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import {
   styled,
   useContextMenu,
@@ -14,13 +14,18 @@ import {
 import { useQuery, useClient } from '@based/react'
 import { parseProps } from '../propsParser'
 import useLocalStorage from '@based/use-local-storage'
+import { ContentConfig, View } from '../../types'
 
-export const Content = ({ view, actions }) => {
+export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
+  view,
+  actions,
+}) => {
   const openContextMenu = useContextMenu<{ view }>(actions, { view })
   const [state, setState] = useLocalStorage('view-' + view, {})
   const [, setView] = useContextState<any>('view')
   const [, setOverlay] = useContextState<any>('overlay')
   const [target, setTarget] = useContextState<any>('target')
+  const [, setOverlayTarget] = useContextState<any>('overlay-target')
 
   const isTable = view.config.view === 'table'
   const targetDefaults = view.config?.target ?? {}
@@ -35,7 +40,13 @@ export const Content = ({ view, actions }) => {
     setOverlay,
     setState,
     setView,
-    setTarget,
+    setTarget: (t, isOverlay = false) => {
+      if (isOverlay) {
+        setOverlayTarget(t)
+      } else {
+        setTarget(t)
+      }
+    },
   }
 
   const { data } = useQuery(

@@ -48,7 +48,7 @@ export const table = {
 
     onClick: {
       target: {
-        id: '$args.1',
+        id: '$args.1.id',
       },
       overlay: 'vimodal',
     },
@@ -93,25 +93,28 @@ export const button = {
 }
 
 export const contentEditModal = {
-  type: 'components',
-  view: 'list',
+  type: 'content-modal',
   hidden: true,
-  components: [
-    {
-      component: 'Button',
-      props: {
-        children: ['Add an empty file'],
-        onClick: {
-          function: {
-            name: 'db:set',
-            type: 'function',
-            payload: {
-              type: 'file',
-              name: 'NEW FILE! ',
-            },
-          },
-        },
-      },
+  function: {
+    name: 'db',
+    payload: {
+      $id: '$target.id',
+      $all: true,
     },
-  ],
+  },
+  props: {
+    data: '$data',
+    fields: [
+      {
+        name: 'NAME!',
+        key: 'name',
+        type: 'string',
+      },
+      {
+        name: 'SOME ID',
+        key: 'id',
+        type: 'id',
+      },
+    ],
+  },
 }
