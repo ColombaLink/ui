@@ -19,8 +19,8 @@ import { hash } from '@saulx/hash'
 import { ContentEditor } from './ContentEditor'
 
 export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
-  const [state, setState] = useLocalStorage('overlay-' + hash(overlay), {})
   const [, setView] = useContextState<any>('view')
+  const [state, setState] = useContextState<any>('overlay-state', {})
   const [, setOverlay] = useContextState<any>('overlay')
   const [overlayTarget, setOverlayTarget] =
     useContextState<any>('overlay-target')
@@ -79,7 +79,12 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
           <Text typography="subtitle500">{props.name}</Text>
         </styled.div>
         <styled.div>
-          <ContentEditor data={props.data ?? {}} fields={props.fields ?? []} />
+          <ContentEditor
+            setState={setState}
+            state={state}
+            data={props.data ?? {}}
+            fields={props.fields ?? []}
+          />
         </styled.div>
       </styled.div>
 

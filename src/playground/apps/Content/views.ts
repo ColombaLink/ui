@@ -53,11 +53,10 @@ export const table = {
       },
       overlay: 'vimodal',
     },
-
     data: '$data.descendants',
     headers: [
       {
-        name: 'NAME!',
+        name: 'name!',
         key: 'name',
         type: 'string',
       },
@@ -113,7 +112,8 @@ export const contentEditModal = {
         function: {
           name: 'db:set',
           payload: {
-            $id: '$target.id', // or type...
+            $id: '$target.id',
+            type: '$target.type',
             '...': '$state',
           },
         },
