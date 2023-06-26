@@ -48,7 +48,11 @@ const route = useRoute('[view]');
 <Content 
   onChange={(key, v) => {
     if (key === 'view') {
+      route.setQuery(null)
+
       route.setPath({ view: v || null })
+    } else {
+      route.setQuery({ [key]: v })
     }
   }}
   style={{ 
@@ -56,7 +60,7 @@ const route = useRoute('[view]');
     border: \`1px solid \${color('lightborder')}\`,
     borderRadius: '10px'
   }}
-  values={route.path} />`,
+  values={{ ...route.path, ...route.query }} />`,
           },
         ]}
       />

@@ -82,15 +82,20 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<View>('view')
 
   const [overlay, setOverlay] = useContextState<string>('overlay')
+  const [, setOverlayTarget] = useContextState<string>('overlay-target')
 
   const { open, close } = useDialog()
 
   useEffect(() => {
     if (overlay) {
       const id = open(<Modal overlay={overlay} />, () => {
+        setOverlay(null)
+        setOverlayTarget(null)
         setOverlay('')
       })
       return () => {
+        setOverlay(null)
+        setOverlayTarget(null)
         close(id)
       }
     }

@@ -72,7 +72,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
           flexDirection: 'column',
           maxWidth: '100%',
           minWidth: '100%',
-          paddingTop: 16,
+          paddingTop: 24,
           paddingBottom: 32,
           paddingLeft: 0,
           paddingRight: 0,
