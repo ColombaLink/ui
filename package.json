@@ -13,7 +13,7 @@
     "build-app": "npx @based/cli build-app -nm -t src/playground/index.tsx -d functions/ui",
     "deploy": "npx @based/cli deploy",
     "link-based": "npm link ../based/packages/client ../based/packages/react",
-    "bundle": "aristotle bundle -t src/index.tsx -d dist"
+    "bundle": "aristotle bundle -t ./src/playground/index.tsx -d dist"
   },
   "files": [
     "assets",
