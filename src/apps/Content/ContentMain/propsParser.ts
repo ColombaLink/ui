@@ -5,7 +5,9 @@ export type ParseCtx = {
   data: any
   state: any
   args: any[]
+  target: { [key: string]: any }
   client: BasedClient
+  setTarget: (newTarget: { [key: string]: any }) => void
   setState: (newState: { [key: string]: any }) => void
   setView: (view: View) => void
   setOverlay: (view: View) => void
@@ -15,8 +17,10 @@ export const parseFunction = (
   config: any,
   ctx: ParseCtx
 ): (() => Promise<any>) => {
-  // TODO: also support .publish, query.get and some others! stream?
+  // add a combitnation of things
+
   if (config.function) {
+    // TODO: also support .publish, query.get and some others! stream?
     return async (...args) => {
       const { name, payload } = parseProps(config.function, {
         ...ctx,
@@ -39,11 +43,29 @@ export const parseFunction = (
 
   if (config.view) {
     return async (...args) => {
+      if (config.target) {
+        ctx.setState(
+          parseProps(config.target, {
+            ...ctx,
+            args,
+          })
+        )
+      }
       ctx.setView(config.view)
     }
   }
 
-  // Maybe not the nicest
+  if (config.target) {
+    return async (...args) => {
+      ctx.setState(
+        parseProps(config.target, {
+          ...ctx,
+          args,
+        })
+      )
+    }
+  }
+
   if (config.overlay) {
     return async (...args) => {
       ctx.setOverlay(
@@ -88,7 +110,7 @@ const parseString = (field: string, ctx: ParseCtx): any => {
       return pathReader(ctx.state, path)
     }
     if (type === '$target') {
-      return 'target acquired ⏳'
+      return pathReader(ctx.target, path)
     }
   }
   return field

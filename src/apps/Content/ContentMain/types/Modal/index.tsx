@@ -22,6 +22,7 @@ export const Modal = ({ overlay }) => {
   const [state, setState] = useLocalStorage('overlay-' + hash(overlay), {})
   const [, setView] = useContextState<any>('view')
   const [, setOverlay] = useContextState<any>('overlay')
+  const [target, setTarget] = useContextState<any>('target')
 
   const { data } = useQuery(
     overlay.config.function?.name,
@@ -30,14 +31,18 @@ export const Modal = ({ overlay }) => {
 
   const client = useClient()
 
-  const parsedProps = parseProps(overlay.config.props, {
+  const targetDefaults = overlay.config?.target ?? {}
+
+  const props = parseProps(overlay.config.props ?? {}, {
     data,
-    setView,
     state,
+    client,
+    target: { ...targetDefaults, ...target },
+    args: [],
     setOverlay,
     setState,
-    client,
-    args: [],
+    setView,
+    setTarget,
   })
 
   const [copied, copy] = useCopyToClipboard(data?.id)
@@ -62,10 +67,7 @@ export const Modal = ({ overlay }) => {
           <Text typography="subtitle500">{data?.type || data?.id}</Text>
         </styled.div>
         <styled.div>
-          <ContentEditor
-            data={parsedProps.data ?? {}}
-            fields={parsedProps.fields ?? []}
-          />
+          <ContentEditor data={props.data ?? {}} fields={props.fields ?? []} />
         </styled.div>
       </styled.div>
 

@@ -31,6 +31,7 @@ export type ContentConfig = {
   query: ViewQuery
   label: string
   addQuery: any
+  target?: { [key: string]: any }
   types: string[]
   headers: { label?: string; key: string }[]
 }
@@ -38,6 +39,7 @@ export type ContentConfig = {
 export type ComponentConfig = {
   type: 'components'
   view: 'grid' | 'list'
+  target?: { [key: string]: any }
   components: (ViewComponent[] | ViewComponent)[]
 }
 

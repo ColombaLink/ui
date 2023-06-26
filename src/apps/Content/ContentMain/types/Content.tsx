@@ -20,27 +20,32 @@ export const Content = ({ view, actions }) => {
   const [state, setState] = useLocalStorage('view-' + view, {})
   const [, setView] = useContextState<any>('view')
   const [, setOverlay] = useContextState<any>('overlay')
+  const [target, setTarget] = useContextState<any>('target')
 
   const isTable = view.config.view === 'table'
-
-  const { data } = useQuery(
-    view.config.function?.name,
-    view.config.function?.payload // TODO: parse target erin g
-  )
-
+  const targetDefaults = view.config?.target ?? {}
   const client = useClient()
 
-  const props = parseProps(view.config.props ?? {}, {
-    data,
+  const ctx = {
+    data: {},
     state,
     client,
+    target: { ...targetDefaults, ...target },
     args: [],
     setOverlay,
     setState,
     setView,
-  })
+    setTarget,
+  }
 
-  console.log('PROPS', view.config.props, props, isTable)
+  const { data } = useQuery(
+    view.config.function?.name,
+    parseProps(view.config.function?.payload, ctx)
+  )
+
+  ctx.data = data
+
+  const props = parseProps(view.config.props ?? {}, ctx)
 
   return (
     <ScrollArea
@@ -66,17 +71,21 @@ export const Content = ({ view, actions }) => {
       >
         <Row
           style={{
+            justifyContent: 'space-between',
             paddingLeft: 32,
             paddingRight: 32,
           }}
         >
-          <Text typography="subtitle500">{view.name}</Text>
-          <Button
-            style={{ marginLeft: 16 }}
-            ghost
-            onClick={openContextMenu}
-            icon={MoreIcon}
-          />
+          <Row>
+            <Text typography="subtitle500">{view.name}</Text>
+            <Button
+              style={{ marginLeft: 16 }}
+              ghost
+              onClick={openContextMenu}
+              icon={MoreIcon}
+            />
+          </Row>
+          {props.button ? <Button {...props.button} /> : null}
         </Row>
 
         <styled.div style={{ width: '100%', height: '100%', padding: 24 }}>

@@ -86,8 +86,8 @@ export const Components: FC<{
 }> = ({ view, actions }) => {
   const [state, setState] = useLocalStorage('view-' + view, {})
   const [, setView] = useContextState<any>('view')
-
   const [, setOverlay] = useContextState<any>('overlay')
+  const [target, setTarget] = useContextState<any>('target')
 
   const contextMenu = useContextMenu<{ view: View }>(actions, { view })
 
@@ -97,11 +97,15 @@ export const Components: FC<{
 
   const client = useClient()
 
+  const targetDefaults = view.config?.target ?? {}
+
   const ctx: ParseCtx = {
     client,
     setState,
     setView,
     state,
+    target: { ...targetDefaults, ...target },
+    setTarget,
     args: [],
     data: {},
     setOverlay,
