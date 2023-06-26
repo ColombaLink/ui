@@ -12,6 +12,7 @@ import {
   RowSpaced,
   EyeIcon,
   ScreensIcon,
+  MenuData,
 } from '~'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
@@ -45,6 +46,26 @@ export const ContentLeft: FC<{}> = () => {
   const { views, loading } = useViews()
 
   const { open } = useDialog()
+
+  const data: MenuData = {}
+
+  for (const view of views) {
+    if (!data[view.category]) {
+      data[view.category] = []
+    }
+    // @ts-ignore
+    data[view.category].push({
+      label: view.name,
+      value: view,
+      icon:
+        // @ts-ignore TODO tmp structure
+        view.config?.view === 'table' ? (
+          <EyeIcon />
+        ) : view.config?.type === 'components' ? (
+          <ScreensIcon />
+        ) : undefined,
+    })
+  }
 
   return loading ? (
     <div
@@ -93,19 +114,7 @@ export const ContentLeft: FC<{}> = () => {
           />
         </RowSpaced>
       }
-      data={views.map((v) => {
-        return {
-          label: v.name,
-          value: v,
-          icon:
-            // @ts-ignore TODO tmp structure
-            v.config?.view === 'table' ? (
-              <EyeIcon />
-            ) : v.config?.type === 'components' ? (
-              <ScreensIcon />
-            ) : undefined,
-        }
-      })}
+      data={data}
     />
   )
 }

@@ -19,6 +19,7 @@ import {
   RedoIcon,
   useUpdate,
   RowSpaced,
+  Checkbox,
 } from '~'
 import { View } from './types'
 import { useClient } from '@based/react'
@@ -44,9 +45,15 @@ export const EditViewModalBody: FC<EditViewProps> = ({
   const orig = useMemo(() => {
     return JSON.stringify(fromObject.current.config, null, 2)
   }, [fromObject.current])
+  const [hidden, setHidden] = useState<boolean>(view.hidden)
+  const [category, setCategory] = useState<string>(view.category ?? '')
   const [str, setState] = useState<string>(orig)
   const [name, setName] = useState<string>(view.name)
-  const hasChange = orig !== str || name !== view.name
+  const hasChange =
+    orig !== str ||
+    name !== view.name ||
+    hidden !== view.hidden ||
+    view.category !== category
   const update = useUpdate()
   const newObject = useRef<any>({})
   const [error, setError] = useState<Error | null>(null)
@@ -109,6 +116,28 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             setName(v)
           }}
         />
+        <Input
+          style={{
+            marginTop: 16,
+            marginBottom: 24,
+          }}
+          placeholder="Category"
+          type="text"
+          value={category}
+          onChange={(v) => {
+            setCategory(v)
+          }}
+        />
+        <Checkbox
+          style={{
+            marginBottom: 24,
+          }}
+          label={'Hidden'}
+          checked={hidden}
+          onChange={(v) => {
+            setHidden(v)
+          }}
+        />
         <Code
           style={{
             border: border(1, error ? 'red' : hasChange ? 'accent' : 'border'),
@@ -126,7 +155,12 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             displayShortcut
             onClick={async () => {
               const v = newObject.current ?? view
-              await onChange({ config: v, name })
+              await onChange({
+                config: v,
+                name,
+                category: category || 'custom',
+                hidden,
+              })
               fromObject.current = newObject.current
               setState(JSON.stringify(newObject.current, null, 2))
               update()
@@ -140,7 +174,12 @@ export const EditViewModalBody: FC<EditViewProps> = ({
             keyboardShortcut="Cmd+Enter"
             onConfirm={async () => {
               const v = newObject.current ?? view
-              await onChange({ config: v, name })
+              await onChange({
+                config: v,
+                name,
+                category: category || 'custom',
+                hidden,
+              })
             }}
           />
         )}

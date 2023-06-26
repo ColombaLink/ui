@@ -45,4 +45,6 @@ export type View<T = ComponentConfig | ContentConfig> = {
   id?: string
   name: string
   config: T
+  category: string
+  hidden: boolean
 }
