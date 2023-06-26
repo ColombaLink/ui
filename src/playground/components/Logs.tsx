@@ -62,6 +62,15 @@ const testExample = [
     icon: CalendarIcon,
     color: 'green',
   },
+  {
+    type: 'once-contact',
+    status: 'succes',
+    msg: 'Hallloe 🧶: ',
+    ts: 1687463370190,
+    subType: 'Contact your boy flip',
+    icon: CalendarIcon,
+    color: 'orange',
+  },
 ]
 
 console.log({ testmsg })

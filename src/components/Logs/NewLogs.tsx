@@ -44,22 +44,66 @@ const StatusDot = styled('div', {
 export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   const { status, type, ts, subType, color, icon, msg } = data
 
-  const mergedData = []
-
-  // if type is the same && binnen groupByTime --> merge het object , en doe de messages in een array
+  const dataSortedOnTypes = {}
+  const sortedTypes = []
 
   for (let i = 0; i < data.length; i++) {
-    console.log(data[i].type)
+    if (!sortedTypes.includes(data[i].type)) {
+      sortedTypes.push(data[i].type)
+    }
   }
+
+  for (let i = 0; i < sortedTypes.length; i++) {
+    dataSortedOnTypes[sortedTypes[i]] = []
+  }
+
+  for (let i = 0; i < data.length; i++) {
+    if (sortedTypes.includes(data[i].type)) {
+      const key = data[i].type.toString()
+      //  messageData[key].push(data[i].msg)
+      dataSortedOnTypes[key].push({ ...data[i] })
+    }
+  }
+
+  console.log(sortedTypes)
+  console.log(dataSortedOnTypes)
+
+  // sort the arrays
+  sortedTypes.map((item, idx) =>
+    dataSortedOnTypes[item].sort(function (a, b) {
+      return a.ts - b.ts
+    })
+  )
+
+  for (let i = 0; i < sortedTypes.length; i++) {
+    dataSortedOnTypes[sortedTypes[i]][0].subObjects = []
+    console.log('hello>')
+    for (let j = 0; j < dataSortedOnTypes[sortedTypes[i]].length; j++) {
+      console.log()
+
+      if (j === 0) {
+        console.log('fire??')
+      } else if (j > 0) {
+        console.log('nanin', dataSortedOnTypes[sortedTypes[i]][j])
+        dataSortedOnTypes[sortedTypes[i]][0].subObjects.push(
+          dataSortedOnTypes[sortedTypes[i]][j]
+        )
+      }
+    }
+  }
+
+  console.log('👔', dataSortedOnTypes)
+
+  // if type is the same && binnen groupByTime --> merge het object , en doe de messages in een array
 
   console.log(data, 'flap')
   // wrap the logs here
   return (
     <styled.div style={{ width: '100%' }}>
-      {data.map((item, idx) => (
+      {dataSortedOnTypes?.authorize.map((item, idx) => (
         <GroupedLogs
           key={idx}
-          icon={item.icon}
+          icon={item?.icon}
           color={item.color}
           ts={item.ts}
           msg={item.msg}
