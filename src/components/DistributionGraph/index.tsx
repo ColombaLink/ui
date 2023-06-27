@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { Text, Style, styled, Color, color } from '~'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
 
@@ -6,7 +6,7 @@ type DistributionGraphProps = {
   data?: number[]
   bars?: number
   label?: ReactNode
-  barLabels?: (min: number, max: number, data: number[]) => {}
+  // barLabels?: (min: number, max: number, data: number[]) => {}
   style?: Style
   margin?: number
   hideLabels?: boolean
@@ -15,6 +15,7 @@ type DistributionGraphProps = {
   fontStyle?: Style
   color?: Color
   format?: NumberFormat
+  labelStyle?: 'interval' | 'range'
 }
 
 export const DistributionGraph: FC<DistributionGraphProps> = ({
@@ -29,7 +30,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   hideLabels,
   color: colorProp = 'accent',
   format = 'number-short',
-  labelStyle = 'interval', //'range',
+  labelStyle = 'interval',
 }) => {
   let min
   let max
