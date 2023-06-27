@@ -10,6 +10,8 @@ type DistributionGraphProps = {
   style?: Style
   margin?: number
   hideLabels?: boolean
+  barBackground?: string
+  borderRadius?: number
   fontStyle?: Style
   color?: Color
   format?: NumberFormat
@@ -21,13 +23,16 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   bars = 10,
   fontStyle,
   label,
+  barBackground,
+  borderRadius = 0,
   margin = 0,
   hideLabels,
   color: colorProp = 'accent',
   format = 'number-short',
+  labelStyle = 'interval', //'range',
 }) => {
-  let min = undefined
-  let max = undefined
+  let min
+  let max
 
   for (let i = 0; i < data.length; i++) {
     const d = data[i]
@@ -40,15 +45,22 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
   }
 
   const barsData = []
-  const spread = Math.round((max - min) / (bars - 1))
+  const spread = (max - min) / bars
 
   let maxCnt = 0
+
+  for (let i = 0; i < bars; i++) {
+    barsData.push(0)
+  }
+
   for (let i = 0; i < data.length; i++) {
     const d = data[i]
-    const j = Math.round(d / spread)
-    if (!barsData[j]) {
-      barsData[j] = 0
+    let j = Math.floor((d - min) / spread)
+
+    if (j > bars - 1) {
+      j = bars - 1
     }
+
     barsData[j]++
     const value = barsData[j]
     if (value > maxCnt) {
@@ -58,7 +70,8 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
 
   // @ts-ignore
   const fSize = fontStyle?.fontSize ? fontStyle.fontSize - 14 : 0
-
+  const showInterval = labelStyle === 'interval'
+  const values = Object.values(barsData)
   return (
     <styled.div
       style={{
@@ -70,7 +83,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
     >
       {label ? (
         <Text
-          weight={'700'}
+          weight="700"
           style={{ marginBottom: 8 + margin / 2 + fSize, ...fontStyle }}
         >
           {label}
@@ -84,7 +97,7 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
           marginRight: -(margin / 2),
         }}
       >
-        {barsData.map((v, i) => {
+        {values.map((v, i) => {
           return (
             <styled.div
               key={i}
@@ -113,37 +126,83 @@ export const DistributionGraph: FC<DistributionGraphProps> = ({
                 />
                 <styled.div
                   style={{
+                    position: 'relative',
                     width: '100%',
-                    background: color(colorProp),
-                    opacity: (i / bars) * 0.75 + 0.25,
+
                     height: `${(v / maxCnt) * 100}%`,
                   }}
-                />
+                >
+                  <styled.div
+                    style={{
+                      top: 0,
+                      left: 0,
+                      borderRadius,
+                      right: 0,
+                      bottom: 0,
+                      position: 'absolute',
+                      height: '100%',
+                      width: '100%',
+                      background: barBackground || 'transparent',
+                    }}
+                  />
+                  <styled.div
+                    style={{
+                      top: 0,
+                      left: 0,
+                      borderRadius,
+                      right: 0,
+                      bottom: 0,
+                      position: 'absolute',
+                      height: '100%',
+                      width: '100%',
+                      background: color(colorProp),
+                      opacity: (i / bars) * 0.75 + 0.25,
+                    }}
+                  />
+                </styled.div>
               </styled.div>
               <styled.div
                 style={{
                   marginTop: margin / 2 + 8 + fSize,
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  justifyContent: showInterval ? 'space-between' : 'center',
                   display: hideLabels ? 'none' : 'flex',
                 }}
               >
-                <Text weight={'700'} style={fontStyle}>
-                  {prettyNumber(i * spread, format)}
-                </Text>
-                <Text
-                  style={{
-                    marginLeft: 8,
-                    marginRight: 8,
-                    ...fontStyle,
-                  }}
-                  weight={'700'}
-                >
-                  -
-                </Text>
-                <Text weight={'700'} style={fontStyle}>
-                  {prettyNumber((i + 1) * spread, format)}
-                </Text>
+                {showInterval && i ? (
+                  <div />
+                ) : (
+                  <Text weight="700" style={fontStyle}>
+                    {prettyNumber(i * spread + min, format)}
+                  </Text>
+                )}
+                {showInterval ? null : (
+                  <Text
+                    style={{
+                      marginLeft: 8,
+                      marginRight: 8,
+                      ...fontStyle,
+                    }}
+                    weight="700"
+                  >
+                    -
+                  </Text>
+                )}
+                {!showInterval || i === values.length - 1 ? (
+                  <Text weight="700" style={fontStyle}>
+                    {prettyNumber((i + 1) * spread + min, format)}
+                  </Text>
+                ) : (
+                  <Text
+                    weight="700"
+                    style={{
+                      transform: 'translate3d(50%,0,0)',
+                      ...fontStyle,
+                    }}
+                  >
+                    {prettyNumber((i + 1) * spread + min, format)}
+                  </Text>
+                )}
               </styled.div>
             </styled.div>
           )

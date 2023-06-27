@@ -35,6 +35,24 @@ export const ResultCard = () => {
           },
           {
             props: {
+              label: 'Rounded',
+              value: {
+                value: 0.0555,
+                format: 'number-round-2',
+              },
+            },
+          },
+          {
+            props: {
+              label: 'Rounded',
+              value: {
+                value: 0.5555,
+                format: 'number-round-0',
+              },
+            },
+          },
+          {
+            props: {
               label: 'Ratio',
               value: {
                 value: 0.0242221112341231,

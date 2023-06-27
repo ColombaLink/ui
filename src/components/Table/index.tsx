@@ -9,10 +9,11 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, border, Text, color } from '~'
+import { styled, border, Text, color, Badge, AttachmentIcon } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
+import { prettyNumber } from '@based/pretty-number'
 
 export * from './types'
 
@@ -74,8 +75,17 @@ const Cell = (props) => {
     return <div />
   }
 
-  const onClick = props.data.onClick
-  const itemData = rowData[header.key]
+  let itemData = rowData[header.key]
+  const onClick = header.onClick ?? props.data.onClick
+
+  const type = header.type
+
+  const isReferences = type === 'references'
+
+  if (isReferences) {
+    itemData = itemData?.length || 0
+  }
+
   const body = header.customComponent ? (
     createElement(header.customComponent, {
       data: rowData,
@@ -84,6 +94,12 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : isReferences ? (
+    <Badge color="accent" icon={<AttachmentIcon />}>
+      <Text typography="caption600" color="accent">
+        {prettyNumber(itemData, 'number-short')}
+      </Text>
+    </Badge>
   ) : (
     <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
   )
@@ -153,7 +169,7 @@ const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
     getQueryItems,
-    headers,
+    headers = [],
     data = [],
     defaultSortOptions,
     calcRowHeight,
@@ -279,6 +295,7 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 56,
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
   } = props
+
   return (
     <styled.div
       style={{

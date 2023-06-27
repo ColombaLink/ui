@@ -747,7 +747,7 @@
     "CheckboxProps": {
       "name": "CheckboxProps",
       "props": {
-        "checked": {
+        "value": {
           "optional": true,
           "type": "boolean"
         },
@@ -788,7 +788,7 @@
           "type": "function"
         }
       },
-      "code": "type CheckboxProps = {\n  checked?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: Style\n  onChange?: (value: boolean) => void\n  label?: ReactNode\n  wrap?: boolean\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
+      "code": "type CheckboxProps = {\n  value?: boolean\n  indeterminate?: boolean\n  description?: string\n  style?: Style\n  onChange?: (value: boolean) => void\n  label?: ReactNode\n  wrap?: boolean\n  small?: boolean\n  color?: Color\n  onClick?: (e: any) => void\n}",
       "file": "/components/Checkbox/index.tsx"
     },
     "CodeProps": {
@@ -1278,6 +1278,14 @@
           "optional": true,
           "type": "boolean"
         },
+        "barBackground": {
+          "optional": true,
+          "type": "string"
+        },
+        "borderRadius": {
+          "optional": true,
+          "type": "number"
+        },
         "fontStyle": {
           "optional": true,
           "type": "Style"
@@ -1291,7 +1299,7 @@
           "type": "NumberFormat"
         }
       },
-      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n}",
+      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  barBackground?: string\n  borderRadius?: number\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n}",
       "file": "/components/DistributionGraph/index.tsx"
     },
     "DrawerProps": {
@@ -1345,9 +1353,17 @@
         "right": {
           "optional": true,
           "type": "boolean"
+        },
+        "dissapear": {
+          "optional": true,
+          "type": "boolean"
+        },
+        "storageKey": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type DrawerProps = {\n  open?: boolean\n  autoCollapse?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  width: number\n  closeWidth: number | string\n  style?: CSSProperties\n  children?: ReactNode | ReactNode[]\n  defaultState?: boolean\n  closeBreakpoint?: number\n  right?: boolean\n}",
+      "code": "type DrawerProps = {\n  open?: boolean\n  autoCollapse?: boolean\n  icon?: FunctionComponent<Icon> | ReactNode\n  width: number\n  closeWidth: number | string\n  style?: CSSProperties\n  children?: ReactNode | ReactNode[]\n  defaultState?: boolean\n  closeBreakpoint?: number\n  right?: boolean\n  dissapear?: boolean\n  storageKey?: string\n}",
       "file": "/components/Drawer/index.tsx"
     },
     "ExpandableListProps": {
@@ -2251,9 +2267,13 @@
         "error": {
           "optional": true,
           "type": "function"
+        },
+        "previewImg": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type UrlProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  // icon?: FunctionComponent<Icon> | ReactNode\n  // iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n}",
+      "code": "type UrlProps = {\n  type?: string\n  inputRef?: RefObject<any>\n  value?: any\n  pattern?: string\n  props?: any\n  onKeyDown?: (e: any) => void\n  onChange?: (e: any) => void\n  onFocus?: () => void\n  onBlur?: () => void\n  style?: Style\n  ghost?: boolean\n  focused?: boolean\n  // icon?: FunctionComponent<Icon> | ReactNode\n  // iconRight?: FunctionComponent<Icon> | ReactNode\n  setErrorMessage?: (e) => void\n  error?: (str: string, patternMatches?: boolean) => string // show error\n  previewImg?: boolean\n}",
       "file": "/components/Input/UrlInput.tsx"
     },
     "LabelProps": {
@@ -2341,6 +2361,14 @@
       },
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
+    },
+    "EmbeddedMapProps": {
+      "name": "EmbeddedMapProps",
+      "props": {
+        "data": {}
+      },
+      "code": "type EmbeddedMapProps = {\n  data: GeoJSON.FeatureCollection<GeoJSON.Geometry>\n}",
+      "file": "/components/Map/index.tsx"
     },
     "MasonryGridProps": {
       "name": "MasonryGridProps",
@@ -3267,9 +3295,13 @@
         "closeBreakpoint": {
           "optional": true,
           "type": "number"
+        },
+        "storageKey": {
+          "optional": true,
+          "type": "string"
         }
       },
-      "code": "type SidebarProps = {\n  data?: SideBarData\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  onExpand?: (isExpanded: boolean) => void\n  autoCollapse?: boolean\n  closeBreakpoint?: number\n}",
+      "code": "type SidebarProps = {\n  data?: SideBarData\n  style?: Style\n  active?: any\n  onChange?: (value: any) => void\n  children?: ReactNode | ReactNode[]\n  header?: ReactNode | ReactNode[]\n  onExpand?: (isExpanded: boolean) => void\n  autoCollapse?: boolean\n  closeBreakpoint?: number\n  storageKey?: string\n}",
       "file": "/components/Sidebar/index.tsx"
     },
     "SidebarItemProps": {
@@ -3355,9 +3387,13 @@
         "color": {
           "optional": true,
           "type": "Color"
+        },
+        "showMinMaxNumber": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type SliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n}",
+      "code": "type SliderProps = {\n  items?: Items\n  max?: number\n  min?: number\n  alwaysShowLabel?: boolean\n  Label?: FC<{\n    value?: number | Item\n    max?: number\n    min?: number\n    index?: number\n  }>\n  step?: number\n  onStartSliding?: () => void\n  onEndSliding?: () => void\n  value?: number\n  onChange: (value: number) => void\n  color?: Color\n  showMinMaxNumber?: boolean\n}",
       "file": "/components/Slider/index.tsx"
     },
     "SpacerProps": {

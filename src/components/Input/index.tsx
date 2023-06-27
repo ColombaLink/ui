@@ -260,7 +260,7 @@ export const Input = <T extends InputType>({
             {...props}
             onKeyDown={(e) => {
               // now you can remove the zero in input fields
-              if (e.key === 'Backspace' && value === 0) {
+              if (e.key === 'Backspace' && value.toString().length === 1) {
                 setValue('')
               }
               // for some reason pressing . in number input changed the value to one

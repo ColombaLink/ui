@@ -12,6 +12,8 @@ export const useViews = (): {
 
   // const { schema, loading: loadingSchema } = useSchema() // TODO: add multi schema option (using origns)
 
+  console.log(data)
+
   if (!loading) {
     return {
       views: data.views ?? [],

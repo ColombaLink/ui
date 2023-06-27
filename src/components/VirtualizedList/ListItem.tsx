@@ -153,7 +153,7 @@ export const ListItem = ({
         <DragDropIcon size={16} style={{ marginRight: 8 }} />
         <Checkbox
           small
-          checked={items[index]?.checkbox}
+          value={items[index]?.checkbox}
           onChange={() => {
             items[index].checkbox = !items[index]?.checkbox
           }}

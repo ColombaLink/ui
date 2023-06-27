@@ -39,6 +39,7 @@ export * from './components/Label'
 export * from './components/LineGraph'
 export * from './components/Logo'
 export * from './components/Logs'
+export * from './components/Map'
 export * from './components/MasonryGrid'
 export * from './components/Menu'
 export * from './components/Overlay'
@@ -72,4 +73,4 @@ export * from './types'
 export * from 'inlines'
 export * from 'kabouter'
 
-console.info('UI 5.8.20')
+console.info('UI 5.10.0')

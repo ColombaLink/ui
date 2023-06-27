@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import {
   useContextState,
   ContextItem,
@@ -8,16 +8,16 @@ import {
   ContextDivider,
   useDialog,
   styled,
+  LoadingIcon,
+  addOverlay,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
 import { AddViewModal, EditViewModal } from '../ViewModals'
 import { BasedClient } from '@based/client'
-import { Components } from './Components'
-
-import useLocalStorage from '@based/use-local-storage'
-import { Content } from './Content'
-import { CustomContent } from './CustomContent'
+import { Content } from './types/Content'
+import { Components } from './types/Custom'
+import { Modal } from './types/Modal'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -79,38 +79,50 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 }
 
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
-  const [view] = useContextState<string>('view')
+  const [view] = useContextState<View>('view')
 
-  const { data, loading } = useQuery(view ? 'db' : undefined, {
+  const [overlay, setOverlay] = useContextState<string>('overlay')
+  const [, setOverlayTarget] = useContextState<string>('overlay-target')
+
+  const { open, close } = useDialog()
+
+  useEffect(() => {
+    if (overlay) {
+      const id = open(<Modal overlay={overlay} />, () => {
+        setOverlay(null)
+        setOverlayTarget(null)
+        setOverlay('')
+      })
+      return () => {
+        setOverlay(null)
+        setOverlayTarget(null)
+        close(id)
+      }
+    }
+  }, [overlay])
+
+  let { data, loading } = useQuery('db', {
     $db: 'config',
     $id: view,
     $all: true,
   })
 
-  const [state, setState] = useLocalStorage('view-' + view, {})
-
   const { type } = data?.config ?? {}
+
+  if (loading) {
+    return <LoadingIcon />
+  }
 
   if (type === 'components') {
     return (
       <Provider client={hubClient}>
-        <Components
-          state={state}
-          setState={setState}
-          view={data}
-          actions={Actions}
-        />
+        <Components view={data} actions={Actions} />
       </Provider>
     )
   } else if (type === 'content') {
     return (
       <Provider client={hubClient}>
-        <styled.div
-          style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
-        >
-          <CustomContent view={data} actions={Actions} />
-          {/* <pre contentEditable>{JSON.stringify(data, null, 2)}</pre> */}
-        </styled.div>
+        <Content view={data} actions={Actions} />
       </Provider>
     )
   }

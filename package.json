@@ -1,6 +1,6 @@
 {
   "name": "@based/ui",
-  "version": "5.9.0",
+  "version": "5.10.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -12,7 +12,8 @@
     "genPropsTypes": "node ./scripts/generateComponentProps.js",
     "build-app": "npx @based/cli build-app -nm -t src/playground/index.tsx -d functions/ui",
     "deploy": "npx @based/cli deploy",
-    "link-based": "npm link ../based/packages/client ../based/packages/react"
+    "link-based": "npm link ../based/packages/client ../based/packages/react",
+    "bundle": "rm -rf dist && tsc --build tsconfig.build.json && node scripts/postbuild"
   },
   "files": [
     "assets",
@@ -32,7 +33,7 @@
   "dependencies": {
     "@based/machine-config": "0.0.8",
     "@based/pretty-date": "^1.0.4",
-    "@based/pretty-number": "^1.0.3",
+    "@based/pretty-number": "^1.1.2",
     "@based/react": "^4.2.4",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",
@@ -50,7 +51,7 @@
     "inlines": "^0.2.2",
     "is-email": "^1.0.2",
     "jsonexport": "^3.2.0",
-    "kabouter": "^1.4.5",
+    "kabouter": "^1.4.6",
     "mapbox-gl": "^2.10.0",
     "plur": "^5.1.0",
     "prismjs": "^1.25.0",

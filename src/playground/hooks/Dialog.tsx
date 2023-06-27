@@ -32,6 +32,7 @@ const SomeComponent = () => {
             route.setPath({ x: Number(route.path.x || 0) + 1 })
           }}
         />
+        <Input type="text" />
       </Dc.Buttons>
     </Dc>
   )

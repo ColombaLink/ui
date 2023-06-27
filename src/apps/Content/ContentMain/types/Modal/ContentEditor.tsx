@@ -1,36 +1,50 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
-// TODO: get the right fields based on the schema types
-// TODO: check if something is changed
-// TODO: on publish --> function db:set
-// TODO: add onchange to these componentns
+// meta type finally complete from schema
 
-export const ContentEditor = ({ data, fields }) => {
-  console.log('🟥', data)
-  console.log('🟧', fields)
+// todo make meta / type system complete
 
+export const ContentEditor: FC<{
+  data: { [key: string]: any }
+  state: { [key: string]: any }
+  fields: { key: string; meta?: string; name?: string; type: string }[]
+  setState: (state: { [key: string]: any }) => void
+}> = ({ data, fields, setState, state }) => {
   return (
     <styled.div style={{ maxWidth: 742, margin: '48px auto' }}>
       {fields?.map((item, i) => (
-        <ContentRenderer item={item} itemValue={data[item.field]} key={i} />
+        <ContentRenderer
+          state={state}
+          setState={setState}
+          item={item}
+          itemValue={data[item.key]}
+          key={i}
+        />
       ))}
     </styled.div>
   )
 }
 
-const ContentRenderer = ({ item, itemValue }) => {
-  // console.log('item??', item)
-  // console.log('item name', itemName)
-  // console.log('item value', itemValue)
-
-  // all the types
+const ContentRenderer: FC<{
+  item: { [key: string]: any }
+  itemValue: any
+  state: { [key: string]: any }
+  setState: (state: { [key: string]: any }) => void
+}> = ({ item, itemValue, setState, state }) => {
   // references, type, id, set, string, digest, number, url, text
 
-  const type = item.type
-  const meta = item.meta
-  const name = item.name
+  // state
+
+  const { type, meta, key } = item
+  const name = item.name ?? key
+
+  const onChange = (v: any) => {
+    setState({ [key]: v })
+  }
+
+  itemValue = state[key] ?? itemValue
 
   const BOTTOMSPACE = 32
 
@@ -40,35 +54,11 @@ const ContentRenderer = ({ item, itemValue }) => {
         label={name}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
+        onChange={onChange}
         indent
       />
     )
   }
-
-  // if (meta.name === 'children') {
-  //   return (
-  //     <InputWrapper label={name} style={{ marginBottom: BOTTOMSPACE }} indent>
-  //       {itemValue?.map((item, i) => (
-  //         <styled.div
-  //           style={{
-  //             border: `1px solid ${color('border')}`,
-  //             borderRadius: 4,
-  //             marginBottom: 4,
-  //             height: 40,
-  //             width: '100%',
-  //             display: 'flex',
-  //             padding: 12,
-  //             alignItems: 'center',
-  //           }}
-  //           key={i}
-  //         >
-  //           <Text style={{ marginRight: 12 }}>{item.type}</Text>
-  //           <Badge>{item.id}</Badge>
-  //         </styled.div>
-  //       ))}
-  //     </InputWrapper>
-  //   )
-  // }
 
   if (type === 'digest') {
     return (
@@ -76,6 +66,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         label={name}
         type="digest"
         value={itemValue}
+        onChange={onChange}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
       />
@@ -88,6 +79,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         label={name}
         type="email"
         value={itemValue}
+        onChange={onChange}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
       />
@@ -118,6 +110,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         type="text"
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
+        onChange={onChange}
         indent
         disabled
       />
@@ -130,6 +123,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         label={name}
         type="json"
         value={itemValue}
+        onChange={onChange}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
       />
@@ -142,6 +136,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         label={name}
         type="markdown"
         value={itemValue}
+        onChange={onChange}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
       />
@@ -153,6 +148,7 @@ const ContentRenderer = ({ item, itemValue }) => {
       <Input
         label={name}
         type="number"
+        onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
@@ -165,6 +161,7 @@ const ContentRenderer = ({ item, itemValue }) => {
       <Input
         label={name}
         type="text"
+        onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         indent
@@ -191,6 +188,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         label={name}
         type="date"
         time
+        onChange={onChange}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
         descriptionBottom={new Date(itemValue).toString()}
@@ -214,6 +212,7 @@ const ContentRenderer = ({ item, itemValue }) => {
         />
         <Input
           label={name}
+          onChange={onChange}
           type="text"
           value={itemValue}
           style={{ marginBottom: BOTTOMSPACE, flexGrow: 1 }}
