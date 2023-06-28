@@ -73,7 +73,7 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['asc', 'desc'])
   console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
 
-  const newArr = []
+  const finalArr = []
 
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
     if (obj.type === obj2?.type) {
@@ -87,6 +87,7 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
     }
   }
 
+  let group = []
   for (let i = 0; i < orderedByTypeAndTime.length; i++) {
     if (
       checkIfThereAreSameTypeAndWithinRange(
@@ -95,61 +96,72 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
       )
     ) {
       console.log('ehllo', orderedByTypeAndTime[i])
+      group.push(orderedByTypeAndTime[i])
     } else if (
       checkIfThereAreSameTypeAndWithinRange(
         orderedByTypeAndTime[i],
         orderedByTypeAndTime[i - 1]
       )
     ) {
+      group.push(orderedByTypeAndTime[i])
       console.log('smurp', orderedByTypeAndTime[i])
+    } else if (group.length > 0) {
+      finalArr.push(group)
+      group = []
+    } else {
+      group.push(orderedByTypeAndTime[i])
+      finalArr.push(group)
+      group = []
     }
   }
+
+  console.log('BRAND NEW ARR', finalArr)
 
   /// till here ///////////////////////////////////////
   // ////////////////////////////////////////////////////////////
 
-  for (let i = 0; i < data.length; i++) {
-    if (!sortedTypes.includes(data[i].type)) {
-      sortedTypes.push(data[i].type)
-    }
-  }
+  //   for (let i = 0; i < data.length; i++) {
+  //     if (!sortedTypes.includes(data[i].type)) {
+  //       sortedTypes.push(data[i].type)
+  //     }
+  //   }
 
-  for (let i = 0; i < sortedTypes.length; i++) {
-    dataSortedOnTypes[sortedTypes[i]] = []
-  }
+  //   for (let i = 0; i < sortedTypes.length; i++) {
+  //     dataSortedOnTypes[sortedTypes[i]] = []
+  //   }
 
-  for (let i = 0; i < data.length; i++) {
-    if (sortedTypes.includes(data[i].type)) {
-      const key = data[i].type.toString()
-      //  messageData[key].push(data[i].msg)
-      dataSortedOnTypes[key].push({ ...data[i] })
-    }
-  }
+  //   for (let i = 0; i < data.length; i++) {
+  //     if (sortedTypes.includes(data[i].type)) {
+  //       const key = data[i].type.toString()
+  //       //  messageData[key].push(data[i].msg)
+  //       dataSortedOnTypes[key].push({ ...data[i] })
+  //     }
+  //   }
 
   //   console.log('sorted Types -->', sortedTypes)
   //   console.log('dataSorted on types -->', dataSortedOnTypes)
 
   // sort the arrays
-  sortedTypes.map((item, idx) =>
-    dataSortedOnTypes[item].sort(function (a, b) {
-      return b.ts - a.ts
-    })
-  )
+  //   sortedTypes.map((item, idx) =>
+  //     dataSortedOnTypes[item].sort(function (a, b) {
+  //       return b.ts - a.ts
+  //     })
+  //   )
 
-  for (let i = 0; i < sortedTypes.length; i++) {
-    dataSortedOnTypes[sortedTypes[i]][0].subObjects = []
-    // console.log('hello>')
-    for (let j = 0; j < dataSortedOnTypes[sortedTypes[i]].length; j++) {
-      if (j === 0) {
-        // console.log('fire??')
-      } else if (j > 0) {
-        //   console.log('nanin', dataSortedOnTypes[sortedTypes[i]][j])
-        dataSortedOnTypes[sortedTypes[i]][0].subObjects.push(
-          dataSortedOnTypes[sortedTypes[i]][j]
-        )
-      }
-    }
-  }
+  //   for (let i = 0; i < sortedTypes.length; i++) {
+  //     dataSortedOnTypes[sortedTypes[i]][0].subObjects = []
+  //     // console.log('hello>')
+  //     for (let j = 0; j < dataSortedOnTypes[sortedTypes[i]].length; j++) {
+  //       if (j === 0) {
+  //         // console.log('fire??')
+  //       } else if (j > 0) {
+  //         //   console.log('nanin', dataSortedOnTypes[sortedTypes[i]][j])
+  //         dataSortedOnTypes[sortedTypes[i]][0].subObjects.push(
+  //           dataSortedOnTypes[sortedTypes[i]][j]
+  //         )
+  //       }
+  //     }
+  //   }
 
   //   console.log('👔', dataSortedOnTypes)
 
@@ -159,9 +171,8 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   // wrap the logs here
   return (
     <styled.div style={{ width: '100%' }}>
-      {Object.keys(dataSortedOnTypes).map((keyname, idx) => {
-        const item = dataSortedOnTypes[keyname][0]
-
+      {finalArr.map((item, idx) => {
+        item = item[0]
         return (
           <GroupedLogs
             key={idx}
@@ -214,11 +225,11 @@ const GroupedLogs = ({
     }
   }, [ref])
 
-  useEffect(() => {
-    if (isAtBottom && ref.current) {
-      ref.current.scrollTop = ref.current?.scrollHeight
-    }
-  }, [ref, subObjects.length])
+  //   useEffect(() => {
+  //     if (isAtBottom && ref.current) {
+  //       ref.current.scrollTop = ref.current?.scrollHeight
+  //     }
+  //   }, [ref, subObjects.length])
 
   return (
     <styled.div style={{ display: 'flex', position: 'relative' }}>
