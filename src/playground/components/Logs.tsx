@@ -29,8 +29,8 @@ const testExample = [
   {
     type: 'authorize',
     status: 'error',
-    msg: 'Error: Incomplete form at contact \n (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-    ts: 1687460373474,
+    msg: 'Flap 1',
+    ts: 1687460313474,
     subType: testPerson,
     icon: CheckIcon,
     color: 'accent',
@@ -39,7 +39,7 @@ const testExample = [
     type: 'once-contact',
     status: 'succes',
     msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-    ts: 1687461985237,
+    ts: 1387460373474,
     subType: 'Contact your boy flip',
     icon: CalendarIcon,
     color: 'orange',
@@ -48,7 +48,7 @@ const testExample = [
     type: 'once-contact',
     status: 'succes',
     msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-    ts: 1687461981222,
+    ts: 1587460373474,
     subType: 'Contact your boy flip',
     icon: CalendarIcon,
     color: 'orange',
@@ -57,16 +57,25 @@ const testExample = [
     type: 'authorize',
     status: 'info',
     msg: 'Authorize!',
-    ts: 16071346301831,
+    ts: 1787460373474,
     subType: 'Beep Boop....',
     icon: CalendarIcon,
     color: 'green',
   },
   {
+    type: 'authorize',
+    status: 'info',
+    msg: '🔔 Flap 2',
+    ts: 1687460373474,
+    subType: testPerson,
+    icon: CheckIcon,
+    color: 'accent',
+  },
+  {
     type: 'once-contact',
     status: 'succes',
     msg: 'Hallloe 🧶: ',
-    ts: 1687463370190,
+    ts: 1887460373474,
     subType: testPerson,
     icon: CalendarIcon,
     color: 'orange',
@@ -77,9 +86,7 @@ console.log({ testmsg })
 export const Logs = () => {
   return (
     <>
-      <Container>
-        <NewLogs data={testExample} />
-      </Container>
+      <NewLogs data={testExample} groupByTime={15} />
 
       {/* <ComponentViewer
         title="NewLogs"

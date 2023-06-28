@@ -44,8 +44,39 @@ const StatusDot = styled('div', {
 export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   const { status, type, ts, subType, color, icon, msg } = data
 
+  const groupByTimeInMilliSeconds = groupByTime * 60000
+
+  console.log('group by time 🕐', groupByTimeInMilliSeconds)
+
   const dataSortedOnTypes = {}
   const sortedTypes = []
+
+  console.log('start data -->', data)
+
+  /// new stuff from here ///////////////////////////////////////
+  // TODO: group the objects on type and if they are groupable by time..
+  // lets sort the object by type and time first
+  const orderBy = (arr, props, orders) =>
+    [...arr].sort((a, b) =>
+      props.reduce((acc, prop, i) => {
+        if (acc === 0) {
+          const [p1, p2] =
+            orders && orders[i] === 'desc'
+              ? [b[prop], a[prop]]
+              : [a[prop], b[prop]]
+          acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0
+        }
+        return acc
+      }, 0)
+    )
+
+  console.log('XXFAEFX', orderBy(data, ['type', 'ts'], ['asc', 'desc']))
+
+  // now split it up per time group
+  const timeGroupies = []
+
+  /// new stuff till here ///////////////////////////////////////
+  // ////////////////////////////////////////////////////////////
 
   for (let i = 0; i < data.length; i++) {
     if (!sortedTypes.includes(data[i].type)) {
@@ -65,8 +96,8 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
     }
   }
 
-  console.log(sortedTypes)
-  console.log(dataSortedOnTypes)
+  //   console.log('sorted Types -->', sortedTypes)
+  //   console.log('dataSorted on types -->', dataSortedOnTypes)
 
   // sort the arrays
   sortedTypes.map((item, idx) =>
@@ -77,14 +108,12 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
 
   for (let i = 0; i < sortedTypes.length; i++) {
     dataSortedOnTypes[sortedTypes[i]][0].subObjects = []
-    console.log('hello>')
+    // console.log('hello>')
     for (let j = 0; j < dataSortedOnTypes[sortedTypes[i]].length; j++) {
-      console.log()
-
       if (j === 0) {
-        console.log('fire??')
+        // console.log('fire??')
       } else if (j > 0) {
-        console.log('nanin', dataSortedOnTypes[sortedTypes[i]][j])
+        //   console.log('nanin', dataSortedOnTypes[sortedTypes[i]][j])
         dataSortedOnTypes[sortedTypes[i]][0].subObjects.push(
           dataSortedOnTypes[sortedTypes[i]][j]
         )
@@ -92,11 +121,11 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
     }
   }
 
-  console.log('👔', dataSortedOnTypes)
+  //   console.log('👔', dataSortedOnTypes)
 
   // if type is the same && binnen groupByTime --> merge het object , en doe de messages in een array
 
-  console.log(data, 'flap')
+  //   console.log(data, 'flap')
   // wrap the logs here
   return (
     <styled.div style={{ width: '100%' }}>
@@ -193,11 +222,12 @@ const GroupedLogs = ({
 
           {/* map throug single logs that belong togehter // show them in a scroll area */}
           {expanded && (
-            <ScrollArea
+            <styled.div
               ref={ref}
               style={{
-                flexGrow: 1,
-                minWidth: 'auto',
+                // flexGrow: 1,
+                // minWidth: 'auto',
+                maxWidth: '100%',
                 '&::-webkit-scrollbar': {
                   backgroundColor: 'rgba(0,0,0,0)',
                   width: '8px',
@@ -212,7 +242,7 @@ const GroupedLogs = ({
               {subObjects.map((item, idx) => (
                 <SingleLog msg={item.msg} key={idx} ts={item.ts} />
               ))}
-            </ScrollArea>
+            </styled.div>
           )}
         </styled.div>
       </div>
