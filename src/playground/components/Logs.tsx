@@ -72,6 +72,15 @@ const testExample = [
     color: 'accent',
   },
   {
+    type: 'authorize',
+    status: 'info',
+    msg: '🔔 Flap 3',
+    ts: 1687460323474,
+    subType: testPerson,
+    icon: CheckIcon,
+    color: 'accent',
+  },
+  {
     type: 'once-contact',
     status: 'succes',
     msg: 'Hallloe 🧶: ',

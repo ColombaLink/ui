@@ -70,12 +70,42 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
       }, 0)
     )
 
-  console.log('XXFAEFX', orderBy(data, ['type', 'ts'], ['asc', 'desc']))
+  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['asc', 'desc'])
+  console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
 
-  // now split it up per time group
-  const timeGroupies = []
+  const newArr = []
 
-  /// new stuff till here ///////////////////////////////////////
+  const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
+    if (obj.type === obj2?.type) {
+      //  console.log('same type', obj, obj2)
+      if (Math.abs(obj.ts - obj2.ts) < groupByTimeInMilliSeconds) {
+        // console.log('less then group time')
+        // console.log(obj)
+        // console.log(obj2)
+        return true
+      }
+    }
+  }
+
+  for (let i = 0; i < orderedByTypeAndTime.length; i++) {
+    if (
+      checkIfThereAreSameTypeAndWithinRange(
+        orderedByTypeAndTime[i],
+        orderedByTypeAndTime[i + 1]
+      )
+    ) {
+      console.log('ehllo', orderedByTypeAndTime[i])
+    } else if (
+      checkIfThereAreSameTypeAndWithinRange(
+        orderedByTypeAndTime[i],
+        orderedByTypeAndTime[i - 1]
+      )
+    ) {
+      console.log('smurp', orderedByTypeAndTime[i])
+    }
+  }
+
+  /// till here ///////////////////////////////////////
   // ////////////////////////////////////////////////////////////
 
   for (let i = 0; i < data.length; i++) {
