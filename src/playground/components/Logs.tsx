@@ -1,5 +1,8 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
+import { NewLogs, NewLogsObject } from '~/components/LogsNew'
+import { styled } from 'inlines'
+import { Text, Avatar, CalendarIcon, CheckIcon } from '~'
 
 // const testmsg = `-- [ <script language="javascript">alert("wawa")</script> \x1b[34mblue\x1b[39m \x1b[35mmagenta\x1b[39m \x1b[32mgreen\x1b[39m`
 const testmsg = `\x1b[34mjob thingy \x1b[33myellow\x1b[34m\x1b[39m  \x1b[35mmagenta \x1b[39m \x1b[32mgreen\x1b[39m`
@@ -7,16 +10,17 @@ const testmsg = `\x1b[34mjob thingy \x1b[33myellow\x1b[34m\x1b[39m  \x1b[35mmage
 console.log({ testmsg })
 export const Logs = () => {
   return (
-    <ComponentViewer
-      title="Logs"
-      examples={[
-        {
-          props: {
-            data: [{ msg: testmsg }],
+    <>
+      <ComponentViewer
+        title="Logs"
+        examples={[
+          {
+            props: {
+              data: [{ msg: testmsg }],
+            },
           },
-        },
-        {
-          code: `
+          {
+            code: `
         import { Logs } from '@based/ui';
 
         const data = [
@@ -40,8 +44,9 @@ export const Logs = () => {
           <Logs data={data}/>
         </div>
         `,
-        },
-      ]}
-    />
+          },
+        ]}
+      />
+    </>
   )
 }

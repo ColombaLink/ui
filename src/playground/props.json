@@ -2369,6 +2369,39 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
     },
+    "NewLogsProps": {
+      "name": "NewLogsProps",
+      "props": {
+        "data": {
+          "optional": true,
+          "type": "NewLogsObject"
+        },
+        "groupByTime": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type NewLogsProps = {\n  data?: NewLogsObject\n  groupByTime?: number\n}",
+      "file": "/components/LogsNew/index.tsx"
+    },
+    "SingleLogProps": {
+      "name": "SingleLogProps",
+      "props": {
+        "msg": {
+          "type": "TSAnyKeyword"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
+        },
+        "ts": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n}",
+      "file": "/components/LogsNew/index.tsx"
+    },
     "EmbeddedMapProps": {
       "name": "EmbeddedMapProps",
       "props": {

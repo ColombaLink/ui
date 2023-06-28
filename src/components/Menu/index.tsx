@@ -330,7 +330,7 @@ export const Menu: FC<MenuProps> = ({
   return (
     <ScrollArea
       style={{
-        flexGrow: 0,
+        flexShrink: 0,
         backgroundColor: color('background'),
         borderRight: `1px solid ${color('border')}`,
         padding: '24px 20px 20px 20px',
