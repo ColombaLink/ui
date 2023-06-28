@@ -1,109 +1,17 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { NewLogs } from '~/components/Logs/NewLogs'
+import { NewLogs, NewLogsObject } from '~/components/LogsNew'
 import { styled } from 'inlines'
-import { Text, Avatar, CalendarIcon, CheckIcon, Page, Container } from '~'
+import { Text, Avatar, CalendarIcon, CheckIcon } from '~'
 
 // const testmsg = `-- [ <script language="javascript">alert("wawa")</script> \x1b[34mblue\x1b[39m \x1b[35mmagenta\x1b[39m \x1b[32mgreen\x1b[39m`
 const testmsg = `\x1b[34mjob thingy \x1b[33myellow\x1b[34m\x1b[39m  \x1b[35mmagenta \x1b[39m \x1b[32mgreen\x1b[39m`
-
-const testPerson = () => {
-  return (
-    <styled.div style={{ display: 'flex', alignContent: 'center', gap: 8 }}>
-      <Avatar
-        size={16}
-        img="https://robohash.org/YII.png?set=set2"
-        color="lightaccent"
-      />
-      <Text typography="caption500" color="text2">
-        Jim de Beer
-      </Text>
-      <Text typography="caption500" color="text2">
-        @ Based Office
-      </Text>
-    </styled.div>
-  )
-}
-
-const testExample = [
-  {
-    type: 'authorize',
-    status: 'error',
-    msg: 'Flap 1',
-    ts: 1687460313474,
-    subType: testPerson,
-    icon: CheckIcon,
-    color: 'accent',
-  },
-  {
-    type: 'once-contact',
-    status: 'succes',
-    msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-    ts: 1387460373474,
-    subType: 'Contact your boy flip',
-    icon: CalendarIcon,
-    color: 'orange',
-  },
-  {
-    type: 'once-contact',
-    status: 'succes',
-    msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-    ts: 1587460373474,
-    subType: 'Contact your boy flip',
-    icon: CalendarIcon,
-    color: 'orange',
-  },
-  {
-    type: 'authorize',
-    status: 'info',
-    msg: 'Authorize!',
-    ts: 1787460373474,
-    subType: 'Beep Boop....',
-    icon: CalendarIcon,
-    color: 'green',
-  },
-  {
-    type: 'authorize',
-    status: 'info',
-    msg: '🔔 Flap 2',
-    ts: 1687460373474,
-    subType: testPerson,
-    icon: CheckIcon,
-    color: 'accent',
-  },
-  {
-    type: 'authorize',
-    status: 'info',
-    msg: '🔔 Flap 3',
-    ts: 1687460323474,
-    subType: testPerson,
-    icon: CheckIcon,
-    color: 'accent',
-  },
-  {
-    type: 'once-contact',
-    status: 'succes',
-    msg: 'Hallloe 🧶: ',
-    ts: 1887460373474,
-    subType: testPerson,
-    icon: CalendarIcon,
-    color: 'orange',
-  },
-]
 
 console.log({ testmsg })
 export const Logs = () => {
   return (
     <>
-      <NewLogs data={testExample} groupByTime={15} />
-
-      {/* <ComponentViewer
-        title="NewLogs"
-        propsName="NewLogsProps"
-        data={testExample}
-      /> */}
-
-      {/* <ComponentViewer
+      <ComponentViewer
         title="Logs"
         examples={[
           {
@@ -138,7 +46,7 @@ export const Logs = () => {
         `,
           },
         ]}
-      /> */}
+      />
     </>
   )
 }

@@ -1,15 +1,15 @@
 import React, { ReactNode, useState, useRef, useEffect } from 'react'
 import { Color, Icon } from '~/types'
-import { styled } from 'inlines'
-import { Avatar, Text, renderOrCreateElement, color, ScrollArea } from '~'
+import { Style, styled } from 'inlines'
+import { Avatar, Text, renderOrCreateElement, color, Badge } from '~'
 import dayjs from 'dayjs'
 
-type NewLogsObject = {
+export type NewLogsObject = {
   status?: string
   type?: string
   ts?: number
   msg?: string
-  subType?: string | ReactNode
+  subType?: ReactNode | string
   color?: Color
   icon?: Icon
 }[]
@@ -17,6 +17,12 @@ type NewLogsObject = {
 type NewLogsProps = {
   data?: NewLogsObject
   groupByTime?: number
+}
+
+type SingleLogProps = {
+  msg: any
+  style?: Style
+  ts?: number
 }
 
 const VerticalLine = styled('div', {
@@ -46,13 +52,6 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
 
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
-  console.log('group by time 🕐', groupByTimeInMilliSeconds)
-
-  const dataSortedOnTypes = {}
-  const sortedTypes = []
-
-  console.log('start data -->', data)
-
   /// new stuff from here ///////////////////////////////////////
   // TODO: group the objects on type and if they are groupable by time..
   // lets sort the object by type and time first
@@ -73,21 +72,19 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['asc', 'desc'])
   console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
 
-  const finalArr = []
-
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
-    if (obj.type === obj2?.type) {
-      //  console.log('same type', obj, obj2)
-      if (Math.abs(obj.ts - obj2.ts) < groupByTimeInMilliSeconds) {
-        // console.log('less then group time')
-        // console.log(obj)
-        // console.log(obj2)
-        return true
-      }
+    //  console.log('same type', obj, obj2)
+    const tsResult = Math.abs(obj.ts - obj2?.ts)
+    if (obj.type === obj2?.type && tsResult < groupByTimeInMilliSeconds) {
+      // console.log('less then group time')
+      // console.log(obj)
+      // console.log(obj2)
+      return true
     }
   }
 
-  let group = []
+  const pairs = []
+
   for (let i = 0; i < orderedByTypeAndTime.length; i++) {
     if (
       checkIfThereAreSameTypeAndWithinRange(
@@ -95,27 +92,45 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
         orderedByTypeAndTime[i + 1]
       )
     ) {
-      console.log('ehllo', orderedByTypeAndTime[i])
-      group.push(orderedByTypeAndTime[i])
-    } else if (
-      checkIfThereAreSameTypeAndWithinRange(
-        orderedByTypeAndTime[i],
-        orderedByTypeAndTime[i - 1]
-      )
-    ) {
-      group.push(orderedByTypeAndTime[i])
-      console.log('smurp', orderedByTypeAndTime[i])
-    } else if (group.length > 0) {
-      finalArr.push(group)
-      group = []
+      pairs.push([i, i + 1])
     } else {
-      group.push(orderedByTypeAndTime[i])
-      finalArr.push(group)
-      group = []
+      pairs.push([i, i])
     }
   }
 
-  console.log('BRAND NEW ARR', finalArr)
+  console.log(pairs, 'pairs')
+
+  console.log('new pairs 👩🏻‍🏫', pairs)
+
+  // const pairs = [[0,1],[2,3],[3,4],[5,6],[6,7],[7,8]]
+  const result = []
+
+  let item
+  for (let i = 0; i < pairs.length; i++) {
+    const arr = pairs[i]
+    if (!item) {
+      item = arr
+      result.push(item)
+    }
+    const next = pairs[i + 1]
+    if (next && item[1] === next[0]) {
+      item[1] = next[1]
+    } else {
+      item = null
+    }
+  }
+
+  console.log(result, 'n')
+
+  const finalArr = []
+
+  for (let i = 0; i < result.length; i++) {
+    finalArr.splice(result[i][0], result[i][1] + 1)
+    finalArr.push(orderedByTypeAndTime.slice(result[i][0], result[i][1] + 1))
+  }
+
+  console.log('ZZZZX 👨🏻‍🍳🕐', finalArr)
+  // if pairs last number and first number have overlap merge the groups
 
   /// till here ///////////////////////////////////////
   // ////////////////////////////////////////////////////////////
@@ -262,6 +277,7 @@ const GroupedLogs = ({
             status={status}
             subType={subType}
             msg={msg}
+            counter={subItems?.length}
           />
 
           {/* map throug single logs that belong togehter // show them in a scroll area */}
@@ -298,7 +314,15 @@ const GroupedLogs = ({
   )
 }
 
-const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
+const GroupedLogsHeader = ({
+  ts,
+  color,
+  type,
+  status,
+  subType,
+  msg,
+  counter,
+}) => {
   return (
     <styled.div>
       <styled.div style={{ display: 'flex', marginBottom: 4 }}>
@@ -335,6 +359,11 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
             }}
           />
           <Text style={{ marginLeft: 8 }}>{type}</Text>
+          {counter > 1 && (
+            <Badge outline ghost style={{ marginLeft: 8 }}>
+              {counter}
+            </Badge>
+          )}
         </styled.div>
       </styled.div>
 
@@ -355,13 +384,12 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   )
 }
 
-const SingleLog = ({ msg, style, ts }) => {
+const SingleLog = ({ msg, style, ts }: SingleLogProps) => {
   return (
     <styled.div
       style={{
         background: color('background'),
         marginBottom: 16,
-
         ...style,
       }}
       onClick={(e) => {
