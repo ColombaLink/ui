@@ -33,6 +33,20 @@ export const Content = () => {
       category: 'hidden',
       hidden: true,
     })
+    client.call('db:set-schema', {
+      schema: {
+        types: {
+          item: {
+            fields: {
+              logo: {
+                type: 'reference',
+                meta: { type: 'file', mime: 'image' },
+              },
+            },
+          },
+        },
+      },
+    })
   }, [])
 
   return (
