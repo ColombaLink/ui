@@ -1,7 +1,14 @@
 import React, { ReactNode, useState, useRef, useEffect } from 'react'
 import { Color, Icon } from '~/types'
 import { Style, styled } from 'inlines'
-import { Avatar, Text, renderOrCreateElement, color, Badge } from '~'
+import {
+  Avatar,
+  Text,
+  renderOrCreateElement,
+  color,
+  Badge,
+  ChevronDownIcon,
+} from '~'
 import dayjs from 'dayjs'
 
 export type NewLogsObject = {
@@ -251,7 +258,21 @@ const GroupedLogs = ({
 
   return (
     <styled.div style={{ display: 'flex', position: 'relative' }}>
-      <styled.div style={{ marginRight: 12, marginTop: 16 }}>
+      <VerticalLine />
+      <styled.div
+        style={{
+          marginRight: 12,
+          marginTop: 16,
+          '& div': {
+            border: '4px solid white',
+            boxSizing: 'content-box',
+            marginLeft: '-4px',
+            position: 'relative',
+            // TODO no z index here
+            zIndex: 1,
+          },
+        }}
+      >
         {renderOrCreateElement(Avatar, {
           color: colorProp,
           icon: icon,
@@ -277,7 +298,6 @@ const GroupedLogs = ({
             status={status}
             subType={subType}
             msg={msg}
-            counter={subItems?.length}
           />
 
           {/* map throug single logs that belong togehter // show them in a scroll area */}
@@ -307,22 +327,27 @@ const GroupedLogs = ({
               )}
             </styled.div>
           )}
+          {!expanded && subItems.length > 1 ? (
+            <styled.div
+              style={{ display: 'flex', alignItems: 'center', marginTop: 4 }}
+            >
+              <ChevronDownIcon
+                color="accent"
+                style={{ marginRight: 8 }}
+                size={12}
+              />
+              <Text color="accent" typography="caption500">
+                Show {subItems.length} more similar logs
+              </Text>
+            </styled.div>
+          ) : null}
         </styled.div>
       </div>
-      <VerticalLine />
     </styled.div>
   )
 }
 
-const GroupedLogsHeader = ({
-  ts,
-  color,
-  type,
-  status,
-  subType,
-  msg,
-  counter,
-}) => {
+const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   return (
     <styled.div>
       <styled.div style={{ display: 'flex', marginBottom: 4 }}>
@@ -339,11 +364,7 @@ const GroupedLogsHeader = ({
           >
             {dayjs(ts).format('HH:mm:ss')}
           </Text>
-          <Text
-            color="accent"
-            typography="caption400"
-            style={{ marginRight: 8 }}
-          >
+          <Text color="text" typography="caption400" style={{ marginRight: 8 }}>
             {dayjs(ts).format('DD/MM/YYYY')}
           </Text>
           <StatusDot
@@ -359,15 +380,10 @@ const GroupedLogsHeader = ({
             }}
           />
           <Text style={{ marginLeft: 8 }}>{type}</Text>
-          {counter > 1 && (
-            <Badge outline ghost style={{ marginLeft: 8 }}>
-              {counter}
-            </Badge>
-          )}
         </styled.div>
       </styled.div>
 
-      <Text style={{ marginBottom: 4 }} typography="subtext600">
+      <Text style={{ marginBottom: 8 }} typography="subtext600">
         {msg.substring(0, 74)}
         {msg.length > 74 && '...'}
       </Text>
