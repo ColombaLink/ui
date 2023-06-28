@@ -69,7 +69,7 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
       }, 0)
     )
 
-  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['asc', 'desc'])
+  const orderedByTypeAndTime = orderBy(data, ['ts', 'type'], ['desc', 'desc'])
   console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
 
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
