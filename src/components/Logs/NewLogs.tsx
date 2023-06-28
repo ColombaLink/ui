@@ -1,7 +1,7 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useState, useRef, useEffect } from 'react'
 import { Color, Icon } from '~/types'
 import { styled } from 'inlines'
-import { Avatar, Text, renderOrCreateElement, color } from '~'
+import { Avatar, Text, renderOrCreateElement, color, ScrollArea } from '~'
 import dayjs from 'dayjs'
 
 type NewLogsObject = {
@@ -133,6 +133,34 @@ const GroupedLogs = ({
 }) => {
   const [expanded, setExpanded] = useState(false)
 
+  // Scroll logic
+  const [isAtBottom, setIsAtBottom] = useState(true)
+
+  const ref = useRef<HTMLDivElement>()
+
+  const scrollHandler = (e: Event) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.target as HTMLElement
+    const newIsAtBottom = scrollTop + clientHeight >= scrollHeight
+    setIsAtBottom(newIsAtBottom)
+  }
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.addEventListener('scroll', scrollHandler)
+    }
+    return () => {
+      if (ref.current) {
+        ref.current.removeEventListener('scroll', scrollHandler)
+      }
+    }
+  }, [ref])
+
+  useEffect(() => {
+    if (isAtBottom && ref.current) {
+      ref.current.scrollTop = ref.current?.scrollHeight
+    }
+  }, [ref, subObjects.length])
+
   return (
     <styled.div style={{ display: 'flex', position: 'relative' }}>
       <styled.div style={{ marginRight: 12, marginTop: 16 }}>
@@ -165,12 +193,26 @@ const GroupedLogs = ({
 
           {/* map throug single logs that belong togehter // show them in a scroll area */}
           {expanded && (
-            <>
+            <ScrollArea
+              ref={ref}
+              style={{
+                flexGrow: 1,
+                minWidth: 'auto',
+                '&::-webkit-scrollbar': {
+                  backgroundColor: 'rgba(0,0,0,0)',
+                  width: '8px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  backgroundColor: color('background'),
+                  borderRadius: '12px',
+                },
+              }}
+            >
               <SingleLog msg={msg} style={{ marginTop: 16 }} />
               {subObjects.map((item, idx) => (
                 <SingleLog msg={item.msg} key={idx} ts={item.ts} />
               ))}
-            </>
+            </ScrollArea>
           )}
         </styled.div>
       </div>
@@ -242,6 +284,7 @@ const SingleLog = ({ msg, style, ts }) => {
       style={{
         background: color('background'),
         marginBottom: 16,
+
         ...style,
       }}
       onClick={(e) => {
@@ -266,23 +309,30 @@ const SingleLog = ({ msg, style, ts }) => {
           </Text>
         </styled.div>
       )}
+
       <pre
         style={{
           //  color: color(isError ? 'red' : 'text'),
+          boxSizing: 'inherit',
+          display: 'inherit',
           userSelect: 'text',
           padding: 0,
           margin: 0,
-          maxWidth: '100%',
-          width: '100%',
+          //   maxWidth: '100%',
+          //   width: '100%',
           border: undefined,
           lineHeight: '18px',
           fontSize: 14,
           fontFamily: 'Fira Code',
-          wordBreak: 'break-all',
-          whiteSpace: 'break-spaces',
+          wordBreak: 'keep-all',
+          whiteSpace: 'pre-wrap',
+          overflowWrap: 'break-word',
+          position: 'relative',
         }}
         dangerouslySetInnerHTML={{ __html: msg }}
-      ></pre>
+      >
+        {/* {JSON.stringify(msg, null, 2)} */}
+      </pre>
     </styled.div>
   )
 }

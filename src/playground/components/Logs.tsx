@@ -2,7 +2,7 @@ import React from 'react'
 import ComponentViewer from '../ComponentViewer'
 import { NewLogs } from '~/components/Logs/NewLogs'
 import { styled } from 'inlines'
-import { Text, Avatar, CalendarIcon, CheckIcon } from '~'
+import { Text, Avatar, CalendarIcon, CheckIcon, Page, Container } from '~'
 
 // const testmsg = `-- [ <script language="javascript">alert("wawa")</script> \x1b[34mblue\x1b[39m \x1b[35mmagenta\x1b[39m \x1b[32mgreen\x1b[39m`
 const testmsg = `\x1b[34mjob thingy \x1b[33myellow\x1b[34m\x1b[39m  \x1b[35mmagenta \x1b[39m \x1b[32mgreen\x1b[39m`
@@ -29,7 +29,7 @@ const testExample = [
   {
     type: 'authorize',
     status: 'error',
-    msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
+    msg: 'Error: Incomplete form at contact \n (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
     ts: 1687460373474,
     subType: testPerson,
     icon: CheckIcon,
@@ -67,7 +67,7 @@ const testExample = [
     status: 'succes',
     msg: 'Hallloe 🧶: ',
     ts: 1687463370190,
-    subType: 'Contact your boy flip',
+    subType: testPerson,
     icon: CalendarIcon,
     color: 'orange',
   },
@@ -77,7 +77,9 @@ console.log({ testmsg })
 export const Logs = () => {
   return (
     <>
-      <NewLogs data={testExample} />
+      <Container>
+        <NewLogs data={testExample} />
+      </Container>
 
       {/* <ComponentViewer
         title="NewLogs"
