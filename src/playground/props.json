@@ -1262,10 +1262,6 @@
           "optional": true,
           "type": "ReactNode"
         },
-        "barLabels": {
-          "optional": true,
-          "type": "function"
-        },
         "style": {
           "optional": true,
           "type": "Style"
@@ -1297,9 +1293,20 @@
         "format": {
           "optional": true,
           "type": "NumberFormat"
+        },
+        "labelStyle": {
+          "optional": true,
+          "type": [
+            {
+              "value": "interval"
+            },
+            {
+              "value": "range"
+            }
+          ]
         }
       },
-      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  barBackground?: string\n  borderRadius?: number\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n}",
+      "code": "type DistributionGraphProps = {\n  data?: number[]\n  bars?: number\n  label?: ReactNode\n  // barLabels?: (min: number, max: number, data: number[]) => {}\n  style?: Style\n  margin?: number\n  hideLabels?: boolean\n  barBackground?: string\n  borderRadius?: number\n  fontStyle?: Style\n  color?: Color\n  format?: NumberFormat\n  labelStyle?: 'interval' | 'range'\n}",
       "file": "/components/DistributionGraph/index.tsx"
     },
     "DrawerProps": {
