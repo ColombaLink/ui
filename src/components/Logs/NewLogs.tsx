@@ -172,18 +172,21 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
   return (
     <styled.div style={{ width: '100%' }}>
       {finalArr.map((item, idx) => {
-        item = item[0]
+        // item = item[0]
+
+        console.log(item, '???')
+
         return (
           <GroupedLogs
             key={idx}
-            icon={item?.icon}
-            color={item.color}
-            ts={item.ts}
-            msg={item.msg}
-            type={item.type}
-            status={item.status}
-            subType={item.subType}
-            subObjects={item.subObjects}
+            icon={item[0]?.icon}
+            color={item[0]?.color}
+            ts={item[0].ts}
+            msg={item[0].msg}
+            type={item[0].type}
+            status={item[0]?.status}
+            subType={item[0]?.subType}
+            subItems={item}
           />
         )
       })}
@@ -199,7 +202,7 @@ const GroupedLogs = ({
   type,
   status,
   subType,
-  subObjects,
+  subItems,
 }) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -280,9 +283,12 @@ const GroupedLogs = ({
               }}
             >
               <SingleLog msg={msg} style={{ marginTop: 16 }} />
-              {subObjects.map((item, idx) => (
-                <SingleLog msg={item.msg} key={idx} ts={item.ts} />
-              ))}
+
+              {subItems.map((item, idx) =>
+                idx !== 0 ? (
+                  <SingleLog msg={item.msg} key={idx} ts={item.ts} />
+                ) : null
+              )}
             </styled.div>
           )}
         </styled.div>
