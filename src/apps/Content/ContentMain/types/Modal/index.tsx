@@ -135,6 +135,20 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
               <Text typography="caption600">STATUS</Text>
             </styled.div>
             <Button {...props.saveButton} />
+
+            {props.deleteButton ? (
+              <Button
+                style={{ marginTop: 24 }}
+                ghost
+                outline
+                {...props.deleteButton}
+                onClick={() => {
+                  props.deleteButton.onClick()
+                  removeOverlay()
+                }}
+              />
+            ) : null}
+
             {/* <Text color="text2" style={{ marginBottom: 12 }}>
           Last snurp
         </Text> */}

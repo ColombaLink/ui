@@ -15,15 +15,15 @@ export const Content = () => {
     //   category: 'data',
     //   hidden: false,
     // })
-    // client.call('db:set', {
-    //   $db: 'config',
-    //   type: 'view',
-    //   $id: 'viitems',
-    //   config: itemTable,
-    //   name: 'Items',
-    //   category: 'data',
-    //   hidden: false,
-    // })
+    client.call('db:set', {
+      $db: 'config',
+      type: 'view',
+      $id: 'viitems',
+      config: itemTable,
+      name: 'Items',
+      category: 'data',
+      hidden: false,
+    })
     // client.call('db:set', {
     //   $db: 'config',
     //   type: 'view',

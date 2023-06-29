@@ -10,6 +10,7 @@ export const itemTable = {
     name: 'db',
     type: 'query',
     payload: {
+      $language: 'en',
       $id: 'root',
       descendants: {
         $list: {
@@ -32,7 +33,7 @@ export const itemTable = {
         },
         type: true,
         children: true,
-        name: true,
+        title: true,
         id: true,
       },
     },
@@ -46,7 +47,8 @@ export const itemTable = {
           // want to open an overlay
           name: 'db:set',
           payload: {
-            name: 'New item',
+            $language: 'en',
+            title: 'New item',
             type: '$target.type', // make config
           },
         },
@@ -71,13 +73,13 @@ export const itemTable = {
         meta: { type: 'file', mime: 'image' },
       },
       {
-        label: 'name',
-        key: 'name',
+        label: 'title',
+        key: 'title',
         type: 'string',
       },
       {
         name: 'Starting price',
-        key: 'starting price',
+        key: 'startingPrice',
         type: 'number',
       },
       {
@@ -222,11 +224,26 @@ export const contentEditModal = {
         function: {
           name: 'db:set',
           payload: {
+            $language: 'en',
             $id: '$target.id',
             type: '$target.type',
-            name: '$state.name',
+            title: '$state.title',
             startingPrice: '$state.startingPrice',
             picture: '$state.picture.id',
+          },
+        },
+      },
+    },
+    deleteButton: {
+      fill: true,
+      large: true,
+      textAlign: 'center',
+      children: 'Delete',
+      onClick: {
+        function: {
+          name: 'db:delete',
+          payload: {
+            $id: '$target.id',
           },
         },
       },
