@@ -55,8 +55,6 @@ const StatusDot = styled('div', {
 // TODO: counter for logs per block.
 
 export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
-  const { status, type, ts, subType, color, icon, msg } = data
-
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
   /// new stuff from here ///////////////////////////////////////
