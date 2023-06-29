@@ -445,8 +445,8 @@ const SingleLog = ({ msg, style, ts }: SingleLogProps) => {
           lineHeight: '18px',
           fontSize: 14,
           fontFamily: 'Fira Code',
-          wordBreak: 'keep-all',
-          whiteSpace: 'pre-wrap',
+          wordBreak: 'break-all',
+          whiteSpace: 'break-spaces',
           overflowWrap: 'break-word',
           position: 'relative',
         }}
