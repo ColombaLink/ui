@@ -355,15 +355,17 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
         {msg.substring(0, 74)}
         {msg.length > 74 && '...'}
       </Text>
-      <styled.div style={{ marginBottom: 8 }}>
-        {typeof subType === 'string' ? (
-          <Text color="text2" typography="caption500">
-            {subType}
-          </Text>
-        ) : (
-          renderOrCreateElement(subType)
-        )}
-      </styled.div>
+      {subType ? (
+        <styled.div style={{ marginBottom: 8 }}>
+          {typeof subType === 'string' ? (
+            <Text color="text2" typography="caption500">
+              {subType}
+            </Text>
+          ) : (
+            renderOrCreateElement(subType)
+          )}
+        </styled.div>
+      ) : null}
     </styled.div>
   )
 }
