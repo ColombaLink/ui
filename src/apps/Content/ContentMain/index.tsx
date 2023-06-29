@@ -80,8 +80,13 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<View>('view')
-
   const [overlay, setOverlay] = useContextState<string>('overlay')
+
+  // full view
+  // if view === schema:type
+  // if overlay === shchema:overlay
+  // then auto generate them!
+
   const [, setOverlayTarget] = useContextState<string>('overlay-target')
 
   const { open, close } = useDialog()

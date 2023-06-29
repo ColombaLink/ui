@@ -47,4 +47,5 @@ export type View<T = ComponentConfig | ContentConfig> = {
   config: T
   category: string
   hidden: boolean
+  icon?: string
 }

@@ -66,6 +66,20 @@ const Header: FC<{
   )
 }
 
+const pathReader = (a: any, path: string[]): any => {
+  let d = a
+  for (let i = 0; i < path.length; i++) {
+    const seg = path[i]
+    if (d?.[seg] !== undefined) {
+      d = d[seg]
+    } else {
+      d = undefined
+      break
+    }
+  }
+  return d
+}
+
 const Cell = (props) => {
   const { columnIndex, rowIndex, style, data } = props
   const header = data.headers[columnIndex]
@@ -75,12 +89,16 @@ const Cell = (props) => {
     return <div />
   }
 
-  let itemData = rowData[header.key]
+  const path = header.key.split('.')
+
+  let itemData = pathReader(rowData, path)
   const onClick = header.onClick ?? props.data.onClick
 
   const type = header.type
 
   const isReferences = type === 'references'
+  const isReference = type === 'reference'
+  const isImg = type === 'reference' && header.meta.mime === 'image'
 
   if (isReferences) {
     itemData = itemData?.length || 0
@@ -94,6 +112,31 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : isImg ? (
+    <styled.div
+      style={{
+        position: 'relative',
+      }}
+    >
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundColor: color('accent', true),
+          backgroundSize: 'cover',
+          backgroundImage: `url(${itemData})`,
+        }}
+      />
+    </styled.div>
+  ) : isReference ? (
+    <Badge color="accent" icon={<AttachmentIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData}
+      </Text>
+    </Badge>
   ) : isReferences ? (
     <Badge color="accent" icon={<AttachmentIcon />}>
       <Text typography="caption600" color="accent">

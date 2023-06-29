@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ComponentViewer from '../../ComponentViewer'
-import { table, button, contentEditModal } from './views'
+import { table, itemTable, button, contentEditModal } from './views'
 import { client } from '../../based'
 // vi
 
@@ -11,7 +11,16 @@ export const Content = () => {
       type: 'view',
       $id: 'vitable',
       config: table,
-      name: 'ALL DATA',
+      name: 'Files',
+      category: 'data',
+      hidden: false,
+    })
+    client.call('db:set', {
+      $db: 'config',
+      type: 'view',
+      $id: 'viitems',
+      config: itemTable,
+      name: 'Items',
       category: 'data',
       hidden: false,
     })
@@ -38,9 +47,17 @@ export const Content = () => {
         types: {
           item: {
             fields: {
-              logo: {
+              name: { type: 'string' },
+              title: { type: 'text' },
+              picture: {
                 type: 'reference',
                 meta: { type: 'file', mime: 'image' },
+              },
+              startingPrice: { type: 'number' },
+              currentBid: { type: 'number' },
+              bids: {
+                type: 'references',
+                bidirectional: { fromField: 'item' },
               },
             },
           },
