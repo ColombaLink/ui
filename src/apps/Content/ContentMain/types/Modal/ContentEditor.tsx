@@ -1,3 +1,4 @@
+import { useClient } from '@based/react'
 import React, { FC } from 'react'
 import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
@@ -35,6 +36,7 @@ const ContentRenderer: FC<{
 }> = ({ item, itemValue, setState, state }) => {
   // references, type, id, set, string, digest, number, url, text
 
+  const client = useClient()
   // state
 
   const { type, meta, key } = item
@@ -86,18 +88,21 @@ const ContentRenderer: FC<{
     )
   }
 
-  if (meta?.format?.includes('file')) {
+  if (meta?.type === 'file') {
+    console.log(itemValue)
+
     return (
       <FileUpload
         label={name}
         descriptionBottom="Drag and drop or click to upload"
-        onChange={(files) => console.log(files)}
+        onChange={(files) => {
+          // TODO: make better
+          client.stream('db:file-upload', { contents: files[0] }).then((v) => {
+            onChange(v)
+          })
+        }}
         indent
-        value={[
-          {
-            src: itemValue,
-          },
-        ]}
+        value={itemValue?.src}
         style={{ marginBottom: BOTTOMSPACE }}
       />
     )

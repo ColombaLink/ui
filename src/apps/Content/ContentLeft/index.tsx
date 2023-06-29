@@ -94,13 +94,13 @@ export const ContentLeft: FC<{}> = () => {
     data[view.category].push({
       label: view.name,
       value: view,
-      icon:
-        // @ts-ignore TODO tmp structure
-        view.config?.view === 'table' ? (
-          <EyeIcon />
-        ) : view.config?.type === 'components' ? (
-          <ScreensIcon />
-        ) : undefined,
+      // icon:
+      //   // @ts-ignore TODO tmp structure
+      //   view.config?.view === 'table' ? (
+      //     <EyeIcon />
+      //   ) : view.config?.type === 'components' ? (
+      //     <ScreensIcon />
+      //   ) : undefined,
     })
   }
 

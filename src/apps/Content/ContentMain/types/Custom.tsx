@@ -89,6 +89,7 @@ export const Components: FC<{
   const [, setOverlay] = useContextState<any>('overlay')
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
+
   const contextMenu = useContextMenu<{ view: View }>(actions, { view })
   const components: ReactNode[] = []
   const isList = view.config.view === 'list'
@@ -112,66 +113,68 @@ export const Components: FC<{
     setOverlay,
   }
 
-  for (let i = 0; i < view.config.components.length; i++) {
-    const component = view.config.components[i]
-    if (Array.isArray(component)) {
-      const nestedC: ReactNode[] = []
-      for (let i = 0; i < component.length; i++) {
-        const c = component[i]
-        if (c.function) {
-          nestedC.push(<RenderComponent ctx={ctx} key={i} component={c} />)
-        } else {
-          nestedC.push(<RenderComponentInner ctx={ctx} component={c} />)
+  if (view.config?.components) {
+    for (let i = 0; i < view.config.components.length; i++) {
+      const component = view.config.components[i]
+      if (Array.isArray(component)) {
+        const nestedC: ReactNode[] = []
+        for (let i = 0; i < component.length; i++) {
+          const c = component[i]
+          if (c.function) {
+            nestedC.push(<RenderComponent ctx={ctx} key={i} component={c} />)
+          } else {
+            nestedC.push(<RenderComponentInner ctx={ctx} component={c} />)
+          }
         }
-      }
-      components.push(
-        <Row
-          key={i}
-          style={{
-            paddingLeft: 32,
-            paddingRight: 32,
-            paddingBottom: 24,
-            borderBottom: isList ? border(1, 'border') : null,
-            minWidth: '100%',
-            maxWidth: '100%',
-            flexWrap: 'wrap',
-            gap: 16,
-          }}
-        >
-          {nestedC}
-        </Row>
-      )
-    } else {
-      if (isList) {
         components.push(
           <Row
             key={i}
             style={{
-              maxWidth: '100%',
               paddingLeft: 32,
               paddingRight: 32,
               paddingBottom: 24,
-              borderBottom: border(1, 'border'),
+              borderBottom: isList ? border(1, 'border') : null,
+              minWidth: '100%',
+              maxWidth: '100%',
               flexWrap: 'wrap',
               gap: 16,
             }}
           >
-            {component.function ? (
-              <RenderComponent ctx={ctx} key={i} component={component} />
-            ) : (
-              <RenderComponentInner ctx={ctx} component={component} />
-            )}
+            {nestedC}
           </Row>
         )
       } else {
-        if (component.function) {
+        if (isList) {
           components.push(
-            <RenderComponent ctx={ctx} key={i} component={component} />
+            <Row
+              key={i}
+              style={{
+                maxWidth: '100%',
+                paddingLeft: 32,
+                paddingRight: 32,
+                paddingBottom: 24,
+                borderBottom: border(1, 'border'),
+                flexWrap: 'wrap',
+                gap: 16,
+              }}
+            >
+              {component.function ? (
+                <RenderComponent ctx={ctx} key={i} component={component} />
+              ) : (
+                <RenderComponentInner ctx={ctx} component={component} />
+              )}
+            </Row>
           )
         } else {
-          components.push(
-            <RenderComponentInner ctx={ctx} component={component} />
-          )
+          if (component.function) {
+            components.push(
+              <RenderComponent ctx={ctx} key={i} component={component} />
+            )
+          } else {
+            components.push(
+              <RenderComponentInner ctx={ctx} component={component} />
+            )
+          }
         }
       }
     }

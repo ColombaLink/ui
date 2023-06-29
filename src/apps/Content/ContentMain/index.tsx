@@ -8,6 +8,10 @@ import {
   ContextDivider,
   useDialog,
   styled,
+  Row,
+  MoreIcon,
+  Text,
+  Button,
   LoadingIcon,
   addOverlay,
 } from '~'
@@ -80,11 +84,18 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<View>('view')
-
   const [overlay, setOverlay] = useContextState<string>('overlay')
+
+  // full view
+  // if view === schema:type
+  // if overlay === shchema:overlay
+  // then auto generate them!
+
   const [, setOverlayTarget] = useContextState<string>('overlay-target')
 
   const { open, close } = useDialog()
+
+  console.log(view)
 
   useEffect(() => {
     if (overlay) {
@@ -125,6 +136,12 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
         <Content view={data} actions={Actions} />
       </Provider>
     )
+  } else {
+    // return (
+    // <Provider client={hubClient}>
+    //   <Components view={data} actions={Actions} />
+    // </Provider>
+    // )
   }
 
   return null
