@@ -8,6 +8,7 @@ import {
   color,
   Badge,
   ChevronDownIcon,
+  ScrollArea,
 } from '~'
 import dayjs from 'dayjs'
 
@@ -319,12 +320,13 @@ const GroupedLogs = ({
               }}
             >
               <SingleLog msg={msg} style={{ marginTop: 16 }} />
-
-              {subItems.map((item, idx) =>
-                idx !== 0 ? (
-                  <SingleLog msg={item.msg} key={idx} ts={item.ts} />
-                ) : null
-              )}
+              <ScrollArea>
+                {subItems.map((item, idx) =>
+                  idx !== 0 ? (
+                    <SingleLog msg={item.msg} key={idx} ts={item.ts} />
+                  ) : null
+                )}
+              </ScrollArea>
             </styled.div>
           )}
           {!expanded && subItems.length > 1 ? (
