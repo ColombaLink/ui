@@ -6,7 +6,6 @@ import {
   Text,
   renderOrCreateElement,
   color,
-  Badge,
   ChevronDownIcon,
   ScrollArea,
 } from '~'
@@ -22,7 +21,7 @@ export type NewLogsObject = {
   icon?: Icon
 }[]
 
-type NewLogsProps = {
+type LogGroupsProps = {
   data?: NewLogsObject
   groupByTime?: number
 }
@@ -55,7 +54,7 @@ const StatusDot = styled('div', {
 // TODO: Scroll direction bottom to top, top to bottom
 // TODO: counter for logs per block.
 
-export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
+export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
   /// new stuff from here ///////////////////////////////////////
