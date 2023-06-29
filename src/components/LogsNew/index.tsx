@@ -75,8 +75,8 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
       }, 0)
     )
 
-  const orderedByTypeAndTime = orderBy(data, ['ts', 'type'], ['desc', 'desc'])
-  console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
+  const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'desc'])
+  // console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
 
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
     //  console.log('same type', obj, obj2)
@@ -104,9 +104,9 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
     }
   }
 
-  console.log(pairs, 'pairs')
+  // console.log(pairs, 'pairs')
 
-  console.log('new pairs 👩🏻‍🏫', pairs)
+  // console.log('new pairs 👩🏻‍🏫', pairs)
 
   // const pairs = [[0,1],[2,3],[3,4],[5,6],[6,7],[7,8]]
   const result = []
@@ -126,7 +126,7 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
     }
   }
 
-  console.log(result, 'n')
+  // console.log(result, 'n')
 
   const finalArr = []
 
@@ -135,64 +135,32 @@ export const NewLogs = ({ data, groupByTime }: NewLogsProps) => {
     finalArr.push(orderedByTypeAndTime.slice(result[i][0], result[i][1] + 1))
   }
 
-  console.log('ZZZZX 👨🏻‍🍳🕐', finalArr)
-  // if pairs last number and first number have overlap merge the groups
+  // console.log('FINAL ARR', finalArr)
 
-  /// till here ///////////////////////////////////////
-  // ////////////////////////////////////////////////////////////
+  const finalOrderBy = (arr, props, orders) =>
+    [...arr].sort((a, b) =>
+      props.reduce((acc, prop, i) => {
+        if (acc === 0) {
+          const [p1, p2] =
+            orders && orders[i] === 'desc'
+              ? [b[0][prop], a[0][prop]]
+              : [a[0][prop], b[0][prop]]
+          acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0
+        }
+        return acc
+      }, 0)
+    )
 
-  //   for (let i = 0; i < data.length; i++) {
-  //     if (!sortedTypes.includes(data[i].type)) {
-  //       sortedTypes.push(data[i].type)
-  //     }
-  //   }
+  // sort this final arr on time again
+  // based on the [0] item ts
 
-  //   for (let i = 0; i < sortedTypes.length; i++) {
-  //     dataSortedOnTypes[sortedTypes[i]] = []
-  //   }
+  const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
 
-  //   for (let i = 0; i < data.length; i++) {
-  //     if (sortedTypes.includes(data[i].type)) {
-  //       const key = data[i].type.toString()
-  //       //  messageData[key].push(data[i].msg)
-  //       dataSortedOnTypes[key].push({ ...data[i] })
-  //     }
-  //   }
+  // console.log('💁🏼‍♂️', finalFinalOrderedArr)
 
-  //   console.log('sorted Types -->', sortedTypes)
-  //   console.log('dataSorted on types -->', dataSortedOnTypes)
-
-  // sort the arrays
-  //   sortedTypes.map((item, idx) =>
-  //     dataSortedOnTypes[item].sort(function (a, b) {
-  //       return b.ts - a.ts
-  //     })
-  //   )
-
-  //   for (let i = 0; i < sortedTypes.length; i++) {
-  //     dataSortedOnTypes[sortedTypes[i]][0].subObjects = []
-  //     // console.log('hello>')
-  //     for (let j = 0; j < dataSortedOnTypes[sortedTypes[i]].length; j++) {
-  //       if (j === 0) {
-  //         // console.log('fire??')
-  //       } else if (j > 0) {
-  //         //   console.log('nanin', dataSortedOnTypes[sortedTypes[i]][j])
-  //         dataSortedOnTypes[sortedTypes[i]][0].subObjects.push(
-  //           dataSortedOnTypes[sortedTypes[i]][j]
-  //         )
-  //       }
-  //     }
-  //   }
-
-  //   console.log('👔', dataSortedOnTypes)
-
-  // if type is the same && binnen groupByTime --> merge het object , en doe de messages in een array
-
-  //   console.log(data, 'flap')
-  // wrap the logs here
   return (
     <styled.div style={{ width: '100%' }}>
-      {finalArr.map((item, idx) => {
+      {finalFinalOrderedArr.map((item, idx) => {
         // item = item[0]
 
         console.log(item, '???')
