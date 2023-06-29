@@ -7,7 +7,6 @@ import {
   CheckIcon,
   styled,
   LogGroups as LogsComp,
-  NewLogsObject,
 } from '~'
 
 export const LogGroups = () => {
@@ -584,7 +583,7 @@ export const LogGroups = () => {
         ]}
       /> */}
 
-      <LogsComp data={dataForNewLogs as NewLogsObject} groupByTime={15} />
+      <LogsComp data={dataForNewLogs} groupByTime={15} />
     </>
   )
 }

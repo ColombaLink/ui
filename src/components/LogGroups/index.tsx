@@ -11,7 +11,7 @@ import {
 } from '~'
 import dayjs from 'dayjs'
 
-export type NewLogsObject = {
+type NewLogsObject = {
   status?: string
   type?: string
   ts?: number
