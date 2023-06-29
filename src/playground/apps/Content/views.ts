@@ -206,6 +206,7 @@ export const contentEditModal = {
   function: {
     name: 'db',
     payload: {
+      $language: 'en',
       $id: '$target.id',
       $all: true,
       picture: { id: true, src: true },
@@ -235,8 +236,8 @@ export const contentEditModal = {
     data: '$data',
     fields: [
       {
-        name: 'Name',
-        key: 'name',
+        name: 'Title',
+        key: 'title',
         type: 'string',
       },
       {

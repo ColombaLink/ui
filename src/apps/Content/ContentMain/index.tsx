@@ -8,6 +8,10 @@ import {
   ContextDivider,
   useDialog,
   styled,
+  Row,
+  MoreIcon,
+  Text,
+  Button,
   LoadingIcon,
   addOverlay,
 } from '~'
@@ -91,6 +95,8 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
 
   const { open, close } = useDialog()
 
+  console.log(view)
+
   useEffect(() => {
     if (overlay) {
       const id = open(<Modal overlay={overlay} />, () => {
@@ -130,6 +136,12 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
         <Content view={data} actions={Actions} />
       </Provider>
     )
+  } else {
+    // return (
+    // <Provider client={hubClient}>
+    //   <Components view={data} actions={Actions} />
+    // </Provider>
+    // )
   }
 
   return null
