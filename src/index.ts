@@ -74,8 +74,4 @@ export * from './types'
 export * from 'inlines'
 export * from 'kabouter'
 
-<<<<<<< HEAD
-console.info('UI 5.10.7')
-=======
 console.info('UI 5.10.9')
->>>>>>> 68d5255383489c63c880fbc1df61cd5fdb62289b
