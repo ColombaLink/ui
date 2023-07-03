@@ -10,7 +10,13 @@ import { InputWrapper } from '~/components/Input/InputWrapper'
 export const ContentEditor: FC<{
   data: { [key: string]: any }
   state: { [key: string]: any }
-  fields: { key: string; meta?: string; name?: string; type: string }[]
+  fields: {
+    key: string
+    meta?: string
+    name?: string
+    type: string
+    mimeType?
+  }[]
   setState: (state: { [key: string]: any }) => void
 }> = ({ data, fields, setState, state }) => {
   return (
@@ -19,6 +25,7 @@ export const ContentEditor: FC<{
         <ContentRenderer
           state={state}
           setState={setState}
+          data={data}
           item={item}
           itemValue={data[item.key]}
           key={i}
@@ -31,9 +38,11 @@ export const ContentEditor: FC<{
 const ContentRenderer: FC<{
   item: { [key: string]: any }
   itemValue: any
+  data: any
   state: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
-}> = ({ item, itemValue, setState, state }) => {
+}> = ({ item, itemValue, setState, state, data }) => {
+  console.info('snuppie', itemValue, item, JSON.stringify(data))
   // references, type, id, set, string, digest, number, url, text
 
   const client = useClient()
@@ -46,7 +55,9 @@ const ContentRenderer: FC<{
     setState({ [key]: v })
   }
 
-  itemValue = state[key] ?? itemValue
+  // state no
+  // TODO double check this
+  itemValue = itemValue ?? state[key]
 
   const BOTTOMSPACE = 32
 
@@ -89,13 +100,15 @@ const ContentRenderer: FC<{
   }
 
   if (meta?.type === 'file') {
-    console.log('-->> flap', itemValue)
-    console.log('---->>> flip', meta?.mime)
-
     return (
       <FileUpload
         label={name}
         descriptionBottom="Drag and drop or click to upload"
+        description={
+          meta?.mime?.length > 0
+            ? `Allowed types: ${meta?.mime.join(', ')}`
+            : null
+        }
         onChange={(files) => {
           // TODO: make better
           client.stream('db:file-upload', { contents: files[0] }).then((v) => {
@@ -103,7 +116,7 @@ const ContentRenderer: FC<{
           })
         }}
         indent
-        value={itemValue?.src}
+        value={[{ src: itemValue?.src, type: data[key]?.mimeType }]}
         style={{ marginBottom: BOTTOMSPACE }}
         mime={meta?.mime}
       />

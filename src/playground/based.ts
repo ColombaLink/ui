@@ -1,17 +1,17 @@
 import based, { BasedClient } from '@based/client'
 
-export const cluster = 'production'
+export const cluster = 'local'
 
-export const project = 'bidmeister'
+export const project = 'test'
 export const org = 'saulx'
-export const env = 'production'
+export const env = 'ci'
 
 export const client = new BasedClient({
   project,
   org,
   env,
   name: '@based/env-admin-hub',
-  // cluster,
+  cluster,
 })
 
 global.basedClient = client
@@ -25,7 +25,7 @@ export const adminClient = based({
   project: 'based-cloud',
   env: 'platform',
   name: '@based/admin-hub',
-  // cluster,
+  cluster,
 })
 
 adminClient.on('connect', () => {

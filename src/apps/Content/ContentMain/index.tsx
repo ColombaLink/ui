@@ -95,8 +95,6 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
 
   const { open, close } = useDialog()
 
-  console.log(view)
-
   useEffect(() => {
     if (overlay) {
       const id = open(<Modal overlay={overlay} />, () => {
@@ -112,7 +110,7 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     }
   }, [overlay])
 
-  let { data, loading } = useQuery('db', {
+  const { data, loading } = useQuery(view ? 'db' : null, {
     $db: 'config',
     $id: view,
     $all: true,

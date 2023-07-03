@@ -24,15 +24,15 @@ export const Content = () => {
       category: 'data',
       hidden: false,
     })
-    // client.call('db:set', {
-    //   $db: 'config',
-    //   type: 'view',
-    //   $id: 'vibutton',
-    //   config: button,
-    //   name: 'BUTTON',
-    //   category: 'dashboard',
-    //   hidden: false,
-    // })
+    client.call('db:set', {
+      $db: 'config',
+      type: 'view',
+      $id: 'vibutton',
+      config: button,
+      name: 'BUTTON',
+      category: 'dashboard',
+      hidden: false,
+    })
     client.call('db:set', {
       $db: 'config',
       type: 'view',
@@ -42,28 +42,28 @@ export const Content = () => {
       category: 'hidden',
       hidden: true,
     })
-    // client.call('db:set-schema', {
-    //   schema: {
-    //     types: {
-    //       item: {
-    //         fields: {
-    //           name: { type: 'string' },
-    //           title: { type: 'text' },
-    //           picture: {
-    //             type: 'reference',
-    //             meta: { type: 'file', mime: 'image' },
-    //           },
-    //           startingPrice: { type: 'number' },
-    //           currentBid: { type: 'number' },
-    //           bids: {
-    //             type: 'references',
-    //             bidirectional: { fromField: 'item' },
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // })
+    client.call('db:set-schema', {
+      schema: {
+        types: {
+          item: {
+            fields: {
+              name: { type: 'string' },
+              title: { type: 'text' },
+              picture: {
+                type: 'reference',
+                meta: { type: 'file', mime: 'image' },
+              },
+              startingPrice: { type: 'number' },
+              currentBid: { type: 'number' },
+              bids: {
+                type: 'references',
+                bidirectional: { fromField: 'item' },
+              },
+            },
+          },
+        },
+      },
+    })
   }, [])
 
   return (

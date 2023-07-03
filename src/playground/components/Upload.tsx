@@ -11,7 +11,7 @@ export const Upload = () => {
       multiple: false,
       more: 'true',
       indent: true,
-      acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
+      mime: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
       value: [
         {
           type: 'image/png',
@@ -28,14 +28,7 @@ export const Upload = () => {
       onChange: (files) => console.log(files),
       multiple: false,
       // indent: true,
-      acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
-      value: [
-        {
-          type: '',
-          name: 'https://based-5521048989376.imgix.net/fiae726b6f/e17804f3-46be-4cb6-a4d3-5d3065841ada-f9fd4b10-e7d0-4ae8-aea5-3f33d3d9dbff-05f80e33-8cef-493f-970c-c0af57a69a92.png',
-          src: 'https://based-5521048989376.imgix.net/fiae726b6f/e17804f3-46be-4cb6-a4d3-5d3065841ada-f9fd4b10-e7d0-4ae8-aea5-3f33d3d9dbff-05f80e33-8cef-493f-970c-c0af57a69a92.png',
-        },
-      ],
+      mime: ['image/png'],
     },
   }
   const exampleUploadPlural = {

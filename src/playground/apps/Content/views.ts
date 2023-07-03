@@ -211,7 +211,7 @@ export const contentEditModal = {
       $language: 'en',
       $id: '$target.id',
       $all: true,
-      picture: { id: true, src: true },
+      picture: { id: true, src: true, mimeType: true, thumb: true, $all: true },
     },
   },
   props: {
@@ -266,7 +266,7 @@ export const contentEditModal = {
         name: 'Picture',
         key: 'picture',
         type: 'reference',
-        meta: { type: 'file', mime: ['image/*'] },
+        meta: { type: 'file', mime: ['video/mp4', 'image/png', 'image/jpg'] },
       },
     ],
   },
