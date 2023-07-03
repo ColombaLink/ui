@@ -89,7 +89,8 @@ const ContentRenderer: FC<{
   }
 
   if (meta?.type === 'file') {
-    console.log(itemValue)
+    console.log('-->> flap', itemValue)
+    console.log('---->>> flip', meta?.mime)
 
     return (
       <FileUpload
@@ -104,6 +105,7 @@ const ContentRenderer: FC<{
         indent
         value={itemValue?.src}
         style={{ marginBottom: BOTTOMSPACE }}
+        mime={meta?.mime}
       />
     )
   }

@@ -22,7 +22,6 @@ import { InputWrapper } from '../Input/InputWrapper'
 
 type FileUploadProps = {
   title?: string
-  more?: boolean
   label?: string
   description?: string
   descriptionBottom?: string
@@ -31,7 +30,7 @@ type FileUploadProps = {
   // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
   disabled?: boolean
-  acceptedFileTypes?: string[]
+  mime?: string[]
   multiple?: boolean
   value?: [{ name?: string; type?: MimeType; src: string }]
 }
@@ -47,10 +46,7 @@ const StyledFileInput = styled('div', {
 })
 
 export const FileUpload: FC<FileUploadProps> = ({
-  more = false,
-  title,
   label,
-  acceptedFileTypes,
   description,
   descriptionBottom,
   indent,
@@ -59,6 +55,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   disabled,
   multiple,
   value,
+  mime,
 }) => {
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
   const [draggingOver, setDraggingOver] = useState(false)
@@ -173,9 +170,9 @@ export const FileUpload: FC<FileUploadProps> = ({
 
       let files = Array.from(e.dataTransfer.files)
 
-      if (acceptedFileTypes) {
+      if (mime) {
         files = files.filter((file: File) => {
-          const accepted = acceptedFileTypes.includes(file.type)
+          const accepted = mime.includes(file.type)
           if (!accepted) {
             setErrorMessage(`File type: ${file?.type} is not allowed.`)
             setDraggingOver(false)
@@ -234,9 +231,9 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const urlUploadFile = async (e) => {
     let files = e
-    if (acceptedFileTypes) {
+    if (mime) {
       files = files.filter((file: File) => {
-        const accepted = acceptedFileTypes.includes(file.type)
+        const accepted = mime.includes(file.type)
         if (!accepted) {
           setErrorMessage(`File type: ${file?.type} is not allowed.`)
           setDraggingOver(false)
@@ -338,7 +335,7 @@ export const FileUpload: FC<FileUploadProps> = ({
 
     setUploadedFiles([...dupliArr])
   }
-  const mimeTypeInput = acceptedFileTypes + '/*'
+
   return (
     <InputWrapper
       indent={indent}
@@ -356,7 +353,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             style={{ marginBottom: 8 }}
           />
 
-          {more && uploadedFiles.length > 0 && (
+          {uploadedFiles.length > 0 && (
             <Button
               ghost
               onClick={() => clearFiles()}
@@ -370,7 +367,6 @@ export const FileUpload: FC<FileUploadProps> = ({
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
             <UploadedFileItem
-              more={more}
               file={file}
               handleClickUpload={handleClickUpload}
               deleteSpecificFile={deleteSpecificFile}
@@ -415,8 +411,6 @@ export const FileUpload: FC<FileUploadProps> = ({
           <UploadIcon />
           {draggingOver ? (
             <Text>Drop to upload</Text>
-          ) : title ? (
-            title
           ) : uploadedFiles.length > 0 && !multiple ? (
             <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
           ) : (
@@ -430,7 +424,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           onChange={(e) => changeHandler(e)}
           type="file"
           style={{ display: 'none' }}
-          accept={mimeTypeInput}
+          accept={mime ? mime?.join(',') : '/*'}
           key={clearCount}
           multiple={multiple}
         />

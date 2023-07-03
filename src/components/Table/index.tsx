@@ -98,11 +98,15 @@ const Cell = (props) => {
 
   const isReferences = type === 'references'
   const isReference = type === 'reference'
-  const isImg = type === 'reference' && header.meta.mime === 'image'
+  const isImg = type === 'reference' && header.meta.mime.includes('image')
+
+  console.log('-->', header)
 
   if (isReferences) {
     itemData = itemData?.length || 0
   }
+
+  console.log('Item data??', itemData)
 
   const body = header.customComponent ? (
     createElement(header.customComponent, {

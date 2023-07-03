@@ -70,7 +70,7 @@ export const itemTable = {
         label: '',
         key: 'picture.src',
         type: 'reference',
-        meta: { type: 'file', mime: 'image' },
+        meta: { type: 'file', mime: ['image/*'] },
       },
       {
         label: 'title',
@@ -266,7 +266,7 @@ export const contentEditModal = {
         name: 'Picture',
         key: 'picture',
         type: 'reference',
-        meta: { type: 'file', mime: 'image' },
+        meta: { type: 'file', mime: ['image/*'] },
       },
     ],
   },
