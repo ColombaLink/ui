@@ -20,6 +20,7 @@ type InputWrapperProps = {
   setValue?: (e) => void
   maxChars?: number
   onChange?: (e) => void
+  hideClearButton?: boolean
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
@@ -36,6 +37,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   setValue,
   onChange: onChangeProp,
   maxChars,
+  hideClearButton,
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
@@ -60,6 +62,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             : color('border'),
           paddingLeft: indent ? 12 : null,
           pointerEvents: disabled ? 'none' : null,
+          ...style,
         }}
         {...props}
       >
@@ -75,7 +78,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
           />
-          {value !== '' && indent && (
+          {value !== '' && indent && !hideClearButton && (
             <Button
               ghost
               onClick={() => {

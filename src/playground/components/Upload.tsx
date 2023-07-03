@@ -38,7 +38,7 @@ export const Upload = () => {
       onChange: (files) => console.log(files),
       multiple: true,
       indent: true,
-      acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
+      mime: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
     },
   }
   const exampleUploadedLess = {
@@ -49,7 +49,7 @@ export const Upload = () => {
       multiple: true,
       indent: true,
       more: false,
-      acceptedFileTypes: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
+      mime: ['image/png', 'image/jpeg', 'image/jpg', 'video/*'],
       value: [
         {
           type: 'image',

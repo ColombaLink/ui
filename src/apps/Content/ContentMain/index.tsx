@@ -7,13 +7,7 @@ import {
   EditIcon,
   ContextDivider,
   useDialog,
-  styled,
-  Row,
-  MoreIcon,
-  Text,
-  Button,
   LoadingIcon,
-  addOverlay,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'

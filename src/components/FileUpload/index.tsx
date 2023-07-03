@@ -342,6 +342,7 @@ export const FileUpload: FC<FileUploadProps> = ({
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       errorMessage={errorMessage}
+      hideClearButton
       style={style}
     >
       <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>

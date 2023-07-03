@@ -116,7 +116,13 @@ const ContentRenderer: FC<{
           })
         }}
         indent
-        value={[{ src: itemValue?.src, type: data[key]?.mimeType }]}
+        value={[
+          {
+            src: itemValue?.src,
+            type: data[key]?.mimeType,
+            name: data[key]?.name,
+          },
+        ]}
         style={{ marginBottom: BOTTOMSPACE }}
         mime={meta?.mime}
       />
