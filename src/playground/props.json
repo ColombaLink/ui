@@ -2369,8 +2369,8 @@
       "code": "type LineGraphProps = {\n  data: LineGraphDataInput\n  xFormat?: LineXGraphFormat\n  valueFormat?: NumberFormat | string\n  label?: string\n}",
       "file": "/components/LineGraph/index.tsx"
     },
-    "NewLogsProps": {
-      "name": "NewLogsProps",
+    "LogGroupsProps": {
+      "name": "LogGroupsProps",
       "props": {
         "data": {
           "optional": true,
@@ -2381,8 +2381,8 @@
           "type": "number"
         }
       },
-      "code": "type NewLogsProps = {\n  data?: NewLogsObject\n  groupByTime?: number\n}",
-      "file": "/components/LogsNew/index.tsx"
+      "code": "type LogGroupsProps = {\n  data?: NewLogsObject\n  groupByTime?: number\n}",
+      "file": "/components/LogGroups/index.tsx"
     },
     "SingleLogProps": {
       "name": "SingleLogProps",
@@ -2400,7 +2400,7 @@
         }
       },
       "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n}",
-      "file": "/components/LogsNew/index.tsx"
+      "file": "/components/LogGroups/index.tsx"
     },
     "EmbeddedMapProps": {
       "name": "EmbeddedMapProps",

@@ -39,7 +39,7 @@ export * from './components/Label'
 export * from './components/LineGraph'
 export * from './components/Logo'
 export * from './components/Logs'
-export * from './components/LogsNew'
+export * from './components/LogGroups'
 export * from './components/Map'
 export * from './components/MasonryGrid'
 export * from './components/Menu'
@@ -74,4 +74,8 @@ export * from './types'
 export * from 'inlines'
 export * from 'kabouter'
 
+<<<<<<< HEAD
 console.info('UI 5.10.7')
+=======
+console.info('UI 5.10.9')
+>>>>>>> 68d5255383489c63c880fbc1df61cd5fdb62289b
