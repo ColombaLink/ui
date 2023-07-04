@@ -5,7 +5,7 @@ import { Avatar } from '../Avatar'
 import { Input } from '../Input'
 import { Link, useRoute } from 'kabouter'
 import { Logo } from '../Logo'
-import { useQuery, useAuth } from '@based/react'
+import { useQuery, useAuthState } from '@based/react'
 import { stringToIcon } from '~/utils/stringToIcon'
 import { Text } from '../Text'
 
@@ -73,7 +73,7 @@ const TopbarSearchbar = ({ onFilter }: { onFilter?: (params: any) => any }) => {
 }
 
 const Profile = ({ onProfile }) => {
-  const user = useAuth()
+  const user = useAuthState()
   const {
     data: { email },
   } = useQuery(
