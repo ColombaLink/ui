@@ -9,21 +9,34 @@ export const VideoPlayer = ({ src }) => {
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
     progress: 0,
+    time: 0,
     speed: 1,
     isMuted: false,
   })
 
   useEffect(() => {
-    if (playerState.isPlaying) {
-      videoRef.current.play()
-    } else if (!playerState.isPlaying) {
-      videoRef.current.pause()
-    }
-  }, [playerState])
+    playerState.isPlaying ? videoRef.current.play() : videoRef.current.pause()
+  }, [playerState, videoRef])
+
+  const handleOnTimeUpdate = () => {
+    const progress =
+      (videoRef.current.currentTime / videoRef.current.duration) * 100
+    setPlayerState({
+      ...playerState,
+      time: videoRef.current.currentTime,
+      progress,
+    })
+  }
+
+  console.log(playerState, '????')
 
   return (
     <styled.div>
-      <styled.video style={{ width: '100%' }} ref={videoRef}>
+      <styled.video
+        style={{ width: '100%' }}
+        ref={videoRef}
+        onTimeUpdate={handleOnTimeUpdate}
+      >
         <source src={src} type="video/mp4" />
         {/* <source src={src} type="video/ogg"> */}
         Your browser does not support the video tag.

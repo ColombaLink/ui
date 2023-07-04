@@ -105,6 +105,12 @@ const ContentRenderer: FC<{
   }
 
   if (meta?.type === 'file') {
+    console.info(
+      'MY STATE',
+      state[key],
+      state[key]?.src && state[key]?.name && state[key]?.type
+    )
+
     return (
       <FileUpload
         label={name}
@@ -114,21 +120,34 @@ const ContentRenderer: FC<{
             ? `Allowed types: ${meta?.mime.join(', ')}`
             : null
         }
-        onChange={(files) => {
-          console.log('FILES??', files[0])
+        onChange={(files, updateProgess) => {
+          // updateProgess
+          console.info('FIRE', files[0])
 
-          client.stream('db:file-upload', { contents: files[0] }).then((v) => {
-            onChange(v)
-          })
+          client
+            .stream('db:file-upload', { contents: files[0] })
+            .then(async (v) => {
+              console.info('THINGS', v)
+
+              const { mimeType, name } = await client
+                .query('db', {
+                  $id: v.id,
+                  mimeType: true,
+                  name: true,
+                })
+                .get()
+
+              onChange({ ...v, mimeType, name })
+            })
         }}
         indent
         value={
-          state[key]?.src && state[key]?.name && state[key]?.type
+          state[key]?.src
             ? [
                 {
                   src: state[key]?.src,
-                  type: state[key]?.type,
-                  name: state[key]?.name,
+                  type: state[key]?.mimeType ?? data[key]?.mimeType,
+                  name: state[key]?.name ?? data[key]?.name,
                 },
               ]
             : [

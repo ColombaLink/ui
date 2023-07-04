@@ -23,6 +23,7 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
         alignItems: 'center',
       }}
       onClick={(e) => {
+        // TODO set progress
         setPercentage(
           getPercentage(
             bigRef.current.clientWidth,
@@ -33,7 +34,7 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
     >
       <styled.div
         style={{
-          width: `${percentage}%`,
+          width: `${playerState.progress}%`,
           height: 4,
           backgroundColor: color('accent'),
           position: 'relative',
@@ -62,7 +63,7 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
             top: -42,
           }}
         >
-          {Math.round(percentage)}%
+          {playerState.time.toFixed(2)}
         </styled.div>
       </styled.div>
     </styled.div>
