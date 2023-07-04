@@ -21,7 +21,6 @@ import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type FileUploadProps = {
-  title?: string
   label?: string
   description?: string
   descriptionBottom?: string
@@ -224,7 +223,8 @@ export const FileUpload: FC<FileUploadProps> = ({
         )
 
       urlUploadFile([file])
-      console.log(dialog._id)
+      // console.log(dialog._id)
+      // console.log('BLOB 🏄‍♂️ -> ', file)
       removeOverlay()
     }
   }

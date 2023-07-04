@@ -110,19 +110,28 @@ const ContentRenderer: FC<{
             : null
         }
         onChange={(files) => {
-          // TODO: make better
           client.stream('db:file-upload', { contents: files[0] }).then((v) => {
             onChange(v)
           })
         }}
         indent
-        value={[
-          {
-            src: itemValue?.src,
-            type: data[key]?.mimeType,
-            name: data[key]?.name,
-          },
-        ]}
+        value={
+          state[key]?.src
+            ? [
+                {
+                  src: state[key]?.src,
+                  type: data[key]?.mimeType,
+                  name: data[key]?.name,
+                },
+              ]
+            : [
+                {
+                  src: data[key]?.src,
+                  type: data[key]?.mimeType,
+                  name: data[key]?.name,
+                },
+              ]
+        }
         style={{ marginBottom: BOTTOMSPACE }}
         mime={meta?.mime}
       />
