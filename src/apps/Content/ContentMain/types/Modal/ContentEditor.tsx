@@ -1,5 +1,5 @@
 import { useClient } from '@based/react'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
@@ -111,56 +111,63 @@ const ContentRenderer: FC<{
       state[key]?.src && state[key]?.name && state[key]?.type
     )
 
+    const [progress, setProgress] = useState(null)
+
     return (
-      <FileUpload
-        label={name}
-        descriptionBottom="Drag and drop or click to upload"
-        description={
-          meta?.mime?.length > 0
-            ? `Allowed types: ${meta?.mime.join(', ')}`
-            : null
-        }
-        onChange={(files, updateProgess) => {
-          // updateProgess
-          console.info('FIRE', files[0])
+      <div>
+        {progress * 100}%
+        <FileUpload
+          label={name}
+          descriptionBottom="Drag and drop or click to upload"
+          description={
+            meta?.mime?.length > 0
+              ? `Allowed types: ${meta?.mime.join(', ')}`
+              : null
+          }
+          onChange={(files, updateProgess) => {
+            // updateProgess
+            // console.info('FIRE', files[0])
 
-          client
-            .stream('db:file-upload', { contents: files[0] })
-            .then(async (v) => {
-              console.info('THINGS', v)
+            client
+              .stream('db:file-upload', { contents: files[0] }, (e) =>
+                setProgress(e)
+              )
+              .then(async (v) => {
+                console.info('THINGS', v)
 
-              const { mimeType, name } = await client
-                .query('db', {
-                  $id: v.id,
-                  mimeType: true,
-                  name: true,
-                })
-                .get()
+                const { mimeType, name } = await client
+                  .query('db', {
+                    $id: v.id,
+                    mimeType: true,
+                    name: true,
+                  })
+                  .get()
 
-              onChange({ ...v, mimeType, name })
-            })
-        }}
-        indent
-        value={
-          state[key]?.src
-            ? [
-                {
-                  src: state[key]?.src,
-                  type: state[key]?.mimeType ?? data[key]?.mimeType,
-                  name: state[key]?.name ?? data[key]?.name,
-                },
-              ]
-            : [
-                {
-                  src: data[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
-                },
-              ]
-        }
-        style={{ marginBottom: BOTTOMSPACE }}
-        mime={meta?.mime}
-      />
+                onChange({ ...v, mimeType, name })
+              })
+          }}
+          indent
+          value={
+            state[key]?.src
+              ? [
+                  {
+                    src: state[key]?.src,
+                    type: state[key]?.mimeType ?? data[key]?.mimeType,
+                    name: state[key]?.name ?? data[key]?.name,
+                  },
+                ]
+              : [
+                  {
+                    src: data[key]?.src,
+                    type: data[key]?.mimeType,
+                    name: data[key]?.name,
+                  },
+                ]
+          }
+          style={{ marginBottom: BOTTOMSPACE }}
+          mime={meta?.mime}
+        />
+      </div>
     )
   }
 
