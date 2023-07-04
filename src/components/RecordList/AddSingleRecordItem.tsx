@@ -32,7 +32,6 @@ export const addSingleRecordItem = async (
         type={
           itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
         }
-        digest={itemType === 'digest'}
         autoFocus
         value={inputValue}
         onChange={(e) => {

@@ -136,7 +136,6 @@ export const Register: FC<RegisterProps> = ({
         large
         label="Password"
         space="16px"
-        passwordInput
         // icon={LockIcon}
         type="password"
         placeholder="Password"
@@ -160,7 +159,6 @@ export const Register: FC<RegisterProps> = ({
               : renderOrCreateElement(CloseIcon, { color: 'red' })
           }
           space
-          passwordInput
           name="confirm-password"
           type="password"
           placeholder="Confirm password"

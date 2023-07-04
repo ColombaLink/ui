@@ -1,6 +1,12 @@
-import React, { CSSProperties, FC, useEffect, useState, useRef } from 'react'
-import { styled } from 'inlines'
-import { color, CalendarAltIcon, boxShadow } from '~'
+import React, { FC, useEffect, useState, useRef } from 'react'
+import {
+  color,
+  CalendarAltIcon,
+  boxShadow,
+  styled,
+  Style,
+  useContextMenu,
+} from '~'
 import { DatePicker } from './DatePicker'
 
 type DateInputProps = {
@@ -10,7 +16,7 @@ type DateInputProps = {
   clearHandler?: () => void
   fromValue?: string
   tillValue?: string
-  style?: CSSProperties
+  style?: Style
   placeholder?: string
   focusOnBeginDate?: boolean
   focusOnEndDate?: boolean
@@ -60,33 +66,49 @@ export const DateInput: FC<DateInputProps> = ({
 
   const inputRef = useRef<HTMLInputElement | any>(null)
 
-  // console.log('focusOnEndDate', focusOnEndDate)
-  // console.log('focusOnBeginDate', focusOnBeginDate)
-
   useEffect(() => {
     if (focusOnEndDate && !focusOnBeginDate && !tillValue) {
       inputRef.current.focus()
 
-      // @ts-ignore
       inputRef.current.value = dateInputHandler({
         target: {
-          value:
-            // `${
-            //   dateObj.getUTCDate() < 10
-            //     ? '0' + dateObj.getUTCDate()
-            //     : dateObj.getUTCDate()
-            // }
-            `--/${
-              dateObj.getUTCMonth() + 1 < 10
-                ? '0' + (dateObj.getUTCMonth() + 1)
-                : dateObj.getUTCMonth() + 1
-            }/${dateObj.getUTCFullYear()}`,
+          value: `--/${
+            dateObj.getUTCMonth() + 1 < 10
+              ? '0' + (dateObj.getUTCMonth() + 1)
+              : dateObj.getUTCMonth() + 1
+          }/${dateObj.getUTCFullYear()}`,
         },
       })
     }
   }, [focusOnEndDate, focusOnBeginDate])
 
-  // moet er voor zorgen dat de focus wisselt
+  const handler = useContextMenu(
+    DatePicker,
+    {
+      setShowDatePicker,
+      value,
+      dateHandler,
+      setFocused,
+      clearHandler,
+      isDateRange,
+      fromValue,
+      tillValue,
+      setFromValue,
+      setTillValue,
+      focusOnBeginDate,
+      focusOnEndDate,
+      setFocusOnBeginDate,
+      setFocusOnEndDate,
+    },
+    {
+      width: 'target',
+    }
+  )
+
+  useEffect(() => {
+    console.log('Value from dateINPUT ??⭐️', value)
+  }, [value])
+
   useEffect(() => {
     if (!focusOnEndDate && focusOnBeginDate) {
       inputRef.current.focus()
@@ -100,31 +122,13 @@ export const DateInput: FC<DateInputProps> = ({
     setFocused(true)
   }
 
-  // lister for the value of the input
   useEffect(() => {
     if (value[0] === 'N') {
-      // @ts-ignore
       inputRef.current.value = dateInputHandler({
         target: {
-          value:
-            // `${
-            //   dateObj.getUTCDate() < 10
-            //     ? '0' + dateObj.getUTCDate()
-            //     : dateObj.getUTCDate()
-            // }
-            `--${value?.substr(3)}`,
+          value: `--${value?.substr(3)}`,
         },
       })
-    }
-
-    // Fulco's birthday
-    if (
-      value[0] === '2' &&
-      value[1] === '9' &&
-      value[3] === '0' &&
-      value[4] === '2'
-    ) {
-      console.log("Fulco's birthday 🎉🎁🎈")
     }
   }, [value])
 
@@ -149,6 +153,7 @@ export const DateInput: FC<DateInputProps> = ({
           left: 10,
         }}
       />
+
       <StyledDateInput
         ref={inputRef}
         value={value}
@@ -173,22 +178,17 @@ export const DateInput: FC<DateInputProps> = ({
           if (value === '') {
             dateInputHandler({
               target: {
-                value:
-                  // `${
-                  //   dateObj.getUTCDate() < 10
-                  //     ? '0' + dateObj.getUTCDate()
-                  //     : dateObj.getUTCDate()
-                  // }
-                  `--/${
-                    dateObj.getUTCMonth() + 1 < 10
-                      ? '0' + (dateObj.getUTCMonth() + 1)
-                      : dateObj.getUTCMonth() + 1
-                  }/${dateObj.getUTCFullYear()}`,
+                value: `--/${
+                  dateObj.getUTCMonth() + 1 < 10
+                    ? '0' + (dateObj.getUTCMonth() + 1)
+                    : dateObj.getUTCMonth() + 1
+                }/${dateObj.getUTCFullYear()}`,
               },
             })
           }
           e.preventDefault()
           setShowDatePicker(true)
+          handler(e)
           if (isDateRange) {
             onClick()
           }
@@ -203,27 +203,6 @@ export const DateInput: FC<DateInputProps> = ({
           setIsFocus(false)
         }}
       />
-
-      {showDatePicker && (
-        <DatePicker
-          inputValue={value}
-          setInputValue={dateHandler}
-          setShowDatePicker={setShowDatePicker}
-          setFocused={setFocused}
-          clearHandler={clearHandler}
-          // voor de date range
-          isDateRange={isDateRange}
-          fromValue={fromValue}
-          tillValue={tillValue}
-          setFromValue={setFromValue}
-          setTillValue={setTillValue}
-          focusOnBeginDate={focusOnBeginDate}
-          focusOnEndDate={focusOnEndDate}
-          setFocusOnBeginDate={setFocusOnBeginDate}
-          setFocusOnEndDate={setFocusOnEndDate}
-          style={{ left: isEndDate ? '-100%' : '' }}
-        />
-      )}
     </div>
   )
 }

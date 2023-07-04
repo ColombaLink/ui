@@ -51,7 +51,7 @@ export const useHover: () => HoverState = isTouchDevice()
             onMouseEnter: (e) => mouseHandler(e, false, true),
             onMouseDown: (e) => mouseHandler(e, true, false),
             onMouseUp: (e) => mouseHandler(e, false, true),
-            onMouseLeave: (e) => mouseHandler(e, true, false),
+            onMouseLeave: (e) => mouseHandler(e, false, false),
           },
         }
       }
@@ -74,7 +74,7 @@ export const useHover: () => HoverState = isTouchDevice()
             onMouseEnter: (e) => handler(e, false, true),
             onMouseDown: (e) => handler(e, true, false),
             onMouseUp: (e) => handler(e, false, true),
-            onMouseLeave: (e) => handler(e, true, false),
+            onMouseLeave: (e) => handler(e, false, false),
           },
         }
       }

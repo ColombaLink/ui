@@ -1,8 +1,15 @@
 import React, { CSSProperties, FC, ReactNode, FunctionComponent } from 'react'
-import { border, color, renderOrCreateElement } from '~/utils'
-import { Color, Icon } from '~/types'
-import { Text } from '../Text'
-import { styled } from 'inlines'
+import {
+  border,
+  color,
+  renderOrCreateElement,
+  Color,
+  Icon,
+  Text,
+  styled,
+  useCopyToClipboard,
+  CheckIcon,
+} from '~'
 
 type BadgeProps = {
   children: ReactNode
@@ -13,7 +20,27 @@ type BadgeProps = {
   color?: Color
   boxed?: boolean
   ghost?: boolean
-  onClick?: (() => void) | boolean
+  onClick?: ((e: MouseEvent) => void) | boolean
+}
+
+export const CopyBadge: FC<BadgeProps & { copyValue?: string | number }> = ({
+  copyValue,
+  ...props
+}) => {
+  const val: string | number =
+    copyValue ?? (typeof props.children === 'string' ? props.children : '')
+  const [copy, copyClick] = useCopyToClipboard(val)
+  return (
+    <Badge
+      onClick={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+        copyClick()
+      }}
+      icon={copy ? CheckIcon : props.icon}
+      {...props}
+    />
+  )
 }
 
 export const Badge: FC<BadgeProps> = ({
@@ -32,12 +59,12 @@ export const Badge: FC<BadgeProps> = ({
     <styled.div
       onClick={onClick}
       style={{
+        minHeight: 24,
         transition: 'transform 0.15s',
         transform: 'scale(1)',
         cursor: onClick ? 'pointer' : null,
         padding: '0 8px',
         borderRadius: boxed ? 4 : 12,
-        minHeight: 24,
         width: 'fit-content',
         maxWidth: '100%',
         display: 'flex',
@@ -58,7 +85,7 @@ export const Badge: FC<BadgeProps> = ({
       {...props}
     >
       {icon && (
-        <div
+        <styled.div
           style={{
             marginRight: 8,
             minWidth: 10,
@@ -67,15 +94,15 @@ export const Badge: FC<BadgeProps> = ({
           }}
         >
           {renderOrCreateElement(icon, { size: 10 })}
-        </div>
+        </styled.div>
       )}
-      <Text typo="caption500" color="inherit">
+      <Text typography="caption500" color="inherit">
         {children}
       </Text>
       {iconRight && (
-        <div style={{ marginLeft: 8 }}>
+        <styled.div style={{ marginLeft: 8 }}>
           {renderOrCreateElement(iconRight, { size: 10 })}
-        </div>
+        </styled.div>
       )}
     </styled.div>
   )

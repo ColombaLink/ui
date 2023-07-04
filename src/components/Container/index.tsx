@@ -1,23 +1,32 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
-import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { styled } from 'inlines'
+import React, { FC, ReactNode } from 'react'
+import {
+  color,
+  spaceToPx,
+  renderOrCreateElement,
+  RowSpaced,
+  Row,
+  Space,
+  styled,
+  Style,
+} from '~'
 
 type ContainerProps = {
   children: ReactNode
   space?: Space
-  style?: CSSProperties
+  style?: Style
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
   bottomLeft?: FC | ReactNode
   bottomRight?: FC | ReactNode
   wrap?: boolean
+  onClick?: (e: MouseEvent) => void
 }
 
 export const Container: FC<ContainerProps> = ({
   children,
   style,
   space,
+  onClick,
   topLeft,
   topRight,
   bottomLeft,
@@ -27,6 +36,7 @@ export const Container: FC<ContainerProps> = ({
 }) => {
   return (
     <styled.div
+      onClick={onClick}
       style={{
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,
@@ -41,28 +51,18 @@ export const Container: FC<ContainerProps> = ({
       }}
       {...props}
     >
-      <div
+      <RowSpaced
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
           marginBottom: topLeft || topRight ? 24 : 0,
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {renderOrCreateElement(topLeft)}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          {renderOrCreateElement(topRight)}
-        </div>
-      </div>
+        <Row style={{ gap: 16 }}>{renderOrCreateElement(topLeft)}</Row>
+        <Row style={{ gap: 16 }}>{renderOrCreateElement(topRight)}</Row>
+      </RowSpaced>
       {children}
       {(bottomLeft || bottomRight) && (
-        <div
+        <RowSpaced
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
             minHeight: 68,
             borderTop: `1px solid ${color('border')}`,
             borderBottomLeftRadius: 4,
@@ -76,13 +76,9 @@ export const Container: FC<ContainerProps> = ({
             backgroundColor: color('background3dp'),
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(bottomLeft)}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {renderOrCreateElement(bottomRight)}
-          </div>
-        </div>
+          <Row style={{ gap: 16 }}>{renderOrCreateElement(bottomLeft)}</Row>
+          <Row style={{ gap: 16 }}>{renderOrCreateElement(bottomRight)}</Row>
+        </RowSpaced>
       )}
     </styled.div>
   )

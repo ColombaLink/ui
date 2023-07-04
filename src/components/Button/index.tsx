@@ -10,21 +10,35 @@ import React, {
   FunctionComponent,
   MouseEvent,
 } from 'react'
-import { border, color, renderOrCreateElement, spaceToPx, Color } from '~/utils'
-import { styled, Style } from 'inlines'
-import { LoadingIcon } from '~/icons'
-import { Text } from '../Text'
-import { Space, Key, Icon } from '~/types'
-import { useKeyboardShortcut } from '~/hooks/useKeyboard'
-import { KeyBoardshortcut } from '../KeyBoardShortcut'
+import {
+  border,
+  color,
+  renderOrCreateElement,
+  spaceToPx,
+  Color,
+  Text,
+  Space,
+  Key,
+  Icon,
+  styled,
+  Style,
+  LoadingIcon,
+  useKeyboardShortcut,
+  KeyBoardshortcut,
+} from '~'
+
+const stopPropagation = (e) => e.stopPropagation()
 
 export type ButtonProps = {
+  onMouseEnter?: MouseEventHandler
+  onMouseLeave?: MouseEventHandler
   children?: ReactNode | ReactNode[]
   disabled?: boolean
   color?: Color
   ghost?: boolean
   light?: boolean
   large?: boolean
+  transparent?: boolean
   fill?: boolean // TODO: add this on inputs etc as well
   icon?: FunctionComponent<Icon> | ReactNode
   iconRight?: FunctionComponent<Icon> | ReactNode
@@ -49,10 +63,23 @@ export type ButtonProps = {
   /** Parses action keys string and displays it if not on a touchdevice
    */
   displayShortcut?: boolean
+  /** Animate onClick
+   */
+  clickAnimation?: boolean
 }
 
-export const getButtonStyle = (props, isButton = !!props.onClick) => {
-  const { disabled, ghost, color: colorProp = 'accent', outline, light } = props
+export const getButtonStyle = (
+  props: ButtonProps,
+  isButton: boolean = !!props.onClick
+): Style => {
+  const {
+    disabled,
+    ghost,
+    color: colorProp = ghost ? 'text' : 'accent',
+    outline,
+    light,
+    clickAnimation,
+  } = props
 
   const isLight = light || ghost || outline
   const style: Style = {
@@ -65,15 +92,27 @@ export const getButtonStyle = (props, isButton = !!props.onClick) => {
 
   if (isButton) {
     style.cursor = 'pointer'
-    style['@media (hover:hover)'] = {
-      '&:hover': {
-        backgroundColor: color(colorProp, 'hover', isLight),
-        cursor: disabled ? 'not-allowed' : 'pointer',
-      },
+
+    if (!props.transparent) {
+      style['@media (hover:hover)'] = {
+        '&:hover': {
+          backgroundColor: color(colorProp, 'hover', isLight),
+          cursor: disabled ? 'not-allowed' : 'pointer',
+        },
+      }
     }
-    style['&:active'] = {
-      backgroundColor: color(colorProp, 'active', isLight),
-    }
+    style['&:active'] = clickAnimation
+      ? {
+          backgroundColor: !props.transparent
+            ? color(colorProp, 'active', isLight)
+            : null,
+          transform: 'scale(1.05)',
+        }
+      : {
+          backgroundColor: !props.transparent
+            ? color(colorProp, 'active', isLight)
+            : null,
+        }
   }
 
   return style
@@ -89,6 +128,8 @@ export const Button: FC<ButtonProps> = (props) => {
     loading,
     onClick,
     onPointerDown,
+    onMouseEnter,
+    onMouseLeave,
     space,
     keyboardShortcut,
     displayShortcut,
@@ -157,7 +198,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ref={buttonElem}
       disabled={isLoading ? true : props.disabled}
       onClick={onClick && extendedOnClick}
-      onPointerDown={onPointerDown}
+      onPointerDown={onPointerDown || stopPropagation}
       style={{
         padding:
           !children && large
@@ -169,13 +210,13 @@ export const Button: FC<ButtonProps> = (props) => {
             : '6px 12px',
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
-        maxHeight: large ? 40 : '',
         position: 'relative',
         marginBottom: space ? spaceToPx(space) : null,
-        // height: large ? 48 : 40,
         ...getButtonStyle(props, true),
         ...style,
       }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <div
         style={{
@@ -204,9 +245,9 @@ export const Button: FC<ButtonProps> = (props) => {
               : null
           )}
         <Text
+          style={{ display: 'flex', alignItems: 'center' }}
           color="inherit"
-          //  weight={weight !== undefined ? weight : large ? 600 : 500}
-          typo={large ? 'subtext600' : 'body500'}
+          typography={large ? 'subtext600' : 'body500'}
         >
           {children}
           {displayShortcut && keyboardShortcut ? (

@@ -1,20 +1,13 @@
-import React, { useState, FunctionComponent, ReactNode } from 'react'
-import {
-  Input,
-  EyeIcon,
-  EyeBlockedIcon,
-  LockIcon,
-  color,
-  renderOrCreateElement,
-} from '~'
-import { Icon } from '~/types'
+import React, { useState } from 'react'
+import { EyeIcon, EyeBlockedIcon, color, styled, Style } from '~'
+import { Single } from './Single'
 
 type PasswordInputProps = {
   value?: string
   onChange?: (target) => void
   disabled?: boolean
   large?: boolean
-  icon?: FunctionComponent<Icon> | ReactNode
+  style: Style
 }
 
 export const PasswordInput = ({
@@ -22,32 +15,35 @@ export const PasswordInput = ({
   onChange,
   disabled,
   large,
-  icon,
   ...props
 }: PasswordInputProps) => {
   const [passwordInputType, setPasswordInputType] = useState<
     'text' | 'password'
   >('password')
 
+  const style = { ...props.style, paddingLeft: 30 }
+
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         position: 'relative',
         alignItems: 'center',
+        cursor: disabled ? 'not-allowed' : '',
       }}
     >
-      <Input
-        {...props}
-        large={large}
-        icon={renderOrCreateElement(icon) || <LockIcon />}
-        style={{ width: '100%' }}
+      <Single
         type={passwordInputType}
-        value={value}
+        // value={value}
+        // @ts-ignore
+        style={{
+          paddingLeft: 42,
+          minHeight: large ? 48 : 36,
+          ...style,
+        }}
         onChange={(e) => {
           onChange({ target: { value: e } })
         }}
-        disabled={disabled}
       />
 
       {passwordInputType === 'text' && (
@@ -55,7 +51,7 @@ export const PasswordInput = ({
           size={24}
           style={{
             position: 'absolute',
-            right: 6,
+            left: 6,
             cursor: 'pointer',
             border: `3px solid ${color('background')}`,
             backgroundColor: color('background'),
@@ -68,7 +64,7 @@ export const PasswordInput = ({
           size={24}
           style={{
             position: 'absolute',
-            right: 6,
+            left: 6,
             cursor: 'pointer',
             backgroundColor: color('background'),
             border: `3px solid ${color('background')}`,
@@ -76,6 +72,6 @@ export const PasswordInput = ({
           onClick={() => setPasswordInputType('text')}
         />
       )}
-    </div>
+    </styled.div>
   )
 }

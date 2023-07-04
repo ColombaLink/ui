@@ -1,8 +1,5 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
-import { Text } from '~/components/Text'
-import { styled } from 'inlines'
-import { color } from '~/utils'
-import { Color } from '~/types'
+import React, { FC, ReactNode } from 'react'
+import { Style, styled, color, Text, Color, RowSpaced } from '~'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',
@@ -18,7 +15,8 @@ export const StyledSelect = styled('div', {
   cursor: 'pointer',
   userSelect: 'none',
   height: 38,
-  overflow: 'hidden',
+  overflowY: 'hidden',
+  overflowX: 'hidden',
   display: 'flex',
   width: '100%',
   '@media (hover: hover)': {
@@ -27,26 +25,27 @@ export const StyledSelect = styled('div', {
     },
   },
 })
+
 export const SelectLabel: FC<{
   children: ReactNode
   onClick: any
-  style?: CSSProperties
+  style?: Style
   color?: Color
-  label: string
+  label: ReactNode
 }> = ({ children, onClick, style, color: colorProp, label }) => {
   return (
-    <styled.div
+    <RowSpaced
       onClick={onClick}
       style={{
-        justifyContent: 'space-between',
+        alignItems: null,
         borderRadius: 4,
         border: `1px solid ${color('border')}`,
         backgroundColor: color('background'),
         cursor: 'pointer',
         userSelect: 'none',
         height: 38,
-        overflow: 'hidden',
-        display: 'flex',
+        overflowY: 'hidden',
+        overflowX: 'hidden',
         width: '100%',
         '@media (hover: hover)': {
           '&:hover': {
@@ -85,6 +84,6 @@ export const SelectLabel: FC<{
       >
         {children}
       </Text>
-    </styled.div>
+    </RowSpaced>
   )
 }

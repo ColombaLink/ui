@@ -68,7 +68,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
     >
       {counter && (
         <CounterBadge>
-          <Text typo="caption600">{counter}</Text>
+          <Text typography="caption600">{counter}</Text>
         </CounterBadge>
       )}
       {label ? (

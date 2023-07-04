@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useState, FC, useEffect } from 'react'
+import React, { useRef, useState, FC, useEffect } from 'react'
 import {
   Label,
   color,
@@ -11,21 +11,22 @@ import {
   useDialog,
   Tabs,
   Tab,
+  MimeType,
+  Space,
+  styled,
+  Style,
+  RowSpaced,
 } from '~'
-import { Space } from '~/types'
-import { styled } from 'inlines'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
-import { MimeType } from '../Schema/types'
 
 type FileUploadProps = {
   label?: string
   description?: string
   descriptionBottom?: string
   indent?: boolean
-  // error?: (str: string) => string
   onChange?: (file: File[]) => void
-  style?: CSSProperties
+  style?: Style
   space?: Space
   disabled?: boolean
   acceptedFileTypes?: string[]
@@ -49,7 +50,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   description,
   descriptionBottom,
   indent,
-  // error,
   onChange,
   space,
   style,
@@ -170,7 +170,6 @@ export const FileUpload: FC<FileUploadProps> = ({
         newValue = [files[0]]
       }
 
-      console.log('what is the newest value?', newValue)
       setUploadedFiles(newValue)
 
       onChange(newValue)
@@ -182,14 +181,10 @@ export const FileUpload: FC<FileUploadProps> = ({
       ? [...uploadedFiles, ...e.target.files]
       : [e.target.files[0]]
 
-    console.log('e.target.files', e.target.files)
-
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
   }
-
-  // all the options for the context menu
 
   // should TODO delete file instead of the onChange([])
   const deleteSpecificFile = (id) => {
@@ -204,11 +199,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   const urlHandler = async (urlInput) => {
     if (urlInput) {
       const file = await fetch(urlInput)
-        .then(
-          (res) => res.blob()
-          //  mimetype = res.headers.get('content-type')
-          //  console.log('type is', mimetype)
-        )
+        .then((res) => res.blob())
         .then(
           (blobFile) =>
             new File([blobFile], fileName || urlInput.split('/').pop(), {
@@ -237,8 +228,6 @@ export const FileUpload: FC<FileUploadProps> = ({
 
     let newValue = [...uploadedFiles, ...files]
 
-    console.log('new value', newValue)
-
     if (!multiple) {
       newValue = [files[0]]
     }
@@ -247,7 +236,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUrlInputValue('')
   }
 
-  // console.log('??? Uploaded Files?', uploadedFiles)
   const openInNewTab = (url) => {
     const newWindow = window.open(url, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
@@ -276,8 +264,10 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   const fullScreenView = (file) => {
     fullScreenDialog.open(
-      <Dialog style={{ padding: 0, '& div div': { padding: 0 } }}>
-        <img
+      <Dialog
+        style={{ overflow: 'hidden', padding: 0, '& div div': { padding: 0 } }}
+      >
+        <styled.img
           src={file.src}
           style={{
             width: '100%',
@@ -287,17 +277,14 @@ export const FileUpload: FC<FileUploadProps> = ({
           }}
         />
         <div>
-          <div
+          <RowSpaced
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
               padding: '16px !important',
               margin: '8px 16px',
               marginBottom: ' -14px',
             }}
           >
-            <Text typo="body500" color="text2">
+            <Text typography="body500" color="text2">
               {file.name}
             </Text>
             <Button
@@ -310,7 +297,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             >
               Close
             </Button>
-          </div>
+          </RowSpaced>
         </div>
       </Dialog>
     )
@@ -332,7 +319,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles([...dupliArr])
   }
   const mimeTypeInput = acceptedFileTypes + '/*'
-  // console.log('???', uploadedFiles)
 
   return (
     <InputWrapper

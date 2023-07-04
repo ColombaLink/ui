@@ -1,12 +1,9 @@
 import React, { CSSProperties, FC, ReactNode } from 'react'
-import { Color, color } from '~/utils'
-import { Text, Label } from '~'
-import { useTooltip } from '~/hooks'
-import { styled } from 'inlines'
+import { Color, color, Text, Label, useTooltip, styled } from '~'
 import { prettyNumber } from '@based/pretty-number'
 
 type BarGraphProps = {
-  data: {
+  data?: {
     value: number | { [key: string]: number }
     label: string
     color?: string
@@ -21,7 +18,7 @@ type BarGraphProps = {
 }
 
 export const BarGraph: FC<BarGraphProps> = ({
-  data,
+  data = [],
   label,
   description,
   value,
@@ -42,7 +39,7 @@ export const BarGraph: FC<BarGraphProps> = ({
     legendValues,
     subLabelsPerObject
 
-  if (typeof data[0].value === 'object') {
+  if (typeof data?.[0]?.value === 'object') {
     subValuesPerObject = data.map((item) => Object.values(item.value))
     subLabelsPerObject = data.map((item) => Object.keys(item.value))
 
@@ -58,8 +55,8 @@ export const BarGraph: FC<BarGraphProps> = ({
       )
     )
   } else if (
-    typeof data[0].value === 'number' ||
-    typeof data[0].value === 'string'
+    typeof data?.[0]?.value === 'number' ||
+    typeof data?.[0]?.value === 'string'
   ) {
     scale
       ? (highestVal = scale)
@@ -105,7 +102,7 @@ export const BarGraph: FC<BarGraphProps> = ({
   return (
     <>
       <Label label={label} description={description} space />
-      <div
+      <styled.div
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -114,16 +111,16 @@ export const BarGraph: FC<BarGraphProps> = ({
         }}
       >
         {data.map((item, idx) => (
-          <div
+          <styled.div
             key={idx}
             style={{ display: 'flex', width: '100%', alignItems: 'center' }}
           >
             {item.label || value ? (
-              <div style={{ minWidth: 200, paddingRight: 24 }}>
+              <styled.div style={{ minWidth: 200, paddingRight: 24 }}>
                 <Text>{item.label}</Text>
-              </div>
+              </styled.div>
             ) : null}
-            <div
+            <styled.div
               style={{
                 width: '100%',
                 height: 32,
@@ -135,7 +132,7 @@ export const BarGraph: FC<BarGraphProps> = ({
               }}
             >
               {/* parent wrapper bar */}
-              <div
+              <styled.div
                 style={{
                   width: `${normalizedData[idx]}%`,
                   height: 32,
@@ -160,7 +157,7 @@ export const BarGraph: FC<BarGraphProps> = ({
                 )}
 
                 {typeof item.value === 'object' && (
-                  <div
+                  <styled.div
                     style={{
                       position: 'relative',
                       display: 'flex',
@@ -173,7 +170,7 @@ export const BarGraph: FC<BarGraphProps> = ({
                       {normalizedData[idx].toFixed(1) + '%'})
                       {/* ({(+item.value / (total / 100)).toFixed(1)}%) */}
                     </Text>
-                  </div>
+                  </styled.div>
                 )}
 
                 {/* // bar segments */}
@@ -210,11 +207,11 @@ export const BarGraph: FC<BarGraphProps> = ({
                     ))}
                   </styled.div>
                 )}
-              </div>
-            </div>
-          </div>
+              </styled.div>
+            </styled.div>
+          </styled.div>
         ))}
-      </div>
+      </styled.div>
     </>
   )
 }
@@ -240,7 +237,7 @@ export const BarSegment: FC<BarSegmentProps> = ({
   ...props
 }) => {
   const barGraphToolTip = (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -250,28 +247,28 @@ export const BarSegment: FC<BarSegmentProps> = ({
     >
       {/* otherwise div with border doesnt work */}
       {legend && (
-        <div
+        <styled.div
           style={{
             borderBottom: `1px solid ${color('border')}`,
             marginBottom: 8,
           }}
         >
           <Text space="8px">{legend}</Text>
-        </div>
+        </styled.div>
       )}
 
       {!legend && label && (
-        <div
+        <styled.div
           style={{
             borderBottom: `1px solid ${color('border')}`,
             marginBottom: 8,
           }}
         >
           <Text space="8px">{label}</Text>
-        </div>
+        </styled.div>
       )}
 
-      <div
+      <styled.div
         style={{
           display: 'flex',
           flexDirection: 'row',
@@ -282,8 +279,8 @@ export const BarSegment: FC<BarSegmentProps> = ({
         <Text weight={400} color="accent">
           {(+width).toFixed(0) + '%'}
         </Text>
-      </div>
-    </div>
+      </styled.div>
+    </styled.div>
   )
   const tooltipListeners = useTooltip(barGraphToolTip, 'bottom')
 

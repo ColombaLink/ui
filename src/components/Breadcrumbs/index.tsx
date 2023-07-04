@@ -1,68 +1,81 @@
-import React, { FC, CSSProperties } from 'react'
-import { hrefIsActive } from '~/utils/hrefIsActive'
-import { Link } from '../Link'
-import { Text } from '../Text'
-import { useLocation } from '~/hooks'
-import { ChevronRightIcon } from '~/icons'
+import React, { FC, ReactNode, MouseEvent } from 'react'
+import { Text, ChevronRightIcon, styled, Style } from '~'
 
 type BreadcrumbsProps = {
-  style?: CSSProperties
+  style?: Style
   data?: {
-    [key: string]: string
+    [key: string]: ReactNode | ((e: MouseEvent<HTMLDivElement>) => void)
   }
-  prefix?: string
-  selected?: string
+  active?: string
+  onChange?: (key: string) => void
 }
+
+const StyledLink = styled('div', {
+  alignItems: 'center',
+  borderRadius: 4,
+  display: 'flex',
+  height: 32,
+  cursor: 'pointer',
+})
 
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   data,
   style,
-  prefix = '',
-  selected,
+  active,
+  onChange,
   ...props
 }) => {
-  const [location] = useLocation()
-
   if (!data) {
     return null
   }
 
-  if (!selected) {
-    selected = location
-  }
-
   return (
-    <div style={{ display: 'flex', ...style }} {...props}>
+    <styled.div style={{ display: 'flex', ...style }} {...props}>
       {Object.keys(data).map((key, index) => {
-        const href = prefix + data[key]
-        const isActive = hrefIsActive(href, selected)
-
-        return (
-          <Link
-            href={href}
-            key={index}
-            style={{
-              alignItems: 'center',
-              borderRadius: 4,
-              display: 'flex',
-              height: 32,
-            }}
-          >
+        const el = data[key]
+        const onClick =
+          typeof el === 'function'
+            ? (e) => {
+                if (onChange) {
+                  onChange(key)
+                }
+                el(e)
+              }
+            : () => {
+                if (onChange) {
+                  onChange(key)
+                }
+              }
+        const label =
+          typeof el === 'function' ? (
             <Text
               style={{ marginLeft: 16 }}
-              color={isActive ? 'text' : 'text2'}
+              color={active === key ? 'text' : 'text2'}
             >
               {key}
             </Text>
+          ) : typeof el === 'string' ? (
+            <Text
+              style={{ marginLeft: 16 }}
+              color={active === key ? 'text' : 'text2'}
+            >
+              {el}
+            </Text>
+          ) : (
+            el
+          )
+        return (
+          <StyledLink key={index} onClick={onClick}>
+            {label}
             {Object.keys(data).length - 1 !== index && (
               <ChevronRightIcon
                 style={{ marginLeft: 16 }}
-                color={isActive ? 'text' : 'text2'}
+                color={active === key ? 'text' : 'text2'}
               />
             )}
-          </Link>
+          </StyledLink>
         )
       })}
-    </div>
+    </styled.div>
   )
 }

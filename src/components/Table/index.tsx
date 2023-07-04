@@ -1,207 +1,276 @@
-// @ts-nocheck
-import React, { FC, useState } from 'react'
-import { styled } from 'inlines'
-import { scrollAreaStyle } from '../ScrollArea'
-import {
-  Button,
-  Text,
-  AddIcon,
-  Page,
-  color,
-  Toast,
-  useToast,
-  UploadIcon,
-} from '~'
-import { InfiniteListQueryResponse } from '../InfiniteList'
+import React, {
+  FC,
+  createElement,
+  ReactNode,
+  useState,
+  Dispatch,
+  SetStateAction,
+  useRef,
+  useMemo,
+  useEffect,
+} from 'react'
+import { styled, border, Text, color } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
-import { HEADER_HEIGHT, ITEM_HEIGHT } from './constants'
-import { TableFromQuery } from './TableFromQuery'
-import { OnAction } from './types'
-import { useLocation } from '~/hooks'
-import { useClient } from '@based/react'
+import { TableProps, TableHeader, SortOptions } from './types'
+import { useInfiniteQuery } from './useInfiniteQuery'
 
-type Fields =
-  | {
-      [field: string]: string
-    }
-  | string[]
+export * from './types'
 
-type TableProps = {
-  fields?: Fields
-  query?: (
-    offset: number,
-    limit: number,
-    sortField: string,
-    sortOrder: string
-  ) => InfiniteListQueryResponse
-  data?: object[]
-  width?: number
-  height?: number
-  language?: string
-  target?: string
-  onAction?: OnAction
-  isMultiref?: boolean
-  onClick?: (
-    item: { [key: string]: string },
-    field: string,
-    fieldType: string
-  ) => void
-  prefix?: string
-  view?: string
-}
+import { VariableSizeGrid as Grid } from 'react-window'
 
-const TableFromData = () => {
-  return 'todo'
-}
-
-export const Table: FC<TableProps> = ({ style, ...props }) => {
-  const [selectedRowCheckboxes, setSelectedRowCheckboxes] = useState([])
-  const [tableIsEmpty, setTableIsEmpty] = useState(true)
-
-  const [location, setLocation] = useLocation()
-  // this is for the file drop if there are no files yet
-  const [draggingOver, setDraggingOver] = useState(false)
-  const toast = useToast()
-  const client = useClient()
-  const locationIsFile = location.split('/').pop() === 'file'
-
-  // console.log('---------->', { ...props })
-
-  // console.log(selectedRowCheckboxes)
-  // console.log('Table ---> ', props)
-  // console.log(Field)
-
-  // file drop
-  const handleFileDrop = async (e) => {
-    if (locationIsFile && draggingOver) {
-      setDraggingOver(false)
-      e.preventDefault()
-      e.stopPropagation()
-
-      const files = Array.from(e.dataTransfer.files)
-      console.log(files)
-
-      const test = await Promise.all(
-        files?.map((file) => {
-          console.log('file 🐤', file)
-          // make a toast pop for each file
-          // TODO check if successfull upload i guess
-          const notify = () => {
-            toast.add(
-              <Toast
-                label="File uploaded"
-                type="success"
-                description={file.name}
-              />
-            )
-          }
-
-          notify()
-
-          return client.file(file)
-        })
-      )
-    } else {
-      return null
-    }
+const Header: FC<{
+  headerWidth: number
+  width: number
+  headers: TableHeader<any>[]
+  setSortOptions: Dispatch<SetStateAction<SortOptions>>
+  sortOptions: SortOptions
+}> = ({ headers, width, headerWidth }) => {
+  const children: ReactNode[] = []
+  let total = 16
+  for (const header of headers) {
+    const w = header.width ?? headerWidth
+    children.push(
+      <styled.div
+        key={header.key}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          position: 'absolute',
+          left: total,
+          top: 0,
+          height: 56,
+          width: w,
+        }}
+      >
+        <Text typography="body600">{header.label ?? header.key}</Text>
+      </styled.div>
+    )
+    total += w
   }
-
   return (
     <styled.div
       style={{
-        minHeight: HEADER_HEIGHT + ITEM_HEIGHT * 3,
-        flexGrow: 1,
-        overflowX: 'auto',
-        overflowY: 'hidden',
-        ...scrollAreaStyle,
-        ...style,
+        width,
+        borderBottom: border(1, 'border'),
+        height: 56,
+        position: 'relative',
       }}
     >
-      {tableIsEmpty && !locationIsFile && (
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          <div style={{ display: 'flex', marginBottom: '20px', gap: 4 }}>
-            <Text>Create a new item for </Text>
-            <Text typo="body600"> {`${props.view}`}.</Text>
-          </div>
-          <Button
-            large
-            icon={AddIcon}
-            onClick={() => {
-              // console.log('lable', label, 'view', view, 'prefix', prefix)
-              setLocation(`${props.prefix}/create/${props.view}`)
-            }}
-            //  onClick={useContextMenu(CreateMenu, { prefix, types })}
-          >
-            Create Item
-          </Button>
-        </div>
-      )}
+      {children}
+    </styled.div>
+  )
+}
 
-      {locationIsFile && tableIsEmpty && (
-        <Page
-          onDrop={handleFileDrop}
-          onDragOver={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            setDraggingOver(true)
-          }}
-          onDragLeave={() => {
-            setDraggingOver(false)
-          }}
-          style={{
-            width: '100%',
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: `1px dashed ${color('border')}`,
-            background:
-              locationIsFile && draggingOver
-                ? color('lightaccent')
-                : color('background'),
-          }}
-        >
-          <div
-            style={{
-              textAlign: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
-          >
-            <div>
-              <Text>There don't seem to be any files here yet.</Text>
-            </div>
-            <div style={{ display: 'flex', gap: 12, margin: '10px auto' }}>
-              <UploadIcon /> <Text>Drop a file in here to start</Text>
-            </div>
-          </div>
-        </Page>
-      )}
+const Cell = (props) => {
+  const { columnIndex, rowIndex, style, data } = props
+  const header = data.headers[columnIndex]
+  const colls = data.headers.length
+  const rowData = data.data[rowIndex]
+  if (!rowData) {
+    return <div />
+  }
 
+  const onClick = props.data.onClick
+  const itemData = rowData[header.key]
+  const body = header.customComponent ? (
+    createElement(header.customComponent, {
+      data: rowData,
+      header,
+      context: props,
+      columnIndex,
+      rowIndex,
+    })
+  ) : (
+    <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
+  )
+
+  return (
+    <styled.div
+      onMouseEnter={
+        onClick
+          ? (e) => {
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                x.style.background = color('accent', true)
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                x.style.background = color('accent', true)
+                x = x.nextSibling
+              }
+            }
+          : null
+      }
+      onMouseLeave={
+        onClick
+          ? (e) => {
+              const t = e.currentTarget
+              let x = t
+              for (let i = 0; i < columnIndex + 1; i++) {
+                if (!x) {
+                  break
+                }
+                x.style.background = null
+                x = x.previousSibling
+              }
+              x = t
+              for (let i = 0; i < colls - columnIndex; i++) {
+                if (!x) {
+                  break
+                }
+                x.style.background = null
+                x = x.nextSibling
+              }
+            }
+          : null
+      }
+      style={{
+        padding: 16,
+        borderBottom: border(1, 'border'),
+        cursor: onClick ? 'pointer' : 'default',
+        ...style,
+      }}
+      onClick={
+        onClick
+          ? (e) => {
+              onClick(e, rowData)
+            }
+          : null
+      }
+    >
+      {body}
+    </styled.div>
+  )
+}
+
+const SizedGrid: FC<TableProps> = (props) => {
+  const {
+    query,
+    getQueryItems,
+    headers,
+    data = [],
+    defaultSortOptions,
+    calcRowHeight,
+    rowHeight = 56,
+    width,
+    queryId,
+    itemCount = data.length,
+    height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
+    columnCount = headers?.length ??
+      (data && data.length && Object.keys(data[0]).length),
+  } = props
+
+  let w = 0
+  let defW = 0
+  let nonAllocated = 0
+  for (const h of headers) {
+    if (h.width) {
+      w += h.width
+    } else {
+      nonAllocated++
+    }
+  }
+
+  const [sortOptions, setSortOpts] = useState<SortOptions>(
+    defaultSortOptions ?? {
+      $field: 'createdAt',
+      $order: 'desc',
+    }
+  )
+
+  const rowH = useMemo(() => {
+    if (calcRowHeight) {
+      return (index: number) => calcRowHeight(data?.[index], index)
+    }
+    return () => rowHeight
+  }, [calcRowHeight, rowHeight])
+
+  const result = useInfiniteQuery({
+    query,
+    getQueryItems,
+    rowHeight,
+    queryId: queryId + sortOptions.$field + sortOptions.$order,
+    sortOptions,
+    itemCount,
+    height: height - rowHeight,
+  })
+
+  const parsedData = query ? result.items : data
+
+  defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+
+  const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  const [force, setForce] = useState(0)
+  useEffect(() => {
+    clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      setForce(0)
+    }, 100)
+    setForce(width)
+    return () => {
+      clearTimeout(timer.current)
+    }
+  }, [width])
+
+  if (force !== 0) {
+    return <div />
+  }
+
+  return (
+    <>
+      <Header
+        sortOptions={sortOptions}
+        setSortOptions={setSortOpts}
+        width={width}
+        headers={headers}
+        headerWidth={defW}
+      />
+      <Grid
+        onScroll={(e) => {
+          result.onScrollY(e.scrollTop)
+        }}
+        columnCount={columnCount}
+        columnWidth={(colIndex) => {
+          return headers[colIndex].width ?? defW
+        }}
+        height={height - 56}
+        rowCount={itemCount}
+        rowHeight={rowH}
+        width={width}
+        itemData={{
+          ...props,
+          data: parsedData,
+        }}
+      >
+        {Cell}
+      </Grid>
+    </>
+  )
+}
+
+export const Table: FC<TableProps> = (props) => {
+  const {
+    data = [],
+    width,
+    itemCount = data.length,
+    rowHeight = 56,
+    height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
+  } = props
+  return (
+    <styled.div
+      style={{
+        minHeight: height,
+        height: '100%',
+        width: '100%',
+        maxWidth: width,
+      }}
+    >
       <AutoSizer>
         {({ width, height }) => {
-          return props.query ? (
-            <TableFromQuery
-              style={{ minHeight: 200 }}
-              width={width}
-              height={height}
-              {...props}
-              selectedRowCheckboxes={selectedRowCheckboxes}
-              setSelectedRowCheckboxes={setSelectedRowCheckboxes}
-              setTableIsEmpty={setTableIsEmpty}
-            />
-          ) : (
-            <TableFromData width={width} height={height} {...props} />
-          )
+          return <SizedGrid {...props} height={height} width={width} />
         }}
       </AutoSizer>
     </styled.div>

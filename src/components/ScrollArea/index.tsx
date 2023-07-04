@@ -6,13 +6,9 @@ const transparentAreaColor = color('background')
 
 export const scrollAreaStyle = {
   scrollbarGutter: 'stable',
-  overflow: 'auto',
   overflowY: 'overlay',
   overflowX: 'overlay',
   minWidth: 'fit-content',
-
-  // backgroundColor: 'pink',
-
   // firefox
   scrollbarColor: `${scrollbarColor} transparent`,
   scrollbarWidth: 'thin',
@@ -50,9 +46,3 @@ export const scrollAreaStyle = {
 }
 
 export const ScrollArea = styled('div', scrollAreaStyle)
-
-// export const ScrollArea = styled('div', {
-//   overflow: 'auto',
-//   overflowY: 'overlay',
-//   ...scrollAreaStyle,
-// })

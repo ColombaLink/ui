@@ -1,4 +1,3 @@
-import { styled } from 'inlines'
 import React, {
   forwardRef,
   ElementRef,
@@ -11,10 +10,7 @@ import React, {
   useEffect,
 } from 'react'
 import { useDialog } from './useDialog'
-import { Text } from '../Text'
-import { Button, ButtonProps } from '../Button'
-import { ScrollArea } from '../ScrollArea'
-import { color } from '~/utils'
+import { styled, Text, Button, ButtonProps, ScrollArea, color, Style } from '~'
 
 const Container = styled('div', {
   width: 632,
@@ -63,14 +59,16 @@ const ButtonsWithBorder = styled(StyledButtons, {
   marginTop: 48,
   paddingLeft: '32px',
   paddingRight: '32px',
+  marginLeft: 'calc(-32px)',
+  marginRight: 'calc(-39px)',
   '@media only screen and (max-width: 680px)': {
     paddingLeft: '16px',
     paddingRight: '16px',
+    marginLeft: 'calc(-16px)',
+    marginRight: 'calc(-16px)',
   },
   borderBottomLeftRadius: 8,
   borderBottomRightRadius: 8,
-  marginLeft: 'calc(-1 * var(--dialogPadding))',
-  marginRight: 'calc(-1 * var(--dialogPadding))',
 })
 
 const ButtonSpacer = styled('div', {
@@ -85,7 +83,13 @@ const BodySpacer = styled('div', {
 })
 
 const Label = (props) => {
-  return <Text typo="subtitle600" {...props} style={{ marginBottom: 24 }} />
+  return (
+    <Text
+      typography="subtitle600"
+      {...props}
+      style={{ marginBottom: 24, marginTop: 16, ...props.style }}
+    />
+  )
 }
 
 const Body = ({ children }) => {
@@ -153,7 +157,7 @@ const Confirm: FC<
 
   return (
     <Button
-      large
+      // large
       onClick={onClick}
       keyboardShortcut="Enter"
       displayShortcut
@@ -187,7 +191,7 @@ const Cancel: FC<
 
   return (
     <Button
-      large
+      // large
       onClick={onClick}
       outline
       color="text"
@@ -209,6 +213,7 @@ export interface DialogProps extends ComponentProps<typeof Container> {
   children?: ReactNode
   label?: string
   pure?: boolean
+  style?: Style
 }
 
 export const Dialog = Object.assign(
@@ -253,13 +258,13 @@ export const Dialog = Object.assign(
                 },
               }}
             >
-              <Text typo="subtitle600">{label}</Text>
+              <Text typography="subtitle600">{label}</Text>
             </styled.div>
           )}
           {pure ? (
             children
           ) : (
-            <ScrollArea style={{ overflow: go ? null : 'hidden' }}>
+            <ScrollArea style={{ overflowY: go ? null : 'hidden' }}>
               <ScrollBody>{children}</ScrollBody>
             </ScrollArea>
           )}

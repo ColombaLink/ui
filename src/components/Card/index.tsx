@@ -1,12 +1,20 @@
 import React, { FC, ReactNode } from 'react'
-import { Label } from '../Label'
-import { Space } from '~/types'
-import { color, spaceToPx, renderOrCreateElement } from '~/utils'
-import { styled, Style } from 'inlines'
-import { Text } from '../Text'
+import {
+  Space,
+  Text,
+  RowSpaced,
+  Row,
+  Column,
+  Label,
+  color,
+  spaceToPx,
+  renderOrCreateElement,
+  styled,
+  Style,
+} from '~'
 
 type CardProps = {
-  label?: string
+  label?: ReactNode
   description?: string
   space?: Space
   style?: Style
@@ -35,6 +43,8 @@ export const Card: FC<CardProps> = ({
   return (
     <styled.div
       style={{
+        display: 'flex',
+        flexDirection: 'column',
         borderRadius: 8,
         padding: 16,
         backgroundColor: color('background2dp'),
@@ -53,48 +63,47 @@ export const Card: FC<CardProps> = ({
       }}
       {...props}
     >
-      <div
+      <RowSpaced
         style={{
-          display: 'flex',
           position: 'relative',
-          justifyContent: 'space-between',
-          // marginBottom: 12,
         }}
       >
         {(topLeft || label || description) && (
-          <div
+          <Row
             style={{
-              display: 'flex',
-              alignItems: 'center',
               gap: 12,
               marginRight: 12,
             }}
           >
             {renderOrCreateElement(topLeft)}
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <Column>
               <Label label={label} space="2px" />
-              <Text typo="caption400" color="text2">
+              <Text typography="caption400" color="text2">
                 {description}
               </Text>
-            </div>
-          </div>
+            </Column>
+          </Row>
         )}
-        <div
+        <Row
           style={{
-            display: 'flex',
-            alignItems: 'center',
             gap: 12,
             marginLeft: 12,
           }}
         >
           {renderOrCreateElement(topRight)}
-        </div>
-      </div>
-      <div>{children}</div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        </Row>
+      </RowSpaced>
+      <styled.div
+        style={{
+          flexGrow: 1,
+        }}
+      >
+        {children}
+      </styled.div>
+      <RowSpaced>
         {bottomLeft}
         {bottomRight}
-      </div>
+      </RowSpaced>
     </styled.div>
   )
 }

@@ -5,17 +5,23 @@ import React, {
   useState,
   useReducer,
   SyntheticEvent,
-  CSSProperties,
   FunctionComponent,
   ReactNode,
   ChangeEventHandler,
 } from 'react'
-import { removeOverlay } from '~/components/Overlay'
-import { Text } from '../Text'
-import { AddIcon, CheckIcon, CloseIcon, SearchIcon } from '~/icons'
-import { Color } from '~/types'
+import {
+  removeOverlay,
+  Color,
+  Style,
+  Text,
+  AddIcon,
+  CheckIcon,
+  CloseIcon,
+  SearchIcon,
+  color,
+  border,
+} from '~'
 import { ContextDivider, ContextItem } from '.'
-import { color } from '~/utils'
 
 const FilterInputHolderSticky = styled('div', {
   width: '100%',
@@ -37,7 +43,7 @@ const FilterInputHolder = styled('div', {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  borderBottom: `1px solid ${color('border')}`,
+  borderBottom: border(1),
   width: '100%',
   backgroundColor: color('background2dp:hover'),
 })
@@ -92,6 +98,8 @@ export type ContextOptionsProps = {
   items: Option[] | null | undefined
   value?: Value
   onChange: (value: Value) => void
+  // eslint-disable-next-line
+  noValue?: boolean
 }
 
 export type ContextMultiOptionsProps = {
@@ -132,6 +140,7 @@ export const ContextOptionItem = ({
         inset={!noInset}
         tabIndex={tabIndex}
         style={{
+          pointerEvents: option.value === undefined ? 'none' : 'auto',
           '@media (hover:hover)': {
             backgroundColor:
               isSelected === 1 ? color('lightbackground2:contrast') : null,
@@ -142,6 +151,9 @@ export const ContextOptionItem = ({
         }}
         icon={option.icon || (!noInset && selected ? CheckIcon : null)}
         onClick={(e) => {
+          if (option.value === undefined) {
+            return true
+          }
           setIsSelected(1)
 
           if (option.onSelect) {
@@ -214,7 +226,7 @@ const filterItems = (
 
 const FilterableContextOptions: FC<
   ContextOptionsProps & ContextOptionsFilterProps
-> = ({ items, value, onChange, resize, placeholder, filterable }) => {
+> = ({ items, value, onChange, resize, placeholder, filterable, noValue }) => {
   const [f, setFilter] = useState('')
   const onFilter: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
     setFilter(e.target.value)
@@ -249,19 +261,29 @@ const FilterableContextOptions: FC<
           />
         </FilterInputHolder>
       </FilterInputHolderSticky>
-      <ContextItems items={filteredItems} onChange={onChange} value={value} />
+      <ContextItems
+        noValue={noValue}
+        items={filteredItems}
+        onChange={onChange}
+        value={value}
+      />
     </>
   )
 }
 
-const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
+const ContextItems: FC<ContextOptionsProps> = ({
+  items,
+  value,
+  onChange,
+  noValue,
+}) => {
   const [currentValue, setValue] = useState(value)
   const children = items.map((opt, i) => {
     return (
       <ContextOptionItem
         key={i}
         onChange={(v) => {
-          if (v === currentValue) {
+          if (!noValue && v === currentValue) {
             setValue(undefined)
             onChange(undefined)
           } else {
@@ -270,7 +292,11 @@ const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
           }
         }}
         option={opt}
-        selected={currentValue === opt.value}
+        selected={
+          noValue
+            ? false
+            : currentValue !== undefined && currentValue === opt.value
+        }
       />
     )
   })
@@ -279,12 +305,21 @@ const ContextItems: FC<ContextOptionsProps> = ({ items, value, onChange }) => {
 
 export const ContextOptions: FC<
   ContextOptionsProps & ContextOptionsFilterProps
-> = ({ items = [], value, onChange, filterable, placeholder, resize }) => {
+> = ({
+  items = [],
+  value,
+  onChange,
+  filterable,
+  placeholder,
+  resize,
+  noValue,
+}) => {
   if (filterable) {
     return (
       <FilterableContextOptions
         items={items}
         value={value}
+        noValue={noValue}
         onChange={onChange}
         filterable={filterable}
         placeholder={placeholder}
@@ -292,7 +327,14 @@ export const ContextOptions: FC<
       />
     )
   } else {
-    return <ContextItems items={items} onChange={onChange} value={value} />
+    return (
+      <ContextItems
+        noValue={noValue}
+        items={items}
+        onChange={onChange}
+        value={value}
+      />
+    )
   }
 }
 
@@ -378,7 +420,7 @@ export const FilterSelectBadge: FC<{
   label: string | ReactNode
   onClose: () => void
   color?: Color
-  style?: CSSProperties
+  style?: Style
 }> = ({ label, onClose, color = 'inherit', style }) => {
   if (color) {
     if (!style) {
@@ -410,7 +452,7 @@ export const FilterSelectMoreBadge: FC<{
   onClick?: (e: SyntheticEvent) => void
   number: number
   color?: Color
-  style?: CSSProperties
+  style?: Style
 }> = ({ number, onClick, color = 'inherit', style }) => {
   // make a function for this
   if (color) {

@@ -1,5 +1,4 @@
 import React, { FC, useState, useMemo } from 'react'
-import { Props } from './ComponentProps'
 import {
   Text,
   Container,
@@ -7,9 +6,9 @@ import {
   Code,
   Link,
   useSearchParam,
-  setLocation,
   Button,
   ModelIcon,
+  useRoute,
   color,
 } from '../../'
 import * as ui from '../../'
@@ -17,6 +16,7 @@ import { Callout } from '~/components/Callout'
 import { generateRandomComponentCode } from './objectToCode'
 import useLocalStorage from '@based/use-local-storage'
 import parseCode from './parseCode'
+import { ErrorBoundary } from 'react-error-boundary'
 
 export const CodeExample: FC<{
   p: any
@@ -26,11 +26,14 @@ export const CodeExample: FC<{
   exampleProps?: string
   index: number
 }> = ({ index, component, name, exampleCode, exampleProps, p }) => {
+  const showCode = useRoute().query.code
   const [cnt, update] = useState(0)
   const [code, setCode] = useLocalStorage('code-' + name + '-' + index)
+
   if (code) {
     exampleCode = code
   }
+
   exampleCode = useMemo(() => {
     if (!exampleCode) {
       exampleCode = generateRandomComponentCode(name, exampleProps, p)
@@ -40,56 +43,71 @@ export const CodeExample: FC<{
 
   let child
   try {
+    const c = useMemo(() => parseCode(exampleCode), [exampleCode])
+
     // eslint-disable-next-line
-    const fn = new Function(
-      'ui',
-      'React',
-      'c',
-      useMemo(() => parseCode(exampleCode), [exampleCode])
+    const fn = new Function('ui', 'React', 'c', c)
+
+    child = (
+      <ErrorBoundary
+        fallbackRender={({ error }) => {
+          return <Callout color="red">{error.message}</Callout>
+        }}
+      >
+        {fn(ui, React, component)}
+      </ErrorBoundary>
     )
-    child = fn(ui, React, component)
   } catch (err) {
     console.error(err) // hosw
     child = <Callout color="red">{err.message}</Callout>
   }
+
+  console.log({ child })
+
   return (
-    <>
-      <Code
-        topRight={
-          <>
-            <RedoIcon
-              onClick={() => {
-                setCode('')
-                update(cnt + 1)
-              }}
-              style={{
-                cursor: 'pointer',
-                color: code !== exampleCode ? color('text') : color('accent'),
-              }}
-            />
-          </>
-        }
-        style={{
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-          borderColor: code !== exampleCode ? color('border') : color('accent'),
-          // width: 'calc(100% - 350px)',
-        }}
-        onChange={(c) => setCode(c)}
-        value={exampleCode}
-      />
+    <div
+      style={{
+        maxWidth: 'calc(100vw - 290px)',
+      }}
+    >
+      {showCode ? (
+        <Code
+          topRight={
+            <>
+              <RedoIcon
+                onClick={() => {
+                  setCode('')
+                  update(cnt + 1)
+                }}
+                style={{
+                  cursor: 'pointer',
+                  color: code !== exampleCode ? color('text') : color('accent'),
+                }}
+              />
+            </>
+          }
+          style={{
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            borderColor:
+              code !== exampleCode ? color('border') : color('accent'),
+          }}
+          onChange={(c) => setCode(c)}
+          value={exampleCode}
+        />
+      ) : null}
       <Container
         style={{
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-          borderTopWidth: 0,
-          // width: 'calc(100% - 350px)',
+          borderTopLeftRadius: showCode ? 0 : 5,
+          borderTopRightRadius: showCode ? 0 : 5,
+          borderTopWidth: showCode ? 0 : 1,
+          maxWidth: '100%',
         }}
         space
       >
         {child}
       </Container>
-    </>
+    </div>
   )
 }
 
@@ -100,8 +118,7 @@ export const Explorer: FC<{
   name: string
   examples?: { code?: string; props?: any; component?: FC }[]
 }> = ({ component, p, name, examples = [{}], title }) => {
-  const showType = useSearchParam('type')
-  const fuzz = useSearchParam('randomize')
+  const [fuzz, setFuzz] = useSearchParam('randomize')
 
   return (
     <>
@@ -110,71 +127,39 @@ export const Explorer: FC<{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: '100%',
           marginBottom: 24,
         }}
       >
         <Link href={`src${p.file}`}>
           <Text weight={700} size="18px">
-            {title || p.file.slice(1).split('/').slice(1, -1)}
+            {title || p?.file?.slice(1).split('/').slice(1, -1) || name}
           </Text>
         </Link>
         <div style={{ display: 'flex' }}>
           <Button
-            outline
-            ghost
+            ghost={!fuzz}
+            color={fuzz ? 'accent' : 'text2'}
             light
-            color="text"
-            style={{ marginRight: 24 }}
             icon={ModelIcon}
-            onClick={() =>
-              setLocation({
-                merge: true,
-                params: { randomize: !fuzz },
-              })
-            }
+            onClick={() => setFuzz(fuzz ? null : true)}
           >
-            {fuzz ? 'Examples' : 'Randomize'}
-          </Button>
-          <Button
-            outline
-            ghost
-            light
-            color="text"
-            icon={ModelIcon}
-            onClick={() =>
-              setLocation({
-                merge: true,
-                params: { type: !showType },
-              })
-            }
-          >
-            {showType ? 'Props' : 'Type'}
+            <Text weight={700}>Randomize</Text>
           </Button>
         </div>
       </div>
-      <div style={{ display: 'flex', marginTop: 24, width: '100%' }}>
-        <div
-          style={{
-            minWidth: showType ? 550 : 350,
-            marginRight: 24,
-          }}
-        >
-          {showType ? <Code value={p.code} /> : <Props prop={p} />}
-        </div>
-        <div style={{ width: '100%', maxWidth: '100%' }}>
+      <div style={{ display: 'flex', marginTop: 24 }}>
+        <div style={{ flexGrow: 1 }}>
           {examples.map((v, i) => {
             if (v.component) {
               return (
-                <Container key={i} space>
+                <Container key={fuzz ? 'f ' + i : i} space>
                   {React.createElement(v.component)}
                 </Container>
               )
             }
-
             return (
               <CodeExample
-                key={i}
+                key={fuzz ? 'f ' + i : i}
                 index={i}
                 name={name}
                 component={component}

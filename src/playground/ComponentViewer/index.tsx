@@ -18,12 +18,13 @@ export type PropsDef = {
 const ComponentViewer: FC<{
   component?: FC
   propsDef?: PropsDef
-  propsName: string // mandatory otherwise it does not work when minified
+  propsName?: string
   examples?: { props?: any; code?: string; component?: FC }[]
   title?: string
 }> = ({ propsDef, component, propsName, examples, title }) => {
-  const fuzz = useSearchParam('randomize')
-  const p = propsDef || props.props[propsName]
+  const [fuzz] = useSearchParam('randomize')
+
+  const p = propsDef || props.props[propsName] || { props: {}, name: '' }
   if (!p) {
     return (
       <div
@@ -36,6 +37,7 @@ const ComponentViewer: FC<{
         <Text weight={700} size="18px" style={{ marginBottom: 24 }}>
           {propsName}
         </Text>
+        <Text>No props definition found</Text>
       </div>
     )
   }
@@ -47,7 +49,7 @@ const ComponentViewer: FC<{
   return (
     <Explorer
       examples={fuzz ? fuzzArr : examples}
-      name={propsName}
+      name={propsName || title || component?.name || 'Untitled'}
       p={p}
       component={component}
       title={title}

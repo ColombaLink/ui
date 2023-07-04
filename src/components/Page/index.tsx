@@ -1,9 +1,13 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import React, { FC, ReactNode } from 'react'
 import { ScrollArea } from '../ScrollArea'
+import { Style, styled } from 'inlines'
 
 type PageProps = {
   children: ReactNode
-  style?: CSSProperties
+  onDragOver?: (e: DragEvent) => void
+  onDragLeave?: (e: DragEvent) => void
+  onDrop?: (e: DragEvent) => void
+  style?: Style
 }
 
 export const Page: FC<PageProps> = ({ children, style, ...props }) => {
@@ -11,20 +15,42 @@ export const Page: FC<PageProps> = ({ children, style, ...props }) => {
     <ScrollArea
       style={{
         flexGrow: 1,
-        width: '100%',
+        overflowX: 'hidden',
         ...style,
       }}
       {...props}
     >
-      <div
+      <styled.div
         style={{
-          width: '100%',
+          maxWidth: '100%',
+          minWidth: '100%',
           padding: 32,
-          // marginBottom: 1000,
         }}
       >
         {children}
-      </div>
+      </styled.div>
     </ScrollArea>
+  )
+}
+
+type AppProps = {
+  style?: Style
+  children: ReactNode
+}
+
+export const AppFrame: FC<AppProps> = ({ children, style }) => {
+  return (
+    <styled.div
+      style={{
+        display: 'flex',
+        height: '100vh',
+        width: '100vw',
+        overflowX: 'hidden',
+        overflowY: 'hidden',
+        ...style,
+      }}
+    >
+      {children}
+    </styled.div>
   )
 }

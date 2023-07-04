@@ -1,7 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import { useQuery, useClient } from '@based/react'
 import { styled } from 'inlines'
+import { hash } from '@saulx/hash'
 import { scrollAreaStyle } from '../ScrollArea'
 
 const List = styled(FixedSizeList, scrollAreaStyle)
@@ -28,6 +29,10 @@ export const useInfiniteScroll = ({
   target = 'root',
   language = 'en',
 }) => {
+  const queryId = useMemo(() => {
+    return hash(query.toString())
+  }, [query])
+
   const blockHeight = itemSize * limit
   const client = useClient()
   const [offset, setOffset] = useState(0)
@@ -55,16 +60,14 @@ export const useInfiniteScroll = ({
     if (client) {
       return () => {
         const { subs } = current
+        for (const subId in subs) {
+          current.subs[subId]()
+        }
         current.subs = {}
-        // TODO youri check if we can remove this with the new client
-        setTimeout(() => {
-          for (const subId in subs) {
-            current.subs[subId]()
-          }
-        })
       }
     }
   }, [client, current])
+
   useEffect(() => {
     if (client) {
       const subs = {}
@@ -97,7 +100,7 @@ export const useInfiniteScroll = ({
 
       current.subs = subs
     }
-  }, [target, client, offset, blocks, query, current, language]) // dont include limit
+  }, [target, client, offset, blocks, current, language, queryId])
 
   useEffect(update, [
     blockHeight,

@@ -1,5 +1,5 @@
 import { useQuery } from '@based/react'
-import { useLanguage } from '../components/Content/hooks/useLanguage'
+import { useLanguage } from '~'
 
 export const getImageSrcFromId = (id) => {
   const { language } = useLanguage()

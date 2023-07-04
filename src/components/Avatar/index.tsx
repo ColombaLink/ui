@@ -1,15 +1,16 @@
-import React, {
-  CSSProperties,
-  FC,
-  SyntheticEvent,
-  FunctionComponent,
-  ReactNode,
-} from 'react'
-import { Color, Size, Space, Icon } from '~/types'
-import { spaceToPx, renderOrCreateElement } from '~/utils'
-import { getButtonStyle } from '~'
-import { Text } from '../Text'
-import { styled } from 'inlines'
+import React, { FC, SyntheticEvent, FunctionComponent, ReactNode } from 'react'
+import {
+  Text,
+  getButtonStyle,
+  Color,
+  Size,
+  Space,
+  Icon,
+  Style,
+  spaceToPx,
+  renderOrCreateElement,
+  Center,
+} from '~'
 
 export type AvatarProps = {
   size?: Size
@@ -19,7 +20,7 @@ export type AvatarProps = {
   space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void
-  style?: CSSProperties
+  style?: Style
 }
 
 export const Avatar: FC<AvatarProps> = (props) => {
@@ -40,11 +41,8 @@ export const Avatar: FC<AvatarProps> = (props) => {
   } = props
 
   return (
-    <styled.div
+    <Center
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         width: size,
         height: size,
         borderRadius: '50%',
@@ -73,6 +71,6 @@ export const Avatar: FC<AvatarProps> = (props) => {
         </Text>
       ) : null}
       <>{renderOrCreateElement(icon)}</>
-    </styled.div>
+    </Center>
   )
 }

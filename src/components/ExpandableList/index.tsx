@@ -1,18 +1,33 @@
-import React, { CSSProperties, useState, ReactNode, FC } from 'react'
-import { Text, ExpandIcon } from '~'
-import { styled } from 'inlines'
-import { border } from '~/utils'
+import React, { useState, ReactNode, FC, isValidElement } from 'react'
+import {
+  Text,
+  Style,
+  ExpandIcon,
+  ScrollArea,
+  border,
+  styled,
+  RowSpaced,
+  Row,
+} from '~'
+
+type ListItem =
+  | ReactNode
+  | {
+      label: ReactNode
+      value?: any
+      items?: ListItem[]
+    }
 
 type ExpandableListProps = {
-  style?: CSSProperties
-  data?: any
-  height?: number
+  style?: Style
+  data?: ListItem[]
+  maxHeight?: number
   topRight?: FC | ReactNode
   topLeft?: FC | ReactNode
 }
 
 type ExpandableListItemProps = {
-  style?: CSSProperties
+  style?: Style
   index?: number | string
   item?: any
   total?: number
@@ -45,6 +60,16 @@ const ExpandableListItem = ({
 }: ExpandableListItemProps) => {
   let children = null
 
+  if (
+    typeof item === 'string' ||
+    typeof item === 'number' ||
+    isValidElement(item)
+  ) {
+    item = {
+      label: item,
+    }
+  }
+
   const [expanded, setExpanded] = useState(false)
 
   if (item.items && item.items.length > 0 && expanded) {
@@ -52,10 +77,9 @@ const ExpandableListItem = ({
       <StyledUl>
         {item.items.map((child, i) => (
           <ExpandableListItem
-            key={`${index}-expandendedItem-${i}`}
+            key={`${index}-${i}`}
             item={child}
-            index={`${index}-expandendedItem-${i}`}
-            style={{}}
+            index={`${index}-${i}`}
           />
         ))}
       </StyledUl>
@@ -66,22 +90,19 @@ const ExpandableListItem = ({
     <li
       onClick={(e) => {
         e.stopPropagation()
-        // damn , this just works !
         setExpanded(!expanded)
       }}
       style={{ cursor: 'pointer' }}
     >
-      <div
+      <RowSpaced
         style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
-        <div
+        <Row
           style={{
-            display: 'flex',
-            alignItems: 'center',
             height: 54,
             ...style,
           }}
@@ -94,11 +115,11 @@ const ExpandableListItem = ({
               }}
             />
           ) : (
-            <div style={{ width: 32 }} />
+            <styled.div style={{ width: 32 }} />
           )}
-          <Text>{item.title}</Text>
-        </div>
-        <div style={{ paddingRight: 8, display: 'flex' }}>
+          <Text>{item.label}</Text>
+        </Row>
+        <Row style={{ paddingRight: 8 }}>
           <Text style={{ marginRight: 4 }}>{item.value}</Text>
           {typeof item.value === 'number' && (
             <span className="percentage-class">
@@ -107,8 +128,8 @@ const ExpandableListItem = ({
               </Text>
             </span>
           )}
-        </div>
-      </div>
+        </Row>
+      </RowSpaced>
 
       {children}
     </li>
@@ -117,7 +138,7 @@ const ExpandableListItem = ({
 
 export const ExpandableList: FC<ExpandableListProps> = ({
   data,
-  height = 240,
+  maxHeight,
   topLeft,
   topRight,
   style,
@@ -131,16 +152,33 @@ export const ExpandableList: FC<ExpandableListProps> = ({
   }
   const totalValue = getTotalFromData(data)
 
-  return (
-    <div style={{ overflowX: 'hidden', height: height, ...style }}>
+  const nested = (
+    <StyledUl
+      style={{
+        paddingInlineStart: '0px',
+        '& .percentage-class': {
+          display: 'inline-block',
+        },
+      }}
+    >
+      {data.map((item, index) => (
+        <ExpandableListItem
+          key={index}
+          item={item}
+          index={index}
+          total={totalValue}
+        />
+      ))}
+    </StyledUl>
+  )
+
+  const body = (
+    <>
       {topRight || topLeft ? (
-        <div
+        <RowSpaced
           style={{
-            display: 'flex',
             height: 54,
             padding: '0px 8px 0px 3px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
           }}
         >
           {typeof topLeft === 'string' ? (
@@ -155,25 +193,30 @@ export const ExpandableList: FC<ExpandableListProps> = ({
               {typeof topRight === 'function' ? topRight({}) : topRight}
             </div>
           )}
-        </div>
+        </RowSpaced>
       ) : null}
-      <StyledUl
-        style={{
-          paddingInlineStart: '0px',
-          '& .percentage-class': {
-            display: 'inline-block',
-          },
-        }}
-      >
-        {data.map((item, index) => (
-          <ExpandableListItem
-            key={index}
-            item={item}
-            index={index}
-            total={totalValue}
-          />
-        ))}
-      </StyledUl>
-    </div>
+      {maxHeight ? (
+        <ScrollArea
+          style={{
+            maxHeight,
+          }}
+        >
+          {nested}
+        </ScrollArea>
+      ) : (
+        nested
+      )}
+    </>
+  )
+
+  return (
+    <styled.div
+      style={{
+        overflowX: 'hidden',
+        ...style,
+      }}
+    >
+      {body}
+    </styled.div>
   )
 }

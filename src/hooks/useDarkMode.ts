@@ -10,7 +10,7 @@ import { darkTheme } from '~/theme/darkTheme'
 const KEY = '__based_darkmode'
 let localState = false
 
-export const useDarkMode = () => {
+export const useDarkMode = (): [boolean, typeof setDarkMode] => {
   const [state] = useLocalStorage(KEY, localState)
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export const useDarkMode = () => {
 
 export const getDarkMode = () => getLocalStorage(KEY)
 
-export const setDarkMode = (val, noLocalStorage = false) => {
+export const setDarkMode = (val: boolean, noLocalStorage = false) => {
   if (!noLocalStorage) {
     setLocalStorage(KEY, val)
   }

@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
+import {
+  Style,
+  ForwardContext,
+  color,
+  Input,
+  addOverlay,
+  removeOverlay,
+  removeAllOverlays,
+} from '~'
 import { Dialog } from './Dialog'
-import { Input } from '../Input'
-import { addOverlay, removeOverlay, removeAllOverlays } from '../Overlay'
-import { color } from '~/utils'
-import { Style } from 'inlines'
 
 const Prompt: FC<{
   type?: 'prompt' | 'alert'
@@ -44,7 +49,7 @@ const Prompt: FC<{
   )
 }
 
-interface DialogItem {
+type DialogItem = {
   id: number
   children: ReactNode
 }
@@ -60,11 +65,10 @@ export const DialogProvider = ({ children, fixed = true }) => {
       listeners.forEach((fn) => fn(length))
     }
 
-    const dialog = (children, onClose = null) => {
+    const dialog: DialogContextType = (children, onClose, allCtx) => {
       const id = count++
-      // this is only used internally
-      dialog._id = id
 
+      dialog._id = id
       children = (
         <div
           key={id}
@@ -73,7 +77,6 @@ export const DialogProvider = ({ children, fixed = true }) => {
             backgroundColor: color('backdrop'),
             display: 'flex',
             justifyContent: 'center',
-            // padding: 20,
             position: fixed ? 'fixed' : 'absolute',
             top: 0,
             left: 0,
@@ -86,7 +89,11 @@ export const DialogProvider = ({ children, fixed = true }) => {
             }
           }}
         >
-          {children}
+          {allCtx ? (
+            <ForwardContext context={allCtx}>{children}</ForwardContext>
+          ) : (
+            children
+          )}
         </div>
       )
 
@@ -113,12 +120,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
           }
         }
         dialog.open(
-          <Prompt
-            {...props}
-            type={type}
-            onConfirm={resolve}
-            //     children={children}
-          >
+          <Prompt {...props} type={type} onConfirm={resolve}>
             {children}
           </Prompt>,
           () => resolve(false)
@@ -129,7 +131,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
     dialog.open = dialog
 
     dialog.close = (id?: number) => {
-      if (id) {
+      if (id !== undefined) {
         const index = dialogsRef.current.findIndex(
           ({ id: dialogId }) => dialogId === id
         )
@@ -149,20 +151,17 @@ export const DialogProvider = ({ children, fixed = true }) => {
     }
 
     dialog.prompt = (props, children) => prompt('prompt', props, children)
-    // TODO alert add children
     dialog.alert = (props, children) => prompt('alert', props, children)
     dialog.confirm = (props, children) => prompt('confirm', props, children)
 
     dialog.useCount = () => {
       const [state, setState] = useState(dialogsRef.current.length)
-
       useEffect(() => {
         listeners.add(setState)
         return () => {
           listeners.delete(setState)
         }
       }, [])
-
       return state
     }
 

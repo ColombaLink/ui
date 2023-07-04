@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, RefObject, CSSProperties } from 'react'
-import { useColorPicker } from '~/hooks/useColorPicker'
-import { color } from '~/utils'
+import { useColorPicker, color, styled } from '~'
 
 type ColorInputProps = {
   inputRef?: RefObject<HTMLInputElement>
@@ -36,7 +35,7 @@ export const ColorInput = ({
   }, [rgba])
 
   return (
-    <div
+    <styled.div
       style={{
         display: 'flex',
         position: 'relative',
@@ -51,13 +50,14 @@ export const ColorInput = ({
         placeholder={placeholder}
         disabled={disabled}
         style={{
-          ...style,
+          width: '100%',
           paddingLeft: 36,
           border: `1px solid ${color('border')}`,
           borderRadius: 4,
           minHeight: 36,
           cursor: disabled ? 'not-allowed' : null,
           backgroundColor: color('background'),
+          ...style,
         }}
       />
       <button
@@ -78,6 +78,6 @@ export const ColorInput = ({
         }}
         onClick={onClick}
       />
-    </div>
+    </styled.div>
   )
 }

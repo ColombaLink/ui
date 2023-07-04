@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { styled } from 'inlines'
 import {
+  styled,
   color,
   BasedIcon,
   AttachmentIcon,
@@ -12,11 +12,12 @@ import {
   EditIcon,
   ExternalLinkAltIcon,
   DownloadIcon,
+  ZoomInIcon,
 } from '~'
-import { ZoomInIcon } from '~/icons/ZoomInIcon'
 
 const StyledUploadedFile = styled('div', {
   display: 'flex',
+  overflow: 'hidden',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
   paddingLeft: 12,
@@ -51,14 +52,12 @@ const CacheBackground = ({ file }) => {
   }
   const [url, setUrl] = useState(file.src)
 
-  // console.log('url', url)
-  // console.log('file 🐤', file)
-
   return (
     <div
       style={{
         height: 62,
-        width: 62,
+        width: 62 + 4,
+        marginLeft: -12,
         backgroundImage: `url(${url})`,
         backgroundSize: 'cover',
       }}

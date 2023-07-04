@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useEffect, useState } from 'react'
 import { Space } from '~/types'
 import { Label, Button, AddIcon, Input, Dialog } from '~'
@@ -31,7 +30,7 @@ export const SetList = ({
   const [arr, setArr] = useState(value)
   const [set, setSet] = useState<any>(new Set(arr))
   const { open } = useDialog()
-  const [inputVal, setInputVal] = useState('')
+  const [inputVal] = useState('')
 
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -40,18 +39,14 @@ export const SetList = ({
     setSet(new Set(value))
   }, [value])
 
-  // console.log('Arrtje', arr)
-  // console.log('Settje', set)
-
   const addItemHandler = async () => {
-    let inputVAL = ''
-    const ok = await open(
+    let inputVAL: number | string = ''
+    open(
       <Dialog label="Add new item to the set">
         <Input
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          digest={itemType === 'digest'}
           autoFocus
           label={`Add new ${
             itemType.charAt(0).toUpperCase() + itemType.slice(1)
@@ -65,7 +60,9 @@ export const SetList = ({
           <Dialog.Cancel />
           <Dialog.Confirm
             onConfirm={() => {
-              if (itemType === 'int') {
+              if (typeof inputVAL === 'number') {
+                // do nothing...
+              } else if (itemType === 'int') {
                 inputVAL = parseInt(inputVAL)
               } else if (itemType === 'float') {
                 inputVAL = parseFloat(inputVAL)
@@ -88,26 +85,21 @@ export const SetList = ({
   }
 
   const deleteSpecificItem = (item, id, set) => {
-    // console.log('ITEM & ID --->', item, id, set)
     const newSet = new Set(set)
     newSet.delete(item)
-    // console.log('NEW Delete SET --->', newSet)
     setArr(Array.from(newSet))
     setSet(newSet)
     onChange(Array.from(newSet))
   }
 
   const editSpecificItem = async (item, idx, set) => {
-    // console.log(item, idx)
-    // console.log('ARRR', set)
-    let inputVAL = ''
+    let inputVAL: number | string = ''
     await open(
       <Dialog label={`Edit ${arr[idx]} `}>
         <Input
           type={
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
-          digest={itemType === 'digest'}
           autoFocus
           value={inputVal}
           onChange={(e) => {
@@ -175,6 +167,7 @@ export const SetList = ({
       descriptionBottom={description}
       errorMessage={errorMessage}
     >
+      {/* @ts-ignore */}
       <Label label={props.label} space={12} />
       {arr &&
         arr?.map((item, i) => (

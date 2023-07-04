@@ -1,19 +1,29 @@
-import React, { FC, CSSProperties } from 'react'
-import { Label } from '../Label'
-import { color, spaceToPx } from '~/utils'
-import { CheckIcon, DashIcon } from '~/icons'
-import { useHover, usePropState } from '~/hooks'
-import { Color, Space } from '~/types'
-import { styled } from 'inlines'
+import React, { FC, ReactNode } from 'react'
+import {
+  Label,
+  color,
+  spaceToPx,
+  border,
+  CheckIcon,
+  DashIcon,
+  useHover,
+  usePropState,
+  Color,
+  Space,
+  Style,
+  Center,
+  Row,
+} from '~'
 
 export type CheckboxProps = {
   checked?: boolean
   indeterminate?: boolean
   description?: string
-  style?: CSSProperties
+  style?: Style
   onChange?: (value: boolean) => void
-  label?: string
+  label?: ReactNode
   space?: Space
+  wrap?: boolean
   small?: boolean
   color?: Color
   onClick?: (e: any) => void
@@ -26,6 +36,7 @@ export const Checkbox: FC<CheckboxProps> = ({
   style,
   onChange,
   onClick,
+  wrap,
   label,
   space,
   small,
@@ -57,40 +68,33 @@ export const Checkbox: FC<CheckboxProps> = ({
       }}
       {...listeners}
     >
-      <styled.div
+      <Row
         style={{
-          border: 'rgba(00,00,00,00) solid 2px',
+          border: ' 2px solid rgba(0,0,0,0)',
           borderRadius: 4,
           boxSizing: 'border-box',
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
           height: small ? 18 : 22,
           width: small ? 18 : 22,
           marginRight: 12,
           '@media (hover: hover)': {
             '&:hover': {
-              border: 'rgba(44,60,234,0.2) solid 2px',
+              border: '2px solid rgba(44,60,234,0.2)',
             },
           },
         }}
       >
-        <div
+        <Center
           style={{
             backgroundColor: checked
               ? color(colorProp, hover ? 'hover' : null)
               : null,
-            border: `1px solid ${color('border')}`,
-            // outline: hover ? 'rgba(44,60,234,0.2) solid 2px' : null,
+            border: border(1),
             borderRadius: 4,
             height: small ? 16 : 20,
             width: small ? 16 : 20,
             marginRight: 12,
             marginLeft: -1,
             flexShrink: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
           }}
           {...props}
         >
@@ -99,10 +103,10 @@ export const Checkbox: FC<CheckboxProps> = ({
           ) : checked ? (
             <CheckIcon size={small ? 12 : 14} color="accent:contrast" />
           ) : null}
-        </div>
-      </styled.div>
-
+        </Center>
+      </Row>
       <Label
+        wrap={wrap}
         label={label}
         description={description}
         style={{ textAlign: 'left' }}

@@ -165,7 +165,7 @@ export const ListItem = ({
             {stringToIcon(items[index]?.icon)}
           </div>
         ) : null}
-        <Text typo="body600">{items[index]?.label}</Text>
+        <Text typography="body600">{items[index]?.label}</Text>
       </div>
     </styled.div>
   )

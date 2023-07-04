@@ -1,30 +1,43 @@
-import React, { ReactNode, CSSProperties, FunctionComponent } from 'react'
-import { Text, Color, spaceToPx } from '~'
-import { Space, Icon } from '~/types'
-import { renderOrCreateElement } from '~/utils'
+import React, { ReactNode, FunctionComponent } from 'react'
+import {
+  Text,
+  Color,
+  Style,
+  Row,
+  spaceToPx,
+  Space,
+  Icon,
+  renderOrCreateElement,
+} from '~'
 
 type LabelProps = {
   label?: ReactNode
   labelColor?: Color
-  description?: string
+  wrap?: boolean
+  description?: ReactNode
   descriptionColor?: Color
   icon?: FunctionComponent<Icon> | ReactNode
   iconColor?: Color
   children?: ReactNode
+  labelWidth?: number
   space?: Space
-  style?: CSSProperties
+  style?: Style
+  direction?: 'row' | 'column'
 }
 
 export const Label = ({
   label,
   labelColor,
   description,
+  wrap,
   descriptionColor,
   icon,
   space,
   iconColor: colorProp = 'accent',
   children,
   style,
+  labelWidth,
+  direction,
 }: LabelProps) => {
   if (!label && !description && !icon) {
     return null
@@ -33,40 +46,50 @@ export const Label = ({
     <div
       style={{
         display: 'flex',
-        flexDirection: 'column',
+        alignItems: direction === 'row' ? 'center' : null,
+        flexDirection: direction || 'column',
         marginBottom: space ? spaceToPx(space) : 0,
         ...style,
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        {icon && (
-          <div
-            style={{
-              display: 'inline-block',
-              marginRight: 8,
-              marginBottom: description ? 2 : 0,
-            }}
+      <div
+        style={{
+          minWidth: labelWidth,
+          display: direction === 'row' ? 'flex' : null,
+          marginRight: direction === 'row' ? 16 : 0,
+          flexDirection: direction === 'row' ? 'column' : 'row',
+        }}
+      >
+        <Row>
+          {icon && (
+            <div
+              style={{
+                display: 'inline-block',
+                marginRight: 8,
+                marginBottom: description ? 2 : 0,
+              }}
+            >
+              {renderOrCreateElement(icon, {
+                color: colorProp,
+              })}
+            </div>
+          )}
+          <Text
+            wrap={wrap}
+            style={{ marginBottom: description ? 0 : 0 }}
+            color={labelColor || 'text'}
+            typography="body600"
           >
-            {renderOrCreateElement(icon, {
-              color: colorProp,
-            })}
-          </div>
+            {label}
+          </Text>
+        </Row>
+        {description && (
+          <Text wrap typography="body500" color={descriptionColor || 'text2'}>
+            {description}
+          </Text>
         )}
-        <Text
-          wrap
-          style={{ marginBottom: description ? 0 : 0 }}
-          color={labelColor || 'text'}
-          typo="body600"
-        >
-          {label}
-        </Text>
       </div>
-      {description && (
-        <Text wrap typo="body500" color={descriptionColor || 'text2'}>
-          {description}
-        </Text>
-      )}
-      <div>{children}</div>
+      {children}
     </div>
   )
 }

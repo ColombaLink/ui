@@ -23,13 +23,14 @@ import { deepEqual } from '@saulx/utils'
 export function useSelect<T = any>(
   items: (Option | Value)[] = [],
   value?: Value,
+  onChange?: (val: Value) => void,
   position?: PositionProps & {
+    noValue?: boolean
     filterable?: boolean | 'create'
     placeholder?: string
     style?: CSSProperties
   },
-  handler?: (selection: Data<T> | Event | any) => () => void | undefined,
-  disableReselect?: boolean,
+  handler?: (selection: Data<T> | Event | any) => () => void | undefined
 ): [
   boolean | string | number | undefined,
   PropsEventHandler,
@@ -53,17 +54,14 @@ export function useSelect<T = any>(
       {
         filterable: position?.filterable,
         placeholder: position?.placeholder,
+        noValue: position?.noValue,
         items: n,
         value: v,
         onChange: useCallback((value) => {
-          if(disableReselect){
-            // do not set value if value is undefined
-            if(value){
-              setValue(value)
-            }
-          }else {
-            setValue(value)
+          if (onChange) {
+            onChange(value)
           }
+          setValue(value)
         }, []),
       },
       position,

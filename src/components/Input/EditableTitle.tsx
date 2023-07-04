@@ -61,7 +61,7 @@ export const EditableTitle: FC<EditableTitleProps> = ({
   const showEllipsis = !isEditing && !isHover
 
   return (
-    <div
+    <styled.div
       {...hover}
       style={{
         display: 'flex',
@@ -165,6 +165,6 @@ export const EditableTitle: FC<EditableTitleProps> = ({
       {onChange && !isEditing && isHover ? (
         <EditIcon color="text" style={{ marginLeft: 16 }} />
       ) : null}
-    </div>
+    </styled.div>
   )
 }

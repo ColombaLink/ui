@@ -1,6 +1,6 @@
 {
   "name": "@colombalink/basedui",
-  "version": "4.0.5-cl.8",
+  "version": "5.8.0-cl.0",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -26,14 +26,14 @@
     "extends": "@saulx/eslint-config"
   },
   "peerDependencies": {
-    "@based/client": "^3.3.0",
-    "react": "17||18",
-    "react-dom": "17||18"
+    "@based/client": "^4.7.2",
+    "react": "18||19"
   },
   "dependencies": {
+    "@based/machine-config": "0.0.8",
     "@based/pretty-date": "^1.0.4",
     "@based/pretty-number": "^1.0.3",
-    "@based/react": "^3.0.2",
+    "@based/react": "^4.2.4",
     "@based/use-global-state": "0.3.0",
     "@based/use-local-storage": "^0.4.0",
     "@dnd-kit/core": "^6.0.5",
@@ -41,33 +41,34 @@
     "@dnd-kit/utilities": "^3.2.0",
     "@mapbox/mapbox-gl-geocoder": "^5.0.1",
     "@saulx/hash": "^2.0.0",
-    "@saulx/utils": "^3.2.1",
+    "@saulx/utils": "^3.2.2",
     "@saulx/validators": "^1.2.0",
     "countries-list": "^2.6.1",
     "crypto-js": "^4.1.1",
     "csvtojson": "^2.0.10",
+    "dayjs": "^1.11.7",
     "inlines": "^0.2.2",
     "is-email": "^1.0.2",
     "jsonexport": "^3.2.0",
+    "kabouter": "^1.4.2",
     "mapbox-gl": "^2.10.0",
     "plur": "^5.1.0",
     "prismjs": "^1.25.0",
     "react-map-gl": "^7.0.19",
-    "react-virtualized-auto-sizer": "^1.0.6",
+    "react-virtualized-auto-sizer": "^1.0.7",
     "react-window": "^1.8.7",
     "react-window-sortable": "^1.4.12",
     "snarkdown": "^2.0.0",
     "stringify-object": "^4.0.1",
     "tarts": "^1.0.0",
-    "wouter": "^2.9.0"
+    "react-error-boundary": "^4.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
     "@babel/parser": "^7.18.6",
     "@babel/preset-react": "^7.18.6",
     "@babel/traverse": "^7.18.6",
-    "@based/cli": "^4.1.4",
-    "@based/client": "^3.3.0",
+    "@based/client": "^4.7.2",
     "@saulx/aristotle": "^4.6.0",
     "@saulx/eslint-config": "^1.1.1",
     "@saulx/prettier-config": "^1.0.0",
@@ -76,9 +77,10 @@
     "eslint": "^7.32.0",
     "lorem-ipsum": "^2.0.8",
     "prettier": "^2.7.1",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "tsc-watch": "^5.0.3",
-    "typescript": "^4.7.4"
+    "typescript": "^4.9.5",
+    "utility-types": "^3.10.0"
   }
 }

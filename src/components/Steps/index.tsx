@@ -1,55 +1,55 @@
-import React, { CSSProperties, FC } from 'react'
-import { useLocation } from '~/hooks'
+import React, { FC, ReactNode } from 'react'
 import { color } from '~/utils'
-import { hrefIsActive } from '~/utils/hrefIsActive'
-import { Link } from '../Link'
 import { Text } from '../Text'
+import { styled, Style } from 'inlines'
 import { Color } from '~/types'
 
 type StepsProps = {
-  style?: CSSProperties
-  selected?: string
-  prefix?: string
+  active?: any
+  style?: Style
+  onChange?: (key: string) => void
   data?: {
-    [key: string]: string
+    [key: string]: ReactNode
   }
   color?: Color
 }
 
+export const Step = styled('div', {
+  cursor: 'pointer',
+  alignItems: 'center',
+  borderRadius: 8,
+  display: 'flex',
+  height: 48,
+  marginBottom: 8,
+  padding: '0 16px',
+})
+
 export const Steps: FC<StepsProps> = ({
   style,
   data = {},
-  prefix = '',
-  selected,
+  active,
+  onChange,
   color: colorProp = 'accent',
   ...props
 }) => {
-  const [location] = useLocation()
-  if (selected) {
-    selected = prefix + selected
-  } else {
-    selected = location
-  }
-
   return (
-    <div style={style} {...props}>
+    <styled.div style={style} {...props}>
       {Object.keys(data).map((key, index) => {
-        const href = prefix + data[key]
-        const isActive = hrefIsActive(href, selected)
+        const isActive = key === active
         return (
-          <Link
-            href={href}
+          <Step
+            onClick={
+              onChange
+                ? () => {
+                    onChange(key)
+                  }
+                : null
+            }
             key={index}
             style={{
-              alignItems: 'center',
               backgroundColor: isActive
                 ? color(colorProp, 'active', true)
                 : null,
-              borderRadius: 8,
-              display: 'flex',
-              height: 48,
-              marginBottom: 8,
-              padding: '0 16px',
             }}
           >
             <Text
@@ -66,10 +66,10 @@ export const Steps: FC<StepsProps> = ({
             >
               {index + 1}
             </Text>
-            <Text>{key}</Text>
-          </Link>
+            <Text>{data[key]}</Text>
+          </Step>
         )
       })}
-    </div>
+    </styled.div>
   )
 }

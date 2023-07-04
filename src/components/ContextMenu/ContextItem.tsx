@@ -2,14 +2,22 @@ import React, {
   ReactNode,
   FunctionComponent,
   FC,
-  CSSProperties,
-  ReactChild,
+  useState,
+  useEffect,
 } from 'react'
-import { Text } from '~/components/Text'
-import { Color, Icon, PropsEventHandler } from '~/types'
-import { styled, Style } from 'inlines'
 import { removeOverlay } from '../Overlay'
-import { color, renderOrCreateElement } from '~/utils'
+import {
+  styled,
+  Style,
+  Text,
+  color,
+  renderOrCreateElement,
+  Color,
+  Icon,
+  PropsEventHandler,
+  LoadingIcon,
+  WarningIcon,
+} from '~'
 
 const StyledContextItem = styled('div', {
   display: 'flex',
@@ -28,7 +36,7 @@ const StyledContextItem = styled('div', {
 })
 
 export type ContextItemProps = {
-  style?: CSSProperties | Style
+  style?: Style
   color?: Color
   onClick?: PropsEventHandler
   icon?: FunctionComponent<Icon> | ReactNode
@@ -56,25 +64,30 @@ export const ContextItem: FC<ContextItemProps> = ({
   noFocus,
   iconRight,
 }) => {
+  const [loading, setLoading] = useState(false)
+  const [errored, setErrored] = useState(false)
+
   if (onClick) {
     const onClickOriginal = onClick
-    // will become a  hook (a useCallback)
     // @ts-ignore - this is a hack to make the onClick work, async is very important
     onClick = async (e) => {
+      setErrored(false)
       e.preventDefault()
       e.stopPropagation()
+      setLoading(true)
       try {
         if (!(await onClickOriginal(e))) {
           removeOverlay()
         }
       } catch (err) {
         console.error(err)
-        // send animation
+        setErrored(true)
       }
+      setLoading(false)
     }
   }
 
-  let child: ReactChild
+  let child: ReactNode
 
   if (icon) {
     child = (
@@ -82,17 +95,26 @@ export const ContextItem: FC<ContextItemProps> = ({
         color={colorProps}
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        {renderOrCreateElement(icon, {
-          size: 16,
-          style: { marginRight: 8 },
-        })}
+        {renderOrCreateElement(
+          errored && icon ? (
+            <WarningIcon color="red" />
+          ) : loading && icon ? (
+            <LoadingIcon />
+          ) : (
+            icon
+          ),
+          {
+            size: 16,
+            style: { marginRight: 8 },
+          }
+        )}
         {children}
       </Text>
     )
   } else {
     child = (
       <Text color={colorProps} style={inset ? { paddingLeft: 24 } : null}>
-        {children}
+        {loading && !icon ? 'processing...' : children}
       </Text>
     )
   }
