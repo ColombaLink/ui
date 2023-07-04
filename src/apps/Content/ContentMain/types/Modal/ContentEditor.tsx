@@ -115,7 +115,7 @@ const ContentRenderer: FC<{
 
     return (
       <div>
-        {progress * 100}%
+        {/* {progress * 100}% */}
         <FileUpload
           label={name}
           descriptionBottom="Drag and drop or click to upload"
@@ -124,7 +124,8 @@ const ContentRenderer: FC<{
               ? `Allowed types: ${meta?.mime.join(', ')}`
               : null
           }
-          onChange={(files, updateProgess) => {
+          progress={progress}
+          onChange={(files) => {
             // updateProgess
             // console.info('FIRE', files[0])
 
