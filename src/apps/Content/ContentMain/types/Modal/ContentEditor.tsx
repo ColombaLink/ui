@@ -53,7 +53,12 @@ const ContentRenderer: FC<{
 
   const onChange = (v: any) => {
     setState({ [key]: v })
+
+    console.log('STATE???', state)
+    console.log('more fire?? 🔥')
   }
+
+  console.log('fire?? 🔥')
 
   // state no
   // TODO double check this
@@ -110,18 +115,20 @@ const ContentRenderer: FC<{
             : null
         }
         onChange={(files) => {
+          console.log('FILES??', files[0])
+
           client.stream('db:file-upload', { contents: files[0] }).then((v) => {
             onChange(v)
           })
         }}
         indent
         value={
-          state[key]?.src
+          state[key]?.src && state[key]?.name && state[key]?.type
             ? [
                 {
                   src: state[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
+                  type: state[key]?.type,
+                  name: state[key]?.name,
                 },
               ]
             : [
