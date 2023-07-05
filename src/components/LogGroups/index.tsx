@@ -2,7 +2,6 @@ import React, { ReactNode, useState, useRef, useEffect } from 'react'
 import { Color, Icon } from '~/types'
 import { Style, styled } from 'inlines'
 import {
-  Avatar,
   Text,
   renderOrCreateElement,
   color,
@@ -30,6 +29,8 @@ type SingleLogProps = {
   msg: any
   style?: Style
   ts?: number
+  type?: string
+  idx?: number
 }
 
 const VerticalLine = styled('div', {
@@ -37,19 +38,27 @@ const VerticalLine = styled('div', {
   width: '1px',
   backgroundColor: color('border'),
   position: 'absolute',
-  left: 16,
+  left: 12,
   top: 0,
   bottom: 0,
   zIndex: 0,
 })
 
-const StatusDot = styled('div', {
+const StatusDotBorder = styled('div', {
   height: 24,
   width: 24,
   borderRadius: 24,
-  boxSizing: 'border-box',
-  backgroundColor: color('accent'),
-  border: `6px solid ${color('lightbackground2')}`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: color('red'),
+})
+
+const StatusDot = styled('div', {
+  height: 14,
+  width: 14,
+  borderRadius: 24,
+  backgroundColor: color('background2'),
 })
 
 // groupby -> groupbytime, type, status,
@@ -170,8 +179,6 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
         return (
           <GroupedLogs
             key={idx}
-            icon={item[0]?.icon}
-            color={item[0]?.color}
             ts={item[0].ts}
             msg={item[0].msg}
             type={item[0].type}
@@ -185,16 +192,7 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
   )
 }
 
-const GroupedLogs = ({
-  icon,
-  color: colorProp,
-  ts,
-  msg,
-  type,
-  status,
-  subType,
-  subItems,
-}) => {
+const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
   const [expanded, setExpanded] = useState(false)
 
   // Scroll logic
@@ -228,35 +226,57 @@ const GroupedLogs = ({
   return (
     <styled.div style={{ display: 'flex', position: 'relative' }}>
       <VerticalLine />
+
       <styled.div
         style={{
-          marginRight: 12,
-          marginTop: 16,
-          '& div': {
-            border: '4px solid white',
-            boxSizing: 'content-box',
-            marginLeft: '-4px',
-            position: 'relative',
-            // TODO no z index here
-            zIndex: 1,
-          },
+          display: 'flex',
+          backgroundColor: color('background'),
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 32,
+          height: 32,
+          zIndex: 1,
+          position: 'relative',
+          marginLeft: -4,
+          marginTop: 4,
         }}
       >
-        {renderOrCreateElement(Avatar, {
-          color: colorProp,
-          icon: icon,
-        })}
+        <StatusDotBorder
+          style={{
+            backgroundColor:
+              status === 'error'
+                ? color('lightred')
+                : status === 'succes'
+                ? color('lightgreen')
+                : status === 'info'
+                ? color('lightaccent')
+                : color('background2'),
+          }}
+        >
+          <StatusDot
+            style={{
+              backgroundColor:
+                status === 'error'
+                  ? color('red')
+                  : status === 'succes'
+                  ? color('green')
+                  : status === 'info'
+                  ? color('accent')
+                  : color('background2'),
+            }}
+          />
+        </StatusDotBorder>
       </styled.div>
 
       <div style={{ marginBottom: 20, width: '100%' }}>
         <styled.div
           style={{
             borderRadius: 8,
-            padding: '12px 20px',
+            padding: '12px 6px',
             width: '100%',
-            '&:hover': {
-              backgroundColor: '#eeeffd7d',
-            },
+            // '&:hover': {
+            //   backgroundColor: '#eeeffd7d',
+            // },
           }}
           onClick={() => setExpanded(!expanded)}
         >
@@ -291,7 +311,13 @@ const GroupedLogs = ({
               <ScrollArea>
                 {subItems.map((item, idx) =>
                   idx !== 0 ? (
-                    <SingleLog msg={item.msg} key={idx} ts={item.ts} />
+                    <SingleLog
+                      msg={item.msg}
+                      key={idx}
+                      ts={item.ts}
+                      type={item.type}
+                      idx={idx}
+                    />
                   ) : null
                 )}
               </ScrollArea>
@@ -304,6 +330,7 @@ const GroupedLogs = ({
                 alignItems: 'center',
                 marginTop: 4,
                 marginLeft: 8,
+                cursor: 'pointer',
                 '& svg': {
                   '& path': {
                     strokeWidth: 3,
@@ -317,7 +344,7 @@ const GroupedLogs = ({
                 size={12}
               />
               <Text color="accent" typography="caption600">
-                Show {subItems.length} more similar logs
+                Show {subItems.length - 1} more similar logs
               </Text>
             </styled.div>
           ) : null}
@@ -365,29 +392,23 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
           >
             <Text typography="caption500">{type}</Text>
           </styled.div>
-
-          <StatusDot
-            style={{
-              backgroundColor:
-                status === 'error'
-                  ? color('red')
-                  : status === 'succes'
-                  ? color('green')
-                  : status === 'info'
-                  ? color('accent')
-                  : color('border'),
-            }}
-          />
         </styled.div>
       </styled.div>
 
       <Text
-        style={{ marginBottom: 12, marginTop: 8, marginLeft: 8 }}
+        style={{
+          marginBottom: 12,
+          marginTop: 8,
+          marginLeft: 8,
+          cursor: 'pointer',
+        }}
         typography="subtext600"
+        color={status === 'error' ? 'red' : 'text'}
       >
         {msg.substring(0, 74)}
         {msg.length > 74 && '...'}
       </Text>
+
       {subType ? (
         <styled.div style={{ marginBottom: 8 }}>
           {typeof subType === 'string' ? (
@@ -403,7 +424,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
   )
 }
 
-const SingleLog = ({ msg, style, ts }: SingleLogProps) => {
+const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
   return (
     <styled.div
       style={{
@@ -417,31 +438,58 @@ const SingleLog = ({ msg, style, ts }: SingleLogProps) => {
     >
       {ts && (
         <styled.div style={{ display: 'flex' }}>
-          <Text
-            color="accent"
-            typography="caption500"
-            style={{ marginRight: 8 }}
+          <styled.div
+            style={{
+              display: 'flex',
+              backgroundColor: color('background2'),
+              padding: '2px 8px',
+              borderRadius: ' 12px 0px 0px 12px',
+              borderRight: `1px solid ${color('border')}`,
+            }}
           >
-            {dayjs(ts).format('HH:mm:ss')}
-          </Text>
-          <Text
-            color="accent"
-            typography="caption400"
-            style={{ marginRight: 8 }}
+            <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
+            <Text
+              typography="caption500"
+              color="text2"
+              style={{ marginLeft: 4 }}
+            >
+              {dayjs(ts).format('DD/MM/YYYY')}
+            </Text>
+          </styled.div>
+          <styled.div
+            style={{
+              display: 'flex',
+              backgroundColor: color('background2'),
+              padding: '2px 8px',
+              borderRadius: ' 0px 12px 12px 0px',
+            }}
           >
-            {dayjs(ts).format('DD/MM/YYYY')}
-          </Text>
+            <Text typography="caption500">{type}</Text>
+          </styled.div>
         </styled.div>
+      )}
+
+      {idx >= 1 && (
+        <Text
+          style={{ marginBottom: 12, marginTop: 10, marginLeft: 8 }}
+          typography="subtext600"
+          color="text"
+        >
+          {idx}
+          {msg.substring(0, 74)}
+          {msg.length > 74 && '...'}
+        </Text>
       )}
 
       <pre
         style={{
-          //  color: color(isError ? 'red' : 'text'),
+          color: color('text2'),
           boxSizing: 'inherit',
           display: 'inherit',
           userSelect: 'text',
           padding: 0,
           margin: 0,
+          marginLeft: 8,
           //   maxWidth: '100%',
           //   width: '100%',
           border: undefined,

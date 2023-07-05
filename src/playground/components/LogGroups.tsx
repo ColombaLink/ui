@@ -563,8 +563,9 @@ export const LogGroups = () => {
     },
   ]
 
-  const dataForNewLogs = test.map(({ srvc: type, ...rest }) => ({
+  const dataForNewLogs = test.map(({ srvc: type, lvl: status, ...rest }) => ({
     type,
+    status,
     ...rest,
   }))
 
