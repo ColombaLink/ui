@@ -44,9 +44,12 @@ const VerticalLine = styled('div', {
 })
 
 const StatusDot = styled('div', {
-  height: 6,
-  width: 6,
-  borderRadius: 3,
+  height: 24,
+  width: 24,
+  borderRadius: 24,
+  boxSizing: 'border-box',
+  backgroundColor: color('accent'),
+  border: `6px solid ${color('lightbackground2')}`,
 })
 
 // groupby -> groupbytime, type, status,
@@ -296,14 +299,24 @@ const GroupedLogs = ({
           )}
           {!expanded && subItems.length > 1 ? (
             <styled.div
-              style={{ display: 'flex', alignItems: 'center', marginTop: 4 }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                marginTop: 4,
+                marginLeft: 8,
+                '& svg': {
+                  '& path': {
+                    strokeWidth: 3,
+                  },
+                },
+              }}
             >
               <ChevronDownIcon
                 color="accent"
                 style={{ marginRight: 8 }}
                 size={12}
               />
-              <Text color="accent" typography="caption500">
+              <Text color="accent" typography="caption600">
                 Show {subItems.length} more similar logs
               </Text>
             </styled.div>
@@ -324,16 +337,35 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
             alignItems: 'center',
           }}
         >
-          <Text
-            color="accent"
-            typography="caption500"
-            style={{ marginRight: 8 }}
+          <styled.div
+            style={{
+              display: 'flex',
+              backgroundColor: color('background2'),
+              padding: '2px 8px',
+              borderRadius: ' 12px 0px 0px 12px',
+              borderRight: `1px solid ${color('border')}`,
+            }}
           >
-            {dayjs(ts).format('HH:mm:ss')}
-          </Text>
-          <Text color="text" typography="caption400" style={{ marginRight: 8 }}>
-            {dayjs(ts).format('DD/MM/YYYY')}
-          </Text>
+            <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
+            <Text
+              typography="caption500"
+              color="text2"
+              style={{ marginLeft: 4 }}
+            >
+              {dayjs(ts).format('DD/MM/YYYY')}
+            </Text>
+          </styled.div>
+          <styled.div
+            style={{
+              display: 'flex',
+              backgroundColor: color('background2'),
+              padding: '2px 8px',
+              borderRadius: ' 0px 12px 12px 0px',
+            }}
+          >
+            <Text typography="caption500">{type}</Text>
+          </styled.div>
+
           <StatusDot
             style={{
               backgroundColor:
@@ -346,11 +378,13 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
                   : color('border'),
             }}
           />
-          <Text style={{ marginLeft: 8 }}>{type}</Text>
         </styled.div>
       </styled.div>
 
-      <Text style={{ marginBottom: 8 }} typography="subtext600">
+      <Text
+        style={{ marginBottom: 12, marginTop: 8, marginLeft: 8 }}
+        typography="subtext600"
+      >
         {msg.substring(0, 74)}
         {msg.length > 74 && '...'}
       </Text>
