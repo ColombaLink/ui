@@ -16,6 +16,8 @@ import {
   Style,
   RowSpaced,
   removeOverlay,
+  ProgressIndicator,
+  LoadingIcon,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -28,6 +30,7 @@ type FileUploadProps = {
   onChange?: (file: File[]) => void
   // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
+  progress?: number
   disabled?: boolean
   mime?: string[]
   multiple?: boolean
@@ -50,6 +53,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   descriptionBottom,
   indent,
   onChange,
+  progress,
   style,
   disabled,
   multiple,
@@ -365,6 +369,15 @@ export const FileUpload: FC<FileUploadProps> = ({
           )}
         </div>
 
+        {progress > 0 && progress < 1 ? (
+          <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+            <LoadingIcon style={{ marginRight: 10 }} />
+            {`${Math.round(progress * 100)}%`}
+          </styled.div>
+        ) : null}
+
+        {/* <ProgressIndicator progress={Math.round(progress * 100)} /> */}
+
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
             <UploadedFileItem
@@ -422,10 +435,14 @@ export const FileUpload: FC<FileUploadProps> = ({
 
         <input
           ref={hiddenFileInput}
-          onChange={(e) => changeHandler(e)}
+          onChange={(e) => {
+            console.log('-->??', e)
+            changeHandler(e)
+          }}
           type="file"
           style={{ display: 'none' }}
           accept={mime ? mime?.join(',') : '/*'}
+          onLoadedData={(e) => console.log('ARRR', e)}
           key={clearCount}
           multiple={multiple}
         />

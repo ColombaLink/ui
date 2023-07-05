@@ -89,18 +89,39 @@ const Cell = (props) => {
     return <div />
   }
 
-  const path = header.key.split('.')
+  const key = header.key
 
-  let itemData = pathReader(rowData, path)
+  let itemData
+  if (Array.isArray(key)) {
+    for (const k of key) {
+      itemData = pathReader(rowData, k.split('.'))
+      if (itemData) {
+        break
+      }
+    }
+
+    console.info(rowData, itemData)
+  } else {
+    itemData = pathReader(rowData, header.key.split('.'))
+  }
+
   const onClick = header.onClick ?? props.data.onClick
 
   const type = header.type
 
   const isReferences = type === 'references'
   const isReference = type === 'reference'
-  const isImg = type === 'reference' && header?.meta?.mime?.length > 0
 
-  // console.log('-->', header)
+  const mimeType =
+    header?.mimeType ?? header.mimeTypeKey
+      ? pathReader(rowData, header.mimeTypeKey.split('.'))
+      : undefined
+
+  const isImg = mimeType?.includes('image/')
+
+  // if isVideo
+
+  const isVideo = mimeType?.includes('video/')
 
   if (isReferences) {
     itemData = itemData?.length || 0
@@ -117,11 +138,7 @@ const Cell = (props) => {
       rowIndex,
     })
   ) : isImg ? (
-    <styled.div
-      style={{
-        position: 'relative',
-      }}
-    >
+    <styled.div style={{ position: 'relative' }}>
       <styled.div
         style={{
           position: 'absolute',
@@ -134,6 +151,21 @@ const Cell = (props) => {
           backgroundImage: `url(${itemData})`,
         }}
       />
+    </styled.div>
+  ) : isVideo ? (
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          height: 32,
+          borderRadius: 4,
+          backgroundColor: 'black',
+        }}
+      >
+        x
+      </styled.div>
     </styled.div>
   ) : isReference ? (
     <Badge color="accent" icon={<AttachmentIcon />}>

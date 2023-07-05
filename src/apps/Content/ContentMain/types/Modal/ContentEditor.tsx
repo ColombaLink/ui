@@ -1,5 +1,5 @@
 import { useClient } from '@based/react'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
@@ -53,7 +53,12 @@ const ContentRenderer: FC<{
 
   const onChange = (v: any) => {
     setState({ [key]: v })
+
+    console.log('STATE???', state)
+    console.log('more fire?? 🔥')
   }
+
+  console.log('fire?? 🔥')
 
   // state no
   // TODO double check this
@@ -100,41 +105,70 @@ const ContentRenderer: FC<{
   }
 
   if (meta?.type === 'file') {
+    console.info(
+      'MY STATE',
+      state[key],
+      state[key]?.src && state[key]?.name && state[key]?.type
+    )
+
+    const [progress, setProgress] = useState(null)
+
     return (
-      <FileUpload
-        label={name}
-        descriptionBottom="Drag and drop or click to upload"
-        description={
-          meta?.mime?.length > 0
-            ? `Allowed types: ${meta?.mime.join(', ')}`
-            : null
-        }
-        onChange={(files) => {
-          client.stream('db:file-upload', { contents: files[0] }).then((v) => {
-            onChange(v)
-          })
-        }}
-        indent
-        value={
-          state[key]?.src
-            ? [
-                {
-                  src: state[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
-                },
-              ]
-            : [
-                {
-                  src: data[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
-                },
-              ]
-        }
-        style={{ marginBottom: BOTTOMSPACE }}
-        mime={meta?.mime}
-      />
+      <div>
+        {/* {progress * 100}% */}
+        <FileUpload
+          label={name}
+          descriptionBottom="Drag and drop or click to upload"
+          description={
+            meta?.mime?.length > 0
+              ? `Allowed types: ${meta?.mime.join(', ')}`
+              : null
+          }
+          progress={progress}
+          onChange={(files) => {
+            // updateProgess
+            // console.info('FIRE', files[0])
+
+            client
+              .stream('db:file-upload', { contents: files[0] }, (e) =>
+                setProgress(e)
+              )
+              .then(async (v) => {
+                console.info('THINGS', v)
+
+                const { mimeType, name } = await client
+                  .query('db', {
+                    $id: v.id,
+                    mimeType: true,
+                    name: true,
+                  })
+                  .get()
+
+                onChange({ ...v, mimeType, name })
+              })
+          }}
+          indent
+          value={
+            state[key]?.src
+              ? [
+                  {
+                    src: state[key]?.src,
+                    type: state[key]?.mimeType ?? data[key]?.mimeType,
+                    name: state[key]?.name ?? data[key]?.name,
+                  },
+                ]
+              : [
+                  {
+                    src: data[key]?.src,
+                    type: data[key]?.mimeType,
+                    name: data[key]?.name,
+                  },
+                ]
+          }
+          style={{ marginBottom: BOTTOMSPACE }}
+          mime={meta?.mime}
+        />
+      </div>
     )
   }
 

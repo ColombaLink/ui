@@ -187,23 +187,24 @@ const App = () => {
             </div>
             <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>
               <Input
-                type="text"
+                type="search"
+                bg
                 icon={<SearchIcon />}
                 placeholder="Search"
                 onChange={(e) => {
                   searchFilterHandler(e)
                 }}
-                ghost
-                style={{
-                  backgroundColor: color('background2'),
-                  boxShadow: '0px',
-                  outline: 'none',
-                  height: 40,
-                  alignItems: 'center',
-                  borderRadius: 8,
-                  paddingTop: '8px',
-                  marginBottom: 24,
-                }}
+                // ghost
+                // style={{
+                //   backgroundColor: color('background2'),
+                //   boxShadow: '0px',
+                //   outline: 'none',
+                //   height: 40,
+                //   alignItems: 'center',
+                //   borderRadius: 8,
+                //   paddingTop: '8px',
+                //   marginBottom: 24,
+                // }}
               />
             </div>
           </>
