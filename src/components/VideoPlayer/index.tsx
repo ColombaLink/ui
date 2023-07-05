@@ -4,7 +4,7 @@ import { TimeLine } from './TimeLine'
 import { VideoControls } from './VideoControls'
 
 export const VideoPlayer = ({ src }) => {
-  const videoRef = useRef()
+  const videoRef = useRef(undefined)
 
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
