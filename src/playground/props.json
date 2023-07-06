@@ -1437,14 +1437,6 @@
     "FileUploadProps": {
       "name": "FileUploadProps",
       "props": {
-        "title": {
-          "optional": true,
-          "type": "string"
-        },
-        "more": {
-          "optional": true,
-          "type": "boolean"
-        },
         "label": {
           "optional": true,
           "type": "string"
@@ -1469,11 +1461,15 @@
           "optional": true,
           "type": "Style"
         },
+        "progress": {
+          "optional": true,
+          "type": "number"
+        },
         "disabled": {
           "optional": true,
           "type": "boolean"
         },
-        "acceptedFileTypes": {
+        "mime": {
           "optional": true,
           "type": {
             "array": "string"
@@ -1488,7 +1484,7 @@
           "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  title?: string\n  more?: boolean\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  // onChange?: (file: File[], onProgress: (p: number) => void) => void\n  style?: Style\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  // onChange?: (file: File[], onProgress: (p: number) => void) => void\n  style?: Style\n  progress?: number\n  disabled?: boolean\n  mime?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -2066,9 +2062,13 @@
         "onChange": {
           "optional": true,
           "type": "function"
+        },
+        "hideClearButton": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  label?: ReactNode\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n  onBlur?: () => void\n  value?: any\n  setValue?: (e) => void\n  maxChars?: number\n  onChange?: (e) => void\n}",
+      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  label?: ReactNode\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n  onBlur?: () => void\n  value?: any\n  setValue?: (e) => void\n  maxChars?: number\n  onChange?: (e) => void\n  hideClearButton?: boolean\n}",
       "file": "/components/Input/InputWrapper.tsx"
     },
     "JsonInputProps": {
@@ -2397,9 +2397,17 @@
         "ts": {
           "optional": true,
           "type": "number"
+        },
+        "type": {
+          "optional": true,
+          "type": "string"
+        },
+        "idx": {
+          "optional": true,
+          "type": "number"
         }
       },
-      "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n}",
+      "code": "type SingleLogProps = {\n  msg: any\n  style?: Style\n  ts?: number\n  type?: string\n  idx?: number\n}",
       "file": "/components/LogGroups/index.tsx"
     },
     "EmbeddedMapProps": {
