@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon } from '~/types'
 import { color } from '~/utils'
 
-export const MuteIcon = ({
+export const Volume2Icon = ({
   color: colorProp = 'currentColor',
   size = 16,
   ...props

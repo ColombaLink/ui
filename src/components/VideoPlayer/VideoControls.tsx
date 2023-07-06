@@ -5,25 +5,30 @@ import {
   RedoIcon,
   StopIcon,
   AudioIcon,
+  PauseIcon,
   color,
   Button,
   PlayIcon,
-  MuteIcon,
+  Volume1Icon,
   FullScreenIcon,
 } from '~'
 import { TimeLine } from './TimeLine'
 
-export const VideoControls = ({ playerState, setPlayerState, style }) => {
+export const VideoControls = ({
+  playerState,
+  setPlayerState,
+  style,
+  handleVideoProgress,
+}) => {
   return (
     <styled.div
       style={{
-        backgroundColor: 'rgba(0,0,0,0.5)',
         height: 32,
         width: '100%',
         alignItems: 'center',
         display: 'flex',
         position: 'absolute',
-        // padding: '8px',
+        padding: '8px',
         ...style,
       }}
     >
@@ -39,8 +44,9 @@ export const VideoControls = ({ playerState, setPlayerState, style }) => {
           }}
         />
       ) : (
-        <StopIcon
-          size={18}
+        <Button
+          ghost
+          icon={<PauseIcon style={{ color: 'white' }} />}
           onClick={() => {
             setPlayerState({
               ...playerState,
@@ -49,9 +55,13 @@ export const VideoControls = ({ playerState, setPlayerState, style }) => {
           }}
         />
       )}
-      <TimeLine playerState={playerState} setPlayerState={setPlayerState} />
-      <Button icon={<MuteIcon />} />
-      <Button icon={<FullScreenIcon />} />
+      <TimeLine
+        playerState={playerState}
+        setPlayerState={setPlayerState}
+        handleVideoProgress={handleVideoProgress}
+      />
+      <Button icon={<Volume1Icon style={{ color: 'white' }} />} ghost />
+      <Button icon={<FullScreenIcon style={{ color: 'white' }} />} ghost />
     </styled.div>
   )
 }

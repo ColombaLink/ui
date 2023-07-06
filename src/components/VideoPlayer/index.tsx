@@ -12,6 +12,7 @@ export const VideoPlayer = ({ src }) => {
     time: 0,
     speed: 1,
     isMuted: false,
+    duration: undefined,
   })
 
   useEffect(() => {
@@ -28,7 +29,18 @@ export const VideoPlayer = ({ src }) => {
     })
   }
 
+  const handleVideoProgress = (e) => {
+    // const manualChange = Number(e)
+    // videoRef.current.currentTime =
+    //   (videoRef.current.duration / 100) * manualChange
+    setPlayerState({
+      ...playerState,
+      progress: e,
+    })
+  }
+
   console.log(playerState, '????')
+  // console.log('Vid REF??', videoRef?.current?.duration)
 
   return (
     <styled.div style={{ position: 'relative' }}>
@@ -36,16 +48,40 @@ export const VideoPlayer = ({ src }) => {
         style={{ width: '100%' }}
         ref={videoRef}
         onTimeUpdate={handleOnTimeUpdate}
+        onLoadedMetadata={() => {
+          setPlayerState({
+            ...playerState,
+            duration: videoRef.current.duration,
+          })
+        }}
+        onClick={() => {
+          setPlayerState({
+            ...playerState,
+            isPlaying: !playerState.isPlaying,
+          })
+        }}
       >
         <source src={src} type="video/mp4" />
         {/* <source src={src} type="video/ogg"> */}
         Your browser does not support the video tag.
       </styled.video>
       {/* <TimeLine playerState={playerState} setPlayerState={setPlayerState} /> */}
+      <styled.div
+        style={{
+          background:
+            'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.90) 100%)',
+          position: 'absolute',
+          bottom: 0,
+          height: 108,
+          left: 0,
+          right: 0,
+        }}
+      />
       <VideoControls
-        style={{ marginTop: -32 }}
+        style={{ marginTop: -36 }}
         playerState={playerState}
         setPlayerState={setPlayerState}
+        handleVideoProgress={handleVideoProgress}
       />
     </styled.div>
   )

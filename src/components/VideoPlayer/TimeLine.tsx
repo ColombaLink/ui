@@ -2,7 +2,11 @@ import React, { useRef, useState } from 'react'
 import { styled } from 'inlines'
 import { color, Text } from '~'
 
-export const TimeLine = ({ playerState, setPlayerState }) => {
+export const TimeLine = ({
+  playerState,
+  setPlayerState,
+  handleVideoProgress,
+}) => {
   const bigRef = useRef(null)
 
   const [percentage, setPercentage] = useState(55)
@@ -16,9 +20,9 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
     <styled.div
       style={{ display: 'flex', width: '100%', alignItems: 'center' }}
     >
-      <styled.div>
+      <styled.div style={{ marginRight: 12 }}>
         <Text color="background2" typography="caption500">
-          0.00
+          {!playerState.isPlaying ? '0.00' : playerState.time.toFixed(2)}
         </Text>
       </styled.div>
 
@@ -27,39 +31,59 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
         style={{
           width: '100%',
           height: '4px',
-          margin: '0px 12px',
-          backgroundColor: color('text'),
+          background: 'rgba(255, 255, 255, 0.20)',
+          borderRadius: 4,
           display: 'flex',
           alignItems: 'center',
         }}
         onClick={(e) => {
           // TODO set progress
-          setPercentage(
+
+          console.log(bigRef.current.clientWidth - e.clientX, 'WIDTH??')
+
+          console.log('E ', e)
+
+          // console.log(e.clientX, 'pixeltjes')
+
+          // console.log(bigRef.current.offsetLeft, 'offset left')
+
+          // setPercentage(
+          //   getPercentage(
+          //     bigRef.current.clientWidth,
+          //     e.clientX - e.target.offsetLeft
+          //   )
+          // )
+
+          console.log(
+            '?? Percentage ⚡️',
             getPercentage(
               bigRef.current.clientWidth,
-              e.clientX - e.target.offsetLeft
+              e.clientX - bigRef.current.offsetLeft
             )
           )
+
+          handleVideoProgress(percentage)
         }}
       >
         <styled.div
           style={{
             width: `${playerState.progress}%`,
             height: 4,
+            borderRadius: 4,
             backgroundColor: color('accent'),
             position: 'relative',
           }}
         >
           <styled.div
             style={{
-              width: 12,
-              height: 12,
+              width: 4,
+              height: 18,
               borderRadius: 5,
-              border: `1px solid ${color('border')}`,
-              backgroundColor: color('background'),
+              // border: `1px solid ${color('border')}`,
+              backgroundColor: 'white',
               position: 'absolute',
-              right: -5,
-              top: -4,
+              right: -2,
+              top: -7,
             }}
           />
           {/* <styled.div
@@ -77,9 +101,9 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
           </styled.div> */}
         </styled.div>
       </styled.div>
-      <styled.div>
+      <styled.div style={{ width: 32, marginLeft: 12 }}>
         <Text color="background2" typography="caption500">
-          {playerState.time.toFixed(2)}
+          {playerState.duration?.toFixed(2)}
         </Text>
       </styled.div>
     </styled.div>
