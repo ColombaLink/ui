@@ -50,7 +50,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     },
   }
   const { data, loading } = useQuery(
-    overlayData?.config.function?.name,
+    overlayData?.config?.function?.name,
     parseProps(overlayData?.config.function?.payload ?? {}, ctx)
   )
   ctx.data = data

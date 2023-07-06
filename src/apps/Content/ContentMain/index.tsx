@@ -122,7 +122,7 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
         <Components view={data} actions={Actions} />
       </Provider>
     )
-  } else if (type === 'content') {
+  } else if (type === 'content' || type === 'content-modal') {
     return (
       <Provider client={hubClient}>
         <Content view={data} actions={Actions} />
