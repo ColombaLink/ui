@@ -31,7 +31,7 @@ export const VideoPlayer = ({ src }) => {
   console.log(playerState, '????')
 
   return (
-    <styled.div>
+    <styled.div style={{ position: 'relative' }}>
       <styled.video
         style={{ width: '100%' }}
         ref={videoRef}
@@ -41,8 +41,9 @@ export const VideoPlayer = ({ src }) => {
         {/* <source src={src} type="video/ogg"> */}
         Your browser does not support the video tag.
       </styled.video>
-      <TimeLine playerState={playerState} setPlayerState={setPlayerState} />
+      {/* <TimeLine playerState={playerState} setPlayerState={setPlayerState} /> */}
       <VideoControls
+        style={{ marginTop: -32 }}
         playerState={playerState}
         setPlayerState={setPlayerState}
       />
