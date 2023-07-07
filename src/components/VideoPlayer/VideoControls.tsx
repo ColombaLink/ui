@@ -1,25 +1,9 @@
 import React from 'react'
 import { styled } from 'inlines'
-import {
-  ExpandRightIcon,
-  RedoIcon,
-  StopIcon,
-  AudioIcon,
-  PauseIcon,
-  color,
-  Button,
-  PlayIcon,
-  Volume1Icon,
-  FullScreenIcon,
-} from '~'
+import { PauseIcon, Button, PlayIcon, Volume1Icon, FullScreenIcon } from '~'
 import { TimeLine } from './TimeLine'
 
-export const VideoControls = ({
-  playerState,
-  setPlayerState,
-  style,
-  handleVideoProgress,
-}) => {
+export const VideoControls = ({ playerState, setPlayerState, style }) => {
   return (
     <styled.div
       style={{
@@ -55,11 +39,7 @@ export const VideoControls = ({
           }}
         />
       )}
-      <TimeLine
-        playerState={playerState}
-        setPlayerState={setPlayerState}
-        handleVideoProgress={handleVideoProgress}
-      />
+      <TimeLine playerState={playerState} setPlayerState={setPlayerState} />
       <Button icon={<Volume1Icon style={{ color: 'white' }} />} ghost />
       <Button icon={<FullScreenIcon style={{ color: 'white' }} />} ghost />
     </styled.div>

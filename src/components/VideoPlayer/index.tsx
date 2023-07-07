@@ -9,11 +9,17 @@ export const VideoPlayer = ({ src }) => {
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
     progress: 0,
-    time: 0,
+    // time: 0,
     speed: 1,
     isMuted: false,
     duration: undefined,
   })
+
+  // useEffect(() => {
+  //   if (playerState.progress !== 0 && videoRef && duration !== 0) {
+  //     videoRef.current.currentTime = (duration / 100) * playerState.progress
+  //   }
+  // }, [playerState.progress])
 
   useEffect(() => {
     playerState.isPlaying ? videoRef.current.play() : videoRef.current.pause()
@@ -24,18 +30,8 @@ export const VideoPlayer = ({ src }) => {
       (videoRef.current.currentTime / videoRef.current.duration) * 100
     setPlayerState({
       ...playerState,
-      time: videoRef.current.currentTime,
+      //  time: videoRef.current.currentTime,
       progress,
-    })
-  }
-
-  const handleVideoProgress = (e) => {
-    // const manualChange = Number(e)
-    // videoRef.current.currentTime =
-    //   (videoRef.current.duration / 100) * manualChange
-    setPlayerState({
-      ...playerState,
-      progress: e,
     })
   }
 
@@ -81,7 +77,6 @@ export const VideoPlayer = ({ src }) => {
         style={{ marginTop: -36 }}
         playerState={playerState}
         setPlayerState={setPlayerState}
-        handleVideoProgress={handleVideoProgress}
       />
     </styled.div>
   )

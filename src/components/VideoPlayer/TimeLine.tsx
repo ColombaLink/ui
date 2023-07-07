@@ -1,15 +1,9 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { styled } from 'inlines'
 import { color, Text } from '~'
 
-export const TimeLine = ({
-  playerState,
-  setPlayerState,
-  handleVideoProgress,
-}) => {
+export const TimeLine = ({ playerState, setPlayerState }) => {
   const bigRef = useRef(null)
-
-  const [percentage, setPercentage] = useState(55)
 
   const getPercentage = (width, posX) => {
     const onePercent = width / 100
@@ -22,7 +16,9 @@ export const TimeLine = ({
     >
       <styled.div style={{ marginRight: 12 }}>
         <Text color="background2" typography="caption500">
-          {!playerState.isPlaying ? '0.00' : playerState.time.toFixed(2)}
+          {!playerState.isPlaying
+            ? '0.00'
+            : ((playerState.duration / 100) * playerState.progress).toFixed(2)}
         </Text>
       </styled.div>
 
@@ -30,41 +26,42 @@ export const TimeLine = ({
         ref={bigRef}
         style={{
           width: '100%',
-          height: '4px',
-          background: 'rgba(255, 255, 255, 0.20)',
+          height: '20px',
+          background: 'transparent',
           borderRadius: 4,
           display: 'flex',
           alignItems: 'center',
+          position: 'relative',
         }}
         onClick={(e) => {
-          // TODO set progress
+          const bigRefBoundingClientRect =
+            bigRef.current.getBoundingClientRect()
 
-          console.log(bigRef.current.clientWidth - e.clientX, 'WIDTH??')
-
-          console.log('E ', e)
-
-          // console.log(e.clientX, 'pixeltjes')
-
-          // console.log(bigRef.current.offsetLeft, 'offset left')
-
-          // setPercentage(
-          //   getPercentage(
-          //     bigRef.current.clientWidth,
-          //     e.clientX - e.target.offsetLeft
-          //   )
-          // )
-
-          console.log(
-            '?? Percentage ⚡️',
-            getPercentage(
-              bigRef.current.clientWidth,
-              e.clientX - bigRef.current.offsetLeft
-            )
+          const progressPercentage = getPercentage(
+            bigRef.current.clientWidth,
+            e.clientX - bigRefBoundingClientRect.left
           )
 
-          handleVideoProgress(percentage)
+          setPlayerState({
+            ...playerState,
+            //    time: newTime,
+            progress: progressPercentage,
+          })
+
+          // TODO update current time on video ref
         }}
       >
+        <styled.div
+          style={{
+            width: '100%',
+            height: 4,
+            borderRadius: 4,
+            background: 'rgba(255, 255, 255, 0.20)',
+            position: 'absolute',
+            pointerEvents: 'none',
+            top: 8,
+          }}
+        />
         <styled.div
           style={{
             width: `${playerState.progress}%`,
@@ -72,6 +69,7 @@ export const TimeLine = ({
             borderRadius: 4,
             backgroundColor: color('accent'),
             position: 'relative',
+            pointerEvents: 'none',
           }}
         >
           <styled.div
