@@ -16,7 +16,7 @@ import {
   Style,
   RowSpaced,
   removeOverlay,
-  ProgressIndicator,
+  // ProgressIndicator,
   LoadingIcon,
   VideoPlayer,
 } from '~'
@@ -287,7 +287,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const fullScreenView = (file) => {
-    console.log('🌵', file)
+    // console.log('🌵', file)
 
     fullScreenDialog.open(
       <Dialog
@@ -315,6 +315,18 @@ export const FileUpload: FC<FileUploadProps> = ({
           />
         ) : file.type.includes('video') ? (
           <VideoPlayer src={file.src} />
+        ) : file.type.includes('audio') ? (
+          <styled.div
+            style={{ padding: 24, textAlign: 'center', marginTop: 24 }}
+          >
+            <audio controls src={file.src}>
+              {file.src.slice(-3) === 'ogg' ? (
+                <source src={file.src} type="audio/ogg" />
+              ) : (
+                <source src={file.src} type="audio/mpeg" />
+              )}
+            </audio>
+          </styled.div>
         ) : (
           'no preview available'
         )}
@@ -464,7 +476,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           type="file"
           style={{ display: 'none' }}
           accept={mime ? mime?.join(',') : '/*'}
-          onLoadedData={(e) => console.log('ARRR', e)}
+          // onLoadedData={(e) => console.log('ARRR', e)}
           key={clearCount}
           multiple={multiple}
         />

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
   styled,
   color,
-  BasedIcon,
+  AudioIcon,
   AttachmentIcon,
   Text,
   MoreIcon,
@@ -21,7 +21,7 @@ const StyledUploadedFile = styled('div', {
   overflow: 'hidden',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
-  paddingLeft: 12,
+  // paddingLeft: 12,
   borderRadius: 8,
   alignItems: 'center',
   gap: 12,
@@ -139,7 +139,7 @@ export const UploadedFileItem = ({
             alignItems: 'center',
           }}
         >
-          <BasedIcon size={20} />
+          <AudioIcon size={20} />
         </div>
       )}
 

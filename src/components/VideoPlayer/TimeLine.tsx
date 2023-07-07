@@ -19,7 +19,7 @@ export const TimeLine = ({
     <styled.div
       style={{ display: 'flex', width: '100%', alignItems: 'center' }}
     >
-      <styled.div style={{ marginRight: 12 }}>
+      <styled.div style={{ marginRight: 8, minWidth: 32 }}>
         <Text color="background2" typography="caption500">
           {!playerState.isPlaying && playerState.progress === 0
             ? '0.00'
@@ -89,7 +89,7 @@ export const TimeLine = ({
           />
         </styled.div>
       </styled.div>
-      <styled.div style={{ width: 32, marginLeft: 12 }}>
+      <styled.div style={{ minWidth: 32, marginLeft: 12 }}>
         <Text color="background2" typography="caption500">
           {playerState.duration?.toFixed(2)}
         </Text>
