@@ -395,19 +395,47 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
         </styled.div>
       </styled.div>
 
-      <Text
-        style={{
-          marginBottom: 12,
-          marginTop: 8,
-          marginLeft: 8,
-          cursor: 'pointer',
-        }}
-        typography="subtext600"
-        color={status === 'error' ? 'red' : 'text'}
-      >
-        {msg.substring(0, 74)}
-        {msg.length > 74 && '...'}
-      </Text>
+      {msg[0] === '{' ? (
+        <pre
+          style={{
+            color: color('text2'),
+            boxSizing: 'inherit',
+            display: 'inherit',
+            userSelect: 'text',
+            padding: 0,
+            margin: 0,
+            marginLeft: 8,
+            marginTop: 8,
+            //   maxWidth: '100%',
+            //   width: '100%',
+            border: undefined,
+            lineHeight: '18px',
+            fontSize: 14,
+            fontFamily: 'Fira Code',
+            wordBreak: 'break-all',
+            whiteSpace: 'break-spaces',
+            overflowWrap: 'break-word',
+            position: 'relative',
+          }}
+          dangerouslySetInnerHTML={{ __html: msg }}
+        >
+          {/* {JSON.stringify(msg, null, 2)} */}
+        </pre>
+      ) : (
+        <Text
+          style={{
+            marginBottom: 12,
+            marginTop: 8,
+            marginLeft: 8,
+            cursor: 'pointer',
+          }}
+          typography="subtext600"
+          color={status === 'error' ? 'red' : 'text'}
+        >
+          {msg.substring(0, 74)}
+          {msg.length > 74 && '...'}
+        </Text>
+      )}
 
       {subType ? (
         <styled.div style={{ marginBottom: 8 }}>
@@ -481,30 +509,32 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
         </Text>
       )}
 
-      <pre
-        style={{
-          color: color('text2'),
-          boxSizing: 'inherit',
-          display: 'inherit',
-          userSelect: 'text',
-          padding: 0,
-          margin: 0,
-          marginLeft: 8,
-          //   maxWidth: '100%',
-          //   width: '100%',
-          border: undefined,
-          lineHeight: '18px',
-          fontSize: 14,
-          fontFamily: 'Fira Code',
-          wordBreak: 'break-all',
-          whiteSpace: 'break-spaces',
-          overflowWrap: 'break-word',
-          position: 'relative',
-        }}
-        dangerouslySetInnerHTML={{ __html: msg }}
-      >
-        {/* {JSON.stringify(msg, null, 2)} */}
-      </pre>
+      {idx !== 0 && msg[0] !== '{' && (
+        <pre
+          style={{
+            color: color('text2'),
+            boxSizing: 'inherit',
+            display: 'inherit',
+            userSelect: 'text',
+            padding: 0,
+            margin: 0,
+            marginLeft: 8,
+            //   maxWidth: '100%',
+            //   width: '100%',
+            border: undefined,
+            lineHeight: '18px',
+            fontSize: 14,
+            fontFamily: 'Fira Code',
+            wordBreak: 'break-all',
+            whiteSpace: 'break-spaces',
+            overflowWrap: 'break-word',
+            position: 'relative',
+          }}
+          dangerouslySetInnerHTML={{ __html: msg }}
+        >
+          {/* {JSON.stringify(msg, null, 2)} */}
+        </pre>
+      )}
     </styled.div>
   )
 }

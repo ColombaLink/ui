@@ -18,6 +18,7 @@ import {
   removeOverlay,
   ProgressIndicator,
   LoadingIcon,
+  VideoPlayer,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -203,6 +204,8 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
+
+    console.log('new value --> ', newValue)
   }
 
   // should TODO delete file instead of the onChange([])
@@ -284,19 +287,38 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const fullScreenView = (file) => {
+    console.log('🌵', file)
+
     fullScreenDialog.open(
       <Dialog
-        style={{ overflow: 'hidden', padding: 0, '& div div': { padding: 0 } }}
+        style={{
+          overflow: 'hidden',
+          padding: 0,
+          '& div div': {
+            padding: 0,
+          },
+          '& div  ': {
+            overflow: 'hidden !important',
+            scrollbarGutter: 'auto !important',
+          },
+        }}
       >
-        <styled.img
-          src={file.src}
-          style={{
-            width: '100%',
-            height: '100%',
-            borderTopRightRadius: 8,
-            borderTopLeftRadius: 8,
-          }}
-        />
+        {file.type.includes('image') ? (
+          <styled.img
+            src={file.src}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderTopRightRadius: 8,
+              borderTopLeftRadius: 8,
+            }}
+          />
+        ) : file.type.includes('video') ? (
+          <VideoPlayer src={file.src} />
+        ) : (
+          'no preview available'
+        )}
+
         <div>
           <RowSpaced
             style={{

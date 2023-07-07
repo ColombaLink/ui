@@ -12,6 +12,7 @@ import {
   EditIcon,
   ExternalLinkAltIcon,
   DownloadIcon,
+  PlayIcon,
   ZoomInIcon,
 } from '~'
 
@@ -117,13 +118,13 @@ export const UploadedFileItem = ({
           style={{
             height: 62,
             width: 62,
-            backgroundColor: color('background2'),
+            backgroundColor: 'black',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <BasedIcon size={20} />
+          <PlayIcon size={20} style={{ color: 'white' }} />
         </div>
       )}
       {/* audio */}

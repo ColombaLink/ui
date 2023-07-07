@@ -14,14 +14,12 @@ import {
   LightModeIcon,
   CurlyBracesIcon,
   AppFrame,
-  color,
   useRoute,
   LayersIcon,
   useDialog,
   DeleteIcon,
   EmailIcon,
   Dialog,
-  Badge,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -90,7 +88,7 @@ const menuItems = {
   Components: Object.keys(components).map((v) => {
     return {
       value: v,
-      icon: v === 'LogGroups' ? <Badge color="accent">Beta</Badge> : '',
+      // icon: v === 'LogGroups' ? <Badge color="accent">Beta</Badge> : '',
       label: v,
     }
   }),
