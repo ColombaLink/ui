@@ -49,11 +49,9 @@ export const TimeLine = ({
 
           setPlayerState({
             ...playerState,
-            //    time: newTime,
             progress: progressPercentage,
           })
 
-          // TODO update current time on video ref
           setTimeLineClicked(!timeLineClicked)
         }}
       >
@@ -83,26 +81,12 @@ export const TimeLine = ({
               width: 4,
               height: 18,
               borderRadius: 5,
-              // border: `1px solid ${color('border')}`,
               backgroundColor: 'white',
               position: 'absolute',
               right: -2,
               top: -7,
             }}
           />
-          {/* <styled.div
-            style={{
-              backgroundColor: 'text2',
-              padding: '3px 6px',
-              border: `1px solid ${color('border')}`,
-              borderRadius: '4px',
-              position: 'absolute',
-              right: -20,
-              top: -42,
-            }}
-          >
-            {playerState.time.toFixed(2)}
-          </styled.div> */}
         </styled.div>
       </styled.div>
       <styled.div style={{ width: 32, marginLeft: 12 }}>

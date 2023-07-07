@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { styled } from 'inlines'
-import { TimeLine } from './TimeLine'
 import { VideoControls } from './VideoControls'
 
 export const VideoPlayer = ({ src }) => {
@@ -12,9 +11,8 @@ export const VideoPlayer = ({ src }) => {
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
     progress: 0,
-    // time: 0,
     speed: 1,
-    isMuted: false,
+    volume: 1,
     duration: undefined,
   })
 
@@ -24,6 +22,12 @@ export const VideoPlayer = ({ src }) => {
         (playerState.duration / 100) * playerState.progress
     }
   }, [timeLineClicked])
+
+  useEffect(() => {
+    if (videoRef) {
+      videoRef.current.volume = playerState.volume
+    }
+  }, [playerState.volume])
 
   useEffect(() => {
     playerState.isPlaying ? videoRef.current.play() : videoRef.current.pause()
@@ -40,7 +44,6 @@ export const VideoPlayer = ({ src }) => {
       (videoRef.current.currentTime / videoRef.current.duration) * 100
     setPlayerState({
       ...playerState,
-      //  time: videoRef.current.currentTime,
       progress,
     })
   }
@@ -51,9 +54,6 @@ export const VideoPlayer = ({ src }) => {
       isPlaying: !playerState.isPlaying,
     })
   }
-
-  console.log(playerState, '????')
-  // console.log('Vid REF??', videoRef?.current?.duration)
 
   return (
     <styled.div style={{ position: 'relative' }}>
@@ -68,15 +68,16 @@ export const VideoPlayer = ({ src }) => {
           })
         }}
         onClick={() => {
-          // videoRef.current.play()
           togglePlay()
         }}
       >
-        <source src={src} type="video/mp4" />
-        {/* <source src={src} type="video/ogg"> */}
+        {src.slice === 'mp4' ? (
+          <source src={src} type="video/mp4" />
+        ) : (
+          <source src={src} type="video/ogg" />
+        )}
         Your browser does not support the video tag.
       </styled.video>
-      {/* <TimeLine playerState={playerState} setPlayerState={setPlayerState} /> */}
       <styled.div
         style={{
           pointerEvents: 'none',

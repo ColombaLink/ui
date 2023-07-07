@@ -1,6 +1,15 @@
 import React from 'react'
 import { styled } from 'inlines'
-import { PauseIcon, Button, PlayIcon, Volume1Icon, FullScreenIcon } from '~'
+import {
+  PauseIcon,
+  Button,
+  PlayIcon,
+  Volume1Icon,
+  FullScreenIcon,
+  Volume3Icon,
+  Volume2Icon,
+  UnMuteIcon,
+} from '~'
 import { TimeLine } from './TimeLine'
 
 export const VideoControls = ({
@@ -52,7 +61,45 @@ export const VideoControls = ({
         setTimeLineClicked={setTimeLineClicked}
         timeLineClicked={timeLineClicked}
       />
-      <Button icon={<Volume1Icon style={{ color: 'white' }} />} ghost />
+      <Button
+        icon={
+          playerState.volume === 1 ? (
+            <Volume3Icon style={{ color: 'white' }} />
+          ) : playerState.volume === 0 ? (
+            <UnMuteIcon style={{ color: 'white' }} />
+          ) : playerState.volume === 0.33 ? (
+            <Volume1Icon style={{ color: 'white' }} />
+          ) : playerState.volume === 0.66 ? (
+            <Volume2Icon style={{ color: 'white' }} />
+          ) : (
+            <Volume1Icon style={{ color: 'white' }} />
+          )
+        }
+        ghost
+        onClick={() => {
+          if (playerState.volume === 1) {
+            setPlayerState({
+              ...playerState,
+              volume: 0,
+            })
+          } else if (playerState.volume === 0) {
+            setPlayerState({
+              ...playerState,
+              volume: 0.33,
+            })
+          } else if (playerState.volume === 0.33) {
+            setPlayerState({
+              ...playerState,
+              volume: 0.66,
+            })
+          } else if (playerState.volume === 0.66) {
+            setPlayerState({
+              ...playerState,
+              volume: 1,
+            })
+          }
+        }}
+      />
       <Button
         icon={<FullScreenIcon style={{ color: 'white' }} />}
         ghost
