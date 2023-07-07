@@ -3,7 +3,14 @@ import { styled } from 'inlines'
 import { PauseIcon, Button, PlayIcon, Volume1Icon, FullScreenIcon } from '~'
 import { TimeLine } from './TimeLine'
 
-export const VideoControls = ({ playerState, setPlayerState, style }) => {
+export const VideoControls = ({
+  playerState,
+  setPlayerState,
+  style,
+  setTimeLineClicked,
+  timeLineClicked,
+  setFullScreen,
+}) => {
   return (
     <styled.div
       style={{
@@ -39,9 +46,18 @@ export const VideoControls = ({ playerState, setPlayerState, style }) => {
           }}
         />
       )}
-      <TimeLine playerState={playerState} setPlayerState={setPlayerState} />
+      <TimeLine
+        playerState={playerState}
+        setPlayerState={setPlayerState}
+        setTimeLineClicked={setTimeLineClicked}
+        timeLineClicked={timeLineClicked}
+      />
       <Button icon={<Volume1Icon style={{ color: 'white' }} />} ghost />
-      <Button icon={<FullScreenIcon style={{ color: 'white' }} />} ghost />
+      <Button
+        icon={<FullScreenIcon style={{ color: 'white' }} />}
+        ghost
+        onClick={() => setFullScreen((prev) => (prev += 1))}
+      />
     </styled.div>
   )
 }

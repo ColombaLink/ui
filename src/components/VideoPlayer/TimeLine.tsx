@@ -2,7 +2,12 @@ import React, { useRef } from 'react'
 import { styled } from 'inlines'
 import { color, Text } from '~'
 
-export const TimeLine = ({ playerState, setPlayerState }) => {
+export const TimeLine = ({
+  playerState,
+  setPlayerState,
+  setTimeLineClicked,
+  timeLineClicked,
+}) => {
   const bigRef = useRef(null)
 
   const getPercentage = (width, posX) => {
@@ -16,7 +21,7 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
     >
       <styled.div style={{ marginRight: 12 }}>
         <Text color="background2" typography="caption500">
-          {!playerState.isPlaying
+          {!playerState.isPlaying && playerState.progress === 0
             ? '0.00'
             : ((playerState.duration / 100) * playerState.progress).toFixed(2)}
         </Text>
@@ -49,6 +54,7 @@ export const TimeLine = ({ playerState, setPlayerState }) => {
           })
 
           // TODO update current time on video ref
+          setTimeLineClicked(!timeLineClicked)
         }}
       >
         <styled.div

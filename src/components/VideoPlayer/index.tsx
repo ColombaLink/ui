@@ -6,6 +6,9 @@ import { VideoControls } from './VideoControls'
 export const VideoPlayer = ({ src }) => {
   const videoRef = useRef(undefined)
 
+  const [timeLineClicked, setTimeLineClicked] = useState(false)
+  const [fullScreen, setFullScreen] = useState(0)
+
   const [playerState, setPlayerState] = useState({
     isPlaying: false,
     progress: 0,
@@ -15,15 +18,22 @@ export const VideoPlayer = ({ src }) => {
     duration: undefined,
   })
 
-  // useEffect(() => {
-  //   if (playerState.progress !== 0 && videoRef && duration !== 0) {
-  //     videoRef.current.currentTime = (duration / 100) * playerState.progress
-  //   }
-  // }, [playerState.progress])
+  useEffect(() => {
+    if (videoRef && playerState.progress !== 0) {
+      videoRef.current.currentTime =
+        (playerState.duration / 100) * playerState.progress
+    }
+  }, [timeLineClicked])
 
   useEffect(() => {
     playerState.isPlaying ? videoRef.current.play() : videoRef.current.pause()
-  }, [playerState, videoRef])
+  }, [playerState])
+
+  useEffect(() => {
+    if (fullScreen) {
+      videoRef.current.requestFullscreen()
+    }
+  }, [fullScreen])
 
   const handleOnTimeUpdate = () => {
     const progress =
@@ -32,6 +42,13 @@ export const VideoPlayer = ({ src }) => {
       ...playerState,
       //  time: videoRef.current.currentTime,
       progress,
+    })
+  }
+
+  const togglePlay = () => {
+    setPlayerState({
+      ...playerState,
+      isPlaying: !playerState.isPlaying,
     })
   }
 
@@ -51,10 +68,8 @@ export const VideoPlayer = ({ src }) => {
           })
         }}
         onClick={() => {
-          setPlayerState({
-            ...playerState,
-            isPlaying: !playerState.isPlaying,
-          })
+          // videoRef.current.play()
+          togglePlay()
         }}
       >
         <source src={src} type="video/mp4" />
@@ -64,6 +79,7 @@ export const VideoPlayer = ({ src }) => {
       {/* <TimeLine playerState={playerState} setPlayerState={setPlayerState} /> */}
       <styled.div
         style={{
+          pointerEvents: 'none',
           background:
             'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.90) 100%)',
           position: 'absolute',
@@ -77,6 +93,9 @@ export const VideoPlayer = ({ src }) => {
         style={{ marginTop: -36 }}
         playerState={playerState}
         setPlayerState={setPlayerState}
+        setTimeLineClicked={setTimeLineClicked}
+        timeLineClicked={timeLineClicked}
+        setFullScreen={setFullScreen}
       />
     </styled.div>
   )
