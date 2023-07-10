@@ -19,15 +19,27 @@ import {
   AudioIcon,
   PlayIcon,
   FileIcon,
+  TextIcon,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
+import { VariableSizeGrid as Grid } from 'react-window'
 
 export * from './types'
 
-import { VariableSizeGrid as Grid } from 'react-window'
+const GreySquareBg = styled('div', {
+  position: 'absolute',
+  top: -4,
+  width: 32,
+  borderRadius: 4,
+  height: 32,
+  backgroundColor: color('background2'),
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+})
 
 const Header: FC<{
   headerWidth: number
@@ -131,6 +143,7 @@ const Cell = (props) => {
   const isVideo = mimeType?.includes('video/')
   const isAudio = mimeType?.includes('audio/')
   const isTextFile = mimeType?.includes('text/')
+  const isFontFile = mimeType?.includes('font/')
 
   if (isReferences) {
     itemData = itemData?.length || 0
@@ -182,39 +195,21 @@ const Cell = (props) => {
     </styled.div>
   ) : isAudio ? (
     <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          borderRadius: 4,
-          height: 32,
-          backgroundColor: color('background2'),
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <GreySquareBg>
         <AudioIcon />
-      </styled.div>
+      </GreySquareBg>
     </styled.div>
   ) : isTextFile ? (
     <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          borderRadius: 4,
-          height: 32,
-          backgroundColor: color('background2'),
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
+      <GreySquareBg>
         <FileIcon />
-      </styled.div>
+      </GreySquareBg>
+    </styled.div>
+  ) : isFontFile ? (
+    <styled.div style={{ position: 'relative' }}>
+      <GreySquareBg>
+        <TextIcon size={14} />
+      </GreySquareBg>
     </styled.div>
   ) : isReference ? (
     <styled.div style={{ position: 'relative' }}>

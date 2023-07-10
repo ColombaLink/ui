@@ -271,7 +271,14 @@ export const contentEditModal = {
         type: 'reference',
         meta: {
           type: 'file',
-          mime: ['video/mp4', 'image/png', 'image/jpg', 'audio/*', 'text/*'],
+          mime: [
+            'video/mp4',
+            'image/png',
+            'image/jpg',
+            'audio/*',
+            'text/*',
+            'font/*',
+          ],
         },
       },
     ],

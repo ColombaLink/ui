@@ -334,8 +334,8 @@ export const FileUpload: FC<FileUploadProps> = ({
           <RowSpaced
             style={{
               padding: '16px !important',
-              margin: '8px 16px',
-              marginBottom: ' -14px',
+              margin: '10px 16px',
+              marginBottom: ' -22px',
             }}
           >
             <Text typography="body500" color="text2">
@@ -470,11 +470,17 @@ export const FileUpload: FC<FileUploadProps> = ({
         >
           <UploadIcon />
           {draggingOver ? (
-            <Text>Drop to upload</Text>
+            <Text typography="body500" style={{ marginLeft: 6 }}>
+              Drop to upload
+            </Text>
           ) : uploadedFiles.length > 0 && !multiple ? (
-            <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
+            <Text typography="body500" style={{ marginLeft: 6 }}>
+              {!multiple ? 'Replace file' : 'Upload new file'}
+            </Text>
           ) : (
-            <Text>{multiple ? 'Select your files' : 'Upload new file'}</Text>
+            <Text typography="body500" style={{ marginLeft: 6 }}>
+              {multiple ? 'Select your files' : 'Upload new file'}
+            </Text>
           )}
         </StyledFileInput>
         {/* hide the real input field */}
@@ -482,7 +488,7 @@ export const FileUpload: FC<FileUploadProps> = ({
         <input
           ref={hiddenFileInput}
           onChange={(e) => {
-            console.log('-->??', e)
+            // console.log('-->??', e)
             changeHandler(e)
           }}
           type="file"

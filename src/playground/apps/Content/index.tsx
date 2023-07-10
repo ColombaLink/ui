@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import ComponentViewer from '../../ComponentViewer'
-import { table, itemTable, button, contentEditModal } from './views'
+import { itemTable, button, contentEditModal } from './views'
 import { client } from '../../based'
 // vi
 

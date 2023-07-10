@@ -24,11 +24,10 @@ export const VideoControls = ({
     <styled.div
       style={{
         height: 32,
-        width: '100%',
+        width: 'calc(100% - 24px)',
         alignItems: 'center',
         display: 'flex',
         position: 'absolute',
-        padding: '8px',
         ...style,
       }}
     >

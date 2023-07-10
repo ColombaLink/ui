@@ -91,7 +91,7 @@ export const VideoPlayer = ({ src }) => {
         }}
       />
       <VideoControls
-        style={{ marginTop: -36 }}
+        style={{ margin: 12, marginTop: -36 }}
         playerState={playerState}
         setPlayerState={setPlayerState}
         setTimeLineClicked={setTimeLineClicked}

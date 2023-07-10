@@ -15,6 +15,7 @@ import {
   PlayIcon,
   FileIcon,
   ZoomInIcon,
+  TextIcon,
 } from '~'
 
 const StyledUploadedFile = styled('div', {
@@ -22,10 +23,11 @@ const StyledUploadedFile = styled('div', {
   overflow: 'hidden',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
-  // paddingLeft: 12,
+  paddingLeft: 24,
   borderRadius: 8,
   alignItems: 'center',
-  gap: 12,
+  // marginLeft: 12,
+  // marginRight: 12,
   marginBottom: 8,
   position: 'relative',
   cursor: 'auto',
@@ -59,7 +61,6 @@ const CacheBackground = ({ file }) => {
       style={{
         height: 62,
         width: 62 + 4,
-        marginLeft: -12,
         backgroundImage: `url(${url})`,
         backgroundSize: 'cover',
       }}
@@ -173,7 +174,13 @@ export const UploadedFileItem = ({
             alignItems: 'center',
           }}
         >
-          {file?.type?.includes('text') ? <FileIcon /> : <AttachmentIcon />}
+          {file?.type?.includes('text') ? (
+            <FileIcon />
+          ) : file?.type?.includes('font') ? (
+            <TextIcon />
+          ) : (
+            <AttachmentIcon />
+          )}
         </styled.div>
       )}
 
@@ -182,11 +189,12 @@ export const UploadedFileItem = ({
           minHeight: '20px',
           marginTop: 6,
           marginBottom: 6,
+          marginLeft: 12,
           // maxWidth: '25vw',
           maxWidth: '90%',
           flexShrink: 0,
         }}
-        weight={400}
+        typography="body500"
       >
         {file?.name}
       </Text>
