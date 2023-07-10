@@ -41,7 +41,7 @@ export const VideoPlayer = ({ src }) => {
 
   const handleOnTimeUpdate = () => {
     const progress =
-      (videoRef.current.currentTime / videoRef.current.duration) * 100
+      (videoRef.current?.currentTime / videoRef.current.duration) * 100
     setPlayerState({
       ...playerState,
       progress,
@@ -71,7 +71,7 @@ export const VideoPlayer = ({ src }) => {
           togglePlay()
         }}
       >
-        {src.slice === 'mp4' ? (
+        {src?.slice === 'mp4' ? (
           <source src={src} type="video/mp4" />
         ) : (
           <source src={src} type="video/ogg" />

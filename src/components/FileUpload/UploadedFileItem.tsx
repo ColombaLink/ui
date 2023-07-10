@@ -74,6 +74,28 @@ const CacheBackground = ({ file }) => {
   )
 }
 
+const VideoPreview = ({ file }) => {
+  if (!file.src) {
+    file.src = URL.createObjectURL(file)
+  }
+  const [url, setUrl] = useState(file.src)
+  return (
+    <div
+      style={{
+        height: 62,
+        width: 62,
+        backgroundColor: 'black',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <video src={file.src + '#t=5'} />
+      <PlayIcon size={20} style={{ color: 'white' }} />
+    </div>
+  )
+}
+
 export const UploadedFileItem = ({
   file,
   handleClickUpload,
@@ -86,6 +108,8 @@ export const UploadedFileItem = ({
   renameFile,
   fullScreenView,
 }) => {
+  console.log('hello, ', file)
+
   const contextHandler = useContextMenu(
     ContextOptions,
     {
@@ -98,6 +122,7 @@ export const UploadedFileItem = ({
       downloadFile,
       renameFile,
       fullScreenView,
+      file,
     },
     { placement: 'right' }
   )
@@ -113,20 +138,7 @@ export const UploadedFileItem = ({
       {/* image */}
       {file?.type?.includes('image') && <CacheBackground file={file} />}
       {/* movie */}
-      {file?.type?.includes('video') && (
-        <div
-          style={{
-            height: 62,
-            width: 62,
-            backgroundColor: 'black',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <PlayIcon size={20} style={{ color: 'white' }} />
-        </div>
-      )}
+      {file?.type?.includes('video') && <VideoPreview file={file} />}
       {/* audio */}
       {file?.type?.includes('audio') && (
         <div
@@ -171,6 +183,7 @@ export const UploadedFileItem = ({
 
 const ContextOptions = ({
   // handleClickUpload,
+  file,
   deleteSpecificFile,
   id,
   openInNewTab,
@@ -184,7 +197,7 @@ const ContextOptions = ({
       {/* <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
         Duplicate
       </ContextItem> */}
-      <ContextItem onClick={() => fullScreenView()} icon={ZoomInIcon}>
+      <ContextItem onClick={() => fullScreenView(file)} icon={ZoomInIcon}>
         Expand
       </ContextItem>
       <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>

@@ -16,7 +16,7 @@ import {
   Style,
   RowSpaced,
   removeOverlay,
-  // ProgressIndicator,
+  ProgressIndicator,
   LoadingIcon,
   VideoPlayer,
 } from '~'
@@ -383,7 +383,12 @@ export const FileUpload: FC<FileUploadProps> = ({
       hideClearButton
       style={style}
     >
-      <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
+      <styled.div
+        style={{
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          position: 'relative',
+        }}
+      >
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Label
             label={label}
@@ -403,13 +408,6 @@ export const FileUpload: FC<FileUploadProps> = ({
           )}
         </div>
 
-        {progress > 0 && progress < 1 ? (
-          <styled.div style={{ display: 'flex', alignItems: 'center' }}>
-            <LoadingIcon style={{ marginRight: 10 }} />
-            {`${Math.round(progress * 100)}%`}
-          </styled.div>
-        ) : null}
-
         {/* <ProgressIndicator progress={Math.round(progress * 100)} /> */}
 
         {uploadedFiles?.length > 0 &&
@@ -423,11 +421,25 @@ export const FileUpload: FC<FileUploadProps> = ({
               duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
               renameFile={() => renameFile(file, idx)}
-              fullScreenView={() => fullScreenView(file)}
+              //   fullScreenView={() => fullScreenView(file)}
+              fullScreenView={fullScreenView}
               key={idx}
               id={idx}
             />
           ))}
+
+        {progress > 0 && progress < 1 ? (
+          <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+            <ProgressIndicator
+              circle
+              progress={progress}
+              style={{ position: 'absolute', left: 16, top: 70 }}
+            />
+            {/* <LoadingIcon style={{ marginRight: 10 }} />
+            {`${Math.round(progress * 100)}%`} */}
+          </styled.div>
+        ) : null}
+
         {/* // end map */}
         <StyledFileInput
           onClick={handleClickUpload}
