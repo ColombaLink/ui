@@ -293,6 +293,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
         continue
       }
       if (typeof item === 'object' && !React.isValidElement(item)) {
+        // @ts-ignore
         parsedData.push({ ...item, field })
       } else {
         parsedData.push({
