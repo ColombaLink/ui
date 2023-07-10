@@ -265,43 +265,45 @@ export const ArrayList = ({
           onDragEnd={onDragEnd}
           onDragStart={onDragStart}
         >
-          <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-            {ids?.map((id, idx) => {
-              return (
-                <SingleArrayListItem
-                  id={id}
-                  key={idx}
-                  item={itemType !== 'object' ? arr[idx] : 'objectje'}
-                  idx={idx}
-                  itemType={itemType}
-                  deleteSpecificItem={deleteSpecificItem}
-                  editSpecificItem={editSpecificItem}
-                  arr={arr}
-                />
-              )
-            })}
-          </SortableContext>
+          <>
+            <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+              {ids?.map((id, idx) => {
+                return (
+                  <SingleArrayListItem
+                    id={id}
+                    key={idx}
+                    item={itemType !== 'object' ? arr[idx] : 'objectje'}
+                    idx={idx}
+                    itemType={itemType}
+                    deleteSpecificItem={deleteSpecificItem}
+                    editSpecificItem={editSpecificItem}
+                    arr={arr}
+                  />
+                )
+              })}
+            </SortableContext>
 
-          {createPortal(
-            <DragOverlay>
-              {draggingIndex >= 0 ? (
-                <SingleArrayListItem
-                  id={ids[draggingIndex]}
-                  item={
-                    itemType !== 'object'
-                      ? arr[draggingIndex]
-                      : arr[draggingIndex].toString()
-                  }
-                  idx={draggingIndex}
-                  itemType={itemType}
-                  deleteSpecificItem={deleteSpecificItem}
-                  editSpecificItem={editSpecificItem}
-                  arr={arr}
-                />
-              ) : null}
-            </DragOverlay>,
-            document.body
-          )}
+            {createPortal(
+              <DragOverlay>
+                {draggingIndex >= 0 ? (
+                  <SingleArrayListItem
+                    id={ids[draggingIndex]}
+                    item={
+                      itemType !== 'object'
+                        ? arr[draggingIndex]
+                        : arr[draggingIndex].toString()
+                    }
+                    idx={draggingIndex}
+                    itemType={itemType}
+                    deleteSpecificItem={deleteSpecificItem}
+                    editSpecificItem={editSpecificItem}
+                    arr={arr}
+                  />
+                ) : null}
+              </DragOverlay>,
+              document.body
+            )}
+          </>
         </DndContext>
       ) : null}
 

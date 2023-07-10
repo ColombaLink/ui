@@ -63,41 +63,46 @@ export const Fields: FC<{
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
     >
-      <SortableContext items={filtered} strategy={verticalListSortingStrategy}>
-        {filtered.map((field) => {
-          return (
-            <Draggable
-              key={field}
-              id={field}
-              properties={properties}
-              objects={objects}
-              overIdRef={overIdRef}
-            >
+      <>
+        <SortableContext
+          items={filtered}
+          strategy={verticalListSortingStrategy}
+        >
+          {filtered.map((field) => {
+            return (
+              <Draggable
+                key={field}
+                id={field}
+                properties={properties}
+                objects={objects}
+                overIdRef={overIdRef}
+              >
+                <Field
+                  type={type}
+                  field={field}
+                  fields={typeDef.fields}
+                  isDragging={field === draggingField}
+                  toggleExpand={toggleExpand}
+                  collapsed={collapsed.has(field)}
+                />
+              </Draggable>
+            )
+          })}
+        </SortableContext>
+        {createPortal(
+          <DragOverlay>
+            {draggingField ? (
               <Field
+                isDragging
                 type={type}
-                field={field}
+                field={draggingField}
                 fields={typeDef.fields}
-                isDragging={field === draggingField}
-                toggleExpand={toggleExpand}
-                collapsed={collapsed.has(field)}
               />
-            </Draggable>
-          )
-        })}
-      </SortableContext>
-      {createPortal(
-        <DragOverlay>
-          {draggingField ? (
-            <Field
-              isDragging
-              type={type}
-              field={draggingField}
-              fields={typeDef.fields}
-            />
-          ) : null}
-        </DragOverlay>,
-        document.body
-      )}
+            ) : null}
+          </DragOverlay>,
+          document.body
+        )}
+      </>
     </DndContext>
   )
 }
