@@ -203,7 +203,6 @@ export const Button: FC<ButtonProps> = (props) => {
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
-        marginBottom: space ? spaceToPx(space) : null,
         ...getButtonStyle(props, true),
         ...style,
       }}

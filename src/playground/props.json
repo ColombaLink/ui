@@ -624,7 +624,7 @@
           "type": "boolean"
         }
       },
-      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode | ReactNode[]\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  transparent?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?:\n    | MouseEventHandler\n    | (() => void)\n    | ((e: MouseEvent) => Promise<void>)\n    | (() => Promise<void>)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  textAlign?: 'center' | 'right' | 'left'\n  /** \n   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n  \n   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n  */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
+      "code": "type ButtonProps = {\n  onMouseEnter?: MouseEventHandler\n  onMouseLeave?: MouseEventHandler\n  children?: ReactNode | ReactNode[]\n  disabled?: boolean\n  color?: Color\n  ghost?: boolean\n  light?: boolean\n  large?: boolean\n  transparent?: boolean\n  fill?: boolean // TODO: add this on inputs etc as well\n  icon?: FunctionComponent<Icon> | ReactNode\n  iconRight?: FunctionComponent<Icon> | ReactNode\n  loading?: boolean\n  onClick?:\n    | MouseEventHandler\n    | (() => void)\n    | ((e: MouseEvent) => Promise<void>)\n    | (() => Promise<void>)\n  onPointerDown?: MouseEventHandler\n  outline?: boolean\n  style?: Style\n  textAlign?: 'center' | 'right' | 'left'\n  /**\n   Use a keyboard shortcut for this button, use displayShortcut to automaticly show the shortcut if applicable.\n\n   Keys: `Enter, Esc, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Tab`\n   Commands: `Cmd+C, Alt+C, Shift+C, Cmd+Shift+A`\n  */\n  keyboardShortcut?: Key\n  /** Parses action keys string and displays it if not on a touchdevice\n   */\n  displayShortcut?: boolean\n  /** Animate onClick\n   */\n  clickAnimation?: boolean\n}",
       "file": "/components/Button/index.tsx"
     },
     "CalloutProps": {
@@ -1437,14 +1437,6 @@
     "FileUploadProps": {
       "name": "FileUploadProps",
       "props": {
-        "title": {
-          "optional": true,
-          "type": "string"
-        },
-        "more": {
-          "optional": true,
-          "type": "boolean"
-        },
         "label": {
           "optional": true,
           "type": "string"
@@ -1473,7 +1465,7 @@
           "optional": true,
           "type": "boolean"
         },
-        "acceptedFileTypes": {
+        "mime": {
           "optional": true,
           "type": {
             "array": "string"
@@ -1488,7 +1480,7 @@
           "type": "TSTupleType"
         }
       },
-      "code": "type FileUploadProps = {\n  title?: string\n  more?: boolean\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  // onChange?: (file: File[], onProgress: (p: number) => void) => void\n  style?: Style\n  disabled?: boolean\n  acceptedFileTypes?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
+      "code": "type FileUploadProps = {\n  label?: string\n  description?: string\n  descriptionBottom?: string\n  indent?: boolean\n  onChange?: (file: File[]) => void\n  // onChange?: (file: File[], onProgress: (p: number) => void) => void\n  style?: Style\n  disabled?: boolean\n  mime?: string[]\n  multiple?: boolean\n  value?: [{ name?: string; type?: MimeType; src: string }]\n}",
       "file": "/components/FileUpload/index.tsx"
     },
     "FooterProps": {
@@ -2066,9 +2058,13 @@
         "onChange": {
           "optional": true,
           "type": "function"
+        },
+        "hideClearButton": {
+          "optional": true,
+          "type": "boolean"
         }
       },
-      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  label?: ReactNode\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n  onBlur?: () => void\n  value?: any\n  setValue?: (e) => void\n  maxChars?: number\n  onChange?: (e) => void\n}",
+      "code": "type InputWrapperProps = {\n  children: ReactNode\n  errorMessage?: string\n  focus?: boolean\n  indent?: boolean\n  label?: ReactNode\n  description?: string\n  descriptionBottom?: string\n  style?: CSSProperties\n  disabled?: boolean\n  onMouseEnter?: () => void\n  onMouseLeave?: () => void\n  color?: Color\n  onClick?: () => void\n  onBlur?: () => void\n  value?: any\n  setValue?: (e) => void\n  maxChars?: number\n  onChange?: (e) => void\n  hideClearButton?: boolean\n}",
       "file": "/components/Input/InputWrapper.tsx"
     },
     "JsonInputProps": {
