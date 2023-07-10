@@ -13,6 +13,7 @@ import {
   ExternalLinkAltIcon,
   DownloadIcon,
   PlayIcon,
+  FileIcon,
   ZoomInIcon,
 } from '~'
 
@@ -78,7 +79,6 @@ const VideoPreview = ({ file }) => {
   if (!file.src) {
     file.src = URL.createObjectURL(file)
   }
-  const [url, setUrl] = useState(file.src)
   return (
     <div
       style={{
@@ -93,6 +93,26 @@ const VideoPreview = ({ file }) => {
       <video src={file.src + '#t=5'} />
       <PlayIcon size={20} style={{ color: 'white' }} />
     </div>
+  )
+}
+
+const AudioPreview = ({ file }) => {
+  if (!file.src) {
+    file.src = URL.createObjectURL(file)
+  }
+  return (
+    <styled.div
+      style={{
+        height: 62,
+        width: 62,
+        backgroundColor: color('background2'),
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <AudioIcon size={20} />
+    </styled.div>
   )
 }
 
@@ -136,12 +156,14 @@ export const UploadedFileItem = ({
   return (
     <StyledUploadedFile>
       {/* image */}
-      {file?.type?.includes('image') && <CacheBackground file={file} />}
-      {/* movie */}
-      {file?.type?.includes('video') && <VideoPreview file={file} />}
-      {/* audio */}
-      {file?.type?.includes('audio') && (
-        <div
+      {file?.type?.includes('image') ? (
+        <CacheBackground file={file} />
+      ) : file?.type?.includes('video') ? (
+        <VideoPreview file={file} />
+      ) : file?.type?.includes('audio') ? (
+        <AudioPreview file={file} />
+      ) : (
+        <styled.div
           style={{
             height: 62,
             width: 62,
@@ -151,15 +173,10 @@ export const UploadedFileItem = ({
             alignItems: 'center',
           }}
         >
-          <AudioIcon size={20} />
-        </div>
+          {file?.type?.includes('text') ? <FileIcon /> : <AttachmentIcon />}
+        </styled.div>
       )}
 
-      {file?.type?.includes('image') ||
-      file?.type?.includes('video') ||
-      file?.type?.includes('audio') ? null : (
-        <AttachmentIcon />
-      )}
       <Text
         style={{
           minHeight: '20px',

@@ -269,7 +269,10 @@ export const contentEditModal = {
         name: 'Picture',
         key: 'picture',
         type: 'reference',
-        meta: { type: 'file', mime: ['video/mp4', 'image/png', 'image/jpg'] },
+        meta: {
+          type: 'file',
+          mime: ['video/mp4', 'image/png', 'image/jpg', 'audio/*', 'text/*'],
+        },
       },
     ],
   },

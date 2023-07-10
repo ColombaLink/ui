@@ -17,7 +17,6 @@ import {
   RowSpaced,
   removeOverlay,
   ProgressIndicator,
-  LoadingIcon,
   VideoPlayer,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
@@ -328,7 +327,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             </audio>
           </styled.div>
         ) : (
-          'no preview available'
+          <Text style={{ margin: 16 }}>No preview available</Text>
         )}
 
         <div>
@@ -364,12 +363,12 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   // TODO: not working great yet ??
   const duplicateFile = (file, idx) => {
-    console.log('duplicate file', file, idx)
+    // console.log('duplicate file', file, idx)
 
     const dupliArr = [...uploadedFiles]
     dupliArr.splice(idx, 0, file)
 
-    console.log('dupliArr', dupliArr)
+    // console.log('dupliArr', dupliArr)
 
     setUploadedFiles([...dupliArr])
   }
@@ -400,6 +399,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           {uploadedFiles.length > 0 && (
             <Button
               ghost
+              color="accent"
               onClick={() => clearFiles()}
               style={{ height: 'fit-content', marginBottom: 4 }}
             >

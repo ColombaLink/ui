@@ -58,8 +58,6 @@ const ContentRenderer: FC<{
     console.log('more fire?? 🔥')
   }
 
-  console.log('fire?? 🔥')
-
   // state no
   // TODO double check this
   itemValue = itemValue ?? state[key]

@@ -9,7 +9,17 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, border, Text, color, Badge, AttachmentIcon } from '~'
+import {
+  styled,
+  border,
+  Text,
+  color,
+  Badge,
+  AttachmentIcon,
+  AudioIcon,
+  PlayIcon,
+  FileIcon,
+} from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
@@ -118,10 +128,9 @@ const Cell = (props) => {
       : undefined
 
   const isImg = mimeType?.includes('image/')
-
-  // if isVideo
-
   const isVideo = mimeType?.includes('video/')
+  const isAudio = mimeType?.includes('audio/')
+  const isTextFile = mimeType?.includes('text/')
 
   if (isReferences) {
     itemData = itemData?.length || 0
@@ -162,17 +171,69 @@ const Cell = (props) => {
           height: 32,
           borderRadius: 4,
           backgroundColor: 'black',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
       >
-        x
+        <PlayIcon style={{ color: 'white', position: 'absolute' }} size={14} />
+        <video src={itemData + '#t=5'} />
+      </styled.div>
+    </styled.div>
+  ) : isAudio ? (
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundColor: color('background2'),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <AudioIcon />
+      </styled.div>
+    </styled.div>
+  ) : isTextFile ? (
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundColor: color('background2'),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <FileIcon />
       </styled.div>
     </styled.div>
   ) : isReference ? (
-    <Badge color="accent" icon={<AttachmentIcon />}>
-      <Text typography="caption600" color="accent">
-        {itemData}
-      </Text>
-    </Badge>
+    <styled.div style={{ position: 'relative' }}>
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundColor: color('lightaccent'),
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <AttachmentIcon color="accent" size={14} />
+      </styled.div>
+    </styled.div>
   ) : isReferences ? (
     <Badge color="accent" icon={<AttachmentIcon />}>
       <Text typography="caption600" color="accent">
