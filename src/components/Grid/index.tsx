@@ -1,11 +1,10 @@
 import React, { FC, ReactNode } from 'react'
-import { styled, Space, Style, spaceToPx } from '~'
+import { styled, Style } from '~'
 
 type GridProps = {
   children?: ReactNode[]
   gap?: number
   itemWidth?: number
-  space?: Space
   style?: Style
 }
 
@@ -13,7 +12,6 @@ export const Grid: FC<GridProps> = ({
   children,
   itemWidth,
   gap,
-  space,
   style,
   ...props
 }) => {
@@ -22,7 +20,6 @@ export const Grid: FC<GridProps> = ({
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        marginBottom: spaceToPx(space),
         ...style,
       }}
       {...props}

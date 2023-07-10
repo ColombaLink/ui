@@ -12,10 +12,10 @@ import {
   Tabs,
   Tab,
   MimeType,
-  Space,
   styled,
   Style,
   RowSpaced,
+  removeOverlay,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -26,10 +26,10 @@ type FileUploadProps = {
   descriptionBottom?: string
   indent?: boolean
   onChange?: (file: File[]) => void
+  // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
-  space?: Space
   disabled?: boolean
-  acceptedFileTypes?: string[]
+  mime?: string[]
   multiple?: boolean
   value?: [{ name?: string; type?: MimeType; src: string }]
 }
@@ -46,16 +46,15 @@ const StyledFileInput = styled('div', {
 
 export const FileUpload: FC<FileUploadProps> = ({
   label,
-  acceptedFileTypes,
   description,
   descriptionBottom,
   indent,
   onChange,
-  space,
   style,
   disabled,
   multiple,
   value,
+  mime,
 }) => {
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
   const [draggingOver, setDraggingOver] = useState(false)
@@ -64,6 +63,23 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
+
+  // wrap onChange here
+  /*
+    onChange = (files)) => {
+      const [progress, setProgress] = useState(undefined)
+
+        onChangeFromProps(files, setProgress)
+    
+    }
+  */
+
+  // const [progress, setProgress] = useState(undefined)
+  // const onChangeFromProps = onChange
+  // onChange = (file, progress) => {
+  //   onChangeFromProps(file, setProgress)
+  //   console.log(progress)
+  // }
 
   const hiddenFileInput = useRef(null)
 
@@ -74,7 +90,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const dialog = useDialog()
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
-
   const handleClickUpload = async () => {
     // now we are gonna open new modal here
 
@@ -94,7 +109,7 @@ export const FileUpload: FC<FileUploadProps> = ({
                 // upload
                 if (!disabled) {
                   hiddenFileInput.current.click()
-                  dialog.close()
+                  removeOverlay()
                 }
               }}
             >
@@ -109,7 +124,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             >
               <Input
                 type="text"
-                space="20px"
+                style={{ marginBottom: 20 }}
                 placeholder="Paste the image link..."
                 onChange={(e) => {
                   setUrlInputValue(e)
@@ -154,9 +169,9 @@ export const FileUpload: FC<FileUploadProps> = ({
 
       let files = Array.from(e.dataTransfer.files)
 
-      if (acceptedFileTypes) {
+      if (mime) {
         files = files.filter((file: File) => {
-          const accepted = acceptedFileTypes.includes(file.type)
+          const accepted = mime.includes(file.type)
           if (!accepted) {
             setErrorMessage(`File type: ${file?.type} is not allowed.`)
             setDraggingOver(false)
@@ -208,15 +223,17 @@ export const FileUpload: FC<FileUploadProps> = ({
         )
 
       urlUploadFile([file])
-      dialog.close()
+      // console.log(dialog._id)
+      // console.log('BLOB 🏄‍♂️ -> ', file)
+      removeOverlay()
     }
   }
 
   const urlUploadFile = async (e) => {
     let files = e
-    if (acceptedFileTypes) {
+    if (mime) {
       files = files.filter((file: File) => {
-        const accepted = acceptedFileTypes.includes(file.type)
+        const accepted = mime.includes(file.type)
         if (!accepted) {
           setErrorMessage(`File type: ${file?.type} is not allowed.`)
           setDraggingOver(false)
@@ -318,7 +335,6 @@ export const FileUpload: FC<FileUploadProps> = ({
 
     setUploadedFiles([...dupliArr])
   }
-  const mimeTypeInput = acceptedFileTypes + '/*'
 
   return (
     <InputWrapper
@@ -326,7 +342,7 @@ export const FileUpload: FC<FileUploadProps> = ({
       descriptionBottom={descriptionBottom}
       disabled={disabled}
       errorMessage={errorMessage}
-      space={space}
+      hideClearButton
       style={style}
     >
       <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
@@ -335,7 +351,7 @@ export const FileUpload: FC<FileUploadProps> = ({
             label={label}
             labelColor={disabled ? 'text2' : 'text'}
             description={description}
-            space="8px"
+            style={{ marginBottom: 8 }}
           />
 
           {uploadedFiles.length > 0 && (
@@ -409,7 +425,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           onChange={(e) => changeHandler(e)}
           type="file"
           style={{ display: 'none' }}
-          accept={mimeTypeInput}
+          accept={mime ? mime?.join(',') : '/*'}
           key={clearCount}
           multiple={multiple}
         />

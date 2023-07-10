@@ -44,8 +44,6 @@ export const SchemaLeft: FC = () => {
 
   const { data: origins = [] } = useQuery('db:origins')
 
-  console.info('if multiple show it with a dropdown', origins)
-
   const { schema, loading } = useSchema(db)
 
   if (loading) {
@@ -67,7 +65,7 @@ export const SchemaLeft: FC = () => {
   }
 
   const types = {
-    root: schema?.types.root,
+    root: schema?.rootType,
     ...schema?.types,
   }
 

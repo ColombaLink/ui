@@ -1,16 +1,5 @@
 import React, { FC, ReactNode, useState, FunctionComponent } from 'react'
-import {
-  Space,
-  Color,
-  Icon,
-  Label,
-  border,
-  color,
-  spaceToPx,
-  CloseIcon,
-  Style,
-  styled,
-} from '~'
+import { Color, Icon, Label, border, color, CloseIcon, Style, styled } from '~'
 
 type CalloutProps = {
   children?: ReactNode
@@ -21,7 +10,6 @@ type CalloutProps = {
   labelColor?: Color
   description?: string
   ghost?: boolean
-  space?: Space
   style?: Style
   closeable?: boolean
   textAlign?: 'center' | 'right' | 'left'
@@ -37,7 +25,6 @@ export const Callout: FC<CalloutProps> = ({
   outline,
   color: colorProp = 'accent',
   ghost,
-  space,
   style,
   textAlign,
   ...props
@@ -58,7 +45,6 @@ export const Callout: FC<CalloutProps> = ({
         position: 'relative',
         padding: '12px 16px',
         borderRadius: 8,
-        marginBottom: spaceToPx(space),
         justifyContent:
           textAlign === 'center'
             ? 'center'

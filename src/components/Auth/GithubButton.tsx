@@ -20,7 +20,7 @@ export const GithubButton: FC<GithubButtonProps> = ({
       style={{
         width,
         height: 48,
-        marginBottom: 8,
+        marginBottom: 32,
         borderRadius: 8,
         fontWeight: 600,
       }}
@@ -34,7 +34,6 @@ export const GithubButton: FC<GithubButtonProps> = ({
           JSON.stringify(state)
         )}`
       }}
-      space
     >
       {label}
     </Button>

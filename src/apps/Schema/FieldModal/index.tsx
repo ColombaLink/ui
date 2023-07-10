@@ -144,7 +144,7 @@ const FileGeneral = ({ options }) => {
     <Checkbox
       style={{ marginTop: 24 }}
       label="Allow multiple files upload"
-      checked={options.multiple}
+      value={options.multiple}
       onChange={(value) => {
         options.meta.multiple = value
         if (value) {
@@ -181,10 +181,7 @@ export const FieldModal: FC<
       path?: string[]
     }
 > = ({ type, field, template, path = [] }) => {
-  const {
-    schema: { types },
-    loading,
-  } = useSchema()
+  const { schema, loading } = useSchema()
   const [generalDisabled, setGeneralDisabled] = useState(true)
   const [specificDisabled, setSpecificDisabled] = useState(false)
   const optionsRef = useRef<FieldOptions>()
@@ -193,8 +190,14 @@ export const FieldModal: FC<
     return null
   }
 
+  const types = schema.types
+
   // @ts-ignore
-  const fields = path.reduce((fields, key) => fields[key], types[type].fields)
+  const fields =
+    type === 'root'
+      ? schema?.rootType?.fields
+      : // @ts-ignore  is this an issue?
+        path.reduce((fields, key) => fields[key], types[type].fields)
 
   if (!template) {
     if (field) {
@@ -314,7 +317,7 @@ export const FieldModal: FC<
           <Tab label="Settings" style={{ overflow: 'auto' }}>
             <div style={{ marginTop: 24, marginBottom: 24, paddingLeft: 16 }}>
               <Checkbox
-                space
+                style={{ marginBottom: 24 }}
                 label="Can't be empty"
                 description="Prevents saving an entry if this field is empty"
                 onChange={(e) => {
@@ -322,13 +325,13 @@ export const FieldModal: FC<
                 }}
               />
               <Checkbox
-                space
+                style={{ marginBottom: 24 }}
                 label="Set field as unique"
                 description="Ensures that multiple entries can't have the same value for this field"
               />
               <Input
                 type="number"
-                space
+                style={{ marginBottom: 24 }}
                 label="Limit character count"
                 description="Specifies the maximum number of characters allowed in this field"
                 onChange={(e) => {
@@ -338,7 +341,7 @@ export const FieldModal: FC<
                 // input max chars = this
               />
               <Checkbox
-                space
+                style={{ marginBottom: 24 }}
                 label="Read only"
                 description="Read only for you and me"
                 onChange={(e) => {
@@ -381,7 +384,7 @@ export const FieldModal: FC<
               )}
               <Input
                 type="text"
-                space
+                style={{ marginBottom: 24 }}
                 label="Match a specific pattern"
                 description="Only accepts values that match a specific regular exporession"
                 onChange={(e) => {
@@ -389,7 +392,7 @@ export const FieldModal: FC<
                 }}
               />
               <Checkbox
-                space
+                style={{ marginBottom: 24 }}
                 label="Custom validation"
                 description="Write a custom function"
               />
@@ -398,14 +401,14 @@ export const FieldModal: FC<
         </Tabs>
       </Dialog.Body>
       <Dialog.Buttons border>
-        <Dialog.Cancel>Cancel (Esc)</Dialog.Cancel>
+        <Dialog.Cancel />
         <Confirm
           type={type}
           disabled={generalDisabled || specificDisabled}
           options={options}
           path={path}
         >
-          {field ? 'Update' : 'Create'} (Enter)
+          {field ? 'Update' : 'Create'}
         </Confirm>
       </Dialog.Buttons>
     </Dialog>

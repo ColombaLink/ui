@@ -43,9 +43,6 @@ export type Typography =
   | 'caption500'
   | 'caption400'
 
-type SpaceInt = 0 | 2 | 4 | 8 | 12 | 16 | 20 | 24 | 28 | 32 | 48
-export type Space = SpaceInt | `${SpaceInt}px` | true
-
 export type Icon = SVGProps<SVGSVGElement> & IconProps
 
 export type PropsEventHandler<E = SyntheticEvent, P = any> = (

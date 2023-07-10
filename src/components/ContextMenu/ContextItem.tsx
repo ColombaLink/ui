@@ -1,10 +1,4 @@
-import React, {
-  ReactNode,
-  FunctionComponent,
-  FC,
-  useState,
-  useEffect,
-} from 'react'
+import React, { ReactNode, FunctionComponent, FC, useState } from 'react'
 import { removeOverlay } from '../Overlay'
 import {
   styled,

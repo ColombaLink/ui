@@ -25,7 +25,7 @@ export const Card = () => {
             description: 'Updated 30 minutes ago',
             topLeft: <Avatar icon={BasedIcon} color="red" />,
             topRight: <MoreIcon />,
-            children: <Spacer space="28px" />,
+            children: <Spacer style={{ marginBottom: 28 }} />,
             bottomLeft: (
               <Badge icon={CopyIcon({ size: 14 })} boxed>
                 main

@@ -9,10 +9,11 @@ import React, {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, border, Text, color } from '~'
+import { styled, border, Text, color, Badge, AttachmentIcon } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
+import { prettyNumber } from '@based/pretty-number'
 
 export * from './types'
 
@@ -24,7 +25,8 @@ const Header: FC<{
   headers: TableHeader<any>[]
   setSortOptions: Dispatch<SetStateAction<SortOptions>>
   sortOptions: SortOptions
-}> = ({ headers, width, headerWidth }) => {
+  outline: boolean
+}> = ({ headers, width, headerWidth, outline }) => {
   const children: ReactNode[] = []
   let total = 16
   for (const header of headers) {
@@ -38,11 +40,13 @@ const Header: FC<{
           position: 'absolute',
           left: total,
           top: 0,
-          height: 56,
+          height: 46,
           width: w,
         }}
       >
-        <Text typography="body600">{header.label ?? header.key}</Text>
+        <Text typography="body600" color={outline ? 'text2' : 'text'}>
+          {header.label ?? header.key}
+        </Text>
       </styled.div>
     )
     total += w
@@ -51,14 +55,29 @@ const Header: FC<{
     <styled.div
       style={{
         width,
-        borderBottom: border(1, 'border'),
-        height: 56,
+        borderTopRightRadius: 8,
+        borderTopLeftRadius: 8,
+        height: 46,
         position: 'relative',
       }}
     >
       {children}
     </styled.div>
   )
+}
+
+const pathReader = (a: any, path: string[]): any => {
+  let d = a
+  for (let i = 0; i < path.length; i++) {
+    const seg = path[i]
+    if (d?.[seg] !== undefined) {
+      d = d[seg]
+    } else {
+      d = undefined
+      break
+    }
+  }
+  return d
 }
 
 const Cell = (props) => {
@@ -70,8 +89,25 @@ const Cell = (props) => {
     return <div />
   }
 
-  const onClick = props.data.onClick
-  const itemData = rowData[header.key]
+  const path = header.key.split('.')
+
+  let itemData = pathReader(rowData, path)
+  const onClick = header.onClick ?? props.data.onClick
+
+  const type = header.type
+
+  const isReferences = type === 'references'
+  const isReference = type === 'reference'
+  const isImg = type === 'reference' && header?.meta?.mime?.length > 0
+
+  // console.log('-->', header)
+
+  if (isReferences) {
+    itemData = itemData?.length || 0
+  }
+
+  // console.log('Item data??', itemData)
+
   const body = header.customComponent ? (
     createElement(header.customComponent, {
       data: rowData,
@@ -80,6 +116,37 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : isImg ? (
+    <styled.div
+      style={{
+        position: 'relative',
+      }}
+    >
+      <styled.div
+        style={{
+          position: 'absolute',
+          top: -4,
+          width: 32,
+          borderRadius: 4,
+          height: 32,
+          backgroundColor: color('accent', true),
+          backgroundSize: 'cover',
+          backgroundImage: `url(${itemData})`,
+        }}
+      />
+    </styled.div>
+  ) : isReference ? (
+    <Badge color="accent" icon={<AttachmentIcon />}>
+      <Text typography="caption600" color="accent">
+        {itemData}
+      </Text>
+    </Badge>
+  ) : isReferences ? (
+    <Badge color="accent" icon={<AttachmentIcon />}>
+      <Text typography="caption600" color="accent">
+        {prettyNumber(itemData, 'number-short')}
+      </Text>
+    </Badge>
   ) : (
     <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
   )
@@ -149,7 +216,7 @@ const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
     getQueryItems,
-    headers,
+    headers = [],
     data = [],
     defaultSortOptions,
     calcRowHeight,
@@ -161,6 +228,8 @@ const SizedGrid: FC<TableProps> = (props) => {
     columnCount = headers?.length ??
       (data && data.length && Object.keys(data[0]).length),
   } = props
+
+  const headerWrapper = useRef(null)
 
   let w = 0
   let defW = 0
@@ -221,16 +290,30 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   return (
     <>
-      <Header
-        sortOptions={sortOptions}
-        setSortOptions={setSortOpts}
-        width={width}
-        headers={headers}
-        headerWidth={defW}
-      />
+      <styled.div
+        style={{
+          width: width,
+          overflowX: 'hidden',
+          borderBottom: border(1, 'border'),
+          backgroundColor: props.outline ? color('background2') : '',
+          borderTopRightRadius: props.outline ? 8 : 0,
+          borderTopLeftRadius: props.outline ? 8 : 0,
+        }}
+        ref={headerWrapper}
+      >
+        <Header
+          sortOptions={sortOptions}
+          setSortOptions={setSortOpts}
+          width={width}
+          headers={headers}
+          headerWidth={defW}
+          outline={props.outline}
+        />
+      </styled.div>
       <Grid
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
+          headerWrapper.current.scrollLeft = e.scrollLeft
         }}
         columnCount={columnCount}
         columnWidth={(colIndex) => {
@@ -259,6 +342,7 @@ export const Table: FC<TableProps> = (props) => {
     rowHeight = 56,
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
   } = props
+
   return (
     <styled.div
       style={{
@@ -266,6 +350,8 @@ export const Table: FC<TableProps> = (props) => {
         height: '100%',
         width: '100%',
         maxWidth: width,
+        border: props.outline ? border(1, 'border') : 'none',
+        borderRadius: props.outline ? 8 : 0,
       }}
     >
       <AutoSizer>

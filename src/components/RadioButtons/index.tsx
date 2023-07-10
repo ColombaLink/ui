@@ -4,7 +4,7 @@ import { Text } from '../Text'
 import { Label } from '../Label'
 import { border, color } from '~/utils'
 import { usePropState } from '~/hooks'
-import { Color, Space } from '~/types'
+import { Color } from '~/types'
 import { InputWrapper } from '../Input/InputWrapper'
 
 type RadioButtonsProps = {
@@ -22,7 +22,6 @@ type RadioButtonsProps = {
   descriptionBottom?: string
   // error?: (value: string | boolean | number) => string
   onChange?: (value: string | number | boolean) => void
-  space?: Space
   style?: CSSProperties
   cards?: boolean
   color?: Color
@@ -37,7 +36,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   onChange,
   indent,
   disabled,
-  space,
   style,
   descriptionBottom,
   cards,
@@ -49,7 +47,6 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
   return (
     <InputWrapper
       indent={indent}
-      space={space}
       style={style}
       descriptionBottom={descriptionBottom}
       disabled={disabled}
@@ -127,7 +124,7 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 }}
               />
               <div>
-                <Text weight={500} space={2} wrap>
+                <Text weight={500} style={{ marginBottom: 2 }} wrap>
                   {item.label ? item.label : item.value}
                 </Text>
                 {item.description && (

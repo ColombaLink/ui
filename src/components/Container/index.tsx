@@ -1,18 +1,8 @@
 import React, { FC, ReactNode } from 'react'
-import {
-  color,
-  spaceToPx,
-  renderOrCreateElement,
-  RowSpaced,
-  Row,
-  Space,
-  styled,
-  Style,
-} from '~'
+import { color, renderOrCreateElement, RowSpaced, Row, styled, Style } from '~'
 
 type ContainerProps = {
   children: ReactNode
-  space?: Space
   style?: Style
   topLeft?: FC | ReactNode
   topRight?: FC | ReactNode
@@ -25,7 +15,6 @@ type ContainerProps = {
 export const Container: FC<ContainerProps> = ({
   children,
   style,
-  space,
   onClick,
   topLeft,
   topRight,
@@ -40,13 +29,13 @@ export const Container: FC<ContainerProps> = ({
       style={{
         padding: 24,
         paddingBottom: bottomLeft || bottomRight ? 88 : 24,
-        backgroundColor: color('background2dp'),
+        backgroundColor: color('background'),
         border: `1px solid ${color('border')}`,
         position: 'relative',
         borderRadius: 8,
         overflow: 'hidden',
-        marginBottom: spaceToPx(space, 32),
         width: wrap ? 'fit-content' : '100%',
+        marginBottom: '32px',
         ...style,
       }}
       {...props}
@@ -73,7 +62,7 @@ export const Container: FC<ContainerProps> = ({
             right: 0,
             paddingLeft: 24,
             paddingRight: 24,
-            backgroundColor: color('background3dp'),
+            backgroundColor: color('background2'),
           }}
         >
           <Row style={{ gap: 16 }}>{renderOrCreateElement(bottomLeft)}</Row>

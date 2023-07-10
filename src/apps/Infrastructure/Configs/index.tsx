@@ -4,7 +4,6 @@ import {
   Button,
   Text,
   Input,
-  Spacer,
   useDialog,
   Row,
   AddIcon,
@@ -35,17 +34,18 @@ import { EditJsonModal } from '../EditJson'
 import { EnvMachinesStatus } from '../EnvMachinesStatus'
 import { Connections } from '../Connections'
 import { SettingsModal } from './SettingsModal'
+import { useMachineStatus } from '../useMachineStatus'
 
 export const Actions: FC<{
   config: MachineConfig
   configName: string
 }> = ({ config, configName }) => {
-  const machines = []
-
   const { open } = useDialog()
   const client = useClient()
   const [env] = useContextState<Env>('env')
-  const servicesNr = Object.keys(config.services).length * machines.length
+  const { amount } = useMachineStatus(env, configName)
+
+  const servicesNr = Object.keys(config.services).length * amount
   return (
     <>
       <ContextItem
@@ -116,9 +116,9 @@ export const Actions: FC<{
                   Are you sure you want ro remove <b>{configName}</b>?
                 </Text>
                 <Row style={{ marginTop: 12 }}>
-                  <Badge color="text" style={{ marginRight: 8 }}>
-                    {machines.length} active machine
-                    {machines.length === 1 ? '' : 's'}
+                  <Badge color="accent" style={{ marginRight: 8 }}>
+                    {amount} active machine
+                    {amount === 1 ? '' : 's'}
                   </Badge>
                   <Badge color="text">
                     {servicesNr} active service{servicesNr === 1 ? '' : 's'}
@@ -274,7 +274,7 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
 
   return (
     <Page>
-      <RowSpaced>
+      <RowSpaced style={{ marginBottom: '32px' }}>
         <Connections envAdminHub={envAdminHub} />
         <Row>
           <UpdateButton
@@ -298,7 +298,6 @@ export const Machines: FC<{ env: Env; envAdminHub: any }> = ({
           />
         </Row>
       </RowSpaced>
-      <Spacer space="32px" />
       <styled.div
         style={{
           width: '100%',

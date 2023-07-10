@@ -1,15 +1,7 @@
 import React, { FC, Dispatch, SetStateAction, ReactNode } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
-import {
-  Style,
-  styled,
-  Space,
-  spaceToPx,
-  border,
-  color,
-  renderOrCreateElement,
-} from '~'
+import { Style, styled, border, color, renderOrCreateElement } from '~'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
@@ -24,18 +16,11 @@ import './syntax.css'
 export type CodeProps = {
   style?: Style
   value?: string
-  space?: Space
   onChange?: ((value: string) => void) | Dispatch<SetStateAction<string>>
   topRight?: FC | ReactNode
 }
 
-export const Code: FC<CodeProps> = ({
-  topRight,
-  value,
-  style,
-  onChange,
-  space,
-}) => {
+export const Code: FC<CodeProps> = ({ topRight, value, style, onChange }) => {
   return (
     <styled.div
       style={{
@@ -46,7 +31,6 @@ export const Code: FC<CodeProps> = ({
         borderRadius: 4,
         border: border(1, 'border'),
         background: color('background2dp'),
-        marginBottom: spaceToPx(space),
         ...style,
       }}
     >

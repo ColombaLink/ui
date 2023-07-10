@@ -10,6 +10,7 @@ export const useViews = (): {
     views: View[]
   }>('based:observe-views')
 
+  console.log(data)
   // const { schema, loading: loadingSchema } = useSchema() // TODO: add multi schema option (using origns)
 
   if (!loading) {

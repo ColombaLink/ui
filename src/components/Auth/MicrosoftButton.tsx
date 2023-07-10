@@ -26,7 +26,7 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
       style={{
         width,
         height: 48,
-        marginBottom: 8,
+        marginBottom: 32,
         borderRadius: 8,
         fontWeight: 600,
       }}
@@ -45,7 +45,6 @@ export const MicrosoftButton: FC<MicrosoftButtonProps> = ({
           JSON.stringify(state)
         )}`
       }}
-      space
     >
       {label}
     </Button>

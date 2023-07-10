@@ -31,6 +31,7 @@ import {
   useCopyToClipboard,
   CheckIcon,
   IdIcon,
+  UrlIcon,
 } from '~'
 import { Env } from '@based/machine-config'
 import {

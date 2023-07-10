@@ -70,7 +70,11 @@ export const Authorize: FC<AuthProps> = ({
     >
       {logo === true ? <LargeLogo style={{ marginBottom: 16 }} /> : logo}
       {!showResetRequest ? (
-        <Tabs space setActiveTab={setActiveTab} activeTab={activeTab}>
+        <Tabs
+          style={{ marginBottom: 24 }}
+          setActiveTab={setActiveTab}
+          activeTab={activeTab}
+        >
           <Tab label="Sign in">
             <Login
               onLogin={onLogin}
@@ -112,7 +116,7 @@ export const Authorize: FC<AuthProps> = ({
     </Container>
   )
 
-  if (user) {
+  if (user && user.userId) {
     if (app) {
       return React.createElement(app, { user })
     } else {

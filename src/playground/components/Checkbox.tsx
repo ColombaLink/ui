@@ -16,7 +16,7 @@ export const Checkbox = () => {
         {
           props: {
             label: 'Checkbox checked',
-            checked: true,
+            value: true,
             color: 'green',
             indeterminate: true,
           },
@@ -25,7 +25,7 @@ export const Checkbox = () => {
           props: {
             label: 'Check it out',
             description: 'Checkbox description',
-            checked: true,
+            value: true,
             small: true,
           },
         },

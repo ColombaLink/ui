@@ -7,16 +7,17 @@ const testmsg = `\x1b[34mjob thingy \x1b[33myellow\x1b[34m\x1b[39m  \x1b[35mmage
 console.log({ testmsg })
 export const Logs = () => {
   return (
-    <ComponentViewer
-      title="Logs"
-      examples={[
-        {
-          props: {
-            data: [{ msg: testmsg }],
+    <>
+      <ComponentViewer
+        title="Logs"
+        examples={[
+          {
+            props: {
+              data: [{ msg: testmsg }],
+            },
           },
-        },
-        {
-          code: `
+          {
+            code: `
         import { Logs } from '@based/ui';
 
         const data = [
@@ -40,8 +41,9 @@ export const Logs = () => {
           <Logs data={data}/>
         </div>
         `,
-        },
-      ]}
-    />
+          },
+        ]}
+      />
+    </>
   )
 }

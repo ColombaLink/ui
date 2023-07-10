@@ -10,13 +10,16 @@ export const Spacer = () => {
       examples={[
         {
           props: {
-            space: '36px',
-            style: { backgroundColor: 'yellow', border: '1px solid red' },
+            style: {
+              backgroundColor: 'yellow',
+              border: '1px solid red',
+              marginBottom: 36,
+            },
           },
         },
         {
           props: {
-            space: '12px',
+            style: { marginBottom: 12 },
           },
         },
       ]}

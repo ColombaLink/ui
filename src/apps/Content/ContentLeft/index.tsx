@@ -10,9 +10,42 @@ import {
   Button,
   useDialog,
   RowSpaced,
+  EyeIcon,
+  ScreensIcon,
+  MenuData,
+  MoreIcon,
+  ContextDivider,
+  ContextItem,
+  useContextMenu,
 } from '~'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
+
+const CategoryMenu: FC<{}> = ({}) => {
+  const { open } = useDialog()
+  const [hidden, setHidden] = useContextState('hidden')
+  return (
+    <>
+      <ContextItem
+        onClick={() => {
+          open(<AddViewModal />)
+        }}
+        icon={AddIcon}
+      >
+        Add item
+      </ContextItem>
+      <ContextDivider />
+      <ContextItem
+        onClick={() => {
+          setHidden(!hidden)
+        }}
+        icon={EyeIcon}
+      >
+        {hidden ? 'Hide' : 'Show'} hidden items
+      </ContextItem>
+    </>
+  )
+}
 
 export const SystemLabel = ({ isActive = false, children }) => {
   const [hover, setHover] = useState(false)
@@ -40,9 +73,36 @@ export const SystemLabel = ({ isActive = false, children }) => {
 
 export const ContentLeft: FC<{}> = () => {
   const [view, setView] = useContextState<string>('view')
-  const { views, loading } = useViews()
+  const [, setTarget] = useContextState<string>('target')
 
-  const { open } = useDialog()
+  const { views, loading } = useViews()
+  const [hidden] = useContextState('hidden')
+
+  const openMenu = useContextMenu(CategoryMenu)
+
+  const data: MenuData = {}
+
+  for (const view of views) {
+    if (!hidden && view.hidden === true) {
+      continue
+    }
+
+    if (!data[view.category]) {
+      data[view.category] = []
+    }
+    // @ts-ignore
+    data[view.category].push({
+      label: view.name,
+      value: view,
+      // icon:
+      //   // @ts-ignore TODO tmp structure
+      //   view.config?.view === 'table' ? (
+      //     <EyeIcon />
+      //   ) : view.config?.type === 'components' ? (
+      //     <ScreensIcon />
+      //   ) : undefined,
+    })
+  }
 
   return loading ? (
     <div
@@ -64,7 +124,10 @@ export const ContentLeft: FC<{}> = () => {
       isActive={(currentView) => {
         return currentView?.id === view
       }}
-      onChange={(v) => setView(v.id)}
+      onChange={(v) => {
+        setTarget(null)
+        setView(v.id)
+      }}
       collapse
       style={{
         paddingTop: 24,
@@ -82,21 +145,14 @@ export const ContentLeft: FC<{}> = () => {
             Content
           </Text>
           <Button
-            onClick={() => {
-              open(<AddViewModal />)
-            }}
+            onClick={openMenu}
             style={{ marginRight: -8 }}
             ghost
-            icon={<AddIcon />}
+            icon={<MoreIcon />}
           />
         </RowSpaced>
       }
-      data={views.map((v) => {
-        return {
-          label: v.name,
-          value: v,
-        }
-      })}
+      data={data}
     />
   )
 }

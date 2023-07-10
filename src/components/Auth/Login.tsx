@@ -58,7 +58,7 @@ export const Login: FC<LoginProps> = ({
           {githubClientId ? (
             <GithubButton width={width} clientId={githubClientId} />
           ) : null}
-          <Separator space={16} style={{ marginTop: 16 }}>
+          <Separator style={{ marginTop: 16, marginBottom: 16 }}>
             <Text color="text2" size={14} weight={500}>
               OR
             </Text>
@@ -101,8 +101,11 @@ export const Login: FC<LoginProps> = ({
           icon={LockIcon}
           type="password"
           placeholder="Password"
-          onChange={setPassword}
-          space
+          onChange={(e) => {
+              // @ts-ignore wrong type definition
+                setPassword(e.target.value)
+          }}
+          style={{ marginBottom: 24 }}
         />
       </div>
       <Button
@@ -118,16 +121,11 @@ export const Login: FC<LoginProps> = ({
         onClick={
           passwordExpanded
             ? async () => {
-                // @ts-ignore
-                const result = await client.login({
-                  email,
-                  password,
-                })
-
-                if (onLogin) {
-                  // @ts-ignore
-                  onLogin(result)
-                }
+                  const result = await client.call("login",{password, email})
+                  if (onLogin) {
+                      // @ts-ignore
+                      onLogin(result)
+                  }
               }
             : () => {
                 if (isEmail(email)) {

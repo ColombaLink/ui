@@ -105,6 +105,7 @@ export const UploadedFileItem = ({
 
   // screenshot
   // console.log(getImageSrcFromId(file?.id))
+  // console.log('-------------______>', file)
 
   return (
     <StyledUploadedFile>
@@ -147,11 +148,19 @@ export const UploadedFileItem = ({
         <AttachmentIcon />
       )}
       <Text
-        style={{ marginTop: 6, marginBottom: 6, maxWidth: '25vw' }}
+        style={{
+          minHeight: '20px',
+          marginTop: 6,
+          marginBottom: 6,
+          // maxWidth: '25vw',
+          maxWidth: '90%',
+          flexShrink: 0,
+        }}
         weight={400}
       >
         {file?.name}
       </Text>
+
       <StyledMoreIcon onClick={contextHandler}>
         <MoreIcon />
       </StyledMoreIcon>

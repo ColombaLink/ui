@@ -18,7 +18,7 @@ export const Toggle = () => {
         {
           props: {
             text: 'checked',
-            checked: true,
+            value: true,
           },
         },
       ]}

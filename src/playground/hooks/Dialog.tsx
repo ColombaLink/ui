@@ -1,6 +1,14 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import { useRoute, Text, Button, AddIcon, MinusIcon, Dialog as Dc } from '~'
+import {
+  useRoute,
+  Text,
+  Button,
+  AddIcon,
+  MinusIcon,
+  Dialog as Dc,
+  Input,
+} from '~'
 
 const SomeComponent = () => {
   const route = useRoute('[x]', { x: 1 })
@@ -24,6 +32,7 @@ const SomeComponent = () => {
             route.setPath({ x: Number(route.path.x || 0) + 1 })
           }}
         />
+        <Input type="text" />
       </Dc.Buttons>
     </Dc>
   )
@@ -38,10 +47,10 @@ export const useDialog = () => {
         title="useDialog"
         examples={[
           {
-            code: `import { Dialog, Text } from '@based/ui'
+            code: `import { Dialog, Text  } from '@based/ui'
 
 <Dialog label="Label">
-  <Text space>
+  <Text style={{marginBottom:24}}>
     Do something!
   </Text>
   <Dialog.Buttons border>
@@ -57,6 +66,31 @@ const dialog = useDialog();
 const route = useRoute('[x]', { x: 1 });
 
 <Button large onClick={() => dialog.open(<SomeComponent />)}>
+  Open {route.path.x}
+</Button>
+`,
+          },
+
+          {
+            code: `import { Dialog, Text, Button, useDialog, useRoute, Input } from '@based/ui'
+
+const dialog = useDialog();
+const route = useRoute('[x]', { x: 1 });
+
+<Button large onClick={() => dialog.open(
+
+  <Dialog label="Label">
+  <Text style={{marginBottom:24}}>
+    Do something!
+  </Text>
+  <Input type="json" />
+  <Dialog.Buttons border>
+    <Dialog.Cancel />
+    <Dialog.Confirm keyboardShortcut="Cmd+S"/>
+  </Dialog.Buttons>
+</Dialog>
+
+)}>
   Open {route.path.x}
 </Button>
 `,

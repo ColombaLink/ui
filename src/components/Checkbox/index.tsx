@@ -2,27 +2,24 @@ import React, { FC, ReactNode } from 'react'
 import {
   Label,
   color,
-  spaceToPx,
   border,
   CheckIcon,
   DashIcon,
   useHover,
   usePropState,
   Color,
-  Space,
   Style,
   Center,
   Row,
 } from '~'
 
 export type CheckboxProps = {
-  checked?: boolean
+  value?: boolean
   indeterminate?: boolean
   description?: string
   style?: Style
   onChange?: (value: boolean) => void
   label?: ReactNode
-  space?: Space
   wrap?: boolean
   small?: boolean
   color?: Color
@@ -30,7 +27,7 @@ export type CheckboxProps = {
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
-  checked: checkedProp,
+  value: valueProp,
   indeterminate,
   description,
   style,
@@ -38,12 +35,11 @@ export const Checkbox: FC<CheckboxProps> = ({
   onClick,
   wrap,
   label,
-  space,
   small,
   color: colorProp = 'accent',
   ...props
 }) => {
-  const [checked, setChecked] = usePropState(checkedProp)
+  const [checked, setChecked] = usePropState(valueProp)
   const { listeners, hover } = useHover()
 
   const clickHandler = () => {
@@ -63,7 +59,6 @@ export const Checkbox: FC<CheckboxProps> = ({
       style={{
         display: 'flex',
         alignItems: !description ? 'center' : '',
-        marginBottom: space ? spaceToPx(space) : null,
         ...style,
       }}
       {...listeners}

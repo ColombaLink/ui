@@ -1,22 +1,11 @@
 import React, { CSSProperties, FC, ReactNode, useState } from 'react'
-import {
-  color,
-  spaceToPx,
-  Text,
-  ErrorIcon,
-  styled,
-  Color,
-  Space,
-  Label,
-  Button,
-} from '~'
+import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
 
 type InputWrapperProps = {
   children: ReactNode
   errorMessage?: string
   focus?: boolean
   indent?: boolean
-  space?: Space
   label?: ReactNode
   description?: string
   descriptionBottom?: string
@@ -31,13 +20,13 @@ type InputWrapperProps = {
   setValue?: (e) => void
   maxChars?: number
   onChange?: (e) => void
+  hideClearButton?: boolean
 }
 
 export const InputWrapper: FC<InputWrapperProps> = ({
   children,
   indent,
   errorMessage,
-  space,
   label,
   description,
   descriptionBottom,
@@ -48,6 +37,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   setValue,
   onChange: onChangeProp,
   maxChars,
+  hideClearButton,
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
@@ -71,8 +61,8 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             ? color(colorProp)
             : color('border'),
           paddingLeft: indent ? 12 : null,
-          marginBottom: spaceToPx(space),
           pointerEvents: disabled ? 'none' : null,
+          ...style,
         }}
         {...props}
       >
@@ -88,7 +78,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             description={description}
             style={{ marginBottom: 6, marginLeft: 4 }}
           />
-          {value !== '' && indent && (
+          {value !== '' && indent && !hideClearButton && (
             <Button
               ghost
               onClick={() => {
@@ -102,6 +92,7 @@ export const InputWrapper: FC<InputWrapperProps> = ({
                 marginTop: description ? 0 : -6,
                 marginBottom: description ? 0 : 6,
               }}
+              color="accent"
             >
               Clear
             </Button>

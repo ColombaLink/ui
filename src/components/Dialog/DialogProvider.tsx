@@ -83,7 +83,7 @@ export const DialogProvider = ({ children, fixed = true }) => {
             right: 0,
             bottom: 0,
           }}
-          onClick={(event) => {
+          onMouseDown={(event) => {
             if (event.currentTarget === event.target) {
               dialogRef.current.close(id)
             }

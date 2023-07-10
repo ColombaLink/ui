@@ -34,7 +34,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
           <Input
             large
             value={email}
-            space="24px"
+            style={{ marginBottom: 24 }}
             label="Email"
             // icon={EmailIcon}
             type="email"
@@ -43,10 +43,9 @@ export const ResetRequest: FC<ResetRequestProps> = ({
           />
           <Button
             large
-            style={{ height: 48 }}
+            style={{ height: 48, marginBottom: 16 }}
             keyboardShortcut="Enter"
             fill
-            space="16px"
             disabled={!isEmail(email)}
             onClick={async () => {
               try {
@@ -79,7 +78,7 @@ export const ResetRequest: FC<ResetRequestProps> = ({
         </>
       ) : (
         <>
-          <Text wrap space>
+          <Text wrap style={{ marginBottom: 24 }}>
             Check your email for the reset link.
           </Text>
           <Button

@@ -1,4 +1,3 @@
-// TODO yves en youri fix this
 import React, {
   useState,
   useEffect,
@@ -10,14 +9,13 @@ import React, {
   KeyboardEvent,
 } from 'react'
 import {
-  DateTimePicker,
   usePropState,
   useFocus,
   useHover,
   color,
   Style,
   Icon,
-  Space,
+  DateWidget,
 } from '~'
 import { ColorInput } from './ColorInput'
 import { JsonInput } from './JsonInput'
@@ -28,12 +26,14 @@ import { PasswordInput } from './PasswordInput'
 import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
+import { UrlInput } from './UrlInput'
 
 type InputType =
   | 'text'
   | 'password'
   | 'email'
   | 'phone'
+  | 'search'
   | 'color'
   | 'markdown'
   | 'number'
@@ -41,9 +41,10 @@ type InputType =
   | 'json'
   | 'multiline'
   | 'digest'
+  | 'url'
 
 type OnChange<T extends InputType> = (
-  value: T extends 'number' ? number : T extends 'date' ? number : string
+  value: T extends 'number' ? number : string
 ) => void
 
 export const Input = <T extends InputType>({
@@ -68,11 +69,11 @@ export const Input = <T extends InputType>({
   noInterrupt,
   onChange: onChangeProp,
   placeholder = 'Type something here',
-  space,
   style,
   suggest,
   transform,
-  type, // remove default
+  type,
+  time,
   value: valueProp,
   ...otherProps
 }: {
@@ -94,7 +95,6 @@ export const Input = <T extends InputType>({
   ghost?: boolean
   autoFocus?: boolean
   name?: string
-  space?: Space
   min?: number
   max?: number
   inputRef?: RefObject<HTMLDivElement>
@@ -108,11 +108,12 @@ export const Input = <T extends InputType>({
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void
   onKeyPress?: (e: KeyboardEvent<HTMLInputElement>) => void
   onBlur?: ReactEventHandler
+  time?: boolean
 }) => {
   const [focused, setFocused] = useState(false)
   const [value = '', setValue] = usePropState(valueProp, noInterrupt && focused)
   const { listeners: focusListeners, focus } = useFocus()
-  const { listeners: hoverListeners, hover } = useHover()
+  const { listeners: hoverListeners, hover, active } = useHover()
   const [errorMessage, setErrorMessage] = useState('')
 
   if (maxChars === -1) {
@@ -146,7 +147,6 @@ export const Input = <T extends InputType>({
   const fontSize = 14
   const fontWeight = 400
   const props = {
-    // consoleFunc,
     name,
     type,
     value,
@@ -159,24 +159,25 @@ export const Input = <T extends InputType>({
     autoFocus,
     style: {
       outlineRadius: '8',
-      outlineOffset: ghost ? null : focus ? -1 : -1,
+      outlineOffset: ghost ? null : focused ? -1 : -1,
       borderRadius: 8,
       boxShadow: ghost ? null : `0px 1px 4px ${color('background2')}`,
       cursor: disabled ? 'not-allowed' : 'text',
       color: disabled ? color('text2:hover') : 'inherit',
       minHeight: ghost ? '' : large ? 48 : 36,
       paddingLeft,
-      border: ghost
-        ? `0px solid transparent`
-        : focused
-        ? `1.5px solid ${color('accent')}`
-        : `1px solid ${color('border')}`,
+      border:
+        bg || ghost
+          ? `0px solid transparent`
+          : focused
+          ? `1.5px solid ${color('accent')}`
+          : `1px solid ${color('border')}`,
       paddingRight,
       width: '100%',
       fontSize,
       fontWeight,
       backgroundColor: bg
-        ? color(hover && !disabled ? 'border' : 'border')
+        ? color(focused && !disabled ? 'border' : 'background2')
         : 'inherit',
     },
     inputRef,
@@ -201,7 +202,6 @@ export const Input = <T extends InputType>({
     <InputWrapper
       style={style}
       indent={indent}
-      space={space}
       label={label}
       description={description}
       descriptionBottom={descriptionBottom}
@@ -233,7 +233,17 @@ export const Input = <T extends InputType>({
       ) : type === 'password' ? (
         <PasswordInput {...props} large={large} disabled={!!valueProp} />
       ) : type === 'date' ? (
-        <DateTimePicker />
+        <DateWidget onChange={() => onChange} value={value} time={time} />
+      ) : type === 'url' ? (
+        <UrlInput
+          onChange={(e) => onChangeProp?.(e.target.value)}
+          {...props}
+          style={props.style}
+          onFocus={() => setFocused(true)}
+          onBlur={() => setFocused(false)}
+          setErrorMessage={setErrorMessage}
+          focused={focused}
+        />
       ) : (
         <MaybeSuggest
           focused={focused}
@@ -250,7 +260,7 @@ export const Input = <T extends InputType>({
             {...props}
             onKeyDown={(e) => {
               // now you can remove the zero in input fields
-              if (e.key === 'Backspace' && value === 0) {
+              if (e.key === 'Backspace' && value.toString().length === 1) {
                 setValue('')
               }
               // for some reason pressing . in number input changed the value to one

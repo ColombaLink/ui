@@ -21,23 +21,20 @@ export const Content: FC<{
       org: client.opts.org,
       cluster: client.opts.cluster,
       key: 'cms',
-      // TODO: fix rule
-      // optionalKey: true,
+      optionalKey: true,
     })
     hClient.setAuthState({ ...client.authState, type: 'based' })
     setHubClient(hClient)
     return () => {
       hClient.destroy()
     }
-  }, [])
+  }, [client.authState.token])
 
   return (
     <styled.div
       style={{
         display: 'flex',
         flexGrow: 1,
-        // overflowX: 'hidden',
-        // overflowY: 'hidden',
         ...style,
       }}
     >

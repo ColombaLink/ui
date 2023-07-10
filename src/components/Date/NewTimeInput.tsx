@@ -2,31 +2,28 @@ import React, { useState, useEffect } from 'react'
 import { Input } from '../Input'
 import { color } from '~'
 
-export const TimeInput = ({
-  timeInputHandler,
-  value,
-  onFocus,
-  placeholder,
-}) => {
-  const [time, setTime] = useState(value)
+export const NewTimeInput = ({ setTimeString, timeString, style }) => {
   const [, setValidTimeInput] = useState(false)
   const [isFocus, setIsFocus] = useState(false)
 
+  // so it does not crash
+  const [tempTime, setTempTime] = useState(timeString)
+
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
 
+  // alleen hier echte tijd zetten als het kan pas
   useEffect(() => {
-    if (time?.length === 6) {
-      setTime(time?.slice(0, -1))
+    if (tempTime?.length === 6) {
+      setTimeString(timeString?.slice(0, -1))
     }
     //  check if regex matches
-    if (timeRegex.test(time) && time.length === 5) {
+    if (timeRegex.test(tempTime) && tempTime.length === 5) {
       setValidTimeInput(true)
-      setTime(time)
-      timeInputHandler(time)
+      setTimeString(tempTime)
     } else {
       setValidTimeInput(false)
     }
-  }, [time])
+  }, [tempTime])
 
   const timeHandler = (e) => {
     // placeholder = 'hh:mm'
@@ -36,10 +33,9 @@ export const TimeInput = ({
     }
 
     if (e.length === 2) {
-      timeInputHandler(e)
-      setTime(e + ':')
+      setTempTime(e + ':')
     } else {
-      setTime(e)
+      setTempTime(e)
     }
 
     if (e.length === 3 && e.split('').pop() !== ':') {
@@ -47,8 +43,7 @@ export const TimeInput = ({
       temp.splice(2, 0, ':')
       temp = temp.join('')
       e = temp
-      timeInputHandler(temp)
-      setTime(temp)
+      setTempTime(temp)
     }
 
     if (e.length === 4) {
@@ -56,9 +51,7 @@ export const TimeInput = ({
         let temp = e.split('')
         temp.splice(3, 0, '0')
         temp = temp.join('')
-
-        timeInputHandler(temp)
-        setTime(temp)
+        setTempTime(temp)
       }
     }
   }
@@ -75,25 +68,25 @@ export const TimeInput = ({
       style={{
         position: 'relative',
         backgroundColor: isFocus ? color('background2') : color('background'),
-        borderRadius: 4,
+        borderRadius: 8,
+        ...style,
       }}
       onFocus={() => {
         setIsFocus(true)
-        onFocus(true)
       }}
       onBlur={() => {
         setIsFocus(false)
-        onFocus(false)
       }}
     >
       <Input
-        value={time}
+        value={tempTime}
         type="text"
         onKeyPress={keyPressHandler}
         onChange={timeHandler}
-        placeholder={placeholder}
+        placeholder="00:00"
         style={{
           backgroundColor: 'transparent',
+          minHeight: 36,
         }}
       />
       {isFocus && (

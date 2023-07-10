@@ -4,10 +4,8 @@ import {
   getButtonStyle,
   Color,
   Size,
-  Space,
   Icon,
   Style,
-  spaceToPx,
   renderOrCreateElement,
   Center,
 } from '~'
@@ -17,7 +15,6 @@ export type AvatarProps = {
   color?: Color
   img?: string
   icon?: FunctionComponent<Icon> | ReactNode
-  space?: Space
   label?: string
   onClick?: (e: SyntheticEvent) => void
   style?: Style
@@ -34,7 +31,6 @@ export const Avatar: FC<AvatarProps> = (props) => {
     img,
     icon,
     label,
-    space,
     onClick,
     style,
     ...rest
@@ -43,15 +39,13 @@ export const Avatar: FC<AvatarProps> = (props) => {
   return (
     <Center
       style={{
+        flexShrink: '0',
         width: size,
         height: size,
         borderRadius: '50%',
         backgroundImage: img ? `url(${img})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center center',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginBottom: spaceToPx(space),
         ...getButtonStyle(props),
         ...style,
       }}
@@ -60,7 +54,7 @@ export const Avatar: FC<AvatarProps> = (props) => {
     >
       {label && !icon && !img ? (
         <Text
-          color={colorProp}
+          color={colorProp as Color}
           variant="contrast"
           size={
             (typeof size === 'number' ? size / 2 : parseInt(size) / 2) as Size

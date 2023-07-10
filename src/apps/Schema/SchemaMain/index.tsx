@@ -18,8 +18,12 @@ export const SchemaMain: FC = () => {
   const [includeSystemFields, toggleSystemFields] = useState(false)
   const client = useClient()
 
+  console.log(type, field)
   console.log('schema -->', schema)
   console.log('types from schema', types)
+  console.log('what the db', db)
+
+  // add root to types
 
   if (loading) {
     return null
@@ -33,9 +37,12 @@ export const SchemaMain: FC = () => {
     )
   }
 
-  const typeDef: TypeSchema = types[type] || { meta: {}, fields: {} }
+  const typeDef: TypeSchema =
+    type === 'root' ? schema.rootType : types[type] || { meta: {}, fields: {} }
   const { meta = {}, fields } = typeDef
   const { name } = meta
+
+  console.log('type def-->', typeDef)
 
   if (!fields) {
     console.error('[InvalidSchema] No fields on type', type)
@@ -82,7 +89,7 @@ export const SchemaMain: FC = () => {
               <Checkbox
                 style={{ marginTop: 36, marginBottom: 24, width: '100%' }}
                 label="Show system fields"
-                checked={includeSystemFields}
+                value={includeSystemFields}
                 onChange={toggleSystemFields}
               />
             )}
@@ -104,19 +111,35 @@ export const SchemaMain: FC = () => {
                   }
                   Object.assign(dest, val)
 
-                  return client
-                    .call('db:set-schema', {
-                      db,
-                      mutate: true,
-                      schema: {
-                        types: {
-                          [type]: {
+                  if (type === 'root') {
+                    console.log('duss......')
+                    return client
+                      .call('db:set-schema', {
+                        db,
+                        mutate: true,
+                        schema: {
+                          rootType: {
                             fields: update,
                           },
                         },
-                      },
-                    })
-                    .catch((e) => console.error('error updating schema', e))
+                      })
+                      .catch((e) => console.error('error updating schema', e))
+                  } else {
+                    console.log('duss.afeafewaf.....')
+                    return client
+                      .call('db:set-schema', {
+                        db,
+                        mutate: true,
+                        schema: {
+                          types: {
+                            [type]: {
+                              fields: update,
+                            },
+                          },
+                        },
+                      })
+                      .catch((e) => console.error('error updating schema', e))
+                  }
                 }}
               />
             </div>
