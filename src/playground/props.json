@@ -2758,9 +2758,13 @@
         "circle": {
           "optional": true,
           "type": "boolean"
+        },
+        "style": {
+          "optional": true,
+          "type": "Style"
         }
       },
-      "code": "type ProgressIndicatorProps = {\n  progress?: number\n  circle?: boolean\n}",
+      "code": "type ProgressIndicatorProps = {\n  progress?: number\n  circle?: boolean\n  style?: Style\n}",
       "file": "/components/ProgressIndicator/index.tsx"
     },
     "ProviderProps": {
