@@ -272,17 +272,23 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const renameFile = async (file, idx) => {
+    if (!file.src) {
+      file.src = URL.createObjectURL(file)
+    }
+
     const extension = file.name.split('.').pop()
-    const renameArr = [...uploadedFiles]
+    // const renameArr = [...uploadedFiles]
 
     const ok = await prompt('Rename file')
     if (ok && ok !== undefined) {
-      setFileName(ok + '.' + extension)
+      // setFileName(ok + '.' + extension)
 
-      renameArr[idx].name = ok + '.' + extension
-      setUploadedFiles([...renameArr])
+      file.name = ok + '.' + extension
+
+      // renameArr[idx].name = ok + '.' + extension
+      // setUploadedFiles([...renameArr])
     }
-    onChange([...renameArr])
+    // onChange([...renameArr])
   }
 
   const fullScreenView = (file) => {
@@ -420,7 +426,8 @@ export const FileUpload: FC<FileUploadProps> = ({
               downloadFile={() => downloadFile(file)}
               duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
-              renameFile={() => renameFile(file, idx)}
+              renameFile={renameFile}
+              fileName={fileName}
               //   fullScreenView={() => fullScreenView(file)}
               fullScreenView={fullScreenView}
               key={idx}

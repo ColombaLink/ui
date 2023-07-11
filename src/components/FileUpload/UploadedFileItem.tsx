@@ -128,8 +128,10 @@ export const UploadedFileItem = ({
   downloadFile,
   renameFile,
   fullScreenView,
+  fileName,
 }) => {
   console.log('hello, ', file)
+  console.log('filename --> 🍺', fileName)
 
   const contextHandler = useContextMenu(
     ContextOptions,
@@ -196,7 +198,7 @@ export const UploadedFileItem = ({
         }}
         typography="body500"
       >
-        {file?.name}
+        {fileName || file?.name}
       </Text>
 
       <StyledMoreIcon onClick={contextHandler}>
@@ -228,7 +230,7 @@ const ContextOptions = ({
       <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>
         Open in new tab
       </ContextItem>
-      <ContextItem onClick={() => renameFile()} icon={EditIcon}>
+      <ContextItem onClick={() => renameFile(file, id)} icon={EditIcon}>
         Rename
       </ContextItem>
       {/* TODO if multiple file upload works or if multiple file then option to replace specific id file */}
