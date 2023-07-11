@@ -26,6 +26,7 @@ export const RenderComponentInner: FC<{
     const Component = ui[component.component]
     const props: { [key: string]: any } = parseProps(component.props, ctx)
     return (
+      // @ts-ignore
       <ErrorBoundary fallback={<div>RENDER COMPONENT FAILED</div>}>
         <Component {...props} />
       </ErrorBoundary>
