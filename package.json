@@ -15,21 +15,12 @@
     "link-based": "npm link ../based/packages/client ../based/packages/react",
     "bundle": "rm -rf dist && tsc --build tsconfig.build.json && node scripts/postbuild"
   },
-  "files": [
-    "assets",
-    "dist",
-    "README.md"
-  ],
+  "files": ["assets", "dist", "README.md"],
   "author": "saulx",
   "license": "ISC",
   "prettier": "@saulx/prettier-config",
-  "eslintConfig": {
-    "extends": "@saulx/eslint-config"
-  },
-  "peerDependencies": {
-    "@based/client": "^4.7.2",
-    "react": "18||19"
-  },
+  "eslintConfig": { "extends": "@saulx/eslint-config" },
+  "peerDependencies": { "@based/client": "^4.7.2", "react": "18||19" },
   "dependencies": {
     "@based/machine-config": "0.0.8",
     "@based/pretty-date": "^1.0.4",
