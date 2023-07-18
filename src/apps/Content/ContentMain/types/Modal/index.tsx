@@ -30,8 +30,6 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const client = useClient()
   const { schema, loading: schemaLoading } = useSchema()
 
-  console.log('doink', overlay)
-
   const isType = overlay?.startsWith('type-')
 
   let { data: overlayData } = useQuery(isType ? null : 'db', {

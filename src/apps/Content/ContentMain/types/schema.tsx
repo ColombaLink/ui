@@ -76,7 +76,6 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
           : fType
           ? 'file'
           : f.type,
-        width: fType || f.type === 'reference' ? 100 : undefined,
         mimeTypeKey,
       })
     }

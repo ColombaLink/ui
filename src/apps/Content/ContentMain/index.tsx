@@ -24,7 +24,7 @@ import { createRootEditor, createTypeTable } from './types/schema'
 const AnimatedWrapper = styled('div', {
   height: '100%',
   width: '100%',
-  display: '100%',
+  display: 'flex',
 })
 
 const Actions: FC<{ view: View }> = ({ view }) => {

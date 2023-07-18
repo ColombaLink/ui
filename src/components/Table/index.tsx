@@ -314,6 +314,14 @@ const Cell = (props) => {
   )
 }
 
+const typeWidths = {
+  file: 100,
+  reference: 100,
+  id: 130,
+  references: 130,
+  bytes: 130,
+}
+
 const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
@@ -340,7 +348,14 @@ const SizedGrid: FC<TableProps> = (props) => {
     if (h.width) {
       w += h.width
     } else {
-      nonAllocated++
+      const typeWidth = typeWidths[h.type]
+
+      if (typeWidth) {
+        h.width = typeWidth
+        w += h.width
+      } else {
+        nonAllocated++
+      }
     }
   }
 
