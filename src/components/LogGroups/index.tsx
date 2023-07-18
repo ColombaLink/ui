@@ -304,7 +304,9 @@ const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
                 },
               }}
             >
-              <SingleLog msg={msg} style={{ marginTop: 16 }} />
+              {msg.length > 74 ? (
+                <SingleLog msg={msg} style={{ marginTop: 16 }} />
+              ) : null}
               <ScrollArea>
                 {subItems.map((item, idx) =>
                   idx !== 0 ? (
@@ -341,7 +343,7 @@ const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
                 size={12}
               />
               <Text color="accent" typography="caption600">
-                Show {subItems.length - 1} more similar logs
+                Show {subItems.length - 1} more logs
               </Text>
             </styled.div>
           ) : null}
@@ -403,8 +405,6 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
             margin: 0,
             marginLeft: 8,
             marginTop: 8,
-            //   maxWidth: '100%',
-            //   width: '100%',
             border: undefined,
             lineHeight: '18px',
             fontSize: 14,
@@ -420,6 +420,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
         </pre>
       ) : (
         <Text
+          selectable
           style={{
             marginBottom: 12,
             marginTop: 8,
@@ -454,14 +455,14 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
     <styled.div
       style={{
         background: color('background'),
-        marginBottom: 16,
+        marginBottom: 8,
         ...style,
       }}
       onClick={(e) => {
         e.stopPropagation()
       }}
     >
-      {ts && (
+      {idx === 0 && ts && (
         <styled.div style={{ display: 'flex' }}>
           <styled.div
             style={{
@@ -494,18 +495,6 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
         </styled.div>
       )}
 
-      {idx >= 1 && (
-        <Text
-          style={{ marginBottom: 12, marginTop: 10, marginLeft: 8 }}
-          typography="subtext600"
-          color="text"
-        >
-          {idx}
-          {msg.substring(0, 74)}
-          {msg.length > 74 && '...'}
-        </Text>
-      )}
-
       {idx !== 0 && msg[0] !== '{' && (
         <pre
           style={{
@@ -516,8 +505,7 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
             padding: 0,
             margin: 0,
             marginLeft: 8,
-            //   maxWidth: '100%',
-            //   width: '100%',
+            marginTop: 10,
             border: undefined,
             lineHeight: '18px',
             fontSize: 14,
@@ -527,9 +515,9 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
             overflowWrap: 'break-word',
             position: 'relative',
           }}
-          dangerouslySetInnerHTML={{ __html: msg }}
+          // dangerouslySetInnerHTML={{ __html: msg }}
         >
-          {/* {JSON.stringify(msg, null, 2)} */}
+          {msg}
         </pre>
       )}
     </styled.div>
