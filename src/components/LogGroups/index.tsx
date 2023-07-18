@@ -1,10 +1,10 @@
-import React, { ReactNode, useState, useRef, useEffect } from 'react'
+import React, { ReactNode, useState, useRef, useEffect, FC } from 'react'
 import { Color, Icon } from '~/types'
 import { Style, styled } from 'inlines'
 import {
   Text,
   renderOrCreateElement,
-  color,
+  color as colorFn,
   ChevronDownIcon,
   ScrollArea,
 } from '~'
@@ -18,6 +18,7 @@ type NewLogsObject = {
   subType?: ReactNode | string
   color?: Color
   icon?: Icon
+  customComponent?: FC
 }[]
 
 type LogGroupsProps = {
@@ -36,7 +37,7 @@ type SingleLogProps = {
 const VerticalLine = styled('div', {
   height: '100%',
   width: '1px',
-  backgroundColor: color('border'),
+  backgroundColor: colorFn('border'),
   position: 'absolute',
   left: 12,
   top: 0,
@@ -51,14 +52,14 @@ const StatusDotBorder = styled('div', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  backgroundColor: color('red'),
+  backgroundColor: colorFn('red'),
 })
 
 const StatusDot = styled('div', {
   height: 14,
   width: 14,
   borderRadius: 24,
-  backgroundColor: color('background2'),
+  backgroundColor: colorFn('background2'),
 })
 
 // groupby -> groupbytime, type, status,
@@ -66,36 +67,32 @@ const StatusDot = styled('div', {
 // TODO: Scroll direction bottom to top, top to bottom
 // TODO: counter for logs per block.
 
+const orderBy = (arr, props, orders) =>
+  [...arr].sort((a, b) =>
+    props.reduce((acc, prop, i) => {
+      if (acc === 0) {
+        const [p1, p2] =
+          orders && orders[i] === 'desc'
+            ? [b[prop], a[prop]]
+            : [a[prop], b[prop]]
+        acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0
+      }
+      return acc
+    }, 0)
+  )
+
 export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
   const groupByTimeInMilliSeconds = groupByTime * 60000
 
-  /// new stuff from here ///////////////////////////////////////
-  // TODO: group the objects on type and if they are groupable by time..
-  // lets sort the object by type and time first
-  const orderBy = (arr, props, orders) =>
-    [...arr].sort((a, b) =>
-      props.reduce((acc, prop, i) => {
-        if (acc === 0) {
-          const [p1, p2] =
-            orders && orders[i] === 'desc'
-              ? [b[prop], a[prop]]
-              : [a[prop], b[prop]]
-          acc = p1 > p2 ? 1 : p1 < p2 ? -1 : 0
-        }
-        return acc
-      }, 0)
-    )
-
   const orderedByTypeAndTime = orderBy(data, ['type', 'ts'], ['desc', 'desc'])
-  // console.log('X 👨🏻‍🍳🕐', orderedByTypeAndTime)
 
   const checkIfThereAreSameTypeAndWithinRange = (obj, obj2) => {
-    //  console.log('same type', obj, obj2)
     const tsResult = Math.abs(obj.ts - obj2?.ts)
-    if (obj.type === obj2?.type && tsResult < groupByTimeInMilliSeconds) {
-      // console.log('less then group time')
-      // console.log(obj)
-      // console.log(obj2)
+    if (
+      obj.type === obj2?.type &&
+      obj.subType === obj2?.subType &&
+      tsResult < groupByTimeInMilliSeconds
+    ) {
       return true
     }
   }
@@ -115,11 +112,6 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     }
   }
 
-  // console.log(pairs, 'pairs')
-
-  // console.log('new pairs 👩🏻‍🏫', pairs)
-
-  // const pairs = [[0,1],[2,3],[3,4],[5,6],[6,7],[7,8]]
   const result = []
 
   let item
@@ -137,16 +129,12 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     }
   }
 
-  // console.log(result, 'n')
-
   const finalArr = []
 
   for (let i = 0; i < result.length; i++) {
     finalArr.splice(result[i][0], result[i][1] + 1)
     finalArr.push(orderedByTypeAndTime.slice(result[i][0], result[i][1] + 1))
   }
-
-  // console.log('FINAL ARR', finalArr)
 
   const finalOrderBy = (arr, props, orders) =>
     [...arr].sort((a, b) =>
@@ -162,20 +150,15 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
       }, 0)
     )
 
-  // sort this final arr on time again
-  // based on the [0] item ts
-
   const finalFinalOrderedArr = finalOrderBy(finalArr, ['ts'], ['desc'])
-
-  // console.log('💁🏼‍♂️', finalFinalOrderedArr)
 
   return (
     <styled.div style={{ width: '100%' }}>
       {finalFinalOrderedArr.map((item, idx) => {
-        // item = item[0]
         return (
           <GroupedLogs
             key={idx}
+            color={item[0].color}
             ts={item[0].ts}
             msg={item[0].msg}
             type={item[0].type}
@@ -189,7 +172,7 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
   )
 }
 
-const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
+const GroupedLogs = ({ ts, msg, color, type, status, subType, subItems }) => {
   const [expanded, setExpanded] = useState(false)
 
   // Scroll logic
@@ -214,12 +197,6 @@ const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
     }
   }, [ref])
 
-  //   useEffect(() => {
-  //     if (isAtBottom && ref.current) {
-  //       ref.current.scrollTop = ref.current?.scrollHeight
-  //     }
-  //   }, [ref, subObjects.length])
-
   return (
     <styled.div style={{ display: 'flex', position: 'relative' }}>
       <VerticalLine />
@@ -227,7 +204,7 @@ const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
       <styled.div
         style={{
           display: 'flex',
-          backgroundColor: color('background'),
+          backgroundColor: colorFn('background'),
           alignItems: 'center',
           justifyContent: 'center',
           width: 32,
@@ -241,25 +218,27 @@ const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
         <StatusDotBorder
           style={{
             backgroundColor:
-              status === 'error'
-                ? color('lightred')
+              colorFn(color, undefined, true) ??
+              (status === 'error'
+                ? colorFn('lightred')
                 : status === 'succes'
-                ? color('lightgreen')
+                ? colorFn('lightgreen')
                 : status === 'info'
-                ? color('lightaccent')
-                : color('background2'),
+                ? colorFn('lightaccent')
+                : colorFn('background2')),
           }}
         >
           <StatusDot
             style={{
               backgroundColor:
-                status === 'error'
-                  ? color('red')
+                colorFn(color) ??
+                (status === 'error'
+                  ? colorFn('red')
                   : status === 'succes'
-                  ? color('green')
+                  ? colorFn('green')
                   : status === 'info'
-                  ? color('accent')
-                  : color('background2'),
+                  ? colorFn('accent')
+                  : colorFn('background2')),
             }}
           />
         </StatusDotBorder>
@@ -291,20 +270,18 @@ const GroupedLogs = ({ ts, msg, type, status, subType, subItems }) => {
             <styled.div
               ref={ref}
               style={{
-                // flexGrow: 1,
-                // minWidth: 'auto',
                 maxWidth: '100%',
                 '&::-webkit-scrollbar': {
                   backgroundColor: 'rgba(0,0,0,0)',
                   width: '8px',
                 },
                 '&::-webkit-scrollbar-thumb': {
-                  backgroundColor: color('background'),
+                  backgroundColor: colorFn('background'),
                   borderRadius: '12px',
                 },
               }}
             >
-              {msg.length > 74 ? (
+              {msg.length || msg.includes('\n') > 74 ? (
                 <SingleLog msg={msg} style={{ marginTop: 16 }} />
               ) : null}
               <ScrollArea>
@@ -366,10 +343,10 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
           <styled.div
             style={{
               display: 'flex',
-              backgroundColor: color('background2'),
+              backgroundColor: colorFn('background2'),
               padding: '2px 8px',
-              borderRadius: ' 12px 0px 0px 12px',
-              borderRight: `1px solid ${color('border')}`,
+              borderRadius: type ? ' 12px 0px 0px 12px' : '12px',
+              borderRight: `1px solid ${colorFn('border')}`,
             }}
           >
             <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
@@ -381,23 +358,25 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
               {dayjs(ts).format('DD/MM/YYYY')}
             </Text>
           </styled.div>
-          <styled.div
-            style={{
-              display: 'flex',
-              backgroundColor: color('background2'),
-              padding: '2px 8px',
-              borderRadius: ' 0px 12px 12px 0px',
-            }}
-          >
-            <Text typography="caption500">{type}</Text>
-          </styled.div>
+          {type ? (
+            <styled.div
+              style={{
+                display: 'flex',
+                backgroundColor: colorFn('background2'),
+                padding: '2px 8px',
+                borderRadius: ' 0px 12px 12px 0px',
+              }}
+            >
+              <Text typography="caption500">{type}</Text>
+            </styled.div>
+          ) : null}
         </styled.div>
       </styled.div>
 
       {msg[0] === '{' ? (
         <pre
           style={{
-            color: color('text2'),
+            color: colorFn('text2'),
             boxSizing: 'inherit',
             display: 'inherit',
             userSelect: 'text',
@@ -415,9 +394,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
             position: 'relative',
           }}
           dangerouslySetInnerHTML={{ __html: msg }}
-        >
-          {/* {JSON.stringify(msg, null, 2)} */}
-        </pre>
+        ></pre>
       ) : (
         <Text
           selectable
@@ -430,8 +407,7 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
           typography="subtext600"
           color={status === 'error' ? 'red' : 'text'}
         >
-          {msg.substring(0, 74)}
-          {msg.length > 74 && '...'}
+          {msg.split('\n')[0].substring(0, 74)}
         </Text>
       )}
 
@@ -454,7 +430,7 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
   return (
     <styled.div
       style={{
-        background: color('background'),
+        background: colorFn('background'),
         marginBottom: 8,
         ...style,
       }}
@@ -467,10 +443,10 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
           <styled.div
             style={{
               display: 'flex',
-              backgroundColor: color('background2'),
+              backgroundColor: colorFn('background2'),
               padding: '2px 8px',
               borderRadius: ' 12px 0px 0px 12px',
-              borderRight: `1px solid ${color('border')}`,
+              borderRight: `1px solid ${colorFn('border')}`,
             }}
           >
             <Text typography="caption500">{dayjs(ts).format('HH:mm:ss')} </Text>
@@ -485,7 +461,7 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
           <styled.div
             style={{
               display: 'flex',
-              backgroundColor: color('background2'),
+              backgroundColor: colorFn('background2'),
               padding: '2px 8px',
               borderRadius: ' 0px 12px 12px 0px',
             }}
@@ -498,7 +474,7 @@ const SingleLog = ({ msg, style, ts, type, idx }: SingleLogProps) => {
       {idx !== 0 && msg[0] !== '{' && (
         <pre
           style={{
-            color: color('text2'),
+            color: colorFn('text2'),
             boxSizing: 'inherit',
             display: 'inherit',
             userSelect: 'text',
