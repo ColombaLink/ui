@@ -173,9 +173,6 @@ export const LogGroups = ({ data, groupByTime }: LogGroupsProps) => {
     <styled.div style={{ width: '100%' }}>
       {finalFinalOrderedArr.map((item, idx) => {
         // item = item[0]
-
-        console.log(item, '???')
-
         return (
           <GroupedLogs
             key={idx}
