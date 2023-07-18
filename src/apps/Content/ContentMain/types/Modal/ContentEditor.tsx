@@ -99,12 +99,6 @@ const ContentRenderer: FC<{
   }
 
   if (meta?.type === 'file') {
-    console.info(
-      'MY STATE',
-      state[key],
-      state[key]?.src && state[key]?.name && state[key]?.type
-    )
-
     const [progress, setProgress] = useState(null)
 
     return (

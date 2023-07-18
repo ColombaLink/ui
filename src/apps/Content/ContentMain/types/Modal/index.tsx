@@ -16,6 +16,7 @@ import {
   CheckIcon,
   LoadingIcon,
   useSchema,
+  ScrollArea,
 } from '~'
 import { ContentEditor } from './ContentEditor'
 import { createTypeModal } from '../schema'
@@ -81,15 +82,15 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
       }}
     >
       {loading ? (
-        <styled.div style={{ flexGrow: 1, overflowY: 'auto', padding: 48 }}>
+        <ScrollArea style={{ flexGrow: 1, padding: 48 }}>
           <Row>
             <LoadingIcon />
             <Text style={{ marginLeft: 8 }}>Loading...</Text>
           </Row>
-        </styled.div>
+        </ScrollArea>
       ) : (
         <>
-          <styled.div style={{ flexGrow: 1, overflowY: 'auto' }}>
+          <ScrollArea style={{ flexGrow: 1 }}>
             <styled.div
               style={{
                 borderBottom: `1px solid ${color('border')}`,
@@ -106,7 +107,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
                 fields={props.fields ?? []}
               />
             </styled.div>
-          </styled.div>
+          </ScrollArea>
 
           <styled.div
             style={{

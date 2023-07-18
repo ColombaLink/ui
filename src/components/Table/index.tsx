@@ -428,6 +428,7 @@ const SizedGrid: FC<TableProps> = (props) => {
         />
       </styled.div>
       <Grid
+        className="go2015383901 go3565260572 go2201354693 go4127164290"
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
           headerWrapper.current.scrollLeft = e.scrollLeft
