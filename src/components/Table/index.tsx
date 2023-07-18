@@ -385,7 +385,7 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const parsedData = query ? result.items : data
 
-  defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+  defW = Math.max(Math.floor((width - w - 8) / nonAllocated), 100)
 
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
@@ -427,6 +427,7 @@ const SizedGrid: FC<TableProps> = (props) => {
           outline={props.outline}
         />
       </styled.div>
+      {/* TODO: wrap in styled and share froms scroll area */}
       <Grid
         className="go2015383901 go3565260572 go2201354693 go4127164290"
         onScroll={(e) => {
