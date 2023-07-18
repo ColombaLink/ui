@@ -314,6 +314,14 @@ const Cell = (props) => {
   )
 }
 
+const typeWidths = {
+  file: 100,
+  reference: 100,
+  id: 130,
+  references: 130,
+  bytes: 130,
+}
+
 const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
@@ -340,7 +348,14 @@ const SizedGrid: FC<TableProps> = (props) => {
     if (h.width) {
       w += h.width
     } else {
-      nonAllocated++
+      const typeWidth = typeWidths[h.type]
+
+      if (typeWidth) {
+        h.width = typeWidth
+        w += h.width
+      } else {
+        nonAllocated++
+      }
     }
   }
 
@@ -370,7 +385,7 @@ const SizedGrid: FC<TableProps> = (props) => {
 
   const parsedData = query ? result.items : data
 
-  defW = Math.max(Math.floor((width - w - 20) / nonAllocated), 100)
+  defW = Math.max(Math.floor((width - w - 8) / nonAllocated), 100)
 
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
@@ -412,7 +427,9 @@ const SizedGrid: FC<TableProps> = (props) => {
           outline={props.outline}
         />
       </styled.div>
+      {/* TODO: wrap in styled and share froms scroll area */}
       <Grid
+        className="go2015383901 go3565260572 go2201354693 go4127164290"
         onScroll={(e) => {
           result.onScrollY(e.scrollTop)
           headerWrapper.current.scrollLeft = e.scrollLeft
