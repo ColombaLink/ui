@@ -90,7 +90,9 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
               icon={MoreIcon}
             />
           </Row>
-          {props.button ? <Button icon={AddIcon} {...props.button} /> : null}
+          {props.button ? (
+            <Button ghost color="accent" icon={AddIcon} {...props.button} />
+          ) : null}
         </Row>
         <styled.div
           style={{

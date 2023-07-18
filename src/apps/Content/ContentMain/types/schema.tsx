@@ -1,12 +1,30 @@
-import {
-  AddIcon,
-  BasedSchema,
-  alwaysIgnore,
-  systemFields,
-  Badge,
-  IdIcon,
-} from '~'
+import { BasedSchema, alwaysIgnore, IdIcon } from '~'
 import React from 'react'
+
+export const createRootEditor = (schema: BasedSchema): any => {
+  const typeSchema = schema.types.root
+  const prettyName = 'Root'
+
+  const getFields: any = {}
+  // let mimeType
+  let fields = []
+  for (const field in typeSchema.fields) {
+    if (!alwaysIgnore.has(field)) {
+      const f = typeSchema.fields[field]
+      fields.push({
+        name: f.meta.name ?? field,
+        key: field,
+        type: f.type,
+      })
+    }
+  }
+  fields.sort((a, b) => {
+    return a.index > b.index ? 1 : a.index < b.index ? -1 : 0
+  })
+  for (const f of fields) {
+    getFields[f.key] = true
+  }
+}
 
 export const createTypeTable = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
@@ -32,20 +50,34 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
       // @ts-ignore
       const isFile = f.meta.ui === 'file'
       const fType = isFile && type === 'file'
+      const isBytes = f.meta?.format === 'bytes'
+
+      let mimeTypeKey = ''
 
       if (fType) {
+        mimeTypeKey = 'mimeType'
         getFields.mimeType = true
+      } else if (f.type === 'reference') {
+        mimeTypeKey = `${field}.mimeType`
       }
 
       // parse reference
 
+      // TODO has to parse if file
       fields.push({
         index: f.meta?.index ?? 1e6,
         label: f.meta?.name || field,
         key: field,
         customLabelComponent: field === 'id' ? IdIcon : undefined,
-        type: field === 'id' ? 'id' : fType ? 'file' : f.type,
-        mimeTypeKey: fType ? 'mimeType' : '',
+        type: isBytes
+          ? 'bytes'
+          : field === 'id'
+          ? 'id'
+          : fType
+          ? 'file'
+          : f.type,
+        width: fType || f.type === 'reference' ? 100 : undefined,
+        mimeTypeKey,
       })
     }
   }
@@ -57,7 +89,17 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   fields = fields.slice(0, MAX_FIELDS)
 
   for (const f of fields) {
-    getFields[f.key] = true
+    if (f.type === 'reference') {
+      const k = f.key
+      f.key = [`${k}.src`]
+      getFields[k] = {
+        mimeType: true,
+        id: true,
+        src: true,
+      }
+    } else {
+      getFields[f.key] = true
+    }
   }
 
   return {
@@ -101,7 +143,6 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
       },
       props: {
         button: {
-          // add select type
           onClick: {
             function: {
               name: 'db:set',

@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   useContextState,
   ContextItem,
@@ -6,7 +6,9 @@ import {
   DuplicateIcon,
   EditIcon,
   ContextDivider,
+  Text,
   useDialog,
+  styled,
   LoadingIcon,
   useSchema,
 } from '~'
@@ -17,7 +19,13 @@ import { BasedClient } from '@based/client'
 import { Content } from './types/Content'
 import { Components } from './types/Custom'
 import { Modal } from './types/Modal'
-import { createTypeTable } from './types/schema'
+import { createRootEditor, createTypeTable } from './types/schema'
+
+const AnimatedWrapper = styled('div', {
+  height: '100%',
+  width: '100%',
+  display: '100%',
+})
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -82,6 +90,18 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<string>('view')
   const [overlay, setOverlay] = useContextState<string>('overlay')
   const { schema, loading: loadingSchema } = useSchema()
+
+  const [animate, setanimate] = useState(false)
+  useEffect(() => {
+    setanimate(true)
+    const timer = setTimeout(() => {
+      setanimate(false)
+    }, 0)
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [view])
+
   // full view
   // if view === schema:type
   // if overlay === shchema:overlay
@@ -115,8 +135,15 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   })
 
   if (isType && !loadingSchema) {
+    const type = view.replace(/^type-/, '')
+    if (!type || !schema.types[type]) {
+      return (
+        <Text style={{ marginTop: 48 }}>Cannot find type {type} in schema</Text>
+      )
+    }
     loading = false
-    data = createTypeTable(schema, view.replace(/^type-/, ''))
+    data =
+      type === 'root' ? createRootEditor(schema) : createTypeTable(schema, type)
   }
 
   const { type } = data?.config ?? {}
@@ -125,25 +152,26 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     return <LoadingIcon />
   }
 
+  if (animate) {
+    return
+  }
+
   if (type === 'components') {
     return (
-      <Provider client={hubClient}>
-        <Components view={data} actions={Actions} />
-      </Provider>
+      <AnimatedWrapper>
+        <Provider client={hubClient}>
+          <Components view={data} actions={Actions} />
+        </Provider>
+      </AnimatedWrapper>
     )
   } else if (type === 'content' || type === 'content-modal') {
     return (
-      <Provider client={hubClient}>
-        <Content view={data} actions={Actions} />
-      </Provider>
+      <AnimatedWrapper>
+        <Provider client={hubClient}>
+          <Content view={data} actions={Actions} />
+        </Provider>
+      </AnimatedWrapper>
     )
-  } else {
-    // return (
-    // <Provider client={hubClient}>
-    //   <Components view={data} actions={Actions} />
-    // </Provider>
-    // )
   }
-
   return null
 }

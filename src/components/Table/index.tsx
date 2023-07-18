@@ -27,7 +27,6 @@ import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
-import { type } from 'os'
 
 export * from './types'
 
@@ -127,8 +126,6 @@ const Cell = (props) => {
         break
       }
     }
-
-    console.info(rowData, itemData)
   } else {
     itemData = pathReader(rowData, header.key.split('.'))
   }
@@ -247,7 +244,13 @@ const Cell = (props) => {
       </Text>
     </Badge>
   ) : (
-    <Text selectable>{typeof itemData === 'object' ? 'isObj' : itemData} </Text>
+    <Text selectable typography={type === 'bytes' ? 'caption500' : 'body500'}>
+      {type === 'bytes'
+        ? prettyNumber(itemData, 'number-bytes')
+        : typeof itemData === 'object'
+        ? 'isObj'
+        : itemData}{' '}
+    </Text>
   )
 
   return (

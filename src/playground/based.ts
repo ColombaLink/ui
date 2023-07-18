@@ -2,7 +2,7 @@ import based, { BasedClient } from '@based/client'
 
 export const cluster = 'production'
 
-export const project = 'demotime'
+export const project = 'basoon'
 export const org = 'saulx'
 export const env = 'production'
 

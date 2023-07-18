@@ -89,10 +89,15 @@ export const ContentLeft: FC<{}> = () => {
 
   if (!loadingSchema) {
     for (const type in schema.types) {
+      if (!type) {
+        console.error('Empty type in schema', type, schema)
+        continue
+      }
+
       const typeSchema = schema.types[type]
 
-      console.log(typeSchema.meta)
       const name = typeSchema.meta?.name || type
+
       // @ts-ignore
       data.default.push({
         label: name[0].toUpperCase() + name.slice(1),

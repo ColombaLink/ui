@@ -42,7 +42,6 @@ const ContentRenderer: FC<{
   state: { [key: string]: any }
   setState: (state: { [key: string]: any }) => void
 }> = ({ item, itemValue, setState, state, data }) => {
-  console.info('snuppie', itemValue, item, JSON.stringify(data))
   // references, type, id, set, string, digest, number, url, text
 
   const client = useClient()
@@ -53,9 +52,6 @@ const ContentRenderer: FC<{
 
   const onChange = (v: any) => {
     setState({ [key]: v })
-
-    console.log('STATE???', state)
-    console.log('more fire?? 🔥')
   }
 
   // state no
@@ -132,8 +128,6 @@ const ContentRenderer: FC<{
                 setProgress(e)
               )
               .then(async (v) => {
-                console.info('THINGS', v)
-
                 const { mimeType, name } = await client
                   .query('db', {
                     $id: v.id,
@@ -141,7 +135,6 @@ const ContentRenderer: FC<{
                     name: true,
                   })
                   .get()
-
                 onChange({ ...v, mimeType, name })
               })
           }}
@@ -171,17 +164,7 @@ const ContentRenderer: FC<{
   }
 
   if (type === 'id') {
-    return (
-      <Input
-        label={name}
-        type="text"
-        value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
-        onChange={onChange}
-        indent
-        disabled
-      />
-    )
+    return <Badge>{itemValue}</Badge>
   }
 
   if (type === 'json') {
