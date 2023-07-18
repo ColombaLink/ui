@@ -15,8 +15,10 @@ import {
   Badge,
   CheckIcon,
   LoadingIcon,
+  useSchema,
 } from '~'
 import { ContentEditor } from './ContentEditor'
+import { createTypeModal } from '../schema'
 
 export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   const [, setView] = useContextState<any>('view')
@@ -26,11 +28,22 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     useContextState<any>('overlay-target')
   const [, setTarget] = useContextState<any>('target')
   const client = useClient()
-  const { data: overlayData } = useQuery('db', {
+  const { schema, loading: schemaLoading } = useSchema()
+
+  console.log('doink', overlay)
+
+  const isType = overlay?.startsWith('type-')
+
+  let { data: overlayData } = useQuery(isType ? null : 'db', {
     $db: 'config',
     $id: overlay,
     $all: true,
   })
+
+  if (isType && !schemaLoading) {
+    overlayData = createTypeModal(schema, overlay.replace(/^type-/, ''))
+  }
+
   const targetDefaults = overlayData?.config?.target ?? {}
   const ctx = {
     data: {},

@@ -17,6 +17,7 @@ import {
   ContextDivider,
   ContextItem,
   useContextMenu,
+  useSchema,
 } from '~'
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
@@ -78,9 +79,27 @@ export const ContentLeft: FC<{}> = () => {
   const { views, loading } = useViews()
   const [hidden] = useContextState('hidden')
 
+  const { schema, loading: loadingSchema } = useSchema()
+
   const openMenu = useContextMenu(CategoryMenu)
 
-  const data: MenuData = {}
+  const data: MenuData = {
+    default: [],
+  }
+
+  if (!loadingSchema) {
+    for (const type in schema.types) {
+      const typeSchema = schema.types[type]
+
+      console.log(typeSchema.meta)
+      const name = typeSchema.meta?.name || type
+      // @ts-ignore
+      data.default.push({
+        label: name[0].toUpperCase() + name.slice(1),
+        value: { id: 'type-' + type },
+      })
+    }
+  }
 
   for (const view of views) {
     if (!hidden && view.hidden === true) {
@@ -104,7 +123,7 @@ export const ContentLeft: FC<{}> = () => {
     })
   }
 
-  return loading ? (
+  return loading || loadingSchema ? (
     <div
       style={{
         width: 234,

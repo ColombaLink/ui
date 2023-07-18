@@ -8,6 +8,7 @@ import {
   ContextDivider,
   useDialog,
   LoadingIcon,
+  useSchema,
 } from '~'
 import { View } from '../types'
 import { useQuery, useClient, Provider } from '@based/react'
@@ -16,6 +17,7 @@ import { BasedClient } from '@based/client'
 import { Content } from './types/Content'
 import { Components } from './types/Custom'
 import { Modal } from './types/Modal'
+import { createTypeTable } from './types/schema'
 
 const Actions: FC<{ view: View }> = ({ view }) => {
   const { open } = useDialog()
@@ -77,9 +79,9 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 }
 
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
-  const [view] = useContextState<View>('view')
+  const [view] = useContextState<string>('view')
   const [overlay, setOverlay] = useContextState<string>('overlay')
-
+  const { schema, loading: loadingSchema } = useSchema()
   // full view
   // if view === schema:type
   // if overlay === shchema:overlay
@@ -104,15 +106,22 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     }
   }, [overlay])
 
-  const { data, loading } = useQuery(view ? 'db' : null, {
+  const isType = view?.startsWith('type-')
+
+  let { data, loading } = useQuery(view && !isType ? 'db' : null, {
     $db: 'config',
     $id: view,
     $all: true,
   })
 
+  if (isType && !loadingSchema) {
+    loading = false
+    data = createTypeTable(schema, view.replace(/^type-/, ''))
+  }
+
   const { type } = data?.config ?? {}
 
-  if (loading) {
+  if (loading || loadingSchema) {
     return <LoadingIcon />
   }
 

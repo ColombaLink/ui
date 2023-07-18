@@ -26,6 +26,8 @@ import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
+import { prettyDate } from '@based/pretty-date'
+import { type } from 'os'
 
 export * from './types'
 
@@ -66,9 +68,13 @@ const Header: FC<{
           width: w,
         }}
       >
-        <Text typography="body600" color={outline ? 'text2' : 'text'}>
-          {header.label ?? header.key}
-        </Text>
+        {header.customLabelComponent ? (
+          <header.customLabelComponent />
+        ) : (
+          <Text typography="body600" color={outline ? 'text2' : 'text'}>
+            {header.label ?? header.key}
+          </Text>
+        )}
       </styled.div>
     )
     total += w
@@ -133,6 +139,7 @@ const Cell = (props) => {
 
   const isReferences = type === 'references'
   const isReference = type === 'reference'
+  const isFile = type === 'file'
 
   const mimeType =
     header?.mimeType ?? header.mimeTypeKey
@@ -149,8 +156,6 @@ const Cell = (props) => {
     itemData = itemData?.length || 0
   }
 
-  // console.log('Item data??', itemData)
-
   const body = header.customComponent ? (
     createElement(header.customComponent, {
       data: rowData,
@@ -159,6 +164,12 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : type === 'id' ? (
+    <Badge color="accent">{itemData}</Badge>
+  ) : type === 'timestamp' ? (
+    <Text selectable typography="body400">
+      {prettyDate(itemData, 'date-time-human')}{' '}
+    </Text>
   ) : isImg ? (
     <styled.div style={{ position: 'relative' }}>
       <styled.div
@@ -211,7 +222,7 @@ const Cell = (props) => {
         <TextIcon size={14} />
       </GreySquareBg>
     </styled.div>
-  ) : isReference ? (
+  ) : isReference || isFile ? (
     <styled.div style={{ position: 'relative' }}>
       <styled.div
         style={{

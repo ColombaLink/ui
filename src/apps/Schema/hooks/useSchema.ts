@@ -7,7 +7,7 @@ const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
     obj.meta = {}
   }
   if (!('name' in obj.meta)) {
-    obj.meta.name = key
+    obj.meta.name = key[0].toUpperCase() + key.slice(1)
   }
 }
 
