@@ -180,6 +180,7 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
   const getFields: any = {
     id: true,
+    type: true,
   }
   // let mimeType
   let fields = []

@@ -28,7 +28,6 @@ type FileUploadProps = {
   descriptionBottom?: string
   indent?: boolean
   onChange?: (file: File[]) => void
-  // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
   progress?: number
   disabled?: boolean
@@ -68,23 +67,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
 
-  // wrap onChange here
-  /*
-    onChange = (files)) => {
-      const [progress, setProgress] = useState(undefined)
-
-        onChangeFromProps(files, setProgress)
-    
-    }
-  */
-
-  // const [progress, setProgress] = useState(undefined)
-  // const onChangeFromProps = onChange
-  // onChange = (file, progress) => {
-  //   onChangeFromProps(file, setProgress)
-  //   console.log(progress)
-  // }
-
   const hiddenFileInput = useRef(null)
 
   if (!Array.isArray(uploadedFiles)) {
@@ -95,8 +77,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
   const handleClickUpload = async () => {
-    // now we are gonna open new modal here
-
     let otherUrlInputValue = ''
 
     dialog.open(

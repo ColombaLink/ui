@@ -22,9 +22,9 @@ export const FileUploadContentEditor: FC<{
   onChange,
   state,
 }) => {
-  const [progress, setProgress] = useState(null)
+  const client = useClient()
 
-  // replace shit fileUpload
+  const [progress, setProgress] = useState(null)
 
   const mimeType: string = mimeTypeKey
     ? pathReader(data, mimeTypeKey.split('.'))
@@ -32,7 +32,6 @@ export const FileUploadContentEditor: FC<{
 
   return (
     <div>
-      {/* {progress * 100}% */}
       <FileUpload
         label={name}
         descriptionBottom="Drag and drop or click to upload"
@@ -44,61 +43,27 @@ export const FileUploadContentEditor: FC<{
         }
         progress={progress}
         onChange={(files) => {
-          // updateProgess
-          // console.info('FIRE', files[0])
-
-          // if string
-          console.info('FLAP', files)
-          if (type === 'string') {
-            // client
-            //   .stream('db:file-upload', { contents: files[0] }, (e) =>
-            //     setProgress(e)
-            //   )
-            //   .then(async (v) => {
-            //     // very different...
-            //     const { mimeType, name } = await client
-            //       .query('db', {
-            //         $id: v.id,
-            //         mimeType: true,
-            //         name: true,
-            //       })
-            //       .get()
-            //     onChange({ ...v, mimeType, name })
-            //   })
-          } else if (type === 'file' || type === 'reference') {
-            // client
-            //   .stream('db:file-upload', { contents: files[0] }, (e) =>
-            //     setProgress(e)
-            //   )
-            //   .then(async (v) => {
-            //     // very different...
-            //     const { mimeType, name } = await client
-            //       .query('db', {
-            //         $id: v.id,
-            //         mimeType: true,
-            //         name: true,
-            //       })
-            //       .get()
-            //     onChange({ ...v, mimeType, name })
-            //   })
-          }
+          onChange({
+            [key]: { $files: files },
+          })
         }}
         indent
         value={
-          //  very diferent
-          state[key]?.src
+          state[key]
+            ? state[key].$files ?? undefined
+            : type === 'file' || type === 'reference'
             ? [
                 {
-                  src: state[key]?.src,
-                  type: state[key]?.mimeType ?? data[key]?.mimeType,
-                  name: state[key]?.name ?? data[key]?.name,
+                  src: data[key].src,
+                  type: data[key]?.mimeType,
+                  name: data[key]?.name,
                 },
               ]
             : [
                 {
-                  src: data[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
+                  src: data[key],
+                  type: mimeType,
+                  name: data[key]?.name ?? data[key]?.title,
                 },
               ]
         }
