@@ -1,4 +1,10 @@
-import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
+import React, {
+  FC,
+  CSSProperties,
+  FunctionComponent,
+  ReactNode,
+  MouseEventHandler,
+} from 'react'
 import {
   Color,
   Size,
@@ -56,9 +62,14 @@ const GreySquareBg = styled('div', {
 type ThumbnailFileProps = {
   mimeType?: string
   src?: string
+  onClick?: MouseEventHandler<HTMLDivElement>
 }
 
-export const ThumbnailFile: FC<ThumbnailFileProps> = ({ mimeType, src }) => {
+export const ThumbnailFile: FC<ThumbnailFileProps> = ({
+  mimeType,
+  src,
+  onClick,
+}) => {
   const isImg = mimeType?.includes('image/')
   const isVideo = mimeType?.includes('video/')
   const isAudio = mimeType?.includes('audio/')

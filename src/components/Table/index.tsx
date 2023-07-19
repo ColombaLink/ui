@@ -118,11 +118,7 @@ const Cell = (props) => {
   const onClick = header.onClick ?? props.data.onClick
   const type = header.type
 
-  const mimeType =
-    header?.mimeType ?? header.mimeTypeKey
-      ? pathReader(rowData, header.mimeTypeKey.split('.'))
-      : undefined
-
+  // Make this into a map /  a bit nicer
   const body = header.customComponent ? (
     createElement(header.customComponent, {
       data: rowData,
@@ -132,7 +128,14 @@ const Cell = (props) => {
       rowIndex,
     })
   ) : type === 'file' || type == 'reference' ? (
-    <ThumbnailFile mimeType={mimeType} src={itemData} />
+    <ThumbnailFile
+      mimeType={
+        header?.mimeType ?? header.mimeTypeKey
+          ? pathReader(rowData, header.mimeTypeKey.split('.'))
+          : undefined
+      }
+      src={itemData}
+    />
   ) : type === 'id' ? (
     <Badge color="accent">{itemData}</Badge>
   ) : type === 'timestamp' ? (
