@@ -199,6 +199,20 @@ const ContentRenderer: FC<{
     )
   }
 
+  if (type === 'reference') {
+    return (
+      <Input
+        label={name}
+        type="text"
+        placeholder={'Reference'}
+        onChange={onChange}
+        value={itemValue}
+        style={{ marginBottom: BOTTOMSPACE }}
+        indent
+      />
+    )
+  }
+
   return (
     <styled.div style={{ marginBottom: 12 }}>{name + ' : ' + type}</styled.div>
   )

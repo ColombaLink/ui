@@ -36,8 +36,6 @@ const parse$Files = async (
   return s
 }
 
-// global thing for file progress!
-
 export const parseFunction = (
   config: any,
   ctx: ParseCtx
@@ -82,6 +80,17 @@ export const parseFunction = (
               return src
             }
           } else {
+            const { id } = await ctx.client.stream(
+              'db:file-upload',
+              {
+                contents: files.$files[0],
+              },
+              (p) => {
+                console.info('progress...', p)
+              }
+            )
+            return id
+
             // TODO: todo little ref boy
           }
         }

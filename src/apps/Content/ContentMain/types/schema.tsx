@@ -47,35 +47,31 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
         idKey = 'title'
       }
 
-      // @ts-ignore
-      const isFile = f.meta.ui === 'file'
+      const isFile =
+        // @ts-ignore
+        f.meta?.ui === 'file' ||
+        f.meta?.format === 'file' ||
+        (f.meta?.refTypes &&
+          f.meta?.refTypes.length === 1 &&
+          f.meta?.refTypes[0] === 'file')
+
       const fType = isFile && type === 'file'
       const isBytes = f.meta?.format === 'bytes'
 
       let mimeTypeKey = ''
-
-      if (fType) {
+      if (f.type === 'reference') {
+        mimeTypeKey = `${field}.mimeType`
+      } else if (fType) {
         mimeTypeKey = 'mimeType'
         getFields.mimeType = true
-      } else if (f.type === 'reference') {
-        mimeTypeKey = `${field}.mimeType`
       }
 
-      // parse reference
-
-      // TODO has to parse if file
       fields.push({
         index: f.meta?.index ?? 1e6,
         label: f.meta?.name || field,
         key: field,
         customLabelComponent: field === 'id' ? IdIcon : undefined,
-        type: isBytes
-          ? 'bytes'
-          : field === 'id'
-          ? 'id'
-          : fType
-          ? 'file'
-          : f.type,
+        type: isBytes ? 'bytes' : field === 'id' ? 'id' : f.type,
         mimeTypeKey,
       })
     }
@@ -191,6 +187,21 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
       // @ts-ignore
       if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
         mField = 'mimeType'
+      } else if (
+        f.type === 'reference' &&
+        (f.meta?.format === 'file' ||
+          (f.meta?.refTypes &&
+            f.meta?.refTypes.length === 1 &&
+            f.meta?.refTypes[0] === 'file'))
+      ) {
+        mField = `${field}.mimeType`
+
+        getFields[field] = {
+          src: true,
+          id: true,
+          mimeType: true,
+          name: true,
+        }
       }
 
       fields.push({
@@ -207,7 +218,9 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   })
 
   for (const f of fields) {
-    getFields[f.key] = true
+    if (!getFields[f.key]) {
+      getFields[f.key] = true
+    }
   }
 
   // target langiahe
