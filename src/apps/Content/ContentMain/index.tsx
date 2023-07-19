@@ -112,7 +112,7 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const { open, close } = useDialog()
 
   useEffect(() => {
-    if (overlay) {
+    if (overlay && typeof overlay === 'string') {
       const id = open(<Modal overlay={overlay} />, () => {
         setOverlay(null)
         setOverlayTarget(null)

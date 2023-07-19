@@ -1,4 +1,4 @@
-import { BasedSchema, alwaysIgnore, IdIcon } from '~'
+import { BasedSchema, alwaysIgnore, IdIcon, systemFields } from '~'
 import React from 'react'
 
 export const createRootEditor = (schema: BasedSchema): any => {
@@ -178,16 +178,29 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
   const prettyName =
     typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
-  const getFields: any = {}
+  const getFields: any = {
+    id: true,
+  }
   // let mimeType
   let fields = []
   for (const field in typeSchema.fields) {
-    if (!alwaysIgnore.has(field)) {
+    // extra info for mimeType
+    if (!alwaysIgnore.has(field) && !systemFields.has(field)) {
       const f = typeSchema.fields[field]
+
+      // mime
+
+      let mField: string
+      // @ts-ignore
+      if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {
+        mField = 'mimeType'
+      }
+
       fields.push({
         name: f.meta.name ?? field,
         key: field,
         type: f.type,
+        mimeTypeKey: mField,
       })
     }
   }
