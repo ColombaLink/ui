@@ -22,13 +22,13 @@ export const FileUploadContentEditor: FC<{
   onChange,
   state,
 }) => {
-  const client = useClient()
-
-  const [progress, setProgress] = useState(null)
+  // const [progress, setProgress] = useState(null)
 
   const mimeType: string = mimeTypeKey
     ? pathReader(data, mimeTypeKey.split('.'))
     : undefined
+
+  console.log(state[key])
 
   return (
     <div>
@@ -41,7 +41,8 @@ export const FileUploadContentEditor: FC<{
             ? `Allowed types: ${meta?.mime?.join(', ')}`
             : null)
         }
-        progress={progress}
+        looseMime
+        // progress={progress}
         onChange={(files) => {
           if (files.length === 0) {
             onChange('')
@@ -69,7 +70,7 @@ export const FileUploadContentEditor: FC<{
                     {
                       src: data[key],
                       type: mimeType,
-                      name: data[key]?.name ?? data[key]?.title,
+                      name: data[key],
                     },
                   ]
                 : null)

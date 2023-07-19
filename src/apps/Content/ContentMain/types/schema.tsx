@@ -28,7 +28,7 @@ export const createRootEditor = (schema: BasedSchema): any => {
 
 export const createTypeTable = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
-  const MAX_FIELDS = 5
+  const MAX_FIELDS = 7
   const prettyName =
     typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
   let idKey: string
@@ -68,10 +68,17 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
 
       fields.push({
         index: f.meta?.index ?? 1e6,
-        label: f.meta?.name || field,
+        label:
+          field === 'src' && type === 'file' ? 'Src' : f.meta?.name || field,
         key: field,
         customLabelComponent: field === 'id' ? IdIcon : undefined,
-        type: isBytes ? 'bytes' : field === 'id' ? 'id' : f.type,
+        type: isFile
+          ? 'file'
+          : isBytes
+          ? 'bytes'
+          : field === 'id'
+          ? 'id'
+          : f.type,
         mimeTypeKey,
       })
     }
@@ -208,6 +215,7 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
         name: f.meta.name ?? field,
         key: field,
         type: f.type,
+        index: f.meta?.index ?? 1e6,
         mimeTypeKey: mField,
       })
     }

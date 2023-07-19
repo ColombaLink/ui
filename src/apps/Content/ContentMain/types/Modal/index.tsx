@@ -156,7 +156,16 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
             >
               <Text typography="caption600">STATUS</Text>
             </styled.div>
-            <Button disabled={!hasChanges} {...props.saveButton} />
+            <Button
+              disabled={!hasChanges}
+              displayShortcut
+              keyboardShortcut="Cmd+S"
+              {...props.saveButton}
+              onClick={async (e) => {
+                await props.saveButton.onClick(e)
+                setState(null)
+              }}
+            />
 
             {props.deleteButton ? (
               <Button

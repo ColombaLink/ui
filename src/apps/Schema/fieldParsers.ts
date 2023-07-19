@@ -5,8 +5,8 @@ export const sortFields = (fields: {
   [key: string]: FieldSchema
 }): string[] => {
   return Object.keys(fields).sort((a, b) => {
-    const indexA = fields[a].meta?.index
-    const indexB = fields[b].meta?.index
+    const indexA = fields[a].meta?.index ?? 1e6
+    const indexB = fields[b].meta?.index ?? 1e6
     if (indexA === undefined) {
       if (indexB === undefined) {
         if (systemFields.has(a)) {

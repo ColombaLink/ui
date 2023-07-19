@@ -31,6 +31,7 @@ type FileUploadProps = {
   style?: Style
   progress?: number
   disabled?: boolean
+  looseMime?: boolean
   mime?: string[]
   multiple?: boolean
   value?: [{ name?: string; type?: MimeType; src: string }]
@@ -57,6 +58,7 @@ export const FileUpload: FC<FileUploadProps> = ({
   disabled,
   multiple,
   value,
+  looseMime,
   mime,
 }) => {
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
@@ -473,7 +475,7 @@ export const FileUpload: FC<FileUploadProps> = ({
           }}
           type="file"
           style={{ display: 'none' }}
-          accept={mime ? mime?.join(',') : '/*'}
+          accept={!looseMime && mime ? mime?.join(',') : '/*'}
           // onLoadedData={(e) => console.log('ARRR', e)}
           key={clearCount}
           multiple={multiple}
