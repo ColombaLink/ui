@@ -16,10 +16,7 @@ import {
   color,
   Badge,
   AttachmentIcon,
-  AudioIcon,
-  PlayIcon,
-  FileIcon,
-  TextIcon,
+  ThumbnailFile,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
@@ -29,18 +26,6 @@ import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
 
 export * from './types'
-
-const GreySquareBg = styled('div', {
-  position: 'absolute',
-  top: -4,
-  width: 32,
-  borderRadius: 4,
-  height: 32,
-  backgroundColor: color('background2'),
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-})
 
 const Header: FC<{
   headerWidth: number
@@ -131,27 +116,12 @@ const Cell = (props) => {
   }
 
   const onClick = header.onClick ?? props.data.onClick
-
   const type = header.type
-
-  const isReferences = type === 'references'
-  const isReference = type === 'reference'
-  const isFile = type === 'file'
 
   const mimeType =
     header?.mimeType ?? header.mimeTypeKey
       ? pathReader(rowData, header.mimeTypeKey.split('.'))
       : undefined
-
-  const isImg = mimeType?.includes('image/')
-  const isVideo = mimeType?.includes('video/')
-  const isAudio = mimeType?.includes('audio/')
-  const isTextFile = mimeType?.includes('text/')
-  const isFontFile = mimeType?.includes('font/')
-
-  if (isReferences) {
-    itemData = itemData?.length || 0
-  }
 
   const body = header.customComponent ? (
     createElement(header.customComponent, {
@@ -161,86 +131,18 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : type === 'file' || type == 'reference' ? (
+    <ThumbnailFile mimeType={mimeType} src={itemData} />
   ) : type === 'id' ? (
     <Badge color="accent">{itemData}</Badge>
   ) : type === 'timestamp' ? (
     <Text selectable typography="body400">
       {prettyDate(itemData, 'date-time-human')}{' '}
     </Text>
-  ) : isImg ? (
-    <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          borderRadius: 4,
-          height: 32,
-          backgroundColor: color('accent', true),
-          backgroundSize: 'cover',
-          backgroundImage: `url(${itemData})`,
-        }}
-      />
-    </styled.div>
-  ) : isVideo ? (
-    <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          height: 32,
-          borderRadius: 4,
-          backgroundColor: 'black',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <PlayIcon style={{ color: 'white', position: 'absolute' }} size={14} />
-        <video src={itemData + '#t=5'} />
-      </styled.div>
-    </styled.div>
-  ) : isAudio ? (
-    <styled.div style={{ position: 'relative' }}>
-      <GreySquareBg>
-        <AudioIcon />
-      </GreySquareBg>
-    </styled.div>
-  ) : isTextFile ? (
-    <styled.div style={{ position: 'relative' }}>
-      <GreySquareBg>
-        <FileIcon />
-      </GreySquareBg>
-    </styled.div>
-  ) : isFontFile ? (
-    <styled.div style={{ position: 'relative' }}>
-      <GreySquareBg>
-        <TextIcon size={14} />
-      </GreySquareBg>
-    </styled.div>
-  ) : isReference || isFile ? (
-    <styled.div style={{ position: 'relative' }}>
-      <styled.div
-        style={{
-          position: 'absolute',
-          top: -4,
-          width: 32,
-          borderRadius: 4,
-          height: 32,
-          backgroundColor: color('lightaccent'),
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <AttachmentIcon color="accent" size={14} />
-      </styled.div>
-    </styled.div>
-  ) : isReferences ? (
+  ) : type === 'references' ? (
     <Badge color="accent" icon={<AttachmentIcon />}>
       <Text typography="caption600" color="accent">
-        {prettyNumber(itemData, 'number-short')}
+        {prettyNumber(itemData?.length || 0, 'number-short')}
       </Text>
     </Badge>
   ) : (
