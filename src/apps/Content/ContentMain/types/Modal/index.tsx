@@ -71,6 +71,15 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
 
   const [copied, copy] = useCopyToClipboard(data?.id)
 
+  let hasChanges = false
+
+  for (const k in state) {
+    if (state[k] !== undefined && state[k] !== null) {
+      hasChanges = true
+      break
+    }
+  }
+
   return (
     <styled.div
       style={{
@@ -147,7 +156,7 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
             >
               <Text typography="caption600">STATUS</Text>
             </styled.div>
-            <Button {...props.saveButton} />
+            <Button disabled={!hasChanges} {...props.saveButton} />
 
             {props.deleteButton ? (
               <Button

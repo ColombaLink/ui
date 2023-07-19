@@ -43,29 +43,36 @@ export const FileUploadContentEditor: FC<{
         }
         progress={progress}
         onChange={(files) => {
-          onChange({
-            [key]: { $files: files },
-          })
+          if (files.length === 0) {
+            onChange('')
+          } else {
+            onChange({ $files: files, $type: type, $key: key, $data: data })
+          }
         }}
         indent
         value={
-          state[key]
-            ? state[key].$files ?? undefined
-            : type === 'file' || type === 'reference'
-            ? [
-                {
-                  src: data[key].src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
-                },
-              ]
-            : [
-                {
-                  src: data[key],
-                  type: mimeType,
-                  name: data[key]?.name ?? data[key]?.title,
-                },
-              ]
+          state[key] === ''
+            ? []
+            : (state[key] && state[key].$files) ||
+              (type === 'file' || type === 'reference'
+                ? data[key]?.src
+                  ? [
+                      {
+                        src: data[key]?.src,
+                        type: data[key]?.mimeType,
+                        name: data[key]?.name,
+                      },
+                    ]
+                  : null
+                : data[key]
+                ? [
+                    {
+                      src: data[key],
+                      type: mimeType,
+                      name: data[key]?.name ?? data[key]?.title,
+                    },
+                  ]
+                : null)
         }
         style={{ marginBottom: BOTTOMSPACE }}
         mime={mimeType ? [mimeType] : meta?.mime}

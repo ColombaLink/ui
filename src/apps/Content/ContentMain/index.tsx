@@ -89,6 +89,9 @@ const Actions: FC<{ view: View }> = ({ view }) => {
 export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
   const [view] = useContextState<string>('view')
   const [overlay, setOverlay] = useContextState<string>('overlay')
+
+  const [, setOverlayState] = useContextState<string>('overlay-state')
+
   const { schema, loading: loadingSchema } = useSchema()
 
   const [animate, setanimate] = useState(false)
@@ -113,12 +116,18 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
 
   useEffect(() => {
     if (overlay && typeof overlay === 'string') {
-      const id = open(<Modal overlay={overlay} />, () => {
-        setOverlay(null)
-        setOverlayTarget(null)
-        setOverlay('')
-      })
+      const id = open(
+        <Provider client={hubClient}>
+          <Modal overlay={overlay} />
+        </Provider>,
+        () => {
+          setOverlay(null)
+          setOverlayTarget(null)
+          setOverlay('')
+        }
+      )
       return () => {
+        setOverlayState(null)
         setOverlay(null)
         setOverlayTarget(null)
         close(id)

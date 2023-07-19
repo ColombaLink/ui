@@ -90,7 +90,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               fill
               textAlign="center"
               onClick={() => {
-                // upload
                 if (!disabled) {
                   hiddenFileInput.current.click()
                   removeOverlay()
@@ -183,8 +182,6 @@ export const FileUpload: FC<FileUploadProps> = ({
     setUploadedFiles(newValue)
     onChange(newValue)
     setErrorMessage('')
-
-    console.log('new value --> ', newValue)
   }
 
   // should TODO delete file instead of the onChange([])
@@ -374,7 +371,9 @@ export const FileUpload: FC<FileUploadProps> = ({
           position: 'relative',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <styled.div
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <Label
             label={label}
             labelColor={disabled ? 'text2' : 'text'}
@@ -392,9 +391,7 @@ export const FileUpload: FC<FileUploadProps> = ({
               Clear
             </Button>
           )}
-        </div>
-
-        {/* <ProgressIndicator progress={Math.round(progress * 100)} /> */}
+        </styled.div>
 
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
@@ -408,7 +405,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
               renameFile={renameFile}
               fileName={fileName}
-              //   fullScreenView={() => fullScreenView(file)}
               fullScreenView={fullScreenView}
               key={idx}
               id={idx}
@@ -422,12 +418,9 @@ export const FileUpload: FC<FileUploadProps> = ({
               progress={progress}
               style={{ position: 'absolute', left: 16, top: 70 }}
             />
-            {/* <LoadingIcon style={{ marginRight: 10 }} />
-            {`${Math.round(progress * 100)}%`} */}
           </styled.div>
         ) : null}
 
-        {/* // end map */}
         <StyledFileInput
           onClick={handleClickUpload}
           onDragOver={(e) => {

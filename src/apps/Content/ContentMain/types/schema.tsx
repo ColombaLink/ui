@@ -182,15 +182,11 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
     id: true,
     type: true,
   }
-  // let mimeType
   let fields = []
   for (const field in typeSchema.fields) {
-    // extra info for mimeType
     if (!alwaysIgnore.has(field) && !systemFields.has(field)) {
       const f = typeSchema.fields[field]
-
       // mime
-
       let mField: string
       // @ts-ignore
       if (type === 'file' && f.meta?.ui === 'file' && f.type === 'string') {

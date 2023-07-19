@@ -1,13 +1,5 @@
 import React, { FC } from 'react'
-import {
-  styled,
-  Input,
-  Badge,
-  color,
-  Toggle,
-  pathReader,
-  ThumbnailFile,
-} from '~'
+import { styled, Input, Badge, Toggle } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 import { FileUploadContentEditor } from './FileUploadContentEditor'
 import { BOTTOMSPACE } from './constants'
