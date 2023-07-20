@@ -72,7 +72,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
       }
 
       fields.push({
-        index: f.meta?.index ?? 1e6,
+        index: f.meta?.index ?? systemFields.has(field) ? 1e6 : 100,
         label:
           field === 'src' && type === 'file' ? 'Src' : f.meta?.name || field,
         key: field,
