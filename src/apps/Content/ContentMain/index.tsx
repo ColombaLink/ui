@@ -140,7 +140,6 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     $all: true,
   })
 
-  console.info(view)
   if (!view) {
     return (
       <Row

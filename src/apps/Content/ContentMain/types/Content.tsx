@@ -103,7 +103,6 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
             }}
             placeholder="Filter..."
             onChange={(v) => {
-              /// xxx
               const x = target || {}
               x.filter = v
               setTarget(x)

@@ -28,8 +28,6 @@ export const FileUploadContentEditor: FC<{
     ? pathReader(data, mimeTypeKey.split('.'))
     : undefined
 
-  console.log(state[key])
-
   return (
     <div>
       <FileUpload

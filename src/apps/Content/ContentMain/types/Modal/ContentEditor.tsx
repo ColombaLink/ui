@@ -49,7 +49,7 @@ const ContentRenderer: FC<{
   const name = item.name ?? key
 
   const onChange = (v: any) => {
-    setState({ [key]: v })
+    setState({ ...state, [key]: v })
   }
 
   if (type === 'boolean') {
