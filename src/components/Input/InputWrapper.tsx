@@ -1,4 +1,10 @@
-import React, { CSSProperties, FC, ReactNode, useState } from 'react'
+import React, {
+  CSSProperties,
+  FC,
+  MouseEventHandler,
+  ReactNode,
+  useState,
+} from 'react'
 import {
   color,
   Text,
@@ -23,7 +29,7 @@ type InputWrapperProps = {
   onMouseEnter?: () => void
   onMouseLeave?: () => void
   color?: Color
-  onClick?: () => void
+  onClick?: MouseEventHandler
   onBlur?: () => void
   value?: any
   setValue?: (e) => void
@@ -50,7 +56,6 @@ export const InputWrapper: FC<InputWrapperProps> = ({
   ...props
 }) => {
   const [focus, setFocus] = useState(false)
-
   return (
     <styled.div
       onFocus={() => {

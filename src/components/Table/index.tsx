@@ -22,6 +22,7 @@ import {
   Row,
   pathReader,
   useCopyToClipboard,
+  Toggle,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
@@ -29,14 +30,56 @@ import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
 import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
+import { useClient } from '@based/react'
 
 export * from './types'
+
+const TYPE_WIDTHS = {
+  file: 100,
+  reference: 100,
+  id: 140,
+  references: 130,
+  bytes: 130,
+  boolean: 100,
+}
+
+const BooleanToggle: FC<{
+  item: any
+  k: string
+  itemData: boolean
+}> = ({ item, k, itemData }) => {
+  const client = useClient()
+  return (
+    <Toggle
+      value={itemData}
+      onChange={
+        item.id
+          ? (v) => {
+              const s: any = { $id: item.id }
+              if (Array.isArray(k)) {
+                let t = s
+                for (let i = 0; i < k.length; i++) {
+                  if (i === k.length - 1) {
+                    t[k[i]] = v
+                  } else if (!t[k[i]]) {
+                    t = t[k[i]] = {}
+                  }
+                }
+              } else {
+                s[k] = v
+              }
+              return client.call('db:set', s)
+            }
+          : null
+      }
+    />
+  )
+}
 
 const IdBadge: FC<{
   itemData: string
 }> = ({ itemData }) => {
   const [copied, copy] = useCopyToClipboard(itemData)
-
   return (
     <Badge
       color="accent"
@@ -147,6 +190,8 @@ const Cell = (props) => {
       columnIndex,
       rowIndex,
     })
+  ) : type === 'boolean' ? (
+    <BooleanToggle item={rowData} itemData={itemData} k={key} />
   ) : type === 'file' || type == 'reference' ? (
     <ThumbnailFile
       mimeType={
@@ -239,14 +284,6 @@ const Cell = (props) => {
   )
 }
 
-const typeWidths = {
-  file: 100,
-  reference: 100,
-  id: 140,
-  references: 130,
-  bytes: 130,
-}
-
 const SizedGrid: FC<TableProps> = (props) => {
   const {
     query,
@@ -273,7 +310,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     if (h.width) {
       w += h.width
     } else {
-      const typeWidth = typeWidths[h.type]
+      const typeWidth = TYPE_WIDTHS[h.type]
 
       if (typeWidth) {
         h.width = typeWidth
