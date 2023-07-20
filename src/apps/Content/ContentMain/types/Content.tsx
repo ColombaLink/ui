@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useRef } from 'react'
 import {
   styled,
   useContextMenu,
@@ -29,7 +29,17 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
   const [target, setTarget] = useContextState<any>('target')
   const [, setOverlayTarget] = useContextState<any>('overlay-target')
   const isTable = view.config.view === 'table'
+  const ref = useRef<ReturnType<typeof setTimeout>>()
+  const typing = useRef<boolean>()
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(ref.current)
+    }
+  }, [])
+
   const targetDefaults = view.config?.target ?? {}
+  const showFilter = view.config?.showFilter
   const client = useClient()
   const ctx = {
     data: {},
@@ -48,10 +58,12 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
       }
     },
   }
-  const { data } = useQuery(
-    view.config.function?.name,
-    parseProps(view.config.function?.payload, ctx)
-  )
+  const payload = parseProps(view.config.function?.payload, ctx)
+
+  const { data } = useQuery(view.config.function?.name, payload)
+
+  console.log(data, payload)
+
   ctx.data = data
   const props = parseProps(view.config.props ?? {}, ctx)
   return (
@@ -93,21 +105,33 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
             />
           </Row>
 
-          <Input
-            bg
-            icon={<SearchIcon />}
-            type="text"
-            style={{
-              width: '100%',
-              maxWidth: 400,
-            }}
-            placeholder="Filter..."
-            onChange={(v) => {
-              const x = target || {}
-              x.filter = v
-              setTarget(x)
-            }}
-          />
+          {showFilter ? (
+            <Input
+              bg
+              icon={<SearchIcon />}
+              value={target?.filter}
+              type="text"
+              style={{
+                width: '100%',
+                maxWidth: 400,
+              }}
+              placeholder="Filter..."
+              onChange={(v) => {
+                const x = { ...target }
+                if (!v) {
+                  delete x.filter
+                } else {
+                  x.filter = v
+                }
+                clearTimeout(ref.current)
+                typing.current = true
+                ref.current = setTimeout(() => {
+                  typing.current = false
+                  setTarget(x)
+                }, 300)
+              }}
+            />
+          ) : null}
 
           {props.button ? (
             <Button ghost color="accent" icon={AddIcon} {...props.button} />
@@ -120,7 +144,7 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
             paddingBottom: 24,
           }}
         >
-          {isTable && <Table {...props} />}
+          {!typing.current && isTable && <Table {...props} />}
         </styled.div>
       </styled.div>
     </ScrollArea>

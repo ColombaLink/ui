@@ -108,6 +108,7 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
     category: 'default',
     hidden: false,
     config: {
+      showFilter: !!idKey,
       type: 'content',
       view: 'table',
       target: {
@@ -125,18 +126,25 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
           descendants: {
             $list: {
               $find: {
-                $filter: [
-                  {
-                    $field: 'type',
-                    $value: '$target.type',
-                    $operator: '=',
-                  },
-                  {
-                    $field: 'name',
-                    $value: '$target.filter',
-                    $operator: 'includes',
-                  },
-                ],
+                $filter: idKey
+                  ? [
+                      {
+                        $field: 'type',
+                        $value: '$target.type',
+                        $operator: '=',
+                      },
+
+                      {
+                        $field: idKey,
+                        $value: '$target.filter',
+                        $operator: 'includes',
+                      },
+                    ]
+                  : {
+                      $field: 'type',
+                      $value: '$target.type',
+                      $operator: '=',
+                    },
               },
               $sort: {
                 $field: 'createdAt',

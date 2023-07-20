@@ -209,6 +209,21 @@ export const parseProps = (
       }
     } else if (typeof field === 'object') {
       newObj[key] = parseProps(field, ctx, excludeFields)
+
+      if (key === '$filter') {
+        console.log(newObj[key])
+        if (Array.isArray(newObj[key])) {
+          for (let i = 0; i < newObj[key].length; i++) {
+            if (
+              newObj[key][i].$operator === 'includes' &&
+              !newObj[key][i].$value
+            ) {
+              newObj[key].splice(i, 1)
+              break
+            }
+          }
+        }
+      }
     } else if (typeof field === 'string') {
       newObj[key] = parseString(field, ctx)
     } else {
