@@ -67,6 +67,10 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     parseProps(overlayData?.config?.function?.payload ?? {}, ctx)
   )
 
+  if (!overlayData) {
+    return <LoadingIcon />
+  }
+
   ctx.data = data
   const props = parseProps(overlayData?.config?.props ?? {}, ctx)
 

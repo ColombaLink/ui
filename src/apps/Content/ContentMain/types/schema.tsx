@@ -209,6 +209,12 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
 
 export const createTypeModal = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
+
+  if (!typeSchema) {
+    console.log('no typeschema', type)
+    return
+  }
+
   const prettyName =
     typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
   const getFields: any = {
