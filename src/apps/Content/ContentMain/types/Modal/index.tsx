@@ -67,14 +67,14 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
     parseProps(overlayData?.config?.function?.payload ?? {}, ctx)
   )
 
+  const [copied, copy] = useCopyToClipboard(data?.id)
+
   if (!overlayData) {
     return <LoadingIcon />
   }
 
   ctx.data = data
   const props = parseProps(overlayData?.config?.props ?? {}, ctx)
-
-  const [copied, copy] = useCopyToClipboard(data?.id)
 
   let hasChanges = false
 
