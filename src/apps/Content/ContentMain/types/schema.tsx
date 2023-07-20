@@ -9,7 +9,7 @@ export const createRootEditor = (schema: BasedSchema): any => {
     if (!alwaysIgnore.has(field)) {
       const f = typeSchema.fields[field]
       fields.push({
-        name: f.meta?.name ?? field,
+        name: f?.meta?.name ?? field,
         key: field,
         type: f.type,
       })
@@ -26,6 +26,18 @@ export const createRootEditor = (schema: BasedSchema): any => {
 
 export const createTypeTable = (schema: BasedSchema, type: string): any => {
   const typeSchema = schema.types[type]
+
+  if (!typeSchema) {
+    return {
+      id: 'type-' + type,
+      name: type,
+      description: typeSchema.meta?.description || '',
+      category: 'default',
+      hidden: false,
+      config: {},
+    }
+  }
+
   const MAX_FIELDS = 6
   const prettyName =
     typeSchema.meta?.name || type[0].toUpperCase() + type.slice(1)
@@ -36,6 +48,11 @@ export const createTypeTable = (schema: BasedSchema, type: string): any => {
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore.has(field)) {
       const f = typeSchema.fields[field]
+
+      if (!f) {
+        console.info(field)
+        continue
+      }
 
       if (!idKey && field === 'name') {
         idKey = 'name'
@@ -202,6 +219,11 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
   for (const field in typeSchema.fields) {
     if (!alwaysIgnore.has(field) && !systemFields.has(field)) {
       const f = typeSchema.fields[field]
+
+      if (!f) {
+        console.log('no', f)
+        continue
+      }
       // mime
       let mField: string
       // @ts-ignore

@@ -52,8 +52,6 @@ const ContentRenderer: FC<{
     setState({ ...state, [key]: v })
   }
 
-  console.log(item)
-
   if (type === 'boolean') {
     return (
       <Toggle
