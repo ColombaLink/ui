@@ -52,9 +52,12 @@ const ContentRenderer: FC<{
     setState({ ...state, [key]: v })
   }
 
+  console.log(item)
+
   if (type === 'boolean') {
     return (
       <Toggle
+        description={meta?.description}
         label={name}
         value={itemValue}
         style={{ marginBottom: BOTTOMSPACE }}
@@ -204,10 +207,10 @@ const ContentRenderer: FC<{
       <Input
         label={name}
         type="text"
-        placeholder={'Reference'}
+        placeholder={'Referenced ID'}
         onChange={onChange}
         value={itemValue}
-        style={{ marginBottom: BOTTOMSPACE }}
+        style={{ marginBottom: BOTTOMSPACE, width: 150 }}
         indent
       />
     )

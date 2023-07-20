@@ -64,10 +64,11 @@ export const Modal: FC<{ overlay: string }> = ({ overlay }) => {
   }
   const { data, loading } = useQuery(
     overlayData?.config?.function?.name,
-    parseProps(overlayData?.config.function?.payload ?? {}, ctx)
+    parseProps(overlayData?.config?.function?.payload ?? {}, ctx)
   )
+
   ctx.data = data
-  const props = parseProps(overlayData?.config.props ?? {}, ctx)
+  const props = parseProps(overlayData?.config?.props ?? {}, ctx)
 
   const [copied, copy] = useCopyToClipboard(data?.id)
 

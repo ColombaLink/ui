@@ -230,6 +230,7 @@ export const createTypeModal = (schema: BasedSchema, type: string): any => {
         type: f.type,
         index: f.meta?.index ?? 1e6,
         mimeTypeKey: mField,
+        meta: f.meta,
       })
     }
   }

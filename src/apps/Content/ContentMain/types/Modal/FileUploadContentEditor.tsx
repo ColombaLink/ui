@@ -1,6 +1,5 @@
-import React, { FC, useState } from 'react'
-import { FileUpload, pathReader } from '~'
-import { useClient } from '@based/react'
+import React, { FC } from 'react'
+import { FileUpload, pathReader, Input } from '~'
 import { BOTTOMSPACE } from './constants'
 
 export const FileUploadContentEditor: FC<{
@@ -73,9 +72,24 @@ export const FileUploadContentEditor: FC<{
                   ]
                 : null)
         }
-        style={{ marginBottom: BOTTOMSPACE }}
         mime={mimeType ? [mimeType] : meta?.mime}
+        style={{ marginBottom: 16 }}
       />
+      {type === 'file' || type === 'reference' ? (
+        <Input
+          style={{ marginBottom: BOTTOMSPACE, width: 150 }}
+          type="text"
+          placeholder="Referenced ID"
+          value={
+            state[key] && typeof state[key] === 'string'
+              ? state[key]
+              : data[key]?.id
+          }
+          onChange={(v) => {
+            onChange(v)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
