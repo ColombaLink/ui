@@ -8,6 +8,8 @@ import {
   useContextState,
   Button,
   MoreIcon,
+  Input,
+  SearchIcon,
   Table,
   AddIcon,
 } from '~'
@@ -90,6 +92,24 @@ export const Content: FC<{ view: View<ContentConfig>; actions }> = ({
               icon={MoreIcon}
             />
           </Row>
+
+          <Input
+            bg
+            icon={<SearchIcon />}
+            type="text"
+            style={{
+              width: '100%',
+              maxWidth: 400,
+            }}
+            placeholder="Filter..."
+            onChange={(v) => {
+              /// xxx
+              const x = target || {}
+              x.filter = v
+              setTarget(x)
+            }}
+          />
+
           {props.button ? (
             <Button ghost color="accent" icon={AddIcon} {...props.button} />
           ) : null}

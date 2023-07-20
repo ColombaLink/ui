@@ -17,7 +17,11 @@ import {
   Badge,
   AttachmentIcon,
   ThumbnailFile,
+  IdIcon,
+  CheckIcon,
+  Row,
   pathReader,
+  useCopyToClipboard,
 } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
@@ -27,6 +31,35 @@ import { VariableSizeGrid as Grid } from 'react-window'
 import { prettyDate } from '@based/pretty-date'
 
 export * from './types'
+
+const IdBadge: FC<{
+  itemData: string
+}> = ({ itemData }) => {
+  const [copied, copy] = useCopyToClipboard(itemData)
+
+  return (
+    <Badge
+      color="accent"
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        copy()
+      }}
+      icon={copied ? <CheckIcon color="accent" /> : ''}
+      style={{
+        display: 'flex',
+        paddingLeft: 8,
+        paddingRight: 8,
+        borderRadius: 32,
+        justifyContent: 'center',
+      }}
+    >
+      <Text color="accent" typography="caption600">
+        {itemData}
+      </Text>
+    </Badge>
+  )
+}
 
 const Header: FC<{
   headerWidth: number
@@ -121,10 +154,10 @@ const Cell = (props) => {
           ? pathReader(rowData, header.mimeTypeKey.split('.'))
           : undefined
       }
-      src={itemData}
+      src={typeof itemData === 'object' ? itemData?.src : itemData}
     />
   ) : type === 'id' ? (
-    <Badge color="accent">{itemData}</Badge>
+    <IdBadge itemData={itemData} />
   ) : type === 'timestamp' ? (
     <Text selectable typography="body400">
       {prettyDate(itemData, 'date-time-human')}{' '}
@@ -209,7 +242,7 @@ const Cell = (props) => {
 const typeWidths = {
   file: 100,
   reference: 100,
-  id: 130,
+  id: 140,
   references: 130,
   bytes: 130,
 }

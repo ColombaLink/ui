@@ -10,6 +10,8 @@ import {
   useDialog,
   styled,
   LoadingIcon,
+  Row,
+  Container,
   useSchema,
 } from '~'
 import { View } from '../types'
@@ -105,11 +107,6 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     }
   }, [view])
 
-  // full view
-  // if view === schema:type
-  // if overlay === shchema:overlay
-  // then auto generate them!
-
   const [, setOverlayTarget] = useContextState<string>('overlay-target')
 
   const { open, close } = useDialog()
@@ -142,6 +139,28 @@ export const ContentMain: FC<{ hubClient: BasedClient }> = ({ hubClient }) => {
     $id: view,
     $all: true,
   })
+
+  console.info(view)
+  if (!view) {
+    return (
+      <Row
+        style={{
+          justifyContent: 'center',
+          width: '100%',
+        }}
+      >
+        <Row
+          style={{
+            flexDirection: 'column',
+            justifyContent: 'center',
+            width: '100%',
+          }}
+        >
+          <EditIcon size={24} color="lightaccent" />
+        </Row>
+      </Row>
+    )
+  }
 
   if (isType && !loadingSchema) {
     const type = view.replace(/^type-/, '')

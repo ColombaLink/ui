@@ -4,7 +4,7 @@ export const cluster = 'production'
 
 export const project = 'lups'
 export const org = 'saulx'
-export const env = 'production'
+export const env = 'snurt'
 
 export const client = new BasedClient({
   project,
