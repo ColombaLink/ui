@@ -43,12 +43,13 @@ export const useSchema = (
   db = 'default'
 ): { schema: BasedSchema; loading: boolean } => {
   const { data, loading } = useQuery('db:schema', { db }, { persistent: true })
-  // console.log(data)
-  if (!loading) {
+
+  if (data) {
     walkType(data.rootType, 'root')
     for (const key in data.types) {
       walkType(data.types[key], key)
     }
   }
+
   return { loading, schema: data || { types: {} } }
 }

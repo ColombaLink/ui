@@ -48,13 +48,10 @@ export const Drawer: FC<DrawerProps> = ({
   const [hoverForExpansion, setHoverForExpansion] = useState(false)
   const bla = useWindowResize()
   useEffect(() => {
-    console.log(bla)
     if (bla.width < (closeBreakpoint || width)) {
-      console.log('BOOM')
       setResizeState(true)
     }
     if (bla.width > (closeBreakpoint || width)) {
-      console.log('BOOM')
       setResizeState(false)
     }
   }, [bla])
