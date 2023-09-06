@@ -1,5 +1,5 @@
 import { useClient, useQuery } from '@based/react'
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import {
   Table,
   styled,
@@ -31,7 +31,8 @@ import {
   useCopyToClipboard,
   CheckIcon,
   IdIcon,
-  UrlIcon,
+  StopIcon,
+  ContextDivider,
 } from '~'
 import { Env } from '@based/machine-config'
 import {
@@ -99,7 +100,6 @@ const Header: FC<{ log: { ts: number; srvc: string; url: string } }> = ({
 const MachineModal: FC<{
   data: any
 }> = ({ data }) => {
-  const env = useContextState<Env>('env')
   const { data: logs, checksum } = useQuery('logs', {
     mid: data.id,
   })
@@ -150,6 +150,15 @@ const MachineModal: FC<{
 const ActionMenu = ({ data }) => {
   const [env] = useContextState<Env>('env')
   const client = useClient()
+  let allServicesStopped = true
+
+  for (const service in data.stats?.services) {
+    if (data.stats?.services[service][0] !== 3) {
+      allServicesStopped = false
+      break
+    }
+  }
+
   return (
     <div>
       <ContextItem
@@ -170,7 +179,32 @@ const ActionMenu = ({ data }) => {
         Restart all services
       </ContextItem>
       <ContextItem
-        icon={<RedoIcon />}
+        style={{
+          opacity: allServicesStopped ? 0.4 : 1,
+          cursor: allServicesStopped ? 'not-allowed' : null,
+        }}
+        icon={StopIcon}
+        onClick={() => {
+          if (allServicesStopped) {
+            return
+          }
+          client.call('send-commands', {
+            ...env,
+            commands: [
+              {
+                command: 'stop',
+                service: '*',
+                machineId: data.id,
+              },
+            ],
+          })
+        }}
+      >
+        Stop all services
+      </ContextItem>
+      <ContextDivider />
+      <ContextItem
+        icon={RedoIcon}
         onClick={async () => {
           await client.call('reboot-machine', {
             machineIds: [data.id],
@@ -292,7 +326,7 @@ const CopyRow: TableCustomComponent<any> = ({ data, header }) => {
 
 const Domain: TableCustomComponent<any> = ({ data }) => {
   return (
-    <a href={'https://' + data.domain} target="_blank">
+    <a href={'https://' + data.domain} target="_blank" rel="noreferrer">
       <Text selectable typography="caption400">
         {data.domain}
       </Text>
