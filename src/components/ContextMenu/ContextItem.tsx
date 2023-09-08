@@ -89,19 +89,25 @@ export const ContextItem: FC<ContextItemProps> = ({
         color={colorProps}
         style={{ display: 'flex', alignItems: 'center' }}
       >
-        {renderOrCreateElement(
-          errored && icon ? (
-            <WarningIcon color="red" />
-          ) : loading && icon ? (
-            <LoadingIcon />
-          ) : (
-            icon
-          ),
-          {
-            size: 16,
-            style: { marginRight: 8 },
-          }
-        )}
+        <div
+          style={{
+            flexShrink: 0,
+          }}
+        >
+          {renderOrCreateElement(
+            errored && icon ? (
+              <WarningIcon color="red" />
+            ) : loading && icon ? (
+              <LoadingIcon />
+            ) : (
+              icon
+            ),
+            {
+              size: 16,
+              style: { marginRight: 8 },
+            }
+          )}
+        </div>
         {children}
       </Text>
     )
