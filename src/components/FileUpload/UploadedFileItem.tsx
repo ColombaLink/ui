@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {
   styled,
   color,
-  BasedIcon,
+  AudioIcon,
   AttachmentIcon,
   Text,
   MoreIcon,
@@ -12,7 +12,11 @@ import {
   EditIcon,
   ExternalLinkAltIcon,
   DownloadIcon,
+  PlayIcon,
+  FileIcon,
   ZoomInIcon,
+  TextIcon,
+  resizeImage,
 } from '~'
 
 const StyledUploadedFile = styled('div', {
@@ -20,10 +24,8 @@ const StyledUploadedFile = styled('div', {
   overflow: 'hidden',
   border: `1px solid ${color('border')}`,
   backgroundColor: color('background'),
-  paddingLeft: 12,
   borderRadius: 8,
   alignItems: 'center',
-  gap: 12,
   marginBottom: 8,
   position: 'relative',
   cursor: 'auto',
@@ -56,9 +58,10 @@ const CacheBackground = ({ file }) => {
     <div
       style={{
         height: 62,
+        flexShrink: 0,
         width: 62 + 4,
-        marginLeft: -12,
-        backgroundImage: `url(${url})`,
+        backgroundPosition: 'center',
+        backgroundImage: `url(${resizeImage(url, 64)})`,
         backgroundSize: 'cover',
       }}
     >
@@ -73,6 +76,47 @@ const CacheBackground = ({ file }) => {
   )
 }
 
+const VideoPreview = ({ file }) => {
+  if (!file.src) {
+    file.src = URL.createObjectURL(file)
+  }
+  return (
+    <div
+      style={{
+        height: 62,
+        width: 62,
+        backgroundColor: 'black',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <video src={file.src + '#t=5'} />
+      <PlayIcon size={20} style={{ color: 'white' }} />
+    </div>
+  )
+}
+
+const AudioPreview = ({ file }) => {
+  if (!file.src) {
+    file.src = URL.createObjectURL(file)
+  }
+  return (
+    <styled.div
+      style={{
+        height: 62,
+        width: 62,
+        backgroundColor: color('background2'),
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <AudioIcon size={20} />
+    </styled.div>
+  )
+}
+
 export const UploadedFileItem = ({
   file,
   handleClickUpload,
@@ -84,6 +128,7 @@ export const UploadedFileItem = ({
   downloadFile,
   renameFile,
   fullScreenView,
+  fileName,
 }) => {
   const contextHandler = useContextMenu(
     ContextOptions,
@@ -97,23 +142,21 @@ export const UploadedFileItem = ({
       downloadFile,
       renameFile,
       fullScreenView,
+      file,
     },
     { placement: 'right' }
   )
 
-  // console.log(file, 'file??')
-
-  // screenshot
-  // console.log(getImageSrcFromId(file?.id))
-  // console.log('-------------______>', file)
-
   return (
     <StyledUploadedFile>
-      {/* image */}
-      {file?.type?.includes('image') && <CacheBackground file={file} />}
-      {/* movie */}
-      {file?.type?.includes('video') && (
-        <div
+      {file?.type?.includes('image') ? (
+        <CacheBackground file={file} />
+      ) : file?.type?.includes('video') ? (
+        <VideoPreview file={file} />
+      ) : file?.type?.includes('audio') ? (
+        <AudioPreview file={file} />
+      ) : (
+        <styled.div
           style={{
             height: 62,
             width: 62,
@@ -123,42 +166,29 @@ export const UploadedFileItem = ({
             alignItems: 'center',
           }}
         >
-          <BasedIcon size={20} />
-        </div>
-      )}
-      {/* audio */}
-      {file?.type?.includes('audio') && (
-        <div
-          style={{
-            height: 62,
-            width: 62,
-            backgroundColor: color('background2'),
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <BasedIcon size={20} />
-        </div>
+          {file?.type?.includes('text') ? (
+            <FileIcon />
+          ) : file?.type?.includes('font') ? (
+            <TextIcon />
+          ) : (
+            <AttachmentIcon />
+          )}
+        </styled.div>
       )}
 
-      {file?.type?.includes('image') ||
-      file?.type?.includes('video') ||
-      file?.type?.includes('audio') ? null : (
-        <AttachmentIcon />
-      )}
       <Text
         style={{
           minHeight: '20px',
           marginTop: 6,
           marginBottom: 6,
-          // maxWidth: '25vw',
-          maxWidth: '90%',
+          marginLeft: 12,
+          marginRight: 64,
+          maxWidth: 'calc(90% - 64px)',
           flexShrink: 0,
         }}
-        weight={400}
+        typography="body500"
       >
-        {file?.name}
+        {fileName || file?.name}
       </Text>
 
       <StyledMoreIcon onClick={contextHandler}>
@@ -170,6 +200,7 @@ export const UploadedFileItem = ({
 
 const ContextOptions = ({
   // handleClickUpload,
+  file,
   deleteSpecificFile,
   id,
   openInNewTab,
@@ -183,13 +214,13 @@ const ContextOptions = ({
       {/* <ContextItem onClick={() => duplicateFile()} icon={CopyIcon}>
         Duplicate
       </ContextItem> */}
-      <ContextItem onClick={() => fullScreenView()} icon={ZoomInIcon}>
+      <ContextItem onClick={() => fullScreenView(file)} icon={ZoomInIcon}>
         Expand
       </ContextItem>
       <ContextItem onClick={() => openInNewTab()} icon={ExternalLinkAltIcon}>
         Open in new tab
       </ContextItem>
-      <ContextItem onClick={() => renameFile()} icon={EditIcon}>
+      <ContextItem onClick={() => renameFile(file, id)} icon={EditIcon}>
         Rename
       </ContextItem>
       {/* TODO if multiple file upload works or if multiple file then option to replace specific id file */}

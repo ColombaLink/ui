@@ -91,27 +91,31 @@ export const SelectFieldTypeModal: FC<{
 
   return (
     <div>
-      <Input
-        type="text"
-        icon={<SearchIcon />}
-        placeholder="Search and discover"
-        onChange={searchFilterHandler}
-        ghost
+      <styled.div
         style={{
-          backgroundColor: color('background2'),
-          boxShadow: '0px',
-          outline: 'none',
-          height: 40,
-          alignItems: 'center',
-          borderRadius: 8,
-          paddingTop: '6px',
-          paddingBottom: '6px',
           marginLeft: 24,
           marginRight: 24,
           marginTop: 20,
           marginBottom: 0,
         }}
-      />
+      >
+        <Input
+          type="search"
+          icon={<SearchIcon />}
+          placeholder="Search and discover"
+          onChange={searchFilterHandler}
+          ghost
+          style={{
+            backgroundColor: color('background2'),
+            boxShadow: '0px',
+            outline: 'none',
+            alignItems: 'center',
+            borderRadius: 8,
+            paddingTop: '4px',
+            paddingBottom: '4px',
+          }}
+        />
+      </styled.div>
       <Section>
         <Grid
           style={{

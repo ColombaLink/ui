@@ -64,7 +64,7 @@ export const Actions: FC<{
         Remove
       </ContextItem>
       <ContextItem
-        icon={<RedoIcon />}
+        icon={RedoIcon}
         onClick={() => {
           client.call('send-commands', {
             ...env,
@@ -78,7 +78,7 @@ export const Actions: FC<{
           })
         }}
       >
-        Restart service on all machines
+        Restart service globally
       </ContextItem>
     </>
   )

@@ -14,14 +14,12 @@ import {
   LightModeIcon,
   CurlyBracesIcon,
   AppFrame,
-  color,
   useRoute,
   LayersIcon,
   useDialog,
   DeleteIcon,
   EmailIcon,
   Dialog,
-  Badge,
 } from '../'
 import * as components from './components'
 import * as apps from './apps'
@@ -63,6 +61,7 @@ const Login = () => {
           onConfirm={async () => {
             await adminClient.call('login', {
               email,
+              // @ts-ignore
               skipEmailForTesting: cluster === 'local',
               code:
                 (~~(Math.random() * 1e6)).toString(16) + ' ' + ' ui-playground',
@@ -90,7 +89,7 @@ const menuItems = {
   Components: Object.keys(components).map((v) => {
     return {
       value: v,
-      icon: v === 'LogGroups' ? <Badge color="accent">Beta</Badge> : '',
+      // icon: v === 'LogGroups' ? <Badge color="accent">Beta</Badge> : '',
       label: v,
     }
   }),
@@ -187,23 +186,24 @@ const App = () => {
             </div>
             <div style={{ marginLeft: -8, marginRight: -8, marginBottom: 20 }}>
               <Input
-                type="text"
+                type="search"
+                bg
                 icon={<SearchIcon />}
                 placeholder="Search"
                 onChange={(e) => {
                   searchFilterHandler(e)
                 }}
-                ghost
-                style={{
-                  backgroundColor: color('background2'),
-                  boxShadow: '0px',
-                  outline: 'none',
-                  height: 40,
-                  alignItems: 'center',
-                  borderRadius: 8,
-                  paddingTop: '8px',
-                  marginBottom: 24,
-                }}
+                // ghost
+                // style={{
+                //   backgroundColor: color('background2'),
+                //   boxShadow: '0px',
+                //   outline: 'none',
+                //   height: 40,
+                //   alignItems: 'center',
+                //   borderRadius: 8,
+                //   paddingTop: '8px',
+                //   marginBottom: 24,
+                // }}
               />
             </div>
           </>

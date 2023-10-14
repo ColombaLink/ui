@@ -7,7 +7,7 @@ const addMeta = (obj: FieldSchema | TypeSchema, key: string) => {
     obj.meta = {}
   }
   if (!('name' in obj.meta)) {
-    obj.meta.name = key
+    obj.meta.name = key[0].toUpperCase() + key.slice(1)
   }
 }
 
@@ -43,12 +43,13 @@ export const useSchema = (
   db = 'default'
 ): { schema: BasedSchema; loading: boolean } => {
   const { data, loading } = useQuery('db:schema', { db }, { persistent: true })
-  // console.log(data)
-  if (!loading) {
+
+  if (data) {
     walkType(data.rootType, 'root')
     for (const key in data.types) {
       walkType(data.types[key], key)
     }
   }
+
   return { loading, schema: data || { types: {} } }
 }

@@ -29,7 +29,9 @@ export const itemTable = {
         startingPrice: true,
         picture: {
           id: true,
+          thumb: true,
           src: true,
+          mimeType: true,
         },
         type: true,
         children: true,
@@ -68,9 +70,10 @@ export const itemTable = {
       {
         width: 60,
         label: '',
-        key: 'picture.src',
+        key: ['picture.src'],
         type: 'reference',
-        meta: { type: 'file', mime: ['image/*'] },
+        // mimeType
+        mimeTypeKey: 'picture.mimeType',
       },
       {
         label: 'title',
@@ -266,7 +269,17 @@ export const contentEditModal = {
         name: 'Picture',
         key: 'picture',
         type: 'reference',
-        meta: { type: 'file', mime: ['video/mp4', 'image/png', 'image/jpg'] },
+        meta: {
+          type: 'file',
+          mime: [
+            'video/mp4',
+            'image/png',
+            'image/jpg',
+            'audio/*',
+            'text/*',
+            'font/*',
+          ],
+        },
       },
     ],
   },

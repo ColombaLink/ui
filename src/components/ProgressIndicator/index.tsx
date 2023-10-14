@@ -1,18 +1,21 @@
+import { Style, styled } from 'inlines'
 import React, { FC } from 'react'
 
 type ProgressIndicatorProps = {
   progress?: number
   circle?: boolean
+  style?: Style
 }
 
 export const ProgressIndicator: FC<ProgressIndicatorProps> = ({
   progress,
   circle,
+  style,
 }: ProgressIndicatorProps) => {
   const barProg = progress * 100
 
   return (
-    <>
+    <styled.div style={{ ...style }}>
       {!circle ? (
         <div
           style={{
@@ -78,6 +81,6 @@ export const ProgressIndicator: FC<ProgressIndicatorProps> = ({
           </svg>
         </div>
       )}
-    </>
+    </styled.div>
   )
 }

@@ -1,13 +1,6 @@
 import React from 'react'
 import ComponentViewer from '../ComponentViewer'
-import {
-  Text,
-  Avatar,
-  CalendarIcon,
-  CheckIcon,
-  styled,
-  LogGroups as LogsComp,
-} from '~'
+import { Text, Avatar, styled, LogGroups as LogsComp } from '~'
 
 export const LogGroups = () => {
   const testPerson = () => {
@@ -28,118 +21,6 @@ export const LogGroups = () => {
     )
   }
 
-  const testExample = [
-    {
-      type: 'authorize',
-      status: 'error',
-      msg: 'Flippie yeoo',
-      ts: 1087460313474,
-      subType: testPerson,
-      icon: CheckIcon,
-      color: 'accent',
-    },
-    {
-      type: 'authorize',
-      status: 'error',
-      msg: 'Flap 1',
-      ts: 1687460013474,
-      subType: testPerson,
-      icon: CheckIcon,
-      color: 'accent',
-    },
-    {
-      type: 'once-contact',
-      status: 'succes',
-      msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-      ts: 1387460373474,
-      subType: 'Contact your boy flip',
-      icon: CalendarIcon,
-      color: 'orange',
-    },
-    {
-      type: 'once-contact',
-      status: 'succes',
-      msg: 'Error: Incomplete form at contact (/home/ec2-user/data/env-hub/functions/11397579897987:4971:11)at Object.wrappedFn [as fn] (/home/ec2-user/services/env-hub/dist/index.js:114467:30)at sendFunction (/home/ec2-user/services/env-hub/dist/index.js:4783:12) at /home/ec2-user/services/env-hub/dist/index.js:3860:11',
-      ts: 1587460373474,
-      subType: 'Contact your boy flip',
-      icon: CalendarIcon,
-      color: 'orange',
-    },
-
-    {
-      type: 'authorize',
-      status: 'info',
-      msg: 'Authorize!',
-      ts: 1787460373474,
-      subType: 'Beep Boop....',
-      icon: CalendarIcon,
-      color: 'green',
-    },
-    {
-      type: 'authorize',
-      status: 'info',
-      msg: 'Authorize!',
-      ts: 1787460343474,
-      subType: 'Beep Boop....',
-      icon: CalendarIcon,
-      color: 'red',
-    },
-    {
-      type: 'authorize',
-      status: 'info',
-      msg: '🔔 Flap 2',
-      ts: 1687460373474,
-      subType: testPerson,
-      icon: CheckIcon,
-      color: 'accent',
-    },
-    {
-      type: 'authorize',
-      status: 'info',
-      msg: '🔔 Flap 3',
-      ts: 1687460323474,
-      subType: testPerson,
-      icon: CheckIcon,
-      color: 'accent',
-    },
-    {
-      type: 'once-contact',
-      status: 'succes',
-      msg: 'Hallloeaaaaaa 🧶: ',
-      ts: 1887460373474,
-      subType: testPerson,
-      icon: CalendarIcon,
-      color: 'orange',
-    },
-    {
-      type: 'once-contact',
-      status: 'succes',
-      msg: 'Hallloeafaewfawaewfaewfe 🧶: ',
-      ts: 1887460333474,
-      subType: testPerson,
-      icon: CalendarIcon,
-      color: 'orange',
-    },
-    {
-      type: 'once-contact',
-      status: 'succes',
-      msg: 'Hallloeaefeawfewaff 🧶: ',
-      ts: 1887460379474,
-      subType: testPerson,
-      icon: CalendarIcon,
-      color: 'orange',
-    },
-    {
-      type: 'once-contact',
-      status: 'succes',
-      msg: 'Hallloeafaewfawaewfaewfe 🧶: ',
-      ts: 1887460383474,
-      subType: testPerson,
-      icon: CalendarIcon,
-      color: 'orange',
-    },
-  ]
-
   const test = [
     {
       srvc: 'env-hub-poller',
@@ -149,6 +30,7 @@ export const LogGroups = () => {
       eid: 'enBBBFs9x0',
       msg: '/home/ec2-user/shared_modules/6c5adf95dcebbe650c257e54ede883a2bbc9d740/dist/index.js\n',
       lvl: 'info',
+
       ts: 1687803514771,
     },
     {
@@ -425,6 +307,7 @@ export const LogGroups = () => {
       srvc: 'env-db',
       i: '0',
       mid: 'ma2c3ce4ad',
+      subType: 'bla',
       url: '3.127.35.134',
       eid: 'enBBBFs9x0',
       msg: "Empty hierarchy initialized [ 'root', 'UPDATED' ]\n",
@@ -563,8 +446,9 @@ export const LogGroups = () => {
     },
   ]
 
-  const dataForNewLogs = test.map(({ srvc: type, ...rest }) => ({
+  const dataForNewLogs = test.map(({ srvc: type, lvl: status, ...rest }) => ({
     type,
+    status,
     ...rest,
   }))
 

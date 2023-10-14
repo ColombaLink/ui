@@ -16,6 +16,8 @@ import {
   Style,
   RowSpaced,
   removeOverlay,
+  ProgressIndicator,
+  VideoPlayer,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
@@ -26,9 +28,10 @@ type FileUploadProps = {
   descriptionBottom?: string
   indent?: boolean
   onChange?: (file: File[]) => void
-  // onChange?: (file: File[], onProgress: (p: number) => void) => void
   style?: Style
+  progress?: number
   disabled?: boolean
+  looseMime?: boolean
   mime?: string[]
   multiple?: boolean
   value?: [{ name?: string; type?: MimeType; src: string }]
@@ -50,10 +53,12 @@ export const FileUpload: FC<FileUploadProps> = ({
   descriptionBottom,
   indent,
   onChange,
+  progress,
   style,
   disabled,
   multiple,
   value,
+  looseMime,
   mime,
 }) => {
   let [uploadedFiles, setUploadedFiles] = usePropState(value)
@@ -63,23 +68,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const [, setIsFocused] = useState(false)
   const [urlInputValue, setUrlInputValue] = useState('')
   const [fileName, setFileName] = useState('')
-
-  // wrap onChange here
-  /*
-    onChange = (files)) => {
-      const [progress, setProgress] = useState(undefined)
-
-        onChangeFromProps(files, setProgress)
-    
-    }
-  */
-
-  // const [progress, setProgress] = useState(undefined)
-  // const onChangeFromProps = onChange
-  // onChange = (file, progress) => {
-  //   onChangeFromProps(file, setProgress)
-  //   console.log(progress)
-  // }
 
   const hiddenFileInput = useRef(null)
 
@@ -91,8 +79,6 @@ export const FileUpload: FC<FileUploadProps> = ({
   const { prompt } = useDialog()
   const fullScreenDialog = useDialog()
   const handleClickUpload = async () => {
-    // now we are gonna open new modal here
-
     let otherUrlInputValue = ''
 
     dialog.open(
@@ -106,7 +92,6 @@ export const FileUpload: FC<FileUploadProps> = ({
               fill
               textAlign="center"
               onClick={() => {
-                // upload
                 if (!disabled) {
                   hiddenFileInput.current.click()
                   removeOverlay()
@@ -266,39 +251,76 @@ export const FileUpload: FC<FileUploadProps> = ({
   }
 
   const renameFile = async (file, idx) => {
+    if (!file.src) {
+      file.src = URL.createObjectURL(file)
+    }
+
     const extension = file.name.split('.').pop()
-    const renameArr = [...uploadedFiles]
+    // const renameArr = [...uploadedFiles]
 
     const ok = await prompt('Rename file')
     if (ok && ok !== undefined) {
-      setFileName(ok + '.' + extension)
+      // setFileName(ok + '.' + extension)
 
-      renameArr[idx].name = ok + '.' + extension
-      setUploadedFiles([...renameArr])
+      file.name = ok + '.' + extension
+
+      // renameArr[idx].name = ok + '.' + extension
+      // setUploadedFiles([...renameArr])
     }
-    onChange([...renameArr])
+    // onChange([...renameArr])
   }
 
   const fullScreenView = (file) => {
+    // console.log('🌵', file)
+
     fullScreenDialog.open(
       <Dialog
-        style={{ overflow: 'hidden', padding: 0, '& div div': { padding: 0 } }}
+        style={{
+          overflow: 'hidden',
+          padding: 0,
+          '& div div': {
+            padding: 0,
+          },
+          '& div  ': {
+            overflow: 'hidden !important',
+            scrollbarGutter: 'auto !important',
+          },
+        }}
       >
-        <styled.img
-          src={file.src}
-          style={{
-            width: '100%',
-            height: '100%',
-            borderTopRightRadius: 8,
-            borderTopLeftRadius: 8,
-          }}
-        />
+        {file.type.includes('image') ? (
+          <styled.img
+            src={file.src}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderTopRightRadius: 8,
+              borderTopLeftRadius: 8,
+            }}
+          />
+        ) : file.type.includes('video') ? (
+          <VideoPlayer src={file.src} />
+        ) : file.type.includes('audio') ? (
+          <styled.div
+            style={{ padding: 24, textAlign: 'center', marginTop: 24 }}
+          >
+            <audio controls src={file.src}>
+              {file.src.slice(-3) === 'ogg' ? (
+                <source src={file.src} type="audio/ogg" />
+              ) : (
+                <source src={file.src} type="audio/mpeg" />
+              )}
+            </audio>
+          </styled.div>
+        ) : (
+          <Text style={{ margin: 16 }}>No preview available</Text>
+        )}
+
         <div>
           <RowSpaced
             style={{
               padding: '16px !important',
-              margin: '8px 16px',
-              marginBottom: ' -14px',
+              margin: '10px 16px',
+              marginBottom: ' -22px',
             }}
           >
             <Text typography="body500" color="text2">
@@ -326,12 +348,12 @@ export const FileUpload: FC<FileUploadProps> = ({
 
   // TODO: not working great yet ??
   const duplicateFile = (file, idx) => {
-    console.log('duplicate file', file, idx)
+    // console.log('duplicate file', file, idx)
 
     const dupliArr = [...uploadedFiles]
     dupliArr.splice(idx, 0, file)
 
-    console.log('dupliArr', dupliArr)
+    // console.log('dupliArr', dupliArr)
 
     setUploadedFiles([...dupliArr])
   }
@@ -345,8 +367,15 @@ export const FileUpload: FC<FileUploadProps> = ({
       hideClearButton
       style={style}
     >
-      <styled.div style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <styled.div
+        style={{
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          position: 'relative',
+        }}
+      >
+        <styled.div
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
           <Label
             label={label}
             labelColor={disabled ? 'text2' : 'text'}
@@ -357,13 +386,14 @@ export const FileUpload: FC<FileUploadProps> = ({
           {uploadedFiles.length > 0 && (
             <Button
               ghost
+              color="accent"
               onClick={() => clearFiles()}
               style={{ height: 'fit-content', marginBottom: 4 }}
             >
               Clear
             </Button>
           )}
-        </div>
+        </styled.div>
 
         {uploadedFiles?.length > 0 &&
           uploadedFiles.map((file, idx) => (
@@ -375,13 +405,24 @@ export const FileUpload: FC<FileUploadProps> = ({
               downloadFile={() => downloadFile(file)}
               duplicateFile={() => duplicateFile(file, idx)}
               openInNewTab={() => openInNewTab(uploadedFiles[idx].src)}
-              renameFile={() => renameFile(file, idx)}
-              fullScreenView={() => fullScreenView(file)}
+              renameFile={renameFile}
+              fileName={fileName}
+              fullScreenView={fullScreenView}
               key={idx}
               id={idx}
             />
           ))}
-        {/* // end map */}
+
+        {progress > 0 && progress < 1 ? (
+          <styled.div style={{ display: 'flex', alignItems: 'center' }}>
+            <ProgressIndicator
+              circle
+              progress={progress}
+              style={{ position: 'absolute', left: 16, top: 70 }}
+            />
+          </styled.div>
+        ) : null}
+
         <StyledFileInput
           onClick={handleClickUpload}
           onDragOver={(e) => {
@@ -411,21 +452,31 @@ export const FileUpload: FC<FileUploadProps> = ({
         >
           <UploadIcon />
           {draggingOver ? (
-            <Text>Drop to upload</Text>
+            <Text typography="body500" style={{ marginLeft: 6 }}>
+              Drop to upload
+            </Text>
           ) : uploadedFiles.length > 0 && !multiple ? (
-            <Text>{!multiple ? 'Replace file' : 'Upload new file'}</Text>
+            <Text typography="body500" style={{ marginLeft: 6 }}>
+              {!multiple ? 'Replace file' : 'Upload new file'}
+            </Text>
           ) : (
-            <Text>{multiple ? 'Select your files' : 'Upload new file'}</Text>
+            <Text typography="body500" style={{ marginLeft: 6 }}>
+              {multiple ? 'Select your files' : 'Upload new file'}
+            </Text>
           )}
         </StyledFileInput>
         {/* hide the real input field */}
 
         <input
           ref={hiddenFileInput}
-          onChange={(e) => changeHandler(e)}
+          onChange={(e) => {
+            // console.log('-->??', e)
+            changeHandler(e)
+          }}
           type="file"
           style={{ display: 'none' }}
-          accept={mime ? mime?.join(',') : '/*'}
+          accept={!looseMime && mime ? mime?.join(',') : '/*'}
+          // onLoadedData={(e) => console.log('ARRR', e)}
           key={clearCount}
           multiple={multiple}
         />

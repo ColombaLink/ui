@@ -121,15 +121,15 @@ export const HubSettings: FC<SettingProps> = ({
         },
         sharedPort: {
           type: 'boolean',
-          label: 'Shared port',
+          label: 'Enable shared port',
         },
         disableRest: {
           type: 'boolean',
-          label: 'Disable rest',
+          label: 'Disable REST',
         },
         disableWs: {
           type: 'boolean',
-          label: 'Disable ws',
+          label: 'Disable WebSockets',
         },
         isDebug: {
           type: 'boolean',
@@ -137,7 +137,7 @@ export const HubSettings: FC<SettingProps> = ({
         },
         disableAllSecurity: {
           type: 'boolean',
-          label: 'Disable All Security Features',
+          label: 'Disable security features',
         },
       }}
     />
@@ -168,13 +168,13 @@ export const DbSettings: FC<SettingProps> = ({
                 description: 'Instance name',
               }
             : null,
-        noBackUps: {
+        noSave: {
           type: 'boolean',
-          label: 'Disable Backups',
+          label: 'Disable backups',
         },
         noIndexing: {
           type: 'boolean',
-          label: 'Disable Dynamic Indexing',
+          label: 'Disable dynamic indexing',
         },
         isDebug: {
           type: 'boolean',
