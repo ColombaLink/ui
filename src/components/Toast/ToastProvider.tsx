@@ -25,7 +25,7 @@ export const ToastContainer = ({
 
     const timer = setTimeout(() => {
       setFade(true)
-    }, 5000e3)
+    }, 5e3)
 
     return () => clearTimeout(timer)
   }, [])
