@@ -25,7 +25,7 @@ export const ToastContainer = ({
 
     const timer = setTimeout(() => {
       setFade(true)
-    }, 5e3)
+    }, 5000e3)
 
     return () => clearTimeout(timer)
   }, [])
@@ -195,13 +195,13 @@ export const ToastProvider = ({
           positionFlipped && toastRef.current.close()
         }}
         style={{
-          // TODO FIX THIS
-          //     zIndex: 99999999999,
+          zIndex: 10000,
           top: positionFlipped ? 15 : '',
           transition: positionFlipped ? '' : 'transform 0.3s',
           position: positionFlipped ? 'absolute' : 'static',
           marginLeft: 'auto',
-
+          paddingLeft: 16,
+          paddingRight: 16,
           ...positionStyleRef.current,
         }}
       >
@@ -216,7 +216,7 @@ export const ToastProvider = ({
   })
 
   useEffect(() => {
-    if (length > 3) {
+    if (length > 2) {
       setPositionFlipped(true)
     }
     if (length === 0) {
@@ -258,12 +258,14 @@ export const ToastProvider = ({
         style={{
           display: 'flex',
           flexDirection: 'column',
-          width: 400,
-          position: 'absolute',
+//          width: 400,
+//          position: 'absolute',
+          
           bottom: !positionFlipped ? 16 : '',
           right: positionFlipped ? 0 : 16,
           top: positionFlipped ? 0 : '',
           minHeight: positionFlipped && toastHeightY,
+          marginTop: 16
         }}
       >
         {toasts.reverse()}
