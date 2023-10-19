@@ -103,7 +103,7 @@ export const Login: FC<LoginProps> = ({
           placeholder="Password"
           onChange={(e) => {
               // @ts-ignore wrong type definition
-                setPassword(e.target.value)
+                setPassword(e)
           }}
           style={{ marginBottom: 24 }}
         />
