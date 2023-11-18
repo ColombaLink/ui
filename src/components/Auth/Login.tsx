@@ -101,9 +101,8 @@ export const Login: FC<LoginProps> = ({
           icon={LockIcon}
           type="password"
           placeholder="Password"
-          onChange={(e) => {
-              // @ts-ignore wrong type definition
-                setPassword(e.target.value)
+          onChange={(password) => {
+                setPassword(password)
           }}
           style={{ marginBottom: 24 }}
         />
