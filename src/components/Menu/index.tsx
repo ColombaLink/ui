@@ -4,7 +4,7 @@ import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
-import { ChevronDownIcon } from '~/icons'
+import { ChevronUpIcon } from '~/icons'
 import { Style, styled } from 'inlines'
 
 const Click = styled('div', {
@@ -122,7 +122,7 @@ const HideableStyledDiv = styled('div', {
   },
 })
 
-const StyledChevron = styled(ChevronDownIcon, {
+const StyledChevron = styled(ChevronUpIcon, {
   transition: 'transform 0.2s',
   '&.closed': {
     transform: 'rotate(180deg)',
