@@ -144,11 +144,12 @@ export const InputWrapper: FC<InputWrapperProps> = ({
             style={{
               display: 'flex',
               gap: 6,
+              flexDirection: 'row',
               alignItems: 'center',
               marginTop: 6,
             }}
           >
-            <ErrorIcon color="red" size={16} />
+            <ErrorIcon style={{ marginBottom: '1em' }} color="red" size={16} />
             <Text color="red">{errorMessage}</Text>
           </styled.div>
         )}
