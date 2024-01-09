@@ -36,6 +36,7 @@ const PLACEHOLDERS: Record<InputType, string> = {
   search: 'Search...',
   markdown: 'Markdown',
   number: 'Number',
+  integer: 'Number',
   date: 'Date',
   json: 'JSON',
   multiline: 'Multiline text',
@@ -53,6 +54,7 @@ type InputType =
   | 'color'
   | 'markdown'
   | 'number'
+  | 'integer'
   | 'date'
   | 'json'
   | 'multiline'
@@ -145,7 +147,7 @@ export const Input = <T extends InputType>({
   const onChange = useCallback(
     (e: { target: { value: string } }) => {
       const newValue = transform ? transform(e.target.value) : e.target.value
-      if (type === 'number') {
+      if (type === 'number' || type === 'integer') {
         setValue(+e.target.value)
         // @ts-ignore
         onChangeProp?.(+newValue)
@@ -251,7 +253,12 @@ export const Input = <T extends InputType>({
       ) : type === 'digest' ? (
         <DigestInput {...props} disabled={!!valueProp} />
       ) : type === 'password' ? (
-        <PasswordInput {...props} large={large} disabled={!!valueProp} setErrorMessage={setErrorMessage}/>
+        <PasswordInput
+          {...props}
+          large={large}
+          disabled={!!valueProp}
+          setErrorMessage={setErrorMessage}
+        />
       ) : type === 'date' ? (
         <DateWidget onChange={() => onChange} value={value} time={time} />
       ) : type === 'url' ? (
@@ -285,7 +292,7 @@ export const Input = <T extends InputType>({
                 onChange({ target: { value: '' } })
               }
               // for some reason pressing . in number input changed the value to one
-              if (e.key === '.' && type === 'number') {
+              if (e.key === '.' && type === 'integer') {
                 e.preventDefault()
               }
               props.onKeyDown?.(e)

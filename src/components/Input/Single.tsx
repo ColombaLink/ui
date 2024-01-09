@@ -120,7 +120,7 @@ export const Single: FC<SingleProps> = ({
           })
         : null}
 
-      {type === 'number' && (
+      {(type === 'number' || type === 'integer') && (
         <NumberInput value={props.value} onChange={props.onChange} />
       )}
     </styled.div>
