@@ -286,12 +286,22 @@ export const Input = <T extends InputType>({
           <Single
             {...props}
             onKeyDown={(e) => {
+              // Ignore space key
+              if (e.key === ' ' || e.code === 'Space') {
+                e.preventDefault()
+                return
+              }
+
               // now you can remove the zero in input fields
               if (e.key === 'Backspace' && value.toString().length === 1) {
                 setValue('')
                 onChange({ target: { value: '' } })
               }
-              // for some reason pressing . in number input changed the value to one
+              // Prevent '.' at the beginning
+              if (e.key === '.' && props.value === '') {
+                e.preventDefault()
+                return
+              }
               if (e.key === '.' && type === 'integer') {
                 e.preventDefault()
               }
