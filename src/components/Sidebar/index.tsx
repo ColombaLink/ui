@@ -1,4 +1,4 @@
-import React, {
+import {
   FC,
   useRef,
   ReactNode,
@@ -28,8 +28,8 @@ type SideBarItem = {
 type SideBarData =
   | SideBarItem[]
   | {
-      [key: string]: ReactNode | SideBarItem
-    }
+    [key: string]: ReactNode | SideBarItem
+  }
 
 type SidebarProps = {
   data?: SideBarData
@@ -87,8 +87,8 @@ const SidebarItem: FC<SidebarItemProps> = ({
           '&:hover': isActive
             ? null
             : {
-                backgroundColor: color('background:hover'),
-              },
+              backgroundColor: color('background:hover'),
+            },
         },
         '& svg': {
           minWidth: '20px',

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, FunctionComponent } from 'react'
+import { CSSProperties, FC, ReactNode, FunctionComponent } from 'react'
 import {
   border,
   color,
@@ -76,8 +76,8 @@ export const Badge: FC<BadgeProps> = ({
         '@media (hover: hover)': {
           '&:hover': onClick
             ? {
-                backgroundColor: color(colorProp, 'hover', true),
-              }
+              backgroundColor: color(colorProp, 'hover', true),
+            }
             : null,
         },
         ...style,

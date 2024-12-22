@@ -1,4 +1,4 @@
-import React, { FC, useState, CSSProperties, ReactNode } from 'react'
+import { FC, useState, CSSProperties, ReactNode } from 'react'
 import { styled } from 'inlines'
 import { color } from '~/utils'
 

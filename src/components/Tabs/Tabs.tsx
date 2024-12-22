@@ -1,4 +1,4 @@
-import React, {
+import {
   FC,
   ReactNode,
   CSSProperties,
@@ -8,6 +8,7 @@ import React, {
   useState,
   useCallback,
   ReactElement,
+  Children,
 } from 'react'
 import { color, font, renderOrCreateElement } from '~/utils'
 import { styled } from 'inlines'
@@ -37,56 +38,56 @@ const TabWrapper: FC<{
   setHoverTab,
   setActiveTabInternal,
 }) => {
-  const icon = children?.props?.icon
+    const icon = children?.props?.icon
 
-  return (
-    <styled.div
-      style={{
-        borderTop: '1px solid transparent',
-        height: !large ? 42 - 3 : 66 - 3,
-        padding: !large ? '8px 12px 18px 8px' : '12px',
-        display: 'flex',
-        cursor: 'pointer',
-        alignItems: 'center',
-        ...(index === activeTabState
-          ? font({ size: 15, weight: 600 })
-          : font({ size: 15, color: 'text2' })),
-        borderBottom:
-          index === activeTabState
-            ? `3px solid ${color('text')}`
-            : '3px solid transparent',
-        '@media (hover: hover)': {
-          '&:hover': {
-            color: index !== activeTabState && color('text'),
+    return (
+      <styled.div
+        style={{
+          borderTop: '1px solid transparent',
+          height: !large ? 42 - 3 : 66 - 3,
+          padding: !large ? '8px 12px 18px 8px' : '12px',
+          display: 'flex',
+          cursor: 'pointer',
+          alignItems: 'center',
+          ...(index === activeTabState
+            ? font({ size: 15, weight: 600 })
+            : font({ size: 15, color: 'text2' })),
+          borderBottom:
+            index === activeTabState
+              ? `3px solid ${color('text')}`
+              : '3px solid transparent',
+          '@media (hover: hover)': {
+            '&:hover': {
+              color: index !== activeTabState && color('text'),
+            },
           },
-        },
-      }}
-      onClick={() => {
-        setHoverTab(-1)
-        setActiveTabInternal(index)
-      }}
-      onMouseEnter={useCallback(() => {
-        setHoverTab(index)
-      }, [])}
-      onMouseLeave={useCallback(() => {
-        setHoverTab(-1)
-      }, [])}
-      key={index}
-    >
-      <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
+        }}
+        onClick={() => {
+          setHoverTab(-1)
+          setActiveTabInternal(index)
+        }}
+        onMouseEnter={useCallback(() => {
+          setHoverTab(index)
+        }, [])}
+        onMouseLeave={useCallback(() => {
+          setHoverTab(-1)
+        }, [])}
+        key={index}
+      >
+        <div style={{ marginRight: 10 }}>{renderOrCreateElement(icon)}</div>
 
-      {typeof children === 'string' ? (
-        <Text
-          typography={index === activeTabState ? 'subtext600' : 'subtext500'}
-        >
-          {children}
-        </Text>
-      ) : (
-        <>{children.props.label}</>
-      )}
-    </styled.div>
-  )
-}
+        {typeof children === 'string' ? (
+          <Text
+            typography={index === activeTabState ? 'subtext600' : 'subtext500'}
+          >
+            {children}
+          </Text>
+        ) : (
+          <>{children.props.label}</>
+        )}
+      </styled.div>
+    )
+  }
 
 export const Tabs: FC<TabsProps> = ({
   children,
@@ -97,7 +98,7 @@ export const Tabs: FC<TabsProps> = ({
   sameHeight,
   ...props
 }) => {
-  const arrayChildren: Object[] = React.Children.toArray(children)
+  const arrayChildren: Object[] = Children.toArray(children)
   let activeTabState: number = activeTab
   let setActiveTabInternal: (index: number) => void = setActiveTab
   if (!setActiveTab) {

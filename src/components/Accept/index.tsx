@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { CheckIcon, Button, CloseIcon, Row, Style } from '~'
 
 export const Accept = <T,>({

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   styled,
   color,
@@ -143,8 +143,8 @@ export const UploadedFileItem = ({
       )}
 
       {file?.type?.includes('image') ||
-      file?.type?.includes('video') ||
-      file?.type?.includes('audio') ? null : (
+        file?.type?.includes('video') ||
+        file?.type?.includes('audio') ? null : (
         <AttachmentIcon />
       )}
       <Text

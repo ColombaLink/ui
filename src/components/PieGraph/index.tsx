@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState, useRef } from 'react'
+import { FC, Fragment, useState, useRef } from 'react'
 import { color } from '~/utils'
 import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
@@ -195,15 +195,15 @@ export const PieGraph: FC<PieGraphProps> = ({
                   borderRadius: size / 2,
                   background: colorProp
                     ? `conic-gradient(${color(
-                        colorProp
-                      )} calc(${percentagePerObject[
-                        idx
-                      ].toFixed()}*1%),#0000 0)`
+                      colorProp
+                    )} calc(${percentagePerObject[
+                      idx
+                    ].toFixed()}*1%),#0000 0)`
                     : `conic-gradient(${color(
-                        'accent'
-                      )} calc(${percentagePerObject[
-                        idx
-                      ].toFixed()}*1%),#0000 0)`,
+                      'accent'
+                    )} calc(${percentagePerObject[
+                      idx
+                    ].toFixed()}*1%),#0000 0)`,
                   transform: `rotate(${percentageToDegrees(tempCounter)}deg)`,
                   opacity: `calc(1 - 0.${idx * 1})`,
                 }}

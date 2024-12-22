@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, useRef } from 'react'
+import { CSSProperties, FC, ReactNode, useRef } from 'react'
 import { color } from '~'
 import { useSortable } from '@dnd-kit/sortable'
 
@@ -41,9 +41,9 @@ export const Draggable: FC<{
     marginBottom: 12,
     marginLeft: draggingOverObjectId
       ? getDepth(
-          draggingOverObjectId.split('.'),
-          draggingOverObjectId === id ? 0 : 1
-        ) * 24
+        draggingOverObjectId.split('.'),
+        draggingOverObjectId === id ? 0 : 1
+      ) * 24
       : 0,
   }
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Color, color } from '~/utils'
 import { LineGraphData, Point } from './types'
 import {
@@ -150,7 +150,7 @@ export const genPaths = ({
         const { minY, maxY } = getMinMax(data[key].data)
         data[key].minY = minY
         data[key].maxY = maxY
-        ;({ globalMaxY, globalMinY } = getGlobalMinMax(data))
+          ; ({ globalMaxY, globalMinY } = getGlobalMinMax(data))
         ySpread = globalMaxY - globalMinY
         pxValue = ySpread / height
       }

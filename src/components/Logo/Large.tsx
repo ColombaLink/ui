@@ -1,4 +1,4 @@
-import React, { SVGProps, FC } from 'react'
+import { SVGProps, FC } from 'react'
 
 export const LargeLogo: FC<SVGProps<SVGSVGElement>> = (props) => {
   return (

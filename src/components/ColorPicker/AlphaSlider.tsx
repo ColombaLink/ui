@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import { CSSProperties } from 'react'
 import { Slider } from './Slider'
 import type { RGB } from './types'
 import { transparent } from './bg'

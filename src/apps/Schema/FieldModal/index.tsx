@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { Dialog } from '~/components/Dialog'
 import { Tab, Tabs } from '~/components/Tabs'
 import { Thumbnail } from '~/components/Thumbnail'
@@ -169,17 +169,17 @@ const general = {
 
 export const FieldModal: FC<
   | {
-      type: string
-      field: string
-      template?: FieldTemplates
-      path?: string[]
-    }
+    type: string
+    field: string
+    template?: FieldTemplates
+    path?: string[]
+  }
   | {
-      type: string
-      field?: string
-      template: FieldTemplates
-      path?: string[]
-    }
+    type: string
+    field?: string
+    template: FieldTemplates
+    path?: string[]
+  }
 > = ({ type, field, template, path = [] }) => {
   const { schema, loading } = useSchema()
   const [generalDisabled, setGeneralDisabled] = useState(true)
@@ -197,7 +197,7 @@ export const FieldModal: FC<
     type === 'root'
       ? schema?.rootType?.fields
       : // @ts-ignore  is this an issue?
-        path.reduce((fields, key) => fields[key], types[type].fields)
+      path.reduce((fields, key) => fields[key], types[type].fields)
 
   if (!template) {
     if (field) {
@@ -338,7 +338,7 @@ export const FieldModal: FC<
                   options.meta.maxChar = e
                 }}
 
-                // input max chars = this
+              // input max chars = this
               />
               <Checkbox
                 style={{ marginBottom: 24 }}

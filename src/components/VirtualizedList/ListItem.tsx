@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useCallback, useEffect } from 'react'
+import { CSSProperties, useRef, useCallback, useEffect } from 'react'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
 import { useDrag, useDrop } from '~/hooks'
 import { useSelect, useClick } from './hooks/useSelect'
@@ -132,21 +132,21 @@ export const ListItem = ({
           backgroundColor: isSelected
             ? 'orange'
             : isDragging
-            ? color('background2')
-            : color('background'),
+              ? color('background2')
+              : color('background'),
         }}
         {...useMultipleEvents(
           drag,
           select,
           onClick
             ? {
-                onClick: useClick(
-                  (e) => {
-                    onClick(e, wrappedData)
-                  },
-                  [onClick, wrappedData]
-                ),
-              }
+              onClick: useClick(
+                (e) => {
+                  onClick(e, wrappedData)
+                },
+                [onClick, wrappedData]
+              ),
+            }
             : undefined
         )}
       >

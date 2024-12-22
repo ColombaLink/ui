@@ -1,4 +1,4 @@
-import React, {
+import {
   FC,
   createElement,
   ReactNode,
@@ -156,41 +156,41 @@ const Cell = (props) => {
       onMouseEnter={
         onClick
           ? (e) => {
-              const t = e.currentTarget
-              let x = t
-              for (let i = 0; i < columnIndex + 1; i++) {
-                x.style.background = color('accent', true)
-                x = x.previousSibling
-              }
-              x = t
-              for (let i = 0; i < colls - columnIndex; i++) {
-                x.style.background = color('accent', true)
-                x = x.nextSibling
-              }
+            const t = e.currentTarget
+            let x = t
+            for (let i = 0; i < columnIndex + 1; i++) {
+              x.style.background = color('accent', true)
+              x = x.previousSibling
             }
+            x = t
+            for (let i = 0; i < colls - columnIndex; i++) {
+              x.style.background = color('accent', true)
+              x = x.nextSibling
+            }
+          }
           : null
       }
       onMouseLeave={
         onClick
           ? (e) => {
-              const t = e.currentTarget
-              let x = t
-              for (let i = 0; i < columnIndex + 1; i++) {
-                if (!x) {
-                  break
-                }
-                x.style.background = null
-                x = x.previousSibling
+            const t = e.currentTarget
+            let x = t
+            for (let i = 0; i < columnIndex + 1; i++) {
+              if (!x) {
+                break
               }
-              x = t
-              for (let i = 0; i < colls - columnIndex; i++) {
-                if (!x) {
-                  break
-                }
-                x.style.background = null
-                x = x.nextSibling
-              }
+              x.style.background = null
+              x = x.previousSibling
             }
+            x = t
+            for (let i = 0; i < colls - columnIndex; i++) {
+              if (!x) {
+                break
+              }
+              x.style.background = null
+              x = x.nextSibling
+            }
+          }
           : null
       }
       style={{
@@ -202,8 +202,8 @@ const Cell = (props) => {
       onClick={
         onClick
           ? (e) => {
-              onClick(e, rowData)
-            }
+            onClick(e, rowData)
+          }
           : null
       }
     >
@@ -226,7 +226,7 @@ const SizedGrid: FC<TableProps> = (props) => {
     itemCount = data.length,
     height = itemCount < 20 ? data.length * rowHeight + rowHeight : 400,
     columnCount = headers?.length ??
-      (data && data.length && Object.keys(data[0]).length),
+    (data && data.length && Object.keys(data[0]).length),
   } = props
 
   const headerWrapper = useRef(null)

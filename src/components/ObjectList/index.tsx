@@ -1,4 +1,4 @@
-import React, { CSSProperties, useState } from 'react'
+import { CSSProperties, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, EditIcon, Badge } from '~'
 
@@ -21,7 +21,7 @@ export const ObjectList = ({
   schema,
   onClick,
 }: /// ...props
-ObjectListProps) => {
+  ObjectListProps) => {
   const [insideObjectFields] = useState(schema.properties)
 
   return (

@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import { CSSProperties, FC, ReactNode } from 'react'
 import { color } from '~/utils'
 
 type RightSidebarProps = {

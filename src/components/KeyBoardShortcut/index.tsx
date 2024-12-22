@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Key, isTouchDevice, isMac } from '~'
 
 export const KeyBoardshortcut: FC<{ keyboardShortcut?: Key }> = ({

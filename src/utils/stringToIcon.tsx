@@ -1,4 +1,4 @@
-import React, { FC, createElement, useEffect } from 'react'
+import { FC, createElement, useEffect } from 'react'
 import { renderOrCreateElement } from '..'
 import * as ui from '..'
 import { IconProps } from '..'

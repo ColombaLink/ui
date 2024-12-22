@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import { CSSProperties, FC } from 'react'
 import { styled } from 'inlines'
 import { Text } from '../Text'
 import { Label } from '../Label'
@@ -80,16 +80,16 @@ export const RadioButtons: FC<RadioButtonsProps> = ({
                 border:
                   cards && index === checked
                     ? // @ts-ignore
-                      `1px solid ${color(`light${colorProp}:border`)}`
+                    `1px solid ${color(`light${colorProp}:border`)}`
                     : cards
-                    ? `1px solid ${color('border')}`
-                    : 'none',
+                      ? `1px solid ${color('border')}`
+                      : 'none',
                 padding: cards ? '12px 12px 20px 12px' : 0,
                 borderRadius: 8,
                 backgroundColor:
                   cards && index === checked
                     ? // @ts-ignore
-                      color('light' + colorProp)
+                    color('light' + colorProp)
                     : 'transparent',
               }}
             >

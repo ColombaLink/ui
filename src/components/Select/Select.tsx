@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { Value, Option } from '~/components/ContextMenu'
 import {
   styled,
@@ -131,8 +131,8 @@ export const Select: FC<SelectProps> = ({
         disabled
           ? null
           : (e) => {
-              open(e)
-            }
+            open(e)
+          }
       }
       style={style}
     >
@@ -144,8 +144,8 @@ export const Select: FC<SelectProps> = ({
         disabled
           ? null
           : (e) => {
-              open(e)
-            }
+            open(e)
+          }
       }
       style={{
         boxShadow: ghost ? null : boxShadow('medium'),

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { SchemaMain } from './SchemaMain'
 import { SchemaLeft } from './SchemaLeft'
 import { Style } from 'inlines'

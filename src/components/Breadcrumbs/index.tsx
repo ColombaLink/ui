@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, MouseEvent } from 'react'
+import { FC, ReactNode, MouseEvent } from 'react'
 import { Text, ChevronRightIcon, styled, Style } from '~'
 
 type BreadcrumbsProps = {
@@ -36,16 +36,16 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
         const onClick =
           typeof el === 'function'
             ? (e) => {
-                if (onChange) {
-                  onChange(key)
-                }
-                el(e)
+              if (onChange) {
+                onChange(key)
               }
+              el(e)
+            }
             : () => {
-                if (onChange) {
-                  onChange(key)
-                }
+              if (onChange) {
+                onChange(key)
               }
+            }
         const label =
           typeof el === 'function' ? (
             <Text

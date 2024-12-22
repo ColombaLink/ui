@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, Fragment, ReactNode } from 'react'
+import { CSSProperties, FC, Fragment, ReactNode } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
@@ -66,17 +66,17 @@ export const MenuItem: FC<SystemMenuItemProps> = ({
           '@media (hover: hover)': {
             '&:hover': !isActive
               ? {
-                  backgroundColor: color('background:hover'),
-                  color: `${color('text')} !important`,
-                }
+                backgroundColor: color('background:hover'),
+                color: `${color('text')} !important`,
+              }
               : null,
           },
         }}
       >
         {typeof children === 'function'
           ? children({
-              isActive,
-            })
+            isActive,
+          })
           : children}
       </StyledLink>
     </Text>
@@ -115,13 +115,13 @@ export const Menu: FC<{
       const href = data[key]
       return typeof href === 'object'
         ? {
-            label: key,
-            items: href,
-          }
+          label: key,
+          items: href,
+        }
         : {
-            label: key,
-            href,
-          }
+          label: key,
+          href,
+        }
     })
   }
 

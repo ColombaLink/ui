@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { styled, color } from '~'
 
 type CalendarProps = {
@@ -120,8 +120,8 @@ export const Calendar = ({
               style={{
                 border:
                   val.day === presentDay &&
-                  +selectedMonth === currentMonth + 1 &&
-                  +selectedYear === currentYear
+                    +selectedMonth === currentMonth + 1 &&
+                    +selectedYear === currentYear
                     ? `1px solid ${color('accent')}`
                     : '',
                 background: val.day === +selectedDay ? color('accent') : '',

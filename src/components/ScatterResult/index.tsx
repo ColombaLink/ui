@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState, useRef } from 'react'
+import { FC, useEffect, useState, useRef } from 'react'
 import { Text, Button, ExpandRightIcon, useTooltip } from '~'
 import { color } from '~/utils'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
@@ -275,9 +275,8 @@ const ScatterInner: FC<
                   transition: isDragging
                     ? 'transform 0.1s, background 0.1s'
                     : 'transform 1s, background 0.15s',
-                  transform: `translate3d(${
-                    (v.x - minX) * pxRatios[0] - 20
-                  }px,${(maxY - v.y) * pxRatios[1] - 20}px,0px)`,
+                  transform: `translate3d(${(v.x - minX) * pxRatios[0] - 20
+                    }px,${(maxY - v.y) * pxRatios[1] - 20}px,0px)`,
                   top: 0,
                   left: 0,
                   width: 40,
@@ -383,9 +382,8 @@ const ScatterSlider: FC<{
           style={{
             position: 'absolute',
             left: 0,
-            transform: `translate3d(${
-              index * ((width - 120) / data.length)
-            }px,0px,0px)`,
+            transform: `translate3d(${index * ((width - 120) / data.length)
+              }px,0px,0px)`,
             transitionTimingFunction: 'linear',
             transition: isDragging ? null : 'transform 1s',
             top: 0,

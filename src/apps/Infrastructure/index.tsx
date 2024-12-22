@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Style, styled } from 'inlines'
 import { StateProvider, useContextState } from '~/hooks'
 import { Machines } from './Configs'
@@ -40,23 +40,23 @@ export const Infrastructure: FC<{
   },
   onChange,
 }) => {
-  if (!values.env) {
-    values.env = env
-  }
+    if (!values.env) {
+      values.env = env
+    }
 
-  return (
-    <styled.div
-      style={{
-        display: 'flex',
-        flexGrow: 1,
-        overflowX: 'hidden',
-        overflowY: 'hidden',
-        ...style,
-      }}
-    >
-      <StateProvider values={values} onChange={onChange}>
-        <Routes envAdminHub={envAdminHub} env={env} />
-      </StateProvider>
-    </styled.div>
-  )
-}
+    return (
+      <styled.div
+        style={{
+          display: 'flex',
+          flexGrow: 1,
+          overflowX: 'hidden',
+          overflowY: 'hidden',
+          ...style,
+        }}
+      >
+        <StateProvider values={values} onChange={onChange}>
+          <Routes envAdminHub={envAdminHub} env={env} />
+        </StateProvider>
+      </styled.div>
+    )
+  }

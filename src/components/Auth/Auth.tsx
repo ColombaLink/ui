@@ -1,4 +1,4 @@
-import React, { FC, useState, CSSProperties, ReactNode, useEffect } from 'react'
+import { FC, useState, CSSProperties, ReactNode, useEffect, createElement } from 'react'
 import { Container, Login, Register, ResetRequest } from '~'
 import { Tab, Tabs } from '../Tabs'
 import { LargeLogo } from '../Logo'
@@ -118,7 +118,7 @@ export const Authorize: FC<AuthProps> = ({
 
   if (user && user.userId) {
     if (app) {
-      return React.createElement(app, { user })
+      return createElement(app, { user })
     } else {
       return <div>Loggedin!</div>
     }

@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef, useState } from 'react'
+import { CSSProperties, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { InputWrapper } from '../Input/InputWrapper'
 import { Label, Button, AddIcon, Dialog, Input, Text } from '~'
@@ -122,9 +122,8 @@ export const ArrayList = ({
 
     const ok = await open(
       <Dialog
-        label={`Add new ${
-          itemType.charAt(0).toUpperCase() + itemType.slice(1)
-        } `}
+        label={`Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)
+          } `}
       >
         {itemType !== 'object' && (
           <Input
@@ -139,8 +138,8 @@ export const ArrayList = ({
                 typeof inputChanged === 'number'
                   ? inputChanged
                   : itemType === 'float'
-                  ? parseFloat(inputChanged)
-                  : parseInt(inputChanged)
+                    ? parseFloat(inputChanged)
+                    : parseInt(inputChanged)
             }}
           />
         )}
@@ -317,14 +316,14 @@ export const ArrayList = ({
         {itemType === 'string'
           ? 'String'
           : itemType === 'int'
-          ? 'Integer'
-          : itemType === 'float'
-          ? 'Float'
-          : itemType === 'digest'
-          ? 'Digest'
-          : itemType === 'object'
-          ? 'Object'
-          : 'item'}
+            ? 'Integer'
+            : itemType === 'float'
+              ? 'Float'
+              : itemType === 'digest'
+                ? 'Digest'
+                : itemType === 'object'
+                  ? 'Object'
+                  : 'item'}
       </Button>
     </InputWrapper>
   )

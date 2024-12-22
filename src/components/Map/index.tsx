@@ -1,4 +1,4 @@
-import React, {
+import {
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -59,7 +59,7 @@ export const EmbeddedMap = forwardRef(({ data }: EmbeddedMapProps, ref) => {
   useEffect(() => {
     if (map.current) {
       updateCircleRadius({ data, map: map.current })
-      ;(map.current.getSource('values') as mapboxgl.GeoJSONSource).setData(data)
+        ; (map.current.getSource('values') as mapboxgl.GeoJSONSource).setData(data)
     }
   }, [map, data])
 

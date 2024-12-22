@@ -1,4 +1,4 @@
-import React, { ReactNode, useState, useRef, useEffect } from 'react'
+import { ReactNode, useState, useRef, useEffect } from 'react'
 import { Color, Icon } from '~/types'
 import { Style, styled } from 'inlines'
 import {
@@ -340,10 +340,10 @@ const GroupedLogsHeader = ({ ts, color, type, status, subType, msg }) => {
                 status === 'error'
                   ? color('red')
                   : status === 'succes'
-                  ? color('green')
-                  : status === 'info'
-                  ? color('accent')
-                  : color('border'),
+                    ? color('green')
+                    : status === 'info'
+                      ? color('accent')
+                      : color('border'),
             }}
           />
           <Text style={{ marginLeft: 8 }}>{type}</Text>

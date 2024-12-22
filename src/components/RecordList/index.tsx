@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { InputWrapper } from '../Input/InputWrapper'
 import { EditIcon, AddIcon } from '~/icons'
 import { Button } from '~/components/Button'
@@ -25,7 +25,7 @@ export const RecordList = ({
   onClick,
   onChange,
 }: // ...props
-RecordListProps) => {
+  RecordListProps) => {
   const { open } = useDialog()
   const [tempObj, setTempObj] = useState({})
 

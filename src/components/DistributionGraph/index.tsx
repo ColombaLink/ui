@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { Text, Style, styled, Color, color } from '~'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
 

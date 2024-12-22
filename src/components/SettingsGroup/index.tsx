@@ -1,4 +1,4 @@
-import React, { FC, useMemo, ReactNode, useRef, useState } from 'react'
+import { FC, useMemo, ReactNode, useRef, useState, isValidElement } from 'react'
 import {
   Input,
   Label,
@@ -57,23 +57,103 @@ export const SettingsField: FC<{
   style,
   onChange,
 }) => {
-  if (!label) {
-    label = useMemo(
-      () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
-      [field]
-    )
-  }
+    if (!label) {
+      label = useMemo(
+        () => field[0].toUpperCase() + field.slice(1).replace('.', ' '),
+        [field]
+      )
+    }
 
-  if ((defaultValue && value === undefined) || value === '') {
-    value = defaultValue
-  }
+    if ((defaultValue && value === undefined) || value === '') {
+      value = defaultValue
+    }
 
-  if (options) {
+    if (options) {
+      return (
+        <Label
+          style={{
+            margin: 8,
+            marginBottom: 16,
+            ...style,
+          }}
+          labelWidth={width}
+          direction="row"
+          label={label}
+          description={description}
+        >
+          <Select
+            value={value}
+            style={{ width: fieldWidth }}
+            onChange={(v) => {
+              onChange(field, v)
+            }}
+            options={options}
+          />
+        </Label>
+      )
+    }
+
+    if (type === 'range') {
+      return (
+        <Label
+          style={{
+            margin: 8,
+            marginBottom: 16,
+            ...style,
+          }}
+          labelWidth={width}
+          direction="row"
+          label={label}
+          description={description}
+        >
+          <Row style={{ minWidth: fieldWidth }}>
+            <Input
+              onChange={(v) => {
+                onChange(field, {
+                  min: v,
+                  max: v > value?.max ? v : value?.max ?? v,
+                })
+              }}
+              value={value?.min}
+              style={{ width: 90, marginRight: 8 }}
+              type="number"
+              placeholder="Min"
+            />
+            <Input
+              onChange={(v) => {
+                onChange(field, {
+                  max: v,
+                  min: v < value?.min ? v : value?.min ?? 0,
+                })
+              }}
+              value={value?.max}
+              style={{ width: 90 }}
+              type="number"
+              placeholder="Max"
+            />
+          </Row>
+        </Label>
+      )
+    }
+
+    if (type === 'boolean') {
+      return (
+        <Checkbox
+          value={value}
+          onChange={(v) => onChange(field, v)}
+          style={{
+            marginBottom: 16,
+            marginRight: 32,
+          }}
+          label={label}
+        />
+      )
+    }
+
     return (
       <Label
         style={{
           margin: 8,
-          marginBottom: 16,
           ...style,
         }}
         labelWidth={width}
@@ -81,96 +161,16 @@ export const SettingsField: FC<{
         label={label}
         description={description}
       >
-        <Select
-          value={value}
-          style={{ width: fieldWidth }}
-          onChange={(v) => {
-            onChange(field, v)
-          }}
-          options={options}
+        <Input
+          style={{ minWidth: fieldWidth, width: '100%' }}
+          placeholder={label}
+          value={value ?? ''}
+          type={type || 'text'}
+          onChange={(v) => onChange(field, v)}
         />
       </Label>
     )
   }
-
-  if (type === 'range') {
-    return (
-      <Label
-        style={{
-          margin: 8,
-          marginBottom: 16,
-          ...style,
-        }}
-        labelWidth={width}
-        direction="row"
-        label={label}
-        description={description}
-      >
-        <Row style={{ minWidth: fieldWidth }}>
-          <Input
-            onChange={(v) => {
-              onChange(field, {
-                min: v,
-                max: v > value?.max ? v : value?.max ?? v,
-              })
-            }}
-            value={value?.min}
-            style={{ width: 90, marginRight: 8 }}
-            type="number"
-            placeholder="Min"
-          />
-          <Input
-            onChange={(v) => {
-              onChange(field, {
-                max: v,
-                min: v < value?.min ? v : value?.min ?? 0,
-              })
-            }}
-            value={value?.max}
-            style={{ width: 90 }}
-            type="number"
-            placeholder="Max"
-          />
-        </Row>
-      </Label>
-    )
-  }
-
-  if (type === 'boolean') {
-    return (
-      <Checkbox
-        value={value}
-        onChange={(v) => onChange(field, v)}
-        style={{
-          marginBottom: 16,
-          marginRight: 32,
-        }}
-        label={label}
-      />
-    )
-  }
-
-  return (
-    <Label
-      style={{
-        margin: 8,
-        ...style,
-      }}
-      labelWidth={width}
-      direction="row"
-      label={label}
-      description={description}
-    >
-      <Input
-        style={{ minWidth: fieldWidth, width: '100%' }}
-        placeholder={label}
-        value={value ?? ''}
-        type={type || 'text'}
-        onChange={(v) => onChange(field, v)}
-      />
-    </Label>
-  )
-}
 
 export type SettingGroupItem = {
   label?: ReactNode
@@ -189,13 +189,13 @@ export type SettingsGroupProps = {
   onChange: (changes: { [field: string]: any }) => void | Promise<void>
   values?: { [field: string]: any }
   data?:
-    | SettingGroupItem[]
-    | {
-        [field: string]:
-          | null
-          | ReactNode
-          | (Omit<SettingGroupItem, 'field'> & { field?: string })
-      }
+  | SettingGroupItem[]
+  | {
+    [field: string]:
+    | null
+    | ReactNode
+    | (Omit<SettingGroupItem, 'field'> & { field?: string })
+  }
   alwaysAccept?: boolean
 }
 
@@ -292,7 +292,7 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
       if (item === null) {
         continue
       }
-      if (typeof item === 'object' && !React.isValidElement(item)) {
+      if (typeof item === 'object' && !isValidElement(item)) {
         // @ts-ignore
         parsedData.push({ ...item, field })
       } else {
@@ -322,8 +322,8 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
             d.value ??
             (hasChanges
               ? getValue(d.field, valuesChanged.current) ??
-                d.value ??
-                getValue(d.field, values)
+              d.value ??
+              getValue(d.field, values)
               : getValue(d.field, values))
           }
         />
@@ -339,8 +339,8 @@ export const SettingsGroup: FC<SettingsGroupProps> = ({
           value={
             hasChanges
               ? getValue(d.field, valuesChanged.current) ??
-                d.value ??
-                getValue(d.field, values)
+              d.value ??
+              getValue(d.field, values)
               : d.value ?? getValue(d.field, values)
           }
         />

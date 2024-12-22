@@ -1,5 +1,5 @@
 import { styled } from 'inlines'
-import React, {
+import {
   FC,
   useCallback,
   useState,
@@ -71,19 +71,19 @@ type onSelect = (
 
 export type Option =
   | {
-      value: Value
-      label?: ReactNode
-      icon?: FunctionComponent
-      divider?: boolean
-      onSelect?: onSelect
-    }
+    value: Value
+    label?: ReactNode
+    icon?: FunctionComponent
+    divider?: boolean
+    onSelect?: onSelect
+  }
   | {
-      value?: Value
-      label?: ReactNode
-      icon?: FunctionComponent
-      divider?: boolean
-      onSelect: onSelect
-    }
+    value?: Value
+    label?: ReactNode
+    icon?: FunctionComponent
+    divider?: boolean
+    onSelect: onSelect
+  }
 
 export type ContextOptionsFilterProps = {
   // eslint-disable-next-line
@@ -314,29 +314,29 @@ export const ContextOptions: FC<
   resize,
   noValue,
 }) => {
-  if (filterable) {
-    return (
-      <FilterableContextOptions
-        items={items}
-        value={value}
-        noValue={noValue}
-        onChange={onChange}
-        filterable={filterable}
-        placeholder={placeholder}
-        resize={resize}
-      />
-    )
-  } else {
-    return (
-      <ContextItems
-        noValue={noValue}
-        items={items}
-        onChange={onChange}
-        value={value}
-      />
-    )
+    if (filterable) {
+      return (
+        <FilterableContextOptions
+          items={items}
+          value={value}
+          noValue={noValue}
+          onChange={onChange}
+          filterable={filterable}
+          placeholder={placeholder}
+          resize={resize}
+        />
+      )
+    } else {
+      return (
+        <ContextItems
+          noValue={noValue}
+          items={items}
+          onChange={onChange}
+          value={value}
+        />
+      )
+    }
   }
-}
 
 const selectValuesReducer = (state: Value[], action: Value): Value[] => {
   if (state.includes(action)) {
@@ -485,84 +485,84 @@ const FilterableContextMultiOptions: FC<
   placeholder = 'Filter...',
   filterable,
 }) => {
-  const [f, setFilter] = useState('')
-  const onFilter: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
-    setFilter(e.target.value)
-    if (resize) {
-      resize()
+    const [f, setFilter] = useState('')
+    const onFilter: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+      setFilter(e.target.value)
+      if (resize) {
+        resize()
+      }
+    }, [])
+    const [currentValues, setValue] = useReducer(selectValuesReducer, values)
+
+    let filteredItems = filterItems(items, f, currentValues)
+
+    if (filterable === 'create' && f && !items.find((o) => o.value === f)) {
+      if (
+        filteredItems.length === 1 &&
+        filteredItems[0].value === '$-no-results-aviato'
+      ) {
+        filteredItems = [{ value: f, label: `Add "${f}"` }]
+      } else {
+        // clear input on click on this...
+        filteredItems.push({ value: f, label: `Add "${f}"` })
+      }
     }
-  }, [])
-  const [currentValues, setValue] = useReducer(selectValuesReducer, values)
 
-  let filteredItems = filterItems(items, f, currentValues)
+    const children = filteredItems.map((opt, i) => {
+      return (
+        <ContextOptionItem
+          key={i}
+          noInset
+          onChange={(v) => {
+            if (v === f && filterable === 'create') {
+              setFilter('')
+            }
+            setValue(v)
+            onChange(selectValuesReducer(currentValues, v))
+            if (resize) {
+              resize()
+            }
+          }}
+          option={opt}
+          noRemove
+          selected={currentValues.includes(opt.value)}
+        />
+      )
+    })
 
-  if (filterable === 'create' && f && !items.find((o) => o.value === f)) {
-    if (
-      filteredItems.length === 1 &&
-      filteredItems[0].value === '$-no-results-aviato'
-    ) {
-      filteredItems = [{ value: f, label: `Add "${f}"` }]
-    } else {
-      // clear input on click on this...
-      filteredItems.push({ value: f, label: `Add "${f}"` })
-    }
-  }
-
-  const children = filteredItems.map((opt, i) => {
     return (
-      <ContextOptionItem
-        key={i}
-        noInset
-        onChange={(v) => {
-          if (v === f && filterable === 'create') {
-            setFilter('')
-          }
-          setValue(v)
-          onChange(selectValuesReducer(currentValues, v))
-          if (resize) {
-            resize()
-          }
-        }}
-        option={opt}
-        noRemove
-        selected={currentValues.includes(opt.value)}
-      />
+      <>
+        <FilterInputHolderSticky>
+          <FilterInputMultiHolder>
+            {currentValues.map((v) => {
+              return (
+                <FilterSelectBadge
+                  style={{ marginLeft: 8 }}
+                  key={v}
+                  label={items.find((opt) => opt.value === v)?.label || v}
+                  onClose={() => {
+                    setValue(v)
+                    onChange(selectValuesReducer(currentValues, v))
+                    if (resize) {
+                      resize()
+                    }
+                  }}
+                />
+              )
+            })}
+            <FilterMultiInput
+              size={f ? f.length : placeholder.length}
+              data-aviato-context-item
+              value={f}
+              placeholder={placeholder}
+              onChange={onFilter}
+            />
+          </FilterInputMultiHolder>
+        </FilterInputHolderSticky>
+        {children}
+      </>
     )
-  })
-
-  return (
-    <>
-      <FilterInputHolderSticky>
-        <FilterInputMultiHolder>
-          {currentValues.map((v) => {
-            return (
-              <FilterSelectBadge
-                style={{ marginLeft: 8 }}
-                key={v}
-                label={items.find((opt) => opt.value === v)?.label || v}
-                onClose={() => {
-                  setValue(v)
-                  onChange(selectValuesReducer(currentValues, v))
-                  if (resize) {
-                    resize()
-                  }
-                }}
-              />
-            )
-          })}
-          <FilterMultiInput
-            size={f ? f.length : placeholder.length}
-            data-aviato-context-item
-            value={f}
-            placeholder={placeholder}
-            onChange={onFilter}
-          />
-        </FilterInputMultiHolder>
-      </FilterInputHolderSticky>
-      {children}
-    </>
-  )
-}
+  }
 
 export const ContextMultiOptions: FC<
   ContextMultiOptionsProps & ContextOptionsFilterProps

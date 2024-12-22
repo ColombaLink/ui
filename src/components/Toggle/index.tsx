@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC } from 'react'
+import { CSSProperties, FC } from 'react'
 import { Text, Label } from '~'
 import { styled } from 'inlines'
 import { border, Color, color } from '~/utils'

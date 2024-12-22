@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { useClient } from '@based/react'
@@ -64,15 +64,15 @@ export const Register: FC<RegisterProps> = ({
     passwordScore.entropy < 50
       ? 'red'
       : passwordScore.entropy < 60
-      ? 'yellow'
-      : 'green'
+        ? 'yellow'
+        : 'green'
 
   const PasswordIcon =
     passwordScore.entropy < 60
       ? ErrorIcon
       : passwordScore.entropy < 99
-      ? CheckIcon
-      : () => <div>🏆</div>
+        ? CheckIcon
+        : () => <div>🏆</div>
 
   return waitingForEmailConfirmation ? (
     <WaitingScreen email={email} />
@@ -155,8 +155,8 @@ export const Register: FC<RegisterProps> = ({
             !cpassword
               ? LockIcon
               : passwordIsValid
-              ? renderOrCreateElement(CheckIcon, { color: 'green' })
-              : renderOrCreateElement(CloseIcon, { color: 'red' })
+                ? renderOrCreateElement(CheckIcon, { color: 'green' })
+                : renderOrCreateElement(CloseIcon, { color: 'red' })
           }
           style={{ marginBottom: 24 }}
           name="confirm-password"

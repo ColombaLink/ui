@@ -1,4 +1,4 @@
-import React, { FC, RefObject, useEffect, useState } from 'react'
+import { FC, RefObject, useEffect, useState } from 'react'
 import { Style, styled, color } from '~'
 
 type UrlProps = {
@@ -46,8 +46,8 @@ export const UrlInput: FC<UrlProps> = ({
     const msg = error
       ? error(value, reOk)
       : reOk
-      ? ''
-      : 'Please enter a valid URL'
+        ? ''
+        : 'Please enter a valid URL'
     if (msg) {
       setErrorMessage(msg)
     } else {
@@ -71,8 +71,8 @@ export const UrlInput: FC<UrlProps> = ({
             border: ghost
               ? `0px solid transparent`
               : focused
-              ? `1.5px solid ${color('accent')}`
-              : `1px solid ${color('border')}`,
+                ? `1.5px solid ${color('accent')}`
+                : `1px solid ${color('border')}`,
             borderRadius: 10,
             margin: 'auto 0',
             height: '36px',
@@ -96,8 +96,8 @@ export const UrlInput: FC<UrlProps> = ({
           border: ghost
             ? `2px solid transparent`
             : focused
-            ? `2px solid rgba(44, 60, 234, 0.2)`
-            : `2px solid transparent`,
+              ? `2px solid rgba(44, 60, 234, 0.2)`
+              : `2px solid transparent`,
           borderRadius: 10,
           margin: 'auto 0',
           width: '100%',

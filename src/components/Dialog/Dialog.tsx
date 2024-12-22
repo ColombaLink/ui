@@ -1,4 +1,4 @@
-import React, {
+import {
   forwardRef,
   ElementRef,
   FC,
@@ -144,16 +144,16 @@ const Confirm: FC<
 
   const onClick = onConfirm
     ? async () => {
-        if (!props.disabled && myId === dialog._id) {
-          await onConfirm()
-          dialog.close(myId)
-        }
+      if (!props.disabled && myId === dialog._id) {
+        await onConfirm()
+        dialog.close(myId)
       }
+    }
     : () => {
-        if (!props.disabled && myId === dialog._id) {
-          dialog.close(myId)
-        }
+      if (!props.disabled && myId === dialog._id) {
+        dialog.close(myId)
       }
+    }
 
   return (
     <Button
@@ -178,16 +178,16 @@ const Cancel: FC<
 
   const onClick = onCancel
     ? async () => {
-        if (!props.disabled && myId === dialog._id) {
-          await onCancel()
-          dialog.close(myId)
-        }
+      if (!props.disabled && myId === dialog._id) {
+        await onCancel()
+        dialog.close(myId)
       }
+    }
     : () => {
-        if (!props.disabled && myId === dialog._id) {
-          dialog.close(myId)
-        }
+      if (!props.disabled && myId === dialog._id) {
+        dialog.close(myId)
       }
+    }
 
   return (
     <Button

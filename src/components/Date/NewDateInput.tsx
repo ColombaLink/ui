@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Style, styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
@@ -44,9 +44,8 @@ export const NewDateInput = ({
     'dayFocus' | 'monthFocus' | 'yearFocus' | ''
   >('')
 
-  const fullDateString = `${day < 10 ? `0${day}` : day}/${
-    month < 10 ? `0${month}` : month
-  }/${year}`
+  const fullDateString = `${day < 10 ? `0${day}` : day}/${month < 10 ? `0${month}` : month
+    }/${year}`
 
   // get the time as string format 00:00
   const [timeString, setTimeString] = useState(
@@ -54,9 +53,8 @@ export const NewDateInput = ({
   )
 
   const stringToMilliseconds = (str: string, time?: string): number => {
-    const dateString = `${str?.split('/').reverse().join('-')}T${
-      time || '00:00'
-    }`
+    const dateString = `${str?.split('/').reverse().join('-')}T${time || '00:00'
+      }`
     const outputMs = new Date(dateString).getTime()
     return outputMs
   }

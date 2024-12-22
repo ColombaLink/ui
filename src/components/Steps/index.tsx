@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { color } from '~/utils'
 import { Text } from '../Text'
 import { styled, Style } from 'inlines'
@@ -41,8 +41,8 @@ export const Steps: FC<StepsProps> = ({
             onClick={
               onChange
                 ? () => {
-                    onChange(key)
-                  }
+                  onChange(key)
+                }
                 : null
             }
             key={index}

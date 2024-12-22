@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from 'react'
+import { FC, useRef, useState } from 'react'
 import { LockIcon } from '~/icons'
 import { Button } from '../Button'
 import { Input } from '../Input'
@@ -102,8 +102,8 @@ export const Login: FC<LoginProps> = ({
           type="password"
           placeholder="Password"
           onChange={(e) => {
-              // @ts-ignore wrong type definition
-                setPassword(e)
+            // @ts-ignore wrong type definition
+            setPassword(e)
           }}
           style={{ marginBottom: 24 }}
         />
@@ -121,23 +121,23 @@ export const Login: FC<LoginProps> = ({
         onClick={
           passwordExpanded
             ? async () => {
-                  const result = await client.call("login",{password, email})
-                  if (onLogin) {
-                      // @ts-ignore
-                      onLogin(result)
-                  }
+              const result = await client.call("login", { password, email })
+              if (onLogin) {
+                // @ts-ignore
+                onLogin(result)
               }
+            }
             : () => {
-                if (isEmail(email)) {
-                  setEmailValidationMessage(null)
-                  setPasswordExpanded(true)
-                  if (passwordRef.current) {
-                    passwordRef.current.focus()
-                  }
-                } else {
-                  setEmailValidationMessage('Enter a valid email address')
+              if (isEmail(email)) {
+                setEmailValidationMessage(null)
+                setPasswordExpanded(true)
+                if (passwordRef.current) {
+                  passwordRef.current.focus()
                 }
+              } else {
+                setEmailValidationMessage('Enter a valid email address')
               }
+            }
         }
       >
         {passwordExpanded ? 'Sign in' : 'Continue with Email'}

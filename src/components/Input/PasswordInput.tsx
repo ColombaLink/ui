@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { EyeIcon, EyeBlockedIcon, color, styled, Style } from '~'
 import { Single } from './Single'
 
@@ -20,7 +20,7 @@ export const PasswordInput = ({
   disabled,
   large,
   ...props
-}: PasswordInputProps) => { 
+}: PasswordInputProps) => {
   const [passwordInputType, setPasswordInputType] = useState<
     'text' | 'password'
   >('password')

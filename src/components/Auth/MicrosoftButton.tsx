@@ -1,5 +1,5 @@
 import { useClient } from '@based/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Button, MicrosoftIcon } from '~'
 import {
   generateCodeChallengeFromVerifier,

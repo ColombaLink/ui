@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, useEffect } from 'react'
+import { FC, CSSProperties, useEffect } from 'react'
 import { Text } from '../Text'
 import { color } from '~/utils'
 import { NumberFormat, prettyNumber } from '@based/pretty-number'
@@ -44,16 +44,16 @@ export const ResultCard: FC<ResultCardProps> = ({
         ? Math.max(0, Math.round((Number(value) - Date.now()) / 1e3)) + 's'
         : '-'
       : format === 'time-seconds'
-      ? !isNaN(Number(value))
-        ? Math.round(Number(value) / 1e3) + 's'
-        : '-'
-      : format.startsWith('number-')
-      ? // @ts-ignore
-        prettyNumber(value, format)
-      : format.startsWith('date-') || format.startsWith('time-')
-      ? // @ts-ignore
-        prettyDate(value, format)
-      : value
+        ? !isNaN(Number(value))
+          ? Math.round(Number(value) / 1e3) + 's'
+          : '-'
+        : format.startsWith('number-')
+          ? // @ts-ignore
+          prettyNumber(value, format)
+          : format.startsWith('date-') || format.startsWith('time-')
+            ? // @ts-ignore
+            prettyDate(value, format)
+            : value
 
   return (
     <div

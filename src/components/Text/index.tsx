@@ -1,5 +1,5 @@
 import { Style, styled } from '~'
-import React, { FC, ReactNode, MouseEvent } from 'react'
+import { FC, ReactNode, MouseEvent } from 'react'
 import { Size, Color, Weight, ColorVariant, Typography } from '~/types'
 import { font } from '~/utils'
 

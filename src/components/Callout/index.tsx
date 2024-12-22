@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, FunctionComponent } from 'react'
+import { FC, ReactNode, useState, FunctionComponent } from 'react'
 import { Color, Icon, Label, border, color, CloseIcon, Style, styled } from '~'
 
 type CalloutProps = {
@@ -49,8 +49,8 @@ export const Callout: FC<CalloutProps> = ({
           textAlign === 'center'
             ? 'center'
             : textAlign === 'right'
-            ? 'flex-end'
-            : 'flex-start',
+              ? 'flex-end'
+              : 'flex-start',
         ...style,
       }}
       {...props}

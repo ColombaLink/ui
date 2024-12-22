@@ -1,5 +1,5 @@
 import { MachineConfig } from '@based/machine-config'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Button, AddIcon, AccordionItem, Row, RowEnd, border } from '~'
 import { EnvMachinesStatus } from '../../EnvMachinesStatus'
 import { ServiceNamed, OnMachineConfigChange } from '../../types'

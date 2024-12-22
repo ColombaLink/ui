@@ -1,5 +1,5 @@
 import { hash, hashObjectIgnoreKeyOrder } from '@saulx/hash'
-import React, {
+import {
   createContext,
   useContext,
   useEffect,

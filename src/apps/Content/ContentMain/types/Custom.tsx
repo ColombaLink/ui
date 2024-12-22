@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { useQuery, useClient } from '@based/react'
 import { ErrorBoundary } from 'react-error-boundary'
 import { View, ViewComponent, ComponentConfig } from '../../types'

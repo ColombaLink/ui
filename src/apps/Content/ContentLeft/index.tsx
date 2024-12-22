@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import {
   border,
   LoadingIcon,
@@ -21,7 +21,7 @@ import {
 import { useViews } from '../hooks/useViews'
 import { AddViewModal } from '../ViewModals'
 
-const CategoryMenu: FC<{}> = ({}) => {
+const CategoryMenu: FC<{}> = ({ }) => {
   const { open } = useDialog()
   const [hidden, setHidden] = useContextState('hidden')
   return (

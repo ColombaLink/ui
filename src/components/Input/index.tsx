@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   useEffect,
   useCallback,
@@ -170,8 +170,8 @@ export const Input = <T extends InputType>({
         bg || ghost
           ? `0px solid transparent`
           : focused
-          ? `1.5px solid ${color('accent')}`
-          : `1px solid ${color('border')}`,
+            ? `1.5px solid ${color('accent')}`
+            : `1px solid ${color('border')}`,
       paddingRight,
       width: '100%',
       fontSize,
@@ -231,7 +231,7 @@ export const Input = <T extends InputType>({
       ) : type === 'digest' ? (
         <DigestInput {...props} disabled={!!valueProp} />
       ) : type === 'password' ? (
-        <PasswordInput {...props} large={large} disabled={!!valueProp} setErrorMessage={setErrorMessage}/>
+        <PasswordInput {...props} large={large} disabled={!!valueProp} setErrorMessage={setErrorMessage} />
       ) : type === 'date' ? (
         <DateWidget onChange={() => onChange} value={value} time={time} />
       ) : type === 'url' ? (

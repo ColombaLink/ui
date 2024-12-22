@@ -1,5 +1,5 @@
 import { useClient } from '@based/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { styled, Input, Badge, color, Toggle, FileUpload } from '~'
 import { InputWrapper } from '~/components/Input/InputWrapper'
 
@@ -118,19 +118,19 @@ const ContentRenderer: FC<{
         value={
           state[key]?.src
             ? [
-                {
-                  src: state[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
-                },
-              ]
+              {
+                src: state[key]?.src,
+                type: data[key]?.mimeType,
+                name: data[key]?.name,
+              },
+            ]
             : [
-                {
-                  src: data[key]?.src,
-                  type: data[key]?.mimeType,
-                  name: data[key]?.name,
-                },
-              ]
+              {
+                src: data[key]?.src,
+                type: data[key]?.mimeType,
+                name: data[key]?.name,
+              },
+            ]
         }
         style={{ marginBottom: BOTTOMSPACE }}
         mime={meta?.mime}

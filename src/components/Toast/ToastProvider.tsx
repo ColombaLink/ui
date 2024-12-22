@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ReactNode } from 'react'
+import { useState, useEffect, useRef, ReactNode } from 'react'
 import { ToastContext, ToastContextType } from './ToastContext'
 import { styled } from 'inlines'
 import { color, boxShadow } from '~/utils'

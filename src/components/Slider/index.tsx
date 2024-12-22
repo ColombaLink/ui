@@ -1,5 +1,5 @@
 // TODO optimize later
-import React, {
+import {
   useState,
   useRef,
   useEffect,
@@ -316,7 +316,7 @@ export const Slider: FC<SliderProps> = ({
     e.stopPropagation()
     moveHandler(
       e.touches[0].clientX -
-        refRangeContainer.current?.getBoundingClientRect().left
+      refRangeContainer.current?.getBoundingClientRect().left
     )
   }
 

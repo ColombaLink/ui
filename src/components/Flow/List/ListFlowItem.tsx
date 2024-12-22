@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Text } from '../../Text'
 import { useFlowHover } from '../useFlowHover'
 import useMultipleEvents from '~/hooks/useMultipleEvents'
@@ -113,17 +113,17 @@ const ListFlowItem = ({
   const img = itemProps.img && getData(itemData, itemProps.img.path)
   const title = titleProps.format
     ? {
-        format: titleProps.format,
-        value: getData(itemData, titleProps.path),
-      }
+      format: titleProps.format,
+      value: getData(itemData, titleProps.path),
+    }
     : getData(itemData, titleProps.path)
   const info =
     itemProps.info &&
     (itemProps.info.format
       ? {
-          format: itemProps.info.format,
-          value: getData(itemData, itemProps.info.path),
-        }
+        format: itemProps.info.format,
+        value: getData(itemData, itemProps.info.path),
+      }
       : getData(itemData, itemProps.info.path))
   const id = itemProps.id ? getData(itemData, itemProps.id) : index
 
@@ -265,8 +265,8 @@ const ListFlowItem = ({
           backgroundColor: isSelected
             ? color('background2dp')
             : isHover
-            ? color('background')
-            : null,
+              ? color('background')
+              : null,
         }}
         {...useMultipleEvents(
           drag,
@@ -275,23 +275,23 @@ const ListFlowItem = ({
           hover,
           onClick
             ? {
-                onClick: useClick(
-                  (e) => {
-                    onClick(e, wrappedData)
-                  },
-                  [onClick, wrappedData]
-                ),
-              }
+              onClick: useClick(
+                (e) => {
+                  onClick(e, wrappedData)
+                },
+                [onClick, wrappedData]
+              ),
+            }
             : undefined,
           contextualMenu
             ? useFlowContextualMenu(
-                useCallback(
-                  (e) => {
-                    onOptions(e, wrappedData)
-                  },
-                  [onOptions, wrappedData]
-                )
+              useCallback(
+                (e) => {
+                  onOptions(e, wrappedData)
+                },
+                [onOptions, wrappedData]
               )
+            )
             : undefined
         )}
       >
@@ -404,16 +404,16 @@ const ListFlowItem = ({
           ) : null}
           {children
             ? renderOrCreateElement(children, {
-                isHover,
-                isDragging,
-                isDragOver,
-                isSelected,
-                isActive,
-                onOptions,
-                onClick,
-                data: wrappedData,
-                items,
-              })
+              isHover,
+              isDragging,
+              isDragOver,
+              isSelected,
+              isActive,
+              onOptions,
+              onClick,
+              data: wrappedData,
+              items,
+            })
             : null}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Dialog, Text, Button, Row, CloseIcon, useDialog } from '~'
 import { deepCopy } from '@saulx/utils'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'

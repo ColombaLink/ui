@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
+import { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
 import { color, renderOrCreateElement, Text, ExpandIcon } from '~'
 import { Data, Icon } from '~/types'
 import { EditableTitle } from '~/components/Input/EditableTitle'

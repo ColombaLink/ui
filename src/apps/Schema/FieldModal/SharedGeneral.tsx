@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Input } from '~/components/Input'
 import { useUpdate } from '~/hooks/useUpdate'
 import safeTypeName from '../AddTypeModal/safeTypeName'

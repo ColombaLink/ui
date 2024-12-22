@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect, CSSProperties } from 'react'
+import { FC, useState, useRef, useEffect, CSSProperties } from 'react'
 import { Weight } from '~/types'
 import { useScopedState } from '~/hooks'
 import { useFlowHover } from '../Flow/useFlowHover'
@@ -126,7 +126,7 @@ export const EditableTitle: FC<EditableTitleProps> = ({
           if (event.key === 'Enter' || event.key === 'Escape') {
             event.preventDefault()
             event.stopPropagation()
-            ;(event.target as HTMLElement).blur()
+              ; (event.target as HTMLElement).blur()
             const el = event.target as HTMLElement
             const v = el.innerText
             setInputText(v)
@@ -156,7 +156,7 @@ export const EditableTitle: FC<EditableTitleProps> = ({
           event.stopPropagation()
           if (onChange && !isEditing) {
             setEditing(true)
-            ;(event.target as HTMLElement).focus()
+              ; (event.target as HTMLElement).focus()
           }
         }}
       >

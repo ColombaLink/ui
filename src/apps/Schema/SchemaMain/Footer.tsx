@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useContextState, Breadcrumbs, Row, border } from '~'
 
 export const Footer: FC<{ name: string }> = ({ name }) => {

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Style, styled } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
@@ -60,20 +60,17 @@ export const DateRangeDoubleInput = ({
     | 'yearTillFocus'
   >('')
 
-  const fullDateFromString = `${fromDay < 10 ? `0${fromDay}` : fromDay}/${
-    fromMonth < 10 ? `0${fromMonth}` : fromMonth
-  }/${fromYear}`
+  const fullDateFromString = `${fromDay < 10 ? `0${fromDay}` : fromDay}/${fromMonth < 10 ? `0${fromMonth}` : fromMonth
+    }/${fromYear}`
 
-  const fullDateTillString = `${tillDay < 10 ? `0${tillDay}` : tillDay}/${
-    tillMonth < 10 ? `0${tillMonth}` : tillMonth
-  }/${tillYear}`
+  const fullDateTillString = `${tillDay < 10 ? `0${tillDay}` : tillDay}/${tillMonth < 10 ? `0${tillMonth}` : tillMonth
+    }/${tillYear}`
   // get the time as string format 00:00
   const timeString = '00:00'
 
   const stringToMilliseconds = (str: string, time?: string): number => {
-    const dateString = `${str?.split('/').reverse().join('-')}T${
-      time || '00:00'
-    }`
+    const dateString = `${str?.split('/').reverse().join('-')}T${time || '00:00'
+      }`
     const outputMs = new Date(dateString).getTime()
     return outputMs
   }
@@ -463,8 +460,8 @@ export const DateRangeDoubleInput = ({
             {fromMonth === ''
               ? 'mm'
               : fromMonth < 10
-              ? `0${fromMonth}`
-              : fromMonth}
+                ? `0${fromMonth}`
+                : fromMonth}
           </styled.div>
           <styled.div>/</styled.div>
           <styled.div
@@ -543,8 +540,8 @@ export const DateRangeDoubleInput = ({
             {tillMonth === ''
               ? 'mm'
               : tillMonth < 10
-              ? `0${tillMonth}`
-              : tillMonth}
+                ? `0${tillMonth}`
+                : tillMonth}
           </styled.div>
           <styled.div>/</styled.div>
           <styled.div

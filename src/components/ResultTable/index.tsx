@@ -1,5 +1,5 @@
 import { prettyNumber } from '@based/pretty-number'
-import React, { FC, CSSProperties, ReactNode, useState } from 'react'
+import { FC, CSSProperties, ReactNode, useState } from 'react'
 import { styled, ScrollArea, Text, Row, border, color } from '~'
 
 type Row = {

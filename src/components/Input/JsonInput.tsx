@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { color, Text, usePropState, styled } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'

@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState, useEffect, CSSProperties } from 'react'
+import { FC, useRef, useState, useEffect, CSSProperties } from 'react'
 import {
   Label,
   Input,
@@ -167,9 +167,9 @@ const GeoAddressInput = ({ lat, lng, token, onChange }) => {
             color: color('text2'),
           },
           '& .mapboxgl-ctrl-geocoder .suggestions > .active > a, .mapboxgl-ctrl-geocoder .suggestions > li > a:hover':
-            {
-              backgroundColor: color('background2'),
-            },
+          {
+            backgroundColor: color('background2'),
+          },
         }}
         ref={ref}
       />

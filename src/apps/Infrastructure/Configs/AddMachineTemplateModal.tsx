@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef, useState } from 'react'
+import { FC, useMemo, useRef, useState } from 'react'
 import {
   Dialog,
   Select,
@@ -40,9 +40,9 @@ export const AddMachineModal: FC<{
   const copiedConfig = useMemo(() => {
     return config
       ? {
-          configName: configName + '-copy',
-          config: deepCopy(config),
-        }
+        configName: configName + '-copy',
+        config: deepCopy(config),
+      }
       : undefined
   }, [config])
 

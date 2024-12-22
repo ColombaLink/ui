@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { ContentLeft } from './ContentLeft'
 import { Style, styled } from 'inlines'
 import { StateProvider } from '../../hooks/ContextState'

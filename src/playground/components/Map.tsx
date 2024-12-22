@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { EmbeddedMap } from '~/components/Map'
 import ComponentViewer from '../ComponentViewer'
 import { Button } from '~'

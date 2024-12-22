@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import { FC, useCallback } from 'react'
 import { useDrop } from '~/hooks'
 import { Footer } from './Footer'
 import { color } from '~'
@@ -76,13 +76,13 @@ export const FooterBottom: FC<FooterBottomProps> = ({
           opacity: isDragOver || isFooterDragOver ? 0 : 1,
           transform:
             isDragOverSeq ||
-            isDropLoading ||
-            isFooterDragOver ||
-            isFooterLoading
+              isDropLoading ||
+              isFooterDragOver ||
+              isFooterLoading
               ? 'translate3d(0px,20px,0px)'
               : isDragOver
-              ? 'translate3d(0px, 40px, 0px)'
-              : 'translate3d(0px, 0px, 0px)',
+                ? 'translate3d(0px, 40px, 0px)'
+                : 'translate3d(0px, 0px, 0px)',
         }}
       />
     </div>

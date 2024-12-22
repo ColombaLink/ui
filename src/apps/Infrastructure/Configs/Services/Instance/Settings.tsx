@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { SettingsGroup } from '~'
 import { ServiceInstance } from '@based/machine-config'
 
@@ -163,10 +163,10 @@ export const DbSettings: FC<SettingProps> = ({
         name:
           serviceName === '@based/env-db'
             ? {
-                label: 'Name',
-                type: 'text',
-                description: 'Instance name',
-              }
+              label: 'Name',
+              type: 'text',
+              description: 'Instance name',
+            }
             : null,
         noBackUps: {
           type: 'boolean',

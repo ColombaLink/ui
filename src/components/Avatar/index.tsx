@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, FunctionComponent, ReactNode } from 'react'
+import { FC, SyntheticEvent, FunctionComponent, ReactNode } from 'react'
 import {
   Text,
   getButtonStyle,

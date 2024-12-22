@@ -1,5 +1,5 @@
 import { useClient } from '@based/react'
-import React, { FC, useState, ReactNode } from 'react'
+import { FC, useState, ReactNode } from 'react'
 import { useSchema } from '../hooks/useSchema'
 import { Checkbox, Text, ScrollArea, useContextState, Page, Column } from '~'
 import { Fields } from './Fields'

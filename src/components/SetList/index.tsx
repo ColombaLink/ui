@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Label, Button, AddIcon, Input, Dialog } from '~'
 import { InputWrapper } from '../Input/InputWrapper'
 import { useDialog } from '~/components/Dialog'
@@ -45,9 +45,8 @@ export const SetList = ({
             itemType === 'string' || itemType === 'digest' ? 'text' : 'number'
           }
           autoFocus
-          label={`Add new ${
-            itemType.charAt(0).toUpperCase() + itemType.slice(1)
-          } `}
+          label={`Add new ${itemType.charAt(0).toUpperCase() + itemType.slice(1)
+            } `}
           value={inputVal}
           onChange={(e) => {
             inputVAL = e
@@ -183,12 +182,12 @@ export const SetList = ({
         {itemType === 'string'
           ? 'String'
           : itemType === 'int'
-          ? 'Integer'
-          : itemType === 'float'
-          ? 'Float'
-          : itemType === 'digest'
-          ? 'Digest'
-          : 'item'}
+            ? 'Integer'
+            : itemType === 'float'
+              ? 'Float'
+              : itemType === 'digest'
+                ? 'Digest'
+                : 'item'}
       </Button>
     </InputWrapper>
   )

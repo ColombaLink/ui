@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { VirtualizedList as VirtualizedListComponent } from '~/components/VirtualizedList'
 
 export const VirtualizedList = () => {

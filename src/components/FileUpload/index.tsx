@@ -1,4 +1,4 @@
-import React, { useRef, useState, FC, useEffect } from 'react'
+import { useRef, useState, FC, useEffect } from 'react'
 import {
   Label,
   color,

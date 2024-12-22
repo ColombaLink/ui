@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { AlphaSlider } from './AlphaSlider'
 import { HueSlider } from './HueSlider'
 import { Inputs } from './Inputs'

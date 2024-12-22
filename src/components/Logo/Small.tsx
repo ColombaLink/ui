@@ -1,4 +1,4 @@
-import React, { SVGProps, FC } from 'react'
+import { SVGProps, FC } from 'react'
 
 export const SmallLogo: FC<SVGProps<SVGSVGElement>> = ({ style, ...props }) => {
   return (

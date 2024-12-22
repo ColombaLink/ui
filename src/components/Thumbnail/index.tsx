@@ -1,4 +1,4 @@
-import React, { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
+import { FC, CSSProperties, FunctionComponent, ReactNode } from 'react'
 import { Color, Size, Icon } from '~/types'
 import { color, renderOrCreateElement, boxShadow } from '~/utils'
 import { Text } from '../Text'

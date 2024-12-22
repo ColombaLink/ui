@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, ComponentType, ReactNode, FC } from 'react'
+import { useRef, useEffect, ComponentType, ReactNode, FC } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { VariableSizeList } from 'react-window'
 import { FooterProps } from './Footer'
@@ -59,11 +59,11 @@ export const Flow = (props: FlowProps) => {
   const autoFocusRef = useRef()
   const itemsWithNew = footer
     ? [
-        ...items,
-        {
-          '@@newSequence': true,
-        },
-      ]
+      ...items,
+      {
+        '@@newSequence': true,
+      },
+    ]
     : items
 
   const listRef = useRef<any>()

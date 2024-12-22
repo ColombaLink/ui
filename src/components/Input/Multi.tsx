@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { styled, color } from '~'
 
 const resize = (target) => {

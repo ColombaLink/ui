@@ -1,4 +1,4 @@
-import React, {
+import {
   FC,
   RefObject,
   FunctionComponent,
@@ -59,8 +59,8 @@ export const Single: FC<SingleProps> = ({
       const msg = error
         ? error(props.value, reOk)
         : reOk
-        ? ''
-        : 'Does not match pattern'
+          ? ''
+          : 'Does not match pattern'
       if (msg) {
         setErrorMessage(msg)
       } else {
@@ -77,22 +77,22 @@ export const Single: FC<SingleProps> = ({
         border: ghost
           ? `2px solid transparent`
           : focused
-          ? `2px solid rgba(44, 60, 234, 0.2)`
-          : `2px solid transparent`,
+            ? `2px solid rgba(44, 60, 234, 0.2)`
+            : `2px solid transparent`,
         borderRadius: 10,
         width: '100%',
       }}
     >
       {icon
         ? renderOrCreateElement(icon, {
-            style: {
-              position: 'absolute',
-              left: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })
+          style: {
+            position: 'absolute',
+            left: 12,
+            top: '50%',
+            transform: 'translate3d(0,-50%,0)',
+            pointerEvents: 'none',
+          },
+        })
         : null}
 
       <input
@@ -110,14 +110,14 @@ export const Single: FC<SingleProps> = ({
       />
       {iconRight
         ? renderOrCreateElement(iconRight, {
-            style: {
-              position: 'absolute',
-              right: 12,
-              top: '50%',
-              transform: 'translate3d(0,-50%,0)',
-              pointerEvents: 'none',
-            },
-          })
+          style: {
+            position: 'absolute',
+            right: 12,
+            top: '50%',
+            transform: 'translate3d(0,-50%,0)',
+            pointerEvents: 'none',
+          },
+        })
         : null}
 
       {type === 'number' && (

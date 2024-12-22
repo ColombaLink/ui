@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, useState } from 'react'
+import { CSSProperties, FC, useState } from 'react'
 import { Input } from '../Input'
 import { Button } from '../Button'
 import { Text } from '../Text'

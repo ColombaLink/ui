@@ -1,5 +1,5 @@
 import { useClient, useQuery } from '@based/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import {
   Table,
   styled,

@@ -1,5 +1,5 @@
 import { useQuery } from '@based/react'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import {
   Menu,
   Text,

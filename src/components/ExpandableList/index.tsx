@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, FC, isValidElement } from 'react'
+import { useState, ReactNode, FC, isValidElement } from 'react'
 import {
   Text,
   Style,
@@ -13,10 +13,10 @@ import {
 type ListItem =
   | ReactNode
   | {
-      label: ReactNode
-      value?: any
-      items?: ListItem[]
-    }
+    label: ReactNode
+    value?: any
+    items?: ListItem[]
+  }
 
 type ExpandableListProps = {
   style?: Style

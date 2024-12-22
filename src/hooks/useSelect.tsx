@@ -7,7 +7,7 @@ import {
   ContextMultiOptions,
 } from '~/components/ContextMenu'
 import { useOverlay } from './useOverlay'
-import React, {
+import {
   useCallback,
   useState,
   useEffect,
@@ -32,10 +32,10 @@ export function useSelect<T = any>(
   },
   handler?: (selection: Data<T> | Event | any) => () => void | undefined
 ): [
-  boolean | string | number | undefined,
-  PropsEventHandler,
-  (value: Value) => void
-] {
+    boolean | string | number | undefined,
+    PropsEventHandler,
+    (value: Value) => void
+  ] {
   const [v, setValue] = useState(value)
   useEffect(() => {
     setValue(value)
@@ -84,10 +84,10 @@ export function useMultiSelect(
   },
   handler?: (selection: Event | any) => () => void | undefined
 ): [
-  Value[] | null | undefined,
-  PropsEventHandler,
-  (value: Value[] | undefined) => void
-] {
+    Value[] | null | undefined,
+    PropsEventHandler,
+    (value: Value[] | undefined) => void
+  ] {
   const [values, setValues] = useState(initialValues)
 
   useEffect(() => {

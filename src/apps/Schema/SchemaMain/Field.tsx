@@ -1,5 +1,5 @@
 import { useClient } from '@based/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useContextMenu } from '~/hooks'
 import {
   MoreIcon,
@@ -203,8 +203,8 @@ export const Field = ({
     ? fieldType === 'record'
       ? [...path, 'values', 'properties']
       : fieldType === 'array'
-      ? [...path, 'items', 'properties']
-      : [...path, 'properties']
+        ? [...path, 'items', 'properties']
+        : [...path, 'properties']
     : path
 
   const [, setPath] = useContextState('field', [])

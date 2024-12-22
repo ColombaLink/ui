@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, RefObject, CSSProperties } from 'react'
+import { useEffect, useRef, RefObject, CSSProperties } from 'react'
 import { useColorPicker, color, styled } from '~'
 
 type ColorInputProps = {

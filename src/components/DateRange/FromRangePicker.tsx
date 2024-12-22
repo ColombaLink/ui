@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   styled,
   ChevronDownIcon,
@@ -165,8 +165,8 @@ export const FromRangePicker = ({
           +selectedMonth === 9
             ? '10'
             : +selectedMonth < 9
-            ? '0' + (+selectedMonth + 1).toString()
-            : (+selectedMonth + 1).toString()
+              ? '0' + (+selectedMonth + 1).toString()
+              : (+selectedMonth + 1).toString()
         )
       }
     }

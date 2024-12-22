@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, CSSProperties, FunctionComponent } from 'react'
+import { FC, ReactNode, CSSProperties, FunctionComponent } from 'react'
 import { color, renderOrCreateElement } from '~/utils'
 import { CheckCircleIcon, CloseCircleIcon, WarningIcon } from '~/icons'
 import { Text } from '~'

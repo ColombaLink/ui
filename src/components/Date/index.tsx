@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { styled, Style, StateProvider } from '~'
 import { NewDateInput } from './NewDateInput'
 

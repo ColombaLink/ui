@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Text, Select, styled, SelectOption, Accept, Row } from '~'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'
 import { useQuery } from '@based/react'

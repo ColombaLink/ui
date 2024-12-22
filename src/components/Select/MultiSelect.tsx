@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useRef, useState } from 'react'
+import { FC, ReactNode, useEffect, useRef, useState } from 'react'
 import { useMultiSelect } from '~/hooks/useSelect'
 import { Text } from '~/components/Text'
 import { deepEqual } from '@saulx/utils'

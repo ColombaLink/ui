@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { removeOverlay } from '~/components/Overlay'
 import { useOverlay } from '~/hooks'
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { styled, color, useContextState } from '~'
 
 type RangeCalendarProps = {
@@ -197,8 +197,8 @@ export const RangeCalendar = ({
               style={{
                 border:
                   val.day === presentDay &&
-                  +selectedMonth === currentMonth + 1 &&
-                  +selectedYear === currentYear
+                    +selectedMonth === currentMonth + 1 &&
+                    +selectedYear === currentYear
                     ? `1px solid ${color('accent')}`
                     : '',
                 background:
@@ -207,33 +207,33 @@ export const RangeCalendar = ({
                     : val.day === fromDay &&
                       +selectedMonth === fromMonth &&
                       +selectedYear === fromYear
-                    ? color('accent')
-                    : val.day === tillDay &&
-                      +selectedMonth === tillMonth &&
-                      +selectedYear === tillYear
-                    ? color('accent')
-                    : checkIfRanged(val.year, val.month, val.day)
-                    ? color('lightaccent')
-                    : checkIfIsHoverDay(val.year, val.month, val.day)
-                    ? color('border')
-                    : '',
+                      ? color('accent')
+                      : val.day === tillDay &&
+                        +selectedMonth === tillMonth &&
+                        +selectedYear === tillYear
+                        ? color('accent')
+                        : checkIfRanged(val.year, val.month, val.day)
+                          ? color('lightaccent')
+                          : checkIfIsHoverDay(val.year, val.month, val.day)
+                            ? color('border')
+                            : '',
                 color:
                   val.day === +selectedDay
                     ? color('background')
                     : val.day === fromDay &&
                       +selectedMonth === fromMonth &&
                       +selectedYear === fromYear
-                    ? color('background')
-                    : val.day === tillDay &&
-                      +selectedMonth === tillMonth &&
-                      +selectedYear === tillYear
-                    ? color('background')
-                    : color('text'),
+                      ? color('background')
+                      : val.day === tillDay &&
+                        +selectedMonth === tillMonth &&
+                        +selectedYear === tillYear
+                        ? color('background')
+                        : color('text'),
                 borderRadius: checkIfRanged(val.year, val.month, val.day)
                   ? 0
                   : checkIfIsHoverDay(val.year, val.month, val.day)
-                  ? 0
-                  : 4,
+                    ? 0
+                    : 4,
                 boxSizing: 'border-box',
                 width: 34,
                 height: 26,

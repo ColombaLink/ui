@@ -1,4 +1,4 @@
-import React, { FC, useState, useMemo } from 'react'
+import { FC, useState, useMemo } from 'react'
 import {
   Text,
   Container,
@@ -54,7 +54,7 @@ export const CodeExample: FC<{
           return <Callout color="red">{error.message}</Callout>
         }}
       >
-        {fn(ui, React, component)}
+        {fn(ui, component)}
       </ErrorBoundary>
     )
   } catch (err) {

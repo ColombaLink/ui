@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 
 import { FixedSizeList } from 'react-window'
 import AutoSizer from 'react-virtualized-auto-sizer'

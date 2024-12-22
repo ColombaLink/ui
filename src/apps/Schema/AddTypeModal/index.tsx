@@ -1,5 +1,5 @@
 import { Input, Dialog, useSchema, useContextState } from '~'
-import React, { useState, FC, useEffect } from 'react'
+import { useState, FC, useEffect } from 'react'
 import safeTypeName from './safeTypeName'
 import { generatePlural } from '~/utils'
 import { useClient } from '@based/react'
@@ -81,9 +81,9 @@ export const AddTypeModal: FC = () => {
               filled
                 ? {}
                 : {
-                    pointerEvents: 'none',
-                    cursor: 'not-allowed',
-                  }
+                  pointerEvents: 'none',
+                  cursor: 'not-allowed',
+                }
             }
             onConfirm={async () => {
               const type = typeName || safeTypeName(name)

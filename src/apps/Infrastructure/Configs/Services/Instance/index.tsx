@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { Card, ChevronDownIcon, Text, ChevronRightIcon, Row } from '~'
 import { ServiceInstance } from '@based/machine-config'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'

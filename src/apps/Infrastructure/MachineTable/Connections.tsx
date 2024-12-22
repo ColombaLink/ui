@@ -1,5 +1,5 @@
 import { Provider, useQuery } from '@based/react'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { prettyNumber } from '@based/pretty-number'
 import { Env } from '@based/machine-config'
 import { Button, UserIcon, useContextState } from '~'

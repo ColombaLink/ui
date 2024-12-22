@@ -1,5 +1,5 @@
 import { styled } from 'inlines'
-import React, {
+import {
   FC,
   PropsWithChildren,
   ComponentType,
@@ -11,6 +11,7 @@ import React, {
   FunctionComponent,
   useRef,
   useCallback,
+  createElement,
 } from 'react'
 import { useOverlayPosition } from '~/hooks/useOverlayPosition'
 import { color } from '~/utils'
@@ -72,7 +73,7 @@ export const GenericOverlay: FC<OverlayProps> = ({
 
   return (
     <Overlay style={style} elementRef={elementRef} position={position}>
-      {React.createElement(Component, {
+      {createElement(Component, {
         resize,
         position,
         ...props,
@@ -121,7 +122,7 @@ let overlays: Overlays = []
 
 export const addOverlay = (
   overlay: ReactNode,
-  onClose: OnClose = () => {},
+  onClose: OnClose = () => { },
   options?: OverlayOptions
 ) => {
   overlays.push([overlay, onClose, options])
@@ -164,8 +165,8 @@ export const Overlay = ({ position, children, style, elementRef }) => {
     position.placement === 'left'
       ? 'flex-start'
       : position.placement === 'right'
-      ? 'flex-end'
-      : 'center'
+        ? 'flex-end'
+        : 'center'
 
   const [go, setgo] = useState(false)
 
@@ -253,14 +254,14 @@ const OverlayItem: FunctionComponent<OverlayItemProps> = ({
         hidden
           ? null
           : useCallback((e) => {
-              e.stopPropagation()
-              if (e.target === ref.current) {
-                setVisible(false)
-                setTimeout(() => {
-                  removeOverlay(children)
-                }, 150)
-              }
-            }, [])
+            e.stopPropagation()
+            if (e.target === ref.current) {
+              setVisible(false)
+              setTimeout(() => {
+                removeOverlay(children)
+              }, 150)
+            }
+          }, [])
       }
     >
       {children}

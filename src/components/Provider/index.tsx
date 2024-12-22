@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, {
+import {
   CSSProperties,
   FC,
   ReactNode,
@@ -16,8 +16,6 @@ import { ToastProvider } from '../Toast/ToastProvider'
 import { baseTheme } from '~/theme/baseTheme'
 import { updateTheme } from '~/theme'
 import { darkTheme } from '~/theme/darkTheme'
-import { AuthProvider } from '~'
-import { Router, RouterContext } from 'kabouter'
 
 type ProviderProps = {
   children?: ReactNode
@@ -35,7 +33,6 @@ type ProviderProps = {
 type ExtractVar<C> = C extends React.Context<infer T> ? T : never
 
 export type AllContexts = {
-  router: ExtractVar<typeof RouterContext>
   client: BasedClient
   state: ExtractVar<typeof StateContext>
 }
@@ -43,8 +40,7 @@ export type AllContexts = {
 export const useAllContexts = (): AllContexts => {
   const state = useContext(StateContext)
   const client = useClient()
-  const router = useContext(RouterContext)
-  return { state, client, router }
+  return { state, client }
 }
 
 export const ForwardContext: FC<{
@@ -58,13 +54,6 @@ export const ForwardContext: FC<{
   }
   if (client !== context.client) {
     r = <BasedProvider client={context.client}>{r}</BasedProvider>
-  }
-  if (router !== context.router) {
-    r = (
-      <RouterContext.Provider value={context.router}>
-        {r}
-      </RouterContext.Provider>
-    )
   }
   return <>{r}</>
 }
@@ -104,6 +93,7 @@ export const Provider: FC<ProviderProps> = ({
   theme,
   fill,
 }) => {
+
   useEffect(() => {
     if (themes) {
       const { base, dark } = themes
@@ -132,14 +122,12 @@ export const Provider: FC<ProviderProps> = ({
       }}
     >
       <BasedProvider client={client}>
-        <Router path={path || ''}>
-          <ToastProvider>
-            <DialogProvider>
-              <AuthProvider>{children}</AuthProvider>
-              <OverlayProvider />
-            </DialogProvider>
-          </ToastProvider>
-        </Router>
+        <ToastProvider>
+          <DialogProvider>
+            {children}
+            <OverlayProvider />
+          </DialogProvider>
+        </ToastProvider>
       </BasedProvider>
     </div>
   )

@@ -1,4 +1,4 @@
-import React, {
+import {
   FC,
   useCallback,
   useState,
@@ -86,10 +86,10 @@ export const Footer: FC<FooterProps> = ({
       >
         {Icon
           ? renderOrCreateElement(Icon, {
-              color: isHover ? color('text') : color('text2'),
-              style: { marginRight: 15 },
-              size: 14,
-            })
+            color: isHover ? color('text') : color('text2'),
+            style: { marginRight: 15 },
+            size: 14,
+          })
           : null}
         <Text
           style={{ color: isHover ? color('text') : color('text2') }}

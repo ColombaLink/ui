@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { Button, useContextState, RedoIcon, StopIcon, Row } from '~'
 import { Env } from '@based/machine-config'
 import { useClient } from '@based/react'

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, ReactNode } from 'react'
+import { useMemo, useRef, ReactNode } from 'react'
 import { Text, useSelect, useUpdate, Accept } from '~'
 import { ServiceNamed, Dist, OnMachineConfigChange } from '../../types'
 import { useQuery } from '@based/react'

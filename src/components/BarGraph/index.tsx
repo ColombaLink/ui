@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode } from 'react'
+import { CSSProperties, FC, ReactNode } from 'react'
 import { Color, color, Text, Label, useTooltip, styled } from '~'
 import { prettyNumber } from '@based/pretty-number'
 

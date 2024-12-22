@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import * as icons from '../../icons'
 import { Text, copyToClipboard } from '../..'
 import { getRandomIconName } from '../ComponentViewer/genRandomProps'

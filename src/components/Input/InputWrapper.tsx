@@ -1,4 +1,4 @@
-import React, { CSSProperties, FC, ReactNode, useState } from 'react'
+import { CSSProperties, FC, ReactNode, useState } from 'react'
 import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
 
 type InputWrapperProps = {
@@ -58,8 +58,8 @@ export const InputWrapper: FC<InputWrapperProps> = ({
           borderColor: errorMessage
             ? color('red')
             : focus
-            ? color(colorProp)
-            : color('border'),
+              ? color(colorProp)
+              : color('border'),
           paddingLeft: indent ? 12 : null,
           pointerEvents: disabled ? 'none' : null,
           ...style,

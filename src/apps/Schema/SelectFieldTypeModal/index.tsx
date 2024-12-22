@@ -1,4 +1,4 @@
-import React, { FC, Fragment, useState } from 'react'
+import { FC, Fragment, useState } from 'react'
 import {
   useDialog,
   Text,
@@ -124,47 +124,47 @@ export const SelectFieldTypeModal: FC<{
         >
           {filteredItems
             ? filteredItems.map((template: FieldTemplates) => {
-                // put template
-                return (
-                  <Template
-                    key={template}
-                    type={type}
-                    field={field}
-                    template={template}
-                  />
-                )
-              })
+              // put template
+              return (
+                <Template
+                  key={template}
+                  type={type}
+                  field={field}
+                  template={template}
+                />
+              )
+            })
             : Object.keys(groups)
-                .filter((t) => t !== 'System')
-                .map((header) => {
-                  return (
-                    <Fragment key={header}>
-                      <Text
-                        color="text2"
-                        style={{
-                          paddingLeft: 20,
-                          marginTop: 12,
-                          marginBottom: 12,
-                        }}
-                      >
-                        {header}
-                      </Text>
-                      {Object.keys(groups[header]).map(
-                        (template: FieldTemplates) => {
-                          // put template
-                          return (
-                            <Template
-                              key={template}
-                              type={type}
-                              field={field}
-                              template={template}
-                            />
-                          )
-                        }
-                      )}
-                    </Fragment>
-                  )
-                })}
+              .filter((t) => t !== 'System')
+              .map((header) => {
+                return (
+                  <Fragment key={header}>
+                    <Text
+                      color="text2"
+                      style={{
+                        paddingLeft: 20,
+                        marginTop: 12,
+                        marginBottom: 12,
+                      }}
+                    >
+                      {header}
+                    </Text>
+                    {Object.keys(groups[header]).map(
+                      (template: FieldTemplates) => {
+                        // put template
+                        return (
+                          <Template
+                            key={template}
+                            type={type}
+                            field={field}
+                            template={template}
+                          />
+                        )
+                      }
+                    )}
+                  </Fragment>
+                )
+              })}
         </Grid>
       </Section>
     </div>

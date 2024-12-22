@@ -1,5 +1,5 @@
 import { Env, MachineConfig } from '@based/machine-config'
-import React, { FC, useRef } from 'react'
+import { FC, useRef } from 'react'
 import { useDistUpdates } from './useDistUpdates'
 import {
   Button,

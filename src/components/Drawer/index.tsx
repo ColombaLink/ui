@@ -1,4 +1,4 @@
-import React, {
+import {
   useState,
   FunctionComponent,
   ReactNode,
@@ -64,8 +64,8 @@ export const Drawer: FC<DrawerProps> = ({
         width: forceOpen
           ? width
           : collapsed || resizeState
-          ? closeWidth
-          : width,
+            ? closeWidth
+            : width,
         // border: '1px solid red',
         // position: right ? 'absolute' : 'relative',
         position: 'static',
@@ -76,7 +76,7 @@ export const Drawer: FC<DrawerProps> = ({
         transition: 'width 0.24s ease-out',
         height: '100%',
       }}
-      onClick={() => {}}
+      onClick={() => { }}
       onMouseOver={(e) => {
         setHoverForExpansion(true)
       }}
@@ -89,8 +89,8 @@ export const Drawer: FC<DrawerProps> = ({
           width: forceOpen
             ? width
             : collapsed || resizeState
-            ? closeWidth
-            : width,
+              ? closeWidth
+              : width,
           height: '100%',
           transition: 'width 0.24s ease-out',
           position: 'relative',
@@ -180,13 +180,13 @@ export const Drawer: FC<DrawerProps> = ({
                     ? forceOpen
                       ? 'scaleX(-1)'
                       : collapsed || resizeState
-                      ? 'scaleX(1)'
-                      : 'scaleX(-1)'
+                        ? 'scaleX(1)'
+                        : 'scaleX(-1)'
                     : forceOpen
-                    ? 'scaleX(1)'
-                    : collapsed || resizeState
-                    ? 'scaleX(-1)'
-                    : 'scaleX(1)',
+                      ? 'scaleX(1)'
+                      : collapsed || resizeState
+                        ? 'scaleX(-1)'
+                        : 'scaleX(1)',
                   marginRight: -1,
                 }}
                 onClick={(e) => {

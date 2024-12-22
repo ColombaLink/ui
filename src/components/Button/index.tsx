@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, {
+import {
   FC,
   MouseEventHandler,
   ReactNode,
@@ -42,10 +42,10 @@ export type ButtonProps = {
   iconRight?: FunctionComponent<Icon> | ReactNode
   loading?: boolean
   onClick?:
-    | MouseEventHandler
-    | (() => void)
-    | ((e: MouseEvent) => Promise<void>)
-    | (() => Promise<void>)
+  | MouseEventHandler
+  | (() => void)
+  | ((e: MouseEvent) => Promise<void>)
+  | (() => Promise<void>)
   onPointerDown?: MouseEventHandler
   outline?: boolean
   style?: Style
@@ -100,16 +100,16 @@ export const getButtonStyle = (
     }
     style['&:active'] = clickAnimation
       ? {
-          backgroundColor: !props.transparent
-            ? color(colorProp, 'active', isLight)
-            : null,
-          transform: 'scale(1.05)',
-        }
+        backgroundColor: !props.transparent
+          ? color(colorProp, 'active', isLight)
+          : null,
+        transform: 'scale(1.05)',
+      }
       : {
-          backgroundColor: !props.transparent
-            ? color(colorProp, 'active', isLight)
-            : null,
-        }
+        backgroundColor: !props.transparent
+          ? color(colorProp, 'active', isLight)
+          : null,
+      }
   }
 
   return style
@@ -196,10 +196,10 @@ export const Button: FC<ButtonProps> = (props) => {
           !children && large
             ? '16px'
             : !children
-            ? '8px'
-            : large
-            ? '8px 16px'
-            : '6px 12px',
+              ? '8px'
+              : large
+                ? '8px 16px'
+                : '6px 12px',
         borderRadius: large ? 8 : 4,
         width: fill ? '100%' : null,
         position: 'relative',
@@ -218,12 +218,12 @@ export const Button: FC<ButtonProps> = (props) => {
             textAlign === 'left' && fill
               ? 'flex-start'
               : textAlign === 'center' && fill
-              ? 'center'
-              : textAlign === 'right' && fill
-              ? 'flex-end'
-              : fill
-              ? 'space-between'
-              : 'center',
+                ? 'center'
+                : textAlign === 'right' && fill
+                  ? 'flex-end'
+                  : fill
+                    ? 'space-between'
+                    : 'center',
         }}
       >
         {icon &&
@@ -231,8 +231,8 @@ export const Button: FC<ButtonProps> = (props) => {
             icon,
             children || iconRight
               ? {
-                  style: { marginRight: 8, minWidth: 16 },
-                }
+                style: { marginRight: 8, minWidth: 16 },
+              }
               : null
           )}
         <Text
@@ -250,8 +250,8 @@ export const Button: FC<ButtonProps> = (props) => {
             iconRight,
             children || icon
               ? {
-                  style: { marginLeft: 8, minWidth: 16 },
-                }
+                style: { marginLeft: 8, minWidth: 16 },
+              }
               : null
           )}
       </div>

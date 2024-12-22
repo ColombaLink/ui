@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 import { useClient } from '@based/react'
 import { useRoute } from 'kabouter'
 import { LoadingIcon } from '~/icons'
@@ -22,10 +22,10 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
   const thirdPartyRedirect = isGoogleRedirect
     ? 'google'
     : isMicrosoftRedirect
-    ? 'microsoft'
-    : isGithubRedirect
-    ? 'github'
-    : false
+      ? 'microsoft'
+      : isGithubRedirect
+        ? 'github'
+        : false
 
   useEffect(() => {
     // TODO nuno fix => if we need to check for window, use typeof window !== 'undefined'
@@ -44,9 +44,8 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       const codeVerifier = window.sessionStorage.getItem('code_verifier')
       client
         .call(
-          `auth${
-            thirdPartyRedirect.charAt(0).toUpperCase() +
-            thirdPartyRedirect.slice(1)
+          `auth${thirdPartyRedirect.charAt(0).toUpperCase() +
+          thirdPartyRedirect.slice(1)
           }`,
           {
             code,

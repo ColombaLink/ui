@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { Footer } from './Footer'
 import { FooterBottom } from './FooterBottom'
 import { Header } from './Header'
@@ -116,9 +116,9 @@ export const Sequence = ({ style, data: { items, context, width }, index }) => {
     const iconName = itemProps.icon && getData(itemData, itemProps.icon.path)
     const title = titleProps.format
       ? {
-          format: titleProps.format,
-          value: getData(itemData, titleProps.path),
-        }
+        format: titleProps.format,
+        value: getData(itemData, titleProps.path),
+      }
       : getData(itemData, titleProps.path)
 
     const isExpanded =
@@ -215,8 +215,8 @@ export const Sequence = ({ style, data: { items, context, width }, index }) => {
                 onExpand={
                   context.expandable
                     ? useCallback(() => {
-                        context.updateExpandList(index)
-                      }, [index])
+                      context.updateExpandList(index)
+                    }, [index])
                     : null
                 }
                 icon={iconName || 'newFlow'}

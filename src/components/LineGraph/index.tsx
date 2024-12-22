@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useState, useEffect } from 'react'
+import { FunctionComponent, useRef, useState, useEffect } from 'react'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { NumberFormat } from '@based/pretty-number'
 import { LineGraphDataInput, LineXGraphFormat } from './types'

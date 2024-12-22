@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ReactNode, FC } from 'react'
+import { useState, useEffect, useRef, ReactNode, FC } from 'react'
 import { DialogContext, DialogContextType } from './DialogContext'
 import {
   Style,

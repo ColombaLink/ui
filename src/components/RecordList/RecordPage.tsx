@@ -1,4 +1,4 @@
-import React, { useState, useEffect, CSSProperties } from 'react'
+import { useState, useEffect, CSSProperties } from 'react'
 import { Button } from '~/components/Button'
 import { SingleRecordListItem } from './SingleRecordListItem'
 import { addSingleRecordItem } from './AddSingleRecordItem'

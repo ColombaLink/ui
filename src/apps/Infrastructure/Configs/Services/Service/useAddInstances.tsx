@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from 'react'
+import { ReactNode, useRef } from 'react'
 import { Accept, useUpdate } from '~'
 import { ServiceNamed, OnMachineConfigChange } from '../../../types'
 import { Instance } from '../Instance'

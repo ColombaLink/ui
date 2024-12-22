@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import { CSSProperties } from 'react'
 import { Color } from '~/types'
 import { color } from '~/utils'
 

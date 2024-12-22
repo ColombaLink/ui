@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import { CSSProperties } from 'react'
 import { border } from '~/utils'
 import { transparent } from './bg'
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import ComponentViewer from '../../ComponentViewer'
 import { table, itemTable, button, contentEditModal } from './views'
 import { client } from '../../based'

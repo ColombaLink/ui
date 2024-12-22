@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import props from '../props.json'
 import { Text, useSearchParam } from '../../'
 import { Explorer } from './Explorer'

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import { FixedSizeList } from 'react-window'
 import { useQuery, useClient } from '@based/react'
 import { styled } from 'inlines'
@@ -81,7 +81,7 @@ export const useInfiniteScroll = ({
           items: query(start, limit),
         }
         // @ts-ignore
-          const q = client.query('db', payload)
+        const q = client.query('db', payload)
         subs[q.id] =
           current.subs[q.id] ||
           q.subscribe(({ items }, checksum) => {

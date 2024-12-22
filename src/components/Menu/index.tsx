@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactNode, MouseEvent } from 'react'
+import { FC, Fragment, ReactNode, MouseEvent, isValidElement } from 'react'
 import { Weight } from '~/types'
 import { color } from '~/utils'
 import { Button, ButtonProps } from '../Button'
@@ -63,7 +63,7 @@ const MenuHeader: FC<MenuHeaderProps> = ({ children, style, onClick, id }) => {
 export const MenuItem: FC<MenuItemProps> = ({
   children,
   style,
-  onClick = () => {},
+  onClick = () => { },
   isActive,
   isNested = false,
   weight = isNested ? 500 : 600,
@@ -85,17 +85,17 @@ export const MenuItem: FC<MenuItemProps> = ({
           '@media (hover: hover)': {
             '&:hover': !isActive
               ? {
-                  backgroundColor: color('background:hover'),
-                  color: `${color('text')} !important`,
-                }
+                backgroundColor: color('background:hover'),
+                color: `${color('text')} !important`,
+              }
               : null,
           },
         }}
       >
         {typeof children === 'function'
           ? children({
-              isActive,
-            })
+            isActive,
+          })
           : children}
       </Click>
     </Text>
@@ -131,19 +131,19 @@ const StyledChevron = styled(ChevronDownIcon, {
 
 export type MenuDataItemObject =
   | {
-      value?: string | number
-      icon?: ReactNode
-      onClick?: (e: MouseEvent) => void
-      label?: ReactNode
-      items?: MenuDataItemObject[]
-    }
+    value?: string | number
+    icon?: ReactNode
+    onClick?: (e: MouseEvent) => void
+    label?: ReactNode
+    items?: MenuDataItemObject[]
+  }
   | {
-      value?: any
-      icon?: ReactNode
-      onClick?: (e: MouseEvent) => void
-      label: ReactNode
-      items?: MenuDataItemObject[]
-    }
+    value?: any
+    icon?: ReactNode
+    onClick?: (e: MouseEvent) => void
+    label: ReactNode
+    items?: MenuDataItemObject[]
+  }
 
 export type MenuDataItem = MenuDataItemObject | ReactNode
 
@@ -158,7 +158,7 @@ type MenuDataObject = {
 export type MenuData = MenuDataItem[] | MenuDataObject
 
 const isMenuDataObject = (data: MenuData): data is MenuDataObject => {
-  return !Array.isArray(data) && !React.isValidElement(data)
+  return !Array.isArray(data) && !isValidElement(data)
 }
 
 export const isMenuDataObjectItem = (
@@ -167,7 +167,7 @@ export const isMenuDataObjectItem = (
   return (
     typeof data === 'object' &&
     !Array.isArray(data) &&
-    !React.isValidElement(data)
+    !isValidElement(data)
   )
 }
 
@@ -186,7 +186,7 @@ const toMenuItemObject = (
       label: item,
       value: key || item,
     }
-  } else if (React.isValidElement(item)) {
+  } else if (isValidElement(item)) {
     return {
       label: item,
       value: key,

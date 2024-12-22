@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 import useGraphHover from '~/hooks/useGraphHover'
 import useThrottledCallback from '~/hooks//useThrottledCallback'
 import { Color, color, Text } from '~'
@@ -62,9 +62,8 @@ const Legend = ({
             key={i}
             style={{
               position: 'absolute',
-              transform: `translate3d(${0}px, ${
-                value.svgY - values[0].svgY
-              }px, 0px)`,
+              transform: `translate3d(${0}px, ${value.svgY - values[0].svgY
+                }px, 0px)`,
               borderRadius: '50%',
               width: 15,
               border: `2px solid ${color('text')} `,
@@ -119,10 +118,10 @@ const Legend = ({
               {xFormat === 'date-time-human'
                 ? prettyDate(values[0].x, 'date-time-human')
                 : xFormat === 'date'
-                ? prettyDate(values[0].x, 'time-precise') +
+                  ? prettyDate(values[0].x, 'time-precise') +
                   ' - ' +
                   prettyDate(values[0].x, 'date')
-                : prettyNumber(values[0].x, 'number-short')}
+                  : prettyNumber(values[0].x, 'number-short')}
             </Text>
             {/* {extraInfo} */}
           </div>
@@ -248,17 +247,17 @@ const Overlay = ({
     >
       {x
         ? getY({
-            x,
-            width,
-            r,
-            isHover,
-            data,
-            isStacked,
-            legend,
-            ySpread,
-            lineRefs,
-            xFormat,
-          })
+          x,
+          width,
+          r,
+          isHover,
+          data,
+          isStacked,
+          legend,
+          ySpread,
+          lineRefs,
+          xFormat,
+        })
         : null}
     </div>
   )

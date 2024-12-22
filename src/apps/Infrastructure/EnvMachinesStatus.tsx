@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import {
   Badge,
   LoadingIcon,
@@ -30,50 +30,50 @@ export const EnvMachinesStatus: FC<{
   style,
   resizing,
 }) => {
-  const noProblems = !unreachable
+    const noProblems = !unreachable
 
-  return (
-    <Row style={style}>
-      {count !== undefined ? (
-        <Badge style={{ marginRight: 12 }} color="accent">
-          {count} {type}
-          {count !== 1 ? 's' : ''}
-        </Badge>
-      ) : null}
-      {running ? (
-        <Badge
-          iconRight={noProblems ? CheckIcon : null}
-          style={{ marginRight: 12 }}
-          color={noProblems ? goodColor : 'text'}
-        >
-          {running} {type}
-          {running > 1 ? 's' : ''} running
-        </Badge>
-      ) : null}
-      {deploying ? (
-        <Badge style={{ marginRight: 12 }} color="text" icon={LoadingIcon}>
-          {deploying} {type}
-          {deploying > 1 ? 's' : ''} deploying
-        </Badge>
-      ) : null}
-      {unreachable ? (
-        <Badge style={{ marginRight: 12 }} color="red" icon={WarningIcon}>
-          {unreachable} {type}
-          {unreachable > 1 ? 's' : ''} failing
-        </Badge>
-      ) : null}
-      {removing ? (
-        <Badge style={{ marginRight: 12 }} color="red" icon={LoadingIcon}>
-          {removing} {type}
-          {removing > 1 ? 's' : ''} removing
-        </Badge>
-      ) : null}
-      {resizing ? (
-        <Badge style={{ marginRight: 12 }} color="accent" icon={LoadingIcon}>
-          {resizing} {type}
-          {resizing > 1 ? 's' : ''} resizing
-        </Badge>
-      ) : null}
-    </Row>
-  )
-}
+    return (
+      <Row style={style}>
+        {count !== undefined ? (
+          <Badge style={{ marginRight: 12 }} color="accent">
+            {count} {type}
+            {count !== 1 ? 's' : ''}
+          </Badge>
+        ) : null}
+        {running ? (
+          <Badge
+            iconRight={noProblems ? CheckIcon : null}
+            style={{ marginRight: 12 }}
+            color={noProblems ? goodColor : 'text'}
+          >
+            {running} {type}
+            {running > 1 ? 's' : ''} running
+          </Badge>
+        ) : null}
+        {deploying ? (
+          <Badge style={{ marginRight: 12 }} color="text" icon={LoadingIcon}>
+            {deploying} {type}
+            {deploying > 1 ? 's' : ''} deploying
+          </Badge>
+        ) : null}
+        {unreachable ? (
+          <Badge style={{ marginRight: 12 }} color="red" icon={WarningIcon}>
+            {unreachable} {type}
+            {unreachable > 1 ? 's' : ''} failing
+          </Badge>
+        ) : null}
+        {removing ? (
+          <Badge style={{ marginRight: 12 }} color="red" icon={LoadingIcon}>
+            {removing} {type}
+            {removing > 1 ? 's' : ''} removing
+          </Badge>
+        ) : null}
+        {resizing ? (
+          <Badge style={{ marginRight: 12 }} color="accent" icon={LoadingIcon}>
+            {resizing} {type}
+            {resizing > 1 ? 's' : ''} resizing
+          </Badge>
+        ) : null}
+      </Row>
+    )
+  }

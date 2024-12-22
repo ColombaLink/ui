@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { ScrollArea } from '../ScrollArea'
 import { Style, styled } from 'inlines'
 

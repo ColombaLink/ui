@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client'
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import {
   Provider,
   Button,

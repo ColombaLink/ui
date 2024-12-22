@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import {
   Text,
   RowSpaced,
@@ -50,8 +50,8 @@ export const Card: FC<CardProps> = ({
         '@media (hover: hover)': {
           '&:hover': props.onClick
             ? {
-                backgroundColor: color('background:hover'),
-              }
+              backgroundColor: color('background:hover'),
+            }
             : null,
         },
         ...style,

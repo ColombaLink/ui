@@ -1,5 +1,5 @@
 import { color } from '~'
-import React, {
+import {
   useCallback,
   useState,
   useEffect,
@@ -174,10 +174,10 @@ function useDrag<T>(
           useSelection
             ? s.filter((s) => !!s.exportData).map((s) => s.exportData(s))
             : [
-                data.exportData
-                  ? data.exportData(data)
-                  : { text: JSON.stringify(data.data) },
-              ]
+              data.exportData
+                ? data.exportData(data)
+                : { text: JSON.stringify(data.data) },
+            ]
         ).then(async (v) => {
           await setData(e.dataTransfer, v)
         })

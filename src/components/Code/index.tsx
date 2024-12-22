@@ -1,4 +1,4 @@
-import React, { FC, Dispatch, SetStateAction, ReactNode } from 'react'
+import { FC, Dispatch, SetStateAction, ReactNode } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
 import { Style, styled, border, color, renderOrCreateElement } from '~'
@@ -52,7 +52,7 @@ export const Code: FC<CodeProps> = ({ topRight, value, style, onChange }) => {
           try {
             const h = highlight(code, languages.js)
             return h
-          } catch (err) {}
+          } catch (err) { }
         }}
         style={{
           fontSize: 14,

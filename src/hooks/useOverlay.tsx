@@ -6,7 +6,7 @@ import {
   OverlayProps,
   PositionProps,
 } from '~/components/Overlay'
-import React, { ComponentType, SyntheticEvent, useCallback } from 'react'
+import { ComponentType, SyntheticEvent, useCallback } from 'react'
 import { useAllContexts, ForwardContext } from '~/components/Provider'
 import { hash } from '@saulx/hash'
 import { PropsEventHandler } from '~/types'

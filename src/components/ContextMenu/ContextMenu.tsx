@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import { createElement, FC, useEffect } from 'react'
 import { useOverlayPosition } from '~'
 import { Overlay, OverlayProps } from '../Overlay'
 
@@ -76,7 +76,7 @@ export const ContextMenu: FC<OverlayProps> = ({
 
   return (
     <Overlay style={s} elementRef={elementRef} position={position}>
-      {React.createElement(Component, {
+      {createElement(Component, {
         resize,
         position,
         ...props,

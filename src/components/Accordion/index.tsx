@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState } from 'react'
+import { Children, cloneElement, FC, ReactElement, ReactNode, useState } from 'react'
 import {
   Text,
   Style,
@@ -36,9 +36,9 @@ export const Accordion: FC<AccordionProps> = ({
     <>
       {children && (
         <styled.div style={{ ...style }}>
-          {React.Children.map(children as React.ReactElement, (child) => (
+          {Children.map(children as ReactElement, (child) => (
             <styled.div>
-              {React.cloneElement(child, {
+              {cloneElement(child, {
                 color: colorProp,
               })}
             </styled.div>

@@ -1,4 +1,4 @@
-import React, { ReactNode, FunctionComponent, FC, useState } from 'react'
+import { ReactNode, FunctionComponent, FC, useState } from 'react'
 import { removeOverlay } from '../Overlay'
 import {
   styled,
@@ -136,12 +136,12 @@ export const ContextItem: FC<ContextItemProps> = ({
       onKeyDown={
         onClick
           ? (e) => {
-              if (e.key === 'Enter') {
-                if (onClick) {
-                  onClick(e)
-                }
+            if (e.key === 'Enter') {
+              if (onClick) {
+                onClick(e)
               }
             }
+          }
           : null
       }
     >

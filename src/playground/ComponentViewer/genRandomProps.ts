@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import { FC } from 'react'
 import * as ui from '../..'
 import { IconProps } from '../../'
 import props from '../props.json'
@@ -119,7 +119,7 @@ export const genRandomProp = (name, prop, short = false) => {
   }
 
   if (prop.type === 'function') {
-    return () => {}
+    return () => { }
   }
 
   if (prop.type === 'ReactNode') {

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import { FC, useState } from 'react'
 import { AccordionItem, SettingsGroup, Row, Badge, Text } from '~'
 import { MachineConfig } from '@based/machine-config'
 import { OnMachineConfigChange } from '../types'

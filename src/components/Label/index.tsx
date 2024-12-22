@@ -1,4 +1,4 @@
-import React, { ReactNode, FunctionComponent } from 'react'
+import { ReactNode, FunctionComponent } from 'react'
 import { Text, Color, Style, Row, Icon, renderOrCreateElement } from '~'
 
 type LabelProps = {
