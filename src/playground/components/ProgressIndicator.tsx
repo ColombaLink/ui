@@ -1,4 +1,4 @@
-import React from 'react'
+
 // import { InfiniteList } from '~/components/InfiniteList'
 import { ProgressIndicator as ProgressIndicatorComponent } from '~/components/ProgressIndicator'
 import ComponentViewer from '../ComponentViewer'

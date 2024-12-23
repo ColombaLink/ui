@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Tabs } from '../..'
 import ComponentViewer from '../ComponentViewer'
 

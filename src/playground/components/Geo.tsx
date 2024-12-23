@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { GeoInput } from '~'
 import ComponentViewer from '../ComponentViewer'
 

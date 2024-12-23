@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Menu as MC } from '~/components/Menu'
 import ComponentViewer from '../ComponentViewer'
 

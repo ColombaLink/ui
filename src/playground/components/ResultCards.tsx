@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { ResultCard as ResultCardComponent } from '~/components/ResultCard'
 import ComponentViewer from '../ComponentViewer'
 

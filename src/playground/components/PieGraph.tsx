@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { PieGraph as PieGraphComponent } from '~/components/PieGraph'
 import ComponentViewer from '../ComponentViewer'
 

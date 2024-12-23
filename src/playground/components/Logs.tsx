@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ComponentViewer from '../ComponentViewer'
 
 // const testmsg = `-- [ <script language="javascript">alert("wawa")</script> \x1b[34mblue\x1b[39m \x1b[35mmagenta\x1b[39m \x1b[32mgreen\x1b[39m`

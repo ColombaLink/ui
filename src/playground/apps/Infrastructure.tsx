@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ComponentViewer from '../ComponentViewer'
 import { Provider } from '@based/react'
 import { adminClient, cluster, project, org, env } from '../based'

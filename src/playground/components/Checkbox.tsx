@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Checkbox as CheckboxComponent } from '~'
 import ComponentViewer from '../ComponentViewer'
 

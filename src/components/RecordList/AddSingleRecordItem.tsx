@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Dialog, Input } from '~'
 
 export const addSingleRecordItem = async (

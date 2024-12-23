@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 
-import React from 'react'
+
 import { Input as InputComponent, CheckIcon, EmailIcon, SearchIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 

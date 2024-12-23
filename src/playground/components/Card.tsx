@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Card as CardComponent } from '~/components/Card'
 import { Avatar } from '~/components/Avatar'
 import {

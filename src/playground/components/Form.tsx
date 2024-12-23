@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Input, Form as FormComponent, Button, CheckIcon } from '~'
 import ComponentViewer from '../ComponentViewer'
 

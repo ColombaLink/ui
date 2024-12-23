@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Text as TextComponent } from '~'
 import ComponentViewer from '../ComponentViewer'
 import { LoremIpsum } from 'lorem-ipsum'

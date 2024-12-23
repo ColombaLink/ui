@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Page as PageComponent } from '~/components/Page'
 import ComponentViewer from '../ComponentViewer'
 

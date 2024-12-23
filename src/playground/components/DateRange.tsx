@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { DateRangeWidget } from '~'
 import ComponentViewer from '../ComponentViewer'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Label as LabelComponent } from '~/components/Label'
 import { ErrorIcon } from '~'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { DotIcon, CheckCircleIcon } from '~'
 import { Badge as BadgeComponent } from '~/components/Badge'
 import ComponentViewer from '../ComponentViewer'

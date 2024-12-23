@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { ToggleGroup as ToggleGroupComponent } from '~/components/ToggleGroup'
 import ComponentViewer from '../ComponentViewer'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { styled } from '~'
 
 export const MaybeSuggest = (props) =>
@@ -27,10 +27,10 @@ const Suggestor = ({
       onKeyDown={
         showSuggestion
           ? (e) => {
-              if (e.key === 'Enter') {
-                onChange({ target: { value: suggestion } })
-              }
+            if (e.key === 'Enter') {
+              onChange({ target: { value: suggestion } })
             }
+          }
           : null
       }
       onBlur={() => {

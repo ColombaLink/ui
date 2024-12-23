@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { ResultTable as ResultTableComponent } from '~'
 import ComponentViewer from '../ComponentViewer'
 

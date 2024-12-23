@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ComponentViewer from '../ComponentViewer'
 
 const code = ` import { Flow, Button, Toggle } from '@based/ui'

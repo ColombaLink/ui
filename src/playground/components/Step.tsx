@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Steps as StepC } from '~/components/Steps'
 import ComponentViewer from '../ComponentViewer'
 

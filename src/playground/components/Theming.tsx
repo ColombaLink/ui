@@ -1,7 +1,7 @@
 import { baseTheme } from '~/theme/baseTheme'
 import { darkTheme } from '~/theme/darkTheme'
 import { values } from '~/theme'
-import React from 'react'
+
 import { styled } from 'inlines'
 import { border, Color, color, font } from '~/utils'
 import { transparent } from '~/components/ColorPicker/bg'
@@ -144,9 +144,9 @@ export const Theming = () => {
                   onClick={() => {
                     download(
                       'data:text/json;charset=utf-8,' +
-                        encodeURIComponent(
-                          JSON.stringify({ base: baseTheme, dark: darkTheme })
-                        ),
+                      encodeURIComponent(
+                        JSON.stringify({ base: baseTheme, dark: darkTheme })
+                      ),
                       `theme.json`
                     )
                   }}

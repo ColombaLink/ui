@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { FileUpload } from '~'
 import ComponentViewer from '../ComponentViewer'
 

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Thumbnail as ThumbnailComponent } from '~/components/Thumbnail'
 import { AttachmentIcon } from '~'
 import ComponentViewer from '../ComponentViewer'

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Select as SelectComponent } from '~/components/Select'
 import ComponentViewer from '../ComponentViewer'
 
@@ -37,16 +37,16 @@ export const Select = () => {
               options: ['yes', 'no', 'for sure'],
             },
           },
-            {
-                props: {
-                    value: 'yes',
-                    disableReselect: true,
-                    onChange: () => console.log('Snurp'),
-                    placeholder: 'Forced selection...',
-                    label: 'Force',
-                    options: ['yes', 'no', 'for sure'],
-                },
+          {
+            props: {
+              value: 'yes',
+              disableReselect: true,
+              onChange: () => console.log('Snurp'),
+              placeholder: 'Forced selection...',
+              label: 'Force',
+              options: ['yes', 'no', 'for sure'],
             },
+          },
           {
             code: ms,
           },

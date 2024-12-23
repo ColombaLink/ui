@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { ScatterResult as ScatterResultComponent } from '~/components/ScatterResult'
 // import ComponentViewer from '../ComponentViewer'
 import { color } from '~/utils'

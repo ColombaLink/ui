@@ -1,4 +1,3 @@
-import React from 'react'
 import { SettingsGroup as Sg } from '~'
 import ComponentViewer from '../ComponentViewer'
 

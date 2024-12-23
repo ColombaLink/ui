@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Slider as SliderComponent } from '~/components/Slider'
 import ComponentViewer from '../ComponentViewer'
 

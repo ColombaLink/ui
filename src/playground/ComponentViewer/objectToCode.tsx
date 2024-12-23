@@ -1,4 +1,4 @@
-import React from 'react'
+
 import props from '../props.json'
 import { genRandomProps } from './genRandomProps'
 
@@ -74,11 +74,10 @@ export const toComponent = (
   const s = indent.slice(2) || ''
   const header = !propsHeader
     ? `${s}<${componentName}`
-    : `${s}<${componentName} ${
-        propsHeader.length > 3
-          ? '\n' + indent + propsHeader.join('\n' + indent)
-          : propsHeader.join(' ')
-      }`
+    : `${s}<${componentName} ${propsHeader.length > 3
+      ? '\n' + indent + propsHeader.join('\n' + indent)
+      : propsHeader.join(' ')
+    }`
 
   if (exampleProps.children) {
     return `${header}${propsHeader.length > 3 ? `\n` : ''}>

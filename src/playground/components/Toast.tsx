@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Toast as ToastComponent, useToast } from '~/components/Toast'
 import { CheckCircleIcon, CloseIcon, EyeIcon } from '~/icons'
 import { Button } from '~/components/Button'

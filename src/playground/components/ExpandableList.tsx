@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { ExpandableList as EL } from '~'
 
 import ComponentViewer from '../ComponentViewer'

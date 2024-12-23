@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Avatar as AvatarComponent } from '~/components/Avatar'
 import { BasedIcon } from '~'
 import ComponentViewer from '../ComponentViewer'

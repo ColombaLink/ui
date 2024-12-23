@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BarGraph as BarGraphComponents } from '~/components/BarGraph'
 import ComponentViewer from '../ComponentViewer'
 

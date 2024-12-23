@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 export const Slider = ({ max, value, step = 1, onChange, style }) => {
   const x = (value / max) * 100

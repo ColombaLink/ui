@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Sidebar as MC } from '~/components/Sidebar'
 import ComponentViewer from '../ComponentViewer'
 

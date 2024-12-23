@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { styled, ChevronDownIcon, ChevronUpIcon, color } from '~'
 
 export const NumberInput = ({ onChange, value }) => {

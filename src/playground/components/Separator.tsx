@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Separator as SeparatorComponent } from '~/components/Separator'
 import ComponentViewer from '../ComponentViewer'
 

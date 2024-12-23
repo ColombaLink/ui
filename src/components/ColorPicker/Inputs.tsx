@@ -1,5 +1,5 @@
 import { styled } from 'inlines'
-import React from 'react'
+
 import { Input } from '~'
 import { minmax, toHex } from './utils'
 

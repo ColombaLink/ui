@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { LineGraph as Lg } from '~'
 import ComponentViewer from '../ComponentViewer'
 

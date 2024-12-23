@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { DistributionGraph as Dg } from '~'
 import ComponentViewer from '../ComponentViewer'
 

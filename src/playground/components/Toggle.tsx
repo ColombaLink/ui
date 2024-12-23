@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Toggle as ToggleComponent } from '~/components/Toggle'
 import ComponentViewer from '../ComponentViewer'
 

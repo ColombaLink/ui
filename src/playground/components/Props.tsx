@@ -1,4 +1,4 @@
-import React from 'react'
+
 import props from '../props.json'
 import { Text } from '../..'
 import { deepEqual } from '@saulx/utils'

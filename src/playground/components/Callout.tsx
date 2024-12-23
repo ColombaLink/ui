@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Callout as CalloutComponent } from '~/components/Callout'
 import { ErrorIcon } from '~/icons'
 import ComponentViewer from '../ComponentViewer'

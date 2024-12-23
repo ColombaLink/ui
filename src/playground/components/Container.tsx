@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Text, Button, Input, Container as ContainerComponent } from '~'
 import ComponentViewer from '../ComponentViewer'
 import { MoreIcon } from '~/icons'

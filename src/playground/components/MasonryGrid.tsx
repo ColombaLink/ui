@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { MasonryGrid as MasonryGridC } from '../..'
 import ComponentViewer from '../ComponentViewer'
 

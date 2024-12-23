@@ -1,4 +1,4 @@
-import React from 'react'
+
 
 import { Text, Container, Callout, Code, useTooltip } from '~'
 

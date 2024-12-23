@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Code as CodeBox } from '~/components/Code'
 import ComponentViewer from '../ComponentViewer'
 
