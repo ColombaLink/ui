@@ -11,7 +11,6 @@ import {
   useDialog,
   Tabs,
   Tab,
-  MimeType,
   styled,
   Style,
   RowSpaced,

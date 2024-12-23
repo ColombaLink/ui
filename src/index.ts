@@ -1,8 +1,5 @@
 import '../assets/global.css'
 import '../assets/fonts.css'
-export * from './apps/Content'
-export * from './apps/Schema'
-export * from './apps/Infrastructure'
 export * from './components/SettingsGroup'
 export * from './components/Accept'
 export * from './components/Styled'
