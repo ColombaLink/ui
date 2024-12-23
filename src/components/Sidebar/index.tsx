@@ -12,10 +12,10 @@ import {
 import { border, boxShadow, color, renderOrCreateElement } from '~/utils'
 import { useTooltip } from '~/hooks/useTooltip'
 import { Text } from '../Text'
-import { styled, Style } from 'inlines'
 import { ChevronRightIcon } from '~/icons'
 import { Icon } from '~/types'
 import { Drawer } from '../Drawer'
+import { styled, Style } from 'inlines'
 
 type SideBarItem = {
   icon?: ReactNode | FunctionComponent<Icon>

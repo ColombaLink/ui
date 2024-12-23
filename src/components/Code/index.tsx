@@ -1,7 +1,7 @@
 import { FC, Dispatch, SetStateAction, ReactNode } from 'react'
 // TODO: use package when PR is merged. Peerdep for react 17 (not 18)
 import Editor from './ReactSImpleEditor'
-import { Style, styled, border, color, renderOrCreateElement } from '~'
+import { border, color, renderOrCreateElement } from '~'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-clike'
@@ -13,6 +13,7 @@ import 'prismjs/components/prism-tsx.min'
 import 'prismjs/components/prism-json'
 import './syntax.css'
 
+import { Style, styled } from 'inlines'
 export type CodeProps = {
   style?: Style
   value?: string

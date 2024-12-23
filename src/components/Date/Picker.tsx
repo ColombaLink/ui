@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {
-  styled,
+
   ChevronDownIcon,
   ChevronUpIcon,
   Text,
@@ -9,6 +9,8 @@ import {
   useContextState,
 } from '~'
 import { Calendar } from './Calendar'
+
+import { styled } from 'inlines'
 
 type PickerProps = {
   setValue: (e: any) => void

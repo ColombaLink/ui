@@ -5,12 +5,12 @@ import {
   border,
   Row,
   ScrollArea,
-  styled,
   color,
   Button,
   DeleteIcon,
 } from '~'
 import { colorizer } from './colorizer'
+import { styled } from 'inlines'
 
 const DefaultHeader: FC<{ data: any }> = () => {
   return (

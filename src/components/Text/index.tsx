@@ -1,4 +1,4 @@
-import { Style, styled } from '~'
+import { styled, Style } from 'inlines'
 import { FC, ReactNode, MouseEvent } from 'react'
 import { Size, Color, Weight, ColorVariant, Typography } from '~/types'
 import { font } from '~/utils'

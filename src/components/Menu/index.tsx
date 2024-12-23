@@ -5,7 +5,7 @@ import { Button, ButtonProps } from '../Button'
 import { ScrollArea } from '../ScrollArea'
 import { Text } from '../Text'
 import { ChevronDownIcon } from '~/icons'
-import { Style, styled } from 'inlines'
+import { styled, Style } from 'inlines'
 
 const Click = styled('div', {
   padding: '4px 8px',

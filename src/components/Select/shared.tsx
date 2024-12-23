@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { Style, styled, color, Text, Color, RowSpaced } from '~'
+import { color, Text, Color, RowSpaced } from '~'
+import { styled, Style } from 'inlines'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',

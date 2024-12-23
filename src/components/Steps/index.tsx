@@ -1,8 +1,8 @@
 import { FC, ReactNode } from 'react'
 import { color } from '~/utils'
 import { Text } from '../Text'
-import { styled, Style } from 'inlines'
 import { Color } from '~/types'
+import { styled, Style } from 'inlines'
 
 type StepsProps = {
   active?: any

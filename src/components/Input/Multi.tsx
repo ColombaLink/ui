@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { styled, color } from '~'
+import { color } from '~'
+import { styled, Style } from 'inlines'
 
 const resize = (target) => {
   if (target) {

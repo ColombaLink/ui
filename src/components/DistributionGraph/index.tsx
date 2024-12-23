@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react'
-import { Text, Style, styled, Color, color } from '~'
+import { Text, Color, color } from '~'
 import { prettyNumber, NumberFormat } from '@based/pretty-number'
+import { Style, styled } from 'inlines'
 
 type DistributionGraphProps = {
   data?: number[]

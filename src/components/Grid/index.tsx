@@ -1,5 +1,5 @@
+import { Style, styled } from 'inlines'
 import { FC, ReactNode } from 'react'
-import { styled, Style } from '~'
 
 type GridProps = {
   children?: ReactNode[]

@@ -1,14 +1,16 @@
 import { useState, ReactNode, FC, isValidElement } from 'react'
 import {
   Text,
-  Style,
+
   ExpandIcon,
   ScrollArea,
   border,
-  styled,
+
   RowSpaced,
   Row,
 } from '~'
+
+import { styled, Style } from 'inlines'
 
 type ListItem =
   | ReactNode

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react'
-import { Style, styled } from 'inlines'
+import { styled, Style } from 'inlines'
 import { border, color } from '~/utils'
 import { CalendarAltIcon } from '~/icons'
 import { useOverlay } from '~/hooks'

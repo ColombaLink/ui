@@ -14,8 +14,9 @@ import {
   addCountries,
   fitToData,
 } from './mapActions'
-import { color, styled } from '~'
+import { color } from '~'
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
+import { styled } from 'inlines'
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoibmZyYWRlIiwiYSI6ImNra3h0cDhtNjA0NWYyb21zcnBhN21ra28ifQ.m5mqJjuX7iK9Z8JvNNcnfg'

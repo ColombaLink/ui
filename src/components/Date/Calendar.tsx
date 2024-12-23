@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { styled, color } from '~'
+import { color } from '~'
+import { styled } from 'inlines'
 
 type CalendarProps = {
   days: string[]

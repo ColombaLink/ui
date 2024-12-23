@@ -8,11 +8,12 @@ import {
   useHover,
   usePropState,
   Color,
-  Style,
+
   Center,
   Row,
 } from '~'
 
+import { Style, styled } from 'inlines'
 export type CheckboxProps = {
   value?: boolean
   indeterminate?: boolean

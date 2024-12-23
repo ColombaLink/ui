@@ -1,3 +1,4 @@
+import { styled } from 'inlines'
 import { useEffect, useState } from 'react'
 import {
   Input,
@@ -5,7 +6,7 @@ import {
   Text,
   CheckIcon,
   CopyIcon,
-  styled,
+
 } from '~'
 
 type DigestInputProps = {

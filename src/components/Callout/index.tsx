@@ -1,5 +1,6 @@
 import { FC, ReactNode, useState, FunctionComponent } from 'react'
-import { Color, Icon, Label, border, color, CloseIcon, Style, styled } from '~'
+import { Color, Icon, Label, border, color, CloseIcon } from '~'
+import { Style, styled } from 'inlines'
 
 type CalloutProps = {
   children?: ReactNode

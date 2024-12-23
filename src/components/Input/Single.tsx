@@ -5,9 +5,10 @@ import {
   ReactNode,
   useEffect,
 } from 'react'
-import { Style, styled, color, Icon, renderOrCreateElement } from '~'
+import { color, Icon, renderOrCreateElement } from '~'
 import { NumberInput } from './NumberInput'
 import isEmail from 'is-email'
+import { styled, Style } from 'inlines'
 
 type SingleProps = {
   type?: string

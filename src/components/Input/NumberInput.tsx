@@ -1,5 +1,6 @@
 
-import { styled, ChevronDownIcon, ChevronUpIcon, color } from '~'
+import { ChevronDownIcon, ChevronUpIcon, color } from '~'
+import { styled } from 'inlines'
 
 export const NumberInput = ({ onChange, value }) => {
   return (

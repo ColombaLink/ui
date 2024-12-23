@@ -1,3 +1,4 @@
+import { styled, Style } from 'inlines';
 import { FC, useMemo, ReactNode, useRef, useState, isValidElement } from 'react'
 import {
   Input,
@@ -5,9 +6,9 @@ import {
   RowSpaced,
   border,
   Text,
-  styled,
+
   Checkbox,
-  Style,
+
   Accept,
   SelectOption,
   Select,

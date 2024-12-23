@@ -1,6 +1,5 @@
 import { ReactNode, useState, useRef, useEffect } from 'react'
 import { Color, Icon } from '~/types'
-import { Style, styled } from 'inlines'
 import {
   Avatar,
   Text,
@@ -10,6 +9,8 @@ import {
   ScrollArea,
 } from '~'
 import dayjs from 'dayjs'
+import { Style, styled } from 'inlines'
+
 
 type NewLogsObject = {
   status?: string

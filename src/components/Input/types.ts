@@ -5,7 +5,8 @@ import {
   ReactEventHandler,
   KeyboardEvent,
 } from 'react'
-import { Style, Icon } from '~'
+import { Icon } from '~'
+import { styled, Style } from 'inlines'
 
 export type InputType =
   | 'text'

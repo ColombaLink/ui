@@ -1,5 +1,6 @@
 import { useEffect, useRef, RefObject, CSSProperties } from 'react'
-import { useColorPicker, color, styled } from '~'
+import { useColorPicker, color } from '~'
+import { styled } from 'inlines'
 
 type ColorInputProps = {
   inputRef?: RefObject<HTMLInputElement>

@@ -1,13 +1,13 @@
+import { Style } from 'inlines'
 import { FC, SyntheticEvent, FunctionComponent, ReactNode } from 'react'
 import {
   Text,
-  getButtonStyle,
   Color,
   Size,
   Icon,
-  Style,
   renderOrCreateElement,
   Center,
+  getButtonStyle,
 } from '~'
 
 export type AvatarProps = {

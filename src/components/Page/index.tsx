@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { ScrollArea } from '../ScrollArea'
-import { Style, styled } from 'inlines'
+import { styled, Style } from 'inlines'
 
 type PageProps = {
   children: ReactNode

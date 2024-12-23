@@ -1,5 +1,6 @@
 import { FC } from 'react'
-import { CheckIcon, Button, CloseIcon, Row, Style } from '~'
+import { CheckIcon, Button, CloseIcon, Row } from '~'
+import { Style } from 'inlines';
 
 export const Accept = <T,>({
   onAccept,

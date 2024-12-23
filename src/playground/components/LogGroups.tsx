@@ -5,7 +5,7 @@ import {
   Avatar,
   CalendarIcon,
   CheckIcon,
-  styled,
+
   LogGroups as LogsComp,
 } from '~'
 

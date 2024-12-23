@@ -1,14 +1,14 @@
 import { Children, cloneElement, FC, ReactElement, ReactNode, useState } from 'react'
 import {
   Text,
-  Style,
-  styled,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
   Color,
   color,
 } from '~'
+
+import { Style, styled } from 'inlines';
 
 type AccordionItemProps = {
   label?: string

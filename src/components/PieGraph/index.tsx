@@ -3,7 +3,7 @@ import { color } from '~/utils'
 import { Text } from '~'
 import { prettyNumber } from '@based/pretty-number'
 import { Color } from '~/types'
-import { styled, Style } from 'inlines'
+import { Style, styled } from 'inlines'
 
 type PieGraphProps = {
   data?: {

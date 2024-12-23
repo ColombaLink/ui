@@ -1,5 +1,6 @@
 import { ReactNode, FunctionComponent } from 'react'
-import { Text, Color, Style, Row, Icon, renderOrCreateElement } from '~'
+import { Text, Color, Row, Icon, renderOrCreateElement } from '~'
+import { Style, styled } from 'inlines'
 
 type LabelProps = {
   label?: ReactNode

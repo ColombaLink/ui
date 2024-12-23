@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
+import { Style, styled } from 'inlines'
 import {
   FC,
   MouseEventHandler,
@@ -18,8 +19,6 @@ import {
   Text,
   Key,
   Icon,
-  styled,
-  Style,
   LoadingIcon,
   useKeyboardShortcut,
   KeyBoardshortcut,

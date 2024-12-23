@@ -6,10 +6,11 @@ import {
   Color,
   Icon,
   Text,
-  styled,
   useCopyToClipboard,
   CheckIcon,
 } from '~'
+
+import { styled } from 'inlines';
 
 type BadgeProps = {
   children: ReactNode

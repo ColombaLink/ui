@@ -13,7 +13,6 @@ import {
   useFocus,
   useHover,
   color,
-  Style,
   Icon,
   DateWidget,
 } from '~'
@@ -27,6 +26,7 @@ import { Single } from './Single'
 import { Multi } from './Multi'
 import { MaybeSuggest } from './MaybeSuggest'
 import { UrlInput } from './UrlInput'
+import { Style } from 'inlines'
 
 type InputType =
   | 'text'

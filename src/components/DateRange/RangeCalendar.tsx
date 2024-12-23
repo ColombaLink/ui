@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { styled, color, useContextState } from '~'
+import { color, useContextState } from '~'
+import { styled } from 'inlines'
 
 type RangeCalendarProps = {
   days: string[]

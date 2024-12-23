@@ -1,6 +1,7 @@
 import { prettyNumber } from '@based/pretty-number'
 import { FC, CSSProperties, ReactNode, useState } from 'react'
-import { styled, ScrollArea, Text, Row, border, color } from '~'
+import { Style, styled } from 'inlines'
+import { ScrollArea, Text, Row, border, color } from '~'
 
 type Row = {
   country: string

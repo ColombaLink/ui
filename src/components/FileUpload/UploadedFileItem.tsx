@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import {
-  styled,
   color,
   BasedIcon,
   AttachmentIcon,
@@ -14,6 +13,7 @@ import {
   DownloadIcon,
   ZoomInIcon,
 } from '~'
+import { styled } from 'inlines'
 
 const StyledUploadedFile = styled('div', {
   display: 'flex',

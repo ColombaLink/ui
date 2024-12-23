@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
-import { color, Text, usePropState, styled } from '~'
+import { color, Text, usePropState } from '~'
 import Editor from '../Code/ReactSImpleEditor'
 import { highlight, languages } from 'prismjs/components/prism-core'
 import 'prismjs/components/prism-markdown'
 import 'prismjs/components/prism-javascript'
+import { styled } from 'inlines'
 
 const StyledMarkdownInput = styled('div', {
   border: `1px solid ${color('border')}`,

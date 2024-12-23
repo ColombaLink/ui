@@ -9,12 +9,12 @@ import {
   useMemo,
   useEffect,
 } from 'react'
-import { styled, border, Text, color, Badge, AttachmentIcon } from '~'
+import { border, Text, color, Badge, AttachmentIcon } from '~'
 import AutoSizer from 'react-virtualized-auto-sizer'
 import { TableProps, TableHeader, SortOptions } from './types'
 import { useInfiniteQuery } from './useInfiniteQuery'
 import { prettyNumber } from '@based/pretty-number'
-
+import { styled, Style } from 'inlines'
 export * from './types'
 
 import { VariableSizeGrid as Grid } from 'react-window'

@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { EyeIcon, EyeBlockedIcon, color, styled, Style } from '~'
+import { EyeIcon, EyeBlockedIcon, color } from '~'
 import { Single } from './Single'
+import { styled, Style } from 'inlines'
 
 type PasswordInputProps = {
   value?: string

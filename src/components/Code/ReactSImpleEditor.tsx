@@ -1,6 +1,7 @@
 /* global global */
 
 import * as React from 'react'
+import { Style, styled } from 'inlines'
 
 type Props = React.HTMLAttributes<HTMLDivElement> & {
   // Props for the component
@@ -434,9 +435,9 @@ export default class Editor extends React.Component<Props, State> {
     } else if (
       (isMacLike
         ? // Trigger undo with ⌘+Z on Mac
-          e.metaKey && e.keyCode === KEYCODE_Z
+        e.metaKey && e.keyCode === KEYCODE_Z
         : // Trigger undo with Ctrl+Z on other platforms
-          e.ctrlKey && e.keyCode === KEYCODE_Z) &&
+        e.ctrlKey && e.keyCode === KEYCODE_Z) &&
       !e.shiftKey &&
       !e.altKey
     ) {
@@ -446,11 +447,11 @@ export default class Editor extends React.Component<Props, State> {
     } else if (
       (isMacLike
         ? // Trigger redo with ⌘+Shift+Z on Mac
-          e.metaKey && e.keyCode === KEYCODE_Z && e.shiftKey
+        e.metaKey && e.keyCode === KEYCODE_Z && e.shiftKey
         : isWindows
-        ? // Trigger redo with Ctrl+Y on Windows
+          ? // Trigger redo with Ctrl+Y on Windows
           e.ctrlKey && e.keyCode === KEYCODE_Y
-        : // Trigger redo with Ctrl+Shift+Z on other platforms
+          : // Trigger redo with Ctrl+Shift+Z on other platforms
           e.ctrlKey && e.keyCode === KEYCODE_Z && e.shiftKey) &&
       !e.altKey
     ) {

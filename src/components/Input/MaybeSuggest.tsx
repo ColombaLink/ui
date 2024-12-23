@@ -1,5 +1,5 @@
 
-import { styled } from '~'
+import { styled, Style } from 'inlines'
 
 export const MaybeSuggest = (props) =>
   props.suggest ? <Suggestor {...props} /> : props.children

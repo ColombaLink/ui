@@ -1,5 +1,6 @@
 import { FC, ReactNode, MouseEvent } from 'react'
-import { Text, ChevronRightIcon, styled, Style } from '~'
+import { Text, ChevronRightIcon } from '~'
+import { styled, Style } from 'inlines'
 
 type BreadcrumbsProps = {
   style?: Style

@@ -1,8 +1,6 @@
 import { FC, ReactNode } from 'react'
 import { Value, Option } from '~/components/ContextMenu'
 import {
-  styled,
-  Style,
   Color,
   useSelect,
   PositionProps,
@@ -12,6 +10,7 @@ import {
   ChevronDownIcon,
 } from '~'
 import { SelectLabel } from './shared'
+import { styled, Style } from 'inlines'
 
 export const StyledSelect = styled('div', {
   justifyContent: 'space-between',

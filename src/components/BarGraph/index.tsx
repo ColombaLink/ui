@@ -1,5 +1,6 @@
 import { CSSProperties, FC, ReactNode } from 'react'
-import { Color, color, Text, Label, useTooltip, styled } from '~'
+import { Color, color, Text, Label, useTooltip } from '~'
+import { styled } from 'inlines'
 import { prettyNumber } from '@based/pretty-number'
 
 type BarGraphProps = {

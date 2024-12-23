@@ -11,13 +11,12 @@ import {
   useDialog,
   Tabs,
   Tab,
-  styled,
-  Style,
   RowSpaced,
   removeOverlay,
 } from '~'
 import { UploadedFileItem } from './UploadedFileItem'
 import { InputWrapper } from '../Input/InputWrapper'
+import { styled, Style } from 'inlines'
 
 type FileUploadProps = {
   label?: string

@@ -1,4 +1,4 @@
-import { styled } from 'inlines'
+import { Style, styled } from 'inlines'
 import {
   FC,
   useCallback,
@@ -12,7 +12,7 @@ import {
 import {
   removeOverlay,
   Color,
-  Style,
+
   Text,
   AddIcon,
   CheckIcon,
@@ -22,6 +22,7 @@ import {
   border,
 } from '~'
 import { ContextDivider, ContextItem } from '.'
+
 
 const FilterInputHolderSticky = styled('div', {
   width: '100%',

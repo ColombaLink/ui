@@ -6,7 +6,8 @@ import { RgbPicker } from './RgbPicker'
 import { Swatch } from './Swatch'
 import { rgbToXY, xyToRgb, rgbToHue, rgbaToArr } from './utils'
 import type { RGB } from './types'
-import { color, Column, Style, styled } from '~'
+import { color, Column } from '~'
+import { Style, styled } from 'inlines'
 
 type ColorPickerProps = {
   value?: string

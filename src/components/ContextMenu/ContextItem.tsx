@@ -1,8 +1,8 @@
 import { ReactNode, FunctionComponent, FC, useState } from 'react'
 import { removeOverlay } from '../Overlay'
 import {
-  styled,
-  Style,
+
+
   Text,
   color,
   renderOrCreateElement,
@@ -13,6 +13,7 @@ import {
   WarningIcon,
 } from '~'
 
+import { Style, styled } from 'inlines'
 const StyledContextItem = styled('div', {
   display: 'flex',
   height: '32px',

@@ -1,6 +1,6 @@
 import { CSSProperties, FC, ReactNode, useState } from 'react'
-import { color, Text, ErrorIcon, styled, Color, Label, Button } from '~'
-
+import { color, Text, ErrorIcon, Color, Label, Button } from '~'
+import { styled } from 'inlines'
 type InputWrapperProps = {
   children: ReactNode
   errorMessage?: string

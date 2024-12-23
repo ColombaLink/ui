@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  styled,
   ChevronDownIcon,
   ChevronUpIcon,
   Text,
@@ -9,6 +8,8 @@ import {
   useContextState,
 } from '~'
 import { RangeCalendar } from './RangeCalendar'
+
+import { styled } from 'inlines'
 
 type RangeFromPickerProps = {
   setValue: (e: any) => void

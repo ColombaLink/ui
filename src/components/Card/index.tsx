@@ -7,9 +7,9 @@ import {
   Label,
   color,
   renderOrCreateElement,
-  styled,
-  Style,
 } from '~'
+
+import { Style, styled } from 'inlines'
 
 type CardProps = {
   label?: ReactNode

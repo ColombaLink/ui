@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react'
-import { styled, Style, StateProvider } from '~'
+import { StateProvider } from '~'
 import { NewDateInput } from './NewDateInput'
+import { Style, styled } from 'inlines'
 
 type DateWidgetProps = {
   value?: number // milliseconds

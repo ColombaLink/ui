@@ -68,7 +68,5 @@ export * from './icons'
 export * from './hooks'
 export * from './utils'
 export * from './types'
-export * from 'inlines'
-export * from 'kabouter'
 
 console.info('UI 5.10.9')

@@ -1,5 +1,6 @@
 import { FC, ReactNode } from 'react'
-import { color, renderOrCreateElement, RowSpaced, Row, styled, Style } from '~'
+import { color, renderOrCreateElement, RowSpaced, Row } from '~'
+import { Style, styled } from 'inlines'
 
 type ContainerProps = {
   children: ReactNode

@@ -1,5 +1,6 @@
 import { FC, RefObject, useEffect, useState } from 'react'
-import { Style, styled, color } from '~'
+import { color } from '~'
+import { styled, Style } from 'inlines'
 
 type UrlProps = {
   type?: string

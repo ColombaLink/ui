@@ -6,7 +6,7 @@ import {
   CSSProperties,
   useEffect,
 } from 'react'
-import { styled, Style } from 'inlines'
+import { styled } from 'inlines'
 import useLocalStorage from '@based/use-local-storage'
 
 import { Icon } from '~/types'
