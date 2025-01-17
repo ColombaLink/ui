@@ -45,7 +45,7 @@
     "@saulx/utils": "^3.2.2",
     "@saulx/validators": "^1.2.0",
     "countries-list": "^2.6.1",
-    "crypto-js": "^4.1.1",
+    "crypto-js": "4.2.0",
     "csvtojson": "^2.0.10",
     "dayjs": "^1.11.7",
     "inlines": "^0.2.2",
